@@ -12,12 +12,8 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.consumer.ConsumerType;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.insurance.Subscription;
-import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.base.THSBaseView;
-import com.philips.platform.ths.intake.THSFollowUpFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +63,7 @@ public class THSPracticePresenterTest {
 
         mConsumer = new Consumer() {
             @Override
-            public Gender getGender() {
+            public String getGender() {
                 return Gender.MALE;
             }
 
@@ -117,6 +113,11 @@ public class THSPracticePresenterTest {
             }
 
             @Override
+            public String getSourceId() {
+                return null;
+            }
+
+            @Override
             public SDKLocalDate getDob() {
                 return null;
             }
@@ -127,7 +128,7 @@ public class THSPracticePresenterTest {
             }
 
             @Override
-            public ConsumerType getConsumerType() {
+            public String getConsumerType() {
                 return null;
             }
 
@@ -192,7 +193,7 @@ public class THSPracticePresenterTest {
             mMethod.setAccessible(true);
             mMethod.invoke(mTHSPracticePresenter);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException  e) {
-            e.printStackTrace();
+
         }
     }
 

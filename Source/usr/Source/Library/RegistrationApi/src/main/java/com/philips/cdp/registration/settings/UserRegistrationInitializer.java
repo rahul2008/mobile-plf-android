@@ -27,7 +27,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.util.Locale;
@@ -40,6 +39,8 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class UserRegistrationInitializer {
+
+    private String TAG = UserRegistrationInitializer.class.getSimpleName();
 
     @Inject
     ServiceDiscoveryInterface serviceDiscoveryInterface;
@@ -64,11 +65,13 @@ public class UserRegistrationInitializer {
     private final CompositeDisposable disposable = new CompositeDisposable();
 
     private UserRegistrationInitializer() {
-        URInterface.getComponent().inject(this);
+        RLog.d(TAG, "UserRegistrationInitializer");
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         mHandler = new Handler();
     }
 
     public void resetInitializationState() {
+        RLog.d(TAG, "resetInitializationState");
         mIsJumpInitializationInProgress = false;
         mReceivedDownloadFlowSuccess = false;
         mReceivedProviderFlowSuccess = false;
@@ -78,15 +81,18 @@ public class UserRegistrationInitializer {
     private Handler mHandler;
 
     public boolean isJumpInitializationInProgress() {
+        RLog.d(TAG, "isJumpInitializationInProgress");
         return mIsJumpInitializationInProgress;
     }
 
     public void setJumpInitializationInProgress(boolean isInitializationInProgress) {
+        RLog.d(TAG, "setJumpInitializationInProgress : " + isInitializationInProgress);
         this.mIsJumpInitializationInProgress = isInitializationInProgress;
     }
 
 
     public JumpFlowDownloadStatusListener getJumpFlowDownloadStatusListener() {
+        RLog.d(TAG, "getJumpFlowDownloadStatusListener : " + mJumpFlowDownloadStatusListener);
         return mJumpFlowDownloadStatusListener;
     }
 
@@ -98,18 +104,22 @@ public class UserRegistrationInitializer {
 
 
     public boolean isJanrainIntialized() {
+        RLog.d(TAG, "isJanrainIntialized : " + mJanrainIntialized);
         return mJanrainIntialized;
     }
 
     public void setJanrainIntialized(boolean janrainIntializationStatus) {
+        RLog.d(TAG, "setJanrainIntialized : " + janrainIntializationStatus);
         mJanrainIntialized = janrainIntializationStatus;
     }
 
     public void registerJumpFlowDownloadListener(JumpFlowDownloadStatusListener pJumpFlowDownloadStatusListener) {
+        RLog.d(TAG, "registerJumpFlowDownloadListener ");
         this.mJumpFlowDownloadStatusListener = pJumpFlowDownloadStatusListener;
     }
 
     public void unregisterJumpFlowDownloadListener() {
+        RLog.d(TAG, "unregisterJumpFlowDownloadListener ");
         this.mJumpFlowDownloadStatusListener = null;
     }
 
@@ -117,19 +127,21 @@ public class UserRegistrationInitializer {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-
+            RLog.d(TAG, "janrainStatusReceiver :  onReceive");
             if (intent != null) {
                 Bundle extras = intent.getExtras();
-                if (extras.getString("message").equalsIgnoreCase("Download flow Success!!")) {
+                if (extras != null && extras.getString("message").equalsIgnoreCase("Download flow Success!!")) {
+                    RLog.d(TAG, "janrainStatusReceiver :  Download flow Success!!");
                     mReceivedDownloadFlowSuccess = true;
-                } else if (extras.getString("message").equalsIgnoreCase("Provider flow Success!!")) {
+                } else if (extras != null && extras.getString("message").equalsIgnoreCase("Provider flow Success!!")) {
+                    RLog.d(TAG, "janrainStatusReceiver :  Provider flow Success!!");
                     mReceivedProviderFlowSuccess = true;
                 }
-                RLog.i(RLog.ACTIVITY_LIFECYCLE, "janrainStatusReceiver, intent = " + intent.toString());
-                if ((Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()) || Jump.JR_PROVIDER_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()))
-                        && (null != extras)) {
+                RLog.d(TAG, "janrainStatusReceiver, intent = " + intent.toString());
+                if (Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()) || Jump.JR_PROVIDER_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction())) {
 
                     if (mReceivedDownloadFlowSuccess && mReceivedProviderFlowSuccess) {
+                        RLog.d(TAG, "mReceivedDownloadFlowSuccess : " + mReceivedDownloadFlowSuccess + "and mReceivedProviderFlowSuccess : " + mReceivedProviderFlowSuccess);
                         mJanrainIntialized = true;
                         mIsJumpInitializationInProgress = false;
                         mReceivedDownloadFlowSuccess = false;
@@ -147,6 +159,7 @@ public class UserRegistrationInitializer {
 
                 } else if (Jump.JR_FAILED_TO_DOWNLOAD_FLOW.equalsIgnoreCase(intent.getAction())
                         && (extras != null)) {
+                    RLog.e(TAG, "Janrain flow download failed");
                     mIsJumpInitializationInProgress = false;
                     mJanrainIntialized = false;
                     mReceivedDownloadFlowSuccess = false;
@@ -170,18 +183,21 @@ public class UserRegistrationInitializer {
 
 
     public void initializeConfiguredEnvironment(final Context context, final Configuration registrationType, final String initLocale) {
-
+        RLog.d(TAG, "initializeConfiguredEnvironment");
         mRegistrationSettings = new RegistrationSettingsURL();
 
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
+                RLog.d(TAG, "onSuccess : Service discovry getHomeCountry : " + s + " and SOURCE : " + source.name());
                 if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
                     RegistrationHelper.getInstance().setCountryCode(s);
+                    RLog.d(TAG, "onSuccess : setCountryCode(s) supportedCountryList matched" + s);
                 } else {
                     String fallbackCountryCode = RegUtility.getFallbackCountryCode();
                     serviceDiscoveryInterface.setHomeCountry(fallbackCountryCode.toUpperCase());
                     RegistrationHelper.getInstance().setCountryCode(fallbackCountryCode.toUpperCase());
+                    RLog.d(TAG, "onSuccess : setHomeCountry(s) supportedCountryList not matched" + fallbackCountryCode.toUpperCase());
                 }
             }
 
@@ -190,10 +206,11 @@ public class UserRegistrationInitializer {
                 String fallbackCountry = RegUtility.getFallbackCountryCode();
                 serviceDiscoveryInterface.setHomeCountry(fallbackCountry);
                 RegistrationHelper.getInstance().setCountryCode(fallbackCountry);
+                RLog.d(TAG, "onError : setHomeCountry(s)" + fallbackCountry);
             }
         });
 
-        RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+        RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
 
         getLocaleServiceDiscovery(context, registrationType);
 
@@ -207,14 +224,17 @@ public class UserRegistrationInitializer {
                     @Override
                     public void onSuccess(String verificationUrl) {
                         if (verificationUrl != null && !verificationUrl.isEmpty()) {
+                            RLog.d(TAG, "getLocaleServiceDiscovery : onSuccess : " + verificationUrl);
                             updateAppLocale(verificationUrl, context, registrationType);
                         } else {
+                            RLog.d(TAG, "calling getLocaleServiceDiscoveryByCountry from onSuccess as verification url is null or empty: ");
                             getLocaleServiceDiscoveryByCountry(context, registrationType);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        RLog.e(TAG, "getLocaleServiceDiscovery : onError, So calling getLocaleServiceDiscoveryByCountry ");
                         getLocaleServiceDiscoveryByCountry(context, registrationType);
                     }
                 });
@@ -227,11 +247,13 @@ public class UserRegistrationInitializer {
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
+                        RLog.d(TAG, "getLocaleServiceDiscoveryByCountry : onSuccess : " + verificationUrl);
                         updateAppLocale(verificationUrl, context, registrationType);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        RLog.e(TAG, "getLocaleServiceDiscovery : onError, So notify JANRAIN_INIT_FAILURE");
                         ThreadUtils.postInMainThread(context, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                     }
                 });
@@ -241,9 +263,11 @@ public class UserRegistrationInitializer {
         locale = localeString;
         String localeArr[] = locale.split("_");
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
+        RLog.d(TAG, "updateAppLocale : locale: " + locale);
+        RLog.d(TAG, "updateAppLocale : Configuration: " + registrationType.getValue());
         mRegistrationSettings.intializeRegistrationSettings(context,
                 RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType),
-                RegistrationHelper.getInstance().getLocale(context).toString());
+                RegistrationHelper.getInstance().getLocale().toString());
     }
 
 
@@ -268,11 +292,11 @@ public class UserRegistrationInitializer {
         registerJumpInitializationListener(context);
 
 
-        RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + RegistrationConfiguration.getInstance().getMicrositeId());
+        RLog.d(TAG, "initializeEnvironment Mixrosite ID : " + RegistrationConfiguration.getInstance().getMicrositeId());
 
         String mRegistrationType = RegistrationConfiguration.getInstance()
                 .getRegistrationEnvironment();
-        RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : " + mRegistrationType);
+        RLog.d(TAG, " initializeEnvironment Registration Environment : " + mRegistrationType);
 
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
         UserRegistrationInitializer.getInstance().setJumpInitializationInProgress(true);
@@ -292,16 +316,20 @@ public class UserRegistrationInitializer {
     }
 
     public boolean isJumpInitializated() {
-
-        return !isJumpInitializationInProgress() && isJanrainIntialized();
+        final boolean janrainInitilized = !isJumpInitializationInProgress() && isJanrainIntialized();
+        RLog.d(TAG, " isJumpInitializated : " + janrainInitilized);
+        return janrainInitilized;
     }
 
     public boolean isRegInitializationInProgress() {
-        return isJumpInitializationInProgress() && !isJanrainIntialized();
+        final boolean isRegInitializationInProgress = isJumpInitializationInProgress() && !isJanrainIntialized();
+        RLog.d(TAG, " isRegInitializationInProgress : " + isRegInitializationInProgress);
+        return isRegInitializationInProgress;
 
     }
 
     public boolean isRefreshUserSessionInProgress() {
+        RLog.d(TAG, " isRefreshUserSessionInProgress : " + isRefreshUserSessionInProgress);
         return isRefreshUserSessionInProgress;
     }
 

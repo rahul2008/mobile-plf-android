@@ -2,7 +2,7 @@ package com.philips.platform.ths.intake;
 
 import android.text.InputFilter;
 import android.text.Spanned;
-
+@SuppressWarnings({ "rawtypes", "unchecked"})
 class THSInputFilters<T extends Number & Comparable<? super T>> implements InputFilter {
 
     private T min, max;

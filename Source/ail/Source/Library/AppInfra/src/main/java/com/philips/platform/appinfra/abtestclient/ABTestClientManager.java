@@ -30,17 +30,18 @@ import java.util.concurrent.CountDownLatch;
 
 public class ABTestClientManager implements ABTestClientInterface {
 
+    private static final long serialVersionUID = 2599852794565370760L;
     private static final String ABTEST_PRREFERENCE = "philips.appinfra.abtest.precache";
     private AppInfra mAppInfra;
     private String mExperience = null;
     private HashMap<String, CacheModel.ValueModel> mCacheStatusValue = new HashMap<>();
-    protected CACHESTATUSVALUES mCachestatusvalues;
+    protected transient CACHESTATUSVALUES mCachestatusvalues;
     private boolean isAppRestarted = false;
     private String previousVersion;
-    private SharedPreferences mSharedPreferences;
-    private CacheModel mCacheModel;
+    private transient SharedPreferences mSharedPreferences;
+    private transient CacheModel mCacheModel;
     private String cacheToPreference;
-    private SharedPreferences.Editor editor;
+    private transient SharedPreferences.Editor editor;
 
     public ABTestClientManager(AppInfra appInfra) {
         mAppInfra = appInfra;
@@ -501,27 +502,27 @@ public class ABTestClientManager implements ABTestClientInterface {
         return null;
     }
 
-    public String mappedRequestName(String requestNameKey){
-         String requestName=requestNameKey;
-         HashMap<String,Object> mappConfig= getAbtestMapConfig(mAppInfra.getConfigInterface(), mAppInfra);
-         if(mappConfig!=null && mappConfig instanceof HashMap<?,?>){
-             String mappedRequestName=(String) mappConfig.get(requestNameKey);
-             if(mappedRequestName!=null && !mappedRequestName.isEmpty()){
-                 requestName=mappedRequestName;
-             }
+    String mappedRequestName(String requestNameKey) {
+        String requestName = requestNameKey;
+        Map<?, ?> mappConfig = getAbTestMapConfig(mAppInfra.getConfigInterface(), mAppInfra);
+        if (mappConfig != null && mappConfig instanceof HashMap<?, ?>) {
+            String mappedRequestName = (String) mappConfig.get(requestNameKey);
+            if (mappedRequestName != null && !mappedRequestName.isEmpty()) {
+                requestName = mappedRequestName;
+            }
 
-         }
+        }
 
         return requestName;
     }
 
-    HashMap<String,Object> getAbtestMapConfig(AppConfigurationInterface appConfigurationManager, AppInfra ai) {
+    private Map<?,?> getAbTestMapConfig(AppConfigurationInterface appConfigurationManager, AppInfra ai) {
         try {
 
             final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
                     .AppConfigurationError();
 
-            return (HashMap<String,Object>)appConfigurationManager.getPropertyForKey
+            return (HashMap<?,?>) appConfigurationManager.getPropertyForKey
                     ("abtest.mapping", "appinfra", configError);
 
         } catch (IllegalArgumentException exception) {

@@ -179,6 +179,7 @@ public class ProgressBarWithLabel extends FrameLayout {
     /**
      * Sets the string value of the text to the selected label
      * @param text value to set
+     *             @since 3.0.0
      */
     public void setText(String text) {
         label.setText(text);
@@ -187,6 +188,7 @@ public class ProgressBarWithLabel extends FrameLayout {
     /**
      * Sets the size of the text of the selected label
      * @param size text size in sp
+     *             @since 3.0.0
      */
     public void setTextSize(int size) {
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
@@ -195,6 +197,7 @@ public class ProgressBarWithLabel extends FrameLayout {
     /**
      * Sets the text color of the selected label
      * @param textColor color for the label
+     *                  @since 3.0.0
      */
     public void setTextColor(int textColor) {
         label.setTextColor(textColor);
@@ -203,6 +206,7 @@ public class ProgressBarWithLabel extends FrameLayout {
     /**
      * Sets the progress on the determinate progress bar
      * @param progress progress to be set on progressbar
+     *                 @since 3.0.0
      */
     public void setProgress(int progress) {
         if (!isIndeterminateProgressIndicator) {
@@ -213,6 +217,7 @@ public class ProgressBarWithLabel extends FrameLayout {
     /**
      * Sets the secondary progress on the determinate progress bar
      * @param progress for the secondary progress
+     *                 @since 3.0.0
      */
     public void setSecondaryProgress(int progress) {
         if (!isIndeterminateProgressIndicator) {

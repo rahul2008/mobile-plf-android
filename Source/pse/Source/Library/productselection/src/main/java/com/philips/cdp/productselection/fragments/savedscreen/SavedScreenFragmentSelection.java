@@ -24,6 +24,7 @@ import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionB
 import com.philips.cdp.productselection.prx.VolleyWrapper;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
+import com.philips.cdp.productselection.fragments.savedscreen.SavedScreenFragmentSelection;
 
 import java.util.List;
 
@@ -164,7 +165,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
             Fragment fragment = listFragment.get(i);
 
             try {
-                if (fragment != null && (fragment instanceof DetailedScreenFragmentSelection)) {
+                if (fragment != null && (fragment instanceof SavedScreenFragmentSelection)) {
                     fragManager.popBackStack();
                 }
             } catch (IllegalStateException e) {

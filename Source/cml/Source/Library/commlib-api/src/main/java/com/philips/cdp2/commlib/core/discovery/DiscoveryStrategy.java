@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.core.discovery;
@@ -27,6 +27,7 @@ public interface DiscoveryStrategy {
      * Callback for discovery events.
      */
     interface DiscoveryListener {
+
         /**
          * Called when discovery is started.
          */
@@ -50,6 +51,7 @@ public interface DiscoveryStrategy {
          * Called when discovery is stopped.
          */
         void onDiscoveryStopped();
+
     }
 
     /**
@@ -109,4 +111,11 @@ public interface DiscoveryStrategy {
      * To stop all {@link DiscoveryStrategy}s one typically calls {@link CommCentral#stopDiscovery()}.
      */
     void stop();
+
+    /**
+     * Clear all discovered {@link NetworkNode}s.
+     * <p>
+     * This doesn't start or stop discovery and may be invoked at any time.
+     */
+    void clearDiscoveredNetworkNodes();
 }

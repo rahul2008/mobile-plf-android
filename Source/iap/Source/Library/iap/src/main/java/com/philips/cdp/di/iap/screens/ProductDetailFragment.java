@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -101,11 +102,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private ErrorDialogFragment mErrorDialogFragment;
     private boolean mIsFromVertical;
     private ArrayList<StoreEntity> mUpdtedStoreEntity;
+    private RelativeLayout mParentLayout;
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
-            dismissProgressDialog();
+            hideProgressBar();
+            mAddToCart.hideProgressIndicator();
             tagItemAddedToCart();
             if (mIapListener != null) {
                 mIapListener.onUpdateCartCount();
@@ -114,9 +117,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
         @Override
         public void onFailure(final Message msg) {
-            if (isProgressDialogShowing())
-                dismissProgressDialog();
-
+            hideProgressBar();
+            mAddToCart.hideProgressIndicator();
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
@@ -172,9 +174,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mProductDiscountedPrice = rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
         mProductStockInfo = rootView.findViewById(R.id.iap_productDetailsScreen_outOfStock_label);
         mDeleteProduct = rootView.findViewById(delete_btn);
+        if(getContext()!=null) {
+            mDeleteProduct.setTextColor(getContext().getColor(R.color.uid_signal_red_level_45));
+        }
         mDeleteProduct.setOnClickListener(this);
         mQuantity = rootView.findViewById(R.id.quantity_val);
         mViewPager = rootView.findViewById(R.id.pager);
+        mParentLayout = rootView.findViewById(R.id.product_details_container);
         DotNavigationIndicator indicator = rootView.findViewById(R.id.indicator);
         mImageAdapter = new ImageAdapter(mContext, new ArrayList<String>());
         mViewPager.setAdapter(mImageAdapter);
@@ -467,7 +473,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mIapListener != null)
             mIapListener.onSuccess();
         if (mBuyFromRetailers.isActivated())
-            dismissProgressDialog();
+            mBuyFromRetailers.hideProgressIndicator();
     }
 
     @Override
@@ -487,7 +493,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     void buyProduct(final String ctnNumber) {
-        showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        if(!mAddToCart.isActivated()) {
+            mAddToCart.showProgressIndicator();
+        }
         mShoppingCartAPI.buyProduct(mContext, ctnNumber, mBuyProductListener);
     }
 
@@ -555,10 +563,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onGetProductDetail(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
-            if (isProgressDialogShowing()) {
-                //dismissProgressDialog();
-                mBuyFromRetailers.hideProgressIndicator();
-            }
+            hideProgressBar();
             mDetailLayout.setVisibility(View.GONE);
             //Hard coded strring provided because we dont have
             showErrorDialog(msg);
@@ -668,8 +673,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onLoadFinished(ArrayList<? extends Object> data) {
-        dismissProgressDialog();
-
+        hideProgressBar();
+        mAddToCart.hideProgressIndicator();
 
         if (data != null && data.get(0) instanceof ShoppingCartData) {
 
@@ -733,24 +738,24 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_SHOPPING_CART))) {
             startShoppingCartFragment();
         } else if (event.equalsIgnoreCase(IAP_UPDATE_PRODUCT_COUNT)) {
-            if (!isProgressDialogShowing()) {
-                showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
-                mShoppingCartAPI.updateProductQuantity(shoppingCartData, getNewCount(), getQuantityStatusInfo());
-            }
+            createCustomProgressBar(mParentLayout, BIG);
+            ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
+            mShoppingCartAPI.updateProductQuantity(shoppingCartData, getNewCount(), getQuantityStatusInfo());
+
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
-            if (!isProgressDialogShowing()) {
-                showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
-                mShoppingCartAPI.deleteProduct(shoppingCartData);
-            }
+            hideProgressBar();
+            createCustomProgressBar(mParentLayout, BIG);
+            ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
+            mShoppingCartAPI.deleteProduct(shoppingCartData);
+
         } else if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
-            dismissProgressDialog();
+            hideProgressBar();
             addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
         }
     }
 
     private void startShoppingCartFragment() {
+        mAddToCart.hideProgressIndicator();
         addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG);
     }
 

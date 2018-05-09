@@ -4,7 +4,6 @@
 
     <application
         android:name=".URDemoApplication"
-        android:allowBackup="true"
         android:icon="@mipmap/pr_source"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/pr_source"

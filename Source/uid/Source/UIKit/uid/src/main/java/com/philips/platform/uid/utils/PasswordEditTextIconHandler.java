@@ -6,12 +6,16 @@
 
 package com.philips.platform.uid.utils;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.text.Selection;
 import android.text.method.PasswordTransformationMethod;
 
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.drawable.FontIconDrawable;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.EditText;
 
 public class PasswordEditTextIconHandler extends EditTextIconHandler {
@@ -41,14 +45,18 @@ public class PasswordEditTextIconHandler extends EditTextIconHandler {
 
     private Drawable getShowPasswordDrawable() {
         if (showPasswordDrawable == null) {
-            showPasswordDrawable = getDrawable(R.drawable.uid_texteditbox_show_password_icon);
+            showPasswordDrawable = new FontIconDrawable(editText.getContext(), editText.getContext().getString(R.string.dls_password_show), Typeface.createFromAsset(editText.getContext().getAssets(), "fonts/iconfont.ttf"))
+            .color(UIDHelper.getColorFromAttribute(editText.getContext().getTheme(), R.attr.uidTextBoxDefaultNormalShowHideIconColor, Color.WHITE))
+            .sizeDp(24);
         }
         return showPasswordDrawable;
     }
 
     private Drawable getHidePasswordDrawable() {
         if (hidePasswordDrawable == null) {
-            hidePasswordDrawable = getDrawable(R.drawable.uid_texteditbox_hide_password_icon);
+            hidePasswordDrawable = new FontIconDrawable(editText.getContext(), editText.getContext().getString(R.string.dls_password_hide), Typeface.createFromAsset(editText.getContext().getAssets(), "fonts/iconfont.ttf"))
+                    .color(UIDHelper.getColorFromAttribute(editText.getContext().getTheme(), R.attr.uidTextBoxDefaultNormalShowHideIconColor, Color.WHITE))
+                    .sizeDp(24);
         }
         return hidePasswordDrawable;
     }

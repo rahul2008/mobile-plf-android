@@ -32,6 +32,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -134,7 +135,7 @@ public class THSProviderDetailsPresenterTest {
         when(thsProviderDetailsViewInterface.getConsumerInfo()).thenReturn(consumerMock);
         when(thsProviderInfo.getProviderInfo()).thenReturn(providerInfo);
         providerDetailsPresenter.fetchProviderDetails();
-        verify(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class),any(Consumer.class),any(SDKCallback.class));
+        verify(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class),(Consumer)isNull(),any(SDKCallback.class));
     }
 
     @Test
@@ -146,7 +147,7 @@ public class THSProviderDetailsPresenterTest {
         doThrow(AWSDKInstantiationException.class).when(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class),
                 any(Consumer.class),any(SDKCallback.class));
         providerDetailsPresenter.fetchProviderDetails();
-        verify(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class),any(Consumer.class),any(SDKCallback.class));
+        verify(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class),(Consumer)isNull(),any(SDKCallback.class));
     }
 
     @Test

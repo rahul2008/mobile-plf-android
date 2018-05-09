@@ -15,20 +15,19 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -41,13 +40,10 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class RegistrationActivity extends UIDActivity implements OnClickListener,
+public class RegistrationActivity extends UIDActivity implements
         ActionBarListener {
 
-    final String iconFontAssetName = "PUIIcon.ttf";
-
-    private TextView ivBack;
-    private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
+    private RegistrationLaunchMode mRegistrationLaunchMode;
     private RegistrationContentConfiguration registrationContentConfiguration;
 
     private UIFlow uiFlow;
@@ -68,6 +64,9 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
         }
     };
 
+    private Toolbar toolbar;
+    private TextView mTvTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (RegistrationHelper.getInstance().getThemeConfiguration() != null) {
@@ -76,8 +75,14 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
         if (RegistrationHelper.getInstance().getTheme() != 0) {
             setTheme(RegistrationHelper.getInstance().getTheme());
         }
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+
+        //Handle launch by dynamic permission change
+        if (savedInstanceState != null) {
+            RegUtility.handleDynamicPermissionChange(this);
+            return;
+        }
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
@@ -104,16 +109,27 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
         } catch (NullPointerException e) {
         }
 
-        setContentView(R.layout.reg_activity_registration);
-        ivBack = (TextView) findViewById(R.id.iv_reg_back);
-        FontLoader.getInstance().setTypeface(ivBack, iconFontAssetName);
-        ivBack.setOnClickListener(this);
+        setContentView(R.layout.reg_activity_registration_dls);
+
+        mTvTitle = (TextView) findViewById(R.id.uid_toolbar_title);
+
+        toolbar = findViewById(R.id.uid_toolbar);
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.reg_ic_cross_icon);
+
+        toolbar.setNavigationOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
 
         if (alwaysFinishActivity == 0) {
             initUI();
         }
 
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity  Register: NetworStateListener");
     }
 
     @Override
@@ -142,14 +158,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
     }
 
     @Override
-    protected void onStart() {
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onStart");
-        super.onStart();
-    }
-
-    @Override
     protected void onResume() {
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onResume");
         mSiteCatalistHandler.removeCallbacksAndMessages(null);
         mSiteCatalistHandler.post(mResumeSiteCatalystRunnable);
         super.onResume();
@@ -157,24 +166,9 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
 
     @Override
     protected void onPause() {
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onPause");
         mSiteCatalistHandler.removeCallbacksAndMessages(null);
         mSiteCatalistHandler.post(mPauseSiteCatalystRunnable);
         super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onStop");
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onDestroy");
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity Unregister: NetworStateListener," +
-                "Context");
-        super.onDestroy();
     }
 
     @Override
@@ -182,7 +176,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager
-                .findFragmentById(R.id.fl_reg_fragment_container);
+                .findFragmentById(R.id.frame_container);
         if (fragment != null && fragment instanceof BackEventListener) {
             boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
             if (isConsumed)
@@ -201,63 +195,54 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
     private void launchRegistrationFragment(RegistrationLaunchMode registrationLaunchMode) {
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setEndPointScreen(registrationLaunchMode);
-        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        urLaunchInput.setRegistrationFunction(RegistrationConfiguration.getInstance().getPrioritisedFunction());
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
         urLaunchInput.setUserRegistrationUIEventListener(RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener());
         urLaunchInput.setUIFlow(uiFlow);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
-                (this,R.id.fl_reg_fragment_container,this);
+                (this, R.id.frame_container, this);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.iv_reg_back) {
-            onBackPressed();
-        }
-    }
-
-    @Override
     public void updateActionBar(int titleResourceID, boolean isShowBack) {
-        if(titleResourceID == R.string.reg_DLS_StratScreen_Nav_Title_Txt) {
-            ivBack.setText(R.string.ic_reg_close);
+        if (titleResourceID == R.string.reg_DLS_StratScreen_Nav_Title_Txt) {
+            toolbar.setNavigationIcon(R.drawable.reg_ic_cross_icon);
             isShowBack = true;
         } else {
-            ivBack.setText(R.string.ic_reg_left);
+            toolbar.setNavigationIcon(R.drawable.reg_back_icon);
         }
 
         if (isShowBack) {
-            ivBack.setVisibility(View.VISIBLE);
-            TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-            tvTitle.setText(getResources().getString(titleResourceID));
+            mTvTitle.setText(getResources().getString(titleResourceID));
         } else {
-            ivBack.setVisibility(View.INVISIBLE);
-            TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-            tvTitle.setText(getResources().getString(titleResourceID));
+            toolbar.setNavigationIcon(null);
+            mTvTitle.setText(getResources().getString(titleResourceID));
         }
     }
 
     @Override
     public void updateActionBar(String titleResourceText, boolean isShowBack) {
-        TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-        tvTitle.setText(titleResourceText);
-        if(getString(R.string.reg_DLS_StratScreen_Nav_Title_Txt).equals(titleResourceText)) {
-            ivBack.setText(R.string.ic_reg_close);
+
+        mTvTitle.setText(titleResourceText);
+        if (getString(R.string.reg_DLS_StratScreen_Nav_Title_Txt).equals(titleResourceText)) {
+            toolbar.setNavigationIcon(R.drawable.reg_ic_cross_icon);
             isShowBack = true;
         } else {
-            ivBack.setText(R.string.ic_reg_left);
+            toolbar.setNavigationIcon(R.drawable.reg_back_icon);
         }
-        ivBack.setVisibility(View.VISIBLE);
+
         if (!isShowBack) {
-            ivBack.setVisibility(View.INVISIBLE);
+            toolbar.setNavigationIcon(null);
         }
     }
 
 
-    private void setRegistrationContentConfiguration(RegistrationContentConfiguration regContentConfig){
+    private void setRegistrationContentConfiguration(RegistrationContentConfiguration regContentConfig) {
         registrationContentConfiguration = regContentConfig;
     }
+
     private RegistrationContentConfiguration getRegistrationContentConfiguration() {
 
         return registrationContentConfiguration;

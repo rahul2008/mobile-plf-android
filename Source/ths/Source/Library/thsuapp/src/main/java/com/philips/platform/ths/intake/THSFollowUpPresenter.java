@@ -8,7 +8,6 @@ package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
@@ -43,7 +42,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
                 updateConsumer(thsFollowUpViewInterfaces.getConsumerPhoneNumber());
             } else {
                 thsFollowUpViewInterfaces.showInlineError();
-                mTHSFollowUpFragment.doTagging(ANALYTIC_UPDATE_CONSUMER_PHONE,mTHSFollowUpFragment.getString(R.string.ths_invalid_phone_number),false);
+
             }
 
         } else if (componentID == R.id.pth_intake_follow_up_i_agree_link_text) {
@@ -68,14 +67,14 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
             THSManager.getInstance().updateConsumer(mTHSFollowUpFragment.getFragmentActivity(), updatedPhoneNumber, this);
 
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
 
     }
 
 
     @Override
-    public void onUpdateConsumerValidationFailure(Map<String, ValidationReason> var1) {
+    public void onUpdateConsumerValidationFailure(Map<String, String> var1) {
         thsFollowUpViewInterfaces.hideProgressButton();
     }
 
@@ -83,7 +82,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     public void onUpdateConsumerResponse(THSConsumerWrapper thsConsumer, THSSDKPasswordError sdkPasswordError) {
         if(null != sdkPasswordError.getSdkPasswordError()) {
                 if(null != sdkPasswordError.getSdkPasswordError().getSDKErrorReason()) {
-                    thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_UPDATE_CONSUMER_PHONE,sdkPasswordError.getSdkPasswordError()));
+                    thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(thsFollowUpViewInterfaces.getFragmentActivity(), ANALYTIC_UPDATE_CONSUMER_PHONE,sdkPasswordError.getSdkPasswordError()));
                 }
         }
         else {
@@ -92,11 +91,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step5PhoneNumberAdded");
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "TImePrepareYourVisit", THSTagUtils.getVisitPrepareTime(THSSymptomsFragment.visitStartTime));
             THSManager.getInstance().setPTHConsumer(thsConsumer);
-            if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
-                thsFollowUpViewInterfaces.showProviderDetailsFragment();
-            } else {
-                thsFollowUpViewInterfaces.showConditionsFragment();
-            }
+            thsFollowUpViewInterfaces.showConditionsFragment();
             //update singleton THSManager THSConsumer member
         }
 
@@ -113,4 +108,9 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         }
     }
 
+    public void checkForInputLength(int length) {
+        if(length == 10){
+            thsFollowUpViewInterfaces.hideInlineError();
+        }
+    }
 }

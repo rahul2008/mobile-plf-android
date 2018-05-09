@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Koninklijke Philips N.V., 2017.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.platform.ews.wifi;
@@ -29,18 +29,20 @@ import java.util.BitSet;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
+
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({WiFiConnectivityManager.class,EWSLogger.class,WifiConfiguration.class})
+@PrepareForTest({WiFiConnectivityManager.class, EWSLogger.class, WifiConfiguration.class})
 public class WiFiConnectivityManagerTest {
 
     private static final String HOME_WIFI_SSID = "BrightEyes";
@@ -55,46 +57,45 @@ public class WiFiConnectivityManagerTest {
     private Wifi wifiMock;
 
     @Mock
-    Handler mockHandler;
+    private Handler mockHandler;
 
     @Mock
-    WifiConfiguration mockWifiConfiguration;
+    private WifiConfiguration mockWifiConfiguration;
 
     @Mock
     private EWSLogger mockEWSLogger;
 
-    private WiFiUtil wifiUtil;
-
     @Before
     public void setUp() throws Exception {
-        PowerMockito.mockStatic(EWSLogger.class);
         initMocks(this);
-        wifiUtil = new WiFiUtil(wifiManagerMock, mockEWSLogger);
+
+        mockStatic(EWSLogger.class);
+        implementAsDirectExecutor(mockHandler);
+
+        WiFiUtil wifiUtil = new WiFiUtil(wifiManagerMock, mockEWSLogger);
         subject = spy(new WiFiConnectivityManager(wifiManagerMock, wifiMock, wifiUtil, mockEWSLogger));
         subject.handler = mockHandler;
-        implementAsDirectExecutor(mockHandler);
+
         stubHomeNetworkConnection();
     }
 
-    private void stubHomeNetworkConnection() throws Exception{
+    private void stubHomeNetworkConnection() throws Exception {
         final WifiInfo wifiInfoMock = mock(WifiInfo.class);
         when(wifiManagerMock.getConnectionInfo()).thenReturn(wifiInfoMock);
         when(wifiInfoMock.getSupplicantState()).thenReturn(SupplicantState.COMPLETED);
         when(wifiInfoMock.getSSID()).thenReturn("WLAN-PUB");
 
-        whenNew(WifiConfiguration.class)
-                .withAnyArguments()
-                .thenAnswer(new Answer<WifiConfiguration>() {
-                    @Override
-                    public WifiConfiguration answer(InvocationOnMock invocation) throws Throwable {
-                        mockWifiConfiguration.allowedAuthAlgorithms = PowerMockito.mock(BitSet.class);
-                        mockWifiConfiguration.allowedGroupCiphers = PowerMockito.mock(BitSet.class);
-                        mockWifiConfiguration.allowedKeyManagement = PowerMockito.mock(BitSet.class);
-                        mockWifiConfiguration.allowedPairwiseCiphers = PowerMockito.mock(BitSet.class);
-                        mockWifiConfiguration.allowedProtocols = PowerMockito.mock(BitSet.class);
-                        return mockWifiConfiguration;
-                    }
-                });
+        whenNew(WifiConfiguration.class).withAnyArguments().thenAnswer(new Answer<WifiConfiguration>() {
+            @Override
+            public WifiConfiguration answer(InvocationOnMock invocation) throws Throwable {
+                mockWifiConfiguration.allowedAuthAlgorithms = PowerMockito.mock(BitSet.class);
+                mockWifiConfiguration.allowedGroupCiphers = PowerMockito.mock(BitSet.class);
+                mockWifiConfiguration.allowedKeyManagement = PowerMockito.mock(BitSet.class);
+                mockWifiConfiguration.allowedPairwiseCiphers = PowerMockito.mock(BitSet.class);
+                mockWifiConfiguration.allowedProtocols = PowerMockito.mock(BitSet.class);
+                return mockWifiConfiguration;
+            }
+        });
     }
 
     @Test
@@ -115,19 +116,23 @@ public class WiFiConnectivityManagerTest {
 
     @Test
     public void connectToApplianceHotspotIfFound() throws Exception {
-        final ScanResult scannedResultMock = getScanResult(APPLIANCE_SSID);
-        when(wifiManagerMock.getScanResults()).thenReturn(null).thenReturn(Collections.singletonList(scannedResultMock));
+        mockWifiConfiguration(APPLIANCE_SSID);
+
+        final ScanResult scanResultMock = mockScanResult(APPLIANCE_SSID);
+        when(wifiManagerMock.getScanResults()).thenReturn(null).thenReturn(Collections.singletonList(scanResultMock));
         subject.connectToApplianceHotspotNetwork(APPLIANCE_SSID);
 
-        verify(wifiMock).connectToConfiguredNetwork(wifiManagerMock, scannedResultMock);
+        verify(wifiMock).connectToConfiguredNetwork(wifiManagerMock, scanResultMock);
     }
 
     @Test
     public void itShouldNotConnectToApplianceHotspotWhenNoMatchingScannedResultsFound() throws Exception {
-        final ScanResult scannedResultMock = getScanResult(APPLIANCE_SSID);
+        mockWifiConfiguration(APPLIANCE_SSID);
+
+        final ScanResult scanResultMock = mockScanResult(APPLIANCE_SSID);
         when(wifiManagerMock.getScanResults()).thenReturn(null);
 
-        verifyApplianceNotConnected(scannedResultMock);
+        verifyApplianceNotConnected(scanResultMock);
     }
 
     private void verifyApplianceNotConnected(final ScanResult scannedResultMock) {
@@ -139,48 +144,54 @@ public class WiFiConnectivityManagerTest {
 
     @Test
     public void itShouldNotConnectToApplianceHotspotWhenScannedResultsIsEmpty() throws Exception {
-        final ScanResult scannedResultMock = getScanResult(APPLIANCE_SSID);
+        mockWifiConfiguration(APPLIANCE_SSID);
+
+        final ScanResult scanResultMock = mockScanResult(APPLIANCE_SSID);
         when(wifiManagerMock.getScanResults()).thenReturn(new ArrayList<ScanResult>());
 
-        verifyApplianceNotConnected(scannedResultMock);
+        verifyApplianceNotConnected(scanResultMock);
     }
 
     @Test
     public void itShouldStopToFindNetwork() {
         subject.stopFindNetwork();
-        verify(mockHandler).removeCallbacks(any(Runnable.class));
+
+        verify(mockHandler).removeCallbacks((Runnable) any());
     }
 
     @Test
     public void connectToHomeWiFiNetworkWhenRequested() throws Exception {
-        final ScanResult scannedResultMock = getScanResult(HOME_WIFI_SSID);
-        when(wifiManagerMock.getScanResults()).thenReturn(Collections.singletonList(scannedResultMock));
+        final ScanResult scanResultMock = mockScanResult(HOME_WIFI_SSID);
+        when(wifiManagerMock.getScanResults()).thenReturn(Collections.singletonList(scanResultMock));
 
         subject.connectToHomeWiFiNetwork(HOME_WIFI_SSID);
 
-        verify(wifiMock).connectToConfiguredNetwork(wifiManagerMock, scannedResultMock);
+        verify(wifiMock).connectToConfiguredNetwork(wifiManagerMock, scanResultMock);
     }
 
-    private ScanResult getScanResult(final String networkSSID) {
+    private ScanResult mockScanResult(final String networkSSID) {
+        final ScanResult scanResult = mock(ScanResult.class);
+        scanResult.SSID = networkSSID;
+
+        return scanResult;
+    }
+
+    private void mockWifiConfiguration(String networkSSID) {
         final int networkId = 10;
+
         final WifiConfiguration wifiConfigMock = mock(WifiConfiguration.class);
         wifiConfigMock.SSID = networkSSID;
         wifiConfigMock.networkId = networkId;
         when(wifiManagerMock.getConfiguredNetworks()).thenReturn(Collections.singletonList(wifiConfigMock));
-
-        final ScanResult scannedResultMock = mock(ScanResult.class);
-        scannedResultMock.SSID = networkSSID;
-
-        return scannedResultMock;
     }
 
-    protected void implementAsDirectExecutor(Handler handler) {
+    private static void implementAsDirectExecutor(Handler handler) {
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) throws Exception {
-                ((Runnable) invocation.getArguments()[0]).run();
+                ((Runnable) invocation.getArgument(0)).run();
                 return null;
             }
-        }).when(handler).postDelayed(any(Runnable.class), anyInt());
+        }).when(handler).postDelayed(any(Runnable.class), anyLong());
     }
 
 }

@@ -33,7 +33,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -84,7 +83,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_merge_account, container, false);
         ButterKnife.bind(this, view);
         initUI(view);
@@ -103,6 +102,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @Override
     public void onDestroy() {
+        if(mergeAccountPresenter!=null)
         mergeAccountPresenter.cleanUp();
         super.onDestroy();
     }
@@ -214,8 +214,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @Override
     public void mergeSuccess() {
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
         hideMergeSpinner();
         completeRegistration();
     }

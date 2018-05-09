@@ -22,6 +22,9 @@ class HsdpUserInstance {
 
     /* Static 'instance' method */
     public static HsdpUserInstance getInstance( ) {
+        if(hsdpUserInstance==null){
+            return new HsdpUserInstance();
+        }
         return hsdpUserInstance;
     }
 }

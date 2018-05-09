@@ -28,6 +28,7 @@ import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.ProductRevi
 import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.RateThisAppFragmentContract;
 import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.RateThisAppFragmentPresenter;
 
+@SuppressWarnings("serial")
 public class RateThisAppFragment extends DigitalCareBaseFragment implements RateThisAppFragmentContract {
     private static String TAG = RateThisAppFragment.class.getSimpleName();
     private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "https://play.google.com/store/apps/details?id=";

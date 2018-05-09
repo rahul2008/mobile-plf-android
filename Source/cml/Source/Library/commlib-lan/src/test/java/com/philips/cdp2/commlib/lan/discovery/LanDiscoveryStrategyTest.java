@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.core.devicecache.CacheData;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -18,14 +17,14 @@ import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
+import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
-import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -36,10 +35,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.never;
@@ -51,13 +49,10 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class LanDiscoveryStrategyTest extends RobolectricTest {
 
     @Mock
-    private SSDPDiscovery ssdpDiscoveryMock;
+    private SSDPControlPoint ssdpControlPointMock;
 
     @Mock
     private LanDeviceCache deviceCacheMock;
-
-    @Mock
-    private CacheData cacheDataMock;
 
     @Mock
     private ConnectivityMonitor connectivityMonitorMock;
@@ -69,7 +64,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     private DiscoveryListener discoveryListenerMock;
 
     @Captor
-    ArgumentCaptor<NetworkNode> networkNodeCaptor;
+    private ArgumentCaptor<NetworkNode> networkNodeCaptor;
 
     private LanDiscoveryStrategy strategyUnderTest;
 
@@ -81,20 +76,18 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
         DICommLog.disableLogging();
 
-        when(deviceCacheMock.getCacheData(anyString())).thenReturn(cacheDataMock);
-
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                availabilityListener = invocation.getArgumentAt(0, AvailabilityListener.class);
+                availabilityListener = invocation.getArgument(0);
                 return null;
             }
-        }).when(connectivityMonitorMock).addAvailabilityListener(Matchers.<AvailabilityListener<ConnectivityMonitor>>any());
+        }).when(connectivityMonitorMock).addAvailabilityListener(ArgumentMatchers.<AvailabilityListener<ConnectivityMonitor>>any());
 
         strategyUnderTest = new LanDiscoveryStrategy(deviceCacheMock, connectivityMonitorMock, wifiNetworkProviderMock) {
             @Override
-            SSDPDiscovery createSsdpDiscovery() {
-                return ssdpDiscoveryMock;
+            SSDPControlPoint createSsdpControlPoint() {
+                return ssdpControlPointMock;
             }
         };
         strategyUnderTest.addDiscoveryListener(discoveryListenerMock);
@@ -177,7 +170,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         doAnswer(new Answer() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                ref.set(invocation.getArgumentAt(1, ExpirationCallback.class));
+                ref.set((ExpirationCallback) invocation.getArgument(1));
                 return null;
             }
         }).when(deviceCacheMock).addNetworkNode(any(NetworkNode.class), any(ExpirationCallback.class), anyLong());
@@ -248,7 +241,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
 
-        verify(ssdpDiscoveryMock, never()).start();
+        verify(ssdpControlPointMock, never()).start();
     }
 
     @Test
@@ -257,7 +250,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
         strategyUnderTest.start();
 
-        verify(ssdpDiscoveryMock, never()).start();
+        verify(ssdpControlPointMock, never()).start();
     }
 
     @Test
@@ -267,7 +260,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
 
-        verify(ssdpDiscoveryMock, atLeastOnce()).start();
+        verify(ssdpControlPointMock, atLeastOnce()).start();
     }
 
     @Test
@@ -277,7 +270,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
         strategyUnderTest.start();
 
-        verify(ssdpDiscoveryMock, atLeastOnce()).start();
+        verify(ssdpControlPointMock, atLeastOnce()).start();
     }
 
     @Test
@@ -288,7 +281,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         when(connectivityMonitorMock.isAvailable()).thenReturn(false);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
 
-        verify(ssdpDiscoveryMock, atLeastOnce()).stop();
+        verify(ssdpControlPointMock, atLeastOnce()).stop();
     }
 
     @Test
@@ -298,7 +291,27 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
         strategyUnderTest.stop();
 
-        verify(ssdpDiscoveryMock, atLeastOnce()).stop();
+        verify(ssdpControlPointMock, atLeastOnce()).stop();
+    }
+
+    @Test
+    public void givenTransportIsAvailable_whenStartingDiscovery_thenDiscoveryListenerIsNotified() throws MissingPermissionException {
+        ensureConnectivityIsAvailable();
+
+        strategyUnderTest.start();
+
+        verify(discoveryListenerMock).onDiscoveryStarted();
+    }
+
+    @Test
+    public void givenTransportIsAvailableAndDiscoveryIsStarted_whenStoppingDiscovery_thenDiscoveryListenerIsNotified() throws MissingPermissionException {
+        ensureConnectivityIsAvailable();
+        strategyUnderTest.start();
+
+        when(ssdpControlPointMock.isDiscovering()).thenReturn(true);
+        strategyUnderTest.stop();
+
+        verify(discoveryListenerMock).onDiscoveryStopped();
     }
 
     private SSDPDevice createSsdpDevice(final @NonNull String cppId, final @NonNull String modelName, final @NonNull String modelNumber) {

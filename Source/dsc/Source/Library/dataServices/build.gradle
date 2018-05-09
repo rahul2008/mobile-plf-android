@@ -1,105 +1,23 @@
+buildscript {
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath(builddeps.cdpSCM)
+    }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'jacoco'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'pl.droidsonroids.pitest'
 
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
-
-def coverageSourceDirs = [
-        '../dataServices/src/main/java'
-]
-
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath(builddeps.cdpSCM)
-    }
-}
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "dataServices"
-
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    apply plugin: 'com.jfrog.artifactory'
-}
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.dsc_dataServices)
-
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -108,49 +26,19 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }
 }
-//=======To zip and upload "Documents/External" ==ENDS=============
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.platform.dataservices.test"
@@ -174,7 +62,6 @@ android {
             debuggable true
             minifyEnabled false
             shrinkResources false
-            testCoverageEnabled true
         }
     }
 
@@ -215,6 +102,7 @@ android {
         }
     }
 
+    publishNonDefault true
 }
 
 configurations.all {
@@ -223,92 +111,63 @@ configurations.all {
 }
 
 dependencies {
-    //Coco
-
     def dp = project.ext.has('useprojectdependencies')
 
-   if(dp) {
-        compile(project(':ConsentAccessToolKit'))
+    if (dp) {
+        debugCompile project(path: ':mya-catk', configuration: 'debug')
+        releaseCompile project(path: ':mya-catk', configuration: 'release')
+        debugCompile project(path: ':AppInfra', configuration: 'debug')
+        releaseCompile project(path: ':AppInfra', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'ConsentAccessToolKit', version: versions.catk_consentAccessToolKit + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-        {
+        compile (philipsdeps.mya_catk) {
             exclude group: 'com.google.code.findbugs', module: 'jsr305'
-            transitive true
         }
+        compile philipsdeps.AppInfra
     }
 
-    if(dp) {
-        compile(project(':AppInfra'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-        {
-            transitive = true
-        }
-    }
-
-    //Android Support
-    compile('com.android.support:support-annotations:26.0.2') {
+    compile(deps.support.annotations) {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     }
 
-    //3rd Party
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'joda-time:joda-time:2.9.7'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.okhttp:okhttp:2.7.5'
-    compile 'javax.inject:javax.inject:1'
+    compile deps.greenrobot
+    compile deps.joda_time
+    compile deps.retrofit1
+    compile deps.okhttp
+    compile deps.javax_inject
 
-    compile "com.google.dagger:dagger:2.11"
-    apt "com.google.dagger:dagger-compiler:2.11"
-    provided 'org.glassfish:javax.annotation:10.0-b28'
-    provided 'javax.annotation:jsr250-api:1.0'
-    testApt "com.google.dagger:dagger-compiler:2.11"
+    compile deps.dagger.dagger
+    apt deps.dagger.compiler
+    provided deps.glassfish_annotation
+    provided deps.javax_annotation
+    testApt deps.dagger.compiler
 
-    //Test Compile
-    testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-all:1.10.17"
-    testCompile "com.squareup.assertj:assertj-android:1.1.1"
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.powermock_api_mockito
+    testCompile deps.powermock_junit
+    testCompile deps.assertj
 
-    testCompile("org.robolectric:robolectric:3.0") {
+    testCompile(deps.robolectric) {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-}
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../dataServices/build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/BuildConfig.*',
-                       '**/response/*/*.class',
-                       '**/view/*.class',
-                       '**/adapters/*.class',
-                       '**/analytics/*.class',
-                       '**/utils/*.class',
-                       '**/activity/*.class',
-                       '**/Fragments/*.class']
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../dataServices/build/jacoco/testDebugUnitTest.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
 }
 
 tasks.withType(Test) {
     ignoreFailures = true
+}
+
+pitest {
+    targetClasses = ['com.philips.platform.core.*']  //by default "${project.group}.*"
+    pitestVersion = '1.1.0' //not needed when a default PIT version should be used
+    threads = 1
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
+    excludedClasses = [
+        '**Factory*',
+        '**_MembersInjector*',
+        'com.philips.platform.core.injection.ApplicationModuleTest',
+        'com.philips.platform.core.utils.EventingImplTest'
+    ]
 }

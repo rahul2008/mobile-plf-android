@@ -18,32 +18,27 @@ import java.util.List;
 
 public class NotifyDBRequestListener {
 
-
     public void notifySuccess(List<? extends Object> ormObjectList, DBRequestListener dbRequestListener, SyncType type) {
         if (dbRequestListener != null) {
-            dbRequestListener.onSuccess((ArrayList<? extends Object>) ormObjectList);
-        } else {
+            dbRequestListener.onSuccess(ormObjectList);
         }
     }
 
     public void notifySuccess(DBRequestListener dbRequestListener, SyncType type) {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(null);
-        } else {
         }
     }
 
     public void notifyPrepareForDeletion(DBRequestListener dbRequestListener) {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(null);
-        } else {
         }
     }
 
     public <T> void notifySuccess(DBRequestListener<T> dbRequestListener, T... returnValue) {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(Arrays.asList(returnValue));
-        } else {
         }
     }
 
@@ -52,14 +47,12 @@ public class NotifyDBRequestListener {
             List list = new ArrayList();
             list.add(settings);
             dbRequestListener.onSuccess(list);
-        } else {
         }
     }
 
     public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsentDetail> ormConsents, SyncType type) {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(ormConsents);
-        } else {
         }
     }
 
@@ -74,28 +67,24 @@ public class NotifyDBRequestListener {
     public void notifySuccess(DBRequestListener dbRequestListener, List<OrmConsentDetail> ormConsents, SyncType type) {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(ormConsents);
-        } else {
         }
     }
 
     public void notifyFailure(Exception e, DBRequestListener dbRequestListener) {
         if (dbRequestListener != null) {
             dbRequestListener.onFailure(e);
-        } else {
         }
     }
 
     public void notifyOrmTypeCheckingFailure(DBRequestListener dbRequestListener, OrmTypeChecking.OrmTypeException e, String msg) {
         if (dbRequestListener != null) {
             dbRequestListener.onFailure(e);
-        } else {
         }
     }
 
     public void notifyConsentFetchSuccess(DBFetchRequestListner dbFetchRequestListner, ArrayList<OrmConsentDetail> ormConsents) {
         if (dbFetchRequestListner != null) {
             dbFetchRequestListner.onFetchSuccess(ormConsents);
-        } else {
         }
     }
 
@@ -114,7 +103,6 @@ public class NotifyDBRequestListener {
     public void notifyMomentFetchSuccess(List<OrmMoment> ormMoments, DBFetchRequestListner dbFetchRequestListner) {
         if (dbFetchRequestListner != null) {
             dbFetchRequestListner.onFetchSuccess(ormMoments);
-        } else {
         }
     }
 
@@ -127,7 +115,6 @@ public class NotifyDBRequestListener {
     public void notifyInsightFetchSuccess(List<OrmInsight> ormInsights, DBFetchRequestListner dbFetchRequestListner) {
         if (dbFetchRequestListner != null) {
             dbFetchRequestListner.onFetchSuccess(ormInsights);
-        } else {
         }
     }
 }

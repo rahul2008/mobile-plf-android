@@ -8,7 +8,6 @@ package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -41,7 +40,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
             try {
                 THSManager.getInstance().updateVitals(mPthBaseFragment.getContext(), thsvItalsUIInterface.getTHSVitals(), this);
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
 
         } else if (componentID == R.id.vitals_skip) {
@@ -68,7 +67,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
     }
 
     @Override
-    public void onUpdateVitalsValidationFailure(Map<String, ValidationReason> map) {
+    public void onUpdateVitalsValidationFailure(Map<String, String> map) {
         if (null != mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
             mPthBaseFragment.showError(map.toString());
         }
@@ -81,7 +80,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
                 tagSuccess();
                 thsvItalsUIInterface.launchMedicationFragment();
             } else if (null != sdkError) {
-                mPthBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_VITALS, sdkError));
+                mPthBaseFragment.showError(THSSDKErrorFactory.getErrorType(mPthBaseFragment.getContext(), ANALYTICS_UPDATE_VITALS, sdkError));
             }
         }
     }

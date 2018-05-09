@@ -1,8 +1,7 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
-
 package com.philips.cdp2.commlib.lan.discovery;
 
 import android.net.wifi.SupplicantState;
@@ -13,6 +12,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.devicecache.CacheData;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -21,10 +21,10 @@ import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
+import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint;
+import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
-import com.philips.cdp2.commlib.ssdp.SSDPControlPoint.DeviceListener;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
-import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 
 import java.util.Collections;
 import java.util.Set;
@@ -34,10 +34,10 @@ import static java.util.Objects.requireNonNull;
 
 public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
-    private static final long NETWORKNODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(10);
+    private static final long NETWORK_NODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(15);
 
     @NonNull
-    private final SSDPDiscovery ssdp;
+    private final SSDPControlPoint ssdpControlPoint;
 
     @NonNull
     private final LanDeviceCache deviceCache;
@@ -76,14 +76,26 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     };
 
     private void handleDiscoveryStateChanged() {
+        final boolean isDiscovering = ssdpControlPoint.isDiscovering();
+
         if (isConnected && isStartRequested) {
-            ssdp.start();
+            try {
+                ssdpControlPoint.start();
 
-            DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery started.");
+                if (!isDiscovering) {
+                    notifyDiscoveryStarted();
+                }
+                DICommLog.d(DICommLog.DISCOVERY, "SSDP started.");
+            } catch (TransportUnavailableException e) {
+                DICommLog.e(DICommLog.DISCOVERY, "Error starting SSDP: " + e.getMessage());
+            }
         } else {
-            ssdp.stop();
+            ssdpControlPoint.stop();
 
-            DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery stopped.");
+            if (isDiscovering) {
+                notifyDiscoveryStopped();
+            }
+            DICommLog.d(DICommLog.DISCOVERY, "SSDP stopped.");
         }
     }
 
@@ -98,7 +110,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     public LanDiscoveryStrategy(final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor, @NonNull WifiNetworkProvider wifiNetworkProvider) {
         this.deviceCache = requireNonNull(deviceCache);
         this.wifiNetworkProvider = requireNonNull(wifiNetworkProvider);
-        this.ssdp = createSsdpDiscovery();
+        this.ssdpControlPoint = createSsdpControlPoint();
 
         this.deviceTypes = Collections.emptySet();
         this.modelIds = Collections.emptySet();
@@ -108,8 +120,8 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @VisibleForTesting
-    SSDPDiscovery createSsdpDiscovery() {
-        final SSDPControlPoint ssdpControlPoint = new SSDPControlPoint();
+    SSDPControlPoint createSsdpControlPoint() {
+        final DefaultSSDPControlPoint ssdpControlPoint = new DefaultSSDPControlPoint();
         ssdpControlPoint.addDeviceListener(deviceListener);
 
         return ssdpControlPoint;
@@ -132,16 +144,17 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
         isStartRequested = true;
         handleDiscoveryStateChanged();
-
-        deviceCache.resetTimers();
     }
 
     @Override
     public void stop() {
         isStartRequested = false;
         handleDiscoveryStateChanged();
+    }
 
-        deviceCache.stopTimers();
+    @Override
+    public void clearDiscoveredNetworkNodes() {
+        deviceCache.clear();
     }
 
     @VisibleForTesting
@@ -159,12 +172,13 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
             return;
         }
 
-        if (this.deviceCache.contains(networkNode.getCppId())) {
-            DICommLog.d(DICommLog.DISCOVERY, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
-            deviceCache.getCacheData(networkNode.getCppId()).resetTimer();
-        } else {
+        final CacheData cacheData = deviceCache.getCacheData(networkNode.getCppId());
+        if (cacheData == null) {
             DICommLog.d(DICommLog.DISCOVERY, "Discovered device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
-            deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORKNODE_TTL_MILLIS);
+            deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORK_NODE_TTL_MILLIS);
+        } else {
+            DICommLog.d(DICommLog.DISCOVERY, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+            cacheData.resetTimer();
         }
 
         notifyNetworkNodeDiscovered(networkNode);

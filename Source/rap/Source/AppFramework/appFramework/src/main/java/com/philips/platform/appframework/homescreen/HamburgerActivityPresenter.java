@@ -19,6 +19,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.baseapp.screens.inapppurchase.ShoppingCartFlowState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -58,6 +59,7 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
             if (null != baseState) {
                 baseState.setUiStateData(setStateData(baseState.getStateID()));
                 fragmentLauncher = getFragmentLauncher();
+                baseState.init(fragmentLauncher.getFragmentActivity().getApplicationContext());
                 baseState.navigate(fragmentLauncher);
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
@@ -82,17 +84,14 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
         switch (componentID) {
             case MENU_OPTION_HOME:
                 return HOME_FRAGMENT;
-            case MENU_OPTION_SETTINGS:
-                return HOME_SETTINGS;
             case MENU_OPTION_SHOP:
                 return HOME_IAP;
             case MENU_OPTION_SUPPORT:
                 return HOME_SUPPORT;
             case MENU_OPTION_ABOUT:
                 return HOME_ABOUT;
-            // Commented as part of Plan A removal.
-           /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                return SHOPPING_CART;*/
+            case Constants.SHOPPING_CART_CLICK:
+                return SHOPPING_CART;
             case MENU_OPTION_TEST_MICROAPP:
                 return HOME_TEST_MICROAPP;
             case MENU_OPTION_TELEHEALTHSERVICES:
@@ -105,6 +104,8 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return HAMBURGER_LOGOUT;
             case Constants.HAMBURGER_MY_ACCOUNT_CLICK:
                 return HOME_MYACCOUNT;
+            case Constants.THS_DEEP_LINKING_EVENT_ID:
+                return Constants.THS_DEEP_LINKING_EVENT;
             default:
                 return HOME_FRAGMENT;
         }

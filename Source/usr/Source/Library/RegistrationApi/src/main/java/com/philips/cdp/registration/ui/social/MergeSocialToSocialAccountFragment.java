@@ -31,7 +31,6 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -93,7 +92,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_to_social_merge_account, container, false);
         ButterKnife.bind(this, view);
         initUI(view);
@@ -159,6 +158,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         trackPage(AppTaggingPages.HOME);
         mergeSocialToSocialAccountPresenter.logout();
         getFragmentManager().popBackStack();
+        getRegistrationFragment().handleBackEvent();
     }
 
     @OnClick(R2.id.usr_mergeScreen_login_button)
@@ -249,8 +249,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @Override
     public void mergeSuccess() {
         hideMergeSpinner();
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
         completeRegistration();
     }
 

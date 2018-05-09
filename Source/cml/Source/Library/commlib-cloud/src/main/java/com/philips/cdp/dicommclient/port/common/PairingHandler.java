@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -353,7 +353,7 @@ public class PairingHandler<T extends Appliance> {
         final String clientType = pairingRelation.getTrustorEntity() == null ? null : pairingRelation.getTrustorEntity().type;
         final String clientId = pairingRelation.getTrustorEntity() == null ? null : pairingRelation.getTrustorEntity().id;
 
-        pairingPort.triggerPairing(clientType, clientId, secretKey);
+        pairingPort.pair(clientType, clientId, secretKey);
     }
 
     public void initializeRelationshipRemoval() {

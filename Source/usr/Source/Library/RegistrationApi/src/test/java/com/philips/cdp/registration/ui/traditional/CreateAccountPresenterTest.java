@@ -57,7 +57,7 @@ public class CreateAccountPresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        URInterface.setComponent(registrationComponentMock);
+        RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
         RLog.setMockLogger(mockLoggingInterface);
 
         presenter = new CreateAccountPresenter(contractMock);

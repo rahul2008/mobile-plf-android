@@ -112,13 +112,13 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
 
     public void testCheckForSslConnection() {
         final boolean sslValue =mAppTaggingHandler.checkForSslConnection();
-                if (sslValue) {
-                    assertTrue(sslValue);
-                    when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
-                    verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_TAGGING, "ssl value true");
-                } else {
-                    assertFalse(sslValue);
-                }
+        if (sslValue) {
+            assertTrue(sslValue);
+            when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+            verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_TAGGING, "ssl value true");
+        } else {
+            assertFalse(sslValue);
+        }
 
     }
 
@@ -210,7 +210,7 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
             when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
             verify(mAppTaggingHandlerMock).track("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", keyValuePair,true);
         }
-      }
+    }
 
     public void testMockTrackActionWithInfo() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);

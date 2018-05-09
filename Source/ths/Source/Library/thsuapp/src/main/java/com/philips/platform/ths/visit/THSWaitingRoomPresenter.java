@@ -14,11 +14,8 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.ChatReport;
-import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -30,9 +27,8 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.Map;
 
-
 import static com.americanwell.sdk.entity.visit.VisitEndReason.PROVIDER_DECLINE;
-import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_START_VISIT;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_VIDEO_VISIT_FAIL;
 import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.visitUnsuccessful;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
@@ -53,7 +49,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     public void onEvent(int componentID) {
 
         if (componentID == R.id.ths_confirmation_dialog_primary_button) {
-            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText("Cancelling Visit");
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_cancelling_waiting));
             cancelVisit();
         }
     }
@@ -62,7 +58,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         try {
             if (null != mTHSWaitingRoomFragment.mVisit && null != mTHSWaitingRoomFragment.mVisit.getAssignedProvider()) {
                 mTHSWaitingRoomFragment.mProviderNameLabel.setText(mTHSWaitingRoomFragment.mVisit.getAssignedProvider().getFullName());
-                mTHSWaitingRoomFragment.mProviderPracticeLabel.setText(mTHSWaitingRoomFragment.mVisit.getAssignedProvider().getPracticeInfo().getName());
+                mTHSWaitingRoomFragment.mProviderPracticeLabel.setText(mTHSWaitingRoomFragment.mVisit.getAssignedProvider().getSpecialty().getName());
 
                 ///////////
                 ProviderInfo providerInfo = mTHSWaitingRoomFragment.mVisit.getAssignedProvider();
@@ -75,23 +71,27 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
                             (mTHSWaitingRoomFragment.mProviderImageView.getResources().getDrawable(R.drawable.doctor_placeholder, mTHSWaitingRoomFragment.getActivity().getTheme())).
                             build().load();
                 } catch (AWSDKInstantiationException e) {
-                    e.printStackTrace();
+
                 }
 
                 ////////////
             }
             Integer patientWaitingCount = mTHSWaitingRoomFragment.mVisit.getPatientsAheadOfYou();
-            if (null != patientWaitingCount && patientWaitingCount > 0) {
+            if (null != patientWaitingCount && patientWaitingCount == 1) {
 
-                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " patients waiting");
+                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " " + mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patient_waiting));
+            } else if (null != patientWaitingCount && patientWaitingCount > 0) {
+                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " " + mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patients_waiting));
+            } else if (null != patientWaitingCount && patientWaitingCount == 0) {
+                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_your_next_in_line));
             }
 
 
             THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(), mTHSWaitingRoomFragment.mVisit, null, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }catch (Exception e){
-            mTHSWaitingRoomFragment.showError(mTHSWaitingRoomFragment.getString(R.string.something_went_wrong));
+
+        } catch (Exception e) {
+            mTHSWaitingRoomFragment.showError(mTHSWaitingRoomFragment.getString(R.string.ths_something_went_wrong));
         }
 
     }
@@ -118,7 +118,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         try {
             THSManager.getInstance().cancelVisit(mTHSWaitingRoomFragment.getFragmentActivity(), mTHSWaitingRoomFragment.mVisit, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -127,16 +127,18 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
             THSManager.getInstance().abandonCurrentVisit(mTHSWaitingRoomFragment.getFragmentActivity());
             mTHSWaitingRoomFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
 
     void updatePatientAheadCount(int count) {
-        if(count==0){
-            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(null);
-        }else if (count > 0) {
-            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " patients waiting");
+        if (count == 0) {
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_your_next_in_line));
+        } else if (count == 1) {
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " " + mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patient_waiting));
+        } else if (count > 0) {
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " " + mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patients_waiting));
         }
 
     }
@@ -159,20 +161,19 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         mTHSWaitingRoomFragment.startActivityForResult(intent, REQUEST_VIDEO_VISIT);
         mTHSWaitingRoomFragment.doTaggingUponStopWaiting();
         THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "completeWaitingInstantAppointment");
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VIDEO_CALL, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_VIDEO_CALL, null, null);
 
     }
 
     @Override
-    public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
-        AmwellLog.v("call end", visitEndReason.toString());
-        if (visitEndReason == PROVIDER_DECLINE) {
+    public void onStartVisitEnded(@NonNull String visitEndReason) {
+        AmwellLog.v("call end", visitEndReason);
+        if (visitEndReason.equalsIgnoreCase(PROVIDER_DECLINE)) {
             mTHSWaitingRoomFragment.doTaggingUponStopWaiting();
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
             showVisitUnSuccess(true, true, false);
 
         }
-
     }
 
     @Override
@@ -197,16 +198,12 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         }
     }
 
-    @Override
-    public void onValidationFailure(Map<String, ValidationReason> map) {
-
-    }
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             if (null != sdkError) {
-                mTHSWaitingRoomFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_START_VISIT, sdkError));
+                mTHSWaitingRoomFragment.showError(THSSDKErrorFactory.getErrorType(mTHSWaitingRoomFragment.getContext(), ANALYTIC_VIDEO_VISIT_FAIL, sdkError), true, true);
                 return;
             } else {
                 // must  be cancel visit call back
@@ -222,8 +219,8 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     public void onFailure(Throwable throwable) {
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             if (null != throwable && null != throwable.getMessage()) {
-                mTHSWaitingRoomFragment.doTagging(ANALYTICS_START_VISIT, throwable.getMessage(), false);
-                mTHSWaitingRoomFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
+                mTHSWaitingRoomFragment.doTagging(ANALYTIC_VIDEO_VISIT_FAIL, throwable.getMessage(), false);
+                mTHSWaitingRoomFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true, false);
             }
 
         }
@@ -234,8 +231,8 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     void showVisitUnSuccess(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSWaitingRoomFragment.getFragmentActivity())
-                    .setMessage(showLargeContent ? mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.visit_not_successful) : mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.visit_not_successful)).
-                            setPositiveButton(" Ok ", new View.OnClickListener() {
+                    .setMessage(showLargeContent ? mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.ths_visit_not_successful) : mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.ths_visit_not_successful)).
+                            setPositiveButton(mTHSWaitingRoomFragment.getString(R.string.ths_ok), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     mTHSWaitingRoomFragment.alertDialogFragment.dismiss();
@@ -244,7 +241,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
                             });
 
             if (isWithTitle) {
-                builder.setTitle("Error");
+                builder.setTitle(mTHSWaitingRoomFragment.getString(R.string.ths_matchmaking_error));
 
             }
             mTHSWaitingRoomFragment.alertDialogFragment = builder.setCancelable(false).create();
@@ -254,4 +251,8 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     }
 
 
+    @Override
+    public void onValidationFailure(@NonNull Map<String, String> map) {
+
+    }
 }

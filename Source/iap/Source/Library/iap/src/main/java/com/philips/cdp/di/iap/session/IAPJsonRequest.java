@@ -7,12 +7,14 @@ package com.philips.cdp.di.iap.session;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Base64;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -30,7 +32,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
     private Listener<JSONObject> mResponseListener;
     private ErrorListener mErrorListener;
     private Map<String, String> params;
-    private Handler mHandler;
+    protected Handler mHandler;
 
     public IAPJsonRequest(int method, String url, Map<String, String> params,
                           Listener<JSONObject> responseListener, ErrorListener errorListener) {
@@ -49,6 +51,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
+    @Override
     public Map<String, String> getParams()
             throws com.android.volley.AuthFailureError {
         return params;
@@ -57,7 +60,9 @@ public class IAPJsonRequest extends Request<JSONObject> {
     @Override
     public Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         try {
-            String jsonString = new String(response.data);
+            final String encodedString = Base64.encodeToString(response.data, Base64.DEFAULT);
+            final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
+            final String jsonString = new String(decode);
             JSONObject result = null;
             if (jsonString.length() > 0)
                 result = new JSONObject(jsonString);
@@ -75,7 +80,17 @@ public class IAPJsonRequest extends Request<JSONObject> {
 
     @Override
     public void deliverError(VolleyError error) {
-        handleMiscErrors(error);
+        final RequestQueue requestQueue = HybrisDelegate.getInstance().controller.mRequestQueue;
+        IAPUrlRedirectionHandler iapUrlRedirectionHandler = new IAPUrlRedirectionHandler(this,error);
+
+        // Handle 30x
+        if (iapUrlRedirectionHandler.isRedirectionRequired()) {
+            final IAPJsonRequest iapJsonRequest = iapUrlRedirectionHandler.getNewRequestWithRedirectedUrl();
+            requestQueue.add(iapJsonRequest);
+        } else {
+            handleMiscErrors(error);
+        }
+
     }
 
     protected void handleMiscErrors(final VolleyError error) {
@@ -94,6 +109,8 @@ public class IAPJsonRequest extends Request<JSONObject> {
         } else {
             postErrorResponseOnUIThread(error);
         }
+
+
     }
 
     private void postSelfAgain() {

@@ -23,6 +23,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.Label;
@@ -45,6 +46,7 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
     private List<CheckBox> checkBoxList;
     protected int NumberOfConditionSelected=0;
     private Label mLabelPatientName;
+    static final long serialVersionUID = 71L;
 
     @Nullable
     @Override
@@ -93,7 +95,7 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
         try {
             thsMedicalConditionsPresenter.getConditions();
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -173,6 +175,6 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_CONDITION_PAGE,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_CONDITION_PAGE,null,null);
     }
 }

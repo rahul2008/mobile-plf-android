@@ -2,6 +2,7 @@ package com.philips.cdp.registration.ui.utils;
 
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -55,7 +56,7 @@ public class URInterfaceTest {
     public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
-        URInterface.setComponent(mockRegistrationComponent);
+        RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
         RLog.setMockLogger(mockLoggingInterface);
 
         urInterface=new URInterface();
@@ -79,12 +80,12 @@ public class URInterfaceTest {
 
     @Test
     public void getComponent() throws Exception {
-        urInterface.getComponent();
+        RegistrationConfiguration.getInstance().getComponent();
     }
 
     @Test
     public void setComponent() throws Exception {
-        urInterface.setComponent(mockRegistrationComponent);
+        RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
     }
 
 }

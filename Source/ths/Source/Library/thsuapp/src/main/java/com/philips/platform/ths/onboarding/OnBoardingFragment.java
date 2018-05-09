@@ -11,11 +11,15 @@ import android.widget.TextView;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.Other;
 import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_START;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 
+@SuppressWarnings("serial")
 public class OnBoardingFragment  extends THSBaseFragment implements View.OnClickListener{
 
     public static final String TAG = OnBoardingFragment.class.getSimpleName();
@@ -33,7 +37,7 @@ public class OnBoardingFragment  extends THSBaseFragment implements View.OnClick
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = (View) inflater.inflate(R.layout.ths_onboarding_layout, container, false);
+        View view =  inflater.inflate(R.layout.ths_onboarding_layout, container, false);
         tv_skip=(TextView)view.findViewById(R.id.tv_skip);
         btn_take_tour=(Button) view.findViewById(R.id.btn_take_tour);
         tv_skip.setOnClickListener(this);
@@ -53,6 +57,13 @@ public class OnBoardingFragment  extends THSBaseFragment implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(ON_BOARDING_START, null, null);
+        THSTagUtils.doTrackPageWithInfo(ON_BOARDING_START, null, null);
+    }
+
+
+    @Override
+    public boolean handleBackEvent() {
+        THSTagUtils.doExitToPropositionWithCallBack();
+        return true;
     }
 }

@@ -8,6 +8,7 @@
     style="@style/UIDAlertDialogMessageTextStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:textAlignment="viewStart"
     android:text="@string/dialog_content_text"
     android:paddingBottom="@dimen/uid_page_margin_left_right"
     />

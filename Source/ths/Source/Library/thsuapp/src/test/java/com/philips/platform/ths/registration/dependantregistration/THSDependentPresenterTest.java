@@ -22,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -72,6 +73,9 @@ public class THSDependentPresenterTest {
         THSManager.getInstance().setThsConsumer(thsConsumer1);
         THSManager.getInstance().getThsParentConsumer(contextMock).setConsumer(consumerMock);
 
+        when(thsConsumer1.getHsdpUUID()).thenReturn("111");
+        when(getThsConsumer2.getHsdpUUID()).thenReturn("111");
+
         when(THSManager.getInstance().getThsParentConsumer(contextMock).getConsumer()).thenReturn(consumerMock);
 
         when(THSManager.getInstance().getThsConsumer(contextMock).getConsumer()).thenReturn(consumerMock);
@@ -96,7 +100,7 @@ public class THSDependentPresenterTest {
         when(THSManager.getInstance().getThsConsumer(contextMock).isDependent()).thenReturn(true);
         when(THSManager.getInstance().getThsConsumer(contextMock).getConsumer().isDependent()).thenReturn(true);
         mTHSDependentPresenter.checkIfUserExists();
-        verify(thsDependantHistoryFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(thsDependantHistoryFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test
@@ -113,6 +117,8 @@ public class THSDependentPresenterTest {
         list.add(consumer1);
         list.add(consumer2);
         when(THSManager.getInstance().getThsParentConsumer(contextMock).getConsumer().getDependents()).thenReturn(list);
+        when(consumer1.getSourceId()).thenReturn("111");
+        when(consumer2.getSourceId()).thenReturn("111");
         mTHSDependentPresenter.updateDependents();
 
         assert THSManager.getInstance().getThsParentConsumer(contextMock).getDependents().size() > 1;
@@ -128,6 +134,8 @@ public class THSDependentPresenterTest {
         list.add(consumer2);
         when(consumer1.getDob()).thenReturn(dob);
         when(consumer1.getGender()).thenReturn(com.americanwell.sdk.entity.consumer.Gender.MALE);
+        when(consumer1.getSourceId()).thenReturn("111");
+        when(thsConsumer1.getHsdpUUID()).thenReturn("111");
         when(THSManager.getInstance().getThsParentConsumer(contextMock).getConsumer().getDependents()).thenReturn(list);
         mTHSDependentPresenter.updateDependents();
 
@@ -144,6 +152,8 @@ public class THSDependentPresenterTest {
         list.add(consumer2);
         when(consumer1.getDob()).thenReturn(dob);
         when(consumer1.getGender()).thenReturn(com.americanwell.sdk.entity.consumer.Gender.MALE);
+        when(consumer1.getSourceId()).thenReturn("111");
+        when(thsConsumer1.getHsdpUUID()).thenReturn("1233");
         when(THSManager.getInstance().getThsParentConsumer(contextMock).getConsumer().getDependents()).thenReturn(list);
         mTHSDependentPresenter.updateDependents();
 

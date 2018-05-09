@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
@@ -45,7 +46,8 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
     List<OnBoardingTourContentModel> onBoardingTourContentModelList;
     private OnBoardingTourPagerAdapter onBoardingTourPagerAdapter;
-    
+    static final long serialVersionUID = 1131L;
+
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
         View view = inflater.inflate(R.layout.ths_on_boarding_tour_fragment, container, false);
         ActionBarListener actionBarListener = getActionBarListener();
-        if(actionBarListener!=null) {
+        if (actionBarListener != null) {
             actionBarListener.updateActionBar(R.string.ths_welcome, false);
         }
 
@@ -83,7 +85,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
         addPageChangeListener();
 
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(ON_BOARDING_PAGE_1, null, null);
+        THSTagUtils.doTrackPageWithInfo(ON_BOARDING_PAGE_1, null, null);
         return view;
     }
 
@@ -103,13 +105,15 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
                 } else {
                     if (position == (pager.getAdapter().getCount() - 1)) {
                         rightArrow.setVisibility(View.GONE);
+                        leftArrow.setVisibility(View.VISIBLE);
                         doneButton.setVisibility(View.VISIBLE);
+                        skipButton.setVisibility(View.GONE);
                     } else {
+                        leftArrow.setVisibility(View.GONE);
                         rightArrow.setVisibility(View.VISIBLE);
                         doneButton.setVisibility(View.GONE);
+                        skipButton.setVisibility(View.VISIBLE);
                     }
-                    skipButton.setVisibility(View.VISIBLE);
-                    leftArrow.setVisibility(View.GONE);
                 }
 
                 startAppTagging(position);
@@ -123,7 +127,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
     protected void startAppTagging(int position) {
         String pageTitle = onBoardingTourPagerAdapter.getPageTitle(position);
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(pageTitle, null, null);
+        THSTagUtils.doTrackPageWithInfo(pageTitle, null, null);
     }
 
     @Override
@@ -146,5 +150,8 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
         }
     }
 
-
+    public boolean handleBackEvent() {
+        THSTagUtils.doExitToPropositionWithCallBack();
+        return true;
+    }
 }

@@ -37,6 +37,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
@@ -226,7 +227,7 @@ public class THSVitalsFragmentTest {
         SupportFragmentTestUtil.startFragment(thsVitalsFragment);
         thsVitalsFragment.mThsVitalsPresenter = presenterMock;
         thsVitalsFragment.validateDiastolicView();
-        verify(presenterMock,atLeastOnce()).stringToInteger(any(String.class));
+        verify(presenterMock,atLeastOnce()).stringToInteger((String)isNull());
     }
 
     @Test

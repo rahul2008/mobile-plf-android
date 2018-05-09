@@ -27,6 +27,7 @@ public class ThemeConfiguration {
      * Add configs to the list if missed in constructor
      *
      * @param config ThemeConfig to be applied to the list
+     *               @since 3.0.0
      */
     public void add(ThemeConfig config) {
         configurations.add(config);
@@ -36,6 +37,7 @@ public class ThemeConfiguration {
      * Returns the context set
      *
      * @return context
+     * @since 3.0.0
      */
     public Context getContext() {
         return context;
@@ -44,6 +46,7 @@ public class ThemeConfiguration {
     /**
      * Returns the list of configuration set through constructor or using add API
      * @return ThemeConfig List
+     * @since 3.0.0
      */
     public List<ThemeConfig> getConfigurations() {
         return configurations;

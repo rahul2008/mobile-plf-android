@@ -8,12 +8,14 @@ package com.philips.cdp.dicommclient.port;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import org.junit.Before;
@@ -23,6 +25,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Map;
 
 import static com.philips.cdp.dicommclient.port.DICommPort.SUBSCRIPTION_TTL_MS;
@@ -30,6 +34,7 @@ import static com.philips.cdp.dicommclient.request.Error.NOT_CONNECTED;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
@@ -61,10 +66,18 @@ public class DICommPortTest {
     @Captor
     private ArgumentCaptor<Map<String, Object>> mapArgumentCaptor;
 
+    @Mock
+    private NetworkNode networkNodeMock;
+
     @Captor
     private ArgumentCaptor<ResponseHandler> responseHandlerCaptor;
 
     private DICommPort diCommPort;
+
+    @Captor
+    private ArgumentCaptor<PropertyChangeListener> networkNodeListenerCaptor;
+
+    private PropertyChangeListener networkNodeListener;
 
     @Before
     public void setUp() {
@@ -74,6 +87,9 @@ public class DICommPortTest {
         HandlerProvider.enableMockedHandler(handlerMock);
 
         diCommPort = new TestPort(communicationStrategyMock);
+        diCommPort.setNetworkNode(networkNodeMock);
+        verify(networkNodeMock).addPropertyChangeListener(networkNodeListenerCaptor.capture());
+        networkNodeListener = networkNodeListenerCaptor.getValue();
     }
 
     @Test
@@ -538,7 +554,7 @@ public class DICommPortTest {
 
     private Runnable captureResubscribeHandler() {
         ArgumentCaptor<Runnable> runnableCaptor = ArgumentCaptor.forClass(Runnable.class);
-        verify(handlerMock).postDelayed(runnableCaptor.capture(), Mockito.anyInt());
+        verify(handlerMock).postDelayed(runnableCaptor.capture(), Mockito.anyLong());
 
         return runnableCaptor.getValue();
     }
@@ -657,15 +673,53 @@ public class DICommPortTest {
     @Test
     public void givenSubscribed_whenASubscriptionEventForThisPortCantBeDecrypted_thenAGetPropsShouldBeTriggered() {
         diCommPort.addPortListener(portListenerMock);
-        diCommPort.subscribe();
-        verifySubscribeCalled(true);
-        responseHandlerCaptor.getValue().onSuccess(null);
+        simulateSuccessfulSubscribe();
 
         ArgumentCaptor<SubscriptionEventListener> captor = ArgumentCaptor.forClass(SubscriptionEventListener.class);
         verify(communicationStrategyMock).addSubscriptionEventListener(captor.capture());
         captor.getValue().onSubscriptionEventDecryptionFailed(PORT_NAME);
 
         verifyGetPropertiesCalled(true);
+    }
+
+    @Test
+    public void whenANetworkNodeIsSet_thenThePortStartsListeningForChangesToThatNode() throws Exception {
+
+        verify(networkNodeMock).addPropertyChangeListener(isA(PropertyChangeListener.class));
+    }
+
+    @Test
+    public void givenNetworkNodeIsSetOnPortAndSubscriptionIsEnabled_whenNetworkNodeChangesBootId_thenSubscriptionIsRenewed() throws Exception {
+        simulateSuccessfulSubscribe();
+        reset(communicationStrategyMock);
+
+        networkNodeListener.propertyChange(new PropertyChangeEvent(networkNodeMock, NetworkNodeDatabaseHelper.KEY_BOOT_ID, 1, 2));
+
+        verifySubscribeCalled(true);
+    }
+
+    @Test
+    public void givenNetworkNodeIsSetOnPortAndSubscriptionIsEnabled_whenNetworkNodeChangesSomethingOtherThanBootId_thenSubscriptionIsNotRenewed() throws Exception {
+        simulateSuccessfulSubscribe();
+        reset(communicationStrategyMock);
+
+        networkNodeListener.propertyChange(new PropertyChangeEvent(networkNodeMock, NetworkNodeDatabaseHelper.KEY_IP_ADDRESS, "1", "2"));
+
+        verifySubscribeCalled(false);
+    }
+
+    @Test
+    public void givenNetworkNodeIsSetOnPortAndSubscriptionIsNotEnabled_whenNetworkNodeChangesBootId_thenSubscriptionIsNotRenewed() throws Exception {
+
+        networkNodeListener.propertyChange(new PropertyChangeEvent(networkNodeMock, NetworkNodeDatabaseHelper.KEY_BOOT_ID, 1, 2));
+
+        verifySubscribeCalled(false);
+    }
+
+    private void simulateSuccessfulSubscribe() {
+        diCommPort.subscribe();
+        verifySubscribeCalled(true);
+        responseHandlerCaptor.getValue().onSuccess(null);
     }
 
     private void verifyPutPropertiesCalled(boolean invoked) {

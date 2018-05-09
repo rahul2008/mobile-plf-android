@@ -6,6 +6,7 @@
         <item name="android:minWidth">@dimen/uid_edittext_min_width</item>
         <item name="android:minHeight">@dimen/uid_edittext_height</item>
         <item name="android:textSize">@dimen/uid_edittext_text_size</item>
+        <item name="android:textAlignment">viewStart</item>
         <item name="android:paddingLeft">@dimen/uid_edittext_text_padding</item>
         <item name="android:paddingRight">@dimen/uid_edittext_text_padding</item>
         <item name="android:paddingBottom">@dimen/uid_edittext_vertical_padding</item>

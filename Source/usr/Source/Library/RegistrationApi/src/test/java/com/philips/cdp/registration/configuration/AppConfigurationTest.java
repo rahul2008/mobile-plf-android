@@ -52,7 +52,7 @@ public class AppConfigurationTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        URInterface.setComponent(mockComponent);
+        RegistrationConfiguration.getInstance().setComponent(mockComponent);
         appConfiguration = new AppConfiguration();
         setConfigTestMap();
         appConfiguration.setAppInfraWrapper(mockAppInfraWrapper);

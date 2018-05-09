@@ -39,7 +39,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class OrderDetailsFragmentTest {
     private Context mContext;
     OrderDetailsFragment orderDetailsFragmentTest;

@@ -14,7 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,19 +22,17 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 
+import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment {
-
-    protected int mLeftRightMarginPort;
-
-    protected int mLeftRightMarginLand;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -53,6 +50,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     protected static int mHeight = 0;
 
     private final int JELLY_BEAN = 16;
+    private final static String TAG = RegistrationBaseFragment.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,48 +63,31 @@ public abstract class RegistrationBaseFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onActivityCreated");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onStart");
-    }
-
-    @Override
-    public void onResume() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onResume");
-        super.onResume();
-        setCurrentTitle();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onPause");
+        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onActivityCreated");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onStop");
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroyView");
+        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroy");
+        setPrevTiltle();
     }
 
     @Override
     public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroy");
-        setPrevTiltle();
         super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCurrentTitle();
     }
 
     private void setPrevTiltle() {
@@ -114,18 +95,15 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
-            RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : getFragmentCount" + fragment.getFragmentCount());
+            RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : getFragmentCount" + fragment.getFragmentCount());
 
             if (fragment.getFragmentCount() > 1) {
                 fragment.getUpdateTitleListener().updateActionBar(
                         mPrevTitleResourceId, true);
-               /* fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                        mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             } else {
                 fragment.getUpdateTitleListener().updateActionBar(
                         mPrevTitleResourceId, false);
-             /*   fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             }
 
@@ -141,7 +119,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDetach");
+        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDetach");
     }
 
     private void setCurrentTitle() {
@@ -158,7 +136,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
                         getUpdateTitleListener()) {
                     fragment.getUpdateTitleListener().updateActionBar(
                             getTitleResourceId(), false);
-                   /* fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
                 } else {
                     if (null != fragment.getUpdateTitleListener()) {
                         fragment.getUpdateTitleListener().updateActionBar(
@@ -168,19 +145,24 @@ public abstract class RegistrationBaseFragment extends Fragment {
                             fragment.getUpdateTitleListener().updateActionBar(titleText, false);
                         }
                     }
-                /*     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                            getTitleResourceId());*/
                 }
             } else {
                 if (null != fragment.getUpdateTitleListener()) {
-                    fragment.getUpdateTitleListener().updateActionBar(
-                            getTitleResourceId(), false);
+
+
+                    if (this instanceof UserDetailsFragment || this instanceof MarketingAccountFragment) {
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                getTitleResourceId(), true);
+                    } else {
+
+                        fragment.getUpdateTitleListener().updateActionBar(
+                                getTitleResourceId(), false);
+                    }
                     String titleText = getTitleResourceText();
                     if (titleText != null && titleText.length() > 0) {
                         fragment.getUpdateTitleListener().updateActionBar(titleText, false);
                     }
                 }
-                /*fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
             }
             fragment.setResourceID(getTitleResourceId());
             fragment.setCurrentTitleResource(getTitleResourceId());
@@ -196,6 +178,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void consumeTouch(View view) {
+
+        RLog.i(TAG,"consumeTouch is called");
         if (view == null)
             return;
         view.setOnTouchListener(new OnTouchListener() {
@@ -207,31 +191,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
         });
     }
 
-
-    protected void applyParams(Configuration config, View view, int width) {
-        if (width < dpToPx((int) getResources().getInteger(R.integer.reg_layout_max_width_648))) {
-            if (view instanceof RecyclerView) {
-                return;
-            }
-            applyDefaultMargin(view);
-        } else {
-            setMaxWidth(view);
-        }
-    }
-
-    private void setMaxWidth(View view) {
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.width = dpToPx((int) getResources().getInteger(R.integer.reg_layout_max_width_648));
-        view.setLayoutParams(params);
-    }
-
-    private void applyDefaultMargin(View view) {
-        ViewGroup.MarginLayoutParams mParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        mParams.leftMargin = mParams.rightMargin = dpToPx((int) getResources().getInteger(R.integer.reg_layout_margin_16));
-        view.setLayoutParams(mParams);
-    }
-
-    private int dpToPx(int dp) {
+        private int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
@@ -251,17 +211,9 @@ public abstract class RegistrationBaseFragment extends Fragment {
         AppTagging.trackAction(state, null, null);
     }
 
-    protected void trackMultipleActionsRegistration() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(AppTagingConstants.REGISTRATION_CHANNEL, AppTagingConstants.MY_PHILIPS);
-        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_USER_REGISTRATION);
-        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
-    }
-
     protected void trackMultipleActionsLogin(String providerName) {
         Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.LOGIN_CHANNEL, providerName);
-        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.LOGIN_START);
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
@@ -337,6 +289,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
+        RLog.i(TAG,"scrollViewAutomatically is called");
         view.requestFocus();
         if (scrollView != null) {
             scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -360,4 +313,28 @@ public abstract class RegistrationBaseFragment extends Fragment {
         }
     }
 
+
+    public ProgressAlertDialog mProgressDialog;
+
+    public void showProgressDialog() {
+        if (this.isVisible()) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressAlertDialog(getContext(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.show();
+        }
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
+    }
+
+
+    public static void setHeightWidthToZero() {
+        mWidth = 0;
+        mHeight = 0;
+    }
 }

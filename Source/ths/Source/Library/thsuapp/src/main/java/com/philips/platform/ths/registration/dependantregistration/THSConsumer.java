@@ -11,13 +11,16 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.cdp.registration.ui.utils.Gender;
 
 import java.io.ByteArrayInputStream;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class THSConsumer {
+@SuppressWarnings("serial")
+public class THSConsumer implements Serializable{
     private Date dob;
     private String firstName;
     private String lastName;
+    private String displayName;
     private Gender gender;
     private State state;
     private String hsdpUUID;
@@ -33,6 +36,10 @@ public class THSConsumer {
     private boolean isDependent = false;
 
     private ByteArrayInputStream profilePic;
+
+    public THSConsumer() {
+
+    }
 
     public Date getDob() {
         return dob;
@@ -161,6 +168,15 @@ public class THSConsumer {
 
     public void setDependent(boolean dependent) {
         isDependent = dependent;
+    }
+
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
 }

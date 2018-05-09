@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -8,26 +8,24 @@ package com.philips.cdp2.commlib.ble.communication;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
-import com.philips.cdp2.commlib.ble.communication.PollingSubscription.Callback;
 import com.philips.cdp2.commlib.ble.request.BleGetRequest;
 import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache.DeviceCacheListener;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
-import com.philips.cdp2.commlib.core.util.ObservableCollection.ModificationListener;
 import com.philips.cdp2.commlib.core.util.VerboseRunnable;
+import com.philips.cdp2.commlib.util.VerboseExecutor;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp2.commlib.core.util.GsonProvider.EMPTY_JSON_OBJECT_STRING;
@@ -48,34 +46,39 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     @NonNull
     private final BleDeviceCache deviceCache;
     @NonNull
-    private final ScheduledThreadPoolExecutor requestExecutor;
+    @VisibleForTesting
+    protected final VerboseExecutor requestExecutor;
 
-    private final ModificationListener<String> deviceCacheListener = new ModificationListener<String>() {
+    private final DeviceCacheListener<BleCacheData> deviceCacheListener = new DeviceCacheListener<BleCacheData>() {
         @Override
-        public void onRemoved(String cppId) {
-            if (isAvailable) {
-                isAvailable = false;
-                notifyAvailabilityChanged();
+        public void onAdded(BleCacheData cacheData) {
+            if (cppId.equals(cacheData.getNetworkNode().getCppId())) {
+                cacheData.addAvailabilityListener(new AvailabilityListener<BleCacheData>() {
+                    @Override
+                    public void onAvailabilityChanged(@NonNull BleCacheData object) {
+                        if (isAvailable != object.isAvailable()) {
+                            isAvailable = object.isAvailable();
+                            notifyAvailabilityChanged();
+                        }
+                    }
+                });
             }
         }
 
         @Override
-        public void onAdded(String cppId) {
-            final BleCacheData cacheData = deviceCache.getCacheData(BleCommunicationStrategy.this.cppId);
-            cacheData.addAvailabilityListener(new AvailabilityListener<BleCacheData>() {
-                @Override
-                public void onAvailabilityChanged(@NonNull BleCacheData object) {
-                    if (isAvailable != object.isAvailable()) {
-                        isAvailable = object.isAvailable();
-                        notifyAvailabilityChanged();
-                    }
+        public void onRemoved(BleCacheData cacheData) {
+            if (cppId.equals(cacheData.getNetworkNode().getCppId())) {
+                if (isAvailable) {
+                    isAvailable = false;
+                    notifyAvailabilityChanged();
                 }
-            });
+            }
         }
     };
 
     @NonNull
-    private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
+    @VisibleForTesting
+    AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
 
     @NonNull
     private Handler callbackHandler;
@@ -119,10 +122,15 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
         this.callbackHandler = callbackHandler;
         this.subscriptionPollingInterval = subscriptionPollingInterval;
-        this.requestExecutor = new ScheduledThreadPoolExecutor(1);
+        this.requestExecutor = new VerboseExecutor();
 
-        this.isAvailable = deviceCache.contains(cppId);
-        this.deviceCache.addModificationListener(cppId, deviceCacheListener);
+        final BleCacheData cacheData = deviceCache.getCacheData(cppId);
+        if (cacheData != null) {
+            this.isAvailable = cacheData.isAvailable();
+            notifyAvailabilityChanged();
+        }
+
+        this.deviceCache.addDeviceCacheListener(deviceCacheListener, cppId);
     }
 
     @Override
@@ -149,28 +157,32 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     public void subscribe(final String portName, final int productId, final int subscriptionTtl, final ResponseHandler responseHandler) {
         final PortParameters portParameters = new PortParameters(portName, productId);
 
-        if (!this.subscriptionsCache.containsKey(portParameters)) {
-            final PollingSubscription subscription = new PollingSubscription(this, portParameters, subscriptionPollingInterval, subscriptionTtl * 1000, new ResponseHandler() {
-                @Override
-                public void onSuccess(String data) {
-                    notifySubscriptionEventListeners(portName, data);
-                }
-
-                @Override
-                public void onError(Error error, String errorData) {
-                    DICommLog.e(DICommLog.LOCAL_SUBSCRIPTION, String.format(Locale.US, "Subscription - onError, error [%s], message [%s]", error, errorData));
-                }
-            });
-
-            subscription.addCancelCallback(new Callback() {
-                @Override
-                public void onCancel() {
-                    subscriptionsCache.remove(portParameters);
-                }
-            });
-            this.subscriptionsCache.put(portParameters, subscription);
+        final PollingSubscription existingPollingSubscription = subscriptionsCache.remove(portParameters);
+        if (existingPollingSubscription != null) {
+            existingPollingSubscription.cancel();
         }
+
+        final ResponseHandler pollingResponseHandler = new ResponseHandler() {
+            @Override
+            public void onSuccess(String data) {
+                notifySubscriptionEventListeners(portName, data);
+            }
+
+            @Override
+            public void onError(Error error, String errorData) {
+                DICommLog.e(DICommLog.LOCAL_SUBSCRIPTION, String.format(Locale.US, "Subscription - onError, error [%s], message [%s]", error, errorData));
+            }
+        };
+
+        final PollingSubscription subscription = createPollingSubscription(subscriptionTtl, portParameters, pollingResponseHandler);
+        this.subscriptionsCache.put(portParameters, subscription);
+
         responseHandler.onSuccess(EMPTY_JSON_OBJECT_STRING);
+    }
+
+    @NonNull
+    protected PollingSubscription createPollingSubscription(final int subscriptionTtl, final PortParameters portParameters, final ResponseHandler responseHandler) {
+        return new PollingSubscription(this, portParameters, subscriptionPollingInterval, subscriptionTtl * 1000, responseHandler);
     }
 
     @Override
@@ -208,11 +220,12 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
      */
     @Override
     public void disableCommunication() {
-        if (isAvailable() && requestExecutor.getQueue().isEmpty() && requestExecutor.getActiveCount() == 0) {
+        disconnectAfterRequest.set(true);
+
+        if (isAvailable() && requestExecutor.isIdle()) {
             SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
             device.disconnect();
         }
-        disconnectAfterRequest.set(true);
     }
 
     @VisibleForTesting

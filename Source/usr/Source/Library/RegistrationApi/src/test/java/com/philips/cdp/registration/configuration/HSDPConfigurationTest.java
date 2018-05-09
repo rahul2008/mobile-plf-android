@@ -34,7 +34,7 @@ public class HSDPConfigurationTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        URInterface.setComponent(component);
+        RegistrationConfiguration.getInstance().setComponent(component);
         hsdpConfiguration = new HSDPConfiguration();
         hsdpConfiguration.setAppInfraWrapper(appInfraWrapperMock);
     }

@@ -1,4 +1,4 @@
-include ':hsdp', ':HockeySDK-3.0.2'
+include ':hsdp'
 include ':jump'
 include ':RegistrationApi'
 include ':coppa'

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="MYA_My_account">Моят акаунт</string>
+<string name="MYA_Profile">Профил</string>
+<string name="MYA_Settings">Настройки</string>
+<string name="MYA_My_details">Моите данни</string>
+<string name="MYA_My_products">Моите продукти</string>
+<string name="MYA_My_subscriptions">Моите абонаменти</string>
+<string name="MYA_My_orders">Мои поръчки</string>
+<string name="MYA_Logout">Изход</string>
+<string name="MYA_Account_settings">Настройки на акаунта</string>
+<string name="MYA_Country">Държава</string>
+<string name="MYA_Notifications">Известия</string>
+<string name="MYA_Privacy_Settings">Настройки за поверителност</string>
+<string name="MYA_Login_details">Данни за влизане</string>
+<string name="MYA_Email_address">Имейл адрес</string>
+<string name="MYA_Mobile_number">Мобилен номер</string>
+<string name="MYA_Personal_details">Лични данни</string>
+<string name="MYA_Name">Име</string>
+<string name="MYA_Gender">Пол</string>
+<string name="MYA_Date_of_birth">Дата на раждане</string>
+<string name="MYA_Address">Адрес</string>
+<string name="MYA_Cancel">Отказ</string>
+<string name="MYA_change_country">Отписване за промяна на държава</string>
+<string name="MYA_change_country_message">Моля, отпишете се, за да промените държавата, в която живеете. Това ще ни позволи да съобразим гаранцията и друга информация спрямо вашето местоположение</string>
+<string name="MYA_logout_title">Наистина ли искате да излезете?</string>
+<string name="MYA_logout_message">Ще бъдете отписани от приложението. След като се отпишете, винаги можете да се впишете отново.</string>
+<string name="MYA_Info">Искате ли да промените вашия ИД или парола за вписване? Посетете сайта ни.</string>
+<string name="MYA_Email_Validation_message">Имейл адресът не е потвърден</string>
+<string name="MYA_Not_Available">Няма</string>
+<string name="MYA_Ok">OK</string>
+<string name="MYA_Offline_title">Вие сте офлайн</string>
+<string name="MYA_Offline_message">Изглежда, че вашата интернет връзка не работи. Проверете и опитайте отново.</string>
+<string name="mya_Privacy_Settings_Desc">Контролирайте поверителността си. Прочетете _privacy notice_ за повече информация.</string>
+</resources>

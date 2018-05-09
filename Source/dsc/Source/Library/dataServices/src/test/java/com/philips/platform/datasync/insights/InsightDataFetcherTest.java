@@ -137,7 +137,7 @@ public class InsightDataFetcherTest {
         when(uCoreAdapterMock.getAppFrameworkClient(InsightClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(mInsightClient);
         when(mInsightClient.fetchInsights(TEST_USER_ID, TEST_USER_ID, UCoreAdapter.API_VERSION, "2017-03-21T10:19:51.706Z")).thenThrow(retrofitErrorMock);
         insightDataFetcher.fetchData();
-        verify(eventingMock).post(new BackendDataRequestFailed(any(RetrofitError.class)));
+        verify(eventingMock).post(new BackendDataRequestFailed((RetrofitError) any()));
     }
 
     @Test

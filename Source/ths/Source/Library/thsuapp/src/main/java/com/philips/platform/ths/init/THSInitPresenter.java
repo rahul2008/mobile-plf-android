@@ -21,13 +21,12 @@ import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
-import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
-import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 import java.net.MalformedURLException;
@@ -38,6 +37,7 @@ import javax.net.ssl.HttpsURLConnection;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CONSUMER_DETAILS;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_INITIALIZATION;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_CONSUMER_EXIST_CHECK;
+import static com.philips.platform.ths.utility.THSConstants.THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE;
 
 public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack<Void, THSSDKError>, THSCheckConsumerExistsCallback<Boolean, THSSDKError>, THSLoginCallBack<THSAuthentication, THSSDKError>, THSGetConsumerObjectCallBack {
 
@@ -60,22 +60,16 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         if (user == null || !user.isUserSignIn()) {
             mThsInitFragment.hideProgressBar();
             mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION, mThsInitFragment.getString(R.string.ths_user_not_logged_in), false);
-            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in));
+            mThsInitFragment.hideProgressBar();
+            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in),true,false);
             return;
         }
         try {
-            AmwellLog.i(AmwellLog.LOG, "Initialize - Call initiated from Client");
+            AmwellLog.i("initializeAwsdk", "Initialize - Call initiated from Client");
             THSManager.getInstance().initializeTeleHealth(mThsInitFragment.getContext(), this);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        } catch (AWSDKInitializationException e) {
-            e.printStackTrace();
-        } catch(IllegalArgumentException e){
-            mThsInitFragment.showError(mThsInitFragment.getString(R.string.initialization_failed));
+        } catch(Exception e){
+            AmwellLog.e("initializeAwsdk",e.toString());
+            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_initialization_failed));
         }
     }
 
@@ -84,7 +78,8 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
         if (sdkError.getSdkError() != null) {
             if (null != mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
-                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_INITIALIZATION, sdkError.getSdkError()));
+                AmwellLog.e("onInitializationResponse",sdkError.getSdkError().toString());
+                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(mThsInitFragment.getContext(), ANALYTICS_INITIALIZATION, sdkError.getSdkError()));
             }
         }else {
             checkForUserExisitance();
@@ -97,12 +92,15 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         if (null != mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
             mThsInitFragment.hideProgressBar();
             if (mThsInitFragment.getContext() != null) {
-                String errorMesage = "";
+                String errorMesage = mThsInitFragment.getFragmentActivity().getString(R.string.ths_se_server_error_toast_message);
                 if(null!=var1 && null!=var1.getMessage()){
-                    errorMesage=var1.getMessage();
+                    mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION,var1.getMessage(),false);//
+                    AmwellLog.e("onInitializationFailure",var1.toString());
+                    if(var1.getMessage().equalsIgnoreCase(THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE)){
+                        errorMesage=mThsInitFragment.getFragmentActivity().getString(R.string.ths_service_available_only_in_us);
+                    }
                 }
-                mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION,errorMesage,false);
-                mThsInitFragment.showError(mThsInitFragment.getFragmentActivity().getString(R.string.ths_se_server_error_toast_message),true);
+                mThsInitFragment.showError(errorMesage,true, false);
             }
         }
     }
@@ -113,7 +111,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             THSManager.getInstance().checkConsumerExists(mThsInitFragment.getContext(), this);
             //THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+            AmwellLog.e("checkForUserExisitance",e.toString());
         }
     }
 
@@ -125,7 +123,10 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
                 sdkError = thssdkError.getSdkError();
             }
             if (null != sdkError) {
-                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_CONSUMER_EXIST_CHECK, sdkError));
+
+                AmwellLog.e( "checkForUserExisitance", "onResponse: "+sdkError.toString());
+
+                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(mThsInitFragment.getContext(), ANALYTIC_CONSUMER_EXIST_CHECK, sdkError));
                 return;
             }
             if (aBoolean) {
@@ -142,7 +143,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             THSManager.getInstance().authenticateMutualAuthToken(mThsInitFragment.getContext(),this);
             // THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+            AmwellLog.e("authenticateUser",e.toString());
         }
     }
 
@@ -174,7 +175,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         if (sdkError.getSdkError() != null && sdkError.getHttpResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
             AmwellLog.d(AmwellLog.LOG,"OnLogin Response of Authenticate call - " + "UNAUTHORIZED");
             if (checkIfRefreshTokenWasTriedBefore()) {
-                AmwellLog.e("onLoginResponse ", sdkError.getSdkError().getMessage());
+                AmwellLog.e("onLoginResponse ", sdkError.getSdkError().toString());
                 mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_authenticated));
                 return;
             }
@@ -233,10 +234,14 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         mThsInitFragment.hideProgressBar();
         if (sdkError == null) {
-           launchWelcomeScreen();
+            if(mThsInitFragment.isDeeplinkingFlow()){
+                launchAppointmentList();
+            }else {
+                launchWelcomeScreen();
+            }
 //            launchOnBoardingScreen();
         } else {
-            mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CONSUMER_DETAILS, sdkError));
+            mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(mThsInitFragment.getContext(), ANALYTICS_CONSUMER_DETAILS, sdkError));
         }
 
     }
@@ -258,6 +263,13 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             return true;
         }
         return false;
+    }
+
+    protected void launchAppointmentList(){
+        mThsInitFragment.hideProgressBar();
+        mThsInitFragment.popSelfBeforeTransition();
+        mThsInitFragment.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
+
     }
 
 }

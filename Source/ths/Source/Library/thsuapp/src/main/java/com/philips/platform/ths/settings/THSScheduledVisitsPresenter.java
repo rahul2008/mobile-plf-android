@@ -6,6 +6,8 @@
 
 package com.philips.platform.ths.settings;
 
+import android.support.v4.app.FragmentManager;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.visit.Appointment;
@@ -17,17 +19,25 @@ import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
+import com.philips.platform.ths.visit.THSConfirmationDialogFragment;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
 import java.util.List;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CANCEL_APPOINTMENT;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_APPOINTMENTS;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_CANCEL_APPOINTMENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppointmentsCallback<List<Appointment>, THSSDKError>, THSInitializeCallBack<Void, THSSDKError> {
 
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
+
+
+
+    Appointment mAppointment;
 
     public THSScheduledVisitsPresenter(THSScheduledVisitsFragment thsScheduledVisitsFragment) {
         mThsScheduledVisitsFragment = thsScheduledVisitsFragment;
@@ -35,7 +45,13 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
 
     @Override
     public void onEvent(int componentID) {
-
+        if (componentID == R.id.ths_confirmation_dialog_primary_button) {
+            cancelAppointment(mAppointment);
+            stopRefreshing();
+            THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_APPOINTMENT,THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT);
+        } else if (componentID == R.id.ths_confirmation_dialog_secondary_button) {
+            THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_APPOINTMENT,THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT);
+        }
     }
 
     void cancelAppointment(Appointment appointment) {
@@ -43,7 +59,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
             mThsScheduledVisitsFragment.startRefreshing();
             THSManager.getInstance().cancelAppointment(mThsScheduledVisitsFragment.getContext(), appointment, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -54,18 +70,21 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
     @Override
     public void onResponse(List<Appointment> appointments, SDKError sdkError) {
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
+            if(null==sdkError){
+
+            }
             mThsScheduledVisitsFragment.stopRefreshing();
-            AmwellLog.i(AmwellLog.LOG, "appoint response");
+            AmwellLog.i(AmwellLog.LOG, "appointment response");
             mThsScheduledVisitsFragment.updateList(appointments);
             stopRefreshing();
-        }
+           }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
             mThsScheduledVisitsFragment.doTagging( ANALYTICS_FETCH_APPOINTMENTS,mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),false);
-            mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),true);
+            mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),true, false);
             stopRefreshing();
         }
     }
@@ -75,14 +94,16 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
             if(var2.getSdkError() != null){
                 if(var2.getSDKErrorReason() != null){
-                    mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CANCEL_APPOINTMENT, var2.getSdkError()));
+                    mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(mThsScheduledVisitsFragment.getContext(), ANALYTICS_CANCEL_APPOINTMENT, var2.getSdkError()));
                     return;
                 }else {
-                    mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CANCEL_APPOINTMENT,var2.getSdkError()));
+                    mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(mThsScheduledVisitsFragment.getContext(), ANALYTICS_CANCEL_APPOINTMENT,var2.getSdkError()));
                 }
             }else {
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "specialEvents", "appointmentsCancelled");
-                mThsScheduledVisitsFragment.onRefresh();
+               // mThsScheduledVisitsFragment.onRefresh();
+                mThsScheduledVisitsFragment.popSelfBeforeTransition();
+                mThsScheduledVisitsFragment.addFragment(new THSAppointmentCancelledConfirmation(),THSAppointmentCancelledConfirmation.TAG,null,true );
             }
         }
     }
@@ -94,5 +115,13 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
 
     public void stopRefreshing(){
         mThsScheduledVisitsFragment.stopRefreshing();
+    }
+
+    public void setAppointment(Appointment mAppointment) {
+        this.mAppointment = mAppointment;
+    }
+
+    public Appointment getAppointment() {
+        return mAppointment;
     }
 }

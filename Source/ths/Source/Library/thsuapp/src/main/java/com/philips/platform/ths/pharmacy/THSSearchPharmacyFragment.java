@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -36,6 +36,7 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     private String zipSearchString = null;
     private List<Pharmacy> pharmacies;
     private RelativeLayout linearLayout;
+    static final long serialVersionUID = 42L;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
         searchPharmacy.setDecoySearchViewHint(R.string.ths_pharmacy_search_hint);
         actionBarListener = getActionBarListener();
         if(null != actionBarListener){
-            actionBarListener.updateActionBar(R.string.search_pharmacy_fragment_name,true);
+            actionBarListener.updateActionBar(R.string.ths_search_pharmacy_fragment_name,true);
         }
         return view;
     }
@@ -66,7 +67,7 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SEARCH_PHARMACY,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_SEARCH_PHARMACY,null,null);
 
     }
 

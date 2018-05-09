@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -16,7 +16,6 @@ import android.widget.ListView;
 
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
@@ -37,15 +36,13 @@ public class MismatchedPinAppliancesFragment extends Fragment {
         commCentral = CommlibUapp.get().getDependencies().getCommCentral();
         applianceAdapter = new ApplianceAdapter(getContext());
 
-        final ListView listViewAppliances = (ListView) rootview.findViewById(R.id.cml_listViewAppliances);
+        final ListView listViewAppliances = rootview.findViewById(R.id.cml_listViewAppliances);
         listViewAppliances.setAdapter(applianceAdapter);
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 final Appliance appliance = applianceAdapter.getItem(position);
-                CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
-
-                CommlibUapp.get().nextFragment(new ApplianceFragment());
+                CommlibUapp.get().nextFragment(ApplianceFragmentFactory.newInstance(ApplianceFragment.class, appliance));
             }
         });
 

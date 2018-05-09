@@ -35,6 +35,7 @@ public class UIDClickableSpan extends ClickableSpan {
      * Init the span with custom {@link Runnable}.
      *
      * @param clickRunnable to be called on click
+     *                      @since 3.0.0
      */
     public UIDClickableSpan(Runnable clickRunnable) {
         this.clickRunnable = clickRunnable;
@@ -45,6 +46,7 @@ public class UIDClickableSpan extends ClickableSpan {
      * Supported states are default color, {@code android.R.attr.state_pressed} and {@code R.attr.uid_state_visited}
      *
      * @param colorStateList for the span
+     *                       @since 3.0.0
      */
     public void setColors(ColorStateList colorStateList) {
         colorList = colorStateList;
@@ -59,6 +61,7 @@ public class UIDClickableSpan extends ClickableSpan {
      * Returns colors applied on span.
      *
      * @return colors applied on span.
+     * @since 3.0.0
      */
     public ColorStateList getColors() {
         return colorList;
@@ -68,6 +71,7 @@ public class UIDClickableSpan extends ClickableSpan {
      * Changes the state to pressed.
      *
      * @param pressed to mark as pressed.
+     *                @since 3.0.0
      */
     public void setPressed(boolean pressed) {
         this.isPressed = pressed;
@@ -77,6 +81,7 @@ public class UIDClickableSpan extends ClickableSpan {
      * Changes the state to visited.
      *
      * @param visited to mark as visited.
+     *                @since 3.0.0
      */
     public void setVisited(boolean visited) {
         this.isVisited = visited;
@@ -86,6 +91,7 @@ public class UIDClickableSpan extends ClickableSpan {
      * Tag can be set on the span for the unique identification.
      *
      * @param tag for the span.
+     *            @since 3.0.0
      */
     public void setTag(CharSequence tag) {
         this.tag = tag;
@@ -95,6 +101,7 @@ public class UIDClickableSpan extends ClickableSpan {
      * Tag associated with the span.
      *
      * @return tag with the span
+     * @since 3.0.0
      */
     public CharSequence getTag() {
         return tag;
@@ -104,6 +111,7 @@ public class UIDClickableSpan extends ClickableSpan {
      * Returns visited state of span.
      *
      * @return visited or not.
+     * @since 3.0.0
      */
     public boolean isVisited() {
         return isVisited;
@@ -113,6 +121,7 @@ public class UIDClickableSpan extends ClickableSpan {
      * Returns pressed state of span.
      *
      * @return pressed or not.
+     * @since 3.0.0
      */
     public boolean isPressed() {
         return isPressed;
@@ -122,6 +131,7 @@ public class UIDClickableSpan extends ClickableSpan {
      * Sets whether to include underline in span, defaults to true.
      *
      * @param shouldDrawUnderline draw underline or not.
+     *                            @since 3.0.0
      */
     @SuppressWarnings("unused")
     public void shouldDrawUnderline(boolean shouldDrawUnderline) {

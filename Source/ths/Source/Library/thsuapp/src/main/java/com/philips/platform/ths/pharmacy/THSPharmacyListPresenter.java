@@ -10,7 +10,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
@@ -53,7 +52,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         try {
             THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsConsumerWrapper, city, state, zipCode, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -61,12 +60,12 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         try {
             THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsConsumerWrapper, latitude, longitude, radius, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> map) {
+    public void onValidationFailure(Map<String, String> map) {
         if (null != thsPharmacyListViewListener && null != thsPharmacyListViewListener.getFragmentActivity()) {
             thsPharmacyListViewListener.hideProgressBar();
             thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_validation_error));
@@ -79,11 +78,12 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         if (null != thsPharmacyListViewListener && null != thsPharmacyListViewListener.getFragmentActivity()) {
             thsPharmacyListViewListener.hideProgressBar();
             if (null != sdkError) {
-                thsPharmacyListViewListener.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_PHARMACY, sdkError));
+                thsPharmacyListViewListener.showError(THSSDKErrorFactory.getErrorType(thsPharmacyListViewListener.getFragmentActivity(), ANALYTICS_PHARMACY, sdkError));
             } else {
                 if (null == pharmacies || pharmacies.size() == 0) {
                     thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));
                 }
+                thsPharmacyListViewListener.updatePharmacyList(pharmacies);
                 thsPharmacyListViewListener.updatePharmacyListView(pharmacies);
             }
         }
@@ -103,7 +103,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         try {
             THSManager.getInstance().updateConsumerPreferredPharmacy(thsPharmacyListViewListener.getFragmentActivity(), pharmacy, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 

@@ -4,18 +4,25 @@ apply plugin: 'maven-publish'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
 
+//apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -23,10 +30,10 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'
+        classpath deps.retrolambda_gradle
+        classpath deps.butterknife_gradle
     }
 }
 
@@ -36,15 +43,21 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "hsdp"
 
 repositories {
     maven {
-        url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+        url repos.releaseexternal
         credentials {
             username = "readonly"
             password = "123qweasdzxc"
@@ -60,7 +73,6 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.usr_hsdp)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -74,7 +86,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -84,7 +96,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -100,9 +113,9 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -115,12 +128,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionName version
         testApplicationId "com.philips.dhpclient.test"
 
@@ -128,7 +141,6 @@ android {
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-
 
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml
@@ -163,69 +175,57 @@ android {
 
         debug {
             debuggable true
-            testCoverageEnabled false
-        }
-
-        lintOptions {
-            abortOnError false
         }
     }
+
+    publishNonDefault true
 }
 
 
 dependencies {
+    def dp = project.ext.has('useprojectdependencies')
+
+    if (dp) {
+        debugCompile project(path: ':jump', configuration: 'debug')
+        releaseCompile project(path: ':jump', configuration: 'release')
+    } else {
+        compile project(':jump')
+    }
+
+    provided deps.javax_annotation
+
+    annotationProcessor deps.immutables
+    annotationProcessor deps.dagger.compiler
+    annotationProcessor deps.frankiesardo_value_processor
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.1')
-    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.1')
-    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.1')
-    /*   androidTestCompile project(':dexmaker-mockito-1.4')
-       androidTestCompile project(':dexmaker-1.4')
-       androidTestCompile project(':dexmaker-dx-1.4')
-       androidTestCompile project(':mockito-all-1.10.19')*/
+    compile deps.apache
+    compile deps.dagger.dagger
+    compile deps.jackson_annotations
+    compile deps.jackson_core
+    compile deps.jackson_databind
+    compile deps.multidex
+    compile deps.rxjava2
+    compile deps.support.appcompatv7
 
+    testCompile deps.frankiesardo_value
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.robolectric
 
-    androidTestCompile 'junit:junit:4.12'
-  //  androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-   // androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    annotationProcessor 'org.immutables:value:2.4.4'
+    // JUnit4 Rules
+    androidTestCompile deps.android_testrules
+    // Android JUnit Runner
+    androidTestCompile deps.android_testrunner
+    androidTestCompile deps.dexmaker_google
+    androidTestCompile deps.frankiesardo_value
+    androidTestCompile deps.junit
+    androidTestCompile deps.mockito_android
 
-    compile 'com.google.dagger:dagger:2.11'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
-    annotationProcessor 'com.github.frankiesardo:android-auto-value-processor:0.1'
-    androidTestCompile 'com.github.frankiesardo:android-auto-value:0.1'
-    annotationProcessor 'com.github.frankiesardo:android-auto-value-processor:0.1'
-    testCompile 'com.github.frankiesardo:android-auto-value:0.1'
-
-    provided 'javax.annotation:jsr250-api:1.0'
-    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.5.1'
-
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-
-
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    androidTestCompile 'org.mockito:mockito-android:2.7.22'
-
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-all:1.10.17'
-    testCompile "org.robolectric:robolectric:3.1.1"
-
-// Android JUnit Runner
-    androidTestCompile 'com.android.support.test:runner:0.5'
-
-// JUnit4 Rules
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    compile(project (':jump'))
-
+    retrolambdaConfig deps.retrolambda
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

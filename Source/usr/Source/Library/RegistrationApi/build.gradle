@@ -5,25 +5,26 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
-apply plugin: 'jacoco'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
-
+//apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -32,11 +33,11 @@ buildscript {
     }
     dependencies {
 
-        classpath 'com.android.tools.build:gradle:2.3.2'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'
+        classpath deps.retrolambda_gradle
+        classpath deps.butterknife_gradle
     }
 }
 
@@ -46,16 +47,23 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "registrationApi"
 
 allprojects {
     repositories {
+
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -73,11 +81,8 @@ allprojects {
     apply plugin: 'com.jfrog.artifactory'
 
     group = 'com.philips.cdp'
-    
-}
 
-group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.usr_registrationApi)
+}
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -92,7 +97,7 @@ artifactory {
             publishIvy = false
             publishBuildInfo = true
             publishArtifacts = true
-            publications ('aar')
+            publications('aar')
             properties = ['git.commitid': objcdp.getCommitHashLong()]
         }
     }
@@ -112,12 +117,6 @@ artifacts {
     archives zipDoc
 }
 
-task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 publishing {
@@ -135,9 +134,9 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -150,13 +149,13 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.cdp.registration.test"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -185,14 +184,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
             consumerProguardFiles 'proguard-rules-usr.pro'
-            proguardFiles 'proguard-rules-usr.pro'
         }
 
         debug {
-            testCoverageEnabled true
-            minifyEnabled false
             debuggable true
         }
     }
@@ -204,6 +199,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    publishNonDefault true
 }
 
 configurations.all {
@@ -213,62 +209,57 @@ configurations.all {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':jump')
-    compile project(':hsdp')
-    compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile deps.constraintlayout
+
 
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
-        compile(project(':uid'))
+    if (dp) {
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
+        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
+        debugCompile project(path: ':jump', configuration: 'debug')
+        releaseCompile project(path: ':jump', configuration: 'release')
+        debugCompile project(path: ':hsdp', configuration: 'debug')
+        releaseCompile project(path: ':hsdp', configuration: 'release')
+        debugCompile project(path: ':pif', configuration: 'debug')
+        releaseCompile project(path: ':pif', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-            transitive = true
-        }
+        compile philipsdeps.uid
+        compile philipsdeps.uAppFwLib
+        compile project(':jump')
+        compile project(':hsdp')
     }
 
-    compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-
-    if(dp) {
-        compile(project(':uAppFwLib'))
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
-            transitive = true
-        }
-    }
-
-    compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.8.2'
-
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
-    compile 'com.google.dagger:dagger:2.11'
-    provided 'javax.annotation:jsr250-api:1.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
-    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.5.1'
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.robolectric:robolectric-utils:3.4-rc2'
-    testCompile 'org.robolectric:robolectric-junit:3.4-rc2'
-    testCompile 'org.robolectric:robolectric:3.4-rc2'
-    testCompile 'org.robolectric:robolectric:3.3.1'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
-    androidTestCompile 'com.android.support.test:runner:0.5'
+    compile deps.libphonenumber
+    annotationProcessor deps.butterknife_compiler
+    compile deps.butterknife
+    annotationProcessor deps.dagger.compiler
+    compile deps.dagger.dagger
+    provided deps.javax_annotation
+    compile deps.rxjava2
+    compile deps.rxbinding
+    retrolambdaConfig deps.retrolambda
+    androidTestCompile deps.junit
+    androidTestCompile deps.dexmaker_google
+    androidTestCompile deps.dexmaker_google_mockito
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.robolectric_utils
+    testCompile deps.robolectric_junit2
+    testCompile deps.robolectric
+    testCompile deps.robolectric_shadows
+    androidTestCompile deps.android_testrunner
     // Set this dependency to use JUnit 4 rules
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile deps.android_testrules
     // Set this dependency to build and run Espresso tests
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile deps.espresso_core
     // Set this dependency to build and run UI Automator tests
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'org.greenrobot:eventbus:3.0.0'
+    androidTestCompile deps.uiautomator
+    compile deps.support.supportv4
+    compile deps.greenrobot
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
@@ -313,44 +304,7 @@ def coverageSourceDirs = [
         '../RegistrationApi/src/main/java'
 ]
 
-/*task jacocoTestReport(type: JacocoReport, dependsOn:["testDebugUnitTest"]) {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../RegistrationApi/build/intermediates/classes/debug',
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    //executionData = files('build/jacoco/testDebugUnitTest.exec')
-
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}*/
-
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
-    def mainSrc = "$project.projectDir/src/main/java"
-
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
-}
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

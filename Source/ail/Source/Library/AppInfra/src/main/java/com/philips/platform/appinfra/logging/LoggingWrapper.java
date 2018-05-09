@@ -8,12 +8,15 @@ package com.philips.platform.appinfra.logging;
 
 import com.philips.platform.appinfra.AppInfra;
 
+import java.io.Serializable;
+
 /**
  * The Wrapper class for AppInfraLogging.
  */
-public class LoggingWrapper extends AppInfraLogging {
+public class LoggingWrapper extends AppInfraLogging implements Serializable {
 
 
+    private static final long serialVersionUID = -3376921243079279214L;
 
     public LoggingWrapper(AppInfra appInfra, String componentId, String componentVersion) {
         super(appInfra);

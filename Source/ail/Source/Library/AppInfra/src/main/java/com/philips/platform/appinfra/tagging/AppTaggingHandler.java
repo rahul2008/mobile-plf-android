@@ -53,10 +53,9 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
 /**
  * A Wrapper class forAppTaggingHandler.
  */
- public class AppTaggingHandler {
+public class AppTaggingHandler {
     private static String prevPage;
     private final AppInfra mAppInfra;
-    private String mLanguage;
     private String mComponentID;
     private String mComponentVersion;
 
@@ -91,7 +90,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
     /**
      * Reading from Adobe json
      */
-     protected JSONObject getMasterADBMobileConfig() {
+    protected JSONObject getMasterADBMobileConfig() {
         JSONObject result = null;
         try {
             final InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
@@ -170,12 +169,11 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
     }
 
     private String getLanguage() {
-        if (mLanguage == null) {
+            String mLanguage;
             final String uiLocale = mAppInfra.getInternationalization().getUILocaleString();
             mLanguage = uiLocale.substring(0, 2);
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                     AppInfraLogEventID.AI_TAGGING, "Tagging" + mLanguage);
-        }
         return mLanguage;
     }
 
@@ -213,7 +211,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
         return mPrivacyStatus;
     }
 
-     void setPrivacyStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
+    void setPrivacyStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
         switch (privacyStatus) {
             case OPTIN:
                 Analytics.trackAction("analyticsOptIn", null);
@@ -237,15 +235,15 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
     }
 
     protected boolean checkForProductionState() {
-            if (mAppInfra.getAppIdentity() != null) {
-                try {
-                    return !mAppInfra.getAppIdentity().
-                            getAppState().toString().equalsIgnoreCase("Production");
-                } catch (Exception e) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                            AppInfraLogEventID.AI_TAGGING, "Tagging" + e);
-                }
+        if (mAppInfra.getAppIdentity() != null) {
+            try {
+                return !mAppInfra.getAppIdentity().
+                        getAppState().toString().equalsIgnoreCase("Production");
+            } catch (Exception e) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                        AppInfraLogEventID.AI_TAGGING, "Tagging" + e);
             }
+        }
         return false;
     }
 
@@ -369,37 +367,37 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
     }
 
     void setPrevPage(String prevPage) {
-        this.prevPage = prevPage;
+        AppTaggingHandler.prevPage = prevPage;
     }
 
     boolean enableAdobeLogs(){
         final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
                 .AppConfigurationError();
         /*if (mAppInfra.getConfigInterface() != null) {*/
-            try {
-                final Object loglevelEnabled = mAppInfra.getConfigInterface().getPropertyForKey
-                        ("enableAdobeLogs", "appinfra", configError);
+        try {
+            final Object loglevelEnabled = mAppInfra.getConfigInterface().getPropertyForKey
+                    ("enableAdobeLogs", "appinfra", configError);
 
-                if(loglevelEnabled!=null && loglevelEnabled instanceof Boolean) {
-                    final Boolean adobeLogLevelEnabled = (Boolean) loglevelEnabled;
-                    if(adobeLogLevelEnabled){
-                        Config.setDebugLogging(true);
-                        return true;
-                    }
-                    else
-                    {
-                        Config.setDebugLogging(false);
-                        return false;
-                    }
-
+            if(loglevelEnabled!=null && loglevelEnabled instanceof Boolean) {
+                final Boolean adobeLogLevelEnabled = (Boolean) loglevelEnabled;
+                if(adobeLogLevelEnabled){
+                    Config.setDebugLogging(true);
+                    return true;
+                }
+                else
+                {
+                    Config.setDebugLogging(false);
+                    return false;
                 }
 
-            } catch (Exception e) {
-                if (mAppInfra != null) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                            AppInfraLogEventID.AI_TAGGING, "Error in Enable Adobe Log" + e.getMessage());
-                }
             }
-            return false;
+
+        } catch (Exception e) {
+            if (mAppInfra != null) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                        AppInfraLogEventID.AI_TAGGING, "Error in Enable Adobe Log" + e.getMessage());
+            }
+        }
+        return false;
     }
 }

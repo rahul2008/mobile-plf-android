@@ -19,7 +19,7 @@
     <string name="product_info"> informacije o proizvodu </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Učitavanje </string>
-    <string name="please_wait"> Pričekajte &amp;#8230; </string>
+    <string name="dcc_please_wait"> Pričekajte &amp;#8230; </string>
     <string name="get_directions"> Zatražite upute </string>
     <string name="search"> Traži </string>
     <string name="gps_disabled"> GPS je onemogućen na vašem uređaju. Želite li ga omogućiti? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Lozinka </string>
     <string name="sign_into_my_philips"> Prijavite se na račun My Philips </string>
     <string name="forgot_my_password"> Zaboravio/la sam svoju lozinku &gt;  </string>
-    <string name="create_account">  Izrada računa &gt; </string>
+    <string name="dcc_create_account">  Izrada računa &gt; </string>
 
     <string name="localtephilips_contactus">Idi na stranicu za kontakt</string>
 
@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Pomoć i podrška</string>
     <string name="dcc_Call">Pozovi</string>
     <string name="dcc_Opening_Hours">Radno vrijeme</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Odustani</string>
+    <string name="dcc_location_consent_title">Suglasnost za lokaciju</string>
+    <string name="dcc_location_consent_definition_text">Dopuštam tvrtki Philips da pistupi podacima o mojoj lokaciji u sklopu opcije \"Pronađite Philips u svojoj blizini\".</string>
+    <string name="dcc_location_consent_definition_help_text">Kada dopustite pristup podacima o lokaciji, možemo prikupiti zemljopisnu lokaciju mobilnog uređaja.\n\nKada koristite opciju \"Pronađite Philips u svojoj blizini\" na stranici podrške, morate podijeliti svoje podatke o lokaciji s tvrtkom Philips. Ako upotrebljavate naše značajke o lokaciji, na temelju vaših podataka o lokaciji usmjerit ćemo vas u prodavaonicu u vašoj blizini ili na podatke za kontakt službe za korisničku podršku u vašoj državi.</string>
 
 </resources>

@@ -40,11 +40,12 @@ import java.util.List;
  * Created by arbin on 24/04/2017.
  */
 
+@SuppressWarnings("serial")
 public class FaqListFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = FaqListFragment.class.getSimpleName();
-    private CommonRecyclerViewAdapter mFaqListAdapter;
-    private LinkedHashMap<String, CommonRecyclerViewAdapter> mGroupAdapters;
+    private CommonRecyclerViewAdapter<String> mFaqListAdapter;
+    private LinkedHashMap<String, CommonRecyclerViewAdapter<Item>> mGroupAdapters;
     private RecyclerView mFaqList = null;
     private LinkedHashMap<String, List<Item>> mSupportData = null;
     private View view = null;
@@ -96,7 +97,7 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                 TextView showMoreOrLess = (TextView) holder.itemView.findViewById(R.id.faq_list_item_header_show_more_less);
                 RecyclerView questingList = (RecyclerView) holder.itemView.findViewById(R.id.faq_list_item_recycle_view);
                 int groupSize =getQuestionGroupSize(groupName);
-                if(groupSize <5){
+                if(groupSize <= 5){
                     showMoreOrLess.setVisibility(View.GONE);
                 }else{
                     makeTextViewHyperlink(showMoreOrLess);
@@ -105,9 +106,10 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                 }
 
                 title.setText(groupName + "(" + groupSize + ")");
+                title.setSelected(true);
                 questingList.setLayoutManager(new LinearLayoutManager(getContext()));
                 questingList.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
-                CommonRecyclerViewAdapter questingListAdapter = new CommonRecyclerViewAdapter<Item>(getQuestionItems(groupName, false), R.layout.consumercare_icon_right_button) {
+                CommonRecyclerViewAdapter<Item> questingListAdapter = new CommonRecyclerViewAdapter<Item>(getQuestionItems(groupName, false), R.layout.consumercare_icon_right_button) {
                     @Override
                     public void bindData(RecyclerView.ViewHolder holder, Item question) {
                         Label title = (Label) holder.itemView.findViewById(R.id.icon_button_text1);

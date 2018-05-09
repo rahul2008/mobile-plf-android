@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 /**
  * Product Support Request class
+ * @since 1.0.0
  */
 public class ProductSupportRequest extends PrxRequest {
 

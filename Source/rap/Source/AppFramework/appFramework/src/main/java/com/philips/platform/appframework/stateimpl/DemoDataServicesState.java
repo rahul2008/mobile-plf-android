@@ -1,8 +1,9 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appframework.stateimpl;
 
 import android.app.Notification;
@@ -47,6 +48,8 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
+import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.textResources;
+
 public class DemoDataServicesState extends DemoBaseState
         implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
 
@@ -69,9 +72,8 @@ public class DemoDataServicesState extends DemoBaseState
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        dsDemoAppuAppInterface.launch(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,
-                        getDLSThemeConfiguration(mContext.getApplicationContext()), 0, null), null);
+        dsDemoAppuAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,
+                getDLSThemeConfiguration(mContext.getApplicationContext()), 0, null), null);
     }
 
     @Override
@@ -99,7 +101,7 @@ public class DemoDataServicesState extends DemoBaseState
 
     @NonNull
     protected DSDemoAppuAppDependencies getUappDependencies(Context context) {
-        return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra());
+        return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra(), textResources);
     }
 
     @NonNull
@@ -144,8 +146,7 @@ public class DemoDataServicesState extends DemoBaseState
      * @param message GCM message received.
      */
     private void sendNotification(String message) {
-        NotificationManager notificationManager =
-                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(PRIMARY_CHANNEL_ID,
@@ -170,7 +171,6 @@ public class DemoDataServicesState extends DemoBaseState
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
-
 
         Random r = new Random();
         int i1 = r.nextInt(80 - 65) + 65;
@@ -213,5 +213,3 @@ public class DemoDataServicesState extends DemoBaseState
         return new User(appContext).isUserSignIn();
     }
 }
-
-

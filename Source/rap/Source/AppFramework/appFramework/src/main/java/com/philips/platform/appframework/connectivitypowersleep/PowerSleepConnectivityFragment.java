@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.platform.appframework.connectivitypowersleep;
 
 import android.animation.ObjectAnimator;
@@ -22,15 +21,16 @@ import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
-import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIView;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -66,7 +66,6 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     private final String SLEEP_PROGRESS_VIEW_PROPERTY = "scoreAngle";
     private final int PROGRESS_SCORE_MAX = 360;
     private final int PROGRESS_PERCENTAGE_MAX = 100;
-    private final int IDEAL_DEEP_SLEEP_TIME = 120;
     private final int PROGRESS_DRAW_TIME = 1500;
     private User user;
 
@@ -75,6 +74,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     private DataServicesManager dataServicesManager;
 
     private View view;
+
 
     @Override
     public void onAttach(Context context) {
@@ -93,24 +93,27 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
 
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         RALog.d(TAG, "Connectivity Fragment Oncreate");
         super.onCreate(savedInstanceState);
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
-        connectivityFragmentWeakReference = new WeakReference<PowerSleepConnectivityFragment>(this);
-        dataServicesManager=getDataServicesManager();
-        connectivityHelper=new ConnectivityHelper();
-        user=new User(getActivity());
-        if(user.isUserSignIn()) {
-            dataServicesManager.registerSynchronisationCompleteListener(this);
-            dataServicesManager.synchronize();
-        }else{
-            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"User not logged in");
-            showToast("Please sign in!");
+        if (!(savedInstanceState != null && !AppFrameworkApplication.isAppDataInitialized())) {
+            connectivityFragmentWeakReference = new WeakReference<PowerSleepConnectivityFragment>(this);
+            dataServicesManager = getDataServicesManager();
+            connectivityHelper = new ConnectivityHelper();
+            user = new User(getActivity());
+            if (user.isUserSignIn()) {
+                dataServicesManager.registerSynchronisationCompleteListener(this);
+                dataServicesManager.synchronize();
+            } else {
+                RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "User not logged in");
+                showToast("Please sign in!");
+            }
+            mBluetoothAdapter = getBluetoothAdapter();
         }
-        mBluetoothAdapter = getBluetoothAdapter();
     }
 
 
@@ -140,11 +143,27 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         insights.setOnClickListener(this);
         insights.setEnabled(true);
         insights.setAlpha(0.5f);
-        mCommCentral = getCommCentral(ConnectivityDeviceType.POWER_SLEEP);
+        mCommCentral = getCommCentral();
 
         setHasOptionsMenu(true);
         startAppTagging(TAG);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dataServicesManager.registerSynchronisationCompleteListener(this);
+        if(!user.isUserSignIn()) {
+            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"User not logged in");
+            showToast("Please sign in!");
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        dataServicesManager.unRegisterSynchronisationCosmpleteListener();
     }
 
     protected PowerSleepConnectivityPresenter getConnectivityPresenter() {
@@ -277,15 +296,15 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
             @Override
             public void run() {
                 RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,message);
-                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
             }
         });
     }
 
-
     @Override
     public void onDestroy() {
         RALog.d(TAG, " Connectivity Fragment Destroyed");
+
         connectivityFragmentWeakReference = null;
         user=null;
         super.onDestroy();
@@ -321,6 +340,22 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     @Override
     public void onSyncFailed(Exception e) {
         showToast("Sync failed");
+        new User(getActivity()).refreshLoginSession(new RefreshLoginSessionHandler() {
+            @Override
+            public void onRefreshLoginSessionSuccess() {
+                RALog.d(TAG,"Login Token refresh successful");
+            }
+
+            @Override
+            public void onRefreshLoginSessionFailedWithError(int i) {
+                RALog.d(TAG,"Error while refreshing login token");
+            }
+
+            @Override
+            public void onRefreshLoginSessionInProgress(String s) {
+                RALog.d(TAG,"Login Token refresh in progress");
+            }
+        });
     }
 
     @Override

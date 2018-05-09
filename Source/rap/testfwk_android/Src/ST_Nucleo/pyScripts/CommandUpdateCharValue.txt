@@ -1,3 +1,0 @@
-import sys
-
-ACI_GATT_UPDATE_CHAR_VALUE(Service_Handle=ServHandle, Char_Handle=CharHandle, Val_Offset=0x00, Char_Value_Length = 0x01, Char_Value=0xaa )

@@ -6,13 +6,13 @@
 package com.philips.platform.appinfra.securestorage;
 
 
-
+import java.io.Serializable;
 import java.security.Key;
 
 /**
  * The interface Secure storage interface.
  */
-public interface SecureStorageInterface {
+public interface SecureStorageInterface extends Serializable {
 
 
     /**
@@ -61,6 +61,23 @@ public interface SecureStorageInterface {
     boolean createKey(KeyTypes keyType, String keyName, SecureStorageError error);
 
     /**
+     * Retruns true if passed user key is already present in Secure storage.
+     * If you want to save a data for a key its better to check if key is already present otherwise it will override already present data for that key.
+     * @param key
+     * @return
+     * @since 2018.2.0
+     */
+    boolean doesStorageKeyExist(String key);
+
+    /**
+     * After creating encryption key using createKey you can check whether key is already present for passed key using this method.
+     * @param key user key
+     * @return boolean
+     * @since 2018.2.0
+     */
+    boolean doesEncryptionKeyExist(String key);
+
+    /**
      * Retrieve value for Create Key .
      *
      * @param keyName the user key to access the password
@@ -83,7 +100,7 @@ public interface SecureStorageInterface {
 
 
     /**
-     * encrypt Data .
+     * Encrypt data.
      *
      * @param dataToBeEncrypted Plain Byte array
      * @return Encrypted Byte array
@@ -92,7 +109,16 @@ public interface SecureStorageInterface {
     byte[] encryptData(byte[] dataToBeEncrypted, SecureStorageError secureStorageError);
 
     /**
-     * decrypt Data .
+     * Encrypt bulk Data.Provides asynchronous behavior
+     *
+     * @param dataToBeEncrypted Plain Byte array
+     * @return Encrypted Byte array
+     * @since 2018.1.0
+     */
+    void encryptBulkData(byte[] dataToBeEncrypted,DataEncryptionListener dataEncryptionListener);
+
+    /**
+     * Decrypt data.
      *
      * @param dataToBeDecrypted Encrypted Byte array
      * @return Decrypted/Plain Byte array
@@ -100,20 +126,57 @@ public interface SecureStorageInterface {
      */
     byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError);
 
-    class SecureStorageError {
-        public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError,DeleteError, NoDataFoundForKey, NullData}
 
-        ;
+    /**
+     * Decrypt bulk daata.Provides asynchronous behavior
+     *
+     * @param dataToBeDecrypted Encrypted Byte array
+     * @return Decrypted/Plain Byte array
+     * @since 2018.1.0
+     */
+    void decryptBulkData(byte[] dataToBeDecrypted,DataDecryptionListener dataDecryptionListener);
+
+    class SecureStorageError {
+        public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError,DeleteError, NoDataFoundForKey, NullData,SecureKeyAlreadyPresent}
+
         private secureStorageError errorCode = null;
 
         public secureStorageError getErrorCode() {
             return errorCode;
         }
 
-        void setErrorCode(secureStorageError errorCode) {
+        public void setErrorCode(secureStorageError errorCode) {
             this.errorCode = errorCode;
         }
 
+        public String getErrorMessage() {
+            if (errorCode != null) {
+                switch (errorCode) {
+                    case AccessKeyFailure:
+                        return "Not able to access key";
+                    case UnknownKey:
+                        return "Unknown Key";
+                    case EncryptionError:
+                        return "Encryption Error";
+                    case DecryptionError:
+                        return "Decryption Error";
+                    case StoreError:
+                        return "Error while saving encrypted data";
+                    case DeleteError:
+                        return "Error while deleting";
+                    case NoDataFoundForKey:
+                        return "Not able to find data for given key";
+                    case NullData:
+                        return "Null data";
+                    case SecureKeyAlreadyPresent:
+                        return "Secure Key already present";
+                    default:
+                        return "Error in secure storage";
+
+                }
+            }
+            return "";
+        }
 
     }
 
@@ -131,4 +194,24 @@ public interface SecureStorageInterface {
      * @since 2.1.0
      */
     boolean deviceHasPasscode();
+
+    /**
+     * Callback will be from worker thread. Make sure that you update UI elements from Main Thread.
+     */
+    interface DataDecryptionListener {
+
+        void onDecryptionSuccess(byte[] decryptedData);
+
+        void onDecyptionError(SecureStorageError secureStorageError);
+    }
+
+    /**
+     * Callback will be from worker thread. Make sure that you update UI elements from Main Thread.
+     */
+    interface DataEncryptionListener {
+
+        void onEncryptionSuccess(byte[] encryptedData);
+
+        void onEncryptionError(SecureStorageError secureStorageError);
+    }
 }

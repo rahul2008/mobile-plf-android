@@ -8,13 +8,13 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigEnergyIntake;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Set;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anySet;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
@@ -111,7 +111,7 @@ public class SHNCapabilityConfigEnergyIntakeWrapperTest extends SHNCapabilityWra
         verify(capabilityMock).getSupportedMealTypes(internalResultListenerCaptor.capture());
         internalResultListenerCaptor.getValue().onActionCompleted(mealTypeSetMock, TEST_RESULT);
 
-        verify(mealTypeListenerMock, never()).onActionCompleted(anySet(), any(SHNResult.class));
+        verify(mealTypeListenerMock, never()).onActionCompleted(ArgumentMatchers.<SHNCapabilityConfigEnergyIntake.MealType>anySet(), any(SHNResult.class));
 
         captureUserHandlerRunnable().run();
 

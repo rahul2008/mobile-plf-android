@@ -14,6 +14,7 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/ths_fab_margin"
         android:layout_marginStart="@dimen/ths_fab_margin"
+        android:gravity="center_vertical"
         android:text="@string/dls_information"
         android:textAlignment="center"
         android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />

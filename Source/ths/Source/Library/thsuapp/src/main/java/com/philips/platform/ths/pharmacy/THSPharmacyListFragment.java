@@ -52,6 +52,7 @@ import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.utility.THSUtilities;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
@@ -66,10 +67,9 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 import static com.philips.platform.ths.utility.THSConstants.PHARMACY_SEARCH_CONSTANT;
 import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_MAP;
+import static com.philips.platform.ths.utility.THSConstants.THS_SHIPPING_ADDRESS;
 
-
-
-
+@SuppressWarnings("serial")
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
         THSPharmacyListViewListener {
 
@@ -111,11 +111,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         setUpAnimations();
         actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.pharmacy_list_fragment_name, true);
-        }
-        if (null != location && !isSearched) {
-            createCustomProgressBar(pharmacy_list_fragment_container, BIG);
-            thsPharmacyListPresenter.fetchPharmacyList(thsConsumerWrapper, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
+            actionBarListener.updateActionBar(R.string.ths_pharmacy_list_fragment_name, true);
         }
         return view;
     }
@@ -238,6 +234,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        if (null != location && !isSearched) {
+            createCustomProgressBar(pharmacy_list_fragment_container, BIG);
+            thsPharmacyListPresenter.fetchPharmacyList(thsConsumerWrapper, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
+        }
         if (null != pharmaciesList) {
             updatePharmacyListView(pharmaciesList);
         }
@@ -269,6 +269,13 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         showError(errorMessage);
     }
 
+    @Override
+    public void updatePharmacyList(List<Pharmacy> pharmacies) {
+        if(null != pharmacies){
+            pharmaciesList = pharmacies;
+        }
+    }
+
     /**
      * This method handles the filter for Mail order filtering only Mail order content.
      */
@@ -276,7 +283,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         pharmacy_segment_control_one.setSelected(false);
         pharmacy_segment_control_two.setSelected(true);
         if (null != pharmaciesList) {
-            updateView(filterList(pharmaciesList, PharmacyType.MailOrder));
+            updateView(filterList(pharmaciesList, PharmacyType.MAIL_ORDER));
         }
     }
 
@@ -288,7 +295,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         pharmacy_segment_control_one.setSelected(true);
         pharmacy_segment_control_two.setSelected(false);
         if (null != pharmaciesList) {
-            updateView(filterList(pharmaciesList, PharmacyType.Retail));
+            updateView(filterList(pharmaciesList, PharmacyType.RETAIL));
         }
     }
 
@@ -331,8 +338,8 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     @Override
     public void updatePharmacyListView(List<Pharmacy> pharmacies) {
-        pharmacyRetailList = filterList(pharmacies, PharmacyType.Retail);
-        pharmacyMailOrderList = filterList(pharmacies, PharmacyType.MailOrder);
+        pharmacyRetailList = filterList(pharmacies, PharmacyType.RETAIL);
+        pharmacyMailOrderList = filterList(pharmacies, PharmacyType.MAIL_ORDER);
         if (pharmacyRetailList.size() == 0 && pharmacyMailOrderList.size() > 0) {
             showMailOrderView();
         } else if (pharmacyMailOrderList.size() == 0 && pharmacyRetailList.size() > 0) {
@@ -387,12 +394,12 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
      * @param pharmacyType
      * @return
      */
-    private List<Pharmacy> filterList(List<Pharmacy> pharmacies, PharmacyType pharmacyType) {
+    private List<Pharmacy> filterList(List<Pharmacy> pharmacies, String pharmacyType) {
         Iterator<Pharmacy> pharmacyIterator = pharmacies.iterator();
         List<Pharmacy> list = new ArrayList<>();
         while (pharmacyIterator.hasNext()) {
             Pharmacy c = pharmacyIterator.next();
-            if (c.getType() == pharmacyType) {
+            if (c.getType().equalsIgnoreCase(pharmacyType)) {
                 list.add(c);
             }
         }
@@ -406,7 +413,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public void validateForMailOrder(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
-        if (pharmacy.getType() == PharmacyType.MailOrder) {
+        if (pharmacy.getType().equalsIgnoreCase(PharmacyType.MAIL_ORDER)) {
 
             showShippingFragment();
 
@@ -429,9 +436,11 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     }
 
     public void showShippingFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THS_SHIPPING_ADDRESS,address);
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumerWrapper, address);
-        addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null, true);
+        addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, bundle, true);
     }
 
     private void setMarkerOnMap(final List<Pharmacy> pharmacies) {
@@ -529,7 +538,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             Phonenumber.PhoneNumber numberProto = phoneUtil.parse(pharmacy.getPhone(), "US");
             selectedPharmacyPhone.setText(getString(R.string.ths_pharmacy_phone_text) + " " + phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.NATIONAL));
         } catch (NumberParseException e) {
-            AmwellLog.e("", "NumberParseException was thrown: " + e.toString());
+            AmwellLog.i("", "NumberParseException was thrown: " + e.toString());
         }
         if (null != pharmacy.getEmail()) {
             selectedPharmacyEmail.setText(getString(R.string.ths_pharmacy_email_text) + " " + pharmacy.getEmail());
@@ -542,7 +551,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public boolean handleBackEvent() {
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.pharmacy_list_fragment_name, true);
+            actionBarListener.updateActionBar(R.string.ths_pharmacy_list_fragment_name, true);
         }
         if (pharmacy_segment_control_one.isSelected()) {
             if (null != pharmacyRetailList && pharmacyRetailList.size() > 0) {
@@ -608,6 +617,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PHARMACY_MAP,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_PHARMACY_MAP,null,null);
     }
 }

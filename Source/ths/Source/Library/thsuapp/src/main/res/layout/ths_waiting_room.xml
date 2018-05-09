@@ -8,6 +8,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_waiting_room_title_label"
+        fontPath="fonts/centralesansbold.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -16,12 +17,11 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="24dp"
         android:lineSpacingExtra="8sp"
-        android:text="@string/ths_waiting_room_you_are_waiting_to_see"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
-        android:textSize="@dimen/ths_title_text"
-        fontPath="fonts/centralesansbold.ttf" />
+        android:text="@string/ths_waiting_room_you_are_waiting_to_see"
+        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textSize="@dimen/ths_title_text" />
 
     <LinearLayout
         android:id="@+id/ths_waiting_room_provider_top_grey_boundary"
@@ -82,6 +82,17 @@
         android:layout_below="@+id/ths_waiting_room_provider_detail_relativelayout"
         android:background="@color/uid_gray_level_10"
         android:orientation="horizontal" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_waiting_room_provider_bottom_grey_boundary"
+        android:layout_marginTop="@dimen/ths_margin_between_buttons"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
+        android:text="@string/ths_patient_waiting_do_not_leave_text"
+        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+        android:textSize="@dimen/ths_text_14sp" />
 
     <RelativeLayout
         android:id="@+id/ths_waiting_room_progressbar_container"

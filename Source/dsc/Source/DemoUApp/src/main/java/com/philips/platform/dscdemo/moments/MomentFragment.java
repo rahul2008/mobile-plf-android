@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.dscdemo.moments;
 
 import android.app.Activity;
@@ -28,7 +28,6 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.DemoAppManager;
@@ -37,18 +36,17 @@ import com.philips.platform.dscdemo.characteristics.CharacteristicsFragment;
 import com.philips.platform.dscdemo.consents.ConsentFragment;
 import com.philips.platform.dscdemo.insights.InsightFragment;
 import com.philips.platform.dscdemo.settings.SettingsFragment;
-import com.philips.platform.dscdemo.utility.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentFragment extends DSBaseFragment
-        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
+        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
 
     private Context mContext;
 
-    private DataServicesManager mDataServicesManager;
+    protected DataServicesManager mDataServicesManager;
     private User mUser;
 
     private TextView mTvAddMomentType;
@@ -67,7 +65,6 @@ public class MomentFragment extends DSBaseFragment
     private ProgressDialog mProgressDialog;
 
     private ArrayList<? extends Moment> mMomentList = new ArrayList();
-    private Utility mUtility;
 
     @Override
     public int getActionbarTitleResId() {
@@ -91,7 +88,6 @@ public class MomentFragment extends DSBaseFragment
         mDataServicesManager = DataServicesManager.getInstance();
         mUser = new User(mContext);
         mMomentPresenter = new MomentPresenter(mContext, this);
-        mUtility = new Utility();
     }
 
     @Override
@@ -102,27 +98,27 @@ public class MomentFragment extends DSBaseFragment
         mProgressDialog = new ProgressDialog(mContext);
         mProgressDialog.setCancelable(false);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.timeline);
+        RecyclerView recyclerView = view.findViewById(R.id.timeline);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mMomentAdapter);
 
-        mAddButton = (ImageButton) view.findViewById(R.id.add);
-        ImageButton mDeleteExpiredMomentsButton = (ImageButton) view.findViewById(R.id.delete_moments);
+        mAddButton = view.findViewById(R.id.add);
+        ImageButton mDeleteExpiredMomentsButton = view.findViewById(R.id.delete_moments);
         mAddButton.setOnClickListener(this);
         mDeleteExpiredMomentsButton.setOnClickListener(this);
 
-        mTvMomentsCount = (TextView) view.findViewById(R.id.tv_moments_count);
-        mTvAddMomentType = (TextView) view.findViewById(R.id.tv_add_moment_with_type);
-        mTvLatestMoment = (TextView) view.findViewById(R.id.tv_last_moment);
-        mTvMomentByDateRange = (TextView) view.findViewById(R.id.tv_moment_by_date_range);
-        mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
-        mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
-        mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
-        mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
-        mTvInsights = (TextView) view.findViewById(R.id.tv_insights);
-        mTvSyncByDateRange = (TextView) view.findViewById(R.id.tv_sync_by_date_range);
-        TextView mTvLogout = (TextView) view.findViewById(R.id.tv_logout);
+        mTvMomentsCount = view.findViewById(R.id.tv_moments_count);
+        mTvAddMomentType = view.findViewById(R.id.tv_add_moment_with_type);
+        mTvLatestMoment = view.findViewById(R.id.tv_last_moment);
+        mTvMomentByDateRange = view.findViewById(R.id.tv_moment_by_date_range);
+        mTvConsents = view.findViewById(R.id.tv_set_consents);
+        mTvCharacteristics = view.findViewById(R.id.tv_set_characteristics);
+        mTvSettings = view.findViewById(R.id.tv_settings);
+        mTvSettings = view.findViewById(R.id.tv_settings);
+        mTvInsights = view.findViewById(R.id.tv_insights);
+        mTvSyncByDateRange = view.findViewById(R.id.tv_sync_by_date_range);
+        TextView mTvLogout = view.findViewById(R.id.tv_logout);
 
         mTvAddMomentType.setOnClickListener(this);
         mTvLatestMoment.setOnClickListener(this);
@@ -145,9 +141,6 @@ public class MomentFragment extends DSBaseFragment
     @Override
     public void onStart() {
         super.onStart();
-        mDataServicesManager.registerDBChangeListener(this);
-        mDataServicesManager.registerSynchronisationCompleteListener(this);
-        mDataServicesManager.synchronize();
 
         if (mUser != null && !mUser.isUserSignIn()) {
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
@@ -164,13 +157,20 @@ public class MomentFragment extends DSBaseFragment
         }
         deleteUserDataIfNewUserLoggedIn();
 
-        if (!mUtility.isOnline(getContext())) {
+
+        if (!isOnline()) {
             showToastOnUiThread("Please check your connection");
-            return;
         }
 
         showProgressDialog();
         mMomentPresenter.fetchData(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mDataServicesManager.registerDBChangeListener(this);
+        mDataServicesManager.synchronize();
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
@@ -190,16 +190,10 @@ public class MomentFragment extends DSBaseFragment
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        DataServicesManager.getInstance().unRegisterDBChangeListener();
-        DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
+    public void onPause() {
+        mDataServicesManager.unRegisterDBChangeListener();
         dismissProgressDialog();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+        super.onPause();
     }
 
     @Override
@@ -272,20 +266,7 @@ public class MomentFragment extends DSBaseFragment
 
     @Override
     public void onFetchSuccess(final List<? extends Moment> data) {
-        if (getActivity() == null) return;
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mMomentList = (ArrayList<? extends Moment>) data;
-                mTvMomentsCount.setText("Moments Count : " + String.valueOf(mMomentList.size()));
-
-                mMomentAdapter.setData(mMomentList);
-                mMomentAdapter.notifyDataSetChanged();
-
-                dismissProgressDialog();
-            }
-        });
+        reloadData(data);
     }
 
     @Override
@@ -296,6 +277,7 @@ public class MomentFragment extends DSBaseFragment
     @Override
     public void onSuccess(final List<? extends Moment> data) {
         mMomentPresenter.fetchData(this);
+        DataServicesManager.getInstance().synchronize();
     }
 
     @Override
@@ -333,7 +315,6 @@ public class MomentFragment extends DSBaseFragment
         }
     }
 
-
     private void showToastOnUiThread(final String msg) {
         if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
@@ -344,35 +325,28 @@ public class MomentFragment extends DSBaseFragment
         });
     }
 
-    private void reloadData() {
-        mDataServicesManager.registerDBChangeListener(this);
-        mMomentPresenter.fetchData(this);
+    private void reloadData(final List<? extends Moment> data) {
+        if (getActivity() == null) return;
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                View view = MomentFragment.this.getView();
-                if (view != null) {
-                    view.invalidate();
-                }
+                mMomentList = (ArrayList<? extends Moment>) data;
+                mTvMomentsCount.setText("Moments Count : " + String.valueOf(mMomentList.size()));
+
+                mMomentAdapter.setData(mMomentList);
+                mMomentAdapter.notifyDataSetChanged();
+
+                dismissProgressDialog();
             }
         });
-    }
-
-    @Override
-    public void onSyncComplete() {
-        reloadData();
-    }
-
-    @Override
-    public void onSyncFailed(Exception exception) {
-        reloadData();
     }
 
     private class DeleteExpiredMomentsListener implements DBRequestListener<Integer> {
         @Override
         public void onSuccess(List<? extends Integer> data) {
             MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.deleted_expired_moments_count) + data.get(0));
-            reloadData();
+            mMomentPresenter.fetchData(MomentFragment.this);
         }
 
         @Override
@@ -393,7 +367,6 @@ public class MomentFragment extends DSBaseFragment
                     @Override
                     public void run() {
                         Toast.makeText(mContext, "Logout Success", Toast.LENGTH_SHORT).show();
-                        clearUserData();
                         if (getActivity() != null)
                             getActivity().finish();
                     }
@@ -412,7 +385,8 @@ public class MomentFragment extends DSBaseFragment
         });
     }
 
-    private void clearUserData() {
-        DemoAppManager.getInstance().getUserRegistrationHandler().clearUserData(MomentFragment.this);
+    private boolean isOnline() {
+        AppInfraInterface appInfra = DemoAppManager.getInstance().getAppInfra();
+        return appInfra.getRestClient().isInternetReachable();
     }
 }

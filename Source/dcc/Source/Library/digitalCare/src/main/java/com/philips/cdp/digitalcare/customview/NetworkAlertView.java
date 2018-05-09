@@ -1,4 +1,4 @@
-/**
+/*
  * @author naveen@philips.com
  * <p>
  * Copyright (c) 2016 Philips. All rights reserved.
@@ -9,21 +9,9 @@
 package com.philips.cdp.digitalcare.customview;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.view.Window;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
-
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
-
 
 @SuppressLint("NewApi")
 public class NetworkAlertView {

@@ -18,12 +18,16 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
+
+
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_PHONE_NUMBER_VALIDATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_FOLLOW_UP_PAGE;
 
 public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener,THSFollowUpViewInterface {
@@ -36,6 +40,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     private Label nopp_label;
     private Label mLabelPatientName;
     private InputValidationLayout ths_intake_follow_up_phone_number_container;
+    static final long serialVersionUID = 151L;
 
     @Nullable
     @Override
@@ -53,6 +58,13 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         mFollowUpContinueButton.setEnabled(false);
         mNoppAgreeCheckBox = (CheckBox) view.findViewById(R.id.pth_intake_follow_up_nopp_agree_check_box);
         ths_intake_follow_up_phone_number_container = view.findViewById(R.id.ths_intake_follow_up_phone_number_container);
+        ths_intake_follow_up_phone_number_container.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence msg) {
+                mTHSFollowUpPresenter.checkForInputLength(msg.length());
+                return false;
+            }
+        });
         mNoppAgreeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -69,7 +81,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         mLabelPatientName = (Label) view.findViewById(R.id.ths_follow_up_patient_name);
         String name = getString(R.string.ths_dependent_name, THSManager.getInstance().getThsConsumer(getContext()).getFirstName());
         mLabelPatientName.setText(name);
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_FOLLOW_UP_PAGE,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_FOLLOW_UP_PAGE,null,null);
         return view;
     }
 
@@ -77,9 +89,10 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         THSConsumerWrapper THSConsumerWrapper = THSManager.getInstance().getPTHConsumer(getContext());
+       /* removing pre population of phone number in align with IOS (Bug 100462)
         if (null != THSConsumerWrapper && null != THSConsumerWrapper.getConsumer() && null != THSConsumerWrapper.getConsumer().getPhone() && !THSConsumerWrapper.getConsumer().getPhone().isEmpty()) {
             mPhoneNumberEditText.setText(THSConsumerWrapper.getConsumer().getPhone());
-        }
+        }*/
     }
 
     @Override
@@ -119,7 +132,9 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
     @Override
     public void showConditionsFragment() {
-        addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
+        THSCheckPharmacyConditionsFragment thsCheckPharmacyConditionsFragment = new THSCheckPharmacyConditionsFragment();
+        thsCheckPharmacyConditionsFragment.setPharmacyCheckRequired(true);
+        addFragment(thsCheckPharmacyConditionsFragment, THSCheckPharmacyConditionsFragment.TAG, null, true);
     }
 
     @Override
@@ -131,6 +146,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     public void showInlineError() {
         ths_intake_follow_up_phone_number_container.setErrorMessage(R.string.ths_invalid_phone_number);
         ths_intake_follow_up_phone_number_container.showError();
+        doTagging(THS_ANALYTICS_PHONE_NUMBER_VALIDATION,getString(R.string.ths_invalid_phone_number),false);
     }
 
     @Override

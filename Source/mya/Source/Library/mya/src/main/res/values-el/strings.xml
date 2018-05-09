@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="MYA_My_account">Ο λογαριασμός μου</string>
+<string name="MYA_Profile">Προφίλ</string>
+<string name="MYA_Settings">Ρυθμίσεις</string>
+<string name="MYA_My_details">Στοιχεία</string>
+<string name="MYA_My_products">Τα προϊόντα μου</string>
+<string name="MYA_My_subscriptions">Οι συνδρομές μου</string>
+<string name="MYA_My_orders">Παραγγελίες</string>
+<string name="MYA_Logout">Έξοδος</string>
+<string name="MYA_Account_settings">Ρυθμίσεις λογαριασμού</string>
+<string name="MYA_Country">Χώρα</string>
+<string name="MYA_Notifications">Ειδοποιήσεις</string>
+<string name="MYA_Privacy_Settings">Ρυθμίσεις απορρήτου</string>
+<string name="MYA_Login_details">Στοιχεία σύνδεσης</string>
+<string name="MYA_Email_address">Διεύθυνση email</string>
+<string name="MYA_Mobile_number">Κινητό</string>
+<string name="MYA_Personal_details">Προσωπικά στοιχεία</string>
+<string name="MYA_Name">Όνομα</string>
+<string name="MYA_Gender">Φύλο</string>
+<string name="MYA_Date_of_birth">Ημερομηνία γέννησης</string>
+<string name="MYA_Address">Διεύθυνση</string>
+<string name="MYA_Cancel">Άκυρο</string>
+<string name="MYA_change_country">Κάντε έξοδο για αλλαγή χώρας</string>
+<string name="MYA_change_country_message">Αποσυνδεθείτε για να αλλάξετε τη χώρα στην οποία κατοικείτε. Έτσι, θα μπορούμε να προσαρμόσουμε την εγγύηση και άλλες πληροφορίες ανάλογα με την τοποθεσία σας.</string>
+<string name="MYA_logout_title">Θέλετε σίγουρα να αποσυνδεθείτε;</string>
+<string name="MYA_logout_message">Θα αποσυνδεθείτε από την εφαρμογή. Μετά την αποσύνδεση, μπορείτε να συνδεθείτε ξανά.</string>
+<string name="MYA_Info">Αλλαγή ID σύνδεσης ή κωδικού πρόσβασης; Επισκεφθείτε τον ιστότοπό μας.</string>
+<string name="MYA_Email_Validation_message">Η διεύθυνση email δεν επιβεβαιώθηκε</string>
+<string name="MYA_Not_Available">Δεν διατίθεται</string>
+<string name="MYA_Ok">ΟΚ</string>
+<string name="MYA_Offline_title">Βρίσκεστε εκτός σύνδεσης</string>
+<string name="MYA_Offline_message">Η σύνδεσή σας στο Internet πιθανόν να μην λειτουργεί. Ελέγξτε τη και δοκιμάστε ξανά</string>
+<string name="mya_Privacy_Settings_Desc">Ελέγξτε το απόρρητό σας. Διαβάστε τη _δήλωση απορρήτου_ για περισσότερες πληροφορίες.</string>
+</resources>

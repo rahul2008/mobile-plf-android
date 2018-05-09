@@ -57,6 +57,7 @@ public class SeparatorDrawable extends Drawable {
      * This API can be used to set color for separator
      *
      * @param color Color to be set to drawable
+     *              @since 3.0.0
      */
     public void setColor(@ColorInt int color) {
         paint.setColor(color);

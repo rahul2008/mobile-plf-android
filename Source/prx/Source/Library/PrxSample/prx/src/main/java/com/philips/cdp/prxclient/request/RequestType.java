@@ -2,10 +2,7 @@ package com.philips.cdp.prxclient.request;
 
 
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 public enum RequestType {
 
     GET(0),

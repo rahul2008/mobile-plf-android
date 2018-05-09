@@ -55,6 +55,7 @@ import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -220,7 +221,7 @@ public class THSCostSummaryPresenterTest {
     @Test
     public void onEvent_payment_detail() throws Exception {
         mTHSCostSummaryPresenter.onEvent(R.id.ths_cost_summary_payment_detail_framelayout);
-        verify(thsCostSummaryFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(thsCostSummaryFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test
@@ -251,7 +252,7 @@ public class THSCostSummaryPresenterTest {
     public void onCreateVisitResponse_when_sdk_error_reason_null() throws Exception {
         when(thsCostSummaryFragmentMock.isFragmentAttached()).thenReturn(true);
         mTHSCostSummaryPresenter.onCreateVisitResponse(thsVisitMock,thssdkErrorMock);
-        verify(thsCostSummaryFragmentMock).showError(anyString(),anyBoolean());
+        verify(thsCostSummaryFragmentMock).showError(anyString(),anyBoolean(), anyBoolean());
     }
 
     @Test(expected = NullPointerException.class)
@@ -266,7 +267,7 @@ public class THSCostSummaryPresenterTest {
 
         when(thsCostSummaryFragmentMock.isFragmentAttached()).thenReturn(true);
         mTHSCostSummaryPresenter.onCreateVisitResponse(thsVisitMock,thssdkErrorMock);
-        verify(thsCostSummaryFragmentMock).showError(anyString(),anyBoolean());
+        verify(thsCostSummaryFragmentMock).showError(anyString(),anyBoolean(), false);
     }
 
     @Test
@@ -326,7 +327,7 @@ public class THSCostSummaryPresenterTest {
     public void onCreateVisitValidationFailure() throws Exception {
         when(thsCostSummaryFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         when(thsCostSummaryFragmentMock.isFragmentAttached()).thenReturn(true);
-        Map<String, ValidationReason> map= new HashMap();
+        Map<String, String> map= new HashMap();
         map.put("spo",ValidationReason.FIELD_ATTACHMENT_TOO_BIG);
 
         mTHSCostSummaryPresenter.onCreateVisitValidationFailure(map);
@@ -387,7 +388,7 @@ public class THSCostSummaryPresenterTest {
     public void onGetPaymentMethodResponse() throws Exception {
         when(thsCostSummaryFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         when(thsCostSummaryFragmentMock.isFragmentAttached()).thenReturn(true);
-        mTHSCostSummaryPresenter.onGetPaymentMethodResponse(thsPaymentMethodMock,thssdkErrorMock);
+        mTHSCostSummaryPresenter.onGetPaymentSuccess(thsPaymentMethodMock,thssdkErrorMock);
         assertNotNull( thsCostSummaryFragmentMock.mCostSummaryContinueButtonRelativeLayout);
     }
 
@@ -398,7 +399,7 @@ public class THSCostSummaryPresenterTest {
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
 
         when(thsPaymentMethodMock.getPaymentMethod()).thenReturn(paymentMethodMock);
-        mTHSCostSummaryPresenter.onGetPaymentMethodResponse(thsPaymentMethodMock,thssdkErrorMock);
+        mTHSCostSummaryPresenter.onGetPaymentSuccess(thsPaymentMethodMock,thssdkErrorMock);
         assertNotNull( thsCostSummaryFragmentMock.mCostSummaryContinueButtonRelativeLayout);
     }
 
@@ -411,7 +412,7 @@ public class THSCostSummaryPresenterTest {
         when(thsPaymentMethodMock.getPaymentMethod()).thenReturn(paymentMethodMock);
         when(paymentMethodMock.isExpired()).thenReturn(true);
 
-        mTHSCostSummaryPresenter.onGetPaymentMethodResponse(thsPaymentMethodMock,thssdkErrorMock);
+        mTHSCostSummaryPresenter.onGetPaymentSuccess(thsPaymentMethodMock,thssdkErrorMock);
         assertNotNull( thsCostSummaryFragmentMock.mCostSummaryContinueButtonRelativeLayout);
     }
 

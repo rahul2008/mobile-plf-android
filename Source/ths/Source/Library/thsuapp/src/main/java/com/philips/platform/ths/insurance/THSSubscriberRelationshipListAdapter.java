@@ -106,7 +106,7 @@ public class THSSubscriberRelationshipListAdapter extends BaseAdapter {
     }
 
 
-    private class ViewHolder {
+    public class ViewHolder {
         private TextView Relationship;
     }
 

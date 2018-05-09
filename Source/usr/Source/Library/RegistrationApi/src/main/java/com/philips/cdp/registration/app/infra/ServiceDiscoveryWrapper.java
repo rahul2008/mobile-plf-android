@@ -42,7 +42,7 @@ public class ServiceDiscoveryWrapper {
                 @Override
                 public void onSuccess(String s) {
                     if (!emitter.isDisposed())
-                        emitter.onSuccess(s.toString());
+                        emitter.onSuccess(s);
                 }
 
                 @Override
@@ -63,7 +63,7 @@ public class ServiceDiscoveryWrapper {
                 @Override
                 public void onSuccess(String s) {
                     if (!emitter.isDisposed())
-                        emitter.onSuccess(s.toString());
+                        emitter.onSuccess(s);
                 }
 
                 @Override

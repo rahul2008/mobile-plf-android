@@ -1,6 +1,7 @@
 package com.philips.platform.baseapp.screens.utility;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -46,6 +47,13 @@ public class BaseAppUtil {
         RALog.d("is AutoLogout Enabled ", "  false ");
 
         return false;
+    }
+
+    public static void restartApp(Context context){
+        Intent intent = context.getApplicationContext().getPackageManager()
+                .getLaunchIntentForPackage( context.getApplicationContext().getPackageName() );
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
     }
 
 }

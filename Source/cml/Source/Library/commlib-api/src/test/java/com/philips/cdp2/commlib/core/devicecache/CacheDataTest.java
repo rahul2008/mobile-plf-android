@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -18,7 +18,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
@@ -29,13 +29,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class CacheDataTest {
 
     @Mock
-    ScheduledExecutorService executorMock;
+    private ScheduledExecutorService executorMock;
+
     @Mock
-    DeviceCache.ExpirationCallback expirationCallbackMock;
+    private DeviceCache.ExpirationCallback expirationCallbackMock;
+
     @Mock
-    NetworkNode networkNodeMock;
+    private NetworkNode networkNodeMock;
+
     @Mock
-    ScheduledFuture futureMock;
+    private ScheduledFuture futureMock;
 
     @Before
     public void setUp() {
@@ -57,13 +60,13 @@ public class CacheDataTest {
     }
 
     @Test
-    public void whenExecutorCallsScheduledCallable_ThenExpirationCallbackIsCalled() throws Exception {
+    public void whenTimeExpires_ThenExpirationCallbackIsCalled() throws Exception {
         final Callable[] callables = new Callable[1];
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                callables[0] = invocation.getArgumentAt(0, Callable.class);
-                return null;
+                callables[0] = invocation.getArgument(0);
+                return futureMock;
             }
         }).when(executorMock).schedule(isA(Callable.class), anyLong(), isA(TimeUnit.class));
         new CacheData(executorMock, expirationCallbackMock, 0L, networkNodeMock);
@@ -85,7 +88,7 @@ public class CacheDataTest {
 
         cacheData.resetTimer();
 
-        verify(futureMock).cancel(false);
+        verify(futureMock).cancel(true);
     }
 
     @Test
@@ -109,6 +112,26 @@ public class CacheDataTest {
 
         cacheData.stopTimer();
 
-        verify(futureMock).cancel(false);
+        verify(futureMock).cancel(true);
+    }
+
+    @Test
+    public void givenStopIsCalled_whenDataExpires_thenExpirationCallbackIsNotCalled() throws Exception {
+        final Callable[] callables = new Callable[1];
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                callables[0] = invocation.getArgument(0);
+                return null;
+            }
+        }).when(executorMock).schedule(isA(Callable.class), anyLong(), isA(TimeUnit.class));
+        final CacheData cacheData = new CacheData(executorMock, expirationCallbackMock, 0L, networkNodeMock);
+
+        cacheData.stopTimer();
+
+        //this simulates that an already running future cannot be cancelled (it's running and there's nothing you can do about it)
+        callables[0].call();
+
+        verify(expirationCallbackMock, times(0)).onCacheExpired(networkNodeMock);
     }
 }

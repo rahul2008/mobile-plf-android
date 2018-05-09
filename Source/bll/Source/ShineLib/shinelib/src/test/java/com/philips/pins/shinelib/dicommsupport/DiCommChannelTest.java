@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -26,7 +27,6 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyMap;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
@@ -87,7 +87,7 @@ public class DiCommChannelTest {
         mockedHandler = new MockedHandler();
         Timer.setHandler(mockedHandler.getMock());
 
-        when(diCommRequestMock.putPropsRequestDataWithProduct(anyString(), anyString(), anyMap())).thenReturn(diCommMessageMock);
+        when(diCommRequestMock.putPropsRequestDataWithProduct(anyString(), anyString(), ArgumentMatchers.<String, Object>anyMap())).thenReturn(diCommMessageMock);
         when(diCommRequestMock.getPropsRequestDataWithProduct(anyString(), anyString())).thenReturn(diCommMessageMock);
         when(diCommResponseMock.getStatus()).thenReturn(StatusCode.NoError);
 
@@ -216,12 +216,12 @@ public class DiCommChannelTest {
 
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
-        verify(shnProtocolMoonshineStreamingMock).sendData(any(byte[].class));
+        verify(shnProtocolMoonshineStreamingMock).sendData((byte[]) any());
     }
 
     @Test
     public void whenPropertiesHaveNullAsAKeyThenInvalidParameterResultIsReported() throws Exception {
-        when(diCommRequestMock.putPropsRequestDataWithProduct(anyString(), anyString(), anyMap())).thenReturn(null);
+        when(diCommRequestMock.putPropsRequestDataWithProduct(anyString(), anyString(), ArgumentMatchers.<String, Object>anyMap())).thenReturn(null);
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
         verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
@@ -234,7 +234,7 @@ public class DiCommChannelTest {
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
-        verify(shnProtocolMoonshineStreamingMock, times(1)).sendData(any(byte[].class));
+        verify(shnProtocolMoonshineStreamingMock, times(1)).sendData((byte[]) any());
     }
 
     @Test
@@ -246,7 +246,7 @@ public class DiCommChannelTest {
 
         diCommChannel.onDataReceived(data);
 
-        verify(resultListenerMock, never()).onActionCompleted(anyMap(), any(SHNResult.class));
+        verify(resultListenerMock, never()).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), any(SHNResult.class));
     }
 
     @Test
@@ -260,7 +260,7 @@ public class DiCommChannelTest {
         diCommChannel.onDataReceived(data);
         diCommChannel.onDataReceived(data2);
 
-        verify(resultListenerMock).onActionCompleted(anyMap(), any(SHNResult.class));
+        verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), any(SHNResult.class));
     }
 
     @Test
@@ -272,7 +272,7 @@ public class DiCommChannelTest {
         reset(shnProtocolMoonshineStreamingMock);
         diCommChannel.onDataReceived(validMessageData);
 
-        verify(shnProtocolMoonshineStreamingMock).sendData(any(byte[].class));
+        verify(shnProtocolMoonshineStreamingMock).sendData((byte[]) any());
     }
 
     @Test
@@ -284,8 +284,8 @@ public class DiCommChannelTest {
         diCommChannel.onDataReceived(validMessageData);
         diCommChannel.onDataReceived(validMessageData);
 
-        verify(resultListenerMock).onActionCompleted(anyMap(), any(SHNResult.class));
-        verify(resultListenerMock2).onActionCompleted(anyMap(), any(SHNResult.class));
+        verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), any(SHNResult.class));
+        verify(resultListenerMock2).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), any(SHNResult.class));
     }
 
     @Test
@@ -327,7 +327,7 @@ public class DiCommChannelTest {
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
 
         verify(diCommRequestMock).getPropsRequestDataWithProduct(PRODUCT_NAME, PORT_NAME);
-        verify(shnProtocolMoonshineStreamingMock).sendData(any(byte[].class));
+        verify(shnProtocolMoonshineStreamingMock).sendData((byte[]) any());
     }
 
     @Test
@@ -337,7 +337,7 @@ public class DiCommChannelTest {
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
 
-        verify(shnProtocolMoonshineStreamingMock, times(1)).sendData(any(byte[].class));
+        verify(shnProtocolMoonshineStreamingMock, times(1)).sendData((byte[]) any());
     }
 
     @Test
@@ -349,7 +349,7 @@ public class DiCommChannelTest {
 
         diCommChannel.onDataReceived(data);
 
-        verify(resultListenerMock, never()).onActionCompleted(anyMap(), any(SHNResult.class));
+        verify(resultListenerMock, never()).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), (SHNResult) any());
     }
 
     @Test
@@ -363,7 +363,7 @@ public class DiCommChannelTest {
         diCommChannel.onDataReceived(data);
         diCommChannel.onDataReceived(data2);
 
-        verify(resultListenerMock).onActionCompleted(anyMap(), any(SHNResult.class));
+        verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), (SHNResult) any());
     }
 
     @Test
@@ -375,7 +375,7 @@ public class DiCommChannelTest {
         reset(shnProtocolMoonshineStreamingMock);
         diCommChannel.onDataReceived(validMessageData);
 
-        verify(shnProtocolMoonshineStreamingMock).sendData(any(byte[].class));
+        verify(shnProtocolMoonshineStreamingMock).sendData((byte[]) any());
         assertEquals(1, mockedHandler.getScheduledExecutionCount());
     }
 
@@ -388,8 +388,8 @@ public class DiCommChannelTest {
         diCommChannel.onDataReceived(validMessageData);
         diCommChannel.onDataReceived(validMessageData);
 
-        verify(resultListenerMock).onActionCompleted(anyMap(), any(SHNResult.class));
-        verify(resultListenerMock2).onActionCompleted(anyMap(), any(SHNResult.class));
+        verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), (SHNResult) any());
+        verify(resultListenerMock2).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), (SHNResult) any());
         assertEquals(0, mockedHandler.getScheduledExecutionCount());
     }
 
@@ -454,7 +454,7 @@ public class DiCommChannelTest {
 
         receiveResponseWithStatus(StatusCode.OutOfMemory);
 
-        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNErrorOperationFailed));
+        verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), eq(SHNResult.SHNErrorOperationFailed));
     }
 
     @Test
@@ -464,7 +464,7 @@ public class DiCommChannelTest {
 
         receiveResponseWithStatus(StatusCode.NotImplemented);
 
-        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNErrorUnsupportedOperation));
+        verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), eq(SHNResult.SHNErrorUnsupportedOperation));
     }
 
     @Test
@@ -474,7 +474,7 @@ public class DiCommChannelTest {
 
         receiveResponseWithStatus(StatusCode.InvalidParameter);
 
-        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNErrorInvalidParameter));
+        verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), eq(SHNResult.SHNErrorInvalidParameter));
     }
 
     @Test
@@ -484,7 +484,7 @@ public class DiCommChannelTest {
 
         receiveResponseWithStatus(StatusCode.ProtocolViolation);
 
-        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNErrorInvalidState));
+        verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), eq(SHNResult.SHNErrorInvalidState));
     }
 
     @Test
@@ -495,7 +495,7 @@ public class DiCommChannelTest {
         receiveResponseWithStatus(StatusCode.NoError);
         receiveResponseWithStatus(StatusCode.NoError);
 
-        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNOk));
+        verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), eq(SHNResult.SHNOk));
     }
 
     @Test
@@ -514,7 +514,7 @@ public class DiCommChannelTest {
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
         diCommChannel.onDataReceived(validMessageData);
 
-        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNOk));
+        verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), eq(SHNResult.SHNOk));
     }
 
     @Test

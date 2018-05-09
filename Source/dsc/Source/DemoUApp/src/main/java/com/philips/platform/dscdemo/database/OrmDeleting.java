@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Insight;
@@ -33,9 +34,10 @@ import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 import com.philips.platform.dscdemo.utility.NotifyDBRequestListener;
 
+import org.joda.time.DateTime;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -85,6 +87,7 @@ public class OrmDeleting {
     @NonNull
     private final Dao<OrmInsightMetaData, Integer> ormInsightMetadataDao;
 
+    private static final String EXPIRATION_DATE = "expirationDate";
 
     public OrmDeleting(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
@@ -94,7 +97,10 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao,
                        @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
-                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> syncDao, @NonNull Dao<OrmInsight, Integer> ormInsightDao,
+                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao,
+                       Dao<OrmSettings, Integer> settingsDao,
+                       Dao<OrmDCSync, Integer> syncDao,
+                       @NonNull Dao<OrmInsight, Integer> ormInsightDao,
                        @NonNull Dao<OrmInsightMetaData, Integer> ormInsightMetadataDao) {
 
         this.momentDao = momentDao;
@@ -234,6 +240,11 @@ public class OrmDeleting {
         }
     }
 
+    private void deleteAllSyncDataForAllInsights() throws SQLException {
+        synchronisationDataDao.executeRaw("DELETE FROM `ormsynchronisationdata` WHERE guid IN" +
+                " (SELECT synchronisationData_id FROM `orminsight` )");
+    }
+
     private void deleteMeasurements(@NonNull final OrmMeasurementGroup measurementGroup) throws SQLException {
         for (OrmMeasurement measurement : measurementGroup.getMeasurements()) {
             deleteMeasurementDetails(measurement.getId());
@@ -274,7 +285,6 @@ public class OrmDeleting {
     }
 
 
-
     public int deleteMomentDetails(final int id) throws SQLException {
         DeleteBuilder<OrmMomentDetail, Integer> updateBuilder = momentDetailDao.deleteBuilder();
         updateBuilder.where().eq("ormMoment_id", id);
@@ -313,7 +323,7 @@ public class OrmDeleting {
         ormSettingsDeleteBuilder.delete();
     }
 
-    public boolean deleteMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
+    public boolean deleteMoments(final List<? extends Moment> moments, DBRequestListener<Moment> dbRequestListener) {
 
         try {
             momentDao.callBatchTasks(new Callable<Void>() {
@@ -338,8 +348,14 @@ public class OrmDeleting {
         return true;
     }
 
+    public int deleteSyncedMoments() throws SQLException {
+        DeleteBuilder<OrmMoment, Integer> deleteBuilder = momentDao.deleteBuilder();
+        deleteBuilder.where().eq("synced", true);
+        return deleteBuilder.delete();
+    }
+
     //Insights
-    public boolean deleteInsights(final List<Insight> insights, DBRequestListener<Insight> dbRequestListener) {
+    public boolean deleteInsights(final List<? extends Insight> insights, DBRequestListener<? extends Insight> dbRequestListener) {
         try {
             momentDao.callBatchTasks(new Callable<Void>() {
                 @Override
@@ -370,9 +386,28 @@ public class OrmDeleting {
         deleteSynchronisationData(insight.getSynchronisationData());
         ormInsightDao.delete(insight);
     }
+
     public int deleteSyncBit(SyncType type) throws SQLException{
         DeleteBuilder<OrmDCSync, Integer> deleteBuilder = syncDao.deleteBuilder();
         deleteBuilder.where().eq("tableid",type.getId());
         return deleteBuilder.delete();
+    }
+
+    public void deleteAllInsights() throws SQLException {
+        DeleteBuilder<OrmInsightMetaData, Integer> ormInsightMetaDataDeleteBuilder = ormInsightMetadataDao.deleteBuilder();
+        ormInsightMetaDataDeleteBuilder.delete();
+        deleteAllSyncDataForAllInsights();
+        DeleteBuilder<OrmInsight, Integer> ormInsightsDeleteBuilder = ormInsightDao.deleteBuilder();
+        ormInsightsDeleteBuilder.delete();
+    }
+
+    public void deleteAllExpiredInsights() throws SQLException {
+        QueryBuilder<OrmInsight, Integer> queryBuilder = ormInsightDao.queryBuilder();
+        queryBuilder.where().lt(EXPIRATION_DATE, DateTime.now());
+        List<OrmInsight> expiredInsights = queryBuilder.query();
+
+        for(OrmInsight expiredInsight : expiredInsights) {
+            deleteInsight(expiredInsight);
+        }
     }
 }

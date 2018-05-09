@@ -19,8 +19,11 @@ import android.text.style.*;
 import android.widget.*;
 
 import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.events.*;
+import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.platform.appinfra.abtestclient.*;
 
 import org.json.*;
@@ -51,6 +54,13 @@ public class RegUtility {
 
 
     //Temp: Code (For the existing usage on other fragments)
+
+    /**
+     * @param termsAndConditionsAcceptance
+     * @param activity
+     * @param termsAndConditionClickListener
+     * @since 1.0.0
+     */
     public static void linkifyTermsandCondition(
             TextView termsAndConditionsAcceptance,
             final Activity activity, ClickableSpan termsAndConditionClickListener) {
@@ -63,39 +73,64 @@ public class RegUtility {
         setupLinkify(termsAndConditionsAcceptance, activity, termsAndConditionClickListener, termsAndCondition, terms);
     }
 
+    /**
+     * @param termsAndConditionsAcceptance
+     * @param activity
+     * @param termsAndConditionClickListener
+     * @since 1.0.0
+     */
     public static void linkifyTermsandCondition(
             CheckBox termsAndConditionsAcceptance,
             final Activity activity, ClickableSpan termsAndConditionClickListener) {
 
         String termsAndCondition = activity.getString(R.string.reg_DLS_TermsAndConditionsAcceptanceText);
-        String acceptTermsAndCondition ="\n"+ activity.getString(R.string.reg_DLS_TermsAndConditionsText);
+        String acceptTermsAndCondition = "\n" + activity.getString(R.string.reg_DLS_TermsAndConditionsText);
         termsAndCondition = String.format(termsAndCondition, acceptTermsAndCondition);
         termsAndConditionsAcceptance.setText(termsAndCondition);
         String terms = activity.getString(R.string.reg_DLS_TermsAndConditionsText);
         setupLinkify(termsAndConditionsAcceptance, activity, termsAndConditionClickListener, termsAndCondition, terms);
     }
 
+    /**
+     * @param receivePhilipsNewsView
+     * @param activity
+     * @param receivePhilipsNewsClickListener
+     * @since 1.0.0
+     */
     public static void linkifyPhilipsNews(TextView receivePhilipsNewsView,
                                           final Activity activity, ClickableSpan
                                                   receivePhilipsNewsClickListener) {
         String receivePhilipsNews = activity.getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
-        String doesThisMeanStr =  activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
-        receivePhilipsNews = receivePhilipsNews +"\n" + doesThisMeanStr;
+        String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        receivePhilipsNews = receivePhilipsNews + "\n" + doesThisMeanStr;
         receivePhilipsNewsView.setText(receivePhilipsNews);
-        String link =  activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        String link = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
     }
 
+    /**
+     * @param receivePhilipsNewsView
+     * @param activity
+     * @param receivePhilipsNewsClickListener
+     * @since 1.0.0
+     */
     public static void linkifyPhilipsNewsMarketing(TextView receivePhilipsNewsView,
                                                    final Activity activity, ClickableSpan
                                                            receivePhilipsNewsClickListener) {
         String receivePhilipsNews = activity.getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
-        String doesThisMeanStr =  activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
-        receivePhilipsNews = receivePhilipsNews +"\n" + doesThisMeanStr;
+        String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        receivePhilipsNews = receivePhilipsNews + "\n" + doesThisMeanStr;
         receivePhilipsNewsView.setText(receivePhilipsNews);
         String link = "\n" + activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
     }
+
+    /**
+     * @param accountSettingPhilipsNews
+     * @param activity
+     * @param accountSettingsPhilipsClickListener
+     * @since 1.0.0
+     */
 
     public static void linkifyAccountSettingPhilips(
             TextView accountSettingPhilipsNews, final Activity activity,
@@ -108,6 +143,14 @@ public class RegUtility {
         setupLinkify(accountSettingPhilipsNews, activity, accountSettingsPhilipsClickListener, moreAccountSettings, link);
     }
 
+    /**
+     * @param accountSettingPhilipsNews
+     * @param activity
+     * @param accountSettingsPhilipsClickListener
+     * @param moreAccountSettings
+     * @param link
+     * @since 1.0.0
+     */
     private static void setupLinkify(TextView accountSettingPhilipsNews, Activity activity,
                                      ClickableSpan accountSettingsPhilipsClickListener,
                                      String moreAccountSettings, String link) {
@@ -125,7 +168,10 @@ public class RegUtility {
                 (activity, android.R.color.transparent));
     }
 
-
+    /**
+     * @param spanableString
+     * @since 1.0.0
+     */
     private static void removeUnderlineFromLink(SpannableString spanableString) {
         for (ClickableSpan u : spanableString.getSpans(0, spanableString.length(),
                 ClickableSpan.class)) {
@@ -147,6 +193,11 @@ public class RegUtility {
         }
     }
 
+    /**
+     * @param registrationEnv
+     * @return Configuration
+     * @since 1.0.0
+     */
 
     public static Configuration getConfiguration(String registrationEnv) {
         if (registrationEnv == null) {
@@ -167,13 +218,17 @@ public class RegUtility {
         return Configuration.EVALUATION;
     }
 
+    /**
+     * @return UIFlow
+     * @since 1.0.0
+     */
     public static UIFlow getUiFlow() {
 
         if (uiFlow != null) {
             return uiFlow;
         }
 
-        ABTestClientInterface abTestClientInterface = URInterface.getComponent().getAbTestClientInterface();
+        ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
         String flowType = abTestClientInterface.getTestValue(RegConstants.DOT_RECEIVE_MARKETING_OPT_IN, UIFlow.FLOW_A.getValue(),
                 ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
         if (flowType.equalsIgnoreCase(UIFlow.FLOW_B.getValue())) {
@@ -182,6 +237,10 @@ public class RegUtility {
         return UIFlow.FLOW_A;
     }
 
+    /**
+     * @param providers
+     * @since 1.0.0
+     */
     public static void checkIsValidSignInProviders(HashMap<String, ArrayList<String>> providers) {
         if (providers != null) {
             for (Map.Entry<String, ArrayList<String>> entry : providers.entrySet()) {
@@ -197,6 +256,10 @@ public class RegUtility {
         }
     }
 
+    /**
+     * @return AccountStartTime
+     * @since 1.0.0
+     */
     public static long getCreateAccountStartTime() {
         return createAccountStartTime;
     }
@@ -217,6 +280,10 @@ public class RegUtility {
         return false;
     }
 
+    /**
+     * @return defaultSupportedHomeCountries
+     * @since 1.0.0
+     */
     public static String[] getDefaultSupportedHomeCountries() {
         return defaultSupportedHomeCountries;
     }
@@ -224,6 +291,11 @@ public class RegUtility {
     private static String[] defaultSupportedHomeCountries = new String[]{"RW", "BG", "CZ", "DK", "AT", "CH", "DE", "GR", "AU", "CA", "GB", "HK", "ID", "IE", "IN", "MY", "NZ", "PH", "PK", "SA", "SG", "US", "ZA", "AR", "CL", "CO", "ES", "MX", "PE", "EE", "FI", "BE", "FR", "HR", "HU", "IT", "JP", "KR", "LT", "LV", "NL", "NO", "PL", "BR", "PT", "RO", "RU", "UA", "SI", "SK", "SE", "TH", "TR", "VN", "CN", "TW"};
 
 
+    /**
+     * @param serverResponse
+     * @return error Message
+     * @since 1.0.0
+     */
     public static String getErrorMessageFromInvalidField(JSONObject serverResponse) {
         try {
             JSONObject jsonObject = (JSONObject) serverResponse.get(RegConstants.INVALID_FIELDS);
@@ -249,7 +321,20 @@ public class RegUtility {
         return null;
     }
 
+    public static String getTaggingErrorDescription(JSONObject serverResponse) {
 
+        try {
+            return serverResponse.getString("error_description");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    /**
+     * @return List of Supported Countries
+     * @since 1.0.0
+     */
     public static List<String> supportedCountryList() {
         ArrayList<String> defaultCountries = new ArrayList<String>(Arrays.asList(RegUtility.getDefaultSupportedHomeCountries()));
         List<String> supportedHomeCountries = RegistrationConfiguration.getInstance().getSupportedHomeCountry();
@@ -275,6 +360,10 @@ public class RegUtility {
         return defaultCountries;
     }
 
+    /**
+     * @return FallbackCountryCode
+     * @since 1.0.0
+     */
     @NonNull
     public static String getFallbackCountryCode() {
         String fallbackCountry = RegistrationConfiguration.getInstance().getFallBackHomeCountry();
@@ -288,10 +377,10 @@ public class RegUtility {
     }
 
     @SuppressWarnings("deprecation")
-    public static Spanned fromHtml(String html){
+    public static Spanned fromHtml(String html) {
         Spanned result;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(html,Html.FROM_HTML_MODE_LEGACY);
+            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
         } else {
             result = Html.fromHtml(html);
         }
@@ -299,6 +388,39 @@ public class RegUtility {
     }
 
     public static void showErrorMessage(Activity parentActivity) {
-        parentActivity.runOnUiThread(() -> Toast.makeText(parentActivity,parentActivity.getResources().getString(R.string.reg_Generic_Network_Error),Toast.LENGTH_SHORT).show());
+        parentActivity.runOnUiThread(() -> Toast.makeText(parentActivity, parentActivity.getResources().getString(R.string.reg_Generic_Network_Error), Toast.LENGTH_SHORT).show());
     }
+
+    public static void handleDynamicPermissionChange(Activity registrationActivity) {
+        registrationActivity.finishAffinity();
+        Intent i = registrationActivity.getBaseContext().getPackageManager().getLaunchIntentForPackage(registrationActivity.getBaseContext().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        registrationActivity.startActivity(i);
+    }
+
+    public static Country getCountry(String mSelectedCountryCode, Context mContext) {
+
+        String key = getCountryKey(mSelectedCountryCode);
+        String countryName = new Locale("", mSelectedCountryCode).getDisplayCountry();
+
+        int identifier = mContext.getResources().getIdentifier(key, "string", mContext.getApplicationContext().getPackageName());
+
+        if (identifier != 0) {
+            try {
+                countryName = mContext.getApplicationContext().getString(identifier);
+
+            } catch (Exception resourcesNotFoundException) {
+                RLog.d(RLog.EXCEPTION, resourcesNotFoundException.getMessage());
+            }
+        }
+
+        return new Country(mSelectedCountryCode, countryName);
+
+    }
+
+    private static String getCountryKey(String mSelectedCountryCode) {
+        return "reg_Country" + "_" + mSelectedCountryCode;
+    }
+
+
 }

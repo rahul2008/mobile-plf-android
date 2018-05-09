@@ -2,6 +2,7 @@ package com.philips.cdp.registration.settings;
 
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.ui.utils.URInterface;
 
@@ -31,7 +32,7 @@ public class RegistrationSettingsURLTest {
 
         MockitoAnnotations.initMocks(this);
 
-        URInterface.setComponent(registartionComponentMock);
+        RegistrationConfiguration.getInstance().setComponent(registartionComponentMock);
 
         registrationSettingsURL=new RegistrationSettingsURL();
     }

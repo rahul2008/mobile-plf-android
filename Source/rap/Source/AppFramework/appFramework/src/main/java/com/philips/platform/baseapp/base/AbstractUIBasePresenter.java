@@ -19,21 +19,18 @@ abstract public class AbstractUIBasePresenter {
 
     /*Event ID */
     protected static final int MENU_OPTION_HOME = 0;
-    protected static final int MENU_OPTION_SETTINGS = 1;
-    protected static final int MENU_OPTION_SHOP = 2;
-    protected static final int MENU_OPTION_TELEHEALTHSERVICES = 3;
-    protected static final int MENU_OPTION_TEST_MICROAPP = 4;
-    protected static final int MENU_OPTION_POWER_SLEEP_CONNECTIVITY = 5;
-    protected static final int MENU_OPTION_SUPPORT = 6;
-    protected static final int MENU_OPTION_ABOUT = 7;
-    //protected static final int MENU_OPTION_PR = 9;
+    protected static final int MENU_OPTION_SHOP = 1;
+    protected static final int MENU_OPTION_TELEHEALTHSERVICES = 2;
+    protected static final int MENU_OPTION_TEST_MICROAPP = 3;
+    protected static final int MENU_OPTION_POWER_SLEEP_CONNECTIVITY = 4;
+    protected static final int MENU_OPTION_SUPPORT = 5;
+    protected static final int MENU_OPTION_ABOUT = 6;
 
 
     /* event to state map */
     protected static final String HOME_SETTINGS = "settings";
     protected static final String HOME_IAP = "iap";
     protected static final String HOME_SUPPORT = "support";
-    protected static final String HOME_SHOPPING_CART = "shopping_cart";
     protected static final String HOME_ABOUT = "about";
     protected static final String HOME_FRAGMENT = "home_fragment";
     protected static final String HOME_SUPPORT_PR = "pr";
@@ -45,6 +42,7 @@ abstract public class AbstractUIBasePresenter {
 
     protected static final String HOME_POWER_SLEEP_CONNECTIVITY = "power_sleep_connectivity";
     protected static final String HAMBURGER_LOGIN = "login";
+    protected static final String SHOPPING_CART = "shopping_cart";
     protected static final String HAMBURGER_LOGOUT = "logout";
     protected static final String HOME_MYACCOUNT = "my_account";
 
@@ -93,12 +91,10 @@ abstract public class AbstractUIBasePresenter {
                 final UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return aboutStateData;
-            // Commented as part of Plan A removal.
-            /*case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
-                uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
-                uiStateDataModel.setCtnList(getCtnList());
-                return uiStateDataModel;*/
+            case SHOPPING_CART:
+                final UIStateData iapShoppingCartStateData = new UIStateData();
+                iapShoppingCartStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
+                return iapShoppingCartStateData;
             case AppStates.PR:
                 return new UIStateData();
             case AppStates.TEST_MICROAPP:
@@ -113,6 +109,10 @@ abstract public class AbstractUIBasePresenter {
                 final UIStateData teleHealthData = new UIStateData();
                 teleHealthData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return teleHealthData;
+            case AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE:
+                final UIStateData teleHealthDeepLinkingData = new UIStateData();
+                teleHealthDeepLinkingData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return teleHealthDeepLinkingData;
             case AppStates.POWER_SLEEP_CONNECTIVITY:
                 final UIStateData powerSleepStateData = new UIStateData();
                 powerSleepStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);

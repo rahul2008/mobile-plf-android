@@ -25,20 +25,31 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Description : This is the Network Wrapper class.
- * Project : PRX Common Component.
- * Created by naveen@philips.com on 02-Nov-15.
+ * A class which performs HTTP get, maintains request queue, handles caching etc.
+ It is responsible for interacting with any third party libraries that is used for performing network operations.
+ @since 1.0.0
  */
 public class NetworkWrapper {
 
     private final PRXDependencies mPrxDependencies;
     private final LoggingInterface mPrxLogging;
 
+    /**
+     * NetworkWrapper constructor.
+     * @param prxDependencies PRX dependencies
+     * @since 1.0.0
+     */
     public NetworkWrapper(PRXDependencies prxDependencies) {
         mPrxDependencies = prxDependencies;
         mPrxLogging = prxDependencies.mAppInfraLogging;
     }
 
+    /**
+     *  Execute custom JSON request.
+     * @param prxRequest PRX Request
+     * @param listener Response listener
+     * @since 1.0.0
+     */
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         if (listener == null) {
             mPrxLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_NETWORK_WRAPPER ,"ResponseListener is null");
@@ -87,6 +98,12 @@ public class NetworkWrapper {
 
                         if (request != null) {
                             if (mPrxDependencies.getAppInfra().getRestClient() != null) {
+                                try {
+                                    mPrxLogging.log(LoggingInterface.LogLevel.DEBUG,PrxConstants.PRX_NETWORK_WRAPPER ," Request url - "+request.getUrl()
+                                    + " request headers - "+request.getHeaders() + " request type - "+request.getMethod());
+                                } catch (AuthFailureError authFailureError) {
+                                    authFailureError.printStackTrace();
+                                }
                                 mPrxDependencies.getAppInfra().getRestClient().getRequestQueue().add(request);
                             }
                             else
@@ -149,6 +166,8 @@ public class NetworkWrapper {
 
                 if (responseData != null) {
                     mPrxLogging.log(LoggingInterface.LogLevel.INFO,PrxConstants.PRX_NETWORK_WRAPPER ,"Successfully get Response");
+                    if (response != null)
+                        mPrxLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_NETWORK_WRAPPER, " Prx response is - " + response.toString());
                     listener.onResponseSuccess(responseData);
                 } else {
                     listener.onResponseError(new PrxError("Null Response", 00));

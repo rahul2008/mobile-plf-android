@@ -27,7 +27,7 @@ import java.util.List;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class PurchaseHistoryFragmentTest {
     private Context mContext;
     PurchaseHistoryFragment purchaseHistoryFragment;

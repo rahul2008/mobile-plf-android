@@ -105,7 +105,7 @@
 
 
     <!-- Country -->
-    <string-array name="country">
+    <string-array name="dccuapp_country">
         <item>United Kingdom (GB)</item>
         <item>India (IN)</item>
         <item>United States (US)</item>
@@ -167,7 +167,7 @@
 
 
     <!-- country code -->
-    <string-array name="country_code">
+    <string-array name="dccuapp_country_code">
         <item>GB</item>
         <item>IN</item>
         <item>US</item>

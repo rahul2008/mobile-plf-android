@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class BuyFromRetailersFragmentTest {
     private Context mContext;
     BuyFromRetailersFragment buyFromRetailersFragment;

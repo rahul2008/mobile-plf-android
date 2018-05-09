@@ -189,7 +189,7 @@ class AiKmHelper {
                         aikmService.setAIKMapError(AIKMService.AIKMapError.INDEX_NOT_FOUND);
                         return;
                     }
-                    Map map = mapData(jsonObject, index, serviceId);
+                    Map<?,?> map = mapData(jsonObject, index, serviceId);
                     aikmService.setAIKMap(map);
 
                 } else {
@@ -206,7 +206,7 @@ class AiKmHelper {
         }
     }
 
-    Map mapData(JSONObject jsonObject, int index, String serviceId) throws Exception {
+    Map<?,?> mapData(JSONObject jsonObject, int index, String serviceId) throws Exception {
         Iterator<String> keys = jsonObject.keys();
         HashMap<String, String> hashMap = new HashMap<>();
         while (keys.hasNext()) {
@@ -265,7 +265,7 @@ class AiKmHelper {
                         aikmResponse.setkError(AIKManager.KError.DATA_NOT_FOUND);
                         return aikmResponse;
                     }
-                    Map map = mapData(jsonObject, index, serviceId);
+                    Map<?,?> map = mapData(jsonObject, index, serviceId);
                     aikmResponse.setkMap(map);
                 } else {
                     aikmResponse.setkError(AIKManager.KError.INVALID_JSON);

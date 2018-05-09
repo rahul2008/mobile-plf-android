@@ -89,16 +89,18 @@ public class CaptureRecord extends JSONObject {
 
     /*package*/ String accessToken;
 
-    private CaptureRecord(){}
+    private CaptureRecord() {
+    }
 
     /**
      * Instantiates a new CaptureRecord model from a JSON representation of the record
-     * @param jo a JSON representation of a Capture record, e.g. as from the response to oauth/auth_native
+     *
+     * @param jo          a JSON representation of a Capture record, e.g. as from the response to oauth/auth_native
      * @param accessToken the access token returned from the sign-on or registration
      */
     /*package*/ CaptureRecord(JSONObject jo, String accessToken) {
         super();
-        if(jo!= null && jo.optString("password") != null) {
+        if (jo != null && jo.optString("password") != null) {
             jo.remove("password");
         }
         original = (JSONObject) copyJsonVal(jo);
@@ -107,10 +109,8 @@ public class CaptureRecord extends JSONObject {
     }
 
     /**
-     * @deprecated
-     *
-     * Instantiates a new CaptureRecord model from a JSON representation of the record
      * @param jo a JSON representation of a Capture record, e.g. as from the response to oauth/auth_native
+     * @deprecated Instantiates a new CaptureRecord model from a JSON representation of the record
      */
     /*package*/ CaptureRecord(JSONObject jo, String accessToken, String refreshSecret) {
         this(jo, accessToken);
@@ -118,6 +118,7 @@ public class CaptureRecord extends JSONObject {
 
     /**
      * Loads a Capture user from a well-known filename on disk.
+     *
      * @param applicationContext the context from which to interact with the disk
      * @return the loaded record, or null
      */
@@ -127,9 +128,8 @@ public class CaptureRecord extends JSONObject {
         try {
 
             File file = applicationContext.getFileStreamPath(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
-            if(file != null && file.exists()) {
-                System.out.println("isUserSign captureRecord file.exists()");
-
+            if (file != null && file.exists()) {
+                LogUtils.logd("isUserSign captureRecord file.exists()");
                 fis = applicationContext.openFileInput(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 byte[] enctText = (byte[]) ois.readObject();
@@ -143,24 +143,24 @@ public class CaptureRecord extends JSONObject {
                 return inflateCaptureRecord(fileContents);
             }
         } catch (FileNotFoundException | NullPointerException ignore) {
-            System.out.println("isUserSign FileNotFoundException");
+            LogUtils.loge("isUserSign FileNotFoundException");
 
         } catch (JSONException ignore) {
-            System.out.println("isUserSign JSONException");
+            LogUtils.loge("isUserSign JSONException");
 
             throwDebugException(new RuntimeException("Bad CaptureRecord file contents:\n" + fileContents,
                     ignore));
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("isUserSign IOException");
+            LogUtils.loge("isUserSign IOException");
 
             e.printStackTrace();
         } finally {
             if (fis != null) try {
-                System.out.println("isUserSign fis");
+                LogUtils.loge("isUserSign fis");
 
                 fis.close();
             } catch (IOException e) {
-                System.out.println("isUserSign IOException2");
+                LogUtils.loge("isUserSign IOException2");
 
                 throwDebugException(new RuntimeException(e));
             }
@@ -168,17 +168,16 @@ public class CaptureRecord extends JSONObject {
         try {
             fileContents = Jump.getSecureStorageInterface().fetchValueForKey(
                     JR_CAPTURE_SIGNED_IN_USER_FILENAME, new SecureStorageInterface.SecureStorageError());
-            System.out.println("isUserSign fileContents != null"+(fileContents != null));
+            LogUtils.logd("isUserSign fileContents != null" + (fileContents != null));
 
-            if(fileContents != null){
+            if (fileContents != null) {
                 return inflateCaptureRecord(fileContents);
             }
 
         } catch (JSONException e) {
-            System.out.println("isUserSign JSONException2");
-            e.printStackTrace();
-        }catch (NullPointerException e) {
-            System.out.println("isUserSign NullPointerException");
+            LogUtils.loge("isUserSign JSONException2");
+        } catch (NullPointerException e) {
+            LogUtils.loge("isUserSign NullPointerException");
 
         }
         return null;
@@ -195,20 +194,18 @@ public class CaptureRecord extends JSONObject {
 
     /**
      * Saves the Capture record to a well-known private file on disk.
+     *
      * @param applicationContext the context to use to write to disk
      */
     public void saveToDisk(Context applicationContext) {
 
         try {
             Jump.getSecureStorageInterface().storeValueForKey(
-                    JR_CAPTURE_SIGNED_IN_USER_FILENAME, deflateCaptureRecord() ,new
+                    JR_CAPTURE_SIGNED_IN_USER_FILENAME, deflateCaptureRecord(), new
                             SecureStorageInterface.SecureStorageError());
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             throwDebugException(new RuntimeException("Unexpected", e));
-        }
-        catch (Exception e) {
-             throwDebugException(new RuntimeException("Unexpected", e));
         }
     }
 
@@ -222,6 +219,7 @@ public class CaptureRecord extends JSONObject {
 
     /**
      * Deletes the record saved to disk
+     *
      * @param applicationContext the context with which to delete the saved record
      */
     public static void deleteFromDisk(Context applicationContext) {
@@ -241,11 +239,7 @@ public class CaptureRecord extends JSONObject {
             SecretKeySpec secret = new SecretKeySpec(refreshSecret, mac.getAlgorithm());
             mac.init(secret);
             hash = mac.doFinal(stringToSign.getBytes("UTF-8"));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Unexpected", e);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Unexpected", e);
-        } catch (InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException | InvalidKeyException e) {
             throw new RuntimeException("Unexpected", e);
         }
 
@@ -255,6 +249,7 @@ public class CaptureRecord extends JSONObject {
     /**
      * Synchronizes the Capture record with the Capture service
      * Note that this sends any local changes to the service, but does not retrieve updates from the service.
+     *
      * @param callback your callback handler
      * @throws InvalidApidChangeException
      */
@@ -296,7 +291,8 @@ public class CaptureRecord extends JSONObject {
                     LogUtils.logd("Capture", unsafeJsonObjectToString(content, 2));
                     fireNextChange(changeList.subList(1, changeList.size()), callback);
                 } else {
-                    if (callback != null) callback.onFailure(new CaptureApiError(content, null, null));
+                    if (callback != null)
+                        callback.onFailure(new CaptureApiError(content, null, null));
                 }
             }
         };
@@ -382,8 +378,9 @@ public class CaptureRecord extends JSONObject {
         return collapseApidChanges(CaptureJsonUtils.compileChangeSet(originalUserInfo, this));
     }
 
-    /*package*/ static JSONObject captureRecordWithPrefilledFields(Map<String, Object> prefilledFields,
-                                                                 Map<String, Object> flow) {
+    /*package*/
+    static JSONObject captureRecordWithPrefilledFields(Map<String, Object> prefilledFields,
+                                                       Map<String, Object> flow) {
         Map<String, Object> preregAttributes = new HashMap<String, Object>();
         for (Map.Entry<String, Object> entry : prefilledFields.entrySet()) {
             if (entry.getValue() == null) continue;
@@ -404,11 +401,12 @@ System.out.println("UTC time " +utcTime);
 }*/
 
     private String getUTCdatetimeAsString() {
-       return  ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
+        return ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
     }
 
     /**
      * Uses the refresh secret to refresh the access token
+     *
      * @param callback your handler, invoked upon completion
      */
     public void refreshAccessToken(final CaptureApiRequestCallback callback) {
@@ -446,8 +444,7 @@ System.out.println("UTC time " +utcTime);
     }
 
 
-
-    public void refreshAccessToken(final CaptureApiRequestCallback callback,final Context context) {
+    public void refreshAccessToken(final CaptureApiRequestCallback callback, final Context context) {
         String date = getUTCdatetimeAsString();
         String signature = getRefreshSignature(date);
 
@@ -519,7 +516,7 @@ System.out.println("UTC time " +utcTime);
         public abstract void onFailure(CaptureApiError error);
     }
 
-    public String getAccessToken(){
+    public String getAccessToken() {
         return accessToken;
     }
 

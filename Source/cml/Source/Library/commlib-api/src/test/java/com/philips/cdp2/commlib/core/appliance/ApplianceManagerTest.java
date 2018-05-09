@@ -32,7 +32,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.inOrder;
@@ -46,6 +46,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class ApplianceManagerTest {
 
     public static final String CPPID = "CPPID";
+
     @Mock
     private ApplianceFactory applianceFactoryMock;
 
@@ -86,7 +87,7 @@ public class ApplianceManagerTest {
             doAnswer(new Answer() {
                 @Override
                 public Object answer(InvocationOnMock invocation) throws Throwable {
-                    entry.getValue().add(invocation.getArgumentAt(0, DiscoveryListener.class));
+                    entry.getValue().add((DiscoveryListener) invocation.getArgument(0));
                     return null;
                 }
             }).when(entry.getKey()).addDiscoveryListener(isA(DiscoveryListener.class));
@@ -108,7 +109,8 @@ public class ApplianceManagerTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                invocation.getArgumentAt(0, Runnable.class).run();
+                Runnable r = invocation.getArgument(0);
+                r.run();
                 return null;
             }
         }).when(handlerMock).post(isA(Runnable.class));
@@ -116,7 +118,7 @@ public class ApplianceManagerTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                applianceMockAvailabilityListener = invocation.getArgumentAt(0, AvailabilityListener.class);
+                applianceMockAvailabilityListener = invocation.getArgument(0);
                 return null;
             }
         }).when(applianceMock).addAvailabilityListener(isA(AvailabilityListener.class));
@@ -132,7 +134,7 @@ public class ApplianceManagerTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                networkNodeChangeListener = invocation.getArgumentAt(0, PropertyChangeListener.class);
+                networkNodeChangeListener = invocation.getArgument(0);
                 return null;
             }
         }).when(networkNodeMock).addPropertyChangeListener(isA(PropertyChangeListener.class));

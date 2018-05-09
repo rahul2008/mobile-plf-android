@@ -39,6 +39,7 @@ public class RegistrationRequest extends PrxRequest {
     private String state;
     private String country;
     private String serviceID;
+    private static int MAX_REQUEST_TIME_OUT= 30000;
 
     private String shouldSendEmailAfterRegistration = "true";
 
@@ -164,6 +165,11 @@ public class RegistrationRequest extends PrxRequest {
     @Override
     public int getRequestType() {
         return RequestType.POST.getValue();
+    }
+
+    @Override
+    public int getRequestTimeOut() {
+        return MAX_REQUEST_TIME_OUT;
     }
 
     @Override

@@ -16,7 +16,9 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -27,6 +29,7 @@ import java.io.InputStream;
 import static com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant.PRX;
 import static junit.framework.Assert.assertEquals;
 
+@RunWith(RobolectricTestRunner.class)
 public class IAPNetworkErrorTest {
 
     @Mock
@@ -71,7 +74,7 @@ public class IAPNetworkErrorTest {
     @Test
     public void testSetServerErrorException() throws Exception {
         mJsonObject = new JSONObject(TestUtils.readFile(IAPJsonRequestTest.class, "server_error.txt"));
-        NetworkResponse networkResponse = new NetworkResponse(5, null, null, false);
+        NetworkResponse networkResponse = new NetworkResponse(mJsonObject.toString().getBytes("utf-8"));
         MockIAPNetworkError error = new MockIAPNetworkError(new ServerError(networkResponse), 0, null);
         assertEquals(IAPConstant.IAP_ERROR_SERVER_ERROR, error.getStatusCode());
     }

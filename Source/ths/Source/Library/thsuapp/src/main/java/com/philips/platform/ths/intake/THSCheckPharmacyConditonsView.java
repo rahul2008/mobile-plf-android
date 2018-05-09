@@ -9,4 +9,5 @@ interface THSCheckPharmacyConditonsView extends THSBaseView{
     void displayPharmacy();
     void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address);
     void showError(String toastMessage);
+    void showPharmacySearch();
 }

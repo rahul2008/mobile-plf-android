@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -30,7 +30,7 @@ import java.util.Set;
 import static com.philips.cdp2.commlib.core.util.ContextProvider.setTestingContext;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -142,5 +142,13 @@ public class CommCentralTest {
 
         CommCentral.getAppIdProvider().setAppId(appId);
         assertEquals("AppId must be equal.", appId, CommCentral.getAppIdProvider().getAppId());
+    }
+
+    @Test
+    public void givenACommCentralInstance_whenClearingDiscoveredAppliances_thenInvokeClearDiscoveredNetworkNodesOnAllProvidedDiscoveryStrategies() {
+        commCentral.clearDiscoveredAppliances();
+
+        verify(someDiscoveryStrategyMock).clearDiscoveredNetworkNodes();
+        verify(anotherDiscoveryStrategyMock).clearDiscoveredNetworkNodes();
     }
 }

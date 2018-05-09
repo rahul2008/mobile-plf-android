@@ -11,7 +11,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-
+@SuppressWarnings("serial")
 public class CCDemoUAppuAppInterface implements UappInterface {
 
     private Context context;
@@ -24,7 +24,7 @@ public class CCDemoUAppuAppInterface implements UappInterface {
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
-        this.mAppInfraInterface = uappDependencies.getAppInfra();
+        CCDemoUAppuAppInterface.mAppInfraInterface = uappDependencies.getAppInfra();
     }
 
     /**

@@ -1,11 +1,11 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.URInterface;
 
 public class AccountActivationResendMailPresenter implements NetworkStateListener,
         ResendVerificationEmailHandler {
@@ -22,7 +22,7 @@ public class AccountActivationResendMailPresenter implements NetworkStateListene
             AccountActivationResendMailContract accountActivationContract, User user, RegistrationHelper registrationHelper) {
         this.user = user;
         this.registrationHelper = registrationHelper;
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.accountActivationContract = accountActivationContract;
     }
 

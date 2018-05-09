@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -18,15 +18,14 @@ import android.widget.EditText;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 
 import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
-import static com.philips.cdp2.commlib.demouapp.R.string.cml_paired_success;
-import static com.philips.cdp2.commlib.demouapp.R.string.cml_pairing_failed;
+import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_failed;
+import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_success;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_success;
+import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
 import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
 
@@ -37,7 +36,6 @@ public class PairingFragment extends Fragment {
     private EditText editTextUserToken;
     private Appliance currentAppliance;
 
-    private ApplianceManager applianceManager;
     private View rootview;
 
     @Nullable
@@ -45,10 +43,11 @@ public class PairingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.cml_fragment_pairing, container, false);
 
-        applianceManager = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager();
+        final String cppId = getArguments().getString(APPLIANCE_KEY);
+        currentAppliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
 
-        editTextUserId = (EditText) rootview.findViewById(R.id.cml_userId);
-        editTextUserToken = (EditText) rootview.findViewById(R.id.cml_userToken);
+        editTextUserId = rootview.findViewById(R.id.cml_userId);
+        editTextUserToken = rootview.findViewById(R.id.cml_userToken);
 
         rootview.findViewById(R.id.cml_buttonPair).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,8 +63,6 @@ public class PairingFragment extends Fragment {
             }
         });
 
-        currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
-
         return rootview;
     }
 
@@ -78,7 +75,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showMessage(getActivity(), rootview, getString(cml_paired_success));
+                    showMessage(getActivity(), rootview, getString(cml_pair_success));
                 }
             }
 
@@ -88,7 +85,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pairing_failed));
+                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pair_failed));
                 }
             }
         }, getCloudController());
@@ -121,7 +118,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pairing_failed));
+                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pair_failed));
                 }
             }
         }, getCloudController());

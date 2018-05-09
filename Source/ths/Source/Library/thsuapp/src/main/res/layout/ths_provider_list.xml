@@ -55,7 +55,7 @@
                 android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
                 android:textSize="@dimen/uid_grid_descrption_size"
                 android:layout_marginStart="6dp"
-                android:layout_toRightOf="@+id/isAvailableImage"
+                android:layout_toRightOf="@+id/ths_provider_list_isAvailableImage_layout"
                 android:layout_centerVertical="true"
                  />
 
@@ -71,7 +71,7 @@
                 android:visibility="gone"
                 app:backgroundTint="?attr/uidColorLevel45" />
 
-            <ImageView
+          <!--  <ImageView
                 android:id="@+id/isAvailableImage"
                 android:enabled="false"
                 android:layout_width="22dp"
@@ -80,7 +80,32 @@
                 android:layout_marginBottom="@dimen/ths_list_space"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/notification_badge"
-                 />
+                 />-->
+            <FrameLayout
+                android:id="@+id/ths_provider_list_isAvailableImage_layout"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="8dp"
+                android:layout_toEndOf="@+id/notification_badge"
+                android:enabled="false"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/isAvailableImage"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:enabled="false"
+                    android:gravity="center" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/details_isAvailableImage_text"
+                    android:layout_width="22dp"
+                    android:gravity="center"
+                    android:layout_height="22dp"
+                    android:textColor="?attr/uidButtonPrimaryNormalTextColor"
+                    />
+            </FrameLayout>
         </RelativeLayout>
 
         <com.philips.platform.uid.view.widget.RatingBar

@@ -41,6 +41,7 @@ public class ValidationEditText extends EditText {
     /**
      * Set/remove error state in {@link EditText}
      * @param isError boolean to set state
+     *                @since 3.0.0
      */
     public void setError(boolean isError) {
         if(this.isInErrorState != isError) {

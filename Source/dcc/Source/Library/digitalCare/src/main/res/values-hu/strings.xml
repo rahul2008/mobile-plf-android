@@ -19,7 +19,7 @@
     <string name="product_info"> termékinformációk </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Betöltés </string>
-    <string name="please_wait"> Kérem, várjon &amp;#8230; </string>
+    <string name="dcc_please_wait"> Kérem, várjon &amp;#8230; </string>
     <string name="get_directions"> Útvonal tervezése </string>
     <string name="search"> Keresés </string>
     <string name="gps_disabled"> A GPS nincs bekapcsolva az Ön készülékén. Szeretné bekapcsolni? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Jelszó </string>
     <string name="sign_into_my_philips"> My Philips-bejelentkezés </string>
     <string name="forgot_my_password"> Elfelejtettem a jelszavamat &gt;  </string>
-    <string name="create_account">  Fiók létrehozása &gt; </string>
+    <string name="dcc_create_account">  Fiók létrehozása &gt; </string>
 
     <string name="localtephilips_contactus">Lépjen a kapcsolat oldalra</string>
 
@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Súgó és támogatás</string>
     <string name="dcc_Call">Hívás</string>
     <string name="dcc_Opening_Hours">Nyitva tartás</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Mégse</string>
+    <string name="dcc_location_consent_title">Tartózkodási hely adataira vonatkozó hozzájárulás</string>
+    <string name="dcc_location_consent_definition_text">Engedélyezem a Philips számára a tartózkodási helyemmel kapcsolatos adatokhoz való hozzáférést a „Philips az Ön közelében” funkció működése érdekében.</string>
+    <string name="dcc_location_consent_definition_help_text">Ha engedélyezi a hozzáférést a tartózkodási helyével kapcsolatos adatokhoz, mobileszköze földrajzi helyére vonatkozó információkat gyűjthetünk.\n\nHa használni szeretné a „Philips az Ön közelében” funkciót a Támogatási oldalon, a rendszer kéri, hogy ossza meg helyadatait a Philips-szel. Ha használja a hellyel kapcsolatos funkcióinkat, a tartózkodási helyével kapcsolatos adatok alapján a közelben lévő üzlethez fogják irányítani, vagy megkapja az országa ügyfélszolgálatának elérhetőségeit.</string>
 
 </resources>

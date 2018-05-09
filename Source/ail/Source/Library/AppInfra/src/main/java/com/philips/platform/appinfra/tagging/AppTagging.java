@@ -13,26 +13,34 @@ import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 
 /**
- * App Tagging classs .
+ * App Tagging classes .
  */
 public class AppTagging implements AppTaggingInterface {
 
+    private static final long serialVersionUID = 4532714074636578025L;
     static final String PAGE_NAME = "ailPageName";
     static final String ACTION_NAME = "ailActionName";
     static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
     static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
     static final String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
+    static final String CLICKSTREAM_CONSENT_TYPE = "AIL_ClickStream";
     private static String prevPage;
     private final AppInfra mAppInfra;
     protected String mComponentID;
     protected String mComponentVersion;
-    private AppTaggingHandler appTaggingHandle;
+    private transient AppTaggingHandler appTaggingHandle;
+
+    private ClickStreamConsentHandler mConsentHandler;
+
 
     public AppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -168,6 +176,24 @@ public class AppTagging implements AppTaggingInterface {
         getAppTaggingHandler().taggingDataRegister(receiver);
     }
 
+    @Override
+    public ConsentHandlerInterface getClickStreamConsentHandler() {
+            if (mConsentHandler == null)
+                mConsentHandler = new ClickStreamConsentHandler(mAppInfra);
+            return mConsentHandler;
+    }
+
+    @Override
+    public String getClickStreamConsentIdentifier() {
+        return CLICKSTREAM_CONSENT_TYPE;
+    }
+
+    @Override
+    public void registerClickStreamHandler(ConsentManagerInterface consentManager) {
+        consentManager.deregisterHandler(Collections.singletonList(CLICKSTREAM_CONSENT_TYPE));
+        consentManager.registerHandler(Collections.singletonList(CLICKSTREAM_CONSENT_TYPE), getClickStreamConsentHandler());
+    }
+
     private void socialSharing(AppTaggingInterface.SocialMedium medium, String sharedItem) {
         final HashMap<String, String> trackMap = new HashMap<>();
         trackMap.put("socialItem", sharedItem);
@@ -186,5 +212,4 @@ public class AppTagging implements AppTaggingInterface {
         getAppTaggingHandler().setPrevPage(previousPage);
 
     }
-
 }

@@ -8,27 +8,22 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
-import com.philips.cdp.di.iap.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
-import org.robolectric.util.FragmentTestUtil;
 
-import static org.junit.Assert.*;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
 /**
  * Created by philips on 10/6/17.
  */
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class DeliveryMethodFragmentTest {
 
     @Mock
@@ -44,7 +39,7 @@ public class DeliveryMethodFragmentTest {
         deliveryMethodFragment = DeliveryMethodFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldStartFragment() throws Exception {
         SupportFragmentTestUtil.startFragment(deliveryMethodFragment);
     }

@@ -12,32 +12,27 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.UploadAttachment;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.provider.Provider;
+import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.selectimage.THSUploadDocumentCallback;
-import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
-import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Map;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CREATE_VISIT_CONTEXT;
-import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ON_DEMAND_SPECIALITIES;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCallBack<THSVisitContext, THSSDKError>, THSUploadDocumentCallback {
     protected THSBaseFragment thsBaseView;
@@ -70,7 +65,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             thsSymptomsFragmentViewInterface.setContinueButtonState(false);
             THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(), uploadAttachment, this);
         } catch (AWSDKInstantiationException | IOException e) {
-            e.printStackTrace();
+            AmwellLog.e("uploadDocument",e.toString());
         }
 
     }
@@ -92,8 +87,10 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onResponse(THSVisitContext THSVisitContext, THSSDKError thssdkError) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             if (null != thssdkError.getSdkError()) {
-                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT_CONTEXT,thssdkError.getSdkError()), true);
+                AmwellLog.e("uploadDocument",thssdkError.getSdkError().toString());
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(thsBaseView.getFragmentActivity(), ANALYTICS_CREATE_VISIT_CONTEXT,thssdkError.getSdkError()), true, false);
             } else {
+                AmwellLog.d("uploadDocument","success");
                 updateSymptoms(THSVisitContext);
             }
         }
@@ -111,11 +108,19 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     @Override
     public void onFailure(Throwable throwable) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
+            AmwellLog.e("uploadDocument",throwable.toString());
             thsBaseView.showError(thsBaseView.getString(R.string.ths_se_server_error_toast_message));
             thsBaseView.hideProgressBar();
         }
     }
 
+    void getVisitContext(final Appointment appointment) {
+        try {
+            THSManager.getInstance().getVisitContext(thsBaseView.getFragmentActivity(), appointment, this);
+        } catch (MalformedURLException | URISyntaxException | AWSDKInstantiationException | AWSDKInitializationException e) {
+
+        }
+    }
     void getVisitContext() {
         if (mThsProviderInfo == null) {
             final Provider provider = ((THSSymptomsFragment) thsBaseView).getProvider();
@@ -125,44 +130,14 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         }
         try {
             THSManager.getInstance().getVisitContext(thsBaseView.getFragmentActivity(), mThsProviderInfo, this);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        } catch (AWSDKInitializationException e) {
-            e.printStackTrace();
+        } catch (MalformedURLException | URISyntaxException | AWSDKInstantiationException | AWSDKInitializationException e) {
+
         }
-    }
-
-    public void getfirstAvailableProvider(THSOnDemandSpeciality onDemandSpecialties) throws AWSDKInstantiationException {
-        THSManager.getInstance().getVisitContextWithOnDemandSpeciality(thsBaseView.getContext(), onDemandSpecialties, new THSVisitContextCallBack<THSVisitContext, THSSDKError>() {
-            @Override
-            public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
-                if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
-                    if (null != thssdkError.getSdkError()) {
-                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true);
-                    } else {
-                        updateSymptoms(pthVisitContext);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
-                    thsBaseView.hideProgressBar();
-                    thsBaseView.showError(thsBaseView.getString(R.string.ths_se_server_error_toast_message));
-                }
-
-            }
-        });
     }
 
 
     @Override
-    public void onUploadValidationFailure(Map<String, ValidationReason> map) {
+    public void onUploadValidationFailure(Map<String, String> map) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             thsSymptomsFragmentViewInterface.setContinueButtonState(true);
             thsBaseView.showError(thsBaseView.getString(R.string.ths_add_photo_validation_error_string));
@@ -176,7 +151,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             if (null != documentRecord && null == sdkError) {
                 ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
             } else if (null != sdkError) {
-                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,sdkError));
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(thsBaseView.getFragmentActivity(), ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,sdkError));
                 thsBaseView.showError(thsBaseView.getString(R.string.ths_add_photo_error_string) + sdkError.getMessage());
             }
         }

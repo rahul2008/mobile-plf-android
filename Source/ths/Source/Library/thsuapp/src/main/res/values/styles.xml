@@ -128,7 +128,7 @@
         <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
         <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
         <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:text">@string/vitals_skip</item>
+        <item name="android:text">@string/ths_vitals_skip</item>
     </style>
 
     <style name="ths_title_text">
@@ -229,5 +229,12 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_alignParentEnd">true</item>
         <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="ths_user_name" parent="UIDLabel.RecyclerViewHeaderText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 </resources>

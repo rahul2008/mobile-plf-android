@@ -7,6 +7,7 @@
         <item name="android:paddingStart">@dimen/uid_checkbox_margin_left_right</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/uid_checkbox_text_size</item>
+        <item name="android:textAlignment">viewStart</item>
         <item name="android:background">@drawable/uid_checkbox_background</item>
         <item name="android:lineSpacingExtra">@dimen/uid_checkbox_line_spacing</item>
         <item name="android:lineSpacingMultiplier">@integer/uid_checkbox_font_spacing_multiplier</item>

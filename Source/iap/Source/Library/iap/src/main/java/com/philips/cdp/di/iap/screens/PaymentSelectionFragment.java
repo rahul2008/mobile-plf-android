@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -38,7 +39,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     private PaymentMethodsAdapter mPaymentMethodsAdapter;
     private List<PaymentMethod> mPaymentMethodList;
     private PaymentController mPaymentController;
-
+    private LinearLayout mParentLayout;
     TextView tvCheckOutSteps;
     TextView tvSelectHeader;
 
@@ -54,7 +55,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
         tvSelectHeader= view.findViewById(R.id.tv_select_header);
         tvSelectHeader.setText(getContext().getString(R.string.iap_select_payment_method));
 
-
+        mParentLayout = view.findViewById(R.id.payment_container);
         Bundle bundle = getArguments();
         if (bundle.containsKey(IAPConstant.PAYMENT_METHOD_LIST)) {
             mPaymentMethodList = (List<PaymentMethod>) bundle.getSerializable(IAPConstant.PAYMENT_METHOD_LIST);
@@ -127,12 +128,11 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     }
 
     private void setPaymentDetail() {
-        if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, getString(R.string.iap_please_wait));
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PAYMENT_METHOD,
-                    selectedPaymentMethod().getCardType().getCode());
-            mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
-        }
+        createCustomProgressBar(mParentLayout, BIG);
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PAYMENT_METHOD,
+                selectedPaymentMethod().getCardType().getCode());
+        mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
+
     }
 
     @Override
@@ -142,7 +142,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
 
     @Override
     public void onSetPaymentDetails(Message msg) {
-        dismissProgressDialog();
+        hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {

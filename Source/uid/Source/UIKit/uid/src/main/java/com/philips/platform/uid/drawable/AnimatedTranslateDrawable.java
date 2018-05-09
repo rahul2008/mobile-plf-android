@@ -51,6 +51,7 @@ public class AnimatedTranslateDrawable extends Drawable {
     /**
      * Sets the alpha on enclosing drawables (drawable and mirror drawable)
      * @param alpha to be applied on drawables.
+     *              @since 3.0.0
      */
     @Override
     public void setAlpha(final int alpha) {
@@ -63,6 +64,7 @@ public class AnimatedTranslateDrawable extends Drawable {
     /**
      * Sets the ColorFilter on enclosing drawables (drawable and mirror drawable)
      * @param colorFilter to be applied on drawables.
+     *                    @since 3.0.0
      */
     @Override
     public void setColorFilter(final ColorFilter colorFilter) {
@@ -75,6 +77,7 @@ public class AnimatedTranslateDrawable extends Drawable {
     /**
      * Returns the opacity of enclosed drawable.
      * @return opacity of enclosed drawable.
+     * @since 3.0.0
      */
     @Override
     public int getOpacity() {
@@ -84,6 +87,7 @@ public class AnimatedTranslateDrawable extends Drawable {
     /**
      * Function to return translated value for translation calculated by animator.
      * @return Interpolated translate value.
+     * @since 3.0.0
      */
     public float getTranslate() {
         return translateValue;
@@ -92,6 +96,7 @@ public class AnimatedTranslateDrawable extends Drawable {
     /**
      * Function used by animator to calculate values by interpolator
      * @param translateX set by the animation framework.
+     *                   @since 3.0.0
      */
     public void setTranslate(float translateX) {
         translateValue = translateX;
@@ -108,6 +113,7 @@ public class AnimatedTranslateDrawable extends Drawable {
 
     /**
      * Should be called to start the animation
+     * @since 3.0.0
      */
     public void start() {
         if (!animator.isRunning()) {
@@ -117,6 +123,7 @@ public class AnimatedTranslateDrawable extends Drawable {
 
     /**
      * Should be called to resume the animation
+     * @since 3.0.0
      */
     public void resume() {
         if (animator.isPaused()) {
@@ -128,6 +135,7 @@ public class AnimatedTranslateDrawable extends Drawable {
 
     /**
      * Should be called to pause the animation
+     * @since 3.0.0
      */
     public void pause() {
         if (animator.isRunning()) {
@@ -137,6 +145,7 @@ public class AnimatedTranslateDrawable extends Drawable {
 
     /**
      * Ends the animation (translate animation).
+     * @since 3.0.0
      */
     public void end() {
         if (animator != null && (animator.isRunning() || animator.isPaused())) {
@@ -147,6 +156,7 @@ public class AnimatedTranslateDrawable extends Drawable {
     /**
      * Returns animator bind to this drawable.
      * @return Animator bind to this drawable.
+     * @since 3.0.0
      */
     public Animator getAnimator() {
         return animator;

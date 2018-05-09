@@ -1,1 +1,0 @@
-../../Applications/Appium.app/Contents/Resources/node/bin/node /Applications/Appium.app/Contents/Resources/node_modules/appium/bin/appium.js --address 0.0.0.0 --chromedriver-port 9516 --bootstrap-port 4723 --no-reset --local-timezone

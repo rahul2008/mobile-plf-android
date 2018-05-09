@@ -4,6 +4,7 @@ import android.view.InflateException;
 
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -35,7 +36,7 @@ public class CreateAccountFragmentTest {
     public void setUp() throws Exception {
 
         initMocks(this);
-        URInterface.setComponent(mockRegistrationComponent);
+        RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
         createAccountFragment= new CreateAccountFragment();
     }
 

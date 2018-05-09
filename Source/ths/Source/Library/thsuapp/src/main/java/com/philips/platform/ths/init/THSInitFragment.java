@@ -19,16 +19,19 @@ import android.widget.RelativeLayout;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.utility.THSUtilities;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
+import static com.philips.platform.ths.utility.THSConstants.KEY_DEEP_LINKING_FLOW;
 import static com.philips.platform.ths.utility.THSConstants.THS_INIT_PAGE;
 
-
+@SuppressWarnings("serial")
 public class THSInitFragment extends THSBaseFragment {
     public static final String TAG = THSInitFragment.class.getSimpleName();
     THSInitPresenter mThsInitPresenter;
+    private boolean deepLinkingFlow=false;
     @IdRes
     int progressBarID = 1989898;
 
@@ -42,6 +45,15 @@ public class THSInitFragment extends THSBaseFragment {
         ActionBarListener actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(getString(R.string.ths_welcome), true);
+        }
+        if(THSManager.getInstance().getThsTagging()!=null) {
+            // entry to THS, start tagging
+            THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
+            THSTagUtils.doTrackPageWithInfo(THS_INIT_PAGE, null, null);
+        }
+        Bundle bundle=getArguments();
+        if(null!=bundle) {
+            deepLinkingFlow = bundle.getBoolean(KEY_DEEP_LINKING_FLOW);
         }
         return view;
     }
@@ -73,13 +85,14 @@ public class THSInitFragment extends THSBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        // entry to THS, start tagging
-        THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INIT_PAGE, null, null);
     }
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         //do nothing , here connection error will be handled by other call backs
+    }
+
+    public boolean isDeeplinkingFlow() {
+        return deepLinkingFlow;
     }
 }

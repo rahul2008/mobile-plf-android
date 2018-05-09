@@ -35,7 +35,7 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
         try {
             THSManager.getInstance().getVisitHistory(mThsVisitHistoryFragment.getContext(),null, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -43,7 +43,7 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
     public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
         if(null!= mThsVisitHistoryFragment && mThsVisitHistoryFragment.isFragmentAttached()) {
             if (sdkError != null) {
-                mThsVisitHistoryFragment.showError( THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_VISIT_HISTORY,sdkError), true);
+                mThsVisitHistoryFragment.showError( THSSDKErrorFactory.getErrorType(mThsVisitHistoryFragment.getContext(), ANALYTIC_FETCH_VISIT_HISTORY,sdkError), true, false);
                 return;
             }
             mThsVisitHistoryFragment.updateVisitHistoryView(visitReports);
@@ -55,7 +55,7 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
     public void onFailure(Throwable throwable) {
         if(null!= mThsVisitHistoryFragment && mThsVisitHistoryFragment.isFragmentAttached()) {
             mThsVisitHistoryFragment.doTagging(ANALYTIC_FETCH_VISIT_HISTORY,throwable.getMessage(),true);
-            mThsVisitHistoryFragment.showError(mThsVisitHistoryFragment.getString(R.string.ths_se_server_error_toast_message), true);
+            mThsVisitHistoryFragment.showError(mThsVisitHistoryFragment.getString(R.string.ths_se_server_error_toast_message), true, false);
         }
     }
 }

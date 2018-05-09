@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.platform.baseapp.base;
 
 import android.app.Application;
@@ -13,7 +12,6 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.crittercism.app.Crittercism;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
@@ -23,9 +21,7 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.appframework.BuildConfig;
-import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.ConnectivityFragment;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppKpsConfigurationInfo;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -37,17 +33,23 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
+import com.philips.platform.baseapp.screens.privacysettings.PrivacySettingsState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
+import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
+
+//import com.crittercism.app.Crittercism;
 
 /**
  * Application class is used for initialization
@@ -70,6 +72,15 @@ public class AppFrameworkApplication extends Application {
     private CommCentral commCentral = null;
     private RefAppApplianceFactory applianceFactory;
     private MyAccountState myAccountState;
+    private static boolean appDataInitializationStatus;
+    private SupportFragmentState supportFragmentState;
+    private TeleHealthServicesState teleHealthServicesState;
+    private PrivacySettingsState privacySettingsState;
+
+
+    public static boolean isAppDataInitialized() {
+        return appDataInitializationStatus;
+    }
 
     public static final String TAG = AppFrameworkApplication.class.getSimpleName();
 
@@ -100,8 +111,8 @@ public class AppFrameworkApplication extends Application {
         /*
          * Apteligent initialization.
          */
-        Crittercism.setLoggingLevel(Crittercism.LoggingLevel.Silent);
-        Crittercism.initialize(getApplicationContext(), Apteligent_APP_ID);
+//        Crittercism.setLoggingLevel(Crittercism.LoggingLevel.Silent);
+//        Crittercism.initialize(getApplicationContext(), Apteligent_APP_ID);
     }
 
     /**
@@ -110,7 +121,6 @@ public class AppFrameworkApplication extends Application {
      * @param callback
      */
     public void initialize(AppInitializationCallback.AppStatesInitializationCallback callback) {
-
         RALog.d(LOG, "UR state begin::");
         initUserRegistrationState();
         RALog.d(LOG, "UR state end::");
@@ -121,14 +131,17 @@ public class AppFrameworkApplication extends Application {
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         RALog.d(LOG, "PR state end::");
-      //  determineHybrisFlow();
+        //  determineHybrisFlow();
+        RALog.d(LOG, "Mya state begin::");
+        initializeMya();
+        RALog.d(LOG, "Mya state end::");
+        RALog.d(LOG, "Privacy settings state begin::");
+        initializePrivacySettings();
+        RALog.d(LOG, "Privacy settings state end::");
         RALog.d(LOG, "DS state begin::");
         initDataServiceState();
         RALog.d(LOG, "DS state end::");
         initializeIAP();
-        RALog.d(LOG, "Mya state begin::");
-        initializeMya();
-        RALog.d(LOG, "Mya state end::");
         /*
          * Initializing tagging class and its interface. Interface initialization needs
          * context to gets started.
@@ -147,7 +160,23 @@ public class AppFrameworkApplication extends Application {
                             ConnectivityManager.CONNECTIVITY_ACTION));
         }
         RALog.d("test", "onCreate end::");
+        appDataInitializationStatus = true;
         callback.onAppStatesInitialization();
+        initializeCC();
+        initializeTHS();
+    }
+    private void initializePrivacySettings() {
+        privacySettingsState = new PrivacySettingsState();
+        privacySettingsState.init(this);
+    }
+    private void initializeTHS() {
+        teleHealthServicesState = new TeleHealthServicesState();
+        teleHealthServicesState.init(this);
+    }
+
+    private void initializeCC() {
+        supportFragmentState = new SupportFragmentState();
+        supportFragmentState.init(this);
     }
 
     public void initUserRegistrationState() {
@@ -163,6 +192,7 @@ public class AppFrameworkApplication extends Application {
     public void initDataServiceState() {
         dataSyncScreenState = new DemoDataServicesState();
         dataSyncScreenState.init(this);
+        DataServicesManager.getInstance().synchronize();
     }
 
     public LoggingInterface getLoggingInterface() {
@@ -232,12 +262,10 @@ public class AppFrameworkApplication extends Application {
         RALog.d(LOG, "IAP state begin::");
         iapState = new IAPRetailerFlowState();
         iapState.init(this);
-        try{
+        try {
             getIap().isCartVisible();
 
-        }
-        catch (RuntimeException rte)
-        {
+        } catch (RuntimeException rte) {
             setShopingCartVisible(false);
         }
         RALog.d(LOG, "IAP state end::");
@@ -267,10 +295,10 @@ public class AppFrameworkApplication extends Application {
     }
 
     public synchronized CommCentral getCommCentralInstance() {
-        if(commCentral == null) {
+        if (commCentral == null) {
             commCentral = createCommCentral(getApplicationContext(), getAppInfra());
         }
-        RALog.i(TAG,"getCommCentralInstance - " + commCentral);
+        RALog.i(TAG, "getCommCentralInstance - " + commCentral);
         return commCentral;
     }
 
@@ -296,10 +324,11 @@ public class AppFrameworkApplication extends Application {
         final CloudController cloudController = new DefaultCloudController(context, new RefAppKpsConfigurationInfo());
 
         String ICPClientVersion = cloudController.getICPClientVersion();
-        RALog.d(TAG,"ICPClientVersion - " + ICPClientVersion);
+        RALog.d(TAG, "ICPClientVersion - " + ICPClientVersion);
 
         return cloudController;
     }
+
     /***
      * Initializar app infra
      *
@@ -316,7 +345,7 @@ public class AppFrameworkApplication extends Application {
         languagePackInterface.refresh(new LanguagePackInterface.OnRefreshListener() {
             @Override
             public void onError(AILPRefreshResult ailpRefreshResult, String s) {
-                RALog.e(LOG,ailpRefreshResult.toString()+"---"+s);
+                RALog.e(LOG, ailpRefreshResult.toString() + "---" + s);
             }
 
             @Override
@@ -325,12 +354,12 @@ public class AppFrameworkApplication extends Application {
                     @Override
                     public void onSuccess(String filePath) {
                         UikitLocaleHelper.getUikitLocaleHelper().setFilePath(filePath);
-                        RALog.d(LOG,"Success langauge pack activate "+"---"+filePath);
+                        RALog.d(LOG, "Success langauge pack activate " + "---" + filePath);
                     }
 
                     @Override
                     public void onError(AILPActivateResult ailpActivateResult, String s) {
-                        RALog.e(LOG,ailpActivateResult.toString()+"---"+s);
+                        RALog.e(LOG, ailpActivateResult.toString() + "---" + s);
                     }
                 });
             }

@@ -10,11 +10,11 @@ package com.philips.cdp.registration.configuration;
 
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
 
 public class RegistrationConfiguration {
+    private String TAG = RegistrationConfiguration.class.getSimpleName();
 
     @Inject
     HSDPConfiguration hsdpConfiguration;
@@ -36,9 +37,21 @@ public class RegistrationConfiguration {
     @Inject
     AppConfiguration appConfiguration;
 
+    private RegistrationComponent component;
+
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
     UserRegistrationUIEventListener userRegistrationUIEventListener;
+
+    public RegistrationComponent getComponent() {
+        return component;
+    }
+
+
+    public void setComponent(RegistrationComponent component) {
+        this.component = component;
+        this.component.inject(this);
+    }
 
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationUIEventListener;
@@ -49,10 +62,6 @@ public class RegistrationConfiguration {
     }
 
     private static volatile RegistrationConfiguration registrationConfiguration;
-
-    private RegistrationConfiguration() {
-        URInterface.getComponent().inject(this);
-    }
 
     public static synchronized RegistrationConfiguration getInstance() {
         if (registrationConfiguration == null) {
@@ -67,6 +76,7 @@ public class RegistrationConfiguration {
 
     public String getRegistrationClientId(@NonNull Configuration environment) {
         String registrationClient = appConfiguration.getClientId(environment.getValue());
+        RLog.d(TAG, "getRegistrationClientId : registrationClient :" + registrationClient);
         if (registrationClient != null) {
             if (isJSONValid(registrationClient)) {
                 try {
@@ -74,29 +84,34 @@ public class RegistrationConfiguration {
                     if (!jsonObject.isNull(RegistrationHelper.getInstance().getCountryCode())) {
                         registrationClient = (String) jsonObject.get(RegistrationHelper.
                                 getInstance().getCountryCode());
+                        RLog.d(TAG, "getRegistrationClientId : registrationClient :" + registrationClient + "with given Country Code :" + RegistrationHelper.getInstance().getCountryCode());
                         return registrationClient;
                     } else if (!jsonObject.isNull(DEFAULT)) {
                         registrationClient = (String) jsonObject.get(DEFAULT);
+                        RLog.d(TAG, "getRegistrationClientId : registrationClient :" + registrationClient + "with DEFAULT ");
                         return registrationClient;
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    RLog.e(TAG, "getRegistrationClientId : exception  :" + e.getMessage());
                 }
             }
         } else {
-            RLog.e("RegistrationConfiguration", "Registration client is null");
+            RLog.e(TAG, "Registration client is null");
         }
 
         return registrationClient;
     }
 
-    public boolean isJSONValid(String test) {
+    private boolean isJSONValid(String test) {
         try {
             new JSONObject(test);
+            RLog.d(TAG, "isJSONValid exception JSONObject");
         } catch (JSONException ex) {
             try {
                 new JSONArray(test);
+                RLog.e(TAG, "isJSONValid exception JSONArray");
             } catch (JSONException ex1) {
+                RLog.e(TAG, "isJSONValid exception");
                 return false;
             }
         }
@@ -110,8 +125,9 @@ public class RegistrationConfiguration {
      */
     public String getMicrositeId() {
         String micrositeId = appConfiguration.getMicrositeId();
+        RLog.d(this.getClass().getSimpleName(), "Microsite ID is :" + micrositeId);
         if (null == micrositeId) {
-            RLog.e("RegistrationConfiguration", "Microsite ID is null");
+            RLog.e(this.getClass().getSimpleName(), "Microsite ID is null");
         }
         return micrositeId;
     }
@@ -122,14 +138,13 @@ public class RegistrationConfiguration {
      * @return String
      */
     public List<String> getServiceDiscoveryCountries() {
-        HashMap<String,String> sdCountryMapping = appConfiguration.getServiceDiscoveryCountryMapping();
+        HashMap<String, String> sdCountryMapping = (HashMap<String, String>) appConfiguration.getServiceDiscoveryCountryMapping();
         if (null == sdCountryMapping) {
-            RLog.e("RegistrationConfiguration", "sdCountryMapping is null");
-            return null;
+            RLog.e(TAG, "sdCountryMapping is null");
+            return new ArrayList<>();
         }
-        return  new ArrayList<>(sdCountryMapping.keySet());
+        return new ArrayList<>(sdCountryMapping.keySet());
     }
-
 
 
     /**
@@ -140,7 +155,7 @@ public class RegistrationConfiguration {
     public String getCampaignId() {
         String campaignId = appConfiguration.getCampaignId();
         if (null == campaignId) {
-            RLog.e("RegistrationConfiguration", "Campaign ID is null");
+            RLog.e(TAG, "Campaign ID is null");
         }
         return campaignId;
     }
@@ -153,7 +168,8 @@ public class RegistrationConfiguration {
     public String getRegistrationEnvironment() {
         String registrationEnvironment = appConfiguration.getRegistrationEnvironment();
         if (null == registrationEnvironment) {
-            RLog.e("RegistrationConfiguration", "Registration environment is null");
+            RLog.e(TAG, "Registration environment is null");
+            return registrationEnvironment;
         }
         if (registrationEnvironment.equalsIgnoreCase("TEST"))
             return Configuration.TESTING.getValue();
@@ -189,6 +205,22 @@ public class RegistrationConfiguration {
         }
         return false;
     }
+
+    /**
+     * Status of HSDP UUID uploading
+     *
+     * @return boolean
+     */
+    public boolean isHsdpUuidShouldUpload() {
+        Object obj = appConfiguration.getHSDPUuidUpload();
+        if (obj != null) {
+            RLog.i("RegistrationConfiguration", "isHsdpUuidShouldUpload : " + Boolean.parseBoolean((String) obj));
+            return Boolean.parseBoolean((String) obj);
+        }
+        RLog.i("RegistrationConfiguration", "isHsdpUuidShouldUpload : false");
+        return false;
+    }
+
 
     /**
      * Get minimium age for country
@@ -229,9 +261,10 @@ public class RegistrationConfiguration {
 
         String appName = hsdpConfiguration.getHsdpAppName();
 
-        RLog.i("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
+        RLog.d(TAG, "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
 
         if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
+            RLog.e(TAG, "getHSDPInfo returning NULL");
             return null;
         }
         return new HSDPInfo(sharedId, secreteId, baseUrl, appName);
@@ -254,7 +287,6 @@ public class RegistrationConfiguration {
     public String getFallBackHomeCountry() {
         return appConfiguration.getFallBackHomeCountry();
     }
-
 
     public synchronized void setPrioritisedFunction(RegistrationFunction prioritisedFunction) {
         this.prioritisedFunction = prioritisedFunction;

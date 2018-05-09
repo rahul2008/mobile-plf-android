@@ -7,7 +7,6 @@
 package com.philips.platform.ths.intake.selectimage;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,11 +26,14 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +50,13 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     private THSOnDismissSelectedImageFragmentCallback onDismissSelectedImageFragmentCallback;
     private THSSelectedImageFragmentPresenter thsSelectedImageFragmentPresenter;
     private List<DocumentRecord> documentRecordList;
-    private ProgressDialog progressDialog;
+    private ProgressBarWithLabel progressBarWithLabel;
+   // private ProgressDialog progressBarWithLabel;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_selected_image_dialog_fragment, container, false);
-        progressDialog = new ProgressDialog(getFragmentActivity());
+        progressBarWithLabel = (ProgressBarWithLabel) view.findViewById(R.id.ths_selected_image_ProgressBarWithLabel);
         thsSelectedImageFragmentPresenter = new THSSelectedImageFragmentPresenter(this);
         pagerAdapter = new CustomPagerAdapter(getActivity());
         deleteImageButton = (Button) view.findViewById(R.id.ths_delete_selected_image_button);
@@ -155,11 +158,12 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     @Override
     public void updateProgreeDialog(boolean show) {
         if(show){
-            progressDialog.setMessage("Deleting photo");
-            progressDialog.show();
+            progressBarWithLabel.setText("Deleting photo");
+          //  progressBarWithLabel.setMessage("Deleting photo");
+            progressBarWithLabel.setVisibility(View.VISIBLE);
         }
         else {
-            progressDialog.dismiss();
+            progressBarWithLabel.setVisibility(View.GONE);
             if (selectedImagePojoList.size() <= 0) {
                 onDismissSelectedImageFragmentCallback.dismissSelectedImageFragment(selectedImagePojoList);
             }

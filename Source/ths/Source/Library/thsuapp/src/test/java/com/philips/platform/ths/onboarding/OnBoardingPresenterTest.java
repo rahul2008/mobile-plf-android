@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -38,13 +39,13 @@ public class OnBoardingPresenterTest {
     @Test
     public void onEvent_tv_skip() throws Exception {
         mOnBoardingPresenter.onEvent(R.id.tv_skip);
-        verify(onBoardingFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(onBoardingFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test
     public void onEvent_btn_take_tour() throws Exception {
         mOnBoardingPresenter.onEvent(R.id.btn_take_tour);
-        verify(onBoardingFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+        verify(onBoardingFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
 }

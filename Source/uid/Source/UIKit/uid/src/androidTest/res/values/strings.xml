@@ -37,4 +37,7 @@
     <string name="about_screen_privacy"><a href="http://www.philips.com">Privacy policy \u203A</a></string>
     <string name="about_screen_disclosure">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa.</string>
 
+    <string name="item1">Item1</string>
+    <string name="item2">Item2</string>
+    <string name="badge_count">99</string>
 </resources>

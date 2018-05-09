@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
 package com.philips.platform.mya.demoapp;
 
@@ -6,10 +12,12 @@ import android.content.*;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.appinfra.*;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.urdemo.URDemouAppDependencies;
@@ -40,6 +48,7 @@ public class MyaDemoApplication extends Application {
     public NavigationColor navigationColor = NavigationColor.ULTRA_LIGHT;
 
     ThemeConfiguration themeConfiguration;
+    private URInterface userRegistrationState;
 
     /**
      * @return instance of this class
@@ -376,5 +385,15 @@ public class MyaDemoApplication extends Application {
         navigationColor = (themeHelper.initNavigationRange() == null) ? NavigationColor.ULTRA_LIGHT : themeHelper.initNavigationRange();
         contentColor = (themeHelper.initContentTonalRange() == null) ? ContentColor.ULTRA_LIGHT : themeHelper.initContentTonalRange();
         return new ThemeConfiguration(this, colorRange, navigationColor, contentColor);
+    }
+
+    public User getUserObject(Context context) {
+        return new User(context);
+    }
+
+    public UserDataInterface getUserDataInterface(){
+        URInterface urInterface = new URInterface();
+        urInterface.init(new URDependancies(mAppInfraInterface),new URSettings(this));
+        return urInterface.getUserDataInterface();
     }
 }

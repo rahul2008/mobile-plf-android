@@ -25,12 +25,12 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class DeviceDefinitionInfoReferenceBoardTest {
 
     @Mock
-    SHNCentral centralMock;
+    private SHNCentral centralMock;
 
     @Mock
-    SHNAssociationProcedurePlugin.SHNAssociationProcedureListener associationProcedureListenerMock;
+    private SHNAssociationProcedurePlugin.SHNAssociationProcedureListener associationProcedureListenerMock;
 
-    DeviceDefinitionInfoReferenceBoard deviceDefinitionInfoReferenceBoard;
+    private DeviceDefinitionInfoReferenceBoard deviceDefinitionInfoReferenceBoard;
 
     @Before
     public void setUp() throws Exception {

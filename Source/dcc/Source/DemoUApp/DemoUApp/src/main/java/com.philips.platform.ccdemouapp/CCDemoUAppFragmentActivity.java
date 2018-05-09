@@ -50,10 +50,11 @@ public class CCDemoUAppFragmentActivity extends UIDActivity implements View.OnCl
     private  AppInfraInterface mAppInfraInterface;
     private ThemeHelper themeHelper;
 
+    @SuppressWarnings("serial")
     private ActionBarListener actionBarListener = new ActionBarListener() {
         @Override
         public void updateActionBar(@IdRes int i, boolean b) {
-
+            updateActionBar(getResources().getString(i), b);
         }
 
         @Override

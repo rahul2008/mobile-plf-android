@@ -12,11 +12,9 @@
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/optionHelp"
             style="@style/UIDLabel.RecyclerViewHeaderText"
-            android:background="?attr/uidContentSecondaryBackgroundColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:textSize="16sp"
             android:text="@string/how_can_we_help"/>
 
         <android.support.v7.widget.RecyclerView

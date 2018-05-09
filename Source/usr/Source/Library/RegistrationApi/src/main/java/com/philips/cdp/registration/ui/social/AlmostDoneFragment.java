@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
@@ -43,7 +44,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
@@ -105,6 +105,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     boolean isValidEmail;
 
+    private static String TAG = AlmostDoneFragment.class.getSimpleName();
+
 
     public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
         @Override
@@ -136,23 +138,20 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     });
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         mBundle = getArguments();
         if (null != mBundle) {
             trackAbtesting();
         }
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         initializeUI(view);
+        RLog.d(TAG,"onCreateView : is called");
         return view;
     }
 
     private void initializeUI(View view) {
+        RLog.d(TAG,"initializeUI : is called");
         ButterKnife.bind(this, view);
         loginIdEditText.setValidator(loginIdValidator);
         almostDoneDescriptionLabel.setText("");
@@ -169,11 +168,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void onAttach(Context context) {
         mContext=context;
         super.onAttach(context);
+        RLog.d(TAG,"onAttach : is called");
     }
 
     @Override
     public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDestroy");
+        RLog.d(TAG, "onDestroy : is called");
         if (almostDonePresenter != null) {
             almostDonePresenter.cleanUp();
         }
@@ -183,17 +183,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onConfigurationChanged");
+        RLog.d(TAG, "onConfigurationChanged : is called");
         setCustomParams(config);
     }
 
     @Override
     public void setViewParams(Configuration config, int width) {
-
+    //Do nothing
     }
 
     @Override
     protected void handleOrientation(View view) {
+        RLog.d(TAG, "handleOrientation : is called");
         handleOrientationOnView(view);
     }
 
@@ -203,15 +204,45 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         acceptTermsCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-                } else {
+                {
+                    TextView tv = (TextView) buttonView;
                     acceptTermserrorMessage.hideError();
+                    if(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1) {
+                        // No link is clicked
+                        if (!isChecked) {
+                            acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                        }
+                    } else {
+                        acceptTermsCheck.setChecked(!isChecked);
+                        if( RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null){
+                            RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()
+                                    .onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
+                        }else {
+                            RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
+                        }
+                    }
                 }
             }
         });
 
+
+        marketingOptCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                {
+                    TextView tv = (TextView) compoundButton;
+                    if(!(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1)){
+                        marketingOptCheck.setChecked(!b);
+                        getRegistrationFragment().addPhilipsNewsFragment();
+
+                    }
+                }
+            }
+        });
+
+
         if (RegistrationHelper.getInstance().isMobileFlow()) {
+            RLog.d(TAG, "initUI : isMobileFlow true");
             emailTitleLabel.setText(R.string.reg_DLS_Phonenumber_Label_Text);
             emailEditText.setInputType(InputType.TYPE_CLASS_PHONE);
         }
@@ -223,11 +254,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     private void updateReceiveMarketingViewStyle() {
+        RLog.d(TAG, "updateReceiveMarketingViewStyle : is  called");
         RegUtility.linkifyPhilipsNews(marketingOptCheck, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
     }
 
     @Override
     public void emailFieldHide() {
+        RLog.d(TAG, "emailFieldHide : is  called");
         emailEditText.setVisibility(View.GONE);
         emailTitleLabel.setVisibility(View.GONE);
         continueButton.setEnabled(true);
@@ -235,10 +268,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void showEmailField() {
+        RLog.d(TAG, "showEmailField : is  called");
         emailEditText.setVisibility(View.VISIBLE);
         emailTitleLabel.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
-        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_DLS_Almost_Done_TextField_Text));
+        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_DLS_Almost_Done_TextField_Email_Text));
+        if (RegistrationHelper.getInstance().isMobileFlow()) {
+            almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_DLS_Almost_Done_TextField_Mobile_Text));
+        }
         continueButton.setEnabled(false);
 
     }
@@ -246,12 +283,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            if( RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null){
-                RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()
-                        .onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
-            }else {
-                RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
-            }
+            RLog.d(TAG, "TermsAndCondition button is  called");
 
         }
     };
@@ -259,15 +291,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            getRegistrationFragment().addPhilipsNewsFragment();
+            RLog.d(TAG,"PhilipsNewsClick : onClick : Philips ANNOUNCEMENT text is clicked");
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
-            marketingOptCheck.setChecked(
-                    !marketingOptCheck.isChecked());
         }
     };
 
     @Override
     public void handleUiAcceptTerms() {
+        RLog.d(TAG,"handleUiAcceptTerms : is called");
         almostDonePresenter.handleAcceptTermsAndReceiveMarketingOpt();
     }
 
@@ -418,7 +449,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void handleAcceptTermsTrue() {
         almostDonePresenter.storeEmailOrMobileInPreference();
         trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
-        completeRegistration();
+        //completeRegistration();;
+        handleABTestingFlow();
     }
 
     @Override
@@ -488,7 +520,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void handleContinueSocialProvider() {
-        RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
+        RLog.d(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();
@@ -504,16 +536,22 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 if (almostDonePresenter.isEmailVerificationStatus()) {
                     completeRegistration();
                     trackActionStatus(AppTagingConstants.SEND_DATA,
-                            AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_USER_REGISTRATION);
+                            AppTagingConstants.SPECIAL_EVENTS,
+                            AppTagingConstants.SUCCESS_USER_REGISTRATION);
                 } else {
                     launchAccountActivateFragment();
                 }
                 break;
             case FLOW_B:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                launchMarketingAccountFragment();
-                trackActionStatus(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_USER_REGISTRATION);
+                if (!marketingOptCheck.isShown() && !mUser.getReceiveMarketingEmail()) {
+                    launchMarketingAccountFragment();
+                    trackActionStatus(AppTagingConstants.SEND_DATA,
+                            AppTagingConstants.SPECIAL_EVENTS,
+                            AppTagingConstants.SUCCESS_USER_REGISTRATION);
+                } else {
+                    completeRegistration();
+                }
                 break;
             default:
                 break;
@@ -604,6 +642,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     private void trackAbtesting() {
+        RLog.d(TAG,"trackAbtesting : is called");
         final UIFlow abTestingFlow = RegUtility.getUiFlow();
 
         switch (abTestingFlow) {

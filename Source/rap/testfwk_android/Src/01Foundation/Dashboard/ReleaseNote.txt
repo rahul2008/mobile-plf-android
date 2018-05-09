@@ -1,8 +1,0 @@
-Autoamtion web portal Version 1.0
-Features:
-1- Download Test report generated using Spec Runner.
-2- Graphical representation of Test suite (Date of execution vs Total time required for each suite).
-3- Live tile for last 10 build execution status.
-4- Each test cases execution report.
-Known Issue;
-1- Does not work on Internet explorer. (Use only Chrome or Firefox)

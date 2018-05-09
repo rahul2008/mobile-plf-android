@@ -1,6 +1,6 @@
 package com.philips.cdp.registration.dao;
 
-public class Country {
+public class Country  {
     private String code;
     private String name;
 
@@ -9,14 +9,17 @@ public class Country {
     }
 
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
     }
 
-    public Country( String code,String name){
-        this.code =code;
-        this.name=name;
+    public Country(String code, String name) {
+        this.code = code;
+        this.name = name;
     }
 
     @Override

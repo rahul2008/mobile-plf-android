@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.Ignore;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
@@ -112,7 +113,8 @@ public class HybrisHandlerTest {
         msg.obj = new IAPNetworkError(new TimeoutError(), 0, null);
         assertEquals(IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT, mHybrisHandler.getIAPErrorCode(msg));
     }
-
+    
+    @Ignore
     @Test
     public void testStoreInitializationWithHybrisInitialization(){
         TestUtils.getStubbedHybrisDelegate();

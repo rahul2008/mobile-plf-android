@@ -1,5 +1,7 @@
 package com.philips.cdp.digitalcare.contactus.fragments;
 
+import android.view.View;
+
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
@@ -177,9 +179,14 @@ public class ContactUsPresenter implements ResponseCallback ,Observer {
 
                serviceDiscoveryService = map.get("cc.livechaturl");
                 if (serviceDiscoveryService != null) {
-                    DigitalCareConfigManager.getInstance().setSdLiveChatUrl(serviceDiscoveryService.getConfigUrls());
+                    String configUrls = serviceDiscoveryService.getConfigUrls();
+                    DigitalCareConfigManager.getInstance().setSdLiveChatUrl(configUrls);
+                    contract.updateLiveChatButton(configUrls == null? View.GONE:View.VISIBLE);
                     DigiCareLogger.d(TAG, "Response from Service Discovery : Service ID : 'cc.livechaturl' - " + serviceDiscoveryService.getConfigUrls());
+                } else {
+                    contract.updateLiveChatButton(View.GONE);
                 }
+
 
             }
 

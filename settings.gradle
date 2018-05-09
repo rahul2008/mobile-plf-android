@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 // //rootProject.setName 'opa-android'
 
 //Project definitions
@@ -13,6 +18,7 @@ include ':jump'
 include ':hsdp'
 include ':iap'
 include ':iapUApp'
+
 include ':digitalCare'
 include ':digitalCareUApp'
 include ':productselection'
@@ -36,14 +42,16 @@ include ':commlib-testutils'
 include ':commlib-api'
 include ':commlib-lan'
 include ':commlib-cloud'
+include ':commlib-integration-tests'
 include ':bluelib-demouapp'
 include ':pluginreferenceboard'
 include ':securedblibrary'
 include ':telehealth'
-include ':MyAccount'
-include ':ConsentWidgets'
-include ':ConsentAccessToolKit'
-include ':MyAccountUApp'
+include ':thsUapp'
+include ':mya'
+include ':mya-csw'
+include ':mya-catk'
+include ':pif'
 include ':ews-android'
 include ':ewsUApp'
 
@@ -80,27 +88,34 @@ project(':commlib-demouapp').projectDir = new File('./Source/cml/Source/DemoUApp
 project(':bluelib').projectDir = new File('./Source/bll/Source/ShineLib/shinelib')
 project(':commlib-ble').projectDir = new File('./Source/cml/Source/Library/commlib-ble')
 project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
+project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
 project(':commlib-api').projectDir = new File('./Source/cml/Source/Library/commlib-api')
 project(':commlib-lan').projectDir = new File('./Source/cml/Source/Library/commlib-lan')
 project(':commlib-cloud').projectDir = new File('./Source/cml/Source/Library/commlib-cloud')
+project(':commlib-integration-tests').projectDir = new File('./Source/cml/Source/Library/commlib-integration-tests')
 project(':bluelib-demouapp').projectDir = new File('./Source/bll/Source/DemoUApp')
 project(':pluginreferenceboard').projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
 project(':securedblibrary').projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
 project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuapp')
-project(':MyAccount').projectDir = new File('./Source/mya/Source/Library/MyAccount')
-project(':ConsentWidgets').projectDir = new File('./Source/mya/Source/Library/ConsentWidgets')
-project(':ConsentAccessToolKit').projectDir = new File('./Source/mya/Source/Library/ConsentAccessToolKit')
-project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
+project(':thsUapp').projectDir = new File('./Source/ths/Source/DemoUApp/thsUapp')
+project(':mya').projectDir = new File('./Source/mya/Source/Library/mya')
+project(':mya-csw').projectDir = new File('./Source/mya/Source/Library/mya-csw')
+project(':mya-catk').projectDir = new File('./Source/mya/Source/Library/mya-catk')
+project(':pif').projectDir = new File('./Source/pif/Source/Library/pif')
 project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
 project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
 
 //demoapps to be published to artifactory
 include ':UserRegistrationApp'
 project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
-include ':telehealthApp'
-project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
-include ':uidApp'
-project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
+//include ':telehealthApp'
+//project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
+//include ':uidApp'
+//project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
+//include ':mya-demoapp'
+//project(':mya-demoapp').projectDir = new File('./Source/mya/Source/DemoApp/app')
+//include ':uAppFwLibApp'
+//project(':uAppFwLibApp').projectDir = new File('./Source/ufw/Source/DemoApp/app')
 //demoapps NOT to be published to artifactory
 //include ':securedblibraryApp'
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
@@ -112,13 +127,20 @@ project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
 //include ':product-registration-libApp'
 //project(':product-registration-libApp').projectDir = new File('./Source/prg/Source/DemoApp/DemoApp')
+
+// DSC - DataServices Component DemoApp (uncomment this section if you want to use)
 //include ':dataServicesApp'
 //project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
+
 //include ':prxApp'
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
-include ':MyAccountApp'
-project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
-include ':commlib-demoapp'
-project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
-include ':bluelib-demoapp'
-project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
+//include ':MyAccountApp'
+//project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
+//include ':commlib-demoapp'
+//project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
+//include ':bluelib-demoapp'
+//project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
+//include ':dcc-demoapp'
+//project(':dcc-demoapp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
+//include ':ail-demoapp'
+//project(':ail-demoapp').projectDir = new File('./Source/ail/Source/DemoApp/app')

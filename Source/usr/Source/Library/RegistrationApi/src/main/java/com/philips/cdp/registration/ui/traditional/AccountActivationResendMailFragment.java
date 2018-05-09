@@ -9,7 +9,6 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -30,6 +29,7 @@ import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.CounterHelper;
 import com.philips.cdp.registration.events.CounterListener;
@@ -44,7 +44,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.UpdateEmail;
 import com.philips.cdp.registration.update.UpdateUserProfile;
 import com.philips.platform.uid.view.widget.Button;
@@ -96,7 +95,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     ScrollView mSvRootLayout;
 
     @BindView(R2.id.usr_activationresend_root_layout)
-    LinearLayout usr_activationresend_root_layout;
+    LinearLayout usrActivationresendRootLayout;
 
     @BindView(R2.id.usr_mobileverification_resendmailtimer_progress)
     ProgressBarWithLabel emailResendTimerProgress;
@@ -108,8 +107,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     private Context mContext;
 
     private boolean isSocialProvider;
-
-    private boolean isEmailVerifiedError;
 
     private Bundle mBundle;
 
@@ -127,6 +124,8 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Inject
     RegistrationHelper registrationHelper;
 
+    private static final String BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY ="saveEmailVerifiedErrorText";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -136,11 +135,11 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         accountActivationResendMailPresenter = new AccountActivationResendMailPresenter(this, user, registrationHelper);
-        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworkStateListener");
+        RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworkStateListener");
         accountActivationResendMailPresenter.registerListener();
         Bundle bundle = getArguments();
         if (null != bundle) {
@@ -164,7 +163,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDestroy");
         accountActivationResendMailPresenter.unRegisterListener();
-        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworkStateListener");
+        RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworkStateListener");
         super.onDestroy();
         CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_TICK,
                 this);
@@ -177,9 +176,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
         if (mRegError.getVisibility() == View.VISIBLE) {
-            isEmailVerifiedError = true;
+            boolean isEmailVerifiedError = true;
             mBundle.putBoolean("isEmailVerifiedError", isEmailVerifiedError);
-            mBundle.putString("saveEmailVerifiedErrorText",
+            mBundle.putString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY,
                     mContext.getResources().getString(R.string.reg_RegEmailNotVerified_AlertPopupErrorText));
         }
     }
@@ -187,13 +186,13 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            if (savedInstanceState.getString("saveEmailVerifiedErrorText") != null
+        if (savedInstanceState == null) {
+            mBundle = null;
+            return;
+        }else if (savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY) != null
                     && savedInstanceState.getBoolean("isEmailVerifiedError")) {
-                mRegError.setError(savedInstanceState.getString("saveEmailVerifiedErrorText"));
-            }
+                mRegError.setError(savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY));
         }
-        mBundle = null;
     }
 
     @Override
@@ -254,27 +253,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         }
     }
 
-    private ProgressDialog mProgressDialog;
-
-    private void showProgressDialog() {
-        if (!getActivity().isFinishing()) {
-            if (mProgressDialog == null) {
-                mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-                mProgressDialog.setCancelable(false);
-            }
-            mProgressDialog.show();        }
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
-        }
-    }
-
     @Override
     public void setViewParams(Configuration config, int width) {
-        //applyParams(config, usr_activationresend_root_layout, width);
+        //Do not do anything
     }
 
     @Override
@@ -293,7 +274,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Override
     public void handleResendVerificationEmailSuccess() {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
+        RLog.d(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
         resendVerificationEmailSuccessTrackAction();
         getRegistrationFragment().startCountDownTimer();
         updateResendUIState();
@@ -301,21 +282,11 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     }
 
     void resendVerificationEmailSuccessTrackAction() {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<>();
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
         map.put(AppTagingConstants.STATUS_NOTIFICATION, AppTagingConstants.RESEND_VERIFICATION_MAIL_LINK_SENT);
         trackMultipleActionsMap(AppTagingConstants.SEND_DATA, map);
     }
-
-//    private void showSuccessDialog() {
-//        RegAlertDialog.showDialog(mContext.getResources().getString(
-//                R.string.reg_verify_resend_mail_sent),
-//                mUser.getEmail(),
-//                null,
-//                mContext.getResources().getString(
-//                        R.string.reg_verify_resend_mail_intime_button_ok)
-//                , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
-//    }
 
     private void showAlertDialog() {
         RegAlertDialog.showDialog(mContext.getResources().getString(
@@ -339,7 +310,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public void handleResendVerificationEmailFailedWithError(
             UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailFailedWithError");
+        RLog.d(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo,
                 AppTagingConstants.JANRAIN);
@@ -394,8 +365,12 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
                 emailOrMobileNumber);
     }
 
-    private OnClickListener mContinueBtnClick = view -> RegAlertDialog.dismissDialog();
+    private OnClickListener mContinueBtnClick = clickListener -> RegAlertDialog.dismissDialog();
 
+    /**
+     * @deprecated
+     * @param updateUserProfile
+     */
     @VisibleForTesting
     @Deprecated
     public void injectMocks(UpdateUserProfile updateUserProfile) {
@@ -414,7 +389,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.i(RLog.CALLBACK, "AccountActivationFr mail" + emailUser + "  --  " + mUser.getEmail());
+        RLog.d(RLog.CALLBACK, "AccountActivationFr mail" + emailUser + "  --  " + mUser.getEmail());
         hideProgressDialog();
         enableResendButton();
         emailUser = mUser.getEmail();
@@ -436,7 +411,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             int timeRemaining = (int) (timeLeft / 1000);
             emailResendTimerProgress.setSecondaryProgress(
                     ((60 - timeRemaining) * 100) / 60);
-            // String timeRemainingAsString = Integer.toString(timeRemaining);
             emailResendTimerProgress.setText(
                     String.format(mContext.getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
             disableResendButton();
@@ -445,7 +419,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
-     //   RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed" + timeLeft);
         int progress = 100;
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             emailResendTimerProgress.setSecondaryProgress(progress);
@@ -461,18 +434,20 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     public void viewOrHideNotificationBar() {
         if (popupWindow == null) {
-            View view = getRegistrationFragment().getNotificationContentView(
+            View contentView = getRegistrationFragment().getNotificationContentView(
                     mContext.getResources().getString(R.string.reg_DLS_Resend_Email_NotificationBar_Title),
                     mUser.getEmail());
-            popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
+            popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
-            popupWindow.setContentView(view);
+            popupWindow.setContentView(contentView);
         }
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
-            popupWindow.showAtLocation(getActivity().
-                    findViewById(R.id.usr_activationresend_root_layout), Gravity.TOP, 0, 0);
+            if(this.isVisible() && popupWindow != null) {
+                popupWindow.showAtLocation(getActivity().
+                        findViewById(R.id.usr_activationresend_root_layout), Gravity.TOP, 0, 0);
+            }
         }
     }
 
@@ -503,7 +478,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         emailEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            // Do not do anything
             }
 
             @Override
@@ -522,7 +497,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
             @Override
             public void afterTextChanged(Editable s) {
-
+            // Do not do anything
             }
         });
     }
@@ -542,14 +517,13 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : resend update enable");
 
         mResendEmail.setText(getString(
-                R.string.reg_Update_MobileNumber_Button_Text));
+                R.string.reg_Update_Email_Button_Text));
         mResendEmail.setProgressText(getString(
-                R.string.reg_Update_MobileNumber_Button_Text));
+                R.string.reg_Update_Email_Button_Text));
         mResendEmail.setEnabled(true);
 
     }
     public void disableResendButton() {
-   //     RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : resend disable");
         mResendEmail.setEnabled(false);
     }
 }

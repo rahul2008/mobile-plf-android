@@ -1,22 +1,18 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 def coverageSourceDirs = [
         '../product-registration-lib/src/main/java'
 ]
-def supportLibraryVer = '25.3.1'
-def butterKnifeVer = "7.0.1"
-def eventbusVer = "3.0.0"
-def jUnitVer = 4.12
+
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -31,11 +27,11 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.androidapt
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
+        classpath builddeps.jruby_gradle
     }
 }
 
@@ -57,7 +53,7 @@ archivesBaseName = "product-registration-libUApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -79,10 +75,6 @@ allprojects {
         }
     }
 }
-
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.prg_productRegistrationLib)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -116,7 +108,7 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
+    from files(projectDir.toString() + "/../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }
@@ -140,7 +132,7 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -153,16 +145,16 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName version
         multiDexEnabled true  // this line will solve this problem
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner deps.androidJUnitRunner
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]}
@@ -185,6 +177,8 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+
+    publishNonDefault true
 }
 
 dependencies {
@@ -192,47 +186,49 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
 
-    compile(dp ? project(':product-registration-lib') : project(':product-registration-lib'))
+    if(dp) {
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':product-registration-lib', configuration: 'debug')
+        releaseCompile project(path: ':product-registration-lib', configuration: 'release')
+    } else {
+        compile (philipsdeps.uid) {
+            exclude group: 'com.android.support'
+        }
+        compile philipsdeps.product_registration_lib
+    }
 
-    compile("com.android.support:recyclerview-v7:${supportLibraryVer}") {
+    compile(deps.support.recyclerview) {
         exclude module: "com.android.support"
     }
-    compile("com.android.support:cardview-v7:${supportLibraryVer}") {
+    compile(deps.support.cardview) {
         exclude module: "com.android.support"
     }
-    compile("com.android.support:appcompat-v7:${supportLibraryVer}") {
+    compile(deps.support.appcompatv7) {
         exclude module: "com.android.support"
     }
 
-    compile "com.android.support:design:${supportLibraryVer}"
+    compile deps.support.cardview
 
-    compile("com.jakewharton:butterknife:${butterKnifeVer}") {
+    compile(deps.butterknife) {
         exclude module: "com.android.support"
     }
-    compile "org.greenrobot:eventbus:${eventbusVer}"
+    compile deps.greenrobot
 
 
-    testCompile("junit:junit:${jUnitVer}") {
+    testCompile(deps.junit) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
 
-    androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2") {
+    androidTestCompile(deps.espresso_core) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-    androidTestCompile("com.android.support.test:runner:0.5") {
+    androidTestCompile(deps.android_testrunner) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
 
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-	compile(dp ? project(':uid') : uidModule) 	
-	{
-		exclude group: 'com.android.support'
-		transitive = true
-	}
-
-    androidTestCompile 'org.apache.commons:commons-lang3:3.4'
-
+    androidTestCompile deps.android_test_commons
 }

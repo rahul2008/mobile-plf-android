@@ -39,12 +39,13 @@ import java.util.TimeZone;
 
 public class AppUpdateManager implements AppUpdateInterface {
 
+	private static final long serialVersionUID = 86938410214278272L;
 	private Context mContext;
 	private AppInfra mAppInfra;
-	private Handler mHandler;
-	private AppUpdateModel mAppUpdateModel;
-	private Gson mGson;
-	private FileUtils mFileUtils;
+	private transient Handler mHandler;
+	private transient AppUpdateModel mAppUpdateModel;
+	private transient Gson mGson;
+	private transient FileUtils mFileUtils;
 	public static final String APPUPDATE_DATE_FORMAT = "yyyy-MM-dd";
 
 
@@ -310,6 +311,13 @@ public class AppUpdateManager implements AppUpdateInterface {
 		return null;
 	}
 
+	@Override
+	public String getMinimumOSMessage() {
+		if (getAppUpdateModel() != null && getAppUpdateModel().getMessages() != null) {
+			return getAppUpdateModel().getMessages().getMinimumOSMessage();
+		}
+		return null;
+	}
 
 
 	public void appInfraRefresh() {

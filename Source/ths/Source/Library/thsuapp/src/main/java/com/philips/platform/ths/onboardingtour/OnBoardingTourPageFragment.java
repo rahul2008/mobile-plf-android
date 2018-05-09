@@ -18,10 +18,12 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,17 +32,22 @@ import java.util.List;
  * Welcome fragment contains the screens for onboarding , as of now it supports 3 screens
  * The default content can be resplaced by verticals by changing the xml file 'parent_introduction_fragment_layout'
  */
+@SuppressWarnings("unchecked")
 public class OnBoardingTourPageFragment extends THSBaseFragment {
     public static final String TAG =  OnBoardingTourPageFragment.class.getSimpleName();
 
     protected static final String ARG_PAGE_TITLE = "pageTitle";
     protected static final String ARG_PAGE_BG_ID = "pageBgId";
+    static final long serialVersionUID = 1139L;
+
 
     // Store instance variables
     @StringRes private int titleId;
     @DrawableRes private int backgroundId;
+
     private List<OnBoardingSpanValue> spanValues;
 
+    @SuppressWarnings("serial")
     public static OnBoardingTourPageFragment newInstance(@StringRes int title,
                                                          @DrawableRes int background, List<OnBoardingSpanValue> spanIndexPairs) {
         Bundle args = new Bundle();
@@ -71,12 +78,12 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_on_boarding_tour_slide_fragment, null);
 
-        TextView tvOnBoaringText = (TextView) view.findViewById(R.id.onboarding_page_text);
+        TextView tvOnBoardingText = view.findViewById(R.id.onboarding_page_text);
         SpannableStringBuilder spannableStringBuilder = getSpannableStringBuilder();
-        View background = view.findViewById(R.id.welcome_slide_fragment_layout);
+        ImageView background = view.findViewById(R.id.onboarding_background_image);
 
-        tvOnBoaringText.setText(spannableStringBuilder);
-        background.setBackground(ContextCompat.getDrawable(getActivity(), backgroundId));
+        tvOnBoardingText.setText(spannableStringBuilder);
+        background.setImageDrawable(ContextCompat.getDrawable(getActivity(), backgroundId));
         return view;
     }
 
@@ -99,5 +106,10 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
             }
         }
         return spannableStringBuilder;
+    }
+
+    public boolean handleBackEvent() {
+        THSTagUtils.doExitToPropositionWithCallBack();
+        return true;
     }
 }

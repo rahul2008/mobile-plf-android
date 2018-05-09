@@ -26,7 +26,6 @@ import com.philips.cdp.registration.coppa.listener.NumberPickerListener;
 import com.philips.cdp.registration.coppa.ui.customviews.RegCoppaAlertDialog;
 import com.philips.cdp.registration.coppa.ui.customviews.XNumberPickerDialog;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
-import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.ntputils.ServerTime;
@@ -60,8 +59,8 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
         MAX_YEAR_VAL = Calendar.getInstance().get(Calendar.YEAR);
         MIN_YEAR_VAL = MAX_YEAR_VAL - MAX_AGE_VAL + 1;
-        timeInterface = CoppaInterface.getComponent().getTimeInterface();
-        appTaggingInterface = CoppaInterface.getComponent().getAppTaggingInterface();
+        timeInterface = RegistrationConfiguration.getInstance().getComponent().getTimeInterface();
+        appTaggingInterface = RegistrationConfiguration.getInstance().getComponent().getAppTaggingInterface();
 
     }
 

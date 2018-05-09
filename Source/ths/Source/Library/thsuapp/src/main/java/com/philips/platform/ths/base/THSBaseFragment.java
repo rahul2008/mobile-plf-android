@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -24,6 +25,7 @@ import android.widget.RelativeLayout;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.init.THSInitFragment;
+import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
@@ -43,13 +45,13 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_ERROR;
-
+@SuppressWarnings("serial")
 public class THSBaseFragment extends Fragment implements THSBaseView, BackEventListener, THSNetworkStateListener.ConnectionReceiverListener {
 
 
     public FragmentLauncher mFragmentLauncher;
     public com.philips.platform.uid.view.widget.ProgressBar mPTHBaseFragmentProgressBar;
-    private ActionBarListener actionBarListener;
+    protected ActionBarListener actionBarListener;
     protected final int SMALL = 0;
     protected final int MEDIUM = 1;
     protected final int BIG = 2;
@@ -66,6 +68,11 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 new IntentFilter(
                         ConnectivityManager.CONNECTIVITY_ACTION));
         hideKeypad(getActivity());
+
+        if(THSManager.getInstance().getAppInfra() == null){
+            Log.e(AmwellLog.LOG,"App Infra instance is null");
+            exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
+        }
 
        /* Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
@@ -92,6 +99,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     @Override
     public void onResume() {
         super.onResume();
+        hideKeypad(getActivity());
         setConnectionListener(this);
 
     }
@@ -154,7 +162,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             fragmentTransaction.addToBackStack(fragmentTag);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (Exception ex) {
-            ex.printStackTrace();
+
         }
     }
 
@@ -211,13 +219,13 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     }
 
     public void showError(String message) {
-        showError(message, false);
+        showError(message, false, false);
     }
 
-    public void showError( String message, final boolean shouldGoBack) {
+    public void showError(String message, final boolean shouldGoBack, final boolean shouldPopFragmentTillWelcomeScreen) {
         if (isFragmentAttached()) {
             hideProgressBar();
-            if(null==message){  // if message is not identified make it THS_GENERIC_SERVER_ERROR
+            if (null == message) {  // if message is not identified make it THS_GENERIC_SERVER_ERROR
                 message = getString(R.string.ths_se_server_error_toast_message);
                 //doTagging(module,message,true);
             }
@@ -230,7 +238,15 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                                 @Override
                                 public void onClick(View v) {
                                     alertDialogFragment.dismiss();
-                                    if (shouldGoBack) {
+                                    if (shouldPopFragmentTillWelcomeScreen) {
+                                        if (null != getActivity()) {
+                                            try {
+                                                getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
+                                            }catch (Exception e){
+
+                                            }
+                                        }
+                                    } else if (shouldGoBack) {
                                         if (null != getActivity()) {
                                             if (getFragmentManager().getBackStackEntryCount() > 0) {
                                                 Fragment fragment = getFragmentManager().findFragmentByTag(THSInitFragment.TAG);
@@ -272,7 +288,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 result = true;
             }
         } catch (Exception e) {
-            AmwellLog.e(THSBaseFragment.class.getSimpleName(), e.getMessage());
+            AmwellLog.e(THSBaseFragment.class.getSimpleName(), e.toString());
         }
         return result;
     }
@@ -289,9 +305,12 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             Fragment welComeBackFragment = fragmentManager.findFragmentByTag(THSWelcomeBackFragment.TAG);
             Fragment tHSInitFragment = fragmentManager.findFragmentByTag(THSInitFragment.TAG);
             Fragment thsPreWelcomeFragment = fragmentManager.findFragmentByTag(THSPreWelcomeFragment.TAG);
+            Fragment thsTHSScheduledVisitsFragment = fragmentManager.findFragmentByTag(THSScheduledVisitsFragment.TAG);
 
             if (welComeFragment != null) {
                 fragmentManager.popBackStack(THSWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if (thsTHSScheduledVisitsFragment != null) {
+                fragmentManager.popBackStack(THSScheduledVisitsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else if (welComeBackFragment != null) {
                 fragmentManager.popBackStack(THSWelcomeBackFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else if (tHSInitFragment != null) {
@@ -300,11 +319,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 fragmentManager.popBackStack(THSPreWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
-        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "exitToPropositon", "toUgrowPage");
-        if (THSManager.getInstance().getThsCompletionProtocol() != null) {
-            THSManager.getInstance().getThsCompletionProtocol().didExitTHS(tHSExitType);
-        }
-        THSManager.getInstance().resetTHSManagerData();
+        THSTagUtils.doExitToPropositionWithCallBack();
     }
 
     @Override

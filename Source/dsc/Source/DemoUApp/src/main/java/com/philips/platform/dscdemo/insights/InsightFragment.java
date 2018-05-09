@@ -62,8 +62,8 @@ public class InsightFragment extends DSBaseFragment
 
         mInsightAdapter = new InsightAdapter(mInsightList, this);
 
-        mNoInsights = (TextView) view.findViewById(R.id.tv_no_insights);
-        mInsightsRecyclerView = (RecyclerView) view.findViewById(R.id.insight_recycler_view);
+        mNoInsights = view.findViewById(R.id.tv_no_insights);
+        mInsightsRecyclerView = view.findViewById(R.id.insight_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mInsightsRecyclerView.setLayoutManager(layoutManager);
         mInsightsRecyclerView.setAdapter(mInsightAdapter);

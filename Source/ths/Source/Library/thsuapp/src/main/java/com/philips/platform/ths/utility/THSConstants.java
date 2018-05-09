@@ -17,6 +17,7 @@ public class THSConstants {
     public static final String THS_PROVIDER_ENTITY = "ths_provider_entity";
     public static final String THS_PRACTICE_INFO = "ths_practice_info";
     public static final String THS_PROVIDER = "ths_provider";
+    public static final String THS_SCHEDULE_APPOINTMENT_OBJECT = "ths_schedule_appointment_object";
 
     public static final String THS_DATE = "ths_date";
     public static final String THS_ON_DEMAND = "ths_on_demand";
@@ -50,7 +51,7 @@ public class THSConstants {
     public static final int SET_REMINDER_DIALOG_ON_ACTIVITY_RESULT = 7070;
     public static final String THS_SET_REMINDER_EXTRA_KEY = "THS_SET_REMINDER_EXTRA_KEY";
 
-    public static final String THS_NO_REMINDER_STRING = "no reminder";
+    public static final String THS_NO_REMINDER_STRING = "No reminder";
     public static final String THS_15_MINS_REMINDER = "15 minutes";
     public static final String THS_ONE_HOUR_REMINDER = "one Hour";
     public static final String THS_FOUR_HOURS_REMINDER = "4 hours";
@@ -68,6 +69,7 @@ public class THSConstants {
     public static final int THS_PRACTICES = 0;
     public static final int THS_SCHEDULED_VISITS = 1;
     public static final int THS_VISITS_HISTORY = 2;
+    public static final int THS_EDIT_CONSUMER_DETAILS = 3;
 
     // start of tagging constants
     public static final String THS_SEND_DATA = "sendData";
@@ -139,7 +141,12 @@ public class THSConstants {
     public static final String ON_BOARDING_PAGE_2 = "TH_99_02 Onboarding";
     public static final String ON_BOARDING_PAGE_3 = "TH_99_03 Onboarding";
     public static final String ON_BOARDING_PAGE_4 = "TH_99_04 Onboarding";
-    public static final String THS_CUSTOMER_SUPPORT = "TH_00_10 Costumer Support";
+    public static final String THS_CUSTOMER_SUPPORT = "TH_00_10 Customer Support";
+    public static final String THS_VIEW_VISIT_REPORT = "TH_10_05 View PDF";
+    public static final String THS_ANDROID_CAMERA = "TH_11_01 Camera screen";
+    public static final String THS_ANDROID_GALLERY = "TH_11_02 Photo Library";
+    public static final String THS_APPOINTMENT_CANCEL_CONFIRMATION = "TH_00_02 Appointment cancelled";
+    public static final String THS_APPOINTMENT_AND_VISIT_LIST ="TH_00_04a Appointments";
 
     // end of tags
 
@@ -151,17 +158,27 @@ public class THSConstants {
     public static final String THS_EARLY_FOR_APPOINTMENT = "THS_EARLY_FOR_APPOINTMENT";
     public static final String THS_COST_SUMMARY_COUPON_CODE_ERROR = "Cost_summary_coupon_code_error";
 
+    public static final String THS_PAYMENT_METHOD_INVALID_NAME_ON_CARD = "createPaymentRequest.nameOnCard";
+    public static final String THS_PAYMENT_METHOD_INVALID_CREDIT_CARD_NUMBER = "createPaymentRequest.creditCardNumber";
     public static final String THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE = "createPaymentRequest.creditCardYear";
+    public static final String THS_PAYMENT_METHOD_INVALID_CVV = "createPaymentRequest.creditCardSecCode";
+    public static final String THS_PAYMENT_METHOD_INVALID_ZIP = "createPaymentRequest.creditCardZip";
+    public static final String THS_PAYMENT_METHOD_INVALID_BILLING_ADDRESS1 ="createPaymentRequest.address1";
+    public static final String THS_PAYMENT_METHOD_INVALID_MONTH ="createPaymentRequest.creditCardMonth";
+
+
     public static final String THS_USER_NOT_LOGGED_IN = "THS_USER_NOT_LOGGED_IN";
     // end of tagging constants
 
     public static final String THS_CONSUMER = "THS_CONSUMER";
 
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
+    public static final String KEY_DEEP_LINKING_FLOW = "deepLinkingFlow";
     public static final String KEY_COLOR_RANGE = "KEY_COLOR_RANGE";
     public static final String KEY_CONTENT_COLOR = "KEY_CONTENT_COLOR";
     public static final String KEY_NAVIGATION_COLOR = "KEY_NAVIGATION_COLOR";
     public static final String KEY_ACCENT_RANGE = "KEY_ACCENT_RANGE";
+    public static final String KEY_ORIENTATION = "KEY_ORIENTATION";
 
 
     public static final String THS_GENERIC_USER_ERROR = "Oops! Something went wrong, please check your details and try again";
@@ -196,4 +213,18 @@ public class THSConstants {
     public static final String THS_ANALYTICS_RESPONSE_CANCEL_VISIT = "Yes, cancel my visit";
     public static final String THS_ANALYTICS_RESPONSE_DONT_CANCEL_VISIT = "No, continue waiting";
     //end inAppNotification tags
+
+    //service discovery error
+    public static final String THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE = "ServiceDiscovery cannot find the locale";
+
+    public static final String THS_ANALYTICS_ENROLLMENT_MISSING="Enrollment Input missing";
+    public static final String THS_ANALYTICS_TEMPERATURE_VALIDATION="Temperature validation";
+    public static final String THS_ANALYTICS_WEIGHT_VALIDATION="Weight validation";
+    public static final String THS_ANALYTICS_SYSTOLIC_VALIDATION="Systolic validation";
+    public static final String THS_ANALYTICS_PHONE_NUMBER_VALIDATION = "Phone Number validation";
+    public static final String THS_ANALYTICS_CREDIT_CARD_VALIDATION = "Invalid Card Number";
+    public static final String THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION = "Payment Information";
+    public static final String THS_ANALYTICS_DATE_VALIDATION = "invalid Date";
+    public static final String THS_ANALYTICS_PROMOCODE_VALIDATION ="Apply promocode";
+    public static final String IS_LAUNCHED_FROM_EDIT_DETAILS = "IS_LAUNCHED_FROM_EDIT_DETAILS";
 }

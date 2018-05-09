@@ -48,6 +48,8 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
     private AlertDialogFragment alertDialogFragment;
+    private static final long serialVersionUID = -6635233525340545668L;
+
 
     public abstract int getActionbarTitleResId();
 
@@ -105,12 +107,14 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     protected void hideKeyboard() {
-        View view = getActivity().getCurrentFocus();
-        if (view != null) {
-            InputMethodManager inputManager = (InputMethodManager) getActivity()
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(view.getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+        if (isVisible()) {
+            View view = getActivity().getCurrentFocus();
+            if (view != null) {
+                InputMethodManager inputManager = (InputMethodManager) getActivity()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 
@@ -271,6 +275,10 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     public void showProdRegLoadingDialog(final String title, String tag) {
+
+        if (alertDialogFragment != null && alertDialogFragment.isVisible()) {
+            return;
+        }
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         LayoutInflater lf = layoutInflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
 
@@ -286,10 +294,13 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
             @Override
             public void onClick(View v) {
                 clearFragmentStack();
+                handleCallBack(true);
+                unRegisterProdRegListener();
             }
         });
         Label close = (Label) view.findViewById(R.id.dialogDescription);
         close.setText(title);
+
     }
 
     public void dismissProdRegLoadingDialog() {

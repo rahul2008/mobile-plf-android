@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/selected_pharmacy_name"
-            android:layout_toEndOf="@+id/selected_pharmacy_state"
+            android:layout_toEndOf="@+id/selected_pharmacy_address_line_one"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/ths_small_body_text" />
 

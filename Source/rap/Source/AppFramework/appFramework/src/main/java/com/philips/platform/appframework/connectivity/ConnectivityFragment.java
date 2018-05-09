@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
 package com.philips.platform.appframework.connectivity;
 
@@ -24,9 +23,9 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
-import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.lang.ref.WeakReference;
@@ -69,8 +68,10 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
         super.onCreate(savedInstanceState);
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
-        connectivityFragmentWeakReference = new WeakReference<ConnectivityFragment>(this);
-        mBluetoothAdapter = getBluetoothAdapter();
+        if(!(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized())) {
+            connectivityFragmentWeakReference = new WeakReference<ConnectivityFragment>(this);
+            mBluetoothAdapter = getBluetoothAdapter();
+        }
     }
 
     @Override
@@ -92,7 +93,7 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
         btnStartConnectivity.setOnClickListener(this);
         connectionState = (TextView) rootView.findViewById(R.id.connectionState);
-        mCommCentral = getCommCentral(ConnectivityDeviceType.REFERENCE_NODE);
+        mCommCentral = getCommCentral();
         startAppTagging(TAG);
         return rootView;
     }

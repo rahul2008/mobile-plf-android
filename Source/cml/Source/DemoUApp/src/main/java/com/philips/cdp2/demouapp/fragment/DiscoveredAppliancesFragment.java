@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -35,7 +36,6 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager.ApplianceListener;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.util.AppIdProvider;
 import com.philips.cdp2.commlib.demouapp.R;
@@ -66,7 +66,6 @@ public class DiscoveredAppliancesFragment extends Fragment {
     private View view;
     private ApplianceAdapter applianceAdapter;
 
-    private EditText editFilterModelId;
     private final Set<String> discoveryFilterModelIds = new HashSet<>();
 
     private Switch discoverySwitch;
@@ -143,7 +142,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
         commCentral = CommlibUapp.get().getDependencies().getCommCentral();
         applianceAdapter = new ApplianceAdapter(getContext());
 
-        editFilterModelId = (EditText) view.findViewById(R.id.editFilterModelId);
+        final EditText editFilterModelId = view.findViewById(R.id.editFilterModelId);
         editFilterModelId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -161,7 +160,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
             }
         });
 
-        discoverySwitch = (Switch) view.findViewById(R.id.cml_sw_startstop_discovery);
+        discoverySwitch = view.findViewById(R.id.cml_sw_startstop_discovery);
         discoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -173,7 +172,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
             }
         });
 
-        final ListView listViewAppliances = (ListView) view.findViewById(R.id.cml_listViewAppliances);
+        final ListView listViewAppliances = view.findViewById(R.id.cml_listViewAppliances);
         listViewAppliances.setAdapter(applianceAdapter);
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -181,9 +180,16 @@ public class DiscoveredAppliancesFragment extends Fragment {
                 final Appliance appliance = applianceAdapter.getItem(position);
 
                 if (appliance != null) {
-                    CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
-                    CommlibUapp.get().nextFragment(new ApplianceFragment());
+                    CommlibUapp.get().nextFragment(ApplianceFragmentFactory.newInstance(ApplianceFragment.class, appliance));
                 }
+            }
+        });
+
+        final FloatingActionButton fab = view.findViewById(R.id.cml_clearAppliancesButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commCentral.clearDiscoveredAppliances();
             }
         });
 
@@ -237,15 +243,19 @@ public class DiscoveredAppliancesFragment extends Fragment {
         super.onPause();
 
         commCentral.getApplianceManager().removeApplianceListener(applianceListener);
-        stopDiscovery();
 
         appIdProvider.removeAppIdListener(appIdListener);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopDiscovery();
     }
 
     public static DiscoveredAppliancesFragment newInstance() {
         return new DiscoveredAppliancesFragment();
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {

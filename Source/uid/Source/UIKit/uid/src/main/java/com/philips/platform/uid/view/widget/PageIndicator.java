@@ -34,6 +34,7 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
      * sets the viewPager to indicator.
      *
      * @param view ViewPager to be set
+     *             @since 3.0.0
      */
     void setViewPager(ViewPager view);
 
@@ -42,6 +43,7 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
      *
      * @param viewPager ViewPager to be set
      * @param initialPosition with initialPosition selected/highlited
+     *                        @since 3.0.0
      */
     void setViewPager(ViewPager viewPager, int initialPosition);
 
@@ -52,6 +54,7 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
      * the views are drawn on screen (e.g., default start page).</p>
      *
      * @param position to be shown on pager and corresponding dot to be highlighted
+     *                 @since 3.0.0
      */
     void setCurrentItem(int position);
 
@@ -59,6 +62,7 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
      * Set a page change listener which will receive callback when page changed.
      *
      * @param listener ViewPager.OnPageChangeListener to be set
+     *                 @since 3.0.0
      */
     void setOnPageChangeListener(ViewPager.OnPageChangeListener listener);
 }

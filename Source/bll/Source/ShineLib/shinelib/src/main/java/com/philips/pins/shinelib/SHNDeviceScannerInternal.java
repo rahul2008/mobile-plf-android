@@ -161,9 +161,14 @@ public class SHNDeviceScannerInternal implements SHNCentral.SHNCentralListener {
         }
 
         @Override
-        public void onScanFailed(int errorCode) {
-            leScanCallbackProxy = null;
-            SHNLogger.e(TAG, String.format(Locale.US, "Error starting scanning, errorCode: %d", errorCode));
+        public void onScanFailed(final int errorCode) {
+            shnCentral.getInternalHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    leScanCallbackProxy = null;
+                    SHNLogger.e(TAG, String.format(Locale.US, "Error starting scanning, errorCode: %d", errorCode));
+                }
+            });
         }
     };
 

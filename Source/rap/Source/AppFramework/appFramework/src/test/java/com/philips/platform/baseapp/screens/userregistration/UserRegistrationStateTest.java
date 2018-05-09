@@ -49,9 +49,8 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.CHINA_CODE;
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.DEFAULT;
-import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.DEVELOPMENT_SECRET_KEY_DEFAULT;
-import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.STAGE_SECRET_KEY_CHINA;
-import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.TEST_SECRET_KEY_DEFAULT;
+import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.HSDP_STAGE_SECRET_KEY_CHINA;
+import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.HSDP_TEST_SECRET_KEY_DEFAULT;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
@@ -100,10 +99,10 @@ public class UserRegistrationStateTest {
         AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
         Map<String, String> hsdpSecrets = new HashMap<>();
-        hsdpSecrets.put(CHINA_CODE, STAGE_SECRET_KEY_CHINA);
+        hsdpSecrets.put(CHINA_CODE, HSDP_STAGE_SECRET_KEY_CHINA);
         when(appConfigurationInterface.getPropertyForKey(any(String.class), any(String.class), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(hsdpSecrets);
         Map<String, String> map = (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET, UR, new AppConfigurationInterface.AppConfigurationError());
-        assertEquals(STAGE_SECRET_KEY_CHINA, map.get(CHINA_CODE));
+        assertEquals(HSDP_STAGE_SECRET_KEY_CHINA, map.get(CHINA_CODE));
     }
 
     @Test
@@ -113,10 +112,10 @@ public class UserRegistrationStateTest {
         AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
         Map<String, String> hsdpSecrets = new HashMap<>();
-        hsdpSecrets.put(DEFAULT, DEVELOPMENT_SECRET_KEY_DEFAULT);
+        hsdpSecrets.put(DEFAULT, HSDP_TEST_SECRET_KEY_DEFAULT);
         when(appConfigurationInterface.getPropertyForKey(any(String.class), any(String.class), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(hsdpSecrets);
         Map<String, String> map = (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET, UR, new AppConfigurationInterface.AppConfigurationError());
-        assertEquals(DEVELOPMENT_SECRET_KEY_DEFAULT, map.get(DEFAULT));
+        assertEquals(HSDP_TEST_SECRET_KEY_DEFAULT, map.get(DEFAULT));
     }
 
 
@@ -127,10 +126,10 @@ public class UserRegistrationStateTest {
         AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
         Map<String, String> hsdpSecrets = new HashMap<>();
-        hsdpSecrets.put(DEFAULT, TEST_SECRET_KEY_DEFAULT);
+        hsdpSecrets.put(DEFAULT, HSDP_TEST_SECRET_KEY_DEFAULT);
         when(appConfigurationInterface.getPropertyForKey(any(String.class), any(String.class), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(hsdpSecrets);
         Map<String, String> map = (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET, UR, new AppConfigurationInterface.AppConfigurationError());
-        assertEquals(TEST_SECRET_KEY_DEFAULT, map.get(DEFAULT));
+        assertEquals(HSDP_TEST_SECRET_KEY_DEFAULT, map.get(DEFAULT));
     }
 
     @Test

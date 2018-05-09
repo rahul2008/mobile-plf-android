@@ -19,7 +19,7 @@
     <string name="product_info"> ข้อมูลผลิตภัณฑ์ </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> การโหลดข้อมูล </string>
-    <string name="please_wait"> โปรดรอ &amp;#8230; </string>
+    <string name="dcc_please_wait"> โปรดรอ &amp;#8230; </string>
     <string name="get_directions"> Get directions (ขอเส้นทาง) </string>
     <string name="search"> เมนูหน้าหลัก, ค้นหา </string>
     <string name="gps_disabled"> อุปกรณ์ของคุณได้ปิดใช้งาน GPS คุณต้องการเปิดใช้งานหรือไม่ </string>
@@ -135,7 +135,7 @@
     <string name="password"> รหัส </string>
     <string name="sign_into_my_philips"> เข้าใช้ My Philips </string>
     <string name="forgot_my_password"> ฉันลืมรหัสผ่าน &gt;  </string>
-    <string name="create_account">  สร้างแอคเคาท์ &gt; </string>
+    <string name="dcc_create_account">  สร้างแอคเคาท์ &gt; </string>
 
     <string name="localtephilips_contactus">ไปที่หน้าติดต่อ</string>
 
@@ -178,5 +178,9 @@
     <string name="dcc_Help_Support">วิธีใช้และการสนับสนุน</string>
     <string name="dcc_Call">โทร</string>
     <string name="dcc_Opening_Hours">ชั่วโมงทำงาน</string>
-
+    <string name="dcc_location_consent_accept">ตกลง</string>
+    <string name="dcc_location_consent_reject">ยกเลิก</string>
+    <string name="dcc_location_consent_title">การยินยอมด้านข้อมูลตำแหน่ง</string>
+    <string name="dcc_location_consent_definition_text">ฉันอนุญาตให้ Philips เข้าถึงข้อมูลตำแหน่งของ ‘ค้นหา Philips ใกล้บ้านคุณ’</string>
+    <string name="dcc_location_consent_definition_help_text">"เมื่อคุณอนุญาตการเข้าถึงข้อมูลตำแหน่ง เราอาจเก็บข้อมูลตำแหน่งทางภูมิศาสตร์ของอุปกรณ์มือถือของคุณ \n\nเมื่อคุณใช้งานฟังก์ชัน ‘ค้นหา Philips ใกล้บ้านคุณ’ บนหน้าสนับสนุน คุณจะได้รับการร้องขอให้แบ่งปันข้อมูลตำแหน่งของคุณให้กับ Philips หากคุณใช้งานคุณสมบัติตำแหน่งที่อิงตามข้อมูลตำแหน่ง คุณจะได้รับการนำทางไปยังร้านค้าที่อยู่ใกล้เคียง หรือไปยังรายละเอียดข้อมูลติดต่อฝ่ายบริการลูกค้าสำหรับประเทศของคุณ"</string>
 </resources>

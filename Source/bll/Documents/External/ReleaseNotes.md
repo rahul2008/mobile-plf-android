@@ -1,9 +1,8 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
-
 Version {next}
--------------
+----------------
 
 ### Functionality Delivered
 
@@ -12,6 +11,27 @@ Version {next}
 ### Features not covered
 
 ### Breaking Changes
+* Not really a breaking change, because it was not meant to be public api: `SHNDeviceImpl.connect(boolean withTimeout, long timeoutInMS)` was removed. Please use `SHNDeviceImpl.connect(long timout)` instead.
+
+### Defects solved
+* \#120536 Disconnecting state sustaining forever.
+
+### Residual anomalies
+
+### Risks and mitigations
+
+
+Version 2017.5.0
+----------------
+
+### Functionality Delivered
+
+### Backwards Compatibility
+
+### Features not covered
+
+### Breaking Changes
+* Platform release 2017.5.0 onwards, shinelib is renamed to bluelib.
 * The `ScanRecord` function `getManufacturerSpecificData()` is replaced by `getManufacturerSpecificData(int manufacturerId)`. Previously the first two bytes of the manufacturer where used to check the manufacturer, now this is done internally and the data of a specific manufacturer can be requested. If the data is not found `null` is returned.
 
 ### Defects solved

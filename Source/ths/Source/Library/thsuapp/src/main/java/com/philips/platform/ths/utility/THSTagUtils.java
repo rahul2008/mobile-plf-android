@@ -10,12 +10,16 @@ import com.philips.platform.ths.intake.THSSymptomsFragment;
 import java.util.Date;
 import java.util.HashMap;
 
+import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.Other;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static com.philips.platform.ths.utility.THSConstants.THS_FOLLOW_UP_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION_RESPONSE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public  class THSTagUtils {
+
+    private static String  mPreviousPageName="previous page name ";
 
     public static String addActions(String action,String NewAction){
         String updatedAction=action;
@@ -74,12 +78,38 @@ public  class THSTagUtils {
         map.put(key,value);
         String country= THSManager.getInstance().getCountry();
         map.put("country",country);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
+        if(THSManager.getInstance().getThsTagging() !=null) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
+        }
     }
     public static void doTrackActionWithInfo(String action, HashMap<String , String> map){
         String country= THSManager.getInstance().getCountry();
         map.put("country",country);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
+        if(THSManager.getInstance().getThsTagging() !=null) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
+        }
+    }
+
+    public static void doTrackPageWithInfo(String string1,String string2,String string3){
+        if(!mPreviousPageName.equalsIgnoreCase(string1)) {
+            if(THSManager.getInstance().getThsTagging() !=null) {
+                THSManager.getInstance().getThsTagging().trackPageWithInfo(string1, string2, string3);
+            }
+            mPreviousPageName=string1;
+        }
+    }
+
+    public static void doExitToPropositionWithCallBack(){
+        mPreviousPageName="previous page name "; // reset THS tag state.
+        if(null!=THSManager.getInstance() && THSManager.getInstance().getThsTagging()!=null) {
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");
+            THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
+            if (THSManager.getInstance().getThsCompletionProtocol() != null) {// added for uGrow request
+                THSManager.getInstance().getThsCompletionProtocol().didExitTHS(Other);
+            }
+            THSManager.getInstance().resetTHSManagerData();
+            AmwellLog.v("EXIT_THS","doExitToPropositionWithCallBack ");
+        }
     }
 
 }

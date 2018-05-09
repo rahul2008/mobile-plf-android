@@ -171,7 +171,9 @@ public class THSOnBoardingTourFragmentTest {
         verify(presenterMock).onEvent(R.id.appointments);
     }
 
-    @Test
+   /*
+   Visit history menu is removed from Welcome screen
+   @Test
     public void onClickvisit_history() throws Exception {
         SupportFragmentTestUtil.startFragment(mWelcomeFragment);
         mWelcomeFragment.presenter = presenterMock;
@@ -179,7 +181,7 @@ public class THSOnBoardingTourFragmentTest {
         final View viewById = mWelcomeFragment.getView().findViewById(R.id.visit_history);
         viewById.performClick();
         verify(presenterMock).onEvent(R.id.visit_history);
-    }
+    }*/
 
     @Test
     public void onClickhow_it_works() throws Exception {
@@ -218,8 +220,9 @@ public class THSOnBoardingTourFragmentTest {
         assertThat(viewById.isEnabled());
         viewById = mWelcomeFragment.getView().findViewById(R.id.appointments);
         assertThat(viewById.isEnabled());
-        viewById = mWelcomeFragment.getView().findViewById(R.id.visit_history);
-        assertThat(viewById.isEnabled());
+       /* Visit history menu is removed from Welcome screen
+          viewById = mWelcomeFragment.getView().findViewById(R.id.visit_history);
+          assertThat(viewById.isEnabled());*/
     }
 
     @Test

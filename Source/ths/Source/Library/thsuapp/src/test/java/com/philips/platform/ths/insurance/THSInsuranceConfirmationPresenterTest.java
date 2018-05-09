@@ -1,14 +1,19 @@
 package com.philips.platform.ths.insurance;
 
+import android.content.Context;
+
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.insurance.SubscriptionUpdateRequest;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +50,7 @@ public class THSInsuranceConfirmationPresenterTest {
     Consumer consumerMoxk;
 
     @Mock
-    THSConsumerWrapper thsConsumerMock;
+    THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
     ConsumerManager consumerManagerMock;
@@ -65,11 +70,23 @@ public class THSInsuranceConfirmationPresenterTest {
 
     Throwable throwableMock;
 
+    @Mock
+    Context contextMock;
+
+    @Mock
+    SubscriptionUpdateRequest subscriptionUpdateRequestMock;
+
+    @Mock
+    THSSubscriptionUpdateRequest thsSubscriptionUpdateRequestMock;
+    @Mock
+    THSConsumer thsConsumerMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMoxk);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         tHSInsuranceConfirmationFragment = new THSInsuranceConfirmationFragmentMock();
@@ -84,6 +101,7 @@ public class THSInsuranceConfirmationPresenterTest {
 
     @Test
     public void getSubscriptionUpdateRequestWithoutVistContext() throws Exception {
+        when(awsdkMock.getConsumerManager().getNewSubscriptionUpdateRequest(thsConsumerMock.getConsumer(),false)).thenReturn(subscriptionUpdateRequestMock);
         Assert.assertNotNull(thsInsuranceConfirmationPresenter.getSubscriptionUpdateRequestWithoutVistContext());
 
     }
@@ -95,7 +113,7 @@ public class THSInsuranceConfirmationPresenterTest {
 
     @Test
     public void onResponse() throws Exception {
-       // when(thssdkError.getSdkError()).thenReturn(sdkErrorMock);
+        // when(thssdkError.getSdkError()).thenReturn(sdkErrorMock);
         //when(thsInsuranceConfirmationPresenter.getPaymentMethod()).thenReturn(paymentMethodMock);
         Void avoid = null;
         thsInsuranceConfirmationPresenter.onResponse(avoid,sdkErrorMock);
@@ -109,6 +127,7 @@ public class THSInsuranceConfirmationPresenterTest {
 
     @Test
     public void updateInsurance() throws Exception{
+        when(awsdkMock.getConsumerManager().getNewSubscriptionUpdateRequest(thsConsumerMock.getConsumer(),false)).thenReturn(subscriptionUpdateRequestMock);
         try {
             mMethod = THSInsuranceConfirmationPresenter.class.getDeclaredMethod("updateInsurance",THSSubscriptionUpdateRequest.class);
             mMethod.setAccessible(true);

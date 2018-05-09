@@ -26,7 +26,6 @@ import com.philips.cdp.registration.coppa.ui.fragment.ParentalCaringSharingFragm
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalConsentFragment;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
-import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -65,7 +64,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
     };
 
     public ParentalApprovalFragmentController(ParentalApprovalFragment fragment) {
-        serviceDiscoveryInterface = CoppaInterface.getComponent().getServiceDiscoveryInterface();
+        serviceDiscoveryInterface = RegistrationConfiguration.getInstance().getComponent().getServiceDiscoveryInterface();
         mParentalApprovalFragment = fragment;
         mParentalApprovalFragment.getRegistrationFragment();
         if (fragment.getRegistrationFragment().getParentActivity() != null) {

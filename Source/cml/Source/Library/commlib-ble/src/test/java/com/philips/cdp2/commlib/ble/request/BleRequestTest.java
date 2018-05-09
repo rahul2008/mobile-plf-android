@@ -6,17 +6,26 @@
 package com.philips.cdp2.commlib.ble.request;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDevice.SHNDeviceListener;
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
+import com.philips.pins.shinelib.datatypes.SHNDataRaw;
+import com.philips.pins.shinelib.dicommsupport.DiCommByteStreamReader;
+import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
+import com.philips.pins.shinelib.dicommsupport.MessageType;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -25,17 +34,29 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static com.philips.cdp.dicommclient.request.Error.NOT_AVAILABLE;
+import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
+import static com.philips.cdp.dicommclient.request.Error.NO_REQUEST_DATA;
+import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
 import static com.philips.cdp.dicommclient.request.Error.TIMED_OUT;
+import static com.philips.cdp.dicommclient.request.Error.UNKNOWN;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -67,20 +88,32 @@ public class BleRequestTest {
     private CapabilityDiComm mockCapability;
 
     @Mock
-    CountDownLatch mockInProgressLatch;
+    private Timer timerMock;
 
-    SHNDeviceListener stateListener;
+    @Mock
+    private CountDownLatch mockInProgressLatch;
 
     @Mock
     private Handler handlerMock;
 
+    @Mock
+    private DiCommByteStreamReader mockByteStreamReader;
+
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
+    @Captor
+    private ArgumentCaptor<ResultListener<SHNDataRaw>> dataListenerCaptor;
+
+    private int executeCounter;
+
+    private SHNDeviceListener stateListener;
+
     @Before
     public void setUp() throws Exception {
+        executeCounter = 0;
         initMocks(this);
-
+        DICommLog.disableLogging();
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
 
@@ -89,7 +122,7 @@ public class BleRequestTest {
 
         doAnswer(new Answer() {
             @Override
-            public Void answer(final InvocationOnMock invocation) throws Throwable {
+            public Void answer(final InvocationOnMock invocation) {
                 request.processDiCommResponse(mockDicommResponse);
                 return null;
             }
@@ -97,7 +130,7 @@ public class BleRequestTest {
 
         doAnswer(new Answer() {
             @Override
-            public Object answer(final InvocationOnMock invocation) throws Throwable {
+            public Object answer(final InvocationOnMock invocation) {
                 stateListener = (SHNDeviceListener) invocation.getArguments()[0];
                 return null;
             }
@@ -106,16 +139,36 @@ public class BleRequestTest {
         when(mockDicommResponse.getStatus()).thenReturn(NoError);
         when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
 
-        request = new BleGetRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true));
+        doNothing().when(mockCapability).addDataListener(dataListenerCaptor.capture());
+
+        request = new BleRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true)) {
+            @Override
+            protected void execute(final CapabilityDiComm capability) {
+                executeCounter++;
+            }
+
+            @NonNull
+            @Override
+            protected Timer createTimer() {
+                return timerMock;
+            }
+        };
+
         request.inProgressLatch = mockInProgressLatch;
+        request.diCommByteStreamReader = mockByteStreamReader;
 
         when(handlerMock.post(runnableCaptor.capture())).thenAnswer(new Answer<Void>() {
             @Override
-            public Void answer(final InvocationOnMock invocation) throws Throwable {
+            public Void answer(final InvocationOnMock invocation) {
                 runnableCaptor.getValue().run();
                 return null;
             }
         });
+    }
+
+    @After
+    public void tearDown() {
+        DICommLog.enableLogging();
     }
 
     @Test
@@ -176,7 +229,7 @@ public class BleRequestTest {
     public void unregistersListenerAfterDisconnected() throws InterruptedException {
         doAnswer(new Answer() {
             @Override
-            public Void answer(final InvocationOnMock invocation) throws Throwable {
+            public Void answer(final InvocationOnMock invocation) {
                 request.processDiCommResponse(mockDicommResponse);
                 when(mockDevice.getState()).thenReturn(Disconnected);
                 stateListener.onStateUpdated(mockDevice);
@@ -186,14 +239,14 @@ public class BleRequestTest {
 
         request.run();
 
-        verify(mockDevice).registerSHNDeviceListener(null);
+        verify(mockDevice).unregisterSHNDeviceListener(request.bleDeviceListener);
     }
 
     @Test
     public void givenRequestIsExecutingWhenDeviceDisconnectsThenOnErrorIsReported() throws InterruptedException {
         doAnswer(new Answer() {
             @Override
-            public Void answer(final InvocationOnMock invocation) throws Throwable {
+            public Void answer(final InvocationOnMock invocation) {
                 when(mockDevice.getState()).thenReturn(Disconnected);
                 stateListener.onStateUpdated(mockDevice);
                 return null;
@@ -203,5 +256,172 @@ public class BleRequestTest {
         request.run();
 
         verify(responseHandlerMock).onError(eq(Error.REQUEST_FAILED), anyString());
+    }
+
+    @Test
+    public void givenRequestIsWaitingForConnectedState_whenConnectedStateIsReportedTwice_thenRequestIsOnlyExecutedOnce() throws Exception {
+        when(mockDevice.getState()).thenReturn(Disconnected);
+
+        doAnswer(new Answer() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) {
+                when(mockDevice.getState()).thenReturn(Connected);
+                stateListener.onStateUpdated(mockDevice);
+                stateListener.onStateUpdated(mockDevice);
+                return null;
+            }
+        }).when(mockInProgressLatch).await();
+
+        request.run();
+
+        assertThat(executeCounter).isEqualTo(1);
+    }
+
+    @Test
+    public void givenRequestIsRunning_whenItCompletes_thenTimeoutTimerIsStopped() {
+        request.run();
+
+        //completion is arranged by setup
+
+        verify(timerMock).cancel();
+    }
+
+    @Test
+    public void whenRequestIsRun_thenTimeoutTimerIsStarted() {
+
+        request.run();
+
+        verify(timerMock).schedule(isA(TimerTask.class), anyLong());
+    }
+
+    @Test
+    public void givenRequestIsRunning_whenTimoutTimerExpires_thenRequestIsCancelledAndErrorIsReported() throws Exception {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                ArgumentCaptor<TimerTask> timerTaskCaptor = ArgumentCaptor.forClass(TimerTask.class);
+                verify(timerMock).schedule(timerTaskCaptor.capture(), anyLong());
+                timerTaskCaptor.getValue().run();
+                return null;
+            }
+        }).when(mockInProgressLatch).await();
+
+        request.run();
+
+        verify(responseHandlerMock).onError(eq(TIMED_OUT), anyString());
+    }
+
+    @Test
+    public void givenRequestIsRunning_whenConnectingFails_thenRequestReportsAnError() throws Exception {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                request.bleDeviceListener.onFailedToConnect(mockDevice, SHNResult.SHNErrorBondLost);
+                return null;
+            }
+        }).when(mockInProgressLatch).await();
+
+        request.run();
+
+        verify(responseHandlerMock).onError(eq(NOT_AVAILABLE), anyString());
+    }
+
+    @Test
+    public void givenRequestIsRunning_whenAChunkOfDataIsReceived_thenItWillBePassedToTheByteStreamReader() throws Exception {
+        byte[] rawData = "This is Test Data!".getBytes();
+        final SHNDataRaw data = new SHNDataRaw(rawData);
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                dataListenerCaptor.getValue().onActionCompleted(data, SHNResult.SHNOk);
+                return null;
+            }
+        }).when(mockInProgressLatch).await();
+
+        request.run();
+
+        verify(mockByteStreamReader).onBytes(rawData);
+    }
+
+    @Test
+    public void givenRequestIsRunning_whenTheStreamingLayerFails_thenRequestReportsAnError() throws Exception {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                dataListenerCaptor.getValue().onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
+                return null;
+            }
+        }).when(mockInProgressLatch).await();
+
+        request.run();
+
+        verify(responseHandlerMock).onError(eq(NOT_UNDERSTOOD), anyString());
+    }
+
+    @Test
+    public void givenRequestIsRunning_whenTheByteStreamReaderFails_thenRequestReportsAnError() throws InterruptedException {
+        final String errorMsg = "Housten, we have a problem!";
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                request.dicommMessageListener.onError(errorMsg);
+                return null;
+            }
+        }).when(mockInProgressLatch).await();
+
+        request.run();
+
+        verify(responseHandlerMock).onError(eq(NO_REQUEST_DATA), eq(errorMsg));
+    }
+
+    @Test
+    public void givenRequestIsRunning_whenADICommMessageIsReceivedThatIsNotAResponse_thenRequestReportsAnError() throws InterruptedException {
+        DiCommMessage message = mock(DiCommMessage.class);
+        when(message.getMessageType()).thenReturn(MessageType.GetPortsRequest);
+
+        simulateRunWithDiCommMessage(message);
+
+        verify(responseHandlerMock).onError(eq(PROTOCOL_VIOLATION), anyString());
+    }
+
+    @Test
+    public void givenRequestIsRunning_whenADICommMessageIsReceivedThatHasAnInvalidStatusCode_thenRequestReportsAnError() throws InterruptedException {
+        byte invalidStatusCode = 0x10;
+
+        DiCommMessage message = mock(DiCommMessage.class);
+        when(message.getMessageType()).thenReturn(MessageType.GenericResponse);
+        when(message.getPayload()).thenReturn(new byte[] {invalidStatusCode, 0x00});
+
+        simulateRunWithDiCommMessage(message);
+
+        verify(responseHandlerMock).onError(eq(UNKNOWN), anyString());
+    }
+
+    @Test
+    public void givenRequestIsRunning_whenASuccessfulDICommMessageIsReceived_thenRequestReportsSuccess() throws InterruptedException {
+        String validJsonString = "{\"A valid key\" : \"A valid value\"}";
+        byte[] payload = ("\0" + validJsonString + "\0").getBytes();
+
+        DiCommMessage message = mock(DiCommMessage.class);
+        when(message.getMessageType()).thenReturn(MessageType.GenericResponse);
+        when(message.getPayload()).thenReturn(payload);
+
+        simulateRunWithDiCommMessage(message);
+
+        verify(responseHandlerMock).onSuccess(validJsonString);
+    }
+
+    private void simulateRunWithDiCommMessage(final DiCommMessage message) throws InterruptedException {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                request.dicommMessageListener.onMessage(message);
+                return null;
+            }
+        }).when(mockInProgressLatch).await();
+
+        request.run();
     }
 }

@@ -44,6 +44,7 @@ import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
 
@@ -60,11 +61,13 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
@@ -148,10 +151,17 @@ public class THSProvidersListFragmentTest {
     THSProviderInfo thsProviderInfoMock;
 
     @Mock
+    ProviderInfo providerInfo;
+
+    @Mock
     ProviderInfo providerInfoMock;
 
     @Mock
     ImageView imageView;
+
+    @Mock
+    Label patientWaitingCount;
+
 
     @Mock
     THSProvidersListAdapter.MyViewHolder myViewHolderMock;
@@ -167,7 +177,7 @@ public class THSProvidersListFragmentTest {
 
     List list;
 
-    ProviderVisibility pv;
+    String pv;
 
     ProviderTypeImpl pt;
 
@@ -242,6 +252,7 @@ public class THSProvidersListFragmentTest {
         thsProviderInfoMock.setTHSProviderInfo(providerInfoMock);
         list = new ArrayList();
         myViewHolderMock.isAvailableStatus = imageView;
+        myViewHolderMock.providerPatientWaitingCount = patientWaitingCount;
         myViewHolderMock.isAvailble = textViewIsAvailable;
         myViewHolderMock.name = tvName;
         myViewHolderMock.providerRating = ratingBarMock;
@@ -263,8 +274,8 @@ public class THSProvidersListFragmentTest {
         when(thsProviderListPresenterMock.getPthManager()).thenReturn(thsManager);
         when(thsProvidersListFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         thsProviderListPresenterMock.fetchProviderList(consumer, practice);
-        verify(practiseprovidermanagerMock).findProviders(any(Consumer.class), any(PracticeInfo.class), any(OnDemandSpecialty.class), any(String.class), any(Set.class), any(Set.class),
-                any(State.class), any(Language.class), any(Integer.class),
+        verify(practiseprovidermanagerMock).findProviders((Consumer)isNull(), (PracticeInfo)isNull(), (OnDemandSpecialty)isNull(), (String)isNull(), (Set)isNull(), (Set)isNull(),
+                (State)isNull(), (Language)isNull(),(Integer)isNull(),
                 any(SDKCallback.class));
 
     }
@@ -285,7 +296,7 @@ public class THSProvidersListFragmentTest {
     public void testOnEventGetStartedInPresenter() {
         SupportFragmentTestUtil.startFragment(thsProvidersListFragment);
         thsProviderListPresenter.onEvent(R.id.getStartedButton);
-        verify(practiseprovidermanagerMock).getOnDemandSpecialties(any(Consumer.class), any(PracticeInfo.class), any(String.class), any(SDKCallback.class));
+        verify(practiseprovidermanagerMock).getOnDemandSpecialties((Consumer)isNull(),(PracticeInfo)isNull(), (String)isNull(), any(SDKCallback.class));
     }
 
     @Test(expected = NullPointerException.class)
@@ -307,11 +318,16 @@ public class THSProvidersListFragmentTest {
         verify(thsProviderListPresenterMock, atLeastOnce()).onEvent(any(Integer.class));
     }
 
+    @Mock
+    Iterator<THSProviderInfo> infoIteratorMock;
     @Test
     public void testOnProviderListUpdate() {
+        when(thsProviderInfoListMock.size()).thenReturn(2);
+        when(thsProvidersListFragmentTest.getProviderInfoIterator(thsProviderInfoListMock)).thenReturn(infoIteratorMock);
         SupportFragmentTestUtil.startFragment(thsProvidersListFragmentTest);
         thsProvidersListFragmentTest.recyclerView = recyclerViewMock;
-        thsProvidersListFragmentTest.updateProviderAdapterList(providerInfoListMock);
+        thsProvidersListFragmentTest.practice = practice;
+        thsProvidersListFragmentTest.updateProviderAdapterList(thsProviderInfoListMock);
         thsProvidersListFragmentTest.updateMainView(true);
         thsProvidersListFragmentTest.updateMainView(false);
         verify(recyclerViewMock).setAdapter(any(RecyclerView.Adapter.class));
@@ -329,22 +345,23 @@ public class THSProvidersListFragmentTest {
         when(thsProvidersListAdapterMock.getName(thsProviderInfoMock)).thenReturn("test");
         when(imageView.getContext()).thenReturn(fragmentActivityMock);
         when(fragmentActivityMock.getResources()).thenReturn(resources);
-        when(resources.getString(R.string.provider_available)).thenReturn("Available now");
+        when(resources.getString(R.string.ths_provider_available)).thenReturn("Available now");
         thsProvidersListAdapter = new THSProvidersListAdapter(list);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.isAvailble,atLeastOnce()).setText("Available now");
         pv = ProviderVisibility.OFFLINE;
         when(thsProviderInfoMock.getVisibility()).thenReturn(pv);
-        when(resources.getString(R.string.provider_offline)).thenReturn("Schedule appointment");
+        when(resources.getString(R.string.ths_provider_offline)).thenReturn("Schedule appointment");
         thsProvidersListAdapter = new THSProvidersListAdapter(list);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.isAvailble,atLeastOnce()).setText("Schedule appointment");
         pv = ProviderVisibility.WEB_BUSY;
         when(thsProviderInfoMock.getVisibility()).thenReturn(pv);
-        when(resources.getString(R.string.provider_busy)).thenReturn("Patient waiting");
+        when(resources.getString(R.string.ths_provider_busy)).thenReturn("Patient waiting");
         thsProvidersListAdapter = new THSProvidersListAdapter(list);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.isAvailble,atLeastOnce()).setText("Patient waiting");
+        when(thsProviderInfoMock.getWaitingRoomCount()).thenReturn(1);
         verify(myViewHolderMock.name, atLeastOnce()).setText(anyString());
     }
 
@@ -365,7 +382,7 @@ public class THSProvidersListFragmentTest {
         when(thsProvidersListAdapterMock.getName(thsProviderInfoMock)).thenReturn("test");
         when(textViewIsAvailable.getContext()).thenReturn(fragmentActivityMock);
         when(fragmentActivityMock.getResources()).thenReturn(resources);
-        when(resources.getString(R.string.provider_available_timeslots)).thenReturn("Available time-slots");
+        when(resources.getString(R.string.ths_provider_available_timeslots)).thenReturn("Available time-slots");
         thsProvidersListAdapter = new THSProvidersListAdapter(list);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.relativeLayout, atLeastOnce()).setOnClickListener(any(View.OnClickListener.class));

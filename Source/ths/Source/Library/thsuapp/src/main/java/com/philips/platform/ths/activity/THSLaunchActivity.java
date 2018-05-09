@@ -6,6 +6,7 @@
 package com.philips.platform.ths.activity;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -13,11 +14,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.init.THSInitFragment;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -35,6 +40,8 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.philips.platform.ths.utility.THSConstants.KEY_DEEP_LINKING_FLOW;
+
 
 public class THSLaunchActivity extends UIDActivity implements ActionBarListener {
 
@@ -42,8 +49,12 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
     protected Toolbar toolbar;
     private FragmentLauncher fragmentLauncher;
+    static final long serialVersionUID = 1161L;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ths_rename_activity_test_ur);
@@ -57,6 +68,9 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
             THSBaseFragment thsBaseFragment = new THSInitFragment();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             Bundle bundle = new Bundle();
+            boolean isDeepLinkingFlow = getIntent().getBooleanExtra(KEY_DEEP_LINKING_FLOW,false);
+            AmwellLog.v("isDeepLink",""+isDeepLinkingFlow);
+            bundle.putBoolean(KEY_DEEP_LINKING_FLOW,isDeepLinkingFlow);
             thsBaseFragment.setArguments(bundle);
             thsBaseFragment.setFragmentLauncher(fragmentLauncher);
             thsBaseFragment.setActionBarListener(this);
@@ -67,11 +81,25 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
         }
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
         if (fragmentManager.getBackStackEntryCount() == 1) {
+            if (currentFrag != null && currentFrag instanceof BackEventListener){
+                ((BackEventListener) currentFrag).handleBackEvent();
+            }
             finish();
         } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
             super.onBackPressed();
@@ -94,21 +122,32 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
     }
 
 
-     public void initTheme() {
-         int themeIndex = getIntent().getIntExtra(THSConstants.KEY_ACTIVITY_THEME, DEFAULT_THEME);
-         if (themeIndex <= 0) {
-             themeIndex = DEFAULT_THEME;
-         }
-         getTheme().applyStyle(themeIndex, true);
+    public void initTheme() {
+        int themeIndex = getIntent().getIntExtra(THSConstants.KEY_ACTIVITY_THEME, DEFAULT_THEME);
+        if (themeIndex <= 0) {
+            themeIndex = DEFAULT_THEME;
+        }
+        getTheme().applyStyle(themeIndex, true);
 
-         ColorRange colorRange = (ColorRange) getIntent().getSerializableExtra(THSConstants.KEY_COLOR_RANGE);
-         NavigationColor navigationColor = (NavigationColor) getIntent().getSerializableExtra(THSConstants.KEY_NAVIGATION_COLOR);
-         ContentColor contentColor = (ContentColor) getIntent().getSerializableExtra(THSConstants.KEY_CONTENT_COLOR);
-         AccentRange accentRange = (AccentRange) getIntent().getSerializableExtra(THSConstants.KEY_ACCENT_RANGE);
+        ColorRange colorRange = (ColorRange) getIntent().getSerializableExtra(THSConstants.KEY_COLOR_RANGE);
+        NavigationColor navigationColor = (NavigationColor) getIntent().getSerializableExtra(THSConstants.KEY_NAVIGATION_COLOR);
+        ContentColor contentColor = (ContentColor) getIntent().getSerializableExtra(THSConstants.KEY_CONTENT_COLOR);
+        AccentRange accentRange = (AccentRange) getIntent().getSerializableExtra(THSConstants.KEY_ACCENT_RANGE);
 
-         ThemeConfig[] configArray = getThemeConfigArray(colorRange, navigationColor, contentColor, accentRange);
-         UIDHelper.init(new ThemeConfiguration(this, configArray));
-     }
+        ThemeConfig[] configArray = getThemeConfigArray(colorRange, navigationColor, contentColor, accentRange);
+        UIDHelper.init(new ThemeConfiguration(this, configArray));
+
+        if(getIntent().hasExtra(THSConstants.KEY_ORIENTATION)){
+
+            ActivityLauncher.ActivityOrientation activityOrientation = (ActivityLauncher.ActivityOrientation) getIntent().getSerializableExtra(THSConstants.KEY_ORIENTATION);
+            if(activityOrientation.getOrientationValue() == ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT.getOrientationValue()){
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }else if(activityOrientation.getOrientationValue() == ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_LANDSCAPE.getOrientationValue()){
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+
+        }
+    }
 
     private ThemeConfig[] getThemeConfigArray(ThemeConfig... themeConfigs) {
         List<ThemeConfig> configList = new ArrayList<>();
@@ -141,5 +180,6 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
         }
 
     }
+
 
 }

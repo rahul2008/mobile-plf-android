@@ -18,9 +18,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.practice.Practice;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
+
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PRACTICE_IMAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 
 
 public class THSPracticeRecyclerViewAdapter extends RecyclerView.Adapter<THSPracticeRecyclerViewAdapter.CustomViewHolder> {
@@ -65,8 +69,10 @@ public class THSPracticeRecyclerViewAdapter extends RecyclerView.Adapter<THSPrac
                     .newImageLoader(practice, customViewHolder.logo, false)
                     .placeholder(drawable)
                     .build().load();
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+           //
+            final String errorTag = THSTagUtils.createErrorTag(ANALYTIC_FETCH_PRACTICE_IMAGE, e.getMessage());
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
         }
 
         View.OnClickListener listener = new View.OnClickListener() {

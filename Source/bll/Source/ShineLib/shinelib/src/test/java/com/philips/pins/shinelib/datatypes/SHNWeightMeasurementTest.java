@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib.datatypes;
 
 import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -163,7 +164,7 @@ public class SHNWeightMeasurementTest {
     }
 
     @Test
-    public void whenTheScaleMeasurementValueIsPassedInImperialThanItIsParsedInLBResolution() {
+    public void whenTheScaleMeasurementValueIsPassedInImperialThenItIsParsedInLBResolution() {
         byte[] data = new byte[]{IMPERIAL_SUPPORTED, 0x04, 0x07};
 
         SHNWeightMeasurement shnWeightMeasurement = getShnWeightMeasurement(data);
@@ -172,7 +173,7 @@ public class SHNWeightMeasurementTest {
     }
 
     @Test
-    public void whenTheScaleMeasurementIsInLbsThanWeightInKgIsConverted() {
+    public void whenTheScaleMeasurementIsInLbsThenWeightInKgIsConverted() {
         byte[] data = new byte[]{IMPERIAL_SUPPORTED, 0x04, 0x07};
 
         SHNWeightMeasurement shnWeightMeasurement = getShnWeightMeasurement(data);
@@ -182,11 +183,11 @@ public class SHNWeightMeasurementTest {
     }
 
     @Test
-    public void whenTheScaleMeasurementHasSpecialValueThanMessageIsLogged() {
+    public void whenTheScaleMeasurementHasSpecialValueThenMessageIsLogged() {
         byte[] data = new byte[]{0, (byte) 0xFF, (byte) 0xFF};
         getShnWeightMeasurement(data);
 
-        PowerMockito.verifyStatic();
+        PowerMockito.verifyStatic(SHNLogger.class);
     }
 
     @Test

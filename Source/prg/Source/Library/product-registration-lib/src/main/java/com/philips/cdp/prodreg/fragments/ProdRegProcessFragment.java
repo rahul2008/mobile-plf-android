@@ -27,6 +27,8 @@ import java.util.List;
 public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdRegProcessController.ProcessControllerCallBacks {
 
     public static final String TAG = ProdRegProcessFragment.class.getName();
+    private static final long serialVersionUID = -6635233525340545670L;
+
     private ProdRegProcessController prodRegProcessController;
     private boolean isFailedOnError = false;
     private int responseCode;

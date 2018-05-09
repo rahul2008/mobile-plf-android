@@ -10,7 +10,9 @@ import android.app.DatePickerDialog;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.State;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
@@ -35,8 +37,9 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ENROLLMENT_MANGER;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_ENROLLMENT_MISSING;
 
-public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumerWrapper, SDKError>{
+public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumerWrapper, SDKError>, THSEditUserDetailsCallBack<Consumer,SDKError>{
 
     private THSBaseFragment mTHSBaseFragment;
     private static String NAME_REGEX = "[A-Z0-9a-z\\s]{2,25}";
@@ -62,6 +65,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
                     date.setTime(calendar.getTimeInMillis());
 
                     ((THSRegistrationFragment)mTHSBaseFragment).updateDobView(date);
+                    ((THSRegistrationFragment)mTHSBaseFragment).validateUserFields();
 
                 }
             };
@@ -74,7 +78,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
             if (null!=sdkPasswordError && sdkPasswordError.getSDKErrorReason() != null) {
-                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ENROLLMENT_MANGER,sdkPasswordError));
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(mTHSBaseFragment.getContext(), ANALYTICS_ENROLLMENT_MANGER,sdkPasswordError));
                 return;
             }
 
@@ -101,6 +105,10 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
 
     @Override
     public void onFailure(Throwable throwable) {
+        onFailedResponse();
+    }
+
+    private void onFailedResponse() {
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
 
@@ -110,26 +118,26 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     }
 
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> var1) {
+    public void onValidationFailure(Map<String, String> var1) {
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
-            mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.validation_failed) + var1.toString());
+            mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.ths_validation_failed) + var1.toString());
         }
     }
 
-    public void enrollUser(Date date, String firstname, String lastname, Gender gender, State state) {
+    public void enrollUser(Date date, String firstname, String lastname, String gender, State state) {
         try {
             THSManager.getInstance().enrollConsumer(mTHSBaseFragment.getContext(), date,firstname,lastname,gender,state,this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
-    public void enrollDependent(Date date, String firstname, String lastname, Gender gender, State state) {
+    public void enrollDependent(Date date, String firstname, String lastname, String gender, State state) {
         try {
             THSManager.getInstance().enrollDependent(mTHSBaseFragment.getContext(), date, firstname, lastname, gender, state, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -140,29 +148,29 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         if(isFirstName){
             if(nameString.isEmpty() || nameString.length() < 2){
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_first_name_validation_not_more_two_characters));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_not_more_two_characters),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_not_more_two_characters),false);
                 return false;
             }else if(!pattern.matcher(nameString).matches()){
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_first_name_validation_only_alphabets));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_only_alphabets),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_only_alphabets),false);
                 return false;
             }else {
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_first_name_validation_not_more_than_25_characters));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_not_more_than_25_characters),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_first_name_validation_not_more_than_25_characters),false);
                 return nameString.length() < 25;
             }
         } else {
             if(nameString.isEmpty() || nameString.length() < 2){
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_last_name_validation_not_more_two_characters));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_not_more_two_characters),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_not_more_two_characters),false);
                 return false;
             }else if(!pattern.matcher(nameString).matches()){
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_last_name_validation_only_alphabets));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_only_alphabets),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_only_alphabets),false);
                 return false;
             }else {
                 ((THSRegistrationFragment) mTHSBaseFragment).setErrorString(mTHSBaseFragment.getString(R.string.ths_registration_last_name_validation_not_more_than_25_characters));
-                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(ANALYTICS_ENROLLMENT_MANGER,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_not_more_than_25_characters),false);
+                ((THSRegistrationFragment) mTHSBaseFragment).doTagging(THS_ANALYTICS_ENROLLMENT_MISSING,((THSRegistrationFragment) mTHSBaseFragment).getString(R.string.ths_registration_last_name_validation_not_more_than_25_characters),false);
                 return nameString.length() < 25;
             }
         }
@@ -189,5 +197,49 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         }else {
             return false;
         }
+    }
+
+    public void updateConsumerData(String email, Date date, String firstname, String lastname, String gender, State state) {
+        try {
+            THSManager.getInstance().updateConsumerData(mTHSBaseFragment.getContext(),email,date,firstname,lastname,gender,state,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDependentConsumerData(Consumer dependent, Date date, String firstname, String lastname, String gender) {
+        try {
+            THSManager.getInstance().updateDependentConsumerData(mTHSBaseFragment.getContext(),dependent,date,firstname,lastname,gender,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onEditUserDataValidationFailure(Map<String, ValidationReason> var1) {
+        dismissProgress();
+        //onValidationFailed(var1);
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
+            mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.ths_validation_failed) + var1.toString());
+        }
+    }
+
+    private void dismissProgress() {
+        if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
+        }
+    }
+
+    @Override
+    public void onEditUserDataResponse(Consumer var1, SDKError var2) {
+        dismissProgress();
+        mTHSBaseFragment.getFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void onEditUserDataFailure(Throwable var1) {
+        dismissProgress();
+        onFailedResponse();
     }
 }

@@ -119,7 +119,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
-                System.out.println("Item Quantity = "+data.getQuantity());
                 countPopUp.createPopUp(v,data.getStockLevel());
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();
@@ -359,6 +358,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTvQuantity = shoppingCartView.findViewById(R.id.quantity_val);
             mIvOptions = shoppingCartView.findViewById(R.id.right_arrow);
             deleteBtn = shoppingCartView.findViewById(R.id.delete_btn);
+            deleteBtn.setTextColor(mContext.getColor(R.color.uid_signal_red_level_45));
             viewBottomSpace= shoppingCartView.findViewById(R.id.bottom_space);
 
         }

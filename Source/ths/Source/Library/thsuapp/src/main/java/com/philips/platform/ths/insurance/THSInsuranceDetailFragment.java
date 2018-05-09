@@ -27,6 +27,7 @@ import com.americanwell.sdk.entity.insurance.Subscription;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
@@ -71,6 +72,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
     /// editable fields
     private THSHealthPlan mTHSHealthPlanList;
     private RelativeLayout mRelativeLayoutInsuranceContainer;
+    static final long serialVersionUID = 171L;
 
     @Nullable
     @Override
@@ -148,7 +150,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INSURANCE_DETAIL, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_INSURANCE_DETAIL, null, null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Insurance", true);
         }
@@ -179,7 +181,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
             String firstName = null;
             String lastName = null;
             String dob = null;
-            if (!relationship.isPrimarySubscriber()) {
+            if (null != relationship && !relationship.isPrimarySubscriber()) {
                 firstName = (firstNameEditBox.getText() == null) ? null : firstNameEditBox.getText().toString().trim();
                 lastName = (lastNameEditBox.getText() == null) ? null : lastNameEditBox.getText().toString().trim();
                 dob = (relationDOBEditBox.getText() == null) ? null : relationDOBEditBox.getText().toString().trim();

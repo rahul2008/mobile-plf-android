@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -85,10 +86,12 @@ public class WelcomePagerFragment extends AbstractAppFrameworkBaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         RALog.d(TAG, "WelcomePagerFragment onCreate");
         super.onCreate(savedInstanceState);
-        titleId = getArguments().getInt(ARG_PAGE_TITLE, 0);
-        subtitleId = getArguments().getInt(ARG_PAGE_SUBTITLE, 0);
-        backgroundId = getArguments().getInt(ARG_PAGE_BG_ID, R.drawable.onboarding_02);
-        groupId = getArguments().getInt(ARG_PAGE_GROUP_ID, R.drawable.group1);
+        if(!(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized())) {
+            titleId = getArguments().getInt(ARG_PAGE_TITLE, 0);
+            subtitleId = getArguments().getInt(ARG_PAGE_SUBTITLE, 0);
+            backgroundId = getArguments().getInt(ARG_PAGE_BG_ID, R.drawable.onboarding_02);
+            groupId = getArguments().getInt(ARG_PAGE_GROUP_ID, R.drawable.group1);
+        }
 
     }
 

@@ -6,10 +6,12 @@
 
 package com.philips.platform.appinfra.appconfiguration;
 
+import java.io.Serializable;
+
 /**
  * The App Configuration Interface .
  */
-public interface AppConfigurationInterface {
+public interface AppConfigurationInterface extends Serializable {
 
     /**
      * Gets property for key.
@@ -114,7 +116,7 @@ public interface AppConfigurationInterface {
          *
          * @param errorCode the error code
          */
-        void setErrorCode(AppConfigErrorEnum errorCode) {
+        public void setErrorCode(AppConfigErrorEnum errorCode) {
             this.errorCode = errorCode;
         }
 

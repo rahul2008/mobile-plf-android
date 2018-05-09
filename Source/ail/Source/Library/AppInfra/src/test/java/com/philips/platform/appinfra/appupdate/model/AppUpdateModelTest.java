@@ -71,6 +71,12 @@ public class AppUpdateModelTest extends TestCase {
 		assertEquals(mMessages.getCurrentVersionMessage(),"test current version message");
 	}
 
+	public void testGetMinimumOSMessage() {
+		mMessages.setMinimumOSMessage("test minimum OS version message");
+		assertNotNull(mMessages.getMinimumOSMessage());
+		assertEquals(mMessages.getMinimumOSMessage(),"test minimum OS version message");
+	}
+
 	public void testminimumOSVersion() {
 		mRequirements.setMinimumOSVersion("21");
 		assertNotNull(mRequirements.getMinimumOSVersion());

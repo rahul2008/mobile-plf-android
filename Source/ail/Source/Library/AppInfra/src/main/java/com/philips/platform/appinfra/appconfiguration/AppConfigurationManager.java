@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,19 +47,20 @@ import java.util.Set;
 
 public class AppConfigurationManager implements AppConfigurationInterface {
 
+    private static final long serialVersionUID = 7173449930783456564L;
     private final AppInfra mAppInfra;
     private final Context mContext;
-    private JSONObject dynamicConfigJsonCache;
-    private JSONObject cloudConfigJsonCache;
-    private JSONObject staticConfigJsonCache;
+    private transient JSONObject dynamicConfigJsonCache;
+    private transient JSONObject cloudConfigJsonCache;
+    private transient JSONObject staticConfigJsonCache;
     private static final String APPCONFIG_SECURE_STORAGE_KEY = "ail.app_config";
     private static final String APPCONFIG_SECURE_STORAGE_KEY_NEW = "ailNew.app_config";
     private static final String CLOUD_APP_CONFIG_FILE = "CloudConfig";
     private static final String CLOUD_APP_CONFIG_JSON = "cloudConfigJson";
     private static final String CLOUD_APP_CONFIG_URL = "cloudConfigUrl";
-    private JSONObject result = null;
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mPrefEditor;
+    private transient JSONObject result = null;
+    private transient SharedPreferences mSharedPreferences;
+    private transient SharedPreferences.Editor mPrefEditor;
 
     private SecureStorageInterface mSecureStorageInterface;
 
@@ -290,8 +292,8 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     private Object getKey(String key, String group, AppConfigurationError configError, JSONObject jsonObject) {
-        key = key.toUpperCase();
-        group = group.toUpperCase();
+        key = key.toUpperCase(Locale.US);
+        group = group.toUpperCase(Locale.US);
         Object object = null;
         if (null == jsonObject) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey);
@@ -361,14 +363,14 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         final String key = iteratorKey.next();
                         try {
                             final Object objectKey = objectGroup.opt(key);
-                            newJsonChildObject.put(key.toUpperCase(), objectKey);
+                            newJsonChildObject.put(key.toUpperCase(Locale.US), objectKey);
                         } catch (JSONException e) {
                             // Something went wrong!
                             throw new RuntimeException(e);
                         }
 
                     }
-                    newJsonGroup.put(keyGroup.toUpperCase(), newJsonChildObject);
+                    newJsonGroup.put(keyGroup.toUpperCase(Locale.US), newJsonChildObject);
 
                 } catch (JSONException e) {
                     // Something went wrong!

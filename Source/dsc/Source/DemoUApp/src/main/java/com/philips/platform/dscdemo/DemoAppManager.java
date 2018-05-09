@@ -8,7 +8,6 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
 import com.philips.platform.dscdemo.database.ORMSavingInterfaceImpl;
 import com.philips.platform.dscdemo.database.ORMUpdatingInterfaceImpl;
@@ -67,6 +66,7 @@ public class DemoAppManager {
     }
 
     private void initDataServicesLibrary(Context context) {
+
         mDataServicesManager = DataServicesManager.getInstance();
 
         OrmCreator creator = new OrmCreator(new UuidGenerator());
@@ -113,7 +113,7 @@ public class DemoAppManager {
             OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao,
                     characteristicsesDao, settingsDao, dcSyncDao, insightsDao);
 
-            mDataServicesManager.initializeDatabaseMonitor(context, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
+            mDataServicesManager.initializeDatabaseMonitor(ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
             Toast.makeText(context, "DB injection failed", Toast.LENGTH_SHORT).show();
         }

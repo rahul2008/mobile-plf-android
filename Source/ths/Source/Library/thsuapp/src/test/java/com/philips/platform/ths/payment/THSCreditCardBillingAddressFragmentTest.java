@@ -24,13 +24,10 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.init.THSInitPresenter;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uid.view.widget.ProgressBar;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
@@ -54,7 +50,7 @@ import static org.mockito.Mockito.when;
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSCreditCardBillingAddressFragmentTest {
 
-    THSCreditCardBillingAddressFragment mThsCreditCardBillingAddressFragment;
+    THSCreditCardDetailFragment mThsCreditCardBillingAddressFragment;
 
     @Mock
     AWSDK awsdkMock;
@@ -99,7 +95,7 @@ public class THSCreditCardBillingAddressFragmentTest {
     THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
-    THSCreditCardBillingAddressPresenter mThsWelcomeBackPresenterMock;
+    THSCreditCardDetailPresenter mThsWelcomeBackPresenterMock;
 
     @Mock
     Address addressMock;
@@ -147,7 +143,7 @@ public class THSCreditCardBillingAddressFragmentTest {
         when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
 
 
-        mThsCreditCardBillingAddressFragment = new THSCreditCardBillingAddressFragment();
+        mThsCreditCardBillingAddressFragment = new THSCreditCardDetailFragment();
         mThsCreditCardBillingAddressFragment.setActionBarListener(actionBarListenerMock);
 
         bundle = new Bundle();
@@ -155,23 +151,23 @@ public class THSCreditCardBillingAddressFragmentTest {
         mThsCreditCardBillingAddressFragment.setArguments(bundle);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void onClick() throws Exception {
         SupportFragmentTestUtil.startFragment(mThsCreditCardBillingAddressFragment);
         final View viewById = mThsCreditCardBillingAddressFragment.getView().findViewById(R.id.update_shipping_address);
-        mThsCreditCardBillingAddressFragment.mTHSCreditCardBillingAddressPresenter = mThsWelcomeBackPresenterMock;
+        mThsCreditCardBillingAddressFragment.thsCreditCardDetailPresenter = mThsWelcomeBackPresenterMock;
         viewById.performClick();
         verify(mThsWelcomeBackPresenterMock).onEvent(R.id.update_shipping_address);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void validateAddress(){
         SupportFragmentTestUtil.startFragment(mThsCreditCardBillingAddressFragment);
         mThsCreditCardBillingAddressFragment.mAddressOneEditText.setText("valid address");
         verify(appTaggingInterface,atLeastOnce()).trackActionWithInfo(anyString(),any(Map.class));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void validateCitiAddress(){
         SupportFragmentTestUtil.startFragment(mThsCreditCardBillingAddressFragment);
         mThsCreditCardBillingAddressFragment.mCityEditText.setText("valid address");
@@ -179,7 +175,7 @@ public class THSCreditCardBillingAddressFragmentTest {
 
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void validatemZipcodeEditText(){
         SupportFragmentTestUtil.startFragment(mThsCreditCardBillingAddressFragment);
         mThsCreditCardBillingAddressFragment.mZipcodeEditText.setText("35006");

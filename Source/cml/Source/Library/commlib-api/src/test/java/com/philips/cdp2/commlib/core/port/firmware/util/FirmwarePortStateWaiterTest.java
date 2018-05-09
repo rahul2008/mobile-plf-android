@@ -106,7 +106,8 @@ public class FirmwarePortStateWaiterTest {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 when(portPropertiesMock.getState()).thenReturn(DOWNLOADING);
-                invocation.getArgumentAt(0, DICommPortListener.class).onPortUpdate(portMock);
+                DICommPortListener listener = invocation.getArgument(0);
+                listener.onPortUpdate(portMock);
                 return null;
             }
         }).when(portMock).addPortListener(any(DICommPortListener.class));
@@ -132,7 +133,8 @@ public class FirmwarePortStateWaiterTest {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 when(portPropertiesMock.getState()).thenReturn(DOWNLOADING);
-                invocation.getArgumentAt(0, SubscriptionEventListener.class).onSubscriptionEventReceived(PORT_NAME, EMPTY_JSON_OBJECT_STRING);
+                SubscriptionEventListener listener = invocation.getArgument(0);
+                listener.onSubscriptionEventReceived(PORT_NAME, EMPTY_JSON_OBJECT_STRING);
                 return null;
             }
         }).when(communicationStrategyMock).addSubscriptionEventListener(any(SubscriptionEventListener.class));
@@ -157,7 +159,8 @@ public class FirmwarePortStateWaiterTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                invocation.getArgumentAt(0, SubscriptionEventListener.class).onSubscriptionEventDecryptionFailed(PORT_NAME);
+                SubscriptionEventListener listener = invocation.getArgument(0);
+                listener.onSubscriptionEventDecryptionFailed(PORT_NAME);
                 return null;
             }
         }).when(communicationStrategyMock).addSubscriptionEventListener(any(SubscriptionEventListener.class));

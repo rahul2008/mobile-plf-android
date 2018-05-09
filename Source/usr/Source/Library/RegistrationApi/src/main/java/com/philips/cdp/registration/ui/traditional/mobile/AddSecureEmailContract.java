@@ -2,7 +2,6 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 
 public interface AddSecureEmailContract {
 
-
     void registrationComplete();
 
     void showInvalidEmailError();

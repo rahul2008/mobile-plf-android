@@ -5,6 +5,7 @@
         <item name="android:minHeight">@dimen/uid_radiobutton_height</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/uid_radiobutton_text_size</item>
+        <item name="android:textAlignment">viewStart</item>
         <item name="android:background">@drawable/uid_radiobutton_background</item>
         <item name="android:paddingEnd">@dimen/uid_radiobutton_margin_left_right</item>
         <item name="android:paddingStart">@dimen/uid_radiobutton_margin_left_right</item>

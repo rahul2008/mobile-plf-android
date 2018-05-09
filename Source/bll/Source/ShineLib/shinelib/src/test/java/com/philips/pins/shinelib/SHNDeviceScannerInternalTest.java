@@ -6,15 +6,11 @@
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanRecord;
-import android.bluetooth.le.ScanResult;
-import android.content.Context;
 import android.os.Handler;
 import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 
-import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.LeScanCallbackProxy;
 import com.philips.pins.shinelib.helper.MockedHandler;
@@ -25,9 +21,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.InOrder;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,7 +32,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -50,10 +47,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.doAnswer;
-import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
-import static org.powermock.api.mockito.PowerMockito.mock;
 
 public class SHNDeviceScannerInternalTest extends RobolectricTest {
 
@@ -62,16 +56,10 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     private static final String DEVICE_INFO_SERVICE_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x180A);
 
     @Mock
-    private Context contextMock;
-
-    @Mock
     private SHNDevice deviceMock;
 
     @Mock
     private SHNCentral shnCentralMock;
-
-    @Mock
-    private BleUtilities bleUtilitiesMock;
 
     @Mock
     private SHNInternalScanRequest internalScanRequestMock1;
@@ -79,15 +67,25 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     @Mock
     private SHNInternalScanRequest internalScanRequestMock2;
 
+    @Mock
+    private LeScanCallbackProxy leScanCallbackProxyMock;
+
+    @Mock
+    private SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener;
+
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
     private MockedHandler mockedHandler;
-    private List<SHNDeviceDefinitionInfo> testDeviceDefinitionInfos;
     private boolean resultForMatchesOnAdvertisedData;
     private boolean resultForUseAdvertisedDataMatcher;
-    private LeScanCallbackProxy leScanCallbackProxy;
     private SHNDeviceScannerInternal shnDeviceScannerInternal;
+
+    @Captor
+    private ArgumentCaptor<LeScanCallbackProxy.LeScanCallback> leScanCallbackCaptor;
+
+    @Captor
+    private ArgumentCaptor<SHNDeviceFoundInfo> shnDeviceFoundInfoArgumentCaptor;
 
     @Before
     public void setUp() {
@@ -96,24 +94,11 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         mockedHandler = new MockedHandler();
 
         when(shnCentralMock.getInternalHandler()).thenReturn(mockedHandler.getMock());
-
-        doAnswer(new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                ((Runnable) invocation.getArguments()[0]).run();
-                return null;
-            }
-        }).when(shnCentralMock).runOnUserHandlerThread(any(Runnable.class));
         doReturn(deviceMock).when(shnCentralMock).createSHNDeviceForAddressAndDefinition(anyString(), any(SHNDeviceDefinitionInfo.class));
-
-        doReturn(bleUtilitiesMock).when(shnCentralMock).getBleUtilities();
-
-        doNothing().when(bleUtilitiesMock).startLeScan(any(ScanCallback.class));
-        doNothing().when(bleUtilitiesMock).stopLeScan(any(ScanCallback.class));
 
         when(deviceMock.getDeviceTypeName()).thenReturn(MOCKED_BLUETOOTH_DEVICE_NAME);
 
-        testDeviceDefinitionInfos = new ArrayList<>();
+        List<SHNDeviceDefinitionInfo> testDeviceDefinitionInfos = new ArrayList<>();
         testDeviceDefinitionInfos.add(new SHNDeviceDefinitionInfo() {
             @Override
             public String getDeviceTypeName() {
@@ -148,16 +133,17 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
             }
         });
 
-        leScanCallbackProxy = new LeScanCallbackProxy(bleUtilitiesMock);
-        shnDeviceScannerInternal = new TestSHNDeviceScannerInternal(shnCentralMock, testDeviceDefinitionInfos);
+        shnDeviceScannerInternal = new TestSHNDeviceScannerInternal(shnCentralMock,
+                testDeviceDefinitionInfos);
     }
 
     @Test
-    public void whenScanning_ThenStartLeScanOnTheBluetoothAdapterIsCalled() {
-        boolean startScanning = shnDeviceScannerInternal.startScanning(null, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
+    public void whenScanning_ThenStartLeScanOnTheLeProxyIsCalledIsCalled() {
+        boolean startScanning = shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         assertThat(startScanning).isTrue();
-        verify(bleUtilitiesMock).startLeScan(any(ScanCallback.class));
+
+        verify(leScanCallbackProxyMock).startLeScan(any(LeScanCallbackProxy.LeScanCallback.class));
     }
 
     @Test
@@ -181,33 +167,31 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
 
     @Test
     public void whenScanning_ThenStartingANextScanReturnsAlsoTrueButStartLeScanIsNotCalledTwice() {
-        shnDeviceScannerInternal.startScanning(null, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
-        boolean startScanning = shnDeviceScannerInternal.startScanning(null, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
+        shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
+        boolean startScanning = shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         assertThat(startScanning).isTrue();
-        verify(bleUtilitiesMock, times(1)).startLeScan(any(ScanCallback.class));
+        verify(leScanCallbackProxyMock).startLeScan(any(LeScanCallbackProxy.LeScanCallback.class));
     }
 
     @Test
-    public void whenStopScanningIsCalled_ThenStopLeScanOnTheBluetoothAdapterIsCalledWithTheSameParameterAsInStart() {
+    public void whenStopScanningIsCalled_ThenStopLeScanOnTheLeProxyIsCalledWithTheSameParameterAsInStart() {
         // Start scanning and capture the scancallback object
-        SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         assertTrue(shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS));
-        ArgumentCaptor<ScanCallback> leScanCallbackStartArgumentCaptor = ArgumentCaptor.forClass(ScanCallback.class);
-        verify(bleUtilitiesMock).startLeScan(leScanCallbackStartArgumentCaptor.capture());
+        verify(leScanCallbackProxyMock).startLeScan(leScanCallbackCaptor.capture());
 
         // Stop scanning and verify that the same scancallback object is used to cancel callbacks
         shnDeviceScannerInternal.stopScanning();
-        ArgumentCaptor<ScanCallback> leScanCallbackStopArgumentCaptor = ArgumentCaptor.forClass(ScanCallback.class);
-        verify(bleUtilitiesMock).stopLeScan(leScanCallbackStopArgumentCaptor.capture());
+        ArgumentCaptor<LeScanCallbackProxy.LeScanCallback> leScanCallbackStopArgumentCaptor = ArgumentCaptor.forClass(LeScanCallbackProxy.LeScanCallback.class);
+        verify(leScanCallbackProxyMock).stopLeScan(leScanCallbackStopArgumentCaptor.capture());
 
-        assertEquals(leScanCallbackStartArgumentCaptor.getValue(), leScanCallbackStopArgumentCaptor.getValue());
+        assertEquals(leScanCallbackCaptor.getValue(), leScanCallbackStopArgumentCaptor.getValue());
     }
 
     @Test
     public void whenStopScanningIsCalled_ThenScanStoppedOnTheListenerIsCalled() {
-        SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
+
         shnDeviceScannerInternal.stopScanning();
 
         verify(mockedSHNDeviceScannerListener).scanStopped(null);
@@ -215,9 +199,8 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
 
     @Test
     public void whenScanning_ThenScanningIsStoppedAutomaticallyAfterTheMaxScanTime() {
-        SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         assertTrue(shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS));
-        verify(bleUtilitiesMock).startLeScan(any(ScanCallback.class));
+        verify(leScanCallbackProxyMock).startLeScan(any(LeScanCallbackProxy.LeScanCallback.class));
 
         // The scanner has a timer running to restart scanning. Some Androids don't report a device multiple times.
         mockedHandler.executeFirstScheduledExecution(); // first scan restart after 3 seconds
@@ -229,7 +212,6 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
 
     @Test
     public void whenDuringScanningADeviceIsFoundWithMatchingPrimaryServiceUUID16_ThenItIsReported() {
-        SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
@@ -244,22 +226,19 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         uuids.add(ParcelUuid.fromString(DEVICE_INFO_SERVICE_UUID));
         doReturn(uuids).when(mockedScanRecord).getServiceUuids();
 
-        ScanResult mockedScanResult = Utility.makeThrowingMock(ScanResult.class);
-        doReturn(mockedBluetoothDevice).when(mockedScanResult).getDevice();
-        doReturn(-50).when(mockedScanResult).getRssi();
-        doReturn(mockedScanRecord).when(mockedScanResult).getScanRecord();
-        doReturn("Such a nice ScanResult").when(mockedScanResult).toString();
+        verify(leScanCallbackProxyMock).startLeScan(leScanCallbackCaptor.capture());
 
-        ArgumentCaptor<SHNDeviceFoundInfo> shnDeviceFoundInfoArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceFoundInfo.class);
+        leScanCallbackCaptor.getValue().onScanResult(mockedBluetoothDevice, 50, mockedScanRecord);
 
-        leScanCallbackProxy.onScanResult(0, mockedScanResult);
-
-        verify(mockedSHNDeviceScannerListener, atLeastOnce()).deviceFound(any(SHNDeviceScanner.class), shnDeviceFoundInfoArgumentCaptor.capture());
+        verify(mockedSHNDeviceScannerListener, atLeastOnce()).deviceFound((SHNDeviceScanner) any(), shnDeviceFoundInfoArgumentCaptor.capture());
+        assertEquals("12:34:56:78:90:AB", shnDeviceFoundInfoArgumentCaptor.getValue().getDeviceAddress());
+        assertEquals(MOCKED_BLUETOOTH_DEVICE_NAME, shnDeviceFoundInfoArgumentCaptor.getValue().getDeviceName());
+        assertArrayEquals(mockedScanRecord.getBytes(), shnDeviceFoundInfoArgumentCaptor.getValue().getScanRecord());
+        assertEquals(50, shnDeviceFoundInfoArgumentCaptor.getValue().getRssi());
     }
 
     @Test
     public void whenDuringScanningADeviceIsFoundMultipleTimesWithMatchingPrimaryServiceUUID16_ThenItIsReportedOnlyOnce() {
-        SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
@@ -274,23 +253,16 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         uuids.add(ParcelUuid.fromString(DEVICE_INFO_SERVICE_UUID));
         doReturn(uuids).when(mockedScanRecord).getServiceUuids();
 
-        ScanResult mockedScanResult = Utility.makeThrowingMock(ScanResult.class);
-        doReturn(mockedBluetoothDevice).when(mockedScanResult).getDevice();
-        doReturn(-50).when(mockedScanResult).getRssi();
-        doReturn(mockedScanRecord).when(mockedScanResult).getScanRecord();
-        doReturn("Such a nice ScanResult").when(mockedScanResult).toString();
+        verify(leScanCallbackProxyMock).startLeScan(leScanCallbackCaptor.capture());
 
-        ArgumentCaptor<SHNDeviceFoundInfo> shnDeviceFoundInfoArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceFoundInfo.class);
+        leScanCallbackCaptor.getValue().onScanResult(mockedBluetoothDevice, 0, mockedScanRecord);
+        leScanCallbackCaptor.getValue().onScanResult(mockedBluetoothDevice, 0, mockedScanRecord);
 
-        leScanCallbackProxy.onScanResult(0, mockedScanResult);
-        leScanCallbackProxy.onScanResult(0, mockedScanResult);
-
-        verify(mockedSHNDeviceScannerListener, times(1)).deviceFound(any(SHNDeviceScanner.class), shnDeviceFoundInfoArgumentCaptor.capture()); // Note that verify checks that the callback is called only once!
+        verify(mockedSHNDeviceScannerListener, times(1)).deviceFound((SHNDeviceScanner) any(), shnDeviceFoundInfoArgumentCaptor.capture()); // Note that verify checks that the callback is called only once!
     }
 
     @Test
     public void whenDuringScanningADeviceIsFoundWithMatchingPrimaryServiceUUID128_ThenItIsReported() {
-        SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
@@ -313,23 +285,17 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         doReturn(uuids).when(mockedScanRecord).getServiceUuids();
         doReturn(MOCKED_BLUETOOTH_DEVICE_NAME).when(mockedScanRecord).getDeviceName();
 
-        ScanResult mockedScanResult = Utility.makeThrowingMock(ScanResult.class);
-        doReturn(mockedBluetoothDevice).when(mockedScanResult).getDevice();
-        doReturn(-50).when(mockedScanResult).getRssi();
-        doReturn(mockedScanRecord).when(mockedScanResult).getScanRecord();
-        doReturn("Such a nice ScanResult").when(mockedScanResult).toString();
+        verify(leScanCallbackProxyMock).startLeScan(leScanCallbackCaptor.capture());
 
-        leScanCallbackProxy.onScanResult(0, mockedScanResult);
+        leScanCallbackCaptor.getValue().onScanResult(mockedBluetoothDevice, 0, mockedScanRecord);
 
-        ArgumentCaptor<SHNDeviceFoundInfo> shnDeviceFoundInfoArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceFoundInfo.class);
-        verify(mockedSHNDeviceScannerListener).deviceFound(any(SHNDeviceScanner.class), shnDeviceFoundInfoArgumentCaptor.capture());
+        verify(mockedSHNDeviceScannerListener).deviceFound((SHNDeviceScanner) any(), any(SHNDeviceFoundInfo.class));
     }
 
     @Test
     public void whenDuringScanningADeviceIsFoundWithNOTMatchingPrimaryServiceUUID16_ThenItIsNotReported() {
         resultForUseAdvertisedDataMatcher = false;
 
-        SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
@@ -339,12 +305,8 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         uuids.add(ParcelUuid.fromString("0000000-1234-1234-1234-000000000000"));
         doReturn(uuids).when(mockedScanRecord).getServiceUuids();
 
-        ScanResult mockedScanResult = Utility.makeThrowingMock(ScanResult.class);
-        doReturn(mockedBluetoothDevice).when(mockedScanResult).getDevice();
-        doReturn(-50).when(mockedScanResult).getRssi();
-        doReturn(mockedScanRecord).when(mockedScanResult).getScanRecord();
-
-        leScanCallbackProxy.onScanResult(0, mockedScanResult);
+        verify(leScanCallbackProxyMock).startLeScan(leScanCallbackCaptor.capture());
+        leScanCallbackCaptor.getValue().onScanResult(mockedBluetoothDevice, 0, mockedScanRecord);
 
         verify(mockedSHNDeviceScannerListener, never()).deviceFound(any(SHNDeviceScanner.class), any(SHNDeviceFoundInfo.class));
     }
@@ -359,7 +321,6 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         resultForUseAdvertisedDataMatcher = true;
         resultForMatchesOnAdvertisedData = true;
 
-        SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
@@ -370,15 +331,11 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         doReturn(new byte[]{0x03, 0x03, 0x0A, 0x17}).when(mockedScanRecord).getBytes(); // advertisement of the primary uuid for an unknown service
         doReturn(MOCKED_BLUETOOTH_DEVICE_NAME).when(mockedScanRecord).getDeviceName();
 
-        ScanResult mockedScanResult = Utility.makeThrowingMock(ScanResult.class);
-        doReturn(mockedBluetoothDevice).when(mockedScanResult).getDevice();
-        doReturn(-50).when(mockedScanResult).getRssi();
-        doReturn(mockedScanRecord).when(mockedScanResult).getScanRecord();
-        doReturn("Such a nice ScanResult").when(mockedScanResult).toString();
+        verify(leScanCallbackProxyMock).startLeScan(leScanCallbackCaptor.capture());
 
-        leScanCallbackProxy.onScanResult(0, mockedScanResult);
+        leScanCallbackCaptor.getValue().onScanResult(mockedBluetoothDevice, 0, mockedScanRecord);
 
-        verify(mockedSHNDeviceScannerListener).deviceFound(any(SHNDeviceScanner.class), isA(SHNDeviceFoundInfo.class));
+        verify(mockedSHNDeviceScannerListener).deviceFound((SHNDeviceScanner) any(), isA(SHNDeviceFoundInfo.class));
     }
 
     @Test
@@ -386,7 +343,6 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         resultForUseAdvertisedDataMatcher = true;
         resultForMatchesOnAdvertisedData = false;
 
-        SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
@@ -396,13 +352,8 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         ScanRecord mockedScanRecord = Utility.makeThrowingMock(ScanRecord.class);
         doReturn(new byte[]{}).when(mockedScanRecord).getBytes();
 
-        ScanResult mockedScanResult = Utility.makeThrowingMock(ScanResult.class);
-        doReturn(mockedBluetoothDevice).when(mockedScanResult).getDevice();
-        doReturn(-50).when(mockedScanResult).getRssi();
-        doReturn(mockedScanRecord).when(mockedScanResult).getScanRecord();
-        doReturn("Such a nice ScanResult").when(mockedScanResult).toString();
-
-        leScanCallbackProxy.onScanResult(0, mockedScanResult);
+        verify(leScanCallbackProxyMock).startLeScan(leScanCallbackCaptor.capture());
+        leScanCallbackCaptor.getValue().onScanResult(mockedBluetoothDevice, 0, mockedScanRecord);
 
         verify(mockedSHNDeviceScannerListener, never()).deviceFound(any(SHNDeviceScanner.class), isA(SHNDeviceFoundInfo.class));
     }
@@ -454,6 +405,36 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         verify(handlerMock).removeCallbacks(runnableCaptor.getValue());
     }
 
+    @Test
+    public void whenScanIsRestartedAfterScanningScanFailed_ThenNewScanIsStarted() {
+        shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
+        verify(leScanCallbackProxyMock).startLeScan(leScanCallbackCaptor.capture());
+
+        leScanCallbackCaptor.getValue().onScanFailed(0);
+
+        Handler handlerMock = mockedHandler.getMock();
+        verify(handlerMock).post(runnableCaptor.capture());
+        runnableCaptor.getValue().run();
+
+        shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
+        verify(leScanCallbackProxyMock, times(2)).startLeScan(any(LeScanCallbackProxy.LeScanCallback.class));
+    }
+
+    @Test
+    public void whenScanning_ThenRestartIsPerformedEvery30Seconds() {
+        shnDeviceScannerInternal.startScanning(internalScanRequestMock1);
+        shnDeviceScannerInternal.startScanning(internalScanRequestMock2);
+
+        Handler handlerMock = mockedHandler.getMock();
+        verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SHNDeviceScannerInternal.SCANNING_RESTART_INTERVAL_MS));
+        reset(leScanCallbackProxyMock);
+
+        runnableCaptor.getValue().run();
+        InOrder inOrder = Mockito.inOrder(leScanCallbackProxyMock);
+        inOrder.verify(leScanCallbackProxyMock).stopLeScan(any(LeScanCallbackProxy.LeScanCallback.class));
+        inOrder.verify(leScanCallbackProxyMock).startLeScan(any(LeScanCallbackProxy.LeScanCallback.class));
+    }
+
     private class TestSHNDeviceScannerInternal extends SHNDeviceScannerInternal {
 
         TestSHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
@@ -462,7 +443,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
 
         @Override
         LeScanCallbackProxy createLeScanCallbackProxy() {
-            return leScanCallbackProxy;
+            return leScanCallbackProxyMock;
         }
     }
 }

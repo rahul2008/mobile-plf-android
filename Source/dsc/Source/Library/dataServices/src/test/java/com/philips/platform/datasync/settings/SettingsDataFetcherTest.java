@@ -118,7 +118,7 @@ public class SettingsDataFetcherTest {
         final SettingsClient uSettingClientMock = mock(SettingsClient.class);
         when(uCoreAdapterMock.getAppFrameworkClient(SettingsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uSettingClientMock);
         uSettingClientMock.getSettings(eq(TEST_ACCESS_TOKEN), eq(TEST_USER_ID),eq(9));
-        when(settingsConverterMock.convertUcoreToAppSettings(any(UCoreSettings.class))).thenReturn(settingsMock);
+        when(settingsConverterMock.convertUcoreToAppSettings((UCoreSettings) any())).thenReturn(settingsMock);
         RetrofitError retrofitError = settingsDataFetcher.fetchData();
         assertThat(retrofitError).isNull();
         verify(eventingMock).post(isA(SettingsBackendSaveResponse.class));

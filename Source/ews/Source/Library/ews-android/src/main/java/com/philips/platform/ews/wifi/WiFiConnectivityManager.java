@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.platform.ews.wifi;
@@ -31,6 +31,7 @@ public class WiFiConnectivityManager {
     private final WifiManager wifiManager;
     private Wifi wifi;
     private WiFiUtil wiFiUtil;
+
     @VisibleForTesting
     Handler handler;
 
@@ -97,8 +98,9 @@ public class WiFiConnectivityManager {
        runnable = new Runnable() {
             @Override
             public void run() {
-                ScanResult accessPoint = null;
+                ScanResult accessPoint;
                 accessPoint = findNetworkAccessPoint(ssid);
+
                 if (accessPoint != null) {
                     ewsLogger.d(EWS_STEPS, "Found access point ");
                 } else {
@@ -109,6 +111,7 @@ public class WiFiConnectivityManager {
                         return;
                     }
                 }
+
                 if (accessPoint == null) {
                     ewsLogger.d(EWS_STEPS, "Unable to connect to access point given ");
                     return;

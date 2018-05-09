@@ -7,11 +7,7 @@ import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
 
-/**
- * Description :
- * Project : PRX Common Component.
- * Created by naveen@philips.com on 02-Nov-15.
- */
+
 public class ProductSummaryRequest extends PrxRequest {
 
     private static final String PRXSummaryDataServiceID = "prxclient.summary";

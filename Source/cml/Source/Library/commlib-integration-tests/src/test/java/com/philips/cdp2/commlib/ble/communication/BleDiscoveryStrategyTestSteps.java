@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -234,8 +234,8 @@ public class BleDiscoveryStrategyTestSteps {
         }
 
         // Take the intersection of both collections, should be empty
-        availableApplianceNames.retainAll(applianceNames);
-        assertTrue("Expected appliances " + applianceNames + " must not appear in available appliances " + availableApplianceNames, availableApplianceNames.isEmpty());
+        applianceNames.retainAll(availableApplianceNames);
+        assertTrue("Expected appliances " + appliances + " must not appear in available appliances " + availableApplianceNames, applianceNames.isEmpty());
     }
 
     @When("^(.*?) is discovered (\\d+) times? by BlueLib$")
@@ -302,5 +302,10 @@ public class BleDiscoveryStrategyTestSteps {
 
     private String getApplianceTypeByName(final @NonNull String applianceName) {
         return applianceName.substring(0, applianceName.length() - 1);
+    }
+
+    @When("^the list of discovered appliances is cleared$")
+    public void theListOfDiscoveredAppliancesIsCleared() {
+        commCentral.clearDiscoveredAppliances();
     }
 }

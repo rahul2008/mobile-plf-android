@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) Koninklijke Philips N.V., 2018
+  All rights are reserved. Reproduction or dissemination
+  in whole or in part is prohibited without the prior written
+  consent of the copyright holder.
+  -->
+
 
 <resources>
-    <string name="ail_locale">el</string>
+  <string name="ail_fullLocale">el-GR</string>
+  <string name="ail_locale">el</string>
 </resources>

@@ -7,17 +7,8 @@
     <RelativeLayout
         android:id="@+id/faq_list_item_header_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/faq_list_item_header_title"
-            style="@style/UIDLabel.RecyclerViewHeaderText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_alignParentLeft="true"
-            android:background="?attr/uidContentSecondaryBackgroundColor"
-            android:gravity="center_vertical" />
+        android:layout_height="wrap_content"
+        android:background="?attr/uidContentSecondaryBackgroundColor">
 
         <TextView
             android:id="@+id/faq_list_item_header_show_more_less"
@@ -30,6 +21,18 @@
             android:gravity="center_vertical"
             android:minHeight="@dimen/uid_recyclerview_header_height"
             android:text="@string/dcc_show_all" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/faq_list_item_header_title"
+            android:layout_toStartOf="@id/faq_list_item_header_show_more_less"
+            style="@style/UIDLabel.RecyclerViewHeaderText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

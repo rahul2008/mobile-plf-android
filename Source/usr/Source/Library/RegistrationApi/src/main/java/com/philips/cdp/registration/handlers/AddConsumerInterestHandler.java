@@ -9,16 +9,22 @@
 
 package com.philips.cdp.registration.handlers;
 
+/**
+ * It is a callback class to proposition for adding consumer interest
+ * @since 1.0.0
+ */
 public interface AddConsumerInterestHandler {
 
 	/**
-	 * {@codeonAddConsumerInterestSuccess } method to validate on add consumer interest success
+	 * {@codeonAddConsumerInterestSuccess } method is invoked when consumer interest is added successfully
+	 * @since 1.0.0
 	 */
 	public void onAddConsumerInterestSuccess();
 
 	/**
-	 * {@code onAddConsumerInterestFailedWithError} mehtod to validate on add consumer interest failed with error
-	 * @param error
+	 * {@code onAddConsumerInterestFailedWithError} method is invoked when adding consumer interest fails
+	 * @param error  error code
+	 * @since 1.0.0
      */
 	public void onAddConsumerInterestFailedWithError(int error);
 

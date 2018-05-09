@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -118,6 +119,9 @@ public class THSMicroAppInterfaceImplTest {
     @Mock
     AccentRange themeConfigAssentRangeMock;
 
+    @Mock
+    ConsentManagerInterface consentManagerInterfaceMock;
+
 
     @Before
     public void setUp() throws Exception {
@@ -129,6 +133,7 @@ public class THSMicroAppInterfaceImplTest {
         when(appInfraInterfaceMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         when(appInfraInterfaceMock.getLogging()).thenReturn(loggingInterfaceMock);
         when(appInfraInterfaceMock.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterfaceMock);
+        when(appInfraInterfaceMock.getConsentManager()).thenReturn(consentManagerInterfaceMock);
 
         when(uiFragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         when(fragmentActivityMock.getSupportFragmentManager()).thenReturn(fragmentManagerMock);

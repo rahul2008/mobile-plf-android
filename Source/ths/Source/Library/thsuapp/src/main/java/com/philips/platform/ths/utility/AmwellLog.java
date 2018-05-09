@@ -24,25 +24,25 @@ public class AmwellLog {
     }
 
     public static void d(String tag, String message) {
-        if (isLoggingEnabled) {
+        if (isLoggingEnabled && THSManager.getInstance().getLoggingInterface()!=null) {
             THSManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG,tag,message);
         }
     }
 
     public static void e(String tag, String message) {
-        if (isLoggingEnabled) {
+        if (isLoggingEnabled && THSManager.getInstance().getLoggingInterface()!=null) {
             THSManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.ERROR,tag,message);
         }
     }
 
     public static void i(String tag, String message) {
-        if (isLoggingEnabled) {
+        if (isLoggingEnabled && THSManager.getInstance().getLoggingInterface()!=null) {
             THSManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.INFO,tag,message);
         }
     }
 
     public static void v(String tag, String message) {
-        if (isLoggingEnabled) {
+        if (isLoggingEnabled && THSManager.getInstance().getLoggingInterface()!=null) {
             THSManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.VERBOSE,tag,message);
         }
     }

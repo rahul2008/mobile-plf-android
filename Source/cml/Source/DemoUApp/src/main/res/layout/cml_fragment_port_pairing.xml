@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ Copyright (c) 2015-2018 Koninklijke Philips N.V.
   ~ All rights reserved.
   -->
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/cml_card_padding">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/cml_card_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             style="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/cml_pairing_port"/>
+            android:text="@string/cml_pairing_port" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/cml_client_provider"
-                android:text="@string/cml_client_provider_default"/>
+                android:text="@string/cml_client_provider_default" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/cml_clienttype"
-                android:text="@string/cml_clienttype_default"/>
+                android:text="@string/cml_clienttype_default" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/cml_client_id"
-                android:text="@string/cml_client_id_default"/>
+                android:text="@string/cml_client_id_default" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/cml_secretkey"
-                android:text="@string/cml_secret_key_default"/>
+                android:text="@string/cml_secret_key_default" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/cml_type"
-                android:text="@string/cml_di_comm"/>
+                android:text="@string/cml_di_comm" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -95,15 +95,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/cml_permissions_comma_separated"
-                android:text="@string/cml_request"/>
+                android:text="@string/cml_request" />
         </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/cml_button_pair"
-            style="@style/Widget.AppCompat.Button.Borderless"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/cml_pair"/>
+            android:orientation="horizontal"
+            android:padding="@dimen/cml_card_padding">
+
+            <Button
+                android:id="@+id/cml_button_pair"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cml_pair" />
+
+            <Button
+                android:id="@+id/cml_button_unpair"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cml_unpair" />
+        </LinearLayout>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -19,7 +19,7 @@
     <string name="product_info"> gaminio informacija </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Įkeliama </string>
-    <string name="please_wait"> Palaukite &amp;#8230; </string>
+    <string name="dcc_please_wait"> Palaukite &amp;#8230; </string>
     <string name="get_directions"> Gaukite instrukcijas </string>
     <string name="search"> Paieška </string>
     <string name="gps_disabled"> GPS jūsų įrenginyje išjungta. Įjungti? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Slaptažodis </string>
     <string name="sign_into_my_philips"> Prisijunkite prie „My Philips“ </string>
     <string name="forgot_my_password"> Pamiršau savo slaptažodį &gt;  </string>
-    <string name="create_account">  Kurti paskyrą &gt; </string>
+    <string name="dcc_create_account">  Kurti paskyrą &gt; </string>
 
     <string name="localtephilips_contactus">Eiti į kontaktų puslapį</string>
 
@@ -178,5 +178,10 @@
     <string name="dcc_Help_Support">Žinynas ir palaikymas</string>
     <string name="dcc_Call">Skambinti</string>
     <string name="dcc_Opening_Hours">Darbo valandos</string>
+    <string name="dcc_location_consent_accept">Gerai</string>
+    <string name="dcc_location_consent_reject">Atšaukti</string>
+    <string name="dcc_location_consent_title">Sutikimas teikti vietos duomenis</string>
+    <string name="dcc_location_consent_definition_text">Suteikiu „Philips“ prieigą prie savo vietos duomenų, kad veiktų funkcija „Rasti „Philips“ netoli jūsų“.</string>
+    <string name="dcc_location_consent_definition_help_text">Kai suteikiate prieigą prie vietos duomenų, galime kaupti jūsų mobiliojo prietaiso geografinės vietos duomenis.\n\nKai naudojate funkciją „Rasti „Philips“ netoli jūsų“ palaikymo puslapyje, jūsų prašoma dalytis vietos duomenimis su „Philips“. Jei naudojate mūsų vietos funkcijas, remiantis jūsų vietos duomenimis būsite nukreiptas link netoliese esančios parduotuvės arba į savo šalies vartotojų aptarnavimo kontaktinę informaciją.</string>
 
 </resources>

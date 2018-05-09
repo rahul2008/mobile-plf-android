@@ -14,6 +14,7 @@ import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.WindowManager;
 
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.R;
@@ -62,9 +63,15 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         initUIKIT();
         initTheme();
         super.onCreate(savedInstanceState);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
-        progressDialog.setCancelable(false);
+        RALog.d(TAG,"App initalization status:"+AppFrameworkApplication.isAppDataInitialized());
+        if(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized()){
+            BaseAppUtil.restartApp(getApplicationContext());
+            finish();
+        }else{
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
+            progressDialog.setCancelable(false);
+        }
     }
 
     public void initUIKIT() {
@@ -199,10 +206,13 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
         super.onResume();
         RALog.d(TAG, " onResume called");
-
+        if(getWindow() != null) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             startCollectingLifecycleData();
             startPushNotificationFlow();
+            AppFrameworkTagging.getInstance().getTagging().trackActionWithInfo("sendData", "appStatus", "ForeGround");
         }
     }
 
@@ -226,8 +236,12 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     protected void onPause() {
         super.onPause();
         RALog.d(TAG, " onPause called");
+        if(getWindow() != null) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        }
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
+            AppFrameworkTagging.getInstance().getTagging().trackActionWithInfo("sendData", "appStatus", "Background");
         }
     }
 

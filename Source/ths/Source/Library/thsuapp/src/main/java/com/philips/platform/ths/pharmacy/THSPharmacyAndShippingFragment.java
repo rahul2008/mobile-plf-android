@@ -17,14 +17,17 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.intake.THSCheckPharmacyConditionsFragment;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_SUMMARY;
+import static com.philips.platform.ths.utility.THSConstants.THS_SHIPPING_ADDRESS;
 
 public class THSPharmacyAndShippingFragment extends THSBaseFragment implements THSPharmacyShippingViewInterface, View.OnClickListener {
 
@@ -39,6 +42,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     private Pharmacy pharmacy;
     private Button continueButton;
     private ActionBarListener actionBarListener;
+    static final long serialVersionUID = 83L;
 
     @Nullable
     @Override
@@ -53,7 +57,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         updateShippingAddressView(address);
         actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.pharmacy_shipping_fragment_name, true);
+            actionBarListener.updateActionBar(R.string.ths_pharmacy_shipping_fragment_name, true);
         }
         return view;
     }
@@ -63,8 +67,8 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         ths_shipping_pharmacy_layout = (RelativeLayout) view.findViewById(R.id.ths_shipping_pharmacy_layout);
         ps_shipping_layout_item = (RelativeLayout) view.findViewById(R.id.ps_shipping_layout_item);
         ps_shipped_to_label = (Label) view.findViewById(R.id.ps_shipped_to_label);
-        editPharmacy = (Label) view.findViewById(R.id.ps_edit_pharmacy);
-        ps_edit_consumer_shipping_address = (Label) view.findViewById(R.id.ps_edit_consumer_shipping_address);
+        editPharmacy = view.findViewById(R.id.ps_edit_pharmacy);
+        ps_edit_consumer_shipping_address =  view.findViewById(R.id.ps_edit_consumer_shipping_address);
         ps_edit_consumer_shipping_address.setOnClickListener(this);
         consumerCity = (Label) view.findViewById(R.id.ps_consumer_city);
         consumerName = (Label) view.findViewById(R.id.ps_consumer_name);
@@ -109,14 +113,17 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
 
     @Override
     public void startSearchPharmacy() {
-        THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-        addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
+        THSCheckPharmacyConditionsFragment thsCheckPharmacyConditionsFragment = new THSCheckPharmacyConditionsFragment();
+        thsCheckPharmacyConditionsFragment.setPharmacyCheckRequired(false);
+        addFragment(thsCheckPharmacyConditionsFragment, THSCheckPharmacyConditionsFragment.TAG, null, true);
     }
 
     @Override
     public void startEditShippingAddress() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THS_SHIPPING_ADDRESS,address);
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
-        addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null, true);
+        addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, bundle, true);
     }
 
     @Override
@@ -127,6 +134,6 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PHARMACY_SUMMARY, null, null);
+        THSTagUtils.doTrackPageWithInfo(THS_PHARMACY_SUMMARY, null, null);
     }
 }

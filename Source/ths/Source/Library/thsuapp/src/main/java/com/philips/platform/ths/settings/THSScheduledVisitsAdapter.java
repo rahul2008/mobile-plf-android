@@ -26,8 +26,8 @@ import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
+import com.philips.platform.ths.visit.THSConfirmationDialogFragment;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
-import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -39,17 +39,13 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SCHEDULE_APPOINTMENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_CANCEL_APPOINTMENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_OK;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_TOO_EARLY_FOR_VISIT;
-import static com.philips.platform.ths.visit.THSWaitingRoomFragment.CANCEL_VISIT_ALERT_DIALOG_TAG;
+import static com.philips.platform.ths.visit.THSConfirmationDialogFragment.APPOINTMENT_DIALOG_TYPE;
 
 public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduledVisitsAdapter.CustomViewHolder>  {
     List<Appointment> mAppointmentList;
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
-    AlertDialogFragment alertDialogFragment;
     final int THIRTYONE = 31;
     final int SIXTEEN = 16;
 
@@ -76,6 +72,8 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
 
         final Date dateScheduled = new Date(scheduledStartTime);
         final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(dateScheduled).toString();
+        String appointmentFor = appointment.getConsumer().isDependent()?mThsScheduledVisitsFragment.getString(R.string.ths_appointment_for_your_child):mThsScheduledVisitsFragment.getString(R.string.ths_appointment_for_yourself);
+        holder.mLabelAppointmentFor.setText(appointmentFor);
         holder.mLabelAppointmrntDate.setText(date);
 
         holder.mLabelPracticeName.setText(assignedProvider.getSpecialty().getName());
@@ -89,14 +87,14 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                         newImageLoader(assignedProvider,
                                 holder.mImageViewCircularImageView, ProviderImageSize.LARGE).placeholder(drawable).build().load();
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
         }
 
         holder.mCancelVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showCancelDialog(appointment,true, true, false);
+                showCancelDialog(appointment);
             }
         });
 
@@ -114,16 +112,17 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                 Long utcScheduledMilliseconds = scheduledCalendar.getTime().getTime();
 
                 if(utcCurrentMilliseconds>utcScheduledMilliseconds){
-                    mThsScheduledVisitsFragment.doTagging(ANALYTICS_SCHEDULE_APPOINTMENT,mThsScheduledVisitsFragment.getString(R.string.late_for_appointment),false);
-                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.late_for_appointment));
+                    mThsScheduledVisitsFragment.doTagging(ANALYTICS_SCHEDULE_APPOINTMENT,mThsScheduledVisitsFragment.getString(R.string.ths_late_for_appointment),false);
+                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.ths_late_for_appointment));
                 }else if(isUserArrivedEarly(utcCurrentMilliseconds, utcScheduledMilliseconds)){
                      THSTagUtils.tagInAppNotification(THS_ANALYTICS_TOO_EARLY_FOR_VISIT,THS_ANALYTICS_RESPONSE_OK);
-                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.early_for_appointment));
+                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.ths_early_for_appointment));
                 }else {
                     Bundle bundle = new Bundle();
                     bundle.putLong(THSConstants.THS_DATE, scheduledStartTime);
                     bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practiceInfo);
                     bundle.putParcelable(THSConstants.THS_PROVIDER, appointment.getAssignedProvider());
+                    bundle.putParcelable(THSConstants.THS_SCHEDULE_APPOINTMENT_OBJECT, appointment);
                     mThsScheduledVisitsFragment.addFragment(new THSWelcomeBackFragment(), THSWelcomeBackFragment.TAG, bundle, false);
                 }
             }
@@ -156,6 +155,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
     }
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
+        Label mLabelAppointmentFor;
         Label mLabelAppointmrntDate;
         CircularImageView mImageViewCircularImageView;
         Label mLabelProviderName;
@@ -166,6 +166,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
 
         public CustomViewHolder(View view) {
             super(view);
+            this.mLabelAppointmentFor = (Label) view.findViewById(R.id.ths_appointment_for);
             this.mLabelAppointmrntDate = (Label) view.findViewById(R.id.ths_appointment_date);
             this.mImageViewCircularImageView = (CircularImageView) view.findViewById(R.id.ths_providerImage);
             this.mLabelProviderName = (Label) view.findViewById(R.id.providerNameLabel);
@@ -176,43 +177,12 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         }
     }
 
-    void showCancelDialog(final Appointment appointment, final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
-
-
-        final View.OnClickListener positiveButtonListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                THSScheduledVisitsPresenter presenter = new THSScheduledVisitsPresenter(mThsScheduledVisitsFragment);
-                presenter.cancelAppointment(appointment);
-                presenter.stopRefreshing();
-                THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_APPOINTMENT,THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT);
-                alertDialogFragment.dismiss();
-            }
-        };
-
-        final View.OnClickListener negativeButtonListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_APPOINTMENT,THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT);
-                alertDialogFragment.dismiss();
-            }
-        };
-
-
-        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsScheduledVisitsFragment.getFragmentActivity())
-                .setMessage(showLargeContent ? "Your visit shall be cancelled" : "Your visit shall be cancelled").
-                        setPositiveButton(" Yes ", positiveButtonListener).
-                        setNegativeButton(" No  ", negativeButtonListener);
-        if (isWithTitle) {
-            builder.setTitle("Do you really want to cancel your visit");
-            if (showIcon) {
-                builder.setIcon(R.drawable.uid_ic_cross_icon);
-
-            }
-        }
-        alertDialogFragment = builder.setCancelable(false).create();
-        alertDialogFragment.show(mThsScheduledVisitsFragment.getFragmentManager(), CANCEL_VISIT_ALERT_DIALOG_TAG);
-        alertDialogFragment.setPositiveButtonListener(positiveButtonListener);
-        alertDialogFragment.setNegativeButtonListener(negativeButtonListener);
+    void showCancelDialog(final Appointment appointment) {
+        THSConfirmationDialogFragment tHSConfirmationDialogFragment = new THSConfirmationDialogFragment();
+        tHSConfirmationDialogFragment.setDialogFragmentType(APPOINTMENT_DIALOG_TYPE);
+        THSScheduledVisitsPresenter presenter = new THSScheduledVisitsPresenter(mThsScheduledVisitsFragment);
+        presenter.setAppointment(appointment);
+        tHSConfirmationDialogFragment.setPresenter(presenter);
+        tHSConfirmationDialogFragment.show(mThsScheduledVisitsFragment.getFragmentManager(), THSConfirmationDialogFragment.TAG);
     }
 }

@@ -19,7 +19,7 @@
     <string name="product_info"> informaţii despre produs </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Încărcare </string>
-    <string name="please_wait"> Te rugăm să aştepţi &amp;#8230; </string>
+    <string name="dcc_please_wait"> Te rugăm să aştepţi &amp;#8230; </string>
     <string name="get_directions"> Obţine instrucţiuni </string>
     <string name="search"> Căutare </string>
     <string name="gps_disabled"> Serviciul GPS este dezactivat pe dispozitivul tău. Doreşti să-l activezi? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Parolă </string>
     <string name="sign_into_my_philips"> Conectează-te la My Philips </string>
     <string name="forgot_my_password"> Am uitat parola &gt;  </string>
-    <string name="create_account">  Creare cont &gt; </string>
+    <string name="dcc_create_account">  Creare cont &gt; </string>
 
     <string name="localtephilips_contactus">Navigare la pagina de contact</string>
 
@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Ajutor şi asistenţă</string>
     <string name="dcc_Call">Apelare</string>
     <string name="dcc_Opening_Hours">Orar</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Anulare</string>
+    <string name="dcc_location_consent_title">Consimţământ privind locaţia</string>
+    <string name="dcc_location_consent_definition_text">Permit Philips să îmi acceseze datele despre locaţie pentru funcţia „Găseşte un magazin Philips în apropriere”.</string>
+    <string name="dcc_location_consent_definition_help_text">Când permiţi accesul la datele despre locaţia ta, putem colecta date despre locaţia geografică a dispozitivului tău mobil.\n\nCând utilizezi funcţia „Găseşte un magazin Philips în apropriere” de pe pagina de asistenţă, ţi se cere să dezvălui datele despre locaţie companiei Philips. Dacă foloseşti funcţiile noastre de localizare, în funcţie de datele privind locaţia ta, vei fi direcţionat(ă) la un magazin din apropiere sau ţi se vor furniza datele de contact ale centrului de asistenţă pentru clienţi din ţara ta.</string>
 
 </resources>

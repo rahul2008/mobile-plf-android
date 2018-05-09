@@ -12,6 +12,7 @@ import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.Country;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
@@ -33,12 +34,14 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class OrderSummaryFragmentTest {
     private Context mContext;
-    OrderSummaryFragment orderSummaryFragment;
+    IAPOrderSummaryFragmentMock orderSummaryFragment;
     @Mock
     PaymentMethod mockPaymentMethod;
+    @Mock
+    PaymentController paymentControllerMock;
 
     @Before
     public void setUp() {
@@ -50,7 +53,9 @@ public class OrderSummaryFragmentTest {
         final Bundle bundle = new Bundle();
         bundle.putSerializable(IAPConstant.SELECTED_PAYMENT,mockPaymentMethod);
 
-        orderSummaryFragment = OrderSummaryFragment.createInstance(bundle, InAppBaseFragment.AnimationType.NONE);
+        orderSummaryFragment = new IAPOrderSummaryFragmentMock();
+        orderSummaryFragment.setArguments(bundle);
+        orderSummaryFragment.mPaymentController = paymentControllerMock;
     }
 
     @Test(expected = RuntimeException.class)
@@ -129,7 +134,7 @@ public class OrderSummaryFragmentTest {
     }
 
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void sholudPlaceOrder_onPayBtnClicked() throws Exception {
         orderSummaryFragment.onAttach(mContext);
         Mockito.when(viewMock.getId()).thenReturn(R.id.pay_now_btn);

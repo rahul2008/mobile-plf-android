@@ -6,17 +6,22 @@
 
 package com.philips.platform.ths.sdkerrors;
 
+import android.content.Context;
+
 import com.americanwell.sdk.entity.SDKErrorReason;
 import com.philips.platform.ths.utility.THSConstants;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
 
 public class THSSDKUserErrorTest {
     THSSDKUserError mThssdkUserError;
+    @Mock
+    Context context;
 
     @Before
     public void setUp() throws Exception {
@@ -26,38 +31,38 @@ public class THSSDKUserErrorTest {
 
     @Test
     public void getErrorMessage() throws Exception {
-        final String errorMessage = mThssdkUserError.getErrorMessage();
+        final String errorMessage = mThssdkUserError.getErrorMessage(context);
         assertNotNull(errorMessage);
         assert errorMessage == THSConstants.THS_GENERIC_USER_ERROR;
     }
 
     @Test
     public void validate_parameter_missing() throws Exception {
-        final boolean validate = mThssdkUserError.validate(SDKErrorReason.VALIDATION_REQ_PARAM_MISSING);
+        final boolean validate = mThssdkUserError.validate(SDKErrorReason.VALIDATION_REQ_PARAM_MISSING, context);
         assert validate == true;
     }
 
     @Test
     public void validate_access_missing() throws Exception {
-        final boolean validate = mThssdkUserError.validate(SDKErrorReason.AUTH_ACCESS_DENIED);
+        final boolean validate = mThssdkUserError.validate(SDKErrorReason.AUTH_ACCESS_DENIED, context);
         assert validate == true;
     }
 
     @Test
     public void validate_account_not_enrolled() throws Exception {
-        final boolean validate = mThssdkUserError.validate(SDKErrorReason.AUTH_ACCOUNT_NOT_ENROLLED);
+        final boolean validate = mThssdkUserError.validate(SDKErrorReason.AUTH_ACCOUNT_NOT_ENROLLED, context);
         assert validate == true;
     }
 
     @Test
     public void validate_account_locked() throws Exception {
-        final boolean validate = mThssdkUserError.validate(SDKErrorReason.AUTH_ACCOUNT_LOCKED);
+        final boolean validate = mThssdkUserError.validate(SDKErrorReason.AUTH_ACCOUNT_LOCKED, context);
         assert validate == true;
     }
 
     @Test
     public void validate_not_user_error() throws Exception {
-        final boolean validate = mThssdkUserError.validate(SDKErrorReason.CHECK_IN_LATE);
+        final boolean validate = mThssdkUserError.validate(SDKErrorReason.CHECK_IN_LATE, context);
         assert validate == false;
     }
 

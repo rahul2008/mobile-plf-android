@@ -20,6 +20,7 @@ import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -43,10 +44,13 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         RALog.d(TAG, " onCreate called  ");
         super.onCreate(savedInstanceState);
-        presenter = getLaunchActivityPresenter();
-        setContentView(R.layout.af_launch_activity);
-        initToolBar();
-        presenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
+        if (!(savedInstanceState != null && !AppFrameworkApplication.isAppDataInitialized())) {
+            presenter = getLaunchActivityPresenter();
+            setContentView(R.layout.af_launch_activity);
+            initToolBar();
+            presenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
+            presenter = getLaunchActivityPresenter();
+        }
     }
 
     protected AbstractUIBasePresenter getLaunchActivityPresenter() {

@@ -71,7 +71,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ParentalApprovalFragment : onCreateView");
-        networkUtility = CoppaInterface.getComponent().getNetworkUtility();
+        networkUtility = RegistrationConfiguration.getInstance().getComponent().getNetworkUtility();
         View view = null;
         if (getResources().getBoolean(R.bool.isTablet)) {
             view = inflater.inflate(R.layout.reg_fragment_coppa_parental_approval_tablet, null);
@@ -255,7 +255,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "ParentalApprovalFragment :onNetWorkStateReceived state :"
+        RLog.d(RLog.NETWORK_STATE, "ParentalApprovalFragment :onNetWorkStateReceived state :"
                 + isOnline);
 
         handleUiState();

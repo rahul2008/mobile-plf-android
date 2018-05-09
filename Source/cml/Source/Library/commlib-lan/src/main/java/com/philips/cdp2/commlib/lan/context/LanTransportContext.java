@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -118,6 +118,10 @@ public class LanTransportContext implements TransportContext<LanTransportContext
     @Override
     public void removeAvailabilityListener(@NonNull AvailabilityListener<LanTransportContext> listener) {
         availabilityListeners.remove(listener);
+    }
+
+    public void clearDiscoveredNetworkNodes() {
+
     }
 
     private void notifyAvailabilityListeners() {

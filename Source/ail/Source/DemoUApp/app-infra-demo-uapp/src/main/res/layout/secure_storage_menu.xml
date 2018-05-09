@@ -61,4 +61,23 @@
         android:layout_below="@+id/devicecapable"
         android:layout_margin="10dp"
         android:layout_toRightOf="@+id/devicelock"/>
+
+    <TextView
+        android:text="Old secure storage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/secureStorage"
+        android:layout_alignStart="@+id/secureStorage"
+        android:layout_marginTop="28dp"
+        android:id="@+id/old_secure_storage_tv" />
+
+    <ToggleButton
+        android:text="ToggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:layout_alignBottom="@+id/old_secure_storage_tv"
+        android:layout_toEndOf="@+id/old_secure_storage_tv"
+        android:layout_marginStart="23dp"
+        android:id="@+id/toggleButton" />
 </RelativeLayout>

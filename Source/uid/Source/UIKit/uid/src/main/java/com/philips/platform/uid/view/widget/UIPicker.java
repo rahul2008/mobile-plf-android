@@ -120,6 +120,7 @@ public class UIPicker extends ListPopupWindow{
      * This API will allow you to display ListPopupWindow without overlapping anchor view.
      *
      * @param shouldNotOverlapAnchorView Boolean to set if the ListPopupWindow should not overlap anchor view
+     *                                   @since 3.0.0
      */
     public void setShouldNotOverlapAnchorView(boolean shouldNotOverlapAnchorView){
         this.shouldNotOverlapAnchorView = shouldNotOverlapAnchorView;

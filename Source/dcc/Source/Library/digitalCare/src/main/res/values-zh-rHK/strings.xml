@@ -19,7 +19,7 @@
     <string name="product_info"> 產品資訊 </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> 正在載入 </string>
-    <string name="please_wait"> 請等待&amp;#8230； </string>
+    <string name="dcc_please_wait"> 請等待&amp;#8230； </string>
     <string name="get_directions"> 行駛方向 </string>
     <string name="search"> 搜尋 </string>
     <string name="gps_disabled"> 您裝置的 GPS  處於關閉狀態，要開啟嗎？ </string>
@@ -137,7 +137,7 @@
     <string name="password"> 密碼 </string>
     <string name="sign_into_my_philips"> 登入到 My Philips </string>
     <string name="forgot_my_password"> 我忘記了我的密碼 &gt;  </string>
-    <string name="create_account"> 建立帳戶 &gt; </string>
+    <string name="dcc_create_account"> 建立帳戶 &gt; </string>
 
     <string name="localtephilips_contactus">轉到聯絡頁面。</string>
 
@@ -179,5 +179,10 @@
     <string name="dcc_Help_Support">說明與支援</string>
     <string name="dcc_Call">致電</string>
     <string name="dcc_Opening_Hours">開放時間</string>
+    <string name="dcc_location_consent_accept">確定</string>
+    <string name="dcc_location_consent_reject">取消</string>
+    <string name="dcc_location_consent_title">位置同意</string>
+    <string name="dcc_location_consent_definition_text">我允許 Philips 存取我的位置資料以「尋找附近的 Philips 零售店」。</string>
+    <string name="dcc_location_consent_definition_help_text">當您允許存取位置資料，我們可能會收集您流動裝置的地理位置。\n\n使用「支援網頁」上的「尋找附近的 Philips 零售店」功能，即代表您接受與 Philips 分享您的位置資料。如果您使用我們的位置功能，系統會根據您的位置資料指出附近的零售店，或顯示您所在國家/地區的客戶服務聯絡資料。</string>
 
 </resources>

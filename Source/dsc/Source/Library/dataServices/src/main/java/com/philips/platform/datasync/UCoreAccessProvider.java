@@ -122,4 +122,8 @@ public class UCoreAccessProvider implements BackendIdProvider {
         return timeStampMap;
     }
 
+    public void clearSyncTimeCache() {
+        sharedPreferences.edit().clear().apply();
+    }
+
 }

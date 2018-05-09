@@ -9,9 +9,7 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -25,13 +23,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.android.volley.VolleyError;
 import com.jakewharton.rxbinding2.widget.RxTextView;
-import com.philips.cdp.registration.HttpClientService;
-import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
@@ -39,10 +37,8 @@ import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.UpdateMobile;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -71,7 +67,9 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCES
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.USER_ERROR;
 
 public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements
-        MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener{
+        MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener {
+
+    public static String TAG = MobileVerifyCodeFragment.class.getSimpleName();
 
     @Inject
     NetworkUtility networkUtility;
@@ -86,7 +84,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     XRegError errorMessage;
 
     @BindView(R2.id.reg_verify_mobile_desc1)
-    Label reg_verify_mobile_desc1;
+    Label regVerifyMobileDesc1;
 
     @BindView(R2.id.usr_forgotpassword_inputId_ValidationEditText)
     ValidationEditText verificationCodeValidationEditText;
@@ -113,7 +111,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         mobileVerifyCodePresenter = new MobileVerifyCodePresenter(this);
 
@@ -133,7 +131,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         String normalText = getString(R.string.reg_DLS_VerifySMS_Description_Text);
         SpannableString str = new SpannableString(String.format(normalText, userId));
         str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length()-2, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        reg_verify_mobile_desc1.setText(str);
+        regVerifyMobileDesc1.setText(str);
     }
 
     private void handleVerificationCode() {
@@ -157,13 +155,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         RegistrationHelper.getInstance().unRegisterNetworkListener(getRegistrationFragment());
-        mobileVerifyCodePresenter.cleanUp();
     }
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        //applyParams(config, usrAccountRootLayout, width);
+        //Do not do anything
     }
 
     @Override
@@ -190,18 +188,20 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
-        storePreference(user.getMobile());
-        setDescription();
-        hideProgressSpinner();
-        if(isVerified)
-            getRegistrationFragment().addFragment(new AddSecureEmailFragment());
+        if (this.isVisible()) {
+            RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
+            storePreference(user.getMobile());
+            setDescription();
+            hideProgressSpinner();
+            if (isVerified)
+                getRegistrationFragment().addFragment(new AddSecureEmailFragment());
+        }
     }
 
     @Override
     public void onRefreshUserFailed(int error) {
         hideProgressSpinner();
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
+        RLog.d(TAG, "MobileActivationFragment : onRefreshUserFailed");
     }
 
     @Override
@@ -209,15 +209,12 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         handleUI();
     }
 
-    private View.OnClickListener mContinueVerifyBtnClick = view -> RegAlertDialog.dismissDialog();
-  
     private void trackMultipleActionsOnMobileSuccess() {
         Map<String, String> map = new HashMap<>();
         map.put(SPECIAL_EVENTS, MOBILE_RESEND_EMAIL_VERFICATION);
         map.put(MOBILE_INAPPNATIFICATION, MOBILE_RESEND_SMS_VERFICATION);
         AppTagging.trackMultipleActions(SEND_DATA, map);
     }
-
     @OnClick(R2.id.btn_reg_Verify)
     public void verifyClicked() {
         verifyButton.showProgressIndicator();
@@ -263,21 +260,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public Intent getServiceIntent() {
-        return new Intent(context, HttpClientService.class);
-    }
-
-    @Override
-    public HttpClientServiceReceiver getClientServiceRecevier() {
-        return new HttpClientServiceReceiver(handler);
-    }
-
-    @Override
-    public ComponentName startService(Intent intent) {
-        return context.startService(intent);
-    }
-
-    @Override
     public void enableVerifyButton() {
         if ((verificationCodeValidationEditText.length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) &&
                 networkUtility.isNetworkAvailable()) {
@@ -315,6 +297,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void refreshUserOnSmsVerificationSuccess() {
+        RLog.d(TAG, "refreshUserOnSmsVerificationSuccess");
         trackActionStatus(SEND_DATA, SPECIAL_EVENTS, SUCCESS_USER_REGISTRATION);
         isVerified = true;
         user.refreshUser(this);
@@ -352,6 +335,19 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void storePreference(String emailOrMobileNumber) {
         RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailOrMobileNumber);
+    }
+
+    @Override
+    public void onSuccessResponse(String response) {
+        RLog.d(TAG, "onSuccessResponse" + response);
+        mobileVerifyCodePresenter.handleActivation(response);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        RLog.d(TAG, "onErrorResponse" + error);
+        errorMessage.setError(getString(R.string.reg_URX_SMS_InternalServerError));
+        hideProgressSpinner();
     }
 
     @Override

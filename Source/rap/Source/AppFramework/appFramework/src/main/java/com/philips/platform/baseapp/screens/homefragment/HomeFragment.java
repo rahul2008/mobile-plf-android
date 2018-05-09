@@ -64,6 +64,7 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
     public void onResume() {
         RALog.d(TAG, " OnResume Called ");
         super.onResume();
+        startAppTagging(TAG);
         ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
 
@@ -79,17 +80,14 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
 
         ButterKnife.bind(this, rootView);
         setDateToView();
-        startAppTagging(TAG);
+
 
         initialiseSecurityDialog();
         setHasOptionsMenu(true);
         return rootView;
     }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        inflater.inflate(R.menu.catalog_view_menu, menu);
         menu.findItem(R.id.menu_theme_settings).setVisible(true);
         super.onCreateOptionsMenu(menu, inflater);
     }

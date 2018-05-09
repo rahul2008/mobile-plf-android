@@ -7,7 +7,6 @@ package com.philips.pins.shinelib.utility;
 
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 
-import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
@@ -16,7 +15,7 @@ import org.mockito.Mock;
 import java.text.ParseException;
 import java.util.Date;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.longThat;
 import static org.mockito.Mockito.verify;
@@ -69,24 +68,15 @@ public class DeviceInformationCacheTest {
             private long min;
 
             @Override
-            public boolean matches(final Object argument) {
-                boolean res = false;
+            public boolean matches(final Long argument) {
+                long millis = argument;
+                min = TEST_DATE.getTime();
+                max = new Date().getTime();
 
-                if (argument instanceof Long) {
-                    long millis = (Long) argument;
-                    min = TEST_DATE.getTime();
-                    max = new Date().getTime();
-
-                    res = min <= millis;
-                    res &= millis <= max;
-                }
+                boolean res = min <= millis;
+                res &= millis <= max;
 
                 return res;
-            }
-
-            @Override
-            public void describeTo(final Description description) {
-                description.appendText(String.format("Expected value between %d and %d", min, max));
             }
         }));
     }

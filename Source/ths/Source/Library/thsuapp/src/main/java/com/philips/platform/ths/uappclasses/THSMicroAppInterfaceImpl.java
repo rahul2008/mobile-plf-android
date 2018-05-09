@@ -3,11 +3,16 @@ package com.philips.platform.ths.uappclasses;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.consent.THSLocationConsentProvider;
 import com.philips.platform.ths.init.THSInitFragment;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -26,20 +31,27 @@ import com.philips.platform.uid.thememanager.ThemeConfig;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
+import static com.philips.platform.ths.utility.THSConstants.KEY_DEEP_LINKING_FLOW;
 
+@SuppressWarnings("unchecked")
 public class THSMicroAppInterfaceImpl implements UappInterface {
     protected Context context;
     protected AppInfraInterface appInfra;
+    static final long serialVersionUID = 1153L;
     /**
      * @param uappDependencies - App dependencies
      * @param uappSettings     - App settings
      */
     @Override
-    public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
+    public void init(@NonNull final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
         appInfra = uappDependencies.getAppInfra();
+        final ConsentHandlerInterface consentHandlerInterface = new ConsentInteractor(ConsentsClient.getInstance());
+        appInfra.getConsentManager().deregisterHandler(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION));
+        appInfra.getConsentManager().registerHandler(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION), consentHandlerInterface);
     }
 
     /**
@@ -47,16 +59,24 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
+        THSMicroAppLaunchInput thsMicroAppLaunchInput;
+        boolean isDeepLinkingFlow = false;
         if( uappLaunchInput instanceof THSMicroAppLaunchInput){
-            THSMicroAppLaunchInput thsMicroAppLaunchInput=(THSMicroAppLaunchInput)uappLaunchInput;
+            thsMicroAppLaunchInput=(THSMicroAppLaunchInput)uappLaunchInput;
             THSManager.getInstance().setThsCompletionProtocol(thsMicroAppLaunchInput.getThsCompletionProtocol());
+            isDeepLinkingFlow=thsMicroAppLaunchInput.isAppointmentFlow();
         }
         THSManager.getInstance().setAppInfra(appInfra);
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, THSLaunchActivity.class);
             intent.putExtra(THSConstants.KEY_ACTIVITY_THEME, ((ActivityLauncher) uiLauncher).getUiKitTheme());
+            intent.putExtra(KEY_DEEP_LINKING_FLOW,isDeepLinkingFlow);
             if(themeConfigurationExists((ActivityLauncher) uiLauncher)) {
                 intent.putExtras(getThemeConfigsIntent((ActivityLauncher) uiLauncher));
+            }
+            if(null != ((ActivityLauncher) uiLauncher).getScreenOrientation()) {
+                ActivityLauncher.ActivityOrientation activityOrientation = ((ActivityLauncher) uiLauncher).getScreenOrientation();
+                intent.putExtra(THSConstants.KEY_ORIENTATION, activityOrientation);
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
@@ -65,7 +85,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
             THSBaseFragment thsBaseFragment;
             thsBaseFragment = new THSInitFragment();
-            lauchFirstFragment(thsBaseFragment,fragmentLauncher,fragmentTransaction);
+            lauchFirstFragment(thsBaseFragment,fragmentLauncher,fragmentTransaction,isDeepLinkingFlow);
         }
     }
 
@@ -103,8 +123,9 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
         return configElement;
     }
 
-    private void lauchFirstFragment(THSBaseFragment thsBaseFragment,FragmentLauncher fragmentLauncher, FragmentTransaction fragmentTransaction) {
+    private void lauchFirstFragment(THSBaseFragment thsBaseFragment,FragmentLauncher fragmentLauncher, FragmentTransaction fragmentTransaction,boolean isDeeplinkingFlow) {
         Bundle bundle = new Bundle();
+        bundle.putBoolean(KEY_DEEP_LINKING_FLOW,isDeeplinkingFlow);
         thsBaseFragment.setArguments(bundle);
         thsBaseFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
         thsBaseFragment.setFragmentLauncher(fragmentLauncher);

@@ -34,6 +34,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 	private TextView tvToBeDeprecatedMessage;
 	private TextView tvUpdateMessage;
 	private TextView tvMinimumOSverion;
+	private TextView tvMinimumOSversionMessage;
 	private Button fetchappupdateValues;
 	byte[] plainByte;
 	byte[] encryptedByte;
@@ -63,6 +64,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 
 		tvMinimumOSverion = (TextView) findViewById(R.id.tvMinimumOSverion);
 
+		tvMinimumOSversionMessage = findViewById(R.id.tvMinimumOSversionMessage);
 
 		appupdateInterface = AILDemouAppInterface.getInstance().getAppInfra().getAppUpdate();
 		SecureStorageInterface mSecureStorage = AILDemouAppInterface.getInstance().getAppInfra().getSecureStorage();
@@ -121,6 +123,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 				tvToBeDeprecatedMessage.setText(appupdateInterface.getToBeDeprecatedMessage());
 				tvUpdateMessage.setText(appupdateInterface.getUpdateMessage());
 				tvMinimumOSverion.setText(appupdateInterface.getMinimumOSverion());
+				tvMinimumOSversionMessage.setText(appupdateInterface.getMinimumOSMessage());
 				SimpleDateFormat formatter = new SimpleDateFormat(AppUpdateManager.APPUPDATE_DATE_FORMAT
 						, Locale.ENGLISH);
 				if(appupdateInterface.getToBeDeprecatedDate() != null) {

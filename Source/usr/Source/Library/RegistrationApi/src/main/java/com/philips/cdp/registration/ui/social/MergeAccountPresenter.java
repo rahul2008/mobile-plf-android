@@ -2,6 +2,7 @@ package com.philips.cdp.registration.ui.social;
 
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
@@ -9,7 +10,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,7 +25,7 @@ public class MergeAccountPresenter implements TraditionalLoginHandler, NetworkSt
 
     public MergeAccountPresenter(MergeAccountContract mergeAccountContract,User mUser) {
         this.mUser=mUser;
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.mergeAccountContract = mergeAccountContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }

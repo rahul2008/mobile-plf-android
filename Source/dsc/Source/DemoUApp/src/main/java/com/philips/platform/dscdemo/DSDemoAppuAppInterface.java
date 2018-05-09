@@ -5,12 +5,21 @@
 */
 package com.philips.platform.dscdemo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.dscdemo.activity.DSLaunchActivity;
+import com.philips.platform.dscdemo.activity.JustInTimeActivity;
 import com.philips.platform.dscdemo.moments.MomentFragment;
+import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
+import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
+import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -21,7 +30,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class DSDemoAppuAppInterface implements UappInterface {
 
-    private Context mContext;
+    private Context context;
+    private AppInfraInterface appInfra;
 
     /**
      * @param uappDependencies - App dependencies
@@ -29,8 +39,17 @@ public class DSDemoAppuAppInterface implements UappInterface {
      */
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        mContext = uappSettings.getContext();
-        AppInfraInterface appInfra = uappDependencies.getAppInfra();
+        context = uappSettings.getContext();
+        DSDemoAppuAppDependencies dsDependencies = (DSDemoAppuAppDependencies) uappDependencies;
+        appInfra = dsDependencies.getAppInfra();
+        JustInTimeConsentDependencies.appInfra = appInfra;
+        JustInTimeTextResources textResources = new JustInTimeTextResources();
+        textResources.titleTextRes = R.string.DSC_CSW_JustInTime_Title;
+        textResources.acceptTextRes = R.string.DSC_CSW_JustInTime_Accept;
+        textResources.rejectTextRes = R.string.DSC_CSW_JustInTime_Reject;
+        textResources.userBenefitsTitleRes = R.string.mya_csw_justintime_user_benefits_title;
+        textResources.userBenefitsDescriptionRes = R.string.mya_csw_justintime_user_benefits_description;
+        JustInTimeConsentDependencies.textResources = textResources;
 
         DemoAppManager mDemoAppManager = DemoAppManager.getInstance();
         mDemoAppManager.initPreRequisite(uappSettings.getContext(), appInfra);
@@ -41,22 +60,72 @@ public class DSDemoAppuAppInterface implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
+        if (appInfra.getRestClient().isInternetReachable()) {
+            JustInTimeConsentDependencies.appInfra.getConsentManager().fetchConsentTypeState("moment", new CheckConsentsListener(uiLauncher));
+        } else {
+            launchUApp(uiLauncher);
+        }
+    }
+
+    private void launchUApp(UiLauncher uiLauncher) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity();
+            launchActivity(DSLaunchActivity.class);
         } else {
             launchAsFragment(uiLauncher);
         }
     }
 
-    private void launchAsActivity() {
-        Intent intent = new Intent(mContext, DSLaunchActivity.class);
+    private void launchJustInTimeConsent(final UiLauncher uiLauncher) {
+        JustInTimeConsentDependencies.completionListener = new JustInTimeWidgetHandler() {
+            @Override
+            public void onConsentGiven() {
+                launchUApp(uiLauncher);
+            }
+
+            @Override
+            public void onConsentRejected() {
+                launchUApp(uiLauncher);
+            }
+        };
+        launchActivity(JustInTimeActivity.class);
+    }
+
+    private void launchActivity(final Class<? extends Activity> activityClass) {
+        Intent intent = new Intent(context, activityClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+        context.startActivity(intent);
     }
 
     private void launchAsFragment(UiLauncher uiLauncher) {
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         DSBaseFragment momentsFragment = new MomentFragment();
         momentsFragment.showFragment(momentsFragment, fragmentLauncher);
+    }
+
+    class CheckConsentsListener implements FetchConsentCallback {
+        private UiLauncher uiLauncher;
+
+        private CheckConsentsListener(UiLauncher uiLauncher) {
+            this.uiLauncher = uiLauncher;
+        }
+
+        @Override
+        public void onGetConsentSuccess(final ConsentDefinitionStatus consentDefinitionStatus) {
+            if (isMomentConsentNotGiven(consentDefinitionStatus)) {
+                JustInTimeConsentDependencies.consentDefinition = consentDefinitionStatus.getConsentDefinition();
+                launchJustInTimeConsent(uiLauncher);
+            } else {
+                launchUApp(uiLauncher);
+            }
+        }
+
+        @Override
+        public void onGetConsentFailed(final ConsentError error) {
+            launchUApp(uiLauncher);
+        }
+    }
+
+    private boolean isMomentConsentNotGiven(ConsentDefinitionStatus status) {
+        return status.getConsentState().equals(ConsentStates.inactive);
     }
 }

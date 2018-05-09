@@ -23,11 +23,14 @@
         <item name="uidButtonImageDrawableHeight">@dimen/uid_imagebutton_image_size</item>
         <item name="android:drawablePadding">@dimen/uid_imagebutton_padding</item>
         <item name="uidButtonDrawableColorList">@color/uid_default_button_text_selector</item>
+        <item name="uidButtonCenter">true</item>
     </style>
 
     <style name="UIDDefaultButton.UIDImageTextButton">
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:drawablePadding">@dimen/uid_imagebutton_padding</item>
+        <item name="uidButtonLeft">true</item>
+        <item name="uidButtonCenter">false</item>
     </style>
 
     <style name="UIDImageButton" parent="Widget.AppCompat.ImageButton">

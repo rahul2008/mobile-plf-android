@@ -19,7 +19,7 @@
 
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Загр. </string>
-    <string name="please_wait"> Подождите &amp;#8230; </string>
+    <string name="dcc_please_wait"> Подождите &amp;#8230; </string>
     <string name="get_directions"> Itinéraire </string>
     <string name="search"> Recherche </string>
     <string name="gps_disabled"> GPS désactivé sur votre appareil. Souhaitez-vous l\'activer ? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Пароль </string>
     <string name="sign_into_my_philips"> Войти в My Philips </string>
     <string name="forgot_my_password"> Я забыл(-а) пароль &gt;  </string>
-    <string name="create_account"> Создать уч. запись &gt; </string>
+    <string name="dcc_create_account"> Создать уч. запись &gt; </string>
 
     <string name="localtephilips_contactus">Page de contact</string>
 
@@ -182,5 +182,10 @@
     <string name="dcc_Help_Support">Справка и поддержка</string>
     <string name="dcc_Call">Позвонить</string>
     <string name="dcc_Opening_Hours">Часы работы</string>
+    <string name="dcc_location_consent_accept">Oк</string>
+    <string name="dcc_location_consent_reject">Отмена</string>
+    <string name="dcc_location_consent_title">Согласие на доступ к данным о местоположении</string>
+    <string name="dcc_location_consent_definition_text">Я даю Philips свое согласие на доступ к данным о местоположении для поиска ближайшего центра Philips.</string>
+    <string name="dcc_location_consent_definition_help_text">Если вы даете свое согласие на доступ к данным о местоположении, мы сможем собирать информацию о географическом положении вашего мобильного устройства.\n\nПри поиске ближайшего центра Philips на странице поддержки появляется запрос на предоставление компании Philips данных о местоположении. При использовании этой функции в зависимости от вашего местоположения предлагаются контактные данные ближайшей торговой организации или местного центра поддержки потребителей.</string>
 
 </resources>

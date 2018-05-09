@@ -20,7 +20,7 @@ import com.philips.platform.ths.appointment.THSAvailableProviderListBasedOnDateF
 import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.intake.THSSymptomsFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
@@ -53,7 +53,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         try {
             getPthManager().getProviderList(mThsBaseFragment.getFragmentActivity(), practice, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
 
     }
@@ -70,7 +70,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 boolean providerAvailable = isProviderAvailable(providerInfoList);
                 updateFragment(providerInfoList, providerAvailable);
             } else if (null != sdkError) {
-                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER_LIST, sdkError), true);
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTIC_FETCH_PROVIDER_LIST, sdkError), true, false);
             } else {
                 thsProviderListViewInterface.showNoProviderErrorDialog();
             }
@@ -84,7 +84,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     boolean isProviderAvailable(List<THSProviderInfo> providerInfoList) {
         for (THSProviderInfo thsProviderInfo : providerInfoList) {
-            if (!ProviderVisibility.isOffline(thsProviderInfo.getVisibility())) {
+            if (!ProviderVisibility.OFFLINE.equalsIgnoreCase(thsProviderInfo.getVisibility())) {
                 return true;
             }
         }
@@ -95,7 +95,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
     public void onProvidersListFetchError(Throwable throwable) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             final String string = mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message);
-            mThsBaseFragment.showError(string,true);
+            mThsBaseFragment.showError(string,true, false);
         }
     }
 
@@ -105,6 +105,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         if (componentID == R.id.getStartedButton) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
             try {
+                THSManager.getInstance().setVisitContext(null);
                 THSManager.getInstance().getOnDemandSpecialities(mThsBaseFragment.getFragmentActivity(),
                         practice, null, this);
             } catch (AWSDKInstantiationException e) {
@@ -146,7 +147,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.hideProgressBar();
             if (null != sdkError.getSdkError()) {
-                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES, sdkError.getSdkError()));
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTICS_ON_DEMAND_SPECIALITIES, sdkError.getSdkError()));
             } else {
                 if (onDemandSpecialties == null || onDemandSpecialties.size() == 0) {
                     mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_matchmaking_no_provider_available_text));
@@ -157,9 +158,8 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 mThsOnDemandSpeciality = onDemandSpecialties;
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
-                final THSSymptomsFragment fragment = new THSSymptomsFragment();
-                fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-                mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle, true);
+                THSProviderDetailsFragment thsProviderDetailsFragment = new THSProviderDetailsFragment();
+                mThsBaseFragment.addFragment(thsProviderDetailsFragment, THSProviderDetailsFragment.TAG, bundle, true);
                 mThsBaseFragment.hideProgressBar();
             }
         }

@@ -15,14 +15,14 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class AIKMResponse {
 
-    private Map kMap;
+    private Map<?,?> kMap;
     private AIKManager.KError kError;
 
-    public Map getkMap() {
+    public Map<?,?> getkMap() {
         return kMap;
     }
 
-    public void setkMap(Map kMap) {
+    public void setkMap(Map<?,?> kMap) {
         this.kMap = kMap;
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ Copyright (c) 2015-2018 Koninklijke Philips N.V.
   ~ All rights reserved.
   -->
 
@@ -8,7 +8,7 @@
     <string name="cml_light_state">Light state</string>
     <string name="cml_set">Set</string>
     <string name="cml_pair">Pair</string>
-    <string name="cml_unpair">Disengage</string>
+    <string name="cml_unpair">Unpair</string>
     <string name="cml_my_id">My ID:</string>
     <string name="cml_userId">user ID</string>
     <string name="cml_access_token">access token</string>
@@ -33,6 +33,7 @@
     <string name="cml_no_firmware_directory_found">No firmware directory found</string>
     <string name="cml_select_a_firmware_image">Please, select a firmware image</string>
     <string name="cml_timeout">Timeout</string>
+    <string name="cml_refresh_props">Refresh properties</string>
     <string name="cml_upload_firmware">Upload firmware</string>
     <string name="cml_upload_firmware_finished">Uploading firmware finished</string>
     <string name="cml_uploading_firmware_failed">"Uploading firmware failed: "</string>
@@ -80,12 +81,14 @@
     <string name="cml_forget_success">Appliance forgotten</string>
     <string name="cml_persist_success">Appliance persisted</string>
     <string name="cml_persist_failed">Appliance not persisted</string>
-    <string name="cml_pairing_failed">Pairing failed</string>
-    <string name="cml_paired_success">Pairing successful</string>
+    <string name="cml_pair_success">Paired successfully</string>
+    <string name="cml_pair_failed">Pairing failed</string>
     <string name="cml_unpair_success">Unpaired successfully</string>
+    <string name="cml_unpair_failed">Unpairing failed</string>
     <string name="cml_cancel">Cancel</string>
     <string name="cml_perform_discovery">Perform discovery</string>
     <string name="cml_filter_model_id_hint">Filter on comma separated model id(s)</string>
+    <string name="cml_clear_appliances">Clear appliances</string>
 
     <string name="cml_appliance_cppid">"Cpp id: "</string>
     <string name="cml_appliance_modelid">"Model id: "</string>
@@ -94,4 +97,17 @@
     <string name="cml_wakeup_alarm_state">Wake-up alarm (read only)</string>
     <string name="cml_pin_to_set">Enter pin to set</string>
     <string name="base64_pin_error">Please provide a correct base64 encoded pin!</string>
+
+    <string name="cml_ble_connection_params">Connection parameters</string>
+    <string name="cml_hint_slowadmin">Minimum interval for slow advertising (20~10240ms)</string>
+    <string name="cml_hint_slowadmax">Maximum interval for slow advertising (20~10240ms)</string>
+    <string name="cml_hint_slowadtimeout">Timeout for slow advertising (s)</string>
+    <string name="cml_switch_slowadenabled">Slow advertisement</string>
+    <string name="cml_hint_fastadmin">Minimum interval for fast advertising (20~10240ms)</string>
+    <string name="cml_hint_fastadmax">Maximum interval for fast advertising (20~10240ms)</string>
+    <string name="cml_hint_fastadtimeout">Timeout for fast advertising (s)</string>
+    <string name="cml_hint_connmin">Minimum connection interval (7~4000ms)</string>
+    <string name="cml_hint_connmax">Maximum connection interval (7~4000ms)</string>
+    <string name="cml_hint_connslavelatency">Connection slave latency (0~499ms)</string>
+    <string name="cml_hint_connsupertimeout">Connection supervision timeout (100~32000ms)</string>
 </resources>

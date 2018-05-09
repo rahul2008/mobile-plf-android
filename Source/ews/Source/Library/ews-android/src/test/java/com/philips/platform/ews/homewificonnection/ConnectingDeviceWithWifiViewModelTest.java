@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.platform.ews.homewificonnection;
@@ -23,6 +23,7 @@ import com.philips.platform.ews.appliance.ApplianceAccessManager;
 import com.philips.platform.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.platform.ews.communication.DiscoveryHelper;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
+import com.philips.platform.ews.homewificonnection.ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback;
 import com.philips.platform.ews.logger.EWSLogger;
 import com.philips.platform.ews.microapp.EWSUapp;
 import com.philips.platform.ews.navigation.Navigator;
@@ -62,7 +63,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EWSTagger.class,EWSLogger.class, LanTransportContext.class, CommCentral.class})
+@PrepareForTest({EWSTagger.class, EWSLogger.class, LanTransportContext.class, CommCentral.class})
 public class ConnectingDeviceWithWifiViewModelTest {
 
     private static final String HOME_SSID = "homeSsid";
@@ -74,19 +75,24 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     @Mock
     private ApplianceAccessManager mockApplianceAccessManager;
+
     @Mock
     private Navigator mockNavigator;
+
     @Mock
     private WiFiConnectivityManager mockWiFiConnectivityManager;
+
     @Mock
     private WiFiUtil mockWiFiUtil;
+
     @Mock
     private Handler mockHandler;
+
     @Mock
     private DiscoveryHelper mockDiscoveryHelper;
+
     @Mock
-    private ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback
-            mockFragmentCallback;
+    private ConnectingDeviceToWifiCallback mockFragmentCallback;
 
     @Mock
     private DeviceFriendlyNameChanger mockDeviceFriendlyNameChanger;
@@ -103,17 +109,14 @@ public class ConnectingDeviceWithWifiViewModelTest {
     private WifiPortProperties mockWifiPortProperties;
 
     @Captor
-    private ArgumentCaptor<ApplianceAccessManager.SetPropertiesCallback>
-            putPropsCallbackCaptor;
+    private ArgumentCaptor<ApplianceAccessManager.SetPropertiesCallback> putPropsCallbackCaptor;
 
     @Captor
-    private ArgumentCaptor<DeviceFriendlyNameChanger.Callback>
-            putDeviceFriendlyNameChangerCaptor;
+    private ArgumentCaptor<DeviceFriendlyNameChanger.Callback> putDeviceFriendlyNameChangerCaptor;
     @Captor
     private ArgumentCaptor<BroadcastReceiver> receiverArgumentCaptor;
     @Captor
-    private ArgumentCaptor<DiscoveryHelper.DiscoveryCallback>
-            discoveryCallbackArgumentCaptor;
+    private ArgumentCaptor<DiscoveryHelper.DiscoveryCallback> discoveryCallbackArgumentCaptor;
     @Captor
     private ArgumentCaptor<Runnable> timeoutRunnableCaptor;
 
@@ -150,10 +153,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         Map<String, String> mockMap = new HashMap<>();
         mockMap.put(EWSUapp.PRODUCT_NAME, DEVICE_NAME);
         //EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap, mockCommCentral);
-        subject = new ConnectingDeviceWithWifiViewModel(mockApplianceAccessManager, mockNavigator,
-                mockWiFiConnectivityManager, mockWiFiUtil, mockDeviceFriendlyNameChanger,
-                mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider, mockApplianceSessionDetailInfo,
-                mockEWSTagger, mockEWSLogger, "Product");
+        subject = new ConnectingDeviceWithWifiViewModel(mockApplianceAccessManager, mockNavigator, mockWiFiConnectivityManager, mockWiFiUtil, mockDeviceFriendlyNameChanger, mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider, mockApplianceSessionDetailInfo, mockEWSTagger, mockEWSLogger, "Product");
 
         subject.setFragmentCallback(mockFragmentCallback);
     }
@@ -167,9 +167,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Test
     public void itShouldSendNetworkInfoToDeviceWhenDeviceNameUpdated() throws Exception {
         simulateChangeFriendlyDeviceNameSucceeded();
-        verify(mockApplianceAccessManager)
-                .connectApplianceToHomeWiFiEvent(eq(HOME_SSID), eq(HOME_SSID_PASSWORD),
-                        any(ApplianceAccessManager.SetPropertiesCallback.class));
+        verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(eq(HOME_SSID), eq(HOME_SSID_PASSWORD), any(ApplianceAccessManager.SetPropertiesCallback.class));
     }
 
     @Test
@@ -191,21 +189,15 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
-    public void
-    itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenChangingFriendlyNameFailed()
-            throws Exception {
+    public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenChangingFriendlyNameFailed() throws Exception {
         simulateChangeFriendlyDeviceNameFailed();
-        verify(mockNavigator)
-                .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
     }
 
     @Test
-    public void
-    itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenPuttingPropsFails()
-            throws Exception {
+    public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenPuttingPropsFails() throws Exception {
         simulatePutPropsFailed();
-        verify(mockNavigator)
-                .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
     }
 
     @Test
@@ -225,35 +217,30 @@ public class ConnectingDeviceWithWifiViewModelTest {
     public void itShouldRegisterBroadcastReceiverWhenPutPropsIsSuccess() throws Exception {
         simulatePutPropsSucceeded();
 
-        verify(mockFragmentCallback)
-                .registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
+        verify(mockFragmentCallback).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
     }
 
     @Test
-    public void itShouldNotRegisterBroadcastReceiverWhenPutPropsIsSuccessWhenCallbackIsNull()
-            throws Exception {
+    public void itShouldNotRegisterBroadcastReceiverWhenPutPropsIsSuccessWhenCallbackIsNull() throws Exception {
         subject.setFragmentCallback(null);
 
         simulatePutPropsSucceeded();
 
-        verify(mockFragmentCallback, never())
-                .registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
+        verify(mockFragmentCallback, never()).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
     }
 
     @Test
-    public void itShouldVerifySuccessSetPropertiesCallbackWithNullStartConnectionModel() throws Exception{
+    public void itShouldVerifySuccessSetPropertiesCallbackWithNullStartConnectionModel() throws Exception {
         simulateChangeFriendlyDeviceNameSucceeded();
-        verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(anyString(), anyString(),
-                putPropsCallbackCaptor.capture());
+        verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(anyString(), anyString(), putPropsCallbackCaptor.capture());
 
         subject.startConnectionModel = null;
         putPropsCallbackCaptor.getValue().onPropertiesSet(mockWifiPortProperties);
-        verify(mockEWSLogger).e(anyString(),anyString());
+        verify(mockEWSLogger).e(anyString(), anyString());
     }
 
     @Test
-    public void itShouldUnregisterBroadcastReceiverWhenConnectedBackToHomeWifiNetwork() throws
-            Exception {
+    public void itShouldUnregisterBroadcastReceiverWhenConnectedBackToHomeWifiNetwork() throws Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
 
         verify(mockFragmentCallback).unregisterReceiver(any(BroadcastReceiver.class));
@@ -263,8 +250,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
     public void itShouldNotDoAnyThingWhenBroadcastOfNetworkNotConnected() throws Exception {
         mockNetworkChange(NetworkInfo.State.DISCONNECTED, WiFiUtil.HOME_WIFI);
         simulatePutPropsSucceeded();
-        verify(mockFragmentCallback)
-                .registerReceiver(receiverArgumentCaptor.capture(), any(IntentFilter.class));
+        verify(mockFragmentCallback).registerReceiver(receiverArgumentCaptor.capture(), any(IntentFilter.class));
 
         reset(mockHandler, mockDiscoveryHelper, mockNavigator);
 
@@ -276,13 +262,10 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
-    public void
-    itShouldNotUnregisterBroadcastReceiverWhenConnectedBackToHomeWifiNetworkAndCallbackIsNull()
-            throws Exception {
+    public void itShouldNotUnregisterBroadcastReceiverWhenConnectedBackToHomeWifiNetworkAndCallbackIsNull() throws Exception {
         mockNetworkChange(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
         simulatePutPropsSucceeded();
-        verify(mockFragmentCallback)
-                .registerReceiver(receiverArgumentCaptor.capture(), any(IntentFilter.class));
+        verify(mockFragmentCallback).registerReceiver(receiverArgumentCaptor.capture(), any(IntentFilter.class));
         subject.setFragmentCallback(null);
         receiverArgumentCaptor.getValue().onReceive(null, mockIntent);
 
@@ -290,40 +273,34 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
-    public void itShouldUnregisterBroadcastReceiverWhenConnectedBackToWrongWifiNetwork() throws
-            Exception {
+    public void itShouldUnregisterBroadcastReceiverWhenConnectedBackToWrongWifiNetwork() throws Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.WRONG_WIFI);
         verify(mockFragmentCallback).unregisterReceiver(any(BroadcastReceiver.class));
     }
 
     @Test
-    public void itShouldNotUnregisterBroadcastReceiverWhenConnectedBackToUnknownWifiNetwork()
-            throws Exception {
+    public void itShouldNotUnregisterBroadcastReceiverWhenConnectedBackToUnknownWifiNetwork() throws Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.UNKNOWN_WIFI);
 
         verify(mockFragmentCallback, never()).unregisterReceiver(any(BroadcastReceiver.class));
     }
 
     @Test
-    public void
-    itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenConnectedBackToWrongWifiNetwork() throws Exception {
+    public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenConnectedBackToWrongWifiNetwork() throws Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.WRONG_WIFI);
 
-        verify(mockNavigator)
-                .navigateToWrongWifiNetworkScreen(any(Bundle.class));
+        verify(mockNavigator).navigateToWrongWifiNetworkScreen((Bundle) any());
     }
 
     @Test
-    public void itShouldRemoveTimeoutRunnableWhenConnectedBackToWrongWifiNetwork() throws
-            Exception {
+    public void itShouldRemoveTimeoutRunnableWhenConnectedBackToWrongWifiNetwork() throws Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.WRONG_WIFI);
 
         verify(mockHandler).removeCallbacks(any(Runnable.class));
     }
 
     @Test
-    public void itShouldStartDiscoveryForApplianceWhenConnectedBackToHomeNetwork() throws
-            Exception {
+    public void itShouldStartDiscoveryForApplianceWhenConnectedBackToHomeNetwork() throws Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
 
         verify(mockDiscoveryHelper).startDiscovery(any(DiscoveryHelper.DiscoveryCallback.class), eq(mockEWSLogger));
@@ -363,7 +340,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
         simulateApplianceFound();
         verify(mockApplianceSessionDetailInfo).clear();
     }
-
 
     @Test
     public void itShouldNotRemoveTimeoutRunnableWhenWrongApplianceFoundInHomeNetwork() throws Exception {
@@ -419,7 +395,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
         timeoutRunnableCaptor.getValue().run();
 
-        verify(mockNavigator).navigateToWrongWifiNetworkScreen(any(Bundle.class));
+        verify(mockNavigator).navigateToWrongWifiNetworkScreen((Bundle) any());
     }
 
     @Test
@@ -448,8 +424,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
-    public void itShouldNotShowCancelDialogWhenCancelButtonClickedAndCallbackIsNull() throws
-            Exception {
+    public void itShouldNotShowCancelDialogWhenCancelButtonClickedAndCallbackIsNull() throws Exception {
         subject.setFragmentCallback(null);
 
         subject.onCancelButtonClicked();
@@ -458,24 +433,24 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
-    public void itShouldVerifyTitle() throws Exception{
+    public void itShouldVerifyTitle() throws Exception {
         subject.startConnectionModel = mockStartConnectionModel;
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
         when(mockStartConnectionModel.getHomeWiFiSSID()).thenReturn("wifi");
         subject.getTitle(mockBaseContentConfiguration);
-        verify(mockStringProvider).getString(R.string.label_ews_connecting_device_title, mockBaseContentConfiguration.getDeviceName(),mockStartConnectionModel.getHomeWiFiSSID());
+        verify(mockStringProvider).getString(R.string.label_ews_connecting_device_title, mockBaseContentConfiguration.getDeviceName(), mockStartConnectionModel.getHomeWiFiSSID());
     }
 
     @Test
-    public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception{
+    public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception {
         subject.trackPageName();
         verify(mockEWSTagger).trackPage("connectingDeviceWithWifi");
     }
 
     @Test
-    public void itShouldGeneratedErrorLogOnStartConnectionModelIsNullAndFriendlyNameChangingSuccessCalled() throws Exception{
+    public void itShouldGeneratedErrorLogOnStartConnectionModelIsNullAndFriendlyNameChangingSuccessCalled() throws Exception {
         subject.onFriendlyNameChangingSuccess();
-        verify(mockEWSLogger).e(anyString(),anyString());
+        verify(mockEWSLogger).e(anyString(), anyString());
     }
 
     @Test
@@ -502,17 +477,14 @@ public class ConnectingDeviceWithWifiViewModelTest {
         discoveryCallbackArgumentCaptor.getValue().onApplianceFound(mockAppliance);
     }
 
-    private void simulateConnectionBackToWifi(NetworkInfo.State networkState,
-                                              @WiFiUtil.WiFiState int wifiState) {
+    private void simulateConnectionBackToWifi(NetworkInfo.State networkState, @WiFiUtil.WiFiState int wifiState) {
         mockNetworkChange(networkState, wifiState);
         simulatePutPropsSucceeded();
-        verify(mockFragmentCallback)
-                .registerReceiver(receiverArgumentCaptor.capture(), any(IntentFilter.class));
+        verify(mockFragmentCallback).registerReceiver(receiverArgumentCaptor.capture(), any(IntentFilter.class));
         receiverArgumentCaptor.getValue().onReceive(null, mockIntent);
     }
 
-    private void mockNetworkChange(NetworkInfo.State networkState,
-                                   @WiFiUtil.WiFiState int wifiState) {
+    private void mockNetworkChange(NetworkInfo.State networkState, @WiFiUtil.WiFiState int wifiState) {
         when(mockIntent.getParcelableExtra(anyString())).thenReturn(mockNetworkInfo);
         when(mockNetworkInfo.getState()).thenReturn(networkState);
         when(mockWiFiUtil.getCurrentWifiState()).thenReturn(wifiState);
@@ -520,16 +492,14 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     private void simulatePutPropsSucceeded() {
         simulateChangeFriendlyDeviceNameSucceeded();
-        verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(anyString(), anyString(),
-                putPropsCallbackCaptor.capture());
+        verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(anyString(), anyString(), putPropsCallbackCaptor.capture());
         when(mockWifiPortProperties.getCppid()).thenReturn("MOCKEDCPPID12345678");
         putPropsCallbackCaptor.getValue().onPropertiesSet(mockWifiPortProperties);
     }
 
     private void simulatePutPropsFailed() {
         simulateChangeFriendlyDeviceNameSucceeded();
-        verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(anyString(), anyString(),
-                putPropsCallbackCaptor.capture());
+        verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(anyString(), anyString(), putPropsCallbackCaptor.capture());
         putPropsCallbackCaptor.getValue().onFailedToSetProperties();
     }
 

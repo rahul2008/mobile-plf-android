@@ -1,4 +1,4 @@
-/**
+/*
  * RequestData will help to perform network operations in UI.
  *
  * @author : naveen@philips.com
@@ -115,16 +115,10 @@ public class RequestData {
         }
 
         private void readResponse(BufferedReader in, StringBuffer response) throws IOException {
-            String inputLine = null;
-            while ((inputLine = in.readLine()) != getaNull()) {
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
         }
-
-        @Nullable
-        private String getaNull() {
-            return null;
-        }
     }
-
 }

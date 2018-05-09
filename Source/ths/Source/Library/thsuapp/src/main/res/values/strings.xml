@@ -3,54 +3,55 @@
 
 
     <string name="ths_nopp"><u>Notes of Privacy Practices</u></string>
-    <string name="action_settings">Settings</string>
+    <string name="ths_action_settings">Settings</string>
     <string name="ths_vitals_prepare_visit_title">Prepare your visit</string>
-    <string name="app_name">AmwellUapp</string>
-    <string name="symptoms">Step 1 of 5: Symptoms</string>
-    <string name="vitals">Step 2 of 5: Vitals</string>
-    <string name="conditions">Step 4 of 5: Medical conditions</string>
+    <string name="ths_app_name">AmwellUapp</string>
+    <string name="ths_symptoms">Step 1 of 5: Symptoms</string>
+    <string name="ths_vitals">Step 2 of 5: Vitals</string>
+    <string name="ths_conditions">Step 4 of 5: Medical conditions</string>
     <string name="ths_vitals_follow_up_step_5">Step 5 of 5: Follow up</string>
-    <string name="ths_invalid_phone_number">Please enter 10 digits phone number</string>
+    <string name="ths_invalid_phone_number">Phone Number should contain 10 digits</string>
     <string name="ths_vitals_follow_up_step_5_description_text">Please provide a phone number for any follow up calls regarding this visit.</string>
     <string name="ths_vitals_follow_up_please_note">Please note that this phone number will also be used in case the connection with the provider gets lost.</string>
     <string name="ths_vitals_notice_privacy_policy_check_box_text">I have read and agree to the</string>
     <string name="ths_vitals_phone_number_text"> Phone number</string>
-    <string name="help_visit">Please help us make your visit more efficient by sharing some details with us before your visit</string>
-    <string name="visit_reason">What is the reason for your visit?</string>
-    <string name="additional_comment">Additional comment</string>
-    <string name="write_here">write here</string>
+    <string name="ths_help_visit">Please help us make this visit more efficient by sharing some details upfront. Otherwise, you can skip this step.</string>
+    <string name="ths_visit_reason">What is the visit about?</string>
+    <string name="ths_additional_comment">Additional comment</string>
+    <string name="ths_write_here">write here</string>
     <string name="ths_prepare_your_visit">Prepare for your visit</string>
-    <string name="button_greaterthan"> &gt;</string>
-    <string name="vitals_want">Do you want to share your vitals?</string>
-    <string name="vitals_add_medication_text">Add medication</string>
-    <string name="vitals_blood_pressure">Blood pressure </string>
-    <string name="vitals_medication_description_text">Are you currently taking any medication(s)? If so, please add your medications to share with the provider</string>
-    <string name="vitals_blood_pressure_text">(in mm HG)</string>
-    <string name="vitals_temp_text">(in \u2109)</string>
-    <string name="vitals_medications">Step 3 of 5: Medications</string>
-    <string name="vitals_systolic">Systolic</string>
-    <string name="vitals_diastolic">Diasystolic</string>
-    <string name="temperature">Temperature</string>
-    <string name="vitals_faranheit">Farenheit</string>
-    <string name="vitals_f">oF</string>
-    <string name="weight">Weight</string>
-    <string name="vitals_weight_text">(in lbs)</string>
-    <string name="vitals_ponds">Pounds</string>
-    <string name="vitals_skip">Skip this step</string>
-    <string name="ths_medical_conditions">Have you been diagnosed with any of these medical conditions?</string>
-    <string name="google_maps_key">AIzaSyAvmDNdBPOJg_mW3qQH0s7D1wIq76BWEZk</string>
+    <string name="ths_button_greaterthan"> &gt;</string>
+    <string name="ths_vitals_want">Please provide vital signs, if possible. Otherwise, you can skip this step.</string>
+    <string name="ths_vitals_add_medication_text">Add medication</string>
+    <string name="ths_vitals_blood_pressure">Blood pressure </string>
+    <string name="ths_vitals_medication_description_text">Please tell us about medication use, if applicable. Otherwise, you can skip this step.</string>
+    <string name="ths_vitals_blood_pressure_text">(in mm Hg)</string>
+    <string name="ths_vitals_temp_text">(in \u2109)</string>
+    <string name="ths_vitals_medications">Step 3 of 5: Medications</string>
+    <string name="ths_vitals_systolic">Systolic</string>
+    <string name="ths_vitals_diastolic">Diastolic</string>
+    <string name="ths_temperature">Temperature</string>
+    <string name="ths_vitals_fahrenheit">Fahrenheit</string>
+    <string name="ths_vitals_f">oF</string>
+    <string name="ths_weight">Weight</string>
+    <string name="ths_vitals_weight_text">(in lbs)</string>
+    <string name="ths_vitals_ponds">Pounds</string>
+    <string name="ths_vitals_skip">Skip this step</string>
+    <string name="ths_medical_conditions">Please select any previously diagnosed medical conditions. Skip this step if not applicable.</string>
+    <string name="ths_google_maps_key">AIzaSyAvmDNdBPOJg_mW3qQH0s7D1wIq76BWEZk</string>
     <string name="ths_select_a_date_and_time">Select a Date and Time</string>
-    <string name="inline_error_message_systolic_value">Please Enter values between 0 and 250</string>
-    <string name="inline_error_message_temperature_value">Please Enter values between 0 and 120</string>
-    <string name="inline_error_message_weight_value">Please Enter values between 0 and 500</string>
+    <string name="ths_inline_error_message_systolic_value">Please Enter values between 0 and 250</string>
+    <string name="ths_inline_error_message_temperature_value">Please Enter values between 0 and 120</string>
+    <string name="ths_inline_error_message_weight_value">Please Enter values between 0 and 500</string>
     <string name="ths_available_provider">Pick a time</string>
-    <string name="ths_scedule_appointment">Schedule an appointment for</string>
+    <string name="ths_schedule_appointment">Schedule an appointment for</string>
     <string name="ths_practice_pick_subject">"To start a visit pick a subject"</string>
 
     <string name="ths_pick_time">Pick a time</string>
     <string name="ths_available_time_slots">Available time slots</string>
     <string name="ths_schedule_appointment_for">You have scheduled an appointment for</string>
-    <string name="ths_set_remainder">Set a reminder</string>
+    <string name="ths_set_remainder">E-mail reminder set</string>
+    <string name="ths_set_remainder_dialog">Set an e-mail reminder</string>
     <string name="ths_set_button_text">Set</string>
     <string name="ths_got_it">Ok, got it!</string>
     <string name="ths_email_sent">We have sent a confirmation email to</string>
@@ -61,9 +62,12 @@
     <string name="ths_no_availability">No availability</string>
     <string name="ths_provider_details">Your provider</string>
     <string name="ths_with">With:</string>
+    <string name="ths_appointment_with">with</string>
     <string name="ths_select_other_provider">Your selected provider has no appointments on this date. Please pick another date or choose from the available provider</string>
+    <string name="ths_appointment_for_yourself">Appointment for yourself</string>
+    <string name="ths_appointment_for_your_child">Appointment for your child</string>
 
-    <string name="pth_webview_test"><html><p>The US and South Korea have held a ballistic missile drill, after North Korea tested a long-range missile experts believe may reach Alaska.
+    <string name="ths_webview_test"><html><p>The US and South Korea have held a ballistic missile drill, after North Korea tested a long-range missile experts believe may reach Alaska.
 Self-restraint was all that separated armistice and war and could be changed at any time, the two allies said.
 It would be a "grave mistake" for the North to think otherwise, they said.</p><p>China and Russia have urged the North to suspend its weapons programme in exchange for a halt to US-South Korean military exercises.
 The launch, the latest in a series of tests, was in defiance of a ban by the UN Security Council.
@@ -72,23 +76,22 @@ Pyongyang claimed on Tuesday to have successfully tested an intercontinental bal
 However, most experts believe that the North does not yetof visits scheduled have long-range nuclear weapon capabilities.
 The two Koreas are technically still at war as the 1950-1953 Korean War ended in an armistice.
 How have the US and South Korea responded?</p>The allies conducted a ballistic missile fire exercise in the Sea of Japan.South Korean President Moon Jae-in said allies needed to demonstrate their missile defence posture with action, not just a statement, his office said.Is the new missile test a game-changer?Can the US defend itself against North Korea?Have North Korea missile tests paid off? What can the outside world do? Meanwhile in a joint statement Gen Vincent Brooks, commander of US forces Korea, and South Korean Joint Chiefs Chairman Gen Lee Sun-jin said the allies were maintaining patience and self-restraint, but this could change.</html></string>
-    <string name="schedule_appointment">Schedule an appointment</string>
-    <string name="get_started">Get started</string>
+    <string name="ths_get_started">Get started</string>
     <string name="ths_continue">Continue</string>
     <string name="ths_select_time">Select a timeslot</string>
-    <string name="cancel">Cancel</string>
+    <string name="ths_cancel">Cancel</string>
 
     //Pharmacy strings
     <string name="ths_choose_pharmacy_button_text">Choose pharmacy</string>
     <string name="ths_retail_button_text">Retail</string>
     <string name="ths_mail_order_pharmacy_button_text">Mail order</string>
-    <string name="pharmacy_shipping_fragment_name">Pharmacy and Shipping</string>
-    <string name="pharmacy_list_fragment_name">Pharmacy List</string>
-    <string name="search_pharmacy_fragment_name">Your pharmacy</string>
-    <string name="shipping_address_fragment_name">Ship prescriptions to</string>
-    <string name="pharmacy_search_label">Which pharmacy should we send prescriptions to</string>
-    <string name="pharmacy_search_edittext_hint">Type location or zip code</string>
-    <string name="ths_pharmacy_medications_sent_to_text">Medications will be sent to</string>
+    <string name="ths_pharmacy_shipping_fragment_name">Pharmacy &amp; Shipping</string>
+    <string name="ths_pharmacy_list_fragment_name">Pharmacy</string>
+    <string name="ths_search_pharmacy_fragment_name">Your pharmacy</string>
+    <string name="ths_shipping_address_fragment_name">Ship prescription to</string>
+    <string name="ths_pharmacy_search_label">Which pharmacy should we send prescriptions to</string>
+    <string name="ths_pharmacy_search_edittext_hint">Type location or zip code</string>
+    <string name="ths_pharmacy_medications_sent_to_text">Medications will be shipped to</string>
     <string name="ths_pharmacy_prescriptions_sent_to">Prescriptions will be sent to</string>
     <string name="ths_continue_button_text">Continue</string>
     <string name="ths_pharmacy_phone_text">phone: </string>
@@ -99,6 +102,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     //Shipping address layout strings
     <string name="ths_address_shipping_address_string">Shipping address</string>
+    <string name="ths_payment_billing_address_string">Billing address</string>
     <string name="ths_address_address_line_one">Address line 1</string>
     <string name="ths_address_enter_first_address_line">Enter first address line</string>
     <string name="ths_address_address_line_two">Address line 2</string>
@@ -107,19 +111,21 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_address_enter_town_city">Enter your town or city</string>
     <string name="ths_address_postal_code_string">Postal code</string>
     <string name="ths_address_state_string">State</string>
-    <string name="ths_ok_continue_button_string">Ok,continue</string>
+    <string name="ths_ok_continue_button_string">Ok, continue</string>
     <string name="ths_address_validation_empty_string">Address line cannot be empty</string>
-    <string name="ths_address_validation_length_string">Address should contain between 2 and 25 characters</string>
-    <string name="ths_address_validation_city_empty_string">City cannot be empty</string>
-    <string name="ths_address_validation_city_length_string">City should contain between 2 and 25 characters</string>
+    <string name="ths_address_validation_length_string">Address should contain at least 2 characters</string>
+    <string name="ths_address_validation_length__max_string">Address should contain maximum 25 characters</string>
+    <string name="ths_address_validation_city_empty_string">City should contain at least 2 characters</string>
+    <string name="ths_address_validation_city_length_string">City should contain at least 2 characters</string>
+    <string name="ths_address_validation_city_length_max_string">City should contain maximum 25 characters</string>
     <string name="ths_address_billing_address_string">Billing Address</string>
 
     //Provider list screens strings
-    <string name="provider_available">Available now</string>
-    <string name="provider_offline">Schedule appointment</string>
-    <string name="provider_available_timeslots">Available timeslots</string>
-    <string name="provider_busy">Patient waiting</string>
-    <string name="provider_list_title">See a provider</string>
+    <string name="ths_provider_available">Available now</string>
+    <string name="ths_provider_offline">Schedule appointment</string>
+    <string name="ths_provider_available_timeslots">Available timeslots</string>
+    <string name="ths_provider_busy">Patient waiting</string>
+    <string name="ths_provider_list_title">See a provider</string>
     <string name="ths_provider_list_header_text_one">See the first available provider</string>
     <string name="ths_provider_list_header_text_two">See a provider for an online visit, at your convenience</string>
     <string name="ths_provider_pick_provider_text">Or pick one of these providers</string>
@@ -130,38 +136,37 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_choose_area_of_medicine_content">Select an area of medicine that is relevant to the reason of the visit. For example, if you have problems with breastfeeding,please choose lactation specialist</string>
     <!-- Registration constants-->
     <string name="ths_detail">Details</string>
-    <string name="ths_location">Location</string>
-    <string name="ths_more_details">In order to provide the best experience, Philips will share the data below with Amwell</string>
+    <string name="ths_location">State of residence</string>
+    <string name="ths_more_details">In order to provide the best experience, Philips will share the data below with Amwell. Make sure the details you enter below correspond with the insurance details, if applicable.</string>
     <string name="ths_first_name">First name</string>
     <string name="ths_last_name">Last name</string>
-    <string name="ths_dob">Your date of birth</string>
+    <string name="ths_dob">Birth date</string>
     <string name="ths_inline_error_message">Error</string>
     <string name="ths_gender">Gender</string>
     <string name="ths_state">State</string>
     <string name="ths_female">Female</string>
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
-    <string name="ths_your_details">"Your details"</string>
+    <string name="ths_your_details">Patient details</string>
     <string name="ths_male_">Male</string>
     <string name="ths_first_name_validation">Enter first name</string>
     <string name="ths_last_name_validation">Enter last name</string>
     <string name="ths_dob_validation">Enter date of birth</string>
     <string name="ths_gender_validation">Select a gender</string>
     <string name="ths_state_validation">Select a state</string>
-
-    <string name="cvv_explaination">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
+    <string name="ths_dependant_email_address_title">Email address</string>
+    <string name="ths_cvv_explanation">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
     <string name="ths_no_insurance">"You currently don't have any insurance saved. Please add an insurance."</string>
     <string name="ths_no_payment_method">"You currently don't have any payment methods saved. Please add a payment method."</string>
 
 
     <!-- Settings Strings -->
-    <string name="ths_number_of_visits_scheduled">You have <xliff:g name="count">%d</xliff:g> scheduled visits</string>
-    <string name="ths_number_of_visits_report">You have <xliff:g name="count">%d</xliff:g> visit report</string>
+    <string name="ths_number_of_visits_scheduled"><xliff:g name="count">%d</xliff:g> scheduled appointment(s)</string>
+    <string name="ths_number_of_visits_report"><xliff:g name="count">%d</xliff:g> visit report(s)</string>
     <string name="ths_cancel_visit">Cancel visit</string>
     <string name="ths_start_visit">Start your visit</string>
     <string name="ths_appointment_start_time">Your appointment at <xliff:g name="count">%s</xliff:g> is about to begin</string>
     <string name="ths_appointment_visit_better">Make your visit better!</string>
-    <string name="visit_history">Visit History</string>
     <string name="ths_visit_summary">Visit Summary</string>
     <string name="ths_credit_card_charge">Your credit card was charged </string>
     <string name="ths_visit_report">Your Visit Report</string>
@@ -173,7 +178,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_appointment_fill_details">Before you see the provider, you will need to fill in some details. The Provider uses these details to make a diagnosis quicker and help you more efficiently.</string>
 
     <!-- Set Reminder Dialog text strings -->
-    <string name="ths_rb_no_reminder">No Reminder</string>
+    <string name="ths_rb_no_reminder">No reminder</string>
     <string name="ths_rb_15_mins_reminder">15 minutes before</string>
     <string name="ths_rb_one_hour_before">1 hour before</string>
     <string name="ths_rb_four_hours_before">4 hours before</string>
@@ -195,16 +200,18 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_this_services_is_provided_by">This service is provided by</string>
     <string name="ths_see_doctor">Go see a provider</string>
     <string name="ths_appointments">Appointments</string>
+    <string name="ths_upcoming_appointments">Upcoming appointments</string>
+    <string name="ths_my_details">My details</string>
     <string name="ths_visit_history">Visit history</string>
     <string name="ths_how_it_works">How it works</string>
     <string name="ths_customer_support">Customer support</string>
     <string name="ths_customer_support_can_we_help_you_with_something">Can we help you with something?</string>
     <string name="ths_customer_support_call_or_mail">If you need any assistance you can call or mail the amwell support team.</string>
     <string name="ths_customer_support_for_support">For support:</string>
+    <string name="ths_call">Call</string>
     <string name="ths_customer_support_phone_number">800-552-4111</string>
     <string name="ths_customer_support_mail">ugrow.support@americanwell.com</string>
     <string name="ths_loading_text">Loading...</string>
-
     <string name="ths_welcome">Welcome</string>
     <string name="ths_welcome_back">Welcome back</string>
     <string name="ths_refresh_signon_failed">Refresh Signon failed. Please logout and login again</string>
@@ -215,23 +222,24 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_ill_wait_in_line_button_text">I\'ll wait in line</string>
 
     <!-- Available provider strings-->
-    <string name="ths_available_location_specialists_string">available location specialist(s)</string>
+    <string name="ths_available_location_specialists_string">available specialist(s)</string>
     <string name="ths_available_time_slots_text">Available time slots</string>
     <string name="ths_provider_fetch_error">Provider fetch error</string>
-    <string name="ths_provider_fetch_error_text">No providers are available for selected practice</string>
-
+    <string name="ths_provider_fetch_error_text">No Doctors available for consultation. Please try after sometime</string>
 
 
     <string name="ths_download_report_privacy_notice_text_body">You can download and share this visit report with anyone you like. Amwell does not control or protect privacy of your report when you share it.</string>
     <string name="ths_download_report_hippa_notice_link_text">Read the %1$s here</string>
-    <string name="hippa_notice">HIPPA notice</string>
-    <string name="ths_visit_summary_report_info">Your visit report will be available shorlty. You will see it in your visit history soon.</string>
+    <string name="ths_hippa_notice">HIPAA notice</string>
+    <string name="ths_visit_summary_report_info">Your visit report will be available shortly. You will see it in your visit history soon.</string>
+    <string name="ths_download_visit_report_button">Ok, I understand</string>
+    <string name="ths_privacy_notice_title">Privacy notice</string>
 
 
     <!-- Insurance fragment strings-->
     <string name="ths_insurance">Insurance</string>
     <string name="ths_not_insurance">No insurance</string>
-    <string name="ths_insurancep_confirmation_situation">To give an accurate cost estimation, we need to know your insurance situation</string>
+    <string name="ths_insurancep_confirmation_situation">To give an accurate cost calculation, we need to know your insurance situation</string>
     <string name="ths_insurance_confirmation_chosse_situation">Choose one of these options:</string>
     <string name="ths_insurance_confirmation_radio_option_yes">I have insurance</string>
     <string name="ths_insurance_confirmation_radio_option_no">I do not have insurance</string>
@@ -246,14 +254,22 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_insurance_dob">Date of Birth</string>
     <string name="ths_insurance_dob_hint">DD/MM/YYYY</string>
     <string name="ths_insurance_plan_not_listed">My plan is not listed. Skip this</string>
-    <string name="ths_insurance_confirm_cancel_visit">Do you really want to cancel your visit</string>
-    <string name="ths_insurance_visit_shall_be_cancelled">Your visit shall be cancelled</string>
+    <string name="ths_insurance_confirm_cancel_visit">Do you really want to cancel your visit?</string>
+    <string name="ths_insurance_visit_shall_be_cancelled">You will go back to start and leave the waiting room.</string>
     <string name="ths_insurance_yes_cancel_visit">Yes, cancel my visit</string>
     <string name="ths_insurance_no_continue_waiting">No, continue waiting</string>
-    <string name="ths_insurance_please_select_insurance">Please select an Insurance</string>
-    <string name="ths_insurance_fields_required">Field(s) Required</string>
 
+    <string name="ths_appointment_confirm_cancel_visit">Do you really want to cancel this appointment?</string>
+    <string name="ths_appointment_shall_be_cancelled">You will go back to start and leave the waiting room.</string>
+    <string name="ths_appointment_yes_cancel_appointment">Yes, cancel appointment</string>
+    <string name="ths_appointment_no_cancel_appointment">No, do not cancel</string>
+    <string name="ths_appointment_cancelled">Your appointment has been cancelled.</string>
+    <string name="ths_appointment_cancelled_help">Do you need any assistance?</string>
+    <string name="ths_appointment_cancelled_goto_start">Done</string>
 
+    <string name="ths_insurance_please_select_insurance">Please select a health plan to continue</string>
+    <string name="ths_insurance_fields_required">Please enter all details to continue</string>
+    <string name="ths_insurance_invalid_subscription_info">Invalid Subscription Info</string>
 
     <!-- Payment fragment strings-->
     <string name="ths_payment_method">Payment Method</string>
@@ -277,24 +293,33 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Insurance screen strings -->
     <string name="ths_insurance_not_verified_confirm_title">Health insurance not verified</string>
-    <string name="ths_insurance_not_verified_confirm_message">We could not verify your health insurance information. Please confirm that your Name, Health Plan and Subscription ID match your insurance card exactly.\n\nIf you skip this step, the cost of your visit may increase.\n\nQuestions? Contact Customer Support (855) 818-DOCS </string>
+    <string name="ths_insurance_not_verified_confirm_message">We could not verify your health insurance information. Please confirm that your Name, Health Plan and Subscriber ID match your insurance card exactly.\n\nIf you skip this step, the cost of your visit may increase.\n\nQuestions? Contact Customer Support at 800-552-4111 </string>
     <string name="ths_ok">Ok</string>
     <string name="ths_insurance_not_verified_confirm_secondary_button_label_text">Try again</string>
 
+
     <!-- Match making screen strings -->
-    <string name="ths_matchmaking_progressbar_meesage_parent_text">We\'re finding right provider for your visit \n%1$s</string>
-    <string name="ths_matchmaking_progressbar_meesage_child_text">This may take few minutes</string>
-    <string name="ths_matchmaking_error_text">No provider is available right now</string>
-    <string name="ths_matchmaking_no_provider_available_text">No OnDemandSpecialities available at present, please try after some time</string>
+    <string name="ths_matchmaking_progressbar_message_parent_text">We\'re finding the right \nprovider for your visit</string>
+    <string name="ths_matchmaking_progressbar_message_child_text">This may take few minutes</string>
+    <string name="ths_matchmaking_error_text">Sorry, we couldn\'t find the Doctor for immediate consultation. Please try after sometime</string>
+    <string name="ths_matchmaking_provider_not_supplied">Provider not supplied</string>
+    <string name="ths_matchmaking_no_provider_available_text">Sorry, we couldn\'t find the Doctor for immediate consultation. Please try after sometime</string>
     <string name="ths_valid_credit_card">Credit card is valid</string>
     <string name="ths_not_valid_credit_card">Credit card is not valid</string>
+    <string name="ths_not_valid_credit_card_number">Please enter correct card number</string>
+    <string name="ths_not_valid_CVV_number">Please enter correct CVV number</string>
+    <string name="ths_not_valid_card_name">Please enter correct name</string>
+    <string name="ths_not_valid_address1">Please enter valid address</string>
 
     <!-- Cost summary fragment strings-->
     <string name="ths_cost_summary_enter_promotion_code">Enter a promotion code here</string>
     <string name="ths_cost_summary_provider_apply">Apply</string>
     <string name="ths_cost_summary_provider_logged_out">Provider is offline</string>
-    <string name="ths_cost_summary_coupon_code_empty">Coupon code is empty</string>
-    <string name="ths_cost_summary_coupon_code_invalid">Coupon code is invalid</string>
+    <string name="ths_cost_summary_coupon_code_empty">Enter a valid coupon code to continue</string>
+    <string name="ths_cost_summary_coupon_code_invalid">Please enter a valid voucher code</string>
+    <string name="ths_cost_summary_coupon_code_already_applied">Coupon code already applied</string>
+    <string name="ths_cost_summary_coupon_code_illegal_exception">the visit already has a coupon code</string>
+    <string name="ths_cost_summary_fragment_name">Cost</string>
 
     <!-- Cost summary screen strings -->
     <string name="ths_cost_summary_initial_Full_cover_cost">Initial visit cost : %1$s Your insurance / promocode covers the cost of the visit.</string>
@@ -309,95 +334,95 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_video_consults">Video consults in just minutes, right on your smartphone \n<u>See how it works</u></string>
     <string name="ths_service_provider">This service is provided by</string>
     <string name="ths_go_see_provider">Go see a provider</string>
-    <string name="ths_amwell_philips_licence">All providers are licenced and working under \n<u>Amwell terms &amp; conditions</u></string>
+    <string name="ths_amwell_philips_licence">All providers are licensed and working under \n<u>Amwell terms &amp; conditions</u></string>
     <string name="ths_see_provider_pre_welcome">See <b>a provider online,</b> anytime</string>
     <string name="ths_terms_and_conditions">Terms and conditions</string>
     <string name="ths_agree_continue">Agree &amp; continue</string>
+    <string name="ths_share_email_text_string">Philips will share your email address with Amwell.</string>
 
     <!-- Match making fragment strings-->
     <string name="ths_matchmaking_ok_button">Ok</string>
     <string name="ths_matchmaking_error">Error</string>
     <string name="ths_matchmaking_error_cancelling">Error while cancelling match making</string>All fields are mandatory
-    <string name="ths_error_all_fields_mandatory">All fields are mandatory</string>
-    <string name="ths_error_cc_expiry_date_detail_not_valid">Invalid expiration date</string>
+    <string name="ths_error_all_fields_mandatory">Please enter all details</string>
+    <string name="ths_error_cc_expiry_date_detail_not_valid">Please enter valid expiry date</string>
     <string name="ths_matchmaking_found_matchmaking">We have found a provider for your visit</string>
 
     <!-- Registration Screen-->
-    <string name="something_went_wrong">Something went wrong !!!</string>
-    <string name="validation_failed">Validation Failed  - </string>
+    <string name="ths_something_went_wrong">Something went wrong !!!</string>
+    <string name="ths_validation_failed">Validation Failed  - </string>
 
     <!-- Generic -->
     <string name="ths_user_not_logged_in">Please login into the Philips app</string>
-    <string name="early_for_appointment">You have more than 15 minutes still remaining for the visit</string>
-    <string name="late_for_appointment">late for the appointment. Please schedule the appointment again for consultation</string>
+    <string name="ths_early_for_appointment">You have more than 15 minutes still remaining for the visit</string>
+    <string name="ths_late_for_appointment">late for the appointment. Please schedule the appointment again for consultation</string>
     <string name="ths_appointment_invalid_reminder">Invalid reminder option selected</string>
     <string name="ths_user_not_authenticated">Authentication Failed!! Try again later.</string>
-
+    <string name="ths_user_enter_state">Enter your state</string>
+    <string name="ths_service_available_only_in_us">This service is available only in US</string>
 
     <!-- Dependent-->
     <string name="ths_visit_for">Who is this visit for?</string>
-    <string name="ths_select_name">Select the name of the person who needs the consult. For instance, if you are a mother and your baby has an ear ache, choose your baby\'s name.</string>
+    <string name="ths_select_name">Please select the person who needs the consult. For instance, if you are the parent and your child has an ear-ache, select \'your child\'.</string>
+
     <string name="ths_select_patient">Select patient</string>
     <string name="ths_select_patient_detail_appointment_text">Please select a patient from which you would like to see the scheduled visits.</string>
     <string name="ths_select_patient_detail_visit_text">Please select a patient from which you would like to see the visit history.</string>
 
     <!--Waiting Room String -->
-
     <string name="ths_waiting_room_you_are_waiting_to_see">You are waiting to see</string>
-    <string name="visit_not_successful"> Your visit was not successful.</string>
+    <string name="ths_visit_not_successful"> Your visit was not successful.</string>
     <string name="ths_internet_disconnected_message">Oops! Please check your network connection</string>
-    <string name="ths_se_server_error_toast_message">"Oops! Something went wrong, please try after sometime"</string>
+    <string name="ths_se_server_error_toast_message">"Something went wrong, please try after sometime"</string>
     <string name="ths_delete_success_string">Delete success</string>
     <string name="ths_cancel_visit_string">Cancel visit</string>
-
-
+    <string name="ths_waiting_room_your_next_in_line">You\'re next in line</string>
+    <string name="ths_waiting_room_patients_waiting">patients waiting</string>
+    <string name="ths_waiting_room_patient_waiting">patient waiting</string>
+    <string name="ths_waiting_room_cancelling_waiting">Cancelling Visit</string>
+    <string name="ths_patient_waiting_do_not_leave_text">Please, do not leave this screen or you might lose your spot in the waiting line</string>
 
 
     <!-- Registration validation strings -->
     <string name="ths_registration_first_name_validation_not_empty">First Name cannot be blank</string>
     <string name="ths_registration_first_name_validation_not_more_two_characters">First Name should contain at least 2 characters</string>
-    <string name="ths_registration_first_name_validation_only_alphabets">First Name should contain only alphanumerics</string>
-    <string name="ths_registration_first_name_validation_not_more_than_25_characters">First Name should be less than 25 characters</string>
+    <string name="ths_registration_first_name_validation_only_alphabets">First Name can contain only alphabets and numbers</string>
+    <string name="ths_registration_first_name_validation_not_more_than_25_characters">First Name should not contain more than 25 characters</string>
     <string name="ths_registration_last_name_validation_not_empty">Last Name cannot be blank</string>
     <string name="ths_registration_last_name_validation_not_more_two_characters">Last Name should contain at least 2 characters</string>
-    <string name="ths_registration_last_name_validation_only_alphabets">Last Name should contain only alphanumerics</string>
-    <string name="ths_registration_last_name_validation_not_more_than_25_characters">Last Name should be less than 25 characters</string>
+    <string name="ths_registration_last_name_validation_only_alphabets">Last Name can contain only alphabets and numbers</string>
+    <string name="ths_registration_last_name_validation_not_more_than_25_characters">Last Name should not contain more than 25 characters</string>
     <string name="ths_registration_dob_validation_error">Please enter the age above 18 years</string>
     <string name="ths_registration_location_validation_error">Please select a location</string>
 
     <!-- Vitals validation strings -->
     <string name="ths_vitals_systolic_error">Enter values between 1 and 250,systolic value should be more than diastolic</string>
     <string name="ths_vitals_diastolic_error">Diastolic pressure can\'t be greater or equal than Systolic</string>
-    <string name="ths_vitals_diastolic_error_range">Blood pressure should be between 0 and 250</string>
-    <string name="ths_vitals_weight_error">Enter values between 0 and 500</string>
-    <string name="ths_vitals_temperature_error">Enter values between 60 and 120</string>
+    <string name="ths_vitals_diastolic_error_range">Blood pressure should be between 0 to 250</string>
+    <string name="ths_vitals_weight_error">Weight should be between 0 and 500</string>
+    <string name="ths_vitals_temperature_error">Temperature should be between 60 and 120 \u2109</string>
     <string name="ths_pharmacy_search_hint">Type zip code</string>
     <string name="ths_vitals_enter_bp_field_error">Please enter both blood pressure parameters</string>
-    <string name="ths_pharmacy_search_error">Please enter a valid zip code in the format 12345 or 12345–6789</string>
-    <string name="show_all"><u>Show all</u></string>
-    <string name="show_less"><u>Show less</u></string>
+    <string name="ths_pharmacy_search_error">Please enter a valid 5 digit zip code</string>
+    <string name="ths_show_all"><u>Show all</u></string>
+    <string name="ths_show_less"><u>Show less</u></string>
 
     <!-- Dependent Strings -->
     <string name="ths_dependent_name">Selected patient: <xliff:g name="count">%s</xliff:g> </string>
 
     <!-- OnBoarding Screen -->
-    <string name="take_tour">Take a tour</string>
-    <string name="skip">Skip</string>
-    <string name="done">Done</string>
-
-    <string name="onboarding_one_text">Filling in your information only takes a few steps and is done in a couple of minutes.\n\nYour information is then stored securely for all future online visits.</string>
-    <string name="onboarding_two_text">Choose the doctor that works for you. We’ll show you list of available doctors, their experience and ratings before starting your visit.</string>
-    <string name="onboarding_three_text">Our mobile app visits use secure, high-quality streaming video. See and speak with a doctor 24 hours a day form home or on the go.</string>
-    <string name="onboarding_four_text">During or after a visit provides can send prescriptions and recommendations for over-the-counter medications to a pharmacy of your choice.</string>
-
-    <string name="onboarding_tour_header">See <b>a provider online,</b> anytime</string>
-
-    <string name="onboarding_tour_video_consults">Video consults in just minutes, right on your smart phone.</string>
-    <string name="onboarding_tour_service_is_provided">This service is provided by</string>
-    <string name="onboarding_tour_curious">Curious how it works?</string>
-
-
-    <string name="initialization_failed"><u>Initialization failed</u></string>
+    <string name="ths_take_tour">Take a tour</string>
+    <string name="ths_skip">Skip</string>
+    <string name="ths_done">Done</string>
+    <string name="ths_onboarding_one_text">To get the most out of your consult, we\'ll need some information. This is then stored securely for any future visits.</string>
+    <string name="ths_onboarding_two_text">Experienced doctors with various medical backgrounds mean you can choose a consultation most relevant to your questions.</string>
+    <string name="ths_onboarding_three_text">Your doctor may be authorized to prescribe medication, which can be sent to an address of your choice. Save yourself a trip to the pharmacy!</string>
+    <string name="ths_onboarding_four_text">All online consultations are secure, and use high-quality streaming.</string>
+    <string name="ths_onboarding_tour_header">See <b>a provider online,</b> anytime</string>
+    <string name="ths_onboarding_tour_video_consults">Video consults in just minutes, right on your smart phone.</string>
+    <string name="ths_onboarding_tour_service_is_provided">This service is provided by</string>
+    <string name="ths_onboarding_tour_curious">Curious how it works?</string>
+    <string name="ths_initialization_failed"><u>Initialization failed</u></string>
 
     <!-- visit Strings -->
     <string name="ths_visit_summary_conclude_visit_with">This concludes your visit with</string>
@@ -425,4 +450,64 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Credit card details strings -->
     <string name="ths_credit_card_details_whats_this_text">What\'s this?</string>
+    <string name="ths_credit_card_details_information">Credit card information</string>
+    <string name="ths_credit_card_details_name">Name</string>
+    <string name="ths_credit_card_details_owners_name">Enter card owner\'s name</string>
+    <string name="ths_credit_card_details_card_number">Card Number</string>
+    <string name="ths_credit_card_details_expiration_date">Expiration Date</string>
+    <string name="ths_credit_card_details_expiry_month"> MM </string>
+    <string name="ths_credit_card_details_slash"> / </string>
+    <string name="ths_credit_card_details_expiry_year"> YYYY </string>
+    <string name="ths_credit_card_details_cvc_code">CVC Code</string>
+    <string name="ths_credit_card_details_000"> 000 </string>
+    <string name="ths_credit_card_details_fragment_name">Payment method</string>
+    <string name="ths_credit_card_details_address_same_as_shipping_address">Use my shipping address as billing address</string>
+
+    <string name="ths_credit_card_details_consumer_name_error_string">Please enter correct name</string>
+    <string name="ths_credit_card_details_card_number_error_string">Please enter correct card number</string>
+    <string name="ths_credit_card_details_exp_month_error_string">Please enter valid expiry date</string>
+    <string name="ths_credit_card_details_exp_year_error_string">Please enter valid expiry date</string>
+    <string name="ths_credit_card_details_cvv_error_string">Please enter correct CVV number</string>
+    <string name="ths_credit_card_details_address_error_string">Please enter valid address</string>
+
+    <!-- Visit summary -->
+    <string name="ths_prescription_sent_to_label">Your prescription was sent to</string>
+
+
+    <!-- SDK specific error strings -->
+    <string name="ths_on_demand_provider_unavailable">onDemand provider unavailable</string>
+    <string name="ths_privacy_disclaimer_missing">Privacy disclaimer missing</string>
+    <string name="ths_customer_underage">Customer underage</string>
+    <string name="ths_email_already_in_use">Email is already in use</string>
+    <string name="ths_search_string_less_than_three_chars">Search string less than 3 chars</string>
+    <string name="ths_improper_format_latitude">Improperly formatted longitude and/or latitude</string>
+    <string name="ths_improper_radius_format">Improperly formatted value for radius</string>
+    <string name="ths_primary_pharmacy_not_found">Primary pharmacy not found</string>
+    <string name="ths_credit_card_missing">Credit card missing</string>
+    <string name="ths_invalid_coupon_code">Enter a valid coupon code to continue</string>
+    <string name="ths_provider_not_available">Provider not available</string>
+    <string name="ths_provider_not_accepting_waiting_consumer">Provider does not accept waiting room requests from consumer</string>
+    <string name="ths_provider_not_licensed">Provider is not licensed for consumer’s state</string>
+    <string name="ths_invalid_credit_card">Credit card is not valid</string>
+    <string name="ths_invalid_cvv_number">Please enter correct CVV numberr</string>
+    <string name="ths_credit_card_declined">Credit card declined</string>
+    <string name="ths_invalid_zip_number">Invalid zip number</string>
+    <string name="ths_residency_check_failed">Credit card residency check failed</string>
+    <string name="ths_slot_no_longer_available">This appointment slot is no longer available.  Please select a new time</string>
+    <string name="ths_consumer_already_active">The consumer is already active in a visit. End the active visit and try again</string>
+    <string name="ths_invalid_parameter">You have entered an incorrect detail. Please try again.</string>
+
+    <!--GDPR Consent-->
+    <string name="ths_location_consent_fragment_title">Location Consent</string>
+    <string name="ths_location_consent_title">I allow &quot;Amwell&quot; to access my location data to \'Find Pharmacies near you\'</string>
+    <string name="ths_location_consent_help">When you allow access to location data, we may collect the geographic location of your mobile device.
+
+When you make use of the \'Find Pharmacies\' functionality, you are requested to share your location data with Amwell. If you use our location features, based on your location data, the pharmacies near you will be shown.</string>
+    <string name="ths_location_consent_accept">Allow</string>
+    <string name="ths_location_consent_reject">Don\'t Allow</string>
+
+    <!-- Save Details -->
+    <string name="ths_save">Save</string>
+    <string name="ths_edit_details">Edit details</string>
+    <string name="ths_edit_detail_list">Please select the person for which you would like to view or edit details</string>
 </resources>

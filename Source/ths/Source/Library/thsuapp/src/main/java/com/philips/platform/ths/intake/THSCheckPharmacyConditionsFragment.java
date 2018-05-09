@@ -9,6 +9,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -53,6 +54,9 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
     private static final long INTERVAL = 1000 * 10;
     private static final long FASTEST_INTERVAL = 1000 * 5;
+    private static final long TIMEOUT = 1000 * 15;
+    static final long serialVersionUID = 46L;
+    private Handler timeoutHandler;
 
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
@@ -60,12 +64,18 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     Intent gpsSettingsIntent;
     private AlertDialogFragment alertDialogFragment;
     private RelativeLayout relativeLayout;
+    private boolean isPharmacyCheckRequired = false;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setMaxWaitTime(TIMEOUT);
+    }
+
+    public void setPharmacyCheckRequired(boolean isPharmacyCheckRequired){
+        this.isPharmacyCheckRequired = isPharmacyCheckRequired;
     }
 
 
@@ -84,6 +94,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         if (!isGooglePlayServicesAvailable()) {
             getActivity().finish();
         }
+        timeoutHandler =  new Handler();
         createLocationRequest();
         if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -92,7 +103,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                     .addOnConnectionFailedListener(this)
                     .build();
         }
-        thscheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(this);
+        thscheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(this, getActionBarListener());
     }
 
     private boolean isGooglePlayServicesAvailable() {
@@ -143,19 +154,23 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void checkIfPharmacyRequired() {
-        boolean isPharmacyRequired = THSManager.getInstance().getPthVisitContext().isCanPrescribe();
-        if (isPharmacyRequired) {
-            thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
-        } else {  // go to insurance or cost detail
-            Consumer consumer = THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
-            getActivity().getSupportFragmentManager().popBackStack();
-            if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
-                final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-                addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
-            } else {
-                final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-                addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+        if(isPharmacyCheckRequired) {
+            boolean isPharmacyRequired = THSManager.getInstance().getPthVisitContext().isCanPrescribe();
+            if (isPharmacyRequired) {
+                thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
+            } else {  // go to insurance or cost detail
+                Consumer consumer = THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
+                getActivity().getSupportFragmentManager().popBackStack();
+                if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
+                    final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+                    addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
+                } else {
+                    final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
+                    addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+                }
             }
+        }else {
+            thscheckPharmacyConditionsPresenter.checkForConsent();
         }
     }
 
@@ -195,15 +210,16 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
      *  The crash was only in android 6 (Marshmallow) devices. Only way to handle the crash was to spawn a new thread and then post the runnable
      *  on UI thread.
      */
-    private void showPharmacySearch() {
+    public void showPharmacySearch() {
         hideProgressBar();
-        if (isFragmentAttached()) {
+        if (null != getActivity() && null != getContext()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //THSCheckPharmacyConditionsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE
                             getActivity().getSupportFragmentManager().popBackStack();
                             THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
                             addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
@@ -227,6 +243,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
     @Override
     public void onLocationChanged(Location location) {
+        timeoutHandler.removeCallbacks(timeoutHandlerRunnable);
         FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         AmwellLog.d(TAG, "Firing onLocationChanged...... ::: Lat: " + location.getLatitude() + "Log:::: " + location.getLongitude());
         mCurrentLocation = location;
@@ -247,6 +264,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
         if (checkIfGPSProviderAvailable()) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            timeoutHandler.postDelayed(timeoutHandlerRunnable , TIMEOUT);
 
         } else {
             showNoGpsDialog();
@@ -267,7 +285,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                                 alertDialogFragment.dismiss();
                                 launchLocationSettings();
                             }
-                        }).setNegativeButton(R.string.cancel, new View.OnClickListener() {
+                        }).setNegativeButton(R.string.ths_cancel, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 alertDialogFragment.dismiss();
@@ -327,6 +345,13 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             AmwellLog.d(TAG, "Location update resumed .....................");
         }
     }
+
+    protected final Runnable timeoutHandlerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            showPharmacySearch();
+        }
+    };
 
 
 }

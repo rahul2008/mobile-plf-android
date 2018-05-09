@@ -18,6 +18,7 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.platform.uid.view.widget.ProgressBar;
@@ -27,28 +28,22 @@ public abstract class WebFragment extends InAppBaseFragment {
     public static final String TAG = WebFragment.class.getName();
     protected WebView mWebView;
     private String mUrl;
-    private ProgressBar mProgress;
-    private boolean mShowProgressBar = true;
-
+    private RelativeLayout mParentContainer;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
-
+        mParentContainer = (RelativeLayout) viewGroup.findViewById(R.id.iap_web_container);
         mWebView = (WebView) viewGroup.findViewById(R.id.wv_payment);
         mWebView.setWebViewClient(new IAPWebViewClient());
         mWebView.getSettings().setJavaScriptEnabled(false);
 
-        mProgress = createCustomProgressBar(viewGroup,MEDIUM);
-        mProgress.setVisibility(View.GONE);
+        createCustomProgressBar(mParentContainer,BIG);
 
         mUrl = getWebUrl();
         return viewGroup;
     }
 
-    void initProgressBar(){
-
-    }
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -96,18 +91,19 @@ public abstract class WebFragment extends InAppBaseFragment {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            mProgress.setVisibility(View.VISIBLE);
             super.onPageStarted(view, url, favicon);
         }
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            super.onReceivedSslError(view,handler,error);
             handler.proceed(); // Ignore SSL certificate errors
         }
 
         @SuppressWarnings("deprecation")
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            hideProgressBar();
         }
 
         @TargetApi(android.os.Build.VERSION_CODES.M)
@@ -123,10 +119,7 @@ public abstract class WebFragment extends InAppBaseFragment {
 
         @Override
         public void onPageFinished(final WebView view, final String url) {
-            if (mProgress != null && mShowProgressBar) {
-                mShowProgressBar = false;
-                mProgress.setVisibility(View.GONE);
-            }
+            hideProgressBar();
             super.onPageFinished(view, url);
         }
     }

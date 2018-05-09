@@ -122,7 +122,7 @@ public class SHNInternalScanRequestTest {
         shnInternalScanRequest.scanningStarted(scannerMock, handlerMock);
         shnInternalScanRequest.onDeviceFound(bleDeviceFoundInfo);
 
-        verify(scannerListenerMock).deviceFound(any(SHNDeviceScanner.class), isA(SHNDeviceFoundInfo.class));
+        verify(scannerListenerMock).deviceFound((SHNDeviceScanner) any(), isA(SHNDeviceFoundInfo.class));
     }
 
     @Test

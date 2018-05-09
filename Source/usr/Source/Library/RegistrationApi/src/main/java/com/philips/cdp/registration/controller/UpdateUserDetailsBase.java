@@ -29,6 +29,8 @@ public class UpdateUserDetailsBase implements
         UpdateUser.UpdateUserListener, RefreshLoginSessionHandler {
 
 
+    private String TAG = UpdateUserDetailsBase.class.getSimpleName();
+
     protected UpdateUserDetailsHandler mUpdateUserDetails;
 
     protected Context mContext;
@@ -38,31 +40,40 @@ public class UpdateUserDetailsBase implements
 
     protected JanrainInitializer mJanrainInitializer;
 
+    UpdateUserDetailsBase(Context mContext) {
+        this.mContext = mContext;
+    }
+
 
     protected void performActualUpdate() {
+        //NOP
     }
 
     protected void performLocalUpdate() {
         if (null != mUpdatedUserdata)
-            mUpdatedUserdata.saveToDisk(mContext);
+            RLog.d(TAG, "performLocalUpdate : performLocalUpdate to save to disk");
+        mUpdatedUserdata.saveToDisk(mContext);
     }
 
     @Override
     public void onJanrainInitializeSuccess() {
+        RLog.d(TAG, "onJanrainInitializeSuccess : performActualUpdate");
         performActualUpdate();
     }
 
     @Override
     public void onJanrainInitializeFailed() {
         if (null != mUpdateUserDetails)
-            ThreadUtils.postInMainThread(mContext,()->
-            mUpdateUserDetails
-                    .onUpdateFailedWithError(-1));
+            RLog.e(TAG, "onJanrainInitializeFailed : onUpdateFailedWithError");
+        ThreadUtils.postInMainThread(mContext, () ->
+                mUpdateUserDetails
+                        .onUpdateFailedWithError(-1));
 
     }
 
     @Override
     public boolean isJanrainInitializeRequired() {
+        RLog.d(TAG, "isJanrainInitializeRequired : mJanrainInitializer.isJanrainInitializeRequired()");
         return mJanrainInitializer.isJanrainInitializeRequired();
     }
 
@@ -70,18 +81,19 @@ public class UpdateUserDetailsBase implements
     public void onUserUpdateSuccess() {
         performLocalUpdate();
         if (null != mUpdateUserDetails)
-            ThreadUtils.postInMainThread(mContext,()->
-            mUpdateUserDetails.onUpdateSuccess());
+            RLog.d(TAG, "onUserUpdateSuccess : mUpdateUserDetails.onUpdateSuccess");
+        ThreadUtils.postInMainThread(mContext, () ->
+                mUpdateUserDetails.onUpdateSuccess());
     }
 
     @Override
     public void onUserUpdateFailed(int error) {
-        RLog.d("Error", "Error" + error);
+        RLog.e(TAG, "Error onUserUpdateFailed" + error);
         if (error == -1) {
             if (null != mUpdateUserDetails) {
-                ThreadUtils.postInMainThread(mContext,()->
-                mUpdateUserDetails
-                        .onUpdateFailedWithError(-1));
+                ThreadUtils.postInMainThread(mContext, () ->
+                        mUpdateUserDetails
+                                .onUpdateFailedWithError(-1));
             }
             return;
         }
@@ -91,9 +103,9 @@ public class UpdateUserDetailsBase implements
             user.refreshLoginSession(this);
             return;
         }
-        ThreadUtils.postInMainThread(mContext,()->
-        mUpdateUserDetails
-                .onUpdateFailedWithError(error));
+        ThreadUtils.postInMainThread(mContext, () ->
+                mUpdateUserDetails
+                        .onUpdateFailedWithError(error));
 
     }
 
@@ -104,10 +116,12 @@ public class UpdateUserDetailsBase implements
 
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
-        if (null != mUpdateUserDetails)
-            ThreadUtils.postInMainThread(mContext,()->
-            mUpdateUserDetails
-                    .onUpdateFailedWithError(error));
+        if (null != mUpdateUserDetails) {
+            RLog.e(TAG, "onRefreshLoginSessionFailedWithError : Error onRefreshLoginSessionFailedWithError" + error);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mUpdateUserDetails
+                            .onUpdateFailedWithError(error));
+        }
     }
 
     @Override
@@ -121,11 +135,12 @@ public class UpdateUserDetailsBase implements
         try {
             CaptureRecord capturedRecord = Jump.getSignedInUser();
             if (capturedRecord == null) {
+                RLog.d(TAG, "getCurrentUserAsJsonObject : CaptureRecord loadFromDisk");
                 capturedRecord = CaptureRecord.loadFromDisk(mContext);
             }
             userData = new JSONObject(capturedRecord.toString());
         } catch (JSONException e) {
-            e.printStackTrace();
+            RLog.e(TAG, "getCurrentUserAsJsonObject: " + e.getMessage());
         }
         return userData;
     }

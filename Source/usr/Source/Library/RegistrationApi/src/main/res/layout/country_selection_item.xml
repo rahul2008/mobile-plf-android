@@ -28,6 +28,7 @@
         android:gravity="center_vertical"
         android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
         android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+        fontPath="fonts/iconfont.ttf"
         android:textSize="16dp"/>
 
 </RelativeLayout>

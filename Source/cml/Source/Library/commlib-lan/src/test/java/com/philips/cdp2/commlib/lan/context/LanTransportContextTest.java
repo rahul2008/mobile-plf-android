@@ -42,7 +42,7 @@ import static com.philips.cdp2.commlib.lan.context.LanTransportContext.rejectNew
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
@@ -236,7 +236,8 @@ public class LanTransportContextTest extends RobolectricTest {
         doAnswer(new Answer<Intent>() {
             @Override
             public Intent answer(InvocationOnMock invocation) throws Throwable {
-                invocation.getArgumentAt(0, BroadcastReceiver.class).onReceive(contextMock, null);
+                BroadcastReceiver broadcastReceiver = invocation.getArgument(0);
+                broadcastReceiver.onReceive(contextMock, null);
                 return null;
             }
         }).when(contextMock).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
@@ -261,7 +262,8 @@ public class LanTransportContextTest extends RobolectricTest {
         doAnswer(new Answer<Intent>() {
             @Override
             public Intent answer(InvocationOnMock invocation) throws Throwable {
-                invocation.getArgumentAt(0, BroadcastReceiver.class).onReceive(contextMock, null);
+                BroadcastReceiver receiver = invocation.getArgument(0);
+                receiver.onReceive(contextMock, null);
                 return null;
             }
         }).when(contextMock).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
@@ -286,7 +288,8 @@ public class LanTransportContextTest extends RobolectricTest {
         doAnswer(new Answer<Intent>() {
             @Override
             public Intent answer(InvocationOnMock invocation) throws Throwable {
-                invocation.getArgumentAt(0, BroadcastReceiver.class).onReceive(contextMock, null);
+                BroadcastReceiver receiver = invocation.getArgument(0);
+                receiver.onReceive(contextMock, null);
                 return null;
             }
         }).when(contextMock).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));

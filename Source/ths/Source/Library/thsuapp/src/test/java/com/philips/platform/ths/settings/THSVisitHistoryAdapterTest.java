@@ -129,7 +129,7 @@ public class THSVisitHistoryAdapterTest {
         customViewHolder.mLabelAppointmrntDate = labelMock;
         customViewHolder.mLabelProviderName = labelMock;
         mTHSVisitHistoryAdapter.onBindViewHolder(customViewHolder,0);
-        verify(customViewHolder.mLabelAppointmrntDate,times(2)).setText(anyString());
+        verify(customViewHolder.mLabelAppointmrntDate,times(1)).setText(anyString());
     }
 
     @Test

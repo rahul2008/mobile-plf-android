@@ -23,15 +23,17 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 
 
+import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.Other;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME;
 
+@SuppressWarnings("serial")
 public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSWelcomeFragment.class.getSimpleName();
     protected THSWelcomePresenter presenter;
     private RelativeLayout mRelativeLayoutAppointments;
-    private RelativeLayout mRelativeLayoutVisitHostory;
     private RelativeLayout mRelativeLayoutHowItWorks;
+    private RelativeLayout mRelativeLayoutDetails;
     private RelativeLayout mCustomerSupport;
     private Button mButton;
     private RelativeLayout mRelativeLayoutInitContainer;
@@ -54,22 +56,22 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
 
         mRelativeLayoutInitContainer = (RelativeLayout) view.findViewById(R.id.init_container);
         mRelativeLayoutAppointments = (RelativeLayout)view.findViewById(R.id.appointments);
-        mRelativeLayoutVisitHostory  = (RelativeLayout) view.findViewById(R.id.visit_history);
         mRelativeLayoutHowItWorks = (RelativeLayout) view.findViewById(R.id.how_it_works);
+        mRelativeLayoutDetails = (RelativeLayout) view.findViewById(R.id.details);
         mCustomerSupport = (RelativeLayout) view.findViewById(R.id.customer_support);
         mButton = (Button) view.findViewById(R.id.ths_start);
 
         mRelativeLayoutAppointments.setOnClickListener(this);
-        mRelativeLayoutVisitHostory.setOnClickListener(this);
         mRelativeLayoutHowItWorks.setOnClickListener(this);
         mCustomerSupport.setOnClickListener(this);
         mButton.setOnClickListener(this);
+        mRelativeLayoutDetails.setOnClickListener(this);
 
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
         }
-
+        THSTagUtils.doTrackPageWithInfo(THS_WELCOME,null,null);
         return view;
     }
 
@@ -90,9 +92,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         if (i == R.id.appointments) {
 
             presenter.onEvent(R.id.appointments);
-        }else if(i == R.id.visit_history){
-
-            presenter.onEvent(R.id.visit_history);
         }else if(i == R.id.how_it_works){
 
             presenter.onEvent(R.id.how_it_works);
@@ -102,23 +101,21 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         }else if(i == R.id.customer_support){
 
             presenter.onEvent(R.id.customer_support);
+        }else if(i == R.id.details){
+
+            presenter.onEvent(R.id.details);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WELCOME,null,null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         // exit from THS, collect tagging data
-        if(null!=THSManager.getInstance() ) {
-            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");
-            THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
-            THSManager.getInstance().resetTHSManagerData();
-        }
+        THSTagUtils.doExitToPropositionWithCallBack();
     }
 }

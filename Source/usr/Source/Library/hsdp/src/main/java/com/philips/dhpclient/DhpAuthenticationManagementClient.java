@@ -137,6 +137,7 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         String date = getUTCdatetimeAsString();
         headers.put("refreshSignature",createRefreshSignature(refreshSecret,date,accessToken));
         headers.put("refreshSignatureDate",date);
+        headers.put("api-version","2");
         headers.put("accessToken",accessToken);
 
         DhpResponse dhpResponse = sendSignedRequest("POST", apiEndpoint, queryParams, headers, null);

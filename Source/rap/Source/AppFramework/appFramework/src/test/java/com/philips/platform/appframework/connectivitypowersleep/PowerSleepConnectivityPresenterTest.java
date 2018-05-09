@@ -48,8 +48,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -270,7 +271,7 @@ public class PowerSleepConnectivityPresenterTest {
         moments.add(new OrmMoment("","", new OrmMomentType(0,""),new DateTime(System.currentTimeMillis())));
         momentDBFetchRequestListner.onFetchSuccess(moments);
         verify(connectivityHelper).getSummaryInfoFromMoment(any(Moment.class));
-        verify(view).updateScreenWithLatestSessionInfo(any(Summary.class));
+        verify(view).updateScreenWithLatestSessionInfo((Summary)isNull());
     }
 
     @Test

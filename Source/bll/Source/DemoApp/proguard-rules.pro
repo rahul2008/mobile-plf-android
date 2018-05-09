@@ -103,9 +103,15 @@
 -keep class com.android.volley.** { *; }
 -keep interface com.android.volley.** { *; }
 
-
 #appinfra
 -keep public class com.philips.platform.appinfra.**{*;}
 -keep interface com.philips.platform.appinfra.**{*;}
 
 # --------------------- AppInfra keep rules end here
+
+##--------------- Jodatime  ----------
+
+-dontwarn org.joda.convert.**
+-dontwarn org.joda.time.**
+-keep class org.joda.time.** { *; }
+-keep interface org.joda.time.** { *; }

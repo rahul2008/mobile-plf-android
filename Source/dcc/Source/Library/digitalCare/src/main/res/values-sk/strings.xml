@@ -19,7 +19,7 @@
     <string name="product_info"> informácie o výrobku </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Načítavanie </string>
-    <string name="please_wait"> Čakajte, prosím &amp;#8230; </string>
+    <string name="dcc_please_wait"> Čakajte, prosím &amp;#8230; </string>
     <string name="get_directions"> Get directions (Získanie smerových pokynov) </string>
     <string name="search"> Vyhľadávanie </string>
     <string name="gps_disabled"> Funkcia GPS je vo vašom zariadení zakázaná. Chcete ju povoliť? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Heslo </string>
     <string name="sign_into_my_philips"> Prihlásiť sa do konta My Philips </string>
     <string name="forgot_my_password"> Zabudol(-la) som heslo &gt;  </string>
-    <string name="create_account">  Vytvoriť konto &gt; </string>
+    <string name="dcc_create_account">  Vytvoriť konto &gt; </string>
 
     <string name="localtephilips_contactus">Prejsť na stránku s kontaktmi</string>
 
@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Pomoc a podpora</string>
     <string name="dcc_Call">Volať</string>
     <string name="dcc_Opening_Hours">Otváracie hodiny</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Zrušiť</string>
+    <string name="dcc_location_consent_title">Súhlas so zdieľaním polohy</string>
+    <string name="dcc_location_consent_definition_text">Povoľujem spoločnosti Philips pristupovať k mojim údajom o polohe na použitie funkcie „Nájsť Philips v blízkosti“.</string>
+    <string name="dcc_location_consent_definition_help_text">Keď povolíte prístup k údajom o svojej polohe, z vášho mobilného zariadenia môžeme zhromažďovať informácie o geografickej polohe.\n\nKeď používate funkciu „Nájsť Philips v blízkosti“ na stránke podpory, zobrazí sa požiadavka, aby ste zdieľali údaje o svojej polohe so spoločnosťou Philips. Ak využívate naše funkcie určovania polohy, na základe údajov o polohe budete presmerovaní na obchod vo vašom okolí alebo kontaktné informácie strediska starostlivosti o zákazníkov vo vašej krajine</string>
 
 </resources>

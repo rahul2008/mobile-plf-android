@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="MYA_My_account">マイアカウント</string>
+<string name="MYA_Profile">プロファイル</string>
+<string name="MYA_Settings">設定</string>
+<string name="MYA_My_details">詳細</string>
+<string name="MYA_My_products">マイプロダクツ</string>
+<string name="MYA_My_subscriptions">マイサブスクリプション</string>
+<string name="MYA_My_orders">マイオーダー</string>
+<string name="MYA_Logout">ログアウト</string>
+<string name="MYA_Account_settings">アカウント設定</string>
+<string name="MYA_Country">国</string>
+<string name="MYA_Notifications">通知</string>
+<string name="MYA_Privacy_Settings">プライバシー設定</string>
+<string name="MYA_Login_details">ログイン詳細</string>
+<string name="MYA_Email_address">メールアドレス</string>
+<string name="MYA_Mobile_number">携帯電話番号</string>
+<string name="MYA_Personal_details">個人情報詳細</string>
+<string name="MYA_Name">名前</string>
+<string name="MYA_Gender">性別</string>
+<string name="MYA_Date_of_birth">生年月日</string>
+<string name="MYA_Address">住所</string>
+<string name="MYA_Cancel">キャンセル</string>
+<string name="MYA_change_country">ログアウトして国を変更</string>
+<string name="MYA_change_country_message">ログアウトしてお住まいの国を変更してください。お客様の所在地に合わせた保証やその他の情報をご提供します。</string>
+<string name="MYA_logout_title">ログアウトしますか？</string>
+<string name="MYA_logout_message">アプリケーションをログアウトします。ログアウト後はいつでも再度ログインできます。</string>
+<string name="MYA_Info">ログイン ID またはパスワードを変更する場合はウェブサイトにアクセスしてください。</string>
+<string name="MYA_Email_Validation_message">メールアドレス未確認</string>
+<string name="MYA_Not_Available">利用不可</string>
+<string name="MYA_Ok">はい</string>
+<string name="MYA_Offline_title">オフラインです</string>
+<string name="MYA_Offline_message">インターネットに接続されていないようです。確認してから再試行してください。</string>
+<string name="mya_Privacy_Settings_Desc">ご自分のプライバシーを管理しましょう。詳細については _privacy notice_ をお読みください。</string>
+</resources>

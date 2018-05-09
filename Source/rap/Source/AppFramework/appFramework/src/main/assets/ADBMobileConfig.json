@@ -12,7 +12,7 @@
     "offlineEnabled": true,
     "lifecycleTimeout": 30,
     "batchLimit": 0,
-    "privacyDefault": "optedin",
+    "privacyDefault": "optunknown",
     "poi": [
     ]
   },

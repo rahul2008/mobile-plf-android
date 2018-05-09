@@ -24,8 +24,9 @@ import java.util.Map;
 
 public class AIKManager implements AIKMInterface {
 
+    private static final long serialVersionUID = -2356261564236731323L;
     private final AppInfra appInfra;
-    private final AiKmHelper aiKmHelper;
+    private final transient AiKmHelper aiKmHelper;
 
     public enum KError {
 

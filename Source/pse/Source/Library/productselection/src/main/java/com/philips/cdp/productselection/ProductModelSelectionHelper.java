@@ -166,7 +166,7 @@ public class ProductModelSelectionHelper {
         SharedPreferences prefs = context.getSharedPreferences(
                 "user_product", Context.MODE_PRIVATE);
         String storedCtn = prefs.getString("mCtnFromPreference", "");
-        if (storedCtn == "") {
+        if (storedCtn.isEmpty()) {
             WelcomeScreenFragmentSelection welcomeScreenFragment = new WelcomeScreenFragmentSelection();
             welcomeScreenFragment.showFragment(context, parentContainerResId, welcomeScreenFragment,
                     actionbarUpdateListener, enterAnim, exitAnim);

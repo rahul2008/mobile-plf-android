@@ -1,7 +1,6 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.ths.settings;
@@ -32,59 +31,58 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSVisitHistoryFragmentTest {
 
-    THSVisitHistoryFragment mThsVisitHistoryFragment;
+    private THSVisitHistoryFragment mThsVisitHistoryFragment;
 
     @Mock
-    ConsumerManager consumerManagerMock;
+    private ConsumerManager consumerManagerMock;
 
     @Mock
-    AWSDK awsdkMock;
+    private AWSDK awsdkMock;
 
     @Mock
-    Consumer consumerMock;
+    private Consumer consumerMock;
 
     @Mock
-    VisitReport visitReportMock;
+    private VisitReport visitReportMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    private THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
-    THSConsumer thsConsumerMock;
+    private THSConsumer thsConsumerMock;
 
     @Mock
-    ActionBarListener actionBarListenerMock;
+    private ActionBarListener actionBarListenerMock;
 
     @Mock
-    AppInfraInterface appInfraInterfaceMock;
+    private AppInfraInterface appInfraInterfaceMock;
 
     @Mock
-    AppTaggingInterface appTaggingInterface;
+    private AppTaggingInterface appTaggingInterface;
 
     @Mock
-    THSSDKError thssdkErrorMock;
+    private THSSDKError thssdkErrorMock;
 
     @Mock
-    SDKError sdkErrorMock;
+    private SDKError sdkErrorMock;
 
     @Mock
-    AppConfigurationInterface appConfigurationInterfaceMock;
+    private AppConfigurationInterface appConfigurationInterfaceMock;
 
     @Mock
-    ServiceDiscoveryInterface serviceDiscoveryMock;
+    private ServiceDiscoveryInterface serviceDiscoveryMock;
 
     @Mock
-    LoggingInterface loggingInterface;
+    private LoggingInterface loggingInterface;
 
     @Before
     public void setUp() throws Exception {
@@ -116,10 +114,11 @@ public class THSVisitHistoryFragmentTest {
 
     @Test
     public void updateVisitHistoryView() throws Exception {
-        List visitList = new ArrayList();
+        List<VisitReport> visitList = new ArrayList<>();
         visitList.add(visitReportMock);
         mThsVisitHistoryFragment.updateVisitHistoryView(visitList);
-        assert mThsVisitHistoryFragment.mThsVisitHistoryAdapter.getItemCount() == 1;
+
+        assertTrue(mThsVisitHistoryFragment.mThsVisitHistoryAdapter.getItemCount() == 1);
     }
 
 }

@@ -14,6 +14,7 @@ import com.janrain.android.Jump;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.ui.utils.Gender;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
 
@@ -24,9 +25,12 @@ public class UpdateGender extends UpdateUserDetailsBase {
 
     public final static String USER_GENDER = "gender";
 
+    private static final String TAG =  UpdateGender.class.getSimpleName();
+
     private Gender mGender;
 
     public UpdateGender(Context context) {
+        super(context);
         mJanrainInitializer = new JanrainInitializer();
         mContext = context;
     }
@@ -34,16 +38,18 @@ public class UpdateGender extends UpdateUserDetailsBase {
     public void updateGender(final UpdateUserDetailsHandler
                                      updateUserDetailsHandler,
                              final Gender gender) {
+        RLog.d(TAG,"updateGender : is called");
         mUpdateUserDetails = updateUserDetailsHandler;
         mGender = gender;
         if (isJanrainInitializeRequired()) {
-            mJanrainInitializer.initializeJanrain(mContext, this);
+            mJanrainInitializer.initializeJanrain(mContext);
             return;
         }
         performActualUpdate();
     }
 
     protected void performActualUpdate() {
+        RLog.d(TAG,"performActualUpdate : is called");
         JSONObject userData = getCurrentUserAsJsonObject();
         mUpdatedUserdata = Jump.getSignedInUser();
         try {
@@ -62,6 +68,7 @@ public class UpdateGender extends UpdateUserDetailsBase {
     }
 
     protected void performLocalUpdate() {
+        RLog.d(TAG,"performLocalUpdate : is called");
         if (null != mUpdatedUserdata)
             try {
                 mUpdatedUserdata.put(USER_GENDER, mGender.toString());

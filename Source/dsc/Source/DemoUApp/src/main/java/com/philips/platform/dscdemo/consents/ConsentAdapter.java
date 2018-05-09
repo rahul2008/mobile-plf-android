@@ -71,7 +71,7 @@ class ConsentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         ConsentDetailViewHolder(final View itemView) {
             super(itemView);
-            mConsentDetailSwitch = (Switch) itemView.findViewById(R.id.switch_consent_detail_type);
+            mConsentDetailSwitch = itemView.findViewById(R.id.switch_consent_detail_type);
         }
     }
 

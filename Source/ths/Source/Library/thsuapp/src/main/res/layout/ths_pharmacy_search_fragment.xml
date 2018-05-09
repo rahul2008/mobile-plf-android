@@ -13,7 +13,7 @@
         style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
         android:layout_margin="@dimen/ths_fab_margin"
         android:layout_height="wrap_content"
-        android:text="@string/pharmacy_search_label" />
+        android:text="@string/ths_pharmacy_search_label" />
 
     <com.philips.platform.uid.view.widget.SearchBox
         android:id="@+id/ths_search_pharmacy_edittext"
@@ -22,7 +22,7 @@
         android:inputType="number"
         app:uidSearchInContentArea="true"
         android:layout_margin="@dimen/ths_fab_margin"
-        android:hint="@string/pharmacy_search_edittext_hint"
+        android:hint="@string/ths_pharmacy_search_edittext_hint"
         android:layout_height="wrap_content"
         />
 </RelativeLayout>

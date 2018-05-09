@@ -8,13 +8,18 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 
+import com.philips.platform.appinfra.consentmanager.ConsentManager;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
+
+import java.io.Serializable;
 import java.util.Map;
 
 
 /**
  * The interface Ai app tagging interface.
  */
-public interface AppTaggingInterface {
+public interface AppTaggingInterface extends Serializable {
 
 	/**
 	 * Create instance for component ai app tagging interface.
@@ -215,6 +220,33 @@ public interface AppTaggingInterface {
 	enum PrivacyStatus {
 		OPTIN, OPTOUT, UNKNOWN
 	}
+
+	/**
+	 * Retrieves the handler which handles Click Stream Consent
+	 * ClickStreamConsentHandler is used for storing/fetching Tagging Consents in Adobe
+	 *
+	 * @return This method returns the Click Stream Consent Handler
+	 * @since 2018.1.0
+	 */
+	ConsentHandlerInterface getClickStreamConsentHandler();
+
+	/**
+	 * This gives the Click Stream key without which ClickStreamConsentHandler will not function.
+	 * Only Consent Definitions containing this key will be considered for Click Stream Handling.
+	 * If no such key is found then the app will crash.
+	 *
+	 * @return This method returns the Click Stream Consent Identifier
+	 * @since 2018.1.0
+	 */
+	String getClickStreamConsentIdentifier();
+
+	/**
+	 * Register ClickStreamHandler.
+	 *
+	 * @param consentManager ConsentManager
+	 * @since 2018.1.0
+	 */
+	void registerClickStreamHandler(ConsentManagerInterface consentManager);
 
 	enum SocialMedium {
 		Facebook("facebook"),

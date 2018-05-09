@@ -19,7 +19,7 @@
     <string name="product_info"> informações sobre produto </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> A carregar </string>
-    <string name="please_wait"> Aguarde &amp;#8230; </string>
+    <string name="dcc_please_wait"> Aguarde &amp;#8230; </string>
     <string name="get_directions"> Obter direcções </string>
     <string name="search"> Pesquisar </string>
     <string name="gps_disabled"> GPS desactivado no seu dispositivo. Gostaria de activá-lo? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Palavra-passe </string>
     <string name="sign_into_my_philips"> Iniciar sessão no MyPhilips </string>
     <string name="forgot_my_password"> Esqueci-me da palavra-passe &gt;  </string>
-    <string name="create_account">  Criar conta &gt; </string>
+    <string name="dcc_create_account">  Criar conta &gt; </string>
 
     <string name="localtephilips_contactus">Ir para a página de contacto</string>
 
@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Ajuda e assistência</string>
     <string name="dcc_Call">Telefonar</string>
     <string name="dcc_Opening_Hours">Horário de funcionamento</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Cancelar</string>
+    <string name="dcc_location_consent_title">Autorização de localização</string>
+    <string name="dcc_location_consent_definition_text">Autorizo a Philips a aceder aos meus dados de localização para \"Encontrar Philips perto de si\".</string>
+    <string name="dcc_location_consent_definition_help_text">Quando permite o acesso aos dados de localização, podemos recolher a localização geográfica do seu dispositivo móvel.\n\nQuando utiliza a funcionalidade \"Encontrar Philips perto de si\" na página de assistência, é-lhe solicitado que partilhe os dados de localização com a Philips. Caso utilize as nossas funcionalidades de localização, com base nos dados de localização, é direcionado para uma loja próxima de si ou para os detalhes de contacto do Apoio ao Cliente no seu país.</string>
 
 </resources>

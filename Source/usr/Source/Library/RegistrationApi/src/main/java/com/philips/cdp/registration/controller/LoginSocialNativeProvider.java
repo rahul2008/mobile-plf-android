@@ -15,6 +15,7 @@ import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
 import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
@@ -27,6 +28,7 @@ import org.json.JSONObject;
 
 public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler,
         JumpFlowDownloadStatusListener {
+    private final static String TAG = LoginSocialNativeProvider.class.getSimpleName();
     private Context mContext;
     private SocialProviderLoginHandler mSocialLoginHandler;
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
@@ -39,6 +41,7 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
 
     @Override
     public void onSuccess() {
+        RLog.d(TAG,"onSuccess : is called");
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
@@ -74,13 +77,16 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
 
     @Override
     public void onCode(String code) {
-
+        RLog.d(TAG,"onCode : is called");
     }
 
     @Override
     public void onFailure(SignInError error) {
+        RLog.d(TAG,"onFailure : is called");
         if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isMergeFlowError()) {
+
+            RLog.d(TAG,"onFailure : isMergeFlowError");
             String emailId = null;
             if (null != error.auth_info) {
                 JRDictionary profile = error.auth_info.getAsDictionary("profile");
@@ -102,14 +108,14 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
 
         } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isTwoStepRegFlowError()) {
-
+            RLog.d(TAG,"onFailure : isTwoStepRegFlowError");
             JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
             String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
             ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord,
                     socialRegistrationToken));
 
         } else {
-
+            RLog.d(TAG,"onFailure : else is called");
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
             ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
@@ -135,19 +141,23 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
         mAccessToken = accessToken;
         mTokenSecret = tokenSecret;
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+            RLog.d(TAG,"loginSocial : not isJumpInitializated");
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
         } else {
             Jump.startTokenAuthForNativeProvider(mActivity,
                     mProviderName, mAccessToken, mTokenSecret, this, mMergeToken);
+            RLog.d(TAG,"loginSocial : true isJumpInitializated");
             return;
         }
         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+            RLog.d(TAG,"loginSocial : not isRegInitializationInProgress");
         }
     }
 
     @Override
     public void onFlowDownloadSuccess() {
+        RLog.d(TAG,"onFlowDownloadSuccess : is called");
         Jump.startTokenAuthForNativeProvider(mActivity,
                 mProviderName, mAccessToken, mTokenSecret, this, mMergeToken);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
@@ -155,9 +165,11 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
 
     @Override
     public void onFlowDownloadFailure() {
+        RLog.d(TAG,"onFlowDownloadFailure : is called");
         if (mSocialLoginHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(RegConstants.SOCIAL_LOGIN_FAILED_SERVER_ERROR);
             ThreadUtils.postInMainThread(mContext,()->
                     mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));

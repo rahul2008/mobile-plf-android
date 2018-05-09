@@ -1,8 +1,8 @@
 package com.philips.platform.ths.sdkerrors;
 
+import android.content.Context;
+
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.SDKErrorReason;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.lang.ref.WeakReference;
@@ -14,17 +14,18 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_ERROR;
 
+@SuppressWarnings({ "rawtypes", "unchecked"})
 public class THSSDKErrorFactory {
 
     static WeakReference<List> weakReference;
 
 
-    public static String getErrorType(String module, SDKError sdkError) {
+    public static String getErrorType(Context context,String module, SDKError sdkError) {
 
         List<THSErrorHandlerInterface> errorList = null;
         String errorMessage=null;
         if(null!=sdkError) {
-            SDKErrorReason sdkErrorReason = null!=sdkError.getSDKErrorReason()?sdkError.getSDKErrorReason():GENERIC_EXCEPTION;
+            String sdkErrorReason = null!=sdkError.getSDKErrorReason()?sdkError.getSDKErrorReason():GENERIC_EXCEPTION;
             if (weakReference != null) {
                 errorList = weakReference.get();
             }
@@ -35,8 +36,8 @@ public class THSSDKErrorFactory {
             }
 
             for (THSErrorHandlerInterface thssdkUserError : errorList) {
-                if (thssdkUserError.validate(sdkErrorReason)) {
-                    errorMessage = thssdkUserError.getErrorMessage();
+                if (thssdkUserError.validate(sdkErrorReason, context)) {
+                    errorMessage = thssdkUserError.getErrorMessage(context);
                     String tagErrormessage=null!=sdkError.getMessage()?sdkError.getMessage():errorMessage;// if getMessage() returns null
                     final String errorTag = THSTagUtils.createErrorTag(module, tagErrormessage);
                     if (thssdkUserError instanceof THSSDKServerError) { // server or technical error

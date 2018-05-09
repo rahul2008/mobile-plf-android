@@ -1,12 +1,8 @@
 package com.philips.platform.ccdemouapp;
 
-
-import android.content.Context;
-
-import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
-
+@SuppressWarnings("serial")
 public class CCDemoUAppuAppLaunchInput extends UappLaunchInput {
 
 }

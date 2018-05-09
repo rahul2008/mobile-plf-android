@@ -32,6 +32,7 @@ public class THSWelcomeBackPresenter implements THSBasePresenter {
 
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,thsProviderInfo);
+            bundle.putParcelable(THSConstants.THS_SCHEDULE_APPOINTMENT_OBJECT, mThsWelcomeBackFragment.getAppointmentObject());
             mThsWelcomeBackFragment.addFragment(new THSSymptomsFragment(),THSSymptomsFragment.TAG,bundle, true);
         }
     }

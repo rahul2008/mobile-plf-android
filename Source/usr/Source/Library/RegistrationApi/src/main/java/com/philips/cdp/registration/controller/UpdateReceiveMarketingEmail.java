@@ -13,8 +13,11 @@ import android.content.Context;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
+import com.philips.ntputils.ServerTime;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,10 +26,17 @@ import org.json.JSONObject;
 public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
 
     private final static String USER_RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
+    private final static String LOCALE = "locale";
+    private final static String TIMESTAMP = "timestamp";
+    private final static String MARKETING_OPT_IN = "marketingOptIn";
+    private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     private boolean mReceiveMarketingEmail;
 
+    private static final String TAG = UpdateReceiveMarketingEmail.class.getSimpleName();
+
     public UpdateReceiveMarketingEmail(Context context) {
+        super(context);
         mJanrainInitializer = new JanrainInitializer();
         mContext = context;
     }
@@ -34,40 +44,56 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
     public void updateMarketingEmailStatus(final UpdateUserDetailsHandler
                                                    updateUserDetailsHandler,
                                            final boolean receiveMarketingEmail) {
+        RLog. i(TAG, "updateMarketingEmailStatus : is called");
         mUpdateUserDetails = updateUserDetailsHandler;
         mReceiveMarketingEmail = receiveMarketingEmail;
         if (isJanrainInitializeRequired()) {
-            mJanrainInitializer.initializeJanrain(mContext, this);
+            mJanrainInitializer.initializeJanrain(mContext);
             return;
         }
         performActualUpdate();
     }
 
+    @Override
     protected void performActualUpdate() {
         JSONObject userData = getCurrentUserAsJsonObject();
         mUpdatedUserdata = Jump.getSignedInUser();
         try {
             if (null != mUpdatedUserdata) {
                 mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
+
+                JSONObject marketingOptIn = new JSONObject();
+                marketingOptIn.put(LOCALE, RegistrationHelper.getInstance().getLocale().toString());
+                marketingOptIn.put(TIMESTAMP, ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT));
+                mUpdatedUserdata.put(MARKETING_OPT_IN, marketingOptIn);
                 UpdateUser updateUser = new UpdateUser();
                 updateUser.update(mUpdatedUserdata, userData, this);
+                RLog.i(TAG, "performActualUpdate : updateUser.update is called");
             }
         } catch (JSONException e) {
-            e.printStackTrace();
             if (null != mUpdateUserDetails)
-                ThreadUtils.postInMainThread(mContext,()->
-                mUpdateUserDetails.
-                        onUpdateFailedWithError(-1));
+                ThreadUtils.postInMainThread(mContext, () ->
+                        mUpdateUserDetails.
+                                onUpdateFailedWithError(-1));
+            RLog.e(TAG, e.getMessage());
         }
     }
 
+    @Override
     protected void performLocalUpdate() {
-        if (null != mUpdatedUserdata)
+        if (null != mUpdatedUserdata) {
             try {
                 mUpdatedUserdata.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmail);
+                JSONObject marketingOptIn = new JSONObject();
+                marketingOptIn.put(LOCALE, RegistrationHelper.getInstance().getLocale().toString());
+                marketingOptIn.put(TIMESTAMP, ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT));
+
+                mUpdatedUserdata.put(MARKETING_OPT_IN, marketingOptIn);
+                mUpdatedUserdata.saveToDisk(mContext);
+                RLog.i(TAG, "performLocalUpdate : saveToDisk");
             } catch (JSONException e) {
-                e.printStackTrace();
+                RLog.e(TAG, e.getMessage());
             }
-        mUpdatedUserdata.saveToDisk(mContext);
+        }
     }
 }

@@ -1,4 +1,4 @@
 rootProject.setName 'telehealth'
-include ':app', ':telehealth'
+include ':app', ':telehealth', ':thsUapp'
 project(':telehealth').projectDir =new File('../Library/thsuapp')
-//project(':awsdk').projectDir =new File('../Library/sdk')
+project(':thsUapp').projectDir =new File('../DemoUApp/thsUapp')

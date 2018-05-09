@@ -12,6 +12,7 @@ import android.os.Parcelable;
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.practice.Practice;
 
+@SuppressWarnings("serial")
 public class THSPractice implements Parcelable{
     private Practice practice;
 

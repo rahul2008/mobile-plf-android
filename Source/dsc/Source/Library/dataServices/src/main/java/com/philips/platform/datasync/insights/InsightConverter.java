@@ -56,6 +56,7 @@ public class InsightConverter {
                 appInsight.setTitle(uCoreInsight.getTitle());
                 appInsight.setProgram_maxVersion(uCoreInsight.getProgram_maxversion());
                 appInsight.setProgram_minVersion(uCoreInsight.getProgram_minversion());
+                appInsight.setExpirationDate(new DateTime(uCoreInsight.getExpirationDate()));
 
                 Map<String, String> metadataMap = uCoreInsight.getMetadata();
 

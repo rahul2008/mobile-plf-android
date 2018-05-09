@@ -91,6 +91,7 @@ public class ImageButton extends AppCompatButton {
      *                   VectorDrawableCompat.create(getResources(), R.drawable.share, getContext().getTheme());
      *                   and call setImageDrawable()<br>
      *                   otherwise you can call setVectorResource(@resourceId - for vector drawable)
+     *                   @since 3.0.0
      */
     public void setImageResource(int resourceId) {
         Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId);
@@ -101,6 +102,7 @@ public class ImageButton extends AppCompatButton {
      * sets icon on button with given drawable
      *
      * @param resourceId vector resource to be set as icon on button
+     *                   @since 3.0.0
      */
     public void setVectorResource(int resourceId) {
         Drawable drawable = VectorDrawableCompat.create(getResources(), resourceId, getContext().getTheme());
@@ -112,6 +114,7 @@ public class ImageButton extends AppCompatButton {
      * Sets icon on button with given drawable
      *
      * @param drawable drawable to be set as a icon on button
+     *                 @since 3.0.0
      */
     public void setImageDrawable(@NonNull Drawable drawable) {
         Drawable wrappedDrawable = drawable.mutate();
@@ -120,7 +123,7 @@ public class ImageButton extends AppCompatButton {
             wrappedDrawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTintList(wrappedDrawable, drawableColorlist);
         }
-        setCompoundDrawables(wrappedDrawable, null, null, null);
+        setCompoundDrawablesRelative(wrappedDrawable, null, null, null);
         invalidate();
     }
 }

@@ -5,10 +5,12 @@
  */
 package com.philips.platform.appinfra.rest;
 
+import java.io.Serializable;
+
 /**
  * The interface for Token Type and Token .
  */
-public interface TokenProviderInterface {
+public interface TokenProviderInterface extends Serializable {
 
     /**
      * The enum Token type.

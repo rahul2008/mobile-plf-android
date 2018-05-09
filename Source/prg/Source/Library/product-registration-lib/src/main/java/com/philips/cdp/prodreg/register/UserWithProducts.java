@@ -56,7 +56,7 @@ public class UserWithProducts {
     private ProdRegListener appListener;
     private int processCacheProductsCount;
 
-    UserWithProducts(final Context context, final User user, final ProdRegListener appListener) {
+    public UserWithProducts(final Context context, final User user, final ProdRegListener appListener) {
         this.mContext = context;
         this.user = user;
         this.appListener = appListener;
@@ -145,7 +145,7 @@ public class UserWithProducts {
     /**
      * API to fetch list of products which are registered locally and remote
      *
-     * @param registeredProductsListener - call back listener to get list of products
+     * @param registeredProductsListener - callback listener to get list of products
      */
     public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
         if (getUser().isUserSignIn()) {
@@ -186,7 +186,7 @@ public class UserWithProducts {
 
     protected boolean isUserSignedIn(final Context context) {
         User mUser = getUser();
-        return mUser.isUserSignIn() && mUser.getEmailVerificationStatus();
+        return mUser.isUserSignIn() && (mUser.isEmailVerified() || mUser.isMobileVerified());
     }
 
     @NonNull
@@ -264,7 +264,7 @@ public class UserWithProducts {
         return purchaseDate != null && purchaseDate.length() > 0;
     }
 
-    protected RegisteredProduct isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct) {
+    public RegisteredProduct isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct) {
         for (RegisteredProduct result : registeredProducts) {
             if (registeredProduct.getCtn().equalsIgnoreCase(result.getCtn()) && registeredProduct.getSerialNumber().equals(result.getSerialNumber()) && result.getRegistrationState() == RegistrationState.REGISTERED) {
                 return result;

@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     defaultConfig {
         applicationId "com.philips.platform.prdemoapp"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName "1.0.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner deps.androidJUnitRunner
     }
     buildTypes {
         release {
@@ -33,11 +33,11 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':PRDemoApp')
-    compile 'com.android.support:appcompat-v7:24.0.3'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:24.0.3'
+    compile deps.support.appcompatv7
+    testCompile deps.junit
+    compile deps.support.cardview
 }

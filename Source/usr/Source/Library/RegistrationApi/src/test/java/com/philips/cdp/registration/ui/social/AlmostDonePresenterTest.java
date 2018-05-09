@@ -5,12 +5,14 @@ import android.os.Bundle;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 
 
 import org.json.JSONException;
@@ -21,7 +23,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
@@ -55,7 +56,7 @@ public class AlmostDonePresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        URInterface.setComponent(mockRegistrationComponent);
+        RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
         presenter = new AlmostDonePresenter(mockContract, mockUser);
         userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         registrationSettingsURL = new RegistrationSettingsURL();
@@ -87,7 +88,7 @@ public class AlmostDonePresenterTest {
     public void testUpdateTermsAndReceiveMarketingOpt_true(){
         when(mockUser.isTermsAndConditionAccepted()).thenReturn(true);
         when(mockUser.getReceiveMarketingEmail()).thenReturn(true);
-        presenter.updateTermsAndReceiveMarketingOpt();
+        presenter.updateTermsAndReceiveMarketingOpt(true);
         verify(mockContract).hideMarketingOptCheck();
         verify(mockContract).updateTermsAndConditionView();
     }
@@ -95,7 +96,7 @@ public class AlmostDonePresenterTest {
     @Test
     public void testUpdateTermsAndReceiveMarketingOpt_false(){
         when(mockUser.getReceiveMarketingEmail()).thenReturn(true);
-        presenter.updateTermsAndReceiveMarketingOpt();
+        presenter.updateTermsAndReceiveMarketingOpt(false);
         verify(mockContract).hideMarketingOptCheck();
     }
 
@@ -103,7 +104,7 @@ public class AlmostDonePresenterTest {
     public void testReceiveMarketingOpt_false(){
         when(mockUser.isTermsAndConditionAccepted()).thenReturn(true);
         when(mockUser.getReceiveMarketingEmail()).thenReturn(false);
-        presenter.updateTermsAndReceiveMarketingOpt();
+        presenter.updateTermsAndReceiveMarketingOpt(true);
         verify(mockContract).showMarketingOptCheck();
     }
 
@@ -252,7 +253,6 @@ public class AlmostDonePresenterTest {
     @Test
     public void testContinueSocialProviderLoginSuccess() {
         presenter.onContinueSocialProviderLoginSuccess();
-        verify(mockContract).storePreference(null);
         verify(mockContract).handleContinueSocialProvider();
     }
 
@@ -265,7 +265,7 @@ public class AlmostDonePresenterTest {
 //    @Test
 //    public void testIsEmailVerificationStatus() {
 //        presenter.isEmailVerificationStatus();
-//        verify(mockUser).getEmailVerificationStatus();
+//        verify(mockUser).getEmailOrMobileVerificationStatus();
 //    }
 
     @Test

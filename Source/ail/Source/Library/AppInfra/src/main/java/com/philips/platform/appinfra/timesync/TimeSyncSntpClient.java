@@ -32,6 +32,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class TimeSyncSntpClient implements TimeInterface {
 
+    private static final long serialVersionUID = -5777846591881357200L;
     public static final String DATE_FORMAT = "yyyy-MM-dd'T' K mm:ss.SSS Z";
     public static final String UTC = "UTC";
     private static final String OFFSET = "offset";
@@ -43,11 +44,11 @@ public class TimeSyncSntpClient implements TimeInterface {
     private static String[] serverPool;
     private final ReentrantLock mRefreshInProgressLock;
     private AppInfra mAppInfra;
-    private SharedPreferences mSharedPreferences;
+    private transient SharedPreferences mSharedPreferences;
     private long mOffset;
     private Calendar mNextRefreshTime;
     private boolean isSynchronized = false;
-    final Handler responseHandler = new Handler(Looper.getMainLooper()) {
+    final transient Handler responseHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             isSynchronized = (boolean) msg.obj;

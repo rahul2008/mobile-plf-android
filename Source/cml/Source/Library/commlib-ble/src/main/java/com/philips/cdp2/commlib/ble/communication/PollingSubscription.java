@@ -19,9 +19,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 class PollingSubscription implements Runnable {
-    interface Callback {
-        void onCancel();
-    }
+
 
     @NonNull
     private final CommunicationStrategy communicationStrategy;
@@ -34,8 +32,6 @@ class PollingSubscription implements Runnable {
 
     @NonNull
     private ScheduledFuture<?> future;
-
-    private Callback callback;
 
     private final long endTime;
 
@@ -91,16 +87,8 @@ class PollingSubscription implements Runnable {
         }
     }
 
-    void addCancelCallback(Callback callback) {
-        this.callback = callback;
-    }
-
     void cancel() {
         future.cancel(false);
-
-        if (this.callback != null) {
-            this.callback.onCancel();
-        }
     }
 
     @VisibleForTesting

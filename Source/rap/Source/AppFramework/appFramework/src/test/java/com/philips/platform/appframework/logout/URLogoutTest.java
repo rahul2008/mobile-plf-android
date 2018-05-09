@@ -18,6 +18,8 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.dscdemo.DemoAppManager;
+import com.philips.platform.dscdemo.utility.UserRegistrationHandler;
 import com.philips.platform.referenceapp.PushNotificationManager;
 
 import org.junit.After;
@@ -91,6 +93,12 @@ public class URLogoutTest {
 
     private AppInfraInterface appInfraInterface;
 
+    @Mock
+    private DemoAppManager demoAppManager;
+
+    @Mock
+    UserRegistrationHandler userRegistrationHandler;
+
     @Before
     public void setUp() {
         activityController = Robolectric.buildActivity(TestActivity.class);
@@ -102,6 +110,7 @@ public class URLogoutTest {
         appInfraInterface = testAppFrameworkApplication.getAppInfra();
         urLogoutInterface = new URLogoutMock();
         urLogoutInterface.setUrLogoutListener(urLogoutListener);
+        when(demoAppManager.getUserRegistrationHandler()).thenReturn(userRegistrationHandler);
     }
 
     @Test
@@ -119,7 +128,6 @@ public class URLogoutTest {
         verify(demoDataServicesState).deregisterDSForRegisteringToken();
         verify(demoDataServicesState).deregisterForReceivingPayload();
         verify(urLogoutListener).onLogoutResultSuccess();
-        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
     }
 
     @Test
@@ -155,7 +163,6 @@ public class URLogoutTest {
         verify(demoDataServicesState).deregisterDSForRegisteringToken();
         verify(demoDataServicesState).deregisterForReceivingPayload();
         verify(urLogoutListener).onLogoutResultSuccess();
-        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
     }
 
     @Test
@@ -188,7 +195,6 @@ public class URLogoutTest {
         verify(pushNotificationManager, times(0)).saveTokenRegistrationState(any(Context.class), anyBoolean());
         verify(demoDataServicesState, times(0)).deregisterDSForRegisteringToken();
         verify(demoDataServicesState, times(0)).deregisterForReceivingPayload();
-        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
         verify(urLogoutListener).onLogoutResultSuccess();
     }
 
@@ -214,7 +220,6 @@ public class URLogoutTest {
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
-        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
         verify(urLogoutListener, times(0)).onLogoutResultSuccess();
     }
 
@@ -276,6 +281,11 @@ public class URLogoutTest {
         @Override
         protected DataServicesManager getDataServicesManager() {
             return dataServicesManager;
+        }
+
+        @Override
+        protected DemoAppManager getInstance() {
+            return demoAppManager;
         }
     }
 }

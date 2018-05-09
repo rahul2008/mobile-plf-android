@@ -207,7 +207,7 @@ public class SHNServiceWeightScaleTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
 
-        verify(mockedShnResultListener).onActionCompleted(any(SHNBodyCompositionFeatures.class), shnResultArgumentCaptor.capture());
+        verify(mockedShnResultListener).onActionCompleted(any(), shnResultArgumentCaptor.capture());
         assertEquals(SHNResult.SHNOk, shnResultArgumentCaptor.getValue());
     }
 

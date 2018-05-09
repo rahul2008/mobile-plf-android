@@ -9,6 +9,7 @@ package com.philips.platform.ths.providerdetails;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +22,6 @@ import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.appointment.THSConfirmAppointmentFragment;
@@ -30,6 +30,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.NotificationBadge;
@@ -40,6 +41,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER_IMAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
+
 public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickListener {
 
     private View.OnClickListener mOnClickListener;
@@ -49,15 +54,15 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     protected CircularImageView providerImage;
     protected ImageView isAvailableImage;
     private Label providerName, practiceName, isAvailable, spokenLanguageValueLabel, yearsOfExpValueLabel,
-            graduatedValueLabel, aboutMeValueLabel, mLabelDate, visitCostValueLabel, reminderValue;
+            graduatedValueLabel, aboutMeValueLabel, mLabelDate, visitCostValueLabel, reminderValue, dodProviderFoundMessage;
     protected RatingBar providerRating;
     protected Button detailsButtonOne, detailsButtonTwo, detailsButtonContinue;
-    private RelativeLayout mTimeSlotContainer;
+    private RelativeLayout mTimeSlotContainer,ths_match_making_ProgressBarWithLabel;
     private THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
     private THSBaseFragment thsBaseFragment;
     private NotificationBadge notificationBadge;
-    private RelativeLayout available_provider_details_container;
+    private RelativeLayout available_provider_details_container,ths_match_making_ProgressBarWithLabel_container,bottomLayout;
     private List<Date> dates;
     private Label details_isAvailableImage_text;
     private FrameLayout details_isAvailableImage_layout;
@@ -77,6 +82,10 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
 
     private void setViews(View view) {
         available_provider_details_container = (RelativeLayout) view.findViewById(R.id.available_provider_details_container);
+        ths_match_making_ProgressBarWithLabel_container = view.findViewById(R.id.ths_match_making_ProgressBarWithLabel_container);
+        ths_match_making_ProgressBarWithLabel = view.findViewById(R.id.ths_match_making_ProgressBarWithLabel);
+        bottomLayout = view.findViewById(R.id.bottomLayout);
+        dodProviderFoundMessage = (Label) view.findViewById(R.id.dodProviderFound);
         available_provider_details_container.setVisibility(View.INVISIBLE);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
         swipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
@@ -121,6 +130,12 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
 
     public void updateView(Provider provider, List<Date> dates) {
         available_provider_details_container.setVisibility(View.VISIBLE);
+        setDODProgressVisibility(View.GONE);
+        if(THSManager.getInstance().isMatchMakingVisit()){
+            dodProviderFoundMessage.setVisibility(View.VISIBLE);
+        }
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
+        bottomLayout.setVisibility(View.VISIBLE);
         providerName.setText(provider.getFullName());
         swipeRefreshLayout.setRefreshing(false);
         providerRating.setRating(provider.getRating());
@@ -145,8 +160,9 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                                     ProviderImageSize.SMALL).placeholder(providerImage.getResources().
                             getDrawable(R.drawable.doctor_placeholder,mContext.getTheme())).build().load();
                 }
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                final String errorTag = THSTagUtils.createErrorTag(ANALYTIC_FETCH_PROVIDER_IMAGE, e.getMessage());
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
             }
         }
 
@@ -160,14 +176,15 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         String providerVisibility = provider.getVisibility().toString();
         Context context = isAvailable.getContext();
         if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {
-            providerAvailabilityString = context.getResources().getString(R.string.provider_available);
+            providerAvailabilityString = context.getResources().getString(R.string.ths_provider_available);
+            isAvailable.setTextColor(ContextCompat.getColor(context, com.philips.platform.uid.R.color.uid_signal_green_level_30));
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.green_available_icon, context.getTheme()));
         } else if (providerVisibility.equals(THSConstants.PROVIDER_OFFLINE)) {
-            providerAvailabilityString = context.getResources().getString(R.string.provider_offline);
+            providerAvailabilityString = context.getResources().getString(R.string.ths_provider_offline);
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.provider_offline_icon, context.getTheme()));
         } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
-            providerAvailabilityString = context.getResources().getString(R.string.provider_busy);
-            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon,context.getTheme()));
+            providerAvailabilityString = context.getResources().getString(R.string.ths_provider_busy);
+            isAvailable.setTextColor(ContextCompat.getColor(context, com.philips.platform.uid.R.color.uid_signal_orange_level_30));
             details_isAvailableImage_text.setText(String.valueOf(provider.getWaitingRoomCount()));
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon, context.getTheme()));
         }
@@ -190,6 +207,29 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         }
     }
 
+    protected void setDODVisibility(boolean show){
+        if(show) {
+            thsBaseFragment.createCustomProgressBar(ths_match_making_ProgressBarWithLabel, 2);
+            setDODProgressVisibility(View.VISIBLE);
+            setProviderViewVisibility();
+        }else {
+            thsBaseFragment.hideProgressBar();
+            setDODProgressVisibility(View.GONE);
+            setProviderViewVisibility();
+        }
+    }
+
+    private void setDODProgressVisibility(int visible) {
+
+        ths_match_making_ProgressBarWithLabel_container.setVisibility(visible);
+    }
+
+    private void setProviderViewVisibility() {
+        available_provider_details_container.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setVisibility(View.GONE);
+        bottomLayout.setVisibility(View.GONE);
+    }
+
     /**
      * This method checks for the provider visibility, if visible, user can schedule an appointment or start video chat right away
      * If provider is busy, user can schedule an appointment or wait in line.
@@ -199,7 +239,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
      */
     private void checkAvailability(Provider provider) {
 
-        if (ProviderVisibility.isOnCall(provider.getVisibility()) || ProviderVisibility.isVideoBusy(provider.getVisibility())) {
+        if (ProviderVisibility.ON_CALL.equalsIgnoreCase(provider.getVisibility()) || ProviderVisibility.WEB_BUSY.equalsIgnoreCase(provider.getVisibility())) {
             isAvailableImage.setVisibility(ImageView.GONE);
             if (isAvailableProviderData()) {
                 setButtonVisibilityForAvailableProvider();
@@ -207,41 +247,45 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
+                detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text));
                 if (THSManager.getInstance().isMatchMakingVisit()) {
-                    detailsButtonOne.setText(mContext.getString(R.string.ths_continue));
                     detailsButtonTwo.setVisibility(View.GONE);
                 }else {
-                    detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text));
-                    detailsButtonTwo.setVisibility(View.VISIBLE);
-                    detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+                    checkForUrgentCare();
                 }
             }
-        } else if (ProviderVisibility.isVideoAvailable(provider.getVisibility())) {
+        } else if (ProviderVisibility.WEB_AVAILABLE.equalsIgnoreCase(provider.getVisibility())) {
             isAvailableImage.setVisibility(ImageView.VISIBLE);
             if (thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)) {
                 setButtonVisibilityForAvailableProvider();
             } else {
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
+                detailsButtonOne.setText(mContext.getString(R.string.ths_see_this_doctor_now_button_text));
                 if (THSManager.getInstance().isMatchMakingVisit()) {
-                    detailsButtonOne.setText(mContext.getString(R.string.ths_continue));
                     detailsButtonTwo.setVisibility(View.GONE);
                 } else {
-                    detailsButtonOne.setText(mContext.getString(R.string.ths_see_this_doctor_now_button_text));
-                    detailsButtonTwo.setVisibility(View.VISIBLE);
-                    detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+                    checkForUrgentCare();
                 }
             }
-        } else if (ProviderVisibility.isOffline(provider.getVisibility())) {
+        } else if (ProviderVisibility.OFFLINE.equalsIgnoreCase(provider.getVisibility())) {
             isAvailableImage.setVisibility(ImageView.GONE);
             if (thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)) {
                 setButtonVisibilityForAvailableProvider();
             } else {
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.GONE);
-                detailsButtonTwo.setVisibility(View.VISIBLE);
-                detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+                checkForUrgentCare();
             }
+        }
+    }
+
+    private void checkForUrgentCare() {
+        if(null == thsProviderDetailsViewInterface.getPractice() || thsProviderDetailsViewInterface.getPractice().isShowScheduling()) {
+            detailsButtonTwo.setVisibility(View.VISIBLE);
+            detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+        }else {
+            detailsButtonTwo.setVisibility(View.GONE);
         }
     }
 

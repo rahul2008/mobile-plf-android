@@ -10,10 +10,13 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.StyleRes;
 import android.view.View;
 
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.utils.DialogConstants;
 
+@SuppressWarnings("ALL")
 public class AlertDialogParams {
 
     private String message;
@@ -33,6 +36,10 @@ public class AlertDialogParams {
     private int containerLayout;
     private View dialogView;
     private boolean showDividers;
+
+    @StyleRes
+    int overrideStyleRes = R.style.UIDDialogStylesOverrides;
+
     private int dialogType = DialogConstants.TYPE_ALERT;
     private int dimLayer = DialogConstants.DIM_STRONG;
 
@@ -170,5 +177,9 @@ public class AlertDialogParams {
 
     public void setPositiveButtonText(String positiveButtonText) {
         this.positiveButtonText = positiveButtonText;
+    }
+
+    public void setDialogActionAreaOverrideStyle(@StyleRes int overrideStyleRes) {
+        this.overrideStyleRes = overrideStyleRes;
     }
 }

@@ -49,6 +49,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     private String reminderTimeString;
     private Button ok_got_it;
     private UIDNavigationIconToggler navIconToggler;
+    static final long serialVersionUID = 103L;
 
     @Nullable
     @Override
@@ -68,9 +69,10 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         ok_got_it.setOnClickListener(this);
         reminderTime = (Label) view.findViewById(R.id.reminderTime);
         if (reminderTimeString.contains(THSConstants.THS_NO_REMINDER_STRING)) {
-            reminderTime.setVisibility(View.GONE);
+            reminderTime.setText( getString(R.string.ths_rb_no_reminder) + " "+getString(R.string.ths_before_appointment));
+        } else {
+            reminderTime.setText(getString(R.string.ths_set_remainder) + " " + reminderTimeString);
         }
-        reminderTime.setText(getString(R.string.ths_set_remainder) + " " + reminderTimeString);
         mProviderFullName = (Label) view.findViewById(R.id.details_providerNameLabel);
         mPracticeNameLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
         mEmailSentMessage = (Label) view.findViewById(R.id.email_sent);
@@ -97,11 +99,11 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
                                 ProviderImageSize.SMALL).placeholder(mImageProviderImage.getResources().
                         getDrawable(R.drawable.doctor_placeholder, getActivity().getTheme())).build().load();
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
         }
         THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "appointmentScheduled");
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_APPOINTMENT_CONFIRMED,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_SCHEDULE_APPOINTMENT_CONFIRMED,null,null);
         return view;
     }
 

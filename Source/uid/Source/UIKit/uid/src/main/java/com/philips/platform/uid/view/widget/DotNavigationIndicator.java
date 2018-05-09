@@ -20,12 +20,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDUtils;
 
 /**
  * <code>DotNavigationIndicator</code> draw dots based on number of items in viewpager's Adapter.
@@ -72,6 +73,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     private int iconRightSpacing;
     private Drawable backgroundDrawable;
     private int dotNavigationIconColorListID = -1;
+    private ColorStateList dotNavigationIconColorList;
     private boolean isCircularSwipeEnabled;
 
     private int initialPosition;
@@ -101,7 +103,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     public DotNavigationIndicator(@NonNull Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        this(context, attrs, R.attr.uidDotNavigationStyle);
     }
 
     public DotNavigationIndicator(@NonNull final Context context, final AttributeSet attrs, final int defStyleAttr) {
@@ -110,8 +112,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     private void init(final Context context, final AttributeSet attrs, final int defStyleAttr) {
-        setGravity(Gravity.CENTER);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDDotNavigation, defStyleAttr, R.style.UIDDotNavigationIndicatorItemStyle);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDDotNavigation, R.attr.uidNavigationItemStyle, R.style.UIDDotNavigationIndicatorItemStyle);
         backgroundDrawable = typedArray.getDrawable(R.styleable.UIDDotNavigation_uidDotNavigationDrawable);
         //Need to check if this works even for normal drawables and icons along with vector
 
@@ -142,6 +143,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * Either of setViewpager(pager) or setViewPager(pager, position) must be called so as to draw Dots
      *
      * @param viewPager pager you want to bind to Dot indicator
+     * @since 3.0.0
      */
     @Override
     public void setViewPager(@NonNull final ViewPager viewPager) {
@@ -152,7 +154,8 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * Provide the view pager reference you want to bind with and provide a current position to be highlighted
      *
      * @param newViewPager    viewpager to bind to indicator
-     * @param initialPosition with initialPosition selected/highlited
+     * @param initialPosition with initialPosition selected/highlighted
+     * @since 3.0.0
      */
     @Override
     public void setViewPager(final ViewPager newViewPager, int initialPosition) {
@@ -190,6 +193,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * Enables circular swipe behavior
      *
      * @param circularSwipeEnabled Configures circular swipe property
+     * @since 3.0.0
      */
     @SuppressWarnings("unused")
     public void setCircularSwipeEnabled(boolean circularSwipeEnabled) {
@@ -225,6 +229,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * Sets the current page in viewpager  and highlight the corresponding dot
      *
      * @param position to be shown on pager and corresponding dot to be highlighted
+     * @since 3.0.0
      */
     @Override
     public void setCurrentItem(int position) {
@@ -279,8 +284,16 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         final View selectedChild = getSelectedChild();
         if (selectedChild != null) {
             final MarginLayoutParams marginLayoutParams = (MarginLayoutParams) selectedChild.getLayoutParams();
-            final boolean isLeft = event.getX() < (selectedChild.getX() - selectedChild.getPaddingStart() - marginLayoutParams.getMarginStart());
-            final boolean isRight = event.getX() > (selectedChild.getX() + selectedChild.getWidth() + marginLayoutParams.getMarginEnd());
+            boolean isLeft = event.getX() < (selectedChild.getX() - selectedChild.getPaddingStart() - marginLayoutParams.getMarginStart());
+            boolean isRight = event.getX() > (selectedChild.getX() + selectedChild.getWidth() + marginLayoutParams.getMarginEnd());
+
+            boolean isRTL = UIDUtils.isLayoutRTL(this);
+            if (isRTL) {
+                boolean temp = isLeft;
+                isLeft = isRight;
+                isRight = temp;
+            }
+
             if (isLeft)
                 showPrevious();
             if (isRight)
@@ -323,6 +336,9 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     protected ColorStateList getIndicatorTintList() {
+        if (dotNavigationIconColorList != null) {
+            return dotNavigationIconColorList;
+        }
         return ThemeUtils.buildColorStateList(getContext(),
                 dotNavigationIconColorListID != -1 ? dotNavigationIconColorListID : R.color.uid_dot_navigation_icon_color);
     }
@@ -338,6 +354,8 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     /**
      * This is the method is responsible for showing next item when user clicks/taps on the right side of <br>
      * highlighted dot.
+     *
+     * @since 3.0.0
      */
     protected void showNext() {
         if (!isViewPagerInitialized()) {
@@ -355,6 +373,8 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     /**
      * This is the method is responsible for showing previous item when user clicks/taps on the left side of <br>
      * highlighted dot.
+     *
+     * @since 3.0.0
      */
     protected void showPrevious() {
         if (!isViewPagerInitialized()) {
@@ -368,6 +388,17 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         }
 
         viewPager.setCurrentItem(selectedIndex - 1);
+    }
+
+    /**
+     * Sets the indicator drawable colors list.
+     *
+     * @since 2017.5.0
+     */
+    @SuppressWarnings("unused")
+    public void setDotColors(ColorStateList colors) {
+        dotNavigationIconColorList = colors;
+        drawIndicatorDots();
     }
 
     private int getViewPagerCount() {

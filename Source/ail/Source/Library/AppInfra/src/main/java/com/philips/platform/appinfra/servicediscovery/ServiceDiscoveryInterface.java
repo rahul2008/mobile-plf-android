@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
@@ -16,7 +17,7 @@ import java.util.Map;
 /**
  * The ServiceDiscovery Interface .
  */
-public interface ServiceDiscoveryInterface {
+public interface ServiceDiscoveryInterface extends Serializable{
 
     /**
      * This is the callback method Error cases.

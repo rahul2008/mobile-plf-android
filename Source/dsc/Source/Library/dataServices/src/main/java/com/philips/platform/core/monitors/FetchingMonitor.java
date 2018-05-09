@@ -56,7 +56,7 @@ public class FetchingMonitor extends EventMonitor {
     @Inject
     InsightSegregator insightSegregator;
 
-    public FetchingMonitor(DBFetchingInterface dbInterface) {
+    public FetchingMonitor(@NonNull DBFetchingInterface dbInterface) {
         this.dbInterface = dbInterface;
         DataServicesManager.getInstance().getAppComponent().injectFetchingMonitor(this);
     }

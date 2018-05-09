@@ -25,7 +25,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@SuppressWarnings("serial")
 public class EmailFragment extends DigitalCareBaseFragment {
 
     private View mView = null;

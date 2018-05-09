@@ -117,5 +117,6 @@
     <dimen name="slider_label_size">16sp</dimen>
     <dimen name="slider_temporary_horizontal_margin">6dp</dimen>
     <dimen name="slider_temporary_vertical_margin">12dp</dimen>
+    <dimen name="slider_label_spacing">4dp</dimen>
 
 </resources>

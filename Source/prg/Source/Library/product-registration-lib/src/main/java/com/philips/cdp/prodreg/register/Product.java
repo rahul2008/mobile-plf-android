@@ -26,6 +26,10 @@ import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.io.Serializable;
 
+/**
+ * It is used to represent a Product
+ * @since 1.0.0
+ */
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 4081810711321162900L;
@@ -38,20 +42,43 @@ public class Product implements Serializable {
     private boolean shouldSendEmailAfterRegistration = true;
     private String friendlyName;
 
+    /**
+     * Creates instance of Product
+     * @param productModelNumber  pass correct product model number as string
+     * @param sector  pass sector from enum PrxConstants.Sector
+     * @param catalog  pass sector from catalog PrxConstants.Catalog
+     * @since 1.0.0
+     */
     public Product(String productModelNumber, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
         this.productModelNumber = productModelNumber;
         this.sector = sector;
         this.catalog = catalog;
     }
 
+    /**
+     * API returns the friendlyName
+     * @return FriendlyName return product family name
+     * @since 1.0.0
+     */
     public String getFriendlyName() {
         return friendlyName;
     }
 
+    /**
+     * API to set friendlyName
+     * @param friendlyName  pass friendly name for any given product name
+     * @since 1.0.0
+     */
     public void setFriendlyName(final String friendlyName) {
         this.friendlyName = friendlyName;
     }
 
+    /**
+     * API to execute product metadata request .
+     * @param context  pass application context
+     * @param metadataListener   pass instance of MetadataListener
+     * @since 1.0.0
+     */
     public void getProductMetadata(final Context context, final MetadataListener metadataListener) {
         ProductMetadataRequest productMetadataRequest = getProductMetadataRequest(getCtn());
         productMetadataRequest.setSector(getSector());
@@ -61,6 +88,14 @@ public class Product implements Serializable {
         mRequestManager.executeRequest(productMetadataRequest, metadataResponseListener);
     }
 
+    /**
+     *  API to execute product summary request .
+     *
+     * @param context  pass application context
+     * @param product  pass instance of Product class
+     * @param summaryListener  pass instance of SummaryListener
+     * @since 1.0.0
+     */
     public void getProductSummary(final Context context, final Product product, final SummaryListener summaryListener) {
         ProductSummaryRequest productSummaryRequest = getProductSummaryRequest(product);
         productSummaryRequest.setSector(product.getSector());
@@ -70,11 +105,23 @@ public class Product implements Serializable {
         mRequestManager.executeRequest(productSummaryRequest, summaryResponseListener);
     }
 
+    /**
+     * API to get instance of ProductSummaryRequest from product
+     * @param product  pass instance of Product class
+     * @return ProductSummaryRequest  It return new instance of ProductSummaryRequest
+     * @since 1.0.0
+     */
     @NonNull
     protected ProductSummaryRequest getProductSummaryRequest(final Product product) {
         return new ProductSummaryRequest(product.getCtn(),ProdRegConstants.PRODUCTSUMMERYREQUEST_SERVICE_ID,getSector(),getCatalog());
     }
 
+    /**
+     * API to get ResponseListener instance from metadataListener
+     * @param metadataListener  pass instance of MetadataListener
+     * @return ResponseListener
+     * @since 1.0.0
+     */
     @NonNull
     ResponseListener getPrxResponseListener(final MetadataListener metadataListener) {
         return new ResponseListener() {
@@ -91,6 +138,12 @@ public class Product implements Serializable {
         };
     }
 
+    /**
+     * API to get ResponseListener instance from summaryListener
+     * @param summaryListener  pass instance of SummaryListener
+     * @return ResponseListener
+     * @since 1.0.0
+     */
     @NonNull
     ResponseListener getPrxResponseListenerForSummary(final SummaryListener summaryListener) {
         return new ResponseListener() {
@@ -107,10 +160,21 @@ public class Product implements Serializable {
         };
     }
 
+    /**
+     * API gets Product
+     * @return Product
+     * @since 1.0.0
+     */
     protected Product getProduct() {
         return this;
     }
 
+    /**
+     * API gets RequestManager instance
+     * @param context  pass instance of application Context
+     * @return RequestManager  return instance of RequestManager
+     * @since 1.0.0
+     */
     @NonNull
     RequestManager getRequestManager(final Context context) {
         AppInfraInterface appInfra = PRUiHelper.getInstance().getAppInfraInstance();
@@ -122,9 +186,10 @@ public class Product implements Serializable {
     }
 
     /**
-     * API return Model Number
+     * API returns Model Number
      *
      * @return return model number as string
+     * @since 1.0.0
      */
     public String getCtn() {
         productModelNumber = productModelNumber != null ? productModelNumber : "";
@@ -132,8 +197,9 @@ public class Product implements Serializable {
     }
 
     /**
-     * API return Serial Number
+     * API returns Serial Number
      * @return return serial number as string
+     * @since 1.0.0
      */
     public String getSerialNumber() {
         productSerialNumber = productSerialNumber != null ? productSerialNumber : "";
@@ -141,8 +207,9 @@ public class Product implements Serializable {
     }
 
     /**
-     * API set the serial number
+     * API sets the serial number
      * @param serialNumber serial Number
+     *                     @since 1.0.0
      */
 
     public void setSerialNumber(final String serialNumber) {
@@ -150,48 +217,54 @@ public class Product implements Serializable {
     }
 
     /**
-     * API return Sector
+     * API to return Sector
      * @return return sector as Enum's
+     * @since 1.0.0
      */
     public PrxConstants.Sector getSector() {
         return sector;
     }
 
     /**
-     * API return Catalog
+     * API to return Catalog
      * @return return catalog as Enum's
+     * @since 1.0.0
      */
     public PrxConstants.Catalog getCatalog() {
         return catalog;
     }
 
     /**
-     * API return Locale
+     * API to return product Locale
      * @return return local as string
+     * @since 1.0.0
      */
     public String getLocale() {
         return locale;
     }
 
     /**
-     * API set Local
+     * API to set product Local
      * @param locale local
+     * @since 1.0.0
      */
     public void setLocale(String locale) {
         this.locale = locale;
     }
 
     /**
-     * API return date
+     * API to return purchase date
      * @return Purchase date
+     * @since 1.0.0
      */
     public String getPurchaseDate() {
         return purchaseDate;
     }
 
     /**
-     * API set Date
-     * @param purchaseDate purchase date
+     * API to set purchase date
+     * @param purchaseDate purchase date as string
+     * @since 1.0.0
      */
 
     public void setPurchaseDate(final String purchaseDate) {
@@ -199,25 +272,28 @@ public class Product implements Serializable {
     }
 
     /**
-     * API return email
+     * API to return email
      * @return return Email
+     * @since 1.0.0
      */
     public boolean getEmail() {
         return shouldSendEmailAfterRegistration;
     }
 
     /**
-     * API need to set email confirmations
+     * API sets email confirmations
      * @param shouldSendEmailAfterRegistration shouldSendEmailAfterRegistration
+     *                                         @since 1.0.0
      */
     public void sendEmail(final boolean shouldSendEmailAfterRegistration) {
         this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
     }
 
     /**
-     * API need to pass CTN to get Metadata
-     * @param ctn ctn
+     * API passes CTN to get Metadata
+     * @param ctn pass product ctn
      * @return ctn as string
+     * @since 1.0.0
      */
     public ProductMetadataRequest getProductMetadataRequest(String ctn) {
         return new ProductMetadataRequest(ctn, ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID,getSector(),getCatalog());

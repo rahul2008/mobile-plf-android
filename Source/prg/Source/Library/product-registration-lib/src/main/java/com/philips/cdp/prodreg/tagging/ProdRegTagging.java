@@ -5,8 +5,9 @@
 */
 package com.philips.cdp.prodreg.tagging;
 
+import android.app.Activity;
+
 import com.philips.cdp.product_registration_lib.BuildConfig;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -17,6 +18,7 @@ public class ProdRegTagging {
 
     private static ProdRegTagging prodRegTagging;
     private static AppTaggingInterface aiAppTaggingInterface;
+
     private ProdRegTagging() {
     }
 
@@ -51,4 +53,13 @@ public class ProdRegTagging {
         commonGoalsMap.put(key, value);
         getAiAppTaggingInterface().trackActionWithInfo(event, commonGoalsMap);
     }
+
+    public void pauseCollectingLifecycleData() {
+        getAiAppTaggingInterface().pauseLifecycleInfo();
+    }
+
+    public void collectLifecycleData(Activity activity) {
+        getAiAppTaggingInterface().collectLifecycleInfo(activity);
+    }
+
 }

@@ -17,6 +17,7 @@ import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSHashingFunction;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.ArrayList;
@@ -50,6 +51,10 @@ public class THSDependentPresenter implements THSBasePresenter {
                 case THSConstants.THS_PRACTICES:
                     mThsDependantHistoryFragment.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
                     break;
+                case THSConstants.THS_EDIT_CONSUMER_DETAILS:
+                    bundle.putBoolean(THSConstants.IS_LAUNCHED_FROM_EDIT_DETAILS,true);
+                    mThsDependantHistoryFragment.addFragment(new THSRegistrationFragment(), THSPracticeFragment.TAG, bundle, false);
+                    break;
             }
         } else {
             mThsDependantHistoryFragment.addFragment(new THSRegistrationFragment(), THSRegistrationFragment.TAG, bundle, false);
@@ -73,18 +78,15 @@ public class THSDependentPresenter implements THSBasePresenter {
 
     protected void updateDependents() {
 
-        final List<Consumer> server = THSManager.getInstance().getThsParentConsumer(mThsDependantHistoryFragment.getContext()).getConsumer().getDependents();
-         List<THSConsumer> local = THSManager.getInstance().getThsParentConsumer(mThsDependantHistoryFragment.getContext()).getDependents();
+        Consumer consumerUser = THSManager.getInstance().getThsParentConsumer(mThsDependantHistoryFragment.getContext()).getConsumer();
+        final List<Consumer> server = consumerUser.getDependents();
+        List<THSConsumer> local = THSManager.getInstance().getThsParentConsumer(mThsDependantHistoryFragment.getContext()).getDependents();
 
-        List<THSConsumer> newObject = new ArrayList<>();
+        for(THSConsumer thsConsumer:local){
+            for(Consumer consumer: server){
 
-        for(Consumer consumer: server){
-            for(THSConsumer thsConsumer:local){
-                if(thsConsumer.getFirstName()!=null && thsConsumer.getFirstName().equalsIgnoreCase(consumer.getFirstName())){
+                if(new THSHashingFunction().md5(thsConsumer.getHsdpUUID()).equalsIgnoreCase(consumer.getSourceId())){
                     thsConsumer.setConsumer(consumer);
-                    newObject.add(thsConsumer);
-                }else {
-                    addDependentToConsumer(consumer,newObject);
                 }
             }
         }
@@ -93,7 +95,7 @@ public class THSDependentPresenter implements THSBasePresenter {
 
     }
 
-    private List addDependentToConsumer(Consumer consumer, List<THSConsumer> localDependents) {
+   /* private List addDependentToConsumer(Consumer consumer, List<THSConsumer> localDependents) {
 
         for (THSConsumer thsConsumer : localDependents){
             if(thsConsumer.getFirstName().equalsIgnoreCase(consumer.getFirstName())){
@@ -125,5 +127,5 @@ public class THSDependentPresenter implements THSBasePresenter {
 
         localDependents.add(baby);
         return localDependents;
-    }
+    }*/
 }

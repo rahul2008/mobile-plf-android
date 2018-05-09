@@ -1,5 +1,5 @@
 include ':app'//, ':samplemicroapp'
 include 'uAppFwLib'
 project(':uAppFwLib').projectDir = new File('../Library/uAppFwLib')
-include ':DemoUApp'
-project(':DemoUApp').projectDir = new File('../DemoUApp')
+include ':uAppFwLibUApp'
+project(':uAppFwLibUApp').projectDir = new File('../DemoUApp')

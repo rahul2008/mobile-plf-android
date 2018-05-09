@@ -7,12 +7,14 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.*;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,16 +23,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.utils.MaxHeightScrollView;
-import com.philips.platform.uid.utils.UIDLog;
-import com.philips.platform.uid.utils.UIDUtils;
 
 /**
  * UID AlertDialogFragment.
@@ -67,11 +68,6 @@ public class AlertDialogFragment extends DialogFragment {
     private View bottom_divider;
 
     private LinearLayout buttonLayout;
-    private ViewGroup decorView;
-    private View dimView;
-    private FrameLayout dimViewContainer;
-    private int animDuration = 300;
-    private int dimColor = Color.BLACK;
 
     public AlertDialogFragment() {
         dialogParams = new AlertDialogParams();
@@ -80,7 +76,9 @@ public class AlertDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
+        Context popupThemedContext = UIDHelper.getPopupThemedContext(getContext());
+        LayoutInflater layoutInflater = inflater.cloneInContext(popupThemedContext);
+        popupThemedContext.getTheme().applyStyle(dialogParams.overrideStyleRes, true);
 
         if (savedInstanceState != null) {
             dialogParams.setMessage(savedInstanceState.getString(DialogConstants.UID_ALERT_DIALOG_MESSAGE_KEY));
@@ -126,7 +124,6 @@ public class AlertDialogFragment extends DialogFragment {
 
         handleButtonLayout();
         handlePositiveOnlyButton();
-        setDimLayer();
 
         return view;
     }
@@ -192,13 +189,9 @@ public class AlertDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        try {
-            getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
-            if (dialogParams.getDialogType() == DialogConstants.TYPE_ALERT) {
-                setAlertWidth();
-            }
-        } catch (NullPointerException e) {
-            UIDLog.e(e.toString(), e.getMessage());
+        Window window = getDialog().getWindow();
+        if (window != null) {
+            window.setWindowAnimations(R.style.UIDAlertAnimation);
         }
     }
 
@@ -212,22 +205,12 @@ public class AlertDialogFragment extends DialogFragment {
      *
      * @param manager The FragmentManager this fragment will be added to.
      * @param tag     The tag for this fragment, as per
+     * @since 3.0.0
      */
     public void showAllowingStateLoss(FragmentManager manager, String tag) {
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(this, tag);
         ft.commitAllowingStateLoss();
-    }
-
-    private void setAlertWidth() {
-        final ViewGroup.LayoutParams lp;
-        try {
-            lp = getView().getLayoutParams();
-            lp.width = (int) getResources().getDimension(R.dimen.uid_alert_dialog_width);
-            getView().setLayoutParams(lp);
-        } catch (NullPointerException e) {
-            UIDLog.e(e.toString(), e.getMessage());
-        }
     }
 
     @Override
@@ -243,19 +226,6 @@ public class AlertDialogFragment extends DialogFragment {
         outState.putInt(DialogConstants.UID_ALERT_DIALOG_TYPE_KEY, dialogParams.getDialogType());
         outState.putInt(DialogConstants.UID_ALERT_DIALOG_DIM_LAYER_KEY, dialogParams.getDimLayer());
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onStart() {
-        startEnterAnimation();
-        super.onStart();
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        decorView.removeView(dimViewContainer);
-        startExitAnimation();
-        super.onDismiss(dialog);
     }
 
     private void setNegativeButtonProperties() {
@@ -304,59 +274,10 @@ public class AlertDialogFragment extends DialogFragment {
      * Set the color and opacity for the dim background. Must be called before show to have effect.
      *
      * @param color Color of background
+     * @since 3.0.0
      */
+    @Deprecated
     public void setDimColor(int color) {
-        dimColor = color;
-    }
-
-    private void startEnterAnimation() {
-        UIDUtils.animateAlpha(dimView, 1f, animDuration, null);
-    }
-
-    private void startExitAnimation() {
-        UIDUtils.animateAlpha(dimView, 0f, animDuration, new Runnable() {
-            @Override
-            public void run() {
-                decorView = null;
-                dimView = null;
-                dimViewContainer = null;
-            }
-        });
-    }
-
-    private void setDimLayer() {
-        setDimColors();
-        setDimContainer();
-        addDimView();
-    }
-
-    private void setDimColors() {
-        TypedArray array = getActivity().obtainStyledAttributes(R.styleable.PhilipsUID);
-        int bgColor = dialogParams.getDimLayer() == DialogConstants.DIM_SUBTLE ? array.getColor(R.styleable.PhilipsUID_uidDimLayerSubtleBackgroundColor, dimColor) : array.getColor(R.styleable.PhilipsUID_uidDimLayerStrongBackgroundColor, dimColor);
-        setDimColor(bgColor);
-        array.recycle();
-    }
-
-    private void setDimContainer() {
-        decorView = (ViewGroup) getActivity().getWindow().getDecorView();
-        dimViewContainer = new FrameLayout(getActivity());
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        dimViewContainer.setLayoutParams(params);
-    }
-
-    private void addDimView() {
-        dimView = new View(getActivity());
-        dimView.setBackgroundColor(dimColor);
-        dimView.setAlpha(0f);
-        dimViewContainer.addView(dimView);
-        decorView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (decorView != null) {
-                    decorView.addView(dimViewContainer);
-                }
-            }
-        });
     }
 
     private void setTitle(final ViewGroup headerView) {
@@ -380,6 +301,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of positive button
      *
      * @param listener Listener for positive button
+     * @since 3.0.0
      */
     public void setPositiveButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setPositiveButtonLister(listener);
@@ -392,6 +314,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of negative button
      *
      * @param listener Listener for negative button
+     * @since 3.0.0
      */
     public void setNegativeButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setNegativeButtonListener(listener);
@@ -404,6 +327,7 @@ public class AlertDialogFragment extends DialogFragment {
      * sets the listener to receive callback on click of alternate button
      *
      * @param listener Listener for alternate button
+     * @since 3.0.0
      */
     public void setAlternateButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.setAlternateButtonListener(listener);
@@ -421,12 +345,13 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     public static class Builder {
+        static final int DEFAULT_DIALOG_THEME = R.style.UIDAlertDialog;
         final AlertDialogParams params;
-        final int theme;
+        int theme;
         int dialogStyle;
 
         public Builder(final Context context) {
-            this(context, R.style.UIDAlertDialog);
+            this(context, DEFAULT_DIALOG_THEME);
         }
 
         public Builder(@NonNull Context context, @StyleRes int themeResId) {
@@ -439,9 +364,10 @@ public class AlertDialogFragment extends DialogFragment {
          * Style that needs to be applied on dialog.
          *
          * @param dialogStyle Selects a standard style: may be {@link #STYLE_NORMAL},
-         * {@link #STYLE_NO_TITLE}, {@link #STYLE_NO_FRAME}, or
-         * {@link #STYLE_NO_INPUT}.
-         * @return
+         *                    {@link #STYLE_NO_TITLE}, {@link #STYLE_NO_FRAME}, or
+         *                    {@link #STYLE_NO_INPUT}.
+         * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public Builder setDialogStyle(int dialogStyle) {
             this.dialogStyle = dialogStyle;
@@ -452,6 +378,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Set the title using the given resource id.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setTitle(@StringRes int titleId) {
             params.setTitle(params.getContext().getString(titleId));
@@ -462,6 +389,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Set the title displayed in the {@link AlertDialogFragment}.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setTitle(@NonNull CharSequence title) {
             params.setTitle(title.toString());
@@ -472,6 +400,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Set the message to display using the given resource id.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setMessage(@StringRes int messageId) {
             params.setMessage(params.getContext().getString(messageId));
@@ -482,6 +411,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Set the message to display.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setMessage(@NonNull CharSequence message) {
             params.setMessage(message.toString());
@@ -494,6 +424,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Takes precedence over values set using {@link #setIcon(Drawable)}.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setIcon(@DrawableRes int iconId) {
             params.setIconId(iconId);
@@ -509,6 +440,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @return this Builder object to allow for chaining of calls to set
          * methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setIcon(Drawable icon) {
             params.setIconDrawable(icon);
@@ -521,6 +453,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param textId   The resource id of the text to display in the positive button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setPositiveButton(@StringRes int textId, final View.OnClickListener listener) {
             params.setPositiveButtonText(params.getContext().getString(textId));
@@ -534,6 +467,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param text     The text to display in the positive button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setPositiveButton(CharSequence text, final View.OnClickListener listener) {
             params.setPositiveButtonText(text.toString());
@@ -547,6 +481,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param textId   The resource id of the text to display in the negative button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setNegativeButton(@StringRes int textId, final View.OnClickListener listener) {
             params.setNegativeButtonText(params.getContext().getString(textId));
@@ -560,6 +495,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param text     The text to display in the negative button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setNegativeButton(CharSequence text, final View.OnClickListener listener) {
             params.setNegativeButtonText(text.toString());
@@ -571,6 +507,7 @@ public class AlertDialogFragment extends DialogFragment {
          * Sets whether the dialog is cancelable or not.  Default is true.
          *
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setCancelable(boolean cancelable) {
             params.setCancelable(cancelable);
@@ -582,6 +519,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @param dialogType Can be one of two options: DialogConstants.TYPE_DIALOG or DialogConstants.TYPE_ALERT
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setDialogType(int dialogType) {
             params.setDialogType(dialogType);
@@ -593,9 +531,13 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @param dimLayer Can be one of two options: DialogConstants.DIM_SUBTLE or DialogConstants.DIM_STRONG
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setDimLayer(int dimLayer) {
             params.setDimLayer(dimLayer);
+            if (theme == DEFAULT_DIALOG_THEME && dimLayer == DialogConstants.DIM_STRONG) {
+                theme = R.style.UIDAlertDialog_Strong;
+            }
             return this;
         }
 
@@ -604,6 +546,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @param layout ResID of the layout to be set to the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setDialogLayout(@LayoutRes int layout) {
             params.setContainerLayout(layout);
@@ -615,6 +558,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @param view View to be added to the dialog layout.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setDialogView(View view) {
             params.setDialogView(view);
@@ -627,6 +571,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param text     The text to display in the alternate button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setAlternateButton(CharSequence text, final View.OnClickListener listener) {
             params.setAlternateButtonText(text.toString());
@@ -640,6 +585,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @param textId   String to display in the alternate button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setAlternateButton(@StringRes int textId, final View.OnClickListener listener) {
             params.setAlternateButtonText(params.getContext().getString(textId));
@@ -652,6 +598,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @param showDividers boolean to set if dividers should be shown.
          * @return This Builder object to allow for chaining of calls to set methods
+         * @since 3.0.0
          */
         public AlertDialogFragment.Builder setDividers(boolean showDividers) {
             params.setShowDividers(showDividers);
@@ -659,9 +606,34 @@ public class AlertDialogFragment extends DialogFragment {
         }
 
         /**
+         * Overrides properties related to dialog.
+         * New Style should be create extending <pre> {@code UIDDialogStylesOverrides}</pre>
+         * Example
+         * <pre>
+         * {@code
+         *  <style name="CustomDialogOverride" parent="UIDDialogStylesOverrides">
+         *           <item name="uidAlertDialogActionArea">@style/UIDDialogActionAreaStyle</item> Override style should extend UIDDialogActionAreaStyle
+         *           <item name="uidDialogAlternativeButton">@style/UIDQuietButton</item>
+         *           <item name="uidDialogNegativeButton">@style/UIDQuietButton</item>
+         *           <item name="uidDialogPositiveButton">@style/UIDDefaultButton</item>
+         *   </style>
+         * }
+         * </pre>
+         *
+         * @param overrideStyle Style resource which overrides properties for dialog dimensions
+         * @return This Builder object to allow for chaining of calls to set methods
+         * @since 2017.5.1
+         */
+        public AlertDialogFragment.Builder setDialogActionAreaOverrideStyle(@StyleRes int overrideStyle) {
+            params.setDialogActionAreaOverrideStyle(overrideStyle);
+            return this;
+        }
+
+        /**
          * Sets the builder objects on dialog and returns {@link AlertDialogFragment}.
          *
          * @return AlertDialogFragment
+         * @since 3.0.0
          */
         public AlertDialogFragment create() {
             return create(new AlertDialogFragment());
@@ -671,7 +643,8 @@ public class AlertDialogFragment extends DialogFragment {
          * Gives a chance to provide any extension of {@link AlertDialogFragment} to intercept calls of {@link DialogFragment}
          *
          * @param alertDialogFragment Fragment which extends {@link AlertDialogFragment}
-         * @return
+         * @return AlertDialogFragment object
+         * @since 3.0.0
          */
         public <T extends AlertDialogFragment> AlertDialogFragment create(final T alertDialogFragment) {
             alertDialogFragment.setCancelable(params.isCancelable());

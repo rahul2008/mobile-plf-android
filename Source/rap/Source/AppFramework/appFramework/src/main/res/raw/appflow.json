@@ -58,6 +58,20 @@
         ]
       },
       {
+        "state": "privacy_settings",
+        "events": [
+          {
+            "eventId": "PrivacyNotice",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "onBoarding_registration",
         "events": [
           {
@@ -146,15 +160,6 @@
             ]
           },
           {
-            "eventId": "settings",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "settings"
-              }
-            ]
-          },
-          {
             "eventId": "support",
             "nextStates": [
               {
@@ -186,7 +191,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "iap"
+                "nextState": "shopping_cart"
               }
             ]
           },
@@ -243,6 +248,21 @@
                 "nextState": "my_account"
               }
             ]
+          },
+          {
+            "eventId": "telehealth_deeplinking",
+            "nextStates": [
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "TeleHealthServicesDeepLinkingState"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
           }
         ]
       },
@@ -279,6 +299,29 @@
         ]
       },
       {
+        "state": "my_account",
+        "events": [
+          {
+            "eventId": "PrivacySettingsEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "privacy_settings"
+              }
+            ]
+          },
+          {
+            "eventId": "MyDetailsEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_details"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "support",
         "events": [
           {
@@ -287,47 +330,6 @@
               {
                 "condition": [],
                 "nextState": "pr"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "state": "settings",
-        "events": [
-          {
-            "eventId": "order_history",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "iap"
-              }
-            ]
-          },
-          {
-            "eventId": "logout",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "home_fragment"
-              }
-            ]
-          },
-          {
-            "eventId": "login",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "settings_registration"
-              }
-            ]
-          },
-          {
-            "eventId": "TermsAndConditions",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "web_view"
               }
             ]
           }
@@ -468,6 +470,15 @@
               {
                 "condition": [],
                 "nextState": "device_pairing"
+              }
+            ]
+          },
+          {
+            "eventId": "TestThsDemoEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "telehealthservicesdemo"
               }
             ]
           }

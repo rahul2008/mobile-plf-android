@@ -37,7 +37,7 @@ public class DevicePairingUappInterface implements UappInterface {
         DSDemoAppuAppInterface dsDemoAppuAppInterface = new DSDemoAppuAppInterface();
         devicePairingUappDependencies = ((DevicePairingUappDependencies) uappDependencies);
 
-        dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(uappDependencies.getAppInfra()), dsDemoAppuAppSettings);
+        dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(uappDependencies.getAppInfra(), null), dsDemoAppuAppSettings);
 
         User user = new User(mContext);
         if (user.isUserSignIn()) {

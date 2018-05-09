@@ -8,11 +8,10 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +34,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 
@@ -46,6 +44,7 @@ import butterknife.ButterKnife;
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
         View.OnClickListener, MarketingAccountContract {
 
+    private static final String TAG = MarketingAccountFragment.class.getSimpleName();
     @BindView(R2.id.usr_marketingScreen_countMe_button)
     ProgressBarButton countMeButton;
 
@@ -62,11 +61,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     Label receivePhilipsNewsLabel;
 
     @BindView(R2.id.usr_marketingScreen_rootContainer_linearLayout)
-    LinearLayout usr_marketingScreen_rootContainer_linearLayout;
-
-
-
-    private ProgressDialog mProgressDialog;
+    LinearLayout usrMarketingScreenRootContainerLinearLayout;
 
     private User mUser;
 
@@ -79,19 +74,16 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     MarketingAccountPresenter marketingAccountPresenter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext=context;
+        mContext = context;
+        RLog.i(TAG, "onAttach : is called");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        URInterface.getComponent().inject(this);
+        RLog.i(TAG, "onCreateView : is called");
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
 
@@ -107,6 +99,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     private void setContentConfig(View view) {
+        RLog.i(TAG, "setContentConfig : is called");
         if (getRegistrationFragment().getContentConfiguration() != null) {
             updateText(view, R.id.usr_marketingScreen_headTitle_Lable,
                     getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
@@ -120,12 +113,15 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             }
         } else {
             defalutBannerText(view);
+            RLog.i(TAG, "setContentConfig : getContentConfiguration : is null");
         }
     }
 
+    @SuppressLint("StringFormatInvalid")
     void defalutBannerText(View view) {
+        RLog.i(TAG, "defalutBannerText : is called");
         String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String updateJoinNowText = " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
+        String updateJoinNowText = mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers);
         joinNow = String.format(joinNow, updateJoinNowText);
         updateText(view, R.id.usr_marketingScreen_joinNow_Label, joinNow);
     }
@@ -133,48 +129,44 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     private void updateText(View view, int textViewId, String text) {
         TextView marketBeTheFirstTextView = (TextView) view.findViewById(textViewId);
         if (text != null && text.length() > 0) {
-            marketBeTheFirstTextView.setText(Html.fromHtml(text));
+            marketBeTheFirstTextView.setText(text);
         }
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onActivityCreated");
+    public void onStop() {
+        super.onStop();
+        RLog.i(TAG, "onStop : is called");
+        if (marketingAccountPresenter != null) {
+            marketingAccountPresenter.unRegister();
+            RLog.i(TAG, "onStop : unregister NetworStateListener,JANRAIN_INIT_SUCCESS");
+        }
     }
-
-    @Override
-    public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
-        marketingAccountPresenter.unRegister();
-        RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
-        super.onDestroy();
-    }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        RLog.i(TAG, "onSaveInstanceState : is called");
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
+        RLog.i(TAG, "onViewStateRestored : is called");
         super.onViewStateRestored(savedInstanceState);
         mBundle = null;
     }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onConfigurationChanged");
+        RLog.i(TAG, "onConfigurationChanged : is called");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
 
     @Override
     public void setViewParams(Configuration config, int width) {
-       // applyParams(config,usr_marketingScreen_rootContainer_linearLayout,width);
+        // no value
     }
 
     @Override
@@ -185,11 +177,13 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.usr_marketingScreen_countMe_button) {
-            showRefreshProgress();
+            showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, true);
+            RLog.i(TAG, "updateMarketingEmail : is called with update true");
         } else if (v.getId() == R.id.usr_marketingScreen_maybeLater_button) {
-            showRefreshProgress();
+            showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, false);
+            RLog.i(TAG, "updateMarketingEmail : is called with update false");
         }
     }
 
@@ -208,23 +202,28 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         public void onClick(View widget) {
             getRegistrationFragment().addPhilipsNewsFragment();
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
+            RLog.i(TAG, "PHILIPS_ANNOUNCEMENT : Fragment is loaded");
         }
     };
 
     @Override
     public void handleRegistrationSuccess() {
-        RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
+        RLog.i(TAG, "handleRegistrationSuccess : is called");
         hideRefreshProgress();
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !(mUser.isEmailVerified() || mUser.isMobileVerified())) {
-            if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
+            if (FieldsValidator.isValidEmail(mUser.getEmail())) {
                 launchAccountActivateFragment();
+                RLog.i(TAG, "handleRegistrationSuccess : launchAccountActivateFragment is called");
             } else {
                 launchMobileVerifyCodeFragment();
+                RLog.i(TAG, "handleRegistrationSuccess : launchMobileVerifyCodeFragment is called");
             }
         } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
             getRegistrationFragment().userRegistrationComplete();
+            RLog.i(TAG, "handleRegistrationSuccess : userRegistrationComplete is called");
         } else {
             getRegistrationFragment().userRegistrationComplete();
+            RLog.i(TAG, "handleRegistrationSuccess : else : userRegistrationComplete is called");
         }
         if (mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0) {
             mTrackCreateAccountTime = (System.currentTimeMillis() - RegUtility.
@@ -252,15 +251,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public String getTitleResourceText() {
-        String titleResourceText = null;
-        if (getRegistrationFragment().getContentConfiguration() != null) {
-            titleResourceText = getRegistrationFragment().getContentConfiguration().getOptInActionBarText();
-        }
-        return titleResourceText;
-    }
-
-    @Override
     public void trackRemarketing() {
         if (mUser.getReceiveMarketingEmail()) {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
@@ -269,23 +259,9 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         }
     }
 
-    private void showRefreshProgress() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.show();
-        } else {
-            mProgressDialog.show();
-        }
-    }
-
     @Override
     public void hideRefreshProgress() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-        }
+        hideProgressDialog();
     }
 
     @Override

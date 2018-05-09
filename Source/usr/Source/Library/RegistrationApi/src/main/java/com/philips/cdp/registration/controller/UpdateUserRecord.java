@@ -61,40 +61,17 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     private String CONSUMER_COUNTRY = "country";
 
-    private String CONSUMER_ADDRESS1 = "address1";
-
-    private String CONSUMER_ADDRESS2 = "address2";
-
-    private String CONSUMER_ADDRESS3 = "address3";
-
-    private String CONSUMER_CITY = "city";
-
-    private String CONSUMER_COMPANY = "company";
-
-    private String CONSUMER_PHONE_NUMBER = "dayTimePhoneNumber";
-
-    private String CONSUMER_HOUSE_NUMBER = "houseNumber";
-
-    private String CONSUMER_MOBILE = "mobile";
-
-    private String CONSUMER_PHONE = "phone";
-
-    private String CONSUMER_STATE = "state";
-
-    private String CONSUMER_ZIP = "zip";
 
     private String CONSUMER_NAME = "consumer";
-
-    private String CONSUMER_ZIP_PLUS = "zipPlus4";
 
     private String CONSUMER_PREFERED_LANGUAGE = "preferredLanguage";
 
     private String CONSUMER_PRIMARY_ADDRESS = "primaryAddress";
 
-    private String LOG_TAG = "RegisterSocial";
+    private final static String TAG = UpdateUserRecord.class.getSimpleName();
 
     public UpdateUserRecord(Context context) {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = context;
     }
 
@@ -105,7 +82,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
             serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
                 @Override
                 public void onSuccess(String s, SOURCE source) {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
+                    RLog.d(TAG, " ServiceDiscoveryInterface :onSuccess: Country Sucess :");
                     CaptureRecord updatedUser = Jump.getSignedInUser();
                     JSONObject originalUserInfo = getCurrentUserAsJsonObject();
                     String microSiteId = RegistrationConfiguration.getInstance().getMicrositeId();
@@ -128,14 +105,14 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                         // PrimaryAddress
                         JSONObject primaryAddressObject = new JSONObject();
                         primaryAddressObject.put(CONSUMER_COUNTRY,s);
-                        RLog.e(LOG_TAG,"GET_COUNTRY  : "+s);
+                        RLog.e(TAG,"ServiceDiscoveryInterface :onSuccess  : "+s);
                         JSONArray primaryAddressArray = new JSONArray();
                         primaryAddressArray.put(primaryAddressObject);
 
                         updatedUser.put(CONSUMER_VISITED_MICROSITE_IDS, visitedMicroSitesArray);
                         updatedUser.put(CONSUMER_ROLES, rolesArray);
                         updatedUser.put(CONSUMER_PREFERED_LANGUAGE, Locale.getDefault().getLanguage());
-                        RLog.e(LOG_TAG,"Preferef Lang  : "+ Locale.getDefault().getLanguage());
+                        RLog.e(TAG,"ServiceDiscoveryInterface :onSuccess : "+ Locale.getDefault().getLanguage());
                         updatedUser.put(CONSUMER_PRIMARY_ADDRESS, primaryAddressObject);
                         if (!(originalUserInfo.getBoolean(OLDER_THAN_AGE_LIMIT) && updatedUser.getBoolean(OLDER_THAN_AGE_LIMIT))) {
                             updatedUser.put(OLDER_THAN_AGE_LIMIT, true);
@@ -144,7 +121,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                         updateUserRecord(updatedUser, originalUserInfo);
 
                     } catch (JSONException e) {
-                        RLog.e(LOG_TAG, "On success, Caught JSON Exception");
+                        RLog.e(TAG, "On success, Caught JSON Exception");
                     }
                 }
                 @Override
@@ -190,7 +167,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
                 visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
                 JSONArray visitedMicroSitesArray = (JSONArray) updatedUser.get(CONSUMER_VISITED_MICROSITE_IDS);
-                RLog.d(LOG_TAG, "Visited microsite ids = " + visitedMicroSitesArray);
+                RLog.d(TAG, "updateUserRecordLogin : Visited microsite ids = " + visitedMicroSitesArray);
                 if (null == visitedMicroSitesArray) {
                     visitedMicroSitesArray = new JSONArray();
                 }
@@ -202,7 +179,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 }
                 updateUserRecord(updatedUser, originalUserInfo);
             } catch (JSONException e) {
-                RLog.e(LOG_TAG, "On success, Caught JSON Exception");
+                RLog.e(TAG, "On success, Caught JSON Exception"+e.getMessage());
             }
         }
     }

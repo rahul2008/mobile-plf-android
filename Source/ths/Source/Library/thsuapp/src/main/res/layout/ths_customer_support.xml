@@ -12,6 +12,7 @@
         android:layout_width="@dimen/ths_image_size"
         android:layout_height="@dimen/ths_image_size"
         android:layout_centerVertical="true"
+        android:gravity="center_vertical"
         android:layout_marginEnd="@dimen/ths_fab_margin"
         android:layout_marginStart="@dimen/ths_fab_margin"
         android:text="@string/dls_personportrait"

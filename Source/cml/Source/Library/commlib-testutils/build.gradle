@@ -44,7 +44,6 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "commlib-testutils"
-version = objcdp.getVersion(versions.cml_commlib)
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
@@ -67,6 +66,8 @@ repositories {
         }
     }
 }
+
+group = 'com.philips.cdp'
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -178,9 +179,7 @@ configurations.all {
  * Zips external documentation to be included with a release
  */
 task zipDocuments(type: Zip) {
-    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
-    from files(docfiles) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }

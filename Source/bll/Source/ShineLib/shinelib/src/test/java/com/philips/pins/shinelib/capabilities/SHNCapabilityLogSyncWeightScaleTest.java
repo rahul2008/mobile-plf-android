@@ -14,7 +14,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
@@ -30,12 +29,12 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.doAnswer;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -141,7 +140,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         shnCapabilityLogSyncWeightScale.abortSynchronization();
 
         ArgumentCaptor<Boolean> booleanArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
-        verify(mockedShnServiceWeightScale).setNotificationsEnabled(booleanArgumentCaptor.capture(), any(SHNResultListener.class));
+        verify(mockedShnServiceWeightScale).setNotificationsEnabled(booleanArgumentCaptor.capture(), (SHNResultListener) any());
         assertFalse(booleanArgumentCaptor.getValue());
     }
 
@@ -173,7 +172,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         shnServiceWeightScaleListener.onServiceStateChanged(mockedShnServiceWeightScale, SHNService.State.Unavailable);
 
         ArgumentCaptor<Boolean> booleanArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
-        verify(mockedShnServiceWeightScale).setNotificationsEnabled(booleanArgumentCaptor.capture(), any(SHNResultListener.class));
+        verify(mockedShnServiceWeightScale).setNotificationsEnabled(booleanArgumentCaptor.capture(), (SHNResultListener) any());
 
         assertFalse(booleanArgumentCaptor.getValue());
         assertEquals(SHNCapabilityLogSynchronization.State.Idle, shnCapabilityLogSyncWeightScale.getState());
@@ -185,7 +184,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
             SHNWeightMeasurement mockedShnTemperatureMeasurement = mock(SHNWeightMeasurement.class);
             when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(dates[i]);
 
-            SHNWeightMeasurement.Flags mockedFlags = Mockito.mock(SHNWeightMeasurement.Flags.class);
+            SHNWeightMeasurement.Flags mockedFlags = mock(SHNWeightMeasurement.Flags.class);
             when(mockedFlags.hasUserId()).thenReturn(false);
             when(mockedFlags.hasBmiAndHeight()).thenReturn(false);
             when(mockedShnTemperatureMeasurement.getFlags()).thenReturn(mockedFlags);
@@ -222,7 +221,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertEquals(3, shnLogArgumentCaptor.getValue().getLogItems().size());
     }
@@ -239,7 +238,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertEquals(4, shnLogArgumentCaptor.getValue().getLogItems().size());
     }
@@ -259,7 +258,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertEquals(1, shnLogArgumentCaptor.getValue().getLogItems().size());
     }
@@ -277,7 +276,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertEquals(3, shnLogArgumentCaptor.getValue().getLogItems().size());
 
@@ -311,7 +310,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().contains(SHNDataType.BodyWeight));
         assertEquals(1, shnLogArgumentCaptor.getValue().getContainedDataTypes().size());
@@ -326,7 +325,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         SHNWeightMeasurement mockedShnTemperatureMeasurement = mock(SHNWeightMeasurement.class);
         when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(new Date(100L));
 
-        SHNWeightMeasurement.Flags mockedFlags = Mockito.mock(SHNWeightMeasurement.Flags.class);
+        SHNWeightMeasurement.Flags mockedFlags = mock(SHNWeightMeasurement.Flags.class);
         when(mockedFlags.hasUserId()).thenReturn(true);
         when(mockedFlags.hasBmiAndHeight()).thenReturn(true);
         when(mockedShnTemperatureMeasurement.getFlags()).thenReturn(mockedFlags);
@@ -347,7 +346,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         SHNWeightMeasurement mockedShnTemperatureMeasurement = mock(SHNWeightMeasurement.class);
         when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(new Date(100L));
 
-        SHNWeightMeasurement.Flags mockedFlags = Mockito.mock(SHNWeightMeasurement.Flags.class);
+        SHNWeightMeasurement.Flags mockedFlags = mock(SHNWeightMeasurement.Flags.class);
         when(mockedFlags.hasUserId()).thenReturn(true);
         when(mockedFlags.hasBmiAndHeight()).thenReturn(false);
         when(mockedShnTemperatureMeasurement.getFlags()).thenReturn(mockedFlags);
@@ -360,7 +359,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         List<SHNLogItem> items = shnLogArgumentCaptor.getValue().getLogItems();
         SHNDataBodyWeight shnDataBodyTemperature = (SHNDataBodyWeight) items.get(0).getDataByDataTypeMap().get(SHNDataType.BodyWeight);
@@ -377,7 +376,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         SHNWeightMeasurement mockedShnTemperatureMeasurement = mock(SHNWeightMeasurement.class);
         when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(new Date(100L));
 
-        SHNWeightMeasurement.Flags mockedFlags = Mockito.mock(SHNWeightMeasurement.Flags.class);
+        SHNWeightMeasurement.Flags mockedFlags = mock(SHNWeightMeasurement.Flags.class);
         when(mockedFlags.hasUserId()).thenReturn(false);
         when(mockedFlags.hasBmiAndHeight()).thenReturn(true);
         when(mockedShnTemperatureMeasurement.getFlags()).thenReturn(mockedFlags);
@@ -394,7 +393,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         List<SHNLogItem> items = shnLogArgumentCaptor.getValue().getLogItems();
         SHNDataBodyWeight shnDataBodyTemperature = (SHNDataBodyWeight) items.get(0).getDataByDataTypeMap().get(SHNDataType.BodyWeight);

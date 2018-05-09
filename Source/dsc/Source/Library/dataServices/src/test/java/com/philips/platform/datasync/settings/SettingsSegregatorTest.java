@@ -1,51 +1,73 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.datasync.settings;
 
-import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
-import com.philips.platform.core.injection.AppComponent;
-import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.datasync.spy.DBFetchingInterfaceSpy;
 import com.philips.testing.verticals.table.OrmSettings;
-import com.squareup.okhttp.internal.framed.Settings;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
-/**
- * Created by sangamesh on 31/01/17.
- */
 public class SettingsSegregatorTest {
 
-    SettingsSegregator settingsSegregator;
-
-    @Mock
-    DBFetchingInterface mockDBDbFetchingInterface;
-
-    @Mock
-    private AppComponent appComponantMock;
-
-    @Before
-    public void setUp() throws Exception {
-        initMocks(this);
-        DataServicesManager.getInstance().setAppComponent(appComponantMock);
-        settingsSegregator = new SettingsSegregator();
-        settingsSegregator.dbFetchingInterface=mockDBDbFetchingInterface;
+    @Test
+    public void putSettingsForSyncAddsSettingsToDataToSyncMap() throws Exception {
+        givenSettingsToSync(ormSettings);
+        whenSelectingSettingsToSync();
+        thenDataToSyncContains(Settings.class, ormSettings);
     }
 
     @Test
-    public void shouldReturnDataToSyn_WhenPutSettingsForSyncIsCalled() throws Exception {
-        OrmSettings ormSettings=new OrmSettings("Metric","en_US");
-        Map<Class, List<?>> dataToSync = new HashMap<>();
-        dataToSync.put(Settings.class, Arrays.asList(ormSettings));
-        settingsSegregator.putSettingsForSync(dataToSync);
-        verify(mockDBDbFetchingInterface).fetchNonSyncSettings();
+    public void putSettingsForSyncDoesNotAddSettingsToSyncMapWhenFailingToRetrieveSettingsFromDb() {
+        givenFetchSettingsThrowsException();
+        whenSelectingSettingsToSync();
+        thenDataToSyncDoesNotContain(Settings.class);
     }
 
+    private void givenSettingsToSync(final OrmSettings... settingsToSync) {
+        db.settingsToSync = Arrays.asList(settingsToSync);
+    }
+
+    private void givenFetchSettingsThrowsException() {
+        db.exceptionWhenFetchingSettingsToSync = new SQLException();
+    }
+
+    private void whenSelectingSettingsToSync() {
+        settingsSegregator.putSettingsForSync(dataToSync);
+    }
+
+    private void thenDataToSyncContains(final Class<?> klazz, final OrmSettings... expectedSettings) {
+        assertEquals(Arrays.asList(expectedSettings), dataToSync.get(klazz));
+    }
+
+    private void thenDataToSyncDoesNotContain(final Class<?> klazz) {
+        assertFalse(dataToSync.containsKey(klazz));
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        db = new DBFetchingInterfaceSpy();
+        settingsSegregator = new SettingsSegregator(db);
+        dataToSync = new HashMap<>();
+    }
+
+    private SettingsSegregator settingsSegregator;
+    private DBFetchingInterfaceSpy db;
+
+    private Map<Class, List<?>> dataToSync;
+    private OrmSettings ormSettings = new OrmSettings("Metric", "en_US", null);
 }

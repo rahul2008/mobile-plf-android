@@ -11,5 +11,6 @@
         android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
         android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
         android:drawablePadding="@dimen/uid_recyclerview_drawable_padding"
+        android:textAlignment="viewStart"
         android:gravity="start|center_vertical"/>
 </LinearLayout>

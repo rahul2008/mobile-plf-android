@@ -36,7 +36,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class ShoppingCartFragmentTest {
     private Context mContext;
     ShoppingCartFragment shoppingCartFragment;

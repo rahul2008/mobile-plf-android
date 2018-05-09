@@ -164,7 +164,9 @@ public class WelcomeVideoPagerFragment extends Fragment implements WelcomeVideoF
     @Override
     public void onDestroy() {
         super.onDestroy();
-        videoView.release();
+        if(videoView!=null) {
+            videoView.release();
+        }
     }
 
     public boolean isVideoPlaying() {

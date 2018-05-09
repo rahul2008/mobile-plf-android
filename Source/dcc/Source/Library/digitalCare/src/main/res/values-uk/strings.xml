@@ -19,7 +19,7 @@
     <string name="product_info"> Інформація про виріб </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Завантаження </string>
-    <string name="please_wait"> Зачекайте &amp;#8230; </string>
+    <string name="dcc_please_wait"> Зачекайте &amp;#8230; </string>
     <string name="get_directions"> Отримати вказівки </string>
     <string name="search"> Пошук </string>
     <string name="gps_disabled"> Функцію GPS вимкнено на Вашому пристрої. Увімкнути її? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Пароль </string>
     <string name="sign_into_my_philips"> Увійти в систему My Philips </string>
     <string name="forgot_my_password"> Я не пам’ятаю пароль &gt;  </string>
-    <string name="create_account">  Створити обліковий запис &gt; </string>
+    <string name="dcc_create_account">  Створити обліковий запис &gt; </string>
 
     <string name="localtephilips_contactus">До сторінки з контактами</string>
 
@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Довідка і технічна підтримка</string>
     <string name="dcc_Call">Зателефонувати</string>
     <string name="dcc_Opening_Hours">Години роботи</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Скасувати</string>
+    <string name="dcc_location_consent_title">Згода на визначення місцеперебування</string>
+    <string name="dcc_location_consent_definition_text">Я дозволяю Philips отримувати дані про моє місцеперебування у разі користування послугою «Знайти Philips поруч».</string>
+    <string name="dcc_location_consent_definition_help_text">Коли Ви надаєте доступ до даних про місцеперебування, ми можемо збирати дані про географічне місцеперебування Вашого мобільного пристрою.\n\nКоли Ви користуєтеся послугою «Знайти Philips поруч» на сторінці підтримки, ми просимо надати Philips доступ до даних про Ваше місцеперебування. Якщо Ви користуватиметеся нашими функціями визначення місцеперебування, Вас буде скеровано до магазину поруч або до контактної інформації центру обслуговування клієнтів у Вашій країні.</string>
 
 </resources>

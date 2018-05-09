@@ -30,6 +30,7 @@ public class UIDLocaleHelper {
 
     /**
      * This static API will help you get singleton instance of UIDLocaleHelper
+     * @since 3.0.0
      */
     public static UIDLocaleHelper getInstance() {
         return uidLocaleHelper;
@@ -41,6 +42,7 @@ public class UIDLocaleHelper {
      * @param context Context of view to be updated
      * @param view    View object to be updated
      * @param attrs   Attribute set for the view
+     *                @since 3.0.0
      */
     public static void setTextFromResourceID(Context context, View view, AttributeSet attrs) {
         if (view instanceof TextView) {
@@ -63,6 +65,7 @@ public class UIDLocaleHelper {
      * <br>Call with null to stop lookup and delegate all calls to native.
      *
      * @param pathInput Absolute path of your JSON file in String format
+     *                  @since 3.0.0
      */
     public void setFilePath(String pathInput) {
         if (TextUtils.isEmpty(pathInput)) {
@@ -79,6 +82,7 @@ public class UIDLocaleHelper {
 
     /**
      * This method is used by UIDResources to lookup strings present in your Language pack JSON and subsequently apply the string values.
+     * @since 3.0.0
      */
     public String lookUpString(String key) {
         return uidLocaleHelper.stringMap.get(key);
@@ -86,6 +90,7 @@ public class UIDLocaleHelper {
 
     /**
      * This method is used by UIDResources to check if lookup is needed based a result of JSON parsing.
+     * @since 3.0.0
      */
     public boolean isLookUp() {
         return uidLocaleHelper.isLookUp;

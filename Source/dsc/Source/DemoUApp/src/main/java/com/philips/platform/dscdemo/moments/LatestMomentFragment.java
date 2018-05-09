@@ -42,7 +42,7 @@ public class LatestMomentFragment extends DSBaseFragment
 
     private MomentPresenter mMomentPresenter;
     private MomentAdapter mMomentAdapter;
-    private ArrayList<? extends Moment> mMomentList = new ArrayList();
+    private ArrayList<? extends Moment> mMomentList = new ArrayList<>();
     private String mMomentType;
 
     @Override
@@ -72,9 +72,9 @@ public class LatestMomentFragment extends DSBaseFragment
         View view = inflater.inflate(R.layout.latest_moment, container, false);
         mMomentAdapter = new MomentAdapter(getContext(), mMomentList, mMomentPresenter, false);
 
-        mMomentTypeEt = (EditText) view.findViewById(R.id.et_moment_type);
-        mNoActiveLatestMoment = (TextView) view.findViewById(R.id.tv_no_latest_moment);
-        mMomentsRecyclerView = (RecyclerView) view.findViewById(R.id.latest_moment_list);
+        mMomentTypeEt = view.findViewById(R.id.et_moment_type);
+        mNoActiveLatestMoment = view.findViewById(R.id.tv_no_latest_moment);
+        mMomentsRecyclerView = view.findViewById(R.id.latest_moment_list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mMomentsRecyclerView.setLayoutManager(layoutManager);
         mMomentsRecyclerView.setAdapter(mMomentAdapter);
@@ -89,7 +89,7 @@ public class LatestMomentFragment extends DSBaseFragment
             }
         });
 
-        Button mOkBtn = (Button) view.findViewById(R.id.btn_fetch);
+        Button mOkBtn = view.findViewById(R.id.btn_fetch);
         mOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

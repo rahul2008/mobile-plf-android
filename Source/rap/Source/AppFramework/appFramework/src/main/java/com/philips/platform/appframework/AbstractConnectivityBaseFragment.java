@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.platform.appframework;
 
 import android.app.Activity;
@@ -61,13 +60,12 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
     /**
      * Setup comm central
      */
-    protected CommCentral getCommCentral(ConnectivityDeviceType deviceType) {
+    protected CommCentral getCommCentral() {
         // Setup CommCentral
         RALog.i(TAG, "Setup CommCentral ");
         try {
             AppFrameworkApplication appContext = ((AppFrameworkApplication) context.getApplicationContext().getApplicationContext());
             mCommCentral = appContext.getCommCentralInstance();
-            appContext.getApplianceFactory().setDeviceType(deviceType);
             mCommCentral.getApplianceManager().addApplianceListener(this.applianceListener);
             RALog.i(TAG,"ConnectivityFragment getCommCentralInstance - " + mCommCentral);
         } catch (TransportUnavailableException e) {

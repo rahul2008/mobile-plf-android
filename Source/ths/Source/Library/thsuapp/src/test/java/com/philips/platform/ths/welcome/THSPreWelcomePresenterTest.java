@@ -30,6 +30,7 @@ import java.net.URL;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITIONS;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -77,21 +78,21 @@ public class THSPreWelcomePresenterTest {
     @Test
     public void onEvent() throws Exception {
         mTHSPreWelcomePresenter.onEvent(R.id.ths_go_see_provider);
-        verify(thsPreWelcomeFragment).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
+        verify(thsPreWelcomeFragment).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(), anyBoolean());
     }
 
     @Test
     public void onEventIsReurtuningUser() throws Exception {
         THSManager.getInstance().setIsReturningUser(false);
         mTHSPreWelcomePresenter.onEvent(R.id.ths_go_see_provider);
-        verify(thsPreWelcomeFragment).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
+        verify(thsPreWelcomeFragment).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(), anyBoolean());
     }
 
     @Test
     public void onEventths_video_consults() throws Exception {
         THSManager.getInstance().setIsReturningUser(false);
         mTHSPreWelcomePresenter.onEvent(R.id.ths_video_consults);
-        verify(thsPreWelcomeFragment).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
+        verify(thsPreWelcomeFragment).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(), anyBoolean());
     }
 
     @Test

@@ -25,7 +25,7 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 
-
+@SuppressWarnings("serial")
 public class ChatFragment extends DigitalCareBaseFragment {
 
     private Button mChatNow = null;

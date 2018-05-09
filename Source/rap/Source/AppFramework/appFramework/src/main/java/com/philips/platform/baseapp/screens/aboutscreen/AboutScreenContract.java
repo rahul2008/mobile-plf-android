@@ -14,6 +14,6 @@ public interface AboutScreenContract {
     }
 
     interface Action {
-        void loadTermsAndPrivacy(String serviceId);
+        void loadTermsAndPrivacy(String serviceId, String title);
     }
 }

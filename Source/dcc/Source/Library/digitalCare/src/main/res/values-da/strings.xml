@@ -19,7 +19,7 @@
     <string name="product_info"> produktoplysninger </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Indlæser </string>
-    <string name="please_wait"> Vent venligst &amp;#8230; </string>
+    <string name="dcc_please_wait"> Vent venligst &amp;#8230; </string>
     <string name="get_directions"> Rutevejledning </string>
     <string name="search"> Søg </string>
     <string name="gps_disabled"> GPS er deaktiveret på din enhed. Vil du aktivere den? </string>
@@ -135,7 +135,7 @@
     <string name="password"> Adgangskode </string>
     <string name="sign_into_my_philips"> Log på My Philips </string>
     <string name="forgot_my_password"> Jeg har glemt min kode &gt;  </string>
-    <string name="create_account">  Opret konto &gt; </string>
+    <string name="dcc_create_account">  Opret konto &gt; </string>
 
     <string name="localtephilips_contactus">Gå til kontaktsiden</string>
 
@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">Hjælp og support</string>
     <string name="dcc_Call">Opkald</string>
     <string name="dcc_Opening_Hours">Åbningstider</string>
+    <string name="dcc_location_consent_accept">OK</string>
+    <string name="dcc_location_consent_reject">Annuller</string>
+    <string name="dcc_location_consent_title">Samtykke til tilgang til placering</string>
+    <string name="dcc_location_consent_definition_text">Jeg giver Philips tilladelse til at tilgå mine placeringsoplysninger til brug for funktionen \"Find Philips nær dig\".</string>
+    <string name="dcc_location_consent_definition_help_text">Når du giver tilladelse til at tilgå placeringsoplysninger, har vi ret til at indsamle din mobile enheds geografiske placering.\n\nNår du gør brug af \"Find Philips nær dig\"-funktionaliteten på supportsiden, anmodes du om at dele dine placeringsoplysninger med Philips. Hvis du gør brug af vores placeringsfunktioner, ud fra dine placeringsoplysninger, henvises du til en butik i nærheden af dig eller til oplysninger om kundeservicecenteret for dit land.</string>
 
 </resources>

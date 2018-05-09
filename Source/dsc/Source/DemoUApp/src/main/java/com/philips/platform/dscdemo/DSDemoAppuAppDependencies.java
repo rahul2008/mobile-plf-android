@@ -6,11 +6,17 @@
 package com.philips.platform.dscdemo;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 public class DSDemoAppuAppDependencies extends UappDependencies {
+    public JustInTimeTextResources textResources;
 
-    public DSDemoAppuAppDependencies(final AppInfraInterface appInfra) {
+    public DSDemoAppuAppDependencies(final AppInfraInterface appInfra,
+                                     final JustInTimeTextResources textResources) {
         super(appInfra);
+        this.textResources = textResources;
     }
 }

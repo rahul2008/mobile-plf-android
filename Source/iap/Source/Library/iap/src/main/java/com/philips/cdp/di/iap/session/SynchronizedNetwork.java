@@ -13,7 +13,7 @@ import com.android.volley.toolbox.HurlStack;
 import org.json.JSONObject;
 
 public class SynchronizedNetwork {
-    private BasicNetwork mBasicNetwork;
+    protected BasicNetwork mBasicNetwork;
 
     public SynchronizedNetwork(HurlStack stack) {
         HurlStack hurlStack = stack;
@@ -23,13 +23,24 @@ public class SynchronizedNetwork {
         mBasicNetwork = new BasicNetwork(hurlStack);
     }
 
-    public void performRequest(IAPJsonRequest request, SynchronizedNetworkListener callBack) {
+    public void performRequest(final IAPJsonRequest request, SynchronizedNetworkListener callBack) {
         try {
             NetworkResponse response = mBasicNetwork.performRequest(request);
             successResponse(request, callBack, response);
 
         } catch (VolleyError volleyError) {
-            callBack.onSyncRequestError(volleyError);
+            retryForUrlRedirection(request,volleyError,callBack);
+        }
+    }
+
+    private void retryForUrlRedirection(IAPJsonRequest request, VolleyError error, SynchronizedNetworkListener callBack) {
+        IAPUrlRedirectionHandler iapUrlRedirectionHandler = new IAPUrlRedirectionHandler(request, error);
+        // Handle 30x
+        if (iapUrlRedirectionHandler.isRedirectionRequired()) {
+            IAPJsonRequest requestNew = iapUrlRedirectionHandler.getNewRequestWithRedirectedUrl();
+            performRequest(requestNew, callBack);
+        } else {
+            callBack.onSyncRequestError(error);
         }
     }
 

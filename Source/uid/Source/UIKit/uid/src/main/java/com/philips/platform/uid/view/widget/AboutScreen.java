@@ -134,6 +134,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the exact string value to App name label. Alternatively app:uidAboutScreenAppName can be used in xml.
      *
      * @param text String to be set
+     *             @since 3.0.1
      */
     public void setAppName(CharSequence text) {
         appName.setText(text);
@@ -143,6 +144,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the exact string value to App version label. Alternatively app:uidAboutScreenAppVersion can be used in xml.
      *
      * @param text String to be set
+     *             @since 3.0.1
      */
     public void setAppVersion(CharSequence text) {
         appVersion.setText(text);
@@ -152,6 +154,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the exact string value to Copyright label. Alternatively app:uidAboutScreenCopyright can be used in xml.
      *
      * @param text String to be set
+     *             @since 3.0.1
      */
     public void setCopyright(CharSequence text) {
         copyright.setText(text);
@@ -161,6 +164,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the exact string value to Terms label. Alternatively app:uidAboutScreenTerms can be used in xml.
      *
      * @param text String to be set
+     *             @since 3.0.1
      */
     public void setTerms(CharSequence text) {
         terms.setText(text);
@@ -170,6 +174,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the exact string value to Privacy label. Alternatively app:uidAboutScreenPrivacy can be used in xml.
      *
      * @param text String to be set
+     *             @since 3.0.1
      */
     public void setPrivacy(CharSequence text) {
         privacy.setText(text);
@@ -179,6 +184,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the exact string value to Disclosure label. Alternatively app:uidAboutScreenDisclosure can be used in xml.
      *
      * @param text String to be set
+     *             @since 3.0.1
      */
     public void setDisclosure(CharSequence text) {
         disclosure.setText(text);
@@ -188,6 +194,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the string to App name label through a string resource. Alternatively app:uidAboutScreenAppName can be used in xml.
      *
      * @param resID resourceId of string to be set
+     *              @since 3.0.1
      */
     public void setAppName(@StringRes int resID) {
         appName.setText(resID);
@@ -197,6 +204,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the string to Version label through a string resource. Alternatively app:uidAboutScreenAppVersion can be used in xml.
      *
      * @param resID resourceId of string to be set
+     *              @since 3.0.1
      */
     public void setAppVersion(@StringRes int resID) {
         appVersion.setText(resID);
@@ -206,6 +214,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the string to Copyright label through a string resource. Alternatively app:uidAboutScreenCopyright can be used in xml.
      *
      * @param resID resourceId of string to be set
+     *              @since 3.0.1
      */
     public void setCopyright(@StringRes int resID) {
         copyright.setText(resID);
@@ -215,6 +224,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the string to Terms label through a string resource. Alternatively app:uidAboutScreenTerms can be used in xml.
      *
      * @param resID resourceId of string to be set
+     *              @since 3.0.1
      */
     public void setTerms(@StringRes int resID) {
         terms.setText(resID);
@@ -224,6 +234,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the string to Privacy label through a string resource. Alternatively app:uidAboutScreenPrivacy can be used in xml.
      *
      * @param resID resourceId of string to be set
+     *              @since 3.0.1
      */
     public void setPrivacy(@StringRes int resID) {
         privacy.setText(resID);
@@ -233,6 +244,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the string to Disclosure label through a string resource. Alternatively app:uidAboutScreenDisclosure can be used in xml.
      *
      * @param resID resourceId of string to be set
+     *              @since 3.0.1
      */
     public void setDisclosure(@StringRes int resID) {
         disclosure.setText(resID);
@@ -242,6 +254,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the About screen logo using a drawable, by default Philips shield logo would be set.
      *
      * @param drawable drawable object to be set
+     *                 @since 3.0.1
      */
     @SuppressWarnings("unused")
     public void setAppIcon(Drawable drawable){
@@ -252,6 +265,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the About screen logo using a drawable, by default Philips shield logo would be set.
      *
      * @param resID resourceId of drawable to be set
+     *              @since 3.0.1
      */
     @SuppressWarnings("unused")
     public void setAppIcon(int resID){
@@ -262,6 +276,7 @@ public class AboutScreen extends ScrollView {
      * This API will help you to set the About screen logo using a Bitmap, by default Philips shield logo would be set.
      *
      * @param bitmap bitmap to be set
+     *               @since 3.0.1
      */
     @SuppressWarnings("unused")
     public void setAppIcon(Bitmap bitmap){

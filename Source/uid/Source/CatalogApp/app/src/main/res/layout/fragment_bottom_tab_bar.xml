@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.BottomTabBarFragment" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.philips.platform.uid.view.widget.TabLayout
+            android:id="@+id/tab_layout_with_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            style="@style/UIDBottomTabLayout.Title" >
+
+            <com.philips.platform.uid.view.widget.UIDTabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/search_icon"
+                android:text="@string/search" />
+
+            <com.philips.platform.uid.view.widget.UIDTabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/cart_icon"
+                android:text="@string/cart" />
+
+            <com.philips.platform.uid.view.widget.UIDTabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/notification_icon"
+                app:uidTabItemNotificationBadgeCount="3"
+                android:text="@string/alerts"/>
+
+            <com.philips.platform.uid.view.widget.UIDTabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/profile_icon"
+                android:text="@string/profile" />
+
+        </com.philips.platform.uid.view.widget.TabLayout>
+
+        <com.philips.platform.uid.view.widget.TabLayout
+            android:id="@+id/tab_layout_icon_only"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" >
+
+            <com.philips.platform.uid.view.widget.UIDTabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/search_icon"/>
+
+            <com.philips.platform.uid.view.widget.UIDTabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/cart_icon" />
+
+            <com.philips.platform.uid.view.widget.UIDTabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/notification_icon"
+                app:uidTabItemNotificationBadgeCount="3" />
+
+            <com.philips.platform.uid.view.widget.UIDTabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/profile_icon" />
+
+        </com.philips.platform.uid.view.widget.TabLayout>
+
+        <RelativeLayout
+            android:id="@+id/icon_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/tab_layout_with_title">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/gallery_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/search_icon"
+                app:tint="?attr/uidTabsDefaultNormalOffIconColor"
+                app:tintMode="src_in" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/tab_layout_with_title"
+            android:visibility="gone">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</layout>

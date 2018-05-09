@@ -10,7 +10,7 @@ package com.philips.platform.ths.uappclasses;
 import android.content.Context;
 
 import com.philips.platform.uappframework.uappinput.UappSettings;
-
+@SuppressWarnings("serial")
 public class THSMicroAppSettings extends UappSettings {
 
     public THSMicroAppSettings(final Context applicationContext) {

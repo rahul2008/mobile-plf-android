@@ -1,11 +1,11 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
-import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -22,7 +22,7 @@ public class AccountActivationPresenter implements NetworkStateListener, Traditi
 
     public AccountActivationPresenter(AccountActivationContract accountActivationContract, RegistrationHelper registrationHelper) {
         this.registrationHelper = registrationHelper;
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.accountActivationContract = accountActivationContract;
     }
     @Override

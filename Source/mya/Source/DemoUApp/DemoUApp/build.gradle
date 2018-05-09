@@ -10,14 +10,14 @@ buildscript {
 
     repositories {
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -26,8 +26,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -48,7 +48,7 @@ archivesBaseName = "MyAccountUApp"
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -69,9 +69,6 @@ allprojects {
         }
     }
 }
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.mya_myAccount)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -106,7 +103,7 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }
@@ -126,7 +123,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -164,7 +161,6 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled false
         }
     }
     packagingOptions {
@@ -205,21 +201,30 @@ android {
     dataBinding {
         enabled = true
     }
+
+    publishNonDefault true
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:appcompat-v7:${versions.support}"
-    testCompile 'junit:junit:4.12'
+    compile deps.support.appcompatv7
+    testCompile deps.junit
 
     def dp = project.ext.has('useprojectdependencies')
-    compile(dp ? project(':MyAccount') : project(':MyAccount'))
-    compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-                transitive = true
-    }
     if(dp) {
-        compile(project(':UserRegistrationUApp'))
+        debugCompile project(path: ':mya', configuration: 'debug')
+        releaseCompile project(path: ':mya', configuration: 'release')
+        debugCompile project(path: ':uid', configuration: 'debug')
+        releaseCompile project(path: ':uid', configuration: 'release')
+        debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
+        releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
+        debugCompile project(path: ':mya-csw', configuration: 'debug')
+        releaseCompile project(path: ':mya-csw', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile philipsdeps.mya
+        compile philipsdeps.uid
+        compile philipsdeps.UserRegistrationUApp
+        compile philipsdeps.mya_csw
     }
+
 }

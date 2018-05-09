@@ -1,8 +1,8 @@
 package com.philips.platform.ths.sdkerrors;
 
-import com.americanwell.sdk.entity.SDKErrorReason;
+import android.content.Context;
 
 public interface THSErrorHandlerInterface {
-    String getErrorMessage();
-    boolean validate(SDKErrorReason sdkErrorReason);
+    String getErrorMessage(Context context);
+    boolean validate(String sdkErrorReason, Context context);
 }

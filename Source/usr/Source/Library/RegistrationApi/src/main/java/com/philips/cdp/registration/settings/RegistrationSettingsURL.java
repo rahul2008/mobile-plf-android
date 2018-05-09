@@ -2,6 +2,8 @@ package com.philips.cdp.registration.settings;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
@@ -10,7 +12,6 @@ import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
@@ -22,6 +23,8 @@ import javax.inject.Inject;
 
 public class RegistrationSettingsURL extends RegistrationSettings {
 
+    private String TAG = RegistrationSettingsURL.class.getSimpleName();
+
     @Inject
     HSDPConfiguration hsdpConfiguration;
 
@@ -29,30 +32,23 @@ public class RegistrationSettingsURL extends RegistrationSettings {
     ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     public RegistrationSettingsURL() {
-        URInterface.getComponent().inject(this);
+        RegistrationConfiguration.getInstance().getComponent().inject(this);
     }
 
-    private static final String EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
+    private static final String PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
+    private static final String PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
-    private static final String EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
     private static final String EVAL_PRX_RESEND_CONSENT_URL = "https://acc.usa.philips.com/prx/registration/resendConsentMail";
 
     private static final String DEV_PRX_RESEND_CONSENT_URL = "https://dev.philips.com/prx/registration/resendConsentMail";
 
-    private static final String DEV_EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
-
-    private static final String DEV_EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
     private static final String PROD_PRX_RESEND_CONSENT_URL = "https://www.usa.philips.com/prx/registration/resendConsentMail";
 
     private static final String PROD_PRODUCT_REGISTER_URL = "https://www.philips.co.uk/prx/registration/";
 
     private static final String PROD_PRODUCT_REGISTER_LIST_URL = "https://www.philips.co.uk/prx/registration.registeredProducts/";
-
-    private static final String TEST_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
-
-    private static final String TEST_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
     private static final String TEST_PRX_RESEND_CONSENT_URL = "https://tst.usa.philips.com/prx/registration/resendConsentMail";
 
@@ -111,17 +107,16 @@ public class RegistrationSettingsURL extends RegistrationSettings {
     }
 
 
-
     private void initializePRXLinks(String registrationEnv) {
         if (registrationEnv == null) {
-            mProductRegisterUrl = EVAL_PRODUCT_REGISTER_URL;
-            mProductRegisterListUrl = EVAL_PRODUCT_REGISTER_LIST_URL;
+            mProductRegisterUrl = PRODUCT_REGISTER_URL;
+            mProductRegisterListUrl = PRODUCT_REGISTER_LIST_URL;
             mResendConsentUrl = EVAL_PRX_RESEND_CONSENT_URL;
             return;
         }
         if (registrationEnv.equalsIgnoreCase(Configuration.DEVELOPMENT.getValue())) {
-            mProductRegisterUrl = DEV_EVAL_PRODUCT_REGISTER_URL;
-            mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
+            mProductRegisterUrl = PRODUCT_REGISTER_URL;
+            mProductRegisterListUrl = PRODUCT_REGISTER_LIST_URL;
             mResendConsentUrl = DEV_PRX_RESEND_CONSENT_URL;
             return;
         }
@@ -138,8 +133,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             return;
         }
         if (registrationEnv.equalsIgnoreCase(Configuration.TESTING.getValue())) {
-            mProductRegisterUrl = TEST_PRODUCT_REGISTER_URL;
-            mProductRegisterListUrl = TEST_PRODUCT_REGISTER_LIST_URL;
+            mProductRegisterUrl = PRODUCT_REGISTER_URL;
+            mProductRegisterListUrl = PRODUCT_REGISTER_LIST_URL;
             mResendConsentUrl = TEST_PRX_RESEND_CONSENT_URL;
         }
     }
@@ -162,37 +157,37 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 setHSDPBaseUrl(resultMap);
 
                 ServiceDiscoveryService serviceDiscoveyService = resultMap.get("userreg.janrain.api");
-                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
                     String urlLocal = serviceDiscoveyService.getConfigUrls();
                     String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
 
                     ClientIDConfiguration clientIDConfiguration = new ClientIDConfiguration();
-                    if(janrainURL.equalsIgnoreCase("philips.capture.cn.janrain.com")){
+                    if (janrainURL.equalsIgnoreCase("philips.capture.cn.janrain.com")) {
                         jumpConfig.captureDomain = "philips-cn.capture.cn.janrain.com";
-                        jumpConfig.engageAppId = clientIDConfiguration.getEngageId(RegConstants.HTTPS_CONST+ jumpConfig.captureDomain);
-                        jumpConfig.captureAppId = clientIDConfiguration.getCaptureId(RegConstants.HTTPS_CONST+jumpConfig.captureDomain);
-                    }else{
+                        jumpConfig.engageAppId = clientIDConfiguration.getEngageId(RegConstants.HTTPS_CONST + jumpConfig.captureDomain);
+                        jumpConfig.captureAppId = clientIDConfiguration.getCaptureId(RegConstants.HTTPS_CONST + jumpConfig.captureDomain);
+                    } else {
                         jumpConfig.captureDomain = janrainURL;
                         jumpConfig.engageAppId = clientIDConfiguration.getEngageId(urlLocal);
                         jumpConfig.captureAppId = clientIDConfiguration.getCaptureId(urlLocal);
                     }
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
-                    if (jumpConfig.engageAppId == null || jumpConfig.captureAppId == null){
+                    RLog.d(TAG, " onSuccess  : userreg.janrain.api :" + urlLocal);
+                    if (jumpConfig.engageAppId == null || jumpConfig.captureAppId == null) {
                         ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                         return;
                     }
 
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.engageid :" + clientIDConfiguration.getEngageId(urlLocal));
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.captureid :" + clientIDConfiguration.getCaptureId(urlLocal));
+                    RLog.d(TAG, " onSuccess  : userreg.engageid :" + clientIDConfiguration.getEngageId(urlLocal));
+                    RLog.d(TAG, " onSuccess  : userreg.captureid :" + clientIDConfiguration.getCaptureId(urlLocal));
 
                 } else {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.api");
+                    RLog.e(TAG, " onError  : userreg.janrain.api");
                     ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                     return;
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.landing.emailverif");
-                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
                     jumpConfig.captureRedirectUri = serviceDiscoveyService.getConfigUrls();
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :"
                             + serviceDiscoveyService.getConfigUrls());
@@ -206,7 +201,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.landing.resetpass");
-                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
                     String modifiedUrl = serviceDiscoveyService.getConfigUrls().
                             replaceAll("c-w", "myphilips");
                     //https://philips-cn.capture.cn.janrain.com/
@@ -222,7 +217,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.janrain.cdn");
-                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.cdn :" +
                             serviceDiscoveyService.getConfigUrls());
                     jumpConfig.downloadFlowUrl = serviceDiscoveyService.getConfigUrls();
@@ -233,7 +228,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.smssupported");
-                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
                     String smsSupport = serviceDiscoveyService.getConfigUrls();
                     setMobileFlow(true);
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" +
@@ -253,7 +248,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.janrain.engage");
-                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.engage :" + serviceDiscoveyService.getConfigUrls());
                     jumpConfig.engageAppUrl = serviceDiscoveyService.getConfigUrls().substring(8);
 
@@ -283,7 +278,10 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : group : ");
+                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : RegistrationConfigurationFailed:ServiceDiscovery " + s);
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                        AppTagingConstants.FAILURE_SERVICEDISCOVERY + s);
+
                 ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
             }
         });
@@ -294,8 +292,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
     private void setHSDPBaseUrl(Map<String, ServiceDiscoveryService> resultMap) {
         ServiceDiscoveryService serviceDiscoveyService;
         serviceDiscoveyService = resultMap.get(HSDP_BASE_URL_SERVICE_ID);
-        if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
-            RLog.i("HSDP_NEW", "serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
+        if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
+            RLog.d("HSDP_NEW", "serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
             hsdpConfiguration.setBaseUrlServiceDiscovery(serviceDiscoveyService.getConfigUrls());
         }
     }
@@ -304,7 +302,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         return isMobileFlow;
     }
 
-    public void setMobileFlow(boolean mobileFlow) {
+    public static void setMobileFlow(boolean mobileFlow) {
         isMobileFlow = mobileFlow;
     }
 }

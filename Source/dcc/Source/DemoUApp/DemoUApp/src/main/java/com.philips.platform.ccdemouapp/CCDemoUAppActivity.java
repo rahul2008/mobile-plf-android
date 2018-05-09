@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,13 +26,11 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.prxclient.PrxConstants.Catalog;
 import com.philips.cdp.prxclient.PrxConstants.Sector;
-import com.philips.platform.ccdemouapp.DummyScreen;
 import com.philips.platform.ccdemouapp.adapter.Listener;
 import com.philips.platform.ccdemouapp.adapter.SampleAdapter;
 import com.philips.platform.ccdemouapp.adapter.SimpleItemTouchHelperCallback;
 import com.philips.platform.ccdemouapp.util.ThemeHelper;
 import com.philips.platform.ccdemouapp.view.CustomDialog;
-import com.philips.platform.appinfra.AppInfra;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -47,7 +43,6 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
-import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 
 import java.util.ArrayList;
@@ -99,8 +94,8 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
         mChangeTheme.setOnClickListener(this);
         // setting country spinner
         mCountry_spinner = (Spinner) findViewById(R.id.spinner2);
-        mCountry = getResources().getStringArray(R.array.country);
-        mcountryCode = getResources().getStringArray(R.array.country_code);
+        mCountry = getResources().getStringArray(R.array.dccuapp_country);
+        mcountryCode = getResources().getStringArray(R.array.dccuapp_country_code);
         ArrayAdapter<String> mCountry_adapter = new ArrayAdapter<String>(this,
                 R.layout.textview, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);

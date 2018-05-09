@@ -7,6 +7,7 @@
 package com.philips.platform.ths.providerslist;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +37,7 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
+import java.util.Iterator;
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_NO_PROVIDER_FOR_PRACTICE;
@@ -48,7 +50,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     protected RecyclerView recyclerView;
     protected THSProviderListPresenter THSProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Practice practice;
+    protected Practice practice;
     private Consumer consumer;
     protected THSProvidersListAdapter THSProvidersListAdapter;
     private ActionBarListener actionBarListener;
@@ -57,6 +59,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private RelativeLayout mRelativeLayoutContainer;
     private Label seeFirstDoctorLabel;
     private AlertDialogFragment alertDialogFragment;
+    static final long serialVersionUID = 147L;
 
 
     @Nullable
@@ -112,10 +115,10 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PROVIDER_LIST,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_PROVIDER_LIST,null,null);
         THSManager.getInstance().setMatchMakingVisit(false);
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getActivity().getResources().getString(R.string.provider_list_title), true);
+            actionBarListener.updateActionBar(getActivity().getResources().getString(R.string.ths_provider_list_title), true);
         }
     }
 
@@ -140,16 +143,40 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void updateProviderAdapterList(final List<THSProviderInfo> thsProviderInfos) {
         swipeRefreshLayout.setRefreshing(false);
-        THSProvidersListAdapter = new THSProvidersListAdapter(thsProviderInfos);
-        THSProvidersListAdapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
-            @Override
-            public void onItemClick(THSProviderEntity item) {
+        List<THSProviderInfo> listAfterFilter = checkForUrgentCare(thsProviderInfos);
+        if(listAfterFilter.size() > 0) {
+            THSProvidersListAdapter = new THSProvidersListAdapter(listAfterFilter);
+            THSProvidersListAdapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
+                @Override
+                public void onItemClick(THSProviderEntity item) {
 
-                launchProviderDetailsFragment(item);
+                    launchProviderDetailsFragment(item);
+                }
+            });
+            recyclerView.setAdapter(THSProvidersListAdapter);
+        }else {
+            showNoProviderErrorDialog();
+        }
+
+    }
+
+    protected List<THSProviderInfo> checkForUrgentCare(List<THSProviderInfo> thsProviderInfos) {
+        if(!practice.isShowScheduling()){
+            Iterator<THSProviderInfo> thsIterator = getProviderInfoIterator(thsProviderInfos);
+            while(thsIterator.hasNext()){
+                if(thsIterator.next().getProviderInfo().getVisibility().toString().equals(THSConstants.PROVIDER_OFFLINE)){
+                    thsIterator.remove();
+                }
             }
-        });
-        recyclerView.setAdapter(THSProvidersListAdapter);
+            return thsProviderInfos;
+        }else {
+            return thsProviderInfos;
+        }
+    }
 
+    @NonNull
+    protected Iterator<THSProviderInfo> getProviderInfoIterator(List<THSProviderInfo> thsProviderInfos) {
+        return thsProviderInfos.iterator();
     }
 
     public void launchProviderDetailsFragment(THSProviderEntity item) {
@@ -168,14 +195,14 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             btn_get_started.setVisibility(View.VISIBLE);
             btn_schedule_appointment.setVisibility(View.GONE);
             if (getContext() != null) {
-                btn_get_started.setText(getContext().getString(R.string.get_started));
+                btn_get_started.setText(getContext().getString(R.string.ths_get_started));
                 seeFirstDoctorLabel.setText(getString(R.string.ths_provider_list_header_text_one));
             }
         }else {
            btn_schedule_appointment.setVisibility(View.VISIBLE);
            btn_get_started.setVisibility(View.GONE);
             if (getContext() != null) {
-                btn_schedule_appointment.setText(getContext().getString(R.string.schedule_appointment));
+                btn_schedule_appointment.setText(getContext().getString(R.string.ths_schedule_an_appointment_button_text));
                 seeFirstDoctorLabel.setText(getString(R.string.ths_provider_list_header_text_two));
             }
         }

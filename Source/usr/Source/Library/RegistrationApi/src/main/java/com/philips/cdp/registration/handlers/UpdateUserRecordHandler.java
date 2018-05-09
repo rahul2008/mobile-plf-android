@@ -10,17 +10,20 @@
 package com.philips.cdp.registration.handlers;
 
 /**
- * Update user record handler interface
+ * It is a callback class to proposition for updating user record
+ * @since 1.0.0
  */
 public interface UpdateUserRecordHandler {
 
 	/**
-	 * {@code updateUserRecordLogin}method to update user record login
+	 * {@code updateUserRecordLogin}method is invoked on update user record login
+	 * @since 1.0.0
 	 */
 	public void updateUserRecordLogin();
 
 	/**
-	 * {@code updateUserRecordRegister} method to update user record register
+	 * {@code updateUserRecordRegister} method is invoked on update user record register
+	 * @since 1.0.0
 	 */
 	public void updateUserRecordRegister();
 }

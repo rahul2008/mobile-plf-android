@@ -18,7 +18,7 @@ public class THSNetworkStateListener extends BroadcastReceiver{
         boolean isConnected = activeNetwork != null
                 && activeNetwork.isConnectedOrConnecting();
 
-        if (connectionReceiverListener != null) {
+        if (connectionReceiverListener != null && !isConnected) {
             connectionReceiverListener.onNetworkConnectionChanged(isConnected);
         }
     }

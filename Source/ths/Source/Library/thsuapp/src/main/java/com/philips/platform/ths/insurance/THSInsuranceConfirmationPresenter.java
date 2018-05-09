@@ -11,7 +11,6 @@ import android.os.Bundle;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
@@ -86,13 +85,13 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
             mTHSInsuranceConfirmationFragment.showProgressbar();
             THSManager.getInstance().updateInsuranceSubscription(mTHSInsuranceConfirmationFragment.getFragmentActivity(), tHSSubscriptionUpdateRequest, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
 
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> var1) {
+    public void onValidationFailure(Map<String, String> var1) {
         mTHSInsuranceConfirmationFragment.hideProgressBar();
     }
 
@@ -101,7 +100,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
         if (null != mTHSInsuranceConfirmationFragment && mTHSInsuranceConfirmationFragment.isFragmentAttached()) {
             mTHSInsuranceConfirmationFragment.hideProgressBar();
             if (null != sdkError) {
-                mTHSInsuranceConfirmationFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_HEALTH_PLAN,sdkError));
+                mTHSInsuranceConfirmationFragment.showError(THSSDKErrorFactory.getErrorType(mTHSInsuranceConfirmationFragment.getContext(), ANALYTICS_UPDATE_HEALTH_PLAN,sdkError));
             } else {
                 showCostSummary();
             }

@@ -54,7 +54,7 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_VISIT_REPORT,mVisitReports.get(holder.getAdapterPosition()));
-                mThsVisitHistoryFragment.addFragment(new THSVisitHistoryDetailFragment(),THSProviderDetailsFragment.TAG,bundle, false);
+                mThsVisitHistoryFragment.addFragment(new THSVisitHistoryDetailFragment(),THSVisitHistoryDetailFragment.TAG,bundle, false);
             }
         };
         holder.mLabelProviderName.setOnClickListener(listener);

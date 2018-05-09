@@ -21,22 +21,25 @@ import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
+
 
 
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
-import com.philips.platform.ths.utility.THSManager;
+
 
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_PAGE;
-import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
+
 
 /**
  * This class is used to display the provider details selected by the user.
@@ -58,6 +61,8 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     protected Label mProgressBarLabel;
     protected RelativeLayout mProgressBarWithLabelContainer;
     AlertDialogFragment alertDialogFragment;
+    static final long serialVersionUID = 123L;
+    protected THSOnDemandSpeciality thsOnDemandSpeciality;
 
 
     @Override
@@ -80,38 +85,51 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
 
         if (THSManager.getInstance().isMatchMakingVisit()) { // if provider is not yet selected
-            providerDetailsPresenter.doMatchMaking();
-        } else { // if provider is already selected
-            dodProviderFoundMessage.setVisibility(View.GONE);
             final Bundle arguments = getArguments();
             if (arguments != null) {
-                mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
-                mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
-                mProviderInfo = arguments.getParcelable(THSConstants.THS_PROVIDER_INFO);
-                if (arguments.getParcelable(THSConstants.THS_PRACTICE_INFO) != null) {
-                    mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
-                }
-                if (mProviderInfo != null) {
-                    THSProviderInfo thsProviderInfo = new THSProviderInfo();
-                    thsProviderInfo.setTHSProviderInfo(mProviderInfo);
-                    setTHSProviderEntity(thsProviderInfo);
-                }else if(mProvider!=null){
-                    THSProviderInfo thsProviderInfo = new THSProviderInfo();
-                    thsProviderInfo.setTHSProviderInfo(mProvider);
-                    setTHSProviderEntity(thsProviderInfo);
-                }else {
-                    showError("Provider not supplied");
-                }
+                thsOnDemandSpeciality = arguments.getParcelable(THSConstants.THS_ON_DEMAND);
             }
+
+            try {
+                providerDetailsPresenter.getFirstAvailableProvider(thsOnDemandSpeciality);
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
+        } else { // if provider is already selected
+            dodProviderFoundMessage.setVisibility(View.GONE);
+            setPractiseAndProvider();
             onRefresh();
         }
         return view;
     }
 
+    private void setPractiseAndProvider() {
+        final Bundle arguments = getArguments();
+        if (arguments != null) {
+            mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
+            mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
+            mProviderInfo = arguments.getParcelable(THSConstants.THS_PROVIDER_INFO);
+            if (arguments.getParcelable(THSConstants.THS_PRACTICE_INFO) != null) {
+                mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
+            }
+            if (mProviderInfo != null) {
+                THSProviderInfo thsProviderInfo = new THSProviderInfo();
+                thsProviderInfo.setTHSProviderInfo(mProviderInfo);
+                setTHSProviderEntity(thsProviderInfo);
+            }else if(mProvider!=null){
+                THSProviderInfo thsProviderInfo = new THSProviderInfo();
+                thsProviderInfo.setTHSProviderInfo(mProvider);
+                setTHSProviderEntity(thsProviderInfo);
+            }else {
+                showError(getString(R.string.ths_matchmaking_provider_not_supplied));
+            }
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PROVIDER_DETAIL_PAGE,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_PROVIDER_DETAIL_PAGE,null,null);
 
     }
 
@@ -253,10 +271,6 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         }
     }
 
-    protected void showProgressbar() {
-        createCustomProgressBar(mProgressBarWithLabelContainer, BIG);
-    }
-
     @Override
     public boolean handleBackEvent() {
         if (THSManager.getInstance().isMatchMakingVisit()) {
@@ -266,6 +280,10 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         } else {
             return super.handleBackEvent();
         }
+    }
+
+    protected void displayDODView(boolean show){
+        mThsProviderDetailsDisplayHelper.setDODVisibility(show);
     }
 }
 

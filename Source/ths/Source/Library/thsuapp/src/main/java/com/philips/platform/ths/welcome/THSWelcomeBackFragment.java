@@ -11,11 +11,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -31,10 +31,11 @@ import com.philips.platform.uid.view.widget.RatingBar;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME_BACK;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME_BACK;
 
+@SuppressWarnings("serial")
 public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static final String TAG = THSWelcomeBackFragment.class.getSimpleName();
@@ -48,6 +49,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
     private CircularImageView mImageProvider;
     private Label mLabelProviderName;
     private Label mLabelPracticeName;
+    private Appointment appointment;
 
     @Nullable
     @Override
@@ -72,6 +74,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
             Long date = arguments.getLong(THSConstants.THS_DATE);
             mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
             mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
+            appointment = arguments.getParcelable(THSConstants.THS_SCHEDULE_APPOINTMENT_OBJECT);
 
             final String format = new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(date);
             String text = getString(R.string.ths_appointment_start_time, format);
@@ -80,7 +83,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
             mRatingBar.setRating(mProvider.getRating());
 
             mLabelProviderName.setText(mProvider.getFullName());
-            mLabelPracticeName.setText(mPracticeInfo.getName());
+            mLabelPracticeName.setText(mProvider.getSpecialty().getName());
 
             if (mProvider.hasImage()) {
                 try {
@@ -91,7 +94,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
                             (mImageProvider.getResources().getDrawable(R.drawable.doctor_placeholder, getActivity().getTheme())).
                             build().load();
                 } catch (AWSDKInstantiationException e) {
-                    e.printStackTrace();
+
                 }
             }
         }
@@ -124,9 +127,13 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
         return mProvider;
     }
 
+    public Appointment getAppointmentObject() {
+        return appointment;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WELCOME_BACK,null,null);
+        THSTagUtils.doTrackPageWithInfo(THS_WELCOME_BACK,null,null);
     }
 }

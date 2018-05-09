@@ -312,6 +312,7 @@ public class SearchBox extends LinearLayout {
      * This API will help you to set if SearchBox should be collapsed or expanded for input.
      *
      * @param shouldCollapse Boolean to set if the SearchBox should be collapsed or input mode
+     *                       @since 3.0.0
      */
     public void setSearchCollapsed(boolean shouldCollapse) {
         handleStateChange(shouldCollapse);
@@ -324,6 +325,7 @@ public class SearchBox extends LinearLayout {
      * This API will help you to set the Search Box collapsed form. Either as icon or expanded decoy
      *
      * @param searchIconified Boolean to set if the SearchBox collapsed form should appear as icon or expanded decoy
+     *                        @since 3.0.0
      */
     public void setSearchIconified(boolean searchIconified) {
         this.isSearchIconified = searchIconified;
@@ -334,6 +336,7 @@ public class SearchBox extends LinearLayout {
      * This API will help you to set the exact string resource passed to Decoy Search View Hint. Alternatively you can use app:uidSearchDecoyHintText attribute in xml.
      *
      * @param resID String to be set to the Decoy Search View Hint
+     *              @since 3.0.0
      */
     public void setDecoySearchViewHint(@StringRes int resID) {
         decoyHintView.setText(resID);
@@ -343,6 +346,7 @@ public class SearchBox extends LinearLayout {
      * This API will help you to set the exact string value passed to Decoy Search View Hint. Alternatively you can use app:uidSearchDecoyHintText attribute in xml.
      *
      * @param text String to be set to the Decoy Search View Hint
+     *             @since 3.0.0
      */
     @SuppressWarnings("unused")
     public void setDecoySearchViewHint(String text) {
@@ -353,6 +357,7 @@ public class SearchBox extends LinearLayout {
      * This API will help you to set the exact string resource passed to Input Search View Hint. Alternatively you can use app:uidSearchInputHintText attribute in xml.
      *
      * @param resID String to be set to the Input Search View Hint
+     *              @since 3.0.0
      */
     public void setSearchBoxHint(@StringRes int resID) {
         searchTextView.setHint(resID);
@@ -362,6 +367,7 @@ public class SearchBox extends LinearLayout {
      * This API will help you to set the exact string value passed to Input Search View Hint. Alternatively you can use app:uidSearchInputHintText attribute in xml
      *
      * @param text String to be set to the Input Search View Hint
+     *             @since 3.0.0
      */
     @SuppressWarnings("unused")
     public void setSearchBoxHint(String text) {
@@ -377,6 +383,7 @@ public class SearchBox extends LinearLayout {
      * @param adapter the adapter holding the list data
      * @see android.widget.Filterable
      * @see android.widget.Adapter
+     * @since 3.0.0
      */
     @SuppressWarnings("unused")
     public <T extends Adapter & Filterable & FilterQueryChangedListener> void setAdapter(T adapter) {
@@ -444,6 +451,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * This API returns if the Search Box is in collapsed form or input form.
+     * @since 3.0.0
      */
     public boolean isSearchCollapsed() {
         return isSearchCollapsed;
@@ -453,6 +461,7 @@ public class SearchBox extends LinearLayout {
      * This API helps to set the query text for the search box input, for example in case of config change.
      *
      * @param query String to be set for search box input, useful
+     *              @since 3.0.0
      */
     public void setQuery(CharSequence query) {
         searchTextView.setText(query);
@@ -460,6 +469,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * This API helps to get the query text from the search box input.
+     * @since 3.0.0
      */
     public CharSequence getQuery() {
         return searchTextView.getText();
@@ -467,6 +477,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * This API returns the Search Box decoy search layout
+     * @since 3.0.0
      */
     @SuppressWarnings("unused")
     public View getDecoySearchLayout() {
@@ -475,6 +486,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * This API returns the Search Box decoy search icon
+     * @since 3.0.0
      */
     @SuppressWarnings("unused")
     public ImageView getDecoySearchIconView() {
@@ -483,6 +495,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * This API returns the Search Box decoy hint text label
+     * @since 3.0.0
      */
     @SuppressWarnings("unused")
     public Label getDecoySearchHintView() {
@@ -491,6 +504,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * This API returns the Search Box collapse/back icon
+     * @since 3.0.0
      */
     public ImageView getCollapseView() {
         return collapseIcon;
@@ -498,6 +512,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * This API returns the Search Box input clear icon
+     * @since 3.0.0
      */
     @SuppressWarnings("unused")
     public ImageView getClearIconView() {
@@ -506,6 +521,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * This API returns the Search Box input AppCompatAutoCompleteTextView
+     * @since 3.0.0
      */
     public AppCompatAutoCompleteTextView getSearchTextView() {
         return searchTextView;
@@ -513,6 +529,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * This API returns the Search Box input clear icon holder
+     * @since 3.0.0
      */
     public View getSearchClearLayout() {
         return searchClearLayout;
@@ -522,6 +539,7 @@ public class SearchBox extends LinearLayout {
      * This API helps you to set the max width for the searchbox
      *
      * @param maxWidth Max value in int that the searchbox should take
+     *                 @since 3.0.0
      */
     @SuppressWarnings("unused")
     public void setMaxWidth(int maxWidth) {
@@ -531,6 +549,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * Hides the search icon in decoy view
+     * @since 3.0.0
      */
     public void hideSearchIcon() {
         searchIconHolder.setVisibility(View.GONE);
@@ -540,6 +559,7 @@ public class SearchBox extends LinearLayout {
      * Sets the search icon in decoy search view.
      *
      * @param drawable for search.
+     *                 @since 3.0.0
      */
     @SuppressWarnings("unused")
     public void setDecoySearchIcon(Drawable drawable) {
@@ -574,6 +594,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * This API helps you to set the ExpandListener in case search box transforms from expanded to collapsed or vice a versa.
+     * @since 3.0.0
      */
     public void setExpandListener(ExpandListener listener) {
         expandListener = listener;
@@ -581,6 +602,7 @@ public class SearchBox extends LinearLayout {
 
     /**
      * This API helps you to set the QuerySubmitListener in case search box query is submit through the search icon on IME.
+     * @since 3.0.0
      */
     public void setQuerySubmitListener(QuerySubmitListener listener) {
         querySubmitListener = listener;

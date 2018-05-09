@@ -21,12 +21,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 public class SHNCapabilityLogSyncBaseTest {
 
@@ -193,7 +193,7 @@ public class SHNCapabilityLogSyncBaseTest {
     private SHNLogItem[] generateDataAndSendIt(Date[] dates) {
         SHNLogItem[] items = new SHNLogItem[dates.length];
         for (int i = 0; i < dates.length; i++) {
-            SHNLogItem mockedShnLogItem = Mockito.mock(SHNLogItem.class);
+            SHNLogItem mockedShnLogItem = mock(SHNLogItem.class);
             when(mockedShnLogItem.getTimestamp()).thenReturn(dates[i]);
             items[i] = mockedShnLogItem;
 
@@ -235,7 +235,7 @@ public class SHNCapabilityLogSyncBaseTest {
         generateDataAndSendIt(new Date[]{new Date()});
 
         ArgumentCaptor<Float> floatArgumentCaptor = ArgumentCaptor.forClass(Float.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onProgressUpdate(any(SHNCapabilityLogSyncHealthThermometer.class), floatArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onProgressUpdate((SHNCapabilityLogSynchronization) any(), floatArgumentCaptor.capture());
 
         assertEquals((float) 1 / 50, floatArgumentCaptor.getValue(), 0.01f);
     }
@@ -248,7 +248,7 @@ public class SHNCapabilityLogSyncBaseTest {
 
         generateDataAndSendIt(new Date[]{new Date()});
 
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onIntermediateLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), logCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onIntermediateLogSynchronized((SHNCapabilityLogSynchronization) any(), logCaptor.capture());
 
         assertShineLog(logCaptor.getValue(), 1);
     }
@@ -262,7 +262,7 @@ public class SHNCapabilityLogSyncBaseTest {
         generateDataAndSendIt(new Date[]{new Date(), new Date(), new Date()});
 
         ArgumentCaptor<Float> floatArgumentCaptor = ArgumentCaptor.forClass(Float.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, times(3)).onProgressUpdate(any(SHNCapabilityLogSyncHealthThermometer.class), floatArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, times(3)).onProgressUpdate((SHNCapabilityLogSynchronization) any(), floatArgumentCaptor.capture());
 
         assertEquals((float) 3 / 50, floatArgumentCaptor.getValue(), 0.01f);
     }
@@ -279,8 +279,8 @@ public class SHNCapabilityLogSyncBaseTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onLogSynchronizationFailed(any(SHNCapabilityLogSyncHealthThermometer.class), any(SHNResult.class));
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onLogSynchronizationFailed((SHNCapabilityLogSynchronization) any(), (SHNResult) any());
 
         assertShineLog(shnLogArgumentCaptor.getValue(), 1);
         assertEquals(SHNResult.SHNAborted, shnResultArgumentCaptor.getValue());
@@ -298,8 +298,8 @@ public class SHNCapabilityLogSyncBaseTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onLogSynchronizationFailed(any(SHNCapabilityLogSyncHealthThermometer.class), any(SHNResult.class));
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onLogSynchronizationFailed((SHNCapabilityLogSynchronization) any(), (SHNResult) any());
 
         assertShineLog(shnLogArgumentCaptor.getValue(), 3);
         assertEquals(SHNResult.SHNAborted, shnResultArgumentCaptor.getValue());
@@ -318,7 +318,7 @@ public class SHNCapabilityLogSyncBaseTest {
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertEquals(3, shnLogArgumentCaptor.getValue().getLogItems().size());
 
@@ -334,7 +334,7 @@ public class SHNCapabilityLogSyncBaseTest {
         generateDataAndSendIt(new Date[]{new Date()});
         testSHNCapabilityLogSyncBase.abortSynchronization();
 
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), any(SHNLog.class), any(SHNResult.class));
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onLogSynchronized((SHNCapabilityLogSynchronization) any(), (SHNLog) any(), (SHNResult) any());
     }
 
     @Test
@@ -344,7 +344,7 @@ public class SHNCapabilityLogSyncBaseTest {
 
         testSHNCapabilityLogSyncBase.abortSynchronization();
 
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onLogSynchronizationFailed(any(SHNCapabilityLogSyncHealthThermometer.class), any(SHNResult.class));
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onLogSynchronizationFailed((SHNCapabilityLogSynchronization) any(), (SHNResult) any());
     }
 
     @Test
@@ -359,7 +359,7 @@ public class SHNCapabilityLogSyncBaseTest {
         testSHNCapabilityLogSyncBase.abortSynchronization();
 
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), any(SHNResult.class));
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), (SHNResult) any());
 
         List<SHNLogItem> firstLog = shnLogArgumentCaptor.getValue().getLogItems();
 
@@ -370,7 +370,7 @@ public class SHNCapabilityLogSyncBaseTest {
 
         testSHNCapabilityLogSyncBase.abortSynchronization();
 
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), any(SHNResult.class));
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized((SHNCapabilityLogSynchronization) any(), shnLogArgumentCaptor.capture(), (SHNResult) any());
 
         List<SHNLogItem> secondLog = shnLogArgumentCaptor.getValue().getLogItems();
 

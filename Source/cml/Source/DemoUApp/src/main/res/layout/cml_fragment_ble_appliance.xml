@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ Copyright (c) 2015-2018 Koninklijke Philips N.V.
   ~ All rights reserved.
   -->
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/cml_card_padding">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/cml_card_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             style="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/cml_ble_appliance"/>
+            android:text="@string/cml_ble_appliance" />
 
         <Switch
             android:id="@+id/cml_switch_continuous_connection"
@@ -27,7 +27,168 @@
             android:layout_height="wrap_content"
             android:paddingBottom="12dp"
             android:paddingTop="8dp"
-            android:text="@string/cml_continuous_connection"/>
+            android:text="@string/cml_continuous_connection" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/cml_activity_vertical_margin" />
+
+        <TextView
+            android:id="@+id/cml_ble_params_title"
+            style="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cml_ble_connection_params" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/cml_edit_ble_slowadmin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cml_hint_slowadmin"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/cml_edit_ble_slowadmax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cml_hint_slowadmax"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/cml_edit_ble_slowadtimeout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cml_hint_slowadtimeout"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Switch
+            android:id="@+id/cml_switch_ble_slowadenabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:paddingTop="8dp"
+            android:text="@string/cml_switch_slowadenabled" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/cml_edit_ble_fastadmin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cml_hint_fastadmin"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/cml_edit_ble_fastadmax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cml_hint_fastadmax"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/cml_edit_ble_fastadtimeout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cml_hint_fastadtimeout"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/cml_edit_ble_connmin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cml_hint_connmin"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/cml_edit_ble_connmax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cml_hint_connmax"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/cml_edit_ble_connslavelatency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cml_hint_connslavelatency"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/cml_edit_ble_connsupertimeout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cml_hint_connsupertimeout"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cml_btnGetBleParams"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cml_get" />
+
+            <Button
+                android:id="@+id/cml_btnSetBleParams"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cml_set" />
+
+        </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

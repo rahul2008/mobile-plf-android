@@ -81,7 +81,7 @@ public class StoreControllerTest {
         mockNetwork.setResponse(response);
         mockedConfig.mRequestListener = getRequestListener();
 
-        mockedConfig.fetchConfiguration();
+         mockedConfig.fetchConfiguration();
         assertEquals("US_TUSCANY", mockedConfig.getSiteID());
     }
 

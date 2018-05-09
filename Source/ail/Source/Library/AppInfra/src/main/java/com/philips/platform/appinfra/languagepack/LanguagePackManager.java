@@ -38,14 +38,15 @@ import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.L
 /**
  * The Language Pack Manager .
  */
-public class LanguagePackManager implements LanguagePackInterface {
+public class  LanguagePackManager implements LanguagePackInterface {
 
-	private AppInfra mAppInfra;
+    private static final long serialVersionUID = -3459422179168249223L;
+    private AppInfra mAppInfra;
 	private RestInterface mRestInterface;
-	private LanguageList mLanguageList;
-	private LanguagePackModel selectedLanguageModel;
-	private FileUtils languagePackUtil;
-	private Gson gson;
+	private transient LanguageList mLanguageList;
+	private transient LanguagePackModel selectedLanguageModel;
+	private transient FileUtils languagePackUtil;
+	private transient Gson gson;
 	private Context context;
 
 

@@ -12,32 +12,43 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import static android.content.ContentValues.TAG;
 
 /**
- * Description : This is the entry class to start the PRX Request.
- * Project : PRX Common Component.
- * Created by naveen@philips.com on 02-Nov-15.
+ * This is the entry class to start the PRX Request.
+ * It provides set of public APIs for placing requests from client.
+ * @since 1.0.0
+ *
  */
 public class RequestManager {
 
 	private PRXDependencies mPrxDependencies;
 
+	/**
+	 * Initialises RequestManager instance.
+	 * @param prxDependencies PRX dependencies
+	 * @since 2.2.0
+	 */
 	public void init(PRXDependencies prxDependencies) {
 		mPrxDependencies = prxDependencies;
 		if (mPrxDependencies != null) {
 			AppInfraInterface appInfra = mPrxDependencies.getAppInfra();
 			if (appInfra != null) {
 				if (mPrxDependencies.getParentTLA() != null) {
-					mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(String.format("%s /prx ", mPrxDependencies.getParentTLA()), getLibVersion());
+					mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(String.format("%s/prx", mPrxDependencies.getParentTLA()), getLibVersion());
 					mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, String.format("PRX is initialized with  %s", mPrxDependencies.getParentTLA()));
 
 				} else {
-					mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(" /prx ", getLibVersion());
+					mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent("/prx", getLibVersion());
 					mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_REQUEST_MANAGER, "PRX is initialized ");
 				}
 			}
 		}
 	}
 
-
+	/**
+	 * Performs a network request.
+	 * @param prxRequest PRX Request
+	 * @param listener Response listener
+	 * @since 1.0.0
+	 */
 	public void executeRequest(PrxRequest prxRequest, ResponseListener listener) {
 		makeRequest(prxRequest, listener);
 	}
@@ -53,6 +64,12 @@ public class RequestManager {
 		}
 	}
 
+	/**
+	 * Get the library version.
+	 * @return returns the library version
+	 * @since 2.2.0
+	 *
+	 */
 	public String getLibVersion() {
 		String mAppVersion = null;
 		try {

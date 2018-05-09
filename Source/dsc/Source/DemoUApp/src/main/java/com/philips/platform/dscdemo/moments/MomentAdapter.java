@@ -62,6 +62,7 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mSyncViewHolder.mLocation.setText(helper.getNotes(moment));
             mSyncViewHolder.mExpirationDate.setText(helper.getExpirationDate(moment));
+            mSyncViewHolder.mIsSynced.setText(moment.getSynchronisationData() != null ? "Yes" : "No");
 
             if (mIsOptions) {
                 mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);
@@ -99,16 +100,16 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         MomentViewHolder(final View itemView) {
             super(itemView);
-            mMomentID = (TextView) itemView.findViewById(R.id.moment_id);
-            mTemperature = (TextView) itemView.findViewById(R.id.time_line_data);
-            mExpirationDate = (TextView) itemView.findViewById(R.id.expiration_date_detail);
-            mPhase = (TextView) itemView.findViewById(R.id.phasedata);
-            mLocation = (TextView) itemView.findViewById(R.id.location_detail);
+            mMomentID = itemView.findViewById(R.id.moment_id);
+            mTemperature = itemView.findViewById(R.id.time_line_data);
+            mExpirationDate = itemView.findViewById(R.id.expiration_date_detail);
+            mPhase = itemView.findViewById(R.id.phasedata);
+            mLocation = itemView.findViewById(R.id.location_detail);
             if (mIsOptions) {
-                mOptions = (ImageView) itemView.findViewById(R.id.dots);
-                mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
+                mOptions = itemView.findViewById(R.id.dots);
+                mDotsLayout = itemView.findViewById(R.id.frame);
             }
-            mIsSynced = (TextView) itemView.findViewById(R.id.is_synced);
+            mIsSynced = itemView.findViewById(R.id.is_synced_detail);
         }
     }
 

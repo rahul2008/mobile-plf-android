@@ -1,10 +1,40 @@
 CommLib for Android - Release Notes
-=======================================
+===================================
 
 Version {next}
--------------
+--------------
 
 ### Functionality Delivered
+* N/A
+
+### Backwards Compatibility
+* CommLib - Deprecated `PairingPort#disableDemoMode()`
+* CommLib - Deprecated `PairingPort#triggerPairing(String, String, String)`, replaced by `PairingPort#pair(String, String, String)`
+* CommLib - Deprecated `PairingPort#triggerPairing(String, String, String, String, String, String[])`, replaced by `PairingPort#pair(String, String, String, String, String, String[])`
+
+### Features not covered
+* N/A
+
+### Breaking Changes
+* N/A
+
+### Defects solved
+* 116716 Device properly disconnects when invoking `BleCommunicationStrategy#disableCommunication()`
+* 119951 Don't crash during LAN discovery when SSDP is already active in another process.
+* 116302 Added missing API to revoke pairing relations to `PairingPort`
+* 123173 Fixed a null pointer exception in `LanRequest`
+
+### Residual anomalies
+* N/A
+
+### Risks and mitigations
+* N/A
+
+Version 2017.5.0
+----------------
+
+### Functionality Delivered
+* CommLib - \#109703 Added ability to clear appliance list
 * CommLib - \#65109 Removed connection state machine from DiscoveryManager.
 	* Including the `LanDiscoveryStrategy`, `CombinedCommunicationStrategy` and `CloudCommunicationStrategy`.
 * CommLib - \#65428 Persistent NetworkNode Storage.
@@ -40,6 +70,10 @@ Version {next}
 * CommLib - `ApplianceManager.ApplianceListener` is not generic typed anymore.
 
 ### Defects solved
+* CommLib LAN - \#116013 SSDP implementation not crashing on messages without USN header anymore (now get completely ignored)
+* CommLib LAN - \#103269 Prevent unnecessary creation of threads during execution of LAN requests
+* CommLib LAN - \#111508 Improved SSDP implementation: reacting on NOTIFY messages again, no longer fetching description.xml time and again, improved SSDP M-SEARCH headers.
+* CloudController - \#14442 Added API to allow forcing of locale used by ICPClient (amongst other things, used for push notifications)
 * CommLib - \#72227 Timeout callback not called
 * CommLib - \#73361 XML parser vulnerability during SSDP discovery
 * CommLib - \#85583 Use injectable AppInfra

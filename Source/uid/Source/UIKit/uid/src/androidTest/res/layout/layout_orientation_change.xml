@@ -67,5 +67,27 @@
             android:layout_height="wrap_content"
             android:text="@string/test_links_description" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <com.philips.platform.uid.view.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:uidTabItemPreferredHeight="56dp"
+            android:layout_alignParentBottom="true">
+
+            <com.philips.platform.uid.view.widget.UIDTabItem
+                android:id="@+id/tab_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/uid_social_media_amazon_icon"
+                android:text="Capture"
+                app:uidTabItemNotificationBadgeCount="9999" />
+
+        </com.philips.platform.uid.view.widget.TabLayout>
+        </RelativeLayout>
+
     </LinearLayout>
 </com.philips.platform.uid.view.widget.NavigationContainer>

@@ -9,6 +9,7 @@
         <attr name="uidButtonImageDrawableWidth" format="dimension"/>
         <attr name="uidButtonImageDrawableSrc" format="reference"/>
         <attr name="uidButtonCenter" format="boolean"/>
+        <attr name="uidButtonLeft" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="UIDImageButton">
@@ -126,5 +127,22 @@
 
     <declare-styleable name="UIDSplashScreen">
         <attr name="uidSplashScreenAppName" format="string|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDDiscreteSlider">
+        <attr name="discretePoints" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDTabLayout">
+        <attr name="uidTabItemPreferredHeight" format="reference|dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDTabItem">
+        <attr name="android:text"/>
+        <attr name="android:textColor"/>
+        <attr name="android:src"/>
+        <attr name="android:tint"/>
+        <attr name="android:tintMode"/>
+        <attr name="uidTabItemNotificationBadgeCount" format="string|reference"/>
     </declare-styleable>
 </resources>

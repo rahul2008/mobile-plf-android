@@ -66,6 +66,10 @@ public class StoreController {
         synchronizedNetwork.performRequest(request, new SynchronizedNetworkListener() {
             @Override
             public void onSyncRequestSuccess(final Response<JSONObject> jsonObjectResponse) {
+                if(jsonObjectResponse == null || jsonObjectResponse.result == null){
+                    postError(null);
+                    return;
+                }
                 HybrisConfigResponse resp = new Gson().fromJson(jsonObjectResponse.result.toString(),
                         HybrisConfigResponse.class);
                 mSiteID = resp.getSiteId();
@@ -75,6 +79,10 @@ public class StoreController {
 
             @Override
             public void onSyncRequestError(final VolleyError volleyError) {
+                postError(volleyError);
+            }
+
+            private void postError(VolleyError volleyError) {
                 Message msg = Message.obtain();
                 mSiteID = null;
                 msg.obj = new IAPNetworkError(volleyError, hashCode(), null);

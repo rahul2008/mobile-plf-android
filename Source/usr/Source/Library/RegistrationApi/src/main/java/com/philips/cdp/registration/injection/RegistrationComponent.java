@@ -43,6 +43,7 @@ import com.philips.cdp.registration.ui.utils.NetworkStateReceiver;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
@@ -54,6 +55,8 @@ import dagger.Component;
 @Singleton
 @Component(modules = {NetworkModule.class, AppInfraModule.class, ConfigurationModule.class, RegistrationModule.class})
 public interface RegistrationComponent {
+
+    RestInterface getRestInterface();
 
     NetworkUtility getNetworkUtility();
 
@@ -146,4 +149,5 @@ public interface RegistrationComponent {
     void inject(MergeSocialToSocialAccountPresenter mergeSocialToSocialAccountPresenter);
 
     void inject(HomePresenter homePresenter);
+
 }

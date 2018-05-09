@@ -5,13 +5,14 @@
  */
 package com.philips.platform.appinfra.abtestclient;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * The ABTest client Interface
  */
 
-public interface ABTestClientInterface {
+public interface ABTestClientInterface extends Serializable {
     /**
      * NO_TESTS_DEFINED: no list of tests is configured
      * NO_CACHED_EXPERIENCES: tests are configured but no experience values are in cache

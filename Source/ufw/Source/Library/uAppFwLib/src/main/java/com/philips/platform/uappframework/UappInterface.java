@@ -5,31 +5,33 @@
 */
 package com.philips.platform.uappframework;
 
-import android.content.Context;
-
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import java.io.Serializable;
+
 
 /**
- * Micro app framework provides below interface which has standard APIs to initialise, launch and set Launch parameters.
-
+ * Micro app framework provides interface which has standard APIs to initialise, launch and set Launch parameters.
+ @since 1.0.0
  */
 
-public interface UappInterface  {
+public interface UappInterface extends Serializable {
     /**
-     *  For intitalizing uApp
-     *  @param uappDependencies : Object of UappDependencies
-     *  @param uappSettings: : Object of UappSettings
+     *  For initializing uApp.
+     *  @param uappDependencies Object of UappDependencies
+     *  @param uappSettings Object of UppSettings
+     *  @since 1.0.0
      */
     public void init( UappDependencies uappDependencies,UappSettings uappSettings);
 
     /**
-     *  For launching the uApp
-     *  @param uappLaunchInput: : Object of  UappLaunchInput
-     *  @param  uiLauncher : Object of UiLauncher
+     *  For launching the uApp.
+     *  @param uappLaunchInput Object of  UappLaunchInput
+     *  @param  uiLauncher Object of UiLauncher
+     *  @since 1.0.0
      */
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput);
 

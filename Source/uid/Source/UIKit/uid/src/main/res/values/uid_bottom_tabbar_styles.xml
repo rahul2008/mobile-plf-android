@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="UIDBottomTabLayout" parent="BaseTabLayoutStyle">
+        <item name="android:minHeight">@dimen/uid_tab_layout_height_without_title</item>
+        <item name="android:layout_height">@dimen/uid_tab_layout_height_without_title</item>
+        <item name="uidTabItemPreferredHeight">@dimen/uid_tab_layout_height_without_title</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="tabIndicatorColor">@null</item>
+        <item name="tabIndicatorHeight">@dimen/uid_tab_indicator_height</item>
+        <item name="tabBackground">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabPaddingStart">@dimen/uid_tab_padding</item>
+        <item name="tabPaddingEnd">@dimen/uid_tab_padding</item>
+        <item name="tabMinWidth">@dimen/uid_tab_min_width</item>
+        <item name="android:elevation">@dimen/uid_tab_layout_elevation</item>
+    </style>
+
+    <style name="UIDBottomTabLayout.Title" parent="@style/UIDBottomTabLayout">
+        <item name="android:minHeight">@dimen/uid_tab_layout_height_with_title</item>
+        <item name="android:layout_height">@dimen/uid_tab_layout_height_with_title</item>
+        <item name="uidTabItemPreferredHeight">@dimen/uid_tab_layout_height_with_title</item>
+    </style>
+
+    <style name="UIDTabItemStyle">
+        <item name="android:minHeight">@dimen/uid_tab_layout_height_without_title</item>
+        <item name="android:layout_height">@dimen/uid_tab_layout_height_without_title</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minWidth">@dimen/uid_tab_min_width</item>
+        <item name="android:layout_marginTop">@dimen/uid_tab_item_margin_top_bottom</item>
+        <item name="android:layout_marginBottom">@dimen/uid_tab_item_margin_top_bottom</item>
+        <item name="android:tint">@color/uid_tab_icon_selector</item>
+        <item name="android:tintMode">src_in</item>
+        <item name="android:textColor">@color/uid_tab_text_selector</item>
+    </style>
+
+    <style name="UIDTabItemStyle.Title" parent="UIDTabItemStyle">
+        <item name="android:minHeight">@dimen/uid_tab_layout_height_with_title</item>
+        <item name="android:layout_height">@dimen/uid_tab_layout_height_with_title</item>
+    </style>
+
+    <style name="UIDTabIcon">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:minHeight">@dimen/uid_tab_icon_height_width</item>
+        <item name="android:minWidth">@dimen/uid_tab_icon_height_width</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:tint">@color/uid_tab_icon_selector</item>
+    </style>
+
+    <style name="UIDTabIcon.Title" parent="@style/UIDTabIcon">
+        <item name="android:layout_marginTop">@dimen/uid_tab_icon_margin_top</item>
+    </style>
+
+    <style name="UIDTabNotificationBadge" parent="@style/NotificationBadge.Small">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">@dimen/uid_tab_notification_margin_start</item>
+        <item name="android:layout_marginBottom">@dimen/uid_tab_notification_margin_bottom</item>
+    </style>
+
+    <style name="UIDTabNotificationBadge.Title" parent="@style/UIDTabNotificationBadge">
+        <item name="android:layout_marginBottom">@dimen/uid_tab_notification_margin_start</item>
+    </style>
+
+    <style name="UIDTabLabel">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/uid_tab_label_margin_top_bottom</item>
+        <item name="android:layout_marginBottom">@dimen/uid_tab_label_margin_top_bottom</item>
+        <item name="android:layout_marginStart">@dimen/uid_tab_label_margin_start_end</item>
+        <item name="android:layout_marginEnd">@dimen/uid_tab_label_margin_start_end</item>
+        <item name="android:textSize">@dimen/uid_tab_label_text_size</item>
+        <item name="android:textColor">@color/uid_tab_text_selector</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+</resources>

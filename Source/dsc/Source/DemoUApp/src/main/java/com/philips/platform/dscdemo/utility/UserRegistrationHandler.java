@@ -114,6 +114,10 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
         DataServicesManager manager = DataServicesManager.getInstance();
         manager.deleteAll(dbRequestListener);
         clearPreferences();
+        clearAccessToken();
+    }
+
+    public void clearAccessToken() {
         accessToken = "";
     }
 

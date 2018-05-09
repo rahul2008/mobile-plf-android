@@ -8,6 +8,7 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
@@ -142,7 +143,6 @@ public class DataPullSynchronise {
         } else {
             synchronisationManager.dataPullSuccess();
         }
-
     }
 
     private void waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
@@ -164,6 +164,7 @@ public class DataPullSynchronise {
             postOk();
         } else {
             postError(referenceId, result);
+            retrofitError = null; // Reset error after posting
         }
     }
 
@@ -214,6 +215,9 @@ public class DataPullSynchronise {
         }
         return fetchList;
     }
+
+    @VisibleForTesting
+    protected RetrofitError getRetrofitError() {
+        return retrofitError;
+    }
 }
-
-

@@ -10,16 +10,13 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKErrorReason;
 import com.americanwell.sdk.entity.SDKResponseSuggestion;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Date;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 public class THSSDKErrorTest {
@@ -50,9 +47,9 @@ public class THSSDKErrorTest {
     public void getSDKErrorReason() throws Exception {
         mThssdkError.setSdkError(sdkErrorMock);
         when(sdkErrorMock.getSDKErrorReason()).thenReturn(SDKErrorReason.ATTACHMENT_NOT_FOUND);
-        SDKErrorReason sdkErrorReason = mThssdkError.getSDKErrorReason();
+        String sdkErrorReason = mThssdkError.getSDKErrorReason();
         assertNotNull(sdkErrorReason);
-        assertThat(sdkErrorReason).isInstanceOf(SDKErrorReason.class);
+        assertThat(sdkErrorReason).isInstanceOf(String.class);
     }
 
     @Test

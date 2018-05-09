@@ -50,15 +50,11 @@ public class AppTagingConstants {
 
 	public static final String START_USER_REGISTRATION = "startUserRegistration";
 
-	public static final String  LOGIN_START = "loginStart";
-
 	public static final String LOGIN_CHANNEL = "loginChannel";
 
 	public static final String SUCCESS_USER_CREATION = "successUserCreation";
 
 	public static final String SUCCESS_USER_REGISTRATION = "successUserRegistration";
-
-	public static final String SUCCESS_SOCIAL_MERGE = "successSocialMerge";
 
 	public static final String REMARKETING_OPTION_IN = "remarketingOptIn";
 
@@ -102,15 +98,11 @@ public class AppTagingConstants {
 
 	public static final String TOTAL_TIME_CREATE_ACCOUNT = "totalTimeInCreateAccount";
 
-	public static final String USER_ALERT = "userAlert";
-
 	public static final String INVALID_EMAIL = "Invalid email address";
 
 	public static final String INVALID_MOBILE = "Invalid mobile number";
 
 	public static final String WRONG_PASSWORD = "The password does not follow the password guidelines below.";
-
-	public static final String SHOW_PASSWORD = "showPassword";
 
 	public static final String FIELD_CANNOT_EMPTY_NAME = "firsName : Field cannot be empty";
 
@@ -160,11 +152,15 @@ public class AppTagingConstants {
 
 	public static final String FAILURE_FORGOT_PASSWORD = "failureForgotPassword";
 
+	public static final String INVALID_CREDENTIALS="UR:failedLogin:Janrain:210:Incorrect username or password. Try again.";
 
+    public static final String FAILURE_SERVICEDISCOVERY = "UR:RegistrationConfigurationFailed:ServiceDiscovery:";
 
+	public static final String REG_JAN_RAIN_SERVER_CONNECTION_FAILED = "UR:Failed to connect to the server, Please try again after some time.";
 
+	public static final String REG_NO_NETWORK_CONNECTION = "UR:Registration is not available because you are offline";
+	
+	public static final String REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR = "UR:No worries! You do not need a Philips password. You have logged in with a social provider previously.";
 
-
-
-
+	public static final String KEY_HSDP_ID = "HSDPId";
 }

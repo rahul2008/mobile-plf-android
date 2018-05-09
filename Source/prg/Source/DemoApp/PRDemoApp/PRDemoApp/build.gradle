@@ -2,16 +2,16 @@ apply plugin: 'com.android.library'
 
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner deps.androidJUnitRunner
 
     }
 
@@ -19,9 +19,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.0.3'
-    compile 'com.android.support:design:24.0.3'
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.4.0-rc.+.+' , ext: 'aar', changing: true) {
+    compile deps.support.appcompatv7
+    compile deps.support.cardview
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib',
+            version: platformversion + objcdp.getVersionSuffix(), changing: true){
         transitive = true
     }
 }

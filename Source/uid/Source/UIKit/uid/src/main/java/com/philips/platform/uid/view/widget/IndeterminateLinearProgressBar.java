@@ -21,8 +21,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
+
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
+import com.philips.platform.uid.utils.UIDUtils;
 
 /**
  * <p>Provides custom implementation for indeterminate linear progress bar.
@@ -141,6 +143,7 @@ public class IndeterminateLinearProgressBar extends View {
      * Override this provide custom trailing drawable.
      *
      * @return The drawable used as the trailing drawable.
+     * @since 3.0.0
      */
     @Nullable
     protected Drawable getTrailingDrawable() {
@@ -151,6 +154,7 @@ public class IndeterminateLinearProgressBar extends View {
      * Override this to provide custom trailing mirror drawable.
      *
      * @return The drawable used as the trailing mirror drawable.
+     * @since 3.0.0
      */
     @Nullable
     protected Drawable getTrailingMirrorDrawable() {
@@ -161,6 +165,7 @@ public class IndeterminateLinearProgressBar extends View {
      * Override this to provide custom leading drawable.
      *
      * @return The drawable used as the leading drawable.
+     * @since 3.0.0
      */
     @Nullable
     protected Drawable getLeadingDrawable() {
@@ -171,6 +176,7 @@ public class IndeterminateLinearProgressBar extends View {
      * Override this to provide custom leading mirror drawable.
      *
      * @return The drawable used as the leading mirror drawable.
+     * @since 3.0.0
      */
     @Nullable
     protected Drawable getLeadingMirrorDrawable() {
@@ -194,8 +200,15 @@ public class IndeterminateLinearProgressBar extends View {
 
     private void createAnimationSet() {
         endAnimation();
-        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, getLeadingAnimationStartPos(), getLeadingAnimationEndPos());
-        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, trailingMirrorDrawable, getTrailingAnimationStartOffset(), getTrailingAnimationEndOffset());
+
+        boolean isRTL = UIDUtils.isLayoutRTL(this);
+        int startPos =  isRTL ? getLeadingAnimationEndPos(): getLeadingAnimationStartPos();
+        int endPos =  isRTL ? getLeadingAnimationStartPos(): getLeadingAnimationEndPos();
+        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, startPos, endPos);
+
+        int startOffset =  isRTL ? getTrailingAnimationEndOffset(): getTrailingAnimationStartOffset();
+        int endOffset =  isRTL ? getTrailingAnimationStartOffset(): getTrailingAnimationEndOffset();
+        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, trailingMirrorDrawable, startOffset, endOffset);
         setAnimationProperties(leadingAnim);
         setAnimationProperties(trailingAnim);
 
@@ -224,6 +237,7 @@ public class IndeterminateLinearProgressBar extends View {
      * Set the height for the progress bar.
      *
      * @return Height that will be set to the progressbar
+     * @since 3.0.0
      */
     protected int getDesiredHeight() {
         return getContext().getResources().getDimensionPixelSize(R.dimen.uid_progress_bar_height);
@@ -233,6 +247,7 @@ public class IndeterminateLinearProgressBar extends View {
      * Sets the bounds for the progressDrawable.
      *
      * @return Returns {@link Rect} which will be set as bounds for transition drawable.
+     * @since 3.0.0
      */
     protected Rect getTransitionDrawableBoundRect() {
         int width = transitionDrawableWidth / 2;
@@ -244,6 +259,7 @@ public class IndeterminateLinearProgressBar extends View {
      * Sets the bounds for the progressDrawable. Set this to empty rect if no mirror drawable is required.
      *
      * @return Returns {@link Rect} which will be set as bounds for transition mirror drawable.
+     * @since 3.0.0
      */
     protected Rect getTransitionMirrorDrawableBoundRect() {
         int width = transitionDrawableWidth / 2;
@@ -261,6 +277,7 @@ public class IndeterminateLinearProgressBar extends View {
      * Retrieves animator associated with leading animation. Properties can be modified for animator.
      *
      * @return Animator linked to leadingAnim.
+     * @since 3.0.0
      */
     protected Animator getLeadingAnimator() {
         if (leadingAnim != null) {
@@ -273,6 +290,7 @@ public class IndeterminateLinearProgressBar extends View {
      * Retrieves animator associated with trailing animation. Properties can be modified for animator.
      *
      * @return Animator linked to trailingAnim.
+     * @since 3.0.0
      */
     protected Animator getTrailingAnimator() {
         if (trailingAnim != null) {
@@ -285,6 +303,7 @@ public class IndeterminateLinearProgressBar extends View {
      * Start offset for leading animation
      *
      * @return Offset to be applied as animation start point.
+     * @since 3.0.0
      */
     protected int getLeadingAnimationStartPos() {
         return -transitionDrawableWidth;
@@ -294,6 +313,7 @@ public class IndeterminateLinearProgressBar extends View {
      * End offset for leading animation
      *
      * @return Offset to be applied as animation end point.
+     * @since 3.0.0
      */
     protected int getLeadingAnimationEndPos() {
         return getMeasuredWidth() + transitionExtraWhiteSpace;
@@ -303,6 +323,7 @@ public class IndeterminateLinearProgressBar extends View {
      * Start offset for trailing animation
      *
      * @return Offset to be applied as animation start point.
+     * @since 3.0.0
      */
     protected int getTrailingAnimationStartOffset() {
         return -transitionDrawableWidth;
@@ -312,6 +333,7 @@ public class IndeterminateLinearProgressBar extends View {
      * End offset for trailing animation
      *
      * @return Offset to be applied as animation end point.
+     * @since 3.0.0
      */
     protected int getTrailingAnimationEndOffset() {
         return getMeasuredWidth() + transitionExtraWhiteSpace;

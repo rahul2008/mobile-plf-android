@@ -122,6 +122,7 @@ public class CheckBox extends AppCompatCheckBox {
      * @param checkedDisabled Drawable for the checked disabled state
      * @param uncheckedDisabled Drawable for the unchecked disabled state
      * @param uncheckedEnabled Drawable for the unchecked enabled state
+     *                         @since 3.0.0
      */
     public void setCheckBoxDrawables(final Drawable checkedEnabled,
                                      final Drawable checkedDisabled,

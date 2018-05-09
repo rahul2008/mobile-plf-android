@@ -10,7 +10,6 @@ Project           : Consumer Care
 package com.philips.cdp.digitalcare.prx;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -22,9 +21,10 @@ import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.prxclient.PrxConstants.Sector;
-import com.philips.cdp.prxclient.PrxConstants.Catalog;
+import com.philips.cdp.digitalcare.view.ProgressAlertDialog;
 import com.philips.cdp.prxclient.PRXDependencies;
+import com.philips.cdp.prxclient.PrxConstants.Catalog;
+import com.philips.cdp.prxclient.PrxConstants.Sector;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.assets.Asset;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
@@ -41,7 +41,6 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Description :
@@ -70,7 +69,7 @@ public class PrxWrapper {
     private SummaryModel mSummaryModel = null;
     private AssetModel mAssetModel = null;
     private ViewProductDetailsModel mProductDetailsObject = null;
-    private ProgressDialog mProgressDialog = null;
+    private ProgressAlertDialog mProgressDialog = null;
     private RequestManager mRequestManager = null;
 
 
@@ -228,9 +227,9 @@ public class PrxWrapper {
 
     public void executeFaqSupportRequest() {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
+            mProgressDialog = new ProgressAlertDialog(mActivity, R.style.loaderTheme);
         }
-        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+
         mProgressDialog.setCancelable(false);
         if (!(mActivity.isFinishing())) {
             mProgressDialog.show();
@@ -288,9 +287,9 @@ public class PrxWrapper {
 
     public void executeSummaryRequest() {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
+            mProgressDialog = new ProgressAlertDialog(mActivity, R.style.loaderTheme);
         }
-        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+
         mProgressDialog.setCancelable(false);
         if (!(mActivity.isFinishing())) {
             mProgressDialog.show();

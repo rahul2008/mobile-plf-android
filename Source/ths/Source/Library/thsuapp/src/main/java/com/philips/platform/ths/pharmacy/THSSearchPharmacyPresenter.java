@@ -11,11 +11,9 @@ import android.content.Context;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
@@ -44,7 +42,7 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter, THSGetPharm
             try {
                 THSManager.getInstance().getPharmacies(context, THSManager.getInstance().getPTHConsumer(uiView.getFragmentActivity()), null, null, uiView.getZipCode(), this);
             } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+
             }
         }
     }
@@ -55,7 +53,7 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter, THSGetPharm
     }
 
     @Override
-    public void onValidationFailure(Map<String, ValidationReason> map) {
+    public void onValidationFailure(Map<String, String> map) {
         uiView.hideProgressBar();
     }
 
@@ -63,7 +61,7 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter, THSGetPharm
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
         uiView.hideProgressBar();
         if (null != sdkError) {
-            uiView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_PHARMACY,sdkError));
+            uiView.showError(THSSDKErrorFactory.getErrorType(uiView.getFragmentActivity(), ANALYTICS_PHARMACY,sdkError));
         } else {
             uiView.setPharmacyList(pharmacies);
         }

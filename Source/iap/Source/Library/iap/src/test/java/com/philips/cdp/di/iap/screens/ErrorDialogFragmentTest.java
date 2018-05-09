@@ -24,7 +24,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class ErrorDialogFragmentTest {
     private Context mContext;
     private ErrorDialogFragment errorDialogFragment;
@@ -38,7 +38,7 @@ public class ErrorDialogFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = Exception.class)
     public void shouldDisplayAddressSelectionFragment() {
 
         SupportFragmentTestUtil.startFragment(errorDialogFragment);

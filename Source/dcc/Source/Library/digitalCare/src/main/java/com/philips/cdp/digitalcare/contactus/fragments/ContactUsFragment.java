@@ -1,4 +1,4 @@
-/**
+/*
  * ContactUsFragment will help to provide options to contact Philips.
  *
  * @author : Ritesh.jha@philips.com
@@ -8,10 +8,7 @@
 
 package com.philips.cdp.digitalcare.contactus.fragments;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -20,9 +17,10 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +42,9 @@ import com.philips.cdp.digitalcare.util.ContactUsUtils;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.cdp.digitalcare.view.ProgressAlertDialog;
+import com.philips.platform.uid.utils.DialogConstants;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -52,6 +53,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("serial")
 public class ContactUsFragment extends DigitalCareBaseFragment implements ContactUsContract,OnClickListener {
     private static final String USER_PREFERENCE = "user_product";
     private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
@@ -63,11 +65,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     private TextView mContactUsOpeningHours = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private ProgressDialog mPostProgress = null;
     private RecyclerView mContactUsSocilaProviderButtonsParent = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
     private LinearLayout mLLSocialParent = null;
-    private ProgressDialog mDialog = null;
+    private ProgressAlertDialog mDialog = null;
 
     private static String TAG = ContactUsFragment.class.getSimpleName();
 
@@ -75,7 +76,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     private Configuration config = null;
     private Utils mUtils = null;
     private ContactUsUtils mContactUsUtils = null;
-    private AlertDialog mAlertDialog = null;
+    private AlertDialogFragment mAlertDialog = null;
+    private long mLastClkTime;
+
+    public static final String CONTACT_US_DIALOG_TAG = "CONTACT_US_DIALOG_TAG";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,25 +97,22 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     }
 
     private void initView(View view) {
-        mContactUsSocilaProviderButtonsParent = (RecyclerView) view.findViewById(
+        mContactUsSocilaProviderButtonsParent =  view.findViewById(
                 R.id.contactUsSocialProvideButtonsParent);
         mSecondContainerParams = (LinearLayout.LayoutParams) mContactUsSocilaProviderButtonsParent
                 .getLayoutParams();
-        mChatBtn = (Button) view.findViewById(R.id.contactUsChat);
-        mCallPhilipsBtn = (Button) view.findViewById(R.id.contactUsCall);
-        mContactUsOpeningHours = (TextView) view.findViewById(R.id.contactUsOpeningHours);
-        mFirstRowText = (TextView) view.findViewById(R.id.firstRowText);
-        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
-        mLLSocialParent = (LinearLayout) view.findViewById(R.id.contactUsSocialParent);
+        mChatBtn = view.findViewById(R.id.contactUsChat);
+        mCallPhilipsBtn = view.findViewById(R.id.contactUsCall);
+        mContactUsOpeningHours = view.findViewById(R.id.contactUsOpeningHours);
+        mFirstRowText = view.findViewById(R.id.firstRowText);
+        mActionBarMenuIcon = view.findViewById(R.id.home_icon);
+        mActionBarArrow = view.findViewById(R.id.back_to_home_img);
+        mLLSocialParent = view.findViewById(R.id.contactUsSocialParent);
         mUtils = new Utils();
         mContactUsUtils = new ContactUsUtils();
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         final float density = getResources().getDisplayMetrics().density;
         setHelpButtonParams(density);
-        if (getResources().getBoolean(R.bool.live_chat_required) || DigitalCareConfigManager.getInstance().getSdLiveChatUrl() != null || DigitalCareConfigManager.getInstance().getLiveChatUrl() != null ) {
-            mChatBtn.setVisibility(View.VISIBLE);
-        }
         mChatBtn.setOnClickListener(this);
         mChatBtn.setTransformationMethod(null);
         mCallPhilipsBtn.setOnClickListener(this);
@@ -168,12 +169,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
 
     public boolean isContactNumberCached() {
         String customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
-        return (customerSupportNumber != null && customerSupportNumber != "");
+        return (customerSupportNumber != null && !customerSupportNumber.isEmpty());
     }
 
     public boolean isContactHoursCached() {
         String contactHours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
-        return (contactHours != null && contactHours != "");
+        return (contactHours != null && !contactHours.isEmpty());
     }
 
     @Override
@@ -215,7 +216,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
             return;
         }
         if (mDialog == null) {
-            mDialog = new ProgressDialog(getActivity());
+            mDialog = new ProgressAlertDialog(getActivity(), R.style.loaderTheme);
             mDialog.setCancelable(true);
         }
         mDialog.setMessage(getActivity().getResources().getString(
@@ -238,6 +239,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     @Override
     public void onClick(View view) {
         final int id = view.getId();
+
+        if (SystemClock.elapsedRealtime() - mLastClkTime < 2000) {
+            return;
+        }
+        mLastClkTime = SystemClock.elapsedRealtime();
+
         final String tag = (String) view.getTag();
         boolean actionTaken = false;
 
@@ -293,7 +300,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_Facebook);
         try {
             final Uri uri = Uri.parse(mContactUsUtils.facebooAppUrl(getActivity()));
-            final Map<String, String> contextData = new HashMap<String, String>();
+            final Map<String, String> contextData = new HashMap<>();
             contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                     AnalyticsConstants.ACTION_VALUE_FACEBOOK);
             contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE,
@@ -344,7 +351,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         final String twitterUrl = "www.twitter.com/";
         final String twitterSupportAccount = getActivity().getString(R.string.twitter_page);
         final String twitterPageName = twitterUrl + "@" + twitterSupportAccount;
-        final Map<String, String> contextData = new HashMap<String, String>();
+        final Map<String, String> contextData = new HashMap<>();
         contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
         contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
         contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, twitterPageName);
@@ -366,15 +373,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
                 + ctn;
 
         return productInfo;
-    }
-
-    @Override
-    public void onPause() {
-        if (mPostProgress != null && mPostProgress.isShowing()) {
-            mPostProgress.dismiss();
-            mPostProgress = null;
-        }
-        super.onPause();
     }
 
     private void tagServiceRequest(String serviceChannel) {
@@ -449,22 +447,26 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(null != mAlertDialog && mAlertDialog.isShowing())
-            mAlertDialog.cancel();
+        if(null != mAlertDialog)
+            mAlertDialog.dismiss();
     }
 
     private void showDialog(String message){
-        mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.alertDialogStyle)
-                .setTitle(null)
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_ALERT)
                 .setMessage(message)
-                .setPositiveButton(android.R.string.yes,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                mAlertDialog.dismiss();
-
-                            }
-                        }).show();
+                .setPositiveButton(android.R.string.yes, new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mAlertDialog != null) {
+                            mAlertDialog.dismiss();
+                        }
+                    }
+                })
+                .setDimLayer(DialogConstants.DIM_SUBTLE)
+                .setCancelable(false);
+        mAlertDialog = builder.create();
+        mAlertDialog.show(getFragmentManager(), CONTACT_US_DIALOG_TAG);
 
     }
 
@@ -513,7 +515,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
 
     @Override
     public void updateFirstRowSharePreference(StringBuilder stringBuilder,String phoneNumber){
-        mFirstRowText.setText(stringBuilder);
+        mFirstRowText.setText(Html.fromHtml(stringBuilder.toString()));
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(USER_SELECTED_PRODUCT_CTN_HOURS, stringBuilder.toString());
         editor.putString(USER_SELECTED_PRODUCT_CTN_CALL, phoneNumber);
@@ -522,7 +524,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
 
     private void hideSocialView() {
         mLLSocialParent.setVisibility(View.GONE);
-        View view = (View) getActivity().findViewById(R.id.dividerContactUsSplit);
+        View view = getActivity().findViewById(R.id.dividerContactUsSplit);
         view.setVisibility(View.GONE);
     }
 
@@ -534,9 +536,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
             @Override
             public void bindData(RecyclerView.ViewHolder viewHolder, MenuItem menuItem) {
                 View container = viewHolder.itemView.findViewById(R.id.icon_button);
-                Label contactUsListLabel = (Label) container.findViewById(R.id.icon_button_text);
+                Label contactUsListLabel = container.findViewById(R.id.icon_button_text);
                 contactUsListLabel.setText(menuItem.mText);
-                TextView contactUsListIcon = (TextView) container.findViewById(R.id.icon_button_icon);
+                TextView contactUsListIcon = container.findViewById(R.id.icon_button_icon);
                 contactUsListIcon.setText(menuItem.mIcon);
                 container.setTag(getResources().getResourceEntryName(menuItem.mText));
                 container.setOnClickListener(context);
@@ -548,4 +550,19 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     public boolean isViewAdded(){
        return isAdded();
     }
+
+
+    @Override
+    public void updateLiveChatButton(int visibility) {
+        toggleLiveChatVisibility(visibility);
+    }
+
+    private void toggleLiveChatVisibility(int visibility) {
+        if (getResources().getBoolean(R.bool.live_chat_required)) {
+            mChatBtn.setVisibility(View.VISIBLE);
+        } else {
+            mChatBtn.setVisibility(visibility);
+        }
+    }
+
 }

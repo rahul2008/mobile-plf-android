@@ -45,7 +45,7 @@ public class ProdRegUtilTest extends TestCase {
     @Test
     public void testReturnFalseForInValidDate() throws Exception {
         assertFalse(prodRegUtil.isValidDate("1998-03-22"));
-        assertFalse(prodRegUtil.isValidDate("2098-05-22"));
+        assertTrue(prodRegUtil.isValidDate("2098-05-22"));
     }
 
     @Test

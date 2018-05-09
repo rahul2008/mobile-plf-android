@@ -27,6 +27,7 @@ public class UIDSpans {
      * @param string     which acts primary string
      * @param subString  which needs to be looked in primary string.
      * @return SpannableString if given string contains the substring. Else returns the same string.
+     * @since 3.0.0
      */
     public static CharSequence boldSubString(boolean ignoreCase, Context context, final CharSequence string, final CharSequence subString) {
         if (TextUtils.isEmpty(string) || TextUtils.isEmpty(subString)) {

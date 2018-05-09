@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -18,8 +18,9 @@ import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
+import com.philips.cdp2.commlib.core.devicecache.CacheData;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache.DeviceCacheListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.core.util.ObservableCollection.ModificationListener;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
 import com.philips.cdp2.commlib.lan.subscription.LocalSubscriptionHandler;
@@ -28,13 +29,13 @@ import com.philips.cdp2.commlib.lan.subscription.UdpEventReceiver;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.X509TrustManager;
 
 import static java.util.Objects.requireNonNull;
-
 
 /**
  * The type LanCommunicationStrategy.
@@ -84,17 +85,21 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
         }
     };
 
-    private final ModificationListener<String> deviceCacheListener = new ModificationListener<String>() {
+    private final DeviceCacheListener<CacheData> deviceCacheListener = new DeviceCacheListener<CacheData>() {
         @Override
-        public void onRemoved(String cppId) {
-            isCached = false;
-            handleAvailabilityChanged();
+        public void onAdded(CacheData cacheData) {
+            if (networkNode.getCppId().equals(cacheData.getNetworkNode().getCppId())) {
+                isCached = true;
+                handleAvailabilityChanged();
+            }
         }
 
         @Override
-        public void onAdded(String cppId) {
-            isCached = true;
-            handleAvailabilityChanged();
+        public void onRemoved(CacheData cacheData) {
+            if (networkNode.getCppId().equals(cacheData.getNetworkNode().getCppId())) {
+                isCached = false;
+                handleAvailabilityChanged();
+            }
         }
     };
 
@@ -118,7 +123,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
 
         requestQueue = createRequestQueue();
 
-        deviceCache.addModificationListener(networkNode.getCppId(), deviceCacheListener);
+        deviceCache.addDeviceCacheListener(deviceCacheListener, networkNode.getCppId());
         connectivityMonitor.addAvailabilityListener(availabilityListener);
         this.diSecurity.setEncryptionDecryptionFailedListener(encryptionDecryptionFailedListener);
     }
@@ -166,8 +171,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     }
 
     @Override
-    public void unsubscribe(String portName, int productId,
-                            ResponseHandler responseHandler) {
+    public void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
         Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.DELETE, getUnsubscriptionData(), responseHandler, diSecurity);
         requestQueue.addRequest(request);
@@ -182,9 +186,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     @Nullable
     SSLContext createSSLContext() throws NoSuchAlgorithmException, KeyManagementException {
         SSLContext context = SSLContext.getInstance("TLS");
-        context.init(null, new X509TrustManager[]{
-                new SslPinTrustManager(networkNode)
-        }, new SecureRandom());
+        context.init(null, new X509TrustManager[]{new SslPinTrustManager(networkNode)}, new SecureRandom());
 
         return context;
     }
@@ -215,9 +217,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
             }
         };
 
-        final Request request = networkNode.isHttps() ?
-                new GetKeyRequest(networkNode, sslContext, responseHandler) :
-                new ExchangeKeyRequest(networkNode, responseHandler);
+        final Request request = networkNode.isHttps() ? new GetKeyRequest(networkNode, sslContext, responseHandler) : new ExchangeKeyRequest(networkNode, responseHandler);
 
         isKeyExchangeOngoing = true;
         requestQueue.addRequestInFrontOfQueue(request);
@@ -240,14 +240,14 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     }
 
     private synchronized void handleAvailabilityChanged() {
-        boolean currentAvailability = isAvailable;
+        boolean currentlyAvailable = isAvailable;
 
         isAvailable = isCached && isConnected;
-        if (isAvailable != currentAvailability) {
+        if (isAvailable != currentlyAvailable) {
             notifyAvailabilityChanged();
         }
 
-        DICommLog.i("LanCommunicationStrategy", "isAvailable " + isAvailable + " for " + networkNode.getName());
+        DICommLog.d("LanCommunicationStrategy", String.format(Locale.US, "NetworkNode: [%s] - currentlyAvailable: [%s], isAvailable: [%s], isCached: [%s], isConnected: [%s]", networkNode.getName(), currentlyAvailable, isAvailable, isCached, isConnected));
 
         if (isAvailable) {
             localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);

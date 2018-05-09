@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.americanwell.sdk.entity.SDKEntity;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -35,6 +36,7 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -46,6 +48,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_SEARC
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_SEARCH_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_SEARCH;
 
+@SuppressWarnings({"serial", "rawtypes", "unchecked"})
 public class THSSearchFragment extends THSBaseFragment implements SearchBox.QuerySubmitListener, ListView.OnItemClickListener, TextWatcher {
     public static final String TAG = THSSearchFragment.class.getSimpleName();
     private THSBasePresenter mPresenter;
@@ -58,6 +61,8 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     int searchType = 0;
     private Practice practice;
     protected List<Pharmacy> pharmacyList;
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,7 +119,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
             super.onPrepareOptionsMenu(menu);
             MenuItem searchBoxitem = menu.findItem(R.id.search_pharmacy_menu);
             final View view = new  com.philips.platform.uid.view.widget.SearchBox(getContext());
-            MenuItemCompat.setActionView(searchBoxitem, view);
+            searchBoxitem.setActionView(view);
 
             searchBox = (SearchBox) menu.findItem(R.id.search_pharmacy_menu).getActionView();
             searchBox.setQuerySubmitListener(this);
@@ -124,16 +129,16 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
                 case THSConstants.MEDICATION_SEARCH_CONSTANT:
                     searchBox.getSearchTextView().addTextChangedListener(this);
                     searchBoxHint = getActivity().getResources().getString(R.string.ths_search_medication);
-                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_MEDICATION_SEARCH_PAGE,null,null);
+                    THSTagUtils.doTrackPageWithInfo(THS_MEDICATION_SEARCH_PAGE,null,null);
                     break;
                 case THSConstants.PROVIDER_SEARCH_CONSTANT:
                     searchBox.getSearchTextView().addTextChangedListener(this);
                     searchBoxHint = getActivity().getResources().getString(R.string.ths_search_provider);
-                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PROVIDER_SEARCH_PAGE,null,null);
+                    THSTagUtils.doTrackPageWithInfo(THS_PROVIDER_SEARCH_PAGE,null,null);
                     break;
                 case THSConstants.PHARMACY_SEARCH_CONSTANT:
                     searchBoxHint = getActivity().getResources().getString(R.string.ths_search_pharmacy);
-                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PHARMACY_SEARCH,null,null);
+                    THSTagUtils.doTrackPageWithInfo(THS_PHARMACY_SEARCH,null,null);
                     break;
             }
             searchBox.setSearchBoxHint(searchBoxHint);

@@ -1,14 +1,8 @@
 package com.philips.platform.ths.visit;
 
-import android.view.View;
-
-import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.VisitReport;
-import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -24,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_RATING;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_SUMMARY;
 import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.visitSuccessful;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
@@ -49,7 +44,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         try {
             THSManager.getInstance().getVisitSummary(mTHSVisitSummaryFragment.getFragmentActivity(), mTHSVisitSummaryFragment.mVisit, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
 
     }
@@ -73,7 +68,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
             }
             THSManager.getInstance().sendRatings(mTHSVisitSummaryFragment.getFragmentActivity(), mTHSVisitSummaryFragment.mVisit, providerRatingInt, visitRatingInt, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -83,7 +78,11 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     @Override
     public void onResponse(THSVisitSummary tHSVisitSummary, THSSDKError tHSSDKError) {
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
-            mTHSVisitSummaryFragment.updateView(tHSVisitSummary);
+            if(tHSSDKError!=null && tHSSDKError.getSdkError()!=null) {
+                THSSDKErrorFactory.getErrorType(mTHSVisitSummaryFragment.getContext(), ANALYTIC_FETCH_SUMMARY, tHSSDKError.getSdkError());
+            }else{
+                mTHSVisitSummaryFragment.updateView(tHSVisitSummary);
+            }
         }
 
     }
@@ -95,7 +94,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     public void onResponse(Void var1, SDKError var2) {
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
             if (null != var2) {
-                mTHSVisitSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_RATING,var2));
+                mTHSVisitSummaryFragment.showError(THSSDKErrorFactory.getErrorType(mTHSVisitSummaryFragment.getContext(), ANALYTICS_RATING,var2));
             }
         }
         AmwellLog.d("Send rating", "success");
@@ -106,7 +105,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         AmwellLog.d("Send rating", "failure");
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
             mTHSVisitSummaryFragment.doTagging(ANALYTICS_RATING,mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
-            mTHSVisitSummaryFragment.showError(mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
+            mTHSVisitSummaryFragment.showError(mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true, false);
         }
     }
 
@@ -115,7 +114,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         try {
             THSManager.getInstance().getVisitHistory(mTHSVisitSummaryFragment.getContext(),null, this);
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
     // fetch report callback
@@ -129,7 +128,9 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
                  }
              }
         }
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"doctorLoyalty",""+doctorLoyality);
+        if(THSManager.getInstance().getThsTagging() !=null) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "doctorLoyalty", "" + doctorLoyality);
+        }
 
     }
 

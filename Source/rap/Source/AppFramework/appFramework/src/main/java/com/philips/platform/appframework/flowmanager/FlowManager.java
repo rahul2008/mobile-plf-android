@@ -18,6 +18,7 @@ import com.philips.platform.appframework.stateimpl.DemoDevicePairingState;
 import com.philips.platform.appframework.stateimpl.DemoDlsState;
 import com.philips.platform.appframework.stateimpl.DemoIAPState;
 import com.philips.platform.appframework.stateimpl.DemoPRGState;
+import com.philips.platform.appframework.stateimpl.DemoThsState;
 import com.philips.platform.appframework.stateimpl.DemoUFWState;
 import com.philips.platform.appframework.stateimpl.DemoUSRState;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
@@ -26,10 +27,13 @@ import com.philips.platform.baseapp.FlowManagerUtil;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
+import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesDeepLinkingState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
 import com.philips.platform.modularui.stateimpl.EWSFragmentState;
 
 import java.util.Map;
+
+
 
 public class FlowManager extends BaseFlowManager {
 
@@ -50,6 +54,8 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TEST_DEVICE_PAIRING, new DemoDevicePairingState());
         uiStateMap.put(AppStates.TESTDLS, new DemoDlsState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
+        uiStateMap.put(AppStates.TELEHEALTHSERVICESDEMO, new DemoThsState());
+        uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {
