@@ -10,6 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertTrue;
+
 public class ShoppingCartFlowStateTest {
     private ShoppingCartFlowState shoppingCartState;
 
@@ -27,6 +29,6 @@ public class ShoppingCartFlowStateTest {
     public void updateDataModel() throws Exception {
         shoppingCartState.updateDataModel();
         final int launchType = shoppingCartState.getLaunchType();
-        assert launchType == IAPState.IAP_SHOPPING_CART_VIEW;
+        assertTrue(launchType == IAPState.IAP_SHOPPING_CART_VIEW);
     }
 }
