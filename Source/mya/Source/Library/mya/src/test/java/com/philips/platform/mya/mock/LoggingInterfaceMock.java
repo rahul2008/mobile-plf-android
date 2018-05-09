@@ -26,4 +26,9 @@ public class LoggingInterfaceMock implements LoggingInterface {
     public void log(LogLevel logLevel, String s, String s1, Map<String, ?> map) {
 
     }
+
+    @Override
+    public void setUserUUID(String userUUID) {
+
+    }
 }
