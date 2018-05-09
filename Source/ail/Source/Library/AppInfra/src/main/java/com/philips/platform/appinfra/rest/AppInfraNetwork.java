@@ -40,7 +40,7 @@ public class AppInfraNetwork extends BasicNetwork {
     @Override
     public NetworkResponse performRequest(Request<?> request) throws VolleyError {
         NetworkResponse networkResponse = super.performRequest(request);
-        String networkInfo = getPublicKeyInfo(networkResponse);
+        String networkInfo = getNetworkInfo(networkResponse);
         String storedInfo = appInfraInterface.getSecureStorage().fetchValueForKey(getHostname(request), getSecureStorageError());
 
         String[] networkKeys = extractPublicKeys(networkInfo);
@@ -64,7 +64,7 @@ public class AppInfraNetwork extends BasicNetwork {
         return null;
     }
 
-    private String getPublicKeyInfo(NetworkResponse networkResponse) {
+    private String getNetworkInfo(NetworkResponse networkResponse) {
         Map<String, String> headers = networkResponse.headers;
         if (headers.containsKey(SSL_RESPONSE_PUBLIC_KEY)) {
             return headers.get(SSL_RESPONSE_PUBLIC_KEY);
@@ -84,7 +84,7 @@ public class AppInfraNetwork extends BasicNetwork {
 
     private void log(String message) {
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, AppInfraNetwork.class.getSimpleName(), SSL_PUBLIC_KEY_PIN_LOG_MESSAGE);
-        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, AppInfraNetwork.class.getSimpleName(), message);
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.ERROR, AppInfraNetwork.class.getSimpleName(), SSL_RESPONSE_PUBLIC_KEY + ":" + message);
     }
 
     @VisibleForTesting
