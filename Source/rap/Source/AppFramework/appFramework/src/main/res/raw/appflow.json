@@ -191,7 +191,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "iap"
+                "nextState": "shopping_cart"
               }
             ]
           },
