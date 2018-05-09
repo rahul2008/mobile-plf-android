@@ -66,6 +66,11 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
             public void log(LogLevel logLevel, String s, String s1, Map<String, ?> map) {
 
             }
+
+            @Override
+            public void setUserUUID(String userUUID) {
+
+            }
         };
     }
 

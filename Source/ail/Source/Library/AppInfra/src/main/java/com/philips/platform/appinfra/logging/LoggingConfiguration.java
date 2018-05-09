@@ -21,11 +21,11 @@ import java.util.HashMap;
 public class LoggingConfiguration {
 
     private static final String COMPONENT_IDS_KEY = "componentIds";
-    private final String LOG_LEVEL_KEY = "logLevel";
-    private final String CONSOLE_LOG_ENABLED_KEY = "consoleLogEnabled";
-    private final String CLOUD_LOG_ENABLED_KEY = "cloudLogEnabled";
-    private final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
-    private final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
+    public final String LOG_LEVEL_KEY = "logLevel";
+    public final String CONSOLE_LOG_ENABLED_KEY = "consoleLogEnabled";
+    public final String CLOUD_LOG_ENABLED_KEY = "cloudLogEnabled";
+    public final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
+    public final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
     private HashMap<?, ?> mLoggingProperties;
     private AppInfra mAppInfra;
     private String mComponentID = "";
