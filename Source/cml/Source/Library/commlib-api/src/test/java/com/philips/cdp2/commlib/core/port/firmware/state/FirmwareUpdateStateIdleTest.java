@@ -45,7 +45,7 @@ public class FirmwareUpdateStateIdleTest {
     }
 
     @Test
-    public void givenStartIsCalled_whenPreviousStateIsError_thenDownloadIsRequested() {
+    public void givenStartIsCalled_whenPreviousStateIsError_thenOperationIsFinished() {
         stateUnderTest.start(new FirmwareUpdateStateError(mockOperation));
 
         verify(mockOperation).finish();

@@ -79,7 +79,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     @NonNull
     private FirmwareUpdateState currentState;
 
-    private boolean startIsRequested;
+    private boolean isStartRequested;
 
     @NonNull
     private final FirmwarePortStateWaiter.WaiterListener waiterListener = new FirmwarePortStateWaiter.WaiterListener() {
@@ -89,8 +89,8 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
             currentState.finish();
             currentState = stateMap.get(newState);
 
-            if (startIsRequested && currentState instanceof FirmwareUpdateStateIdle) {
-                startIsRequested = false;
+            if (isStartRequested && currentState instanceof FirmwareUpdateStateIdle) {
+                isStartRequested = false;
                 currentState.start(null);
             } else {
                 currentState.start(previousState);
@@ -142,7 +142,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         this.stateTransitionTimeoutMillis = stateTransitionTimeoutMillis;
         try {
             currentState.cancel();
-            startIsRequested = true;
+            isStartRequested = true;
         } catch (FirmwareUpdateException ignored) {
             currentState.start(null);
         }
