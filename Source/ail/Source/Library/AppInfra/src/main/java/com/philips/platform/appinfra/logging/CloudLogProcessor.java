@@ -2,6 +2,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.support.annotation.NonNull;
 
 /**
  * Created by abhishek on 5/4/18.
@@ -19,6 +20,11 @@ public class CloudLogProcessor extends HandlerThread {
     }
 
     public void prepareHandler(){
-        mWorkerHandler = new Handler(getLooper());
+        mWorkerHandler = getHandler();
+    }
+
+    @NonNull
+    Handler getHandler() {
+        return new Handler(getLooper());
     }
 }

@@ -71,7 +71,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
         tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
 
-
+        updateCheckoutStepNumber("2");
 
         mBtnContinue = rootView.findViewById(R.id.btn_continue);
         mBtnCancel = rootView.findViewById(R.id.btn_cancel);
@@ -120,7 +120,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
 
         Bundle bundle = getArguments();
-
+        updateCheckoutStepNumber("1"); // for default
         if (null != bundle && bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION)) {
             if (bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
                 updateCheckoutStepNumber("2");

@@ -124,7 +124,7 @@ public class MomentsSegregator {
             moment.getSynchronisationData().setInactive(true);
             moment.setId(moment.getId());
             momentsToUpdate.add(moment);
-        } else if (!isMomentUpdatedFromBackend(moment, momentInDatabase)) {
+        } else if (isMomentUpdatedFromBackend(moment, momentInDatabase)) {
             if (hasDifferentMomentVersion(moment, momentInDatabase)) {
                 moment.getSynchronisationData().setVersion(getNewMomentVersion(moment, momentInDatabase));
             }
@@ -202,6 +202,7 @@ public class MomentsSegregator {
     }
 
     private boolean isMomentUpdatedFromBackend(final Moment moment, final Moment momentInDatabase) {
-        return momentInDatabase != null && !moment.getDateTime().equals(momentInDatabase.getDateTime());
+        return momentInDatabase.getSynchronisationData().getLastModified() == null
+                || momentInDatabase.getSynchronisationData().getLastModified().isBefore(moment.getSynchronisationData().getLastModified());
     }
 }
