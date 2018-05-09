@@ -6,15 +6,12 @@
 
 package com.philips.platform.baseapp.screens.inapppurchase;
 
-import com.philips.platform.TestAppFrameworkApplication;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.robolectric.RuntimeEnvironment;
 
 public class ShoppingCartFlowStateTest {
-    private IAPState shoppingCartState;
+    private ShoppingCartFlowState shoppingCartState;
 
     @After
     public void tearDown(){
@@ -24,9 +21,6 @@ public class ShoppingCartFlowStateTest {
     @Before
     public void setUp() throws Exception{
         shoppingCartState = new ShoppingCartFlowState();
-    }
-    public TestAppFrameworkApplication getApplicationContext(){
-        return (TestAppFrameworkApplication) RuntimeEnvironment.application;
     }
 
     @Test
