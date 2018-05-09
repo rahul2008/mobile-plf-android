@@ -120,7 +120,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
 
         Bundle bundle = getArguments();
-
+        updateCheckoutStepNumber("1"); // for default
         if (null != bundle && bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION)) {
             if (bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
                 updateCheckoutStepNumber("2");
