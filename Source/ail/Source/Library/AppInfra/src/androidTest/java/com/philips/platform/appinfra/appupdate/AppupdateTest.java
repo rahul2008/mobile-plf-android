@@ -256,37 +256,37 @@ public class AppupdateTest extends AppInfraInstrumentation {
 	}
 
 	//test deprecated since tobedeprecatedDate is over (deprecated date set to past date ).
-	public void testDeprecatedAfterTobeDeprecateddate() {
-		deleteFile();
-		String testMinimumVersionMessage = "test minimum version message";
-
-		final String testResponse = "{  \n" +
-				"   \"version\":{  \n" +
-				"      \"minimumVersion\":\"0.0.0\",\n" +
-				"      \"deprecatedVersion\":\"1.6.0\",\n" +
-				"      \"deprecationDate\":\"2010-05-12\",\n" +
-				"      \"currentVersion\":\"1003.1.0\"\n" +
-				"   },\n" +
-				"   \"messages\":{  \n" +
-				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
-				"      \"deprecatedVersionMessage\":\"The current version will be outdated by 2017-07-12. Please update the app soon.\",\n" +
-                "      \"minimumOSMessage\":\"Please update needs android version above 5.0.\",\n" +
-				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
-				"   },\n" +
-				"   \"requirements\":{  \n" +
-				"      \"minimumOSVersion\":\"15\"\n" +
-				"   }\n" +
-				"}";
-		saveResponse(testResponse);
-		mAppUpdateManager = new AppUpdateManager(mAppInfra) {
-			@Override
-			protected String getAppVersion() {
-				return "1.6.0";
-			}
-		};
-		assertTrue(mAppUpdateManager.isDeprecated());
-		assertEquals(testMinimumVersionMessage, mAppUpdateInterface.getDeprecateMessage());
-	}
+//	public void testDeprecatedAfterTobeDeprecateddate() {
+//		deleteFile();
+//		String testMinimumVersionMessage = "test minimum version message";
+//
+//		final String testResponse = "{  \n" +
+//				"   \"version\":{  \n" +
+//				"      \"minimumVersion\":\"0.0.0\",\n" +
+//				"      \"deprecatedVersion\":\"1.6.0\",\n" +
+//				"      \"deprecationDate\":\"2010-05-12\",\n" +
+//				"      \"currentVersion\":\"1003.1.0\"\n" +
+//				"   },\n" +
+//				"   \"messages\":{  \n" +
+//				"      \"minimumVersionMessage\":\"test minimum version message\",\n" +
+//				"      \"deprecatedVersionMessage\":\"The current version will be outdated by 2017-07-12. Please update the app soon.\",\n" +
+//                "      \"minimumOSMessage\":\"Please update needs android version above 5.0.\",\n" +
+//				"      \"currentVersionMessage\":\"A new version of the App is now available.\"\n" +
+//				"   },\n" +
+//				"   \"requirements\":{  \n" +
+//				"      \"minimumOSVersion\":\"15\"\n" +
+//				"   }\n" +
+//				"}";
+//		saveResponse(testResponse);
+//		mAppUpdateManager = new AppUpdateManager(mAppInfra) {
+//			@Override
+//			protected String getAppVersion() {
+//				return "1.6.0";
+//			}
+//		};
+//		assertTrue(mAppUpdateManager.isDeprecated());
+//		assertEquals(testMinimumVersionMessage, mAppUpdateInterface.getDeprecateMessage());
+//	}
 
 
 	public void testDeprecatedAfterTobeDeprecateddateWithInvalidDate() {
