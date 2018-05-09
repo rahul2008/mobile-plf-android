@@ -138,6 +138,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         FACEBOOK_PERMISSION_LIST = Arrays.asList("public_profile");
     }
 
+    private static final int COUNTRY_SELECTION_REQUEST_CODE = 100;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(TAG, "OnCreateView : is Called");
@@ -362,11 +364,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
                     hideProgressDialog();
                 }
                 return;
-            } else if(true){
+            } else if (providerName.equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK)) {
                 showProgressDialog();
                 homePresenter.setProvider(providerName);
-                startFaceBookLogin(mLoginManager);
-            }else  {
+                startFaceBookLogin();
+            } else {
                 showProgressDialog();
                 homePresenter.setProvider(providerName);
                 homePresenter.startSocialLogin();
@@ -532,7 +534,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void onFaceBookAccessTokenReceived(AccessToken accessToken) {
-
+        homePresenter.startAccessTokenAuthForFacebook(accessToken.getToken(), null);
     }
 
     @Override
@@ -542,12 +544,12 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void onFaceBookLogInCancelled() {
-    hideProgressDialog();
+        hideProgressDialog();
     }
 
     @Override
-    public void startFaceBookLogin(LoginManager loginManager) {
-        loginManager.logInWithReadPermissions(this,FACEBOOK_PERMISSION_LIST);
+    public void startFaceBookLogin() {
+        mLoginManager.logInWithReadPermissions(this, FACEBOOK_PERMISSION_LIST);
     }
 
     private void enableSocialProviders(boolean enableState) {
@@ -901,9 +903,13 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        String countryName = data.getStringExtra(RegConstants.KEY_BUNDLE_COUNTRY_NAME);
-        String countryCode = data.getStringExtra(RegConstants.KEY_BUNDLE_COUNTRY_CODE);
-        homePresenter.onSelectCountry(countryName, countryCode);
-        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == COUNTRY_SELECTION_REQUEST_CODE) {
+            String countryName = data.getStringExtra(RegConstants.KEY_BUNDLE_COUNTRY_NAME);
+            String countryCode = data.getStringExtra(RegConstants.KEY_BUNDLE_COUNTRY_CODE);
+            homePresenter.onSelectCountry(countryName, countryCode);
+            super.onActivityResult(requestCode, resultCode, data);
+        }else{
+            
+        }
     }
 }

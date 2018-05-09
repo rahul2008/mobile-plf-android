@@ -198,6 +198,30 @@ public class User {
     }
 
 
+    public void startTokenAuthForNativeProvider(final Activity activity, final String providerName, final SocialProviderLoginHandler socialLoginHandler, final String mergeToken, final String accessToken) {
+
+        new Thread(() -> {
+            if (providerName != null && activity != null) {
+                LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
+                        socialLoginHandler, activity, mUpdateUserRecordHandler);
+                RLog.d(TAG, "loginUserUsingSocialProvider with providename = " + providerName + " and activity is not null");
+                loginSocialResultHandler.startTokenAuthForNativeProvider(activity, providerName, mergeToken,accessToken);
+            } else {
+                if (null == socialLoginHandler) return;
+                UserRegistrationFailureInfo userRegistrationFailureInfo =
+                        new UserRegistrationFailureInfo();
+                userRegistrationFailureInfo.setErrorCode(RegConstants.
+                        DI_PROFILE_NULL_ERROR_CODE);
+                RLog.e(TAG, "Error occurred in loginUserUsingSocialProvider , might be provider name is null or activity is null " + userRegistrationFailureInfo.getErrorDescription());
+                ThreadUtils.postInMainThread(activity, () ->
+                        socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+            }
+        }).start();
+
+
+    }
+
+
     /**
      * {@code loginUserUsingSocialNativeProvider} logs in a user via a native social login provider like we chat.
      *

@@ -95,5 +95,5 @@ interface HomeContract {
 
     void onFaceBookLogInCancelled();
 
-    void startFaceBookLogin(LoginManager loginManager);
+    void startFaceBookLogin();
 }

@@ -52,6 +52,8 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.philips.cdp.registration.app.tagging.AppTagging.trackPage;
+import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_FACEBOOK;
+import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_WECHAT;
 
 public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener,FacebookCallback<LoginResult> {
 
@@ -74,6 +76,8 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     User user;
 
     private HomeContract homeContract;
+
+
 
 
     public HomePresenter(HomeContract homeContract) {
@@ -395,13 +399,15 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
             }
             if (deligateFlow == FLOWDELIGATE.SOCIALPROVIDER) {
                 homeContract.handleBtnClickableStates(false);
-                if (provider.equalsIgnoreCase("wechat")) {
+                if (provider.equalsIgnoreCase(SOCIAL_PROVIDER_WECHAT)) {
                     if (isWeChatAuthenticate()) {
                         homeContract.startWeChatAuthentication();
                     } else {
                         homeContract.switchToControlView();
                     }
-                } else {
+                } else if(provider.equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK)){
+                    homeContract.startFaceBookLogin();
+                }else{
                     homeContract.socialProviderLogin();
                 }
             }
@@ -416,9 +422,9 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         user.loginUserUsingSocialProvider(homeContract.getActivityContext(), provider, this, null);
     }
 
-    public void startNativeSocialLogin(String providerName,String accessToken,String to,String openId,String mergeToken ){
-        user.loginUserUsingSocialNativeProvider(homeContract.getActivityContext(),
-                "wechat", accessToken, openId, HomePresenter.this, mergeToken);
+    public void startAccessTokenAuthForFacebook(String accessToken,String mergeToken ){
+        user.startTokenAuthForNativeProvider(homeContract.getActivityContext(),
+                provider, HomePresenter.this, mergeToken,accessToken);
     }
 
     public void trackSocialProviderPage() {
