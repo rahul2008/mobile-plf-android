@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.any;
@@ -49,14 +50,14 @@ public class SSFileCacheTest {
     @Test
     public void testRSAWrappedAESKeyInFileCache(){
         ssFileCache.putRSAWrappedAESKeyInFileCache("key","value");
-        when(sharedPreferences.getString(anyString(),anyString())).thenReturn("value");
+        when(sharedPreferences.getString(anyString(),(String) anyObject())).thenReturn("value");
         assertEquals("value",ssFileCache.getRSAWrappedAESKeyFromFileCache("key"));
     }
 
     @Test
     public void testEncryptedStringInFileCache(){
         ssFileCache.putEncryptedString("key","value");
-        when(sharedPreferences.getString(anyString(),anyString())).thenReturn("value");
+        when(sharedPreferences.getString(anyString(), (String) anyObject())).thenReturn("value");
         assertEquals("value",ssFileCache.getEncryptedString("key"));
     }
 
@@ -64,7 +65,6 @@ public class SSFileCacheTest {
     @Test
     public void testDeleteEncryptedData_Should_return_false(){
         when(sharedPreferences.contains(anyString())).thenReturn(false);
-        when(editor.commit()).thenReturn(true);
         assertFalse(ssFileCache.deleteEncryptedData("key"));
     }
 
