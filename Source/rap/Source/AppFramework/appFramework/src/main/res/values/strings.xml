@@ -192,4 +192,8 @@
   <string name="label_sleep_time_format">%d mins</string>
   <string name="label_sleep_tips">How can I improve my sleep score?</string>
   <string name="mya_config_tab">Configuration tab</string>
+  <!--User Registration Facebook login key strings : starts-->
+  <string name="facebook_app_id">107243606103710</string>
+  <string name="fb_login_protocol_scheme">fb107243606103710demoApp</string>
+  <!--User Registration Facebook login key strings : ends-->
 </resources>

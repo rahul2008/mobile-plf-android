@@ -40,14 +40,6 @@
 
         <!-- Janrain specific end -->
 
-
-        <service android:name=".HttpClientService"/>
-
-        <!-- Declaring Service in Manifest -->
-        <!--<service-->
-            <!--android:name=".ui.utils.CounterIntentService"/>-->
-        <!-- Regitration Api End -->
-
     </application>
 
 </manifest>

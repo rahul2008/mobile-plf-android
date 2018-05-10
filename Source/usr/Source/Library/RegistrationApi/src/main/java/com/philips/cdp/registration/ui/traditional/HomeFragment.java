@@ -539,7 +539,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void onFacebookError(FacebookException exception) {
-
+        hideProgressDialog();
     }
 
     @Override
@@ -909,7 +909,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             homePresenter.onSelectCountry(countryName, countryCode);
             super.onActivityResult(requestCode, resultCode, data);
         }else{
-            
+            mCallbackManager.onActivityResult(requestCode, resultCode, data);
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }
