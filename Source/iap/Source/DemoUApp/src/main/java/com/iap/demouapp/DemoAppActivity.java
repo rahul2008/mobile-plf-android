@@ -3,7 +3,6 @@ package com.iap.demouapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -139,8 +138,19 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mIAPSettings = new IAPSettings(this);
         // enableViews();
         actionBar();
-        initIAP();
+        initializeIAPComponant();
+    }
 
+    private void initializeIAPComponant() {
+        if (mUser != null && mUser.isUserSignIn()) {
+            mRegister.setText(this.getString(R.string.log_out));
+            showProgressDialog();
+            initIAP();
+        } else {
+            mRegister.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
+            dismissProgressDialog();
+        }
     }
 
     private void initIAP() {
@@ -152,21 +162,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
         //ignorelistedRetailer.add("John Lewis ");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (mUser != null && mUser.isUserSignIn()) {
-            mRegister.setText(this.getString(R.string.log_out));
-            displayUIOnCartVisible();
-            showProgressDialog();
-        } else {
-            mRegister.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
-            dismissProgressDialog();
-        }
+        displayUIOnCartVisible();
     }
 
     private void displayUIOnCartVisible() {
@@ -217,6 +213,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             mShopNow.setVisibility(View.GONE);
             mPurchaseHistory.setVisibility(View.GONE);
             mShoppingCart.setVisibility(View.GONE);
+            dismissProgressDialog();
         }
 
     }
@@ -550,6 +547,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
         mRegister.setText(this.getString(R.string.log_out));
+        initializeIAPComponant();
         // displayUIOnCartVisible();
     }
 
