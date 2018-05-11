@@ -665,24 +665,26 @@ String imageURL;
     RegisteredProduct registeredProduct1;
 
     @Override
-    public void updateProductCache(){
-        intializeProgressAlertDialog();
-        if (!mProgressDialog.isShowing()) {
-            mProgressDialog.show();
+    public void updateProductCache() {
+        if (isVisible()) {
+            intializeProgressAlertDialog();
+            if (mProgressDialog != null && !mProgressDialog.isShowing()) {
+                mProgressDialog.show();
+            }
+
+            userWithProducts = new UserWithProducts(getContext(), new User(getContext()), new ProdRegListener() {
+                @Override
+                public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
+                    registeredProduct1 = registeredProduct;
+                }
+
+                @Override
+                public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
+
+                }
+            });
+            userWithProducts.getRegisteredProducts(getRegisteredProductsListener(getRegisteredProduct()));
         }
-
-        userWithProducts = new UserWithProducts(getContext(), new User(getContext()), new ProdRegListener() {
-            @Override
-            public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
-                registeredProduct1 = registeredProduct;
-            }
-
-            @Override
-            public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
-
-            }
-        });
-        userWithProducts.getRegisteredProducts(getRegisteredProductsListener(getRegisteredProduct()));
     }
 
     @NonNull
