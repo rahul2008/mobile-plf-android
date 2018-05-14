@@ -205,7 +205,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         final String gender = consumer.getGender();
         if (gender == null)
             return;
-        if (gender == Gender.FEMALE) {
+        if (Gender.FEMALE.toString().equalsIgnoreCase(gender)) {
             mCheckBoxFemale.setSelected(true);
             mCheckBoxFemale.setChecked(true);
         } else {

@@ -404,8 +404,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mErrorDialogFragment != null)
-            mErrorDialogFragment.onDestroy();
     }
 
     private void handleViews() {
