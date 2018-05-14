@@ -8,6 +8,30 @@ Version {next}
 * N/A
 
 ### Backwards Compatibility
+* N/A
+
+### Features not covered
+* N/A
+
+### Breaking Changes
+* N/A
+
+### Defects solved
+* \#121886 - Firmware update always starts from 0. Brought behaviour inline with iOS
+
+### Residual anomalies
+* N/A
+
+### Risks and mitigations
+* N/A
+
+Version 1801
+--------------
+
+### Functionality Delivered
+* N/A
+
+### Backwards Compatibility
 * CommLib - Deprecated `PairingPort#disableDemoMode()`
 * CommLib - Deprecated `PairingPort#triggerPairing(String, String, String)`, replaced by `PairingPort#pair(String, String, String)`
 * CommLib - Deprecated `PairingPort#triggerPairing(String, String, String, String, String, String[])`, replaced by `PairingPort#pair(String, String, String, String, String, String[])`
