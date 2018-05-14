@@ -152,7 +152,6 @@
                     android:id="@+id/cml_txtFirmwareStatusMsg"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:lines="2"
                     android:padding="3dip"
                     tools:text="Status value" />
             </TableRow>
