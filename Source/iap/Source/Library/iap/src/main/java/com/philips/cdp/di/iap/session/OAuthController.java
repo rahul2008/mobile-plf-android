@@ -51,10 +51,13 @@ public class OAuthController implements OAuthListener {
 
     @Override
     public void refreshToken(RequestListener listener) {
-        HashMap<String, String> params = new HashMap<>();
-        params.put(ModelConstants.REFRESH_TOKEN, mOAuthRequest.getrefreshToken());
-        RefreshOAuthRequest request = new RefreshOAuthRequest(mStore, params);
-        requestSyncRefreshToken(request, listener);
+        if(mOAuthRequest!=null && mOAuthRequest.getrefreshToken()!=null &&  mStore!=null) {
+            HashMap<String, String> params = new HashMap<>();
+            params.put(ModelConstants.REFRESH_TOKEN, mOAuthRequest.getrefreshToken());
+            RefreshOAuthRequest request = new RefreshOAuthRequest(mStore, params);
+            requestSyncRefreshToken(request, listener);
+        }
+
     }
 
     @Override
