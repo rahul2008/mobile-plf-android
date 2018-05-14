@@ -84,7 +84,7 @@ public class ConsentCache implements ConsentCacheInterface {
         return objGson.fromJson(serializedCache, listType);
     }
 
-    private void writeMapToSecureStorage(Map<String, CachedConsentStatus> cacheMap) {
+    private synchronized void writeMapToSecureStorage(Map<String, CachedConsentStatus> cacheMap) {
         appInfra.getSecureStorage().storeValueForKey(CONSENT_CACHE_KEY, objGson.toJson(cacheMap), getSecureStorageError());
     }
 
