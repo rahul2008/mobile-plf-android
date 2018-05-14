@@ -260,7 +260,7 @@ dependencies {
     androidTestCompile deps.uiautomator
     compile deps.support.supportv4
     compile deps.greenrobot
-    compile 'com.facebook.android:facebook-login:[4,5)'
+    compile deps.facebook
 
 }
 

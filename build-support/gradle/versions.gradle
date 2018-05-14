@@ -201,5 +201,6 @@ ext.deps = [
         testing_support               : 'com.android.support.test:testing-support-lib:0.1',
         uiautomator                   : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
         wechat                        : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0',
-        commons_io                    : [group: 'commons-io', name: 'commons-io', version: '2.0.1']
+        commons_io                    : [group: 'commons-io', name: 'commons-io', version: '2.0.1'],
+        facebook                      : 'com.facebook.android:facebook-login:[4,5)'
 ]
