@@ -29,12 +29,12 @@ public class FileLogConfigurationHandler {
 
     private FileHandler mFileHandler;
 
-    public FileLogConfigurationHandler(AppInfra appInfra){
-        mAppInfra =appInfra;
+    public FileLogConfigurationHandler(AppInfra appInfra) {
+        mAppInfra = appInfra;
     }
 
-    protected void handleFileLogConfig(LogFormatter logFormatter,LoggingConfiguration loggingConfiguration,@NonNull Logger logger) throws IOException {
-        boolean isFileLogEnabled=loggingConfiguration.isFileLogEnabled();
+    protected void handleFileLogConfig(LogFormatter logFormatter, LoggingConfiguration loggingConfiguration, @NonNull Logger logger) throws IOException {
+        boolean isFileLogEnabled = loggingConfiguration.isFileLogEnabled();
         if (isFileLogEnabled) {
             final FileHandler fileHandler = getCurrentLogFileHandler(logger);
 
@@ -42,7 +42,7 @@ public class FileLogConfigurationHandler {
                 mFileHandler = getFileHandler(loggingConfiguration);
                 Level level = logger.getLevel() != null ? logger.getLevel() : Level.FINE;
 
-                if ( mFileHandler != null) {
+                if (mFileHandler != null) {
                     mFileHandler.setLevel(level);
                     mFileHandler.setFormatter(logFormatter);
                     logger.addHandler(mFileHandler);
@@ -97,28 +97,38 @@ public class FileLogConfigurationHandler {
             final String LOG_FILE_NAME_KEY = "fileName"; //AppInfraLog0, AppInfraLog1, AppInfraLog2, AppInfraLog3, AppInfraLog4
             final HashMap<?, ?> loggingProperty = loggingConfiguration.getLoggingProperties();
             if (null == loggingProperty) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log config 'logging.releaseConfig' OR 'logging.debugConfig' not present in appconfig.json so reading logging.properties file");//
+                if (mAppInfra.getAppInfraLogInstance() != null) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log config 'logging.releaseConfig' OR 'logging.debugConfig' not present in appconfig.json so reading logging.properties file");//
+                }
                 return getFileHandlerFromLoggingProperties();
             }
             final String logFileName = (String) loggingProperty.get(LOG_FILE_NAME_KEY);
             if (null == logFileName) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key 'fileName'  not present in app configuration");//
+                if (mAppInfra.getAppInfraLogInstance() != null) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key 'fileName'  not present in app configuration");//
+                }
                 return null;
             }
             final String LOG_FILE_SIZE_KEY = "fileSizeInBytes";
             Integer logFileSize = (Integer) loggingProperty.get(LOG_FILE_SIZE_KEY);
             if (logFileSize == null) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key   'fileSizeInBytes' not present in app configuration");//
+                if (mAppInfra.getAppInfraLogInstance() != null) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key   'fileSizeInBytes' not present in app configuration");//
+                }
                 return null;
             }
             final String LOG_FILE_COUNT_KEY = "numberOfFiles";
             final Integer maxLogFileCount = (Integer) loggingProperty.get(LOG_FILE_COUNT_KEY);
             if (maxLogFileCount == null) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key 'numberOfFiles' not present in app configuration");//
+                if (mAppInfra.getAppInfraLogInstance() != null) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key 'numberOfFiles' not present in app configuration");//
+                }
                 return null;
             }
             final String filePath = directoryCreated.getAbsolutePath() + File.separator + logFileName;
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "log File Path" + filePath);// this path will be dynamic for each device
+            if (mAppInfra.getAppInfraLogInstance() != null) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "log File Path" + filePath);// this path will be dynamic for each device
+            }
             fileHandler = new FileHandler(filePath, logFileSize, maxLogFileCount, true);
         } catch (Exception e) {
             if (mAppInfra.getAppInfraLogInstance() != null) {

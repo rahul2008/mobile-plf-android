@@ -19,17 +19,8 @@ public class AILCloudLogMetaData {
 
     private String appsId;
 
-    private String networkType;
-
     private String appName;
 
-    public String getNetworkType() {
-        return networkType;
-    }
-
-    public void setNetworkType(String networkType) {
-        this.networkType = networkType;
-    }
 
     public String getAppName() {
         return appName;

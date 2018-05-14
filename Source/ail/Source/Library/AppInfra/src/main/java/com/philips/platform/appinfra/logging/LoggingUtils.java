@@ -23,9 +23,9 @@ public class LoggingUtils {
                 case "error":
                     javaLevel = Level.SEVERE;
                     break;
-                case "WARN":
-                case "Warn":
-                case "warn":
+                case "WARNING":
+                case "Warning":
+                case "warning":
                     javaLevel = Level.WARNING;
                     break;
                 case "INFO":
