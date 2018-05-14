@@ -3,6 +3,7 @@ package com.philips.platform.mya.catk;
 import com.philips.platform.mya.catk.datamodel.CachedConsentStatus;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 /**
  * This interface is for getting and storing consents from cache.
@@ -28,9 +29,10 @@ public interface ConsentCacheInterface {
      * Get status of consent from cache.
      *
      * @param consentType consent type whos status must be fetched
+     * @param status
      * @param callback    callback when consent is fetched successfully
      */
-    void storeConsentTypeState(final String consentType, boolean status, int version, PostConsentTypeCallback callback);
+    void storeConsentTypeState(final String consentType, ConsentStates status, int version, PostConsentTypeCallback callback);
 
 
     public interface FetchConsentCacheCallback {
