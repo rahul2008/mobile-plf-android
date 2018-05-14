@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -31,7 +31,7 @@ import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicate
  * @publicPluginApi
  */
 public class SHNDeviceScannerInternal implements SHNCentral.SHNCentralListener {
-    private static final String TAG = SHNDeviceScannerInternal.class.getSimpleName();
+    private static final String TAG = "SHNDeviceScannerInternal";
 
     static final long SCANNING_RESTART_INTERVAL_MS = 30_000L;
 
@@ -61,13 +61,13 @@ public class SHNDeviceScannerInternal implements SHNCentral.SHNCentralListener {
     }
 
     /**
-     * Start scanning for devices
-     * When a device is found the {@code SHNDeviceScanner.SHNDeviceScannerListener} will be informed.
-     *
      * @param shnDeviceScannerListener Callback listener
      * @param scannerSettingDuplicates Scan settings
      * @param stopScanningAfterMS      Stop scanning after time in Ms
      * @return Scan successfully stated
+     * <p>
+     * Start scanning for devices
+     * When a device is found the {@code SHNDeviceScanner.SHNDeviceScannerListener} will be informed.
      */
     public boolean startScanning(@NonNull SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener, ScannerSettingDuplicates scannerSettingDuplicates, long stopScanningAfterMS) {
         return startScanning(new SHNInternalScanRequest(registeredDeviceDefinitions, null, scannerSettingDuplicates == DuplicatesAllowed, (int) stopScanningAfterMS, shnDeviceScannerListener));
@@ -116,6 +116,7 @@ public class SHNDeviceScannerInternal implements SHNCentral.SHNCentralListener {
     public void stopScanning(final SHNInternalScanRequest shnInternalScanRequest) {
         shnInternalScanRequests.remove(shnInternalScanRequest);
         shnInternalScanRequest.scanningStopped();
+
         if (shnInternalScanRequests.isEmpty()) {
             stopScanning();
         }
