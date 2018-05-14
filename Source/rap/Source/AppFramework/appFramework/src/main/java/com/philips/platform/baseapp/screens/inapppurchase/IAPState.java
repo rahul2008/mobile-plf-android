@@ -27,6 +27,10 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
 
+import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE;
+import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT;
+import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_ERROR_NO_CONNECTION;
+
 /**
  * This class contains all initialization & Launching details of IAP
  */
@@ -196,8 +200,27 @@ public abstract class IAPState extends BaseState implements IAPListener {
 
     @Override
     public void onFailure(int i) {
-        ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
-        RALog.d(TAG, "IAPState list fetching failed");
-        Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_DLS_check_internet_connectivity), Toast.LENGTH_LONG).show();
+        if(activityContext != null) {
+            ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
+        }
+
+        if(getApplicationContext() == null){
+            return;
+        }
+
+        switch (i){
+            case IAP_ERROR_NO_CONNECTION:
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_DLS_check_internet_connectivity), Toast.LENGTH_LONG).show();
+                break;
+            case IAP_ERROR_CONNECTION_TIME_OUT:
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_DLS_check_internet_connectivity), Toast.LENGTH_LONG).show();
+                break;
+            case IAP_ERROR_AUTHENTICATION_FAILURE:
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.iap_auth_error), Toast.LENGTH_LONG).show();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_something_wrong), Toast.LENGTH_LONG).show();
+                break;
+        }
     }
 }
