@@ -4,9 +4,16 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.philips.cdp.registration.User;
@@ -76,9 +83,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     User user;
 
     private HomeContract homeContract;
-
-
-
 
     public HomePresenter(HomeContract homeContract) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -364,6 +368,12 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     @Override
     public void onError(FacebookException error) {
+        if (error instanceof FacebookAuthorizationException) {
+            if (AccessToken.getCurrentAccessToken() != null) {
+                LoginManager.getInstance().logOut();
+            }
+        }
+        RLog.d(TAG,error.getMessage());
         homeContract.onFacebookError(error);
     }
 
@@ -423,7 +433,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
     public void startAccessTokenAuthForFacebook(String accessToken,String mergeToken ){
-        user.startTokenAuthForNativeProvider(homeContract.getActivityContext(),
+       user.startTokenAuthForNativeProvider(homeContract.getActivityContext(),
                 provider, HomePresenter.this, mergeToken,accessToken);
     }
 

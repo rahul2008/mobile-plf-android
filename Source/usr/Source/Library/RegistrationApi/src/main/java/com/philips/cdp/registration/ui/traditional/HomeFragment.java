@@ -36,10 +36,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
+import com.janrain.android.utils.LogUtils;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
@@ -137,7 +141,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     static List<String> FACEBOOK_PERMISSION_LIST;
 
     static {
-        FACEBOOK_PERMISSION_LIST = Arrays.asList("public_profile");
+        FACEBOOK_PERMISSION_LIST = Arrays.asList("public_profile","email");
     }
 
     private static final int COUNTRY_SELECTION_REQUEST_CODE = 100;
@@ -557,6 +561,10 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void startFaceBookLogin() {
+        //Making sure to logout Facebook Instance before logging in
+        if(AccessToken.getCurrentAccessToken()!=null) {
+            mLoginManager.logOut();
+        }
         mLoginManager.logInWithReadPermissions(this, FACEBOOK_PERMISSION_LIST);
     }
 
