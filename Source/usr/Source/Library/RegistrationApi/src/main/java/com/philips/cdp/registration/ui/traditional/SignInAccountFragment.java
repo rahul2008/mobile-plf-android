@@ -275,7 +275,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private boolean emailOrMobileValidator(String emailOrMobile) {
         if (emailOrMobile.isEmpty()) {
             RLog.e(TAG, "Email or Mobile No. is Empty");
-            mEtEmail.setErrorMessage(R.string.reg_NameField_ErrorText);
+            mEtEmail.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
             return false;
         }
 
