@@ -35,9 +35,9 @@ public class LoggerFactory {
             } catch (IOException e) {
                 return javaLogger;
             }
-            javaLogger.log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created");
+            javaLogger.log(Level.CONFIG, AppInfraLogEventID.AI_LOGGING + "Logger created");
         } else {
-            javaLogger.log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created but log level is turned off in the log");
+            javaLogger.log(Level.CONFIG, AppInfraLogEventID.AI_LOGGING + "Logger created but log level is turned off in the log");
             javaLogger.setLevel(Level.OFF);
         }
         return javaLogger;
