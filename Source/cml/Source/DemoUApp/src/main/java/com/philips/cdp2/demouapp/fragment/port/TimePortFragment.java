@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -23,7 +22,6 @@ import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 import com.philips.cdp2.demouapp.port.time.TimePort;
 import com.philips.cdp2.demouapp.port.time.TimePortProperties;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -59,31 +57,29 @@ public class TimePortFragment extends Fragment {
 
         @Override
         public void onPortUpdate(TimePort timePort) {
-            if (isAdded()) {
-                TimePortProperties properties = timePort.getPortProperties();
-                if (properties == null) {
-                    return;
-                }
-
-                final String datetime = properties.datetime;
-                if (datetime == null) {
-                    return;
-                }
-                DateTime dt = new DateTime(datetime);
-                String dateTimeString = DATETIME_FORMATTER.print(dt);
-
-                updateResult(dateTimeString);
-                resume();
+            TimePortProperties properties = timePort.getPortProperties();
+            if (properties == null) {
+                return;
             }
+
+            final String datetime = properties.datetime;
+            if (datetime == null) {
+                return;
+            }
+            DateTime dt = new DateTime(datetime);
+            String dateTimeString = DATETIME_FORMATTER.print(dt);
+
+            updateResult(dateTimeString);
+            resume();
+
         }
 
         @Override
         public void onPortError(TimePort port, Error error, @Nullable String errorData) {
             DICommLog.e(TAG, String.format(Locale.US, "Time port error: [%s], data: [%s]", error.getErrorMessage(), errorData));
 
-            if (isAdded()) {
-                updateResult(getString(R.string.cml_lblResultPortError, error.getErrorMessage()));
-            }
+            updateResult(getString(R.string.cml_lblResultPortError, error.getErrorMessage()));
+
             resume();
         }
     };
@@ -129,8 +125,8 @@ public class TimePortFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
 
         if (timePort != null) {
             timePort.removePortListener(portListener);
@@ -183,9 +179,7 @@ public class TimePortFragment extends Fragment {
     private void updateResult(final String result) {
         requestCount++;
 
-        if (isAdded()) {
-            txtProgress.setText(String.format(Locale.US, "Count: %d", requestCount));
-            txtResult.setText(String.format(Locale.US, "Last result: %s", result));
-        }
+        txtProgress.setText(getString(R.string.cml_count, requestCount));
+        txtResult.setText(getString(R.string.cml_last_result, result));
     }
 }

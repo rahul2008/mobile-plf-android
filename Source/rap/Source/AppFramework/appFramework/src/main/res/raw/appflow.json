@@ -250,6 +250,15 @@
             ]
           },
           {
+            "eventId": "my_orders",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_orders"
+              }
+            ]
+          },
+          {
             "eventId": "telehealth_deeplinking",
             "nextStates": [
               {
@@ -316,6 +325,15 @@
               {
                 "condition": [],
                 "nextState": "my_details"
+              }
+            ]
+          },
+          {
+            "eventId": "MyOrdersEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_orders"
               }
             ]
           }

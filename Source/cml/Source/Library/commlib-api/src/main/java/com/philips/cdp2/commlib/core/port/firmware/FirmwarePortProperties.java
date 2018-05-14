@@ -17,10 +17,11 @@ import static java.lang.Math.max;
  * The FirmwarePortProperties class holds information about the state of the {@link FirmwarePort}.
  * @publicApi
  */
+@SuppressWarnings("unused")
 public class FirmwarePortProperties implements PortProperties {
 
-    public static final int INVALID_INT_VALUE = Integer.MIN_VALUE;
-    public static final double BASE64_FACTOR = .75;
+    private static final int INVALID_INT_VALUE = Integer.MIN_VALUE;
+    private static final double BASE64_FACTOR = .75;
 
     /**
      * Property names from the FirmwarePort

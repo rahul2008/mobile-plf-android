@@ -6,10 +6,9 @@
 
 package com.philips.platform.baseapp.screens.inapppurchase;
 
-public class ShoppingCartFlowState extends IAPState{
-
+public class IAPOrderHistoryState extends IAPState{
     @Override
     public void updateDataModel() {
-        setLaunchType(IAPState.IAP_SHOPPING_CART_VIEW);
+        setLaunchType(IAPState.IAP_PURCHASE_HISTORY_VIEW);
     }
 }
