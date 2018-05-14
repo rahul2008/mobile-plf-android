@@ -11,6 +11,7 @@ import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.util.VerboseExecutor;
 import com.philips.pins.shinelib.SHNDevice;
 
 import org.junit.Before;
@@ -22,11 +23,11 @@ import java.util.List;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -39,7 +40,10 @@ public class BleCommunicationStrategyTest {
     private static final int SUBSCRIPTION_TTL = 5000;
 
     @Mock
-    private BleDeviceCache deviceCache;
+    private BleDeviceCache deviceCacheMock;
+
+    @Mock
+    private VerboseExecutor executorMock;
 
     @Mock
     private BleCacheData bleCacheDataMock;
@@ -48,10 +52,10 @@ public class BleCommunicationStrategyTest {
     private SHNDevice deviceMock;
 
     @Mock
-    private ResponseHandler responseHandler;
+    private ResponseHandler responseHandlerMock;
 
     @Mock
-    private Handler callbackHandler;
+    private Handler callbackHandlerMock;
 
     @Mock
     private SubscriptionEventListener subscriptionListenerMock;
@@ -71,11 +75,11 @@ public class BleCommunicationStrategyTest {
         initMocks(this);
         disableLogging();
 
-        when(deviceCache.getCacheData(eq(CPP_ID))).thenReturn(bleCacheDataMock);
+        when(deviceCacheMock.getCacheData(eq(CPP_ID))).thenReturn(bleCacheDataMock);
         when(bleCacheDataMock.isAvailable()).thenReturn(true);
         when(bleCacheDataMock.getDevice()).thenReturn(deviceMock);
 
-        strategy = new BleCommunicationStrategy(CPP_ID, deviceCache, callbackHandler) {
+        strategy = new BleCommunicationStrategy(CPP_ID, deviceCacheMock, callbackHandlerMock, 2000, executorMock) {
             @NonNull
             @Override
             protected PollingSubscription createPollingSubscription(final int subscriptionTtl, final PortParameters portParameters, final ResponseHandler responseHandler) {
@@ -93,9 +97,33 @@ public class BleCommunicationStrategyTest {
     }
 
     @Test
-    public void whenSubscribing_thenAPollingSubscriptionIsCreated() throws Exception {
+    public void testSubscribe() {
+        strategy.subscribe(PORT_NAME, PRODUCT_ID, 5000, responseHandlerMock);
 
-        strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, responseHandler);
+        verify(responseHandlerMock).onSuccess(anyString());
+    }
+
+    @Test
+    public void givenSubscribedWhenSubscribingAgainThenSuccessReturned() {
+        strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, mock(ResponseHandler.class));
+
+        strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, responseHandlerMock);
+
+        verify(responseHandlerMock).onSuccess(anyString());
+    }
+
+    @Test
+    public void testUnsubscribe() {
+        strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, mock(ResponseHandler.class));
+        strategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandlerMock);
+
+        verify(responseHandlerMock).onSuccess(anyString());
+    }
+
+    @Test
+    public void whenSubscribing_thenAPollingSubscriptionIsCreated() {
+
+        strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, responseHandlerMock);
 
         assertThat(lastSubscriptionTtl).isEqualTo(SUBSCRIPTION_TTL);
         assertThat(lastPortParameters).isEqualTo(new PortParameters(PORT_NAME, PRODUCT_ID));
@@ -103,8 +131,8 @@ public class BleCommunicationStrategyTest {
     }
 
     @Test
-    public void givenSubscribed_whenPollerGetsResponse_thenSubscriptionEventIsReported() throws Exception {
-        strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, responseHandler);
+    public void givenSubscribed_whenPollerGetsResponse_thenSubscriptionEventIsReported() {
+        strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, responseHandlerMock);
 
         final String SUBSCRIPTION_EVENT_DATA = "Rainer";
         lastResponseHandler.onSuccess(SUBSCRIPTION_EVENT_DATA);
@@ -115,40 +143,31 @@ public class BleCommunicationStrategyTest {
     @Test
     public void whenSubscribing_thenSuccessIsReported() {
 
-        strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, responseHandler);
+        strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, responseHandlerMock);
 
-        verify(responseHandler).onSuccess(anyString());
-    }
-
-    @Test
-    public void givenSubscribedWhenSubscribingAgainThenSuccessReturned() {
-        strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, mock(ResponseHandler.class));
-
-        strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, responseHandler);
-
-        verify(responseHandler).onSuccess(anyString());
+        verify(responseHandlerMock).onSuccess(anyString());
     }
 
     @Test
     public void givenSubscribed_whenUnsubscribing_thenSuccessIsReported() {
         strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, mock(ResponseHandler.class));
 
-        strategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandler);
+        strategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
-        verify(responseHandler).onSuccess(anyString());
+        verify(responseHandlerMock).onSuccess(anyString());
     }
 
     @Test
-    public void givenSubscribed_whenUnsubscribing_thenPollingIsStopped() throws Exception {
+    public void givenSubscribed_whenUnsubscribing_thenPollingIsStopped() {
         strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, mock(ResponseHandler.class));
 
-        strategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandler);
+        strategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(pollingSubscriptionMocks.get(0)).cancel();
     }
 
     @Test
-    public void givenSubscribed_whenSubscribingAgainForSamePort_thenOldPollerIsCancelledAndNewPollerCreated() throws Exception {
+    public void givenSubscribed_whenSubscribingAgainForSamePort_thenOldPollerIsCancelledAndNewPollerCreated() {
         strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, mock(ResponseHandler.class));
 
         strategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, mock(ResponseHandler.class));
@@ -159,36 +178,39 @@ public class BleCommunicationStrategyTest {
 
     @Test
     public void givenNoSubscriptionWhenUnsubscribingThenSuccessReturned() {
-        strategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandler);
+        strategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
-        verify(responseHandler).onSuccess(anyString());
+        verify(responseHandlerMock).onSuccess(anyString());
     }
 
     @Test
-    public void givenCommunicationIsEnabled_andExecutorIsIdle_whenCommunicationIsDisabled_thenDisconnectDevice() {
+    public void whenCommunicationIsEnabled_thenDeviceIsConnectedAndDisconnectAfterRequestIsFalse() {
+
         strategy.enableCommunication();
+
+        assertThat(strategy.disconnectAfterRequest.get()).isFalse();
+        verify(deviceMock).connect(anyLong());
+    }
+
+    @Test
+    public void givenCommunicationIsEnabledAndExecutorIsIdle_whenCommunicationIsDisabled_thenDisconnectDeviceAndDisconnectAfterRequestIsSet() {
+        strategy.enableCommunication();
+        when(executorMock.isIdle()).thenReturn(true);
+
         strategy.disableCommunication();
 
         assertThat(strategy.disconnectAfterRequest.get()).isTrue();
-        verify(deviceMock, times(1)).disconnect();
+        verify(deviceMock).disconnect();
     }
 
     @Test
-    public void givenCommunicationIsEnabled_andExecutorIsNotIdle_whenCommunicationIsDisabled_thenNotDisconnectDevice() {
+    public void givenCommunicationIsEnabledAndExecutorIsNotIdle_whenCommunicationIsDisabled_thenNotDisconnectDeviceButDisconnectAfterRequestIsSet() {
         strategy.enableCommunication();
-        strategy.requestExecutor.getQueue().add(generateTask());
+        when(executorMock.isIdle()).thenReturn(false);
+
         strategy.disableCommunication();
 
         assertThat(strategy.disconnectAfterRequest.get()).isTrue();
         verify(deviceMock, never()).disconnect();
-    }
-
-    @NonNull
-    private Runnable generateTask() {
-        return new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
     }
 }

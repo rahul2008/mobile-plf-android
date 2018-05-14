@@ -30,6 +30,8 @@ public class Constants {
     public static final int ADD_FRAGMENT_WITH_BACKSTACK = 200004;
     public static final int THS_DEEP_LINKING_EVENT_ID   = 200033;
 
+    public static final int SHOPPING_CART_CLICK = 7000001;
+
     //Error Loging constants
     public static final String FILE_IO = "file_IO_error";
     public static final String SERVER_DATACREATION="server_data_creation";
