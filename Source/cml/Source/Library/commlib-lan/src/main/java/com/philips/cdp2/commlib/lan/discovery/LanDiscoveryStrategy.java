@@ -88,7 +88,6 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
                 DICommLog.d(DICommLog.DISCOVERY, "SSDP started.");
             } catch (TransportUnavailableException e) {
                 DICommLog.e(DICommLog.DISCOVERY, "Error starting SSDP: " + e.getMessage());
-                // TODO: notify listener?
             }
         } else {
             ssdpControlPoint.stop();
