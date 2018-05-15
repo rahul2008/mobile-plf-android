@@ -110,7 +110,7 @@
   },
   "ths": {
     "apiKey": "dc573250",
-    "gdprEnabled":false
+    "gdprEnabled":true
   },
   "hsdp": {
     "appName": "OneBackend",

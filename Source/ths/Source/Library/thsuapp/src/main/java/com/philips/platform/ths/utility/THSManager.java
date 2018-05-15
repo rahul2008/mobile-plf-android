@@ -164,9 +164,9 @@ public class THSManager {
     private String mCountry="";
     ConsentDefinition mConsentDefinition;
     private Provider providerObject;
-    private boolean gdprEnabled =false;
+    private Boolean gdprEnabled =false;
 
-    public boolean isGdprEnabled() {
+    public Boolean isGdprEnabled() {
         return gdprEnabled;
     }
 
@@ -579,7 +579,7 @@ public class THSManager {
 
         AppConfigurationInterface.AppConfigurationError getConfigError= new AppConfigurationInterface.AppConfigurationError();
         final String APIKey = (String) getAppInfra().getConfigInterface().getPropertyForKey("apiKey","ths",getConfigError);
-        gdprEnabled =  (boolean) getAppInfra().getConfigInterface().getPropertyForKey("gdprEnabled", "ths", getConfigError);
+        gdprEnabled =  (Boolean) getAppInfra().getConfigInterface().getPropertyForKey("gdprEnabled", "ths", getConfigError);
 
         getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_SDK_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
