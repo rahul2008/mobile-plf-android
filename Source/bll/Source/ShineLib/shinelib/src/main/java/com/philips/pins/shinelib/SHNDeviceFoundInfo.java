@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -7,6 +7,7 @@ package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.utility.BleScanRecord;
 
@@ -22,15 +23,15 @@ import java.lang.ref.WeakReference;
 public class SHNDeviceFoundInfo {
 
     @NonNull
-    private static WeakReference<SHNCentral> weakSHNCentral = new WeakReference<>(null);
+    private static WeakReference<SHNCentral> weakShnCentral = new WeakReference<>(null);
 
     /**
      * Static function that provides a way to inject SHNCentral.
      *
      * @param shnCentral to inject
      */
-    public static void setSHNCentral(@NonNull SHNCentral shnCentral) {
-        weakSHNCentral = new WeakReference<>(shnCentral);
+    public static void setSHNCentral(@Nullable SHNCentral shnCentral) {
+        weakShnCentral = new WeakReference<>(shnCentral);
     }
 
     @NonNull
@@ -54,7 +55,7 @@ public class SHNDeviceFoundInfo {
     private final BleScanRecord bleScanRecord;
 
     public SHNDeviceFoundInfo(@NonNull final BluetoothDevice bluetoothDevice, final int rssi, final byte[] scanRecord, @NonNull final SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, @NonNull final BleScanRecord bleScanRecord) {
-        SHNCentral shnCentral = weakSHNCentral.get();
+        SHNCentral shnCentral = weakShnCentral.get();
         if (shnCentral == null) {
             throw new IllegalStateException("SHNCentral not set");
         }

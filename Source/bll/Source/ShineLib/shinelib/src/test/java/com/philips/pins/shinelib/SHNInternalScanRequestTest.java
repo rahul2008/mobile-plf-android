@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
@@ -26,13 +31,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SHNInternalScanRequestTest {
 
-    public static final String TEST_MAC_1 = "TEST_MAC_1";
-    public static final String TEST_MAC_2 = "TEST_MAC_2";
+    private static final String TEST_MAC_1 = "TEST_MAC_1";
+    private static final String TEST_MAC_2 = "TEST_MAC_2";
 
-    public static final long TIMEOUT_1 = 111;
+    private static final long TIMEOUT_1 = 111;
 
-    public static final String DEVICE_NAME_1 = "DEVICE_NAME_1";
-    public static final String DEVICE_NAME_2 = "DEVICE_NAME_2";
+    private static final String DEVICE_NAME_1 = "DEVICE_NAME_1";
+    private static final String DEVICE_NAME_2 = "DEVICE_NAME_2";
 
     @Mock
     private SHNCentral shnCentralMock;
@@ -87,13 +92,13 @@ public class SHNInternalScanRequestTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         SHNDeviceFoundInfo.setSHNCentral(null);
     }
 
     @Test
     public void ShouldPostRunnableWithDelay_WhenStarted() {
-        shnInternalScanRequest.scanningStarted(scannerMock, handlerMock);
+        shnInternalScanRequest.onScanningStarted(scannerMock, handlerMock);
 
         verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(TIMEOUT_1));
     }
@@ -110,7 +115,7 @@ public class SHNInternalScanRequestTest {
     public void ShouldRemoveRunnableFromHandler_WhenScanningIsStopped() {
         Runnable runnable = captureTimeoutRunnable();
 
-        shnInternalScanRequest.scanningStopped();
+        shnInternalScanRequest.onScanningStopped();
 
         verify(handlerMock).removeCallbacks(runnable);
     }
@@ -119,7 +124,7 @@ public class SHNInternalScanRequestTest {
     public void ShouldReportDevice_WhenMacAddressMatchesRequested() {
         SHNDeviceFoundInfo bleDeviceFoundInfo = prepareOnScanResultInvocation(TEST_MAC_1, DEVICE_NAME_1);
 
-        shnInternalScanRequest.scanningStarted(scannerMock, handlerMock);
+        shnInternalScanRequest.onScanningStarted(scannerMock, handlerMock);
         shnInternalScanRequest.onDeviceFound(bleDeviceFoundInfo);
 
         verify(scannerListenerMock).deviceFound((SHNDeviceScanner) any(), isA(SHNDeviceFoundInfo.class));
@@ -129,13 +134,11 @@ public class SHNInternalScanRequestTest {
     public void ShouldIgnoreDevice_WhenMacAddressNotMatchesRequested() {
         SHNDeviceFoundInfo bleDeviceFoundInfo = prepareOnScanResultInvocation(TEST_MAC_2, DEVICE_NAME_2);
 
-        shnInternalScanRequest.scanningStarted(scannerMock, handlerMock);
+        shnInternalScanRequest.onScanningStarted(scannerMock, handlerMock);
         shnInternalScanRequest.onDeviceFound(bleDeviceFoundInfo);
 
         verify(scannerListenerMock, never()).deviceFound(any(SHNDeviceScanner.class), isA(SHNDeviceFoundInfo.class));
     }
-
-    // ------------------
 
     @NonNull
     private SHNDeviceFoundInfo prepareOnScanResultInvocation(final String macAddress, final String deviceName) {
@@ -152,7 +155,7 @@ public class SHNInternalScanRequestTest {
     }
 
     private Runnable captureTimeoutRunnable() {
-        shnInternalScanRequest.scanningStarted(scannerMock, handlerMock);
+        shnInternalScanRequest.onScanningStarted(scannerMock, handlerMock);
         verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(TIMEOUT_1));
         return runnableCaptor.getValue();
     }

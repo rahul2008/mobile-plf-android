@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -40,6 +40,13 @@ public class SHNInternalScanRequest {
     private SHNDeviceScannerInternal deviceScannerInternal;
     private Handler internalHandler;
 
+    private final Runnable timeoutRunnable = new Runnable() {
+        @Override
+        public void run() {
+            stopScanning();
+        }
+    };
+
     /**
      * @param deviceDefinitionsToFilter  optional list of SHNDeviceDefinitionInfo to filter. When a non-empty list is supplied, only devices
      *                                   of the supplied type will be reported.
@@ -49,7 +56,7 @@ public class SHNInternalScanRequest {
      * @param stopScanningAfterMS        timeout for scanning in milliseconds.
      * @param shnDeviceScannerListener   listener for callbacks.
      */
-    public SHNInternalScanRequest(@Nullable final List<SHNDeviceDefinitionInfo> deviceDefinitionsToFilter, @Nullable final List<String> deviceMacAddressesToFilter, final boolean allowDuplicates, final long stopScanningAfterMS, @NonNull final SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
+    SHNInternalScanRequest(@Nullable final List<SHNDeviceDefinitionInfo> deviceDefinitionsToFilter, @Nullable final List<String> deviceMacAddressesToFilter, final boolean allowDuplicates, final long stopScanningAfterMS, @NonNull final SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
         this.deviceDefinitions = (deviceDefinitionsToFilter != null ? deviceDefinitionsToFilter : new ArrayList<SHNDeviceDefinitionInfo>());
         this.deviceMacAddresses = (deviceMacAddressesToFilter != null ? deviceMacAddressesToFilter : new ArrayList<String>());
         this.allowDuplicates = allowDuplicates;
@@ -57,29 +64,21 @@ public class SHNInternalScanRequest {
         this.shnDeviceScannerListener = shnDeviceScannerListener;
     }
 
-    void scanningStarted(@NonNull final SHNDeviceScannerInternal deviceScannerInternal, @NonNull final Handler internalHandler) {
+    void onScanningStarted(@NonNull final SHNDeviceScannerInternal deviceScannerInternal, @NonNull final Handler internalHandler) {
         this.deviceScannerInternal = deviceScannerInternal;
         this.internalHandler = internalHandler;
-        internalHandler.postDelayed(timeoutRunnable, stopScanningAfterMS);
+        this.internalHandler.postDelayed(timeoutRunnable, stopScanningAfterMS);
     }
 
-    void scanningStopped() {
+    void onScanningStopped() {
         if (internalHandler != null) {
             internalHandler.removeCallbacks(timeoutRunnable);
         }
-
         shnDeviceScannerListener.scanStopped(null);
 
         deviceScannerInternal = null;
         internalHandler = null;
     }
-
-    private Runnable timeoutRunnable = new Runnable() {
-        @Override
-        public void run() {
-            stopScanning();
-        }
-    };
 
     private void stopScanning() {
         deviceScannerInternal.stopScanning(SHNInternalScanRequest.this);
@@ -92,9 +91,9 @@ public class SHNInternalScanRequest {
     }
 
     private boolean isDeviceTypeToReport(final @NonNull SHNDeviceFoundInfo deviceFoundInfo) {
-        boolean shouldFilterDeviceDefinitions = !deviceDefinitions.isEmpty();
-
-        if (shouldFilterDeviceDefinitions) {
+        if (deviceDefinitions.isEmpty()) {
+            return true;
+        } else {
             for (final SHNDeviceDefinitionInfo deviceDefinition : deviceDefinitions) {
                 if (deviceDefinition.getDeviceTypeName().equals(deviceFoundInfo.getShnDevice().getDeviceTypeName())) {
                     return true;
@@ -102,17 +101,15 @@ public class SHNInternalScanRequest {
             }
             return false;
         }
-
-        return true;
     }
 
     private boolean isMacAddressToReport(final @NonNull SHNDeviceFoundInfo deviceFoundInfo) {
-        String deviceAddress = deviceFoundInfo.getDeviceAddress();
-        boolean isAlreadyReported = reportedDeviceMacAddresses.contains(deviceAddress);
-        if (!isAlreadyReported) {
+        final String deviceAddress = deviceFoundInfo.getDeviceAddress();
+
+        final boolean isAlreadyReported = reportedDeviceMacAddresses.contains(deviceAddress);
+        if (!reportedDeviceMacAddresses.contains(deviceAddress)) {
             reportedDeviceMacAddresses.add(deviceFoundInfo.getDeviceAddress());
         }
-
         boolean allowMacAddress = deviceMacAddresses.isEmpty() || deviceMacAddresses.contains(deviceAddress);
 
         return allowMacAddress && (allowDuplicates || !isAlreadyReported);

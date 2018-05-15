@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothAdapter;
@@ -25,7 +30,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.List;
-import java.util.concurrent.FutureTask;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -46,8 +50,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 
 public class SHNCentralTest extends RobolectricTest {
-    public static final String TEST_DEVICE_MAC_ADDRESS = "DE:AD:C0:DE:01:23";
-    public static final String TEST_DEVICE_TYPE = "TestDeviceType";
+    private static final String TEST_DEVICE_MAC_ADDRESS = "DE:AD:C0:DE:01:23";
+    private static final String TEST_DEVICE_TYPE = "TestDeviceType";
     private SHNCentral shnCentral;
     private MockedHandler mockedUserHandler;
     private MockedHandler mockedInternalHandler;
@@ -60,16 +64,13 @@ public class SHNCentralTest extends RobolectricTest {
     private DataMigrater mockedDataMigrater;
 
     @Captor
-    ArgumentCaptor<BroadcastReceiver> broadcastReceiverArgumentCaptor;
+    private ArgumentCaptor<BroadcastReceiver> broadcastReceiverArgumentCaptor;
 
     @Captor
-    ArgumentCaptor<IntentFilter> intentFilterCaptor;
+    private ArgumentCaptor<IntentFilter> intentFilterCaptor;
 
     @Mock
-    PersistentStorageFactory persistentStorageFactoryMock;
-
-    @Mock
-    FutureTask<Boolean> futureTaskMock;
+    private PersistentStorageFactory persistentStorageFactoryMock;
 
     @Mock
     private SharedPreferencesMigrator mockedSharedPreferencesMigrator;
@@ -294,7 +295,7 @@ public class SHNCentralTest extends RobolectricTest {
     }
 
     @Test
-    public void verifyVersionIsPresent() throws SHNBluetoothHardwareUnavailableException {
+    public void verifyVersionIsPresent() {
         String version = shnCentral.getVersion();
 
         assertNotNull(version);

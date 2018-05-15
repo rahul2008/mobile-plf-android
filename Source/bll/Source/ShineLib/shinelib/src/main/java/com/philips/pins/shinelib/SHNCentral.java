@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -17,7 +17,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
@@ -54,11 +54,6 @@ import java.util.concurrent.FutureTask;
  */
 public class SHNCentral {
 
-    private int bluetoothAdapterState;
-
-    @NonNull
-    private final BleUtilities bleUtilities;
-
     /**
      * State that the {@link SHNCentral} currently is in.
      */
@@ -66,15 +61,13 @@ public class SHNCentral {
         /**
          * {@code SHNCentral} is in an error state
          */
-        SHNCentralStateError,
-        /**
+        SHNCentralStateError, /**
          * {@code SHNCentral} is not yet ready to communicate with peripherals (for instance when bluetooth is disabled)
          */
-        SHNCentralStateNotReady,
-        /**
+        SHNCentralStateNotReady, /**
          * {@code SHNCentral} is ready to communicate with peripherals
          */
-        SHNCentralStateReady;
+        SHNCentralStateReady
     }
 
     /**
@@ -88,48 +81,52 @@ public class SHNCentral {
          * @param shnCentral the {@code SHNCentral} object that had its state changed.
          */
         void onStateUpdated(@NonNull SHNCentral shnCentral);
-
     }
 
     /**
      * A listener for changes in the bond state of the {@code BluetoothDevice}.
      */
     public interface SHNBondStatusListener {
+
         /**
          * Called when the bond state of the {@code BluetoothDevice} was changed.
          *
-         * @param device Device the bond changed for
-         * @param bondState New bond state of the device
+         * @param device            Device the bond changed for
+         * @param bondState         New bond state of the device
          * @param previousBondState Previous bond state of the device
          */
         void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
-
     }
 
     private static final String TAG = "SHNCentral";
 
-    private SHNUserConfiguration shnUserConfiguration;
-    private SHNDeviceScanner shnDeviceScanner;
+    @NonNull
+    private final BleUtilities bleUtilities;
     private final Handler userHandler;
     private final Context applicationContext;
-    private boolean bluetoothAdapterEnabled;
+    private SHNUserConfiguration shnUserConfiguration;
+    private SHNDeviceScanner shnDeviceScanner;
     private BroadcastReceiver bondStateChangedReceiver;
+    private boolean isBluetoothAdapterEnabled;
+    private int bluetoothAdapterState;
+
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
 
-            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+            if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
                 bluetoothAdapterState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+
                 switch (bluetoothAdapterState) {
                     case BluetoothAdapter.STATE_OFF:
                     case BluetoothAdapter.STATE_TURNING_OFF:
                     case BluetoothAdapter.STATE_TURNING_ON:
-                        bluetoothAdapterEnabled = false;
+                        isBluetoothAdapterEnabled = false;
                         setState(State.SHNCentralStateNotReady);
                         break;
                     case BluetoothAdapter.STATE_ON:
-                        bluetoothAdapterEnabled = true;
+                        isBluetoothAdapterEnabled = true;
                         setState(State.SHNCentralStateReady);
                         break;
                 }
@@ -164,9 +161,9 @@ public class SHNCentral {
     /**
      * Old constructor of {@code SHNCentral}. Do not use.
      *
-     * @param handler
-     * @param context
-     * @throws SHNBluetoothHardwareUnavailableException
+     * @param handler the handler
+     * @param context the context
+     * @throws SHNBluetoothHardwareUnavailableException the exception thrown when no Bluetooth hardware is available
      * @deprecated Use the {@link SHNCentral.Builder} instead.
      */
     @Deprecated
@@ -174,7 +171,7 @@ public class SHNCentral {
         this(handler, context, false, null, false);
     }
 
-    SHNCentral(Handler handler, final Context context, final boolean showPopupIfBLEIsTurnedOff, final SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
+    SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
         registeredShnCentralListeners = new CopyOnWriteArraySet<>();
         applicationContext = context.getApplicationContext();
 
@@ -191,9 +188,10 @@ public class SHNCentral {
 
         // The handler is used for callbacks to the usercode. When no handler is provided, the MainLoop a.k.a. UI Thread is used.
         if (handler == null) {
-            handler = new Handler(Looper.getMainLooper());
+            this.userHandler = new Handler(Looper.getMainLooper());
+        } else {
+            this.userHandler = handler;
         }
-        this.userHandler = handler;
 
         Callable<Boolean> initCallable = new Callable<Boolean>() {
             @Override
@@ -221,7 +219,7 @@ public class SHNCentral {
     }
 
     /**
-     * Get the {@Link BleUtilities}, used to scan for device
+     * Get the {@link BleUtilities}, used to scan for device
      *
      * @return BLE utilities
      */
@@ -234,8 +232,8 @@ public class SHNCentral {
         persistentStorageFactory = setUpPersistentStorageFactory(applicationContext, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
 
         // Check that the adapter is enabled.
-        bluetoothAdapterEnabled = bleUtilities.isBluetoothAdapterEnabled();
-        if (bluetoothAdapterEnabled) {
+        isBluetoothAdapterEnabled = bleUtilities.isBluetoothAdapterEnabled();
+        if (isBluetoothAdapterEnabled) {
             shnCentralState = State.SHNCentralStateReady;
         } else if (showPopupIfBLEIsTurnedOff) {
             bleUtilities.startEnableBluetoothActivity();
@@ -287,20 +285,20 @@ public class SHNCentral {
     }
 
     /**
-     * Register a {@Link SHNBondStatusListener} for device with specific address.
+     * Register a {@link SHNBondStatusListener} for device with specific address.
      *
      * @param shnBondStatusListener listener to register
-     * @param address Address of the device
+     * @param address               Address of the device
      */
     public void registerBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
         shnBondStatusListeners.put(address, new WeakReference<>(shnBondStatusListener));
     }
 
     /**
-     * Unregister a {@Link SHNBondStatusListener} for device with specific address.
+     * Unregister a {@link SHNBondStatusListener} for device with specific address.
      *
      * @param shnBondStatusListener listener to unregister
-     * @param address Address of the device
+     * @param address               Address of the device
      */
     public void unregisterBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
         shnBondStatusListeners.remove(address);
@@ -358,15 +356,24 @@ public class SHNCentral {
 
     private void onBondStateChanged(Intent intent) {
         Bundle bundle = intent.getExtras();
-        BluetoothDevice device = bundle.getParcelable(BluetoothDevice.EXTRA_DEVICE);
+        if (bundle == null) {
+            return;
+        }
+
         int bondState = bundle.getInt(BluetoothDevice.EXTRA_BOND_STATE);
         int previousBondState = bundle.getInt(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE);
+
+        BluetoothDevice device = bundle.getParcelable(BluetoothDevice.EXTRA_DEVICE);
+        if (device == null) {
+            return;
+        }
 
         final String address = device.getAddress();
         if (address == null) {
             return;
         }
         WeakReference<SHNBondStatusListener> shnBondStatusListener = shnBondStatusListeners.get(address);
+
         if (shnBondStatusListener != null) {
             SHNBondStatusListener listener = shnBondStatusListener.get();
 
@@ -491,7 +498,7 @@ public class SHNCentral {
      * @return true if bluetooth adapter is enabled
      */
     public boolean isBluetoothAdapterEnabled() {
-        return bluetoothAdapterEnabled;
+        return isBluetoothAdapterEnabled;
     }
 
     /**
@@ -510,7 +517,7 @@ public class SHNCentral {
      * contains it.
      *
      * @param shnDeviceDefinitionInfo device definition info
-     * @return
+     * @return true, if the device definition info was registered
      */
     public boolean registerDeviceDefinition(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         return shnDeviceDefinitions.add(shnDeviceDefinitionInfo);
@@ -526,7 +533,7 @@ public class SHNCentral {
     }
 
     /**
-     * Register a {@Link SHNCentralListener}.
+     * Register a {@link SHNCentralListener}.
      *
      * @param shnCentralListener listener to register
      */
@@ -535,7 +542,7 @@ public class SHNCentral {
     }
 
     /**
-     * Unregister a {@Link SHNCentralListener}.
+     * Unregister a {@link SHNCentralListener}.
      *
      * @param shnCentralListener listener to unregister
      */
@@ -598,13 +605,10 @@ public class SHNCentral {
 
     private Map<String, SHNDevice> createdDevices = new HashMap<>();
 
-    // TEMPORARY HACK TO ENABLE VERIFICATION TESTS WITH BLE SECURITY ENABLED
-    // TODO: Remove this once the ShineVerificationApp uses DeviceAssociation.
-    @Deprecated
-    @VisibleForTesting
     public SHNDevice createSHNDeviceForAddressAndDefinition(@NonNull String deviceAddress, @NonNull SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
-        String key = deviceAddress + shnDeviceDefinitionInfo.getDeviceTypeName();
+        final String key = deviceAddress + shnDeviceDefinitionInfo.getDeviceTypeName();
         SHNDevice shnDevice = createdDevices.get(key);
+
         if (shnDevice == null) {
             shnDevice = shnDeviceDefinitionInfo.getSHNDeviceDefinition().createDeviceFromDeviceAddress(deviceAddress, shnDeviceDefinitionInfo, this);
             if (shnDevice != null) {
