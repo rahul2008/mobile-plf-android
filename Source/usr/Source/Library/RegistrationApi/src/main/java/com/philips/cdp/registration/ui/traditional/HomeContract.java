@@ -5,6 +5,7 @@ import android.app.*;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookException;
+import com.facebook.FacebookRequestError;
 import com.facebook.login.LoginManager;
 import com.philips.cdp.registration.dao.*;
 
@@ -90,6 +91,12 @@ interface HomeContract {
     void initFacebookLogIn(CallbackManager callbackManager,LoginManager loginManager);
 
     void onFaceBookAccessTokenReceived(AccessToken accessToken);
+
+    void onFaceBookEmailReceived(String email);
+
+    void onFaceBookRequestError(FacebookRequestError facebookRequestError);
+
+    void onFaceGraphResponseParseException(JSONException jsonException);
 
     void onFacebookError(FacebookException exception);
 

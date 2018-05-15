@@ -62,7 +62,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagging.trackPage;
 import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_FACEBOOK;
 import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_WECHAT;
 
-public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener,FacebookCallback<LoginResult> {
+public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener, FacebookCallback<LoginResult>, GraphRequest.GraphJSONObjectCallback {
 
     private String TAG = HomePresenter.class.getSimpleName();
 
@@ -358,6 +358,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     @Override
     public void onSuccess(LoginResult loginResult) {
+        requestUserProfile(loginResult);
         homeContract.onFaceBookAccessTokenReceived(loginResult.getAccessToken());
     }
 
@@ -368,13 +369,21 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     @Override
     public void onError(FacebookException error) {
-        if (error instanceof FacebookAuthorizationException) {
-            if (AccessToken.getCurrentAccessToken() != null) {
-                LoginManager.getInstance().logOut();
+        RLog.d(TAG, error.getMessage());
+        homeContract.onFacebookError(error);
+    }
+
+    @Override
+    public void onCompleted(JSONObject object, GraphResponse response) {
+        if (response.getError() != null) {
+            homeContract.onFaceBookRequestError(response.getError());
+        } else {
+            try {
+                homeContract.onFaceBookEmailReceived(response.getJSONObject().get("email").toString());
+            } catch (JSONException e) {
+                homeContract.onFaceGraphResponseParseException(e);
             }
         }
-        RLog.d(TAG,error.getMessage());
-        homeContract.onFacebookError(error);
     }
 
     public enum FLOWDELIGATE {
@@ -415,9 +424,9 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                     } else {
                         homeContract.switchToControlView();
                     }
-                } else if(provider.equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK)){
+                } else if (provider.equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK)) {
                     homeContract.startFaceBookLogin();
-                }else{
+                } else {
                     homeContract.socialProviderLogin();
                 }
             }
@@ -432,9 +441,9 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         user.loginUserUsingSocialProvider(homeContract.getActivityContext(), provider, this, null);
     }
 
-    public void startAccessTokenAuthForFacebook(String accessToken,String mergeToken ){
-       user.startTokenAuthForNativeProvider(homeContract.getActivityContext(),
-                provider, HomePresenter.this, mergeToken,accessToken);
+    public void startAccessTokenAuthForFacebook(String accessToken, String mergeToken) {
+        user.startTokenAuthForNativeProvider(homeContract.getActivityContext(),
+                provider, HomePresenter.this, mergeToken, accessToken);
     }
 
     public void trackSocialProviderPage() {
@@ -538,6 +547,14 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                         homeContract.localeServiceDiscoveryFailed();
                     }
                 });
+    }
+
+    public void requestUserProfile(LoginResult loginResult) {
+        GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), this);
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,email");
+        graphRequest.setParameters(parameters);
+        graphRequest.executeAsync();
     }
 
 }

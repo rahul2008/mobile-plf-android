@@ -40,6 +40,7 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookException;
+import com.facebook.FacebookRequestError;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
@@ -61,6 +62,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.uid.view.widget.Label;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -141,10 +143,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     static List<String> FACEBOOK_PERMISSION_LIST;
 
     static {
-        FACEBOOK_PERMISSION_LIST = Arrays.asList("public_profile","email");
+        FACEBOOK_PERMISSION_LIST = Arrays.asList("public_profile", "email");
     }
 
     private static final int COUNTRY_SELECTION_REQUEST_CODE = 100;
+    private String mFacebookEmail;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -478,6 +481,9 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void handleLoginFailedWithMergeFlowError(String existingProvider, String mergeToken, String conflictingIdentityProvider, String emailId) {
         hideProgressDialog();
         enableControls(true);
+        if (homePresenter.getProvider().equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK) && emailId != null) {
+            emailId = mFacebookEmail;
+        }
         if (homePresenter.isMergePossible(existingProvider)) {
             launchMergeAccountFragment(mergeToken, conflictingIdentityProvider, emailId);
         } else {
@@ -540,7 +546,25 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void onFaceBookAccessTokenReceived(AccessToken accessToken) {
-        homePresenter.startAccessTokenAuthForFacebook(accessToken.getToken(), null);
+        //homePresenter.startAccessTokenAuthForFacebook(accessToken.getToken(), null);
+    }
+
+    @Override
+    public void onFaceBookEmailReceived(String email) {
+        homePresenter.startAccessTokenAuthForFacebook(AccessToken.getCurrentAccessToken().getToken(), null);
+        mFacebookEmail = email;
+    }
+
+    @Override
+    public void onFaceBookRequestError(FacebookRequestError facebookRequestError) {
+        RLog.d(TAG, facebookRequestError.getErrorMessage());
+        hideProgressDialog();
+    }
+
+    @Override
+    public void onFaceGraphResponseParseException(JSONException jsonException) {
+        RLog.d(TAG, jsonException.getMessage());
+        hideProgressDialog();
     }
 
     @Override
@@ -562,7 +586,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void startFaceBookLogin() {
         //Making sure to logout Facebook Instance before logging in
-        if(AccessToken.getCurrentAccessToken()!=null) {
+        if (AccessToken.getCurrentAccessToken() != null) {
             mLoginManager.logOut();
         }
         mLoginManager.logInWithReadPermissions(this, FACEBOOK_PERMISSION_LIST);
@@ -919,12 +943,12 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode == COUNTRY_SELECTION_REQUEST_CODE) {
+        if (requestCode == COUNTRY_SELECTION_REQUEST_CODE) {
             String countryName = data.getStringExtra(RegConstants.KEY_BUNDLE_COUNTRY_NAME);
             String countryCode = data.getStringExtra(RegConstants.KEY_BUNDLE_COUNTRY_CODE);
             homePresenter.onSelectCountry(countryName, countryCode);
             super.onActivityResult(requestCode, resultCode, data);
-        }else{
+        } else {
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
             super.onActivityResult(requestCode, resultCode, data);
         }
