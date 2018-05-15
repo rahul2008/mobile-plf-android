@@ -19,8 +19,8 @@ import java.util.Map;
 
 public class AppInfraNetwork extends BasicNetwork {
 
-    private static final String SSL_PUBLIC_KEY_PIN_LOG_MESSAGE = "Public-key pins Mismatch!";
-    private static final String SSL_PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE = "Could not find public key pins in network response";
+    private static final String SSL_PUBLIC_KEY_PIN_LOG_MESSAGE = "Public-key pins Mismatch";
+    private static final String SSL_PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE = "Invalid public key pins format";
     private static final String SSL_EMPTY_RESPONSE_LOG_MESSAGE = "Empty response or hostname for the request";
     private static final String SSL_RESPONSE_PUBLIC_KEY = "Public-Key-Pins";
 
