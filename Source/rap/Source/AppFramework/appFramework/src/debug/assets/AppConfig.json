@@ -109,7 +109,8 @@
     "PushNotification.polling": "false"
   },
   "ths": {
-    "apiKey": "dc573250"
+    "apiKey": "dc573250",
+    "gdprEnabled":false
   },
   "hsdp": {
     "appName": "OneBackend",

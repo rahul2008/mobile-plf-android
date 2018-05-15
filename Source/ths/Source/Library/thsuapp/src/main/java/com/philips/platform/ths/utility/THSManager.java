@@ -30,7 +30,6 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.americanwell.sdk.entity.consumer.DependentUpdate;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
-import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.americanwell.sdk.entity.enrollment.ConsumerEnrollment;
 import com.americanwell.sdk.entity.enrollment.DependentEnrollment;
@@ -62,7 +61,6 @@ import com.americanwell.sdk.manager.MatchmakerCallback;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -166,6 +164,13 @@ public class THSManager {
     private String mCountry="";
     ConsentDefinition mConsentDefinition;
     private Provider providerObject;
+    private boolean gdprEnabled =false;
+
+    public boolean isGdprEnabled() {
+        return gdprEnabled;
+    }
+
+
 
     public Provider getProviderObject() {
         return providerObject;
@@ -574,6 +579,8 @@ public class THSManager {
 
         AppConfigurationInterface.AppConfigurationError getConfigError= new AppConfigurationInterface.AppConfigurationError();
         final String APIKey = (String) getAppInfra().getConfigInterface().getPropertyForKey("apiKey","ths",getConfigError);
+        gdprEnabled =  (boolean) getAppInfra().getConfigInterface().getPropertyForKey("gdprEnabled", "ths", getConfigError);
+
         getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_SDK_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
@@ -1829,6 +1836,7 @@ public class THSManager {
 
 
     }
+
 
 
 }
