@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
@@ -92,6 +93,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private boolean proceedResend;
 
+    private boolean wasAppInBackground;
+
     @Inject
     RegistrationHelper registrationHelper;
 
@@ -131,6 +134,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         super.onStop();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDestroy");
         RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworStateListener");
+        wasAppInBackground = true;
         accountActivationPresenter.unRegisterListener();
         getRegistrationFragment().stopCountDownTimer();
         CounterHelper.getInstance()
@@ -372,6 +376,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
+        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fl_reg_fragment_container);
+        if(wasAppInBackground && !(currentFragment != null && currentFragment instanceof AccountActivationResendMailFragment)) {
+            showActivateSpinner();
+            activateButtonEnable(false);
+            mBtnResend.setEnabled(false);
+            mUser.refreshUser(this);
+            wasAppInBackground = false;
+        }
     }
-
 }
