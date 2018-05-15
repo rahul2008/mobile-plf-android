@@ -40,7 +40,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     private AppInfraInterface appInfra;
     private Gson objGson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
             .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer()).create();
-    private Map<String, CachedConsentStatus> inMemoryCache;
+    private Map<String, CachedConsentStatus> inMemoryCache = new HashMap<>();
 
     public ConsentCacheInteractor(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
@@ -48,23 +48,18 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
 
     @Override
     public CachedConsentStatus fetchConsentTypeState(String consentType) {
-        if (inMemoryCache != null) {
-            return inMemoryCache.get(consentType);
+        if (inMemoryCache.get(consentType) == null) {
+            inMemoryCache = getMapFromSecureStorage();
+            if (inMemoryCache == null) {
+                return null;
+            }
         }
-        inMemoryCache = getMapFromSecureStorage();
-        if (inMemoryCache == null) {
-            return null;
-        } else {
-            return inMemoryCache.get(consentType);
-        }
+        return inMemoryCache.get(consentType);
     }
 
 
     @Override
     public void storeConsentTypeState(String consentType, ConsentStates status, int version) {
-        if (inMemoryCache == null) {
-            inMemoryCache = new HashMap<>();
-        }
         inMemoryCache.put(consentType, new CachedConsentStatus(status, version, (new DateTime(DateTimeZone.UTC)).plusMinutes(getConfiguredExpiryTime())));
         writeMapToSecureStorage(inMemoryCache);
     }
@@ -77,8 +72,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
 
     private Map<String, CachedConsentStatus> getMapFromSecureStorage() {
         String serializedCache = appInfra.getSecureStorage().fetchValueForKey(CONSENT_CACHE_KEY, getSecureStorageError());
-        Type listType = new TypeToken<Map<String, CachedConsentStatus>>() {
-        }.getType();
+        Type listType = new TypeToken<Map<String, CachedConsentStatus>>() { }.getType();
         return objGson.fromJson(serializedCache, listType);
     }
 
