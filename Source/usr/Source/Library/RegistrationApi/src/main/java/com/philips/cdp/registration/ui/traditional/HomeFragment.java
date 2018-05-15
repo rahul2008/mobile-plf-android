@@ -138,21 +138,15 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     private HomePresenter homePresenter;
     View view;
-    private CallbackManager mCallbackManager;
-    private LoginManager mLoginManager;
-    static List<String> FACEBOOK_PERMISSION_LIST;
-
-    static {
-        FACEBOOK_PERMISSION_LIST = Arrays.asList("public_profile", "email");
-    }
-
     private static final int COUNTRY_SELECTION_REQUEST_CODE = 100;
     private String mFacebookEmail;
+    private CallbackManager mCallbackManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(TAG, "OnCreateView : is Called");
-        homePresenter = new HomePresenter(this);
+        mCallbackManager = CallbackManager.Factory.create();
+        homePresenter = new HomePresenter(this,mCallbackManager);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         view = getViewFromRegistrationFunction(inflater, container);
@@ -160,9 +154,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         initUI(view);
         handleOrientation(view);
         homePresenter.registerWeChatApp();
-        mCallbackManager = CallbackManager.Factory.create();
-        mLoginManager = LoginManager.getInstance();
-        initFacebookLogIn(mCallbackManager, mLoginManager);
+        initFacebookLogIn();
         return view;
     }
 
@@ -540,56 +532,23 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     @Override
-    public void initFacebookLogIn(CallbackManager callbackManager, LoginManager loginManager) {
-        loginManager.registerCallback(callbackManager, homePresenter);
-    }
-
-    @Override
-    public void onFaceBookAccessTokenReceived(AccessToken accessToken) {
-        //homePresenter.startAccessTokenAuthForFacebook(accessToken.getToken(), null);
+    public void initFacebookLogIn() {
+        homePresenter.registerFaceBookCallBack();
     }
 
     @Override
     public void onFaceBookEmailReceived(String email) {
-        homePresenter.startAccessTokenAuthForFacebook(AccessToken.getCurrentAccessToken().getToken(), null);
         mFacebookEmail = email;
     }
 
     @Override
-    public void onFaceBookRequestError(FacebookRequestError facebookRequestError) {
-        RLog.d(TAG, facebookRequestError.getErrorMessage());
-        hideProgressDialog();
-    }
-
-    @Override
-    public void onFaceGraphResponseParseException(JSONException jsonException) {
-        RLog.d(TAG, jsonException.getMessage());
-        hideProgressDialog();
-    }
-
-    @Override
-    public void onFacebookError(FacebookException exception) {
-        if (exception instanceof FacebookAuthorizationException) {
-            if (AccessToken.getCurrentAccessToken() != null) {
-                LoginManager.getInstance().logOut();
-            }
-            Log.d(TAG, exception.getMessage());
-            hideProgressDialog();
-        }
-    }
-
-    @Override
-    public void onFaceBookLogInCancelled() {
-        hideProgressDialog();
-    }
-
-    @Override
     public void startFaceBookLogin() {
-        //Making sure to logout Facebook Instance before logging in
-        if (AccessToken.getCurrentAccessToken() != null) {
-            mLoginManager.logOut();
-        }
-        mLoginManager.logInWithReadPermissions(this, FACEBOOK_PERMISSION_LIST);
+        homePresenter.startFaceBookLogIn();
+    }
+
+    @Override
+    public void doHideProgressDialog() {
+        hideProgressDialog();
     }
 
     private void enableSocialProviders(boolean enableState) {

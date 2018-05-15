@@ -88,19 +88,11 @@ interface HomeContract {
 
     HomeFragment getHomeFragment();
 
-    void initFacebookLogIn(CallbackManager callbackManager,LoginManager loginManager);
-
-    void onFaceBookAccessTokenReceived(AccessToken accessToken);
+    void initFacebookLogIn();
 
     void onFaceBookEmailReceived(String email);
 
-    void onFaceBookRequestError(FacebookRequestError facebookRequestError);
-
-    void onFaceGraphResponseParseException(JSONException jsonException);
-
-    void onFacebookError(FacebookException exception);
-
-    void onFaceBookLogInCancelled();
-
     void startFaceBookLogin();
+
+    void doHideProgressDialog();
 }

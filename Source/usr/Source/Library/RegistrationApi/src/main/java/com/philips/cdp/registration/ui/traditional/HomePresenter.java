@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -49,6 +50,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -84,7 +86,16 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     private HomeContract homeContract;
 
-    public HomePresenter(HomeContract homeContract) {
+    private final CallbackManager mCallbackManager;
+    private LoginManager mLoginManager;
+    static List<String> FACEBOOK_PERMISSION_LIST;
+
+    static {
+        FACEBOOK_PERMISSION_LIST = Arrays.asList("public_profile", "email");
+    }
+
+
+    public HomePresenter(HomeContract homeContract,CallbackManager mCallbackManager) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.homeContract = homeContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
@@ -92,6 +103,8 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
+        this.mCallbackManager = mCallbackManager;
+        mLoginManager = LoginManager.getInstance();
     }
 
     public void cleanUp() {
@@ -358,32 +371,55 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     @Override
     public void onSuccess(LoginResult loginResult) {
+        RLog.i(TAG,"onSuccess loginResult");
         requestUserProfile(loginResult);
-        homeContract.onFaceBookAccessTokenReceived(loginResult.getAccessToken());
     }
 
     @Override
     public void onCancel() {
-        homeContract.onFaceBookLogInCancelled();
+        RLog.i(TAG,"onCancel");
+        homeContract.doHideProgressDialog();
     }
 
     @Override
     public void onError(FacebookException error) {
-        RLog.d(TAG, error.getMessage());
-        homeContract.onFacebookError(error);
+        if (error instanceof FacebookAuthorizationException) {
+            if (AccessToken.getCurrentAccessToken() != null) {
+                LoginManager.getInstance().logOut();
+            }
+        }
+        RLog.i(TAG, error.getMessage());
+        homeContract.doHideProgressDialog();
     }
 
     @Override
     public void onCompleted(JSONObject object, GraphResponse response) {
         if (response.getError() != null) {
-            homeContract.onFaceBookRequestError(response.getError());
+            homeContract.doHideProgressDialog();
+            RLog.i(TAG,response.getError().getErrorMessage());
         } else {
             try {
                 homeContract.onFaceBookEmailReceived(response.getJSONObject().get("email").toString());
+                startAccessTokenAuthForFacebook(AccessToken.getCurrentAccessToken().getToken(), null);
             } catch (JSONException e) {
-                homeContract.onFaceGraphResponseParseException(e);
+                RLog.i(TAG,e.getMessage());
+                homeContract.doHideProgressDialog();
             }
         }
+    }
+
+    public void registerFaceBookCallBack() {
+        RLog.i(TAG,"registerFaceBookCallBack");
+        mLoginManager.registerCallback(mCallbackManager, this);
+    }
+
+    public void startFaceBookLogIn() {
+        RLog.i(TAG,"startFaceBookLogIn");
+        //Making sure to logout Facebook Instance before logging in
+        if (AccessToken.getCurrentAccessToken() != null) {
+            mLoginManager.logOut();
+        }
+        mLoginManager.logInWithReadPermissions(homeContract.getHomeFragment(),FACEBOOK_PERMISSION_LIST);
     }
 
     public enum FLOWDELIGATE {
