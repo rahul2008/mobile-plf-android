@@ -5,7 +5,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.mya.catk.datamodel.CachedConsentStatus;
-import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.joda.time.DateTime;
@@ -17,6 +16,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.notNull;
@@ -25,17 +26,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ConsentCacheTest {
+public class ConsentCacheInteractorTest {
 
     @Mock
     AppInfraInterface appInfra;
     @Mock
     SecureStorageInterface storageInterface;
-    @Mock
-    private ConsentCacheInterface.FetchConsentCacheCallback fetchConsentCacheCallback;
 
-    @Mock
-    private PostConsentTypeCallback postConsentTypeCallback;
     @Mock
     SecureStorageInterface.SecureStorageError secureStorageError;
 
@@ -52,13 +49,14 @@ public class ConsentCacheTest {
     private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, NOW.plusMinutes(10));
     private String cacheMapWithConsentType3 = "{\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1}}";
     private String cacheMapTest = "{\"consentType1\":{\"consentState\":\"active\",\"version\":1,\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\"}}";
-    private ConsentCacheInterface consentCache;
+    private ConsentCacheInterface consentCacheInteractor;
     private String consentType;
+    private CachedConsentStatus returnedCachedConsent;
 
     @Before
     public void setUp() {
         DateTimeUtils.setCurrentMillisFixed(NOW.getMillis());
-        consentCache = new ConsentCache(appInfra);
+        consentCacheInteractor = new ConsentCacheInteractor(appInfra);
         when(appInfra.getSecureStorage()).thenReturn(storageInterface);
         when(storageInterface.fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull())).thenReturn(cacheMapTest);
 
@@ -71,14 +69,12 @@ public class ConsentCacheTest {
         thenSecureStorageIsCalled();
     }
 
-
     @Test
     public void fetchConsentTypeState_VerifyInMemoryCache() {
         givenConsentType(CONSENT_TYPE_1);
         whenFetchConsentTypeStateIsCalled();
         whenFetchConsentTypeStateIsCalled();
         thenSecureStorageIsCalledOnce();
-
     }
 
     @Test
@@ -130,11 +126,11 @@ public class ConsentCacheTest {
 
 
     private void whenStoreConsentTypeStateIsCalled(String consentType) {
-        consentCache.storeConsentTypeState(consentType, ConsentStates.active, 1, postConsentTypeCallback);
+        consentCacheInteractor.storeConsentTypeState(consentType, ConsentStates.active, 1);
     }
 
     private void whenFetchConsentTypeStateIsCalled() {
-        consentCache.fetchConsentTypeState(consentType, fetchConsentCacheCallback);
+        returnedCachedConsent = consentCacheInteractor.fetchConsentTypeState(consentType);
 
     }
 
@@ -147,7 +143,7 @@ public class ConsentCacheTest {
     }
 
     private void thenActiveConsentStatusIsreturned() {
-        verify(fetchConsentCacheCallback).onGetConsentsSuccess(consentTypeStatus1);
+        assertEquals(consentTypeStatus1, returnedCachedConsent);
     }
 
     private void thenSecureStorageIsCalled() {
@@ -156,7 +152,7 @@ public class ConsentCacheTest {
 
 
     private void thenNullConsentStatusIsreturned() {
-        verify(fetchConsentCacheCallback).onGetConsentsSuccess(null);
+        assertNull(returnedCachedConsent);
     }
 
 

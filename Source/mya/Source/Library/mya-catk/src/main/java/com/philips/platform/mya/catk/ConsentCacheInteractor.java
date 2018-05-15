@@ -28,12 +28,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Consent cache implementation.
+ * Consent cache interactor implementation.
  *
  * @since 18.2.0s
  */
 
-public class ConsentCache implements ConsentCacheInterface {
+public class ConsentCacheInteractor implements ConsentCacheInterface {
 
     private String CONSENT_CACHE_KEY = "CONSENT_CACHE";
     private String CONSENT_EXPIRY_KEY = "ConsentCacheTTLInMinutes";
@@ -42,28 +42,26 @@ public class ConsentCache implements ConsentCacheInterface {
             .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer()).create();
     private Map<String, CachedConsentStatus> inMemoryCache;
 
-    public ConsentCache(AppInfraInterface appInfra) {
+    public ConsentCacheInteractor(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
 
     @Override
-    public void fetchConsentTypeState(String consentType, FetchConsentCacheCallback callback) {
+    public CachedConsentStatus fetchConsentTypeState(String consentType) {
         if (inMemoryCache != null) {
-            callback.onGetConsentsSuccess(inMemoryCache.get(consentType));
-            return;
+            return inMemoryCache.get(consentType);
         }
         inMemoryCache = getMapFromSecureStorage();
         if (inMemoryCache == null) {
-            callback.onGetConsentsSuccess(null);
+            return null;
         } else {
-            callback.onGetConsentsSuccess(inMemoryCache.get(consentType));
+            return inMemoryCache.get(consentType);
         }
-
     }
 
 
     @Override
-    public void storeConsentTypeState(String consentType, ConsentStates status, int version, PostConsentTypeCallback callback) {
+    public void storeConsentTypeState(String consentType, ConsentStates status, int version) {
         if (inMemoryCache == null) {
             inMemoryCache = new HashMap<>();
         }
@@ -92,6 +90,11 @@ public class ConsentCache implements ConsentCacheInterface {
     @NonNull
     SecureStorageInterface.SecureStorageError getSecureStorageError() {
         return new SecureStorageInterface.SecureStorageError();
+    }
+
+    @Override
+    public void clearCache() {
+
     }
 
     class DateTimeSerializer implements JsonSerializer {

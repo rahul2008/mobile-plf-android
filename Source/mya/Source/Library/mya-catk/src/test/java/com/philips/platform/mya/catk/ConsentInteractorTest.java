@@ -108,9 +108,6 @@ public class ConsentInteractorTest {
     private void thenGetStatusForConsentTypeIsCalled() {
         verify(mockCatk).getStatusForConsentType(eq(CONSENT_TYPE), isA(ConsentResponseListener.class));
     }
-    private void thenFetchCachedConsentStateIsCalled() {
-        verify(mockCacheConsent).fetchConsentTypeState(eq(CONSENT_TYPE), isA(ConsentCacheInterface.FetchConsentCacheCallback.class));
-    }
 
     private void thenCreateConsentIsCalledOnTheCatk() {
         verify(mockCatk).createConsent(captorConsent.capture(), isA(CreateConsentListener.class));
