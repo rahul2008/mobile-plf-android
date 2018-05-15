@@ -3,7 +3,6 @@ package com.iap.demouapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -139,8 +138,19 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mIAPSettings = new IAPSettings(this);
         // enableViews();
         actionBar();
-        initIAP();
+        initializeIAPComponant();
+    }
 
+    private void initializeIAPComponant() {
+        if (mUser != null && mUser.isUserSignIn()) {
+            mRegister.setText(this.getString(R.string.log_out));
+            showProgressDialog();
+            initIAP();
+        } else {
+            mRegister.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
+            dismissProgressDialog();
+        }
     }
 
     private void initIAP() {
@@ -152,21 +162,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
         //ignorelistedRetailer.add("John Lewis ");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (mUser != null && mUser.isUserSignIn()) {
-            mRegister.setText(this.getString(R.string.log_out));
-            displayUIOnCartVisible();
-            showProgressDialog();
-        } else {
-            mRegister.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
-            dismissProgressDialog();
-        }
+        displayUIOnCartVisible();
     }
 
     private void displayUIOnCartVisible() {
@@ -217,6 +213,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             mShopNow.setVisibility(View.GONE);
             mPurchaseHistory.setVisibility(View.GONE);
             mShoppingCart.setVisibility(View.GONE);
+            dismissProgressDialog();
         }
 
     }
@@ -264,6 +261,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onStop() {
         super.onStop();
+        mUser.unRegisterUserRegistrationListener(this);
         mCategorizedProductList.clear();
     }
 
@@ -287,8 +285,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         //if (!mIAPSettings.isUseLocalData()) {
 //        mCartIcon.setVisibility(View.VISIBLE);
 //        mCountText.setVisibility(View.VISIBLE);
-        Drawable mCartIconDrawable = VectorDrawableCompat.create(getResources(), R.drawable.iap_shopping_cart, getTheme());
-        mCartIcon.setBackground(mCartIconDrawable);
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -314,7 +310,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
 //        dismissProgressDialog();
-        mUser.unRegisterUserRegistrationListener(this);
+
         super.onDestroy();
     }
 
@@ -464,7 +460,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void showToast(int errorCode) {
-        String errorText = "Server error";
+        String errorText = null;
         if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
             errorText = "No connection";
         } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
@@ -474,9 +470,11 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
             errorText = "Product out of stock";
         }
-        Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+        if(errorText!=null) {
+            Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
     }
 
     //In-App listener functions
@@ -549,6 +547,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
         mRegister.setText(this.getString(R.string.log_out));
+        initializeIAPComponant();
         // displayUIOnCartVisible();
     }
 

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
   <string name="MYA_Visit_Website">[he]Visit our website</string>
@@ -26,8 +23,8 @@
   <string name="mya_Consent_Help_Label">מה זה אומר?</string>
   <string name="mya_Country">מדינה</string>
   <string name="mya_Date_of_birth">תאריך לידה</string>
-  <string name="mya_Email_Validation_message">כתובת הדוא\"ל לא אושרה</string>
-  <string name="mya_Email_address">כתובת דוא\"ל</string>
+  <string name="mya_Email_Validation_message">כתובת הדוא&quot;ל לא אושרה</string>
+  <string name="mya_Email_address">כתובת דוא&quot;ל</string>
   <string name="mya_Gender">מין</string>
   <string name="mya_Info">האם ברצונך לשנות את מזהה הכניסה או את הסיסמה שלך? בקר באתר האינטרנט שלנו.</string>
   <string name="mya_Invalid_Access_Token_Error_Message">אירעה בעיה בהתחברות לשרת. ודא שהתאריך/שעה במכשיר שברשותך נכונים. אם הבעיה נמשכת, נסה לצאת מהמערכת ולהיכנס מחדש.</string>
@@ -47,7 +44,7 @@
   <string name="mya_Ok">אישור</string>
   <string name="mya_Personal_details">פרטים אישיים</string>
   <string name="mya_Privacy_Settings">הגדרות פרטיות</string>
-  <string name="mya_Privacy_Settings_Desc">שלוט בפרטיות שלך. למידע נוסף, קרא את _הודעת הפרטיות_.</string>
+  <string name="mya_Privacy_Settings_Desc">שלוט בפרטיות שלך. למידע נוסף, קרא את {הודעת הפרטיות}.</string>
   <string name="mya_Problem_Occurred_Error_Message">אירעה בעיה (שגיאה %d). אנא נסה שוב.</string>
   <string name="mya_Problem_Occurred_Error_Title">אירעה בעיה.</string>
   <string name="mya_Profile">פרופיל</string>
@@ -61,8 +58,8 @@
   <string name="mya_csw_justintime_accept">[he]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[he]Maybe later</string>
   <string name="mya_csw_justintime_title">[he]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[he]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[he]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,he][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,he][NT]What do we have to offer?</string>
   <string name="mya_logout_message">כעת תנותק מהאפליקציה. לאחר היציאה, תמיד תוכל להיכנס מחדש.</string>
   <string name="mya_logout_title">אתה בטוח שברצונך לצאת מהמערכת?</string>
 </resources>

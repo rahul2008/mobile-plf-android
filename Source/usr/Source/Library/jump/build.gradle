@@ -168,14 +168,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
             consumerProguardFiles 'proguard-rules-jump.pro'
         }
         debug {
-            minifyEnabled false
             debuggable true
-//            proguardFile 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
     publishNonDefault true
 }
@@ -195,6 +197,7 @@ dependencies {
         compile philipsdeps.AppInfra
     }
 
+
     annotationProcessor deps.immutables
     annotationProcessor deps.dagger.compiler
     annotationProcessor deps.frankiesardo_value_processor
@@ -202,8 +205,8 @@ dependencies {
     provided deps.javax_annotation
 
     compile deps.apache
-    compile deps.okhttp
-    compile deps.okhttp_apache
+    compile deps.okhttp3
+    compile deps.okhttp_apache3
     compile deps.squareup_okio
     compile deps.support.appcompatv7
     compile deps.wechat

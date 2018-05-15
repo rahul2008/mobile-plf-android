@@ -65,7 +65,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         data.getImageURL());
             }
         }
-        orderHistoryHolder.mTvtotalPrice.setText(order.getTotal().getFormattedValue());
+        if(order.getTotal() != null) {
+            orderHistoryHolder.mTvtotalPrice.setText(order.getTotal().getFormattedValue());
+        }
 
     }
 

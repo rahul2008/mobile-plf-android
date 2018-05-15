@@ -5,6 +5,10 @@
 
 <resources>
     <string name="cml_app_name">Commlib Demo uApp</string>
+
+    <string name="cml_yes">Yes</string>
+    <string name="cml_no">No</string>
+
     <string name="cml_light_state">Light state</string>
     <string name="cml_set">Set</string>
     <string name="cml_pair">Pair</string>
@@ -12,13 +16,13 @@
     <string name="cml_my_id">My ID:</string>
     <string name="cml_userId">user ID</string>
     <string name="cml_access_token">access token</string>
-    <string name="cml_lblFirmwareState">"State: "</string>
-    <string name="cml_lblFirmwareStatusMsg">"Status: "</string>
-    <string name="cml_lblFirmwareVersion">"Version: "</string>
+    <string name="cml_lblFirmwareState">State:</string>
+    <string name="cml_lblFirmwareStatusMsg">Status:</string>
+    <string name="cml_lblFirmwareVersion">Version:</string>
     <string name="cml_lblResultPortError">Port error: (%1$s)</string>
 
-    <string name="cml_count_0">Count: 0</string>
-    <string name="cml_last_result">Last result:</string>
+    <string name="cml_count">Count: %1$s</string>
+    <string name="cml_last_result">Last result: %1$s</string>
     <string name="cml_switchLoopGet">Continuously get time</string>
     <string name="cml_switchSubscription">Subscribe</string>
 
@@ -26,17 +30,18 @@
     <string name="cml_cancel_firmware">Cancel firmware</string>
     <string name="cml_checking_firmware">Checking firmware</string>
     <string name="cml_deploy_firmware">Deploy firmware</string>
-    <string name="cml_deploy_firmware_failed">"Deploying firmware failed: "</string>
+    <string name="cml_deploy_firmware_failed">Deploying firmware failed:</string>
     <string name="cml_firmware_deploy_finished">Firmware deployment finished</string>
     <string name="cml_lblFirmwareCanUpgrade">Can upgrade:</string>
-    <string name="cml_new_firmware_available">"New firmware available: "</string>
+    <string name="cml_new_firmware_available">New firmware available:</string>
     <string name="cml_no_firmware_directory_found">No firmware directory found</string>
     <string name="cml_select_a_firmware_image">Please, select a firmware image</string>
+    <string name="cml_invalid_firmware_image">Invalid firmware image</string>
     <string name="cml_timeout">Timeout</string>
     <string name="cml_refresh_props">Refresh properties</string>
     <string name="cml_upload_firmware">Upload firmware</string>
     <string name="cml_upload_firmware_finished">Uploading firmware finished</string>
-    <string name="cml_uploading_firmware_failed">"Uploading firmware failed: "</string>
+    <string name="cml_uploading_firmware_failed">Uploading firmware failed:</string>
     <string name="cml_uploading_firmware_image">Uploading firmware image to device</string>
     <string name="cml_appliance_name">Appliance name</string>
     <string name="cml_device_port">Device Port</string>
@@ -69,7 +74,7 @@
     <string name="cml_tab_title_discovered_appliances">Discovered</string>
     <string name="cml_tab_title_mismatched_pin_appliances">Pin mismatch</string>
 
-    <string name="cml_prompt_certificate_mismatch_message">"Certificate doesn't match the stored certificate. This can occur after a factory reset but may also indicate a man-in-the-middle attack.\n\nAccept the new certificate?"</string>
+    <string name="cml_prompt_certificate_mismatch_message">Certificate doesn\'t match the stored certificate. This can occur after a factory reset but may also indicate a man-in-the-middle attack.\n\nAccept the new certificate?</string>
     <string name="cml_prompt_certificate_mismatch_reject">Reject</string>
     <string name="cml_prompt_certificate_mismatch_accept">Accept</string>
     <string name="cml_prompt_certificate_mismatch_cancel">Cancel</string>
@@ -90,8 +95,8 @@
     <string name="cml_filter_model_id_hint">Filter on comma separated model id(s)</string>
     <string name="cml_clear_appliances">Clear appliances</string>
 
-    <string name="cml_appliance_cppid">"Cpp id: "</string>
-    <string name="cml_appliance_modelid">"Model id: "</string>
+    <string name="cml_appliance_cppid">Cpp id:</string>
+    <string name="cml_appliance_modelid">Model id:</string>
 
     <string name="cml_wakeup_port">Wake-up</string>
     <string name="cml_wakeup_alarm_state">Wake-up alarm (read only)</string>

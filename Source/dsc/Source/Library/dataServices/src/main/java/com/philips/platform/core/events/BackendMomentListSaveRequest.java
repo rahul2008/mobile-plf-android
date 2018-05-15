@@ -7,27 +7,32 @@
 package com.philips.platform.core.events;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.util.List;
 
 public class BackendMomentListSaveRequest extends ListEvent<Moment> {
-
-    private final DBChangeListener dbChangeListener;
+    @Nullable
+    private final DBRequestListener<Moment> dbRequestListener;
+    @NonNull
     private final List<Moment> mMomentList;
 
-    public BackendMomentListSaveRequest(@NonNull final List<Moment> dataList, DBChangeListener dbChangeListener) {
+    public BackendMomentListSaveRequest(@NonNull final List<Moment> dataList, @Nullable DBRequestListener<Moment> dbChangeListener) {
         super(dataList);
-        this.dbChangeListener = dbChangeListener;
-        mMomentList = dataList;
+        this.dbRequestListener = dbChangeListener;
+        this.mMomentList = dataList;
     }
 
-    public DBChangeListener getDbChangeListener() {
-        return dbChangeListener;
+    @Nullable
+    public DBRequestListener<Moment> getDBRequestListener() {
+        return dbRequestListener;
     }
 
+    @NonNull
     public List<Moment> getMomentList() {
         return mMomentList;
     }

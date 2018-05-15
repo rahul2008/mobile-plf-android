@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ApplianceTest {
@@ -56,5 +57,13 @@ public class ApplianceTest {
 
         assertEquals(numPorts + 1, applianceUnderTest.getAllPorts().size());
         assertTrue(applianceUnderTest.getAllPorts().contains(mockPort));
+    }
+
+    @Test
+    public void whenAPortGetsAdded_thenThatPortGetsTheNetworkNodeSet() throws Exception {
+
+        applianceUnderTest.addPort(mockPort);
+
+        verify(mockPort).setNetworkNode(mockNetworkNode);
     }
 }

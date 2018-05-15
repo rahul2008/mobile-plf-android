@@ -23,8 +23,8 @@ import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.CommlibUapp;
 
 import java.util.Locale;
 
@@ -33,6 +33,7 @@ import static android.content.DialogInterface.BUTTON_NEUTRAL;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.acceptNewPinFor;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.rejectNewPinFor;
+import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 
 public class DevicePortFragment extends Fragment {
 
@@ -86,6 +87,9 @@ public class DevicePortFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.cml_fragment_device_port, container, false);
 
+        final String cppId = getArguments().getString(APPLIANCE_KEY);
+        currentAppliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
+
         deviceNameEdit = rootview.findViewById(R.id.cml_device_name);
         Button setButton = rootview.findViewById(R.id.cml_btn_set);
         Button getButton = rootview.findViewById(R.id.cml_btn_get);
@@ -115,7 +119,6 @@ public class DevicePortFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
         if (currentAppliance == null) {
             getFragmentManager().popBackStack();
             return;

@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
@@ -17,9 +18,12 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.GsonProvider;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,23 +60,21 @@ public abstract class DICommPort<T extends PortProperties> {
     private boolean mGetPropertiesRequested;
     private boolean mSubscribeRequested;
     private boolean mUnsubscribeRequested;
-    private boolean mStopResubscribe;
+    private boolean isSubscribed = false;
     private final Object mResubscribeLock = new Object();
     private T mPortProperties;
     private final Map<String, Object> mPutPropertiesMap = new ConcurrentHashMap<>();
 
     private final Set<DICommPortListener> mPortListeners = new CopyOnWriteArraySet<>();
 
+    private NetworkNode networkNode;
+
     protected CommunicationStrategy communicationStrategy;
 
     private final Runnable resubscriptionRunnable = new Runnable() {
         @Override
         public void run() {
-            synchronized (mResubscribeLock) {
-                if (!mStopResubscribe) {
-                    subscribe();
-                }
-            }
+            refreshSubscriptionIfNecessary();
         }
     };
 
@@ -92,6 +94,15 @@ public abstract class DICommPort<T extends PortProperties> {
                 DICommLog.w(LOG_TAG, "Subscription event decryption failed, scheduling a reload instead.");
 
                 reloadProperties();
+            }
+        }
+    };
+
+    private PropertyChangeListener networkNodeListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(final PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals(NetworkNodeDatabaseHelper.KEY_BOOT_ID)) {
+                refreshSubscriptionIfNecessary();
             }
         }
     };
@@ -208,7 +219,7 @@ public abstract class DICommPort<T extends PortProperties> {
         this.communicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
 
         mSubscribeRequested = true;
-        mStopResubscribe = false;
+        isSubscribed = true;
 
         resubscriptionHandler.removeCallbacks(resubscriptionRunnable);
         resubscriptionHandler.postDelayed(resubscriptionRunnable, SUBSCRIPTION_TTL_MS);
@@ -236,9 +247,17 @@ public abstract class DICommPort<T extends PortProperties> {
         DICommLog.d(LOG_TAG, "stop resubscribing");
 
         synchronized (mResubscribeLock) {
-            mStopResubscribe = true;
+            isSubscribed = false;
         }
         resubscriptionHandler.removeCallbacks(resubscriptionRunnable);
+    }
+
+    private void refreshSubscriptionIfNecessary() {
+        synchronized (mResubscribeLock) {
+            if (isSubscribed) {
+                subscribe();
+            }
+        }
     }
 
     /**
@@ -420,5 +439,10 @@ public abstract class DICommPort<T extends PortProperties> {
                 DICommLog.e(LOG_TAG, "unsubscribe - error");
             }
         });
+    }
+
+    public void setNetworkNode(@NonNull final NetworkNode networkNode) {
+        this.networkNode = networkNode;
+        this.networkNode.addPropertyChangeListener(networkNodeListener);
     }
 }

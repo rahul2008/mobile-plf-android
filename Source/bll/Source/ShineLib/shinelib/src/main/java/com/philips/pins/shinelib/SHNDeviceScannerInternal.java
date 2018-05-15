@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -30,10 +30,10 @@ import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicate
  *
  * @publicPluginApi
  */
-public class SHNDeviceScannerInternal {
-    private static final String TAG = SHNDeviceScannerInternal.class.getSimpleName();
+public class SHNDeviceScannerInternal implements SHNCentral.SHNCentralListener {
+    private static final String TAG = "SHNDeviceScannerInternal";
 
-    static final long SCANNING_RESTART_INTERVAL_MS = 30000L;
+    static final long SCANNING_RESTART_INTERVAL_MS = 30_000L;
 
     @Nullable
     private LeScanCallbackProxy leScanCallbackProxy;
@@ -48,18 +48,26 @@ public class SHNDeviceScannerInternal {
     SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
         SHNDeviceFoundInfo.setSHNCentral(shnCentral);
         this.shnCentral = shnCentral;
+        this.shnCentral.registerShnCentralListener(this);
         this.registeredDeviceDefinitions = registeredDeviceDefinitions;
     }
 
+    @Override
+    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+        if (leScanCallbackProxy != null && shnCentral.isBluetoothAdapterEnabled()) {
+            leScanCallbackProxy.stopLeScan(leScanCallback);
+            leScanCallbackProxy.startLeScan(leScanCallback);
+        }
+    }
+
     /**
-     * Start scanning for devices
-     * When a device is found the {@code SHNDeviceScanner.SHNDeviceScannerListener} will be informed.
-     *
      * @param shnDeviceScannerListener Callback listener
      * @param scannerSettingDuplicates Scan settings
-     * @param stopScanningAfterMS Stop scanning after time in Ms
-     *
+     * @param stopScanningAfterMS      Stop scanning after time in Ms
      * @return Scan successfully stated
+     * <p>
+     * Start scanning for devices
+     * When a device is found the {@code SHNDeviceScanner.SHNDeviceScannerListener} will be informed.
      */
     public boolean startScanning(@NonNull SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener, ScannerSettingDuplicates scannerSettingDuplicates, long stopScanningAfterMS) {
         return startScanning(new SHNInternalScanRequest(registeredDeviceDefinitions, null, scannerSettingDuplicates == DuplicatesAllowed, (int) stopScanningAfterMS, shnDeviceScannerListener));
@@ -69,7 +77,6 @@ public class SHNDeviceScannerInternal {
      * Start scanning for devices
      *
      * @param SHNInternalScanRequest Contains scan settings and callback
-     *
      * @return Scan successfully stated
      */
     public boolean startScanning(@NonNull final SHNInternalScanRequest SHNInternalScanRequest) {
@@ -109,6 +116,7 @@ public class SHNDeviceScannerInternal {
     public void stopScanning(final SHNInternalScanRequest shnInternalScanRequest) {
         shnInternalScanRequests.remove(shnInternalScanRequest);
         shnInternalScanRequest.scanningStopped();
+
         if (shnInternalScanRequests.isEmpty()) {
             stopScanning();
         }
@@ -154,9 +162,14 @@ public class SHNDeviceScannerInternal {
         }
 
         @Override
-        public void onScanFailed(int errorCode) {
-            leScanCallbackProxy = null;
-            SHNLogger.e(TAG, String.format(Locale.US, "Error starting scanning, errorCode: %d", errorCode));
+        public void onScanFailed(final int errorCode) {
+            shnCentral.getInternalHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    leScanCallbackProxy = null;
+                    SHNLogger.e(TAG, String.format(Locale.US, "Error starting scanning, errorCode: %d", errorCode));
+                }
+            });
         }
     };
 

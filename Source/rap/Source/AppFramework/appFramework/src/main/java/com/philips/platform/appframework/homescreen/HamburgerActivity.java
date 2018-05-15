@@ -27,10 +27,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.screens.InAppBaseFragment;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.logout.URLogout;
@@ -53,6 +57,7 @@ import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.ActionBarTextView;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
@@ -69,7 +74,7 @@ import static com.philips.platform.prdemoapp.activity.MainActivity.THEMESETTINGS
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implements IAPListener,IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView, HamburgerMenuItemClickListener, View.OnClickListener, URLogoutInterface.URLogoutListener {
+public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implements IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView, HamburgerMenuItemClickListener, View.OnClickListener, URLogoutInterface.URLogoutListener {
     private static String TAG = HamburgerActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private LinearLayout navigationView;
@@ -98,6 +103,10 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @BindView(R.id.hamburger_list)
     RecyclerView hamburgerMenuRecyclerView;
 
+    private ImageView cartIcon;
+    private TextView cartCount;
+    private FrameLayout shoppingCartLayout;
+
     private HamburgerMenuAdapter hamburgerMenuAdapter;
 
     private static final String NAVIGATION_CONTENT_DESC_HAMBURGER = "hamburger";
@@ -117,7 +126,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
-        RALog.d(TAG,"App initalization status:"+AppFrameworkApplication.isAppDataInitialized());
+        RALog.d(TAG,"App initialization status:"+AppFrameworkApplication.isAppDataInitialized());
         if(!(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized())){
             presenter = getActivityPresenter();
             sharedPreferenceUtility = new SharedPreferenceUtility(this);
@@ -134,11 +143,31 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     }
 
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
+        menu.clear();
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.catalog_view_menu, menu);
+
+        RelativeLayout badgeLayout = (RelativeLayout)    menu.findItem(R.id.badge).getActionView();
+        cartCount = badgeLayout.findViewById(R.id.item_count);
+        shoppingCartLayout = badgeLayout.findViewById(R.id.cart_container);
+        cartIcon = badgeLayout.findViewById(R.id.cart_icon);
+
+        cartCount.setVisibility(View.GONE);
+        cartIcon.setVisibility(View.GONE);
+
+        shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onEvent(Constants.SHOPPING_CART_CLICK);
+            }
+        });
+
+        super.onCreateOptionsMenu(menu);
         return true;
     }
 
@@ -341,7 +370,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     public void updateActionBar(String s, boolean b) {
         UIDHelper.setTitle(this, s);
         updateActionBarIcon(b);
-
     }
 
     public String getActionbarTag() {
@@ -357,61 +385,55 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), navigationDrawableId, getTheme()));
         toolbar.setNavigationContentDescription(isBackButtonVisible ? NAVIGATION_CONTENT_DESC_BACK : NAVIGATION_CONTENT_DESC_HAMBURGER);
         this.isBackButtonVisible = isBackButtonVisible;
+        cartIconVisibility(0);
     }
 
-    /*public void cartIconVisibility(boolean shouldShow) {
-        if(shouldShow){
-            cartIcon.setVisibility(View.VISIBLE);
-            int cartItemsCount = getCartItemCount();
-                if (cartItemsCount > 0) {
-                        cartCount.setVisibility(View.VISIBLE);
-                        cartCount.setText(String.valueOf(cartItemsCount));
-                }else {
-                    cartCount.setVisibility(View.GONE);
+    public boolean isIAPInstance(){
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
+            String str = backEntry.getName();
+            if(null != str){
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag(str);
+                if(fragment instanceof InAppBaseFragment){
+                    return true;
                 }
-        } else {
+                else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void cartIconVisibility(int count) {
+
+        try {
+            final boolean isShopingCartVisible = ((AppFrameworkApplication) getApplication()).isShopingCartVisible;
+            if (!isShopingCartVisible) {
                 cartIcon.setVisibility(View.GONE);
                 cartCount.setVisibility(View.GONE);
+                shoppingCartLayout.setVisibility(View.GONE);
+                return;
+            }
+
+            if (isIAPInstance()) {
+                cartIcon.setVisibility(View.VISIBLE);
+                int cartItemsCount = count;
+                if (cartItemsCount > 0) {
+                    cartCount.setVisibility(View.VISIBLE);
+                    cartCount.setText(String.valueOf(cartItemsCount));
+                    shoppingCartLayout.setVisibility(View.VISIBLE);
+                } else {
+                    cartCount.setVisibility(View.GONE);
+                }
+            } else {
+                cartIcon.setVisibility(View.GONE);
+                cartCount.setVisibility(View.GONE);
+                shoppingCartLayout.setVisibility(View.GONE);
+            }
+        }catch (Exception e){
+
         }
-    }*/
-    @Override
-    public void onGetCartCount(int cartCount) {
-        /*setCartItemCount(cartCount);
-        if(cartCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
-            cartIconVisibility(true);
-        }*/
-    }
-
-    @Override
-    public void onUpdateCartCount() {
-        /*if(userRegistrationState.getUserObject(this).isUserSignIn()){
-            addIapCartCount();
-        }*/
-    }
-
-    @Override
-    public void updateCartIconVisibility(boolean shouldShow) {
-      //  isCartVisible = shouldShow;
-    }
-
-    @Override
-    public void onGetCompleteProductList(ArrayList<String> arrayList) {
-
-    }
-
-    @Override
-    public void onSuccess() {
-
-    }
-
-    @Override
-    public void onSuccess(boolean isCartVisible) {
-
-    }
-
-    @Override
-    public void onFailure(int i) {
-     //   showToast(i);
     }
 
     /*private void showToast(int errorCode) {
@@ -491,7 +513,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 Intent intent=new Intent(this,ThemeSelectionActivity.class);
                 startActivityForResult(intent, START_THEME_SELECTOR);
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }

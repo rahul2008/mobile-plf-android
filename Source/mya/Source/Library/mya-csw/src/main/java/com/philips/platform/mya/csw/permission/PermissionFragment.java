@@ -57,6 +57,8 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     private ConfirmDialogView confirmDialogView;
     private DialogView errorDialogViewWithClickListener;
 
+    private boolean mIsStateAlreadySaved;
+
     @Override
     public void setPresenter(final PermissionContract.Presenter presenter) {
         this.presenter = presenter;
@@ -87,7 +89,18 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     @Override
     public void onResume() {
         super.onResume();
+        mIsStateAlreadySaved = false;
         presenter.fetchConsentStates(consentDefinitionList);
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mIsStateAlreadySaved = true;
+        if (confirmDialogView != null) {
+            confirmDialogView.hideDialog();
+        }
     }
 
     @Override
@@ -157,9 +170,11 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
 
     @Override
     public void showErrorDialog(boolean goBack, int titleRes, int messageRes) {
-        String title = getContext().getString(titleRes);
-        String message = getContext().getString(messageRes);
-        showErrorDialog(goBack, title, message);
+        if (!mIsStateAlreadySaved) {
+            String title = getContext().getString(titleRes);
+            String message = getContext().getString(messageRes);
+            showErrorDialog(goBack, title, message);
+        }
     }
 
     private void showErrorDialog(boolean goBack, String title, String message) {
@@ -177,21 +192,15 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        if (confirmDialogView != null) {
-            confirmDialogView.hideDialog();
-        }
-    }
-
-    @Override
     public void onHelpClicked(int helpText) {
         DescriptionView.show(getFragmentManager(), helpText, R.id.permissionView);
     }
 
     @Override
     public void onClick(android.view.View view) {
-        getFragmentManager().popBackStack();
+        if (getActivity() != null) {
+            getActivity().onBackPressed();
+        }
     }
 
     private RestInterface getRestClient() {
@@ -202,9 +211,10 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
         return ErrorMessageCreator.getMessageErrorBasedOnErrorCode(getContext(), error.getErrorCode());
     }
 
-    @NonNull @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @NonNull
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     protected DialogView getDialogView(boolean goBack) {
-        if(!goBack) {
+        if (!goBack) {
             return new DialogView();
         }
 

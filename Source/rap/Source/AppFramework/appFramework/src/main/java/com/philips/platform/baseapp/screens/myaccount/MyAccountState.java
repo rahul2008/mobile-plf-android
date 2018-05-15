@@ -10,6 +10,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
@@ -22,6 +23,8 @@ import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.mya.MyaTabConfig;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -45,11 +48,14 @@ public class MyAccountState extends BaseState{
     private FragmentLauncher fragmentLauncher;
     private static final String PRIVACY_SETTINGS_EVENT = "PrivacySettingsEvent";
     private static final String MY_DETAILS_EVENT = "MyDetailsEvent";
+    private static final String MY_ORDERS_EVENT = "MyOrdersEvent";
+    private static final String TAG = MyAccountState.class.getSimpleName();
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
+        final boolean isHybrisAvailable = ((AppFrameworkApplication) actContext.getApplicationContext()).isShopingCartVisible;
         ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, "", getUiStateData().getFragmentLaunchState());
 
         MyaInterface myaInterface = getInterface();
@@ -59,7 +65,12 @@ public class MyAccountState extends BaseState{
         launchInput.setMyaListener(getMyaListener());
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
         launchInput.setMyaTabConfig(myaTabConfig);
-        String[] profileItems = {"MYA_My_details"};
+        String[] profileItems;
+        if (isHybrisAvailable) {
+            profileItems = new String[]{"MYA_My_details", "MYA_My_orders"};
+        } else {
+            profileItems = new String[]{"MYA_My_details"};
+        }
         String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
         launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
         launchInput.setProfileMenuList(Arrays.asList(profileItems));
@@ -93,22 +104,40 @@ public class MyAccountState extends BaseState{
 
             @Override
             public boolean onProfileMenuItemSelected(final FragmentLauncher fragmentLauncher, String itemName) {
+
                 if (itemName.equalsIgnoreCase("MYA_My_details")) {
-                    BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-                    BaseState baseState = null;
-                    try {
-                        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.MY_ACCOUNT), MY_DETAILS_EVENT);
-                    } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
-                            e) {
-                        Toast.makeText(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
-                    }
-                    if(null != baseState){
-                        baseState.init(actContext);
-                        baseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity()));
-                    }
+                    getBaseState(fragmentLauncher, MY_DETAILS_EVENT);
+                    return true;
+                } else if (itemName.equalsIgnoreCase("MYA_My_orders")) {
+                    getBaseState(fragmentLauncher, MY_ORDERS_EVENT);
                     return true;
                 }
                 return false;
+            }
+
+            private void getStateData(BaseState baseState) {
+                final UIStateData stateData = new UIStateData();
+                stateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
+                baseState.setUiStateData(stateData);
+            }
+
+            private void getBaseState(FragmentLauncher fragmentLauncher, String event) {
+                BaseState baseState = null;
+                BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+
+                try {
+                    baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.MY_ACCOUNT), event);
+                } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                        e) {
+                    Toast.makeText(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
+                }
+
+                if (null != baseState) {
+                    getStateData(baseState);
+
+                    baseState.init(actContext.getApplicationContext());
+                    baseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity()));
+                }
             }
 
             @Override
@@ -120,11 +149,14 @@ public class MyAccountState extends BaseState{
             public void onLogoutClicked(final FragmentLauncher fragmentLauncher, final MyaLogoutListener myaLogoutListener) {
 
                 URLogout urLogout = new URLogout();
+                ((HamburgerActivity) actContext).showProgressBar();
                 urLogout.setUrLogoutListener(new URLogoutInterface.URLogoutListener() {
                     @Override
                     public void onLogoutResultSuccess() {
                         ((HamburgerActivity) actContext).onLogoutResultSuccess();
                         myaLogoutListener.onLogoutSuccess();
+                        ((HamburgerActivity) actContext).hideProgressBar();
+                        RALog.d(TAG,"onLogoutClicked: onLogoutResultSuccess");
                     }
 
                     @Override
@@ -133,6 +165,9 @@ public class MyAccountState extends BaseState{
                         String Message = actContext.getString(R.string.MYA_Offline_message);
                         new DialogView(title, Message).showDialog(getFragmentActivity());
                         myaLogoutListener.onLogOutFailure();
+                        ((HamburgerActivity) actContext).hideProgressBar();
+                        RALog.d(TAG,"onLogoutClicked: onLogoutResultFailure");
+
                     }
 
                     @Override
@@ -141,6 +176,8 @@ public class MyAccountState extends BaseState{
                         String Message = actContext.getString(R.string.MYA_Offline_message);
                         new DialogView(title, Message).showDialog(getFragmentActivity());
                         myaLogoutListener.onLogOutFailure();
+                        ((HamburgerActivity) actContext).hideProgressBar();
+                        RALog.d(TAG,"onLogoutClicked: onNetworkError");
                     }
                 });
                 User user = getApplicationContext().getUserRegistrationState().getUserObject(actContext);

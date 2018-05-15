@@ -15,7 +15,9 @@ import com.philips.platform.baseapp.screens.cocoversion.CocoVersionState;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPOrderHistoryState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
+import com.philips.platform.baseapp.screens.inapppurchase.ShoppingCartFlowState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
 import com.philips.platform.baseapp.screens.mydetails.MyDetailsState;
@@ -63,5 +65,7 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.MY_DETAILS_STATE, new MyDetailsState());
         uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
         uiStateMap.put(AppStates.NEURA, new NeuraState());
+        uiStateMap.put(AppStates.SHOPPING_CART_VIEW, new ShoppingCartFlowState());
+        uiStateMap.put(AppStates.MY_ORDERS, new IAPOrderHistoryState());
     }
 }

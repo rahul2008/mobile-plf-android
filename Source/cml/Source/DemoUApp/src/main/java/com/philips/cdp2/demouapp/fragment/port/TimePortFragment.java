@@ -13,17 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 import com.philips.cdp2.demouapp.port.time.TimePort;
 import com.philips.cdp2.demouapp.port.time.TimePortProperties;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -32,6 +30,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import java.util.Locale;
 import java.util.Random;
 
+import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 import static java.lang.System.currentTimeMillis;
 
 public class TimePortFragment extends Fragment {
@@ -47,42 +46,40 @@ public class TimePortFragment extends Fragment {
 
     private CompoundButton switchLoopGet;
 
-    private ReferenceAppliance currentAppliance;
+    private TimePort timePort;
     private DICommPortListener<TimePort> portListener = new DICommPortListener<TimePort>() {
 
         private void resume() {
             if (switchLoopGet.isChecked()) {
-                currentAppliance.getTimePort().reloadProperties();
+                timePort.reloadProperties();
             }
         }
 
         @Override
         public void onPortUpdate(TimePort timePort) {
-            if (isAdded()) {
-                TimePortProperties properties = timePort.getPortProperties();
-                if (properties == null) {
-                    return;
-                }
-
-                final String datetime = properties.datetime;
-                if (datetime == null) {
-                    return;
-                }
-                DateTime dt = new DateTime(datetime);
-                String dateTimeString = DATETIME_FORMATTER.print(dt);
-
-                updateResult(dateTimeString);
-                resume();
+            TimePortProperties properties = timePort.getPortProperties();
+            if (properties == null) {
+                return;
             }
+
+            final String datetime = properties.datetime;
+            if (datetime == null) {
+                return;
+            }
+            DateTime dt = new DateTime(datetime);
+            String dateTimeString = DATETIME_FORMATTER.print(dt);
+
+            updateResult(dateTimeString);
+            resume();
+
         }
 
         @Override
         public void onPortError(TimePort port, Error error, @Nullable String errorData) {
             DICommLog.e(TAG, String.format(Locale.US, "Time port error: [%s], data: [%s]", error.getErrorMessage(), errorData));
 
-            if (isAdded()) {
-                updateResult(getString(R.string.cml_lblResultPortError, error.getErrorMessage()));
-            }
+            updateResult(getString(R.string.cml_lblResultPortError, error.getErrorMessage()));
+
             resume();
         }
     };
@@ -91,6 +88,12 @@ public class TimePortFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.cml_fragment_timeport, container, false);
+
+        final String cppId = getArguments().getString(APPLIANCE_KEY);
+        Appliance appliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
+        if (appliance != null && appliance instanceof ReferenceAppliance) {
+            timePort = ((ReferenceAppliance) appliance).getTimePort();
+        }
 
         rootview.findViewById(R.id.cml_btnGetTime).setOnClickListener(buttonClickListener);
         rootview.findViewById(R.id.cml_btnSetTime).setOnClickListener(buttonClickListener);
@@ -113,21 +116,20 @@ public class TimePortFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        Appliance appliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
-        if (appliance == null || !(appliance instanceof ReferenceAppliance)) {
+        if (timePort == null) {
             getFragmentManager().popBackStack();
             return;
         }
-        currentAppliance = (ReferenceAppliance) appliance;
-        currentAppliance.getTimePort().addPortListener(portListener);
+
+        timePort.addPortListener(portListener);
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
 
-        if (currentAppliance != null) {
-            currentAppliance.getTimePort().removePortListener(portListener);
+        if (timePort != null) {
+            timePort.removePortListener(portListener);
         }
     }
 
@@ -137,13 +139,13 @@ public class TimePortFragment extends Fragment {
             int viewId = view.getId();
 
             if (viewId == R.id.cml_btnGetTime) {
-                currentAppliance.getTimePort().reloadProperties();
+                timePort.reloadProperties();
             } else if (viewId == R.id.cml_btnSetTime) {
                 DateTime dateTime = new DateTime(currentTimeMillis() + new Random().nextInt());
                 DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
                 String timestamp = dateTime.toString(fmt);
 
-                currentAppliance.getTimePort().putProperties(PROPERTY_DATETIME, timestamp);
+                timePort.putProperties(PROPERTY_DATETIME, timestamp);
             } else {
                 DICommLog.d(TAG, "Unknown view clicked");
             }
@@ -153,14 +155,14 @@ public class TimePortFragment extends Fragment {
     private final CompoundButton.OnCheckedChangeListener subscriptionCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-            if (currentAppliance == null) {
+            if (timePort == null) {
                 return;
             }
 
             if (isChecked) {
-                currentAppliance.getTimePort().subscribe();
+                timePort.subscribe();
             } else {
-                currentAppliance.getTimePort().unsubscribe();
+                timePort.unsubscribe();
             }
         }
     };
@@ -169,7 +171,7 @@ public class TimePortFragment extends Fragment {
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
             if (isChecked) {
-                currentAppliance.getTimePort().reloadProperties();
+                timePort.reloadProperties();
             }
         }
     };
@@ -177,9 +179,7 @@ public class TimePortFragment extends Fragment {
     private void updateResult(final String result) {
         requestCount++;
 
-        if (isAdded()) {
-            txtProgress.setText(String.format(Locale.US, "Count: %d", requestCount));
-            txtResult.setText(String.format(Locale.US, "Last result: %s", result));
-        }
+        txtProgress.setText(getString(R.string.cml_count, requestCount));
+        txtResult.setText(getString(R.string.cml_last_result, result));
     }
 }

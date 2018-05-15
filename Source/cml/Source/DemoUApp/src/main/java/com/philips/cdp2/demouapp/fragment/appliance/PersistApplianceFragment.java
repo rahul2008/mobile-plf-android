@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.demouapp.CommlibUapp;
 
 import static com.philips.cdp2.commlib.demouapp.R.id.cml_buttonForget;
@@ -24,6 +23,7 @@ import static com.philips.cdp2.commlib.demouapp.R.string.cml_forget_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_forget_success;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_persist_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_persist_success;
+import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
 import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
 
@@ -34,8 +34,9 @@ public class PersistApplianceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(cml_fragment_persistence, container, false);
 
-        final Appliance currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
+        final String cppId = getArguments().getString(APPLIANCE_KEY);
         final ApplianceManager manager = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager();
+        final Appliance currentAppliance = manager.findApplianceByCppId(cppId);
         final View activityRoot = getActivity().findViewById(android.R.id.content);
 
         if (currentAppliance == null) return null;
