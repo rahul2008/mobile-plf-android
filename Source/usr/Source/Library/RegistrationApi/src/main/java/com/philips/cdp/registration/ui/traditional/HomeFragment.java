@@ -481,7 +481,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void handleLoginFailedWithMergeFlowError(String existingProvider, String mergeToken, String conflictingIdentityProvider, String emailId) {
         hideProgressDialog();
         enableControls(true);
-        if (homePresenter.getProvider().equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK) && emailId != null) {
+        if (homePresenter.getProvider().equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK) && emailId == null) {
             emailId = mFacebookEmail;
         }
         if (homePresenter.isMergePossible(existingProvider)) {
