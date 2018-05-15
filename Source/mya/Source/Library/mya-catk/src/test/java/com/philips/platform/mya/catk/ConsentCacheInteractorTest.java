@@ -44,13 +44,12 @@ public class ConsentCacheInteractorTest {
     private DateTime NOW = new DateTime(DateTimeZone.UTC);
 
     private String CONSENT_TYPE_1 = "consentType1";
-    private String CONSENT_TYPE_2 = "consentType2";
     private String CONSENT_TYPE_3 = "consentType3";
     private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, NOW.plusMinutes(10));
     private String cacheMapWithConsentType3 = "{\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1}}";
-    private String cacheMapTest = "{\"consentType1\":{\"consentState\":\"active\",\"version\":1,\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\"}}";
+    private String activeConsentJsonForType1 = "{\"consentType1\":{\"consentState\":\"active\",\"version\":1,\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\"}}";
+    private String consentStatusJsonForTwoTypes = "{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1}}";
     private ConsentCacheInterface consentCacheInteractor;
-    private String consentType;
     private CachedConsentStatus returnedCachedConsent;
 
     @Before
@@ -58,63 +57,54 @@ public class ConsentCacheInteractorTest {
         DateTimeUtils.setCurrentMillisFixed(NOW.getMillis());
         consentCacheInteractor = new ConsentCacheInteractor(appInfra);
         when(appInfra.getSecureStorage()).thenReturn(storageInterface);
-        when(storageInterface.fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull())).thenReturn(cacheMapTest);
-
     }
 
     @Test
     public void fetchConsentTypeState_VerifySecureStorage() {
-        givenConsentType(CONSENT_TYPE_1);
-        whenFetchConsentTypeStateIsCalled();
-        thenSecureStorageIsCalled();
+        whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
+        thenConsentCacheIsFetchedFromSecureStorage();
     }
 
     @Test
     public void fetchConsentTypeState_VerifyInMemoryCache() {
-        givenConsentType(CONSENT_TYPE_1);
-        whenFetchConsentTypeStateIsCalled();
-        whenFetchConsentTypeStateIsCalled();
-        thenSecureStorageIsCalledOnce();
+        givenSecureStorageReturns(activeConsentJsonForType1);
+        whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
+        whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
+        thenSecureStorageFetchIsCalledOnce();
     }
 
     @Test
     public void fetchConsentTypeState_ConsentGiven() {
-        givenConsentType(CONSENT_TYPE_1);
-        whenFetchConsentTypeStateIsCalled();
-        thenActiveConsentStatusIsreturned();
-    }
-
-    @Test
-    public void fetchConsentTypeState_ConsentNotGiven() {
-        givenConsentType(CONSENT_TYPE_2);
-        whenFetchConsentTypeStateIsCalled();
-        thenNullConsentStatusIsreturned();
+        givenSecureStorageReturns(activeConsentJsonForType1);
+        whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
+        thenConsentStatusReturnedIs(consentTypeStatus1);
     }
 
     @Test
     public void fetchConsentTypeState_SecureStorageEmpty() {
-        givenSecureStorageIsEmpty();
-        givenConsentType(CONSENT_TYPE_1);
-        whenFetchConsentTypeStateIsCalled();
+        givenSecureStorageReturns(null);
+        whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenNullConsentStatusIsreturned();
     }
-
 
     @Test
     public void store_VerifyExpiryTime() {
         givenExpiryTimeInMins(1);
-        whenStoreConsentTypeStateIsCalled(CONSENT_TYPE_3);
-        thenConsentIsStoredInSecureStorage();
+        whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
+        thenConsentIsStoredInSecureStorage(cacheMapWithConsentType3);
     }
 
-
-    private void givenSecureStorageIsEmpty() {
-        when(storageInterface.fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull())).thenReturn(null);
+    @Test
+    public void fetchConsentTypeState_VerifyStoreIsNotOverwrittenAfterPost() {
+        givenExpiryTimeInMins(10);
+        givenSecureStorageReturns(activeConsentJsonForType1);
+        whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.rejected, 1);
+        thenConsentCacheIsFetchedFromSecureStorage();
+        thenConsentIsStoredInSecureStorage(consentStatusJsonForTwoTypes);
     }
 
-
-    private void givenConsentType(String consentTypeParam) {
-        consentType = consentTypeParam;
+    private void givenSecureStorageReturns(String cacheMapTest) {
+        when(storageInterface.fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull())).thenReturn(cacheMapTest);
     }
 
     private void givenExpiryTimeInMins(int minutes) {
@@ -124,29 +114,28 @@ public class ConsentCacheInteractorTest {
         cacheMapWithConsentType3 = "{\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(minutes)).toString() + "\",\"consentState\":\"active\",\"version\":1}}";
     }
 
-
-    private void whenStoreConsentTypeStateIsCalled(String consentType) {
-        consentCacheInteractor.storeConsentTypeState(consentType, ConsentStates.active, 1);
+    private void whenStoreConsentStateIsCalled(String consentType, ConsentStates active, int version) {
+        consentCacheInteractor.storeConsentTypeState(consentType, active, version);
     }
 
-    private void whenFetchConsentTypeStateIsCalled() {
+    private void whenFetchConsentStateIsCalled(String consentType) {
         returnedCachedConsent = consentCacheInteractor.fetchConsentTypeState(consentType);
 
     }
 
-    private void thenConsentIsStoredInSecureStorage() {
-        verify(storageInterface, times(1)).storeValueForKey(eq(CONSENT_CACHE_KEY), eq(cacheMapWithConsentType3), (SecureStorageInterface.SecureStorageError) notNull());
+    private void thenConsentIsStoredInSecureStorage(String expectedConsentCacheJson) {
+        verify(storageInterface, times(1)).storeValueForKey(eq(CONSENT_CACHE_KEY), eq(expectedConsentCacheJson), (SecureStorageInterface.SecureStorageError) notNull());
     }
 
-    private void thenSecureStorageIsCalledOnce() {
+    private void thenSecureStorageFetchIsCalledOnce() {
         verify(storageInterface, times(1)).fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull());
     }
 
-    private void thenActiveConsentStatusIsreturned() {
-        assertEquals(consentTypeStatus1, returnedCachedConsent);
+    private void thenConsentStatusReturnedIs(CachedConsentStatus expectedConsentStatus) {
+        assertEquals(expectedConsentStatus, returnedCachedConsent);
     }
 
-    private void thenSecureStorageIsCalled() {
+    private void thenConsentCacheIsFetchedFromSecureStorage() {
         verify(storageInterface).fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull());
     }
 

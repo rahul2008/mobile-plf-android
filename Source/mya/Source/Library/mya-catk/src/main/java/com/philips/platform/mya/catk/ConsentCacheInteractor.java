@@ -50,9 +50,6 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     public CachedConsentStatus fetchConsentTypeState(String consentType) {
         if (inMemoryCache.get(consentType) == null) {
             inMemoryCache = getMapFromSecureStorage();
-            if (inMemoryCache == null) {
-                return null;
-            }
         }
         return inMemoryCache.get(consentType);
     }
@@ -60,6 +57,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
 
     @Override
     public void storeConsentTypeState(String consentType, ConsentStates status, int version) {
+        inMemoryCache = getMapFromSecureStorage();
         inMemoryCache.put(consentType, new CachedConsentStatus(status, version, (new DateTime(DateTimeZone.UTC)).plusMinutes(getConfiguredExpiryTime())));
         writeMapToSecureStorage(inMemoryCache);
     }
@@ -73,7 +71,8 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     private Map<String, CachedConsentStatus> getMapFromSecureStorage() {
         String serializedCache = appInfra.getSecureStorage().fetchValueForKey(CONSENT_CACHE_KEY, getSecureStorageError());
         Type listType = new TypeToken<Map<String, CachedConsentStatus>>() { }.getType();
-        return objGson.fromJson(serializedCache, listType);
+        Map<String, CachedConsentStatus> temp = objGson.fromJson(serializedCache, listType);
+        return temp == null ? new HashMap<String, CachedConsentStatus>() : temp;
     }
 
     private synchronized void writeMapToSecureStorage(Map<String, CachedConsentStatus> cacheMap) {
