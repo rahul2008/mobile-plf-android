@@ -192,7 +192,7 @@
   <string name="label_sleep_time_format">%d mins</string>
   <string name="label_sleep_tips">How can I improve my sleep score?</string>
   <string name="mya_config_tab">Configuration tab</string>
-  <string name="RA_Neura_Navigation_Title">Allow sharing</string>
+  <string name="csw_justInTimeView_toolbar_title">Allow sharing</string>
   <string name="RA_Neura_Allow_Button">Allow</string>
   <string name="RA_Neura_MayBeLater_Button">May be later</string>
 
@@ -203,10 +203,12 @@
     <string name="RA_neura_header_title">Reference app, Made for You</string>
     <string name="RA_nuera_image_descp">Nuera Logo</string>
   <string name="RA_nuera_what_descp"><u>What does this mean?</u></string>
-  <string name="RA_nuera_what_base_title">What does this mean?</string>
+  <string name="RA_Neura_Consent_HyperLink">What does this mean?</string>
   <string name="RA_nuera_what_text_descp">Reference app asks for the location permissions so it can better understand your unique lifestyle. Reference app will adapt and anticipate your needs based on your daily routine to provide the recipes you need at the time you need them.</string>
   <string name="RA_nuera_policy"><u>privacy Neura</u></string>
   <string name="RA_privacy_policy">Privacy policy</string>
+  <string name="RA_Neura_Philips_Privacy">privacy Philips</string>
+  <string name="RA_Neura_Privacy">privacy Neura</string>
     <string name="RA_nuera_location_info_title">To adapt to your preferences and needs, allow sharing location with Philips and Neura.</string>
   <string name="RA_nuera_philips_tailor_text">Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling <b>location</b>.</string>
   <string name="RA_nuera_privacy_philips"><u>privacy Philips</u></string>

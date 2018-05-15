@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/csw_justInTimeView_consentDescription_label2"
                 android:layout_marginBottom="@dimen/nuera_margin_image_top"
-                android:text="@string/RA_nuera_what_descp"
+                android:text="@string/RA_Neura_Consent_HyperLink"
                  />
 
 
@@ -123,7 +123,7 @@
                         android:paddingEnd="@dimen/nuera_link_padding"
                         android:paddingLeft="@dimen/nuera_link_padding"
                         android:paddingRight="@dimen/nuera_link_padding"
-                        android:text="@string/RA_nuera_policy"
+                        android:text="@string/RA_Neura_Privacy"
                         />
 
                     <com.philips.platform.uid.view.widget.Label
@@ -139,7 +139,7 @@
                         android:paddingEnd="@dimen/nuera_link_padding"
                         android:paddingLeft="@dimen/nuera_link_padding"
                         android:paddingRight="@dimen/nuera_link_padding"
-                        android:text="@string/RA_nuera_privacy_philips"
+                        android:text="@string/RA_Neura_Philips_Privacy"
                          />
                 </LinearLayout>
             </RelativeLayout>

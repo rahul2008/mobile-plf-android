@@ -123,10 +123,9 @@
   <string name="RA_NO_Order_History">Bestelgeschiedenis niet beschikbaar</string>
   <string name="RA_Neura_Allow_Button">[nl]Allow</string>
   <string name="RA_Neura_Consent_HyperLink">[nl]What does this mean?</string>
-  <string name="RA_Neura_Detail_Header">[nl]What does this mean?</string>
   <string name="RA_Neura_Detail_Paragraph">[nl]Reference app asks for the location and fitness permissions so it can better understand your unique lifestyle.Reference app will adapt and anticipate your needs based on your daily routine to provide the recipes you need at the time you need them</string>
   <string name="RA_Neura_MayBeLater_Button">[nl]Maybe later</string>
-  <string name="RA_Neura_Navigation_Title">[nl]Allow Sharing</string>
+  <string name="csw_justInTimeView_toolbar_title">[nl]Allow Sharing</string>
   <string name="RA_Neura_Philips_Privacy">[nl]privacy Philips</string>
   <string name="RA_Neura_Primary_Description_Paragraph">[nl]Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling</string>
   <string name="RA_Neura_Privacy">[nl]privacy Neura</string>

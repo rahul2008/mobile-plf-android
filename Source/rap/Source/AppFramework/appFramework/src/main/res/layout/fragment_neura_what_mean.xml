@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/nuera_margin_between_text"
-        android:text="@string/RA_nuera_what_base_title"/>
+        android:text="@string/RA_Neura_Consent_HyperLink"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/RA_neura_what_mean_descp"

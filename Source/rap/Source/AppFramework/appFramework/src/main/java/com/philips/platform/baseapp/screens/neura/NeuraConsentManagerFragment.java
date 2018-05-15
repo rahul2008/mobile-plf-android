@@ -9,6 +9,8 @@ package com.philips.platform.baseapp.screens.neura;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +66,25 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
         philipsPrivacy = inflate.findViewById(R.id.csw_justInTimeView_privacyPhilips_label);
         neuraPrivacyPolicy = inflate.findViewById(R.id.csw_justInTimeView_privacyNeura_label);
         whatDoesItMean = inflate.findViewById(R.id.csw_justInTimeView_consentHelplink_button);
+
+        underlineLabels();
+
     }
+
+    private void underlineLabels() {
+        SpannableString contentWhatDoesItMean = new SpannableString(whatDoesItMean.getText());
+        contentWhatDoesItMean.setSpan(new UnderlineSpan(),0,contentWhatDoesItMean.length(),0);
+        whatDoesItMean.setText(contentWhatDoesItMean);
+
+        SpannableString contentPhilipsPrivacy = new SpannableString(philipsPrivacy.getText());
+        contentPhilipsPrivacy.setSpan(new UnderlineSpan(),0,contentPhilipsPrivacy.length(),0);
+        philipsPrivacy.setText(contentPhilipsPrivacy);
+
+        SpannableString contentNeuraPrivacyPolicy = new SpannableString(neuraPrivacyPolicy.getText());
+        contentNeuraPrivacyPolicy.setSpan(new UnderlineSpan(),0,contentNeuraPrivacyPolicy.length(),0);
+        neuraPrivacyPolicy.setText(contentNeuraPrivacyPolicy);
+    }
+
 
     private void applyOverLayBackground(View inflate) {
         View overLayView = inflate.findViewById(R.id.neura_overLap_view);
@@ -78,7 +98,7 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(R.string.RA_Neura_Navigation_Title, true);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(R.string.csw_justInTimeView_toolbar_title, true);
     }
 
     @Override
