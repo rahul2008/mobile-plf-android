@@ -17,7 +17,7 @@ public abstract class SHNConnectingState extends SHNDeviceState {
 
     private static final String TAG = "SHNConnectingState";
 
-    protected Timer connectingTimer;
+    private Timer connectingTimer;
 
     public SHNConnectingState(@NonNull final SHNDeviceStateMachine stateMachine, long connectTimeOut) {
         super(stateMachine);
