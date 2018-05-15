@@ -24,8 +24,6 @@ import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executors;
 
 /**
@@ -34,23 +32,18 @@ import java.util.concurrent.Executors;
  *
  * @publicApi
  */
-public class BleTransportContext implements TransportContext<BleTransportContext> {
+public class BleTransportContext implements TransportContext {
 
     private final BleDeviceCache deviceCache;
     private final SHNCentral shnCentral;
     private final DiscoveryStrategy discoveryStrategy;
-    private Set<AvailabilityListener<BleTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
-
-    private boolean isAvailable;
 
     private final SHNCentralListener shnCentralListener = new SHNCentralListener() {
         @Override
         public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-            isAvailable = shnCentral.isBluetoothAdapterEnabled();
-            if (!isAvailable) {
+            if (!shnCentral.isBluetoothAdapterEnabled()) {
                 discoveryStrategy.clearDiscoveredNetworkNodes();
             }
-            notifyAvailabilityListeners();
         }
     };
 
@@ -89,7 +82,6 @@ public class BleTransportContext implements TransportContext<BleTransportContext
 
         deviceCache = createBleDeviceCache();
         discoveryStrategy = createDiscoveryStrategy(runtimeConfiguration);
-        isAvailable = shnCentral.isBluetoothAdapterEnabled();
     }
 
     /**
@@ -116,22 +108,6 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         return new BleCommunicationStrategy(networkNode.getCppId(), this.deviceCache);
     }
 
-    @Override
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    @Override
-    public void addAvailabilityListener(@NonNull AvailabilityListener<BleTransportContext> listener) {
-        availabilityListeners.add(listener);
-        listener.onAvailabilityChanged(this);
-    }
-
-    @Override
-    public void removeAvailabilityListener(@NonNull AvailabilityListener<BleTransportContext> listener) {
-        availabilityListeners.remove(listener);
-    }
-
     @NonNull
     @VisibleForTesting
     BleDeviceCache createBleDeviceCache() {
@@ -151,11 +127,5 @@ public class BleTransportContext implements TransportContext<BleTransportContext
     @VisibleForTesting
     DiscoveryStrategy createDiscoveryStrategy(@NonNull RuntimeConfiguration runtimeConfiguration) {
         return new BleDiscoveryStrategy(runtimeConfiguration.getContext(), deviceCache, shnCentral.getShnDeviceScanner());
-    }
-
-    private void notifyAvailabilityListeners() {
-        for (AvailabilityListener<BleTransportContext> listener : availabilityListeners) {
-            listener.onAvailabilityChanged(this);
-        }
     }
 }

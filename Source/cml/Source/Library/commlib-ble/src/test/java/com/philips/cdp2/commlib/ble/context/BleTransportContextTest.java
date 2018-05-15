@@ -15,7 +15,6 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
-import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
@@ -61,9 +60,6 @@ public class BleTransportContextTest {
 
     @Mock
     private DiscoveryStrategy discoveryStrategyMock;
-
-    @Mock
-    private AvailabilityListener<BleTransportContext> availabilityListenerMock;
 
     @Captor
     private ArgumentCaptor<SHNCentralListener> shnCentralListenerArgumentCaptor;
@@ -117,15 +113,6 @@ public class BleTransportContextTest {
         shnCentralListenerArgumentCaptor.getValue().onStateUpdated(shnCentralMock);
 
         verify(discoveryStrategyMock, times(1)).clearDiscoveredNetworkNodes();
-    }
-
-    @Test
-    public void givenBleTransportContextIsConstructed_whenAddingAvailabilityListener_thenNotifyListenerOfCurrentAvailability() {
-        constructBleTransportContext();
-
-        bleTransportContext.addAvailabilityListener(availabilityListenerMock);
-
-        verify(availabilityListenerMock, times(1)).onAvailabilityChanged(bleTransportContext);
     }
 
     private void constructBleTransportContext() {
