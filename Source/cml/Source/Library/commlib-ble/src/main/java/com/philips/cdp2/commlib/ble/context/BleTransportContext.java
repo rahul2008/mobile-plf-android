@@ -48,7 +48,7 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         public void onStateUpdated(@NonNull SHNCentral shnCentral) {
             isAvailable = shnCentral.isBluetoothAdapterEnabled();
             if (!isAvailable) {
-                deviceCache.clear();
+                discoveryStrategy.clearDiscoveredNetworkNodes();
             }
             notifyAvailabilityListeners();
         }
@@ -88,7 +88,7 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         shnCentral.registerShnCentralListener(shnCentralListener);
 
         deviceCache = createBleDeviceCache();
-        discoveryStrategy = new BleDiscoveryStrategy(runtimeConfiguration.getContext(), deviceCache, shnCentral.getShnDeviceScanner());
+        discoveryStrategy = createDiscoveryStrategy(runtimeConfiguration);
         isAvailable = shnCentral.isBluetoothAdapterEnabled();
     }
 
@@ -145,6 +145,12 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 
         return builder.create();
+    }
+
+    @NonNull
+    @VisibleForTesting
+    DiscoveryStrategy createDiscoveryStrategy(@NonNull RuntimeConfiguration runtimeConfiguration) {
+        return new BleDiscoveryStrategy(runtimeConfiguration.getContext(), deviceCache, shnCentral.getShnDeviceScanner());
     }
 
     private void notifyAvailabilityListeners() {
