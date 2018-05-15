@@ -74,9 +74,6 @@ public class SHNDeviceImplTest {
     private Context mockedContext;
 
     @Mock
-    private Timer timerMock;
-
-    @Mock
     private BTGatt mockedBTGatt;
 
     @Mock
@@ -107,6 +104,7 @@ public class SHNDeviceImplTest {
     private MockedHandler mockedUserHandler;
     private BTGatt.BTGattCallback btGattCallback;
     private SHNCentral.SHNBondStatusListener bondStatusListener;
+    private SHNCentral.SHNCentralListener centralStateListener;
     private List<BluetoothGattService> discoveredServices;
     private List<BluetoothGattCharacteristic> discoveredCharacteristics;
     private SHNService.State mockedServiceState;
@@ -164,6 +162,7 @@ public class SHNDeviceImplTest {
 
         doReturn(NAME_STRING).when(mockedBTDevice).getName();
         doReturn(ADDRESS_STRING).when(mockedBTDevice).getAddress();
+
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -172,7 +171,15 @@ public class SHNDeviceImplTest {
             }
         }).when(mockedSHNCentral).registerBondStatusListenerForAddress(isA(SHNCentral.SHNBondStatusListener.class), anyString());
 
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, false);
+        doAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                centralStateListener = (SHNCentral.SHNCentralListener) invocation.getArguments()[0];
+                return null;
+            }
+        }).when(mockedSHNCentral).registerShnCentralListener(isA(SHNCentral.SHNCentralListener.class));
+
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.NONE);
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
         shnDevice.registerDiscoveryListener(mockedDiscoveryListener);
         shnDevice.registerService(mockedSHNService);
@@ -736,7 +743,7 @@ public class SHNDeviceImplTest {
     // Device that requires bonding
     @Test
     public void whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting() {
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, true);
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.PERIPHERAL);
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
 
         shnDevice.connect();
@@ -1212,7 +1219,7 @@ public class SHNDeviceImplTest {
     @Test
     public void whenDeviceHasNoDiscoveryListenerItNeverCalls_onServiceDiscovered() throws Exception {
         // Creating new SHNDeviceImpl => will have no DiscoveryListener set
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, true);
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.PERIPHERAL);
         connectTillGATTServicesDiscovered();
         verify(mockedDiscoveryListener, never()).onServiceDiscovered(any(UUID.class), any(SHNService.class));
     }
@@ -1226,7 +1233,7 @@ public class SHNDeviceImplTest {
     @Test
     public void whenDeviceHasNoDiscoveryListenerItNeverCalls_onCharacteristicDiscovered() throws Exception {
         // Creating new SHNDeviceImpl => will have no DiscoveryListener set
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, true);
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.PERIPHERAL);
 
         shnDevice.onCharacteristicDiscovered(MOCK_UUID, MOCK_BYTES, mockedSHNCharacteristic);
         verify(mockedDiscoveryListener, never()).onCharacteristicDiscovered(MOCK_UUID, MOCK_BYTES, mockedSHNCharacteristic);
@@ -1260,6 +1267,12 @@ public class SHNDeviceImplTest {
             }
         }).when(mockedSHNService).disconnectFromBLELayer();
         btGattCallback.onConnectionStateChange(mockedBTGatt, 0 /* don't care */, BluetoothProfile.STATE_DISCONNECTED);
+    }
+
+    @Test
+    public void itRegistersItselfForCentraleStateUpdates() throws Exception {
+
+        assertTrue(centralStateListener != null);
     }
 
     private class StateRecorder implements Answer<Void> {
