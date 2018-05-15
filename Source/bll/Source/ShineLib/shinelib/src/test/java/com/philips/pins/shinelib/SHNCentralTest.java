@@ -177,7 +177,8 @@ public class SHNCentralTest extends RobolectricTest {
 
         verify(listenerMock, never()).onStateUpdated(any(SHNCentral.class));
 
-        verify(mockedUserHandler.getMock()).post(isA(Runnable.class));
+        verify(mockedUserHandler.getMock(), times(2)).post(isA(Runnable.class));
+        mockedUserHandler.executeFirstPostedExecution();
         mockedUserHandler.executeFirstPostedExecution();
 
         verify(listenerMock).onStateUpdated(isA(SHNCentral.class));
