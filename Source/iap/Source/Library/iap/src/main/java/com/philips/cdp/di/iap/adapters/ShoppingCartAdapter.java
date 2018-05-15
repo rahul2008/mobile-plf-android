@@ -34,8 +34,6 @@ import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
 
-import static com.philips.cdp.di.iap.R.id.delivery_via_ups;
-
 public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_ITEM = 1;
@@ -377,6 +375,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mDeliveryTitle;
         LinearLayout mPriceContainer;
         RelativeLayout mDeliveryUPSParcelContainer;
+        RelativeLayout mPromotionsContainer;
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -385,13 +384,14 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mVatInclusiveValue = itemView.findViewById(R.id.vat_inclusive);
             mTotalItems = itemView.findViewById(R.id.total_label);
             mTotalCost = itemView.findViewById(R.id.total_cost_val);
-            mDeliveryVia = itemView.findViewById(delivery_via_ups);
+            mDeliveryVia = itemView.findViewById(R.id.delivery_via_ups);
             mDeliveryUpsVal = itemView.findViewById(R.id.delivery_ups_val);
             mExtraOption = itemView.findViewById(R.id.extra_option);
             mEditIcon = itemView.findViewById(R.id.edit_icon);
             mDeliveryTitle = itemView.findViewById(R.id.delivery_ups_title);
             mPriceContainer = itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = itemView.findViewById(R.id.delivery_ups_parcel_container);
+            mPromotionsContainer = itemView.findViewById(R.id.promotions_container);
         }
     }
 

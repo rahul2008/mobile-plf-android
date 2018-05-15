@@ -14,15 +14,23 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/extra_option"
-            style="@style/iapCentralesansBookFont"
+            style="@style/iap_list_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/border16_margin_left_right"
             android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingTop="@dimen/border16_margin_left_right"
-            android:textColor="?attr/uidContentItemTertiaryNormalIconColor"
-            android:textSize="@dimen/title"
-            android:text="@string/iap_extra_option"/>
+            android:paddingRight="@dimen/border16_margin_left_right"
+            android:text="@string/iap_extra_option"
+           />
+
+        <RelativeLayout
+            android:id="@+id/promotions_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right"
+            >
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/delivery_ups_parcel_container"
@@ -69,15 +77,12 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/cart_Summary"
-            style="@style/iapCentralesansBookFont"
+            style="@style/iap_list_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/border16_margin_left_right"
             android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingTop="@dimen/border16_margin_left_right"
-            android:textColor="?attr/uidContentItemTertiaryNormalIconColor"
-            android:textSize="@dimen/title"
-            android:text="@string/iap_cart_summary"/>
+            android:paddingRight="@dimen/border16_margin_left_right"
+            android:text="@string/iap_cart_summary" />
 
         <LinearLayout
             android:id="@+id/price_container"
