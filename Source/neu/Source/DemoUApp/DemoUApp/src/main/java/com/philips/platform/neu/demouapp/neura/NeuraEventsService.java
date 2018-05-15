@@ -1,6 +1,7 @@
 package com.philips.platform.neu.demouapp.neura;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -19,7 +20,7 @@ import com.philips.platform.neu.demouapp.R;
 import java.util.Map;
 
 public class NeuraEventsService extends FirebaseMessagingService {
-    String CHANNEL_ID = "my_channel_02";
+
     String eventText;
     @Override
     public void onMessageReceived(RemoteMessage message) {
@@ -45,8 +46,20 @@ public class NeuraEventsService extends FirebaseMessagingService {
     }
 
     private void generateNotification(Context context, String eventText) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,CHANNEL_ID);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        String channelId = "nuera_channel_id";
+        String channelName = "neura_channel_name";
+        int importance = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            importance = NotificationManager.IMPORTANCE_HIGH;
+        }
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,channelId);
         String appName = "Neura";
         int stringId = context.getApplicationInfo().labelRes;
         if (stringId > 0)
@@ -61,7 +74,7 @@ public class NeuraEventsService extends FirebaseMessagingService {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(eventText));
         Notification notification = builder.build();
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
         notificationManager.notify((int) System.currentTimeMillis(), notification);
     }
 }
