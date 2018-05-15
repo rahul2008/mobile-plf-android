@@ -15,33 +15,31 @@ import com.philips.platform.pif.chi.datamodel.ConsentStates;
  * @since 18.2.0
  */
 
-public interface ConsentCacheInterface {
+interface ConsentCacheInterface {
     /**
-     * Store status of consentDefinition in cache
+     *  Get status of consent from cache.
      *
-     * @param consentType consent type whos status must be cached
-     * @param callback    callback when request is pro .
+     * @param consentType consent type whose status must be fetched from the cache
      * @since 18.2.0
      */
-    void fetchConsentTypeState(final String consentType, final FetchConsentCacheCallback callback);
+    CachedConsentStatus fetchConsentTypeState(final String consentType);
 
     /**
-     * Get status of consent from cache.
+     *  Store status of consentDefinition in cache
      *
-     * @param consentType consent type whos status must be fetched
+     * @param consentType consent type whose status must be cached
      * @param status
-     * @param callback    callback when consent is fetched successfully
+     * @param version
+     * @since 18.2.0
      */
-    void storeConsentTypeState(final String consentType, ConsentStates status, int version, PostConsentTypeCallback callback);
+    void storeConsentTypeState(final String consentType, ConsentStates status, int version);
 
-
-    public interface FetchConsentCacheCallback {
-        void onGetConsentsSuccess(CachedConsentStatus consentStatus);
-
-        void onGetConsentsFailed(ConsentError error);
-    }
-
-
+    /**
+     * Clear cache
+     *
+     * @since 18.2.0
+     */
+    void clearCache();
 }
 
 
