@@ -64,7 +64,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagging.trackPage;
 import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_FACEBOOK;
 import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_WECHAT;
 
-public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener, FacebookCallback<LoginResult>, GraphRequest.GraphJSONObjectCallback {
+public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener {
 
     private String TAG = HomePresenter.class.getSimpleName();
 
@@ -80,21 +80,13 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     @Inject
     ServiceDiscoveryWrapper serviceDiscoveryWrapper;
 
-
     @Inject
     User user;
 
     private HomeContract homeContract;
 
-    private final CallbackManager mCallbackManager;
-    private static List<String> FACEBOOK_PERMISSION_LIST;
 
-    static {
-        FACEBOOK_PERMISSION_LIST = Arrays.asList("public_profile", "email");
-    }
-
-
-    HomePresenter(HomeContract homeContract,CallbackManager mCallbackManager) {
+    HomePresenter(HomeContract homeContract, CallbackManager mCallbackManager) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.homeContract = homeContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
@@ -102,7 +94,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
-        this.mCallbackManager = mCallbackManager;
     }
 
     void cleanUp() {
@@ -124,7 +115,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-     void updateHomeControls() {
+    void updateHomeControls() {
         if (networkUtility.isNetworkAvailable()) {
             homeContract.enableControlsOnNetworkConnectionArraival();
         } else {
@@ -132,7 +123,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         }
     }
 
-     void configureCountrySelection() {
+    void configureCountrySelection() {
         String mShowCountrySelection = appConfiguration.getShowCountrySelection();
         RLog.i(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
         if (mShowCountrySelection != null) {
@@ -145,7 +136,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-     void initServiceDiscovery() {
+    void initServiceDiscovery() {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
@@ -209,7 +200,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         return isWeChatAppRegistered;
     }
 
-     void startWeChatAuthentication() {
+    void startWeChatAuthentication() {
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "123456";
@@ -217,7 +208,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-     void handleWeChatCode(String pWeChatCode) {
+    void handleWeChatCode(String pWeChatCode) {
         RLog.i("WECHAT", "WeChat Code: " + pWeChatCode);
         WeChatAuthenticator weChatAuthenticator = new WeChatAuthenticator();
         weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, pWeChatCode,
@@ -349,59 +340,14 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         }
     }
 
-    @Override
-    public void onSuccess(LoginResult loginResult) {
-        requestUserProfile(loginResult);
-        RLog.i(TAG,"onSuccess loginResult");
-    }
-
-    @Override
-    public void onCancel() {
-        RLog.i(TAG,"onCancel");
-        homeContract.doHideProgressDialog();
-    }
-
-    @Override
-    public void onError(FacebookException error) {
-        if (error instanceof FacebookAuthorizationException) {
-            if (AccessToken.getCurrentAccessToken() != null) {
-                LoginManager.getInstance().logOut();
-            }
-        }
-        RLog.i(TAG, error.getMessage());
-        homeContract.doHideProgressDialog();
-    }
-
-    @Override
-    public void onCompleted(JSONObject object, GraphResponse response) {
-        if (response.getError() != null) {
-            homeContract.doHideProgressDialog();
-            RLog.i(TAG,response.getError().getErrorMessage());
-        } else {
-            try {
-                if(response.getJSONObject()!=null) {
-                    homeContract.onFaceBookEmailReceived(response.getJSONObject().get("email").toString());
-                    startAccessTokenAuthForFacebook(AccessToken.getCurrentAccessToken().getToken(), null);
-                }
-            } catch (JSONException e) {
-                RLog.i(TAG,e.getMessage());
-                homeContract.doHideProgressDialog();
-            }
-        }
-    }
 
     void registerFaceBookCallBack() {
-        RLog.i(TAG,"registerFaceBookCallBack");
-        LoginManager.getInstance().registerCallback(mCallbackManager, this);
+        RLog.i(TAG, "registerFaceBookCallBack");
+        homeContract.getURFaceBookUtility().registerFaceBookCallBack();
     }
 
-    void startFaceBookLogIn() {
-        RLog.i(TAG,"startFaceBookLogIn");
-        //Making sure to logout Facebook Instance before logging in
-        if (AccessToken.getCurrentAccessToken() != null) {
-            LoginManager.getInstance().logOut();
-        }
-        LoginManager.getInstance().logInWithReadPermissions(homeContract.getHomeFragment(),FACEBOOK_PERMISSION_LIST);
+    public void startAccessTokenAuthForFacebook() {
+        homeContract.getURFaceBookUtility().startAccessTokenAuthForFacebook(user, homeContract.getActivityContext(), this, AccessToken.getCurrentAccessToken().getToken(), null);
     }
 
     public enum FLOWDELIGATE {
@@ -457,11 +403,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     void startSocialLogin() {
         user.loginUserUsingSocialProvider(homeContract.getActivityContext(), provider, this, null);
-    }
-
-    void startAccessTokenAuthForFacebook(String accessToken, String mergeToken) {
-        user.startTokenAuthForNativeProvider(homeContract.getActivityContext(),
-                provider, HomePresenter.this, mergeToken, accessToken);
     }
 
     void trackSocialProviderPage() {
@@ -567,12 +508,5 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 });
     }
 
-    void requestUserProfile(LoginResult loginResult) {
-        GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), this);
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,email");
-        graphRequest.setParameters(parameters);
-        graphRequest.executeAsync();
-    }
 
 }

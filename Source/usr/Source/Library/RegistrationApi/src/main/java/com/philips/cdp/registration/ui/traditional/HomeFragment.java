@@ -24,7 +24,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,16 +34,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookAuthorizationException;
-import com.facebook.FacebookException;
-import com.facebook.FacebookRequestError;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
-import com.janrain.android.utils.LogUtils;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
@@ -60,12 +50,11 @@ import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.URFaceBookUtility;
 import com.philips.platform.uid.view.widget.Label;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -141,11 +130,13 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private static final int COUNTRY_SELECTION_REQUEST_CODE = 100;
     private String mFacebookEmail;
     private CallbackManager mCallbackManager;
+    private URFaceBookUtility mURFaceBookUtility;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(TAG, "OnCreateView : is Called");
-        mCallbackManager = CallbackManager.Factory.create();
+        mURFaceBookUtility = new URFaceBookUtility(this);
+        mCallbackManager = mURFaceBookUtility.getCallBackManager();
         homePresenter = new HomePresenter(this,mCallbackManager);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
@@ -532,6 +523,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     @Override
+    public URFaceBookUtility getURFaceBookUtility() {
+        return mURFaceBookUtility;
+    }
+
+    @Override
     public void initFacebookLogIn() {
         homePresenter.registerFaceBookCallBack();
     }
@@ -539,16 +535,27 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void onFaceBookEmailReceived(String email) {
         mFacebookEmail = email;
+        startAccessTokenAuthForFacebook();
     }
 
     @Override
     public void startFaceBookLogin() {
-        homePresenter.startFaceBookLogIn();
+        mURFaceBookUtility.startFaceBookLogIn();
     }
 
     @Override
     public void doHideProgressDialog() {
         hideProgressDialog();
+    }
+
+    @Override
+    public void startAccessTokenAuthForFacebook() {
+       homePresenter.startAccessTokenAuthForFacebook();
+    }
+
+    @Override
+    public CallbackManager getCallBackManager() {
+        return mCallbackManager;
     }
 
     private void enableSocialProviders(boolean enableState) {

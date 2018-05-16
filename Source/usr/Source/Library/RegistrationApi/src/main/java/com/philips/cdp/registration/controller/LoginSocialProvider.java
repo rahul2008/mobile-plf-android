@@ -11,7 +11,9 @@ package com.philips.cdp.registration.controller;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
@@ -150,7 +152,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
     private String mProviderName;
 
     public void loginSocial(final Activity activity, final String providerName, final String mergeToken) {
-        RLog.d(TAG,"loginSocial : is called");
+        RLog.d(TAG, "loginSocial : is called");
         mActivity = activity;
         mProviderName = providerName;
         mMergeToken = mergeToken;
