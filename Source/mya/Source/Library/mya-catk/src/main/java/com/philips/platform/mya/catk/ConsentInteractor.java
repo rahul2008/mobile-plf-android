@@ -21,8 +21,6 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
-import org.joda.time.DateTime;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -51,7 +49,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         if(consentStatus != null && (consentStatus.getExpires().isAfterNow() || !isInternetAvailable())) {
             callback.onGetConsentsSuccess(new ConsentStatus(consentStatus.getConsentState(), consentStatus.getVersion()));
         }else {
-            fetchConsentFromBackend(consentType, callback);
+            fetchConsentFromBackendAndUpdateCache(consentType, callback);
         }
     }
 
@@ -75,7 +73,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         return new ConsentDTO(locale, status, consentType, version);
     }
 
-    private void fetchConsentFromBackend(String consentType, FetchConsentTypeStateCallback callback) {
+    private void fetchConsentFromBackendAndUpdateCache(String consentType, FetchConsentTypeStateCallback callback) {
         if (isInternetAvailable()) {
             consentsClient.getStatusForConsentType(consentType, new GetConsentForTypeResponseListener(callback));
         } else {
@@ -94,6 +92,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         public void onResponseSuccessConsent(List<ConsentDTO> responseData) {
             if (responseData != null && !responseData.isEmpty()) {
                 ConsentDTO consentDTO = responseData.get(0);
+                consentCacheInteractor.storeConsentTypeState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion());
                 callback.onGetConsentsSuccess(new ConsentStatus(consentDTO.getStatus(), consentDTO.getVersion()));
             } else {
                 callback.onGetConsentsSuccess(null);

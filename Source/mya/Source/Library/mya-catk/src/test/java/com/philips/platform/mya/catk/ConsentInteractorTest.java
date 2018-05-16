@@ -179,6 +179,20 @@ public class ConsentInteractorTest {
 
         thenConsentStatusReturnedInCallbackIs("active");
     }
+
+    @Test
+    public void fetchConsentTypeState_StoresIntoCache_IfFetchingFromBackend() {
+        whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
+
+        thenConsentCacheFetchIsCalledFor(MOMENT_CONSENT);
+
+        thenGetStatusForIsCalledFor(MOMENT_CONSENT);
+        andResponseFromCatkIs(new ConsentDTO("local", ConsentStates.active, MOMENT_CONSENT, 1));
+
+        thenConsentStatusReturnedInCallbackIs("active");
+        thenConsentCacheStoreIsCalledFor(MOMENT_CONSENT);
+    }
+
     @Test
     public void fetchConsentTypeState_returnsFromCacheEvenIfItsExpired_IfOffline() {
         givenInternetIs(UNREACHABLE);
@@ -189,6 +203,14 @@ public class ConsentInteractorTest {
         thenGetStatusForConsentTypeIsNotCalled();
 
         thenConsentStatusReturnedInCallbackIs("rejected");
+    }
+
+    @Test
+    public void fetchConsentTypeState_DoesNotStoreToCache_IfBackendFetchThrowsError() {
+        whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
+        andCatkResponseFailsWithError(new ConsentNetworkError(new VolleyError()));
+        thenConsentFailedIsReported();
+        thenConsentCacheStoreIsNotCalled();
     }
 
 
