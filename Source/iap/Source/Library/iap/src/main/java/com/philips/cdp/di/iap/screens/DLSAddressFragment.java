@@ -264,10 +264,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 if (CartModelContainer.getInstance().isAddessStateVisible() && CartModelContainer.getInstance().getRegionIsoCode() != null) {
                     updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
                 }
-                mBtnContinue.setEnabled(true);
+
                 if (billingFragment.isVisible() && billingAddressFields!=null) {
                     CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
                     addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG);
+                    mBtnContinue.setEnabled(true);
                 } else {
                     updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
                     mAddressController.updateAddress(updateAddressPayload);
