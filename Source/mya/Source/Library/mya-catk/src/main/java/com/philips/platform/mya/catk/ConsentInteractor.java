@@ -51,11 +51,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         if(consentStatus != null && (consentStatus.getExpires().isAfterNow() || !isInternetAvailable())) {
             callback.onGetConsentsSuccess(new ConsentStatus(consentStatus.getConsentState(), consentStatus.getVersion()));
         }else {
-            if (isInternetAvailable()) {
-                consentsClient.getStatusForConsentType(consentType, new GetConsentForTypeResponseListener(callback));
-            } else {
-                callback.onGetConsentsFailed(new ConsentError("Please check your internet connection", ConsentError.CONSENT_ERROR_NO_CONNECTION));
-            }
+            fetchConsentFromBackend(consentType, callback);
         }
     }
 
@@ -77,6 +73,14 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     private ConsentDTO createConsents(String consentType, ConsentStates status, int version) {
         String locale = consentsClient.getAppInfra().getInternationalization().getBCP47UILocale();
         return new ConsentDTO(locale, status, consentType, version);
+    }
+
+    private void fetchConsentFromBackend(String consentType, FetchConsentTypeStateCallback callback) {
+        if (isInternetAvailable()) {
+            consentsClient.getStatusForConsentType(consentType, new GetConsentForTypeResponseListener(callback));
+        } else {
+            callback.onGetConsentsFailed(new ConsentError("Please check your internet connection", ConsentError.CONSENT_ERROR_NO_CONNECTION));
+        }
     }
 
     class GetConsentForTypeResponseListener implements ConsentResponseListener {
