@@ -779,7 +779,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void startWeChatAuthentication() {
         hideProgressDialog();
-        hideProgressDialog();
         homePresenter.startWeChatAuthentication();
     }
 
