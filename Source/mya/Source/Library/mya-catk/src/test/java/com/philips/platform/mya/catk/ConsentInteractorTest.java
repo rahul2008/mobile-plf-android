@@ -42,7 +42,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -78,7 +77,7 @@ public class ConsentInteractorTest {
     private ConsentCacheInteractor consentCacheInteractorMock;
 
     private static final String CONSENT_TYPE = "moment";
-    private static final CachedConsentStatus CACHED_CONSENT_STATUS = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime());
+    private static final CachedConsentStatus CACHED_REJECTED_STATUS = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime().plusHours(1));
     private ConsentInteractor interactor;
     private RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
 
@@ -133,7 +132,7 @@ public class ConsentInteractorTest {
     @Test
     public void itShouldReportConsentSuccessWhenNonEmptyResponse() {
         whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
-        andResponseIs(new ConsentDTO("local", ConsentStates.active, "type", 0));
+        andResponseFromCatkIs(new ConsentDTO("local", ConsentStates.active, "type", 0));
 
         thenConsentRetrievedIsReported();
         andConsentListContainsState("active");
@@ -157,12 +156,26 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeState_ReturnsCachedConsent() {
-        givenConsentCacheFetchReturns(CACHED_CONSENT_STATUS);
+        givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS);
         whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
-        thenConsentRetrievedIsReported();
-        thenConsentCacheFetchIsCalled();
-        andConsentListContainsState("rejected");
         thenGetStatusForConsentTypeIsNotCalled();
+        thenConsentCacheFetchIsCalled();
+        thenConsentRetrievedIsReported();
+        andConsentListContainsState("rejected");
+    }
+
+    @Test
+    public void fetchConsentTypeState_CallsBackendFetch_IfCacheIsExpired() {
+        givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS);
+        whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
+
+        thenConsentCacheFetchIsCalled();
+
+        thenGetStatusForConsentTypeIsCalled();
+        andResponseFromCatkIs(new ConsentDTO("local", ConsentStates.active, "type", 0));
+
+        thenConsentRetrievedIsReported();
+        andConsentListContainsState("active");
     }
 
     private void givenConsentCacheFetchReturns(CachedConsentStatus cachedConsentStatus) {
@@ -239,7 +252,7 @@ public class ConsentInteractorTest {
         verify(fetchConsentTypeStateCallback).onGetConsentsFailed(any(ConsentError.class));
     }
 
-    private void andResponseIs(ConsentDTO... response) {
+    private void andResponseFromCatkIs(ConsentDTO... response) {
         verify(mockCatk).getStatusForConsentType(eq(CONSENT_TYPE), captorConsentDetails.capture());
         captorConsentDetails.getValue().onResponseSuccessConsent(Arrays.asList(response));
     }

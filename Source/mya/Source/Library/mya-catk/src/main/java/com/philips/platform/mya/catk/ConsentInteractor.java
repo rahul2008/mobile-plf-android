@@ -21,6 +21,8 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,7 +48,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
         CachedConsentStatus consentStatus = consentCacheInteractor.fetchConsentTypeState(consentType);
-        if(consentStatus != null) {
+        if(consentStatus != null && consentStatus.getExpires().isAfterNow()) {
             callback.onGetConsentsSuccess(new ConsentStatus(consentStatus.getConsentState(), consentStatus.getVersion()));
         }else {
             if (isInternetAvailable()) {
