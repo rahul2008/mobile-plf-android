@@ -1,28 +1,35 @@
 package com.philips.cdp.registration.app.tagging;
 
-import android.util.*;
+import android.util.Base64;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.logging.*;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
-import org.robolectric.annotation.*;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import java.nio.charset.*;
-import java.security.*;
-import java.security.spec.*;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.PrivateKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 
-import javax.crypto.*;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
-@RunWith(CustomRobolectricRunner.class)
-@org.robolectric.annotation.Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(MockitoJUnitRunner.class)
 public class EncryptionTest extends TestCase {
     @Mock
     LoggingInterface mockLoggingInterface;

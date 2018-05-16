@@ -2,8 +2,6 @@ package com.philips.cdp.registration.dao;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
@@ -13,25 +11,23 @@ import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDetailsListener;
 
+import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-
-@RunWith(CustomRobolectricRunner.class)
-@org.robolectric.annotation.Config(constants = BuildConfig.class, sdk = 25)
-public class UserDataProviderTest {
+@RunWith(MockitoJUnitRunner.class)
+public class UserDataProviderTest extends TestCase{
 
     @Mock
     Context contextMock;
