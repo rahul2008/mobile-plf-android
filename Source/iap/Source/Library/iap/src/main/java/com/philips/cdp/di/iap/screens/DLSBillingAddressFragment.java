@@ -494,6 +494,15 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         disableFocus();
     }
 
+    void enableAllFields(){
+        setFieldsEnabled(true);
+        disableFocus();
+    }
+
+    private void enableFocus() {
+        setFieldsFocusable(true);
+    }
+
     private void disableFocus() {
         setFieldsFocusable(false);
     }
