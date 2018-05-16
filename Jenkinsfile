@@ -4,7 +4,7 @@ BranchName = env.BRANCH_NAME
 String cron_string = BranchName == "develop" ? "H H(20-22) * * *" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
-def nodes = 'android && device'
+def nodes = '27.0.2 && device'
 if (BranchName == "develop") {
     nodes = nodes + " && TICS"
 }
