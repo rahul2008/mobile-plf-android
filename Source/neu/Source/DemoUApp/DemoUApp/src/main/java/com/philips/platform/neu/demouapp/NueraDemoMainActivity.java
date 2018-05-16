@@ -32,6 +32,9 @@ import com.neura.resources.user.UserDetailsCallbacks;
 import com.neura.sdk.service.SimulateEventCallBack;
 import com.neura.sdk.service.SubscriptionRequestCallbacks;
 import com.neura.sdk.util.NeuraUtil;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.neu.demouapp.neura.NeuraManager;
 
 import java.util.ArrayList;
@@ -44,6 +47,7 @@ public class NueraDemoMainActivity extends AppCompatActivity {
     Button connect, disconnect, simulate, subscribe;
     RadioGroup radioGroup;
     int counter;
+    AppInfraInterface appInfra;
     android.app.FragmentTransaction transaction;
     ProgressBar progressBar;
     ListView listView;
@@ -66,8 +70,8 @@ public class NueraDemoMainActivity extends AppCompatActivity {
             FirebaseApp.initializeApp(this, FirebaseOptions.fromResource(this));
         }
         NeuraManager.getInstance().initNeuraConnection(getApplicationContext());
-
         requestLocationPermission();
+        appInfra = createAppInfraInstance();
         listView = findViewById(R.id.ListView);
         displayList();
 
@@ -85,8 +89,12 @@ public class NueraDemoMainActivity extends AppCompatActivity {
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                NeuraManager.authenticateAnonymously(silentStateListener);
+                if(getRestClient().isInternetReachable()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    NeuraManager.authenticateAnonymously(silentStateListener);
+                }else{
+                    Toast.makeText(getApplicationContext(),"No Internet, please connect to a proper network and try again",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -382,4 +390,10 @@ public class NueraDemoMainActivity extends AppCompatActivity {
                             NeuraUtil.errorCodeToString(errorCode), Toast.LENGTH_SHORT).show();
         }
     };
+    protected AppInfra createAppInfraInstance() {
+        return new AppInfra.Builder().build(getApplicationContext());
+    }
+    private RestInterface getRestClient() {
+        return appInfra.getRestClient();
+    }
 }
