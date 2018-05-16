@@ -30,7 +30,7 @@ public class AppInfraTrustManager implements X509TrustManager {
         if (chain == null) {
             throw new IllegalArgumentException(CertificateExceptions.NULL_CHAIN.getText());
         }
-        if (!(chain.length > 0)) {
+        if (chain.length <= 0) {
             throw new IllegalArgumentException(CertificateExceptions.EMPTY_CHAIN.getText());
         }
         checkForUserInstalledCertificates(chain);
@@ -74,6 +74,7 @@ public class AppInfraTrustManager implements X509TrustManager {
                         ((X509TrustManager) trustManager).checkServerTrusted(
                                 chain, authType);
                         serverTrusted = true;
+                        break;
                     } catch (CertificateException e){
                         exceptionMessage = e.getMessage();
                     }
