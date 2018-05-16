@@ -48,7 +48,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
         CachedConsentStatus consentStatus = consentCacheInteractor.fetchConsentTypeState(consentType);
-        if(consentStatus != null && consentStatus.getExpires().isAfterNow()) {
+        if(consentStatus != null && (consentStatus.getExpires().isAfterNow() || !isInternetAvailable())) {
             callback.onGetConsentsSuccess(new ConsentStatus(consentStatus.getConsentState(), consentStatus.getVersion()));
         }else {
             if (isInternetAvailable()) {

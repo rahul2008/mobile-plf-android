@@ -46,6 +46,10 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConsentInteractorTest {
+
+    private static final boolean REACHABLE = true;
+    private static final boolean UNREACHABLE = false;
+
     @Mock
     private FetchConsentTypeStateCallback fetchConsentTypeStateCallback;
 
@@ -97,28 +101,28 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeState_whenOnilne() {
-        whenAppIsOnline();
+        givenInternetIs(REACHABLE);
         whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
         thenGetStatusForConsentTypeIsCalled();
     }
 
     @Test
     public void storeConsentTypeState_whenOnline() {
-        whenAppIsOnline();
+        givenInternetIs(REACHABLE);
         whenStoreConsentTypeStateIsCalled(CONSENT_TYPE, true);
         thenCreateConsentIsCalledOnTheCatk();
     }
 
     @Test
     public void fetchConsentTypeState_whenOffline() {
-        whenAppIsOffline();
+        givenInternetIs(UNREACHABLE);
         whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
         thenOnGetConsentsFailedIsCalledForFetchCallback();
     }
 
     @Test
     public void storeConsentTypeState_whenOffline() {
-        whenAppIsOffline();
+        givenInternetIs(UNREACHABLE);
         whenStoreConsentTypeStateIsCalled(CONSENT_TYPE, true);
         thenOnGetConsentsFailedIsCalledForPostCallback();
     }
@@ -141,7 +145,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void storeConsentTypeState_CallsCacheConsentOnSuccess() {
-        whenAppIsOnline();
+        givenInternetIs(REACHABLE);
         whenStoreConsentTypeStateIsCalled(CONSENT_TYPE, true);
         whenBackendStoreConsentReturnsSuccess();
         thenConsentCacheStoreIsCalled();
@@ -149,7 +153,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void storeConsentTypeState_DoesNotCallCacheConsentOnFailure() {
-        whenAppIsOnline();
+        givenInternetIs(REACHABLE);
         whenStoreConsentTypeStateIsCalled(CONSENT_TYPE, true);
         whenBackendStoreConsentReturnsFailure();
         thenConsentCacheStoreIsNotCalled();
@@ -178,6 +182,19 @@ public class ConsentInteractorTest {
         thenConsentRetrievedIsReported();
         andConsentListContainsState("active");
     }
+    @Test
+    public void fetchConsentTypeState_returnsFromCacheEvenIfItsExpired_IfOffline() {
+        givenInternetIs(UNREACHABLE);
+        givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS_EXPIRED);
+        whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
+
+        thenConsentCacheFetchIsCalled();
+        thenGetStatusForConsentTypeIsNotCalled();
+
+        thenConsentRetrievedIsReported();
+        andConsentListContainsState("rejected");
+    }
+
 
     private void givenConsentCacheFetchReturns(CachedConsentStatus cachedConsentStatus) {
         when(consentCacheInteractorMock.fetchConsentTypeState(CONSENT_TYPE)).thenReturn(cachedConsentStatus);
@@ -204,12 +221,8 @@ public class ConsentInteractorTest {
     }
 
 
-    private void whenAppIsOnline() {
-        restInterfaceMock.isInternetAvailable = true;
-    }
-
-    private void whenAppIsOffline() {
-        restInterfaceMock.isInternetAvailable = false;
+    private void givenInternetIs(boolean isInternetAvailable) {
+        restInterfaceMock.isInternetAvailable = isInternetAvailable;
     }
 
     private void thenGetStatusForConsentTypeIsCalled() {
