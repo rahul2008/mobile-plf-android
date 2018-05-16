@@ -373,7 +373,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mDeliveryTitle;
         LinearLayout mPriceContainer;
         RelativeLayout mDeliveryUPSParcelContainer;
-        RelativeLayout mPromotionsContainer;
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -389,7 +388,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mDeliveryTitle = itemView.findViewById(R.id.delivery_ups_title);
             mPriceContainer = itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = itemView.findViewById(R.id.delivery_ups_parcel_container);
-            mPromotionsContainer = itemView.findViewById(R.id.promotions_container);
         }
     }
 
