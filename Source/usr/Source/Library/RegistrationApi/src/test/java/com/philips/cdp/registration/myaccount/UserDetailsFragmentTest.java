@@ -23,7 +23,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
 public class UserDetailsFragmentTest {
 
     private UserDetailsFragment myaDetailsFragment;

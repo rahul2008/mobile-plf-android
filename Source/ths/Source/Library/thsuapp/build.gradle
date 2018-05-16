@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'de.mobilej.unmock'
+//apply plugin: 'de.mobilej.unmock'
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
 def coverageSourceDirs = [
@@ -32,7 +32,6 @@ buildscript {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath builddeps.androidapt
         classpath builddeps.bintrayplugin
         classpath builddeps.mobilej
     }
@@ -125,20 +124,20 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
+//            artifact("$projectDir/dependencies.lock") {
+//                classifier = '1stleveldependencies'
+//            }
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -183,7 +182,7 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
-
+        unitTests.includeAndroidResources = true
         unitTests.all {
             // set JVM arguments for the test JVM(s)
             jvmArgs '-noverify'
@@ -194,12 +193,9 @@ android {
         }
     }
 
-    publishNonDefault true
+
 }
 
-unMock {
-    keep "android.os.Bundle"
-}
 
 configurations.all {
     // check for updates every build
@@ -207,68 +203,65 @@ configurations.all {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    androidTestCompile(deps.espresso_core, {
+    androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile deps.support.appcompatv7
-    compile deps.constraintlayout
-    compile deps.support.design
-    testCompile deps.opengl
+    implementation deps.support.appcompatv7
+    implementation deps.constraintlayout
+    implementation deps.support.design
+    testImplementation deps.opengl
 
-    def dp = true
+    def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
-        debugCompile project(path: ':registrationApi', configuration: 'debug')
-        releaseCompile project(path: ':registrationApi', configuration: 'release')
-        debugCompile project(path: ':mya-csw', configuration: 'debug')
-        releaseCompile project(path: ':mya-csw', configuration: 'release')
-        debugCompile project(path: ':mya-catk', configuration: 'debug')
-        releaseCompile project(path: ':mya-catk', configuration: 'release')
+        implementation project(':AppInfra')
+        implementation project(':registrationApi')
+        implementation project(':uAppFwLib')
+        implementation project(':uid')
+        implementation project(':pif')
+        implementation project(':mya-csw')
+        implementation project(':mya-catk')
     } else {
-        compile (philipsdeps.AppInfra) {
+        implementation (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        /*compile (philipsdeps.uid) {
-            exclude group: 'com.android.support'
-        }*/
-        compile (philipsdeps.registrationApi) {
+        implementation (philipsdeps.registrationApi) {
             exclude group: 'com.android.support'
         }
 
-        compile(group: 'com.philips.cdp', name: 'mya-csw', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        implementation(group: 'com.philips.cdp', name: 'mya-csw', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
 
-        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        implementation(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
     }
 
-    compile(deps.americanwell) {
+    implementation(deps.americanwell) {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile deps.support.design
-    compile deps.play_services_maps
-    compile deps.play_services_location
+    implementation deps.support.design
+    implementation deps.play_services_maps
+    implementation deps.play_services_location
+    implementation deps.libphonenumber
+    implementation deps.calligraphy
 
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.assertj
-    testCompile(deps.robolectric) {
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.assertj
+    testImplementation(deps.robolectric) {
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
     }
-    testCompile deps.robolectric_shadows
-    testCompile deps.maven_ant
-    testCompile deps.opengl
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.maven_ant
+    testImplementation deps.opengl
 
-    unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }
 
 

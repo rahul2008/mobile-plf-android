@@ -13,6 +13,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 
 
 buildscript {
@@ -35,9 +36,16 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
     }
 
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
 
 
     defaultConfig {
@@ -66,6 +74,7 @@ android {
         debug {
             debuggable true
             minifyEnabled false
+            testCoverageEnabled=true
         }
 
     }
@@ -98,7 +107,7 @@ android {
         abortOnError false
     }
 
-    publishNonDefault true
+
 }
 
 configurations {
@@ -112,36 +121,47 @@ configurations.all {
 
 dependencies {
     //3rd party
-    compile deps.gson
+    implementation deps.gson
+    implementation deps.support.appcompatv7
+    implementation deps.support.supportv4
+    implementation deps.support.recyclerview
+    implementation deps.support.design
+    implementation deps.calligraphy
+
 
     //Coco
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
-        debugCompile project(path: ':pif', configuration: 'debug')
-        releaseCompile project(path: ':pif', configuration: 'release')
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
-        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
-        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
+        implementation project(':uikitLib')
+        implementation project(':uid')
+        implementation project(':uAppFwLib')
+        implementation project(':AppInfra')
+        implementation project(':registrationApi')
+        implementation project(':mya-csw')
+        implementation project(':mya-catk')
+        implementation project(':pif')
 
     } else {
-        compile philipsdeps.uid
-        compile philipsdeps.AppInfra
-        compile philipsdeps.uAppFwLib
+        implementation philipsdeps.uikitLib
+        implementation philipsdeps.uid
+        implementation (philipsdeps.registrationApi) {
+            exclude group: 'com.android.support', module: 'customtabs'
+        }
+        implementation philipsdeps.mya_csw
+        implementation philipsdeps.mya_chi
+        implementation philipsdeps.mya_catk
     }
 
     // Tests
-    testCompile(deps.robolectric) {
+    testImplementation(deps.robolectric) {
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
     }
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.robolectric_shadows
-    testCompile deps.opengl
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.opengl
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

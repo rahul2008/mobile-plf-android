@@ -63,13 +63,13 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile(deps.espresso_core, {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile deps.support.appcompatv7
-    compile deps.constraintlayout
-    compile deps.support.design
-    testCompile deps.junit
-    compile project(':thsUapp')
+    implementation deps.support.appcompatv7
+    implementation deps.constraintlayout
+    implementation deps.support.design
+    testImplementation deps.junit
+    implementation project(':thsUapp')
 }
