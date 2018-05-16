@@ -1,10 +1,13 @@
 package com.philips.platform.mya.catk;
 
 
+import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.mya.catk.datamodel.CachedConsentStatus;
+import com.philips.platform.mya.catk.injection.CatkComponent;
+import com.philips.platform.mya.catk.mock.CatkComponentMock;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.joda.time.DateTime;
@@ -37,6 +40,9 @@ public class ConsentCacheInteractorTest {
     SecureStorageInterface.SecureStorageError secureStorageError;
 
     @Mock
+    private User userMock;
+
+    @Mock
     private AppConfigurationInterface mockConfigInterface;
 
     private String CONSENT_CACHE_KEY = "CONSENT_CACHE";
@@ -46,8 +52,6 @@ public class ConsentCacheInteractorTest {
     private String CONSENT_TYPE_1 = "consentType1";
     private String CONSENT_TYPE_3 = "consentType3";
     private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, NOW.plusMinutes(10));
-    private String cacheMapWithConsentType3 = "{\"userId\":{\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1}}}";
-    private String activeConsentJsonForType1 = "{\"userId\":{\"consentType1\":{\"consentState\":\"active\",\"version\":1,\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\"}}}";
     private String consentStatusJsonForTwoTypes = "{\"userId\":{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1}}}";
     private ConsentCacheInterface consentCacheInteractor;
     private CachedConsentStatus returnedCachedConsent;
@@ -57,6 +61,10 @@ public class ConsentCacheInteractorTest {
         DateTimeUtils.setCurrentMillisFixed(NOW.getMillis());
         consentCacheInteractor = new ConsentCacheInteractor(appInfra);
         when(appInfra.getSecureStorage()).thenReturn(storageInterface);
+        when(userMock.getHsdpUUID()).thenReturn("userId");
+        CatkComponentMock catkComponentMock = new CatkComponentMock();
+        catkComponentMock.getUser_return = userMock;
+        ConsentsClient.getInstance().setCatkComponent(catkComponentMock);
     }
 
     @Test
@@ -67,7 +75,7 @@ public class ConsentCacheInteractorTest {
 
     @Test
     public void fetchConsentTypeState_VerifyInMemoryCache() {
-        givenSecureStorageReturns(activeConsentJsonForType1);
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenSecureStorageFetchIsCalledOnce();
@@ -75,7 +83,7 @@ public class ConsentCacheInteractorTest {
 
     @Test
     public void fetchConsentTypeState_ConsentGiven() {
-        givenSecureStorageReturns(activeConsentJsonForType1);
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenConsentStatusReturnedIs(consentTypeStatus1);
     }
@@ -89,29 +97,36 @@ public class ConsentCacheInteractorTest {
 
     @Test
     public void store_VerifyExpiryTime() {
-        givenExpiryTimeInMins(1);
+        givenExpiryTimeConfiguredInAppConfigIs(1);
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
-        thenConsentIsStoredInSecureStorage(cacheMapWithConsentType3);
+        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_3, 10));
     }
 
     @Test
     public void fetchConsentTypeState_VerifyStoreIsNotOverwrittenAfterPost() {
-        givenExpiryTimeInMins(10);
-        givenSecureStorageReturns(activeConsentJsonForType1);
+        givenExpiryTimeConfiguredInAppConfigIs(10);
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10));
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.rejected, 1);
         thenConsentCacheIsFetchedFromSecureStorage();
         thenConsentIsStoredInSecureStorage(consentStatusJsonForTwoTypes);
+    }
+
+    @Test
+    public void fetchConsent_ShouldNotReturnAnotherUserData() {
+        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 10));
+        whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
+        thenConsentCacheIsFetchedFromSecureStorage();
+        thenNullConsentStatusIsreturned();
     }
 
     private void givenSecureStorageReturns(String cacheMapTest) {
         when(storageInterface.fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull())).thenReturn(cacheMapTest);
     }
 
-    private void givenExpiryTimeInMins(int minutes) {
+    private void givenExpiryTimeConfiguredInAppConfigIs(int minutes) {
         when(appInfra.getConfigInterface()).thenReturn(mockConfigInterface);
         when(mockConfigInterface.getPropertyForKey(eq("ConsentCacheTTLInMinutes"), eq("css"),
                 any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(minutes);
-        cacheMapWithConsentType3 = "{\"userId\":{\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(minutes)).toString() + "\",\"consentState\":\"active\",\"version\":1}}}";
     }
 
     private void whenStoreConsentStateIsCalled(String consentType, ConsentStates active, int version) {
@@ -144,5 +159,8 @@ public class ConsentCacheInteractorTest {
         assertNull(returnedCachedConsent);
     }
 
+    private String getSingleConsentStatusJson(final String userId, final String status, final String consentType, int expiryMinutes){
+        return "{\"" + userId + "\":{\"" + consentType + "\":{\"consentState\":\"" + status + "\",\"version\":1,\"expires\":\"" + (NOW.plusMinutes(expiryMinutes)).toString() + "\"}}}";
+    }
 
 }

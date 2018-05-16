@@ -13,10 +13,12 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
+import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.mya.catk.datamodel.CachedConsentStatus;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
@@ -54,7 +56,6 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         return inMemoryCache.get(consentType);
     }
 
-
     @Override
     public void storeConsentTypeState(String consentType, ConsentStates status, int version) {
         inMemoryCache = getMapFromSecureStorage();
@@ -73,10 +74,8 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         Type listType = new TypeToken<Map<String, Map<String, CachedConsentStatus>>>() { }.getType();
         Map<String, Map<String, CachedConsentStatus>> temp = objGson.fromJson(serializedCache, listType);
         temp = temp == null ? new HashMap<String, Map<String, CachedConsentStatus>>() : temp;
-        for(String key : temp.keySet()) {
-            return temp.get(key);
-        }
-        return new HashMap<>();
+        Map<String, CachedConsentStatus> consentCachedForUser = temp.get(getCurrentLoggedInUserId());
+        return consentCachedForUser == null ? new HashMap<String, CachedConsentStatus>() : consentCachedForUser;
     }
 
     private synchronized void writeMapToSecureStorage(Map<String, CachedConsentStatus> cacheMap) {
@@ -111,5 +110,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         }
     }
 
-
+    private String getCurrentLoggedInUserId() {
+        return ConsentsClient.getInstance().getCatkComponent().getUser().getHsdpUUID();
+    }
 }
