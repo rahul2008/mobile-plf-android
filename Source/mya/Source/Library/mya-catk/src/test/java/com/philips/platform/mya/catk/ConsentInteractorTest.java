@@ -80,7 +80,8 @@ public class ConsentInteractorTest {
     @Mock
     private ConsentCacheInteractor consentCacheInteractorMock;
 
-    private static final String CONSENT_TYPE = "moment";
+    private static final String MOMENT_CONSENT = "moment";
+    private static final String TEST_CONSENT = "TEST";
     private static final CachedConsentStatus VALID_CACHED_REJECTED_STATUS = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime().plusHours(1));
     private static final CachedConsentStatus CACHED_REJECTED_STATUS_EXPIRED = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime());
     private ConsentInteractor interactor;
@@ -102,102 +103,97 @@ public class ConsentInteractorTest {
     @Test
     public void fetchConsentTypeState_whenOnilne() {
         givenInternetIs(REACHABLE);
-        whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
-        thenGetStatusForConsentTypeIsCalled();
+        whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
+        thenGetStatusForIsCalledFor(MOMENT_CONSENT);
     }
 
     @Test
     public void storeConsentTypeState_whenOnline() {
         givenInternetIs(REACHABLE);
-        whenStoreConsentTypeStateIsCalled(CONSENT_TYPE, true);
+        whenStoreConsentTypeStateIsCalled(MOMENT_CONSENT, true);
         thenCreateConsentIsCalledOnTheCatk();
     }
 
     @Test
     public void fetchConsentTypeState_whenOffline() {
         givenInternetIs(UNREACHABLE);
-        whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
+        whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
         thenOnGetConsentsFailedIsCalledForFetchCallback();
     }
 
     @Test
     public void storeConsentTypeState_whenOffline() {
         givenInternetIs(UNREACHABLE);
-        whenStoreConsentTypeStateIsCalled(CONSENT_TYPE, true);
+        whenStoreConsentTypeStateIsCalled(MOMENT_CONSENT, true);
         thenOnGetConsentsFailedIsCalledForPostCallback();
     }
 
     @Test
     public void itShouldReportConsentFailedWhenResponseFails() {
-        whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
-        andResponseFailsWithError(new ConsentNetworkError(new VolleyError()));
+        whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
+        andCatkResponseFailsWithError(new ConsentNetworkError(new VolleyError()));
         thenConsentFailedIsReported();
     }
 
     @Test
     public void itShouldReportConsentSuccessWhenNonEmptyResponse() {
-        whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
+        whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
         andResponseFromCatkIs(new ConsentDTO("local", ConsentStates.active, "type", 0));
-
-        thenConsentRetrievedIsReported();
-        andConsentListContainsState("active");
+        thenConsentStatusReturnedInCallbackIs("active");
     }
 
     @Test
     public void storeConsentTypeState_CallsCacheConsentOnSuccess() {
         givenInternetIs(REACHABLE);
-        whenStoreConsentTypeStateIsCalled(CONSENT_TYPE, true);
+        whenStoreConsentTypeStateIsCalled(MOMENT_CONSENT, true);
         whenBackendStoreConsentReturnsSuccess();
-        thenConsentCacheStoreIsCalled();
+        thenConsentCacheStoreIsCalledFor(MOMENT_CONSENT);
     }
 
     @Test
     public void storeConsentTypeState_DoesNotCallCacheConsentOnFailure() {
         givenInternetIs(REACHABLE);
-        whenStoreConsentTypeStateIsCalled(CONSENT_TYPE, true);
+        whenStoreConsentTypeStateIsCalled(MOMENT_CONSENT, true);
         whenBackendStoreConsentReturnsFailure();
         thenConsentCacheStoreIsNotCalled();
     }
 
     @Test
     public void fetchConsentTypeState_ReturnsCachedConsent() {
-        givenConsentCacheFetchReturns(VALID_CACHED_REJECTED_STATUS);
-        whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
+        givenConsentCacheFetchReturns(VALID_CACHED_REJECTED_STATUS, TEST_CONSENT);
+        whenFetchConsentStateIsCalledFor(TEST_CONSENT);
         thenGetStatusForConsentTypeIsNotCalled();
-        thenConsentCacheFetchIsCalled();
-        thenConsentRetrievedIsReported();
-        andConsentListContainsState("rejected");
+        thenConsentCacheFetchIsCalledFor(TEST_CONSENT);
+        thenConsentStatusReturnedInCallbackIs("rejected");
     }
 
     @Test
     public void fetchConsentTypeState_CallsBackendFetch_IfCacheIsExpired() {
-        givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS_EXPIRED);
-        whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
+        givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS_EXPIRED, MOMENT_CONSENT);
+        whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
 
-        thenConsentCacheFetchIsCalled();
+        thenConsentCacheFetchIsCalledFor(MOMENT_CONSENT);
 
-        thenGetStatusForConsentTypeIsCalled();
+        thenGetStatusForIsCalledFor(MOMENT_CONSENT);
         andResponseFromCatkIs(new ConsentDTO("local", ConsentStates.active, "type", 0));
 
-        thenConsentRetrievedIsReported();
-        andConsentListContainsState("active");
+        thenConsentStatusReturnedInCallbackIs("active");
     }
     @Test
     public void fetchConsentTypeState_returnsFromCacheEvenIfItsExpired_IfOffline() {
         givenInternetIs(UNREACHABLE);
-        givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS_EXPIRED);
-        whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
+        givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS_EXPIRED, MOMENT_CONSENT);
+        whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
 
-        thenConsentCacheFetchIsCalled();
+        thenConsentCacheFetchIsCalledFor(MOMENT_CONSENT);
         thenGetStatusForConsentTypeIsNotCalled();
 
-        thenConsentRetrievedIsReported();
-        andConsentListContainsState("rejected");
+        thenConsentStatusReturnedInCallbackIs("rejected");
     }
 
 
-    private void givenConsentCacheFetchReturns(CachedConsentStatus cachedConsentStatus) {
-        when(consentCacheInteractorMock.fetchConsentTypeState(CONSENT_TYPE)).thenReturn(cachedConsentStatus);
+    private void givenConsentCacheFetchReturns(CachedConsentStatus cachedConsentStatus, String forConsentType) {
+        when(consentCacheInteractorMock.fetchConsentTypeState(forConsentType)).thenReturn(cachedConsentStatus);
     }
 
     private void whenBackendStoreConsentReturnsSuccess() {
@@ -212,7 +208,7 @@ public class ConsentInteractorTest {
         argumentCaptor.getValue().onFailure(new ConsentNetworkError(new VolleyError()));
     }
 
-    private void whenFetchConsentTypeStateIsCalled(String consentType) {
+    private void whenFetchConsentStateIsCalledFor(String consentType) {
         interactor.fetchConsentTypeState(consentType, fetchConsentTypeStateCallback);
     }
 
@@ -225,12 +221,12 @@ public class ConsentInteractorTest {
         restInterfaceMock.isInternetAvailable = isInternetAvailable;
     }
 
-    private void thenGetStatusForConsentTypeIsCalled() {
-        verify(mockCatk).getStatusForConsentType(eq(CONSENT_TYPE), isA(ConsentResponseListener.class));
+    private void thenGetStatusForIsCalledFor(String expectedConsentType) {
+        verify(mockCatk).getStatusForConsentType(eq(expectedConsentType), isA(ConsentResponseListener.class));
     }
 
     private void thenGetStatusForConsentTypeIsNotCalled() {
-        verify(mockCatk, never()).getStatusForConsentType(eq(CONSENT_TYPE), isA(ConsentResponseListener.class));
+        verify(mockCatk, never()).getStatusForConsentType(eq(MOMENT_CONSENT), isA(ConsentResponseListener.class));
     }
 
     private void thenCreateConsentIsCalledOnTheCatk() {
@@ -245,20 +241,20 @@ public class ConsentInteractorTest {
         verify(postConsentTypeCallback).onPostConsentFailed(any(ConsentError.class));
     }
 
-    private void thenConsentCacheStoreIsCalled() {
-        verify(consentCacheInteractorMock).storeConsentTypeState(CONSENT_TYPE, ConsentStates.active, 1);
+    private void thenConsentCacheStoreIsCalledFor(String expectedConsentType) {
+        verify(consentCacheInteractorMock).storeConsentTypeState(expectedConsentType, ConsentStates.active, 1);
     }
 
-    private void thenConsentCacheFetchIsCalled() {
-        verify(consentCacheInteractorMock).fetchConsentTypeState(CONSENT_TYPE);
+    private void thenConsentCacheFetchIsCalledFor(String consentType) {
+        verify(consentCacheInteractorMock).fetchConsentTypeState(consentType);
     }
 
     private void thenConsentCacheStoreIsNotCalled() {
-        verify(consentCacheInteractorMock, never()).storeConsentTypeState(CONSENT_TYPE, ConsentStates.active, 1);
+        verify(consentCacheInteractorMock, never()).storeConsentTypeState(MOMENT_CONSENT, ConsentStates.active, 1);
     }
 
-    private void andResponseFailsWithError(ConsentNetworkError error) {
-        verify(mockCatk).getStatusForConsentType(eq(CONSENT_TYPE), captorConsentDetails.capture());
+    private void andCatkResponseFailsWithError(ConsentNetworkError error) {
+        verify(mockCatk).getStatusForConsentType(eq(MOMENT_CONSENT), captorConsentDetails.capture());
         captorConsentDetails.getValue().onResponseFailureConsent(error);
     }
 
@@ -267,15 +263,12 @@ public class ConsentInteractorTest {
     }
 
     private void andResponseFromCatkIs(ConsentDTO... response) {
-        verify(mockCatk).getStatusForConsentType(eq(CONSENT_TYPE), captorConsentDetails.capture());
+        verify(mockCatk).getStatusForConsentType(eq(MOMENT_CONSENT), captorConsentDetails.capture());
         captorConsentDetails.getValue().onResponseSuccessConsent(Arrays.asList(response));
     }
 
-    private void thenConsentRetrievedIsReported() {
+    private void thenConsentStatusReturnedInCallbackIs(String expectedStatus) {
         verify(fetchConsentTypeStateCallback).onGetConsentsSuccess(captorRequired.capture());
-    }
-
-    private void andConsentListContainsState(String expectedStatus) {
         assertEquals(expectedStatus, captorRequired.getValue().getConsentState().name());
     }
 }
