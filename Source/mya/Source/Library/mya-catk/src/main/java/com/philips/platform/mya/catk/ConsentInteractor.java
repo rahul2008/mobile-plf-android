@@ -8,6 +8,7 @@ package com.philips.platform.mya.catk;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.mya.catk.datamodel.CachedConsentStatus;
 import com.philips.platform.mya.catk.datamodel.ConsentDTO;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
@@ -44,10 +45,15 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
-        if (isInternetAvailable()) {
-            consentsClient.getStatusForConsentType(consentType, new GetConsentForTypeResponseListener(callback));
-        } else {
-            callback.onGetConsentsFailed(new ConsentError("Please check your internet connection", ConsentError.CONSENT_ERROR_NO_CONNECTION));
+        CachedConsentStatus consentStatus = consentCacheInteractor.fetchConsentTypeState(consentType);
+        if(consentStatus != null) {
+            callback.onGetConsentsSuccess(new ConsentStatus(consentStatus.getConsentState(), consentStatus.getVersion()));
+        }else {
+            if (isInternetAvailable()) {
+                consentsClient.getStatusForConsentType(consentType, new GetConsentForTypeResponseListener(callback));
+            } else {
+                callback.onGetConsentsFailed(new ConsentError("Please check your internet connection", ConsentError.CONSENT_ERROR_NO_CONNECTION));
+            }
         }
     }
 
