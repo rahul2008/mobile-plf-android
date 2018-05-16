@@ -1,12 +1,4 @@
 <resources>
     <string name="app_name">Philips Registration</string>
     <string name="action_settings">Settings</string>
-    <string name="facebook_app_id">107243606103710</string>
-    <string name="fb_login_protocol_scheme">fb107243606103710demoApp</string>
-
-    <!--
-    <string name="facebook_app_id">1634313963327331</string>
-    <string name="fb_login_protocol_scheme">fb1634313963327331</string>
-    -->
-
 </resources>
