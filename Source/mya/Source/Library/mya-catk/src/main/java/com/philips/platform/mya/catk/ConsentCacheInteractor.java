@@ -70,13 +70,19 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
 
     private Map<String, CachedConsentStatus> getMapFromSecureStorage() {
         String serializedCache = appInfra.getSecureStorage().fetchValueForKey(CONSENT_CACHE_KEY, getSecureStorageError());
-        Type listType = new TypeToken<Map<String, CachedConsentStatus>>() { }.getType();
-        Map<String, CachedConsentStatus> temp = objGson.fromJson(serializedCache, listType);
-        return temp == null ? new HashMap<String, CachedConsentStatus>() : temp;
+        Type listType = new TypeToken<Map<String, Map<String, CachedConsentStatus>>>() { }.getType();
+        Map<String, Map<String, CachedConsentStatus>> temp = objGson.fromJson(serializedCache, listType);
+        temp = temp == null ? new HashMap<String, Map<String, CachedConsentStatus>>() : temp;
+        for(String key : temp.keySet()) {
+            return temp.get(key);
+        }
+        return new HashMap<>();
     }
 
     private synchronized void writeMapToSecureStorage(Map<String, CachedConsentStatus> cacheMap) {
-        appInfra.getSecureStorage().storeValueForKey(CONSENT_CACHE_KEY, objGson.toJson(cacheMap), getSecureStorageError());
+        Map<String, Map<String, CachedConsentStatus>> cacheMapForUser = new HashMap<>();
+        cacheMapForUser.put("userId",cacheMap);
+        appInfra.getSecureStorage().storeValueForKey(CONSENT_CACHE_KEY, objGson.toJson(cacheMapForUser), getSecureStorageError());
     }
 
     @VisibleForTesting
