@@ -1,12 +1,13 @@
 package com.philips.platform.mya.catk;
 
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.mya.catk.datamodel.CachedConsentStatus;
-import com.philips.platform.mya.catk.injection.CatkComponent;
 import com.philips.platform.mya.catk.mock.CatkComponentMock;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
@@ -16,6 +17,7 @@ import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -92,14 +94,14 @@ public class ConsentCacheInteractorTest {
     public void fetchConsentTypeState_SecureStorageEmpty() {
         givenSecureStorageReturns(null);
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
-        thenNullConsentStatusIsreturned();
+        thenNullConsentStatusIsReturned();
     }
 
     @Test
     public void store_VerifyExpiryTime() {
         givenExpiryTimeConfiguredInAppConfigIs(1);
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
-        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_3, 10));
+        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_3, 1));
     }
 
     @Test
@@ -116,7 +118,23 @@ public class ConsentCacheInteractorTest {
         givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 10));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenConsentCacheIsFetchedFromSecureStorage();
-        thenNullConsentStatusIsreturned();
+        thenNullConsentStatusIsReturned();
+    }
+
+    @Test
+    public void fetchConsent_ClearsCacheWhenAnotherUserIsLoggedIn() {
+        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 10));
+        whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
+        thenConsentCacheIsFetchedFromSecureStorage();
+        thenConsentCacheIsCleared();
+    }
+
+    @Test
+    public void storeConsent_IsStoredWithCurrentLoggedInUserId() {
+        givenExpiryTimeConfiguredInAppConfigIs(1);
+        when(userMock.getHsdpUUID()).thenReturn("someUserId");
+        whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
+        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("someUserId", "active", CONSENT_TYPE_3, 1));
     }
 
     private void givenSecureStorageReturns(String cacheMapTest) {
@@ -139,7 +157,16 @@ public class ConsentCacheInteractorTest {
     }
 
     private void thenConsentIsStoredInSecureStorage(String expectedConsentCacheJson) {
-        verify(storageInterface, times(1)).storeValueForKey(eq(CONSENT_CACHE_KEY), eq(expectedConsentCacheJson), (SecureStorageInterface.SecureStorageError) notNull());
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        verify(storageInterface, times(1)).storeValueForKey(eq(CONSENT_CACHE_KEY), argumentCaptor.capture(), (SecureStorageInterface.SecureStorageError) notNull());
+        assertEqualJson(expectedConsentCacheJson, argumentCaptor);
+    }
+
+    private void assertEqualJson(String expectedConsentCacheJson, ArgumentCaptor<String> argumentCaptor) {
+        JsonParser parser = new JsonParser();
+        JsonElement expectedJson = parser.parse(expectedConsentCacheJson);
+        JsonElement capturedJson = parser.parse(argumentCaptor.getValue());
+        assertEquals(expectedJson, capturedJson);
     }
 
     private void thenSecureStorageFetchIsCalledOnce() {
@@ -154,9 +181,12 @@ public class ConsentCacheInteractorTest {
         verify(storageInterface).fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull());
     }
 
-
-    private void thenNullConsentStatusIsreturned() {
+    private void thenNullConsentStatusIsReturned() {
         assertNull(returnedCachedConsent);
+    }
+
+    private void thenConsentCacheIsCleared() {
+        verify(storageInterface).removeValueForKey(CONSENT_CACHE_KEY);
     }
 
     private String getSingleConsentStatusJson(final String userId, final String status, final String consentType, int expiryMinutes){
