@@ -199,6 +199,9 @@ public class UserRegistrationInitializer {
                     RegistrationHelper.getInstance().setCountryCode(fallbackCountryCode.toUpperCase());
                     RLog.d(TAG, "onSuccess : setHomeCountry(s) supportedCountryList not matched" + fallbackCountryCode.toUpperCase());
                 }
+                RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+                getLocaleServiceDiscovery(context, registrationType);
+
             }
 
             @Override
@@ -207,13 +210,11 @@ public class UserRegistrationInitializer {
                 serviceDiscoveryInterface.setHomeCountry(fallbackCountry);
                 RegistrationHelper.getInstance().setCountryCode(fallbackCountry);
                 RLog.d(TAG, "onError : setHomeCountry(s)" + fallbackCountry);
+                RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+                getLocaleServiceDiscovery(context, registrationType);
+
             }
         });
-
-        RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-
-        getLocaleServiceDiscovery(context, registrationType);
-
     }
 
     private void getLocaleServiceDiscovery(Context context, Configuration registrationType) {
