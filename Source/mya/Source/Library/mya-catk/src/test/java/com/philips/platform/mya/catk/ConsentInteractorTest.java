@@ -77,7 +77,8 @@ public class ConsentInteractorTest {
     private ConsentCacheInteractor consentCacheInteractorMock;
 
     private static final String CONSENT_TYPE = "moment";
-    private static final CachedConsentStatus CACHED_REJECTED_STATUS = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime().plusHours(1));
+    private static final CachedConsentStatus VALID_CACHED_REJECTED_STATUS = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime().plusHours(1));
+    private static final CachedConsentStatus CACHED_REJECTED_STATUS_EXPIRED = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime());
     private ConsentInteractor interactor;
     private RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
 
@@ -156,7 +157,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeState_ReturnsCachedConsent() {
-        givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS);
+        givenConsentCacheFetchReturns(VALID_CACHED_REJECTED_STATUS);
         whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
         thenGetStatusForConsentTypeIsNotCalled();
         thenConsentCacheFetchIsCalled();
@@ -166,7 +167,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeState_CallsBackendFetch_IfCacheIsExpired() {
-        givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS);
+        givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS_EXPIRED);
         whenFetchConsentTypeStateIsCalled(CONSENT_TYPE);
 
         thenConsentCacheFetchIsCalled();
