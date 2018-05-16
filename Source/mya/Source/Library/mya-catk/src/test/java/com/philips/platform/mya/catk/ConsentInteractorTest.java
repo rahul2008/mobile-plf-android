@@ -43,6 +43,52 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConsentInteractorTest {
+    @Mock
+    private FetchConsentTypeStateCallback fetchConsentTypeStateCallback;
+
+    @Mock
+    private PostConsentTypeCallback postConsentTypeCallback;
+
+    @Mock
+    private ConsentsClient mockCatk;
+
+    @Mock
+    private ConsentCacheInterface mockCacheConsent;
+
+    @Captor
+    private ArgumentCaptor<ConsentDTO> captorConsent;
+
+    @Mock
+    private AppInfraInterface appInfraMock;
+
+    @Mock
+    private InternationalizationInterface internationalizationMock;
+
+    @Captor
+    private ArgumentCaptor<ConsentResponseListener> captorConsentDetails;
+
+    @Captor
+    private ArgumentCaptor<ConsentStatus> captorRequired;
+
+    @Mock
+    private ConsentCacheInteractor consentCacheInteractorMock;
+
+    private static final String CONSENT_TYPE = "moment";
+    private ConsentInteractor interactor;
+    private RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        CatkLogger.disableLogging();
+        CatkLogger.setLoggerInterface(new LoggingInterfaceMock());
+
+        when(mockCatk.getAppInfra()).thenReturn(appInfraMock);
+        when(mockCatk.getAppInfra().getRestClient()).thenReturn(restInterfaceMock);
+        when(appInfraMock.getInternationalization()).thenReturn(internationalizationMock);
+
+        interactor = new ConsentInteractor(mockCatk, consentCacheInteractorMock);
+    }
 
     @Test
     public void fetchConsentTypeState_whenOnilne() throws Exception {
@@ -86,6 +132,29 @@ public class ConsentInteractorTest {
 
         thenConsentRetrievedIsReported();
         andConsentListContainsNumberOfItems(1);
+    }
+
+    @Test
+    public void storeConsentTypeState_CallsCacheConsent() {
+        whenAppIsOnline();
+        whenStoreConsentTypeStateIsCalled();
+        whenBackendStoreConsentReturnsSuccess();
+        thenConsentCacheStoreIsCalled();
+    }
+
+    @Test
+    public void fetchConsentTypeState_ReturnsCachedConsent() {
+        
+    }
+
+    private void whenBackendStoreConsentReturnsSuccess() {
+        ArgumentCaptor<CreateConsentListener> argumentCaptor = ArgumentCaptor.forClass(CreateConsentListener.class);
+        verify(mockCatk).createConsent((ConsentDTO) any(),argumentCaptor.capture());
+        argumentCaptor.getValue().onSuccess();
+    }
+
+    private void thenConsentCacheStoreIsCalled() {
+        verify(consentCacheInteractorMock).storeConsentTypeState(CONSENT_TYPE, ConsentStates.active, 1);
     }
 
     private void whenFetchConsentTypeStateIsCalled() {
@@ -142,49 +211,4 @@ public class ConsentInteractorTest {
     private void andConsentListContainsNumberOfItems(int expectedNumberOfItems) {
         assertEquals("active", captorRequired.getValue().getConsentState().name());
     }
-
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        CatkLogger.disableLogging();
-        CatkLogger.setLoggerInterface(new LoggingInterfaceMock());
-
-        when(mockCatk.getAppInfra()).thenReturn(appInfraMock);
-        when(mockCatk.getAppInfra().getRestClient()).thenReturn(restInterfaceMock);
-        when(appInfraMock.getInternationalization()).thenReturn(internationalizationMock);
-
-        interactor = new ConsentInteractor(mockCatk);
-    }
-
-    @Mock
-    private FetchConsentTypeStateCallback fetchConsentTypeStateCallback;
-
-    @Mock
-    private PostConsentTypeCallback postConsentTypeCallback;
-
-    @Mock
-    private ConsentsClient mockCatk;
-
-    @Mock
-    private ConsentCacheInterface mockCacheConsent;
-
-    @Captor
-    private ArgumentCaptor<ConsentDTO> captorConsent;
-
-    @Mock
-    private AppInfraInterface appInfraMock;
-
-    @Mock
-    private InternationalizationInterface internationalizationMock;
-
-    @Captor
-    private ArgumentCaptor<ConsentResponseListener> captorConsentDetails;
-
-    @Captor
-    private ArgumentCaptor<ConsentStatus> captorRequired;
-
-    private static final String CONSENT_TYPE = "moment";
-    private ConsentInteractor interactor;
-    private RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
-
 }

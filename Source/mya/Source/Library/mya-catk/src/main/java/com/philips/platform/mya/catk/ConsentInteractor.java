@@ -28,10 +28,18 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
     @NonNull
     private final ConsentsClient consentsClient;
+    @NonNull
+    private ConsentCacheInteractor consentCacheInteractor;
 
     @Inject
     public ConsentInteractor(@NonNull final ConsentsClient consentsClient) {
         this.consentsClient = consentsClient;
+        this.consentCacheInteractor = new ConsentCacheInteractor(consentsClient.getAppInfra());
+    }
+
+    ConsentInteractor(@NonNull final ConsentsClient consentsClient, @NonNull ConsentCacheInteractor consentCacheInteractor) {
+        this(consentsClient);
+        this.consentCacheInteractor = consentCacheInteractor;
     }
 
     @Override
@@ -48,7 +56,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         if (isInternetAvailable()) {
             ConsentStates consentStates = status ? ConsentStates.active : ConsentStates.rejected;
             ConsentDTO consentDTO = createConsents(consentType, consentStates, version);
-            consentsClient.createConsent(consentDTO, new CreateConsentResponseListener(callback));
+            consentsClient.createConsent(consentDTO, new CreateConsentResponseListener(consentDTO, consentCacheInteractor, callback));
         } else {
             callback.onPostConsentFailed(new ConsentError("Please check your internet connection", ConsentError.CONSENT_ERROR_NO_CONNECTION));
         }
@@ -89,14 +97,19 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
     static class CreateConsentResponseListener implements CreateConsentListener {
         private final PostConsentTypeCallback callback;
+        private final ConsentCacheInteractor consentCacheInteractor;
+        private final ConsentDTO consentDTO;
 
-        CreateConsentResponseListener(PostConsentTypeCallback postConsentCallback) {
-            this.callback = postConsentCallback;
+        CreateConsentResponseListener(ConsentDTO consentDTO, ConsentCacheInteractor consentCacheInteractor, PostConsentTypeCallback callback) {
+            this.consentDTO = consentDTO;
+            this.consentCacheInteractor = consentCacheInteractor;
+            this.callback = callback;
         }
 
         @Override
         public void onSuccess() {
             CatkLogger.d(" Create ConsentDTO: ", "Success");
+            consentCacheInteractor.storeConsentTypeState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion());
             callback.onPostConsentSuccess();
         }
 
