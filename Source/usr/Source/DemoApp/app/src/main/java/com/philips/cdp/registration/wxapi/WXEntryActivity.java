@@ -66,16 +66,18 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onResp(BaseResp resp) {
         int error_code = resp.errCode;
-        String weChatCode = null;
         if (error_code == BaseResp.ErrCode.ERR_OK) {
             try {
                 SendAuth.Resp sendResp = (SendAuth.Resp) resp;
-                weChatCode = sendResp.code;
+                String weChatCode = sendResp.code;
+                sendMessage(error_code, weChatCode);
             } catch (Exception e) {
                 RLog.e(TAG, Arrays.toString(e.getStackTrace()));
             }
+        }else{
+            RLog.e(TAG, "WeChat response error code : "+error_code);
         }
-        sendMessage(error_code, weChatCode);
+
     }
 
     private void sendMessage(int error_code, String weChatCode) {
