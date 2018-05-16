@@ -192,6 +192,7 @@ public class PushNotificationManager {
 
         if (TextUtils.isEmpty(getToken(applicationContext))) {
             PNLog.d(TAG, "Something went wrong. Token should not be empty");
+            deregisterTokenListener.onError();
         }
         else if(!isNetworkAvailable()) {
             deregisterTokenListener.onError();
