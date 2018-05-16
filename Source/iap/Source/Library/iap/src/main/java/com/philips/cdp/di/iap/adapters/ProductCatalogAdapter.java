@@ -23,8 +23,9 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
+import com.philips.cdp.di.iap.stock.IStockInterface;
+import com.philips.cdp.di.iap.stock.IStockInterfaceImpl;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -107,12 +108,14 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formattedPrice);
 
-        String stockLevel = productCatalogData.getStockLevel();
-        if (stockLevel != null && stockLevel.equalsIgnoreCase("outOfStock")) {
+        IStockInterface iStockInterface = new IStockInterfaceImpl();
+        final boolean stockAvailable = iStockInterface.isStockAvailable(productCatalogData.getStockLevelStatus(), productCatalogData.getStockLevel());
+
+        if(stockAvailable){
+            productHolder.mProductOutOfStock.setVisibility(View.GONE);
+        }else {
             productHolder.mProductOutOfStock.setText(mContext.getString(R.string.iap_out_of_stock));
             productHolder.mProductOutOfStock.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
-        } else {
-            productHolder.mProductOutOfStock.setVisibility(View.GONE);
         }
 
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {

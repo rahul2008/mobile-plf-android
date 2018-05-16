@@ -28,6 +28,8 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
+import com.philips.cdp.di.iap.stock.IStockInterface;
+import com.philips.cdp.di.iap.stock.IStockInterfaceImpl;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.platform.uid.view.widget.UIPicker;
@@ -174,7 +176,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             shoppingCartProductHolder.mTvQuantity.setText(Integer.toString(cartData.getQuantity()));
             shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedPrice());
 
-            checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
+            checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder, cartData.getStockLevelStatus());
             getNetworkImage(shoppingCartProductHolder, imageURL);
             shoppingCartProductHolder.mTvQuantity.setCompoundDrawables(null, null, countArrow, null);
             bindCountView(shoppingCartProductHolder.mQuantityLayout, holder.getAdapterPosition());
@@ -271,26 +273,22 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private void checkForOutOfStock(int pStockLevel, int pQuantity, ShoppingCartProductHolder pShoppingCartProductHolder) {
-        if (pStockLevel == 0) {
-            pShoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
-            //pShoppingCartProductHolder.mTvAfterDiscountPrice.setText(mResources.getString(R.string.iap_out_of_stock));
-            pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
-            pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
-            setCountArrow(mContext, false);
-            mOutOfStock.onOutOfStock(true);
-        } else if (pStockLevel < pQuantity) {
-            pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
-            pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
-            pShoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
-            pShoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + pStockLevel + " left");
-            setCountArrow(mContext, false);
-            mOutOfStock.onOutOfStock(true);
-        } else {
-            pShoppingCartProductHolder.mQuantityLayout.setEnabled(true);
-            pShoppingCartProductHolder.mQuantityLayout.setClickable(true);
-            pShoppingCartProductHolder.mTvQuantity.setEnabled(true);
-            setCountArrow(mContext, true);
+    private void checkForOutOfStock(int stockLevel, int quantity, ShoppingCartProductHolder shoppingCartProductHolder, String stockLevelStatus) {
+        IStockInterface iStockInterface = new IStockInterfaceImpl();
+        final boolean isStockAvailable = iStockInterface.checkIfRequestedQuantityAvailable(stockLevelStatus, stockLevel, quantity);
+
+        setStockAvailability(shoppingCartProductHolder,isStockAvailable, stockLevel);
+
+    }
+
+    private void setStockAvailability(ShoppingCartProductHolder shoppingCartProductHolder, boolean isStockAvailable, int stocklevel) {
+        shoppingCartProductHolder.mQuantityLayout.setEnabled(isStockAvailable);
+        shoppingCartProductHolder.mQuantityLayout.setClickable(isStockAvailable);
+        setCountArrow(mContext, isStockAvailable);
+        mOutOfStock.onOutOfStock(isStockAvailable);
+        if(!isStockAvailable){
+            shoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
+            shoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + stocklevel + " left");
         }
     }
 
