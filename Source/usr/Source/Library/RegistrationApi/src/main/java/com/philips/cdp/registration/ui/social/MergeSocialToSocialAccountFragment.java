@@ -28,7 +28,6 @@ import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.traditional.HomeFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -303,11 +302,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void onFaceBookEmailReceived(String email) {
-        if (mEmail.equalsIgnoreCase(email)) {
             startAccessTokenAuthForFacebook();
-        }else{
-            mergeFailure("Please try with same Email ID");
-        }
     }
 
     @Override
