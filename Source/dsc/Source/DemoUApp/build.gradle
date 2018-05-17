@@ -12,6 +12,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply plugin: 'pl.droidsonroids.pitest'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 archivesBaseName = "dataServicesUApp"
 
@@ -45,34 +46,53 @@ android {
     lintOptions {
         abortOnError false
     }
-    publishNonDefault true
+
 }
 
 dependencies {
+    def dp = project.ext.has('useprojectdependencies')
 
+    if (dp) {
+        implementation project(':AppInfra')
+        implementation project(':uAppFwLib')
+        implementation project(':uid')
+        implementation project(':pif')
+        implementation project(':mya-catk')
+        implementation project(':jump')
+    }
     for (dep in [':registrationApi', ':securedblibrary', ':dataServices', ':mya-csw']) {
         if (directdependencies) {
-            debugCompile project(path: dep, configuration: 'debug')
-            releaseCompile project(path: dep, configuration: 'release')
+            implementation project(dep)
         } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
+            implementation("$group$dep:$platformversion$suffix") { changing = true }
         }
     }
 
-    compile deps.support.appcompatv7
-    compile deps.ormlite.core
-    compile deps.ormlite.android
+    implementation deps.support.appcompatv7
+    implementation deps.ormlite.core
+    implementation deps.ormlite.android
+    implementation deps.support.recyclerview
+    implementation deps.support.appcompatv7
+    implementation deps.support.supportv4
+    implementation deps.sqlcipher
+    implementation deps.gson
+    implementation deps.joda_time
+    implementation deps.javax_inject
+    implementation deps.javax_annotation
+    implementation deps.support.design
 
     // Test Compile
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.powermock_api_mockito
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.jackson_core
+    testImplementation deps.jackson_databind
 
-    testCompile deps.robolectric
-    testCompile deps.robolectric_shadows
-    testCompile deps.commons_io
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.commons_io
 
-    androidTestCompile(deps.espresso_core) {
+    androidTestImplementation(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 }
@@ -84,4 +104,7 @@ pitest {
     outputFormats = ['XML', 'HTML']
     timestampedReports = false
     excludedClasses = []
+}
+tasks.withType(Test) {
+    ignoreFailures = true
 }

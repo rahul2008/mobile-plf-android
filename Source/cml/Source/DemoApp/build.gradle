@@ -88,12 +88,12 @@ android {
 }
 
 dependencies {
-    debugCompile deps.stetho
-    compile deps.support.design
+    implementation deps.stetho
+    implementation deps.support.design
 
-    debugCompile project(path: ':commlib-demouapp', configuration: 'debug')
-    releaseCompile project(path: ':commlib-demouapp', configuration: 'release')
-
-    testCompile deps.junit
+    implementation project(':commlib-demouapp')
+    implementation project(':AppInfra')
+    implementation project(':uAppFwLib')
+    testImplementation deps.junit
 }
 

@@ -1,24 +1,28 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.injection.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.cdp.registration.update.*;
-import com.philips.platform.appinfra.logging.*;
+import com.philips.cdp.registration.CustomRobolectricRunner;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.AppConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.injection.RegistrationComponent;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.update.UpdateUserProfile;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.mockito.*;
-import org.robolectric.*;
-import org.robolectric.annotation.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
 public class CreateAccountPresenterTest {
 
     @Mock
@@ -77,8 +81,8 @@ public class CreateAccountPresenterTest {
     //Temp:
    @Test
    public void testAccountCreationTime(){
-//        presenter.accountCreationTime();
-//
+        presenter.accountCreationTime();
+
     }
 
     @Test

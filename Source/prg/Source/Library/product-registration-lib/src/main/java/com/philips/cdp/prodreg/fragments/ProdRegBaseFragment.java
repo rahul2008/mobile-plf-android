@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.cdp.prodreg.fragments;
 
 import android.content.Context;
@@ -182,18 +182,19 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
             final FragmentActivity activity = getActivity();
             if (activity != null && !activity.isFinishing()) {
                 final ProdRegErrorMap prodRegErrorMap = new ErrorHandler().getError(activity, statusCode);
+                ProdRegLogger.e(TAG, "Error Code : " + statusCode + " Error Description :" + prodRegErrorMap.getDescription());
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
                 if (prev != null) {
                     ft.remove(prev);
                     ft.commitAllowingStateLoss();
                 }
-                if(ProdRegError.NETWORK_ERROR.getCode() ==statusCode) {
-                    showNetworkDialog(prodRegErrorMap.getTitle(),prodRegErrorMap.getDescription(),
-                            statusCode ,"error_dialog");
+                if (ProdRegError.NETWORK_ERROR.getCode() == statusCode) {
+                    showNetworkDialog(prodRegErrorMap.getTitle(), prodRegErrorMap.getDescription(),
+                            "error_dialog");
                 } else {
-                    showErrorDialog(prodRegErrorMap.getTitle(),prodRegErrorMap.getDescription(),
-                            statusCode ,"error_dialog");
+                    showErrorDialog(prodRegErrorMap.getTitle(), prodRegErrorMap.getDescription(),
+                            statusCode, "error_dialog");
                 }
 
             }
@@ -202,7 +203,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
         }
     }
 
-    private void showNetworkDialog(String title, String description, int statusCode, String error_dialog) {
+    private void showNetworkDialog(String title, String description, String error_dialog) {
 
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_ALERT)
@@ -229,7 +230,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
             }
         }
 
-        
+
     }
 
     public boolean clearFragmentStack() {
@@ -260,16 +261,16 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     /**
-     *  setting the imageview with aspect ration 16:9
+     * setting the imageview with aspect ration 16:9
      */
     public void setImgageviewwithAspectRation(ImageView imageView) {
         float aspectRatio;
         int width = getResources().getDisplayMetrics().widthPixels;
         if (width > 680) {
-            aspectRatio = (16/9);
+            aspectRatio = (16 / 9);
             imageView.getLayoutParams().height = (int) ((width) / aspectRatio);
         } else {
-            aspectRatio = (12/5);
+            aspectRatio = (12 / 5);
             imageView.getLayoutParams().height = (int) ((width) / aspectRatio);
         }
     }

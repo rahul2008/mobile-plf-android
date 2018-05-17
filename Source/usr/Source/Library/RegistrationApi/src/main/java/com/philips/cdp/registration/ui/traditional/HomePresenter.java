@@ -223,12 +223,14 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                                     "wechat", token, openId, HomePresenter.this, "");
                         } catch (JSONException e) {
                             homeContract.wechatAuthenticationSuccessParsingError();
+                            RLog.e("WECHAT", "Error handleWeChatCode wechatAuthenticationSuccessParsingError");
                         }
                     }
 
                     @Override
                     public void onFail() {
                         homeContract.wechatAuthenticationFailError();
+                        RLog.e("WECHAT", "Error handleWeChatCode wechatAuthenticationFailError ");
                     }
                 });
     }

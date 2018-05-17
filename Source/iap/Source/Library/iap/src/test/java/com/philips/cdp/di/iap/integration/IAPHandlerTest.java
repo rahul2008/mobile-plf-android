@@ -273,7 +273,7 @@ public class IAPHandlerTest {
         intent.putExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS, "HX8332/11");
         intent.putStringArrayListExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, new ArrayList<String>());
 
-        Robolectric.buildActivity(IAPActivity.class).withIntent(intent).start().get();
+        Robolectric.buildActivity(IAPActivity.class).start().get();
         //Robolectric.setupActivity(TestActivity.class);
 
         mockIAPHandler.launchIAP(new ActivityLauncher

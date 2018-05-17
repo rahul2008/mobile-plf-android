@@ -76,16 +76,15 @@ android {
 }
 
 dependencies {
-    debugCompile project(path: ':commlib-ble', configuration: 'debug')
-    releaseCompile project(path: ':commlib-ble', configuration: 'release')
+    implementation project(':commlib-ble')
 
-    compile deps.support.appcompatv7
-    compile deps.support.design
-    compile deps.joda_time
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
+    implementation deps.joda_time
 
-    androidTestCompile(deps.espresso_core, {
+    androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    testCompile deps.junit
+    testImplementation deps.junit
 }
