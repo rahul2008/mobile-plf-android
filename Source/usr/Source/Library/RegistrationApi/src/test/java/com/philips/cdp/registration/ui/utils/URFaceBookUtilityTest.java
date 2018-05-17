@@ -1,9 +1,11 @@
 package com.philips.cdp.registration.ui.utils;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
+import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
@@ -11,6 +13,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.mobile.FaceBookContractor;
@@ -94,5 +97,26 @@ public class URFaceBookUtilityTest {
     public void hideProgressBarWhenFacebookLogInIsCanceled() throws Exception {
         urFaceBookUtility.onCancel();
         Mockito.verify(faceBookContractorMock).doHideProgressDialog();
+    }
+
+    @Mock
+    FacebookException facebookExceptionMock;
+
+    @Test
+    public void hideProgressBarWhenFacebookExceptionComes() throws Exception {
+        urFaceBookUtility.onError(facebookExceptionMock);
+        Mockito.verify(faceBookContractorMock).doHideProgressDialog();
+    }
+    @Mock
+    Activity activityMock;
+
+    @Mock
+    SocialProviderLoginHandler socialProviderLoginHandlerMock;
+
+    @Test
+    public void shouldStartAccessTokenAuthForFacebook() throws Exception {
+       urFaceBookUtility.startAccessTokenAuthForFacebook(userMock,activityMock,socialProviderLoginHandlerMock,"accessToken","mergeToken");
+       Mockito.verify(userMock).startTokenAuthForNativeProvider(activityMock,
+               RegConstants.SOCIAL_PROVIDER_FACEBOOK, socialProviderLoginHandlerMock, "mergeToken", "accessToken");
     }
 }
