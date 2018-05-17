@@ -21,7 +21,6 @@ public class AppInfraNetwork extends BasicNetwork {
 
     private static final String SSL_PUBLIC_KEY_PIN_LOG_MESSAGE = "Public-key pins Mismatch";
     private static final String SSL_PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE = "Could not find Public-Key-Pins in network response";
-    private static final String SSL_EMPTY_HOSTNAME_LOG_MESSAGE = "Could not find hostname for the request";
     private static final String SSL_STORAGE_ERROR_LOG_MESSAGE = "Could not update Public-Key-Pins in Secure Storage";
     private static final String SSL_RESPONSE_PUBLIC_KEY = "Public-Key-Pins";
 
