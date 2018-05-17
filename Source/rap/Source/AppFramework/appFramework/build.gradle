@@ -3,7 +3,6 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
-apply from: "../scripts/versions.gradle"
 apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting_logging.gradle"
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
