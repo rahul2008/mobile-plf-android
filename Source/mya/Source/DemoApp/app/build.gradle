@@ -97,20 +97,20 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
+//            artifact("$projectDir/dependencies.lock") {
+//                classifier = '1stleveldependencies'
+//            }
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -237,6 +237,7 @@ android {
     }
 
     testOptions {
+        unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
 
         unitTests.all {
@@ -249,7 +250,7 @@ android {
         }
     }
 
-    publishNonDefault true
+
 }
 
 repositories {
@@ -265,48 +266,40 @@ configurations.all {
 }
 
 dependencies {
-    compile deps.support.appcompatv7
-    compile deps.constraintlayout
+    implementation deps.support.appcompatv7
+    implementation deps.constraintlayout
 
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
-        debugCompile project(path: ':jump', configuration: 'debug')
-        releaseCompile project(path: ':jump', configuration: 'release')
+        implementation project(':AppInfra')
+        implementation project(':uid')
+        implementation project(':jump')
+        implementation project(':mya')
+        implementation project(':UserRegistrationUApp')
+        implementation project(':mya-csw')
+        implementation project(':mya-demoUapp')
     } else {
-        compile (philipsdeps.AppInfra) {
+        implementation (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        compile (philipsdeps.uid) {
+        implementation (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
-        compile (philipsdeps.jump) {
+        implementation (philipsdeps.jump) {
             exclude group: 'com.android.support'
         }
     }
 
-    androidTestCompile(deps.espresso_core) {
+    androidTestImplementation(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }
-
-    debugCompile project(path: ':mya', configuration: 'debug')
-    releaseCompile project(path: ':mya', configuration: 'release')
-    debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
-    releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
-    debugCompile project(path: ':mya-csw', configuration: 'debug')
-    releaseCompile project(path: ':mya-csw', configuration: 'release')
-    debugCompile project(path: ':mya-demoUapp', configuration: 'debug')
-    releaseCompile project(path: ':mya-demoUapp', configuration: 'release')
 }
 
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
-    from configurations.compile
+    from configurations.implementation
 }
 
 tasks.withType(Test) {

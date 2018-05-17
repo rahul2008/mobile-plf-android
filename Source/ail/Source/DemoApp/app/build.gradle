@@ -98,16 +98,16 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$buildDir/outputs/apk/${archivesBaseName}-device-release.apk")
+            artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -130,38 +130,34 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
     }
     lintOptions {
         abortOnError false
     }
 
-    publishNonDefault true
+
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile deps.junit
-    androidTestCompile deps.espresso_core, {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation deps.junit
+    androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    compile deps.support.appcompatv7
-    compile deps.support.design
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
-        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
+        implementation project(':uAppFwLib')
     } else {
-        compile philipsdeps.uAppFwLib
+        implementation philipsdeps.uAppFwLib
     }
 
-    compile deps.leakcanary
-    debugCompile project(path: ':AppInfraUApp', configuration: 'debug')
-    releaseCompile project(path: ':AppInfraUApp', configuration: 'release')
+    implementation deps.leakcanary
+    implementation project(':AppInfraUApp')
 }
 
 tasks.withType(Test) {

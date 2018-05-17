@@ -306,15 +306,15 @@ public class SHNCentral {
         shnBondStatusListeners.remove(address);
     }
 
-    /* package */ void registerSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
+    public void registerSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
         shnCentralStatusListeners.put(address, new WeakReference<>(shnCentralListener));
     }
 
-    /* package */ void unregisterSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
+    public void unregisterSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
         shnCentralStatusListeners.remove(address);
     }
 
-    /* package */ int getBluetoothAdapterState() {
+    public int getBluetoothAdapterState() {
         return bluetoothAdapterState;
     }
 
@@ -445,14 +445,13 @@ public class SHNCentral {
      * This should be called before the object is destroyed by the garbage collector.
      */
     public void shutdown() {
-        internalHandler.getLooper().quitSafely();
+        shnDeviceScanner.stopScanning();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
         if (bondStateChangedReceiver != null) {
             applicationContext.unregisterReceiver(bondStateChangedReceiver);
             bondStateChangedReceiver = null;
         }
-        shnDeviceScannerInternal.stopScanning();
-        shnDeviceScannerInternal = null;
+        internalHandler.getLooper().quitSafely();
     }
 
     /**

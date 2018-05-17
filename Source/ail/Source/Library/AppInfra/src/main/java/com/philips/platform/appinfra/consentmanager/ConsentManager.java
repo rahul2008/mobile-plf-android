@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ConsentManager implements ConsentManagerInterface {
@@ -32,6 +33,7 @@ public class ConsentManager implements ConsentManagerInterface {
     private final AppInfra mAppInfra;
     private Map<String, ConsentHandlerInterface> consentHandlerMapping = new HashMap<>();
     private Map<String, ConsentDefinition> consentDefinitionMapping = new HashMap<>();
+    private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     public ConsentManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -96,7 +98,7 @@ public class ConsentManager implements ConsentManagerInterface {
 
     @Override
     public void storeConsentState(final ConsentDefinition consentDefinition, final boolean status, final PostConsentCallback callback) throws RuntimeException {
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
+        singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());

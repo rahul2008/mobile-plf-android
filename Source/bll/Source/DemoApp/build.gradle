@@ -90,11 +90,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':AppInfra')
+    implementation project(':bluelib')
+    implementation project(':uAppFwLib')
+    implementation deps.stetho
+    implementation deps.support.appcompatv7
 
-    debugCompile deps.stetho
-    compile deps.support.appcompatv7
-
-    debugCompile project(path: ':bluelib-demouapp', configuration: 'debug')
-    releaseCompile project(path: ':bluelib-demouapp', configuration: 'release')
+    implementation project(':bluelib-demouapp')
 }

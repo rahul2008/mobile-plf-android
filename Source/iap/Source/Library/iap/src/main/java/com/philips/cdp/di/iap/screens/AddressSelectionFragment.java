@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -53,6 +54,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     private RecyclerView mAddressListView;
     private AddressController mAddressController;
+    private RelativeLayout mLinearLayout;
     AddressSelectionAdapter mAdapter;
     List<Addresses> mAddresses = new ArrayList<>();
 
@@ -80,9 +82,10 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         }
 
         */
-        mAdapter = new AddressSelectionAdapter(mAddresses);
+        mAdapter = new AddressSelectionAdapter(mAddresses,mJanRainEmail);
         mAddressListView.setAdapter(mAdapter);
         TextView tv_checkOutSteps = view.findViewById(R.id.tv_checkOutSteps);
+        mLinearLayout = view.findViewById(R.id.parent_container);
         tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "1"));
 
         return view;
@@ -105,7 +108,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_address, true);
+        setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
 
         if (isNetworkConnected()) {
             getAddresses();
@@ -113,12 +116,10 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     }
 
-    private void getAddresses() {
+    public void getAddresses() {
         String msg = mContext.getString(R.string.iap_please_wait);
-        if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, msg);
-            mAddressController.getAddresses();
-        }
+        createCustomProgressBar(mLinearLayout, BIG);
+        mAddressController.getAddresses();
     }
 
     public void registerEvents() {
@@ -144,7 +145,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             return;
         }
 
-        dismissProgressDialog();
+       hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             moveToShoppingCart();
@@ -183,7 +184,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                 checkPaymentDetails();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            dismissProgressDialog();
+            hideProgressBar();
         }
     }
 
@@ -198,14 +199,14 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             checkPaymentDetails();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            dismissProgressDialog();
+            hideProgressBar();
         }
     }
 
     @Override
     public void onGetPaymentDetails(Message msg) {
         Addresses address = retrieveSelectedAddress();
-        dismissProgressDialog();
+        hideProgressBar();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
 
             AddressFields selectedAddress = Utility.prepareAddressFields(address, mJanRainEmail);
@@ -252,12 +253,12 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             addFragment(DLSAddressFragment.createInstance(args, AnimationType.NONE),
                     DLSAddressFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.DELIVER_TO_THIS_ADDRESS)) {
-            if (!isProgressDialogShowing()) {
-                showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
-                mAddressController.setDeliveryAddress(retrieveSelectedAddress().getId());
-                CartModelContainer.getInstance().setAddressId(retrieveSelectedAddress().getId());
 
-            }
+            createCustomProgressBar(mLinearLayout, BIG);
+            mAddressController.setDeliveryAddress(retrieveSelectedAddress().getId());
+            CartModelContainer.getInstance().setAddressId(retrieveSelectedAddress().getId());
+
+
         }
     }
 
@@ -267,11 +268,9 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     }
 
     private void deleteShippingAddress() {
-        if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, getString(R.string.iap_please_wait));
-            int pos = mAdapter.getOptionsClickPosition();
-            mAddressController.deleteAddress(mAddresses.get(pos).getId());
-        }
+        createCustomProgressBar(mLinearLayout, BIG);
+        int pos = mAdapter.getOptionsClickPosition();
+        mAddressController.deleteAddress(mAddresses.get(pos).getId());
     }
 
     private HashMap<String, String> updateAddress(Addresses address) {

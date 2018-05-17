@@ -8,6 +8,7 @@
 package com.philips.platform.mya.csw;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +18,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.platform.mya.csw.permission.PermissionFragment;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -27,11 +29,11 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class CswActivity extends UIDActivity implements OnClickListener,
-        ActionBarListener {
+public class CswActivity extends UIDActivity implements OnClickListener, ActionBarListener {
 
     final String iconFontAssetName = "PUIIcon.ttf";
     private TextView ivBack;
+    protected CswInterface cswInterface = new CswInterface();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,32 +49,22 @@ public class CswActivity extends UIDActivity implements OnClickListener,
         ivBack.setOnClickListener(this);
 
         initUI();
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-
     }
 
     @Override
     public void onBackPressed() {
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager
                 .findFragmentById(R.id.csw_frame_layout_fragment_container);
-        if (fragment != null && fragment instanceof BackEventListener) {
+        if (fragment instanceof PermissionFragment) {
+            this.finish();
+            return;
+        } else if (fragment != null && fragment instanceof BackEventListener) {
             boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
             if (isConsumed)
                 return;
@@ -92,11 +84,13 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     }
 
     private void launchCswFragment() {
-        new CswInterface().launch(new FragmentLauncher(this, R.id.csw_frame_layout_fragment_container, this), buildLaunchInput());
+        cswInterface.launch(new FragmentLauncher(this, R.id.csw_frame_layout_fragment_container, this), buildLaunchInput());
     }
 
     private CswLaunchInput buildLaunchInput() {
-        return new CswLaunchInput(this, (List<ConsentDefinition>) this.getIntent().getExtras().getSerializable(CswConstants.CONSENT_DEFINITIONS));
+        Intent intent = this.getIntent();
+        Bundle extras = intent.getExtras();
+        return new CswLaunchInput(this, (List<ConsentDefinition>) extras.getSerializable(CswConstants.CONSENT_DEFINITIONS));
     }
 
     @Override
@@ -108,6 +102,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
 
     @Override
     public void updateActionBar(int titleResourceID, boolean isShowBack) {
+        updateActionBar(getString(titleResourceID), isShowBack);
         TextView tvTitle = findViewById(R.id.csw_textview_header_title);
         tvTitle.setText(getString(titleResourceID));
         if (isShowBack) {

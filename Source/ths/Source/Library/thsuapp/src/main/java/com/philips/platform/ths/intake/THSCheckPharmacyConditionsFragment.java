@@ -28,6 +28,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
@@ -57,6 +58,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     private static final long TIMEOUT = 1000 * 15;
     static final long serialVersionUID = 46L;
     private Handler timeoutHandler;
+
 
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
@@ -170,7 +172,11 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                 }
             }
         }else {
-            thscheckPharmacyConditionsPresenter.checkForConsent();
+            if(THSManager.getInstance().isGdprEnabled()) {
+                thscheckPharmacyConditionsPresenter.checkForConsent();
+            }else{
+                displayPharmacy();
+            }
         }
     }
 

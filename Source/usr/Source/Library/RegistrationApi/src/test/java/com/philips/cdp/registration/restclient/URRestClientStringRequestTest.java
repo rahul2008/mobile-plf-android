@@ -3,8 +3,6 @@ package com.philips.cdp.registration.restclient;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 
 import junit.framework.Assert;
 
@@ -13,7 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -23,8 +21,7 @@ import java.util.Map;
  * Created by philips on 06/02/18.
  */
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(MockitoJUnitRunner.class)
 public class URRestClientStringRequestTest {
 
     private URRestClientStringRequest urRestClientStringRequest;

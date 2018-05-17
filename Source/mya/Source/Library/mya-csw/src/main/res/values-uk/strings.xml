@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
+  <string name="MYA_Visit_Website">[uk]Visit our website</string>
   <string name="csw_consent_help_label">Що це означає?</string>
   <string name="csw_invalid_access_token_error_message">Виникла проблема з підключенням до сервера. Перевірте, чи дата/час на Вашому пристрої встановлені правильно. Якщо проблема не зникне, вийдіть та увійдіть знову.</string>
   <string name="csw_offline_message">Здається, немає з’єднання з Інтернетом. Перевірте і спробуйте знову.</string>
   <string name="csw_offline_title">Ви поза мережею</string>
-  <string name="csw_ok">[uk]OK</string>
+  <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[uk]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[uk]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">Зберігайте приватність. Докладніше читайте в {Політиці конфіденційності}.</string>
   <string name="csw_privacy_settings">Налаштування конфіденційності</string>
-  <string name="csw_privacy_settings_desc">[uk]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">Зберігайте приватність. Докладніше читайте в {Політиці конфіденційності}.</string>
   <string name="csw_problem_occurred_error_message">Виникла проблема (error %1$d). Спробуйте ще раз.</string>
   <string name="csw_problem_occurred_error_title">Виникла проблема</string>
   <string name="mya_Account_settings">Налаштування обл. запису</string>
@@ -46,22 +44,22 @@
   <string name="mya_Ok">OK</string>
   <string name="mya_Personal_details">Персональні дані</string>
   <string name="mya_Privacy_Settings">Налаштування конфіденційності</string>
-  <string name="mya_Privacy_Settings_Desc">Зберігайте приватність. Докладніше читайте в _Політиці конфіденційності_.</string>
+  <string name="mya_Privacy_Settings_Desc">Зберігайте приватність. Докладніше читайте в {Політиці конфіденційності}.</string>
   <string name="mya_Problem_Occurred_Error_Message">Виникла проблема (error %d). Спробуйте ще раз.</string>
   <string name="mya_Problem_Occurred_Error_Title">Виникла проблема</string>
   <string name="mya_Profile">Профіль</string>
   <string name="mya_Settings">Налаштування</string>
   <string name="mya_change_country">Вийдіть, щоб змінити країну</string>
   <string name="mya_change_country_message">Вийдіть, щоб змінити країну проживання. Це дозволяє нам спеціально розробити гарантію та іншу інформацію відповідно до Вашого місця проживання.</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[uk]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[uk]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Скасувати</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[uk]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[uk]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[uk]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[uk]Maybe later</string>
   <string name="mya_csw_justintime_title">[uk]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[uk]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[uk]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,uk][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,uk][NT]What do we have to offer?</string>
   <string name="mya_logout_message">Ви вийдете із програми. Вийшовши, Ви завжди можете знову зайти у систему.</string>
   <string name="mya_logout_title">Ви справді хочете вийти?</string>
 </resources>

@@ -8,6 +8,7 @@
 package com.philips.cdp.registration.myaccount;
 
 import android.text.TextUtils;
+import android.view.View;
 
 import com.philips.cdp.registration.ui.utils.RLog;
 
@@ -70,6 +71,12 @@ class UserDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> imple
             return finalName.substring(0, 2).toUpperCase();
         }
         return finalName.toString().toUpperCase();
+    }
+
+    void makeVisible(View... views){
+        for(View view:views){
+            view.setVisibility(View.VISIBLE);
+        }
     }
 
 }

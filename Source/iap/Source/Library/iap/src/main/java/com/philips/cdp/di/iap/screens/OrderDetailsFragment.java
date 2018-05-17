@@ -187,7 +187,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
     @Override
     public void onGetOrderDetail(Message msg) {
-        dismissProgressDialog();
+        hideProgressBar();
         mParentView.setVisibility(View.VISIBLE);
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
@@ -232,7 +232,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                     // bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, product.getValuePrice());
                     bundle.putString(IAPConstant.PRODUCT_OVERVIEW, product.getMarketingTextHeader());
 //                    bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
-//                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());
+//                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getmStockLevel());
                     addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
                 }
             });
@@ -274,8 +274,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
     @Override
     public void onGetPhoneContact(Message msg) {
-        if (isProgressDialogShowing())
-            dismissProgressDialog();
+        hideProgressBar();
         if (msg.obj instanceof ContactsResponse) {
             ContactsResponse contactsResponse = (ContactsResponse) msg.obj;
             mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
@@ -402,17 +401,13 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     @Override
     public void onModelDataLoadFinished(Message msg) {
         if (processResponseFromPrx(msg)) return;
-        if (isProgressDialogShowing()) {
-            dismissProgressDialog();
-        }
+        hideProgressBar();
 
     }
 
     @Override
     public void onModelDataError(Message msg) {
-        if (isProgressDialogShowing()) {
-            dismissProgressDialog();
-        }
+        hideProgressBar();
     }
 
     @SuppressWarnings("unchecked")
@@ -422,7 +417,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             if (!obj.isEmpty()) {
                 updateUiOnProductList();
             } else {
-                dismissProgressDialog();
+                hideProgressBar();
                 return true;
             }
         }

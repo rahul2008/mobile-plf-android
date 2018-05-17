@@ -40,6 +40,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,6 +76,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.StreamCorruptedException;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.janrain.android.Jump.CaptureApiResultHandler.CaptureAPIError;
@@ -82,7 +84,7 @@ import static com.janrain.android.Jump.CaptureApiResultHandler.CaptureAPIError.F
 import static com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError;
 import static com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError.FailureReason.FORGOTPASSWORD_JUMP_NOT_INITIALIZED;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError;
-import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.AUTHENTICATION_CANCELED_BY_USER;
+import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.AUTHENTICATION_CANCELLED_BY_USER;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.CAPTURE_API_ERROR;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.ENGAGE_ERROR;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.JUMP_NOT_INITIALIZED;
@@ -395,7 +397,7 @@ public class Jump {
             info = state.context.getApplicationContext().getPackageManager().getPackageInfo(packageName, 0);
             AppNameToEnglish appNameEnglish = new AppNameToEnglish();
             state.userAgent = appNameEnglish.getApplicationName(state.context);
-            state.userAgent += "/" + info.versionCode + " ";
+             state.userAgent += "/" + info.versionCode + " JRML" + AndroidUtils.urlEncode(state.context.getString(R.string.jr_git_describe)) + " ";
         } catch (PackageManager.NameNotFoundException e) {
             throwDebugException(new RuntimeException("User agent create failed : ", e));
         }
@@ -403,6 +405,7 @@ public class Jump {
             state.userAgent = "";
         }
         return state.userAgent;
+
     }
 
     public static String getAccessToken() {
@@ -483,7 +486,7 @@ public class Jump {
 
             @Override
             public void jrAuthenticationDidNotComplete() {
-                fireHandlerFailure(new SignInError(AUTHENTICATION_CANCELED_BY_USER, null, null));
+                fireHandlerFailure(new SignInError(AUTHENTICATION_CANCELLED_BY_USER, null, null));
             }
 
             @Override
@@ -501,8 +504,6 @@ public class Jump {
                 Jump.fireHandlerOnFailure(err);
             }
         });
-
-
         BrowserBlacklist blacklist = new BrowserBlacklist(
                 new VersionedBrowserMatcher(
                         Browsers.SBrowser.PACKAGE_NAME,
@@ -521,6 +522,7 @@ public class Jump {
         }
     }
 
+
     public static void startTokenAuthForNativeProvider(final Activity fromActivity,
                                                        final String providerName,
                                                        final String accessToken,
@@ -532,8 +534,76 @@ public class Jump {
             return;
         }
 
+        if (!state.jrEngage.isNativeProviderConfigured(providerName)) {
+            final String message = String.format(
+                    Locale.getDefault(),
+                    "Provider '%s' not found, make sure you have configured it properly in your Engage dashboard.",
+                    providerName
+            );
+
+            LogUtils.loge(message);
+
+            JREngageError engageError = new JREngageError(
+                    message,
+                    JREngageError.ConfigurationError.PROVIDER_NOT_CONFIGURED_ERROR,
+                    JREngageError.ErrorType.CONFIGURATION_INFORMATION_MISSING
+            );
+
+            handler.onFailure(new SignInError(ENGAGE_ERROR, null, engageError));
+            return;
+        }
+
         state.signInHandler = handler;
-        nextTokenAuthForNativeProvider(fromActivity,providerName,accessToken,tokenSecret,mergeToken);
+        nextTokenAuthForNativeProvider(
+                fromActivity,
+                providerName,
+                accessToken,
+                tokenSecret,
+                "",
+                "",
+                mergeToken);
+
+    }
+
+    public static void startCodeAuthForNativeProvider(final Activity fromActivity,
+                                                       final String providerName,
+                                                       final String serverAuthCode,
+                                                       final String redirectUri,
+                                                       SignInResultHandler handler,
+                                                       final String mergeToken) {
+        if (state.jrEngage == null || state.captureDomain == null) {
+            handler.onFailure(new SignInError(JUMP_NOT_INITIALIZED, null, null));
+            return;
+        }
+
+        if (!state.jrEngage.isNativeProviderConfigured(providerName)) {
+            final String message = String.format(
+                    Locale.getDefault(),
+                    "Provider '%s' not found, make sure you have configured it properly in your Engage dashboard.",
+                    providerName
+            );
+
+            LogUtils.loge(message);
+
+            JREngageError engageError = new JREngageError(
+                    message,
+                    JREngageError.ConfigurationError.PROVIDER_NOT_CONFIGURED_ERROR,
+                    JREngageError.ErrorType.CONFIGURATION_INFORMATION_MISSING
+            );
+
+            handler.onFailure(new SignInError(ENGAGE_ERROR, null, engageError));
+            return;
+        }
+
+        state.signInHandler = handler;
+        nextTokenAuthForNativeProvider(
+                fromActivity,
+                providerName,
+                "",
+                "",
+                serverAuthCode,
+                redirectUri,
+                mergeToken);
 
     }
 
@@ -541,6 +611,8 @@ public class Jump {
                                                        String providerName,
                                                        final String accessToken,
                                                        final String tokenSecret,
+                                                       final String serverAuthCode,
+                                                       final String redirectUri,
                                                        final String mergeToken) {
         state.jrEngage.addDelegate(new JREngageDelegate.SimpleJREngageDelegate() {
             @Override
@@ -551,7 +623,7 @@ public class Jump {
 
             @Override
             public void jrAuthenticationDidNotComplete() {
-                fireHandlerFailure(new SignInError(AUTHENTICATION_CANCELED_BY_USER, null, null));
+                fireHandlerFailure(new SignInError(AUTHENTICATION_CANCELLED_BY_USER, null, null));
             }
 
             @Override
@@ -566,10 +638,12 @@ public class Jump {
         });
 
 
-        if (providerName != null && accessToken != null) {
+        if (!TextUtils.isEmpty(providerName) && !TextUtils.isEmpty(accessToken)) {
             state.jrEngage.getAuthInfoTokenForNativeProvider(fromActivity, providerName, accessToken, tokenSecret);
-        }else{
-            LogUtils.logd("Provider Name or Access Token can not be null");
+        } else if (!TextUtils.isEmpty(providerName) && !TextUtils.isEmpty(serverAuthCode)) {
+            state.jrEngage.getAuthInfoCodeForNativeProvider(fromActivity, providerName, serverAuthCode, redirectUri);
+        } else {
+            LogUtils.logd("Missing parameters for native auth token retrieval");
         }
     }
 
@@ -727,7 +801,7 @@ public class Jump {
                 /**
                  * The user canceled sign-in the sign-in flow during authentication
                  */
-                AUTHENTICATION_CANCELED_BY_USER,
+                AUTHENTICATION_CANCELLED_BY_USER,
 
                 /**
                  * The password provided was invalid. Only generated by #performTraditionalSignIn(...)
@@ -1358,11 +1432,32 @@ public class Jump {
      * @param handler your result handler, called upon completion on the UI thread
      */
     public static void performFetchCaptureData(final CaptureApiResultHandler handler) {
+        performFetchCaptureData(handler, false);
+    }
+
+    /**
+     * Headless API for fetching Capture Signed user data
+     *
+     * @param handler your result handler, called upon completion on the UI thread
+     * @param updateSignedInUser indicates whether the current signed in user data
+     *                           should be updated using the successful response
+     */
+    public static void performFetchCaptureData(final CaptureApiResultHandler handler, final boolean updateSignedInUser) {
         state.captureAPIHandler = handler;
         Capture.performUpdateSignedUserData(new Capture.CaptureApiResultHandler() {
             @Override
             public void onSuccess(JSONObject response) {
-                Object userRecord = response.opt("result");
+               
+			   
+			                   if (updateSignedInUser) {
+                    final String accessToken = state.signedInUser.getAccessToken();
+                    final CaptureRecord record = getResultAsCaptureRecord(accessToken);
+                    if (record != null) {
+                        state.signedInUser = record;
+                    }
+                }
+				
+				 Object userRecord = response.opt("result");
                 if (userRecord instanceof JSONObject){
                     JsonUtils.deepCopy((JSONObject) userRecord, state.signedInUser);
                     LogUtils.logd("Deep copy to the signedInUser finish");

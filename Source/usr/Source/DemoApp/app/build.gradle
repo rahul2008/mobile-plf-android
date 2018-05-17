@@ -3,11 +3,12 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-
+apply plugin: 'com.jakewharton.butterknife'
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
+        google()
         maven { url repos.jcenter
             credentials {
                 username = "readonly"
@@ -21,11 +22,13 @@ buildscript {
                 password = "123qweasdzxc"
             }
         }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
+        classpath deps.butterknife_gradle
     }
 }
 
@@ -94,20 +97,20 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
+//            artifact("$projectDir/dependencies.lock") {
+//                classifier = '1stleveldependencies'
+//            }
 
-            artifact("$buildDir/outputs/apk/${archivesBaseName}-device-release.apk")
+            artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -121,6 +124,10 @@ android {
     }
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
 
 
     defaultConfig {
@@ -147,6 +154,7 @@ android {
 
     lintOptions {
         abortOnError false
+        disable 'MissingTranslation'
     }
 
     packagingOptions {
@@ -175,13 +183,6 @@ android {
         }
     }
 
-    productFlavors {
-        device {
-            applicationId 'com.philips.cdp.registration'
-            versionCode 5
-            versionName version +  "(" + objcdp.getCommitHash() + ")"
-        }
-    }
 }
 
 def Properties props = new Properties()
@@ -205,18 +206,26 @@ if (propFile.canRead()){
 }
 repositories { flatDir { dirs 'libs' } }
 dependencies {
-    androidTestCompile deps.support.annotations
-    androidTestCompile deps.android_testrunner
-    androidTestCompile deps.android_testrules
-    androidTestCompile deps.espresso_core
-    androidTestCompile deps.uiautomator
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
-    releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
-    compile deps.support.appcompatv7
-    compile deps.constraintlayout
-    compile deps.support.design
-    testCompile deps.junit
+    androidTestImplementation deps.support.annotations
+    androidTestImplementation deps.android_testrunner
+    androidTestImplementation deps.android_testrules
+    androidTestImplementation deps.espresso_core
+    androidTestImplementation deps.uiautomator
+    implementation project(':AppInfra')
+    implementation project(':uAppFwLib')
+    implementation project(':uid')
+    implementation project(':registrationApi')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':UserRegistrationUApp')
+    implementation deps.support.appcompatv7
+    implementation deps.constraintlayout
+    implementation deps.support.design
+    implementation deps.multidex
+    implementation deps.greenrobot
+    implementation deps.wechat
+    testImplementation deps.junit
+    implementation deps.butterknife
+    annotationProcessor deps.butterknife_compiler
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

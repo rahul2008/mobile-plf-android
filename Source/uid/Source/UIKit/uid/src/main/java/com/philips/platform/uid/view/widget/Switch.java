@@ -63,7 +63,8 @@ public class Switch extends SwitchCompat {
         int textColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchThumbColorList, -1);
         if (textColorStateID != -1) {
             setThumbDrawable(DrawableCompat.wrap(getThumbDrawable()));
-            setThumbTintList(ThemeUtils.buildColorStateList(themedContext, textColorStateID));
+            ColorStateList tint = ThemeUtils.buildColorStateList(themedContext, textColorStateID);
+            setThumbTintList(tint);
         }
     }
 

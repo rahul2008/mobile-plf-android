@@ -20,7 +20,6 @@ import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswConstants;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.ConfirmDialogTextResources;
 import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
@@ -37,23 +36,19 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 public class PermissionFragment extends CswBaseFragment implements PermissionContract.View, HelpClickListener, android.view.View.OnClickListener {
 
     public static final String TAG = "PermissionFragment";
     private ProgressDialogView progressDialog;
-
-    private Unbinder unbinder;
-
-    @BindView(R2.id.consentsRecycler)
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     private List<ConsentDefinition> consentDefinitionList = null;
     private PermissionAdapter adapter;
     private PermissionContract.Presenter presenter;
+    private ConfirmDialogView confirmDialogView;
+    private DialogView errorDialogViewWithClickListener;
+
+    private boolean mIsStateAlreadySaved;
 
     @Override
     public void setPresenter(final PermissionContract.Presenter presenter) {
@@ -68,7 +63,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         android.view.View view = inflater.inflate(R.layout.csw_permission_view, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        recyclerView = view.findViewById(R.id.consentsRecycler);
 
         if (getArguments() != null)
             consentDefinitionList = (List<ConsentDefinition>) getArguments().getSerializable(CswConstants.CONSENT_DEFINITIONS);
@@ -85,19 +80,23 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     @Override
     public void onResume() {
         super.onResume();
+        mIsStateAlreadySaved = false;
         presenter.fetchConsentStates(consentDefinitionList);
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mIsStateAlreadySaved = true;
+        if (confirmDialogView != null) {
+            confirmDialogView.hideDialog();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbindView();
-    }
-
-    private void unbindView() {
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
     }
 
     @Override
@@ -155,9 +154,11 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
 
     @Override
     public void showErrorDialog(boolean goBack, int titleRes, int messageRes) {
-        String title = getContext().getString(titleRes);
-        String message = getContext().getString(messageRes);
-        showErrorDialog(goBack, title, message);
+        if (!mIsStateAlreadySaved) {
+            String title = getContext().getString(titleRes);
+            String message = getContext().getString(messageRes);
+            showErrorDialog(goBack, title, message);
+        }
     }
 
     private void showErrorDialog(boolean goBack, String title, String message) {
@@ -168,10 +169,10 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
 
     @Override
     public void showConfirmRevokeConsentDialog(final ConfirmDialogTextResources dialogTexts, final ConfirmDialogView.ConfirmDialogResultHandler handler) {
-        ConfirmDialogView dialog = new ConfirmDialogView();
-        dialog.setupDialog(dialogTexts);
-        dialog.setResultHandler(handler);
-        dialog.showDialog(getActivity());
+        confirmDialogView = new ConfirmDialogView();
+        confirmDialogView.setupDialog(dialogTexts);
+        confirmDialogView.setResultHandler(handler);
+        confirmDialogView.showDialog(getActivity());
     }
 
     @Override
@@ -181,11 +182,12 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
 
     @Override
     public void onClick(android.view.View view) {
-        getFragmentManager().popBackStack();
+        if (getActivity() != null) {
+            getActivity().onBackPressed();
+        }
     }
 
-    @VisibleForTesting
-    protected RestInterface getRestClient() {
+    private RestInterface getRestClient() {
         return CswInterface.get().getDependencies().getAppInfra().getRestClient();
     }
 
@@ -194,12 +196,16 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     }
 
     @NonNull
-    private DialogView getDialogView(boolean goBack) {
-        DialogView dialogView = new DialogView();
-        if (goBack) {
-            dialogView = new DialogView(this);
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    protected DialogView getDialogView(boolean goBack) {
+        if (!goBack) {
+            return new DialogView();
         }
-        return dialogView;
+
+        if (errorDialogViewWithClickListener == null) {
+            errorDialogViewWithClickListener = new DialogView(this);
+        }
+        return errorDialogViewWithClickListener;
     }
 
     private List<ConsentView> createConsentsList() {
@@ -212,5 +218,9 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
             }
         }
         return consentViewList;
+    }
+
+    protected DialogView getErrorDialogViewWithClickListener() {
+        return this.errorDialogViewWithClickListener;
     }
 }

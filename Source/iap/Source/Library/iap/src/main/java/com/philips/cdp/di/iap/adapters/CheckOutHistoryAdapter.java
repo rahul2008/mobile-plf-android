@@ -29,6 +29,7 @@ import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
+import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uid.view.widget.UIPicker;
@@ -150,7 +151,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             shoppingCartProductHolder.mTvPrice.setText(cartData.getProductTitle());
             shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedPrice());
 
-            checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
+            checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder, cartData.getStockLevelStatus());
             getNetworkImage(shoppingCartProductHolder, imageURL);
         } else {
             //Footer Layout
@@ -167,6 +168,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String deliveryMethod = data.getDeliveryMode().getName();
+
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
@@ -188,12 +190,12 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 
-                    shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
+                    /*shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
                         }
-                    });
+                    });*/
 
                 } else {
                     shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
@@ -202,9 +204,11 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
 
                 if (data.getDeliveryAddressEntity() != null) {
+                    final AddressFields shippingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
                     shoppingCartFooter.mShippingName.setText(data.getDeliveryAddressEntity().getFirstName() + " " + data.getDeliveryAddressEntity().getLastName());
-                    final String formattedAddress = data.getDeliveryAddressEntity().getFormattedAddress();
-                    shoppingCartFooter.mShippingAddress.setText(Utility.formatAddress(formattedAddress));
+                    if(shippingAddressFields!=null) {
+                        shoppingCartFooter.mShippingAddress.setText(Utility.getAddressToDisplay(shippingAddressFields));
+                    }
                 }
 
                 mBillingAddress = CartModelContainer.getInstance().getBillingAddress();
@@ -250,18 +254,16 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    private void checkForOutOfStock(int pStockLevel, int pQuantity, ShoppingCartProductHolder pShoppingCartProductHolder) {
-        if (pStockLevel == 0) {
-            pShoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
-            pShoppingCartProductHolder.mTvAfterDiscountPrice.setText(mResources.getString(R.string.iap_out_of_stock));
+    private void checkForOutOfStock(int stockLevel, int quantity, ShoppingCartProductHolder shoppingCartProductHolder, String stockLevelStatus) {
+        IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
+        final boolean isStockAvailable = iapStockAvailabilityHelper.checkIfRequestedQuantityAvailable(stockLevelStatus, stockLevel, quantity);
+
+        mOutOfStock.onOutOfStock(isStockAvailable);
+
+        if(!isStockAvailable){
+            shoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
+            shoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + stockLevel + " left");
             setCountArrow(mContext, false);
-            setCountArrow(mContext, false);
-            mOutOfStock.onOutOfStock(true);
-        } else if (pStockLevel < pQuantity) {
-            pShoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
-            pShoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + pStockLevel + " left");
-            setCountArrow(mContext, false);
-            mOutOfStock.onOutOfStock(true);
         }
     }
 

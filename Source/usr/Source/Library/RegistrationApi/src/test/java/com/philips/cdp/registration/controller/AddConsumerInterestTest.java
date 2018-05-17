@@ -1,12 +1,9 @@
 package com.philips.cdp.registration.controller;
 
 import com.janrain.android.capture.CaptureApiError;
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.URInterface;
+
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,16 +11,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
-
-import static org.junit.Assert.*;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Created by philips on 11/28/17.
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
-public class AddConsumerInterestTest {
+@RunWith(MockitoJUnitRunner.class)
+public class AddConsumerInterestTest extends TestCase {
 
 
     @Mock

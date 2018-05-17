@@ -18,19 +18,21 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 import com.philips.cdp2.demouapp.port.air.AirPort;
 import com.philips.cdp2.demouapp.port.air.AirPortProperties;
 
 import java.util.Locale;
 
+import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
+
 public class AirPortFragment extends Fragment {
 
     private static final String TAG = "AirPortFragment";
 
-    private AirPurifier currentAppliance;
+    private AirPort airPort;
     private Switch lightSwitch;
     private DICommPortListener<AirPort<AirPortProperties>> portListener;
 
@@ -38,6 +40,12 @@ public class AirPortFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.cml_fragment_airport, container, false);
+
+        final String cppId = getArguments().getString(APPLIANCE_KEY);
+        Appliance appliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
+        if (appliance != null && appliance instanceof AirPurifier) {
+            airPort = ((AirPurifier) appliance).getAirPort();
+        }
 
         lightSwitch = rootview.findViewById(R.id.cml_switchLight);
 
@@ -57,12 +65,10 @@ public class AirPortFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        Appliance appliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
-        if (appliance == null || !(appliance instanceof AirPurifier)) {
+        if (airPort == null) {
             getFragmentManager().popBackStack();
             return;
         }
-        currentAppliance = (AirPurifier) appliance;
 
         portListener = new DICommPortListener<AirPort<AirPortProperties>>() {
             @Override
@@ -80,37 +86,37 @@ public class AirPortFragment extends Fragment {
                 DICommLog.e(TAG, String.format(Locale.US, "Air port error: [%s], data: [%s]", error.getErrorMessage(), errorData));
             }
         };
-        currentAppliance.getAirPort().addPortListener(portListener);
+        airPort.addPortListener(portListener);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        if (currentAppliance != null) {
-            currentAppliance.getAirPort().removePortListener(portListener);
+        if (airPort != null) {
+            airPort.removePortListener(portListener);
         }
     }
 
     private final CompoundButton.OnCheckedChangeListener subscriptionCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-            if (currentAppliance == null) {
+            if (airPort == null) {
                 return;
             }
 
             if (isChecked) {
-                currentAppliance.getAirPort().subscribe();
+                airPort.subscribe();
             } else {
-                currentAppliance.getAirPort().unsubscribe();
+                airPort.unsubscribe();
             }
         }
     };
 
     private void updateLightProperty(final boolean isChecked) {
-        if (currentAppliance == null) {
+        if (airPort == null) {
             return;
         }
-        currentAppliance.getAirPort().setLight(isChecked);
+        airPort.setLight(isChecked);
     }
 }

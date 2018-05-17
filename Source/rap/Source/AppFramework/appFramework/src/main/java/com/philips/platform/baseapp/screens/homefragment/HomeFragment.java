@@ -86,11 +86,8 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
         setHasOptionsMenu(true);
         return rootView;
     }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        inflater.inflate(R.menu.catalog_view_menu, menu);
         menu.findItem(R.id.menu_theme_settings).setVisible(true);
         super.onCreateOptionsMenu(menu, inflater);
     }

@@ -177,5 +177,10 @@
     <string name="dcc_Help_Support">說明與支援</string>
     <string name="dcc_Call">通話</string>
     <string name="dcc_Opening_Hours">營業時間</string>
+    <string name="dcc_location_consent_accept">確定</string>
+    <string name="dcc_location_consent_reject">取消</string>
+    <string name="dcc_location_consent_title">位置同意</string>
+    <string name="dcc_location_consent_definition_text">我允許飛利浦針對「Find Philips near you」(尋找附近的飛利浦服務中心) 存取我的位置資料。</string>
+    <string name="dcc_location_consent_definition_help_text">如果您允許我們存取位置資料，我們便會收集您的行動裝置的地理位置資料。\n\n使用支援網頁的「Find Philips near you」(尋找附近的飛利浦服務中心) 功能時，系統會要求您與飛利浦分享您的位置資料。如果您使用我們的定位功能，則我們會根據您的位置資料，將您導向附近商店，或是您所在國家/地區的客戶服務中心詳細聯絡資訊。</string>
 
 </resources>

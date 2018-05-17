@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
+  <string name="MYA_Visit_Website">[cs]Visit our website</string>
   <string name="csw_consent_help_label">Какво означава това?</string>
   <string name="csw_invalid_access_token_error_message">Имаше проблем със свързването към сървъра. Уверете се, че датата/часът на вашето устройство е правилно зададен(а). Ако проблемът продължава, моля, отпишете се и се впишете.</string>
   <string name="csw_offline_message">Изглежда, че вашата интернет връзка не работи. Проверете и опитайте отново.</string>
   <string name="csw_offline_title">Вие сте офлайн</string>
-  <string name="csw_ok">[cs]OK</string>
+  <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[cs]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[cs]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">Spravujte své soukromí. Více informací najdete v {zásadách ochrany osobních údajů}.</string>
   <string name="csw_privacy_settings">Настройки за поверителност</string>
-  <string name="csw_privacy_settings_desc">[cs]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">Spravujte své soukromí. Více informací najdete v {zásadách ochrany osobních údajů}.</string>
   <string name="csw_problem_occurred_error_message">Имаше проблем (грешка %1$d). Моля, опитайте отново.</string>
   <string name="csw_problem_occurred_error_title">Възникна проблем</string>
   <string name="mya_Account_settings">Настройки на акаунта</string>
@@ -46,22 +44,22 @@
   <string name="mya_Ok">OK</string>
   <string name="mya_Personal_details">Лични данни</string>
   <string name="mya_Privacy_Settings">Настройки за поверителност</string>
-  <string name="mya_Privacy_Settings_Desc">Контролирайте поверителността си. Прочетете _privacy notice_ за повече информация.</string>
+  <string name="mya_Privacy_Settings_Desc">Spravujte své soukromí. Více informací najdete v {zásadách ochrany osobních údajů}.</string>
   <string name="mya_Problem_Occurred_Error_Message">Имаше проблем (грешка %d). Моля, опитайте отново.</string>
   <string name="mya_Problem_Occurred_Error_Title">Възникна проблем</string>
   <string name="mya_Profile">Профил</string>
   <string name="mya_Settings">Настройки</string>
   <string name="mya_change_country">Отписване за промяна на държава</string>
   <string name="mya_change_country_message">Моля, отпишете се, за да промените държавата, в която живеете. Това ще ни позволи да съобразим гаранцията и друга информация спрямо вашето местоположение</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[cs]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[cs]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Отказ</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[cs]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[cs]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[cs]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[cs]Maybe later</string>
   <string name="mya_csw_justintime_title">[cs]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[cs]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[cs]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,cs][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,cs][NT]What do we have to offer?</string>
   <string name="mya_logout_message">Ще бъдете отписани от приложението. След като се отпишете, винаги можете да се впишете отново.</string>
   <string name="mya_logout_title">Наистина ли искате да излезете?</string>
 </resources>

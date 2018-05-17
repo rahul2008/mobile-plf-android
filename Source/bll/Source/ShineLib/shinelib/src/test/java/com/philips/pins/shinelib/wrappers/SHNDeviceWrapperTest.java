@@ -145,7 +145,7 @@ public class SHNDeviceWrapperTest {
 
     @Test
     public void whenConnectWithParametersIsCalledThenCallIsPostedOnInternalThread() throws Exception {
-        shnDeviceWrapper.connect(true, 3000);
+        shnDeviceWrapper.connect(3000);
 
         verify(internalHandlerMock).post(runnableCaptor.capture());
     }
@@ -156,7 +156,7 @@ public class SHNDeviceWrapperTest {
 
         runnableCaptor.getValue().run();
 
-        verify(shnDeviceMock).connect(true, 3000);
+        verify(shnDeviceMock).connect(3000);
     }
 
     @Test

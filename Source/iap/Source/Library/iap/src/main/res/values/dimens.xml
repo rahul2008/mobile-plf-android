@@ -128,4 +128,10 @@
     <dimen name="iap_btn_height_48">48dp</dimen>
     <dimen name="iap_margin_20dp">20dp</dimen>
     <dimen name="border_margin_32dp">32dp</dimen>
+
+    <!-- IAP Header Style attributes-->
+    <dimen name="iap_list_height_height">40dp</dimen>
+    <dimen name="iap_body_text">16sp</dimen>
+    <dimen name="iap_title_padding">4dp</dimen>
+    <dimen name="iap_body_text_line_spacing_extra">6dp</dimen>
 </resources>

@@ -11,15 +11,13 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_time"
-            style="@style/iapCentralesansBookFont"
-            android:layout_width="wrap_content"
+            style="@style/iap_list_header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingBottom="@dimen/border16_margin_left_right"
-            android:paddingStart="@dimen/border16_margin_left_right"
-            android:paddingTop="@dimen/border16_margin_left_right"
-            android:text="@string/iap_orders"
-            android:textColor="?attr/uidContentItemTertiaryNormalTextColor" />
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right"
+            android:text="@string/iap_orders" />
     </LinearLayout>
 
     <LinearLayout
@@ -33,18 +31,32 @@
         android:paddingStart="@dimen/border16_margin_left_right"
         android:paddingTop="@dimen/border16_margin_left_right">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iap_info"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/iap_product_ctn_12"
+                android:background="@drawable/iap_info_image"
+                android:scaleType="fitXY" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_empty_purchase_history_title"
             style="@style/iapCentralesansBoldFont"
+            android:layout_toRightOf="@+id/iap_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="4dp"
-            android:drawableStart="@drawable/uid_ic_cross_icon"
             android:gravity="center"
             android:text="@string/iap_order_not_received_items"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-            android:textSize="@dimen/iap_text_size_16sp" />
+            android:textSize="@dimen/iap_text_size_16sp"
+            />
+
+        </RelativeLayout>
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_empty_order_history"
@@ -54,8 +66,7 @@
             android:layout_marginBottom="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border16_margin_left_right"
             android:text="@string/iap_empty_purchase_history_dls"
-            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-            android:textSize="@dimen/iap_text_size_12" />
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_from_other_channel"
@@ -65,8 +76,7 @@
             android:layout_marginBottom="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border16_margin_left_right"
             android:text="@string/iap_other_channel_dls"
-            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-            android:textSize="@dimen/iap_text_size_12" />
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
     </LinearLayout>
 
     <LinearLayout

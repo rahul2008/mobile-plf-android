@@ -256,7 +256,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "iap"
+                "nextState": "shopping_cart"
               }
             ]
           },
@@ -311,6 +311,15 @@
               {
                 "condition": [],
                 "nextState": "my_account"
+              }
+            ]
+          },
+          {
+            "eventId": "my_orders",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_orders"
               }
             ]
           },
@@ -381,6 +390,15 @@
               {
                 "condition": [],
                 "nextState": "my_details"
+              }
+            ]
+          },
+          {
+            "eventId": "MyOrdersEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_orders"
               }
             ]
           }

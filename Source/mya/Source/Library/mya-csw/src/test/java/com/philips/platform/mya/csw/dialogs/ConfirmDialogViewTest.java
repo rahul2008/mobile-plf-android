@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -53,6 +54,25 @@ public class ConfirmDialogViewTest {
 
     @Test(expected = IllegalStateException.class)
     public void givenDialogNotSetup_whenShowDialog_thenShouldThrowException() {
+        confirmDialog.showDialog(activityMock);
+    }
+
+    @Test
+    public void hideDialogue_callsDismissOnAlertFragment() {
+        givenDialogueIsShown();
+        confirmDialog.hideDialog();
+        verify(alertMock).dismiss();
+    }
+
+    @Test
+    public void hideDialogue_DoesNotcallDismissWhenAlertFragmentIsNull() {
+        confirmDialog.hideDialog();
+        verify(alertMock, never()).dismiss();
+    }
+
+    private void givenDialogueIsShown() {
+        confirmDialog.setupDialog(
+                new ConfirmDialogTextResources(R.string.mya_csw_consent_revoked_confirm_title, R.string.mya_csw_consent_revoked_confirm_descr, R.string.mya_csw_consent_revoked_confirm_btn_ok, R.string.mya_csw_consent_revoked_confirm_btn_cancel));
         confirmDialog.showDialog(activityMock);
     }
 

@@ -15,7 +15,8 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.securestoragev2.SecureStorage2;
+import com.philips.platform.appinfra.securestoragev1.SecureStorageV1;
+import com.philips.platform.appinfra.securestoragev2.SecureStorageV2;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -43,10 +44,10 @@ public class SecureStorageBulkActivity extends Activity {
         appInfra = AILDemouAppInterface.getInstance().getAppInfra();
         isOldSSEnabled=getIntent().getBooleanExtra(Constants.IS_OLD_SS_ENABLED,false);
         if(isOldSSEnabled) {
-            mSecureStorage = appInfra.getSecureStorage();
+            mSecureStorage = new SecureStorageV1((AppInfra) appInfra);
             Toast.makeText(this,"Old secure storage is enabled",Toast.LENGTH_SHORT).show();
         }else{
-            mSecureStorage=new SecureStorage2((AppInfra) appInfra);
+            mSecureStorage=appInfra.getSecureStorage();
         }
     }
 

@@ -20,8 +20,8 @@ import android.widget.Switch;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.port.ble.BleParamsPort;
 import com.philips.cdp2.demouapp.port.ble.BleParamsPortProperties;
@@ -29,6 +29,7 @@ import com.philips.cdp2.demouapp.port.ble.BleParamsPortProperties;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.valueOf;
@@ -99,8 +100,13 @@ public class BleApplianceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.cml_fragment_ble_appliance, container, false);
 
+        final String cppId = getArguments().getString(APPLIANCE_KEY);
+        final Appliance appliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
+        if (appliance instanceof BleReferenceAppliance) {
+            currentAppliance = (BleReferenceAppliance) appliance;
+        }
         switchContinuousConnection = rootView.findViewById(R.id.cml_switch_continuous_connection);
-        switchContinuousConnection.setChecked(true);
+        switchContinuousConnection.setChecked(false);
         switchContinuousConnection.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
@@ -132,16 +138,12 @@ public class BleApplianceFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        Appliance appliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
-        if (appliance == null || !(appliance instanceof BleReferenceAppliance)) {
+        if (currentAppliance == null) {
             getFragmentManager().popBackStack();
             return;
         }
 
-        currentAppliance = (BleReferenceAppliance) appliance;
         currentAppliance.getBleParamsPort().addPortListener(portListener);
-        currentAppliance.getBleParamsPort().reloadProperties();
-
         handleContinuousConnectionChanged();
     }
 
