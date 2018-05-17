@@ -16,16 +16,8 @@ public class AppliedOrderPromotionEntity {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public PromotionEntity getPromotion() {
         return promotion;
-    }
-
-    public void setPromotion(PromotionEntity promotion) {
-        this.promotion = promotion;
     }
 
 }
