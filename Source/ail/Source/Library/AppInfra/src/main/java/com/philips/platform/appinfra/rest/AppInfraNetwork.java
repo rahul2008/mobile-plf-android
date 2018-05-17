@@ -51,15 +51,15 @@ public class AppInfraNetwork extends BasicNetwork {
         String hostName = getHostname(request);
         String[] storedKeys = fetchStoredKeys(hostName);
 
-        if (hostName.isEmpty()) {
-            log(SSL_EMPTY_HOSTNAME_LOG_MESSAGE, LoggingInterface.LogLevel.ERROR);
-        } else if (networkKeys == null && storedKeys != null) {
-            log(SSL_PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE, LoggingInterface.LogLevel.ERROR);
-        } else if (networkKeys != null && storedKeys == null) {
-            updateStoredKeys(publicKeyDetails, hostName);
-        } else if (networkKeys != null) {
-            if (!(networkKeys[1].equals(storedKeys[1])) || !(networkKeys[3].equals(storedKeys[3]))) {
+        if (!hostName.isEmpty()) {
+            if (networkKeys == null && storedKeys != null) {
+                log(SSL_PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE, LoggingInterface.LogLevel.ERROR);
+            } else if (networkKeys != null && storedKeys == null) {
                 updateStoredKeys(publicKeyDetails, hostName);
+            } else if (networkKeys != null) {
+                if (!(networkKeys[1].equals(storedKeys[1])) || !(networkKeys[3].equals(storedKeys[3]))) {
+                    updateStoredKeys(publicKeyDetails, hostName);
+                }
             }
         }
         return networkResponse;
