@@ -234,7 +234,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
             bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, productCatalogData.getPriceValue());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
-            bundle.putString(IAPConstant.STOCK_STATUS, productCatalogData.getStockLevel());
+            bundle.putString(IAPConstant.STOCK_LEVEL_STATUS, productCatalogData.getStockLevelStatus());
+            bundle.putInt(IAPConstant.STOCK_LEVEL, productCatalogData.getStockLevel());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             if (getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST) != null) {
                 final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);

@@ -232,7 +232,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                     // bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, product.getValuePrice());
                     bundle.putString(IAPConstant.PRODUCT_OVERVIEW, product.getMarketingTextHeader());
 //                    bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
-//                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());
+//                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getmStockLevel());
                     addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
                 }
             });
