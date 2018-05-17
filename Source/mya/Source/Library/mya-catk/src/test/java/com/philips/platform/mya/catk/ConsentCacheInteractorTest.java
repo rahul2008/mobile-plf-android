@@ -21,6 +21,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -55,7 +58,7 @@ public class ConsentCacheInteractorTest {
     private String CONSENT_TYPE_3 = "consentType3";
     private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, NOW.plusMinutes(10));
     private String consentStatusJsonForTwoTypes = "{\"userId\":{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1}}}";
-    private ConsentCacheInterface consentCacheInteractor;
+    private ConsentCacheInteractor consentCacheInteractor;
     private CachedConsentStatus returnedCachedConsent;
 
     @Before
@@ -123,7 +126,8 @@ public class ConsentCacheInteractorTest {
 
     @Test
     public void fetchConsent_ClearsCacheWhenAnotherUserIsLoggedIn() {
-        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 10));
+        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 1));
+        givenInMemoryCacheHas("anotherUser", CONSENT_TYPE_1, ConsentStates.active, 1);
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenConsentCacheIsFetchedFromSecureStorage();
         thenConsentCacheIsCleared();
@@ -135,6 +139,14 @@ public class ConsentCacheInteractorTest {
         when(userMock.getHsdpUUID()).thenReturn("someUserId");
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
         thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("someUserId", "active", CONSENT_TYPE_3, 1));
+    }
+
+    private void givenInMemoryCacheHas(String user, String consentType, ConsentStates status, int version) {
+        Map<String, CachedConsentStatus> consentCache = new HashMap<>();
+        consentCache.put(consentType, new CachedConsentStatus(status, version, new DateTime()));
+        Map<String, Map<String, CachedConsentStatus>> userConsentCache = new HashMap<>();
+        userConsentCache.put(user, consentCache);
+        consentCacheInteractor.setInMemoryCache(userConsentCache);
     }
 
     private void givenSecureStorageReturns(String cacheMapTest) {
