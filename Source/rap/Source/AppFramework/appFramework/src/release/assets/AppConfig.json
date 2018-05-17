@@ -70,5 +70,8 @@
   "hsdp": {
     "appName": "OneBackend",
     "propositionName": "OneBackendProp"
+  },
+  "css":{
+    "ConsentCacheTTLInMinutes" : 3
   }
 }
