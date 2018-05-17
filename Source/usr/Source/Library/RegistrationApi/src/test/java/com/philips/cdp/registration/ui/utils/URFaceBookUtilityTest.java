@@ -1,14 +1,9 @@
-package com.philips.cdp.registration.ui.traditional;
+package com.philips.cdp.registration.ui.utils;
 
 import android.content.Context;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookException;
-import com.facebook.FacebookRequestError;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
@@ -18,30 +13,23 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.traditional.mobile.FaceBookContractor;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import org.hamcrest.core.AnyOf;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-import org.mockito.internal.matchers.Any;
 import org.robolectric.annotation.Config;
 
-import static org.junit.Assert.*;
-
 /**
- * Created by philips on 5/14/18.
+ * Created by philips on 5/17/18.
  */
-
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
-public class HomePresenterTest {
+public class URFaceBookUtilityTest {
 
     @Mock
     User userMock;
@@ -53,7 +41,7 @@ public class HomePresenterTest {
     EventHelper eventHelperMock;
 
     @Mock
-    HomeContract homeContractMock;
+    FaceBookContractor faceBookContractorMock;
 
     @Mock
     Context contextMock;
@@ -67,7 +55,7 @@ public class HomePresenterTest {
     @Mock
     private LoggingInterface mockLoggingInterface;
 
-    HomePresenter homePresenter;
+    URFaceBookUtility urFaceBookUtility;
 
     @Mock
     LoginResult loginResultMock;
@@ -79,7 +67,6 @@ public class HomePresenterTest {
     CallbackManager callbackManagerMock;
 
 
-
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -87,38 +74,25 @@ public class HomePresenterTest {
         RLog.setMockLogger(mockLoggingInterface);
         callbackManagerMock = CallbackManager.Factory.create();
         Mockito.when(loginResultMock.getAccessToken()).thenReturn(accessTokenMock);
-        homePresenter = new HomePresenter(homeContractMock,callbackManagerMock);
+        urFaceBookUtility = new URFaceBookUtility(faceBookContractorMock);
 
     }
 
     @Test
-    public void shouldTestOnFaceBookSucces() throws Exception {
-        HomePresenter anotherObjSpy = Mockito.spy(homePresenter);
+    public void shouldReturnCallBackManager() throws Exception {
+        urFaceBookUtility.getCallBackManager();
     }
 
     @Test
-    public void shouldTestOnFaceBookLogInCancel() throws Exception {
-
+    public void shouldRequestUserProfileOnSuccessCalled() throws Exception {
+        URFaceBookUtility urFaceBookUtilitySpy = Mockito.spy(urFaceBookUtility);
+        urFaceBookUtilitySpy.onSuccess(loginResultMock);
+        Mockito.verify(urFaceBookUtilitySpy).requestUserProfile(loginResultMock);
     }
 
-    @Mock
-    FacebookException facebookExceptionMock;
-
     @Test
-    public void shouldTestOnFaceBookError() throws Exception {
-        Mockito.when(facebookExceptionMock.getMessage()).thenReturn("Facebook authentication failed");
-       // Mockito.verify(homeContractMock).doHideProgressDialog();
-    }
-
-    @Mock
-    JSONObject jsonObjectMock;
-    @Mock
-    GraphResponse graphResponseMock;
-
-
-
-    @Test
-    public void hideProgressBarWhenFetchFaceBookGraphComesWithError() throws Exception {
-        //homePresenter.onCompleted(jsonObjectMock,graphResponseMock);
+    public void hideProgressBarWhenFacebookLogInIsCanceled() throws Exception {
+        urFaceBookUtility.onCancel();
+        Mockito.verify(faceBookContractorMock).doHideProgressDialog();
     }
 }

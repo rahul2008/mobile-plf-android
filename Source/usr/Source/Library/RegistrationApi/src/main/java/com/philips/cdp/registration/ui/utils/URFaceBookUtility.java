@@ -90,7 +90,7 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
         }
     }
 
-    private void requestUserProfile(LoginResult loginResult) {
+    void requestUserProfile(LoginResult loginResult) {
         GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), this);
         Bundle parameters = new Bundle();
         parameters.putString("fields", "id,email");

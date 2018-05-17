@@ -88,8 +88,8 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     private MergeSocialToSocialAccountPresenter mergeSocialToSocialAccountPresenter;
     private URFaceBookUtility mURFaceBookUtility;
-    private String mFacebookEmail;
     private CallbackManager mCallbackManager;
+    private String mEmail;
 
     @Override
     public void onAttach(Context context) {
@@ -131,13 +131,14 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
         mConflictProvider = bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
+        mEmail = bundle.getString(RegConstants.SOCIAL_MERGE_EMAIL);
         String conflictingProvider = "reg_" + mConflictProvider;
         int conflictSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(conflictingProvider, "string",
                 getRegistrationFragment().getParentActivity().getPackageName());
         String conflictSocialProvider = mContext.getResources().getString(conflictSocialProviderId);
 
         usr_mergeScreen_used_social_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_label.getText().toString(), "<b>" + conflictSocialProvider + "</b>")));
-        usr_mergeScreen_used_social_again_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_again_label.getText().toString(), "<b>" + conflictSocialProvider + "</b>")));
+        usr_mergeScreen_used_social_again_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_again_label.getText().toString(), "<b>" + mEmail + "</b>")));
         usr_mergeScreen_login_button.setText(String.format(usr_mergeScreen_login_button.getText(), conflictSocialProvider));
     }
 
@@ -302,8 +303,11 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void onFaceBookEmailReceived(String email) {
-        mFacebookEmail = email;
-        startAccessTokenAuthForFacebook();
+        if (mEmail.equalsIgnoreCase(email)) {
+            startAccessTokenAuthForFacebook();
+        }else{
+            mergeFailure("Please try with same Email ID");
+        }
     }
 
     @Override
