@@ -16,18 +16,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_CPP_ID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_HTTPS;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_LAST_KNOWN_NETWORK;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_MODEL_ID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_PIN;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.*;
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 
 /**
@@ -72,7 +61,6 @@ public class NetworkNodeDatabase {
                     String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
                     String deviceType = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
                     String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
-                    boolean https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS)) == 1;
                     String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
 
                     NetworkNode networkNode = new NetworkNode();

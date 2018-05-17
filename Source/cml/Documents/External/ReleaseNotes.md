@@ -8,7 +8,7 @@ Version {next}
 * N/A
 
 ### Backwards Compatibility
-* N/A
+* Properties' definitions for NetworkNode moved from NetworkNodeDatabaseHelper to NetworkNode class
 
 ### Features not covered
 * N/A

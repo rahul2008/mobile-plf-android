@@ -8,7 +8,6 @@ package com.philips.cdp.dicommclient.port;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
@@ -18,7 +17,6 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
-import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.GsonProvider;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
@@ -101,7 +99,7 @@ public abstract class DICommPort<T extends PortProperties> {
     private PropertyChangeListener networkNodeListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(final PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals(NetworkNodeDatabaseHelper.KEY_BOOT_ID)) {
+            if (evt.getPropertyName().equals(NetworkNode.KEY_BOOT_ID)) {
                 refreshSubscriptionIfNecessary();
             }
         }
