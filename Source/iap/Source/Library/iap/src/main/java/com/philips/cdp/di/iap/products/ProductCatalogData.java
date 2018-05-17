@@ -17,18 +17,15 @@ public class ProductCatalogData {
     private String mFormattedPrice;
     private String mPriceValue;
     private String mMarketingTextHeader;
+    private int mStockLevel;
 
     public int getStockLevel() {
         return mStockLevel;
     }
 
-    private int mStockLevel;
-
     public void setStockLevel(int mStockLevel) {
         this.mStockLevel = mStockLevel;
     }
-
-
 
     public ProductCatalogData() {
     }
