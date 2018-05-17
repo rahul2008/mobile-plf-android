@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -47,7 +48,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class ProductCatalogFragment extends InAppBaseFragment
-        implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener {
+        implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
@@ -170,6 +171,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mSearchBox.setExpandListener(this);
         mSearchBox.setSearchBoxHint(R.string.iap_search_box_hint);
         mSearchBox.setDecoySearchViewHint(R.string.iap_search_box_hint);
+        mSearchBox.setQuerySubmitListener(this);
         mSearchTextView = mSearchBox.getSearchTextView();
         mSearchTextView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -403,5 +405,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
     public void onStop() {
         mSearchBox.setSearchCollapsed(true);
         super.onStop();
+    }
+
+    @Override
+    public void onQuerySubmit(CharSequence query) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
     }
 }
