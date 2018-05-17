@@ -20,7 +20,6 @@ public class ShoppingCartData implements Serializable {
     private int mTotalItems;
     private int mEntryNumber;
     private int mStockLevel;
-    private String mStockLevelStatus;
     private int mDeliveryItemsQuantity;
 
     private String mCtnNumber;

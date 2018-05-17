@@ -282,7 +282,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void setStockAvailability(ShoppingCartProductHolder shoppingCartProductHolder, boolean isStockAvailable, int stocklevel) {
         shoppingCartProductHolder.mQuantityLayout.setEnabled(isStockAvailable);
-        shoppingCartProductHolder.mQuantityLayout.setClickable(isStockAvailable);
         setCountArrow(mContext, isStockAvailable);
         mOutOfStock.onOutOfStock(isStockAvailable);
         if(!isStockAvailable){
