@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 
 import com.philips.cdp.digitalcare.R;
@@ -27,6 +28,8 @@ import java.util.Locale;
 public class DownloadAndShowPDFHelper {
 
     private static final String PACKAGENAME_ADOBE_READER = "com.adobe.reader";
+    private static final String SUFFIX_PDF_PROVIDER = ".com.philips.cdp.digitalcare.pdfprovider";
+
     private String TAG = DownloadAndShowPDFHelper.class.getSimpleName();
     private Context mContext;
 
@@ -86,7 +89,7 @@ public class DownloadAndShowPDFHelper {
         try {
             DigiCareLogger.d(TAG, " manualUrl " + manualFilename);
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(FileProvider.getUriForFile(ctx,mContext.getString(R.string.DCC_AUTHORITY) , file), "application/pdf");
+            intent.setDataAndType(FileProvider.getUriForFile(ctx, getProviderAuthority(), file), "application/pdf");
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             ctx.startActivity(intent);
@@ -95,6 +98,11 @@ public class DownloadAndShowPDFHelper {
             DigiCareLogger.e(TAG, e.getMessage());
             showAcrobatReaderNotInstalledDialog(ctx);
         }
+    }
+
+    @NonNull
+    private String getProviderAuthority() {
+        return mContext.getApplicationContext().getPackageName() + SUFFIX_PDF_PROVIDER;
     }
 
     private void showAcrobatReaderNotInstalledDialog(final Context ctx) {

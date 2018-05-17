@@ -210,5 +210,6 @@ ext.deps = [
         jsr305                        : 'com.google.code.findbugs:jsr305:3.0.1',
         spoon_gradle_plugin           : 'com.stanfy.spoon:spoon-gradle-plugin:1.1.0',
         thoughtworks_xstream          : 'com.thoughtworks.xstream:xstream:1.4.7',
-        commons_io                    : [group: 'commons-io', name: 'commons-io', version: '2.0.1']
+        commons_io                    : [group: 'commons-io', name: 'commons-io', version: '2.0.1'],
+        facebook                      : 'com.facebook.android:facebook-login:[4,5)'
 ]

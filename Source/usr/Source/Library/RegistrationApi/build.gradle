@@ -255,6 +255,7 @@ dependencies {
     testImplementation deps.robolectric_junit2
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
+    implementation deps.multidex
     androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.android_testrules
     androidTestImplementation deps.espresso_core
@@ -267,6 +268,7 @@ dependencies {
     implementation deps.okhttp
     implementation deps.wechat
     implementation deps.calligraphy
+    implementation deps.facebook
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
