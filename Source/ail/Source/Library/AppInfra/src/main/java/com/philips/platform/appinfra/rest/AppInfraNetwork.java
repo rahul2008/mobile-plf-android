@@ -20,8 +20,9 @@ import java.util.Map;
 public class AppInfraNetwork extends BasicNetwork {
 
     private static final String SSL_PUBLIC_KEY_PIN_LOG_MESSAGE = "Public-key pins Mismatch";
-    private static final String SSL_PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE = "Invalid public key pins format";
-    private static final String SSL_EMPTY_RESPONSE_LOG_MESSAGE = "Empty response or hostname for the request";
+    private static final String SSL_PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE = "Could not find Public-Key-Pins in network response";
+    private static final String SSL_EMPTY_HOSTNAME_LOG_MESSAGE = "Could not find hostname for the request";
+    private static final String SSL_STORAGE_ERROR_LOG_MESSAGE = "Could not update Public-Key-Pins in Secure Storage";
     private static final String SSL_RESPONSE_PUBLIC_KEY = "Public-Key-Pins";
 
     private SecureStorageInterface secureStorageInterface;
@@ -46,23 +47,38 @@ public class AppInfraNetwork extends BasicNetwork {
     public NetworkResponse performRequest(Request<?> request) throws VolleyError {
         NetworkResponse networkResponse = super.performRequest(request);
         String publicKeyDetails = getPublicKeyDetailsFromHeader(networkResponse);
+        String[] networkKeys = extractPublicKeys(publicKeyDetails);
         String hostName = getHostname(request);
+        String[] storedKeys = fetchStoredKeys(hostName);
 
-        if (publicKeyDetails.isEmpty() || hostName.isEmpty()) {
-            log(SSL_EMPTY_RESPONSE_LOG_MESSAGE);
-        } else {
-            String storedInfo = secureStorageInterface.fetchValueForKey(hostName, getSecureStorageError());
-            String[] networkKeys = extractPublicKeys(publicKeyDetails);
-            String[] storedKeys = extractPublicKeys(storedInfo);
-
-            if (networkKeys == null || storedKeys == null) {
-                log(SSL_PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE);
-            } else if (!(networkKeys[1].equals(storedKeys[1]) && networkKeys[3].equals(storedKeys[3]))) {
-                secureStorageInterface.storeValueForKey(hostName, publicKeyDetails, getSecureStorageError());
-                log(publicKeyDetails);
+        if (hostName.isEmpty()) {
+            log(SSL_EMPTY_HOSTNAME_LOG_MESSAGE, LoggingInterface.LogLevel.ERROR);
+        } else if (networkKeys == null && storedKeys != null) {
+            log(SSL_PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE, LoggingInterface.LogLevel.ERROR);
+        } else if (networkKeys != null && storedKeys == null) {
+            updateStoredKeys(publicKeyDetails, hostName);
+        } else if (networkKeys != null) {
+            if (!(networkKeys[1].equals(storedKeys[1])) || !(networkKeys[3].equals(storedKeys[3]))) {
+                updateStoredKeys(publicKeyDetails, hostName);
             }
         }
         return networkResponse;
+    }
+
+    private String[] fetchStoredKeys(String hostName) {
+        String storedInfo = secureStorageInterface.fetchValueForKey(hostName, getSecureStorageError());
+        if (storedInfo != null)
+            return extractPublicKeys(storedInfo);
+        return null;
+    }
+
+    private void updateStoredKeys(String publicKeyDetails, String hostName) {
+        boolean isUpdated = secureStorageInterface.storeValueForKey(hostName, publicKeyDetails, getSecureStorageError());
+        if (isUpdated) {
+            log(publicKeyDetails, LoggingInterface.LogLevel.INFO);
+        } else {
+            log(SSL_STORAGE_ERROR_LOG_MESSAGE, LoggingInterface.LogLevel.DEBUG);
+        }
     }
 
     private String[] extractPublicKeys(String publicKeyInfo) {
@@ -85,14 +101,13 @@ public class AppInfraNetwork extends BasicNetwork {
             URL url = new URL(request.getUrl());
             return url.getHost();
         } catch (MalformedURLException e) {
-            log(e.getMessage());
+            log(e.getMessage(), LoggingInterface.LogLevel.ERROR);
             return "";
         }
     }
 
-    private void log(String message) {
-        loggingInterface.log(LoggingInterface.LogLevel.ERROR, AppInfraNetwork.class.getSimpleName(), SSL_PUBLIC_KEY_PIN_LOG_MESSAGE);
-        loggingInterface.log(LoggingInterface.LogLevel.ERROR, AppInfraNetwork.class.getSimpleName(), SSL_RESPONSE_PUBLIC_KEY + ":" + message);
+    private void log(String message, LoggingInterface.LogLevel logLevel) {
+        loggingInterface.log(logLevel, AppInfraNetwork.class.getSimpleName(), SSL_PUBLIC_KEY_PIN_LOG_MESSAGE + ":" + message);
     }
 
     @VisibleForTesting
