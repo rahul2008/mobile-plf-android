@@ -1,7 +1,9 @@
 package com.philips.platform.appinfra.logging.database;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.logging.MessageSizeExceedsException;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 
@@ -26,13 +28,14 @@ public class AILCloudLogDataBuilderTest extends TestCase {
     private AppInfra appInfra;
 
     @Mock
-    private LoggingConfiguration loggingConfiguration;
+    private AppInfraLogging loggingInterface;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         MockitoAnnotations.initMocks(this);
-        when(appInfra.getAilCloudLogMetaData()).thenReturn(new AILCloudLogMetaData());
+        when(appInfra.getLogging()).thenReturn(loggingInterface);
+        when(loggingInterface.getAilCloudLogMetaData()).thenReturn(new AILCloudLogMetaData());
         ailCloudLogDataBuilder = new AILCloudLogDataBuilder(appInfra);
     }
 
@@ -40,7 +43,7 @@ public class AILCloudLogDataBuilderTest extends TestCase {
         LogRecord logRecord = mock(LogRecord.class);
         when(logRecord.getLevel()).thenReturn(Level.ALL);
         AILCloudLogMetaData ailCloudLogMetaData = getAILCloudLogMetaData();
-        when(appInfra.getAilCloudLogMetaData()).thenReturn(ailCloudLogMetaData);
+        when(loggingInterface.getAilCloudLogMetaData()).thenReturn(ailCloudLogMetaData);
         Object[] objects = new Object[4];
         objects[0] = "data";
         objects[1] = "ail";

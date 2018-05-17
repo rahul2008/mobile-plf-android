@@ -22,6 +22,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -800,7 +801,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     private void saveToSecureStore(final String country, final String countrySource) {
-        mAppInfra.getAilCloudLogMetaData().setHomeCountry(country);
+        ((AppInfraLogging)mAppInfra.getLogging()).getAilCloudLogMetaData().setHomeCountry(country);
         final SecureStorageInterface mSecureStorageInterface = mAppInfra.getSecureStorage();
         final SecureStorage.SecureStorageError mSecureStorageError = getSecureStorageError();
 

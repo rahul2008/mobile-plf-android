@@ -52,6 +52,21 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
         return buildAuthorizationHeaderValue(joinHeaders(headers), signature);
     }
 
+
+    public String createSignatureForCloudUsingHSDPKey() {
+        PsLib psLib = new PsLib();
+        String secretKeyHSDP = "96a5cd559d9299e4632faae2320777347d0e35acd77e3c1e9edcf244a30443ad3fcefdbb62806f15bb758c5903a0d7be635e0240cc671261f14cb37cc2ef1153";
+        String date = "2018-04-16T10:42:59.722+0000";
+        final byte[] dateByteArray;
+
+        dateByteArray = date.getBytes(UTF_8_CHARSET);
+        String dateBase64 = Base64.encodeToString(dateByteArray,Base64.NO_WRAP);
+        final byte[] secretKeyByteArrayHSDP = hexStringToByteArray(secretKeyHSDP);
+        byte[] signatureArray = psLib.createHmac(secretKeyByteArrayHSDP, dateBase64.getBytes(Charset.forName("UTF-8")));
+        String signature = Base64.encodeToString(signatureArray,Base64.NO_WRAP);
+        return signature;
+    }
+
     private String joinHeaders(Map<String, String> headers) {
         final List<String> headerList = new LinkedList<String>();
 

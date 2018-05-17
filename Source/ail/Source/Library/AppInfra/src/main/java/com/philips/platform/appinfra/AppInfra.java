@@ -63,15 +63,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private AppUpdateInterface mAppupdateInterface;
     private ConsentManagerInterface consentManager;
 
-    private  AILCloudLogMetaData ailCloudLogMetaData=new AILCloudLogMetaData();
 
-    public AILCloudLogMetaData getAilCloudLogMetaData() {
-        return ailCloudLogMetaData;
-    }
-
-    public void setAilCloudLogMetaData(AILCloudLogMetaData ailCloudLogMetaData){
-        this.ailCloudLogMetaData=ailCloudLogMetaData;
-    }
 
     /**
      * The App infra context. This MUST be Application context
@@ -486,35 +478,14 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                 }
             }).start();
 //            }
-            updateMetadata(ai);
+            if(ai.getLogging() instanceof AppInfraLogging){
+                ((AppInfraLogging)ai.getLogging()).updateMetadata(ai);
 
+            }
             postLog(ai, startTime, "App-infra initialization ends with ");
             return ai;
         }
 
-        private void updateMetadata(AppInfra appInfra) {
-            try {
-                AILCloudLogMetaData ailCloudLogMetaData = new AILCloudLogMetaData();
-                if (appInfra.getAppIdentity() != null) {
-                    ailCloudLogMetaData.setAppName(appInfra.getAppIdentity().getAppName());
-                    ailCloudLogMetaData.setAppState(appInfra.getAppIdentity().getAppState().toString());
-                    ailCloudLogMetaData.setAppVersion(appInfra.getAppIdentity().getAppVersion());
-                }
-                if (appInfra.getTagging() != null) {
-                    ailCloudLogMetaData.setAppsId(appInfra.getTagging().getTrackingIdentifier());
-                }
-                if (appInfra.getInternationalization() != null) {
-                    ailCloudLogMetaData.setLocale(appInfra.getInternationalization().getUILocaleString());
-                }
-                if (appInfra.getServiceDiscovery() != null) {
-                    ailCloudLogMetaData.setHomeCountry(appInfra.getServiceDiscovery().getHomeCountry());
-                }
-                appInfra.setAilCloudLogMetaData(ailCloudLogMetaData);
-            } catch (IllegalArgumentException e) {
-
-            }
-
-        }
 
 
     }

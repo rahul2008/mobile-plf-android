@@ -24,6 +24,7 @@ public class LoggingConfiguration {
     public final String LOG_LEVEL_KEY = "logLevel";
     public final String CONSOLE_LOG_ENABLED_KEY = "consoleLogEnabled";
     public final String CLOUD_LOG_ENABLED_KEY = "cloudLogEnabled";
+    public final String CLOUD_LOG_BATCH_LIMIT = "cloudBatchLimit";
     public final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
     public final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
     private HashMap<?, ?> mLoggingProperties;
@@ -119,5 +120,9 @@ public class LoggingConfiguration {
 
     public boolean isCloudLogEnabled() {
         return (null != mLoggingProperties && null != mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY) : false;
+    }
+
+    public int getBatchLimit(){
+        return (null != mLoggingProperties && null != mLoggingProperties.get(CLOUD_LOG_BATCH_LIMIT)) ? (Integer) mLoggingProperties.get(CLOUD_LOG_BATCH_LIMIT) : CloudLoggingConstants.DEFAULT_BATCH_LIMIT;
     }
 }

@@ -5,7 +5,7 @@
 
 def epochTime() {
     def env_epoch = System.getenv('EPOCH_TIME')
-    long local_epoch = System.currentTimeMillis()/1000
+    long local_epoch = System.currentTimeMillis() / 1000
     def epoch = env_epoch != null ? env_epoch : local_epoch
     return epoch
 }
@@ -41,42 +41,42 @@ ext.builddeps = [
 ]
 
 ext.philipsdeps = [
-        uAppFwLib                       : [group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversionsuffix, changing: true],
-        uAppFwLibUApp                   : [group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: platformversionsuffix, changing: true],
-        AppInfra                        : [group: 'com.philips.cdp', name: 'AppInfra', version: platformversionsuffix, changing: true],
-        pluginreferenceboard            : [group: 'com.philips.cdp', name: 'pluginreferenceboard', version: platformversionsuffix, changing: true],
-        cloudcontroller                 : [group: 'com.philips.cdp', name: 'cloudcontroller', version: platformversionsuffix, changing: true],
-        commlib                         : [group: 'com.philips.cdp', name: 'commlib', version: platformversionsuffix, changing: true],
-        commlib_lan                     : [group: 'com.philips.cdp', name: 'commlib-lan', version: platformversionsuffix, changing: true],
-        commlib_api                     : [group: 'com.philips.cdp', name: 'commlib-api', version: platformversionsuffix, changing: true],
-        commlib_demouapp                : [group: 'com.philips.cdp', name: 'commlib-demouapp', version: platformversionsuffix, changing: true],
-        bluelib                         : [group: 'com.philips.cdp', name: 'bluelib', version: platformversionsuffix, changing: true],
-        bluelib_demouapp                : [group: 'com.philips.cdp', name: 'bluelib-demouapp', version: platformversionsuffix, changing: true],
-        productselection                : [group: 'com.philips.cdp', name: 'productselection', version: platformversionsuffix, changing: true],
-        uid                             : [group: 'com.philips.cdp', name: 'uid', version: platformversionsuffix, changing: true],
-        registrationApi                 : [group: 'com.philips.cdp', name: 'registrationApi', version: platformversionsuffix, changing: true],
-        UserRegistrationUApp            : [group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversionsuffix, changing: true],
-        mya                             : [group: 'com.philips.cdp', name: 'mya', version: platformversionsuffix, changing: true],
-        mya_catk                        : [group: 'com.philips.cdp', name: 'mya-catk', version: platformversionsuffix, changing: true],
-        mya_csw                         : [group: 'com.philips.cdp', name: 'mya-csw', version: platformversionsuffix, changing: true],
-        mya_chi                         : [group: 'com.philips.cdp', name: 'mya-chi', version: platformversionsuffix, changing: true],
-        uikitLib                        : [group: 'com.philips.cdp', name: 'uikitLib', version: platformversionsuffix, changing: true],
-        iap                             : [group: 'com.philips.cdp', name: 'iap', version: platformversionsuffix, changing: true],
-        iapUApp                         : [group: 'com.philips.cdp', name: 'iapUApp', version: platformversionsuffix, changing: true],
-        pif                             : [group: 'com.philips.cdp', name: 'pif', version: platformversionsuffix, changing: true],
-        prx                             : [group: 'com.philips.cdp', name: 'prx', version: platformversionsuffix, changing: true],
-        jump                            : [group: 'com.philips.cdp', name: 'jump', version: platformversionsuffix, changing: true],
-        product_registration_libUApp    : [group: 'com.philips.cdp', name: 'product-registration-libUApp', version: platformversionsuffix, changing: true],
-        product_registration_lib        : [group: 'com.philips.cdp', name: 'product-registration-lib', version: platformversionsuffix, changing: true],
-        digitalCare                     : [group: 'com.philips.cdp', name: 'digitalCare', version: platformversionsuffix, changing: true],
-        digitalCareUApp                 : [group: 'com.philips.cdp', name: 'digitalCareUApp', version: platformversionsuffix, changing: true],
-        dataServices                    : [group: 'com.philips.cdp', name: 'dataServices', version: platformversionsuffix, changing: true],
-        dataServicesUApp                : [group: 'com.philips.cdp', name: 'dataServicesUApp', version: platformversionsuffix, changing: true],
-        devicepairingUApp               : [group: 'com.philips.cdp', name: 'devicepairingUApp', version: platformversionsuffix, changing: true],
-        telehealth                      : [group: 'com.philips.cdp', name: 'telehealth', version: platformversionsuffix, changing: true],
-        telehealthUApp                  : [group: 'com.philips.cdp', name: 'thsUapp', version: platformversionsuffix, changing: true],
-        ewsUApp                         : [group: 'com.philips.cdp', name: 'ewsUApp', version: platformversionsuffix, changing: true],
-        IconFont                        : [group: 'com.philips.cdp', name: 'IconFont', version: platformversionsuffix, changing: true]
+        uAppFwLib                   : [group: 'com.philips.cdp', name: 'uAppFwLib', version: platformversionsuffix, changing: true],
+        uAppFwLibUApp               : [group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: platformversionsuffix, changing: true],
+        AppInfra                    : [group: 'com.philips.cdp', name: 'AppInfra', version: platformversionsuffix, changing: true],
+        pluginreferenceboard        : [group: 'com.philips.cdp', name: 'pluginreferenceboard', version: platformversionsuffix, changing: true],
+        cloudcontroller             : [group: 'com.philips.cdp', name: 'cloudcontroller', version: platformversionsuffix, changing: true],
+        commlib                     : [group: 'com.philips.cdp', name: 'commlib', version: platformversionsuffix, changing: true],
+        commlib_lan                 : [group: 'com.philips.cdp', name: 'commlib-lan', version: platformversionsuffix, changing: true],
+        commlib_api                 : [group: 'com.philips.cdp', name: 'commlib-api', version: platformversionsuffix, changing: true],
+        commlib_demouapp            : [group: 'com.philips.cdp', name: 'commlib-demouapp', version: platformversionsuffix, changing: true],
+        bluelib                     : [group: 'com.philips.cdp', name: 'bluelib', version: platformversionsuffix, changing: true],
+        bluelib_demouapp            : [group: 'com.philips.cdp', name: 'bluelib-demouapp', version: platformversionsuffix, changing: true],
+        productselection            : [group: 'com.philips.cdp', name: 'productselection', version: platformversionsuffix, changing: true],
+        uid                         : [group: 'com.philips.cdp', name: 'uid', version: platformversionsuffix, changing: true],
+        registrationApi             : [group: 'com.philips.cdp', name: 'registrationApi', version: platformversionsuffix, changing: true],
+        UserRegistrationUApp        : [group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversionsuffix, changing: true],
+        mya                         : [group: 'com.philips.cdp', name: 'mya', version: platformversionsuffix, changing: true],
+        mya_catk                    : [group: 'com.philips.cdp', name: 'mya-catk', version: platformversionsuffix, changing: true],
+        mya_csw                     : [group: 'com.philips.cdp', name: 'mya-csw', version: platformversionsuffix, changing: true],
+        mya_chi                     : [group: 'com.philips.cdp', name: 'mya-chi', version: platformversionsuffix, changing: true],
+        uikitLib                    : [group: 'com.philips.cdp', name: 'uikitLib', version: platformversionsuffix, changing: true],
+        iap                         : [group: 'com.philips.cdp', name: 'iap', version: platformversionsuffix, changing: true],
+        iapUApp                     : [group: 'com.philips.cdp', name: 'iapUApp', version: platformversionsuffix, changing: true],
+        pif                         : [group: 'com.philips.cdp', name: 'pif', version: platformversionsuffix, changing: true],
+        prx                         : [group: 'com.philips.cdp', name: 'prx', version: platformversionsuffix, changing: true],
+        jump                        : [group: 'com.philips.cdp', name: 'jump', version: platformversionsuffix, changing: true],
+        product_registration_libUApp: [group: 'com.philips.cdp', name: 'product-registration-libUApp', version: platformversionsuffix, changing: true],
+        product_registration_lib    : [group: 'com.philips.cdp', name: 'product-registration-lib', version: platformversionsuffix, changing: true],
+        digitalCare                 : [group: 'com.philips.cdp', name: 'digitalCare', version: platformversionsuffix, changing: true],
+        digitalCareUApp             : [group: 'com.philips.cdp', name: 'digitalCareUApp', version: platformversionsuffix, changing: true],
+        dataServices                : [group: 'com.philips.cdp', name: 'dataServices', version: platformversionsuffix, changing: true],
+        dataServicesUApp            : [group: 'com.philips.cdp', name: 'dataServicesUApp', version: platformversionsuffix, changing: true],
+        devicepairingUApp           : [group: 'com.philips.cdp', name: 'devicepairingUApp', version: platformversionsuffix, changing: true],
+        telehealth                  : [group: 'com.philips.cdp', name: 'telehealth', version: platformversionsuffix, changing: true],
+        telehealthUApp              : [group: 'com.philips.cdp', name: 'thsUapp', version: platformversionsuffix, changing: true],
+        ewsUApp                     : [group: 'com.philips.cdp', name: 'ewsUApp', version: platformversionsuffix, changing: true],
+        IconFont                    : [group: 'com.philips.cdp', name: 'IconFont', version: platformversionsuffix, changing: true]
 ]
 ext.repos = [
         base: 'http://artifactory-ehv.ta.philips.com:8082/artifactory',
@@ -119,8 +119,8 @@ ext.deps = [
         leakcanary_no_op              : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5',
         okhttp                        : 'com.squareup.okhttp:okhttp:2.7.5',
         okhttp_apache                 : 'com.squareup.okhttp:okhttp-apache:2.7.5',
-        okhttp3                        : 'com.squareup.okhttp3:okhttp:3.10.0',
-        okhttp_apache3                 :'com.squareup.okhttp3:okhttp-apache:3.10.0',
+        okhttp3                       : 'com.squareup.okhttp3:okhttp:3.10.0',
+        okhttp_apache3                : 'com.squareup.okhttp3:okhttp-apache:3.10.0',
         ormlite                       : [
                 android: "com.j256.ormlite:ormlite-android:5.0",
                 core   : "com.j256.ormlite:ormlite-core:5.0"
@@ -201,7 +201,9 @@ ext.deps = [
         testing_support               : 'com.android.support.test:testing-support-lib:0.1',
         uiautomator                   : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
         wechat                        : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0',
-        room_runtime                  : 'android.arch.persistence.room:runtime:1.0.0',
-        room_compiler                 : 'android.arch.persistence.room:compiler:1.0.0',
+        room_runtime                  : 'android.arch.persistence.room:runtime:1.1.0',
+        room_compiler                 : 'android.arch.persistence.room:compiler:1.1.0',
+        livedata                      : 'android.arch.lifecycle:livedata:1.1.0',
+        livedata_compiler             : 'android.arch.lifecycle:compiler:1.1.0',
         commons_io                    : [group: 'commons-io', name: 'commons-io', version: '2.0.1']
 ]

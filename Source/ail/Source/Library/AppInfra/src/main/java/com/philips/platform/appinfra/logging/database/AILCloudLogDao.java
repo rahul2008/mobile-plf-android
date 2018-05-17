@@ -1,8 +1,13 @@
 package com.philips.platform.appinfra.logging.database;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
+
+import java.util.List;
 
 import static android.arch.persistence.room.OnConflictStrategy.IGNORE;
 
@@ -24,14 +29,19 @@ public interface AILCloudLogDao {
 //    void deleteGivenRows(AILCloudLogData log);
 
     @Query("select count(*) from AILCloudLogData")
-    int getNumberOfRows();
+    LiveData<Integer> getNumberOfRows();
 
-    @Query("delete FROM AILCloudLogData where logId in (select logId from AILCloudLogData where severity in ('DEBUG','INFO','VERBOSE') order by logTime LIMIT :batch)")
-    void deleteOldestRowsByBatchSize(int batch);
+    @Query("select * FROM AILCloudLogData where status in ('Error','New') order by logTime LIMIT :maxlimit")
+    List<AILCloudLogData> getOldestRowsWithMaxLimit(int maxlimit);
 
 
     @Insert(onConflict = IGNORE)
     void insertLog(AILCloudLogData log);
 
+    @Delete
+    void deleteLogs(List<AILCloudLogData> ailCloudLogDataList);
+
+    @Update
+    void updateLogs(List<AILCloudLogData> ailCloudLogDataList);
 
 }

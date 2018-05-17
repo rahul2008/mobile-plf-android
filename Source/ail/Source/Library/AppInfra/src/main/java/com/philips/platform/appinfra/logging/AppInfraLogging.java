@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
+import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
 
 import java.util.Map;
 import java.util.logging.Level;
@@ -24,6 +26,15 @@ public class AppInfraLogging implements LoggingInterface {
     private transient Logger mJavaLogger;
     private String componentId,componentVersion;
 
+    private AILCloudLogMetaData ailCloudLogMetaData=new AILCloudLogMetaData();
+
+    private LoggingConfiguration loggingConfiguration;
+
+    public AILCloudLogMetaData getAilCloudLogMetaData() {
+        return ailCloudLogMetaData;
+    }
+
+
     public AppInfraLogging(AppInfra aAppInfra) {
         this(aAppInfra, "", "");
     }
@@ -31,6 +42,7 @@ public class AppInfraLogging implements LoggingInterface {
     public AppInfraLogging(AppInfra aAppInfra, String componentId, String componentVersion) {
         mAppInfra = aAppInfra;
         mJavaLogger = getJavaLogger(componentId, componentVersion);
+        CloudLogSyncManager.getInstance(aAppInfra,loggingConfiguration);
         this.componentId=componentId;
         this.componentVersion=componentVersion;
     }
@@ -90,12 +102,34 @@ public class AppInfraLogging implements LoggingInterface {
         }
     }
 
+    public void updateMetadata(AppInfra appInfra) {
+        try {
+            if (appInfra.getAppIdentity() != null) {
+                ailCloudLogMetaData.setAppName(appInfra.getAppIdentity().getAppName());
+                ailCloudLogMetaData.setAppState(appInfra.getAppIdentity().getAppState().toString());
+                ailCloudLogMetaData.setAppVersion(appInfra.getAppIdentity().getAppVersion());
+            }
+            if (appInfra.getTagging() != null) {
+                ailCloudLogMetaData.setAppsId(appInfra.getTagging().getTrackingIdentifier());
+            }
+            if (appInfra.getInternationalization() != null) {
+                ailCloudLogMetaData.setLocale(appInfra.getInternationalization().getUILocaleString());
+            }
+            if (appInfra.getServiceDiscovery() != null) {
+                ailCloudLogMetaData.setHomeCountry(appInfra.getServiceDiscovery().getHomeCountry());
+            }
+        } catch (IllegalArgumentException e) {
+
+        }
+
+    }
     @Override
     public void setUserUUID(String userUUID) {
-        mAppInfra.getAilCloudLogMetaData().setUserUUID(userUUID);
+        ailCloudLogMetaData.setUserUUID(userUUID);
     }
 
     protected Logger getJavaLogger(String componentId, String componentVersion) {
+        loggingConfiguration=new LoggingConfiguration(mAppInfra, componentId, componentVersion);
         return LoggerFactory.getLoggerInstance(mAppInfra, new LoggingConfiguration(mAppInfra, componentId, componentVersion));
     }
 

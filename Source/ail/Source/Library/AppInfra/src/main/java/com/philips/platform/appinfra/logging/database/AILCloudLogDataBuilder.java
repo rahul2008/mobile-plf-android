@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.logging.database;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 import com.philips.platform.appinfra.logging.LoggingUtils;
 import com.philips.platform.appinfra.logging.MessageSizeExceedsException;
@@ -36,17 +37,26 @@ public class AILCloudLogDataBuilder {
                 }
             }
             ailCloudLogData.logDescription = (String) parameters.get(0);
-            ailCloudLogData.component=(String)parameters.get(1)+"/"+(String)parameters.get(2);
-            if (LoggingUtils.getStringLengthInBytes(ailCloudLogData.logDescription+ailCloudLogData.details)>CloudLoggingConstants.MAX_LOG_SIZE) {
-               throw  new MessageSizeExceedsException();
+            ailCloudLogData.component = (String) parameters.get(1) + "/" + (String) parameters.get(2);
+            if (LoggingUtils.getStringLengthInBytes(ailCloudLogData.logDescription + ailCloudLogData.details) > CloudLoggingConstants.MAX_LOG_SIZE) {
+                throw new MessageSizeExceedsException();
             }
         }
         ailCloudLogData.logId = LoggingUtils.getUUID();
         ailCloudLogData.severity = LoggingUtils.getAILLogLevel(logRecord.getLevel().toString());
         ailCloudLogData.eventId = logRecord.getMessage();
-        AILCloudLogMetaData ailCloudLogMetaData = appInfra.getAilCloudLogMetaData();
-        ailCloudLogData.homecountry = ailCloudLogMetaData.getHomeCountry();
-        ailCloudLogData.locale = ailCloudLogMetaData.getLocale();
+        if (appInfra.getLogging() != null) {
+            AILCloudLogMetaData ailCloudLogMetaData = ((AppInfraLogging) appInfra.getLogging()).getAilCloudLogMetaData();
+            if (ailCloudLogMetaData != null) {
+                ailCloudLogData.homecountry = ailCloudLogMetaData.getHomeCountry();
+                ailCloudLogData.locale = ailCloudLogMetaData.getLocale();
+                ailCloudLogData.appState = ailCloudLogMetaData.getAppState();
+                ailCloudLogData.appVersion = ailCloudLogMetaData.getAppVersion();
+                ailCloudLogData.appsId = ailCloudLogMetaData.getAppsId();
+                ailCloudLogData.userUUID = ailCloudLogMetaData.getUserUUID();
+            }
+        }
+
         if (appInfra.getTime() != null && appInfra.getTime().getUTCTime() != null) {
             ailCloudLogData.logTime = appInfra.getTime().getUTCTime().getTime();
         }
@@ -54,11 +64,9 @@ public class AILCloudLogDataBuilder {
             ailCloudLogData.networktype = appInfra.getRestClient().getNetworkReachabilityStatus().toString();
         }
         ailCloudLogData.localtime = System.currentTimeMillis();
-        ailCloudLogData.appState = ailCloudLogMetaData.getAppState();
-        ailCloudLogData.appVersion = ailCloudLogMetaData.getAppVersion();
-        ailCloudLogData.appsId = ailCloudLogMetaData.getAppsId();
-        ailCloudLogData.userUUID =ailCloudLogMetaData.getUserUUID();
+
         ailCloudLogData.serverName = "Android/" + LoggingUtils.getOSVersion();
+        ailCloudLogData.status= AILCloudLogDBManager.DBLogState.NEW.getState();
         Log.d("test", "After adding heavy params:" + System.currentTimeMillis());
         return ailCloudLogData;
     }

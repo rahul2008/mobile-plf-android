@@ -56,6 +56,7 @@ subprojects {
                     password = "123qweasdzxc"
                 }
             }
+            jcenter()
         }
     }
 
@@ -75,6 +76,7 @@ subprojects {
                 password = "123qweasdzxc"
             }
         }
+        jcenter()
     }
 
     ext.useprojectdependencies = true

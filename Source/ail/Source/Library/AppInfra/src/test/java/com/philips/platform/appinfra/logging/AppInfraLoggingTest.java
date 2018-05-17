@@ -87,7 +87,7 @@ public class AppInfraLoggingTest extends TestCase {
 
     public void testSetUserUUID() {
         AILCloudLogMetaData ailCloudLogMetaData = new AILCloudLogMetaData();
-        when(appInfraMock.getAilCloudLogMetaData()).thenReturn(ailCloudLogMetaData);
+        when(((AppInfraLogging)appInfraMock.getLogging()).getAilCloudLogMetaData()).thenReturn(ailCloudLogMetaData);
         appInfraLogging.setUserUUID("uuid");
         assertEquals(ailCloudLogMetaData.getUserUUID(), "uuid");
 

@@ -90,5 +90,7 @@ public class AILCloudLogData {
      */
     public String serverName;
 
+    public String status;
+
 
 }
