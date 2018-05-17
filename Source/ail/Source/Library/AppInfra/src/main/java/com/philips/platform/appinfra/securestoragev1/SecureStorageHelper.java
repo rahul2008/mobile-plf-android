@@ -274,15 +274,18 @@ class SecureStorageHelper {
         } else if (mode == Cipher.DECRYPT_MODE) {
             byte[] iv;
             String[] splitData = getSplitData(new String(value));
-            value = splitData[0].getBytes();
             if (splitData.length == 2) {
+                value = splitData[0].getBytes();
                 iv = Base64.decode(splitData[1].getBytes(), Base64.DEFAULT);
+                cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+                byte[] decodedData = Base64.decode(value, Base64.DEFAULT);
+                return cipher.doFinal(decodedData);// decrypt string value using AES key
             } else {
                 iv = new byte[cipher.getBlockSize()];
+                cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+                return cipher.doFinal(value);
             }
-            cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
-            byte[] decodedData = Base64.decode(value, Base64.DEFAULT);
-            return cipher.doFinal(decodedData);// decrypt string value using AES key
+
         }
         return null;
     }

@@ -1,11 +1,11 @@
 package com.philips.cdp.registration.controller;
 
-import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+
+import junit.framework.TestCase;
 
 import org.json.JSONObject;
 import org.junit.After;
@@ -16,12 +16,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
-public class RussianConsentTest {
+public class RussianConsentTest extends TestCase{
 
     @Mock
     private RegistrationComponent mockRegistrationComponent;

@@ -2,14 +2,11 @@ package com.philips.cdp.registration.update;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.handlers.UpdateConsumerInterestHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.junit.Before;
@@ -17,17 +14,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by philips on 11/30/17.
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(MockitoJUnitRunner.class)
 public class ConsumerInterestUpdateTest {
 
 

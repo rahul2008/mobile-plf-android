@@ -126,22 +126,16 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -157,6 +151,7 @@ android {
     }
 
     testOptions {
+        unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
     }
 
@@ -216,7 +211,7 @@ android {
         abortOnError false
     }
 
-    publishNonDefault true
+
 }
 
 configurations {
@@ -228,71 +223,72 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
-apply from: "build.workaround-missing-resource.gradle"
+//apply from: "build.workaround-missing-resource.gradle"
 
 dependencies {
     //3rd party
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation deps.constraintlayout
+    implementation deps.support.recyclerview
+    implementation deps.support.appcompatv7
+    implementation deps.support.supportv4
+    implementation deps.volley
+    implementation deps.calligraphy
+    implementation deps.gson
+    implementation deps.libphonenumber
+
+
+
 
     //Coco
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
-        debugCompile project(path: ':registrationApi', configuration: 'debug')
-        releaseCompile project(path: ':registrationApi', configuration: 'release')
-        debugCompile project(path: ':prx', configuration: 'debug')
-        releaseCompile project(path: ':prx', configuration: 'release')
+        implementation project(':uid')
+        implementation project(':registrationApi')
+        implementation project(':prx')
+        implementation project(':uAppFwLib')
+        implementation project(':AppInfra')
     } else {
-        compile philipsdeps.uid
-        compile philipsdeps.registrationApi
-        compile philipsdeps.prx
+        implementation philipsdeps.uid
+        implementation philipsdeps.registrationApi
+        implementation philipsdeps.prx
     }
 
     // Tests
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
-    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
-    testCompile('org.robolectric:robolectric:3.4.2') {
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.maven_ant
+    testImplementation(deps.robolectric) {
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
     }
-    testCompile 'org.robolectric:robolectric-utils:3.4-rc2'
-    testCompile 'org.robolectric:robolectric-junit:3.4-rc2'
+    testImplementation deps.robolectric_utils
+    testImplementation deps.robolectric_junit2
 
-    androidTestCompile deps.assertj
-    androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2';
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2';
-    androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.2'
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    androidTestImplementation deps.assertj
+    androidTestImplementation deps.dexmaker_google_mockito
+    androidTestImplementation deps.dexmaker_google
+    androidTestImplementation deps.espresso_web
+    androidTestImplementation deps.uiautomator
 
     // Android runner and rules support
-    androidTestCompile("com.android.support.test:runner:0.5") {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
-    androidTestCompile("com.android.support.test:rules:0.5") {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
+    androidTestImplementation deps. android_testrunner
+    androidTestImplementation deps.android_testrules
     // Espressosupport
-    androidTestCompile(deps.espresso_core, {
+    androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile(deps.espresso_contrib) {
+    androidTestImplementation(deps.espresso_contrib) {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
     // add this for intent mocking support
-    // androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+    // androidTestImplementation 'com.android.support.test.espresso:espresso-intents:2.2.2'
 
     // add this for webview testing support
-    androidTestCompile deps.espresso_web
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    androidTestImplementation deps.espresso_web
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

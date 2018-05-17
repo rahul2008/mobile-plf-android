@@ -16,7 +16,6 @@ import static junit.framework.Assert.assertEquals;
  */
 
 @RunWith(CustomRobolectricRunnerCC.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class ConsumerProductInfoRTest {
 
     @Test

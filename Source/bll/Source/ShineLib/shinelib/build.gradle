@@ -9,6 +9,7 @@ apply plugin: 'pl.droidsonroids.pitest'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 archivesBaseName = "bluelib"
 
@@ -37,26 +38,26 @@ android {
     lintOptions {
         abortOnError false
     }
-    publishNonDefault true
+
 }
 
 dependencies {
-    compile deps.support.annotations
-    compile deps.gson
+    implementation deps.support.annotations
+    implementation deps.gson
 
-    testCompile deps.junit
-    testCompile deps.junit_runners
+    testImplementation deps.junit
+    testImplementation deps.junit_runners
 
-    testCompile deps.powermock_api_mockito
-    testCompile deps.powermock_junit
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_junit
 
-    testCompile deps.assertj
+    testImplementation deps.assertj
 
-    testCompile(deps.robolectric) {
+    testImplementation(deps.robolectric) {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testCompile(deps.robolectric_shadows) {
+    testImplementation(deps.robolectric_shadows) {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
@@ -156,4 +157,7 @@ pitest {
     outputFormats = ['XML', 'HTML'] // specify output format
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
+}
+tasks.withType(Test) {
+    ignoreFailures = true
 }

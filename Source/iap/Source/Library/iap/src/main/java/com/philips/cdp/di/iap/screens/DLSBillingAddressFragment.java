@@ -435,8 +435,12 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
             setBillingAddressFields(billingAddressFields);
             IAPLog.d(IAPLog.LOG, billingAddressFields.toString());
-            dlsAddressFragment.setBillingAddressFields(billingAddressFields);
-            dlsAddressFragment.mBtnContinue.setEnabled(true);
+            if (billingAddressFields != null) {
+                dlsAddressFragment.setBillingAddressFields(billingAddressFields);
+                dlsAddressFragment.mBtnContinue.setEnabled(true);
+            }else {
+                dlsAddressFragment.mBtnContinue.setEnabled(false);
+            }
         } else {
             dlsAddressFragment.mBtnContinue.setEnabled(false);
         }
@@ -488,6 +492,15 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     void disableAllFields() {
         setFieldsEnabled(false);
         disableFocus();
+    }
+
+    void enableAllFields(){
+        setFieldsEnabled(true);
+        disableFocus();
+    }
+
+    private void enableFocus() {
+        setFieldsFocusable(true);
     }
 
     private void disableFocus() {

@@ -26,8 +26,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
@@ -119,12 +119,12 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -132,12 +132,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode getMyVersionCode()
         versionName "1.0"
         consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
@@ -166,7 +166,7 @@ android {
         abortOnError false
     }
 
-    publishNonDefault true
+
 }
 
 def getMyVersionCode() {
@@ -175,18 +175,25 @@ def getMyVersionCode() {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Philips Dependencies
-    debugCompile project(path: ':ews-android', configuration: 'debug')
-    releaseCompile project(path: ':ews-android', configuration: 'release')
-
+    implementation project(':ews-android')
+    implementation project(':uid')
+    implementation project(':uAppFwLib')
+    implementation project(':AppInfra')
+    implementation project(':commlib-api')
     annotationProcessor deps.dagger.compiler
 
-    compile deps.constraintlayout
-    compile deps.dagger.dagger
-    compile deps.multidex
-    compile deps.support.animvecdraw
-    compile deps.support.annotations
-    compile deps.support.appcompatv7
-    compile deps.support.design
+    implementation deps.constraintlayout
+    implementation deps.dagger.dagger
+    implementation deps.multidex
+    implementation deps.calligraphy
+    implementation deps.support.animvecdraw
+    implementation deps.support.annotations
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
+
+}
+tasks.withType(Test) {
+    ignoreFailures = true
 }

@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -28,11 +30,12 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
     private Context mContext;
+    private String mJanRainEmail;
 
-
-    public AddressSelectionAdapter(final List<Addresses> addresses) {
+    public AddressSelectionAdapter(final List<Addresses> addresses,String mJanRainEmail) {
         mAddresses = addresses;
         mSelectedIndex = 0; //As Oth position is taken by header
+        this.mJanRainEmail=mJanRainEmail;
     }
 
 
@@ -65,7 +68,10 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             Addresses address = mAddresses.get(position);
             AddressSelectionHolder addressSelectionHolder = (AddressSelectionHolder) holder;
             addressSelectionHolder.tvToggle.setText(address.getFirstName() + " " + address.getLastName());
-            addressSelectionHolder.address.setText(Utility.formatAddress(address.getFormattedAddress() + "\n" + address.getCountry().getName()));
+            //addressSelectionHolder.address.setText(Utility.formatAddress(address.getFormattedAddress() + "\n" + address.getCountry().getName()));
+
+            AddressFields selectedAddress = Utility.prepareAddressFields(address, mJanRainEmail);
+            addressSelectionHolder.address.setText(Utility.getAddressToDisplay(selectedAddress));
             updatePaymentButtonsVisibility(addressSelectionHolder.paymentOptions, addressSelectionHolder.delete, position);
             setToggleStatus(addressSelectionHolder.toggle, position);
             bindToggleButton(addressSelectionHolder, addressSelectionHolder.toggle);
