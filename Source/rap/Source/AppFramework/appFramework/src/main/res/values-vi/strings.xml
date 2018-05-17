@@ -123,10 +123,9 @@
   <string name="RA_NO_Order_History">Lịch sử đơn hàng không có sẵn</string>
   <string name="RA_Neura_Allow_Button">[vi]Allow</string>
   <string name="RA_Neura_Consent_HyperLink">[vi]What does this mean?</string>
-  <string name="RA_Neura_Detail_Header">[vi]What does this mean?</string>
-  <string name="RA_Neura_Detail_Paragraph">[vi]Base app asks for the location and fitness permissions so it can better understand your unique lifestyle.Base app will adapt and anticipate your needs based on your daily routine to provide the recipes you need at the time you need them</string>
+  <string name="RA_Neura_Detail_Paragraph">[vi]Reference app asks for the location and fitness permissions so it can better understand your unique lifestyle.Reference app will adapt and anticipate your needs based on your daily routine to provide the recipes you need at the time you need them</string>
   <string name="RA_Neura_MayBeLater_Button">[vi]Maybe later</string>
-  <string name="RA_Neura_Navigation_Title">[vi]Allow Sharing</string>
+  <string name="csw_justInTimeView_toolbar_title">[vi]Allow Sharing</string>
   <string name="RA_Neura_Philips_Privacy">[vi]privacy Philips</string>
   <string name="RA_Neura_Primary_Description_Paragraph">[vi]Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling</string>
   <string name="RA_Neura_Privacy">[vi]privacy Neura</string>
@@ -191,7 +190,7 @@
   <string name="RA_You_are_not_LoggedIn">Bạn chưa đăng nhập. Vui lòng đến phần Cài đặt và Đăng nhập</string>
   <string name="RA_change_config_desc">[vi]Configuration can only be changed at launch time. You need to relaunch the app to change it.</string>
   <string name="RA_loading_articles">[vi]Loading Article</string>
-  <string name="RA_neura_header_title">[vi]Base app, Made for You</string>
+  <string name="RA_neura_header_title">[vi]Reference app, Made for You</string>
   <string name="RA_nuera_location_info_title">[vi]To adapt to your preferences and needs, allow sharing location with Philips and Neura.</string>
   <string name="RA_nuera_philips_tailor_text">[vi]&lt;html&gt;Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling &lt;&lt;b&gt;b&lt;/b&gt;&gt;location&lt;/&lt;b&gt;b&lt;/b&gt;&gt;.&lt;/html&gt;</string>
   <string name="RA_nuera_policy">[vi]&lt;html&gt;&lt;&lt;b&gt;u&lt;/b&gt;&gt;privacy Neura&lt;/&lt;b&gt;u&lt;/b&gt;&gt;&lt;/html&gt;</string>

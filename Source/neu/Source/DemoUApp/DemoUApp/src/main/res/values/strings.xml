@@ -28,5 +28,7 @@
     <string name="firebase">Firebase</string>
     <string name="connect">Connect</string>
     <string name="disconnect">Disconnect</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="simulate">Simulate</string>
 
 </resources>
