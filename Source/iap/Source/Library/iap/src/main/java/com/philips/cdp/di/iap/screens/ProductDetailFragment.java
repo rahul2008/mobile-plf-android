@@ -46,6 +46,7 @@ import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -305,7 +306,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         setCountArrow(mContext, true);
                         mCheckutAndCountinue.setVisibility(View.GONE);
                         mQuantityAndDelete.setVisibility(View.VISIBLE);
-                        //checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity());
+                        //checkForOutOfStock(cartData.getmStockLevel(), cartData.getQuantity());
                         mQuantity.setCompoundDrawables(null, null, countArrow, null);
 
                         mQuantity.setText(quantity + "");
@@ -327,16 +328,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private int mQuantityStatus;
     private int mNewCount;
     private UIPicker mPopupWindow;
-
-    private void checkForOutOfStock(int pStockLevel, int pQuantity) {
-        if (pStockLevel == 0) {
-
-        } else if (pStockLevel < pQuantity) {
-
-        } else {
-
-        }
-    }
 
     private void setCountArrow(final Context context, final boolean isEnable) {
         if (isEnable) {
@@ -580,7 +571,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private void populateData() {
         String actualPrice;
         String discountedPrice;
-        String stockStatus;
+        String stockLevelStatus;
+        int stockLevel;
         if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();
@@ -594,9 +586,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (mProductDetail != null) {
                     actualPrice = mProductDetail.getPrice().getFormattedValue();
                     discountedPrice = mProductDetail.getDiscountPrice().getFormattedValue();
-                    stockStatus = mProductDetail.getStock().getStockLevelStatus();
                     setPrice(actualPrice, discountedPrice);
-                    setStockInfo(stockStatus);
+                    setStockInfo(mProductDetail.getStock().getStockLevelStatus(),mProductDetail.getStock().getStockLevel());
                 } else {
                     mPrice.setVisibility(View.GONE);
                     mProductDiscountedPrice.setVisibility(View.GONE);
@@ -606,7 +597,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         } else {
             actualPrice = mBundle.getString(IAPConstant.PRODUCT_PRICE);
             discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
-            stockStatus = mBundle.getString(IAPConstant.STOCK_STATUS);
+            stockLevelStatus = mBundle.getString(IAPConstant.STOCK_LEVEL_STATUS);
+            stockLevel = mBundle.getInt(IAPConstant.STOCK_LEVEL);
 
             mProductDescription.setText(mBundle.getString(IAPConstant.PRODUCT_TITLE));
             mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
@@ -621,7 +613,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
             if (mLaunchedFromProductCatalog) {
                 setPrice(actualPrice, discountedPrice);
-                setStockInfo(stockStatus);
+                setStockInfo(stockLevelStatus,stockLevel);
             } else {
                 mPrice.setVisibility(View.GONE);
                 mProductDiscountedPrice.setText(actualPrice);
@@ -629,13 +621,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
     }
 
-    private void setStockInfo(String stockInfo) {
-        // String stockLevel = mProductDetail.getStock().getStockLevelStatus();
-        if (stockInfo != null && stockInfo.equalsIgnoreCase("outOfStock")) {
+    private void setStockInfo(String stockLevelStatus, int stockLevel) {
+        IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
+        if (iapStockAvailabilityHelper.isStockAvailable(stockLevelStatus,stockLevel)) {
+            mAddToCart.setEnabled(true);
+            mProductStockInfo.setVisibility(View.GONE);
+        } else {
+            mAddToCart.setEnabled(false);
             mProductStockInfo.setText(mContext.getString(R.string.iap_out_of_stock));
             mProductStockInfo.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
-        } else {
-            mProductStockInfo.setVisibility(View.GONE);
         }
     }
 

@@ -149,7 +149,6 @@ android {
         testApplicationId "com.philips.cdp.digitalcare.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
-        resValue("string", "DCC_AUTHORITY", "com.philips.cdp.digitalcare")
     }
 
     lintOptions {
