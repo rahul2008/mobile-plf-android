@@ -40,7 +40,7 @@ public class PaymentRequest extends AbstractModel {
         Map<String, String> params = new HashMap<>();
         if (!CartModelContainer.getInstance().isSwitchToBillingAddress()) {
             params.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
-            setBillingAddressParams(billingAddress, params);
+           // setBillingAddressParams(billingAddress, params);
         } else {
             setBillingAddressParams(billingAddress, params);
         }
