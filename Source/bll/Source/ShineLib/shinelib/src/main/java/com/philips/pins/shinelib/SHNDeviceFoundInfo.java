@@ -7,11 +7,8 @@ package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.utility.BleScanRecord;
-
-import java.lang.ref.WeakReference;
 
 /**
  * {@code SHNDeviceFoundInfo} contains information obtained from the peripheral during scanning.
@@ -21,18 +18,6 @@ import java.lang.ref.WeakReference;
  * @publicPluginApi
  */
 public class SHNDeviceFoundInfo {
-
-    @NonNull
-    private static WeakReference<SHNCentral> weakShnCentral = new WeakReference<>(null);
-
-    /**
-     * Static function that provides a way to inject SHNCentral.
-     *
-     * @param shnCentral to inject
-     */
-    public static void setSHNCentral(@Nullable SHNCentral shnCentral) {
-        weakShnCentral = new WeakReference<>(shnCentral);
-    }
 
     @NonNull
     private final String deviceAddress;
@@ -54,11 +39,7 @@ public class SHNDeviceFoundInfo {
     @NonNull
     private final BleScanRecord bleScanRecord;
 
-    public SHNDeviceFoundInfo(@NonNull final BluetoothDevice bluetoothDevice, final int rssi, final byte[] scanRecord, @NonNull final SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, @NonNull final BleScanRecord bleScanRecord) {
-        SHNCentral shnCentral = weakShnCentral.get();
-        if (shnCentral == null) {
-            throw new IllegalStateException("SHNCentral not set");
-        }
+    public SHNDeviceFoundInfo(final @NonNull SHNCentral shnCentral, final @NonNull BluetoothDevice bluetoothDevice, final int rssi, final byte[] scanRecord, @NonNull final SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, @NonNull final BleScanRecord bleScanRecord) {
         this.deviceAddress = bluetoothDevice.getAddress();
         this.shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(deviceAddress, shnDeviceDefinitionInfo);
 

@@ -99,7 +99,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     private boolean isScanningStarted;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         initMocks(this);
 
         mockedHandler = new MockedHandler();

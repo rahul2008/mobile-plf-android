@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.utility.BleScanRecord;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -78,8 +77,6 @@ public class SHNInternalScanRequestTest {
     public void setUp() {
         initMocks(this);
 
-        SHNDeviceFoundInfo.setSHNCentral(shnCentralMock);
-
         deviceDefinitions.add(definitionInfoMock1);
         deviceDefinitions.add(definitionInfoMock2);
 
@@ -89,11 +86,6 @@ public class SHNInternalScanRequestTest {
         macAddresses.add(TEST_MAC_1);
 
         shnInternalScanRequest = new SHNInternalScanRequest(deviceDefinitions, macAddresses, true, TIMEOUT_1, scannerListenerMock);
-    }
-
-    @After
-    public void tearDown() {
-        SHNDeviceFoundInfo.setSHNCentral(null);
     }
 
     @Test

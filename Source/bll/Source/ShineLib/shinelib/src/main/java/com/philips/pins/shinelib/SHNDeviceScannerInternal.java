@@ -42,11 +42,21 @@ public class SHNDeviceScannerInternal {
     @Nullable
     private LeScanCallbackProxy leScanCallbackProxy;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
-    private Runnable restartScanningRunnable;
     private final SHNCentral shnCentral;
 
     @NonNull
     private final List<SHNInternalScanRequest> shnInternalScanRequests = new ArrayList<>();
+
+    private final Runnable restartScanningRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (leScanCallbackProxy != null) {
+                leScanCallbackProxy.stopLeScan(leScanCallback);
+                leScanCallbackProxy.startLeScan(leScanCallback);
+                startScanningRestartTimer();
+            }
+        }
+    };
 
     @SuppressWarnings("FieldCanBeLocal")
     private final SHNCentralListener shnCentralListener = new SHNCentralListener() {
@@ -83,7 +93,6 @@ public class SHNDeviceScannerInternal {
 
     @VisibleForTesting
     SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> deviceDefinitions) {
-        SHNDeviceFoundInfo.setSHNCentral(shnCentral);
         this.shnCentral = shnCentral;
         this.shnCentral.registerShnCentralListener(shnCentralListener);
         this.registeredDeviceDefinitions = deviceDefinitions;
@@ -137,9 +146,8 @@ public class SHNDeviceScannerInternal {
         if (leScanCallbackProxy == null) {
             return;
         }
-        shnCentral.getInternalHandler().removeCallbacks(restartScanningRunnable);
+        stopScanningRestartTimer();
 
-        restartScanningRunnable = null;
         leScanCallbackProxy.stopLeScan(leScanCallback);
         leScanCallbackProxy = null;
 
@@ -157,12 +165,12 @@ public class SHNDeviceScannerInternal {
     }
 
     @Nullable
-    private static SHNDeviceFoundInfo fromBleDeviceFoundInfo(final @NonNull BleDeviceFoundInfo bleDeviceFoundInfo, Collection<SHNDeviceDefinitionInfo> deviceDefinitions) {
+    private static SHNDeviceFoundInfo fromBleDeviceFoundInfo(final @NonNull SHNCentral shnCentral, final @NonNull BleDeviceFoundInfo bleDeviceFoundInfo, Collection<SHNDeviceDefinitionInfo> deviceDefinitions) {
         final BleScanRecord bleScanRecord = BleScanRecord.createNewInstance(bleDeviceFoundInfo.getScanRecord());
 
         for (final SHNDeviceDefinitionInfo shnDeviceDefinitionInfo : deviceDefinitions) {
             if (isDeviceSupported(bleDeviceFoundInfo, bleScanRecord, shnDeviceDefinitionInfo)) {
-                return new SHNDeviceFoundInfo(bleDeviceFoundInfo.getBluetoothDevice(), bleDeviceFoundInfo.getRssi(), bleDeviceFoundInfo.getScanRecord().getBytes(), shnDeviceDefinitionInfo, bleScanRecord);
+                return new SHNDeviceFoundInfo(shnCentral, bleDeviceFoundInfo.getBluetoothDevice(), bleDeviceFoundInfo.getRssi(), bleDeviceFoundInfo.getScanRecord().getBytes(), shnDeviceDefinitionInfo, bleScanRecord);
             }
         }
         return null;
@@ -187,7 +195,7 @@ public class SHNDeviceScannerInternal {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
             public void run() {
-                final SHNDeviceFoundInfo deviceFoundInfo = fromBleDeviceFoundInfo(bleDeviceFoundInfo, registeredDeviceDefinitions);
+                final SHNDeviceFoundInfo deviceFoundInfo = fromBleDeviceFoundInfo(shnCentral, bleDeviceFoundInfo, registeredDeviceDefinitions);
 
                 if (deviceFoundInfo != null) {
                     for (final SHNInternalScanRequest shnInternalScanRequest : shnInternalScanRequests) {
@@ -199,16 +207,10 @@ public class SHNDeviceScannerInternal {
     }
 
     private void startScanningRestartTimer() {
-        restartScanningRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (leScanCallbackProxy != null) {
-                    leScanCallbackProxy.stopLeScan(leScanCallback);
-                    leScanCallbackProxy.startLeScan(leScanCallback);
-                    startScanningRestartTimer();
-                }
-            }
-        };
         shnCentral.getInternalHandler().postDelayed(restartScanningRunnable, SCANNING_RESTART_INTERVAL_MS);
+    }
+
+    private void stopScanningRestartTimer() {
+        shnCentral.getInternalHandler().removeCallbacks(restartScanningRunnable);
     }
 }
