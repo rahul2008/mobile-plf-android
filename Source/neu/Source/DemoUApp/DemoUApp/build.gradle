@@ -210,18 +210,16 @@ dependencies {
     compile deps.support.appcompatv7
     testCompile deps.junit
 
-    compile deps.firbase_messaging
-    compile deps.theneura
-    compile deps.play_services_awareness
+    implementation deps.firbase_messaging
+    implementation deps.theneura
+    implementation deps.play_services_awareness
     def dp = project.ext.has('useprojectdependencies')
     if(dp) {
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
-        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
-        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
+        implementation project(':uid')
+        implementation project(':uAppFwLib')
     } else {
-        compile philipsdeps.uid
-        compile philipsdeps.uAppFwLib
+        implementation philipsdeps.uid
+        implementation philipsdeps.uAppFwLib
     }
 
 }
