@@ -193,6 +193,7 @@
   <string name="label_sleep_tips">How can I improve my sleep score?</string>
   <string name="mya_config_tab">Configuration tab</string>
   <string name="RA_MYA_Consent_Clickstream_Help">Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+  <!-- IAP Errors-->
   <string name="MYA_My_orders" translatable="false">My orders</string>
   <!-- IAP Errors-->
   <string name="iap_auth_error" translatable="false">Authentication error</string>
