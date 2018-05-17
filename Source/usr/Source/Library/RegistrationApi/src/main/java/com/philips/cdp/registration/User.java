@@ -197,7 +197,14 @@ public class User {
         }).start();
     }
 
-
+    /**
+     *
+     * @param activity
+     * @param providerName - for example "facebook" or "wechat"
+     * @param socialLoginHandler - object of SocialProviderLoginHandler
+     * @param mergeToken - mergeToken when gets a merge token from janrain
+     * @param accessToken - accessToken from social provider
+     */
     public void startTokenAuthForNativeProvider(final Activity activity, final String providerName, final SocialProviderLoginHandler socialLoginHandler, final String mergeToken, final String accessToken) {
 
         new Thread(() -> {
