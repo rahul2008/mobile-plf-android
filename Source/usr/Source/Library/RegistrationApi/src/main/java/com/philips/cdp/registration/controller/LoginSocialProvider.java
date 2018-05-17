@@ -11,9 +11,7 @@ package com.philips.cdp.registration.controller;
 
 import android.app.Activity;
 import android.content.Context;
-import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
