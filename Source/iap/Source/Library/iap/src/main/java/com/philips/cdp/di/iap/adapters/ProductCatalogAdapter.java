@@ -23,8 +23,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
-import com.philips.cdp.di.iap.stock.IStockInterface;
-import com.philips.cdp.di.iap.stock.IStockInterfaceImpl;
+import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.ArrayList;
@@ -108,8 +107,8 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formattedPrice);
 
-        IStockInterface iStockInterface = new IStockInterfaceImpl();
-        final boolean stockAvailable = iStockInterface.isStockAvailable(productCatalogData.getStockLevelStatus(), productCatalogData.getStockLevel());
+        IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
+        final boolean stockAvailable = iapStockAvailabilityHelper.isStockAvailable(productCatalogData.getStockLevelStatus(), productCatalogData.getStockLevel());
 
         if(stockAvailable){
             productHolder.mProductOutOfStock.setVisibility(View.GONE);

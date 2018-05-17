@@ -46,8 +46,7 @@ import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
-import com.philips.cdp.di.iap.stock.IStockInterface;
-import com.philips.cdp.di.iap.stock.IStockInterfaceImpl;
+import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -623,8 +622,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void setStockInfo(String stockLevelStatus, int stockLevel) {
-        IStockInterface iStockInterface = new IStockInterfaceImpl();
-        if (iStockInterface.isStockAvailable(stockLevelStatus,stockLevel)) {
+        IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
+        if (iapStockAvailabilityHelper.isStockAvailable(stockLevelStatus,stockLevel)) {
             mAddToCart.setEnabled(true);
             mProductStockInfo.setVisibility(View.GONE);
         } else {

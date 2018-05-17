@@ -28,8 +28,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
-import com.philips.cdp.di.iap.stock.IStockInterface;
-import com.philips.cdp.di.iap.stock.IStockInterfaceImpl;
+import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.platform.uid.view.widget.UIPicker;
@@ -274,8 +273,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void checkForOutOfStock(int stockLevel, int quantity, ShoppingCartProductHolder shoppingCartProductHolder, String stockLevelStatus) {
-        IStockInterface iStockInterface = new IStockInterfaceImpl();
-        final boolean isStockAvailable = iStockInterface.checkIfRequestedQuantityAvailable(stockLevelStatus, stockLevel, quantity);
+        IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
+        final boolean isStockAvailable = iapStockAvailabilityHelper.checkIfRequestedQuantityAvailable(stockLevelStatus, stockLevel, quantity);
 
         setStockAvailability(shoppingCartProductHolder,isStockAvailable, stockLevel);
 

@@ -6,11 +6,10 @@
 
 package com.philips.cdp.di.iap.stock;
 
-public class IStockInterfaceImpl implements IStockInterface {
+public class IAPStockAvailabilityHelper {
 
     final String IN_STOCK = "inStock";
 
-    @Override
     public boolean isStockAvailable(String stockLevelStatus, int stockLevel) {
         if(stockLevelStatus!=null && stockLevelStatus.equalsIgnoreCase(IN_STOCK)){
             return true;
@@ -20,7 +19,6 @@ public class IStockInterfaceImpl implements IStockInterface {
         return false;
     }
 
-    @Override
     public boolean checkIfRequestedQuantityAvailable(String stockLevelStatus, int stockLevel, int quantity) {
         final boolean stockAvailable = isStockAvailable(stockLevelStatus, stockLevel);
         if(stockAvailable){
