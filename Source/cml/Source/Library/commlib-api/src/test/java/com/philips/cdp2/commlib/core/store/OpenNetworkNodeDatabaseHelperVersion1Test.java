@@ -12,12 +12,12 @@ import android.support.annotation.NonNull;
 
 import org.junit.Test;
 
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.DB_VERSION;
+import static com.philips.cdp2.commlib.core.store.OpenNetworkNodeDatabaseHelper.DB_VERSION;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.*;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
+import static com.philips.cdp2.commlib.core.store.OpenNetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 import static org.junit.Assert.assertEquals;
 
-public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHelperBaseTest {
+public class OpenNetworkNodeDatabaseHelperVersion1Test extends OpenNetworkNodeDatabaseHelperBaseTest {
 
     private static final int OLD_VERSION = 1;
     private String version1 = "CREATE TABLE IF NOT EXISTS network_node("

@@ -77,13 +77,17 @@ dependencies {
         testApi("$group:commlib-testutils:$platformversion$suffix") { changing = true }
     }
 
-    for (dep in [':AppInfra']) {
+    for (dep in [':AppInfra', ':securedblibrary']) {
         if (directdependencies) {
             implementation project(dep)
         } else {
             implementation("$group$dep:$platformversion$suffix") { changing = true }
         }
     }
+
+    implementation deps.ormlite.core
+    implementation deps.ormlite.android
+    implementation deps.sqlcipher
 
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows

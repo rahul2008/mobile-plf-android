@@ -6,7 +6,6 @@ package com.philips.cdp2.commlib.core;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
@@ -17,6 +16,7 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
+import com.philips.cdp2.commlib.core.store.OpenNetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.AppIdProvider;
 
 import java.lang.ref.WeakReference;
@@ -84,7 +84,8 @@ public final class CommCentral {
         }
 
         // Setup ApplianceManager
-        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory, new NetworkNodeDatabase(), applianceDatabase);
+        OpenNetworkNodeDatabaseHelper networkNodeDBHelper = new OpenNetworkNodeDatabaseHelper();
+        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory, new NetworkNodeDatabase(networkNodeDBHelper), applianceDatabase);
     }
 
     /**

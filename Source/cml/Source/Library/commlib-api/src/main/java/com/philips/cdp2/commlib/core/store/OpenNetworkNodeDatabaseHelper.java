@@ -5,7 +5,9 @@
 
 package com.philips.cdp2.commlib.core.store;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -20,7 +22,7 @@ import java.util.Set;
 
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.*;
 
-public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
+public class OpenNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements NetworkNodeDBHelper{
 
     static final int DB_VERSION = 6;
 
@@ -44,12 +46,12 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "network_node.db";
     protected static final String TABLE_NETWORK_NODE = "network_node";
 
-    NetworkNodeDatabaseHelper() {
+    public OpenNetworkNodeDatabaseHelper() {
         this(ContextProvider.get(), DB_VERSION);
     }
 
     @VisibleForTesting
-    NetworkNodeDatabaseHelper(Context context, int version) {
+    OpenNetworkNodeDatabaseHelper(Context context, int version) {
         super(context, DB_NAME, null, version);
     }
 
@@ -207,5 +209,55 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
     private void upgradeToVersion6(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_MISMATCHED_PIN + " TEXT;");
+    }
+
+    @Override
+    public Cursor query(String selection, String[] selectionArgs) throws SQLException {
+        SQLiteDatabase db = null;
+        try {
+            db = this.getReadableDatabase();
+            return db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        } finally {
+            closeDatabase(db);
+        }
+    }
+
+    @Override
+    public long insertRow(ContentValues values) throws SQLException {
+        SQLiteDatabase db = null;
+        try {
+            db = this.getWritableDatabase();
+            return db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        } finally {
+            closeDatabase(db);
+        }
+    }
+
+    @Override
+    public int deleteNetworkNodeWithCppId(String cppId) throws SQLException {
+        SQLiteDatabase db = null;
+        try {
+            db = this.getWritableDatabase();
+
+            return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{cppId});
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        } finally {
+            closeDatabase(db);
+        }
+    }
+
+    private void closeDatabase(SQLiteDatabase db) {
+        try {
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+        } catch (Exception e) {
+            DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
+        }
     }
 }
