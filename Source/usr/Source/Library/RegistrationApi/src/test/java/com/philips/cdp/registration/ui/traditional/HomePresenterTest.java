@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.facebook.AccessToken;
@@ -16,9 +17,11 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.URFaceBookUtility;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.hamcrest.core.AnyOf;
@@ -56,7 +59,7 @@ public class HomePresenterTest {
     HomeContract homeContractMock;
 
     @Mock
-    Context contextMock;
+    Activity contextMock;
 
     @Mock
     UserRegistrationFailureInfo userRegistrationFailureInfoMock;
@@ -78,6 +81,9 @@ public class HomePresenterTest {
     //@Mock
     CallbackManager callbackManagerMock;
 
+    @Mock
+    URFaceBookUtility urFaceBookUtilityMock;
+
 
 
     @Before
@@ -92,33 +98,19 @@ public class HomePresenterTest {
     }
 
     @Test
-    public void shouldTestOnFaceBookSucces() throws Exception {
-        HomePresenter anotherObjSpy = Mockito.spy(homePresenter);
-    }
-
-    @Test
-    public void shouldTestOnFaceBookLogInCancel() throws Exception {
-
+    public void shouldRegisterFacebookCallBack() throws Exception {
+        Mockito.when(homeContractMock.getURFaceBookUtility()).thenReturn(urFaceBookUtilityMock);
+        homePresenter.registerFaceBookCallBack();
+        Mockito.verify(homeContractMock.getURFaceBookUtility()).registerFaceBookCallBack();
     }
 
     @Mock
-    FacebookException facebookExceptionMock;
+    SocialProviderLoginHandler socialProviderLoginHandlerMock;
 
     @Test
-    public void shouldTestOnFaceBookError() throws Exception {
-        Mockito.when(facebookExceptionMock.getMessage()).thenReturn("Facebook authentication failed");
-       // Mockito.verify(homeContractMock).doHideProgressDialog();
-    }
-
-    @Mock
-    JSONObject jsonObjectMock;
-    @Mock
-    GraphResponse graphResponseMock;
-
-
-
-    @Test
-    public void hideProgressBarWhenFetchFaceBookGraphComesWithError() throws Exception {
-        //homePresenter.onCompleted(jsonObjectMock,graphResponseMock);
+    public void shouldStartAccessTokenFacebookAuth() throws Exception {
+//        homePresenter.startAccessTokenAuthForFacebook();
+  //      Mockito.when(homeContractMock.getURFaceBookUtility()).thenReturn(urFaceBookUtilityMock);
+   //     Mockito.verify( homeContractMock.getURFaceBookUtility()).startAccessTokenAuthForFacebook(userMock, contextMock, socialProviderLoginHandlerMock, "accessToken", null);
     }
 }
