@@ -17,6 +17,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appframework.ui.dialogs.DialogView;
+import com.philips.platform.appinfra.logging.CloudConsentProvider;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -99,6 +100,7 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
         consentDefinitions.add(CcConsentProvider.fetchLocationConsentDefinition());
         consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition());
         consentDefinitions.add(getClickStreamConsentDefinition(context));
+        consentDefinitions.add(CloudConsentProvider.getCloudConsentDefinition());
         app.getAppInfra().getConsentManager().registerConsentDefinitions(consentDefinitions);
         return consentDefinitions;
     }

@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.device.DeviceStoredConsentHandler;
+import com.philips.platform.appinfra.logging.CloudConsentProvider;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
 
@@ -66,7 +68,7 @@ public class CloudLogSyncManager implements Observer<Integer> {
 
     public boolean checkWhetherToSyncCloudLog() {
         //Add consent part here
-        if ((appInfra.getRestClient() != null && appInfra.getRestClient().isInternetReachable())) {
+        if ((appInfra.getRestClient() != null && appInfra.getRestClient().isInternetReachable() && new CloudConsentProvider(new DeviceStoredConsentHandler(appInfra)).isCloudLoggingConsentProvided())) {
             return true;
         }
         return false;

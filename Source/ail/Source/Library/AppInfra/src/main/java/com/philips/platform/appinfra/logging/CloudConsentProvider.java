@@ -5,9 +5,9 @@
  */
 package com.philips.platform.appinfra.logging;
 
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.R;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -37,19 +37,19 @@ public class CloudConsentProvider {
         return new ConsentDefinition(text, helpText, types, BuildConfig.VERSION_CODE);
     }
 
-    public void registerConsentHandler(AppInfraInterface appInfraInterface) {
-        appInfraInterface.getConsentManager().registerHandler(Collections.singletonList(CLOUD), consentHandler);
+    public void registerConsentHandler(ConsentManagerInterface consentManagerInterface) {
+        consentManagerInterface.registerHandler(Collections.singletonList(CLOUD), consentHandler);
     }
 
     private void fetchConsentHandler(FetchConsentTypeStateCallback fetchConsentTypeStateCallback) {
         consentHandler.fetchConsentTypeState(CLOUD, fetchConsentTypeStateCallback);
     }
 
-    void storeConsentTypeState(boolean state, PostConsentTypeCallback postConsentTypeCallback) {
+    public void storeConsentTypeState(boolean state, PostConsentTypeCallback postConsentTypeCallback) {
         consentHandler.storeConsentTypeState(CLOUD, state, BuildConfig.VERSION_CODE, postConsentTypeCallback);
     }
 
-    boolean isCloudLoggingConsentProvided() {
+    public boolean isCloudLoggingConsentProvided() {
         final boolean[] status = new boolean[1];
         fetchConsentHandler(new FetchConsentTypeStateCallback() {
             @Override
