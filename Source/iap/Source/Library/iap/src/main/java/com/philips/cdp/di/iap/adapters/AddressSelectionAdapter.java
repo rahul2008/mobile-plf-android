@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -175,7 +176,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             edit = (Button) view.findViewById(R.id.btn_edit_address);
             delete = (Button) view.findViewById(R.id.btn_delete_address);
             if(mContext!=null) {
-                delete.setTextColor(mContext.getColor(R.color.uid_signal_red_level_45));
+                delete.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_45));
             }
             view.setOnClickListener(this);
         }

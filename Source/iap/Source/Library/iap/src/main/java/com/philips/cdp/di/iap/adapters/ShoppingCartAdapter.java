@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -352,7 +353,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTvQuantity = shoppingCartView.findViewById(R.id.quantity_val);
             mIvOptions = shoppingCartView.findViewById(R.id.right_arrow);
             deleteBtn = shoppingCartView.findViewById(R.id.delete_btn);
-            deleteBtn.setTextColor(mContext.getColor(R.color.uid_signal_red_level_45));
+            deleteBtn.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_45));
             viewBottomSpace= shoppingCartView.findViewById(R.id.bottom_space);
 
         }
