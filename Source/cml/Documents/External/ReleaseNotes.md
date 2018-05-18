@@ -8,13 +8,13 @@ Version {next}
 * N/A
 
 ### Backwards Compatibility
-* Properties' definitions for NetworkNode moved from NetworkNodeDatabaseHelper to NetworkNode class
+* \#127781 Properties' definitions for NetworkNode moved from NetworkNodeDatabaseHelper to NetworkNode class
 
 ### Features not covered
 * N/A
 
 ### Breaking Changes
-* N/A
+* \#127781 CommLibCentral requires runtime configuration to enable secure nodes storage
 
 ### Defects solved
 * \#121886 - Firmware update always starts from 0. Brought behaviour inline with iOS

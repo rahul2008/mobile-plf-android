@@ -88,4 +88,13 @@ public class RuntimeConfiguration {
     public Context getContext() {
         return context;
     }
+
+    /**
+     * Return AppInfraInterface
+     *
+     * @return
+     */
+    public AppInfraInterface getAppInfraInterface() {
+        return appInfraInterface;
+    }
 }

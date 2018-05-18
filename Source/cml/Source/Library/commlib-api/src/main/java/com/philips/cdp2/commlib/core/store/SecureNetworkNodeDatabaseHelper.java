@@ -26,7 +26,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MISMATCHE
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
 
-class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper implements NetworkNodeDBHelper {
+public class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper implements NetworkNodeDBHelper {
 
     private static final String DB_NAME = "secure_network_node.db";
     protected static final String TABLE_NETWORK_NODE = "secure_network_node";

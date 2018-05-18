@@ -10,13 +10,14 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
-import com.philips.cdp2.commlib.core.store.OpenNetworkNodeDatabaseHelper;
+import com.philips.cdp2.commlib.core.store.SecureNetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.AppIdProvider;
 
 import java.lang.ref.WeakReference;
@@ -51,8 +52,8 @@ public final class CommCentral {
      * @param transportContexts TransportContexts that will be used by the {@link Appliance}s and
      *                          provide {@link DiscoveryStrategy}s. You will need at least one!
      */
-    public CommCentral(@NonNull ApplianceFactory applianceFactory, @NonNull final TransportContext... transportContexts) {
-        this(applianceFactory, null, transportContexts);
+    public CommCentral(@NonNull ApplianceFactory applianceFactory, @NonNull RuntimeConfiguration runtimeConfiguration, @NonNull final TransportContext... transportContexts) {
+        this(applianceFactory, runtimeConfiguration,null, transportContexts);
     }
 
     /**
@@ -62,7 +63,7 @@ public final class CommCentral {
      * @param transportContexts TransportContexts that will be used by the {@link Appliance}s and
      *                          provide {@link DiscoveryStrategy}s. You will need at least one!
      */
-    public CommCentral(@NonNull ApplianceFactory applianceFactory, @Nullable ApplianceDatabase applianceDatabase, @NonNull final TransportContext... transportContexts) {
+    public CommCentral(@NonNull ApplianceFactory applianceFactory, @NonNull RuntimeConfiguration runtimeConfiguration, @Nullable ApplianceDatabase applianceDatabase, @NonNull final TransportContext... transportContexts) {
         if (instanceWeakReference.get() == null) {
             instanceWeakReference = new WeakReference<>(this);
         } else {
@@ -84,8 +85,8 @@ public final class CommCentral {
         }
 
         // Setup ApplianceManager
-        OpenNetworkNodeDatabaseHelper networkNodeDBHelper = new OpenNetworkNodeDatabaseHelper();
-        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory, new NetworkNodeDatabase(networkNodeDBHelper), applianceDatabase);
+        SecureNetworkNodeDatabaseHelper secureNetworkNodeDatabaseHelper = new SecureNetworkNodeDatabaseHelper(runtimeConfiguration.getAppInfraInterface());
+        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory, new NetworkNodeDatabase(secureNetworkNodeDatabaseHelper), applianceDatabase);
     }
 
     /**

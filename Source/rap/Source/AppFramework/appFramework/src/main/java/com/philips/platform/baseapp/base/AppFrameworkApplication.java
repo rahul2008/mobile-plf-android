@@ -316,7 +316,7 @@ public class AppFrameworkApplication extends Application {
         final LanTransportContext lanTransportContext = new LanTransportContext(runtimeConfiguration);
 
         applianceFactory = new RefAppApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
-        return new CommCentral(applianceFactory, bleTransportContext, lanTransportContext, cloudTransportContext);
+        return new CommCentral(applianceFactory, runtimeConfiguration, bleTransportContext, lanTransportContext, cloudTransportContext);
     }
 
     @NonNull
