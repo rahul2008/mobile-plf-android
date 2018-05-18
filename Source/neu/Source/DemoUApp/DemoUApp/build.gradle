@@ -217,9 +217,12 @@ dependencies {
     if(dp) {
         implementation project(':uid')
         implementation project(':uAppFwLib')
+        implementation project(':AppInfra')
     } else {
         implementation philipsdeps.uid
         implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
+        implementation deps.butterknife
     }
 
 }

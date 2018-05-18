@@ -178,7 +178,7 @@ hockeyapp {
     notes = new File(projectDir, "/../../../Documents/External/ReleaseNotes.md").getText('UTF-8')
 }
 
-def buildType 
+def buildType
 
 android {
 
@@ -191,11 +191,11 @@ android {
             includeAndroidResources = true
         }
     }
-	applicationVariants.all { variant ->
+    applicationVariants.all { variant ->
         buildType = variant.buildType.name // sets the current build type
-		println "*****BuildType****"+ buildType
+        println "*****BuildType****"+ buildType
     }
-	
+
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
@@ -305,6 +305,7 @@ dependencies {
         implementation project(':bluelib')
         implementation project(':pushnotification')
         implementation project(':themesettings')
+        implementation project(':NeuraUApp')
     } else {
         implementation philipsdeps.product_registration_lib
         implementation philipsdeps.digitalCare
@@ -315,56 +316,29 @@ dependencies {
         implementation (philipsdeps.mya) {
             exclude group: 'com.android.support'
         }
-        compile (philipsdeps.commlib) {
-            exclude group: 'com.android.support'
-        }
-        compile (philipsdeps.commlib_demouapp) {
-            exclude group: 'com.android.support'
-        }
-        compile (philipsdeps.digitalCareUApp) {
-            exclude group: 'com.android.support'
-        }
-        compile (philipsdeps.uAppFwLibUApp) {
-            exclude group: 'com.android.support'
-        }
-        compile (philipsdeps.iapUApp) {
-            exclude group: 'com.android.support'
-        }
-        compile (philipsdeps.dataServicesUApp) {
-            exclude group: 'com.android.support'
-        }
-        compile (philipsdeps.product_registration_libUApp) {
-            exclude group: 'com.android.support'
-        }
-        compile (philipsdeps.UserRegistrationUApp) {
-            exclude group: 'com.android.support'
-            exclude group: 'com.philips.cdp', module: 'RegistrationApi'
-        }
-        compile (philipsdeps.devicepairingUApp) {
-            exclude group: 'com.android.support'
-        }
-        compile philipsdeps.telehealth
-        compile philipsdeps.telehealthUApp
-        compile philipsdeps.ewsUApp
-        compile philipsdeps.bluelib_demouapp
-        compile project(':pushnotification')
-        compile project(':themesettings')
+        implementation philipsdeps.mya_mch
+        implementation philipsdeps.telehealth
+        implementation philipsdeps.telehealthUApp
+        implementation philipsdeps.ewsUApp
+        implementation philipsdeps.bluelib_demouapp
+        implementation project(':pushnotification')
+        implementation project(':themesettings')
     }
-
-    testCompile deps.json
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.opengl
-    testCompile deps.powermock_api_mockito
-    testCompile deps.powermock_classloading_xstream
-    testCompile deps.powermock_core
-    testCompile deps.powermock_junit
-    testCompile deps.powermock_junit_rule
-    testCompile deps.powermock_junit_rule_agent
-    testCompile deps.robolectric
-    testCompile deps.robolectric_shadows
-    testCompile deps.robolectric_shadows_multidex
-
+    implementation deps.butterknife
+    annotationProcessor deps.butterknife_compiler
+    testImplementation deps.json
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.opengl
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_classloading_xstream
+    testImplementation deps.powermock_core
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
+    testImplementation deps.powermock_junit_rule_agent
+    testImplementation deps.robolectric_3_8
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.robolectric_shadows_multidex
 }
 
 task copyToLib(type: Copy) {
