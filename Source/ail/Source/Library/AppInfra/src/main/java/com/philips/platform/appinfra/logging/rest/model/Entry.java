@@ -1,13 +1,11 @@
 
 package com.philips.platform.appinfra.logging.rest.model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Entry {
 
     @SerializedName("resource")
-    @Expose
     private Resource resource;
 
     public Resource getResource() {

@@ -11,6 +11,7 @@ package com.philips.platform.appinfra.apisigning;
  */
 
 import android.util.Base64;
+import android.util.Log;
 
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
@@ -53,12 +54,11 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
     }
 
 
-    public String createSignatureForCloudUsingHSDPKey() {
+    public String createSignatureForCloudUsingHSDPKey(String secrectKey,String date) {
+        Log.d("Testing","Date::"+date);
         PsLib psLib = new PsLib();
-        String secretKeyHSDP = "96a5cd559d9299e4632faae2320777347d0e35acd77e3c1e9edcf244a30443ad3fcefdbb62806f15bb758c5903a0d7be635e0240cc671261f14cb37cc2ef1153";
-        String date = "2018-04-16T10:42:59.722+0000";
+        String secretKeyHSDP = secrectKey;
         final byte[] dateByteArray;
-
         dateByteArray = date.getBytes(UTF_8_CHARSET);
         String dateBase64 = Base64.encodeToString(dateByteArray,Base64.NO_WRAP);
         final byte[] secretKeyByteArrayHSDP = hexStringToByteArray(secretKeyHSDP);

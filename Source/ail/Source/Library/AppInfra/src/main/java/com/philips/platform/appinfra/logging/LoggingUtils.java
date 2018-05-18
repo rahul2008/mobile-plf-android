@@ -6,15 +6,27 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.logging.Level;
+
+import static java.lang.System.currentTimeMillis;
 
 /**
  * Created by abhishek on 4/24/18.
  */
 
 public class LoggingUtils {
-   public static  Level getJavaLoggerLogLevel(String level) {
+    public static Level getJavaLoggerLogLevel(String level) {
         final Level javaLevel;
         if (!TextUtils.isEmpty(level)) {
             switch (level) {
@@ -62,11 +74,11 @@ public class LoggingUtils {
         return Level.FINE;
     }
 
-    public static String getUUID(){
-       return UUID.randomUUID().toString();
+    public static String getUUID() {
+        return UUID.randomUUID().toString();
     }
 
-    public static  String getAILLogLevel(String level) {
+    public static String getAILLogLevel(String level) {
         if (!TextUtils.isEmpty(level)) {
             switch (level) {
                 case "SEVERE":
@@ -84,17 +96,17 @@ public class LoggingUtils {
                 default:
                     return "VERBOSE";
             }
-        }else {
+        } else {
             return "VERBOSE";
         }
     }
 
-    public static String getOSVersion(){
+    public static String getOSVersion() {
         return Build.VERSION.RELEASE;
     }
 
-    public static int getStringLengthInBytes(String string){
-        if(TextUtils.isEmpty(string)){
+    public static int getStringLengthInBytes(String string) {
+        if (TextUtils.isEmpty(string)) {
             return 0;
         }
         return string.toCharArray().length * 2;
@@ -106,6 +118,18 @@ public class LoggingUtils {
             return gson.toJson(param);
         } else
             return null;
+    }
+
+    public static String getCurrentDateAndTime(String format) {
+//        DateFormat dateFormat = new SimpleDateFormat(format);
+//        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        Date date = new Date();
+//        return dateFormat.format(date);
+
+
+        DateTime dateTime = new DateTime(currentTimeMillis());
+        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+        return dateTime.toString(format);
     }
 
 }

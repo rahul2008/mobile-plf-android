@@ -10,4 +10,5 @@ public class CloudLoggingConstants {
     public static final int ROWS_TO_BE_DELETED_BATCH_SIZE = 20;
     public static final int DEFAULT_BATCH_LIMIT = 5;
     public static final int HSDP_LOG_MAX_LIMIT =25 ;
+    public static final String CLOUD_LOGGING_DATE_TIME_FORMAT="yyyy-MM-dd'T'HH:mm:ss'Z'";
 }

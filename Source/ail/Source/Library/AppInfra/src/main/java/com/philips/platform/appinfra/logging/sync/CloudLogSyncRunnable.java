@@ -6,6 +6,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
 import com.philips.platform.appinfra.logging.database.AILCloudLogData;
+import com.philips.platform.appinfra.logging.rest.CloudLogRequestBodyBuilder;
 
 import java.util.List;
 
@@ -19,8 +20,11 @@ public class CloudLogSyncRunnable implements Runnable {
 
     private AILCloudLogDBManager ailCloudLogDBManager;
 
+    private AppInfra appInfra;
+
 
     public CloudLogSyncRunnable(AppInfra appInfra) {
+        this.appInfra=appInfra;
         ailCloudLogDBManager = AILCloudLogDBManager.getInstance(appInfra);
     }
 
@@ -33,6 +37,7 @@ public class CloudLogSyncRunnable implements Runnable {
             Log.d("SyncTesting", "About to sync records" + ailCloudLogDataList.size());
             //2. Build rest api call template
             //3. Make rest api call
+            new CloudLogRequestBodyBuilder(appInfra).getCloudLogRequestBody(ailCloudLogDataList);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
