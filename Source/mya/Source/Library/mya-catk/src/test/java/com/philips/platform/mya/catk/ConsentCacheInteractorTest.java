@@ -127,7 +127,6 @@ public class ConsentCacheInteractorTest {
     @Test
     public void fetchConsent_ClearsCacheWhenAnotherUserIsLoggedIn() {
         givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 1));
-        givenInMemoryCacheHas("anotherUser", CONSENT_TYPE_1, ConsentStates.active, 1);
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenConsentCacheIsFetchedFromSecureStorage();
         thenConsentCacheIsCleared();
@@ -139,14 +138,6 @@ public class ConsentCacheInteractorTest {
         when(userMock.getHsdpUUID()).thenReturn("someUserId");
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
         thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("someUserId", "active", CONSENT_TYPE_3, 1));
-    }
-
-    private void givenInMemoryCacheHas(String user, String consentType, ConsentStates status, int version) {
-        Map<String, CachedConsentStatus> consentCache = new HashMap<>();
-        consentCache.put(consentType, new CachedConsentStatus(status, version, new DateTime()));
-        Map<String, Map<String, CachedConsentStatus>> userConsentCache = new HashMap<>();
-        userConsentCache.put(user, consentCache);
-        consentCacheInteractor.setInMemoryCache(userConsentCache);
     }
 
     private void givenSecureStorageReturns(String cacheMapTest) {

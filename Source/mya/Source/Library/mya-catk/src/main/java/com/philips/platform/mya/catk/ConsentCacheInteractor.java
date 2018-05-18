@@ -48,11 +48,6 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         this.appInfra = appInfra;
     }
 
-    @VisibleForTesting
-    public void setInMemoryCache(Map<String, Map<String, CachedConsentStatus>> inMemoryCache) {
-        this.inMemoryCache = inMemoryCache;
-    }
-
     @Override
     public CachedConsentStatus fetchConsentTypeState(String consentType) {
         if (inMemoryCache.get(getCurrentLoggedInUserId()) == null || inMemoryCache.get(getCurrentLoggedInUserId()).get(consentType) == null) {
