@@ -158,7 +158,6 @@ dependencies {
 
     implementation deps.leakcanary
     implementation project(':AppInfraUApp')
-    implementation project(':AppInfra')
 }
 
 tasks.withType(Test) {

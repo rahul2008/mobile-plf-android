@@ -18,21 +18,9 @@
     <style name="centralesansBookFont">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
-    <style name="neuraTextLabel">
-        <item name="fontPath">fonts/centralesansbook.ttf</item>
-        <item name="android:textSize">@dimen/neura_text_size</item>
-        <item name="android:textColor">?attr/uidLoginScreenDefaultTextColor</item>
-
-    </style>
 
     <style name="centralesansBoldFont">
         <item name="fontPath">fonts/centralesansbold.ttf</item>
-    </style>
-
-    <style name="neuraBaseLabel">
-        <item name="fontPath">fonts/centralesansbold.ttf</item>
-        <item name="android:textSize">@dimen/neura_base_text_size</item>
-        <item name="android:textColor">?attr/uidLoginScreenDefaultTextColor</item>
     </style>
 
     <style name="centralesansLightFont">

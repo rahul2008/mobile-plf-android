@@ -21,7 +21,6 @@ import com.philips.platform.baseapp.screens.inapppurchase.ShoppingCartFlowState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
 import com.philips.platform.baseapp.screens.mydetails.MyDetailsState;
-import com.philips.platform.baseapp.screens.neura.NeuraState;
 import com.philips.platform.baseapp.screens.privacysettings.PrivacySettingsState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
@@ -64,7 +63,6 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.PRIVACY_SETTINGS_STATE, new PrivacySettingsState());
         uiStateMap.put(AppStates.MY_DETAILS_STATE, new MyDetailsState());
         uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
-        uiStateMap.put(AppStates.NEURA, new NeuraState());
         uiStateMap.put(AppStates.SHOPPING_CART_VIEW, new ShoppingCartFlowState());
         uiStateMap.put(AppStates.MY_ORDERS, new IAPOrderHistoryState());
     }

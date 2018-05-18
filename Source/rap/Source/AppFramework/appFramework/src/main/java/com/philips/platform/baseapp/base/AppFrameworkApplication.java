@@ -37,7 +37,6 @@ import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
-import com.philips.platform.baseapp.screens.neura.NeuraConsentProvider;
 import com.philips.platform.baseapp.screens.privacysettings.PrivacySettingsState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
@@ -46,7 +45,6 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSta
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
@@ -166,7 +164,6 @@ public class AppFrameworkApplication extends Application {
         callback.onAppStatesInitialization();
         initializeCC();
         initializeTHS();
-        registerNeuraHandler();
     }
     private void initializePrivacySettings() {
         privacySettingsState = new PrivacySettingsState();
@@ -187,9 +184,6 @@ public class AppFrameworkApplication extends Application {
         userRegistrationState.init(this);
     }
 
-    private void registerNeuraHandler() {
-        new NeuraConsentProvider(new DeviceStoredConsentHandler(appInfra)).registerConsentHandler(appInfra);
-    }
 
     public UserRegistrationState getUserRegistrationState() {
         return userRegistrationState;

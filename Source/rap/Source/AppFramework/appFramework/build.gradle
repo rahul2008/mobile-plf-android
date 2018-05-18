@@ -178,7 +178,7 @@ hockeyapp {
     notes = new File(projectDir, "/../../../Documents/External/ReleaseNotes.md").getText('UTF-8')
 }
 
-def buildType
+def buildType 
 
 android {
 
@@ -191,11 +191,11 @@ android {
             includeAndroidResources = true
         }
     }
-    applicationVariants.all { variant ->
+	applicationVariants.all { variant ->
         buildType = variant.buildType.name // sets the current build type
-        println "*****BuildType****"+ buildType
+		println "*****BuildType****"+ buildType
     }
-
+	
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
@@ -305,7 +305,6 @@ dependencies {
         implementation project(':bluelib')
         implementation project(':pushnotification')
         implementation project(':themesettings')
-        implementation project(':NeuraUApp')
     } else {
         implementation philipsdeps.product_registration_lib
         implementation philipsdeps.digitalCare
