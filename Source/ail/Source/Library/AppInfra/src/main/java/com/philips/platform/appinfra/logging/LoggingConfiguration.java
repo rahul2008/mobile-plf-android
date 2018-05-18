@@ -120,6 +120,7 @@ public class LoggingConfiguration {
         return mLoggingProperties;
     }
 
+
     public boolean isCloudLogEnabled() {
         return (null != mLoggingProperties && null != mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY) : false;
     }
@@ -129,11 +130,20 @@ public class LoggingConfiguration {
     }
 
     public String getCLSecretKey(){
-        return (null != mLoggingProperties && null != mLoggingProperties.get(HSDP_CLOUD_LOG_SECRET_KEY)) ? (String) mLoggingProperties.get(HSDP_CLOUD_LOG_SECRET_KEY) : "";
+        final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
+        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        return (String)appConfigurationInterface.getPropertyForKey("cloud_logging_secret_key", "hsdp", configError);
     }
 
     public String getCLSharedKey(){
-        return (null != mLoggingProperties && null != mLoggingProperties.get(HSDP_CLOUD_LOG_SHARED_KEY)) ? (String) mLoggingProperties.get(HSDP_CLOUD_LOG_SHARED_KEY) : "";
+        final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
+        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        return (String)appConfigurationInterface.getPropertyForKey("cloud_logging_shared_key", "hsdp", configError);
     }
 
+    public String getCLProductKey(){
+        final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
+        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        return (String)appConfigurationInterface.getPropertyForKey("cloud_logging_product_key", "hsdp", configError);
+    }
 }

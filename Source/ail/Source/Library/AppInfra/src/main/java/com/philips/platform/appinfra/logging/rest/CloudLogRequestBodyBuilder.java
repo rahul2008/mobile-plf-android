@@ -1,14 +1,20 @@
 package com.philips.platform.appinfra.logging.rest;
 
+import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
+import com.philips.platform.appinfra.logging.CloudLoggingConstants;
+import com.philips.platform.appinfra.logging.LoggingConfiguration;
+import com.philips.platform.appinfra.logging.LoggingUtils;
 import com.philips.platform.appinfra.logging.database.AILCloudLogData;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.logging.rest.model.CloudLogs;
 import com.philips.platform.appinfra.logging.rest.model.Entry;
+import com.philips.platform.appinfra.logging.rest.model.LogData;
 import com.philips.platform.appinfra.logging.rest.model.LogMetaDataModel;
 import com.philips.platform.appinfra.logging.rest.model.Resource;
 
@@ -24,14 +30,17 @@ import java.util.List;
 
 public class CloudLogRequestBodyBuilder {
 
+    private  String productKey;
     private AppInfra appInfra;
 
 
     private AILCloudLogMetaData ailCloudLogMetaData;
 
-    public CloudLogRequestBodyBuilder(AppInfra appInfra) {
+
+    public CloudLogRequestBodyBuilder(AppInfra appInfra,String productKey) {
         if (appInfra.getLogging() instanceof AppInfraLogging) {
             this.ailCloudLogMetaData = ((AppInfraLogging) appInfra.getLogging()).getAilCloudLogMetaData();
+            this.productKey=productKey;
         }
     }
 
@@ -41,23 +50,26 @@ public class CloudLogRequestBodyBuilder {
         for (AILCloudLogData ailCloudLogData : ailCloudLogDataList) {
             Entry entry = new Entry();
             Resource resource = new Resource();
-            resource.setApplicationName(ailCloudLogMetaData.getAppName());
-            resource.setApplicationVersion(ailCloudLogData.appVersion);
-            resource.setApplicationInstance(ailCloudLogMetaData.getAppsId());
+            resource.setApplicationName(getValue(ailCloudLogMetaData.getAppName()));
+            String applicationVersion=!TextUtils.isEmpty(ailCloudLogData.appVersion)?ailCloudLogData.appVersion.replaceAll("[()]",""):CloudLoggingConstants.NA;
+            resource.setApplicationVersion(applicationVersion);
+            resource.setApplicationInstance(getValue(ailCloudLogMetaData.getAppsId()));
             resource.setCategory("TraceLog");
-            resource.setComponent(ailCloudLogData.component);
-            resource.setEventId(ailCloudLogData.eventId);
-            resource.setId(ailCloudLogData.logId);
-            resource.setLogTime("" + ailCloudLogData.logTime);
-            resource.setOriginatingUser(ailCloudLogData.userUUID);
+            String component=!TextUtils.isEmpty(ailCloudLogData.component)?ailCloudLogData.component.replaceAll("[()]",""):CloudLoggingConstants.NA;
+            resource.setComponent(component);
+            resource.setEventId(getValue(ailCloudLogData.eventId));
+            resource.setId(getValue(ailCloudLogData.logId));
+            resource.setLogTime("" + LoggingUtils.getFormattedDateAndTime(ailCloudLogData.logTime, CloudLoggingConstants.CLOUD_LOGGING_DATE_TIME_FORMAT));
+            resource.setOriginatingUser(getValue(ailCloudLogData.userUUID));
             resource.setResourceType("LogEvent");
-            resource.setServerName(ailCloudLogData.serverName);
-            resource.setSeverity(ailCloudLogData.severity);
-            resource.setTransactionId(ailCloudLogData.logId);
+            resource.setServerName(getValue(ailCloudLogData.serverName));
+            resource.setSeverity(getValue(ailCloudLogData.severity));
+            resource.setTransactionId(getValue(ailCloudLogData.logId));
             LogMetaDataModel logMetaDataModel=new LogMetaDataModel();
             logMetaDataModel.setAppsid(ailCloudLogData.appsId);
             logMetaDataModel.setAppstate(ailCloudLogData.appState);
             logMetaDataModel.setDescription(ailCloudLogData.logDescription);
+            Log.d("SyncTesting","Log::"+ailCloudLogData.logDescription);
             logMetaDataModel.setDetails(ailCloudLogData.details);
             logMetaDataModel.setDevicetype(ailCloudLogData.serverName);
             logMetaDataModel.setHomecountry(ailCloudLogMetaData.getHomeCountry());
@@ -66,12 +78,15 @@ public class CloudLogRequestBodyBuilder {
             logMetaDataModel.setNetworktype(ailCloudLogData.networktype);
             Gson gson = new Gson();
             String jsonString = gson.toJson(logMetaDataModel);
-            resource.setLogData(jsonString);
+
+            LogData logData=new LogData();
+            logData.setMessage(Base64.encodeToString(jsonString.getBytes(),Base64.NO_WRAP));
+            resource.setLogData(logData);
             entry.setResource(resource);
             entryList.add(entry);
         }
         cloudLogs.setEntry(entryList);
-
+        cloudLogs.setProductKey(productKey);
         Gson gson = new Gson();
         String jsonString = gson.toJson(cloudLogs);
 
@@ -81,6 +96,13 @@ public class CloudLogRequestBodyBuilder {
             Log.d("SyncTesting", "Exception while creating JSON object from json string");
             return null;
         }
+    }
+
+    private String getValue(String value){
+        if(TextUtils.isEmpty(value)){
+            return CloudLoggingConstants.NA;
+        }
+        return value;
     }
 
 

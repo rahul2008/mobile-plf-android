@@ -57,7 +57,7 @@ public class RestManager implements RestInterface {
                 try {
                     cacheSizeinKB = (Integer) mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB", "appinfra", configError);
                 } catch (IllegalArgumentException i) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST,"CONFIG ERROR while getRequestQueue");
+//                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST,"CONFIG ERROR while getRequestQueue");
                 }
             }
             if (cacheSizeinKB == null) {
@@ -105,7 +105,7 @@ public class RestManager implements RestInterface {
         try {
             stack = new HurlStack(new ServiceIDResolver(), new TLSSocketFactory());
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST," ERROR while getting network");
+//            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST," ERROR while getting network");
         }
         return new BasicNetwork(stack);
     }
@@ -152,7 +152,7 @@ public class RestManager implements RestInterface {
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
+//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
                         }
                     });
                 } else {
@@ -164,13 +164,13 @@ public class RestManager implements RestInterface {
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
+//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
                         }
                     });
                 }
                 //  waitResult.await();
             } catch (Exception e) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST ERROR");
+//                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST ERROR");
             } finally {
                 //waitResult.signalAll();
                 //lock.unlock();

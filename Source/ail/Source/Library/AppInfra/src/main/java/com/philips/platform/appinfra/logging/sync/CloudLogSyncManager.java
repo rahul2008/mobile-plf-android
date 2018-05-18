@@ -39,6 +39,7 @@ public class CloudLogSyncManager implements Observer<Integer> {
 
     private LiveData<Integer> dbLogCount;
 
+    private String secretKey,sharedKey,productKey;
     private CloudLogSyncManager(AppInfra appInfra, final LoggingConfiguration loggingConfiguration) {
         this.appInfra = appInfra;
         this.loggingConfiguration = loggingConfiguration;
@@ -51,6 +52,9 @@ public class CloudLogSyncManager implements Observer<Integer> {
                 mSyncDataWorkQueue);
         dbLogCount = AILCloudLogDBManager.getInstance(appInfra).getLogCount();
         dbLogCount.observeForever(this);
+        secretKey=loggingConfiguration.getCLSecretKey();
+        sharedKey=loggingConfiguration.getCLSharedKey();
+        productKey=loggingConfiguration.getCLProductKey();
     }
 
     public static CloudLogSyncManager getInstance(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
@@ -74,7 +78,7 @@ public class CloudLogSyncManager implements Observer<Integer> {
         if (checkWhetherToSyncCloudLog()) {
             Log.d("SyncTesting", "Sync enabled");
             if (currentLogCount >= loggingConfiguration.getBatchLimit()) {
-                threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra,loggingConfiguration.getCLSecretKey(),loggingConfiguration.getCLSecretKey()));
+                threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra,sharedKey,secretKey,productKey));
             }
         } else {
             Log.d("SyncTesting", "Sync disabled");

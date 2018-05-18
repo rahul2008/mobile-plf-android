@@ -23,7 +23,7 @@ public class Resource {
     private String serverName;
     @SerializedName("logData")
     @Expose
-    private String logData;
+    private LogData logData;
     @SerializedName("applicationName")
     @Expose
     private String applicationName;
@@ -92,11 +92,11 @@ public class Resource {
         this.serverName = serverName;
     }
 
-    public String getLogData() {
+    public LogData getLogData() {
         return logData;
     }
 
-    public void setLogData(String logData) {
+    public void setLogData(LogData logData) {
         this.logData = logData;
     }
 

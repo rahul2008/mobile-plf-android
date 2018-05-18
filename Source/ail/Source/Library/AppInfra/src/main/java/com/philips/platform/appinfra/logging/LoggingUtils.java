@@ -132,4 +132,15 @@ public class LoggingUtils {
         return dateTime.toString(format);
     }
 
+    public static String getFormattedDateAndTime(long datetime,String format) {
+//        DateFormat dateFormat = new SimpleDateFormat(format);
+//        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        Date date = new Date();
+//        return dateFormat.format(date);
+
+
+        DateTime dateTime = new DateTime(datetime);
+        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+        return dateTime.toString(format);
+    }
 }
