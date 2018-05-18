@@ -79,13 +79,19 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
         }
     }
 
+    @Override
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter = getWelcomePresenter();
+    }
+
     protected AbstractUIBasePresenter getWelcomePresenter() {
         return new WelcomeFragmentPresenter(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        presenter = getWelcomePresenter();
+
         startLogging();
         View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
         welcomePagerAdapter = new WelcomePagerAdapter(getActivity().getSupportFragmentManager());

@@ -9,6 +9,4 @@
     <color name="overlay_background">#343434</color>
     <color name="overlay_got_it_button_bg">#696969</color>
     <color name="colorAccentBright">#57f2e6</color>
-    <color name="nuera_text_color">#FFFFFFFF</color>
-    <color name="nuera_underline_text_color">#D4F2F8</color>
 </resources>

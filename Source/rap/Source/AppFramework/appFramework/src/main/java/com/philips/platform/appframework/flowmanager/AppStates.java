@@ -47,6 +47,4 @@ public class AppStates {
     public static final String MY_DETAILS_STATE="my_details";
     public static final String TELE_HEALTHSERVICES_DEEP_LINKING_STATE ="TeleHealthServicesDeepLinkingState";
     public static final String MY_ORDERS="my_orders";
-    public static final String TESTNEURADEMO = "neurademo";
-    public static final String NEURA ="neura";
 }
