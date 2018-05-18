@@ -20,13 +20,14 @@ import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.consentmanager.ConsentManager;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.device.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
+import com.philips.platform.appinfra.logging.CloudConsentProvider;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
@@ -37,6 +38,8 @@ import com.philips.platform.appinfra.tagging.AppTagging;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.PostConsentTypeCallback;
 
 import java.io.Serializable;
 
@@ -400,6 +403,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             ai.setTime(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
 
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
+            registerCloudHandler(ai);
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
 
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
@@ -485,9 +489,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             postLog(ai, startTime, "App-infra initialization ends with ");
             return ai;
         }
-
-
-
     }
 
 
@@ -510,5 +511,24 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_APPINFRA, "AppInfra initialized " + appInfraLogStatement.toString());
     }
+
+    private static void registerCloudHandler(final AppInfra appInfra) {
+        CloudConsentProvider cloudConsentProvider = new CloudConsentProvider(new DeviceStoredConsentHandler(appInfra));
+        cloudConsentProvider.registerConsentHandler(appInfra.getConsentManager());
+        cloudConsentProvider.storeConsentTypeState(false, new PostConsentTypeCallback() {
+            @Override
+            public void onPostConsentFailed(ConsentError error) {
+                appInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
+                        AppInfraLogEventID.AI_APPINFRA, " error while storing consent due to " + error.getError());
+            }
+
+            @Override
+            public void onPostConsentSuccess() {
+                appInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
+                        AppInfraLogEventID.AI_APPINFRA, " stored consent successfully");
+            }
+        });
+    }
+
 
 }
