@@ -11,6 +11,8 @@
     <string name="localized_commercial_app_name" translatable="false">AppInfra</string>
     <string name="ail_fullLocale">en-US</string>
     <string name="ail_locale">en</string>
+    <string name="ail_cloud_consent_title">Enable Cloud logging</string>
+    <string name="ail_cloud_consent_help">Used to enable cloud logging</string>
 
     <string-array name="server_pool" translatable="false">
         <item>time1.google.com</item>
