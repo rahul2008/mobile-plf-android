@@ -379,8 +379,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fl_reg_fragment_container);
         if(wasAppInBackground && (currentFragment != null && currentFragment instanceof AccountActivationFragment)) {
             showActivateSpinner();
-            activateButtonEnable(false);
-            mBtnResend.setEnabled(false);
+            handleUiState(networkUtility.isNetworkAvailable());
             mUser.refreshUser(this);
             wasAppInBackground = false;
         }
