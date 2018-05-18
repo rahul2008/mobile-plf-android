@@ -1,0 +1,4 @@
+rootProject.setName 'Neura'
+include ':app'
+
+
