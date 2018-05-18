@@ -74,7 +74,8 @@
 
   },
   "hsdp": {
-    "cloud_logging_secret_key": "96a5cd559d9299e4632faae2320777347d0e35acd77e3c1e9edcf244a30443ad3fcefdbb62806f15bb758c5903a0d7be635e0240cc671261f14cb37cc2ef1153"
+    "cloud_logging_secret_key": "96a5cd559d9299e4632faae2320777347d0e35acd77e3c1e9edcf244a30443ad3fcefdbb62806f15bb758c5903a0d7be635e0240cc671261f14cb37cc2ef1153",
+    "cloud_logging_shared_key": "YMV5QLdKOW9vlQ1fgG0txw8Tdglfe2ePIFwkub68eN8="
   }
 
 }

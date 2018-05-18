@@ -8,7 +8,6 @@ import android.util.Log;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
-import com.philips.platform.appinfra.rest.RestInterface;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -39,7 +38,6 @@ public class CloudLogSyncManager implements Observer<Integer> {
     private LoggingConfiguration loggingConfiguration;
 
     private LiveData<Integer> dbLogCount;
-
 
     private CloudLogSyncManager(AppInfra appInfra, final LoggingConfiguration loggingConfiguration) {
         this.appInfra = appInfra;
@@ -76,7 +74,7 @@ public class CloudLogSyncManager implements Observer<Integer> {
         if (checkWhetherToSyncCloudLog()) {
             Log.d("SyncTesting", "Sync enabled");
             if (currentLogCount >= loggingConfiguration.getBatchLimit()) {
-                threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra));
+                threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra,loggingConfiguration.getCLSecretKey(),loggingConfiguration.getCLSecretKey()));
             }
         } else {
             Log.d("SyncTesting", "Sync disabled");
@@ -84,10 +82,10 @@ public class CloudLogSyncManager implements Observer<Integer> {
         }
     }
 
-    public void forceSync() {
-        if (checkWhetherToSyncCloudLog()) {
-            threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra));
-        }
-    }
+//    public void forceSync() {
+//        if (checkWhetherToSyncCloudLog()) {
+//            threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra));
+//        }
+//    }
 
 }
