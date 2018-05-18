@@ -42,6 +42,8 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
         this.secretKey = hexStringToByteArray(hexSecretKey);
     }
 
+    public HSDPPHSApiSigning(){}
+
     @Override
     public String createSignature(String requestMethod, String queryString, Map<String, String> headers, String dhpUrl, String requestbody) {
         final byte[] signatureKey = hashRequest(requestMethod, queryString, requestbody, joinHeaders(headers));
@@ -54,17 +56,16 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
     }
 
 
-    public String createSignatureForCloudUsingHSDPKey(String secrectKey,String date) {
-        Log.d("Testing","Date::"+date);
+    public String createSignatureForCloudUsingHSDPKey(String secretKey, String date) {
+        Log.d("Testing", "Date::" + date);
         PsLib psLib = new PsLib();
-        String secretKeyHSDP = secrectKey;
+        String secretKeyHSDP = secretKey;
         final byte[] dateByteArray;
         dateByteArray = date.getBytes(UTF_8_CHARSET);
-        String dateBase64 = Base64.encodeToString(dateByteArray,Base64.NO_WRAP);
+        String dateBase64 = Base64.encodeToString(dateByteArray, Base64.NO_WRAP);
         final byte[] secretKeyByteArrayHSDP = hexStringToByteArray(secretKeyHSDP);
         byte[] signatureArray = psLib.createHmac(secretKeyByteArrayHSDP, dateBase64.getBytes(Charset.forName("UTF-8")));
-        String signature = Base64.encodeToString(signatureArray,Base64.NO_WRAP);
-        return signature;
+        return Base64.encodeToString(signatureArray, Base64.NO_WRAP);
     }
 
     private String joinHeaders(Map<String, String> headers) {
@@ -103,14 +104,14 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
         buffer.append(";");
         buffer.append("Signature:");
         buffer.append(signature);
-     //   Log.v(AppInfraLogEventID.AI_API_SIGNING, "Build Authorization Header Value String "+buffer);
+        //   Log.v(AppInfraLogEventID.AI_API_SIGNING, "Build Authorization Header Value String "+buffer);
         return buffer.toString();
     }
 
     private byte[] hashRequest(String requestMethod, String queryString, String requestBody, String requestHeaders) {
         final PsLib psLib = new PsLib();
 //        Log.v(AppInfraLogEventID.AI_API_SIGNING, "PS Library Loaded ");
-        final byte[] kMethod = psLib.createHmac(this.secretKey,requestMethod.getBytes());
+        final byte[] kMethod = psLib.createHmac(this.secretKey, requestMethod.getBytes());
 //        Log.v(AppInfraLogEventID.AI_API_SIGNING, "Created Hmac Key");
         final byte[] kQueryString = hash(queryString, kMethod);
         final byte[] kBody = hash(requestBody, kQueryString);
@@ -120,14 +121,14 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
     private String signString(byte[] signatureKey, String uriToBeSigned) {
         final byte[] signatureArray = hash(uriToBeSigned, signatureKey);
 //        Log.v(AppInfraLogEventID.AI_API_SIGNING, "Encode  signature Array to Base64 encode string ");
-        return Base64.encodeToString(signatureArray,Base64.DEFAULT);
+        return Base64.encodeToString(signatureArray, Base64.DEFAULT);
     }
 
     private byte[] hash(String data, byte[] key) {
         try {
             final Mac mac = Mac.getInstance(ALGORITHM_NAME);
             mac.init(new SecretKeySpec(key, ALGORITHM_NAME));
-            if (data== null) {
+            if (data == null) {
                 return mac.doFinal(null);
             }
 //            Log.v(AppInfraLogEventID.AI_API_SIGNING, "hash Mac SecretKeySpec");
@@ -142,9 +143,9 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
         final byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
             data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
+                    + Character.digit(s.charAt(i + 1), 16));
         }
 //        Log.v(AppInfraLogEventID.AI_API_SIGNING, "hexString To ByteArray type Casting");
         return data;
     }
- }
+}

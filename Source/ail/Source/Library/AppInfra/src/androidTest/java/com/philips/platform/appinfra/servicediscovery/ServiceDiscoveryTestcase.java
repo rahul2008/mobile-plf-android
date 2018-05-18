@@ -297,7 +297,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		AppInfra mAppInfra = mock(AppInfra.class);
 		LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
 		when(mAppInfra.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
-		when(mAppInfra.getAilCloudLogMetaData()).thenReturn(new AILCloudLogMetaData());
 		return mAppInfra;
 	}
 

@@ -27,6 +27,8 @@ public class LoggingConfiguration {
     public final String CLOUD_LOG_BATCH_LIMIT = "cloudBatchLimit";
     public final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
     public final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
+    public final String HSDP_CLOUD_LOG_SECRET_KEY = "hsdp.cloud_logging_secret_key";
+    public final String HSDP_CLOUD_LOG_SHARED_KEY = "hsdp.cloud_logging_shared_key";
     private HashMap<?, ?> mLoggingProperties;
     private AppInfra mAppInfra;
     private String mComponentID = "";
@@ -125,4 +127,13 @@ public class LoggingConfiguration {
     public int getBatchLimit(){
         return (null != mLoggingProperties && null != mLoggingProperties.get(CLOUD_LOG_BATCH_LIMIT)) ? (Integer) mLoggingProperties.get(CLOUD_LOG_BATCH_LIMIT) : CloudLoggingConstants.DEFAULT_BATCH_LIMIT;
     }
+
+    public String getCLSecretKey(){
+        return (null != mLoggingProperties && null != mLoggingProperties.get(HSDP_CLOUD_LOG_SECRET_KEY)) ? (String) mLoggingProperties.get(HSDP_CLOUD_LOG_SECRET_KEY) : "";
+    }
+
+    public String getCLSharedKey(){
+        return (null != mLoggingProperties && null != mLoggingProperties.get(HSDP_CLOUD_LOG_SHARED_KEY)) ? (String) mLoggingProperties.get(HSDP_CLOUD_LOG_SHARED_KEY) : "";
+    }
+
 }
