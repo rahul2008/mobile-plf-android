@@ -6,21 +6,21 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
     }
+
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
@@ -35,18 +35,16 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
-
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "iapApp"
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = 'iapApp'
 
-group = 'com.philips.cdp'
 
 allprojects {
     repositories {
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -59,6 +57,8 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
 
         flatDir {
             dirs 'libs'
@@ -78,7 +78,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications('apk')
+                publications ('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -88,8 +88,7 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -99,18 +98,17 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            }
-
             artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
 
-        pom.withXml {
-            def dependenciesNode = asNode().appendNode('dependencies')
-            def resolvedArtifacts = configurations.implementation.allDependencies
-            resolvedArtifacts.each {
-                def dependencyNode = dependenciesNode.appendNode('dependency')
-                dependencyNode.appendNode('groupId', it.group)
-                dependencyNode.appendNode('artifactId', it.name)
-                dependencyNode.appendNode('version', it.version)
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.implementation.allDependencies
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
+                }
             }
         }
     }
@@ -180,10 +178,10 @@ android {
     /*
     This defined for signing the apk -- end
     */
-
+    flavorDimensions "default"
 
     productFlavors {
-        simulator {
+       simulator {
             applicationId 'com.philips.cdp.di.iapdemo'
             versionCode 2
             versionName "0.17.8"
