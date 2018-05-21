@@ -10,6 +10,7 @@ import com.philips.platform.appinfra.device.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.logging.CloudConsentProvider;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
+import com.philips.platform.pif.chi.ConsentChangeListener;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * Created by abhishek on 5/14/18.
  */
 
-public class CloudLogSyncManager implements Observer<Integer> {
+public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeListener {
 
     private static CloudLogSyncManager cloudLogSyncManager;
 
@@ -41,11 +42,14 @@ public class CloudLogSyncManager implements Observer<Integer> {
 
     private LiveData<Integer> dbLogCount;
 
-    private String secretKey,sharedKey,productKey;
+    private String secretKey, sharedKey, productKey;
+
+    private boolean consentStatus;
+
     private CloudLogSyncManager(AppInfra appInfra, final LoggingConfiguration loggingConfiguration) {
         this.appInfra = appInfra;
         this.loggingConfiguration = loggingConfiguration;
-        mSyncDataWorkQueue = new LinkedBlockingQueue<Runnable>();
+        mSyncDataWorkQueue = new LinkedBlockingQueue<>();
         threadPoolExecutor = new ThreadPoolExecutor(
                 NUMBER_OF_CORES,       // Initial pool size
                 NUMBER_OF_CORES,       // Max pool size
@@ -54,9 +58,11 @@ public class CloudLogSyncManager implements Observer<Integer> {
                 mSyncDataWorkQueue);
         dbLogCount = AILCloudLogDBManager.getInstance(appInfra).getLogCount();
         dbLogCount.observeForever(this);
-        secretKey=loggingConfiguration.getCLSecretKey();
-        sharedKey=loggingConfiguration.getCLSharedKey();
-        productKey=loggingConfiguration.getCLProductKey();
+        secretKey = loggingConfiguration.getCLSecretKey();
+        sharedKey = loggingConfiguration.getCLSharedKey();
+        productKey = loggingConfiguration.getCLProductKey();
+        consentStatus = new CloudConsentProvider(new DeviceStoredConsentHandler(appInfra)).isCloudLoggingConsentProvided();
+
     }
 
     public static CloudLogSyncManager getInstance(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
@@ -68,8 +74,8 @@ public class CloudLogSyncManager implements Observer<Integer> {
 
     public boolean checkWhetherToSyncCloudLog() {
         //Add consent part here
-        if ((appInfra.getRestClient() != null && appInfra.getRestClient().isInternetReachable() && new CloudConsentProvider(new DeviceStoredConsentHandler(appInfra)).isCloudLoggingConsentProvided())) {
-           Log.v("SyncTesting","Cloud log all conditions met. Starting sync.....");
+        if ((appInfra.getRestClient() != null && appInfra.getRestClient().isInternetReachable()) && consentStatus) {
+            Log.v("SyncTesting", "Cloud log all conditions met. Starting sync.....");
             return true;
         }
         return false;
@@ -81,11 +87,21 @@ public class CloudLogSyncManager implements Observer<Integer> {
         if (checkWhetherToSyncCloudLog()) {
             Log.v("SyncTesting", "Sync enabled");
             if (currentLogCount >= loggingConfiguration.getBatchLimit()) {
-                threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra,sharedKey,secretKey,productKey));
+                threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra, sharedKey, secretKey, productKey));
             }
         } else {
             Log.v("SyncTesting", "Sync disabled");
             threadPoolExecutor.getQueue().clear();
+        }
+    }
+
+    @Override
+    public void onConsentChanged(String consentType, boolean status) {
+        if (CloudConsentProvider.CLOUD.equalsIgnoreCase(consentType)) {
+            consentStatus = status;
+            if(!consentStatus){
+                threadPoolExecutor.getQueue().clear();
+            }
         }
     }
 

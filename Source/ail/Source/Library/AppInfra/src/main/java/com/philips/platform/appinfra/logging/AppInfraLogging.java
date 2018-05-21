@@ -10,8 +10,12 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
+import com.philips.platform.appinfra.device.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.PostConsentTypeCallback;
 
 import java.util.Map;
 import java.util.logging.Level;
@@ -117,10 +121,31 @@ public class AppInfraLogging implements LoggingInterface {
             if (appInfra.getServiceDiscovery() != null) {
                 ailCloudLogMetaData.setHomeCountry(appInfra.getServiceDiscovery().getHomeCountry());
             }
+            registerCloudHandler();
         } catch (IllegalArgumentException e) {
 
         }
 
+    }
+
+    public void registerCloudHandler() {
+        DeviceStoredConsentHandler deviceStoredConsentHandler=new DeviceStoredConsentHandler(mAppInfra);
+        deviceStoredConsentHandler.registerConsentChangeListener(CloudLogSyncManager.getInstance(mAppInfra,loggingConfiguration));
+        CloudConsentProvider cloudConsentProvider = new CloudConsentProvider(deviceStoredConsentHandler);
+        cloudConsentProvider.registerConsentHandler(mAppInfra.getConsentManager());
+        cloudConsentProvider.storeConsentTypeState(false, new PostConsentTypeCallback() {
+            @Override
+            public void onPostConsentFailed(ConsentError error) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
+                        AppInfraLogEventID.AI_APPINFRA, " error while storing consent due to " + error.getError());
+            }
+
+            @Override
+            public void onPostConsentSuccess() {
+               mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
+                        AppInfraLogEventID.AI_APPINFRA, " stored consent successfully");
+            }
+        });
     }
     @Override
     public void setUserUUID(String userUUID) {

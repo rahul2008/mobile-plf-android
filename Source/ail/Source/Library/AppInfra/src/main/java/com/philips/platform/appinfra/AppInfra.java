@@ -27,7 +27,9 @@ import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.CloudConsentProvider;
+import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
@@ -419,8 +421,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
             ai.getTagging().registerClickStreamHandler(ai.getConsentManager());
 
-            registerCloudHandler(ai);
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -511,24 +511,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         appInfraLogStatement.append("\"");
         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_APPINFRA, "AppInfra initialized " + appInfraLogStatement.toString());
-    }
-
-    private static void registerCloudHandler(final AppInfra appInfra) {
-        CloudConsentProvider cloudConsentProvider = new CloudConsentProvider(new DeviceStoredConsentHandler(appInfra));
-        cloudConsentProvider.registerConsentHandler(appInfra.getConsentManager());
-        cloudConsentProvider.storeConsentTypeState(false, new PostConsentTypeCallback() {
-            @Override
-            public void onPostConsentFailed(ConsentError error) {
-                appInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                        AppInfraLogEventID.AI_APPINFRA, " error while storing consent due to " + error.getError());
-            }
-
-            @Override
-            public void onPostConsentSuccess() {
-                appInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                        AppInfraLogEventID.AI_APPINFRA, " stored consent successfully");
-            }
-        });
     }
 
 

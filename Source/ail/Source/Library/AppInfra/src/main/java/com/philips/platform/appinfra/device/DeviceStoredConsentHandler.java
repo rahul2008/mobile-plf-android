@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.pif.chi.ConsentChangeListener;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -29,6 +30,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     private static final String DEVICESTORE_TLA = "CAL";
     private static final String DEVICESTORE_ERROR_UPDATE = "Error updating device stored consent";
     private final AppInfraInterface appInfra;
+    private List<ConsentChangeListener> consentChangeListenerList=new ArrayList<>();
 
     public DeviceStoredConsentHandler(final AppInfraInterface appInfra) {
         this.appInfra = appInfra;
@@ -103,7 +105,25 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
             callback.onPostConsentFailed(new ConsentError(DEVICESTORE_ERROR_UPDATE + storageError.getErrorCode().toString(), -1));
             return;
         }
-
+        for(ConsentChangeListener consentChangeListener:consentChangeListenerList){
+            if(consentChangeListener!=null){
+                consentChangeListener.onConsentChanged(consentType,status);
+            }
+        }
         callback.onPostConsentSuccess();
+    }
+
+    @Override
+    public void registerConsentChangeListener(ConsentChangeListener consentChangeListener) {
+        if (!consentChangeListenerList.contains(consentChangeListener)) {
+            consentChangeListenerList.add(consentChangeListener);
+        }
+    }
+
+    @Override
+    public void unregisterConsentChangeListener(ConsentChangeListener consentChangeListener) {
+        if (consentChangeListenerList.contains(consentChangeListener)) {
+            consentChangeListenerList.remove(consentChangeListener);
+        }
     }
 }
