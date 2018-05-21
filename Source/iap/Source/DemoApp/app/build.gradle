@@ -246,7 +246,10 @@ dependencies {
     } else {
         implementation philipsdeps.uid
         implementation (philipsdeps.registrationApi){
-            exclude group: 'com.android.support'
+            exclude group: 'com.android.support', module: 'support-design'
+            exclude group: 'com.android.support', module: 'support-supportv4'
+            exclude group: 'com.android.support', module: 'support-appcompatv7'
+            exclude group: 'com.android.support', module: 'support-annotations'
         }
         implementation philipsdeps.prx
         implementation philipsdeps.iap
