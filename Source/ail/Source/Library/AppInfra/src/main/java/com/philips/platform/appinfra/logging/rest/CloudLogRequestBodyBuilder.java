@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
-import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.LoggingUtils;
 import com.philips.platform.appinfra.logging.database.AILCloudLogData;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
@@ -53,7 +52,7 @@ public class CloudLogRequestBodyBuilder {
             resource.setApplicationName(getValue(ailCloudLogMetaData.getAppName()));
             String applicationVersion=!TextUtils.isEmpty(ailCloudLogData.appVersion)?ailCloudLogData.appVersion.replaceAll("[()]",""):CloudLoggingConstants.NA;
             resource.setApplicationVersion(applicationVersion);
-            resource.setApplicationInstance(getValue(ailCloudLogMetaData.getAppsId()));
+            resource.setApplicationInstance(getValue(ailCloudLogMetaData.getAppId()));
             resource.setCategory("TraceLog");
             String component=!TextUtils.isEmpty(ailCloudLogData.component)?ailCloudLogData.component.replaceAll("[()]",""):CloudLoggingConstants.NA;
             resource.setComponent(component);
@@ -69,7 +68,7 @@ public class CloudLogRequestBodyBuilder {
             logMetaDataModel.setAppsid(ailCloudLogData.appsId);
             logMetaDataModel.setAppstate(ailCloudLogData.appState);
             logMetaDataModel.setDescription(ailCloudLogData.logDescription);
-            Log.d("SyncTesting","Log::"+ailCloudLogData.logDescription);
+            Log.v("SyncTesting","Log::"+ailCloudLogData.logDescription);
             logMetaDataModel.setDetails(ailCloudLogData.details);
             logMetaDataModel.setDevicetype(ailCloudLogData.serverName);
             logMetaDataModel.setHomecountry(ailCloudLogMetaData.getHomeCountry());
@@ -93,7 +92,7 @@ public class CloudLogRequestBodyBuilder {
         try {
             return new JSONObject(jsonString);
         } catch (JSONException e) {
-            Log.d("SyncTesting", "Exception while creating JSON object from json string");
+            Log.v("SyncTesting", "Exception while creating JSON object from json string");
             return null;
         }
     }

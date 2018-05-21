@@ -42,8 +42,6 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
         this.secretKey = hexStringToByteArray(hexSecretKey);
     }
 
-    public HSDPPHSApiSigning(){}
-
     @Override
     public String createSignature(String requestMethod, String queryString, Map<String, String> headers, String dhpUrl, String requestbody) {
         final byte[] signatureKey = hashRequest(requestMethod, queryString, requestbody, joinHeaders(headers));
@@ -56,15 +54,13 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
     }
 
 
-    public String createSignatureForCloudUsingHSDPKey(String secretKey, String date) {
-        Log.d("Testing", "Date::" + date);
+    public String createSignatureForCloudLogging(String date) {
+        Log.v("Testing", "Date::" + date);
         PsLib psLib = new PsLib();
-        String secretKeyHSDP = secretKey;
         final byte[] dateByteArray;
         dateByteArray = date.getBytes(UTF_8_CHARSET);
         String dateBase64 = Base64.encodeToString(dateByteArray, Base64.NO_WRAP);
-        final byte[] secretKeyByteArrayHSDP = hexStringToByteArray(secretKeyHSDP);
-        byte[] signatureArray = psLib.createHmac(secretKeyByteArrayHSDP, dateBase64.getBytes(Charset.forName("UTF-8")));
+        byte[] signatureArray = psLib.createHmac(secretKey, dateBase64.getBytes(Charset.forName("UTF-8")));
         return Base64.encodeToString(signatureArray, Base64.NO_WRAP);
     }
 

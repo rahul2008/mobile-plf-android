@@ -52,7 +52,7 @@ public class AILCloudLogDataBuilder {
                 ailCloudLogData.locale = ailCloudLogMetaData.getLocale();
                 ailCloudLogData.appState = ailCloudLogMetaData.getAppState();
                 ailCloudLogData.appVersion = ailCloudLogMetaData.getAppVersion();
-                ailCloudLogData.appsId = ailCloudLogMetaData.getAppsId();
+                ailCloudLogData.appsId = ailCloudLogMetaData.getAppId();
                 ailCloudLogData.userUUID = ailCloudLogMetaData.getUserUUID();
             }
         }
@@ -67,7 +67,7 @@ public class AILCloudLogDataBuilder {
 
         ailCloudLogData.serverName = "Android/" + LoggingUtils.getOSVersion();
         ailCloudLogData.status= AILCloudLogDBManager.DBLogState.NEW.getState();
-        Log.d("test", "After adding heavy params:" + System.currentTimeMillis());
+        Log.v("test", "After adding heavy params:" + System.currentTimeMillis());
         return ailCloudLogData;
     }
 

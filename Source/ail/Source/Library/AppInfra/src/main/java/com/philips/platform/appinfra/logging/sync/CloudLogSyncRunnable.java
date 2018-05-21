@@ -52,7 +52,7 @@ public class CloudLogSyncRunnable implements Runnable {
         //1. Fetch oldest data from DB
         final List<AILCloudLogData> ailCloudLogDataList = ailCloudLogDBManager.getNewAILCloudLogRecords();
         if (ailCloudLogDataList != null && ailCloudLogDataList.size() > 0) {
-            Log.d("SyncTesting", "About to sync records" + ailCloudLogDataList.size());
+            Log.v("SyncTesting", "About to sync records" + ailCloudLogDataList.size());
             //2. Build rest api call template
 
             //3. Make rest api call
@@ -80,7 +80,7 @@ public class CloudLogSyncRunnable implements Runnable {
                     if (response.statusCode == 201) {
                         //4. Based on status delete data from db
                         ailCloudLogDBManager.deleteLogRecords(ailCloudLogDataList);
-                        Log.d("SyncTesting", "Deleted records" + ailCloudLogDataList.size());
+                        Log.v("SyncTesting", "Deleted records" + ailCloudLogDataList.size());
                     } else {
                         ailCloudLogDBManager.updateAILCloudLogListToNewState(ailCloudLogDataList);
                     }
@@ -100,14 +100,14 @@ public class CloudLogSyncRunnable implements Runnable {
 
     public Map<String, String> getCloudLoggingtHeaders() {
         String signingDate = LoggingUtils.getCurrentDateAndTime(CloudLoggingConstants.CLOUD_LOGGING_DATE_TIME_FORMAT);
-        HSDPPHSApiSigning hsdpphsApiSigning = new HSDPPHSApiSigning();
+        HSDPPHSApiSigning hsdpphsApiSigning = new HSDPPHSApiSigning(sharedKey,secretKey);
         Map<String, String> header = new HashMap<>();
         header.put("Content-Type", "application/json");
         header.put("api-version", "1");//int value?
         header.put("SignedDate", signingDate);
         header.put("hsdp-api-signature", "HmacSHA256;Credential:"
                 + sharedKey + ";SignedHeaders:SignedDate;Signature:"
-                + hsdpphsApiSigning.createSignatureForCloudUsingHSDPKey((secretKey), signingDate));
+                + hsdpphsApiSigning.createSignatureForCloudLogging(signingDate));
         return header;
     }
 

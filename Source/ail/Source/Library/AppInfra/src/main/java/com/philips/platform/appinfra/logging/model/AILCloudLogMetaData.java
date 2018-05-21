@@ -17,7 +17,7 @@ public class AILCloudLogMetaData {
 
     private String appVersion;
 
-    private String appsId;
+    private String appId;
 
     private String appName;
 
@@ -70,12 +70,12 @@ public class AILCloudLogMetaData {
         this.appVersion = appVersion;
     }
 
-    public String getAppsId() {
-        return appsId;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setAppsId(String appsId) {
-        this.appsId = appsId;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
 }

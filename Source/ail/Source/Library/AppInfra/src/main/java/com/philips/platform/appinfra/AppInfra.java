@@ -403,7 +403,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             ai.setTime(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
 
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
-            registerCloudHandler(ai);
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
 
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
@@ -419,6 +418,8 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             ai.setConsentManager(consentManager == null ? new ConsentManager(ai) : consentManager);
 
             ai.getTagging().registerClickStreamHandler(ai.getConsentManager());
+
+            registerCloudHandler(ai);
 
             new Thread(new Runnable() {
                 @Override

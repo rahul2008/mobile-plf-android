@@ -69,6 +69,7 @@ public class CloudLogSyncManager implements Observer<Integer> {
     public boolean checkWhetherToSyncCloudLog() {
         //Add consent part here
         if ((appInfra.getRestClient() != null && appInfra.getRestClient().isInternetReachable() && new CloudConsentProvider(new DeviceStoredConsentHandler(appInfra)).isCloudLoggingConsentProvided())) {
+           Log.v("SyncTesting","Cloud log all conditions met. Starting sync.....");
             return true;
         }
         return false;
@@ -76,14 +77,14 @@ public class CloudLogSyncManager implements Observer<Integer> {
 
     @Override
     public void onChanged(@Nullable Integer currentLogCount) {
-        Log.d("SyncTesting", "Inside cloud log db change:: count::" + currentLogCount);
+        Log.v("SyncTesting", "Inside cloud log db change:: count::" + currentLogCount);
         if (checkWhetherToSyncCloudLog()) {
-            Log.d("SyncTesting", "Sync enabled");
+            Log.v("SyncTesting", "Sync enabled");
             if (currentLogCount >= loggingConfiguration.getBatchLimit()) {
                 threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra,sharedKey,secretKey,productKey));
             }
         } else {
-            Log.d("SyncTesting", "Sync disabled");
+            Log.v("SyncTesting", "Sync disabled");
             threadPoolExecutor.getQueue().clear();
         }
     }

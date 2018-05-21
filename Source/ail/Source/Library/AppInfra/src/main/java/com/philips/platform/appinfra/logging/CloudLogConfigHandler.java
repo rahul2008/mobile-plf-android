@@ -21,11 +21,10 @@ public class CloudLogConfigHandler {
     }
 
     protected void handleCloudLogConfig(LoggingConfiguration loggingConfiguration, @NonNull Logger logger) {
-        boolean isCloudLogEnabled=loggingConfiguration.isCloudLogEnabled();
-        if(isCloudLogEnabled){
-            CloudLogHandler cloudLogHandler=getCurrentLogCloudLogHandler(logger);
-            if(cloudLogHandler==null){
-                cloudLogHandler=new CloudLogHandler(appInfra);
+        CloudLogHandler cloudLogHandler = getCurrentLogCloudLogHandler(logger);
+        if (loggingConfiguration.isCloudLogEnabled()) {
+            if (cloudLogHandler == null) {
+                cloudLogHandler = new CloudLogHandler(appInfra);
                 if (null != logger.getLevel()) {
                     cloudLogHandler.setLevel(logger.getLevel());
                 } else {
@@ -33,16 +32,13 @@ public class CloudLogConfigHandler {
                 }
                 logger.addHandler(cloudLogHandler);
             }
-        }else{
-            final Handler[] currentComponentHandlers =logger.getHandlers();
-            if (null != currentComponentHandlers && currentComponentHandlers.length > 0) {
-                for (Handler handler : currentComponentHandlers) {
-                    if (handler instanceof CloudLogHandler) {
-                        handler.close(); // flush and close connection of file
-                        logger.removeHandler(handler);
-                    }
-                }
+        } else {
+            if (cloudLogHandler != null) {
+                cloudLogHandler.close();
+                ;
+                logger.removeHandler(cloudLogHandler);
             }
+
         }
     }
 

@@ -41,7 +41,7 @@ public class CloudLogHandler extends Handler {
                 try {
                     AILCloudLogDBManager.getInstance(appInfra).insertLog(ailCloudLogDataBuilder.buildCloudLogModel(logRecord));
                 } catch (MessageSizeExceedsException e) {
-                    Log.d(TAG,"Message size exceeds allowed length"+e.getMessage());
+                    Log.v(TAG,"Message size exceeds allowed length"+e.getMessage());
                 }
             }
         });

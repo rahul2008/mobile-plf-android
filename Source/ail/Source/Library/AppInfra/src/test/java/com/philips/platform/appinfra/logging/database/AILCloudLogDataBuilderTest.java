@@ -2,8 +2,6 @@ package com.philips.platform.appinfra.logging.database;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
-import com.philips.platform.appinfra.logging.LoggingConfiguration;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.logging.MessageSizeExceedsException;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 
@@ -67,7 +65,7 @@ public class AILCloudLogDataBuilderTest extends TestCase {
 
     private AILCloudLogMetaData getAILCloudLogMetaData() {
         AILCloudLogMetaData ailCloudLogMetaData = new AILCloudLogMetaData();
-        ailCloudLogMetaData.setAppsId("app_id");
+        ailCloudLogMetaData.setAppId("app_id");
         ailCloudLogMetaData.setAppState("app_state");
         ailCloudLogMetaData.setLocale("locale");
         ailCloudLogMetaData.setHomeCountry("en");

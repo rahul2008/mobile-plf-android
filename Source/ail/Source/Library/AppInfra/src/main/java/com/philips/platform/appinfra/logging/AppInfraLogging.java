@@ -110,7 +110,7 @@ public class AppInfraLogging implements LoggingInterface {
                 ailCloudLogMetaData.setAppVersion(appInfra.getAppIdentity().getAppVersion());
             }
             if (appInfra.getTagging() != null) {
-                ailCloudLogMetaData.setAppsId(appInfra.getTagging().getTrackingIdentifier());
+                ailCloudLogMetaData.setAppId(appInfra.getTagging().getTrackingIdentifier());
             }
             if (appInfra.getInternationalization() != null) {
                 ailCloudLogMetaData.setLocale(appInfra.getInternationalization().getUILocaleString());
