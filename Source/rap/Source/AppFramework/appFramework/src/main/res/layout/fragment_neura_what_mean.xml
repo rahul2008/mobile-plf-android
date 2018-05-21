@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.philips.platform.baseapp.screens.neura.NeuraWhatMeanFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="?attr/uidNavigationSecondaryBackgroundColor" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha=".2"
+            android:scaleType="centerCrop"
+            android:src="@drawable/neura_background" />
+
+    </FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/nuera_margin_top">
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/RA_neura_what_mean_title"
+        style="@style/neuraBaseLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/nuera_margin_between_text"
+        android:text="@string/RA_Neura_Consent_HyperLink"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/RA_neura_what_mean_descp"
+        android:layout_below="@+id/RA_neura_what_mean_title"
+        style="@style/neuraTextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/RA_nuera_what_text_descp"/>
+    </RelativeLayout>
+</RelativeLayout>

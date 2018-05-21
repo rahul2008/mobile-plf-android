@@ -292,33 +292,40 @@ public class PushNotificationManager {
             for (String key : data.keySet()) {
                 PNLog.d(TAG, key + " is a key in the bundle" + " value " + data.get(key));
             }
+
             Set<String> set = data.keySet();
-            if (set.contains(PushNotificationConstants.PLATFORM_KEY) ) {
-                try {
-                    JSONObject jsonObject = new JSONObject(data.getString(PushNotificationConstants.PLATFORM_KEY));
-                    Iterator<String> iterator = jsonObject.keys();
-                    while (iterator.hasNext()) {
-                        String key = iterator.next();
-                        switch (key) {
-                            case PushNotificationConstants.DSC:
-                                JSONObject dscobject = jsonObject.getJSONObject(key);
-                                payloadListener.handlePayload(dscobject);
-                                PNLog.d(TAG, " THIS is a SILENT notification");
-                                //  payloadListener.handlePushNotification(data.getString("message"),data.getString("Description is this "));
-                                break;
-                            default:
-                                PNLog.d(TAG, "Common component is not designed for handling this key");
-                        }
-                    }
-                } catch (JSONException e) {
-                    PNLog.d(TAG, "Exception while parsing payload:" + e.getMessage());
+            if (set.contains(PushNotificationConstants.NEURA_PUSH_TYPE)) {
+                if(data.get(PushNotificationConstants.NEURA_PUSH_TYPE).toString().equalsIgnoreCase(PushNotificationConstants.NEURA_EVENT)){
+                    PNLog.d(TAG,"Neura event ignoring as handled at NEU level");
                 }
+
             } else {
-                PNLog.d(TAG, " THIS is a NOT A silent  notification");
+                if (set.contains(PushNotificationConstants.PLATFORM_KEY)) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(data.getString(PushNotificationConstants.PLATFORM_KEY));
+                        Iterator<String> iterator = jsonObject.keys();
+                        while (iterator.hasNext()) {
+                            String key = iterator.next();
+                            switch (key) {
+                                case PushNotificationConstants.DSC:
+                                    JSONObject dscobject = jsonObject.getJSONObject(key);
+                                    payloadListener.handlePayload(dscobject);
+                                    PNLog.d(TAG, " THIS is a SILENT notification");
+                                    //  payloadListener.handlePushNotification(data.getString("message"),data.getString("Description is this "));
+                                    break;
+                                default:
+                                    PNLog.d(TAG, "Common component is not designed for handling this key");
+                            }
+                        }
+                    } catch (JSONException e) {
+                        PNLog.d(TAG, "Exception while parsing payload:" + e.getMessage());
+                    }
+                } else {
+                    PNLog.d(TAG, " THIS is a NOT A silent  notification");
 
-                payloadListener.handlePushNotification(data.getString("alert"));
+                    payloadListener.handlePushNotification(data.getString("alert"));
 
-            }
+                }
                 /*else
                 {
                 PNLog.d(TAG, "Data sync key is absent in payload");
@@ -326,6 +333,10 @@ public class PushNotificationManager {
         }else{
             PNLog.d(TAG, "No component registered for receiving push notification");
         }*/
+            }
+
         }
-    }}
+    }
+}
+
 
