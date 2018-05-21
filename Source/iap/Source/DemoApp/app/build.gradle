@@ -232,7 +232,6 @@ dependencies {
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.support.annotations
-    implementation deps.support.customtabs
     implementation deps.support.appcompatv7
 
     def dp = project.ext.has('useprojectdependencies')
