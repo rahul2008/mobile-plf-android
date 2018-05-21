@@ -33,13 +33,13 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile(deps.espresso_core, {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(':URDemo')
-    compile deps.support.appcompat-v7
-    compile deps.constraintlayout
-    compile deps.support.design
-    testCompile deps.junit
+    implementation project(':URDemo')
+    implementation deps.support.appcompat-v7
+    implementation deps.constraintlayout
+    implementation deps.support.design
+    testImplementation deps.junit
 }

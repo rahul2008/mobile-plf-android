@@ -64,7 +64,7 @@ public class EmptyPurchaseHistoryFragmentTest {
     @Test(expected = NullPointerException.class)
     public void shouldHandleBackEvent() {
         when(fragmentManager.beginTransaction()).thenReturn(fragmentTransactionMock);
-        IAPActivity activity = buildActivity(IAPActivity.class, null).withIntent(null).get();
+        IAPActivity activity = buildActivity(IAPActivity.class, null).get();
         IAPActivity spyActivity = Mockito.spy(activity);
 
         Mockito.doReturn(fragmentManager).when(spyActivity).getSupportFragmentManager();

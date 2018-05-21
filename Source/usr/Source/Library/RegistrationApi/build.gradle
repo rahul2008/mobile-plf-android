@@ -3,9 +3,9 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/taskscc.gradle'
 
 //apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -16,6 +16,7 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
+        google()
         maven {
             url repos.jcenter
             credentials {
@@ -30,6 +31,7 @@ buildscript {
                 password = "123qweasdzxc"
             }
         }
+        maven { url sonatype }
     }
     dependencies {
 
@@ -126,22 +128,22 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact zipDocuments
+//            artifact zipDocuments
 
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
+//            artifact("$projectDir/dependencies.lock") {
+//                classifier = '1stleveldependencies'
+//            }
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -151,7 +153,10 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
@@ -189,17 +194,19 @@ android {
 
         debug {
             debuggable true
+            testCoverageEnabled = true
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
     }
 
     testOptions {
         unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
     }
-    publishNonDefault true
+
 }
 
 configurations.all {
@@ -208,58 +215,60 @@ configurations.all {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-
-    compile deps.constraintlayout
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.butterknife
+    annotationProcessor deps.butterknife
+    implementation deps.apache
+    implementation deps.constraintlayout
 
 
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
-        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
-        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
-        debugCompile project(path: ':jump', configuration: 'debug')
-        releaseCompile project(path: ':jump', configuration: 'release')
-        debugCompile project(path: ':hsdp', configuration: 'debug')
-        releaseCompile project(path: ':hsdp', configuration: 'release')
-        debugCompile project(path: ':pif', configuration: 'debug')
-        releaseCompile project(path: ':pif', configuration: 'release')
+        implementation project(':uid')
+        implementation project(':uAppFwLib')
+        implementation project(':jump')
+        implementation project(':hsdp')
+        implementation project(':pif')
+        implementation project(':AppInfra')
     } else {
-        compile philipsdeps.uid
-        compile philipsdeps.uAppFwLib
-        compile project(':jump')
-        compile project(':hsdp')
+        implementation philipsdeps.uid
+        implementation philipsdeps.uAppFwLib
+        implementation project(':jump')
+        implementation project(':hsdp')
     }
-
-    compile deps.libphonenumber
+    implementation deps.apache
+    implementation deps.libphonenumber
     annotationProcessor deps.butterknife_compiler
-    compile deps.butterknife
+    implementation deps.butterknife
     annotationProcessor deps.dagger.compiler
-    compile deps.dagger.dagger
-    provided deps.javax_annotation
-    compile deps.rxjava2
-    compile deps.rxbinding
-    retrolambdaConfig deps.retrolambda
-    androidTestCompile deps.junit
-    androidTestCompile deps.dexmaker_google
-    androidTestCompile deps.dexmaker_google_mockito
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.robolectric_utils
-    testCompile deps.robolectric_junit2
-    testCompile deps.robolectric
-    testCompile deps.robolectric_shadows
-    androidTestCompile deps.android_testrunner
-    // Set this dependency to use JUnit 4 rules
-    androidTestCompile deps.android_testrules
-    // Set this dependency to build and run Espresso tests
-    androidTestCompile deps.espresso_core
-    // Set this dependency to build and run UI Automator tests
-    androidTestCompile deps.uiautomator
-    compile deps.support.supportv4
-    compile deps.greenrobot
+    implementation deps.dagger.dagger
+    implementation deps.javax_annotation
+    implementation deps.rxjava2
+    implementation deps.rxbinding
+    androidTestImplementation deps.junit
+    androidTestImplementation deps.dexmaker_google
+    androidTestImplementation deps.dexmaker_google_mockito
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.robolectric_utils
+    testImplementation deps.robolectric_junit2
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_shadows
+    implementation deps.multidex
+    androidTestImplementation deps.android_testrunner
+    androidTestImplementation deps.android_testrules
+    androidTestImplementation deps.espresso_core
+    androidTestImplementation deps.uiautomator
+    implementation deps.support.supportv4
+    implementation deps.volley
+    implementation deps.greenrobot
+    implementation deps.support.appcompatv7
+    implementation deps.support.recyclerview
+    implementation deps.okhttp
+    implementation deps.wechat
+    implementation deps.calligraphy
+    implementation deps.facebook
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
@@ -297,7 +306,7 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
-    from configurations.compile
+    from configurations.implementation
 }
 
 def coverageSourceDirs = [

@@ -127,11 +127,8 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
 //include ':product-registration-libApp'
 //project(':product-registration-libApp').projectDir = new File('./Source/prg/Source/DemoApp/DemoApp')
-
-// DSC - DataServices Component DemoApp (uncomment this section if you want to use)
 //include ':dataServicesApp'
 //project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
-
 //include ':prxApp'
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
 //include ':MyAccountApp'
@@ -142,5 +139,5 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 //project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
 //include ':dcc-demoapp'
 //project(':dcc-demoapp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
-//include ':ail-demoapp'
-//project(':ail-demoapp').projectDir = new File('./Source/ail/Source/DemoApp/app')
+include ':ail-demoapp'
+project(':ail-demoapp').projectDir = new File('./Source/ail/Source/DemoApp/app')

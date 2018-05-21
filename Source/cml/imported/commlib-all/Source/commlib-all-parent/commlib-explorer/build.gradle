@@ -70,21 +70,20 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // 3rd party
     compile 'nl.rwslinkman.presentable:presentable:1.7'
-    compile deps.support.appcompatv7
-    compile deps.support.design
-    compile deps.support.supportv4
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
+    implementation deps.support.supportv4
 
     // CDPP platform
     def commlib_ble = findProject(':commlib-ble') ? ':commlib-ble' : ':commlib-all'
-    releaseCompile project(path: commlib_ble, configuration: 'release')
-    debugCompile project(path: commlib_ble, configuration: 'debug')
+    implementation project(commlib_ble)
 
-    testCompile deps.junit
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    testImplementation deps.junit
+    androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    }
 }

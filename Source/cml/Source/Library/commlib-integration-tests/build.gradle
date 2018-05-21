@@ -84,36 +84,43 @@ android {
 }
 
 dependencies {
-    provided deps.support.annotations
+    compileOnly deps.support.annotations
 
-    compile deps.multidex
+    implementation deps.multidex
 
-    debugCompile project(path: ':commlib', configuration: 'debug')
-    releaseCompile project(path: ':commlib', configuration: 'release')
-    debugCompile project(path: ':cloudcontroller', configuration: 'debug')
-    releaseCompile project(path: ':cloudcontroller', configuration: 'release')
+    implementation project(':commlib')
+    implementation project(':AppInfra')
+    implementation project(':commlib-api')
+    implementation project(':commlib-ble')
+    implementation project(':commlib-lan')
+    implementation project(':commlib-cloud')
+    implementation project(':cloudcontroller')
+    implementation project(':cloudcontroller-api')
+    implementation deps.gson
 
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.powermock_junit
-    testCompile deps.powermock_api_mockito
-    testCompile deps.cucumber
-    testCompile deps.cucumber_junit
-    testCompile project(path: ':commlib-testutils', configuration: 'debug')
+    testImplementation deps.junit
+    testImplementation deps.support.annotations
+    testImplementation deps.mockito
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.cucumber
+    testImplementation deps.cucumber_junit
+    testImplementation project(':commlib-testutils')
+    testImplementation project(':bluelib')
 
-    androidTestCompile deps.junit
-    androidTestCompile(deps.android_testrunner) {
+    androidTestImplementation deps.junit
+    androidTestImplementation(deps.android_testrunner) {
         exclude module: 'support-annotations'
     }
-    androidTestCompile(deps.android_testrunner) {
+    androidTestImplementation(deps.android_testrunner) {
         exclude module: 'support-annotations'
     }
-    androidTestCompile project(path: ':commlib-testutils', configuration: 'debug')
-    androidTestCompile deps.cucumber
-    androidTestCompile deps.cucumber_junit
-    androidTestCompile deps.dexmaker_google
+    androidTestImplementation project(':commlib-testutils')
+    androidTestImplementation deps.cucumber
+    androidTestImplementation deps.cucumber_junit
+    androidTestImplementation deps.dexmaker_google
 
-    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 }
 
 //project.gradle.buildFinished { buildResult ->

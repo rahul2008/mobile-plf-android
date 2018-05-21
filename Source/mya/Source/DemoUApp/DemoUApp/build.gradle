@@ -117,18 +117,18 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact zipDocuments
+//            artifact zipDocuments
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -202,29 +202,24 @@ android {
         enabled = true
     }
 
-    publishNonDefault true
+
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile deps.support.appcompatv7
-    testCompile deps.junit
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.appcompatv7
+    testImplementation deps.junit
 
     def dp = project.ext.has('useprojectdependencies')
     if(dp) {
-        debugCompile project(path: ':mya', configuration: 'debug')
-        releaseCompile project(path: ':mya', configuration: 'release')
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
-        debugCompile project(path: ':UserRegistrationUApp', configuration: 'debug')
-        releaseCompile project(path: ':UserRegistrationUApp', configuration: 'release')
-        debugCompile project(path: ':mya-csw', configuration: 'debug')
-        releaseCompile project(path: ':mya-csw', configuration: 'release')
+        implementation project(':uid')
+        implementation project(':mya')
+        implementation project(':mya-csw')
+        implementation project(':UserRegistrationUApp')
     } else {
-        compile philipsdeps.mya
-        compile philipsdeps.uid
-        compile philipsdeps.UserRegistrationUApp
-        compile philipsdeps.mya_csw
+        implementation philipsdeps.mya
+        implementation philipsdeps.mya_csw
+        implementation philipsdeps.uid
+        implementation philipsdeps.UserRegistrationUApp
     }
-
 }

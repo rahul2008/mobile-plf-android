@@ -1,9 +1,6 @@
 package com.philips.cdp.registration.update;
 
-import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 
 import org.json.JSONObject;
 import org.junit.Before;
@@ -11,14 +8,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import static org.junit.Assert.*;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Created by philips on 12/3/17.
  */
-@RunWith(CustomRobolectricRunner.class)
-@org.robolectric.annotation.Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(MockitoJUnitRunner.class)
 public class UpdateUserTest {
 
     UpdateUser updateUser;

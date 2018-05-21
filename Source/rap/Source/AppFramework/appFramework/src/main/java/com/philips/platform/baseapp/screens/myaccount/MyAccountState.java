@@ -55,6 +55,7 @@ public class MyAccountState extends BaseState{
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
+        final boolean isHybrisAvailable = ((AppFrameworkApplication) actContext.getApplicationContext()).isShopingCartVisible;
         ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, "", getUiStateData().getFragmentLaunchState());
 
         MyaInterface myaInterface = getInterface();
@@ -64,7 +65,12 @@ public class MyAccountState extends BaseState{
         launchInput.setMyaListener(getMyaListener());
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
         launchInput.setMyaTabConfig(myaTabConfig);
-        String[] profileItems = {"MYA_My_details","MYA_My_orders"};
+        String[] profileItems;
+        if (isHybrisAvailable) {
+            profileItems = new String[]{"MYA_My_details", "MYA_My_orders"};
+        } else {
+            profileItems = new String[]{"MYA_My_details"};
+        }
         String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
         launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
         launchInput.setProfileMenuList(Arrays.asList(profileItems));
@@ -141,40 +147,46 @@ public class MyAccountState extends BaseState{
 
             @Override
             public void onLogoutClicked(final FragmentLauncher fragmentLauncher, final MyaLogoutListener myaLogoutListener) {
-
+                RALog.d(TAG, "onLogoutClicked: on Logout clicked callback received from MYA to RefApp");
                 URLogout urLogout = new URLogout();
+                RALog.d(TAG,"onLogoutClicked: urLogout created");
                 ((HamburgerActivity) actContext).showProgressBar();
+                RALog.d(TAG,"onLogoutClicked: progressBar started created");
                 urLogout.setUrLogoutListener(new URLogoutInterface.URLogoutListener() {
                     @Override
                     public void onLogoutResultSuccess() {
+                        RALog.d(TAG,"onLogoutClicked: onLogoutResultSuccess started");
                         ((HamburgerActivity) actContext).onLogoutResultSuccess();
                         myaLogoutListener.onLogoutSuccess();
                         ((HamburgerActivity) actContext).hideProgressBar();
-                        RALog.d(TAG,"onLogoutClicked: onLogoutResultSuccess");
+                        RALog.d(TAG,"onLogoutClicked: onLogoutResultSuccess completed");
                     }
 
                     @Override
                     public void onLogoutResultFailure(int i, String errorMessage) {
+                        RALog.d(TAG,"onLogoutClicked: onLogoutResultFailure started");
                         String title = actContext.getString(R.string.MYA_Offline_title);
                         String Message = actContext.getString(R.string.MYA_Offline_message);
                         new DialogView(title, Message).showDialog(getFragmentActivity());
                         myaLogoutListener.onLogOutFailure();
                         ((HamburgerActivity) actContext).hideProgressBar();
-                        RALog.d(TAG,"onLogoutClicked: onLogoutResultFailure");
+                        RALog.d(TAG,"onLogoutClicked: onLogoutResultFailure completed");
 
                     }
 
                     @Override
                     public void onNetworkError(String errorMessage) {
+                        RALog.d(TAG,"onLogoutClicked: onNetworkError started");
                         String title = actContext.getString(R.string.MYA_Offline_title);
                         String Message = actContext.getString(R.string.MYA_Offline_message);
                         new DialogView(title, Message).showDialog(getFragmentActivity());
                         myaLogoutListener.onLogOutFailure();
                         ((HamburgerActivity) actContext).hideProgressBar();
-                        RALog.d(TAG,"onLogoutClicked: onNetworkError");
+                        RALog.d(TAG,"onLogoutClicked: onNetworkError completed");
                     }
                 });
                 User user = getApplicationContext().getUserRegistrationState().getUserObject(actContext);
+                RALog.d(TAG,"onLogoutClicked: User Object created");
                 urLogout.performLogout(actContext, user);
             }
         };

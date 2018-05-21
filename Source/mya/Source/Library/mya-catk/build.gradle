@@ -38,12 +38,7 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
-    }
-
-    jacocoAndroidUnitTestReport {
-        csv.enabled false
-        html.enabled true
-        xml.enabled false
+        unitTests.includeAndroidResources = true
     }
 
     defaultConfig {
@@ -103,8 +98,6 @@ android {
     lintOptions {
         abortOnError false
     }
-
-    publishNonDefault true
 }
 
 configurations {
@@ -118,44 +111,46 @@ configurations.all {
 
 dependencies {
     //3rd party
-    compile deps.support.annotations
-    compile deps.joda_time
-    compile deps.gson
-
-    compile deps.dagger.dagger
-    compile deps.dagger.androidsupport
-    annotationProcessor deps.dagger.androidprocessor
+    implementation deps.support.annotations
+    implementation deps.joda_time
+    implementation deps.gson
+    implementation deps.volley
+    implementation deps.wechat
     annotationProcessor deps.dagger.compiler
+    implementation deps.dagger.dagger
 
     // Philips Components
     def dp = project.ext.has('useprojectdependencies')
     if (dp) {
-        debugCompile project(path: ':registrationApi', configuration: 'debug')
-        releaseCompile project(path: ':registrationApi', configuration: 'release')
-        debugCompile project(path: ':pif', configuration: 'debug')
-        releaseCompile project(path: ':pif', configuration: 'release')
+        implementation project(':registrationApi')
+        implementation project(':pif')
+        implementation project(':AppInfra')
     } else {
-        compile (philipsdeps.registrationApi) {
+        implementation (philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'
             exclude group: 'com.google.dagger'
         }
-        compile philipsdeps.mya_chi
+        implementation philipsdeps.mya_chi
     }
 
     // Tests
-    // Test Compile
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.powermock_api_mockito
-    testCompile deps.powermock_junit
-    testCompile(deps.robolectric) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.maven_ant
+    testImplementation(deps.robolectric) {
+        exclude module: 'commons-logging'
+        exclude module: 'support-v4'
     }
-    testCompile deps.robolectric_shadows
-    testCompile deps.powermock_junit_rule
-    testCompile deps.powermock_junit_rule_agent
-    testCompile deps.powermock_classloading_xstream
+    testImplementation deps.robolectric_utils
+    testImplementation deps.robolectric_junit2
+    testImplementation deps.powermock_core
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
+    testImplementation deps.powermock_junit_rule_agent
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_classloading_xstream
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

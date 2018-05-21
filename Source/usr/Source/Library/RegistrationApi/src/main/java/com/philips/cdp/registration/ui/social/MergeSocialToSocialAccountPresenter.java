@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.ui.social;
 
 
+import com.facebook.AccessToken;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -92,5 +93,13 @@ public class MergeSocialToSocialAccountPresenter implements NetworkStateListener
 
     public boolean getReceiveMarketingEmail() {
         return mUser.getReceiveMarketingEmail();
+    }
+
+    public void registerFaceBookCallBack() {
+       mergeSocialToSocialAccountContract.getURFaceBookUtility().registerFaceBookCallBack();
+    }
+
+    public void startAccessTokenAuthForFacebook(String mergeToken) {
+        mergeSocialToSocialAccountContract.getURFaceBookUtility().startAccessTokenAuthForFacebook(mUser, mergeSocialToSocialAccountContract.getActivityContext(), this, AccessToken.getCurrentAccessToken().getToken(), mergeToken);
     }
 }

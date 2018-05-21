@@ -169,7 +169,7 @@
   <string name="RA_WelcomeScreen3_Title">What does it do?</string>
   <string name="RA_WelcomeScreen4_Text">The UX has been fully approved by Philips Design and will soon be in DLS.</string>
   <string name="RA_WelcomeScreen4_Title">Fully DLS compliant</string>
-  <string name="RA_WelcomeScreen5_Text">The complete platform is tagged and delivers data to monitor &amp;amp; improve your proposition.</string>
+  <string name="RA_WelcomeScreen5_Text">The complete platform is tagged and delivers data to monitoFserr &amp;amp; improve your proposition.</string>
   <string name="RA_WelcomeScreen5_Title">Analyze to perform</string>
   <string name="RA_WelcomeScreen6_Text">The Security &amp;amp; Privacy actions of the complete platform are fully in line with Philips rules.</string>
   <string name="RA_WelcomeScreen6_Title">Secure &amp;amp; personal</string>
@@ -192,6 +192,9 @@
   <string name="label_sleep_time_format">%d mins</string>
   <string name="label_sleep_tips">How can I improve my sleep score?</string>
   <string name="mya_config_tab">Configuration tab</string>
-
+  <string name="RA_MYA_Consent_Clickstream_Help">Giving this consent you are allowing Philips to process mobile usage statistics related to you</string>
+  <!-- IAP Errors-->
   <string name="MYA_My_orders" translatable="false">My orders</string>
+  <!-- IAP Errors-->
+  <string name="iap_auth_error" translatable="false">Authentication error</string>
 </resources>

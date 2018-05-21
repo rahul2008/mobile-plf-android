@@ -21,6 +21,7 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +38,7 @@ import static junit.framework.Assert.assertTrue;
 /**
  * Test class for WXEntryActivity
  */
+@Ignore
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class WXEntryActivityTest {

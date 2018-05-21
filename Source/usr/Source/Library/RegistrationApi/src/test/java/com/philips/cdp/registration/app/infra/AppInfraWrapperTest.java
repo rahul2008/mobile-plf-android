@@ -1,15 +1,12 @@
 package com.philips.cdp.registration.app.infra;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+
+import junit.framework.TestCase;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,16 +15,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
-
-import static org.junit.Assert.*;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Created by philips on 11/27/17.
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
-public class AppInfraWrapperTest {
+@RunWith(MockitoJUnitRunner.class)
+public class AppInfraWrapperTest extends TestCase{
 
 
     @Mock
@@ -52,7 +46,7 @@ public class AppInfraWrapperTest {
 
         appInfraWrapper = new AppInfraWrapper(appInfraInterfaceMock);
 
-        Mockito.when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
+       // Mockito.when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
     }
 
 
