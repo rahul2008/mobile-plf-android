@@ -206,9 +206,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile deps.support.appcompatv7
-    testCompile deps.junit
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.support.appcompatv7
+    testImplementation(deps.junit) {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
 
     implementation deps.firbase_messaging
     implementation deps.theneura
