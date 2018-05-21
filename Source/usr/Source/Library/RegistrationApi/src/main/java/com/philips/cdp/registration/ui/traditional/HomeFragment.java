@@ -145,11 +145,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         initUI(view);
         handleOrientation(view);
         homePresenter.registerWeChatApp();
-        try {
-            initFacebookLogIn();
-        }catch (Exception e){
-
-        }
+        initFacebookLogIn();
         return view;
     }
 
