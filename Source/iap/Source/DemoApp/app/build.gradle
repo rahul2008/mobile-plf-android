@@ -245,7 +245,9 @@ dependencies {
         implementation project(':AppInfra')
     } else {
         implementation philipsdeps.uid
-        implementation philipsdeps.registrationApi
+        implementation (philipsdeps.registrationApi){
+            exclude group: 'com.android.support'
+        }
         implementation philipsdeps.prx
         implementation philipsdeps.iap
     }
