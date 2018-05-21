@@ -117,6 +117,11 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
+
     defaultConfig {
         applicationId "com.philips.cdp.di.iapdemo"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -130,6 +135,7 @@ android {
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -224,17 +230,26 @@ android {
 }
 
 dependencies {
-    implementation deps.support.appcompatv7
+    implementation deps.support.design
+    implementation deps.support.supportv4
+    implementation deps.support.annotations
     implementation deps.support.customtabs
+    implementation deps.support.appcompatv7
 
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
         implementation project(':uid')
         implementation project(':registrationApi')
+        implementation project(':iap')
+        implementation project(':prx')
+        implementation project(':uAppFwLib')
+        implementation project(':AppInfra')
     } else {
         implementation philipsdeps.uid
         implementation philipsdeps.registrationApi
+        implementation philipsdeps.prx
+        implementation philipsdeps.iap
     }
 
     implementation deps.constraintlayout
