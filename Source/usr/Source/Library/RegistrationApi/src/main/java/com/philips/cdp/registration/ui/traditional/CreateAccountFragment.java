@@ -14,6 +14,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -469,6 +470,21 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @Override
+    public void registerReceiver() {
+        createAccountPresenter.registerReceiver(getContext());
+    }
+
+    @Override
+    public void unRegisterReceiver() {
+        createAccountPresenter.unRegisterReceiver(getContext());
+    }
+
+    @Override
+    public void onOTPReceived(String otp) {
+        // do something
+    }
+
+    @Override
     public void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             usrCreatescreenErrorView.hideError();
@@ -666,5 +682,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         } else {
             registerUserInfo();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 }

@@ -48,4 +48,9 @@ public interface CreateAccountContract {
 
     void registrtionFail();
 
+    void registerReceiver();
+
+    void unRegisterReceiver();
+
+    void onOTPReceived(String otp);
 }
