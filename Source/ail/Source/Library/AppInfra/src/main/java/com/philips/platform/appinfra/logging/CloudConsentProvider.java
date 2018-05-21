@@ -34,7 +34,7 @@ public class CloudConsentProvider {
         int helpText = R.string.ail_cloud_consent_help;
         final ArrayList<String> types = new ArrayList<>();
         types.add(CLOUD);
-        return new ConsentDefinition(text, helpText, types, BuildConfig.VERSION_CODE);
+        return new ConsentDefinition(text, helpText, types, 1);
     }
 
     public void registerConsentHandler(ConsentManagerInterface consentManagerInterface) {
