@@ -222,10 +222,12 @@ dependencies {
         implementation project(':uAppFwLib')
         implementation project(':AppInfra')
     } else {
-        implementation philipsdeps.uid
-        implementation philipsdeps.uAppFwLib
-        implementation philipsdeps.AppInfra
-        implementation deps.butterknife
+        implementation (philipsdeps.uid) {
+            exclude group: 'com.android.support'
+        }
+    }
+    implementation(deps.butterknife) {
+        exclude module: "com.android.support"
     }
 
 }
