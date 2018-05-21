@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.logging;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
 
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -23,6 +24,8 @@ public class CloudLogConfigHandler {
     protected void handleCloudLogConfig(LoggingConfiguration loggingConfiguration, @NonNull Logger logger) {
         CloudLogHandler cloudLogHandler = getCurrentLogCloudLogHandler(logger);
         if (loggingConfiguration.isCloudLogEnabled()) {
+            //Initialize SyncManager for sync cloud log to server
+            CloudLogSyncManager.getInstance(appInfra,loggingConfiguration);
             if (cloudLogHandler == null) {
                 cloudLogHandler = new CloudLogHandler(appInfra);
                 if (null != logger.getLevel()) {

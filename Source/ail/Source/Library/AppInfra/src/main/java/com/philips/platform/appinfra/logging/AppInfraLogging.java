@@ -42,7 +42,6 @@ public class AppInfraLogging implements LoggingInterface {
     public AppInfraLogging(AppInfra aAppInfra, String componentId, String componentVersion) {
         mAppInfra = aAppInfra;
         mJavaLogger = getJavaLogger(componentId, componentVersion);
-        CloudLogSyncManager.getInstance(aAppInfra,loggingConfiguration);
         this.componentId=componentId;
         this.componentVersion=componentVersion;
     }
