@@ -152,12 +152,15 @@ dependencies {
 
     if(dp) {
         implementation project(':uAppFwLib')
+        implementation project(':AppInfraUApp')
+        implementation project(':AppInfra')
     } else {
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
         implementation philipsdeps.uAppFwLib
     }
 
     implementation deps.leakcanary
-    implementation project(':AppInfraUApp')
 }
 
 tasks.withType(Test) {
