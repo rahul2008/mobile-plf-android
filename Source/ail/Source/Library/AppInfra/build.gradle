@@ -104,6 +104,7 @@ dependencies {
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.support.annotations
+    implementation deps.joda_time
     api deps.room_runtime,{
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'
