@@ -31,7 +31,7 @@ public class NeuraConsentProvider {
         int helpText = R.string.RA_neura_consent_help;
         final ArrayList<String> types = new ArrayList<>();
         types.add(NEURA);
-        return new ConsentDefinition(text, helpText, types, BuildConfig.VERSION_CODE);
+        return new ConsentDefinition(text, helpText, types, 1);
     }
 
     public void registerConsentHandler(AppInfraInterface appInfraInterface) {
