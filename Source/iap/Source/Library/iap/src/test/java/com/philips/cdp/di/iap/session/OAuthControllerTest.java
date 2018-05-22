@@ -24,6 +24,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.robolectric.RobolectricTestRunner;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,6 +33,7 @@ import java.io.InputStream;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
 
 @RunWith(RobolectricTestRunner.class)
 public class OAuthControllerTest {
@@ -73,9 +75,9 @@ public class OAuthControllerTest {
   /*  @Test(expected = RuntimeException.class)
     public void testGetAccessToken() throws Exception {
         mOAuthController.getAccessToken();
-    }*/
+    }SDK 27 error*/
 
-   @Test
+    @Test
     public void testResetAccessToken() throws Exception {
         mOAuthController.resetAccessToken();
     }
