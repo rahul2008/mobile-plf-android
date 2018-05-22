@@ -98,7 +98,7 @@ public class NeuraConsentManagerFragment extends AbstractOnboardingBaseFragment 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(R.string.csw_justInTimeView_toolbar_title, true);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(R.string.RA_Neura_Navigation_Title, true);
     }
 
     @Override
