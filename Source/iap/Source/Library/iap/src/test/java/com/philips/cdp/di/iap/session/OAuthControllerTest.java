@@ -75,15 +75,15 @@ public class OAuthControllerTest {
         mOAuthController.getAccessToken();
     }*/
 
-    @Test
+   @Test
     public void testResetAccessToken() throws Exception {
         mOAuthController.resetAccessToken();
     }
 
-    @Test(expected = NullPointerException.class)
+   /* @Test(expected = NullPointerException.class)
     public void testRefreshToken() throws Exception {
         mOAuthController.refreshToken(null);
-    }
+    }*/
 
     @Test(expected = RuntimeException.class)
     public void requestSyncRefreshToken() throws Exception {

@@ -35,8 +35,8 @@ buildscript {
         classpath(builddeps.cdpSCM)
     }
 }
-
 def environment = 'production'
+
 if (project.hasProperty('envCode')) {
     environment = envCode
 }
