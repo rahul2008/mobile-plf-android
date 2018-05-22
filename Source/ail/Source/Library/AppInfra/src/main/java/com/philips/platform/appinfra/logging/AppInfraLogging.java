@@ -28,9 +28,9 @@ public class AppInfraLogging implements LoggingInterface {
     private static final long serialVersionUID = -4898715486015827285L;
     private AppInfra mAppInfra;
     private transient Logger mJavaLogger;
-    private String componentId,componentVersion;
+    private String componentId, componentVersion;
 
-    private AILCloudLogMetaData ailCloudLogMetaData=new AILCloudLogMetaData();
+    private AILCloudLogMetaData ailCloudLogMetaData = new AILCloudLogMetaData();
 
     private LoggingConfiguration loggingConfiguration;
 
@@ -46,8 +46,8 @@ public class AppInfraLogging implements LoggingInterface {
     public AppInfraLogging(AppInfra aAppInfra, String componentId, String componentVersion) {
         mAppInfra = aAppInfra;
         mJavaLogger = getJavaLogger(componentId, componentVersion);
-        this.componentId=componentId;
-        this.componentVersion=componentVersion;
+        this.componentId = componentId;
+        this.componentVersion = componentVersion;
     }
 
     @Override
@@ -59,11 +59,11 @@ public class AppInfraLogging implements LoggingInterface {
     @Override
     public void log(LogLevel level, String eventId, String message) {
         log(level, eventId, message, null);
-        if(TextUtils.isEmpty(componentId)){
-            componentId=mAppInfra.getAppIdentity().getAppName();
+        if (TextUtils.isEmpty(componentId)) {
+            componentId = mAppInfra.getAppIdentity().getAppName();
         }
-        if(TextUtils.isEmpty(componentVersion)){
-            componentVersion=mAppInfra.getAppIdentity().getAppVersion();
+        if (TextUtils.isEmpty(componentVersion)) {
+            componentVersion = mAppInfra.getAppIdentity().getAppVersion();
         }
     }
 
@@ -78,29 +78,31 @@ public class AppInfraLogging implements LoggingInterface {
      */
     @Override
     public void log(LogLevel level, String eventId, String message, Map<String, ?> map) {
-        Object[] params = getParamObjects();
+        if (loggingConfiguration.checkIfComponentLogCriteriaMet(componentId)) {
+            Object[] params = getParamObjects();
+            if (null != mJavaLogger) {
+                params[0] = message;
+                params[1] = componentId;
+                params[2] = componentVersion;
+                params[3] = map;
 
-        if (null != mJavaLogger) {
-            params[0] = message;
-            params[1]=componentId;
-            params[2]=componentVersion;
-            params[3] = map;
-            switch (level) {
-                case ERROR:
-                    mJavaLogger.log(Level.SEVERE, eventId, params);
-                    break;
-                case WARNING:
-                    mJavaLogger.log(Level.WARNING, eventId, params);
-                    break;
-                case INFO:
-                    mJavaLogger.log(Level.INFO, eventId, params);
-                    break;
-                case DEBUG:
-                    mJavaLogger.log(Level.CONFIG, eventId, params);
-                    break;
-                case VERBOSE:
-                    mJavaLogger.log(Level.FINE, eventId, params);
-                    break;
+                switch (level) {
+                    case ERROR:
+                        mJavaLogger.log(Level.SEVERE, eventId, params);
+                        break;
+                    case WARNING:
+                        mJavaLogger.log(Level.WARNING, eventId, params);
+                        break;
+                    case INFO:
+                        mJavaLogger.log(Level.INFO, eventId, params);
+                        break;
+                    case DEBUG:
+                        mJavaLogger.log(Level.CONFIG, eventId, params);
+                        break;
+                    case VERBOSE:
+                        mJavaLogger.log(Level.FINE, eventId, params);
+                        break;
+                }
             }
         }
     }
@@ -121,7 +123,7 @@ public class AppInfraLogging implements LoggingInterface {
             if (appInfra.getServiceDiscovery() != null) {
                 ailCloudLogMetaData.setHomeCountry(appInfra.getServiceDiscovery().getHomeCountry());
             }
-            if(loggingConfiguration!=null && loggingConfiguration.isCloudLogEnabled()){
+            if (loggingConfiguration != null && loggingConfiguration.isCloudLogEnabled()) {
                 registerCloudHandler();
             }
         } catch (IllegalArgumentException e) {
@@ -131,8 +133,8 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
     public void registerCloudHandler() {
-        DeviceStoredConsentHandler deviceStoredConsentHandler=new DeviceStoredConsentHandler(mAppInfra);
-        deviceStoredConsentHandler.registerConsentChangeListener(CloudLogSyncManager.getInstance(mAppInfra,loggingConfiguration));
+        DeviceStoredConsentHandler deviceStoredConsentHandler = new DeviceStoredConsentHandler(mAppInfra);
+        deviceStoredConsentHandler.registerConsentChangeListener(CloudLogSyncManager.getInstance(mAppInfra, loggingConfiguration));
         CloudConsentProvider cloudConsentProvider = new CloudConsentProvider(deviceStoredConsentHandler);
         cloudConsentProvider.registerConsentHandler(mAppInfra.getConsentManager());
         cloudConsentProvider.storeConsentTypeState(false, new PostConsentTypeCallback() {
@@ -144,18 +146,19 @@ public class AppInfraLogging implements LoggingInterface {
 
             @Override
             public void onPostConsentSuccess() {
-               mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                         AppInfraLogEventID.AI_APPINFRA, " stored consent successfully");
             }
         });
     }
+
     @Override
     public void setUserUUID(String userUUID) {
         ailCloudLogMetaData.setUserUUID(userUUID);
     }
 
     protected Logger getJavaLogger(String componentId, String componentVersion) {
-        loggingConfiguration=new LoggingConfiguration(mAppInfra, componentId, componentVersion);
+        loggingConfiguration = new LoggingConfiguration(mAppInfra, componentId, componentVersion);
         return LoggerFactory.getLoggerInstance(mAppInfra, new LoggingConfiguration(mAppInfra, componentId, componentVersion));
     }
 

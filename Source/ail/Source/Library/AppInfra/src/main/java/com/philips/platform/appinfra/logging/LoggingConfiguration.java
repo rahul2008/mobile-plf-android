@@ -35,6 +35,7 @@ public class LoggingConfiguration {
     private AppInfra mAppInfra;
     private String mComponentID = "";
 
+
     public AppInfra getAppInfra() {
         return mAppInfra;
     }
@@ -81,16 +82,20 @@ public class LoggingConfiguration {
         String logLevel = getLogLevel();
         if (!logLevel.equalsIgnoreCase("Off")) {
             if (isConsoleLogEnabled() || isFileLogEnabled() || isCloudLogEnabled()) {
-                if(isComponentLevelLogEnabled()&& !TextUtils.isEmpty(mComponentID)){
-                    final ArrayList<String> ComponentToBeLoggedList = getComponentsFromConfig();
-                    if (!ComponentToBeLoggedList.contains(mComponentID)) {
-                        return false;
-                    }
-                }
                 return true;
             }
         }
         return false;
+    }
+
+    boolean checkIfComponentLogCriteriaMet(String componentId){
+        if(isComponentLevelLogEnabled()&& !TextUtils.isEmpty(componentId)){
+            final ArrayList<String> ComponentToBeLoggedList = getComponentsFromConfig();
+            if (!ComponentToBeLoggedList.contains(mComponentID)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
