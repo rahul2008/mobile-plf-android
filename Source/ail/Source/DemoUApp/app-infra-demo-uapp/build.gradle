@@ -147,9 +147,11 @@ dependencies {
     if (dp) {
         implementation project(':uAppFwLib')
         implementation project(':AppInfra')
+        implementation project(':pif')
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
+        implementation philipsdeps.pif
     }
 
     implementation deps.leakcanary

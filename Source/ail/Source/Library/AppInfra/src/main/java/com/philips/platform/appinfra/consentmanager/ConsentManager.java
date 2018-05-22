@@ -126,7 +126,7 @@ public class ConsentManager implements ConsentManagerInterface {
         });
     }
 
-    private ConsentDefinition getConsentDefinitionForType(String consentType) {
+    public ConsentDefinition getConsentDefinitionForType(String consentType) {
         ConsentDefinition consentDefinition = consentDefinitionMapping.get(consentType);
         if (consentDefinition != null) {
             return consentDefinition;

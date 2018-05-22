@@ -1,4 +1,4 @@
-package com.philips.platform.appinfra.device;
+package com.philips.platform.appinfra.consentmanager.consenthandler;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;

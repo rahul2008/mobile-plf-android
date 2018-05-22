@@ -52,7 +52,7 @@ public class CloudLogRequestBodyBuilder {
             resource.setApplicationName(getValue(ailCloudLogMetaData.getAppName()));
             String applicationVersion=!TextUtils.isEmpty(ailCloudLogData.appVersion)?ailCloudLogData.appVersion.replaceAll("[()]",""):CloudLoggingConstants.NA;
             resource.setApplicationVersion(applicationVersion);
-            resource.setApplicationInstance(getValue(ailCloudLogMetaData.getAppId()));
+            resource.setApplicationInstance(getValue(ailCloudLogData.appsId));
             resource.setCategory("TraceLog");
             String component=!TextUtils.isEmpty(ailCloudLogData.component)?ailCloudLogData.component.replaceAll("[()]",""):CloudLoggingConstants.NA;
             resource.setComponent(component);
@@ -71,8 +71,8 @@ public class CloudLogRequestBodyBuilder {
             Log.v("SyncTesting","Log::"+ailCloudLogData.logDescription);
             logMetaDataModel.setDetails(ailCloudLogData.details);
             logMetaDataModel.setDevicetype(ailCloudLogData.serverName);
-            logMetaDataModel.setHomecountry(ailCloudLogMetaData.getHomeCountry());
-            logMetaDataModel.setLocale(ailCloudLogMetaData.getLocale());
+            logMetaDataModel.setHomecountry(ailCloudLogData.homecountry);
+            logMetaDataModel.setLocale(ailCloudLogData.locale);
             logMetaDataModel.setLocaltime(""+ailCloudLogData.localtime);
             logMetaDataModel.setNetworktype(ailCloudLogData.networktype);
             Gson gson = new Gson();

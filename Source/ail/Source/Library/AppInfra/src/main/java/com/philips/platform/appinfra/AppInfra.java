@@ -20,16 +20,12 @@ import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.consentmanager.ConsentManager;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
-import com.philips.platform.appinfra.device.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
-import com.philips.platform.appinfra.logging.CloudConsentProvider;
-import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
@@ -40,8 +36,6 @@ import com.philips.platform.appinfra.tagging.AppTagging;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
-import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.PostConsentTypeCallback;
 
 import java.io.Serializable;
 
@@ -67,7 +61,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private ABTestClientInterface mAbtesting;
     private AppUpdateInterface mAppupdateInterface;
     private ConsentManagerInterface consentManager;
-
 
 
     /**
@@ -217,7 +210,8 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
 
     /**
-     *  This Api is used to tag only App-infra based events
+     * This Api is used to tag only App-infra based events
+     *
      * @return - returns AppTaggingInterface instance
      */
     public AppTaggingInterface getAppInfraTaggingInstance() { // this tag should be used withing App Infra library
@@ -483,8 +477,8 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                 }
             }).start();
 //            }
-            if(ai.getLogging() instanceof AppInfraLogging){
-                ((AppInfraLogging)ai.getLogging()).updateMetadata(ai);
+            if (ai.getLogging() instanceof AppInfraLogging) {
+                ((AppInfraLogging) ai.getLogging()).updateMetadata(ai);
 
             }
             postLog(ai, startTime, "App-infra initialization ends with ");

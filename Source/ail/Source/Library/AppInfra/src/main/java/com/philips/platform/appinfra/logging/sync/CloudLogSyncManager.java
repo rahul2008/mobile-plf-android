@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.device.DeviceStoredConsentHandler;
+import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.logging.CloudConsentProvider;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
