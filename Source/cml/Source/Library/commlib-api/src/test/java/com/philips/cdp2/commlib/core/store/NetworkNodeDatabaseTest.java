@@ -2,6 +2,7 @@ package com.philips.cdp2.commlib.core.store;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import org.junit.Before;
@@ -23,7 +24,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -41,7 +41,7 @@ public class NetworkNodeDatabaseTest {
     @Captor
     private ArgumentCaptor<ContentValues> contentValuesArgumentCaptor;
 
-    NetworkNodeDatabase networkNodeDatabase;
+    private NetworkNodeDatabase networkNodeDatabase;
     
     private final String CPP_ID = "cppId";
     private final String DEVICE_NAME = "deviceName";
@@ -63,7 +63,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenDataBaseContainsNoNodes_thenEmptyListIsReturned() throws Exception {
+    public void whenDataBaseContainsNoNodes_thenEmptyListIsReturned() {
         when(cursorMock.getCount()).thenReturn(0);
         when(networkNodeDBHelperMock.query(null, null)).thenReturn(cursorMock);
 
@@ -73,7 +73,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenExceptionIsThrownWhileReadingDatabase_thenEmptyListIsReturned() throws Exception {
+    public void whenExceptionIsThrownWhileReadingDatabase_thenEmptyListIsReturned() {
         doThrow(Exception.class).when(networkNodeDBHelperMock).query(null, null);
 
         List<NetworkNode> all = networkNodeDatabase.getAll();
@@ -82,7 +82,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenDataBaseContainsSingleNode_thenSingleNodeIsReturned() throws Exception {
+    public void whenDataBaseContainsSingleNode_thenSingleNodeIsReturned() {
         when(cursorMock.getCount()).thenReturn(1);
         when(networkNodeDBHelperMock.query(null, null)).thenReturn(cursorMock);
 
@@ -92,7 +92,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNodeIsReturned_thenCppIdIsRedFromDatabase() throws Exception {
+    public void whenNodeIsReturned_thenCppIdIsRedFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
         when(cursorMock.getColumnIndex(KEY_CPP_ID)).thenReturn(0);
         when(cursorMock.getString(0)).thenReturn(CPP_ID);
@@ -105,7 +105,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNodeIsReturned_thenDeviceNameIsRedFromDatabase() throws Exception {
+    public void whenNodeIsReturned_thenDeviceNameIsRedFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
         when(cursorMock.getColumnIndex(KEY_DEVICE_NAME)).thenReturn(0);
         when(cursorMock.getString(0)).thenReturn(DEVICE_NAME);
@@ -118,7 +118,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNodeIsReturned_thenIpAddressIsRedFromDatabase() throws Exception {
+    public void whenNodeIsReturned_thenIpAddressIsRedFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
         when(cursorMock.getColumnIndex(KEY_IP_ADDRESS)).thenReturn(0);
         when(cursorMock.getString(0)).thenReturn(IP_ADDRESS);
@@ -131,7 +131,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenDataBaseContainsMultipleNode_thenAllNodeasAreReturned() throws Exception {
+    public void whenDataBaseContainsMultipleNode_thenAllNodeasAreReturned() {
         when(cursorMock.getCount()).thenReturn(3);
         when(cursorMock.moveToNext()).thenReturn(true).thenReturn(true).thenReturn(false);
         when(networkNodeDBHelperMock.query(null, null)).thenReturn(cursorMock);
@@ -142,7 +142,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenExceptionIsThrownWhileReadingOneNode_thenSuccessfullyRedNodesAreReturned() throws Exception {
+    public void whenExceptionIsThrownWhileReadingOneNode_thenSuccessfullyRedNodesAreReturned() {
         when(cursorMock.getCount()).thenReturn(3);
         when(cursorMock.moveToNext()).thenReturn(true).thenReturn(true).thenReturn(false);
         when(networkNodeDBHelperMock.query(null, null)).thenReturn(cursorMock);
@@ -160,7 +160,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNodeIsSaved_thenIpAddressIsSaved() throws Exception {
+    public void whenNodeIsSaved_thenIpAddressIsSaved() {
         networkNodeDatabase.save(networkNode);
 
         verify(networkNodeDBHelperMock).insertRow(contentValuesArgumentCaptor.capture());
@@ -168,7 +168,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNodeIsSaved_thenDeviceNameIsSaved() throws Exception {
+    public void whenNodeIsSaved_thenDeviceNameIsSaved() {
         networkNode.setName(DEVICE_NAME);
 
         networkNodeDatabase.save(networkNode);
@@ -178,7 +178,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNodeIsSaved_thenCppIdIsSaved() throws Exception {
+    public void whenNodeIsSaved_thenCppIdIsSaved() {
         networkNodeDatabase.save(networkNode);
 
         verify(networkNodeDBHelperMock).insertRow(contentValuesArgumentCaptor.capture());
@@ -186,7 +186,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenPairedNodeIsSaved_thenStatePairedIsSaved() throws Exception {
+    public void whenPairedNodeIsSaved_thenStatePairedIsSaved() {
         networkNode.setPairedState(NetworkNode.PairingState.PAIRED);
 
         networkNodeDatabase.save(networkNode);
@@ -196,7 +196,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenPairedNodeIsSaved_thenLastPairingDateIsSaved() throws Exception {
+    public void whenPairedNodeIsSaved_thenLastPairingDateIsSaved() {
         networkNode.setPairedState(NetworkNode.PairingState.PAIRED);
         long lastPairedTime = 100L;
         networkNode.setLastPairedTime(lastPairedTime);
@@ -208,7 +208,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNotPairedNodeIsSaved_thenStateNotPairedIsSaved() throws Exception {
+    public void whenNotPairedNodeIsSaved_thenStateNotPairedIsSaved() {
         networkNode.setPairedState(NetworkNode.PairingState.PAIRING);
 
         networkNodeDatabase.save(networkNode);
@@ -218,7 +218,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNotPairedNodeIsSaved_thenLastPairingDateIsDefaultValue() throws Exception {
+    public void whenNotPairedNodeIsSaved_thenLastPairingDateIsDefaultValue() {
         networkNode.setPairedState(NetworkNode.PairingState.PAIRING);
         networkNode.setLastPairedTime(100);
 
@@ -229,8 +229,8 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenExceptionIsThrownWhileInsertingToDatabase_thenNodeIsNotSaved() throws Exception {
-        doThrow(Exception.class).when(networkNodeDBHelperMock).insertRow(any(ContentValues.class));
+    public void whenExceptionIsThrownWhileInsertingToDatabase_thenNodeIsNotSaved() {
+        doThrow(SQLException.class).when(networkNodeDBHelperMock).insertRow(any(ContentValues.class));
 
         long index = networkNodeDatabase.save(networkNode);
 
@@ -245,7 +245,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenHelperContainsCursorForNode_thenDatabaseReturnsTrueForContains() throws Exception {
+    public void whenHelperContainsCursorForNode_thenDatabaseReturnsTrueForContains() {
         when(networkNodeDBHelperMock.query(KEY_CPP_ID + " = ?", new String[]{CPP_ID})).thenReturn(cursorMock);
         when(cursorMock.getCount()).thenReturn(1);
 
@@ -255,7 +255,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenHelperContainsMultipleCursorForNode_thenDatabaseReturnsTrueForContains() throws Exception {
+    public void whenHelperContainsMultipleCursorForNode_thenDatabaseReturnsTrueForContains() {
         networkNode.setCppId(CPP_ID);
         when(networkNodeDBHelperMock.query(KEY_CPP_ID + " = ?", new String[]{CPP_ID})).thenReturn(cursorMock);
         when(cursorMock.getCount()).thenReturn(3);
@@ -266,7 +266,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenHelperContainsNoCursorForNode_thenDatabaseReturnsFalseForContains() throws Exception {
+    public void whenHelperContainsNoCursorForNode_thenDatabaseReturnsFalseForContains() {
         networkNode.setCppId(CPP_ID);
         when(networkNodeDBHelperMock.query(KEY_CPP_ID + " = ?", new String[]{CPP_ID})).thenReturn(cursorMock);
         when(cursorMock.getCount()).thenReturn(0);
@@ -277,8 +277,8 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenExceptionIsThrownWhileQueringTheHelper_thenDatabaseReturnsFalseForContains() throws Exception {
-        doThrow(Exception.class).when(networkNodeDBHelperMock).query(anyString(), new String[]{anyString()});
+    public void whenExceptionIsThrownWhileQueringTheHelper_thenDatabaseReturnsFalseForContains() {
+        doThrow(SQLException.class).when(networkNodeDBHelperMock).query(KEY_CPP_ID + " = ?", new String[]{CPP_ID});
 
         boolean contains = networkNodeDatabase.contains(networkNode);
 
@@ -286,7 +286,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNetworkNodeIsDeleted_thenDatabaseReturns1DeletedRows() throws Exception {
+    public void whenNetworkNodeIsDeleted_thenDatabaseReturns1DeletedRows() {
         when(networkNodeDBHelperMock.deleteNetworkNodeWithCppId(CPP_ID)).thenReturn(1);
 
         int count = networkNodeDatabase.delete(networkNode);
@@ -295,7 +295,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenMultipleNetworkNodeAreDeleted_thenDatabaseReturnsCountOfDeletedRows() throws Exception {
+    public void whenMultipleNetworkNodeAreDeleted_thenDatabaseReturnsCountOfDeletedRows() {
         when(networkNodeDBHelperMock.deleteNetworkNodeWithCppId(CPP_ID)).thenReturn(3);
 
         int count = networkNodeDatabase.delete(networkNode);
@@ -304,15 +304,15 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNullNetworkNodeIsDeleted_thenDatabaseReturns0DeletedRows() throws Exception {
+    public void whenNullNetworkNodeIsDeleted_thenDatabaseReturns0DeletedRows() {
         int count = networkNodeDatabase.delete(null);
 
         assertEquals(0, count);
     }
 
     @Test
-    public void whenExceptionIsThrownWhileDeletingNodeWithTheHelper_thenDatabaseReturns0DeletedRows() throws Exception {
-        doThrow(Exception.class).when(networkNodeDBHelperMock).deleteNetworkNodeWithCppId(CPP_ID);
+    public void whenExceptionIsThrownWhileDeletingNodeWithTheHelper_thenDatabaseReturns0DeletedRows() throws SQLException {
+        doThrow(SQLException.class).when(networkNodeDBHelperMock).deleteNetworkNodeWithCppId(CPP_ID);
 
         int count = networkNodeDatabase.delete(networkNode);
 

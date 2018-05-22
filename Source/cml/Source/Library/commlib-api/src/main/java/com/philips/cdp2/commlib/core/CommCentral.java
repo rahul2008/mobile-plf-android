@@ -16,8 +16,8 @@ import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseFactory;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
-import com.philips.cdp2.commlib.core.store.SecureNetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.AppIdProvider;
 
 import java.lang.ref.WeakReference;
@@ -85,8 +85,8 @@ public final class CommCentral {
         }
 
         // Setup ApplianceManager
-        SecureNetworkNodeDatabaseHelper secureNetworkNodeDatabaseHelper = new SecureNetworkNodeDatabaseHelper(runtimeConfiguration.getAppInfraInterface());
-        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory, new NetworkNodeDatabase(secureNetworkNodeDatabaseHelper), applianceDatabase);
+        NetworkNodeDatabase database = NetworkNodeDatabaseFactory.create(runtimeConfiguration);
+        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory, database, applianceDatabase);
     }
 
     /**

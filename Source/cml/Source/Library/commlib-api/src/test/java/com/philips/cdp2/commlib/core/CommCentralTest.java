@@ -7,16 +7,14 @@ package com.philips.cdp2.commlib.core;
 
 import android.content.Context;
 import android.os.Handler;
-
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
-import com.philips.cdp2.commlib.core.store.SecureNetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +65,7 @@ public class CommCentralTest {
     private RuntimeConfiguration runtimeConfigurationMock;
 
     @Mock
-    private SecureNetworkNodeDatabaseHelper SecureNetworkNodeDatabaseHelperMock;
+    private ApplianceManager applianceManagerMock;
 
     @Mock
     private Context contextMock;
@@ -90,7 +88,7 @@ public class CommCentralTest {
 
         setTestingContext(contextMock);
 
-        PowerMockito.whenNew(SecureNetworkNodeDatabaseHelper.class).withAnyArguments().thenReturn(SecureNetworkNodeDatabaseHelperMock);
+        PowerMockito.whenNew(ApplianceManager.class).withAnyArguments().thenReturn(applianceManagerMock);
 
         commCentral = new CommCentral(applianceFactoryMock, runtimeConfigurationMock, someTransportContextMock, anotherTransportContextMock);
     }

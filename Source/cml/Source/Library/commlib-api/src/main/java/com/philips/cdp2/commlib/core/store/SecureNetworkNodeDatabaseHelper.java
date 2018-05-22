@@ -3,13 +3,10 @@ package com.philips.cdp2.commlib.core.store;
 import android.content.ContentValues;
 import android.database.Cursor;
 import com.j256.ormlite.support.ConnectionSource;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 import net.sqlcipher.database.SQLiteDatabase;
-
-import java.sql.SQLException;
 
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_BOOT_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_CPP_ID;
@@ -26,15 +23,15 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MISMATCHE
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
 
-public class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper implements NetworkNodeDBHelper {
+class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper implements NetworkNodeDBHelper {
 
     private static final String DB_NAME = "secure_network_node.db";
-    protected static final String TABLE_NETWORK_NODE = "secure_network_node";
-    private static final String DB_KEY = "SWYgeW91IGNhbiByZWFkIHRoaXMsIE5hdGFsaWEgd2lsbCBidXkgY2FrZSA9KSA=";
+    private static final String TABLE_NETWORK_NODE = "secure_network_node";
+    private static final String DB_KEY = "secure_network_node";
 
     private static final int DB_VERSION = 1;
 
-    public SecureNetworkNodeDatabaseHelper(AppInfraInterface appInfra) {
+    SecureNetworkNodeDatabaseHelper(AppInfraInterface appInfra) {
         super(ContextProvider.get(), appInfra, DB_NAME, null, DB_VERSION, DB_KEY);
     }
 
@@ -67,52 +64,20 @@ public class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHe
     }
 
     @Override
-    public Cursor query(String selection, String[] selectionArgs) throws SQLException {
-        SQLiteDatabase db = null;
-        try {
-            db = this.getWriteDbPermission();
-            return db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-        } catch (SQLException e) {
-            throw new SQLException(e);
-        } finally {
-            closeDatabase(db);
-        }
+    public Cursor query(String selection, String[] selectionArgs) {
+        SQLiteDatabase db = this.getWriteDbPermission();
+        return db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
     }
 
     @Override
-    public long insertRow(ContentValues values) throws SQLException {
-        SQLiteDatabase db = null;
-        try {
-            db = this.getWriteDbPermission();
-            return db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-        } catch (SQLException e) {
-            throw new SQLException(e);
-        } finally {
-            closeDatabase(db);
-        }
+    public long insertRow(ContentValues values) {
+        SQLiteDatabase db = this.getWriteDbPermission();
+        return db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     @Override
-    public int deleteNetworkNodeWithCppId(String cppId) throws SQLException {
-        SQLiteDatabase db = null;
-        try {
-            db = this.getWriteDbPermission();
-
-            return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{cppId});
-        } catch (SQLException e) {
-            throw new SQLException(e);
-        } finally {
-            closeDatabase(db);
-        }
-    }
-
-    private void closeDatabase(SQLiteDatabase db) {
-        try {
-            if (db != null && db.isOpen()) {
-                db.close();
-            }
-        } catch (Exception e) {
-            DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
-        }
+    public int deleteNetworkNodeWithCppId(String cppId) {
+        SQLiteDatabase db = this.getWriteDbPermission();
+        return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{cppId});
     }
 }

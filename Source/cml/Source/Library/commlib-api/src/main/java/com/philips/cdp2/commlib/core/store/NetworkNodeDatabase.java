@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.core.store;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
@@ -36,7 +37,7 @@ public class NetworkNodeDatabase {
 
     private NetworkNodeDBHelper networkNodeDBHelper;
 
-    public NetworkNodeDatabase(NetworkNodeDBHelper networkNodeDBHelper) {
+    NetworkNodeDatabase(NetworkNodeDBHelper networkNodeDBHelper) {
         this.networkNodeDBHelper = networkNodeDBHelper;
     }
 
@@ -91,6 +92,7 @@ public class NetworkNodeDatabase {
             DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
         } finally {
             closeCursor(cursor);
+            networkNodeDBHelper.close();
         }
 
         return result;
@@ -138,8 +140,10 @@ public class NetworkNodeDatabase {
 
             rowId = networkNodeDBHelper.insertRow(values);
             DICommLog.d(DICommLog.DATABASE, "Saved NetworkNode in db: " + networkNode);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             DICommLog.e(DICommLog.DATABASE, "Failed to save NetworkNode" + " ,Error: " + e.getMessage());
+        } finally {
+            networkNodeDBHelper.close();
         }
 
         return rowId;
@@ -162,10 +166,11 @@ public class NetworkNodeDatabase {
                 DICommLog.d(DICommLog.DATABASE, "NetworkNode already in db - " + networkNode);
                 return true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
         } finally {
             closeCursor(cursor);
+            networkNodeDBHelper.close();
         }
 
         DICommLog.d(DICommLog.DATABASE, "NetworkNode not yet in db - " + networkNode);
@@ -183,19 +188,17 @@ public class NetworkNodeDatabase {
         try {
             rowsDeleted = networkNodeDBHelper.deleteNetworkNodeWithCppId(networkNode.getCppId());
             DICommLog.d(DICommLog.DATABASE, "Deleted NetworkNode from db: " + networkNode + "  (" + rowsDeleted + ")");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
+        } finally {
+            networkNodeDBHelper.close();
         }
         return rowsDeleted;
     }
 
     private void closeCursor(Cursor cursor) {
-        try {
-            if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
-            }
-        } catch (Exception e) {
-            DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
         }
     }
 }

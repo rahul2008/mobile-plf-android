@@ -13,16 +13,29 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
-
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.philips.cdp.dicommclient.networknode.NetworkNode.*;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_BOOT_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_CPP_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_TYPE;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ENCRYPTION_KEY;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HTTPS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_KNOWN_NETWORK;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MISMATCHED_PIN;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
 
-public class OpenNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements NetworkNodeDBHelper{
+class OpenNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements NetworkNodeDBHelper {
 
     static final int DB_VERSION = 6;
 
@@ -44,9 +57,9 @@ public class OpenNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements N
     }};
 
     private static final String DB_NAME = "network_node.db";
-    protected static final String TABLE_NETWORK_NODE = "network_node";
+    static final String TABLE_NETWORK_NODE = "network_node";
 
-    public OpenNetworkNodeDatabaseHelper() {
+    OpenNetworkNodeDatabaseHelper() {
         this(ContextProvider.get(), DB_VERSION);
     }
 
@@ -213,51 +226,19 @@ public class OpenNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements N
 
     @Override
     public Cursor query(String selection, String[] selectionArgs) throws SQLException {
-        SQLiteDatabase db = null;
-        try {
-            db = this.getReadableDatabase();
-            return db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-        } catch (SQLException e) {
-            throw new SQLException(e.getMessage());
-        } finally {
-            closeDatabase(db);
-        }
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
     }
 
     @Override
     public long insertRow(ContentValues values) throws SQLException {
-        SQLiteDatabase db = null;
-        try {
-            db = this.getWritableDatabase();
-            return db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-        } catch (SQLException e) {
-            throw new SQLException(e.getMessage());
-        } finally {
-            closeDatabase(db);
-        }
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     @Override
     public int deleteNetworkNodeWithCppId(String cppId) throws SQLException {
-        SQLiteDatabase db = null;
-        try {
-            db = this.getWritableDatabase();
-
-            return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{cppId});
-        } catch (SQLException e) {
-            throw new SQLException(e.getMessage());
-        } finally {
-            closeDatabase(db);
-        }
-    }
-
-    private void closeDatabase(SQLiteDatabase db) {
-        try {
-            if (db != null && db.isOpen()) {
-                db.close();
-            }
-        } catch (Exception e) {
-            DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
-        }
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{cppId});
     }
 }

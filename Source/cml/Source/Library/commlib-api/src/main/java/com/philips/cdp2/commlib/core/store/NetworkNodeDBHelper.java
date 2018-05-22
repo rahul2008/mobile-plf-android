@@ -4,9 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 public interface NetworkNodeDBHelper {
-    Cursor query(String selection, String[] selectionArgs) throws Exception;
+    long insertRow(ContentValues values);
 
-    long insertRow(ContentValues values) throws Exception;
+    Cursor query(String selection, String[] selectionArgs);
 
-    int deleteNetworkNodeWithCppId(String cppId) throws Exception;
+    int deleteNetworkNodeWithCppId(String cppId);
+
+    void close();
 }
