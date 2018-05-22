@@ -41,6 +41,9 @@ public class AppInfraLoggingTest extends TestCase {
 
     @Mock
     private AppConfigurationInterface appConfigurationInterfaceMock;
+
+    @Mock
+    AILCloudLogMetaData ailCloudLogMetaData;
     @Mock
     private LoggingConfiguration loggingConfigurationMock;
     private Object[] params;
@@ -51,6 +54,7 @@ public class AppInfraLoggingTest extends TestCase {
         String componentId = "compTest";
         String componentVersion = "2.1";
         params = new Object[4];
+        ailCloudLogMetaData=new AILCloudLogMetaData();
         when(appInfraMock.getAppInfraContext()).thenReturn(contextMock);
         when(appInfraMock.getAppInfraContext().getApplicationInfo()).thenReturn(applicationInfoMock);
         when(loggingConfigurationMock.getAppInfra()).thenReturn(appInfraMock);
@@ -63,6 +67,11 @@ public class AppInfraLoggingTest extends TestCase {
             @Override
             protected Logger getJavaLogger(String componentId, String componentVersion) {
                 return loggerMock;
+            }
+
+            @Override
+            public AILCloudLogMetaData getAilCloudLogMetaData() {
+                return ailCloudLogMetaData;
             }
 
             @NonNull
@@ -85,11 +94,5 @@ public class AppInfraLoggingTest extends TestCase {
         assertNull(params[3]);
     }
 
-    public void testSetUserUUID() {
-        AILCloudLogMetaData ailCloudLogMetaData = new AILCloudLogMetaData();
-        when(((AppInfraLogging)appInfraMock.getLogging()).getAilCloudLogMetaData()).thenReturn(ailCloudLogMetaData);
-        appInfraLogging.setUserUUID("uuid");
-        assertEquals(ailCloudLogMetaData.getUserUUID(), "uuid");
 
-    }
 }

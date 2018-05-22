@@ -12,7 +12,7 @@ public class LoggingUtilsTest extends TestCase{
 
 public void testLogLevel(){
     assertEquals(Level.SEVERE,LoggingUtils.getJavaLoggerLogLevel("error"));
-    assertEquals(Level.WARNING,LoggingUtils.getJavaLoggerLogLevel("warn"));
+    assertEquals(Level.WARNING,LoggingUtils.getJavaLoggerLogLevel("Warning"));
     assertEquals(Level.INFO,LoggingUtils.getJavaLoggerLogLevel("info"));
     assertEquals(Level.CONFIG,LoggingUtils.getJavaLoggerLogLevel("debug"));
     assertEquals(Level.FINE,LoggingUtils.getJavaLoggerLogLevel("verbose"));
