@@ -31,6 +31,7 @@ import java.util.Map;
 public class CloudLogSyncRunnable implements Runnable {
 
 
+    public static final int STATUS_CODE_CREATED = 201;
     private String prouctKey;
     private AILCloudLogDBManager ailCloudLogDBManager;
 
@@ -77,7 +78,7 @@ public class CloudLogSyncRunnable implements Runnable {
             }) {
                 @Override
                 protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                    if (response.statusCode == 201) {
+                    if (response.statusCode == STATUS_CODE_CREATED) {
                         //4. Based on status delete data from db
                         ailCloudLogDBManager.deleteLogRecords(ailCloudLogDataList);
                         Log.v("SyncTesting", "Deleted records" + ailCloudLogDataList.size());
@@ -111,7 +112,4 @@ public class CloudLogSyncRunnable implements Runnable {
         return header;
     }
 
-    private String getUTCTime() {
-        return new DateTime().toDateTime(DateTimeZone.UTC).toString();//format time
-    }
 }

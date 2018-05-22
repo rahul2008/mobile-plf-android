@@ -30,8 +30,6 @@ import java.util.List;
 public class CloudLogRequestBodyBuilder {
 
     private  String productKey;
-    private AppInfra appInfra;
-
 
     private AILCloudLogMetaData ailCloudLogMetaData;
 
@@ -69,9 +67,9 @@ public class CloudLogRequestBodyBuilder {
             logMetaDataModel.setAppstate(ailCloudLogData.appState);
             logMetaDataModel.setDescription(ailCloudLogData.logDescription);
             Log.v("SyncTesting","Log::"+ailCloudLogData.logDescription);
-            logMetaDataModel.setDetails(ailCloudLogData.details);
+            logMetaDataModel.setDetails(getValue(ailCloudLogData.details));
             logMetaDataModel.setDevicetype(ailCloudLogData.serverName);
-            logMetaDataModel.setHomecountry(ailCloudLogData.homecountry);
+            logMetaDataModel.setHomecountry(getValue(ailCloudLogData.homecountry));
             logMetaDataModel.setLocale(ailCloudLogData.locale);
             logMetaDataModel.setLocaltime(""+ailCloudLogData.localtime);
             logMetaDataModel.setNetworktype(ailCloudLogData.networktype);
@@ -86,6 +84,9 @@ public class CloudLogRequestBodyBuilder {
         }
         cloudLogs.setEntry(entryList);
         cloudLogs.setProductKey(productKey);
+        cloudLogs.setTotal(ailCloudLogDataList.size());
+        cloudLogs.setResourceType("Bundle");
+        cloudLogs.setType("transaction");
         Gson gson = new Gson();
         String jsonString = gson.toJson(cloudLogs);
 
