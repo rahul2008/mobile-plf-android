@@ -62,6 +62,7 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
         sharedKey = loggingConfiguration.getCLSharedKey();
         productKey = loggingConfiguration.getCLProductKey();
         consentStatus = new CloudConsentProvider(new DeviceStoredConsentHandler(appInfra)).isCloudLoggingConsentProvided();
+        forceSync();
 
     }
 
@@ -105,10 +106,11 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
         }
     }
 
-//    public void forceSync() {
-//        if (checkWhetherToSyncCloudLog()) {
-//            threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra));
-//        }
-//    }
+    private void forceSync() {
+        if (checkWhetherToSyncCloudLog()) {
+            Log.v("SyncTesting","Inside force sync");
+            threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra, sharedKey, secretKey, productKey));
+        }
+    }
 
 }

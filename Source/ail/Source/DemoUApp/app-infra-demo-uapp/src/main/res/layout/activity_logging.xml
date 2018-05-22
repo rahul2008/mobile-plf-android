@@ -92,22 +92,10 @@
         android:layout_height="wrap_content"
         android:text="Test Log" />
 
-    <RelativeLayout
+    <Switch
+        android:id="@+id/cloud_logging_switch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/cloud_logging_consent_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cloud logging consent"
-            />
-
-        <Switch
-            android:id="@+id/cloud_logging_switch"
-            android:layout_toRightOf="@+id/cloud_logging_consent_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Switch" />
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:text="Cloud Logging Consent" />
 
 </LinearLayout>
