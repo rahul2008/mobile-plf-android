@@ -93,7 +93,7 @@ public class IAPJsonRequestTest {
         assertNotNull(mIAIapJsonRequest.parseNetworkResponse(networkResponse));
     }*/
 
-    
+
     /*@Test(expected = NullPointerException.class)
     public void testHandleMiscErrorWithAuthFailure(){
         TestUtils.getStubbedHybrisDelegate();
