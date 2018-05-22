@@ -26,8 +26,6 @@ buildscript {
                 password = "123qweasdzxc"
             }
         }
-
-        jcenter()
     }
 
     dependencies {

@@ -38,7 +38,9 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
     private void logError(SecureStorageInterface.SecureStorageError storageError, String type) {
         if (storageError.getErrorCode() != null) {
-            appInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, type, storageError.getErrorCode().toString());
+            if(appInfra.getLogging()!=null) {
+                appInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, type, storageError.getErrorCode().toString());
+            }
         }
     }
 

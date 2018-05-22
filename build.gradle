@@ -65,7 +65,6 @@ subprojects {
             }
             maven { url sonatype }
             google()
-            jcenter()
         }
     }
 
@@ -85,7 +84,6 @@ subprojects {
                 password = "123qweasdzxc"
             }
         }
-        jcenter()
     }
 
     ext.useprojectdependencies = true
