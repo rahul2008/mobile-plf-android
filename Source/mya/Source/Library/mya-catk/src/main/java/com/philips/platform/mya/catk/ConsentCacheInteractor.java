@@ -13,13 +13,10 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
-import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.mya.catk.datamodel.CachedConsentStatus;
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
-import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.joda.time.DateTime;
@@ -57,7 +54,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     }
 
     @Override
-    public void storeConsentTypeState(String consentType, ConsentStates status, int version) {
+    public void storeConsentState(String consentType, ConsentStates status, int version) {
         inMemoryCache = getMapFromSecureStorage();
         inMemoryCache.get(getCurrentLoggedInUserId()).put(consentType, new CachedConsentStatus(status, version, (new DateTime(DateTimeZone.UTC)).plusMinutes(getConfiguredExpiryTime())));
         writeMapToSecureStorage(inMemoryCache);
@@ -94,7 +91,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     }
 
     @Override
-    public void clearCache() {
+    public void clearCache(String consentType) {
 
     }
 

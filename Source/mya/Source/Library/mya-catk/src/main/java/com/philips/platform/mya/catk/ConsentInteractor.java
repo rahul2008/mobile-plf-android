@@ -92,7 +92,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         public void onResponseSuccessConsent(List<ConsentDTO> responseData) {
             if (responseData != null && !responseData.isEmpty()) {
                 ConsentDTO consentDTO = responseData.get(0);
-                consentCacheInteractor.storeConsentTypeState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion());
+                consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion());
                 callback.onGetConsentsSuccess(new ConsentStatus(consentDTO.getStatus(), consentDTO.getVersion()));
             } else {
                 callback.onGetConsentsSuccess(null);
@@ -120,7 +120,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         @Override
         public void onSuccess() {
             CatkLogger.d(" Create ConsentDTO: ", "Success");
-            consentCacheInteractor.storeConsentTypeState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion());
+            consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion());
             callback.onPostConsentSuccess();
         }
 

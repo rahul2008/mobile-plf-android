@@ -21,9 +21,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -151,7 +148,7 @@ public class ConsentCacheInteractorTest {
     }
 
     private void whenStoreConsentStateIsCalled(String consentType, ConsentStates active, int version) {
-        consentCacheInteractor.storeConsentTypeState(consentType, active, version);
+        consentCacheInteractor.storeConsentState(consentType, active, version);
     }
 
     private void whenFetchConsentStateIsCalled(String consentType) {

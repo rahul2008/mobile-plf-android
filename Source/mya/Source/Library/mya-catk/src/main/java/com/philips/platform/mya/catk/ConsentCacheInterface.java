@@ -1,8 +1,6 @@
 package com.philips.platform.mya.catk;
 
 import com.philips.platform.mya.catk.datamodel.CachedConsentStatus;
-import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 /**
@@ -32,14 +30,15 @@ interface ConsentCacheInterface {
      * @param version
      * @since 18.2.0
      */
-    void storeConsentTypeState(final String consentType, ConsentStates status, int version);
+    void storeConsentState(final String consentType, ConsentStates status, int version);
 
     /**
      * Clear cache
      *
      * @since 18.2.0
+     * @param consentType
      */
-    void clearCache();
+    void clearCache(String consentType);
 }
 
 

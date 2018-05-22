@@ -264,7 +264,7 @@ public class ConsentInteractorTest {
     }
 
     private void thenConsentCacheStoreIsCalledFor(String expectedConsentType) {
-        verify(consentCacheInteractorMock).storeConsentTypeState(expectedConsentType, ConsentStates.active, 1);
+        verify(consentCacheInteractorMock).storeConsentState(expectedConsentType, ConsentStates.active, 1);
     }
 
     private void thenConsentCacheFetchIsCalledFor(String consentType) {
@@ -272,7 +272,7 @@ public class ConsentInteractorTest {
     }
 
     private void thenConsentCacheStoreIsNotCalled() {
-        verify(consentCacheInteractorMock, never()).storeConsentTypeState(MOMENT_CONSENT, ConsentStates.active, 1);
+        verify(consentCacheInteractorMock, never()).storeConsentState(MOMENT_CONSENT, ConsentStates.active, 1);
     }
 
     private void andCatkResponseFailsWithError(ConsentNetworkError error) {
