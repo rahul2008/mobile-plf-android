@@ -416,4 +416,8 @@
     <!--HSDP-->
     <string name="reg_HSDP_Server_ErrorMsg">Sorry, something went wrong. Please try again later or you can visit FAQs section to find the solution. \N Still not able to resolve the issue, reach out to customer care with error code</string>
     <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Signature expired due to time error. Please check your device time settings.</string>
+
+    <!-- Facebook Keys-->
+    <string name="facebook_app_id">107243606103710</string>
+    <string name="fb_login_protocol_scheme">fb107243606103710demoApp</string>
 </resources>

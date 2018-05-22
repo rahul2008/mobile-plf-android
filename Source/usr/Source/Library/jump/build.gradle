@@ -1,9 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
-
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
@@ -15,11 +14,13 @@ apply plugin: 'com.jakewharton.butterknife'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
+        google()
         maven {
             url repos.jcenter
             credentials {
@@ -34,6 +35,7 @@ buildscript {
                 password = "123qweasdzxc"
             }
         }
+            maven { url sonatype }
     }
     dependencies {
         classpath builddeps.gradle
@@ -111,20 +113,16 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -175,11 +173,6 @@ android {
         }
     }
 
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
-    }
-    publishNonDefault true
 }
 
 configurations.all {
@@ -191,56 +184,54 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
+        implementation project(':AppInfra')
     } else {
-        compile philipsdeps.AppInfra
+        implementation philipsdeps.AppInfra
     }
-
-
+    annotationProcessor deps.butterknife
     annotationProcessor deps.immutables
     annotationProcessor deps.dagger.compiler
     annotationProcessor deps.frankiesardo_value_processor
 
-    provided deps.javax_annotation
+    implementation deps.javax_annotation
 
-    compile deps.apache
-    compile deps.okhttp3
-    compile deps.okhttp_apache3
-    compile deps.squareup_okio
-    compile deps.support.appcompatv7
-    compile deps.wechat
+    implementation deps.apache
+    implementation deps.okhttp
+    implementation deps.okhttp_apache
+    implementation deps.okhttp3
+    implementation deps.okhttp_apache3
+    implementation deps.squareup_okio
+    implementation deps.support.appcompatv7
+    implementation deps.wechat
 
     //WeChat China
-    compile files('libs/libammsdk.jar')
-    compile deps.apache
-    compile deps.dagger.dagger
-    compile deps.jackson_databind
-    compile deps.multidex
-    compile deps.openid_appauth
-    compile deps.rxjava2
-    compile deps.squareup_picasso
+//    implementation files('libs/libammsdk.jar')
+    implementation deps.apache
+    implementation deps.dagger.dagger
+    implementation deps.jackson_databind
+    implementation deps.multidex
+    implementation deps.openid_appauth
+    implementation deps.rxjava2
+    implementation deps.squareup_picasso
 
-    testCompile deps.frankiesardo_value
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.robolectric
+    testImplementation deps.frankiesardo_value
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.robolectric
 
     // JUnit4 Rules
-    androidTestCompile deps.android_testrules
+    androidTestImplementation deps.android_testrules
     // Android JUnit Runner
-    androidTestCompile deps.android_testrunner
-    androidTestCompile deps.dexmaker_google
-    androidTestCompile deps.frankiesardo_value
-    androidTestCompile deps.junit
-    androidTestCompile deps.mockito_android
-
-    retrolambdaConfig deps.retrolambda
+    androidTestImplementation deps.android_testrunner
+    androidTestImplementation deps.dexmaker_google
+    androidTestImplementation deps.frankiesardo_value
+    androidTestImplementation deps.junit
+    androidTestImplementation deps.mockito_android
 }
 
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
-    from configurations.compile
+    from configurations.implementation
 }
 
 tasks.withType(Test) {

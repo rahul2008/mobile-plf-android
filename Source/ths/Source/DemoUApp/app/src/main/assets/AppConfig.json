@@ -90,6 +90,7 @@
     }
   },
   "ths":{
-    "apiKey":"dc573250"
+    "apiKey":"dc573250",
+    "gdprEnabled":true
   }
 }

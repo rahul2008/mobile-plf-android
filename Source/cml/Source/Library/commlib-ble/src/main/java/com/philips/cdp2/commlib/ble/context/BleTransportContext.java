@@ -47,6 +47,9 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         @Override
         public void onStateUpdated(@NonNull SHNCentral shnCentral) {
             isAvailable = shnCentral.isBluetoothAdapterEnabled();
+            if (!isAvailable) {
+                deviceCache.clear();
+            }
             notifyAvailabilityListeners();
         }
     };

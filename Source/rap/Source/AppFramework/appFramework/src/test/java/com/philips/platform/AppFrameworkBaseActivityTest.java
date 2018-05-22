@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
  * Created by philips on 8/29/17.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@Config(application = TestAppFrameworkApplication.class, sdk = 25)
 public class AppFrameworkBaseActivityTest {
 
     private AbstractAppFrameworkBaseActivity testActivity;

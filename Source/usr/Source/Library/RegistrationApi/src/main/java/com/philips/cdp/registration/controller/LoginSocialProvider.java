@@ -57,7 +57,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onSuccess() {
-        RLog.d(TAG,"onSuccess : is called");
+        RLog.d(TAG, "onSuccess : is called");
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
@@ -76,15 +76,15 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
                         @Override
                         public void onLoginSuccess() {
-                            ThreadUtils.postInMainThread(mContext,()->
-                            mSocialLoginHandler.onLoginSuccess());
+                            ThreadUtils.postInMainThread(mContext, () ->
+                                    mSocialLoginHandler.onLoginSuccess());
                         }
 
                         @Override
                         public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                             AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                            ThreadUtils.postInMainThread(mContext,()->
-                            mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                            ThreadUtils.postInMainThread(mContext, () ->
+                                    mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
                         }
                     });
 
@@ -165,6 +165,23 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
+
+    public void startTokenAuthForNativeProvider(final Activity activity, final String providerName, final String mergeToken, final String accessToken) {
+        RLog.d(TAG, "startTokenAuthForNativeProvider : is called");
+        mActivity = activity;
+        mProviderName = providerName;
+        mMergeToken = mergeToken;
+        if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+            UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+        } else {
+            Jump.startTokenAuthForNativeProvider(activity, providerName, accessToken, null, this, mergeToken);
+            return;
+        }
+        if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+        }
+    }
+
 
     @Override
     public void onFlowDownloadSuccess() {

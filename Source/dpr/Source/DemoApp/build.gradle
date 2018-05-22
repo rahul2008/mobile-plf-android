@@ -13,7 +13,6 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath builddeps.androidapt
     }
 }
 

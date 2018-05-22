@@ -136,11 +136,10 @@ public class NetworkUtility {
     }
 
     void dismissAlertFragmentDialog(AlertDialogFragment alertDialogFragment,FragmentManager fragmentManager) {
-        if (alertDialogFragment != null) {
-            alertDialogFragment.dismiss();
-        } else {
+
+        if(alertDialogFragment==null){
             alertDialogFragment = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
-            alertDialogFragment.dismiss();
         }
+        alertDialogFragment.dismiss();
     }
 }

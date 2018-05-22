@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.eventhelper;
 
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -66,6 +67,7 @@ public class EventHelperTest {
         mEventHelper.unregisterEventNotification(null, null);
     }
 
+    @Ignore
     @Test
     public void testRegisterEventNotificationWithNotification() throws Exception {
         eventHelper.registerEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, listener);
@@ -79,6 +81,7 @@ public class EventHelperTest {
         assertNotNull(listener);
     }
 
+    @Ignore
     @Test
     public void testNotifyEventOccurred() throws Exception {
         eventHelper.notifyEventOccurred(IAPConstant.DELIVER_TO_THIS_ADDRESS);

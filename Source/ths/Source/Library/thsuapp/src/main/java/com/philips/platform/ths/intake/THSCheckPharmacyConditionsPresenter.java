@@ -71,7 +71,11 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
             this.pharmacy = pharmacy;
             getConsumerShippingAddress();
         } else {
-            checkForConsent();
+            if(THSManager.getInstance().isGdprEnabled()) {
+                checkForConsent();
+            } else{
+                thsCheckPharmacyConditonsView.displayPharmacy();
+            }
 
         }
     }

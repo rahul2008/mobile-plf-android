@@ -276,11 +276,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onOutOfStock(boolean isOutOfStockReached) {
         if (mCheckoutBtn == null) return;
-        if (isOutOfStockReached) {
-            mCheckoutBtn.setEnabled(false);
-        } else {
-            mCheckoutBtn.setEnabled(true);
-        }
+        mCheckoutBtn.setEnabled(isOutOfStockReached);
     }
 
     @Override

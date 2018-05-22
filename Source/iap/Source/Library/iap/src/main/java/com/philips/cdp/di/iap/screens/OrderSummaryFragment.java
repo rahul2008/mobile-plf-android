@@ -297,11 +297,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onOutOfStock(boolean isOutOfStockReached) {
         if (mPayNowBtn == null) return;
-        if (isOutOfStockReached) {
-            mPayNowBtn.setEnabled(false);
-        } else {
-            mPayNowBtn.setEnabled(true);
-        }
+        mPayNowBtn.setEnabled(isOutOfStockReached);
     }
 
 //    @Override

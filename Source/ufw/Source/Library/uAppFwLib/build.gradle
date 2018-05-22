@@ -28,7 +28,6 @@ buildscript {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath builddeps.androidapt
     }
 }
 
@@ -128,22 +127,22 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact zipDocuments
+//            artifact zipDocuments
 
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
+//            artifact("$projectDir/dependencies.lock") {
+//                classifier = '1stleveldependencies'
+//            }
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -176,7 +175,7 @@ android {
         }
     }
 
-    publishNonDefault true
+
 }
 
 configurations.all {
@@ -185,36 +184,35 @@ configurations.all {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile deps.junit
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation deps.junit
 
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
+        implementation project(':AppInfra')
+        implementation project(':uid')
     } else {
-        compile (philipsdeps.AppInfra) {
+        implementation (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        compile (philipsdeps.uid) {
+        implementation (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
     }
 
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.robolectric
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.robolectric
 
-    compile deps.support.annotations
-    compile deps.support.appcompatv7
+    implementation deps.support.annotations
+    implementation deps.support.appcompatv7
+    implementation deps.gson
 }
 
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
-    from configurations.compile
+    from configurations.implementation
 }
 
 

@@ -20,22 +20,22 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Date;
 
 /**
  * Created by philips on 11/23/17.
  */
-
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
-public class UserTest {
+@RunWith(MockitoJUnitRunner.class)
+public class UserTest extends TestCase {
 
     User user;
 
@@ -70,17 +70,17 @@ public class UserTest {
 
     @Test
     public void loginUsingTraditional() throws Exception {
-        user.loginUsingTraditional("email","password",traditionalLoginHandlerMock);
+        user.loginUsingTraditional("email", "password", traditionalLoginHandlerMock);
     }
 
     @Test
     public void loginUserUsingSocialProvider() throws Exception {
-        user.loginUserUsingSocialProvider(activityMock,"PROVIDER_NAME",socialProviderLoginHandlerMock,"MERGE_TOKEN");
+        user.loginUserUsingSocialProvider(activityMock, "PROVIDER_NAME", socialProviderLoginHandlerMock, "MERGE_TOKEN");
     }
 
     @Test
     public void loginUserUsingSocialNativeProvider() throws Exception {
-        user.loginUserUsingSocialNativeProvider(activityMock,"PROVIDER_NAME","ACCESS_TOKEN","",socialProviderLoginHandlerMock,"MERGE_TOKEN");
+        user.loginUserUsingSocialNativeProvider(activityMock, "PROVIDER_NAME", "ACCESS_TOKEN", "", socialProviderLoginHandlerMock, "MERGE_TOKEN");
     }
 
     @Mock
@@ -88,11 +88,12 @@ public class UserTest {
 
     @Test
     public void registerUserInfoForTraditional() throws Exception {
-        user.registerUserInfoForTraditional("First Name","Given_name","email","password",true,true,traditionalRegistrationHandlerMock);
+        user.registerUserInfoForTraditional("First Name", "Given_name", "email", "password", true, true, traditionalRegistrationHandlerMock);
     }
 
     @Mock
     ForgotPasswordHandler forgotPasswordHandlerMock;
+
     @Test
     public void forgotPassword() throws Exception {
 //        user.forgotPassword("email",forgotPasswordHandlerMock);
@@ -116,12 +117,12 @@ public class UserTest {
 
     @Test
     public void mergeToTraditionalAccount() throws Exception {
-     //   user.mergeToTraditionalAccount("email","password","merge_token",traditionalLoginHandlerMock);
+        //   user.mergeToTraditionalAccount("email","password","merge_token",traditionalLoginHandlerMock);
     }
 
     @Test
     public void registerUserInfoForSocial() throws Exception {
-        user.registerUserInfoForSocial("given_name","display_name","family_name","user_email",true,true,socialProviderLoginHandlerMock,"social_registration_token");
+        user.registerUserInfoForSocial("given_name", "display_name", "family_name", "user_email", true, true, socialProviderLoginHandlerMock, "social_registration_token");
     }
 
     @Test
@@ -169,6 +170,7 @@ public class UserTest {
 
     @Mock
     Date dateMock;
+
     @Test
     public void updateDateOfBirth() throws Exception {
 //        user.updateDateOfBirth(updateUserDetailsHandlerMock,dateMock);
