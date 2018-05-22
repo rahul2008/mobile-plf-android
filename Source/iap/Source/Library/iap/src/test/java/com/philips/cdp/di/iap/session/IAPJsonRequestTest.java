@@ -93,12 +93,11 @@ public class IAPJsonRequestTest {
         assertNotNull(mIAIapJsonRequest.parseNetworkResponse(networkResponse));
     }*/
 
-
-    /*@Test(expected = NullPointerException.class)
+   /* @Test(expected = NullPointerException.class)
     public void testHandleMiscErrorWithAuthFailure(){
         TestUtils.getStubbedHybrisDelegate();
         mIAIapJsonRequest.handleMiscErrors(new AuthFailureError());
-    }*/
+    } SDK 27 error*/
 
     /*private byte[] fileToByteArray(String path) {
         File file = new File(path);
