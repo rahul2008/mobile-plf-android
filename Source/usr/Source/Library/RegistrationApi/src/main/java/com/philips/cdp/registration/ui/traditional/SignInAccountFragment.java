@@ -260,7 +260,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         mEtPassword.setOnClickListener(this);
         mEtPassword.setValidator(password -> password.length() > 0);
-        mEtPassword.setErrorMessage(getString(R.string.reg_EmptyField_ErrorMsg));
+        mEtPassword.setErrorMessage(getString(R.string.reg_PasswordField_ErrorMsg));
         linkifyPrivacyPolicy(resetPasswordLabel, forgotPasswordClickListener);
         mRegError = view.findViewById(R.id.usr_loginScreen_error_view);
         handleUiState();
@@ -273,16 +273,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private boolean emailOrMobileValidator(String emailOrMobile) {
-        if (emailOrMobile.isEmpty()) {
-            RLog.e(TAG, "Email or Mobile No. is Empty");
-            mEtEmail.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
-            return false;
+        RLog.e(TAG, "Email or Mobile No. is Empty");
+        if (emailOrMobile.isEmpty() && !RegistrationHelper.getInstance().isMobileFlow()) {
+            mEtEmail.setErrorMessage(R.string.reg_NameField_ErrorText);
+        } else {
+            mEtEmail.setErrorMessage(R.string.reg_InvalidEmailOrPhoneNumber_ErrorMsg);
         }
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
             if ((!FieldsValidator.isValidMobileNumber(emailOrMobile) || !FieldsValidator.isValidEmail(emailOrMobile))) {
                 RLog.e(TAG, "Not a valid Mobile No.");
-                mEtEmail.setErrorMessage(R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
+                mEtEmail.setErrorMessage(R.string.reg_InvalidEmailOrPhoneNumber_ErrorMsg);
                 return FieldsValidator.isValidMobileNumber(emailOrMobile) || FieldsValidator.isValidEmail(emailOrMobile);
             }
         } else {
@@ -600,8 +601,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void handleResendVerificationEmailFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.e(TAG, "handleResendVerificationEmailFailed : Error Code =" + userRegistrationFailureInfo.getErrorCode());
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
-        mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
-                + userRegistrationFailureInfo.getErrorDescription());
+        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
     }
 
     private void handleLoginSuccess() {

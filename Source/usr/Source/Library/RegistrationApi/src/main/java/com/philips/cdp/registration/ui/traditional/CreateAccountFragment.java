@@ -178,7 +178,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             } else {
                 if (RegistrationHelper.getInstance().isMobileFlow()) {
                     usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                            R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
+                            R.string.reg_InvalidPhoneNumber_ErrorMsg);
                 } else {
                     usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
                             R.string.reg_kemailFieldErrorText);
@@ -208,7 +208,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         ButterKnife.bind(this, view);
         usrCreatescreenEmailormobileInputValidationLayout.setValidator(loginIdValidator);
         usrCreateScreenPasswordInputValidationField.setValidator(passwordValidator);
-        usrCreateScreenPasswordInputValidationField.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
+        usrCreateScreenPasswordInputValidationField.setErrorMessage(R.string.reg_PasswordField_ErrorMsg);
         initUI(view);
 
         handleABTestingFlow();
@@ -607,7 +607,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         usrCreateScreenFirstNameInputValidation.setValidator(firstName -> firstName.length() > 0);
         usrCreateScreenLastNameInputValidation.setValidator(lastName -> lastName.length() > 0);
         usrCreateScreenFirstNameInputValidation.setErrorMessage((R.string.reg_NameField_ErrorText));
-        usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.reg_EmptyField_ErrorMsg));
+        usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.reg_LastNameField_ErrorMsg));
         usrCreateScreenFirstNameTextField.requestFocus();
         usrCreateScreenFirstNameTextField.addTextChangedListener(new TextWatcher() {
             @Override

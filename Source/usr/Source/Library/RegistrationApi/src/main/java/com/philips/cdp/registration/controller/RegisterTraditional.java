@@ -68,7 +68,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     public void onFailure(SignInError error) {
         try {
             RLog.e(TAG, "onFailure : is called" + error.reason.name());
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError);
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
             if (error.captureApiError.code == ErrorCodes.UNKNOWN_ERROR) {
                 userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
                 userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
@@ -141,7 +141,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
             Jump.registerNewUser(newUser, null, this);
         } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
             userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, ErrorCodes.UNKNOWN_ERROR));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
@@ -164,7 +164,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     public void onFlowDownloadFailure() {
         RLog.d(TAG, "onFlowDownloadFailure : is called");
         if (mTraditionalRegisterHandler != null) {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, ErrorCodes.UNKNOWN_ERROR));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.REGISTER_TRADITIONAL_FAILED_SERVER_ERROR);

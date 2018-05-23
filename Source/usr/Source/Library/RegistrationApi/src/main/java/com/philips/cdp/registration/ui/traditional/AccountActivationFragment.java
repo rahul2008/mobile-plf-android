@@ -278,7 +278,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
                     AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_USER_REGISTRATION);
             getRegistrationFragment().userRegistrationComplete();
         } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.EMAIL_VERIFICATION);
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.EMAIL_VERIFICATION);
             showVerifyAlertDialog();

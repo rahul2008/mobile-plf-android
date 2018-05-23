@@ -137,7 +137,7 @@ public class User {
                                 if (traditionalLoginHandler != null) {
                                     UserRegistrationFailureInfo
                                             userRegistrationFailureInfo =
-                                            new UserRegistrationFailureInfo();
+                                            new UserRegistrationFailureInfo(mContext);
                                     userRegistrationFailureInfo.
                                             setErrorCode(ErrorCodes.
                                                     NETWORK_ERROR);
@@ -188,7 +188,7 @@ public class User {
             } else {
                 if (null == socialLoginHandler) return;
                 UserRegistrationFailureInfo userRegistrationFailureInfo =
-                        new UserRegistrationFailureInfo();
+                        new UserRegistrationFailureInfo(mContext);
                 userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
                 RLog.e(TAG, "Error occurred in loginUserUsingSocialProvider , might be provider name is null or activity is null " + userRegistrationFailureInfo.getErrorDescription());
                 ThreadUtils.postInMainThread(activity, () ->
@@ -216,7 +216,7 @@ public class User {
             } else {
                 if (null == socialLoginHandler) return;
                 UserRegistrationFailureInfo userRegistrationFailureInfo =
-                        new UserRegistrationFailureInfo();
+                        new UserRegistrationFailureInfo(mContext);
                 userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
                 RLog.e(TAG, "Error occurred in loginUserUsingSocialProvider , might be provider name is null or activity is null " + userRegistrationFailureInfo.getErrorDescription());
                 ThreadUtils.postInMainThread(activity, () ->
@@ -255,7 +255,7 @@ public class User {
                         tokenSecret, mergeToken);
             } else {
                 if (socialLoginHandler == null) return;
-                UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+                UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
                 userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
                 RLog.e(TAG, "Error occurred in loginUserUsingSocialNativeProvider, might be provider name is null or activity is null " + userRegistrationFailureInfo.getErrorDescription());
                 ThreadUtils.postInMainThread(mContext, () ->
@@ -305,7 +305,7 @@ public class User {
             ForgotPassword forgotPasswordResultHandler = new ForgotPassword(mContext, forgotPasswordHandler);
             forgotPasswordResultHandler.performForgotPassword(emailAddress);
         } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
             RLog.e(TAG, "forgotPassword without email address  So onSendForgotPasswordFailedWithError" + userRegistrationFailureInfo.getErrorDescription());
             ThreadUtils.postInMainThread(mContext, () -> {
@@ -355,7 +355,7 @@ public class User {
             RLog.d(TAG, "resendVerificationMail with email address and resendVerificationMail called");
             resendVerificationEmailHandler.resendVerificationMail(emailAddress);
         } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
             RLog.e(TAG, "resendVerificationMail without email address and onResendVerificationEmailFailedWithError called" + userRegistrationFailureInfo.getErrorDescription());
             ThreadUtils.postInMainThread(mContext, () ->
@@ -372,7 +372,7 @@ public class User {
             RLog.d(TAG, "mergeTraditionalAccount with email address and password");
             loginTraditionalResultHandler.mergeTraditionally(emailAddress, password, mergeToken);
         } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
             RLog.d(TAG, "mergeTraditionalAccount without email address and password, So called onLoginFailedWithError" + userRegistrationFailureInfo.getErrorDescription());
             ThreadUtils.postInMainThread(mContext, () ->

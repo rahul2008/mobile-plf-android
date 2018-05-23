@@ -419,7 +419,7 @@ public class HsdpUser {
      */
     private void handleSocialConnectionFailed(SocialLoginHandler loginHandler,
                                               int errorCode, String description, String errorTagging) {
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         userRegistrationFailureInfo.setErrorCode(errorCode);
         userRegistrationFailureInfo.setErrorDescription(description);
         userRegistrationFailureInfo.setErrorTagging(errorTagging);
@@ -436,7 +436,7 @@ public class HsdpUser {
      */
     private void handleSocialHsdpFailure(SocialLoginHandler loginHandler, int errorCode,
                                          String string, String errorTagging) {
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         userRegistrationFailureInfo.setErrorCode(errorCode);
         userRegistrationFailureInfo.setErrorDescription(string);
         userRegistrationFailureInfo.setErrorTagging(errorTagging);

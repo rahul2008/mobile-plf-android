@@ -103,7 +103,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
 
     public void onFailure(SignInError error) {
         RLog.d(TAG, "onFailure : is called");
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError);
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
         userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         ThreadUtils.postInMainThread(mContext, () ->
@@ -146,7 +146,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
         RLog.d(TAG, "onFlowDownloadFailure : is called");
         if (mSocialProviderLoginHandler != null) {
             RLog.d(TAG, "onFlowDownloadFailure : mSocialProviderLoginHandler is not null");
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(RegConstants.JANRAIN_FLOW_DOWNLOAD_ERROR);
@@ -199,7 +199,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
 
             registerNewUser(newUser, socialRegistrationToken);
         } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
             userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.NETWORK_ERROR);
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.NETWORK_ERROR);
