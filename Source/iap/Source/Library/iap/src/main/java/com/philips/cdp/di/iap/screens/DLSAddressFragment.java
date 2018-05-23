@@ -90,6 +90,8 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
         setFragmentVisibility(billingFragment, false);
 
+        upDateUi(true);
+
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -115,10 +117,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                     }
 
                 }
+                upDateUi(isChecked);
             }
         });
-
-
+    }
+    private  void upDateUi(boolean  isChecked){
         Bundle bundle = getArguments();
         updateCheckoutStepNumber("1"); // for default
         if (null != bundle && bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION)) {
@@ -142,14 +145,18 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
         if (null != bundle && bundle.containsKey(IAPConstant.ADD_BILLING_ADDRESS) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
             updateCheckoutStepNumber("2");
-            checkBox.setVisibility(View.GONE);
+            checkBox.setVisibility(View.VISIBLE);
+            if(!isChecked){
+                ((DLSBillingAddressFragment) billingFragment).disableAllFields();
+            }else {
+                ((DLSBillingAddressFragment) billingFragment).enableAllFields();
+            }
             setFragmentVisibility(shippingFragment, false);
             setFragmentVisibility(billingFragment, true);
             HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
             ((DLSBillingAddressFragment) billingFragment).updateFields(mAddressFieldsHashmap);
         }
     }
-
     private void updateCheckoutStepNumber(String stepNumber){
         tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), stepNumber));
     }
@@ -257,6 +264,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 if (CartModelContainer.getInstance().isAddessStateVisible() && CartModelContainer.getInstance().getRegionIsoCode() != null) {
                     updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
                 }
+
                 if (billingFragment.isVisible() && billingAddressFields!=null) {
                     CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
                     addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG);

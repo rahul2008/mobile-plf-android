@@ -8,8 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.TextView;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -26,7 +24,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowActivity;
 
 import java.util.ArrayList;
@@ -41,8 +39,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.Robolectric.buildActivity;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class IAPActivityTest {
     @Mock
     FragmentManager fragmentManagerMock;
@@ -131,7 +128,7 @@ public class IAPActivityTest {
     }
 
     private void startActivity(Intent intent) {
-        activity = buildActivity(IAPActivity.class, intent).withIntent(intent).get();
+        activity = buildActivity(IAPActivity.class, intent).get();
         IAPActivity spyActivity = Mockito.spy(activity);
 
         Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
@@ -232,7 +229,7 @@ public class IAPActivityTest {
     }
 
     private void pauseActivity(Intent intent) {
-        activity = buildActivity(IAPActivity.class, intent).withIntent(intent).get();
+        activity = buildActivity(IAPActivity.class, intent).get();
         IAPActivity spyActivity = Mockito.spy(activity);
 
         Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();

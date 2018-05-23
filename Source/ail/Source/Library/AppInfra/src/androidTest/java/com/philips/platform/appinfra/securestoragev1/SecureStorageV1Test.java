@@ -104,9 +104,6 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
     public void testStoringEmptyValue() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.storeValueForKey("key", "", sse)); // value can be empty
-        sse = new SecureStorageInterface.SecureStorageError();
-        assertEquals(mSecureStorage.fetchValueForKey("key", sse), "");
-        assertNull(sse.getErrorCode());
     }
 
     public void testFetchValueForNullKey() throws Exception {

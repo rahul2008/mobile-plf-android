@@ -1,7 +1,5 @@
 package com.philips.cdp.registration.ui.utils;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -16,15 +14,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
-import static org.junit.Assert.*;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Created by philips on 11/30/17.
  */
 
-@RunWith(CustomRobolectricRunner.class)
-@org.robolectric.annotation.Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(MockitoJUnitRunner.class)
 public class URInterfaceTest {
 
     @Mock

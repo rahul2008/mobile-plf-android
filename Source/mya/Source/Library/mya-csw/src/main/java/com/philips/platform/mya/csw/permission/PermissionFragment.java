@@ -20,7 +20,6 @@ import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswConstants;
 import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
-import com.philips.platform.mya.csw.R2;
 import com.philips.platform.mya.csw.description.DescriptionView;
 import com.philips.platform.mya.csw.dialogs.ConfirmDialogTextResources;
 import com.philips.platform.mya.csw.dialogs.ConfirmDialogView;
@@ -37,19 +36,11 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 public class PermissionFragment extends CswBaseFragment implements PermissionContract.View, HelpClickListener, android.view.View.OnClickListener {
 
     public static final String TAG = "PermissionFragment";
     private ProgressDialogView progressDialog;
-
-    private Unbinder unbinder;
-
-    @BindView(R2.id.consentsRecycler)
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     private List<ConsentDefinition> consentDefinitionList = null;
     private PermissionAdapter adapter;
@@ -72,7 +63,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         android.view.View view = inflater.inflate(R.layout.csw_permission_view, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        recyclerView = view.findViewById(R.id.consentsRecycler);
 
         if (getArguments() != null)
             consentDefinitionList = (List<ConsentDefinition>) getArguments().getSerializable(CswConstants.CONSENT_DEFINITIONS);
@@ -106,13 +97,6 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbindView();
-    }
-
-    private void unbindView() {
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
     }
 
     @Override

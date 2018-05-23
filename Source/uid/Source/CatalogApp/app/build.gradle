@@ -95,20 +95,20 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
+//            artifact("$projectDir/dependencies.lock") {
+//                classifier = '1stleveldependencies'
+//            }
 
-            artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
+            artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -192,48 +192,49 @@ android {
     }
 
     testOptions {
+        unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
     }
 
-    publishNonDefault true
+
 }
 
 dependencies {
-    compile(deps.support.recyclerview) {
+    implementation(deps.support.recyclerview) {
         exclude module: "com.android.support"
     }
-    compile(deps.support.appcompatv7) {
+    implementation(deps.support.appcompatv7) {
         exclude module: "com.android.support"
     }
 
 
-    compile(deps.butterknife) {
+    implementation(deps.butterknife) {
         exclude module: "com.android.support"
     }
-    compile deps.greenrobot
+    implementation deps.greenrobot
 
-    debugCompile project(path: ':uid', configuration: 'debug')
-    releaseCompile project(path: ':uid', configuration: 'release')
+    implementation project(':uid')
 
-    testCompile(deps.junit) {
+    testImplementation(deps.junit) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
 
-    androidTestCompile(deps.espresso_core) {
+    androidTestImplementation(deps.espresso_core) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-    androidTestCompile(deps.android_testrunner) {
+    androidTestImplementation(deps.android_testrunner) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-    androidTestCompile(deps.android_testrules) {
+    androidTestImplementation(deps.android_testrules) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-
-    compile deps.glide
-    androidTestCompile deps.android_test_commons
+    implementation deps.support.design
+    implementation deps.glide
+    implementation deps.calligraphy
+    androidTestImplementation deps.android_test_commons
 
 }

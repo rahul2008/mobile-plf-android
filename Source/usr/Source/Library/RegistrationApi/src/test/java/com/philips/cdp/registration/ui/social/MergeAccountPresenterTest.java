@@ -1,14 +1,8 @@
 package com.philips.cdp.registration.ui.social;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.injection.RegistrationComponent;
-import com.philips.cdp.registration.settings.RegistrationSettingsURL;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,15 +11,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
-
-import static org.junit.Assert.*;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Created by philips on 11/22/17.
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(MockitoJUnitRunner.class)
 public class MergeAccountPresenterTest {
 
     @Mock

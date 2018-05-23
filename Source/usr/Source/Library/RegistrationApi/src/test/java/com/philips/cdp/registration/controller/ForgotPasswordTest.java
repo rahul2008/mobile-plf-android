@@ -4,35 +4,27 @@ import android.content.Context;
 import android.os.Looper;
 
 import com.janrain.android.Jump;
-import com.janrain.android.capture.CaptureApiError;
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Created by philips on 11/30/17.
  */
 
-@RunWith(CustomRobolectricRunner.class)
-@org.robolectric.annotation.Config(constants = BuildConfig.class, sdk = 21)
-public class ForgotPasswordTest {
+@RunWith(MockitoJUnitRunner.class)
+public class ForgotPasswordTest extends TestCase{
 
 
     @Mock

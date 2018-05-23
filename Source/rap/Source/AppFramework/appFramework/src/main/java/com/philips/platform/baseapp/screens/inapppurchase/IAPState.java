@@ -140,7 +140,11 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
 
     protected AppFrameworkApplication getApplicationContext() {
-        return (AppFrameworkApplication) activityContext.getApplicationContext();
+        if(activityContext != null) {
+            return (AppFrameworkApplication) activityContext.getApplicationContext();
+        }else{
+            return null;
+        }
     }
 
     @Override

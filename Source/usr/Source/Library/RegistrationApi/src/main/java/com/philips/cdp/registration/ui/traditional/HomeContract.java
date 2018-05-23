@@ -2,11 +2,18 @@ package com.philips.cdp.registration.ui.traditional;
 
 import android.app.*;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookException;
+import com.facebook.FacebookRequestError;
+import com.facebook.login.LoginManager;
 import com.philips.cdp.registration.dao.*;
+import com.philips.cdp.registration.ui.traditional.mobile.FaceBookContractor;
+import com.philips.cdp.registration.ui.utils.URFaceBookUtility;
 
 import org.json.*;
 
-interface HomeContract {
+interface HomeContract extends FaceBookContractor{
   
 
     void enableControlsOnNetworkConnectionArraival();
@@ -81,5 +88,5 @@ interface HomeContract {
 
     void handleBtnClickableStates(boolean state);
 
-    HomeFragment getHomeFragment();
+    URFaceBookUtility getURFaceBookUtility();
 }
