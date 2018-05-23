@@ -28,7 +28,7 @@ public interface AILCloudLogDao {
 //    @Query("DELETE FROM AILCloudLogData where log.logId = AILCloudLogData.logId")
 //    void deleteGivenRows(AILCloudLogData log);
 
-    @Query("select count(*) from AILCloudLogData")
+    @Query("select count(*) from AILCloudLogData where status in ('Error','New')")
     LiveData<Integer> getNumberOfRows();
 
     @Query("select * FROM AILCloudLogData where status in ('Error','New') order by logTime LIMIT :maxlimit")
