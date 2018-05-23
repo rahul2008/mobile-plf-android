@@ -10,6 +10,7 @@ import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredC
 import com.philips.platform.appinfra.logging.CloudConsentProvider;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
+import com.philips.platform.appinfra.rest.NetworkConnectivityChangeListener;
 import com.philips.platform.pif.chi.ConsentChangeListener;
 
 import java.util.concurrent.BlockingQueue;
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * Created by abhishek on 5/14/18.
  */
 
-public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeListener {
+public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeListener, NetworkConnectivityChangeListener {
 
     private static CloudLogSyncManager cloudLogSyncManager;
 
@@ -46,6 +47,8 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
 
     private boolean consentStatus;
 
+    private boolean isInternetAvailable;
+
     private CloudLogSyncManager(AppInfra appInfra, final LoggingConfiguration loggingConfiguration) {
         this.appInfra = appInfra;
         this.loggingConfiguration = loggingConfiguration;
@@ -61,6 +64,8 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
         secretKey = loggingConfiguration.getCLSecretKey();
         sharedKey = loggingConfiguration.getCLSharedKey();
         productKey = loggingConfiguration.getCLProductKey();
+        isInternetAvailable = appInfra.getRestClient().isInternetReachable();
+        appInfra.getRestClient().registerNetworkChnageListener(this);
         consentStatus = new CloudConsentProvider(new DeviceStoredConsentHandler(appInfra)).isCloudLoggingConsentProvided();
         forceSync();
 
@@ -75,7 +80,7 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
 
     public boolean checkWhetherToSyncCloudLog() {
         //Add consent part here
-        if ((appInfra.getRestClient() != null && appInfra.getRestClient().isInternetReachable()) && consentStatus) {
+        if (isInternetAvailable && consentStatus) {
             Log.v("SyncTesting", "Cloud log all conditions met. Starting sync.....");
             return true;
         }
@@ -100,7 +105,7 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
     public void onConsentChanged(String consentType, boolean status) {
         if (CloudConsentProvider.CLOUD.equalsIgnoreCase(consentType)) {
             consentStatus = status;
-            if(!consentStatus){
+            if (!consentStatus) {
                 threadPoolExecutor.getQueue().clear();
             }
         }
@@ -108,9 +113,14 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
 
     private void forceSync() {
         if (checkWhetherToSyncCloudLog()) {
-            Log.v("SyncTesting","Inside force sync");
+            Log.v("SyncTesting", "Inside force sync");
             threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra, sharedKey, secretKey, productKey));
         }
     }
 
+    @Override
+    public void onConnectivityStateChange(boolean isConnected) {
+        isInternetAvailable = isConnected;
+        forceSync();
+    }
 }
