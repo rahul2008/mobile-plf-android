@@ -4,6 +4,9 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
+        maven{
+            url repos.mavengoogle
+        }
         maven { url repos.jcenter
             credentials {
                 username = "readonly"
