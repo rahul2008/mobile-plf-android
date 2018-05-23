@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class CloudLogConfigurationHandlerTest extends TestCase {
 
 
-    private CloudLogConfigHandler consoleLogConfigurationHandler;
+    private CloudLogConfigHandler cloudLogConfigHandler;
     @Mock
     private AppInfra appInfra;
     @Mock
@@ -31,7 +31,7 @@ public class CloudLogConfigurationHandlerTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         MockitoAnnotations.initMocks(this);
-        consoleLogConfigurationHandler = new CloudLogConfigHandler(appInfra);
+        cloudLogConfigHandler = new CloudLogConfigHandler(appInfra);
     }
 
     public void testHandleConsoleLogConfig() {
@@ -39,7 +39,7 @@ public class CloudLogConfigurationHandlerTest extends TestCase {
         logger.setLevel(Level.ALL);
         when(loggingConfiguration.isCloudLogEnabled()).thenReturn(true);
         when(loggingConfiguration.getLogLevel()).thenReturn("All");
-        consoleLogConfigurationHandler.handleCloudLogConfig(loggingConfiguration, logger);
+        cloudLogConfigHandler.handleCloudLogConfig(loggingConfiguration, logger);
         assertTrue(logger.getHandlers().length == 1);
         Handler handler = logger.getHandlers()[0];
         assertTrue(handler instanceof CloudLogHandler);
@@ -51,7 +51,7 @@ public class CloudLogConfigurationHandlerTest extends TestCase {
         logger.setLevel(Level.OFF);
         when(loggingConfiguration.isCloudLogEnabled()).thenReturn(false);
         when(loggingConfiguration.getLogLevel()).thenReturn("All");
-        consoleLogConfigurationHandler.handleCloudLogConfig(loggingConfiguration, logger);
+        cloudLogConfigHandler.handleCloudLogConfig(loggingConfiguration, logger);
         assertTrue(logger.getHandlers().length == 0);
     }
 

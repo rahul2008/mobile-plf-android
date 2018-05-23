@@ -5,6 +5,8 @@
  */
 package com.philips.platform.appinfra.logging;
 
+import android.support.annotation.NonNull;
+
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
@@ -46,12 +48,18 @@ public class CloudConsentProvider {
     }
 
     public void storeConsentTypeState(boolean state, PostConsentTypeCallback postConsentTypeCallback) {
-        consentHandler.storeConsentTypeState(CLOUD, state, BuildConfig.VERSION_CODE, postConsentTypeCallback);
+        consentHandler.storeConsentTypeState(CLOUD, state, 1, postConsentTypeCallback);
     }
 
     public boolean isCloudLoggingConsentProvided() {
         final boolean[] status = new boolean[1];
-        fetchConsentHandler(new FetchConsentTypeStateCallback() {
+        fetchConsentHandler(getFetchConsentTypeStateCallback(status));
+        return status[0];
+    }
+
+    @NonNull
+    FetchConsentTypeStateCallback getFetchConsentTypeStateCallback(final boolean[] status) {
+        return new FetchConsentTypeStateCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentStatus consentStatus) {
                 status[0] = consentStatus.getConsentState() == ConsentStates.active;
@@ -61,7 +69,6 @@ public class CloudConsentProvider {
             public void onGetConsentsFailed(ConsentError error) {
                 status[0] = false;
             }
-        });
-        return status[0];
+        };
     }
 }
