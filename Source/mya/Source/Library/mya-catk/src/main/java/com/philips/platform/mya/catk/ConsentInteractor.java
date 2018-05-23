@@ -107,6 +107,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     }
 
     static class CreateConsentResponseListener implements CreateConsentListener {
+        public static final int VERSION_MISMATCH_ERROR_FROM_BACKEND = 1252;
         private final PostConsentTypeCallback callback;
         private final ConsentCacheInteractor consentCacheInteractor;
         private final ConsentDTO consentDTO;
@@ -127,6 +128,9 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         @Override
         public void onFailure(ConsentNetworkError error) {
             CatkLogger.d(" Create ConsentDTO: ", "Failed : " + error.getCatkErrorCode());
+            if(error.getServerError() != null && error.getServerError().getErrorCode() == VERSION_MISMATCH_ERROR_FROM_BACKEND){
+                consentCacheInteractor.clearCache(consentDTO.getType());
+            }
             callback.onPostConsentFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));
         }
     }

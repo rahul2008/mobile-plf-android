@@ -7,6 +7,8 @@
 
 package com.philips.platform.mya.catk;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
@@ -37,10 +39,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -85,6 +89,8 @@ public class ConsentInteractorTest {
     private static final CachedConsentStatus VALID_CACHED_REJECTED_STATUS = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime().plusHours(1));
     private static final CachedConsentStatus CACHED_REJECTED_STATUS_EXPIRED = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime());
     private ConsentInteractor interactor;
+    String versionMismatchErrorResponse = "{\"incidentID\":\"8bbaa45f-18db-4285-844f-68e72165eec6\",\"errorCode\":1252,\"description\":\"Cannot store lower version on top of higher version\"}";
+    String someErrorResponse = "{\"incidentID\":\"8bbaa45f-18db-4285-844f-68e72165eec6\",\"errorCode\":100,\"description\":\"Cannot store lower version on top of higher version\"}";
     private RestInterfaceMock restInterfaceMock = new RestInterfaceMock();
 
     @Before
@@ -213,6 +219,20 @@ public class ConsentInteractorTest {
         thenConsentCacheStoreIsNotCalled();
     }
 
+    @Test
+    public void storeConsents_clearsCacheOnVersionMismatchError() {
+        whenStoreConsentTypeStateIsCalled("consentType", true);
+        thenBackendStoreConsentFailsWith(versionMismatchErrorResponse);
+        thenConsentCacheIsClearedFor("consentType");
+    }
+
+    @Test
+    public void storeConsents_doesNotclearCacheForOtherErrors() {
+        whenStoreConsentTypeStateIsCalled("consentType", true);
+        thenBackendStoreConsentFailsWith(someErrorResponse);
+        thenConsentCacheClearIsNotCalled();
+    }
+
 
     private void givenConsentCacheFetchReturns(CachedConsentStatus cachedConsentStatus, String forConsentType) {
         when(consentCacheInteractorMock.fetchConsentTypeState(forConsentType)).thenReturn(cachedConsentStatus);
@@ -228,6 +248,12 @@ public class ConsentInteractorTest {
         ArgumentCaptor<CreateConsentListener> argumentCaptor = ArgumentCaptor.forClass(CreateConsentListener.class);
         verify(mockCatk).createConsent((ConsentDTO) any(),argumentCaptor.capture());
         argumentCaptor.getValue().onFailure(new ConsentNetworkError(new VolleyError()));
+    }
+
+    private void thenBackendStoreConsentFailsWith(String errorResponse) {
+        ArgumentCaptor<CreateConsentListener> argumentCaptor = ArgumentCaptor.forClass(CreateConsentListener.class);
+        verify(mockCatk).createConsent((ConsentDTO) any(),argumentCaptor.capture());
+        argumentCaptor.getValue().onFailure(new ConsentNetworkError(new ServerError(new NetworkResponse(errorResponse.getBytes()))));
     }
 
     private void whenFetchConsentStateIsCalledFor(String consentType) {
@@ -292,5 +318,13 @@ public class ConsentInteractorTest {
     private void thenConsentStatusReturnedInCallbackIs(String expectedStatus) {
         verify(fetchConsentTypeStateCallback).onGetConsentsSuccess(captorRequired.capture());
         assertEquals(expectedStatus, captorRequired.getValue().getConsentState().name());
+    }
+
+    private void thenConsentCacheIsClearedFor(String expectedConsentType) {
+        verify(consentCacheInteractorMock).clearCache(expectedConsentType);
+    }
+
+    private void thenConsentCacheClearIsNotCalled() {
+        verify(consentCacheInteractorMock, times(0)).clearCache(anyString());
     }
 }
