@@ -38,9 +38,6 @@ public class ConsentCacheInteractorTest {
     private SecureStorageInterface storageInterface;
 
     @Mock
-    SecureStorageInterface.SecureStorageError secureStorageError;
-
-    @Mock
     private User userMock;
 
     @Mock
