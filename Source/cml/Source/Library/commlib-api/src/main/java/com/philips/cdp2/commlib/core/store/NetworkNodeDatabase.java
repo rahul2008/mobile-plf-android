@@ -8,6 +8,7 @@ package com.philips.cdp2.commlib.core.store;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.support.annotation.Nullable;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
@@ -183,12 +184,12 @@ public class NetworkNodeDatabase {
      * @param networkNode {@link NetworkNode} to deleteNetworkNodeWithCppId.
      * @return the number of rows deleted.
      */
-    public int delete(NetworkNode networkNode) {
+    public int delete(@Nullable NetworkNode networkNode) {
         int rowsDeleted = 0;
         try {
             rowsDeleted = networkNodeDBHelper.deleteNetworkNodeWithCppId(networkNode.getCppId());
             DICommLog.d(DICommLog.DATABASE, "Deleted NetworkNode from db: " + networkNode + "  (" + rowsDeleted + ")");
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
         } finally {
             networkNodeDBHelper.close();
