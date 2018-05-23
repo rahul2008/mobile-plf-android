@@ -42,6 +42,7 @@ public class AppInfraLogging implements LoggingInterface {
 
     public AppInfraLogging(AppInfra aAppInfra, String componentId, String componentVersion) {
         mAppInfra = aAppInfra;
+        loggingConfiguration = new LoggingConfiguration(mAppInfra, componentId, componentVersion);
         mJavaLogger = getJavaLogger(componentId, componentVersion);
         this.componentId = componentId;
         this.componentVersion = componentVersion;
@@ -140,7 +141,6 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
     protected Logger getJavaLogger(String componentId, String componentVersion) {
-        loggingConfiguration = new LoggingConfiguration(mAppInfra, componentId, componentVersion);
         return LoggerFactory.getLoggerInstance(mAppInfra, new LoggingConfiguration(mAppInfra, componentId, componentVersion));
     }
 
