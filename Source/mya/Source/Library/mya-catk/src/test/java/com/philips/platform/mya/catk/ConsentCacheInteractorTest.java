@@ -19,8 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
+import org.mockito.junit.MockitoJUnitRunner;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -137,6 +136,20 @@ public class ConsentCacheInteractorTest {
         thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("someUserId", "active", CONSENT_TYPE_3, 1));
     }
 
+    @Test
+    public void testClearCache() {
+        givenSecureStorageReturns(consentStatusJsonForTwoTypes);
+        whenClearingCacheFor("consentType1");
+        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "rejected", "consentType3", 10));
+    }
+
+    @Test
+    public void testClearCache_WhenConsentStatusNotThere() {
+        givenSecureStorageReturns(consentStatusJsonForTwoTypes);
+        whenClearingCacheFor("nonExistingType");
+        thenConsentIsStoredInSecureStorage(consentStatusJsonForTwoTypes);
+    }
+
     private void givenSecureStorageReturns(String cacheMapTest) {
         when(storageInterface.fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull())).thenReturn(cacheMapTest);
     }
@@ -153,7 +166,11 @@ public class ConsentCacheInteractorTest {
 
     private void whenFetchConsentStateIsCalled(String consentType) {
         returnedCachedConsent = consentCacheInteractor.fetchConsentTypeState(consentType);
+    }
 
+
+    private void whenClearingCacheFor(String consentType) {
+        consentCacheInteractor.clearCache(consentType);
     }
 
     private void thenConsentIsStoredInSecureStorage(String expectedConsentCacheJson) {

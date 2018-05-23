@@ -92,7 +92,9 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
 
     @Override
     public void clearCache(String consentType) {
-
+        inMemoryCache = getMapFromSecureStorage();
+        inMemoryCache.get(getCurrentLoggedInUserId()).remove(consentType);
+        writeMapToSecureStorage(inMemoryCache);
     }
 
     class DateTimeSerializer implements JsonSerializer {
