@@ -19,22 +19,16 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.consentmanager.ConsentManager;
-import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
-import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.CloudConsentProvider;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -42,7 +36,7 @@ public class LoggingActivity extends AppCompatActivity {
 
     private AppInfra appInfra;
     static Logger logger;
-    String[] LogLevels = {"ERROR", "WARNING", "INFO", "DEBUG", "VERBOSE" };
+    String[] LogLevels = {"ERROR", "WARNING", "INFO", "DEBUG", "VERBOSE"};
     LoggingInterface.LogLevel currentLogLevel = LoggingInterface.LogLevel.VERBOSE; //default
     String currentEventID = "";
     String currentMessage = "";
@@ -60,16 +54,16 @@ public class LoggingActivity extends AppCompatActivity {
         cloudLoggingConsentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ConsentDefinition consentDefinition=((ConsentManager)appInfra.getConsentManager()).getConsentDefinitionForType(CloudConsentProvider.CLOUD);
+                ConsentDefinition consentDefinition = ((ConsentManager) appInfra.getConsentManager()).getConsentDefinitionForType(CloudConsentProvider.CLOUD);
                 appInfra.getConsentManager().storeConsentState(consentDefinition, isChecked, new PostConsentCallback() {
                     @Override
                     public void onPostConsentFailed(ConsentError error) {
-                        Log.v("SyncTesting","Error while saving consent");
+                        Log.v("SyncTesting", "Error while saving consent");
                     }
 
                     @Override
                     public void onPostConsentSuccess() {
-                        Log.v("SyncTesting","Changed consent sucessfully");
+                        Log.v("SyncTesting", "Changed consent sucessfully");
                     }
                 });
             }

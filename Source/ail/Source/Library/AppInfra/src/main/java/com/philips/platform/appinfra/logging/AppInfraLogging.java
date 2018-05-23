@@ -120,9 +120,7 @@ public class AppInfraLogging implements LoggingInterface {
             if (appInfra.getServiceDiscovery() != null) {
                 ailCloudLogMetaData.setHomeCountry(appInfra.getServiceDiscovery().getHomeCountry());
             }
-            if (loggingConfiguration != null && loggingConfiguration.isCloudLogEnabled()) {
-                registerCloudHandler();
-            }
+            registerCloudHandler();
         } catch (IllegalArgumentException e) {
 
         }
