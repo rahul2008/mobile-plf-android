@@ -30,11 +30,15 @@ public class AILCloudLogDBManager {
         }
     }
 
-    private AILCloudLogDBManager(AppInfra appInfra) {
-        ailCloudLogDatabase = AILCloudLogDatabase.getPersistenceDatabase(appInfra.getAppInfraContext());
+    AILCloudLogDBManager(AppInfra appInfra) {
+        ailCloudLogDatabase = getPersistenceDatabase(appInfra);
         SupportSQLiteDatabase sqLiteDatabase = ailCloudLogDatabase.getOpenHelper().getWritableDatabase();
         sqLiteDatabase.execSQL("create trigger if not exists clear_data_trigger before insert on AILCloudLogData  when (select count(*) from AILCloudLogData)>=1000 Begin delete FROM AILCloudLogData where logId in (select logId from AILCloudLogData order by logTime LIMIT 25); end");
         sqLiteDatabase.execSQL("update AILCloudLogData set status='New'");
+    }
+
+    AILCloudLogDatabase getPersistenceDatabase(AppInfra appInfra) {
+        return AILCloudLogDatabase.getPersistenceDatabase(appInfra.getAppInfraContext());
     }
 
     public static synchronized AILCloudLogDBManager getInstance(AppInfra appInfra) {
