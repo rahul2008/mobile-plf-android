@@ -306,11 +306,11 @@ public class SHNCentral {
         shnBondStatusListeners.remove(address);
     }
 
-    public void registerSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
+    void registerSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
         shnCentralStatusListeners.put(address, new WeakReference<>(shnCentralListener));
     }
 
-    public void unregisterSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
+    void unregisterSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
         shnCentralStatusListeners.remove(address);
     }
 

@@ -67,7 +67,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         SHNDeviceState initialState = new SHNDisconnectedState(stateMachine);
         stateMachine.setState(initialState);
 
-        shnCentral.registerShnCentralListener(this);
+        shnCentral.registerSHNCentralStatusListenerForAddress(this, btDevice.getAddress());
 
         SHNLogger.i(TAG, "Created new instance of SHNDevice for type: " + deviceTypeName + " address: " + btDevice.getAddress());
     }

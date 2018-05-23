@@ -147,15 +147,6 @@ public class SHNGattConnectingStateTest {
     }
 
     @Test
-    public void givenBluetoothIsTurnedOn_whenOnEnterIsCalled_thenAStatusListenerIsRegisteredOnSHNCentral() {
-        doReturn(true).when(mockedSHNCentral).isBluetoothAdapterEnabled();
-
-        gattConnectingState.onEnter();
-
-        verify(mockedSHNCentral).registerSHNCentralStatusListenerForAddress(same(mockedSHNCentralListener), eq(deviceAddress));
-    }
-
-    @Test
     public void givenTheDeviceHasJustBeenDisconnected_whenOnEnterIsCalled_thenItWillPostponeTheConnectCall() {
         long justNow = System.currentTimeMillis();
         doReturn(justNow).when(sharedResources).getLastDisconnectedTimeMillis();

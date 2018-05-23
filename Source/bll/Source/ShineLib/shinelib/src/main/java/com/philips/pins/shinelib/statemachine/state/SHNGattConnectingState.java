@@ -54,7 +54,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
     @Override
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
         if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
-            shouldRetryConnecting = false; // make sure the retry is not issued
+            shouldRetryConnecting = false;
             handleGattDisconnectEvent();
         }
     }
@@ -67,7 +67,6 @@ public class SHNGattConnectingState extends SHNConnectingState {
         }
 
         if (sharedResources.getShnCentral().isBluetoothAdapterEnabled()) {
-            sharedResources.getShnCentral().registerSHNCentralStatusListenerForAddress(sharedResources.getShnCentralListener(), sharedResources.getBtDevice().getAddress());
             sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);

@@ -96,8 +96,6 @@ public class SHNDisconnectingState extends SHNDeviceState {
         }
 
         sharedResources.setLastDisconnectedTimeMillis(System.currentTimeMillis());
-        sharedResources.getShnCentral().unregisterSHNCentralStatusListenerForAddress(sharedResources.getShnCentralListener(), sharedResources.getBtDevice().getAddress());
-
         stateMachine.setState(new SHNDisconnectedState(stateMachine));
     }
 }

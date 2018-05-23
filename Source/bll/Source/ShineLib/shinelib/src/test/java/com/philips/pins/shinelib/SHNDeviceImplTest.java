@@ -177,7 +177,7 @@ public class SHNDeviceImplTest {
                 centralStateListener = (SHNCentral.SHNCentralListener) invocation.getArguments()[0];
                 return null;
             }
-        }).when(mockedSHNCentral).registerShnCentralListener(isA(SHNCentral.SHNCentralListener.class));
+        }).when(mockedSHNCentral).registerSHNCentralStatusListenerForAddress(isA(SHNCentral.SHNCentralListener.class), anyString());
 
         shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.NONE);
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
@@ -1270,7 +1270,7 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void itRegistersItselfForCentraleStateUpdates() throws Exception {
+    public void itRegistersItselfForCentralStateUpdates() throws Exception {
 
         assertTrue(centralStateListener != null);
     }
