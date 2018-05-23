@@ -85,10 +85,23 @@ public class PaymentRequestTest {
         Mockito.when(mockBillingAddress.getRegionName()).thenReturn("US");
         CartModelContainer.getInstance().setBillingAddress(mockBillingAddress);
         CartModelContainer.getInstance().setRegionIsoCode("US_NY");
+        CartModelContainer.getInstance().setSwitchToBillingAddress(true);
         CartModelContainer.getInstance().setAddressId("8799470125079");
         HashMap<String, String> addressHashMap = getAddressHashMap("8799470125079");
 
         PaymentRequest request = new PaymentRequest(mStore, addressHashMap, null);
+
+        assertEquals(request.requestBody(), addressHashMap);
+    }
+
+
+    @Test
+    public void testPaymentRequestWithAddressId() {
+        CartModelContainer.getInstance().setAddressId("8799470125079");
+        HashMap<String, String> addressHashMap = getAddressHashMap("8799470125079");
+
+        PaymentRequest request = new PaymentRequest(mStore, addressHashMap, null);
+
         assertEquals(request.requestBody(), addressHashMap);
     }
 
@@ -110,7 +123,7 @@ public class PaymentRequestTest {
         Mockito.when(mockBillingAddress.getPhone2()).thenReturn("5417543010");
 
         CartModelContainer.getInstance().setBillingAddress(mockBillingAddress);
-        CartModelContainer.getInstance().setSwitchToBillingAddress(true);
+        CartModelContainer.getInstance().setSwitchToBillingAddress(false);
         CartModelContainer.getInstance().setRegionIsoCode(null);
         HashMap<String, String> addressHashMap = getAddressHashMap(null);
 
@@ -120,23 +133,26 @@ public class PaymentRequestTest {
 
     private HashMap<String, String> getAddressHashMap(String addressId) {
         HashMap<String, String> addressHashMap = new HashMap<>();
-        if (addressId != null)
+        if (addressId != null) {
             addressHashMap.put(ModelConstants.ADDRESS_ID, addressId);
-        addressHashMap.put(ModelConstants.FIRST_NAME, "hello");
-        addressHashMap.put(ModelConstants.LAST_NAME, "world");
-        addressHashMap.put(ModelConstants.TITLE_CODE, "title");
-        addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, "US");
-        if (CartModelContainer.getInstance().getRegionIsoCode() != null) {
-            addressHashMap.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
-        } else {
-            addressHashMap.put(ModelConstants.REGION_ISOCODE, "");
         }
-        addressHashMap.put(ModelConstants.LINE_1, "dfs");
-        addressHashMap.put(ModelConstants.LINE_2, "dfs");
-        addressHashMap.put(ModelConstants.POSTAL_CODE, "");
-        addressHashMap.put(ModelConstants.TOWN, "Delhi?");
-        addressHashMap.put(ModelConstants.PHONE_1, "5417543010");
-        addressHashMap.put(ModelConstants.PHONE_2, "5417543010");
+        else {
+            addressHashMap.put(ModelConstants.FIRST_NAME, "hello");
+            addressHashMap.put(ModelConstants.LAST_NAME, "world");
+            addressHashMap.put(ModelConstants.TITLE_CODE, "title");
+            addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, "US");
+            if (CartModelContainer.getInstance().getRegionIsoCode() != null) {
+                addressHashMap.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
+            } else {
+                addressHashMap.put(ModelConstants.REGION_ISOCODE, "");
+            }
+            addressHashMap.put(ModelConstants.LINE_1, "dfs");
+            addressHashMap.put(ModelConstants.LINE_2, "dfs");
+            addressHashMap.put(ModelConstants.POSTAL_CODE, "");
+            addressHashMap.put(ModelConstants.TOWN, "Delhi?");
+            addressHashMap.put(ModelConstants.PHONE_1, "5417543010");
+            addressHashMap.put(ModelConstants.PHONE_2, "5417543010");
+        }
         return addressHashMap;
     }
 
