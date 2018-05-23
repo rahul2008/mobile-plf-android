@@ -16,7 +16,7 @@ public class AppInfraTrustManager implements X509TrustManager {
 
     private X509TrustManagerExtensions trustManagerExtensions;
 
-    public AppInfraTrustManager() {
+    public AppInfraTrustManager(String host) {
         this.trustManagerExtensions = new X509TrustManagerExtensions(this);
     }
 

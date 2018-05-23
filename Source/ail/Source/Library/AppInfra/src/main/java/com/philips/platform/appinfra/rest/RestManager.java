@@ -23,8 +23,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.io.File;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 /**
@@ -100,12 +98,7 @@ public class RestManager implements RestInterface {
     }
 
     private Network getNetwork() {
-        BaseHttpStack stack = null;
-        try {
-            stack = new HurlStack(new ServiceIDResolver(), new TLSSocketFactory());
-        } catch (KeyManagementException | NoSuchAlgorithmException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST," ERROR while getting network");
-        }
+        BaseHttpStack stack = new AppInfraHurlStack(new ServiceIDResolver());
         return new AppInfraNetwork(stack, mAppInfra);
     }
 
