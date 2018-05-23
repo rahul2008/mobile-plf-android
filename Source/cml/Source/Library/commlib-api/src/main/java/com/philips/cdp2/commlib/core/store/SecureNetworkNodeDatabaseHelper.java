@@ -8,6 +8,8 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 import net.sqlcipher.database.SQLiteDatabase;
 
+import java.sql.SQLException;
+
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_BOOT_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_CPP_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NAME;
@@ -65,19 +67,31 @@ class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper im
 
     @Override
     public Cursor query(String selection, String[] selectionArgs) {
-        SQLiteDatabase db = this.getWriteDbPermission();
-        return db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
+        try {
+            SQLiteDatabase db = this.getWriteDbPermission();
+            return db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
+        } catch (SQLException e) {
+            throw new android.database.SQLException(e.getMessage());
+        }
     }
 
     @Override
     public long insertRow(ContentValues values) {
-        SQLiteDatabase db = this.getWriteDbPermission();
-        return db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        try {
+            SQLiteDatabase db = this.getWriteDbPermission();
+            return db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        } catch (SQLException e) {
+            throw new android.database.SQLException(e.getMessage());
+        }
     }
 
     @Override
     public int deleteNetworkNodeWithCppId(String cppId) {
-        SQLiteDatabase db = this.getWriteDbPermission();
-        return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{cppId});
+        try {
+            SQLiteDatabase db = this.getWriteDbPermission();
+            return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{cppId});
+        } catch (SQLException e) {
+            throw new android.database.SQLException(e.getMessage());
+        }
     }
 }
