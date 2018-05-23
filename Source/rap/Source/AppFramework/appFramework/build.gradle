@@ -305,6 +305,7 @@ dependencies {
         implementation project(':bluelib')
         implementation project(':pushnotification')
         implementation project(':themesettings')
+        implementation project(':NeuraUApp')
     } else {
         implementation philipsdeps.product_registration_lib
         implementation philipsdeps.digitalCare

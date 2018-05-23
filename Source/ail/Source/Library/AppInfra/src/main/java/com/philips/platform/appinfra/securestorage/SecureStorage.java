@@ -164,7 +164,7 @@ public class SecureStorage implements SecureStorageInterface {
         ByteBuffer byteBuffer = getWrappedByteArray(dataToBeDecrypted);
         int ssVersionLenth = byteBuffer.getInt();
         String ssVersion= SecureStorageV1.VERSION;
-        if(ssVersionLenth<=2) {
+        if(ssVersionLenth<=2 && ssVersionLenth>0) {
             byte[] version = new byte[ssVersionLenth];
             byteBuffer.get(version);
             ssVersion = new String(version);
