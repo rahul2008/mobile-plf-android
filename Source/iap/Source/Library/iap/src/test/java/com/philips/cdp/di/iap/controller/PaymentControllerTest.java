@@ -150,6 +150,8 @@ public class PaymentControllerTest {
             }
         });
         setStoreAndDelegate();
+        AddressFields address = new AddressFields();
+        CartModelContainer.getInstance().setBillingAddress(formAddressBodyParams(address));
         mPaymentController.placeOrder("");
         JSONObject obj = new JSONObject(TestUtils.readFile(PaymentControllerTest.class, "PlaceOrder.txt"));
         mNetworkController.sendSuccess(obj);
@@ -165,6 +167,8 @@ public class PaymentControllerTest {
         });
 
         setStoreAndDelegate();
+        AddressFields address = new AddressFields();
+        CartModelContainer.getInstance().setBillingAddress(formAddressBodyParams(address));
         mPaymentController.placeOrder("");
         mNetworkController.sendFailure(new VolleyError());
     }
