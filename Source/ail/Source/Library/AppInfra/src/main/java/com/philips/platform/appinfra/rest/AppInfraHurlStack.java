@@ -12,8 +12,10 @@ import javax.net.ssl.HttpsURLConnection;
 
 class AppInfraHurlStack extends HurlStack {
 
-    public AppInfraHurlStack(UrlRewriter urlRewriter) {
+    private PublicKeyPinInterface pinInterface;
+    public AppInfraHurlStack(PublicKeyPinInterface pinInterface, UrlRewriter urlRewriter) {
         super(urlRewriter);
+        this.pinInterface = pinInterface;
     }
 
     @Override
@@ -21,7 +23,7 @@ class AppInfraHurlStack extends HurlStack {
         HttpURLConnection connection = super.createConnection(url);
         try {
             if (connection != null && "https".equals(url.getProtocol())) {
-                ((HttpsURLConnection) connection).setSSLSocketFactory(new TLSSocketFactory(url.getHost()));
+                ((HttpsURLConnection) connection).setSSLSocketFactory(new TLSSocketFactory(pinInterface, url.getHost()));
             }
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
             e.printStackTrace();

@@ -15,8 +15,12 @@ import javax.net.ssl.X509TrustManager;
 public class AppInfraTrustManager implements X509TrustManager {
 
     private X509TrustManagerExtensions trustManagerExtensions;
+    private PublicKeyPinInterface pinInterface;
+    private String hostName;
 
-    public AppInfraTrustManager(String host) {
+    public AppInfraTrustManager(PublicKeyPinInterface pinInterface, String host) {
+        this.pinInterface = pinInterface;
+        this.hostName = host;
         this.trustManagerExtensions = new X509TrustManagerExtensions(this);
     }
 
@@ -35,6 +39,7 @@ public class AppInfraTrustManager implements X509TrustManager {
         }
         checkForUserInstalledCertificates(chain);
         verifyWithDeviceCertificates(chain, authType);
+        pinInterface.validatePublicPins(hostName, chain);
     }
 
     @Override

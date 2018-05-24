@@ -33,10 +33,12 @@ public class RestManager implements RestInterface {
     private static final long serialVersionUID = -5276610949381468217L;
     private transient RequestQueue mRequestQueue;
     private AppInfra mAppInfra;
+    private PinningManager pinningManager;
 
     public RestManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         VolleyLog.DEBUG = false;
+        pinningManager = new PinningManager(mAppInfra);
     }
 
     @Override
@@ -98,8 +100,8 @@ public class RestManager implements RestInterface {
     }
 
     private Network getNetwork() {
-        BaseHttpStack stack = new AppInfraHurlStack(new ServiceIDResolver());
-        return new AppInfraNetwork(stack, mAppInfra);
+        BaseHttpStack stack = new AppInfraHurlStack(pinningManager, new ServiceIDResolver());
+        return new AppInfraNetwork(pinningManager, stack, mAppInfra);
     }
 
     public static HashMap<String, String> setTokenProvider(TokenProviderInterface provider) {
