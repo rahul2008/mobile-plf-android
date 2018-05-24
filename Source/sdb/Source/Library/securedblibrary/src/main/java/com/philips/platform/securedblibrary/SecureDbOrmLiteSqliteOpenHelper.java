@@ -128,7 +128,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      * {@link OrmLiteConfigUtil} for details.
      *
      * @param context         Associated content from the application. This is needed to locate the database.
-     * @param databaseKey     Name of the database we are opening.
+     * @param databaseName    Name of the database we are opening.
      * @param factory         Cursor factory or null if none.
      * @param databaseVersion Version of the database we are opening. This causes {@link #onUpgrade(SQLiteDatabase, int, int)} to be
      *                        called if the stored database is a different version.
@@ -136,9 +136,9 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      * @param databaseKey     Identifier for encryption key
      * @since 1.0.0
      */
-    public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion,
+    public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String databaseName, CursorFactory factory, int databaseVersion,
                                            InputStream stream, String databaseKey) {
-        this(context, mAppInfraInterface, dataBaseName, factory, databaseVersion, databaseKey);
+        this(context, mAppInfraInterface, databaseName, factory, databaseVersion, databaseKey);
 
         if (stream == null) {
             return;
@@ -273,6 +273,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      * @since 1.1.0
      */
     public SQLiteDatabase getWriteDbPermission() throws SQLException {
+        isOpen = true;
         return getWritableDatabase(getKey());
     }
 
@@ -287,7 +288,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         connectionSource.close();
         /*
          * We used to set connectionSource to null here but now we just set the closed flag and then log heavily if
-         * someone uses getConectionSource() after this point.
+         * someone uses getConnectionSource() after this point.
          */
         isOpen = false;
     }
@@ -345,7 +346,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      * Get the app version.
      *
      * @return returns the app version
-     * @Deprecated, please use appInfra.getAppIdentity().getAppVersion();
+     * @deprecated please use appInfra.getAppIdentity().getAppVersion();
      * @since 2.2.0
      */
     @Deprecated
@@ -403,7 +404,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
             final Key key = mSecureStorage.getKey(databaseKey, sse);
             if (key != null) {
                 final byte[] keyData = key.getEncoded();
-                String keyString = null;   // if the charset is UTF-8
+                String keyString;   // if the charset is UTF-8
                 try {
                     keyString = new String(keyData, "UTF-8");
                 } catch (UnsupportedEncodingException e) {

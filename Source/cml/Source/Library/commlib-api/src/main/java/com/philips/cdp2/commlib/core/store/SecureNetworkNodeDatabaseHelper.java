@@ -3,6 +3,7 @@ package com.philips.cdp2.commlib.core.store;
 import android.content.ContentValues;
 import android.database.Cursor;
 import com.j256.ormlite.support.ConnectionSource;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
@@ -25,7 +26,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MISMATCHE
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
 
-class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper implements NetworkNodeDBHelper {
+class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper<NetworkNode> implements NetworkNodeDBHelper {
 
     private static final String DB_NAME = "secure_network_node.db";
     private static final String TABLE_NETWORK_NODE = "secure_network_node";

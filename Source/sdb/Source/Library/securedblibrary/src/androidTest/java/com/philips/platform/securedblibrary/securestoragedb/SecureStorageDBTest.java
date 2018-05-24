@@ -137,6 +137,17 @@ public class SecureStorageDBTest extends MockitoTestCase {
         }
     }
 
+    public void testClose() throws SQLException {
+        secureDbOrmLiteSqliteOpenHelper.close();
+
+        secureDbOrmLiteSqliteOpenHelper.getWriteDbPermission();
+
+        final Dao<AddressBook, Integer> dao = secureDbOrmLiteSqliteOpenHelper.getDao(AddressBook.class);
+        final List<AddressBook> data = dao.queryBuilder().query();
+
+        assertFalse(data.isEmpty());
+    }
+
     protected static class AddressBook {
         public static final String ID_FIELD = "address_id";
 
