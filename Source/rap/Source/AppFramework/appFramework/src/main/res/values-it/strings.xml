@@ -13,6 +13,7 @@
   <string name="RA_AboutScreen_Title">Informazioni su</string>
   <string name="RA_About_App_Version">Versione</string>
   <string name="RA_About_Description_New">[it]This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.</string>
+  <string name="RA_HomeTab_Menu_Title">Home</string>
   <string name="RA_About_Menu_Title">Informazioni su</string>
   <string name="RA_COCO_AppInfra">[it]ail : App Infrastructure Library</string>
   <string name="RA_COCO_AppInfra_desc">[it]AppInfra is the components top level module. It gathers all the modules delivered by the AppInfra Common Component into one single structure. AppInfra facilitates dependency injection into common components and other software pieces that make use of the AppInfra functionalities.</string>
