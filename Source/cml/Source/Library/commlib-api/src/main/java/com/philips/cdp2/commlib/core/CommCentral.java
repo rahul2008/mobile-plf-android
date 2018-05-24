@@ -16,8 +16,8 @@ import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
-import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseFactory;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseFactory;
 import com.philips.cdp2.commlib.core.util.AppIdProvider;
 
 import java.lang.ref.WeakReference;
@@ -48,20 +48,22 @@ public final class CommCentral {
     /**
      * Create a CommCentral. You should only ever create one CommCentral!
      *
-     * @param applianceFactory  The ApplianceFactory used to create {@link Appliance}s.
-     * @param transportContexts TransportContexts that will be used by the {@link Appliance}s and
-     *                          provide {@link DiscoveryStrategy}s. You will need at least one!
+     * @param applianceFactory     The ApplianceFactory used to create {@link Appliance}s.
+     * @param runtimeConfiguration Way to provide {@link RuntimeConfiguration} for CommLib
+     * @param transportContexts    TransportContexts that will be used by the {@link Appliance}s and
+     *                             provide {@link DiscoveryStrategy}s. You will need at least one!
      */
     public CommCentral(@NonNull ApplianceFactory applianceFactory, @NonNull RuntimeConfiguration runtimeConfiguration, @NonNull final TransportContext... transportContexts) {
-        this(applianceFactory, runtimeConfiguration,null, transportContexts);
+        this(applianceFactory, runtimeConfiguration, null, transportContexts);
     }
 
     /**
      * Create a CommCentral. You should only ever create one CommCentral!
      *
-     * @param applianceFactory  The ApplianceFactory used to create {@link Appliance}s.
-     * @param transportContexts TransportContexts that will be used by the {@link Appliance}s and
-     *                          provide {@link DiscoveryStrategy}s. You will need at least one!
+     * @param applianceFactory     The ApplianceFactory used to create {@link Appliance}s.
+     * @param runtimeConfiguration Way to provide {@link RuntimeConfiguration} for CommLib
+     * @param transportContexts    TransportContexts that will be used by the {@link Appliance}s and
+     *                             provide {@link DiscoveryStrategy}s. You will need at least one!
      */
     public CommCentral(@NonNull ApplianceFactory applianceFactory, @NonNull RuntimeConfiguration runtimeConfiguration, @Nullable ApplianceDatabase applianceDatabase, @NonNull final TransportContext... transportContexts) {
         if (instanceWeakReference.get() == null) {
