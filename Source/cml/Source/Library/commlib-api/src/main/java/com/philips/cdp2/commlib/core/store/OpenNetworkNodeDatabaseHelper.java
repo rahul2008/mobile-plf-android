@@ -56,7 +56,7 @@ class OpenNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements NetworkN
         add(KEY_MISMATCHED_PIN);
     }};
 
-    private static final String DB_NAME = "network_node.db";
+    static final String DB_NAME = "network_node.db";
     static final String TABLE_NETWORK_NODE = "network_node";
 
     OpenNetworkNodeDatabaseHelper() {

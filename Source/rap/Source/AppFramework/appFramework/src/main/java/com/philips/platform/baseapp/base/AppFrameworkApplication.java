@@ -11,7 +11,7 @@ import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
+import com.facebook.stetho.Stetho;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
@@ -109,6 +109,8 @@ public class AppFrameworkApplication extends Application {
             LeakCanary.install(this);
         }
         super.onCreate();
+
+        Stetho.initializeWithDefaults(this);
 
         /*
          * Apteligent initialization.
