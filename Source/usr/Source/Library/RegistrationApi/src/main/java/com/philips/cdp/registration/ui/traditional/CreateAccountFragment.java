@@ -470,21 +470,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @Override
-    public void registerReceiver() {
-        createAccountPresenter.registerReceiver(getContext());
-    }
-
-    @Override
-    public void unRegisterReceiver() {
-        createAccountPresenter.unRegisterReceiver(getContext());
-    }
-
-    @Override
-    public void onOTPReceived(String otp) {
-        // do something
-    }
-
-    @Override
     public void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             usrCreatescreenErrorView.hideError();

@@ -9,7 +9,9 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -34,6 +37,7 @@ import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver;
 import com.philips.cdp.registration.ui.utils.UpdateMobile;
 import com.philips.cdp.registration.ui.utils.UpdateToken;
 import com.philips.platform.uid.view.widget.Label;
@@ -48,13 +52,15 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 import static com.janrain.android.Jump.getRedirectUri;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
 
 public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment implements
-        MobileForgotPassVerifyCodeContract, OnUpdateListener{
+        MobileForgotPassVerifyCodeContract, OnUpdateListener {
 
+    private final String TAG = this.getClass().getSimpleName();
     @Inject
     NetworkUtility networkUtility;
 
@@ -92,6 +98,8 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     static final String RESPONSE_TOKEN_KEY = "token";
     static final String RE_DIRECT_URI_KEY = "redirectUri";
 
+    SMSBroadCastReceiver mSMSBroadCastReceiver;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -116,6 +124,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         }
 
         mobileVerifyCodePresenter = new MobileForgotPassVerifyCodePresenter(this);
+        mSMSBroadCastReceiver = new SMSBroadCastReceiver(this);
         View view = inflater.inflate(R.layout.reg_mobile_forgotpassword_verify_fragment, container, false);
         trackActionStatus(REGISTRATION_ACTIVATION_SMS,"","");
         ButterKnife.bind(this, view);
@@ -137,11 +146,14 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     private void handleVerificationCode() {
         RxTextView.textChangeEvents(verificationCodeValidationEditText)
-                .subscribe(aBoolean -> {
-                    if (verificationCodeValidationEditText.getText().length() == 6)
-                        enableVerifyButton();
-                    else
-                        disableVerifyButton();
+                .subscribe(new Consumer<TextViewTextChangeEvent>() {
+                    @Override
+                    public void accept(TextViewTextChangeEvent aBoolean) throws Exception {
+                        if (verificationCodeValidationEditText.getText().length() == 6)
+                            MobileForgotPassVerifyCodeFragment.this.enableVerifyButton();
+                        else
+                            MobileForgotPassVerifyCodeFragment.this.disableVerifyButton();
+                    }
                 });
     }
 
@@ -155,6 +167,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
+        registerSMSReceiver();
     }
 
     @Subscribe
@@ -299,6 +312,16 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         disableVerifyButton();
     }
 
+    @Override
+    public Activity getActivityContext() {
+        return getActivity();
+    }
+
+    @Override
+    public SMSBroadCastReceiver getSMSBroadCastReceiver() {
+        return mSMSBroadCastReceiver;
+    }
+
 
     public void hideProgressSpinner() {
         verifyButton.hideProgressIndicator();
@@ -307,4 +330,52 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         enableVerifyButton();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case SMSBroadCastReceiver.SMS_PERMISSION_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // SMS related task you need to do.
+                    registerSMSReceiver();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+        }
+    }
+
+
+    @Override
+    public void registerSMSReceiver() {
+        if(mSMSBroadCastReceiver.isSmsPermissionGranted()) {
+            mobileVerifyCodePresenter.registerSMSReceiver();
+        }else{
+            mSMSBroadCastReceiver.requestReadAndSendSmsPermission();
+        }
+    }
+
+    @Override
+    public void unRegisterSMSReceiver() {
+        mobileVerifyCodePresenter.unRegisterSMSReceiver();
+    }
+
+    @Override
+    public void onOTPReceived(String otp) {
+        RLog.i(TAG,"got otp");
+        verificationCodeValidationEditText.setText(otp);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        unRegisterSMSReceiver();;
+    }
 }

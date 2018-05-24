@@ -1,5 +1,9 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
+import android.provider.Telephony;
 import android.support.annotation.*;
 
 import com.philips.cdp.registration.app.infra.*;
@@ -26,6 +30,7 @@ public class MobileForgotPassVerifyCodePresenter implements NetworkStateListener
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
+
     }
 
     public void cleanUp() {
@@ -47,5 +52,11 @@ public class MobileForgotPassVerifyCodePresenter implements NetworkStateListener
         serviceDiscoveryWrapper = wrapper;
     }
 
+    public void registerSMSReceiver() {
+        mobileVerifyCodeContract.getSMSBroadCastReceiver().registerReceiver();
+    }
 
+    public void unRegisterSMSReceiver() {
+        mobileVerifyCodeContract.getSMSBroadCastReceiver().unRegisterReceiver();
+    }
 }
