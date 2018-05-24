@@ -5,10 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
-import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
-import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import junit.framework.TestCase;
@@ -16,14 +14,11 @@ import junit.framework.TestCase;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Collection;
 import java.util.Collections;
 
 import static com.philips.platform.appinfra.logging.CloudConsentProvider.CLOUD;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by Yogesh on 5/23/18.
@@ -69,6 +64,11 @@ public class CloudConsentProviderTest extends TestCase {
     public void testIsCloudLoggingEnabled() {
         assertFalse(cloudConsentProvider.isCloudLoggingConsentProvided());
         verify(consentHandlerInterfaceMock).fetchConsentTypeState(CLOUD, fetchConsentTypeStateCallback);
+    }
+
+    public void testFetchConsentTypeStateCallback() {
+        boolean[] status = new boolean[2];
+        assertNotNull(cloudConsentProvider.getFetchConsentTypeStateCallback(status));
     }
 
 }
