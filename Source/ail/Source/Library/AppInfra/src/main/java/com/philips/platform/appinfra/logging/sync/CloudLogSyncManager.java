@@ -107,6 +107,8 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
             consentStatus = status;
             if (!consentStatus) {
                 threadPoolExecutor.getQueue().clear();
+            }else{
+                forceSync();
             }
         }
     }
