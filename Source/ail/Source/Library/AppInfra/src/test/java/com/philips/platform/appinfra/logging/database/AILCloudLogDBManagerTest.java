@@ -54,13 +54,13 @@ public class AILCloudLogDBManagerTest extends TestCase {
         };
     }
 
-    public void testInsertLog() {
+    public void testInsertingCloudLogData() {
         AILCloudLogData ailCloudLogData = new AILCloudLogData();
         ailCloudLogDBManager.insertLog(ailCloudLogData);
         verify(ailCloudLogDao).insertLog(ailCloudLogData);
     }
 
-    public void testGetLogCount() {
+    public void testGettingLogCount() {
         LiveData<Integer> data = new LiveData<Integer>() {
             @Override
             public Integer getValue() {
@@ -71,7 +71,7 @@ public class AILCloudLogDBManagerTest extends TestCase {
         assertEquals(ailCloudLogDBManager.getLogCount().getValue().intValue(),100);
     }
 
-    public void testGetNewAILCloudLogRecords() {
+    public void testFetchingNewAILCloudLogRecords() {
         List<AILCloudLogData> ailCloudLogDataList = new ArrayList<>();
         AILCloudLogData ailCloudLogData = new AILCloudLogData();
         ailCloudLogData.status = "new";
@@ -83,7 +83,7 @@ public class AILCloudLogDBManagerTest extends TestCase {
         verify(ailCloudLogDao).updateLogs(ailCloudLogDataList);
     }
 
-    public void testUpdateAILCloudLogListToNewState() {
+    public void testUpdatingAILCloudLogListToNewState() {
         List<AILCloudLogData> ailCloudLogDataList = new ArrayList<>();
         AILCloudLogData ailCloudLogData = new AILCloudLogData();
         ailCloudLogDataList.add(ailCloudLogData);
@@ -93,7 +93,7 @@ public class AILCloudLogDBManagerTest extends TestCase {
         verify(ailCloudLogDao).updateLogs(ailCloudLogDataList);
     }
 
-    public void testDeleteLogRecords() {
+    public void testDeletingCloudLogRecords() {
         List<AILCloudLogData> ailCloudLogDataList = new ArrayList<>();
         AILCloudLogData ailCloudLogData = new AILCloudLogData();
         ailCloudLogDataList.add(ailCloudLogData);

@@ -37,7 +37,7 @@ public class AILCloudLogDataBuilderTest extends TestCase {
         ailCloudLogDataBuilder = new AILCloudLogDataBuilder(appInfra);
     }
 
-    public void testBuildCloudLogModel() throws MessageSizeExceedsException {
+    public void testSettingBuildCloudLogModel() throws MessageSizeExceedsException {
         LogRecord logRecord = mock(LogRecord.class);
         when(logRecord.getLevel()).thenReturn(Level.ALL);
         AILCloudLogMetaData ailCloudLogMetaData = getAILCloudLogMetaData();
@@ -57,7 +57,7 @@ public class AILCloudLogDataBuilderTest extends TestCase {
         assertEquals(ailCloudLogData.userUUID, "uuid");
     }
 
-    public Object getMap() {
+    private Object getMap() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
         return hashMap;

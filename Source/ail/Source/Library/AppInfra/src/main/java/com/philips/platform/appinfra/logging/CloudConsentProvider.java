@@ -47,10 +47,6 @@ public class CloudConsentProvider {
         consentHandler.fetchConsentTypeState(CLOUD, fetchConsentTypeStateCallback);
     }
 
-    public void storeConsentTypeState(boolean state, PostConsentTypeCallback postConsentTypeCallback) {
-        consentHandler.storeConsentTypeState(CLOUD, state, 1, postConsentTypeCallback);
-    }
-
     public boolean isCloudLoggingConsentProvided() {
         final boolean[] status = new boolean[1];
         fetchConsentHandler(getFetchConsentTypeStateCallback(status));

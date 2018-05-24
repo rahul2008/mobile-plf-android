@@ -52,7 +52,7 @@ public class CloudConsentProviderTest extends TestCase {
         };
     }
 
-    public void testConsentDefinitions() {
+    public void testFetchingConsentDefinitions() {
         ConsentDefinition cloudConsentDefinition = CloudConsentProvider.getCloudConsentDefinition();
         assertEquals(cloudConsentDefinition.getVersion(),1);
         assertEquals(cloudConsentDefinition.getHelpText(), R.string.ail_cloud_consent_help);
@@ -64,14 +64,6 @@ public class CloudConsentProviderTest extends TestCase {
         ConsentManagerInterface consentManagerInterfaceMock = mock(ConsentManagerInterface.class);
         cloudConsentProvider.registerConsentHandler(consentManagerInterfaceMock);
         verify(consentManagerInterfaceMock).registerHandler(Collections.singletonList(CLOUD), consentHandlerInterfaceMock);
-    }
-
-    public void testStoreConsentTypeState() {
-        PostConsentTypeCallback postConsentTypeCallbackMock = mock(PostConsentTypeCallback.class);
-        cloudConsentProvider.storeConsentTypeState(false,postConsentTypeCallbackMock);
-        verify(consentHandlerInterfaceMock).storeConsentTypeState(CLOUD, false, 1, postConsentTypeCallbackMock);
-        cloudConsentProvider.storeConsentTypeState(true,postConsentTypeCallbackMock);
-        verify(consentHandlerInterfaceMock).storeConsentTypeState(CLOUD, true, 1, postConsentTypeCallbackMock);
     }
 
     public void testIsCloudLoggingEnabled() {

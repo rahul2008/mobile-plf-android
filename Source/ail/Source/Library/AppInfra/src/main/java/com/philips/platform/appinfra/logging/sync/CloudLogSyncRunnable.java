@@ -17,8 +17,6 @@ import com.philips.platform.appinfra.logging.rest.CloudLogRequestBodyBuilder;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -85,7 +83,7 @@ public class CloudLogSyncRunnable implements Runnable {
 
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
-                    return getCloudLoggingtHeaders();
+                    return getCloudLoggingHeaders();
                 }
             };
             appInfra.getRestClient().getRequestQueue().add(request);
@@ -94,7 +92,7 @@ public class CloudLogSyncRunnable implements Runnable {
         }
     }
 
-    public Map<String, String> getCloudLoggingtHeaders() {
+    private Map<String, String> getCloudLoggingHeaders() {
         String signingDate = LoggingUtils.getCurrentDateAndTime(CloudLoggingConstants.CLOUD_LOGGING_DATE_TIME_FORMAT);
         HSDPPHSApiSigning hsdpphsApiSigning = new HSDPPHSApiSigning(sharedKey,secretKey);
         Map<String, String> header = new HashMap<>();

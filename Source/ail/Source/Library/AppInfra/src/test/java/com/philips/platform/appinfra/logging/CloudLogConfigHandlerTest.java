@@ -14,8 +14,6 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,7 +50,7 @@ public class CloudLogConfigHandlerTest extends TestCase {
         };
     }
 
-    public void testHandleCloudLogConfig() {
+    public void testValidatingCloudLogConfig() {
         when(loggingConfiguration.isCloudLogEnabled()).thenReturn(true);
         cloudLogConfigHandler.handleCloudLogConfig(loggingConfiguration, logger);
         verify(cloudLogHandler).setLevel(Level.FINE);
