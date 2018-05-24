@@ -4,7 +4,7 @@ package com.philips.cdp.registration.ui.traditional;
  * Created by philips on 22/06/17.
  */
 
-public interface CreateAccountContract{
+public interface CreateAccountContract {
     void handleUiState();
     void updateUiStatus();
 

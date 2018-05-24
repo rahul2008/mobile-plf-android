@@ -12,7 +12,6 @@ import android.provider.Telephony;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.SmsMessage;
-import android.widget.Toast;
 
 import com.philips.cdp.registration.R;
 
@@ -41,7 +40,7 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
     private final ReceiveAndRegisterOTPListener mReceiveAndRegisterOTPListener;
     public static final String OTP_REGEX = "[0-9]{1,6}";
     public static final int SMS_PERMISSION_CODE = 1000;
-    private final String TAG =  this.getClass().getSimpleName();
+    private final String TAG = this.getClass().getSimpleName();
 
     public SMSBroadCastReceiver(ReceiveAndRegisterOTPListener mReceiveAndRegisterOTPListener) {
 
@@ -50,7 +49,7 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        RLog.i(TAG,"SMS onRecieve is Called");
+        RLog.i(TAG, "SMS onRecieve is Called");
         Bundle data = intent.getExtras();
 
         Object[] pdus = (Object[]) data.get("pdus");
@@ -59,7 +58,7 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
 
             SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdus[i]);
             String sender = smsMessage.getDisplayOriginatingAddress();
-            RLog.i(TAG,"Sender Number"+sender);
+            RLog.i(TAG, "Sender Number" + sender);
             //Check the sender to filter messages which we require to read
             if (sender.equals(context.getString(R.string.otp_sender))) {
 

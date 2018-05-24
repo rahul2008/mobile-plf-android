@@ -1,20 +1,15 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.IntentFilter;
-import android.provider.Telephony;
-import android.support.annotation.*;
+import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp.registration.app.infra.*;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import io.reactivex.disposables.*;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class MobileForgotPassVerifyCodePresenter implements NetworkStateListener {
 

@@ -103,7 +103,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -116,7 +116,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
 
         Bundle bundle = getArguments();
-        if(bundle!=null) {
+        if (bundle != null) {
             mobileNumber = bundle.getString(MOBILE_NUMBER_KEY);
             responseToken = bundle.getString(RESPONSE_TOKEN_KEY);
             redirectUriValue = bundle.getString(RE_DIRECT_URI_KEY);
@@ -126,7 +126,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         mobileVerifyCodePresenter = new MobileForgotPassVerifyCodePresenter(this);
         mSMSBroadCastReceiver = new SMSBroadCastReceiver(this);
         View view = inflater.inflate(R.layout.reg_mobile_forgotpassword_verify_fragment, container, false);
-        trackActionStatus(REGISTRATION_ACTIVATION_SMS,"","");
+        trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         ButterKnife.bind(this, view);
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();
@@ -171,12 +171,12 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     }
 
     @Subscribe
-    public void onEvent(UpdateToken event){
+    public void onEvent(UpdateToken event) {
         responseToken = event.getToken();
     }
 
     @Subscribe
-    public void onEvent(UpdateMobile event){
+    public void onEvent(UpdateMobile event) {
         if (this.isVisible()) {
             mobileNumber = event.getMobileNumber();
             setDescription();
@@ -199,7 +199,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void setViewParams(Configuration config, int width) {
-       // Do not do anything
+        // Do not do anything
     }
 
     @Override
@@ -355,9 +355,9 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void registerSMSReceiver() {
-        if(mSMSBroadCastReceiver.isSmsPermissionGranted()) {
+        if (mSMSBroadCastReceiver.isSmsPermissionGranted()) {
             mobileVerifyCodePresenter.registerSMSReceiver();
-        }else{
+        } else {
             mSMSBroadCastReceiver.requestReadAndSendSmsPermission();
         }
     }
@@ -369,13 +369,14 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void onOTPReceived(String otp) {
-        RLog.i(TAG,"got otp");
+        RLog.i(TAG, "got otp");
         verificationCodeValidationEditText.setText(otp);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        unRegisterSMSReceiver();;
+        unRegisterSMSReceiver();
+        ;
     }
 }
