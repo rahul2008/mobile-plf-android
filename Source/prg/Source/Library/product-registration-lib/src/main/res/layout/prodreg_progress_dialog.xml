@@ -21,7 +21,7 @@
 
         <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar"
-            style="@style/UIDProgressBarCircularIndeterminateMiddle"
+            style="@style/UIDProgressBarCircularIndeterminateBig"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -40,19 +40,4 @@
             android:layout_marginBottom="24dp"
             android:textSize="20sp"/>
     </RelativeLayout>
-
-
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/closeButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_marginTop="@dimen/pr_c_value_sm"
-        android:text="@string/PRG_Close"
-        android:textAllCaps="false"
-        app:uidComponentType="Secondary"
-        />
-
 </LinearLayout>
