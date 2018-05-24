@@ -167,17 +167,4 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
         cloudConsentProvider.registerConsentHandler(mAppInfra.getConsentManager());
     }
 
-    @Override
-    public void setUserUUID(String userUUID) {
-        ailCloudLogMetaData.setUserUUID(userUUID);
-    }
-
-    protected Logger getJavaLogger(String componentId, String componentVersion) {
-        return LoggerFactory.getLoggerInstance(mAppInfra, new LoggingConfiguration(mAppInfra, componentId, componentVersion));
-    }
-
-    @NonNull
-    Object[] getParamObjects() {
-        return new Object[4];
-    }
 }
