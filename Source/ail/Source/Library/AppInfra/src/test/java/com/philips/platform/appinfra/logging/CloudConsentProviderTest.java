@@ -5,9 +5,12 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import junit.framework.TestCase;
 
@@ -67,8 +70,14 @@ public class CloudConsentProviderTest extends TestCase {
     }
 
     public void testFetchConsentTypeStateCallback() {
-        boolean[] status = new boolean[2];
-        assertNotNull(cloudConsentProvider.getFetchConsentTypeStateCallback(status));
+        cloudConsentProvider = new CloudConsentProvider(consentHandlerInterfaceMock);
+        boolean[] status = new boolean[1];
+        FetchConsentTypeStateCallback fetchConsentTypeStateCallback = cloudConsentProvider.getFetchConsentTypeStateCallback(status);
+        assertNotNull(fetchConsentTypeStateCallback);
+        fetchConsentTypeStateCallback.onGetConsentsSuccess(new ConsentStatus(ConsentStates.active,1));
+        assertTrue(status[0]);
+        fetchConsentTypeStateCallback.onGetConsentsFailed(new ConsentError("error",5));
+        assertFalse(status[0]);
     }
 
 }
