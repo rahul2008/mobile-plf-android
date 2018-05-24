@@ -52,7 +52,7 @@ public class CloudConsentProviderTest extends TestCase {
         };
     }
 
-    public void testConsentDefinitions() {
+    public void testFetchingConsentDefinitions() {
         ConsentDefinition cloudConsentDefinition = CloudConsentProvider.getCloudConsentDefinition();
         assertEquals(cloudConsentDefinition.getVersion(),1);
         assertEquals(cloudConsentDefinition.getHelpText(), R.string.ail_cloud_consent_help);

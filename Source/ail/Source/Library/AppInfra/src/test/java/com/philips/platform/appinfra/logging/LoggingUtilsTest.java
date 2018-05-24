@@ -27,6 +27,7 @@ public void testAILogLevel(){
     assertEquals(LoggingUtils.getAILLogLevel("CONFIG"),"DEBUG");
     assertEquals(LoggingUtils.getAILLogLevel("FINE"),"VERBOSE");
     assertEquals(LoggingUtils.getAILLogLevel("OFF"),"OFF");
+    assertEquals(LoggingUtils.getAILLogLevel(""),"VERBOSE");
 }
 
 

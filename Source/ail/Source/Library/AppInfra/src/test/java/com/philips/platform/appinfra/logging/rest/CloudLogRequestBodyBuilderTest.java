@@ -47,7 +47,7 @@ public class CloudLogRequestBodyBuilderTest extends TestCase {
         cloudLogRequestBodyBuilder = new CloudLogRequestBodyBuilder(appInfra, "product_key");
     }
 
-    public void testGetCloudLogRequestBody() {
+    public void testFormingCloudLogRequestBody() {
         when(ailCloudLogMetaData.getAppName()).thenReturn("AppInfra");
         AILCloudLogData ailCloudLogData = getAilCloudLogData();
         ArrayList<AILCloudLogData> ailCloudLogDataList = new ArrayList<>();

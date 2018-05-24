@@ -50,7 +50,7 @@ public class CloudLogConfigHandlerTest extends TestCase {
         };
     }
 
-    public void testHandleCloudLogConfig() {
+    public void testValidatingCloudLogConfig() {
         when(loggingConfiguration.isCloudLogEnabled()).thenReturn(true);
         cloudLogConfigHandler.handleCloudLogConfig(loggingConfiguration, logger);
         verify(cloudLogHandler).setLevel(Level.FINE);
