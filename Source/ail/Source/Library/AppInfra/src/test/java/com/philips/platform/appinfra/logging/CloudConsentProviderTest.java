@@ -66,14 +66,6 @@ public class CloudConsentProviderTest extends TestCase {
         verify(consentManagerInterfaceMock).registerHandler(Collections.singletonList(CLOUD), consentHandlerInterfaceMock);
     }
 
-    public void testStoreConsentTypeState() {
-        PostConsentTypeCallback postConsentTypeCallbackMock = mock(PostConsentTypeCallback.class);
-        cloudConsentProvider.storeConsentTypeState(false,postConsentTypeCallbackMock);
-        verify(consentHandlerInterfaceMock).storeConsentTypeState(CLOUD, false, 1, postConsentTypeCallbackMock);
-        cloudConsentProvider.storeConsentTypeState(true,postConsentTypeCallbackMock);
-        verify(consentHandlerInterfaceMock).storeConsentTypeState(CLOUD, true, 1, postConsentTypeCallbackMock);
-    }
-
     public void testIsCloudLoggingEnabled() {
         assertFalse(cloudConsentProvider.isCloudLoggingConsentProvided());
         verify(consentHandlerInterfaceMock).fetchConsentTypeState(CLOUD, fetchConsentTypeStateCallback);
