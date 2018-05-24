@@ -1,5 +1,6 @@
 package com.philips.platform.appinfra.logging.rest;
 
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -68,10 +69,10 @@ public class CloudLogRequestBodyBuilder {
             logMetaDataModel.setDescription(ailCloudLogData.logDescription);
             Log.v("SyncTesting","Log::"+ailCloudLogData.logDescription);
             logMetaDataModel.setDetails(getValue(ailCloudLogData.details));
-            logMetaDataModel.setDevicetype(ailCloudLogData.serverName);
+            logMetaDataModel.setDevicetype(Build.MANUFACTURER + " " + Build.MODEL);
             logMetaDataModel.setHomecountry(getValue(ailCloudLogData.homecountry));
             logMetaDataModel.setLocale(ailCloudLogData.locale);
-            logMetaDataModel.setLocaltime(""+ailCloudLogData.localtime);
+            logMetaDataModel.setLocaltime("" + LoggingUtils.getFormattedDateAndTime(ailCloudLogData.localtime, CloudLoggingConstants.CLOUD_LOGGING_DATE_TIME_FORMAT));
             logMetaDataModel.setNetworktype(ailCloudLogData.networktype);
             Gson gson = new Gson();
             String jsonString = gson.toJson(logMetaDataModel);
