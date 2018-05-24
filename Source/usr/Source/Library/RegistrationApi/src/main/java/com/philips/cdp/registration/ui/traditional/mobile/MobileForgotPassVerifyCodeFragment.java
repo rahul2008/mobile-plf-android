@@ -99,6 +99,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     static final String RE_DIRECT_URI_KEY = "redirectUri";
 
     SMSBroadCastReceiver mSMSBroadCastReceiver;
+    private boolean isUserTyping = false;
 
     @Override
     public void onAttach(Context context) {
@@ -149,7 +150,10 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
                 .subscribe(new Consumer<TextViewTextChangeEvent>() {
                     @Override
                     public void accept(TextViewTextChangeEvent aBoolean) throws Exception {
-                        if (verificationCodeValidationEditText.getText().length() == 6)
+                        isUserTyping = false;
+                        if (verificationCodeValidationEditText.getText().length() > 0) {
+                            isUserTyping = true;
+                        } else if (verificationCodeValidationEditText.getText().length() == 6)
                             MobileForgotPassVerifyCodeFragment.this.enableVerifyButton();
                         else
                             MobileForgotPassVerifyCodeFragment.this.disableVerifyButton();
@@ -370,13 +374,15 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     @Override
     public void onOTPReceived(String otp) {
         RLog.i(TAG, "got otp");
-        verificationCodeValidationEditText.setText(otp);
+        if (!isUserTyping) {
+            verificationCodeValidationEditText.setText(otp);
+            verifyClicked();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
         unRegisterSMSReceiver();
-        ;
     }
 }

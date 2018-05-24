@@ -105,6 +105,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     boolean isVerified;
     private SMSBroadCastReceiver mSMSBroadCastReceiver;
+    private boolean isUserTyping;
 
     @Override
     public void onAttach(Context context) {
@@ -142,7 +143,10 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private void handleVerificationCode() {
         RxTextView.textChangeEvents(verificationCodeValidationEditText)
                 .subscribe(aBoolean -> {
-                    if (verificationCodeValidationEditText.getText().length() == 6)
+                    isUserTyping = false;
+                    if (verificationCodeValidationEditText.getText().length() > 0) {
+                        isUserTyping = true;
+                    } else if (verificationCodeValidationEditText.getText().length() == 6)
                         enableVerifyButton();
                     else
                         disableVerifyButton();
@@ -380,7 +384,10 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onOTPReceived(String otp) {
         RLog.i(TAG, "got otp");
-        verificationCodeValidationEditText.setText(otp);
+        if (!isUserTyping) {
+            verificationCodeValidationEditText.setText(otp);
+            verifyClicked();
+        }
     }
 
     @Override
