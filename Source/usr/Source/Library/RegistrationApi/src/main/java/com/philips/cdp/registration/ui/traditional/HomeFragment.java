@@ -137,7 +137,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         RLog.d(TAG, "OnCreateView : is Called");
         mURFaceBookUtility = new URFaceBookUtility(this);
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
-        homePresenter = new HomePresenter(this,mCallbackManager);
+        homePresenter = new HomePresenter(this, mCallbackManager);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         view = getViewFromRegistrationFunction(inflater, container);
@@ -195,7 +195,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         } else {
             socialButton.setEnabled(false);
         }
-        socialButton.setOnClickListener(v -> {
+        socialButton.setOnClickListener((View v) -> {
             if (!getRegistrationFragment().isHomeFragment()) {
                 return;
             }
@@ -216,14 +216,21 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             } else {
                 enableControls(false);
                 updateErrorMessage(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+
             }
         });
         return socialButton;
     }
 
     private void updateErrorMessage(String errorMessage) {
-        mRegError.setError(errorMessage);
-        scrollViewAutomatically(mRegError, mSvRootLayout);
+        if (errorMessage.equalsIgnoreCase(mContext.getResources().getString(R.string.reg_NoNetworkConnection))) {
+            viewOrHideNotificationBar(getRegistrationFragment()
+                    .getNotificationContentView(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt),
+                            getString(R.string.reg_Network_ErrorMsg)));
+        } else {
+            mRegError.setError(errorMessage);
+            scrollViewAutomatically(mRegError, mSvRootLayout);
+        }
     }
 
     @Override
@@ -550,7 +557,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void startAccessTokenAuthForFacebook() {
-       homePresenter.startAccessTokenAuthForFacebook();
+        homePresenter.startAccessTokenAuthForFacebook();
     }
 
     @Override
