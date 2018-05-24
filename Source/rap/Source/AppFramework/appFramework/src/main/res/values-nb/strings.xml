@@ -65,7 +65,7 @@ Please sign in.</string>
   <string name="RA_DLS_get_insights">[nb]List of Insights Generated</string>
   <string name="RA_DLS_healthy_sleep_title">[nb]Healthy Sleep Score</string>
   <string name="RA_DLS_home_page_sub_text">[nb]ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
-  <string name="RA_DLS_home_page_text">[nb]RA_SettingsScreen_Title</string>
+  <string name="RA_DLS_home_page_text">[nb]Reference App</string>
   <string name="RA_DLS_insights_error">[nb]Error loading Insights</string>
   <string name="RA_DLS_no_internet_connectivity">[nb]Internet connection is not available</string>
   <string name="RA_DLS_onboarding_screen1_sub_text">[nb]This app integrates the common components required to develop new IoT solutions for acceleration across Philips. It is the first reference for the development of all new patient medical or consumer mobile apps.</string>
