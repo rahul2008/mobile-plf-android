@@ -92,7 +92,7 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
         Log.v("SyncTesting", "Inside cloud log db change:: count::" + currentLogCount);
         if (checkWhetherToSyncCloudLog()) {
             Log.v("SyncTesting", "Sync enabled");
-            if (currentLogCount >= loggingConfiguration.getBatchLimit()) {
+            if (currentLogCount!=null && currentLogCount >= loggingConfiguration.getBatchLimit()) {
                 threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra, sharedKey, secretKey, productKey));
             }
         } else {
