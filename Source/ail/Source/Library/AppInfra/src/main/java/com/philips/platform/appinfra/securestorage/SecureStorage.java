@@ -68,9 +68,9 @@ public class SecureStorage implements SecureStorageInterface {
         }
     }
 
-    private void log(LoggingInterface.LogLevel debug, String eventId, String message) {
+    private void log(LoggingInterface.LogLevel logLevel, String eventId, String message) {
         if(mAppInfra !=null && mAppInfra.getAppInfraLogInstance()!=null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE,message);
+            mAppInfra.getAppInfraLogInstance().log(logLevel, eventId,message);
         }
     }
 

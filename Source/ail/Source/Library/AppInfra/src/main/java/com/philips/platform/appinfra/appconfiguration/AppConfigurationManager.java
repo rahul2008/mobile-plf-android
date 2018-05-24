@@ -283,7 +283,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         } else {
             try {
                 object = getKey(key, group, configError, getStaticConfigJsonCache());
-                logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION,"get Default Property For Key");
+                logAppConfiguration(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_APP_CONFIGUARTION,"get Default Property For Key");
             } catch (Exception e) {
                 logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception "+e.getMessage());
             }

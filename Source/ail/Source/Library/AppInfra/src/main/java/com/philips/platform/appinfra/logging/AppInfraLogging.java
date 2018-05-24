@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInitialisationCompleteListener;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
@@ -19,7 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class AppInfraLogging implements LoggingInterface {
+public class AppInfraLogging implements LoggingInterface, AppInfraInitialisationCompleteListener {
 
 
     private static final long serialVersionUID = -4898715486015827285L;
@@ -104,6 +105,34 @@ public class AppInfraLogging implements LoggingInterface {
         }
     }
 
+    @Override
+    public void setUserUUID(String userUUID) {
+        ailCloudLogMetaData.setUserUUID(userUUID);
+    }
+
+    protected Logger getJavaLogger(String componentId, String componentVersion) {
+        loggingConfiguration = new LoggingConfiguration(mAppInfra, componentId, componentVersion);
+        return LoggerFactory.getLoggerInstance(mAppInfra, new LoggingConfiguration(mAppInfra, componentId, componentVersion));
+    }
+
+    @NonNull
+    Object[] getParamObjects() {
+        return new Object[4];
+    }
+
+    @Override
+    public void onAppInfraInitialised(AppInfra appInfra) {
+        if (loggingConfiguration.isCloudLogEnabled()) {
+            updateMetadata(appInfra);
+        }
+        registerCloudHandler();
+    }
+
+    /**
+     * Update cloud logging metadata. This instance will hold metadata which will be rquired to save logs in DB.
+     *
+     * @param appInfra
+     */
     public void updateMetadata(AppInfra appInfra) {
         try {
             if (appInfra.getAppIdentity() != null) {
@@ -120,32 +149,20 @@ public class AppInfraLogging implements LoggingInterface {
             if (appInfra.getServiceDiscovery() != null) {
                 ailCloudLogMetaData.setHomeCountry(appInfra.getServiceDiscovery().getHomeCountry());
             }
-            registerCloudHandler();
         } catch (IllegalArgumentException e) {
-
         }
 
     }
 
+    /**
+     * Register cloud handler for cloud logging consent.
+     */
     public void registerCloudHandler() {
         DeviceStoredConsentHandler deviceStoredConsentHandler = new DeviceStoredConsentHandler(mAppInfra);
-        deviceStoredConsentHandler.registerConsentChangeListener(CloudLogSyncManager.getInstance(mAppInfra, loggingConfiguration));
+        if (loggingConfiguration != null && loggingConfiguration.isCloudLogEnabled()) {
+            deviceStoredConsentHandler.registerConsentChangeListener(CloudLogSyncManager.getInstance(mAppInfra, loggingConfiguration));
+        }
         CloudConsentProvider cloudConsentProvider = new CloudConsentProvider(deviceStoredConsentHandler);
         cloudConsentProvider.registerConsentHandler(mAppInfra.getConsentManager());
-    }
-
-    @Override
-    public void setUserUUID(String userUUID) {
-        ailCloudLogMetaData.setUserUUID(userUUID);
-    }
-
-    protected Logger getJavaLogger(String componentId, String componentVersion) {
-        loggingConfiguration = new LoggingConfiguration(mAppInfra, componentId, componentVersion);
-        return LoggerFactory.getLoggerInstance(mAppInfra, new LoggingConfiguration(mAppInfra, componentId, componentVersion));
-    }
-
-    @NonNull
-    Object[] getParamObjects() {
-        return new Object[4];
     }
 }

@@ -164,7 +164,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             if (serviceDiscoveryError.getPropositionURLs() != null) {
                 serviceDiscoveryError.getPropositionURLs().setError(new ServiceDiscovery.Error
                         (OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Server is not reachable at the moment,Please try after some time");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Server is not reachable at the moment,Please try after some time");
 
             }
 
@@ -185,14 +185,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
         if (mRequestItemManager.getPropositionEnabled(mAppInfra)) {
 
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Downloading from platform microsite id  and should return the URL's for Service id.  ");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Downloading from platform microsite id  and should return the URL's for Service id.  ");
             platformService = downloadPlatformService(requestType);
             if (platformService != null && platformService.isSuccess()) {
 
                 response.setPlatformURLs(platformService);
             }
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Downloading from  both proposition microsite id and platform microsite id ");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Downloading from  both proposition microsite id and platform microsite id ");
             propositionService = downloadPropositionService(requestType);
             if (propositionService != null && propositionService.isSuccess()) {
                 platformService = downloadPlatformService(requestType);
@@ -205,10 +205,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     final ServiceDiscovery error = new ServiceDiscovery(mAppInfra);
                     error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "DOWNLOAD FAILED"));
                     error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "DOWNLOAD FAILED"));
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "SD call", "DOWNLOAD FAILED");
                 }
             } else {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY,
                         "Download failed");
             }
         }
@@ -266,7 +266,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     ServiceDiscovery processRequest(String urlBuild, ServiceDiscovery service,
                                     AISDURLType aisdurlType, SD_REQUEST_TYPE requestType) {
         if (null != mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", " NO_NETWORK");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "SD call", " NO_NETWORK");
             service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, " NO_NETWORK"));
             errorvalues = OnErrorListener.ERRORVALUES.NO_NETWORK;
             trackErrorAction(SERVICE_DISCOVERY, " error while fetching ".concat(requestType.name().concat(" due to ").concat(service.getError().getErrorvalue().name())));
@@ -277,7 +277,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     holdbackTime = 0;   //remove hold back time
                     fetchCountryAndCountrySource(service.getCountry(), urlBuild, service, aisdurlType, requestType);
                     trackSuccessAction(SERVICE_DISCOVERY, SD_SUCCESS);
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "SD Fetched from server");
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "SD Fetched from server");
                 } else {
                     holdbackTime = new Date().getTime() + 10000; // curent time + 10 Seconds
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Error in process request" + service.getError().toString());
@@ -365,7 +365,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             }
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SERVICE_DISCOVERY, " URL " + url);
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Build URL in SD"
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Build URL in SD"
                     + "Appidentity values are null");
         }
         return url;
@@ -459,17 +459,17 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 queueResultListener(true, new AbstractDownloadItemListener() {
                     @Override
                     public void onDownloadDone(AISDResponse result) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Force Refresh is done Force Refresh is done");
+                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Force Refresh is done Force Refresh is done");
                     }
                 }, SD_REQUEST_TYPE.setHomeCountry);
 
             } else {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "SAME COUNTRY Entered Country code is same as old one");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "SAME COUNTRY Entered Country code is same as old one");
                 trackErrorAction(SERVICE_DISCOVERY, SD_SET_SAME_COUNTRY_CODE.concat(countryCode));
             }
         } else {
             trackErrorAction(SERVICE_DISCOVERY, countryCode != null ? SD_SET_INVALID_COUNTRY_CODE.concat(countryCode) : SD_SET_INVALID_COUNTRY_CODE);
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Invalid COUNTRY Country code is INVALID");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Invalid COUNTRY Country code is INVALID");
         }
     }
 

@@ -7,7 +7,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.apisigning.HSDPPHSApiSigning;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
@@ -15,6 +14,8 @@ import com.philips.platform.appinfra.logging.LoggingUtils;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
 import com.philips.platform.appinfra.logging.database.AILCloudLogData;
 import com.philips.platform.appinfra.logging.rest.CloudLogRequestBodyBuilder;
+import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
+import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -58,14 +59,8 @@ public class CloudLogSyncRunnable implements Runnable {
 
             //3. Make rest api call
             JSONObject jsonBody = new CloudLogRequestBodyBuilder(appInfra, prouctKey).getCloudLogRequestBody(ailCloudLogDataList);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
-            String cloudLoggingURL = "https://logingestor2-int.us-east.philips-healthsuite.com/core/log/LogEvent";
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, cloudLoggingURL, jsonBody, new Response.Listener<JSONObject>() {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, "appinfra.cloudLogging", ServiceIDUrlFormatting.SERVICEPREFERENCE.BYCOUNTRY,null,jsonBody, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
 

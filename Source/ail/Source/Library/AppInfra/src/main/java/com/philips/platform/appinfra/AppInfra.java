@@ -478,7 +478,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             }).start();
 //            }
             if (ai.getLogging() instanceof AppInfraLogging) {
-                ((AppInfraLogging) ai.getLogging()).updateMetadata(ai);
+                ((AppInfraLogging) ai.getLogging()).onAppInfraInitialised(ai);
 
             }
             postLog(ai, startTime, "App-infra initialization ends with ");

@@ -19,7 +19,9 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
@@ -61,7 +63,7 @@ public class RestManager implements RestInterface {
                 try {
                     cacheSizeinKB = (Integer) mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB", "appinfra", configError);
                 } catch (IllegalArgumentException i) {
-//                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST,"CONFIG ERROR while getRequestQueue");
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST,"CONFIG ERROR while getRequestQueue");
                 }
             }
             if (cacheSizeinKB == null) {
@@ -123,7 +125,7 @@ public class RestManager implements RestInterface {
         try {
             stack = new HurlStack(new ServiceIDResolver(), new TLSSocketFactory());
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
-//            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST," ERROR while getting network");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST," ERROR while getting network");
         }
         return new BasicNetwork(stack);
     }
@@ -150,7 +152,7 @@ public class RestManager implements RestInterface {
     private class ServiceIDResolver implements HurlStack.UrlRewriter {
 
         @Override
-        public String rewriteUrl(final String originalUrl) {
+        public synchronized String rewriteUrl(final String originalUrl) {
             if (!ServiceIDUrlFormatting.isServiceIDUrl(originalUrl))
                 return originalUrl;
 
@@ -170,7 +172,7 @@ public class RestManager implements RestInterface {
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
-//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
                         }
                     });
                 } else {
@@ -182,18 +184,18 @@ public class RestManager implements RestInterface {
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
-//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
                         }
                     });
                 }
                 //  waitResult.await();
             } catch (Exception e) {
-//                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST ERROR");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST ERROR");
             } finally {
                 //waitResult.signalAll();
                 //lock.unlock();
-                if (resultURL.length() > 0)
-                    resultURL.append(ServiceIDUrlFormatting.getUrlExtension(originalUrl));
+//                if (resultURL.length() > 0)
+//                    resultURL.append(ServiceIDUrlFormatting.getUrlExtension(originalUrl));
             }
             if (resultURL.length() == 0)
                 return null;

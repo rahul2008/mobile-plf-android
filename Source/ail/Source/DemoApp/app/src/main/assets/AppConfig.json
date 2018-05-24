@@ -21,7 +21,7 @@
   "appinfra":{
     "appidentity.micrositeId": "77001",
     "appidentity.sector": "b2c",
-    "appidentity.appState": "production",
+    "appidentity.appState": "staging",
     "appidentity.serviceDiscoveryEnvironment": "production",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": ["bundleId"] ,
@@ -30,8 +30,8 @@
       "usr.login":"DOT-ReceiveMarketingOptIn"
      },
     "contentLoader.limitSize":100,
-    "servicediscovery.platformMicrositeId":"77000",
-    "servicediscovery.platformEnvironment":"production",
+    "servicediscovery.platformMicrositeId":"70000",
+    "servicediscovery.platformEnvironment":"staging",
     "servicediscovery.propositionEnabled":true,
     "appconfig.cloudServiceId":"appinfra.appconfigdownload",
     "timesync.ntp.hosts":["time1.google.com","time2.google.com","time3.google.com","time4.google.com"],
@@ -59,7 +59,7 @@
       "fileName":"AppInfraLog",
       "numberOfFiles":5,
       "fileSizeInBytes":50000,
-      "logLevel":"All",
+      "logLevel":"Info",
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
       "cloudLogEnabled":true,

@@ -263,7 +263,7 @@ public class RequestManager {
 					   return true;
 				   }
 			   }else {
-				   mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "servicediscovery.propositionEnabled instance should be boolean value true or false");
+				   mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "servicediscovery.propositionEnabled instance should be boolean value true or false");
 			   }
 		   }
 		} catch (IllegalArgumentException illegalArgumentException) {
