@@ -14,7 +14,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -667,11 +666,5 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         } else {
             registerUserInfo();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
     }
 }
