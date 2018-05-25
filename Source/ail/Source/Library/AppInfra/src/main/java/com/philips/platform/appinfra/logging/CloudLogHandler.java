@@ -1,5 +1,6 @@
 package com.philips.platform.appinfra.logging;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -27,10 +28,20 @@ public class CloudLogHandler extends Handler {
 
     public CloudLogHandler(AppInfra appInfra) {
         this.appInfra = appInfra;
-        ailCloudLogDataBuilder = new AILCloudLogDataBuilder(appInfra);
-        cloudLogProcessor = new CloudLogProcessor("cloud log handler thread");
+        ailCloudLogDataBuilder = getAilCloudLogDataBuilder(appInfra);
+        cloudLogProcessor = getCloudLogProcessor();
         cloudLogProcessor.start();
         cloudLogProcessor.prepareHandler();
+    }
+
+    @NonNull
+    AILCloudLogDataBuilder getAilCloudLogDataBuilder(AppInfra appInfra) {
+        return new AILCloudLogDataBuilder(appInfra);
+    }
+
+    @NonNull
+    CloudLogProcessor getCloudLogProcessor() {
+        return new CloudLogProcessor("cloud log handler thread");
     }
 
     @Override
@@ -39,12 +50,16 @@ public class CloudLogHandler extends Handler {
             @Override
             public void run() {
                 try {
-                    AILCloudLogDBManager.getInstance(appInfra).insertLog(ailCloudLogDataBuilder.buildCloudLogModel(logRecord));
+                    getLogDbManager().insertLog(ailCloudLogDataBuilder.buildCloudLogModel(logRecord));
                 } catch (MessageSizeExceedsException e) {
                     Log.v(TAG,"Message size exceeds allowed length"+e.getMessage());
                 }
             }
         });
+    }
+
+    AILCloudLogDBManager getLogDbManager() {
+        return AILCloudLogDBManager.getInstance(appInfra);
     }
 
     @Override

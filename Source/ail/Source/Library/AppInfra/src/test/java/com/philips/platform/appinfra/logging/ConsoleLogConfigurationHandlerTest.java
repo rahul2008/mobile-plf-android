@@ -12,6 +12,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -55,6 +56,17 @@ public class ConsoleLogConfigurationHandlerTest extends TestCase {
         when(loggingConfiguration.getLogLevel()).thenReturn("All");
         consoleLogConfigurationHandler.handleConsoleLogConfig(logFormatter, loggingConfiguration, logger);
         assertTrue(logger.getHandlers().length == 0);
+    }
+
+    public void testValidatingCurrentLogConsoleHandler() {
+        Logger logger = mock(Logger.class);
+        logger.setLevel(Level.ALL);
+        when(loggingConfiguration.isConsoleLogEnabled()).thenReturn(true);
+        Handler[] handlers = new Handler[1];
+        handlers[0] = new ConsoleHandler();
+        when(logger.getHandlers()).thenReturn(handlers);
+        consoleLogConfigurationHandler.handleConsoleLogConfig(logFormatter, loggingConfiguration, logger);
+
     }
 
 
