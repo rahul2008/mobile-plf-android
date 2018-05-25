@@ -7,6 +7,7 @@ package com.philips.platform.appinfra.logging;
 
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInitialisationCompleteListener;
@@ -27,12 +28,12 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
     private transient Logger mJavaLogger;
     private String componentId, componentVersion;
 
-    private AILCloudLogMetaData ailCloudLogMetaData;
+    private AILCloudLogMetaData ailCloudLogMetaData = new AILCloudLogMetaData();
 
     private LoggingConfiguration loggingConfiguration;
 
     public AILCloudLogMetaData getAilCloudLogMetaData() {
-        return new AILCloudLogMetaData();
+        return ailCloudLogMetaData;
     }
 
 
@@ -46,7 +47,6 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
         mJavaLogger = getJavaLogger(componentId, componentVersion);
         this.componentId = componentId;
         this.componentVersion = componentVersion;
-        this.ailCloudLogMetaData = getAilCloudLogMetaData();
     }
 
     @Override
@@ -58,10 +58,10 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
     @Override
     public void log(LogLevel level, String eventId, String message) {
         log(level, eventId, message, null);
-        if (componentId == null || componentId.length() == 0) {
+        if (TextUtils.isEmpty(componentId)) {
             componentId = mAppInfra.getAppIdentity().getAppName();
         }
-        if (componentVersion == null || componentVersion.length() == 0) {
+        if (TextUtils.isEmpty(componentVersion)) {
             componentVersion = mAppInfra.getAppIdentity().getAppVersion();
         }
     }
@@ -166,11 +166,4 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
         cloudConsentProvider.registerConsentHandler(mAppInfra.getConsentManager());
     }
 
-    String getComponentId() {
-        return componentId;
-    }
-
-    String getComponentVersion() {
-        return componentVersion;
-    }
 }

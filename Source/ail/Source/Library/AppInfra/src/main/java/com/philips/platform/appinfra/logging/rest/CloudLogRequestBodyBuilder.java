@@ -64,7 +64,6 @@ public class CloudLogRequestBodyBuilder {
             resource.setSeverity(getValue(ailCloudLogData.severity));
             resource.setTransactionId(getValue(ailCloudLogData.logId));
             LogMetaDataModel logMetaDataModel=new LogMetaDataModel();
-            logMetaDataModel.setAppsid(ailCloudLogData.appsId);
             logMetaDataModel.setAppstate(ailCloudLogData.appState);
             logMetaDataModel.setDescription(ailCloudLogData.logDescription);
             Log.v("SyncTesting","Log::"+ailCloudLogData.logDescription);

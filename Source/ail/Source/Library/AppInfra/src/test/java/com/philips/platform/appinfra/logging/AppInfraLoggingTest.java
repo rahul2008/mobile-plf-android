@@ -110,32 +110,4 @@ public class AppInfraLoggingTest extends TestCase {
         assertNotNull(appInfraLogging.getJavaLogger("componentId","componentVersion"));
     }
 
-    public void testSettingAppNameAndVersion() {
-        appInfraLogging.log(LoggingInterface.LogLevel.VERBOSE, "some_event", "event_message");
-        assertEquals(appInfraLogging.getComponentId(),"uGrow");
-        assertEquals(appInfraLogging.getComponentVersion(),"1.0.0");
-    }
-
-    public void testUpdatingModel() {
-        AppTaggingInterface appTaggingInterface = mock(AppTaggingInterface.class);
-        InternationalizationInterface internationalizationInterface = mock(InternationalizationInterface.class);
-        ServiceDiscoveryInterface serviceDiscoveryInterface = mock(ServiceDiscoveryInterface.class);
-        when(appTaggingInterface.getTrackingIdentifier()).thenReturn("TaggingIdentifier");
-        when(internationalizationInterface.getUILocaleString()).thenReturn("locale");
-        when(serviceDiscoveryInterface.getHomeCountry()).thenReturn("en");
-        when(appInfraMock.getTagging()).thenReturn(appTaggingInterface);
-        when(appInfraMock.getInternationalization()).thenReturn(internationalizationInterface);
-        when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
-        appInfraLogging.setUserUUID("uuid");
-        assertEquals(ailCloudLogMetaData.getUserUUID(),"uuid");
-        appInfraLogging.updateMetadata(appInfraMock);
-        assertEquals(ailCloudLogMetaData.getAppName(),"uGrow");
-        assertEquals(ailCloudLogMetaData.getAppVersion(),"1.0.0");
-        assertEquals(ailCloudLogMetaData.getAppState(),"ACCEPTANCE");
-        assertEquals(ailCloudLogMetaData.getAppId(),"TaggingIdentifier");
-        assertEquals(ailCloudLogMetaData.getLocale(),"locale");
-        assertEquals(ailCloudLogMetaData.getHomeCountry(),"en");
-    }
-
-
 }
