@@ -112,8 +112,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
     }
 
     protected Logger getJavaLogger(String componentId, String componentVersion) {
-        loggingConfiguration = new LoggingConfiguration(mAppInfra, componentId, componentVersion);
-        return LoggerFactory.getLoggerInstance(mAppInfra, new LoggingConfiguration(mAppInfra, componentId, componentVersion));
+        return LoggerFactory.getLoggerInstance(mAppInfra, loggingConfiguration);
     }
 
     @NonNull
