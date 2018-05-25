@@ -436,8 +436,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void handleLoginSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
-        hideProgressDialog();
         enableControls(true);
+        hideProgressDialog();
         homePresenter.navigateToScreen();
     }
 
