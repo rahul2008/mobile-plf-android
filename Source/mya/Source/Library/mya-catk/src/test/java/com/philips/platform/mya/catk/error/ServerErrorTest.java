@@ -20,7 +20,7 @@ public class ServerErrorTest {
     @Test
     public void itShouldParseServerCorrectly() throws Exception {
         givenJsonError(CORRECT_JSON_ERROR);
-        thenConsentErrorCodeIs(ConsentError.CONSENT_ERROR_SERVER_ERROR);
+        thenConsentErrorCodeIs(ConsentError.CONSENT_UNKNOWN_SERVER_ERROR);
         thenHasServerError();
         thenIncidentIdIs(INCIDENT_ID);
         thenServerErrorCodeIs(ERROR_CODE);
@@ -30,7 +30,7 @@ public class ServerErrorTest {
     @Test
     public void itShouldCreateEmptyErrorWhenJsonIsEmpty() {
         givenJsonError(EMPTY_JSON_ERROR);
-        thenConsentErrorCodeIs(ConsentError.CONSENT_ERROR_SERVER_ERROR);
+        thenConsentErrorCodeIs(ConsentError.CONSENT_UNKNOWN_SERVER_ERROR);
         thenHasServerError();
         thenHasNoIncidentId();
         thenServerErrorCodeIs(0);
@@ -40,14 +40,14 @@ public class ServerErrorTest {
     @Test
     public void itShouldCreateEmptyErrorWhenJsonIsNull() throws Exception {
         givenNullJsonError();
-        thenConsentErrorCodeIs(ConsentError.CONSENT_ERROR_SERVER_ERROR);
+        thenConsentErrorCodeIs(ConsentError.CONSENT_UNKNOWN_SERVER_ERROR);
         thenHasNoServerError();
     }
 
     @Test
     public void itShouldCreateEmptyErrorWhenInvalidJson() throws Exception {
         givenJsonError(INVALID_JSON_ERROR);
-        thenConsentErrorCodeIs(ConsentError.CONSENT_ERROR_SERVER_ERROR);
+        thenConsentErrorCodeIs(ConsentError.CONSENT_UNKNOWN_SERVER_ERROR);
         thenHasNoServerError();
     }
 
