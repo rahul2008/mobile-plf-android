@@ -37,6 +37,14 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
         SMSBroadCastReceiver getSMSBroadCastReceiver();
     }
 
+    static final IntentFilter intentFilter;
+
+    static {
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
+        intentFilter.setPriority(999);
+    }
+
     private final ReceiveAndRegisterOTPListener mReceiveAndRegisterOTPListener;
     public static final String OTP_REGEX = "[0-9]{1,6}";
     public static final int SMS_PERMISSION_CODE = 1000;
@@ -50,13 +58,18 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         RLog.i(TAG, "SMS onRecieve is Called");
+        getDataFromIntent(context, intent);
+
+    }
+
+    private void getDataFromIntent(Context context, Intent intent) {
         Bundle data = intent.getExtras();
 
         Object[] pdus = (Object[]) data.get("pdus");
 
-        for (int i = 0; i < pdus.length; i++) {
+        for (Object object: pdus) {
 
-            SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdus[i]);
+            SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) object);
             String sender = smsMessage.getDisplayOriginatingAddress();
             RLog.i(TAG, "Sender Number" + sender);
             //Check the sender to filter messages which we require to read
@@ -67,10 +80,9 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
                 getOTPFromMessage(messageBody);
             }
         }
-
     }
 
-    private void getOTPFromMessage(String messageBody) {
+    void getOTPFromMessage(String messageBody) {
 
         Pattern pattern = Pattern.compile(OTP_REGEX);
         Matcher matcher = pattern.matcher(messageBody);
@@ -102,8 +114,6 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
     }
 
     public void registerReceiver() {
-        IntentFilter intentFilter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
-        intentFilter.setPriority(999);
         mReceiveAndRegisterOTPListener.getActivityContext().registerReceiver(mReceiveAndRegisterOTPListener.getSMSBroadCastReceiver(), intentFilter);
     }
 
