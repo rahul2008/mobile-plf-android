@@ -14,12 +14,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.PopupWindow;
 import android.widget.ScrollView;
 
 import com.philips.cdp.registration.ProgressAlertDialog;
@@ -33,8 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment {
-
-    private PopupWindow popupWindow;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -303,27 +299,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
     public static void setHeightWidthToZero() {
         mWidth = 0;
         mHeight = 0;
-    }
-
-    public void viewOrHideNotificationBar(View contentView) {
-        if (popupWindow == null) {
-            popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            popupWindow.setContentView(contentView);
-        }
-        if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        } else {
-            if(this.isVisible() && popupWindow != null) {
-                popupWindow.showAtLocation(getActivity().findViewById(R.id.usr_activationresend_root_layout), Gravity.TOP, 0, 0);
-            }
-        }
-    }
-
-    void hideNotificationBar() {
-        if (popupWindow != null && popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        }
     }
 
 }

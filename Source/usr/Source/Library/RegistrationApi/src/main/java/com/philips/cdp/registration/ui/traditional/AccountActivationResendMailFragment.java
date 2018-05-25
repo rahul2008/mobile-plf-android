@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -277,9 +278,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         resendVerificationEmailSuccessTrackAction();
         getRegistrationFragment().startCountDownTimer();
         updateResendUIState();
-        viewOrHideNotificationBar(getRegistrationFragment().getNotificationContentView(
-                    mContext.getResources().getString(R.string.reg_DLS_Resend_Email_NotificationBar_Title),
-                    mUser.getEmail()));
+        viewOrHideNotificationBar();
     }
 
     void resendVerificationEmailSuccessTrackAction() {
@@ -394,9 +393,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         hideProgressDialog();
         enableResendButton();
         emailUser = mUser.getEmail();
-        viewOrHideNotificationBar(getRegistrationFragment().getNotificationContentView(
-                    mContext.getResources().getString(R.string.reg_DLS_Resend_Email_NotificationBar_Title),
-                    mUser.getEmail()));
+        viewOrHideNotificationBar();
         getRegistrationFragment().startCountDownTimer();
         EventBus.getDefault().post(new UpdateEmail(user.getEmail()));
         handleResend(mUser.getEmail());
@@ -435,30 +432,28 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         }
     }
 
-//    public void viewOrHideNotificationBar() {
-//        if (popupWindow == null) {
-//            View contentView = getRegistrationFragment().getNotificationContentView(
-//                    mContext.getResources().getString(R.string.reg_DLS_Resend_Email_NotificationBar_Title),
-//                    mUser.getEmail());
-//            popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT,
-//                    ViewGroup.LayoutParams.WRAP_CONTENT);
-//            popupWindow.setContentView(contentView);
-//        }
-//        if (popupWindow.isShowing()) {
-//            popupWindow.dismiss();
-//        } else {
-//            if(this.isVisible() && popupWindow != null) {
-//                popupWindow.showAtLocation(getActivity().
-//                        findViewById(R.id.usr_activationresend_root_layout), Gravity.TOP, 0, 0);
-//            }
-//        }
-//    }
+    public void viewOrHideNotificationBar() {
+        if (popupWindow == null) {
+            View contentView = getRegistrationFragment().getNotificationContentView(
+                    mContext.getResources().getString(R.string.reg_DLS_Resend_Email_NotificationBar_Title),
+                    mUser.getEmail());
+            popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            popupWindow.setContentView(contentView);
+        }
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        } else {
+            if(this.isVisible() && popupWindow != null) {
+                popupWindow.showAtLocation(getActivity().
+                        findViewById(R.id.usr_activationresend_root_layout), Gravity.TOP, 0, 0);
+            }
+        }
+    }
 
     @Subscribe
     public void onEvent(NotificationBarHandler event) {
-        viewOrHideNotificationBar(getRegistrationFragment().getNotificationContentView(
-                    mContext.getResources().getString(R.string.reg_DLS_Resend_Email_NotificationBar_Title),
-                    mUser.getEmail()));
+        viewOrHideNotificationBar();
     }
 
     @Override
@@ -525,5 +520,11 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     }
     public void disableResendButton() {
         mResendEmail.setEnabled(false);
+    }
+
+    void hideNotificationBar() {
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
     }
 }

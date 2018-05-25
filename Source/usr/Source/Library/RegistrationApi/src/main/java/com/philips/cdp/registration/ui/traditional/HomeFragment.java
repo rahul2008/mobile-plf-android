@@ -223,14 +223,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void updateErrorMessage(String errorMessage) {
-        if (errorMessage.equalsIgnoreCase(mContext.getResources().getString(R.string.reg_NoNetworkConnection))) {
-            viewOrHideNotificationBar(getRegistrationFragment()
-                    .getNotificationContentView(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt),
-                            getString(R.string.reg_Network_ErrorMsg)));
-        } else {
-            mRegError.setError(errorMessage);
-            scrollViewAutomatically(mRegError, mSvRootLayout);
-        }
+        mRegError.setError(errorMessage);
+        scrollViewAutomatically(mRegError, mSvRootLayout);
     }
 
     @Override
