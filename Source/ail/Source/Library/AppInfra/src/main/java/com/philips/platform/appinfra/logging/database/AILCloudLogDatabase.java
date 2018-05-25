@@ -8,7 +8,7 @@ import android.content.Context;
 /**
  * Created by abhishek on 4/25/18.
  */
-@Database(entities = {AILCloudLogData.class}, version = 1)
+@Database(entities = {AILCloudLogData.class}, version = 1,exportSchema = false)
 public abstract class AILCloudLogDatabase extends RoomDatabase {
 
     private static AILCloudLogDatabase INSTANCE;

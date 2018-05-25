@@ -6,18 +6,26 @@
 package com.philips.platform.appinfra.logging;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInitialisationCompleteListener;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_HOME_COUNTRY;
 
 
 public class AppInfraLogging implements LoggingInterface, AppInfraInitialisationCompleteListener {
@@ -149,6 +157,15 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
             if (appInfra.getServiceDiscovery() != null) {
                 ailCloudLogMetaData.setHomeCountry(appInfra.getServiceDiscovery().getHomeCountry());
             }
+            appInfra.getServiceDiscovery().registerOnHomeCountrySet(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    if (intent.getAction().equals(ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION)) {
+                        String countryCode = (String) intent.getExtras().get(AIL_HOME_COUNTRY);
+                        ailCloudLogMetaData.setHomeCountry(countryCode);
+                    }
+                }
+            });
         } catch (IllegalArgumentException e) {
         }
 
