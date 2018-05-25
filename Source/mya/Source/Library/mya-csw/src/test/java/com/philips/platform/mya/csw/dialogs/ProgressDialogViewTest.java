@@ -44,7 +44,7 @@ public class ProgressDialogViewTest {
 
             @Override
             protected void setupAlertDialogFragment(FragmentActivity activity) {
-                this.alertDialogFragment = givenAlertDialogFragment;
+                this.progressDialogFragment = givenAlertDialogFragment;
             }
 
             @Override
