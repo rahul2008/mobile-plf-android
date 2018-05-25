@@ -36,6 +36,7 @@ public class AppInfraLoggingTest extends TestCase {
 
     @Mock
     private Context contextMock;
+
     @Mock
     private AppInfra appInfraMock;
 
@@ -49,32 +50,25 @@ public class AppInfraLoggingTest extends TestCase {
     private AppConfigurationInterface appConfigurationInterfaceMock;
 
     @Mock
+    private
     AILCloudLogMetaData ailCloudLogMetaData;
+
     @Mock
     private LoggingConfiguration loggingConfigurationMock;
+
     private Object[] params;
-    private String componentId;
-    private String componentVersion;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        super.setUp();
         MockitoAnnotations.initMocks(this);
         params = new Object[4];
         ailCloudLogMetaData=new AILCloudLogMetaData();
-        when(appInfraMock.getAppInfraContext()).thenReturn(contextMock);
-        when(appInfraMock.getAppInfraContext().getApplicationInfo()).thenReturn(applicationInfoMock);
-        when(loggingConfigurationMock.getAppInfra()).thenReturn(appInfraMock);
-        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(ConfigValues.getMockResponse());
-        when(appInfraMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
-        AppIdentityInterface appIdentityInterface = mock(AppIdentityInterface.class);
-        when(appIdentityInterface.getAppName()).thenReturn("uGrow");
-        when(appIdentityInterface.getAppVersion()).thenReturn("1.0.0");
-        when(appIdentityInterface.getAppState()).thenReturn(AppIdentityInterface.AppState.ACCEPTANCE);
-        when(appInfraMock.getAppIdentity()).thenReturn(appIdentityInterface);
+        configureMocks();
         HashMap hashMap = new HashMap();
         hashMap.put("logging.debugConfig", true);
         when(loggingConfigurationMock.getLoggingProperties()).thenReturn(hashMap);
-        appInfraLogging = new AppInfraLogging(appInfraMock, componentId, componentVersion) {
+        appInfraLogging = new AppInfraLogging(appInfraMock, null, null) {
             @Override
             protected Logger getJavaLogger(String componentId, String componentVersion) {
                 return loggerMock;
@@ -94,7 +88,20 @@ public class AppInfraLoggingTest extends TestCase {
 
     }
 
-    public void testLog(){
+    private void configureMocks() {
+        when(appInfraMock.getAppInfraContext()).thenReturn(contextMock);
+        when(appInfraMock.getAppInfraContext().getApplicationInfo()).thenReturn(applicationInfoMock);
+        when(loggingConfigurationMock.getAppInfra()).thenReturn(appInfraMock);
+        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(ConfigValues.getMockResponse());
+        when(appInfraMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
+        AppIdentityInterface appIdentityInterface = mock(AppIdentityInterface.class);
+        when(appIdentityInterface.getAppName()).thenReturn("uGrow");
+        when(appIdentityInterface.getAppVersion()).thenReturn("1.0.0");
+        when(appIdentityInterface.getAppState()).thenReturn(AppIdentityInterface.AppState.ACCEPTANCE);
+        when(appInfraMock.getAppIdentity()).thenReturn(appIdentityInterface);
+    }
+
+    public void testLoggingEndToEnd(){
         appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.ERROR, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.INFO, "some_event", "event_message");
