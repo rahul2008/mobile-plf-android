@@ -241,6 +241,11 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         verificationCodeValidationEditText.setEnabled(false);
         getRegistrationFragment().hideKeyBoard();
         resetSmsPassword();
+        removeThisFragmentFromStack();
+    }
+
+    private void removeThisFragmentFromStack() {
+        getActivity().getFragmentManager().popBackStack();
     }
 
     public void resetSmsPassword() {
@@ -263,6 +268,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @OnClick(R2.id.btn_reg_resend_code)
     public void resendButtonClicked() {
+        verificationCodeValidationEditText.setText("");
         final String lMobileNumberKey = "mobileNumber";
         final String tokenKey = "token";
         final String redirectUriKey = "redirectUriValue";

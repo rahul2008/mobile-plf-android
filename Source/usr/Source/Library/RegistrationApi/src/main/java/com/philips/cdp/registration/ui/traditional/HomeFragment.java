@@ -137,7 +137,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         RLog.d(TAG, "OnCreateView : is Called");
         mURFaceBookUtility = new URFaceBookUtility(this);
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
-        homePresenter = new HomePresenter(this,mCallbackManager);
+        homePresenter = new HomePresenter(this, mCallbackManager);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         view = getViewFromRegistrationFunction(inflater, container);
@@ -550,7 +550,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void startAccessTokenAuthForFacebook() {
-       homePresenter.startAccessTokenAuthForFacebook();
+        showProgressDialog();
+        homePresenter.startAccessTokenAuthForFacebook();
     }
 
     @Override
