@@ -200,7 +200,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onRefreshUserFailed(int error) {
         hideProgressSpinner();
-        final String localizedError = new URError(context).getLocalizedError(ErrorType.JANRAIN, error);
+        final String localizedError = new URError(context).getLocalizedError(ErrorType.HSDP, error);
         errorMessage.setError(localizedError);
         RLog.i(TAG, "onRefreshUserFailed : Error =" + localizedError);
     }

@@ -44,9 +44,9 @@ public class ErrorCodes {
 
     public static final int JANRAIN_CONNECTION_LOST_NO_ARGUMENT = 100;
 
-    public static final int JANRAIN_CONNECTION_LOST_INVALID_ARGUMENT =  200;
+    public static final int JANRAIN_CONNECTION_LOST_INVALID_ARGUMENT = 200;
 
-    public static final int JANRAIN_CONNECTION_LOST_MISMATCH_ARGUMENT =  201;
+    public static final int JANRAIN_CONNECTION_LOST_MISMATCH_ARGUMENT = 201;
 
     public static final int JANRAIN_CONNECTION_LOST_INVALID_REQUEST_TYPE = 205;
 
@@ -58,7 +58,7 @@ public class ErrorCodes {
 
     public static final int JANRAIN_WRONG_PASSWORD = 213;
 
-    public static final int JANRAIN_CONNECTION_LOST_APPID_NOT_EXIST =  221;
+    public static final int JANRAIN_CONNECTION_LOST_APPID_NOT_EXIST = 221;
 
     public static final int JANRAIN_CONNECTION_LOST_ENTITY_TYPE_NOT_EXIST = 222;
 
@@ -82,7 +82,7 @@ public class ErrorCodes {
 
     public static final int JANRAIN_CONNECTION_LOST_ARGUMENT_NOT_MATCHIN = 330;
 
-    public static final int JANRAIN_CONNECTION_LOST_JSON_FORMAT_ERROR =  340;
+    public static final int JANRAIN_CONNECTION_LOST_JSON_FORMAT_ERROR = 340;
 
     public static final int JANRAIN_CONNECTION_LOST_JSON_VALUE_MISMATCH = 341;
 
@@ -90,7 +90,7 @@ public class ErrorCodes {
 
     public static final int JANRAIN_CONNECTION_LOST_CONSTRAINT_VIOLATED = 360;
 
-    public static final int JANRAIN_CONNECTION_LOST_UNIQUE_CONSTRAINT_VIOLATED= 361;
+    public static final int JANRAIN_CONNECTION_LOST_UNIQUE_CONSTRAINT_VIOLATED = 361;
 
     public static final int JANRAIN_CONNECTION_LOST_EMPTY_OR_NULL_CONSTRAINT = 362;
 
@@ -136,6 +136,8 @@ public class ErrorCodes {
     public static final int HSDP_INPUT_ERROR_1008 = 1008;
 
     public static final int HSDP_INPUT_ERROR_1009 = 1009;
+
+    public static final int HSDP_INPUT_ERROR_1112 = 1112;
 
     public static final int HSDP_INPUT_ERROR_1114 = 1114;
 
@@ -194,6 +196,13 @@ public class ErrorCodes {
     public static final int HSDP_INPUT_ERROR_3073 = 3073;
 
     public static final int HSDP_INPUT_ERROR_3074 = 3074;
+
+    public static final int HSDP_INPUT_ERROR_3081 = 3081;
+
+    public static final int HSDP_INPUT_ERROR_3160 = 3160;
+
+    public static final int HSDP_INPUT_ERROR_3061 = 3161;
+
 
     public static final int REGISTER_TRADITIONAL_FAILED_SERVER_ERROR = 7003;
 

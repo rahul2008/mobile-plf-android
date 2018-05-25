@@ -76,7 +76,15 @@ public enum HSDPErrorEnum {
 
     HSDP_INPUT_ERROR_3073(ErrorCodes.HSDP_INPUT_ERROR_3073, R.string.reg_HSDP_Server_ErrorMsg),
 
-    HSDP_INPUT_ERROR_3074(ErrorCodes.HSDP_INPUT_ERROR_3074, R.string.reg_HSDP_Server_ErrorMsg);
+    HSDP_INPUT_ERROR_3074(ErrorCodes.HSDP_INPUT_ERROR_3074, R.string.reg_HSDP_Server_ErrorMsg),
+
+    HSDP_INPUT_ERROR_3160(ErrorCodes.HSDP_INPUT_ERROR_3160, R.string.reg_HSDP_Server_ErrorMsg),
+
+    HSDP_INPUT_ERROR_3061(ErrorCodes.HSDP_INPUT_ERROR_3061, R.string.reg_HSDP_Server_ErrorMsg),
+
+    HSDP_INPUT_ERROR_1112(ErrorCodes.HSDP_INPUT_ERROR_1112, R.string.reg_HSDP_Server_ErrorMsg),
+
+    HSDP_INPUT_ERROR_3081(ErrorCodes.HSDP_INPUT_ERROR_3081, R.string.reg_HSDP_Server_ErrorMsg);
 
     int errorCode;
     int stringId;
