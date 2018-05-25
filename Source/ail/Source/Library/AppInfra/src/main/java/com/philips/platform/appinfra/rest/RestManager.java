@@ -13,6 +13,7 @@ import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.BaseHttpStack;
+import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -101,7 +102,7 @@ public class RestManager implements RestInterface {
 
     private Network getNetwork() {
         BaseHttpStack stack = new AppInfraHurlStack(pinningManager, new ServiceIDResolver());
-        return new AppInfraNetwork(pinningManager, stack, mAppInfra);
+        return new BasicNetwork(stack);
     }
 
     public static HashMap<String, String> setTokenProvider(TokenProviderInterface provider) {

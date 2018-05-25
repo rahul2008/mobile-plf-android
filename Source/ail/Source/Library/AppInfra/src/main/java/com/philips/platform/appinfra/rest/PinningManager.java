@@ -104,7 +104,7 @@ public class PinningManager implements PublicKeyPinInterface {
     }
 
     private void log(String message, LoggingInterface.LogLevel logLevel) {
-        loggingInterface.log(logLevel, AppInfraNetwork.class.getSimpleName(), PUBLIC_KEY_MISMATCH_LOG_MESSAGE + ":" + message);
+        loggingInterface.log(logLevel, PinningManager.class.getSimpleName(), PUBLIC_KEY_MISMATCH_LOG_MESSAGE + ":" + message);
     }
 
     @VisibleForTesting
