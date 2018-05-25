@@ -40,8 +40,8 @@
     <string name="contact_us_text">Contact us</string>
     <string name="opening_hours">Opening hours</string>
     <string name="live_chat">Live chat</string>
-    <!--<string name="send_email">Send email</string>
-    <string name="call_number">Call</string>-->
+    <string name="send_email">Send email</string>
+    <string name="call_number">Call</string>
     <string name="chat_with_philips">Chat with Philips</string>
     <string name="check_sim">No SIM card detected. Please check if it is inserted correctly</string>
     <string name="no_data_available">No data available</string>
