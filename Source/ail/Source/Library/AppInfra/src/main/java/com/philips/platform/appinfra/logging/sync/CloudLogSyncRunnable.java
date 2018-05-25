@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,10 +18,8 @@ import com.philips.platform.appinfra.logging.rest.CloudLogRequestBodyBuilder;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +67,7 @@ public class CloudLogSyncRunnable implements Runnable {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.v("SyncTesting", "Inside onErrorResponse"+error.getMessage());
+                    Log.v("SyncTesting", "Inside onErrorResponse" + error.getMessage());
                 }
             }) {
                 @Override
