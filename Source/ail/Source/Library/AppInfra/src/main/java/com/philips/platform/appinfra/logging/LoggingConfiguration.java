@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.logging;
 
 
 import android.content.pm.ApplicationInfo;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -121,7 +122,7 @@ public class LoggingConfiguration {
                 AppInfraLoggingPropertyKey = "logging.releaseConfig";
             }
             final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
-            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+            final AppConfigurationInterface.AppConfigurationError configError = getAppConfigurationError();
             mLoggingProperties = (HashMap<?, ?>) appConfigurationInterface.getPropertyForKey(AppInfraLoggingPropertyKey, "appinfra", configError);
         }
         return mLoggingProperties;
@@ -138,19 +139,24 @@ public class LoggingConfiguration {
 
     public String getCLSecretKey(){
         final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
-        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        final AppConfigurationInterface.AppConfigurationError configError = getAppConfigurationError();
         return (String)appConfigurationInterface.getPropertyForKey(APP_INFRA_CLOUD_LOGGING_SECRET_KEY, HSDP_GROUP, configError);
+    }
+
+    @NonNull
+    AppConfigurationInterface.AppConfigurationError getAppConfigurationError() {
+        return new AppConfigurationInterface.AppConfigurationError();
     }
 
     public String getCLSharedKey(){
         final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
-        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        final AppConfigurationInterface.AppConfigurationError configError = getAppConfigurationError();
         return (String)appConfigurationInterface.getPropertyForKey(APP_INFRA_CLOUD_LOGGING_SHARED_KEY, HSDP_GROUP, configError);
     }
 
     public String getCLProductKey(){
         final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
-        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        final AppConfigurationInterface.AppConfigurationError configError = getAppConfigurationError();
         return (String)appConfigurationInterface.getPropertyForKey(APP_INFRA_CLOUD_LOGGING_PRODUCT_KEY, HSDP_GROUP, configError);
     }
 }
