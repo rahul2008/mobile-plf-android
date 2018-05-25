@@ -34,31 +34,34 @@ public class PinningManager implements PublicKeyPinInterface {
 
     @Override
     public void updatePublicPins(String hostName, String publicKeyDetails) {
-        Matcher networkKeyMatcher = extractPublicKeys(publicKeyDetails);
         String storedKeyDetails = getPublicKeyFromStorage(hostName);
+        boolean isKeyFound = publicKeyDetails.contains("pin-sha256");
 
         if (!hostName.isEmpty()) {
-            if (networkKeyMatcher == null && storedKeyDetails != null) {
+            if (!isKeyFound && storedKeyDetails != null) {
                 log(PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE, LoggingInterface.LogLevel.ERROR);
-            } else if (networkKeyMatcher != null && storedKeyDetails == null) {
+            } else if (isKeyFound && storedKeyDetails == null) {
                 updatePublicKeyInStorage(publicKeyDetails, hostName);
                 publicKeyPinCache.put(hostName, publicKeyDetails);
-            } else if (networkKeyMatcher != null) {
-                    for (int i = 1; i <= networkKeyMatcher.groupCount(); i++){
-                        if(storedKeyDetails.contains(networkKeyMatcher.group(i)))
-                            return;
-                    }
-                    updatePublicKeyInStorage(publicKeyDetails, hostName);
-                    publicKeyPinCache.put(hostName, publicKeyDetails);
+            } else if (isKeyFound) {
+                Pattern pattern = Pattern.compile("pin-sha256=\".+?\";");
+                Matcher networkKeyMatcher = pattern.matcher(publicKeyDetails);
+
+                while (networkKeyMatcher.find()) {
+                    if (storedKeyDetails.contains(networkKeyMatcher.group()))
+                        return;
+                }
+                updatePublicKeyInStorage(publicKeyDetails, hostName);
+                publicKeyPinCache.put(hostName, publicKeyDetails);
             }
         }
     }
 
     private String getPublicKeyFromStorage(String hostName) {
         String storedKeyDetails;
-        if(publicKeyPinCache.containsKey(hostName)){
+        if (publicKeyPinCache.containsKey(hostName)) {
             storedKeyDetails = publicKeyPinCache.get(hostName);
-        }else {
+        } else {
             storedKeyDetails = secureStorageInterface.fetchValueForKey(hostName, getSecureStorageError());
             publicKeyPinCache.put(hostName, storedKeyDetails);
         }
@@ -76,7 +79,7 @@ public class PinningManager implements PublicKeyPinInterface {
         log(PUBLIC_KEY_MISMATCH_LOG_MESSAGE, LoggingInterface.LogLevel.ERROR);
     }
 
-    private String getSHA256Value(X509Certificate certificate){
+    private String getSHA256Value(X509Certificate certificate) {
         // Generate the certificate's spki pin
         MessageDigest digest;
         try {
@@ -98,15 +101,6 @@ public class PinningManager implements PublicKeyPinInterface {
         } else {
             log(STORAGE_ERROR_LOG_MESSAGE, LoggingInterface.LogLevel.DEBUG);
         }
-    }
-
-    private Matcher extractPublicKeys(String publicKeyInfo) {
-        Pattern pattern = Pattern.compile("pin-sha256=\"*\";");
-        Matcher matcher = pattern.matcher(publicKeyInfo);
-        if (matcher.find()) {
-            return matcher;
-        }
-        return null;
     }
 
     private void log(String message, LoggingInterface.LogLevel logLevel) {
