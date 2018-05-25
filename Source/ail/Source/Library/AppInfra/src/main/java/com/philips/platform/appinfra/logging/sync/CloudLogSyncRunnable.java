@@ -4,9 +4,11 @@ import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.apisigning.HSDPPHSApiSigning;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
@@ -17,8 +19,10 @@ import com.philips.platform.appinfra.logging.rest.CloudLogRequestBodyBuilder;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,27 +62,31 @@ public class CloudLogSyncRunnable implements Runnable {
             //3. Make rest api call
             JSONObject jsonBody = new CloudLogRequestBodyBuilder(appInfra, prouctKey).getCloudLogRequestBody(ailCloudLogDataList);
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, "appinfra.cloudLogging", ServiceIDUrlFormatting.SERVICEPREFERENCE.BYCOUNTRY,null,jsonBody, new Response.Listener<JSONObject>() {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, "appinfra.cloudLogging", ServiceIDUrlFormatting.SERVICEPREFERENCE.BYCOUNTRY, null, jsonBody, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-
+                    Log.v("SyncTesting", "Inside onResponse");
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    Log.v("SyncTesting", "Inside onErrorResponse"+error.getMessage());
                 }
             }) {
                 @Override
                 protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+
                     if (response.statusCode == STATUS_CODE_CREATED) {
                         //4. Based on status delete data from db
                         ailCloudLogDBManager.deleteLogRecords(ailCloudLogDataList);
                         Log.v("SyncTesting", "Deleted records" + ailCloudLogDataList.size());
+                        return Response.success(new JSONObject(),
+                                HttpHeaderParser.parseCacheHeaders(response));
+
                     } else {
                         ailCloudLogDBManager.updateAILCloudLogListToNewState(ailCloudLogDataList);
+                        return Response.error(new VolleyError("Log request failed due to error::" + response.statusCode));
                     }
-                    return null;
                 }
 
                 @Override
@@ -94,7 +102,7 @@ public class CloudLogSyncRunnable implements Runnable {
 
     private Map<String, String> getCloudLoggingHeaders() {
         String signingDate = LoggingUtils.getCurrentDateAndTime(CloudLoggingConstants.CLOUD_LOGGING_DATE_TIME_FORMAT);
-        HSDPPHSApiSigning hsdpphsApiSigning = new HSDPPHSApiSigning(sharedKey,secretKey);
+        HSDPPHSApiSigning hsdpphsApiSigning = new HSDPPHSApiSigning(sharedKey, secretKey);
         Map<String, String> header = new HashMap<>();
         header.put("Content-Type", "application/json");
         header.put("api-version", "1");//int value?
