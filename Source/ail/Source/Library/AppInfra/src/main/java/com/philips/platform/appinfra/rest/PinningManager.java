@@ -13,6 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +35,7 @@ public class PinningManager implements PublicKeyPinInterface {
 
     @Override
     public void updatePublicPins(String hostName, String publicKeyDetails) {
-        String storedKeyDetails = getPublicKeyFromStorage(hostName);
+        String storedKeyDetails = getStoredPublicKey(hostName);
         boolean isKeyFound = publicKeyDetails.contains("pin-sha256");
 
         if (!hostName.isEmpty()) {
@@ -57,7 +58,7 @@ public class PinningManager implements PublicKeyPinInterface {
         }
     }
 
-    private String getPublicKeyFromStorage(String hostName) {
+    private String getStoredPublicKey(String hostName) {
         String storedKeyDetails;
         if (publicKeyPinCache.containsKey(hostName)) {
             storedKeyDetails = publicKeyPinCache.get(hostName);
@@ -69,8 +70,8 @@ public class PinningManager implements PublicKeyPinInterface {
     }
 
     @Override
-    public void validatePublicPins(String hostName, X509Certificate[] chain) {
-        String storedKeyDetails = getPublicKeyFromStorage(hostName);
+    public void validatePublicPins(String hostName, List<X509Certificate> chain) {
+        String storedKeyDetails = getStoredPublicKey(hostName);
         for (X509Certificate certificate : chain) {
             String certificatePin = getSHA256Value(certificate);
             if (certificatePin != null && storedKeyDetails.contains(certificatePin))

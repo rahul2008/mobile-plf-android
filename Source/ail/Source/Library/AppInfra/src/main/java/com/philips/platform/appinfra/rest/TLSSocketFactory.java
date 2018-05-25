@@ -20,10 +20,10 @@ public class TLSSocketFactory extends SSLSocketFactory {
 
     private SSLSocketFactory internalSSLSocketFactory;
 
-    public TLSSocketFactory(PublicKeyPinInterface pinInterface, String host) throws KeyManagementException, NoSuchAlgorithmException {
+    public TLSSocketFactory() throws KeyManagementException, NoSuchAlgorithmException {
         final SSLContext context = SSLContext.getInstance("TLS");
-        TrustManager trustManager[] = {new AppInfraTrustManager(pinInterface, host)};
-        context.init(null, trustManager , null);
+        TrustManager trustManager[] = {new AppInfraTrustManager()};
+        context.init(null, trustManager, null);
         internalSSLSocketFactory = context.getSocketFactory();
     }
 

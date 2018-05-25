@@ -15,12 +15,8 @@ import javax.net.ssl.X509TrustManager;
 public class AppInfraTrustManager implements X509TrustManager {
 
     private X509TrustManagerExtensions trustManagerExtensions;
-    private PublicKeyPinInterface pinInterface;
-    private String hostName;
 
-    public AppInfraTrustManager(PublicKeyPinInterface pinInterface, String host) {
-        this.pinInterface = pinInterface;
-        this.hostName = host;
+    public AppInfraTrustManager() {
         this.trustManagerExtensions = new X509TrustManagerExtensions(this);
     }
 
@@ -39,7 +35,6 @@ public class AppInfraTrustManager implements X509TrustManager {
         }
         checkForUserInstalledCertificates(chain);
         verifyWithDeviceCertificates(chain, authType);
-        pinInterface.validatePublicPins(hostName, chain);
     }
 
     @Override
@@ -50,11 +45,11 @@ public class AppInfraTrustManager implements X509TrustManager {
     /*
      * Used for reflection in X509TrustManagerExtensions
      */
-    public void checkServerTrusted(X509Certificate[] chain, String authType, String hostname) throws CertificateException{
+    public void checkServerTrusted(X509Certificate[] chain, String authType, String hostname) throws CertificateException {
         checkServerTrusted(chain, authType);
     }
 
-    private void checkForUserInstalledCertificates(X509Certificate[] chain) throws CertificateException{
+    private void checkForUserInstalledCertificates(X509Certificate[] chain) throws CertificateException {
         for (X509Certificate certificate : chain) {
             if (trustManagerExtensions.isUserAddedCertificate(certificate)) {
                 throw new CertificateException(CertificateExceptions.USER_INSTALLED.getText());
@@ -73,20 +68,20 @@ public class AppInfraTrustManager implements X509TrustManager {
             tmf.init((KeyStore) null);
 
             for (TrustManager trustManager : tmf.getTrustManagers()) {
-                if(trustManager instanceof X509TrustManager){
+                if (trustManager instanceof X509TrustManager) {
                     x509TrustManagerSupport = true;
-                    try{
+                    try {
                         ((X509TrustManager) trustManager).checkServerTrusted(
                                 chain, authType);
                         serverTrusted = true;
                         break;
-                    } catch (CertificateException e){
+                    } catch (CertificateException e) {
                         exceptionMessage = e.getMessage();
                     }
                 }
             }
 
-            if(!x509TrustManagerSupport || !serverTrusted){
+            if (!x509TrustManagerSupport || !serverTrusted) {
                 throw new CertificateException(exceptionMessage);
             }
 
@@ -107,7 +102,7 @@ public class AppInfraTrustManager implements X509TrustManager {
         CertificateExceptions(final String text) {
             this.text = text;
         }
-        
+
         public String getText() {
             return text;
         }

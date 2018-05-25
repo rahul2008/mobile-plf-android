@@ -101,7 +101,7 @@ public class RestManager implements RestInterface {
     }
 
     private Network getNetwork() {
-        BaseHttpStack stack = new AppInfraHurlStack(pinningManager, new ServiceIDResolver());
+        BaseHttpStack stack = new AppInfraHurlStack(pinningManager, new ServiceIDResolver(), mAppInfra.getLogging());
         return new BasicNetwork(stack);
     }
 
