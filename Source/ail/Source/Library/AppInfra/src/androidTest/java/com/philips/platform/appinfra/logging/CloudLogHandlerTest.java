@@ -51,11 +51,6 @@ public class CloudLogHandlerTest extends AppInfraInstrumentation {
         LogRecord logRecord = mock(LogRecord.class);
         when(ailCloudLogDataBuilder.buildCloudLogModel(logRecord)).thenReturn(ailCloudLogData);
         cloudLogHandler.publish(logRecord);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         verify(cloudLogDBManager).insertLog(ailCloudLogData);
     }
 }
