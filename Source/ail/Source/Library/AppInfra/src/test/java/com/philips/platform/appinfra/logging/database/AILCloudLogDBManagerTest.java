@@ -3,7 +3,6 @@ package com.philips.platform.appinfra.logging.database;
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.db.SupportSQLiteOpenHelper;
-import android.support.annotation.Nullable;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
@@ -68,7 +67,7 @@ public class AILCloudLogDBManagerTest extends TestCase {
             }
         };
         when(ailCloudLogDao.getNumberOfRows()).thenReturn(data);
-        assertEquals(ailCloudLogDBManager.getLogCount().getValue().intValue(),100);
+        assertEquals(ailCloudLogDBManager.getLogCount().getValue().intValue(), 100);
     }
 
     public void testFetchingNewAILCloudLogRecords() {
@@ -78,7 +77,7 @@ public class AILCloudLogDBManagerTest extends TestCase {
         ailCloudLogDataList.add(ailCloudLogData);
         when(ailCloudLogDao.getOldestRowsWithMaxLimit(CloudLoggingConstants.HSDP_LOG_MAX_LIMIT)).thenReturn(ailCloudLogDataList);
         List<AILCloudLogData> newAILCloudLogRecords = ailCloudLogDBManager.getNewAILCloudLogRecords();
-        assertEquals(newAILCloudLogRecords.size(),1);
+        assertEquals(newAILCloudLogRecords.size(), 1);
         assertEquals(newAILCloudLogRecords.get(0).status, AILCloudLogDBManager.DBLogState.PROCESSING.getState());
         verify(ailCloudLogDao).updateLogs(ailCloudLogDataList);
     }
@@ -88,7 +87,7 @@ public class AILCloudLogDBManagerTest extends TestCase {
         AILCloudLogData ailCloudLogData = new AILCloudLogData();
         ailCloudLogDataList.add(ailCloudLogData);
         ailCloudLogDBManager.updateAILCloudLogListToNewState(ailCloudLogDataList);
-        assertEquals(ailCloudLogDataList.size(),1);
+        assertEquals(ailCloudLogDataList.size(), 1);
         assertEquals(ailCloudLogDataList.get(0).status, AILCloudLogDBManager.DBLogState.NEW.getState());
         verify(ailCloudLogDao).updateLogs(ailCloudLogDataList);
     }

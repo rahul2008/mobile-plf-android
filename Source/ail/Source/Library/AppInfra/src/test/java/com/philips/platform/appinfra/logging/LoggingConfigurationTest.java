@@ -3,19 +3,18 @@ package com.philips.platform.appinfra.logging;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
+
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class LoggingConfigurationTest extends AppInfraInstrumentation {
+public class LoggingConfigurationTest extends TestCase {
 
     private LoggingConfiguration loggingConfiguration;
     private AppInfra mAppInfra;
@@ -24,7 +23,7 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
     protected void setUp() throws Exception {
         super.setUp();
         MockitoAnnotations.initMocks(this);
-        Context context = getInstrumentation().getContext();
+        Context context = mock(Context.class);
         mAppInfra = mock(AppInfra.class);
         when(mAppInfra.getAppInfraContext()).thenReturn(context);
         final HashMap hashMap = new HashMap();
@@ -55,6 +54,26 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
 
     public void testGetLogLevel() {
         assertEquals(loggingConfiguration.getLogLevel(),"All");
+    }
+
+    public void testAssertingNonNull() {
+        assertNotNull(loggingConfiguration.getAppInfra());
+        assertNotNull(loggingConfiguration.getComponentVersion());
+    }
+
+    public void testIsLoggingEnabled() {
+        boolean loggingEnabled = loggingConfiguration.isLoggingEnabled();
+        assertTrue(loggingEnabled);
+        final HashMap hashMap = new HashMap();
+        hashMap.put("logLevel", "Off");
+        loggingConfiguration = new LoggingConfiguration(mAppInfra,"","") {
+            @Override
+            HashMap<?, ?> getLoggingProperties() {
+                return hashMap;
+            }
+        };
+        loggingEnabled = loggingConfiguration.isLoggingEnabled();
+        assertFalse(loggingEnabled);
     }
 
 }
