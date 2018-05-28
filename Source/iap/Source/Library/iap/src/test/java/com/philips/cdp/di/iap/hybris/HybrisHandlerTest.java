@@ -114,7 +114,7 @@ public class HybrisHandlerTest {
         assertEquals(IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT, mHybrisHandler.getIAPErrorCode(msg));
     }
     
-    @Ignore
+
     @Test
     public void testStoreInitializationWithHybrisInitialization(){
         TestUtils.getStubbedHybrisDelegate();

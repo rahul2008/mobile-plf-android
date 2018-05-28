@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -33,6 +34,9 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
+import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 
 import org.joda.time.DateTime;
 
@@ -52,6 +56,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     private Button btnCompleteSync;
     private Button btnStartSyncByDateRange;
     private Button btnDeleteSyncedData;
+    private Button btnFetchMomentConsentStatus;
     private Date mStartDate;
     private DateTime jodaStartDate;
     private Date mEndDate;
@@ -63,6 +68,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     private Button btnMigrateData;
     private Button btnResetMigrationFlag;
     private TextView flagStateView;
+    private TextView momentConsentStatusTextView;
     private View fragmentView;
 
     final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
@@ -116,6 +122,8 @@ public class SyncByDateRangeFragment extends DSBaseFragment
             } else if (view == btnResetMigrationFlag) {
                 DataServicesManager.getInstance().resetGDPRMigrationFlag();
                 updateMigrationFlagView();
+            } else if (view == btnFetchMomentConsentStatus) {
+                updateMomentConsentStatusView();
             }
         }
     };
@@ -139,8 +147,10 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         btnMigrateData = fragmentView.findViewById(R.id.migrate_data);
         btnResetMigrationFlag = fragmentView.findViewById(R.id.reset_migration_flag);
         flagStateView = fragmentView.findViewById(R.id.migration_flag_status);
+        btnFetchMomentConsentStatus = fragmentView.findViewById(R.id.fetch_moment_consent_status);
+        momentConsentStatusTextView = fragmentView.findViewById(R.id.moment_consent_status);
         updateMigrationFlagView();
-
+        updateMomentConsentStatusView();
         ToggleButton mEnableDisableSync = fragmentView.findViewById(R.id.toggleButton);
 
         if (!SyncScheduler.getInstance().isSyncEnabled()) {
@@ -172,7 +182,23 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         btnDeleteSyncedData.setOnClickListener(clickListener);
         btnMigrateData.setOnClickListener(clickListener);
         btnResetMigrationFlag.setOnClickListener(clickListener);
+        btnFetchMomentConsentStatus.setOnClickListener(clickListener);
         return fragmentView;
+    }
+
+    private void updateMomentConsentStatusView() {
+        momentConsentStatusTextView.setText("fetching...");
+        JustInTimeConsentDependencies.appInfra.getConsentManager().fetchConsentTypeState("moment", new FetchConsentCallback() {
+            @Override
+            public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
+                momentConsentStatusTextView.setText(consentDefinitionStatus.getConsentState().toString());
+            }
+
+            @Override
+            public void onGetConsentFailed(ConsentError error) {
+                momentConsentStatusTextView.setText("Error fetching...");
+            }
+        });
     }
 
     @Override

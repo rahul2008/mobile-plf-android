@@ -1,11 +1,12 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.cdp.prodreg.logging;
 
-import com.philips.cdp.prodreg.launcher.PRUiHelper;
+import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.io.PrintWriter;
@@ -14,49 +15,52 @@ import java.net.UnknownHostException;
 
 @SuppressWarnings("deprecation")
 public class ProdRegLogger {
+    private static LoggingInterface mLoggingInterface;
 
-    private ProdRegLogger() {
+    public static void init() {
+        mLoggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
+        mLoggingInterface = mLoggingInterface.createInstanceForComponent("prg", BuildConfig.VERSION_NAME);
     }
 
     public static void v(String tag, String msg) {
-        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg);
+        mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, msg);
     }
 
     public static void v(String tag, String msg, Throwable tr) {
-        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg + '\n' + getStackTraceString(tr));
+        mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void d(String tag, String msg) {
 
-        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg);
+        mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, tag, msg);
     }
 
     public static void d(String tag, String msg, Throwable tr) {
-        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg + '\n' + getStackTraceString(tr));
+        mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void i(String tag, String msg) {
-        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.INFO, tag, msg);
+        mLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, msg);
     }
 
     public static void i(String tag, String msg, Throwable tr) {
-        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.INFO, tag, msg + '\n' + getStackTraceString(tr));
+        mLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void w(String tag, String msg) {
-        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg);
+        mLoggingInterface.log(LoggingInterface.LogLevel.WARNING, tag, msg);
     }
 
     public static void w(String tag, String msg, Throwable tr) {
-        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg + '\n' + getStackTraceString(tr));
+        mLoggingInterface.log(LoggingInterface.LogLevel.WARNING, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static void e(String tag, String msg) {
-        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg);
+        mLoggingInterface.log(LoggingInterface.LogLevel.ERROR, tag, msg);
     }
 
     public static void e(String tag, String msg, Throwable tr) {
-        PRUiHelper.getInstance().getLoggerInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg + '\n' + getStackTraceString(tr));
+        mLoggingInterface.log(LoggingInterface.LogLevel.ERROR, tag, msg + '\n' + getStackTraceString(tr));
     }
 
     public static String getStackTraceString(Throwable tr) {
