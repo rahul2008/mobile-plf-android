@@ -90,9 +90,26 @@ public class PermissionAdapterTest {
         thenItemChangeWasNotified();
     }
 
+    @Test
+    public void onCreateConsentSuccess() {
+        whenCreateConsentSuccessfulWithStatus(false);
+        thenConsentViewIsError(false);
+        thenConsentViewIsLoading(false);
+        thenConsentViewIsEnabled(true);
+        thenItemChangeWasNotified();
+    }
+
 
     private void givenConsentViewEnabledIs(boolean isEnabled) {
         consentView.setEnabledFlag(isEnabled);
+    }
+
+    private void whenCreateConsentFailedWithError(ConsentError consentError) {
+        permissionAdapter.onCreateConsentFailed(1, consentError);
+    }
+
+    private void whenCreateConsentSuccessfulWithStatus(boolean status) {
+        permissionAdapter.onCreateConsentSuccess(1, status);
     }
 
     private void thenItemChangeWasNotified() {
@@ -111,9 +128,4 @@ public class PermissionAdapterTest {
     private void thenConsentViewIsError(boolean expectedValue) {
         assertEquals(expectedValue, consentView.isError());
     }
-
-    private void whenCreateConsentFailedWithError(ConsentError consentError) {
-        permissionAdapter.onCreateConsentFailed(1, consentError);
-    }
-
 }
