@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed;
 
 /**
@@ -66,7 +67,7 @@ public class SHNDeviceScannerInternal {
                 return;
             }
 
-            if (shnCentral.isBluetoothAdapterEnabled()) {
+            if (shnCentral.getShnCentralState() == SHNCentralStateReady) {
                 leScanCallbackProxy.stopLeScan(leScanCallback);
                 leScanCallbackProxy.startLeScan(leScanCallback);
             }
