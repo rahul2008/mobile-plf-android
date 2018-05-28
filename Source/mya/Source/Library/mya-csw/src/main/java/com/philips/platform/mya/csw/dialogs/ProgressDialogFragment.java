@@ -18,9 +18,11 @@ public class ProgressDialogFragment extends AlertDialogFragment implements Dialo
 
     @Override
     public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-        dialog.dismiss();
-        if (getFragmentManager() != null) {
-            getFragmentManager().popBackStack();
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            dialog.dismiss();
+            if (getFragmentManager() != null) {
+                getFragmentManager().popBackStack();
+            }
         }
         return true;
     }

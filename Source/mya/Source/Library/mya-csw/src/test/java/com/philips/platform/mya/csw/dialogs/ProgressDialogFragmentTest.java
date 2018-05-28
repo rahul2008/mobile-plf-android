@@ -14,6 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,9 +34,18 @@ public class ProgressDialogFragmentTest {
     }
 
     @Test
-    public void testOnKeyDismissesDialog() {
-        whenOnKeyIsCalled();
+    public void testOnKeyDismissesDialogWhenTheKeyEventIsBackButton() {
+        whenOnKeyIsCalled(KeyEvent.KEYCODE_BACK);
         thenDialogDismissIsCalled();
+        thenOnKeyReturnsTrue();
+        thenFragmentManagetPopStackBackIsCalled();
+    }
+
+
+    @Test
+    public void testOnKeyDonotDismissDialogWhenARandomKeyIsPressed() {
+        whenOnKeyIsCalled(KeyEvent.KEYCODE_0);
+        thenDialogDismissIsNotCalled();
         thenOnKeyReturnsTrue();
         thenFragmentManagetPopStackBackIsCalled();
     }
@@ -44,8 +54,12 @@ public class ProgressDialogFragmentTest {
       //  verify(fragmentManager).popBackStack();
     }
 
-    private void whenOnKeyIsCalled() {
-        result = progressDialogFragment.onKey(dialog, 1, new KeyEvent(1,1));
+    private void whenOnKeyIsCalled(int keyCode) {
+        result = progressDialogFragment.onKey(dialog, keyCode, new KeyEvent(1, keyCode));
+    }
+
+    private void thenDialogDismissIsNotCalled() {
+        verify(dialog, never()).dismiss();
     }
 
     private void thenDialogDismissIsCalled() {
