@@ -391,4 +391,7 @@
     <!-- Facebook Keys-->
     <string name="facebook_app_id">107243606103710</string>
     <string name="fb_login_protocol_scheme">fb107243606103710demoApp</string>
+
+    <!--OTP Sender Mobile Number-->
+    <string name="otp_sender">10690669210073</string>
 </resources>
