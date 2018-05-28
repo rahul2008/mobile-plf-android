@@ -18,6 +18,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
@@ -280,6 +281,11 @@ public class SHNCentral {
         return new Handler(thread.getLooper());
     }
 
+    @VisibleForTesting
+    DataMigrater createDataMigrater() {
+        return new DataMigrater();
+    }
+
     /**
      * Register a {@link SHNBondStatusListener} for device with specific address.
      *
@@ -416,7 +422,7 @@ public class SHNCentral {
     }
 
     private void migrateDataFromOldKeysToNewKeys(final @NonNull Context context, final SharedPreferencesProvider sharedPreferencesProvider) {
-        final DataMigrater dataMigrater = new DataMigrater();
+        final DataMigrater dataMigrater = createDataMigrater();
         dataMigrater.execute(context, createPersistentStorageFactory(sharedPreferencesProvider));
     }
 

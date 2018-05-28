@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed;
 import static com.philips.pins.shinelib.SHNDeviceScannerInternal.SCANNING_RESTART_INTERVAL_MS;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -177,7 +178,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     public void givenScanningIsStarted_WhenBluetoothIsTurnedOn_ThenScanningIsRestarted() {
         startScanning();
 
-        when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(true);
+        when(shnCentralMock.getShnCentralState()).thenReturn(SHNCentralStateReady);
         shnCentralListenerArgumentCaptor.getValue().onStateUpdated(shnCentralMock);
 
         verify(leScanCallbackProxyMock).stopLeScan(any(LeScanCallback.class));
