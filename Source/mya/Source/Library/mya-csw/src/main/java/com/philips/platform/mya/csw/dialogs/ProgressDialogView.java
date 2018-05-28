@@ -61,8 +61,7 @@ public class ProgressDialogView implements View.OnClickListener {
         ProgressDialogFragment.Builder builder = new ProgressDialogFragment.Builder(activity, R.style.MyaAlertDialog)
                 .setDialogView(view)
                 .setDialogType(DialogConstants.TYPE_DIALOG)
-                .setDimLayer(DialogConstants.DIM_STRONG)
-                .setCancelable(true);
+                .setDimLayer(DialogConstants.DIM_STRONG);
         progressDialogFragment = (ProgressDialogFragment) builder.create(new ProgressDialogFragment());
     }
 
