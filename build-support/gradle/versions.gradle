@@ -15,28 +15,31 @@ ext.platformversion = baseplatformversion + "." + epochTime()
 ext.platformversionsuffix = baseplatformversion + ".+"
 
 ext.versions = [
-        sdk                  : 26,
-        target               : 26,
+        sdk                  : 27,
+        target               : 27,
         minsdk               : 21,
-        buildtools           : '26.0.2',
-        support              : '26.0.2',
+        buildtools           : '27.0.3',
+        support              : '27.0.2',
         jacoco               : '0.8.0',
         dagger               : '2.13',
-        renderscriptTargetApi: 26
+        renderscriptTargetApi: 27,
+        toolVersion          : '0.7.4.201502262128',
+        sourceCompatibility  : 1.8,
+        targetCompatibility  : 1.8
 ]
 
 ext.builddeps = [
-        androidapt        : 'com.neenbedankt.gradle.plugins:android-apt:1.8',
         bintrayplugin     : 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2',
-        buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12',
-        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '4.0.0', changing: true],
+        buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.2',
+        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '4.3.0', changing: true],
         googleservices    : 'com.google.gms:google-services:3.0.0',
-        gradle            : 'com.android.tools.build:gradle:2.3.3',
+        gradle            : 'com.android.tools.build:gradle:3.0.1',
         hockeyapp         : 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6',
         jruby_gradle      : 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5',
         mobilej           : 'de.mobilej.unmock:UnMockPlugin:0.6.2',
         trickyandroid     : 'com.trickyandroid:jacoco-everywhere:0.2.1',
         pitest            : 'pl.droidsonroids.gradle:gradle-pitest-plugin:0.0.4',
+        pitest_solidsoft  : 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.3.0',
         jacoco_android    : 'com.dicedmelon.gradle:jacoco-android:0.1.2'
 ]
 
@@ -89,6 +92,7 @@ ext.repos.releaseexternal = ext.repos.base + "/platform-plugins-release-local"
 ext.repos.snapshot = ext.repos.base + "/platform-pkgs-android-snapshot"
 ext.repos.snapshot_local = ext.repos.base + "/platform-pkgs-android-snapshot-local"
 ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
+ext.repos.mavengoogle = ext.repos.base + "/platform-maven-google-com"
 
 ext.clojars = "https://clojars.org/repo/"
 ext.sonatype = "https://oss.sonatype.org/content/repositories/snapshots"
@@ -97,7 +101,7 @@ ext.robolectric = "https://mvnrepository.com/artifact/org.robolectric/shadows-co
 ext.deps = [
         adobemobilelib                : 'adobeMobileLibrary:adobeMobileLibrary:4.14.0',
         americanwell                  : 'com.americanwell:awsdk:3.2.2',
-        butterknife                   : 'com.jakewharton:butterknife:8.8.1',
+        butterknife                   : 'com.jakewharton:butterknife:9.0.0-SNAPSHOT',
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
         constraintlayout              : 'com.android.support.constraint:constraint-layout:1.0.2',
         dagger                        : [
@@ -106,6 +110,7 @@ ext.deps = [
                 compiler        : "com.google.dagger:dagger-compiler:${ext.versions.dagger}",
                 dagger          : "com.google.dagger:dagger:${ext.versions.dagger}"
         ],
+        firbase_messaging             : 'com.google.firebase:firebase-messaging:11.0.4',
         glassfish_annotation          : 'org.glassfish:javax.annotation:10.0-b28',
         glide                         : 'com.github.bumptech.glide:glide:3.7.0',
         greenrobot                    : 'org.greenrobot:eventbus:3.1.1',
@@ -134,6 +139,7 @@ ext.deps = [
                 animvecdraw : "com.android.support:animated-vector-drawable:${ext.versions.support}",
                 annotations : "com.android.support:support-annotations:${ext.versions.support}",
                 appcompatv7 : "com.android.support:appcompat-v7:${ext.versions.support}",
+                supportcompat : "com.android.support:support-compat:${ext.versions.support}",
                 cardview    : "com.android.support:cardview-v7:${ext.versions.support}",
                 customtabs  : "com.android.support:customtabs:${ext.versions.support}",
                 design      : "com.android.support:design:${ext.versions.support}",
@@ -141,6 +147,7 @@ ext.deps = [
                 recyclerview: "com.android.support:recyclerview-v7:${ext.versions.support}",
                 supportv4   : "com.android.support:support-v4:${ext.versions.support}"
         ],
+        theneura                      : 'com.theneura:android-sdk:5.0.5',
         volley                        : 'com.android.volley:volley:1.1.0',
 
         // Testing
@@ -150,8 +157,8 @@ ext.deps = [
         androidJUnitRunner            : 'android.support.test.runner.AndroidJUnitRunner',
         apache                        : 'org.apache.http.legacy:org.apache.http.legacy:1.0.0',
         assertj                       : 'com.squareup.assertj:assertj-android:1.1.1',
-        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:8.8.1',
-        butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:8.8.1',
+        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:9.0.0-SNAPSHOT',
+        butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:9.0.0-SNAPSHOT',
         cucumber                      : 'info.cukes:cucumber-android:1.2.2',
         cucumber_junit                : 'info.cukes:cucumber-junit:1.2.2',
         dexmaker_google               : 'com.google.dexmaker:dexmaker:1.2',
@@ -177,6 +184,7 @@ ext.deps = [
         openid_appauth                : 'net.openid:appauth:0.7.0',
         play_services_gcm             : 'com.google.android.gms:play-services-gcm:11.0.4',
         play_services_location        : 'com.google.android.gms:play-services-location:11.0.4',
+        play_services_awareness       : 'com.google.android.gms:play-services-awareness:11.0.4',
         powermock_api_mockito         : 'org.powermock:powermock-api-mockito2:1.7.3',
         powermock_api_mockito_old     : 'org.powermock:powermock-api-mockito:1.7.3',
         powermock_classloading_xstream: 'org.powermock:powermock-classloading-xstream:1.7.3',
@@ -186,12 +194,13 @@ ext.deps = [
         powermock_junit_rule_agent    : 'org.powermock:powermock-module-junit4-rule-agent:1.7.3',
         retrolambda                   : 'net.orfjackal.retrolambda:retrolambda:2.5.1',
         retrolambda_gradle            : 'me.tatarka:gradle-retrolambda:3.6.0',
-        robolectric                   : 'org.robolectric:robolectric:3.3.1',
-        robolectric_junit             : 'org.robolectric:junit:3.6.1',
+        robolectric_3_8               : 'org.robolectric:robolectric:3.8',
+        robolectric                   : 'org.robolectric:robolectric:3.4-rc2',
+        robolectric_junit             : 'org.robolectric:junit:3.4-rc2',
         robolectric_junit2            : 'org.robolectric:robolectric-junit:3.4-rc2',
-        robolectric_shadows           : 'org.robolectric:shadows-support-v4:3.3.2',
-        robolectric_shadows_multidex  : 'org.robolectric:shadows-multidex:3.6.1',
-        robolectric_utils             : 'org.robolectric:robolectric-utils:3.3.2',
+        robolectric_shadows           : 'org.robolectric:shadows-support-v4:3.4-rc2',
+        robolectric_shadows_multidex  : 'org.robolectric:shadows-multidex:3.4-rc2',
+        robolectric_utils             : 'org.robolectric:robolectric-utils:3.4-rc2',
         rubygems                      : 'rubygems:roo:2.0.0',
         rxbinding                     : 'com.jakewharton.rxbinding2:rxbinding:2.0.0',
         rxjava2                       : 'io.reactivex.rxjava2:rxandroid:2.0.2',
@@ -201,5 +210,9 @@ ext.deps = [
         testing_support               : 'com.android.support.test:testing-support-lib:0.1',
         uiautomator                   : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
         wechat                        : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0',
-        commons_io                    : [group: 'commons-io', name: 'commons-io', version: '2.0.1']
+        jsr305                        : 'com.google.code.findbugs:jsr305:3.0.1',
+        spoon_gradle_plugin           : 'com.stanfy.spoon:spoon-gradle-plugin:1.1.0',
+        thoughtworks_xstream          : 'com.thoughtworks.xstream:xstream:1.4.7',
+        commons_io                    : [group: 'commons-io', name: 'commons-io', version: '2.0.1'],
+        facebook                      : 'com.facebook.android:facebook-login:[4,5)'
 ]

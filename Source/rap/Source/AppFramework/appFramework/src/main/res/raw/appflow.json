@@ -72,6 +72,59 @@
         ]
       },
       {
+        "state": "neura",
+        "events": [
+          {
+            "eventId": "allow",
+            "nextStates": [
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "mayBeLater",
+            "nextStates": [
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "privacyPhilips",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          },
+          {
+            "eventId": "privacyNeura",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "onBoarding_registration",
         "events": [
           {
@@ -111,6 +164,12 @@
             "nextStates": [
               {
                 "condition": [
+                  "shouldLaunchNeura"
+                ],
+                "nextState": "neura"
+              },
+              {
+                "condition": [
                   "isLoggedIn"
                 ],
                 "nextState": "home"
@@ -124,6 +183,12 @@
           {
             "eventId": "welcome_done",
             "nextStates": [
+              {
+                "condition": [
+                  "shouldLaunchNeura"
+                ],
+                "nextState": "neura"
+              },
               {
                 "condition": [
                   "isLoggedIn"
@@ -497,6 +562,15 @@
               {
                 "condition": [],
                 "nextState": "telehealthservicesdemo"
+              }
+            ]
+          },
+          {
+            "eventId": "TestNeuraDemoEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "neurademo"
               }
             ]
           }

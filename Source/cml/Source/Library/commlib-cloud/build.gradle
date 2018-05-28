@@ -8,6 +8,7 @@ apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 archivesBaseName = "commlib-cloud"
 
@@ -36,7 +37,7 @@ android {
     lintOptions {
         abortOnError false
     }
-    publishNonDefault true
+
 }
 
 task generateJavadocPublicApi(type: Javadoc) {
@@ -64,32 +65,31 @@ task generateJavadocPublicApi(type: Javadoc) {
 }
 
 dependencies {
-    provided deps.support.annotations
+    compileOnly deps.support.annotations
 
     def suffix = objcdp.getVersionSuffix()
 
     for (dep in [':commlib-api', ':cloudcontroller-api']) {
         if (findProject(dep)) {
-            debugCompile project(path: dep, configuration: 'debug')
-            releaseCompile project(path: dep, configuration: 'release')
+            implementation project(dep)
         } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
+            implementation("$group$dep:$platformversion$suffix") { changing = true }
         }
     }
 
-    for (dep in [':cloudcontroller', ':commlib-testutils']) {
+    for (dep in [':cloudcontroller', ':cloudcontroller-api',':commlib-testutils']) {
         if (findProject(dep)) {
-            testCompile project(path: dep, configuration: 'debug')
+            testImplementation project(dep)
         } else {
-            testCompile("$group$dep:$platformversion$suffix") { changing = true }
+            testImplementation("$group$dep:$platformversion$suffix") { changing = true }
         }
     }
 
-    compile deps.gson
+    implementation deps.gson
 
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.assertj
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.assertj
 }
 
 pitest {
@@ -113,4 +113,7 @@ pitest {
     outputFormats = ['XML', 'HTML'] /* specify output format */
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
+}
+tasks.withType(Test) {
+    ignoreFailures = true
 }

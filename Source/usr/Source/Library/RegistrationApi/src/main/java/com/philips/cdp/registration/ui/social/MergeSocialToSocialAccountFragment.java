@@ -11,6 +11,7 @@ package com.philips.cdp.registration.ui.social;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.facebook.CallbackManager;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
@@ -31,6 +33,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.URFaceBookUtility;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -83,11 +86,14 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     private Context mContext;
 
     private MergeSocialToSocialAccountPresenter mergeSocialToSocialAccountPresenter;
+    private URFaceBookUtility mURFaceBookUtility;
+    private CallbackManager mCallbackManager;
+    private String mEmail;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext=context;
+        mContext = context;
     }
 
     @Override
@@ -98,7 +104,10 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         initUI(view);
         networkChangeStatus(networkUtility.isNetworkAvailable());
         handleOrientation(view);
-        mergeSocialToSocialAccountPresenter = new MergeSocialToSocialAccountPresenter(this,user);
+        mURFaceBookUtility = new URFaceBookUtility(this);
+        mCallbackManager = mURFaceBookUtility.getCallBackManager();
+        mergeSocialToSocialAccountPresenter = new MergeSocialToSocialAccountPresenter(this, user);
+        initFacebookLogIn();
         return view;
     }
 
@@ -121,13 +130,14 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
         mConflictProvider = bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
+        mEmail = bundle.getString(RegConstants.SOCIAL_MERGE_EMAIL);
         String conflictingProvider = "reg_" + mConflictProvider;
         int conflictSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(conflictingProvider, "string",
                 getRegistrationFragment().getParentActivity().getPackageName());
         String conflictSocialProvider = mContext.getResources().getString(conflictSocialProviderId);
 
-        usr_mergeScreen_used_social_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_label.getText().toString(),  "<b>" + conflictSocialProvider+"</b>")));
-        usr_mergeScreen_used_social_again_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_again_label.getText().toString(), "<b>" + conflictSocialProvider+"</b>")));
+        usr_mergeScreen_used_social_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_label.getText().toString(), "<b>" + conflictSocialProvider + "</b>")));
+        usr_mergeScreen_used_social_again_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_again_label.getText().toString(), "<b>" + mEmail + "</b>")));
         usr_mergeScreen_login_button.setText(String.format(usr_mergeScreen_login_button.getText(), conflictSocialProvider));
     }
 
@@ -164,7 +174,11 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @OnClick(R2.id.usr_mergeScreen_login_button)
     void mergeAccount() {
         if (networkUtility.isNetworkAvailable()) {
-            mergeSocialToSocialAccountPresenter.loginUserUsingSocialProvider(mConflictProvider, mMergeToken);
+            if(mConflictProvider.equalsIgnoreCase(RegConstants.SOCIAL_PROVIDER_FACEBOOK)){
+                startFaceBookLogin();
+            }else {
+                mergeSocialToSocialAccountPresenter.loginUserUsingSocialProvider(mConflictProvider, mMergeToken);
+            }
             showMergeSpinner();
         } else {
             mRegError.setError(getString(R.string.reg_JanRain_Error_Check_Internet));
@@ -269,5 +283,51 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @Override
     public Activity getActivityContext() {
         return getActivity();
+    }
+
+    @Override
+    public MergeSocialToSocialAccountFragment getHomeFragment() {
+        return this;
+    }
+
+    @Override
+    public URFaceBookUtility getURFaceBookUtility() {
+        return mURFaceBookUtility;
+    }
+
+    @Override
+    public void initFacebookLogIn() {
+        mergeSocialToSocialAccountPresenter.registerFaceBookCallBack();
+    }
+
+    @Override
+    public void onFaceBookEmailReceived(String email) {
+            startAccessTokenAuthForFacebook();
+    }
+
+    @Override
+    public void startFaceBookLogin() {
+        mURFaceBookUtility.startFaceBookLogIn();
+    }
+
+    @Override
+    public void doHideProgressDialog() {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void startAccessTokenAuthForFacebook() {
+        mergeSocialToSocialAccountPresenter.startAccessTokenAuthForFacebook(mMergeToken);
+    }
+
+    @Override
+    public CallbackManager getCallBackManager() {
+        return mCallbackManager;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

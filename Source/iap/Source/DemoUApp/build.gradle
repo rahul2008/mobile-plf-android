@@ -114,22 +114,16 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.implementation.allDependencies
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
             }
         }
@@ -140,20 +134,6 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-
-    /*defaultConfig {
-        applicationId "com.philips.cdp.di.iapdemo"
-        minSdkVersion 21
-        targetSdkVersion 25
-        multiDexEnabled true
-        renderscriptTargetApi 25
-        renderscriptSupportModeEnabled true
-        // replace the below string with your own Google client ID. Make sure this is consistent
-        // with the values used in openid_appauth_idp_configs.xml
-        manifestPlaceholders = [
-                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
-        ]
-    }*/
 
     defaultConfig {
        // applicationId "com.iap.demouapp"
@@ -219,33 +199,37 @@ android {
         enabled = true
     }
 
-    publishNonDefault true
+
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile(deps.espresso_core, {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.support.appcompatv7
+    implementation deps.support.supportv4
+
+    androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-   // compile 'com.android.support:appcompat-v7:25.3.1'
-    testCompile deps.junit
+    testImplementation deps.junit
 
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        debugCompile project(path: ':iap', configuration: 'debug')
-        releaseCompile project(path: ':iap', configuration: 'release')
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
-        debugCompile project(path: ':registrationApi', configuration: 'debug')
-        releaseCompile project(path: ':registrationApi', configuration: 'release')
+        implementation project(':iap')
+        implementation project(':registrationApi')
+        implementation project(':uid')
+        implementation project(':AppInfra')
+        implementation project(':uAppFwLib')
     } else {
-        compile philipsdeps.iap
-        compile philipsdeps.uid
-        compile philipsdeps.registrationApi
+        implementation philipsdeps.iap
+        implementation philipsdeps.uid
+        implementation philipsdeps.registrationApi
     }
 
-    compile deps.constraintlayout
+    implementation deps.constraintlayout
 
 
+}
+tasks.withType(Test) {
+    ignoreFailures = true
 }

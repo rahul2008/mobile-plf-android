@@ -4,7 +4,19 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookAuthorizationException;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
@@ -38,6 +50,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,6 +61,8 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.philips.cdp.registration.app.tagging.AppTagging.trackPage;
+import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_FACEBOOK;
+import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_WECHAT;
 
 public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener {
 
@@ -65,14 +80,13 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     @Inject
     ServiceDiscoveryWrapper serviceDiscoveryWrapper;
 
-
     @Inject
     User user;
 
     private HomeContract homeContract;
 
 
-    public HomePresenter(HomeContract homeContract) {
+    HomePresenter(HomeContract homeContract, CallbackManager mCallbackManager) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.homeContract = homeContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
@@ -82,7 +96,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                 .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
     }
 
-    public void cleanUp() {
+    void cleanUp() {
         homeContract.unRegisterWechatReceiver();
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
@@ -101,7 +115,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-    public void updateHomeControls() {
+    void updateHomeControls() {
         if (networkUtility.isNetworkAvailable()) {
             homeContract.enableControlsOnNetworkConnectionArraival();
         } else {
@@ -109,7 +123,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         }
     }
 
-    public void configureCountrySelection() {
+    void configureCountrySelection() {
         String mShowCountrySelection = appConfiguration.getShowCountrySelection();
         RLog.i(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
         if (mShowCountrySelection != null) {
@@ -122,7 +136,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-    public void initServiceDiscovery() {
+    void initServiceDiscovery() {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
@@ -148,7 +162,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         });
     }
 
-    public List<String> getProviders(String countryCode) {
+    List<String> getProviders(String countryCode) {
         return RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode);
     }
 
@@ -160,7 +174,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     private String weChat = "WECHAT";
 
 
-    public void registerWeChatApp() {
+    void registerWeChatApp() {
         mWeChatAppId = appConfiguration.getWeChatAppId();
         mWeChatAppSecret = appConfiguration.getWeChatAppSecret();
         RLog.i(weChat, weChat + "Id " + mWeChatAppId + weChat + "Secrete" + mWeChatAppSecret);
@@ -174,7 +188,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         }
     }
 
-    public boolean isWeChatAuthenticate() {
+    boolean isWeChatAuthenticate() {
         if (!mWeChatApi.isWXAppInstalled()) {
             homeContract.wechatAppNotInstalled();
             return false;
@@ -186,7 +200,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         return isWeChatAppRegistered;
     }
 
-    public void startWeChatAuthentication() {
+    void startWeChatAuthentication() {
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "123456";
@@ -194,7 +208,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-    public void handleWeChatCode(String pWeChatCode) {
+    void handleWeChatCode(String pWeChatCode) {
         RLog.i("WECHAT", "WeChat Code: " + pWeChatCode);
         WeChatAuthenticator weChatAuthenticator = new WeChatAuthenticator();
         weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, pWeChatCode,
@@ -209,12 +223,14 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                                     "wechat", token, openId, HomePresenter.this, "");
                         } catch (JSONException e) {
                             homeContract.wechatAuthenticationSuccessParsingError();
+                            RLog.e("WECHAT", "Error handleWeChatCode wechatAuthenticationSuccessParsingError");
                         }
                     }
 
                     @Override
                     public void onFail() {
                         homeContract.wechatAuthenticationFailError();
+                        RLog.e("WECHAT", "Error handleWeChatCode wechatAuthenticationFailError ");
                     }
                 });
     }
@@ -269,31 +285,13 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         homeContract.loginFailed(userRegistrationFailureInfo);
     }
 
-    public ArrayList<Country> getAllCountries() {
-        try {
-            ArrayList<Country> allCountriesList = new ArrayList<Country>();
-            String[] recourseList = RegUtility.supportedCountryList().toArray(new String[RegUtility.supportedCountryList().size()]);
-            for (String aRecourseList : recourseList) {
-
-                Country country = new Country(aRecourseList, new Locale("", aRecourseList).getDisplayCountry());
-                allCountriesList.add(country);
-            }
-            return allCountriesList;
-
-        } catch (Exception e) {
-            return null;
-        }
-
-    }
-
-
     private HomePresenter.FLOWDELIGATE deligateFlow = HomePresenter.FLOWDELIGATE.DEFAULT;
 
-    public void setFlowDeligate(FLOWDELIGATE deligateFlow) {
+    void setFlowDeligate(FLOWDELIGATE deligateFlow) {
         this.deligateFlow = deligateFlow;
     }
 
-    public void navigateToScreen() {
+    void navigateToScreen() {
 
         if (isEmailAvailable() && isMobileNoAvailable() && !isEmailVerified()) {
             homeContract.naviagteToAccountActivationScreen();
@@ -314,7 +312,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-    public void completeRegistation() {
+    void completeRegistation() {
         String emailorMobile;
         if (FieldsValidator.isValidEmail(user.getEmail())) {
             emailorMobile = user.getEmail();
@@ -330,11 +328,11 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         homeContract.registrationCompleted();
     }
 
-    public boolean isNetworkAvailable() {
+    boolean isNetworkAvailable() {
         return networkUtility.isNetworkAvailable();
     }
 
-    public void onSelectCountry(String countryName, String code) {
+    void onSelectCountry(String countryName, String code) {
         setFlowDeligate(HomePresenter.FLOWDELIGATE.DEFAULT);
         if (networkUtility.isNetworkAvailable()) {
             serviceDiscoveryInterface.setHomeCountry(code);
@@ -344,23 +342,33 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         }
     }
 
+
+    void registerFaceBookCallBack() {
+        RLog.i(TAG, "registerFaceBookCallBack");
+        homeContract.getURFaceBookUtility().registerFaceBookCallBack();
+    }
+
+    public void startAccessTokenAuthForFacebook() {
+        homeContract.getURFaceBookUtility().startAccessTokenAuthForFacebook(user, homeContract.getActivityContext(), this, AccessToken.getCurrentAccessToken().getToken(), null);
+    }
+
     public enum FLOWDELIGATE {
         DEFAULT, CREATE, LOGIN, SOCIALPROVIDER;
     }
 
-    public void setProvider(String provider) {
+    void setProvider(String provider) {
         this.provider = provider;
     }
 
-    public boolean isMergePossible(String provider) {
+    boolean isMergePossible(String provider) {
         return user.handleMergeFlowError(provider);
     }
 
-    public String getProvider() {
+    String getProvider() {
         return provider;
     }
 
-    private String provider;
+    String provider;
 
     @Override
     public void onEventReceived(String event) {
@@ -376,12 +384,14 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
             }
             if (deligateFlow == FLOWDELIGATE.SOCIALPROVIDER) {
                 homeContract.handleBtnClickableStates(false);
-                if (provider.equalsIgnoreCase("wechat")) {
+                if (provider.equalsIgnoreCase(SOCIAL_PROVIDER_WECHAT)) {
                     if (isWeChatAuthenticate()) {
                         homeContract.startWeChatAuthentication();
                     } else {
                         homeContract.switchToControlView();
                     }
+                } else if (provider.equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK)) {
+                    homeContract.startFaceBookLogin();
                 } else {
                     homeContract.socialProviderLogin();
                 }
@@ -393,11 +403,11 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         }
     }
 
-    public void startSocialLogin() {
+    void startSocialLogin() {
         user.loginUserUsingSocialProvider(homeContract.getActivityContext(), provider, this, null);
     }
 
-    public void trackSocialProviderPage() {
+    void trackSocialProviderPage() {
         if (provider == null) {
             return;
         }
@@ -413,7 +423,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
 
-    public BroadcastReceiver getMessageReceiver() {
+    BroadcastReceiver getMessageReceiver() {
         return messageReceiver;
     }
 
@@ -451,11 +461,11 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         return user.getMobile() != null && FieldsValidator.isValidMobileNumber(user.getMobile());
     }
 
-    public boolean isEmailVerified() {
+    boolean isEmailVerified() {
         return user.isEmailVerified();
     }
 
-    public boolean isMobileVerified() {
+    boolean isMobileVerified() {
         return user.isMobileVerified();
     }
 
@@ -499,4 +509,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                     }
                 });
     }
+
+
 }

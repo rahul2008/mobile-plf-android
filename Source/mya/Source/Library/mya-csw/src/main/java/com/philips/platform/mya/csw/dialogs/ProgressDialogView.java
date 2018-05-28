@@ -62,8 +62,7 @@ public class ProgressDialogView implements View.OnClickListener {
                 .setDialogView(view)
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDimLayer(DialogConstants.DIM_STRONG)
-                .setCancelable(false);
-
+                .setCancelable(true);
         alertDialogFragment = builder.create(new AlertDialogFragment());
     }
 

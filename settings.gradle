@@ -54,6 +54,7 @@ include ':mya-catk'
 include ':pif'
 include ':ews-android'
 include ':ewsUApp'
+include ':NeuraUApp'
 
 //opa archive references:
 project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra')
@@ -104,7 +105,7 @@ project(':mya-catk').projectDir = new File('./Source/mya/Source/Library/mya-catk
 project(':pif').projectDir = new File('./Source/pif/Source/Library/pif')
 project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
 project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
-
+project(':NeuraUApp').projectDir = new File('./Source/neu/Source/DemoUApp/DemoUApp')
 //demoapps to be published to artifactory
 include ':UserRegistrationApp'
 project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
@@ -127,11 +128,8 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
 //include ':product-registration-libApp'
 //project(':product-registration-libApp').projectDir = new File('./Source/prg/Source/DemoApp/DemoApp')
-
-// DSC - DataServices Component DemoApp (uncomment this section if you want to use)
 //include ':dataServicesApp'
 //project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
-
 //include ':prxApp'
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
 //include ':MyAccountApp'

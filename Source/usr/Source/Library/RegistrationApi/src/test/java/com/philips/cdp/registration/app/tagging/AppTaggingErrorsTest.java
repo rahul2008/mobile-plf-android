@@ -1,12 +1,10 @@
 package com.philips.cdp.registration.app.tagging;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.injection.RegistrationComponent;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.URInterface;
+
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,15 +12,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
-import static org.junit.Assert.*;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Created by philips on 12/3/17.
  */
-@RunWith(CustomRobolectricRunner.class)
-@org.robolectric.annotation.Config(constants = BuildConfig.class, sdk = 21)
-public class AppTaggingErrorsTest {
+@RunWith(MockitoJUnitRunner.class)
+public class AppTaggingErrorsTest extends TestCase{
 
     AppTaggingErrors appTaggingErrors;
 
@@ -100,7 +96,7 @@ public class AppTaggingErrorsTest {
     @Test
     public void trackActionForgotPasswordFailure_forDefault() throws Exception {
         Mockito.when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(1000);
-        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
+//        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
         appTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfoMock,"flowType");
 
         String SEND_DATA = "sendData";
@@ -122,7 +118,7 @@ public class AppTaggingErrorsTest {
     public void trackActionResendNetworkDefault() throws Exception {
 
         Mockito.when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(100);
-        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
+//        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
         appTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfoMock,"flowType");
     }
 
@@ -141,7 +137,7 @@ public class AppTaggingErrorsTest {
     @Test
     public void trackActionLoginError_Default() throws Exception {
         Mockito.when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(100);
-        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
+//        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
         appTaggingErrors.trackActionLoginError(userRegistrationFailureInfoMock,"flowType");
     }
 
@@ -160,7 +156,7 @@ public class AppTaggingErrorsTest {
     @Test
     public void trackActionRegisterError_Default() throws Exception {
         Mockito.when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(100);
-        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
+//        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
         appTaggingErrors.trackActionRegisterError(userRegistrationFailureInfoMock,"flowType");
     }
 

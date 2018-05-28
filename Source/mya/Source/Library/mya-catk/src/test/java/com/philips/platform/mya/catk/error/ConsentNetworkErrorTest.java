@@ -8,7 +8,9 @@
 package com.philips.platform.mya.catk.error;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
+import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.platform.mya.catk.BuildConfig;
@@ -46,6 +48,8 @@ public class ConsentNetworkErrorTest {
     @Mock
     VolleyError mockVolleyError;
 
+    private String someErrorResponse = "{\"incidentID\":\"8bbaa45f\",\"errorCode\":100,\"description\":\"description\"}";;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -58,78 +62,84 @@ public class ConsentNetworkErrorTest {
 
     @Test
     public void testInit() throws Exception {
-        givenConsentNetworkErrorWithType(mockVolleyError);
+        whenCreatingConsentNetworkErrorWithType(mockVolleyError);
         thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_UNKNOWN);
     }
 
     @Test
     public void tesGetMessage() throws Exception {
-        givenConsentNetworkErrorWithType(mockTimeoutError);
-        givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
+        whenCreatingConsentNetworkErrorWithType(mockTimeoutError);
+        whenSettingErrorMessage(CUSTOM_ERROR_MESSAGE);
         thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
         thenErrorMessageIs(CUSTOM_ERROR_MESSAGE);
     }
 
     @Test
     public void tesGetMessageServerError() throws Exception {
-        givenConsentNetworkErrorWithType(mockTimeoutError);
-        givenErrorCodeIs(ConsentError.CONSENT_ERROR_NO_CONNECTION);
-        givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
+        whenCreatingConsentNetworkErrorWithType(mockTimeoutError);
+        whenSettingErrorCode(ConsentError.CONSENT_ERROR_NO_CONNECTION);
+        whenSettingErrorMessage(CUSTOM_ERROR_MESSAGE);
         thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_NO_CONNECTION);
         thenErrorMessageIs(CUSTOM_ERROR_MESSAGE);
     }
 
     @Test
     public void tesGetStatusCode() throws Exception {
-        givenConsentNetworkErrorWithType(mockTimeoutError);
-        givenErrorCodeIs(ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
-        givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
+        whenCreatingConsentNetworkErrorWithType(mockTimeoutError);
+        whenSettingErrorCode(ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
+        whenSettingErrorMessage(CUSTOM_ERROR_MESSAGE);
         thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
         thenStatusCodeIs(ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
     }
 
     @Test
     public void testSuccessCode() throws Exception {
-        givenConsentNetworkErrorWithType(mockTimeoutError);
-        givenErrorCodeIs(ConsentError.CONSENT_SUCCESS);
-        givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
+        whenCreatingConsentNetworkErrorWithType(mockTimeoutError);
+        whenSettingErrorCode(ConsentError.CONSENT_SUCCESS);
+        whenSettingErrorMessage(CUSTOM_ERROR_MESSAGE);
         thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_SUCCESS);
         thenStatusCodeIs(ConsentError.CONSENT_SUCCESS);
     }
 
     @Test
     public void testNoConnectionErrorType() throws Exception {
-        givenConsentNetworkErrorWithType(mockNoConnectionError);
+        whenCreatingConsentNetworkErrorWithType(mockNoConnectionError);
         thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_NO_CONNECTION);
     }
 
     @Test
-    public void testServerErrorErrorType() throws Exception {
-        givenConsentNetworkErrorWithType(mockServerError);
-        thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_SERVER_ERROR);
+    public void testServerError_setsErrorCodeFromServerError() throws Exception {
+        whenCreatingConsentNetworkErrorWithType(new ServerError(new NetworkResponse(someErrorResponse.getBytes())));
+        thenConsentNetworkErrorCodeIs(100);
+    }
+
+    @Test
+    public void testServerError_setsErrorCode5WhenNoNetworkResponse() throws Exception {
+        whenCreatingConsentNetworkErrorWithType(mockServerError);
+        thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_UNKNOWN_SERVER_ERROR);
     }
 
     @Test
     public void testAuthFailureErrorType() throws Exception {
-        givenConsentNetworkErrorWithType(mockAuthFailureError);
+        whenCreatingConsentNetworkErrorWithType(mockAuthFailureError);
         thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_AUTHENTICATION_FAILURE);
     }
 
     @Test
     public void testTimeOutErrorType() throws Exception {
-        givenConsentNetworkErrorWithType(mockTimeoutError);
+        whenCreatingConsentNetworkErrorWithType(mockTimeoutError);
         thenConsentNetworkErrorCodeIs(ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
     }
 
-    private void givenConsentNetworkErrorWithType(VolleyError error) {
+    private void whenCreatingConsentNetworkErrorWithType(VolleyError error) {
         consentNetworkError = new ConsentNetworkError(error);
     }
 
-    private void givenCustomErrorMessageIs(String errorMessage) {
+    private void whenSettingErrorMessage(String errorMessage) {
         consentNetworkError.setCustomErrorMessage(errorMessage);
     }
 
-    private void givenErrorCodeIs(int errorCode) {
+    private void whenSettingErrorCode(int errorCode) {
         consentNetworkError.setCatkErrorCode(errorCode);
     }
 

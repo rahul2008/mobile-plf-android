@@ -28,6 +28,7 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
+import com.philips.cdp.prodreg.error.ProdRegErrorMap;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
@@ -317,8 +318,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         hideProgressDialog();
         if(date_EditText.length() != 0 || (date_EditText.length()==0 &&  registerButton.isClickable())) {
             date_input_field.showError();
-            date_input_field.setErrorMessage(new ErrorHandler().getError(mActivity,
-                    ProdRegError.INVALID_DATE.getCode()).getDescription());
+            final ProdRegErrorMap error = new ErrorHandler().getError(mActivity,
+                    ProdRegError.INVALID_DATE.getCode());
+            ProdRegLogger.e("Product Registration", "Invalid date");
+            date_input_field.setErrorMessage(error.getDescription());
         }
         else {
             date_input_field.hideError();

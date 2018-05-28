@@ -4,6 +4,10 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
+        maven{
+            url repos.mavengoogle
+        }
+        maven { url sonatype }
         maven { url repos.jcenter
             credentials {
                 username = "readonly"
@@ -24,7 +28,10 @@ allprojects {
     ext.androidAssertJVer = '1.2.0'
 
     repositories {
-        maven { url repos.jcenter
+            maven{
+                url repos.mavengoogle
+            }
+            maven { url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
