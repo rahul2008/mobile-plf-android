@@ -333,6 +333,10 @@ public class SHNCentral {
         shnCentralInternalListeners.remove(shnCentralListener.hashCode());
     }
 
+    /**
+     * Was previously made public, but shouldn't have. Use {@link SHNCentral#getShnCentralState()} instead.
+     */
+    @Deprecated
     public int getBluetoothAdapterState() {
         return bluetoothAdapterState;
     }
