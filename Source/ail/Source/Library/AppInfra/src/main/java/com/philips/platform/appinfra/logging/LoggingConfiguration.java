@@ -56,7 +56,7 @@ public class LoggingConfiguration {
         this.mAppInfra = mAppInfra;
         this.mComponentID = mComponentID;
         this.mComponentVersion = mComponentVersion;
-        mLoggingProperties=getLoggingProperties();
+        mLoggingProperties = getLoggingProperties();
     }
 
     boolean isComponentLevelLogEnabled() {
@@ -77,6 +77,7 @@ public class LoggingConfiguration {
 
     /**
      * Checks whether logging is enabled or not
+     *
      * @return
      */
     boolean isLoggingEnabled() {
@@ -89,8 +90,8 @@ public class LoggingConfiguration {
         return false;
     }
 
-    boolean checkIfComponentLogCriteriaMet(String componentId){
-        if(isComponentLevelLogEnabled()&& !TextUtils.isEmpty(componentId)){
+    boolean checkIfComponentLogCriteriaMet(String componentId) {
+        if (isComponentLevelLogEnabled() && !TextUtils.isEmpty(componentId)) {
             final ArrayList<String> ComponentToBeLoggedList = getComponentsFromConfig();
             if (!ComponentToBeLoggedList.contains(mComponentID)) {
                 return false;
@@ -98,7 +99,6 @@ public class LoggingConfiguration {
         }
         return true;
     }
-
 
 
     private ArrayList<String> getComponentsFromConfig() {
@@ -133,14 +133,23 @@ public class LoggingConfiguration {
         return (null != mLoggingProperties && null != mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY)) ? (Boolean) mLoggingProperties.get(CLOUD_LOG_ENABLED_KEY) : false;
     }
 
-    public int getBatchLimit(){
-        return (null != mLoggingProperties && null != mLoggingProperties.get(CLOUD_LOG_BATCH_LIMIT)) ? (Integer) mLoggingProperties.get(CLOUD_LOG_BATCH_LIMIT) : CloudLoggingConstants.DEFAULT_BATCH_LIMIT;
+    public int getBatchLimit() {
+        if (null != mLoggingProperties && null != mLoggingProperties.get(CLOUD_LOG_BATCH_LIMIT)) {
+            int batchLimit = (Integer) mLoggingProperties.get(CLOUD_LOG_BATCH_LIMIT);
+            if (batchLimit > 1 && batchLimit <= CloudLoggingConstants.HSDP_LOG_MAX_LIMIT) {
+                return batchLimit;
+            } else {
+                return CloudLoggingConstants.DEFAULT_BATCH_LIMIT;
+            }
+        } else {
+            return CloudLoggingConstants.DEFAULT_BATCH_LIMIT;
+        }
     }
 
-    public String getCLSecretKey(){
+    public String getCLSecretKey() {
         final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
         final AppConfigurationInterface.AppConfigurationError configError = getAppConfigurationError();
-        return (String)appConfigurationInterface.getPropertyForKey(APP_INFRA_CLOUD_LOGGING_SECRET_KEY, HSDP_GROUP, configError);
+        return (String) appConfigurationInterface.getPropertyForKey(APP_INFRA_CLOUD_LOGGING_SECRET_KEY, HSDP_GROUP, configError);
     }
 
     @NonNull
@@ -148,15 +157,15 @@ public class LoggingConfiguration {
         return new AppConfigurationInterface.AppConfigurationError();
     }
 
-    public String getCLSharedKey(){
+    public String getCLSharedKey() {
         final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
         final AppConfigurationInterface.AppConfigurationError configError = getAppConfigurationError();
-        return (String)appConfigurationInterface.getPropertyForKey(APP_INFRA_CLOUD_LOGGING_SHARED_KEY, HSDP_GROUP, configError);
+        return (String) appConfigurationInterface.getPropertyForKey(APP_INFRA_CLOUD_LOGGING_SHARED_KEY, HSDP_GROUP, configError);
     }
 
-    public String getCLProductKey(){
+    public String getCLProductKey() {
         final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
         final AppConfigurationInterface.AppConfigurationError configError = getAppConfigurationError();
-        return (String)appConfigurationInterface.getPropertyForKey(APP_INFRA_CLOUD_LOGGING_PRODUCT_KEY, HSDP_GROUP, configError);
+        return (String) appConfigurationInterface.getPropertyForKey(APP_INFRA_CLOUD_LOGGING_PRODUCT_KEY, HSDP_GROUP, configError);
     }
 }

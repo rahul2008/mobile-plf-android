@@ -11,8 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInitialisationCompleteListener;
@@ -36,7 +34,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
     private transient Logger mJavaLogger;
     private String componentId, componentVersion;
 
-    private AILCloudLogMetaData ailCloudLogMetaData = new AILCloudLogMetaData();
+    private AILCloudLogMetaData ailCloudLogMetaData;
 
     private LoggingConfiguration loggingConfiguration;
 
@@ -53,8 +51,16 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
         mAppInfra = aAppInfra;
         loggingConfiguration = new LoggingConfiguration(mAppInfra, componentId, componentVersion);
         mJavaLogger = getJavaLogger(componentId, componentVersion);
+        ailCloudLogMetaData=createAilCloudLogInstance();
         this.componentId = componentId;
         this.componentVersion = componentVersion;
+    }
+
+    protected AILCloudLogMetaData createAilCloudLogInstance() {
+        if(ailCloudLogMetaData==null){
+            ailCloudLogMetaData=new AILCloudLogMetaData();
+        }
+        return ailCloudLogMetaData;
     }
 
     @Override
