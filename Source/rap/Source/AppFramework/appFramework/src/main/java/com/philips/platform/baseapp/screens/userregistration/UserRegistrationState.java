@@ -327,15 +327,15 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
-        launchWebView(Constants.PRIVACY,getApplicationContext().getString(R.string.reg_DLS_PrivacyNoticeText));
+        launchWebView(Constants.PRIVACY, getApplicationContext().getString(R.string.reg_DLS_PrivacyNoticeText));
     }
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
-        launchWebView(Constants.TERMS_AND_CONDITIONS,getApplicationContext().getString(R.string.reg_TermsAndConditionsText));
+        launchWebView(Constants.TERMS_AND_CONDITIONS, getApplicationContext().getString(R.string.reg_TermsAndConditionsText));
     }
 
-    public void launchWebView(String serviceId,String title) {
+    public void launchWebView(String serviceId, String title) {
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         try {
@@ -391,6 +391,9 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     protected void setUrCompleted() {
+        if (userObject != null) {
+            getApplicationContext().getAppInfra().getLogging().setUserUUID(userObject.getJanrainUUID());
+        }
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putBoolean(Constants.UR_LOGIN_COMPLETED, true);
         editor.commit();
