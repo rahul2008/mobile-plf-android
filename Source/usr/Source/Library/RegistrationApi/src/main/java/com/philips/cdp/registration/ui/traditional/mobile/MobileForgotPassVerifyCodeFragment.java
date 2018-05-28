@@ -16,6 +16,7 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -98,7 +99,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     static final String RESPONSE_TOKEN_KEY = "token";
     static final String RE_DIRECT_URI_KEY = "redirectUri";
 
-    SMSBroadCastReceiver mSMSBroadCastReceiver;
+    private SMSBroadCastReceiver mSMSBroadCastReceiver;
     private boolean isUserTyping = false;
 
     @Override
@@ -150,15 +151,19 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
                 .subscribe(new Consumer<TextViewTextChangeEvent>() {
                     @Override
                     public void accept(TextViewTextChangeEvent aBoolean) throws Exception {
-                        isUserTyping = false;
-                        if (verificationCodeValidationEditText.getText().length() > 0) {
-                            isUserTyping = true;
-                        } else if (verificationCodeValidationEditText.getText().length() == 6)
-                            MobileForgotPassVerifyCodeFragment.this.enableVerifyButton();
-                        else
-                            MobileForgotPassVerifyCodeFragment.this.disableVerifyButton();
+                        decideToEnableVerifyButton();
                     }
                 });
+    }
+
+    private void decideToEnableVerifyButton() {
+        isUserTyping = false;
+        if (verificationCodeValidationEditText.getText().length() > 0) {
+            isUserTyping = true;
+        } else if (verificationCodeValidationEditText.getText().length() == 6)
+            MobileForgotPassVerifyCodeFragment.this.enableVerifyButton();
+        else
+            MobileForgotPassVerifyCodeFragment.this.disableVerifyButton();
     }
 
     @Override
@@ -342,21 +347,13 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case SMSBroadCastReceiver.SMS_PERMISSION_CODE: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // SMS related task you need to do.
                     registerSMSReceiver();
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
-                return;
             }
 
         }
@@ -379,7 +376,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void onOTPReceived(String otp) {
-        RLog.i(TAG, "got otp");
+        RLog.i(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
             verifyClicked();

@@ -143,14 +143,18 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private void handleVerificationCode() {
         RxTextView.textChangeEvents(verificationCodeValidationEditText)
                 .subscribe(aBoolean -> {
-                    isUserTyping = false;
-                    if (verificationCodeValidationEditText.getText().length() > 0) {
-                        isUserTyping = true;
-                    } else if (verificationCodeValidationEditText.getText().length() == 6)
-                        enableVerifyButton();
-                    else
-                        disableVerifyButton();
+                    decideToEnableVerifyButton();
                 });
+    }
+
+    private void decideToEnableVerifyButton() {
+        isUserTyping = false;
+        if (verificationCodeValidationEditText.getText().length() > 0) {
+            isUserTyping = true;
+        } else if (verificationCodeValidationEditText.getText().length() == 6)
+            enableVerifyButton();
+        else
+            disableVerifyButton();
     }
 
 
@@ -383,7 +387,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onOTPReceived(String otp) {
-        RLog.i(TAG, "got otp");
+        RLog.i(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
             verifyClicked();
@@ -412,18 +416,10 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case SMSBroadCastReceiver.SMS_PERMISSION_CODE: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // SMS related task you need to do.
                     registerSMSReceiver();
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
-                return;
             }
 
         }
