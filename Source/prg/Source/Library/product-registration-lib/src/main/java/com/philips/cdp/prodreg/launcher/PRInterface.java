@@ -1,5 +1,6 @@
 package com.philips.cdp.prodreg.launcher;
 
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -23,8 +24,8 @@ public class PRInterface implements UappInterface {
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         PRUiHelper.getInstance().init(uappDependencies, uappSettings);
-        PRUiHelper.getInstance().setAppInfraInstance(((PRDependencies)
-                uappDependencies).getAppInfra());
+        PRUiHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
+        ProdRegLogger.init();
     }
 
     /**

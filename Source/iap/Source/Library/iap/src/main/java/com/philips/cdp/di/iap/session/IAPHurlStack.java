@@ -29,12 +29,13 @@ public class IAPHurlStack {
                 HttpURLConnection connection = super.createConnection(url);
                 connection.setInstanceFollowRedirects(true);
                 if (connection instanceof HttpsURLConnection) {
-                    ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
+                    //Spoorti - Commenting the below code as this by passes the certificate
+                    /*((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
                         @Override
                         public boolean verify(final String hostname, final SSLSession session) {
                             return hostname.contains(PHILIPS_HOST);
                         }
-                    });
+                    });*/
                     if (mOAuthListener != null) {
                         connection.setRequestProperty("Authorization", "Bearer " + mOAuthListener.getAccessToken());
                     }

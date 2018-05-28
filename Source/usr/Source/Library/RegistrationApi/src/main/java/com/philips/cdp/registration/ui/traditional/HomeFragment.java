@@ -515,7 +515,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         privacyPolicy.setEnabled(state);
         mCountryDisplay2.setEnabled(state);
         privacyPolicy2.setEnabled(state);
-        continueWithouAccount.setEnabled(state);
+    //    continueWithouAccount.setEnabled(state);
     }
 
     @Override

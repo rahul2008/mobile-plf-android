@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.mya.csw.CswInterface;
 import com.philips.platform.mya.csw.R;
 import com.philips.platform.mya.csw.permission.ConsentView;
 import com.philips.platform.mya.csw.permission.HelpClickListener;
@@ -36,6 +35,8 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
 
     private static final int NOT_FOUND = -1;
     private static final int HEADER_COUNT = 1;
+    private static final int VERSION_MISMATCH_ERROR = 1252;
+
 
     @NonNull
     private final List<ConsentView> items;
@@ -117,6 +118,9 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             consentView.setError(true);
             consentView.setIsLoading(false);
             consentView.setOnline(error.getErrorCode() != ConsentError.CONSENT_ERROR_NO_CONNECTION);
+            if (error.getErrorCode() == VERSION_MISMATCH_ERROR) {
+                consentView.setEnabledFlag(false);
+            }
             notifyItemChanged(position);
         }
     }

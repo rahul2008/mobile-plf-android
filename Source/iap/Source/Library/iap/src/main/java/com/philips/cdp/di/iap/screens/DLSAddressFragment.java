@@ -240,6 +240,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     private void createNewAddressOrUpdateIfAddressIDPresent() {
         createCustomProgressBar(mParentContainer,BIG);
+        CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
         if (checkBox.isChecked()) {
             CartModelContainer.getInstance().setSwitchToBillingAddress(true);
             CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
@@ -276,6 +277,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 }
 
             } else {
+                CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
                 mAddressController.createAddress(shippingAddressFields);
             }
         } else {
@@ -284,6 +286,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     }
 
     private void setBillingAddressAndOpenOrderSummary(AddressFields billingAddressFields) {
+        CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
         CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
         hideProgressBar();
         addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE),
