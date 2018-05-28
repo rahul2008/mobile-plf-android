@@ -151,7 +151,6 @@ public class AndroidConnectionSource extends BaseConnectionSource implements Con
     /**
      * Set to true to enable the canceling of queries.
      * <p>
-     * <p>
      * <b>NOTE:</b> This will incur a slight memory increase for all Cursor based queries -- even if cancel is not
      * called for them.
      * </p>

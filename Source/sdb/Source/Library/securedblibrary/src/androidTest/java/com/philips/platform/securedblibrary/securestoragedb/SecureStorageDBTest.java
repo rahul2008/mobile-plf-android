@@ -6,13 +6,13 @@
 package com.philips.platform.securedblibrary.securestoragedb;
 
 import android.content.Context;
+import android.test.InstrumentationTestCase;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.securedblibrary.MockitoTestCase;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -22,7 +22,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-public class SecureStorageDBTest extends MockitoTestCase {
+public class SecureStorageDBTest extends InstrumentationTestCase {
 
     private static final String DATABASE_NAME = "address.db";
     private static String DATABASE_PASSWORD_KEY = "hi";
@@ -138,14 +138,14 @@ public class SecureStorageDBTest extends MockitoTestCase {
     }
 
     public void testClose() throws SQLException {
+        secureDbOrmLiteSqliteOpenHelper.getWriteDbPermission();
         secureDbOrmLiteSqliteOpenHelper.close();
-
         secureDbOrmLiteSqliteOpenHelper.getWriteDbPermission();
 
         final Dao<AddressBook, Integer> dao = secureDbOrmLiteSqliteOpenHelper.getDao(AddressBook.class);
         final List<AddressBook> data = dao.queryBuilder().query();
 
-        assertFalse(data.isEmpty());
+        assertTrue(data.isEmpty());
     }
 
     protected static class AddressBook {
