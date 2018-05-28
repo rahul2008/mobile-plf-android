@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static junit.framework.Assert.assertNotNull;
 
+@Config(sdk=23)
 @RunWith(RobolectricTestRunner.class)
 public class EventHelperTest {
 
