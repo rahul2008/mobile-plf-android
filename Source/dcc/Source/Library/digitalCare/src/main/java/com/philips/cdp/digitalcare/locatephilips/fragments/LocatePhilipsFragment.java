@@ -38,6 +38,7 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -883,7 +884,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
-
+        View v = getActivity().getCurrentFocus();
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         mLocationDetailScroll.fullScroll(ScrollView.FOCUS_UP);
         AtosResultsModel resultModel = (AtosResultsModel) mAdapter
                 .getItem(position);
