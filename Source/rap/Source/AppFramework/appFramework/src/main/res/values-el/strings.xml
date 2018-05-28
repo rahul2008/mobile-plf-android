@@ -13,6 +13,7 @@
   <string name="RA_AboutScreen_Title">Πληροφορίες</string>
   <string name="RA_About_App_Version">Έκδοση</string>
   <string name="RA_About_Description_New">[el]This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.</string>
+  <string name="RA_HomeTab_Menu_Title">Αρχική σελίδα</string>
   <string name="RA_About_Menu_Title">Πληροφορίες</string>
   <string name="RA_COCO_AppInfra">[el]ail : App Infrastructure Library</string>
   <string name="RA_COCO_AppInfra_desc">[el]AppInfra is the components top level module. It gathers all the modules delivered by the AppInfra Common Component into one single structure. AppInfra facilitates dependency injection into common components and other software pieces that make use of the AppInfra functionalities.</string>
@@ -64,7 +65,7 @@ Please sign in.</string>
   <string name="RA_DLS_get_insights">[el]List of Insights Generated</string>
   <string name="RA_DLS_healthy_sleep_title">[el]Healthy Sleep Score</string>
   <string name="RA_DLS_home_page_sub_text">[el]ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
-  <string name="RA_DLS_home_page_text">[el]RA_SettingsScreen_Title</string>
+  <string name="RA_DLS_home_page_text">[el]Reference App</string>
   <string name="RA_DLS_insights_error">[el]Error loading Insights</string>
   <string name="RA_DLS_no_internet_connectivity">[el]Internet connection is not available</string>
   <string name="RA_DLS_onboarding_screen1_sub_text">[el]This app integrates the common components required to develop new IoT solutions for acceleration across Philips. It is the first reference for the development of all new patient medical or consumer mobile apps.</string>

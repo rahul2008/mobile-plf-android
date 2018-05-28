@@ -44,7 +44,7 @@ public class ConsentNetworkError implements NetworkErrorListener {
         } else if (error instanceof TimeoutError) {
             mCatkErrorCode = ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT;
         } else if (error instanceof com.android.volley.ServerError) {
-            mCatkErrorCode = ConsentError.CONSENT_ERROR_SERVER_ERROR;
+            mCatkErrorCode = ConsentError.CONSENT_UNKNOWN_SERVER_ERROR;
         } else {
             mCatkErrorCode = ConsentError.CONSENT_ERROR_UNKNOWN;
         }
@@ -97,6 +97,9 @@ public class ConsentNetworkError implements NetworkErrorListener {
             if (error.networkResponse != null) {
                 String errorString = new String(error.networkResponse.data);
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
+                if (mServerError.getErrorCode() != 0){
+                    mCatkErrorCode = mServerError.getErrorCode();
+                }
             }
         } catch (Exception e) {
             Log.e("NetworkError", e.getMessage());

@@ -29,7 +29,7 @@ import com.philips.platform.mya.csw.permission.PermissionContract;
 import com.philips.platform.mya.csw.permission.uielement.SilenceableSwitch;
 import com.philips.platform.uid.view.widget.Label;
 
-class PermissionViewHolder extends BasePermissionViewHolder {
+public class PermissionViewHolder extends BasePermissionViewHolder {
 
     private SilenceableSwitch toggle;
     private Label label;

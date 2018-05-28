@@ -29,6 +29,9 @@ import java.util.List;
 public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRequest.GraphJSONObjectCallback {
 
     private final static String TAG = URFaceBookUtility.class.getSimpleName();
+    public static final String FIELDS = "fields";
+    public static final String ID_EMAIL = "id,email";
+    public static final String EMAIL = "email";
 
     private final FaceBookContractor faceBookContractor;
 
@@ -81,7 +84,7 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
         } else {
             try {
                 if (response.getJSONObject() != null) {
-                    faceBookContractor.onFaceBookEmailReceived(response.getJSONObject().get("email").toString());
+                    faceBookContractor.onFaceBookEmailReceived(response.getJSONObject().get(EMAIL).toString());
                 }
             } catch (JSONException e) {
                 RLog.i(TAG, e.getMessage());
@@ -93,7 +96,7 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
     void requestUserProfile(LoginResult loginResult) {
         GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), this);
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,email");
+        parameters.putString(FIELDS, ID_EMAIL);
         graphRequest.setParameters(parameters);
         graphRequest.executeAsync();
     }
