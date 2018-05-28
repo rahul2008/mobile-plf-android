@@ -14,7 +14,7 @@ Version {next}
 * N/A
 
 ### Breaking Changes
-* N/A
+* The TransportContext interface does not extend the Availability interface anymore
 
 ### Defects solved
 * \#121886 - Firmware update always starts from 0. Brought behaviour inline with iOS
