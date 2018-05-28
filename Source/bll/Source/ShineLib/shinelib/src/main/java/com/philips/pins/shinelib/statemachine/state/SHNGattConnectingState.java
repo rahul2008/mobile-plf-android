@@ -1,6 +1,5 @@
 package com.philips.pins.shinelib.statemachine.state;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothProfile;
@@ -15,6 +14,9 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.workarounds.Workaround;
 
 import java.security.InvalidParameterException;
+
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 
 public class SHNGattConnectingState extends SHNConnectingState {
 
@@ -53,7 +55,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
 
     @Override
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-        if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
+        if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
             shouldRetryConnecting = false;
             handleGattDisconnectEvent();
         }
@@ -66,7 +68,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
             return;
         }
 
-        if (sharedResources.getShnCentral().isBluetoothAdapterEnabled()) {
+        if (SHNCentralStateReady.equals(sharedResources.getShnCentral().getShnCentralState())) {
             sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);

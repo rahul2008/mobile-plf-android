@@ -1,6 +1,5 @@
 package com.philips.pins.shinelib.statemachine.state;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
@@ -27,6 +26,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.security.InvalidParameterException;
 
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
@@ -38,6 +39,7 @@ import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
@@ -139,7 +141,7 @@ public class SHNGattConnectingStateTest {
 
     @Test
     public void givenBluetoothIsTurnedOn_whenOnEnterIsCalled_thenConnectGattIsCalled() {
-        doReturn(true).when(mockedSHNCentral).isBluetoothAdapterEnabled();
+        when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentralStateReady);
 
         gattConnectingState.onEnter();
 
@@ -165,7 +167,7 @@ public class SHNGattConnectingStateTest {
         gattConnectingState.onEnter();
 
         verify(mockedSHNInternalHandler).postDelayed(runnableArgumentCaptor.capture(), anyLong());
-        doReturn(true).when(mockedSHNCentral).isBluetoothAdapterEnabled();
+        when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentralStateReady);
         doReturn(longAgo).when(sharedResources).getLastDisconnectedTimeMillis();
         runnableArgumentCaptor.getValue().run();
 
@@ -228,8 +230,9 @@ public class SHNGattConnectingStateTest {
     }
 
     @Test
-    public void whenBluetoothIsTurnedOff_thenItWillGoToADisconnectingState_andReportAFailure() {
-        doReturn(BluetoothAdapter.STATE_OFF).when(mockedSHNCentral).getBluetoothAdapterState();
+    public void whenShineCentralBecomesNotReady_thenItWillGoToADisconnectingState_andReportAFailure() {
+        when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
+
         gattConnectingState.onStateUpdated(mockedSHNCentral);
 
         verify(stateMachine).setState(any(SHNDisconnectingState.class));

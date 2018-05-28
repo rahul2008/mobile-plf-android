@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -137,7 +138,8 @@ public class SHNCentral {
         }
     };
 
-    private final Set<SHNCentralListener> registeredShnCentralListeners;
+    private final Set<SHNCentralListener> shnCentralListeners;
+    private Map<Integer, WeakReference<SHNCentralListener>> shnCentralInternalListeners;
     private SHNDeviceScannerInternal shnDeviceScannerInternal;
     private SHNDeviceAssociation shnDeviceAssociation;
     private State shnCentralState = State.SHNCentralStateNotReady;
@@ -145,8 +147,8 @@ public class SHNCentral {
     private Handler internalHandler;
     private SHNDeviceDefinitions shnDeviceDefinitions;
     private PersistentStorageFactory persistentStorageFactory;
-    private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners = new HashMap<>();
-    private Map<String, WeakReference<SHNCentralListener>> shnCentralStatusListeners = new HashMap<>();
+    private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners;
+
     private SharedPreferencesProvider defaultSharedPreferencesProvider = new SharedPreferencesProvider() {
         @NonNull
         @Override
@@ -175,7 +177,8 @@ public class SHNCentral {
     }
 
     SHNCentral(Handler handler, final Context context, final boolean showPopupIfBLEIsTurnedOff, final SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
-        registeredShnCentralListeners = new CopyOnWriteArraySet<>();
+        shnCentralListeners = new CopyOnWriteArraySet<>();
+        shnCentralInternalListeners = createShnCentralStatusListenersMap();
         applicationContext = context.getApplicationContext();
 
         bleUtilities = new BleUtilities(applicationContext);
@@ -259,6 +262,12 @@ public class SHNCentral {
         shnUserConfiguration = createUserConfiguration();
     }
 
+    @SuppressLint("UseSparseArrays")
+    @VisibleForTesting
+    /* package */ Map<Integer, WeakReference<SHNCentralListener>> createShnCentralStatusListenersMap() {
+        return new HashMap<>();
+    }
+
     /* package */ SHNUserConfiguration createUserConfiguration() {
         return new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
     }
@@ -306,12 +315,22 @@ public class SHNCentral {
         shnBondStatusListeners.remove(address);
     }
 
-    void registerSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
-        shnCentralStatusListeners.put(address, new WeakReference<>(shnCentralListener));
+    /**
+     * Registers a listener for SHNCentral state changes that will be informed <b>on the internal thread</b>. Listener will be weakly referenced to allow for cleanup.
+     *
+     * @param shnCentralListener the listener to register
+     */
+    void registerInternalSHNCentralListener(SHNCentralListener shnCentralListener) {
+        shnCentralInternalListeners.put(shnCentralListener.hashCode(), new WeakReference<>(shnCentralListener));
     }
 
-    void unregisterSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
-        shnCentralStatusListeners.remove(address);
+    /**
+     * Unregister a listener that is registered via {@link SHNCentral#registerShnCentralListener(SHNCentralListener)}
+     *
+     * @param shnCentralListener the listener to be unregistered
+     */
+    void unregisterInternalSHNCentralListener(SHNCentralListener shnCentralListener) {
+        shnCentralInternalListeners.remove(shnCentralListener.hashCode());
     }
 
     public int getBluetoothAdapterState() {
@@ -325,7 +344,7 @@ public class SHNCentral {
                 SHNCentral.this.shnCentralState = state;
                 onSHNCentralStateChanged();
 
-                for (final SHNCentralListener shnCentralListener : registeredShnCentralListeners) {
+                for (final SHNCentralListener shnCentralListener : shnCentralListeners) {
                     if (shnCentralListener != null) {
                         userHandler.post(new Runnable() {
                             @Override
@@ -379,14 +398,14 @@ public class SHNCentral {
     }
 
     private void onSHNCentralStateChanged() {
-        Set<String> keys = new HashSet<>(shnCentralStatusListeners.keySet());
-        for (String key : keys) {
-            WeakReference<SHNCentralListener> shnCentralListenerWeakReference = shnCentralStatusListeners.get(key);
+        Set<Integer> keys = new HashSet<>(shnCentralInternalListeners.keySet());
+        for (Integer key : keys) {
+            WeakReference<SHNCentralListener> shnCentralListenerWeakReference = shnCentralInternalListeners.get(key);
             SHNCentralListener shnCentralListener = shnCentralListenerWeakReference.get();
             if (shnCentralListener != null) {
                 shnCentralListener.onStateUpdated(this);
             } else {
-                shnCentralStatusListeners.remove(key);
+                shnCentralInternalListeners.remove(key);
             }
         }
     }
@@ -531,7 +550,7 @@ public class SHNCentral {
      * @param shnCentralListener listener to register
      */
     public void registerShnCentralListener(SHNCentralListener shnCentralListener) {
-        registeredShnCentralListeners.add(shnCentralListener);
+        shnCentralListeners.add(shnCentralListener);
     }
 
     /**
@@ -540,7 +559,7 @@ public class SHNCentral {
      * @param shnCentralListener listener to unregister
      */
     public void unregisterShnCentralListener(SHNCentralListener shnCentralListener) {
-        registeredShnCentralListeners.remove(shnCentralListener);
+        shnCentralListeners.remove(shnCentralListener);
     }
 
     /**

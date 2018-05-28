@@ -5,7 +5,6 @@
 
 package com.philips.pins.shinelib;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -36,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -122,7 +122,7 @@ public class SHNDeviceImplTest {
 
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
-        doReturn(true).when(mockedSHNCentral).isBluetoothAdapterEnabled();
+        doReturn(SHNCentral.State.SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();
 
         doAnswer(new Answer<BTGatt>() {
             @Override
@@ -177,7 +177,7 @@ public class SHNDeviceImplTest {
                 centralStateListener = (SHNCentral.SHNCentralListener) invocation.getArguments()[0];
                 return null;
             }
-        }).when(mockedSHNCentral).registerSHNCentralStatusListenerForAddress(isA(SHNCentral.SHNCentralListener.class), anyString());
+        }).when(mockedSHNCentral).registerInternalSHNCentralListener(isA(SHNCentral.SHNCentralListener.class));
 
         shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.NONE);
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
@@ -1101,10 +1101,10 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenConnectWithTimeOutCalledThenRegisterSHNCentralStatusListenerForAddressIsCalled() {
+    public void whenConnectWithTimeOutCalledThenRegisterInternalSHNCentralListenerIsCalled() {
         shnDevice.connect(1L);
 
-        verify(mockedSHNCentral).registerSHNCentralStatusListenerForAddress(shnDevice, ADDRESS_STRING);
+        verify(mockedSHNCentral).registerInternalSHNCentralListener(shnDevice);
     }
 
     @Test
@@ -1175,7 +1175,7 @@ public class SHNDeviceImplTest {
     public void whenBluetoothIsSwitchedOffDuringReconnectCycleThenFailedToConnectIsReported() {
         shnDevice.connect(100L);
         reset(mockedSHNDeviceListener);
-        when(mockedSHNCentral.getBluetoothAdapterState()).thenReturn(BluetoothAdapter.STATE_OFF);
+        when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
         StateRecorder recorder = new StateRecorder();
         doAnswer(recorder).when(mockedSHNDeviceListener).onStateUpdated(isA(SHNDevice.class));
 
