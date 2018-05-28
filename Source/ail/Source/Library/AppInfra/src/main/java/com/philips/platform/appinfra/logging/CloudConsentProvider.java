@@ -23,7 +23,7 @@ import java.util.Collections;
 
 public class CloudConsentProvider {
 
-    public final static String CLOUD = "cloud";
+    public final static String CLOUD = "cloudConsent";
 
     private ConsentHandlerInterface consentHandler;
 

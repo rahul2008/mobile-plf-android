@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.logging.sync;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -80,11 +81,18 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
 
     public boolean checkWhetherToSyncCloudLog() {
         //Add consent part here
-        if (isInternetAvailable && consentStatus) {
+        if (isInternetAvailable && consentStatus && checkIfSecretKeyAnsSharedKeyAvailable()) {
             Log.v("SyncTesting", "Cloud log all conditions met. Starting sync.....");
             return true;
         }
         return false;
+    }
+
+    private boolean checkIfSecretKeyAnsSharedKeyAvailable() {
+        if(TextUtils.isEmpty(secretKey)||TextUtils.isEmpty(sharedKey)||TextUtils.isEmpty(productKey)){
+            return false;
+        }
+        return true;
     }
 
     @Override
