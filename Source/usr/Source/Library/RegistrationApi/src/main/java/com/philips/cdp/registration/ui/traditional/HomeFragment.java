@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -44,6 +45,8 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.customviews.NotificationType;
+import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FontLoader;
@@ -131,9 +134,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private String mFacebookEmail;
     private CallbackManager mCallbackManager;
     private URFaceBookUtility mURFaceBookUtility;
+    private PopupWindow popupWindow;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         RLog.d(TAG, "OnCreateView : is Called");
         mURFaceBookUtility = new URFaceBookUtility(this);
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
@@ -146,8 +151,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         handleOrientation(view);
         homePresenter.registerWeChatApp();
         initFacebookLogIn();
+
+
         return view;
     }
+
 
     private View getViewFromRegistrationFunction(LayoutInflater inflater, ViewGroup container) {
 
@@ -215,11 +223,15 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
                 }
             } else {
                 enableControls(false);
-                updateErrorMessage(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
-
+                //updateErrorMessage(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+                showNotificationBarOnNetworkNotAvailable();
             }
         });
         return socialButton;
+    }
+
+    private void showNotificationBarOnNetworkNotAvailable() {
+        new URNotification(getActivityContext(), NotificationType.NOTIFICATION_BAR).showNotification(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_NoNetworkConnection));
     }
 
     private void updateErrorMessage(String errorMessage) {
@@ -275,6 +287,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             getRegistrationFragment().addFragment(picker);
         } else {
             disableControlsOnNetworkConnectionGone();
+            showNotificationBarOnNetworkNotAvailable();
         }
     }
 
@@ -294,6 +307,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         RLog.d(TAG, "localeServiceDiscoveryFailed : is called");
         hideProgressDialog();
         updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
+        showNotificationBarOnNetworkNotAvailable();
     }
 
     @Override
@@ -451,6 +465,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             updateErrorMessage(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
         } else {
             updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
+            showNotificationBarOnNetworkNotAvailable();
         }
     }
 
@@ -515,7 +530,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         privacyPolicy.setEnabled(state);
         mCountryDisplay2.setEnabled(state);
         privacyPolicy2.setEnabled(state);
-    //    continueWithouAccount.setEnabled(state);
+        //    continueWithouAccount.setEnabled(state);
     }
 
     @Override
@@ -577,13 +592,15 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         hideProgressDialog();
         handleBtnClickableStates(false);
         updateErrorMessage(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+        showNotificationBarOnNetworkNotAvailable();
     }
 
 
     @OnClick(R2.id.usr_startScreen_createAccount_Button)
     void createAccountButtonClick() {
         if (mRegError.isShown()) mRegError.hideError();
-        launchCreateAccountFragment();
+//        launchCreateAccountFragment();
+        showNotificationBarOnNetworkNotAvailable();
     }
 
 
@@ -904,6 +921,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         RLog.d(RLog.CALLBACK, "HomeFragment error");
         enableControls(true);
         updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
+        showNotificationBarOnNetworkNotAvailable();
     }
 
     @Override

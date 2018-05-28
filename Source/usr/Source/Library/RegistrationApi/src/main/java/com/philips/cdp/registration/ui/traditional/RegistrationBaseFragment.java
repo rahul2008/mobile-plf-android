@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 
 import com.philips.cdp.registration.ProgressAlertDialog;
@@ -31,6 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment {
+
+    private PopupWindow popupWindow;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -58,8 +61,29 @@ public abstract class RegistrationBaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+    //    public void viewOrHideNotificationBar(Fragment fragment) {
+//        if (popupWindow == null) {
+//            View view = getRegistrationFragment().getNotificationContentView(
+//                    getContext().getResources().getString(R.string.reg_Resend_SMS_Success_Content)
+//                    , "23424");
+//            popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT);
+//            popupWindow.setContentView(view);
+//
+//        }
+//        if (popupWindow.isShowing()) {
+//            popupWindow.dismiss();
+//        } else {
+//            if (fragment.isVisible() && popupWindow != null) {
+//                popupWindow.showAtLocation(getActivity().
+//                        findViewById(R.id.usr_startScreen_baseLayout_LinearLayout), Gravity.TOP, 0, 0);
+//            }
+//        }
+//    }
 
     @Override
     public void onStop() {
@@ -148,13 +172,13 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     protected void consumeTouch(View view) {
 
-        RLog.i(TAG,"consumeTouch is called");
+        RLog.i(TAG, "consumeTouch is called");
         if (view == null)
             return;
         view.setOnTouchListener((v, event) -> true);
     }
 
-        private int dpToPx(int dp) {
+    private int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
@@ -252,7 +276,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
-        RLog.i(TAG,"scrollViewAutomatically is called");
+        RLog.i(TAG, "scrollViewAutomatically is called");
         view.requestFocus();
         if (scrollView != null) {
             scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
