@@ -161,8 +161,8 @@ public class SHNCentral {
     /**
      * Old constructor of {@code SHNCentral}. Do not use.
      *
-     * @param handler the handler
-     * @param context the context
+     * @param handler the user handler to post callbacks on
+     * @param context the Android context
      * @throws SHNBluetoothHardwareUnavailableException the exception thrown when no Bluetooth hardware is available
      * @deprecated Use the {@link SHNCentral.Builder} instead.
      */
@@ -171,7 +171,7 @@ public class SHNCentral {
         this(handler, context, false, null, false);
     }
 
-    SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
+    SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
         registeredShnCentralListeners = new CopyOnWriteArraySet<>();
         applicationContext = context.getApplicationContext();
 
@@ -228,7 +228,7 @@ public class SHNCentral {
         return bleUtilities;
     }
 
-    private void initializeSHNCentral(boolean showPopupIfBLEIsTurnedOff, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
+    private void initializeSHNCentral(boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
         persistentStorageFactory = setUpPersistentStorageFactory(applicationContext, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
 
         // Check that the adapter is enabled.
@@ -257,31 +257,27 @@ public class SHNCentral {
         shnUserConfiguration = createUserConfiguration();
     }
 
-    /* package */ SHNUserConfiguration createUserConfiguration() {
+    SHNUserConfiguration createUserConfiguration() {
         return new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
     }
 
-    /* package */ SharedPreferencesMigrator createSharedPreferencesMigrator(PersistentStorageFactory source, PersistentStorageFactory destination) {
+    SharedPreferencesMigrator createSharedPreferencesMigrator(PersistentStorageFactory source, PersistentStorageFactory destination) {
         return new SharedPreferencesMigrator(source, destination);
     }
 
-    /* package */ PersistentStorageFactory createPersistentStorageFactory(SharedPreferencesProvider sharedPreferencesProvider) {
+    PersistentStorageFactory createPersistentStorageFactory(final @NonNull SharedPreferencesProvider sharedPreferencesProvider) {
         return new PersistentStorageFactory(sharedPreferencesProvider);
     }
 
-    /* package */ long getHandlerThreadId(Handler handler) {
+    long getHandlerThreadId(Handler handler) {
         return handler.getLooper().getThread().getId();
     }
 
-    /* package */ Handler createInternalHandler() {
+    Handler createInternalHandler() {
         HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
         thread.setUncaughtExceptionHandler(new LoggingExceptionHandler());
         thread.start();
         return new Handler(thread.getLooper());
-    }
-
-    /* package */ DataMigrater createDataMigrater() {
-        return new DataMigrater();
     }
 
     /**
@@ -398,7 +394,7 @@ public class SHNCentral {
         }
     }
 
-    private PersistentStorageFactory setUpPersistentStorageFactory(Context context, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
+    private PersistentStorageFactory setUpPersistentStorageFactory(final @NonNull Context context, @Nullable SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
         PersistentStorageFactory defaultPersistentStorageFactory = createPersistentStorageFactory(defaultSharedPreferencesProvider);
 
         if (customSharedPreferencesProvider == null) {
@@ -419,8 +415,8 @@ public class SHNCentral {
         }
     }
 
-    private void migrateDataFromOldKeysToNewKeys(Context context, SharedPreferencesProvider sharedPreferencesProvider) {
-        DataMigrater dataMigrater = createDataMigrater();
+    private void migrateDataFromOldKeysToNewKeys(final @NonNull Context context, final SharedPreferencesProvider sharedPreferencesProvider) {
+        final DataMigrater dataMigrater = new DataMigrater();
         dataMigrater.execute(context, createPersistentStorageFactory(sharedPreferencesProvider));
     }
 

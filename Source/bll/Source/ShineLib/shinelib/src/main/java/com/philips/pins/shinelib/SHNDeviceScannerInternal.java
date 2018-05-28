@@ -91,7 +91,6 @@ public class SHNDeviceScannerInternal {
         }
     };
 
-    @VisibleForTesting
     SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> deviceDefinitions) {
         this.shnCentral = shnCentral;
         this.shnCentral.registerShnCentralListener(shnCentralListener);
