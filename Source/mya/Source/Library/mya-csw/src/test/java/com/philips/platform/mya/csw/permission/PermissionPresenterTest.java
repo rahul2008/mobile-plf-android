@@ -36,7 +36,9 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -154,6 +156,7 @@ public class PermissionPresenterTest {
         givenConsentError();
         whenCreateConsentFailed();
         thenErrorIsShown(false, R.string.csw_problem_occurred_error_title, givenError);
+        thenAdapterCreateConsentFailedIsCalled();
     }
 
     @Test
@@ -373,5 +376,10 @@ public class PermissionPresenterTest {
 
     private void thenProgressIsHidden() {
         verify(mockView).hideProgressDialog();
+    }
+
+
+    private void thenAdapterCreateConsentFailedIsCalled() {
+        verify(mockAdapter).onCreateConsentFailed(anyInt(), eq(givenError));
     }
 }
