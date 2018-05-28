@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import com.philips.platform.mya.csw.mock.FragmentActivityMock;
 import com.philips.platform.mya.csw.mock.FragmentManagerMock;
 import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
-import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import org.junit.Before;
 import org.junit.Test;
