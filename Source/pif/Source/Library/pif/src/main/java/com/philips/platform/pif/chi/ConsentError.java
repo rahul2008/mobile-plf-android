@@ -14,7 +14,7 @@ public class ConsentError {
     public static final int CONSENT_ERROR_NO_CONNECTION = 2;
     public static final int CONSENT_ERROR_CONNECTION_TIME_OUT = 3;
     public static final int CONSENT_ERROR_AUTHENTICATION_FAILURE = 4;
-    public static final int CONSENT_ERROR_SERVER_ERROR = 5;
+    public static final int CONSENT_UNKNOWN_SERVER_ERROR = 5;
     public static final int CONSENT_ERROR_INSUFFICIENT_STOCK_ERROR = 6;
     public static final int CONSENT_ERROR_UNKNOWN = 7;
 

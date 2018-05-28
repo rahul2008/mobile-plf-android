@@ -277,7 +277,6 @@ public class MomentFragment extends DSBaseFragment
     @Override
     public void onSuccess(final List<? extends Moment> data) {
         mMomentPresenter.fetchData(this);
-        DataServicesManager.getInstance().synchronize();
     }
 
     @Override
