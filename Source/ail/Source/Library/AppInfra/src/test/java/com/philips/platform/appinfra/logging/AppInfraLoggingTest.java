@@ -8,6 +8,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -35,6 +36,7 @@ public class AppInfraLoggingTest extends TestCase {
 
     @Mock
     private Context contextMock;
+
     @Mock
     private AppInfra appInfraMock;
 
@@ -48,39 +50,32 @@ public class AppInfraLoggingTest extends TestCase {
     private AppConfigurationInterface appConfigurationInterfaceMock;
 
     @Mock
+    private
     AILCloudLogMetaData ailCloudLogMetaData;
+
     @Mock
     private LoggingConfiguration loggingConfigurationMock;
+
     private Object[] params;
-    private String componentId;
-    private String componentVersion;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        super.setUp();
         MockitoAnnotations.initMocks(this);
         params = new Object[4];
         ailCloudLogMetaData=new AILCloudLogMetaData();
-        when(appInfraMock.getAppInfraContext()).thenReturn(contextMock);
-        when(appInfraMock.getAppInfraContext().getApplicationInfo()).thenReturn(applicationInfoMock);
-        when(loggingConfigurationMock.getAppInfra()).thenReturn(appInfraMock);
-        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(ConfigValues.getMockResponse());
-        when(appInfraMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
-        AppIdentityInterface appIdentityInterface = mock(AppIdentityInterface.class);
-        when(appIdentityInterface.getAppName()).thenReturn("uGrow");
-        when(appIdentityInterface.getAppVersion()).thenReturn("1.0.0");
-        when(appIdentityInterface.getAppState()).thenReturn(AppIdentityInterface.AppState.ACCEPTANCE);
-        when(appInfraMock.getAppIdentity()).thenReturn(appIdentityInterface);
+        configureMocks();
         HashMap hashMap = new HashMap();
         hashMap.put("logging.debugConfig", true);
         when(loggingConfigurationMock.getLoggingProperties()).thenReturn(hashMap);
-        appInfraLogging = new AppInfraLogging(appInfraMock, componentId, componentVersion) {
+        appInfraLogging = new AppInfraLogging(appInfraMock, null, null) {
             @Override
             protected Logger getJavaLogger(String componentId, String componentVersion) {
                 return loggerMock;
             }
 
             @Override
-            public AILCloudLogMetaData getAilCloudLogMetaData() {
+            public AILCloudLogMetaData createAilCloudLogInstance() {
                 return ailCloudLogMetaData;
             }
 
@@ -93,7 +88,20 @@ public class AppInfraLoggingTest extends TestCase {
 
     }
 
-    public void testLog(){
+    private void configureMocks() {
+        when(appInfraMock.getAppInfraContext()).thenReturn(contextMock);
+        when(appInfraMock.getAppInfraContext().getApplicationInfo()).thenReturn(applicationInfoMock);
+        when(loggingConfigurationMock.getAppInfra()).thenReturn(appInfraMock);
+        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(ConfigValues.getMockResponse());
+        when(appInfraMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
+        AppIdentityInterface appIdentityInterface = mock(AppIdentityInterface.class);
+        when(appIdentityInterface.getAppName()).thenReturn("uGrow");
+        when(appIdentityInterface.getAppVersion()).thenReturn("1.0.0");
+        when(appIdentityInterface.getAppState()).thenReturn(AppIdentityInterface.AppState.ACCEPTANCE);
+        when(appInfraMock.getAppIdentity()).thenReturn(appIdentityInterface);
+    }
+
+    public void testLoggingEndToEnd(){
         appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.ERROR, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.INFO, "some_event", "event_message");
@@ -109,5 +117,43 @@ public class AppInfraLoggingTest extends TestCase {
         assertNotNull(appInfraLogging.getParamObjects());
         assertNotNull(appInfraLogging.getJavaLogger("componentId","componentVersion"));
     }
+
+//    public void testSettingAppNameAndVersion() {
+//        appInfraLogging.log(LoggingInterface.LogLevel.VERBOSE, "some_event", "event_message");
+//        assertEquals(appInfraLogging.getComponentId(),"uGrow");
+//        assertEquals(appInfraLogging.getComponentVersion(),"1.0.0");
+//    }
+
+    public void testUpdatingModel() {
+        AppTaggingInterface appTaggingInterface = mock(AppTaggingInterface.class);
+        InternationalizationInterface internationalizationInterface = mock(InternationalizationInterface.class);
+        ServiceDiscoveryInterface serviceDiscoveryInterface = mock(ServiceDiscoveryInterface.class);
+        when(appTaggingInterface.getTrackingIdentifier()).thenReturn("TaggingIdentifier");
+        when(internationalizationInterface.getUILocaleString()).thenReturn("locale");
+        when(serviceDiscoveryInterface.getHomeCountry()).thenReturn("en");
+        when(appInfraMock.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraMock.getInternationalization()).thenReturn(internationalizationInterface);
+        when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
+        appInfraLogging.setUserUUID("uuid");
+        assertEquals(ailCloudLogMetaData.getUserUUID(),"uuid");
+        appInfraLogging.updateMetadata(appInfraMock);
+        assertEquals(ailCloudLogMetaData.getAppName(),"uGrow");
+        assertEquals(ailCloudLogMetaData.getAppVersion(),"1.0.0");
+        assertEquals(ailCloudLogMetaData.getAppState(),"ACCEPTANCE");
+        assertEquals(ailCloudLogMetaData.getAppId(),"TaggingIdentifier");
+        assertEquals(ailCloudLogMetaData.getLocale(),"locale");
+        assertEquals(ailCloudLogMetaData.getHomeCountry(),"en");
+        ConsentManagerInterface consentManagerInterface = mock(ConsentManagerInterface.class);
+        when(appInfraMock.getConsentManager()).thenReturn(consentManagerInterface);
+        when(loggingConfigurationMock.isCloudLogEnabled()).thenReturn(true);
+        appInfraLogging.onAppInfraInitialised(appInfraMock);
+        assertEquals(ailCloudLogMetaData.getAppName(),"uGrow");
+        assertEquals(ailCloudLogMetaData.getAppVersion(),"1.0.0");
+        assertEquals(ailCloudLogMetaData.getAppState(),"ACCEPTANCE");
+        assertEquals(ailCloudLogMetaData.getAppId(),"TaggingIdentifier");
+        assertEquals(ailCloudLogMetaData.getLocale(),"locale");
+        assertEquals(ailCloudLogMetaData.getHomeCountry(),"en");
+    }
+
 
 }
