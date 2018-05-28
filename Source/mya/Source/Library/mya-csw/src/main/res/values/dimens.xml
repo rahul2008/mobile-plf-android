@@ -113,5 +113,12 @@
     <dimen name="sidebar_close_hint_text_size">12sp</dimen>
     <dimen name="sidebar_left_header_height">72dp</dimen>
     <dimen name="sidebar_right_avatar_top_bottom_margin">40dp</dimen>
+    <dimen name="reg_back_arrow_size">24sp</dimen>
+    <dimen name="reg_header_height">47dip</dimen>
+    <dimen name="reg_header_title_margin_right">33dip</dimen>
+    <dimen name="reg_header_iv_back_padding">11dip</dimen>
+
+
+
 
 </resources>
