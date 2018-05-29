@@ -222,6 +222,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     private void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
+            hideNotificationBarOnNetworkAvailable();
         } else {
 //            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             showNotificationBarOnNetworkNotAvailable();
@@ -236,9 +237,11 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
             }
             sendEmailOrSMSButton.hideProgressIndicator();
             mRegError.hideError();
+            hideNotificationBarOnNetworkAvailable();
         } else {
             sendEmailOrSMSButton.hideProgressIndicator();
             sendEmailOrSMSButton.setEnabled(false);
+            showNotificationBarOnNetworkNotAvailable();
         }
     }
 
@@ -329,7 +332,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         hideForgotPasswordSpinner();
         if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT ||
                 userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE) {
-            mRegError.setError(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+//            mRegError.setError(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            updateErrorNotification(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             usr_forgotpassword_inputId_inputValidation.showError();
             return;
@@ -371,11 +375,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         trackActionStatus(state, key, value);
     }
 
-//    @Override
-//    public void intiateService(String url) {
-//        getActivity().startService(forgotPasswordPresenter.createResendSMSIntent(url));
-//
-//    }
+
 
     @Override
     public void addFragment(Fragment fragment) {
@@ -413,4 +413,5 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     public void backPressed() {
         hideForgotPasswordSpinner();
     }
+
 }

@@ -54,6 +54,7 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
 
 import java.util.HashMap;
 
@@ -69,6 +70,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class AccountActivationResendMailFragment extends RegistrationBaseFragment implements
         RefreshUserHandler, AccountActivationResendMailContract, CounterListener {
+
+    private String TAG = AccountActivationResendMailFragment.class.getSimpleName();
 
     @Inject
     UpdateUserProfile updateUserProfile;
@@ -124,7 +127,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Inject
     RegistrationHelper registrationHelper;
 
-    private static final String BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY ="saveEmailVerifiedErrorText";
+    private static final String BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY = "saveEmailVerifiedErrorText";
 
 
     @Override
@@ -189,9 +192,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         if (savedInstanceState == null) {
             mBundle = null;
             return;
-        }else if (savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY) != null
-                    && savedInstanceState.getBoolean("isEmailVerifiedError")) {
-                mRegError.setError(savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY));
+        } else if (savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY) != null
+                && savedInstanceState.getBoolean("isEmailVerifiedError")) {
+            mRegError.setError(savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY));
         }
     }
 
@@ -236,6 +239,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         if (isOnline) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
+                hideNotificationBarOnNetworkAvailable();
                 if (!getRegistrationFragment().getCounterState()) {
                     mResendEmail.setEnabled(true);
                 }
@@ -317,9 +321,10 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo,
                 AppTagingConstants.JANRAIN);
         try {
-            mRegError.setError(userRegistrationFailureInfo.getError().raw_response.getString("message"));
-        } catch (Exception e) {
-            mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
+            final String errorMsg = userRegistrationFailureInfo.getError().raw_response.getString("message");
+            mRegError.setError(errorMsg);
+        } catch (JSONException e) {
+            RLog.e(TAG, "handleResendVerificationEmailFailedWithError : Json Exception Occurred ");
         }
         mReturnButton.setEnabled(true);
     }
@@ -363,15 +368,15 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     }
 
     public void storePreference(String emailOrMobileNumber) {
-        RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(),RegConstants.TERMS_N_CONDITIONS_ACCEPTED,
+        RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED,
                 emailOrMobileNumber);
     }
 
     private OnClickListener mContinueBtnClick = clickListener -> RegAlertDialog.dismissDialog();
 
     /**
-     * @deprecated
      * @param updateUserProfile
+     * @deprecated
      */
     @VisibleForTesting
     @Deprecated
@@ -446,7 +451,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
-            if(this.isVisible() && popupWindow != null) {
+            if (this.isVisible() && popupWindow != null) {
                 popupWindow.showAtLocation(getActivity().
                         findViewById(R.id.usr_activationresend_root_layout), Gravity.TOP, 0, 0);
             }
@@ -475,7 +480,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         emailEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            // Do not do anything
+                // Do not do anything
             }
 
             @Override
@@ -494,20 +499,20 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
             @Override
             public void afterTextChanged(Editable s) {
-            // Do not do anything
+                // Do not do anything
             }
         });
     }
 
 
     public void enableResendButton() {
-            mResendEmail.setText(getResources().getString(
-                    R.string.reg_DLS_Resend_The_Email_Button_Title));
-            mResendEmail.setProgressText(getResources().getString(
-                    R.string.reg_DLS_Resend_The_Email_Button_Title));
-            if (networkUtility.isNetworkAvailable())
-                mResendEmail.setEnabled(true);
-            RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : resend enab");
+        mResendEmail.setText(getResources().getString(
+                R.string.reg_DLS_Resend_The_Email_Button_Title));
+        mResendEmail.setProgressText(getResources().getString(
+                R.string.reg_DLS_Resend_The_Email_Button_Title));
+        if (networkUtility.isNetworkAvailable())
+            mResendEmail.setEnabled(true);
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : resend enab");
     }
 
     public void enableUpdateButton() {
@@ -520,6 +525,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         mResendEmail.setEnabled(true);
 
     }
+
     public void disableResendButton() {
         mResendEmail.setEnabled(false);
     }

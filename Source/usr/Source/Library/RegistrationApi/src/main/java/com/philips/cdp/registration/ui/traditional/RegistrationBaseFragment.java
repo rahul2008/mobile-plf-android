@@ -315,7 +315,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
         mHeight = 0;
     }
 
-
+    public void updateErrorNotification(String errorMessage) {
+        final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), NotificationType.NOTIFICATION_BAR);
+        urNotification.showNotification(errorMessage, null);
+    }
     public void showNotificationBarOnNetworkNotAvailable() {
         notification = new URNotification(getRegistrationFragment().getParentActivity(), NotificationType.NOTIFICATION_BAR);
         new Handler().postDelayed(() -> notification.showNotification(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_NoNetworkConnection)), 100);
@@ -325,8 +328,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
     public void hideNotificationBarOnNetworkAvailable() {
         if (notification != null)
             notification.hideNotification();
-        else {
-            return;
-        }
     }
+
 }
