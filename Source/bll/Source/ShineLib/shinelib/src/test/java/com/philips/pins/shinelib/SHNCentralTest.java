@@ -305,7 +305,7 @@ public class SHNCentralTest extends RobolectricTest {
     @Test
     public void givenListenerIsRegistered_whenStatusChanges_thenListenerIsNotified() throws Exception {
         SHNCentralListener listener = mock(SHNCentralListener.class);
-        shnCentral.registerInternalSHNCentralListener(listener);
+        shnCentral.addInternalListener(listener);
 
         simulateBLEStateChange(BluetoothAdapter.STATE_TURNING_OFF);
 
@@ -315,8 +315,8 @@ public class SHNCentralTest extends RobolectricTest {
     @Test
     public void givenListenerIsRegisteredAndUnregistered_whenStatusChanges_thenListenerIsNotNotified() throws Exception {
         SHNCentralListener listener = mock(SHNCentralListener.class);
-        shnCentral.registerInternalSHNCentralListener(listener);
-        shnCentral.unregisterInternalSHNCentralListener(listener);
+        shnCentral.addInternalListener(listener);
+        shnCentral.removeInternalListener(listener);
 
         simulateBLEStateChange(BluetoothAdapter.STATE_TURNING_OFF);
 

@@ -316,20 +316,20 @@ public class SHNCentral {
     }
 
     /**
-     * Registers a listener for SHNCentral state changes that will be informed <b>on the internal thread</b>. Listener will be weakly referenced to allow for cleanup.
+     * Adds a listener for SHNCentral state changes that will be informed <b>on the internal thread</b>. Listener will be weakly referenced to allow for cleanup.
      *
      * @param shnCentralListener the listener to register
      */
-    void registerInternalSHNCentralListener(SHNCentralListener shnCentralListener) {
+    void addInternalListener(SHNCentralListener shnCentralListener) {
         shnCentralInternalListeners.put(shnCentralListener.hashCode(), new WeakReference<>(shnCentralListener));
     }
 
     /**
-     * Unregister a listener that is registered via {@link SHNCentral#registerShnCentralListener(SHNCentralListener)}
+     * Remove a listener that is added via {@link SHNCentral#addInternalListener(SHNCentralListener)}
      *
      * @param shnCentralListener the listener to be unregistered
      */
-    void unregisterInternalSHNCentralListener(SHNCentralListener shnCentralListener) {
+    void removeInternalListener(SHNCentralListener shnCentralListener) {
         shnCentralInternalListeners.remove(shnCentralListener.hashCode());
     }
 

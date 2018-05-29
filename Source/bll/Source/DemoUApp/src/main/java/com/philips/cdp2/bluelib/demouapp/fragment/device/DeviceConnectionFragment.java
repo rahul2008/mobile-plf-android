@@ -77,7 +77,7 @@ public class DeviceConnectionFragment extends Fragment {
 
         switch (mDevice.getState()) {
             case Disconnected:
-                mDevice.connect(120000);
+                mDevice.connect(120000L);
                 break;
             case Connected:
                 mDevice.disconnect();

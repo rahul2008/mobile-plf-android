@@ -177,7 +177,7 @@ public class SHNDeviceImplTest {
                 centralStateListener = (SHNCentral.SHNCentralListener) invocation.getArguments()[0];
                 return null;
             }
-        }).when(mockedSHNCentral).registerInternalSHNCentralListener(isA(SHNCentral.SHNCentralListener.class));
+        }).when(mockedSHNCentral).addInternalListener(isA(SHNCentral.SHNCentralListener.class));
 
         shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.NONE);
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
@@ -1104,7 +1104,7 @@ public class SHNDeviceImplTest {
     public void whenConnectWithTimeOutCalledThenRegisterInternalSHNCentralListenerIsCalled() {
         shnDevice.connect(1L);
 
-        verify(mockedSHNCentral).registerInternalSHNCentralListener(shnDevice);
+        verify(mockedSHNCentral).addInternalListener(shnDevice);
     }
 
     @Test
