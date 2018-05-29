@@ -388,18 +388,10 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
 
     @Override
     public void onSyncComplete() {
-//        mLaunchFragmentPresenter.pairDevice(getTepastDeviceDetails(), PairingFragment.this);
     }
 
     @Override
     public void onSyncFailed(Exception e) {
-        /*final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), PairingFragment.this);
-            }
-        }, 10000);*/
     }
 
     public void logOut() {
