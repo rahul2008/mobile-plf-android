@@ -36,12 +36,12 @@ public class URLogout implements URLogoutInterface {
 
     @Override
     public void performLogout(final Context activityContext, final User user) {
-        RALog.d(TAG,"performLogout: perform Logout method started");
+        RALog.d(TAG, "performLogout: perform Logout method started");
         if (!BaseAppUtil.isNetworkAvailable(activityContext.getApplicationContext())) {
-            RALog.d(TAG,"performLogout: isNetworkAvailable : Network Error");
+            RALog.d(TAG, "performLogout: isNetworkAvailable : Network Error");
             if (urLogoutListener != null) {
                 urLogoutListener.onNetworkError(activityContext.getString(R.string.RA_DLS_check_internet_connectivity));
-                RALog.d(TAG,"performLogout: Network Error");
+                RALog.d(TAG, "performLogout: Network Error");
             }
             return;
         }
@@ -61,9 +61,9 @@ public class URLogout implements URLogoutInterface {
                 }
             });
         } else {
-            RALog.d(TAG,"performLogout: doLogout Being called in BaseAppUtil polling enabled true");
+            RALog.d(TAG, "performLogout: doLogout Being called in BaseAppUtil polling enabled true");
             doLogout(activityContext, user);
-            RALog.d(TAG,"performLogout: BaseAppUtil.isDSPollingEnabled: True");
+            RALog.d(TAG, "performLogout: BaseAppUtil.isDSPollingEnabled: True");
         }
     }
 
@@ -76,17 +76,20 @@ public class URLogout implements URLogoutInterface {
     }
 
     private void doLogout(final Context activityContext, User user) {
-        RALog.d(TAG,"doLogout: The method started");
+        RALog.d(TAG, "doLogout: The method started");
         user.logout(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
                 if (urLogoutListener != null) {
-                    RALog.d(TAG,"doLogout: URLogoutListener onLogoutSuccess started");
+                    RALog.d(TAG, "doLogout: URLogoutListener onLogoutSuccess started");
                     urLogoutListener.onLogoutResultSuccess();
+                }
+                if (activityContext != null && activityContext.getApplicationContext() != null && ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra() != null) {
+                    ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra().getLogging().setUserUUID(null);
                 }
                 clearDataInDataServiceMicroApp();
                 stopDataSync(activityContext);
-                RALog.d(TAG,"doLogout: onLogoutSuccess");
+                RALog.d(TAG, "doLogout: onLogoutSuccess");
             }
 
             @Override
@@ -94,33 +97,33 @@ public class URLogout implements URLogoutInterface {
                 if (urLogoutListener != null) {
                     urLogoutListener.onLogoutResultFailure(i, errorMessage);
                 }
-                RALog.d(TAG,"doLogout: onLogoutFailure");
+                RALog.d(TAG, "doLogout: onLogoutFailure");
             }
         });
     }
 
     protected void stopDataSync(Context activityContext) {
-        RALog.d(TAG,"stopDataSync: method started");
+        RALog.d(TAG, "stopDataSync: method started");
         if (BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext())) {
             ((Activity) activityContext).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    RALog.d(TAG,"stopDataSync: stopSync");
+                    RALog.d(TAG, "stopDataSync: stopSync");
                     SyncScheduler.getInstance().stopSync();
                 }
             });
         } else {
-            RALog.d(TAG,"stopDataSync: savingTokenRegState");
+            RALog.d(TAG, "stopDataSync: savingTokenRegState");
             getPushNotificationInstance().saveTokenRegistrationState(activityContext.getApplicationContext(), false);
-            RALog.d(TAG,"stopDataSync: deregisterDSForRegisteringToken");
+            RALog.d(TAG, "stopDataSync: deregisterDSForRegisteringToken");
             ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();
-            RALog.d(TAG,"stopDataSync: deregisterForReceivingPayload");
+            RALog.d(TAG, "stopDataSync: deregisterForReceivingPayload");
             ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterForReceivingPayload();
         }
     }
 
     protected void clearDataInDataServiceMicroApp() {
-        RALog.d(TAG,"clearDataInDataServiceMicroApp: get UserRegHandler");
+        RALog.d(TAG, "clearDataInDataServiceMicroApp: get UserRegHandler");
         getInstance().getUserRegistrationHandler().clearAccessToken();
     }
 
