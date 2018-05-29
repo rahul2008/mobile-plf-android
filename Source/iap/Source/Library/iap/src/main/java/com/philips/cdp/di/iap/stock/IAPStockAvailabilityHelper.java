@@ -8,7 +8,6 @@ package com.philips.cdp.di.iap.stock;
 
 public class IAPStockAvailabilityHelper {
 
-    final String OUT_STOCK = "outOfStock";
     final String IN_STOCK = "inStock";
     final String LOW_STOCK = "lowStock";
 
