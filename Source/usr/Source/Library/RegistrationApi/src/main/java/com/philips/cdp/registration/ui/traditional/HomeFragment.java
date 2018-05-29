@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -45,8 +44,6 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.customviews.NotificationType;
-import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FontLoader;
@@ -134,7 +131,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private String mFacebookEmail;
     private CallbackManager mCallbackManager;
     private URFaceBookUtility mURFaceBookUtility;
-    private PopupWindow popupWindow;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -142,7 +138,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         RLog.d(TAG, "OnCreateView : is Called");
         mURFaceBookUtility = new URFaceBookUtility(this);
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
-        homePresenter = new HomePresenter(this, mCallbackManager);
+        homePresenter = new HomePresenter(this,mCallbackManager);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         view = getViewFromRegistrationFunction(inflater, container);
@@ -151,11 +147,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         handleOrientation(view);
         homePresenter.registerWeChatApp();
         initFacebookLogIn();
-
-
         return view;
     }
-
 
     private View getViewFromRegistrationFunction(LayoutInflater inflater, ViewGroup container) {
 
@@ -203,7 +196,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         } else {
             socialButton.setEnabled(false);
         }
-        socialButton.setOnClickListener((View v) -> {
+        socialButton.setOnClickListener(v -> {
             if (!getRegistrationFragment().isHomeFragment()) {
                 return;
             }
@@ -449,8 +442,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void handleLoginSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
-        hideProgressDialog();
         enableControls(true);
+        hideProgressDialog();
         homePresenter.navigateToScreen();
     }
 
@@ -530,7 +523,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         privacyPolicy.setEnabled(state);
         mCountryDisplay2.setEnabled(state);
         privacyPolicy2.setEnabled(state);
-        //    continueWithouAccount.setEnabled(state);
+    //    continueWithouAccount.setEnabled(state);
     }
 
     @Override
@@ -566,6 +559,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void startAccessTokenAuthForFacebook() {
+        showProgressDialog();
         homePresenter.startAccessTokenAuthForFacebook();
     }
 
@@ -937,5 +931,4 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
 }

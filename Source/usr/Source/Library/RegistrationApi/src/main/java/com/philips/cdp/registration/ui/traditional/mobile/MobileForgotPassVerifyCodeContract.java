@@ -1,6 +1,8 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-public interface MobileForgotPassVerifyCodeContract {
+import com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver;
+
+public interface MobileForgotPassVerifyCodeContract extends SMSBroadCastReceiver.ReceiveAndRegisterOTPListener{
 
     void netWorkStateOnlineUiHandle();
 

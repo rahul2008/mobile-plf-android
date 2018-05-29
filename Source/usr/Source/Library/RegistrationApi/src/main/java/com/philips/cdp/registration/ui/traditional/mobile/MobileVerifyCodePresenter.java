@@ -100,5 +100,11 @@ public class MobileVerifyCodePresenter implements NetworkStateListener {
         serviceDiscoveryWrapper = wrapper;
     }
 
+    public void registerSMSReceiver() {
+        mobileVerifyCodeContract.getSMSBroadCastReceiver().registerReceiver();
+    }
 
+    public void unRegisterSMSReceiver() {
+        mobileVerifyCodeContract.getSMSBroadCastReceiver().unRegisterReceiver();
+    }
 }
