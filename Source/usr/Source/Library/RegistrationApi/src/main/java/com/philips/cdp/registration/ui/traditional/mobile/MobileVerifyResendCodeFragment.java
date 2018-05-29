@@ -348,7 +348,8 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void netWorkStateOfflineUiHandle() {
-        errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
+//        errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
+        showNotificationBarOnNetworkNotAvailable();
         phoneNumberEditText.setEnabled(false);
         resendSMSButton.setEnabled(false);
         smsReceivedButton.setEnabled(false);

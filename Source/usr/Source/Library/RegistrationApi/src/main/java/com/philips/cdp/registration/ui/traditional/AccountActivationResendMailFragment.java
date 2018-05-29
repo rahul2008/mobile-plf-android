@@ -243,10 +243,12 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             } else {
                 mResendEmail.setEnabled(false);
                 mReturnButton.setEnabled(false);
-                mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+//                mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+                showNotificationBarOnNetworkNotAvailable();
             }
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+//            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+            showNotificationBarOnNetworkNotAvailable();
             mResendEmail.setEnabled(false);
             mReturnButton.setEnabled(false);
             scrollViewAutomatically(mRegError, mSvRootLayout);

@@ -223,7 +223,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
         } else {
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+//            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            showNotificationBarOnNetworkNotAvailable();
             scrollViewAutomatically(mRegError, layoutScrollView);
         }
     }
@@ -264,7 +265,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
         } else {
             hideForgotPasswordSpinner();
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+//            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            showNotificationBarOnNetworkNotAvailable();
         }
     }
 

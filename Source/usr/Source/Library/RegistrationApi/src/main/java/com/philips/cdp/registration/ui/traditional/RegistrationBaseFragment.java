@@ -8,6 +8,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -18,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.PopupWindow;
 import android.widget.ScrollView;
 
 import com.philips.cdp.registration.ProgressAlertDialog;
@@ -26,6 +26,8 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
+import com.philips.cdp.registration.ui.customviews.NotificationType;
+import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
@@ -33,7 +35,9 @@ import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment {
 
-    private PopupWindow popupWindow;
+    private URNotification notification;
+
+    private Context mContext;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -65,25 +69,11 @@ public abstract class RegistrationBaseFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    //    public void viewOrHideNotificationBar(Fragment fragment) {
-//        if (popupWindow == null) {
-//            View view = getRegistrationFragment().getNotificationContentView(
-//                    getContext().getResources().getString(R.string.reg_Resend_SMS_Success_Content)
-//                    , "23424");
-//            popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
-//                    ViewGroup.LayoutParams.WRAP_CONTENT);
-//            popupWindow.setContentView(view);
-//
-//        }
-//        if (popupWindow.isShowing()) {
-//            popupWindow.dismiss();
-//        } else {
-//            if (fragment.isVisible() && popupWindow != null) {
-//                popupWindow.showAtLocation(getActivity().
-//                        findViewById(R.id.usr_startScreen_baseLayout_LinearLayout), Gravity.TOP, 0, 0);
-//            }
-//        }
-//    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Override
     public void onStop() {
@@ -306,7 +296,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     public void showProgressDialog() {
         if (this.isVisible()) {
             if (mProgressDialog == null) {
-                mProgressDialog = new ProgressAlertDialog(getContext(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog = new ProgressAlertDialog(mContext, R.style.reg_Custom_loaderTheme);
                 mProgressDialog.setCancelable(false);
             }
             mProgressDialog.show();
@@ -325,4 +315,17 @@ public abstract class RegistrationBaseFragment extends Fragment {
         mHeight = 0;
     }
 
+
+    public void showNotificationBarOnNetworkNotAvailable() {
+        notification = new URNotification(getRegistrationFragment().getParentActivity(), NotificationType.NOTIFICATION_BAR);
+        notification.showNotification(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+    }
+
+    public void hideNotificationBarOnNetworkAvailable() {
+        if (notification != null)
+            notification.hideNotification();
+        else{
+            return;
+        }
+    }
 }

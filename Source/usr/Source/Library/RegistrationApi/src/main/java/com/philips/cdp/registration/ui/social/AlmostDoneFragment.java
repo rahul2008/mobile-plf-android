@@ -597,7 +597,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void marketingOptCheckDisable() {
         marketingOptCheck.setOnCheckedChangeListener(null);
         marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
-        errorMessage.setError(getString(R.string.reg_NoNetworkConnection));
+//        errorMessage.setError(getString(R.string.reg_NoNetworkConnection));
+        showNotificationBarOnNetworkNotAvailable();
     }
 
     @Override

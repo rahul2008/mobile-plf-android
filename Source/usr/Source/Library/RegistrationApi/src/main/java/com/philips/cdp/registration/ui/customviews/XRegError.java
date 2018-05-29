@@ -55,6 +55,8 @@ public class XRegError extends RelativeLayout {
         }
         mSigninErrMsg = errorMsg;
         mTvError.setText(errorMsg);
+        mTvCloseIcon.setText(R.string.ic_reg_close);
+
         setVisibility(VISIBLE);
     }
 

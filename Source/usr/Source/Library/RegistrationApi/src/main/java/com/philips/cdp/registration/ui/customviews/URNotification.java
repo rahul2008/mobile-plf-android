@@ -8,10 +8,17 @@ public class URNotification {
 
     private final Activity mActivity;
     private final NotificationType mNotificationType;
+    private NotificationBarView notificationBarView;
+    private XRegError xRegError;
 
     public URNotification(Activity mActivity, NotificationType mNotificationType) {
         this.mActivity = mActivity;
         this.mNotificationType = mNotificationType;
+        if (mNotificationType == NotificationType.NOTIFICATION_BAR)
+            notificationBarView = new NotificationBarView(mActivity);
+        else {
+            xRegError = new XRegError(mActivity);
+        }
     }
 
     public void showNotification(String message, String title) {
@@ -19,12 +26,12 @@ public class URNotification {
         switch (mNotificationType) {
 
             case INLINE:
-                new XRegError(mActivity).setError(message);
-
+                xRegError.setError(message);
                 break;
 
             case NOTIFICATION_BAR:
-                new NotificationBarView(mActivity).showError(message, title, mActivity.findViewById(R.id.usr_startScreen_baseLayout_LinearLayout));
+
+                notificationBarView.showError(message, title, mActivity.findViewById(R.id.usr_startScreen_baseLayout_LinearLayout));
                 break;
             case DIALOG:
                 break;
@@ -34,13 +41,12 @@ public class URNotification {
     public void hideNotification() {
 
         switch (mNotificationType) {
-
             case INLINE:
-                new XRegError(mActivity).hideError();
+                xRegError.hideError();
                 break;
 
             case NOTIFICATION_BAR:
-                new NotificationBarView(mActivity).hidePopup();
+                notificationBarView.hidePopup();
             case DIALOG:
                 break;
         }

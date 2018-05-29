@@ -45,8 +45,6 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.customviews.NotificationType;
-import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FontLoader;
@@ -208,7 +206,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
                 return;
             }
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
-            if (mRegError.isShown()) mRegError.hideError();
+            if (mRegError.isShown())
+                hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
             if (homePresenter.isNetworkAvailable()) {
                 homePresenter.setFlowDeligate(HomePresenter.FLOWDELIGATE.SOCIALPROVIDER);
                 homePresenter.setProvider(providerName);
@@ -230,9 +229,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         return socialButton;
     }
 
-    private void showNotificationBarOnNetworkNotAvailable() {
-        new URNotification(getActivityContext(), NotificationType.NOTIFICATION_BAR).showNotification(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_NoNetworkConnection));
-    }
 
     private void updateErrorMessage(String errorMessage) {
         mRegError.setError(errorMessage);
@@ -306,7 +302,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     public void localeServiceDiscoveryFailed() {
         RLog.d(TAG, "localeServiceDiscoveryFailed : is called");
         hideProgressDialog();
-        updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
+//        updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
         showNotificationBarOnNetworkNotAvailable();
     }
 
@@ -405,7 +401,10 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private ClickableSpan countryClickListener = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            if (mRegError.isShown()) mRegError.hideError();
+            if (mRegError.isShown()) {
+                //mRegError.hideError();
+                hideNotificationBarOnNetworkAvailable();
+            }
             handleCountrySelection();
         }
     };
@@ -464,7 +463,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         if (userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED) {
             updateErrorMessage(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
         } else {
-            updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
+            //  updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
             showNotificationBarOnNetworkNotAvailable();
         }
     }
@@ -516,7 +515,9 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     private void enableControls(boolean clickableState) {
         if (clickableState) {
-            mRegError.hideError();
+            //mRegError.hideError();
+            hideNotificationBarOnNetworkAvailable();
+
         }
         handleBtnClickableStates(clickableState);
     }
@@ -591,29 +592,28 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     public void disableControlsOnNetworkConnectionGone() {
         hideProgressDialog();
         handleBtnClickableStates(false);
-        updateErrorMessage(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+        //updateErrorMessage(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
         showNotificationBarOnNetworkNotAvailable();
     }
 
 
     @OnClick(R2.id.usr_startScreen_createAccount_Button)
     void createAccountButtonClick() {
-        if (mRegError.isShown()) mRegError.hideError();
-//        launchCreateAccountFragment();
-        showNotificationBarOnNetworkNotAvailable();
+        if (mRegError.isShown()) hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
+        launchCreateAccountFragment();
     }
 
 
     @OnClick(R2.id.usr_startScreen_Login_Button)
     void myPhilipsButtonClick() {
-        if (mRegError.isShown()) mRegError.hideError();
+        if (mRegError.isShown()) hideNotificationBarOnNetworkAvailable();// mRegError.hideError();
         trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
         launchSignInFragment();
     }
 
     @OnClick(R2.id.usr_StartScreen_Skip_Button)
     void skipButtonClick() {
-        if (mRegError.isShown()) mRegError.hideError();
+        if (mRegError.isShown()) hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
 
         if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
             RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
@@ -635,9 +635,9 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
         pTvPrivacyPolicy.setText(spannableString);
         pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
-        pTvPrivacyPolicy.setLinkTextColor(ContextCompat.getColor(getContext(),
+        pTvPrivacyPolicy.setLinkTextColor(ContextCompat.getColor(mContext,
                 R.color.reg_hyperlink_highlight_color));
-        pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(getContext(),
+        pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(mContext,
                 android.R.color.transparent));
     }
 
@@ -738,7 +738,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
         @Override
         public void onClick(View widget) {
-            if (mRegError.isShown()) mRegError.hideError();
+            if (mRegError.isShown())
+                hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
             handlePrivacyPolicy();
         }
     };
@@ -832,6 +833,9 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void initFailed() {
         mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+//        final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), NotificationType.INLINE);
+//        urNotification.showNotification(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed, );
+
         hideProgressDialog();
     }
 
@@ -920,7 +924,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
                 AppTagingConstants.TECHNICAL_ERROR);
         RLog.d(RLog.CALLBACK, "HomeFragment error");
         enableControls(true);
-        updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
+//        updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
         showNotificationBarOnNetworkNotAvailable();
     }
 

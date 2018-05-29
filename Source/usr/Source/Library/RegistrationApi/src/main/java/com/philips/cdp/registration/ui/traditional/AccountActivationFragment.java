@@ -257,10 +257,12 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             } else {
                 activateButtonEnable(false);
                 mBtnResend.setEnabled(false);
-                mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
+               // mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
+                showNotificationBarOnNetworkNotAvailable();
             }
         } else {
-            mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
+//            mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
+            showNotificationBarOnNetworkNotAvailable();
             activateButtonEnable(false);
             mBtnResend.setEnabled(false);
             scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);

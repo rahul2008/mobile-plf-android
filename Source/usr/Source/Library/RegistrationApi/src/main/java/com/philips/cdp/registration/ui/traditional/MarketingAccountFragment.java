@@ -274,10 +274,12 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             } else {
                 countMeButton.setEnabled(false);
                 mayBeLaterButton.setEnabled(false);
-                errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
+//                errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
+                showNotificationBarOnNetworkNotAvailable();
             }
         } else {
-            errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
+//            errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            showNotificationBarOnNetworkNotAvailable();
             countMeButton.setEnabled(false);
             mayBeLaterButton.setEnabled(false);
             scrollViewAutomatically(errorRegError, rootLayoutScrollView);
