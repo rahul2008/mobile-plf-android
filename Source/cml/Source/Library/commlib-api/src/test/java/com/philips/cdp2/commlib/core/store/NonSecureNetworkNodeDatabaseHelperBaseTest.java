@@ -17,14 +17,14 @@ import org.robolectric.RuntimeEnvironment;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.philips.cdp2.commlib.core.store.OpenNetworkNodeDatabaseHelper.DB_SCHEMA;
-import static com.philips.cdp2.commlib.core.store.OpenNetworkNodeDatabaseHelper.DB_VERSION;
-import static com.philips.cdp2.commlib.core.store.OpenNetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
+import static com.philips.cdp2.commlib.core.store.NonSecureNetworkNodeDatabaseHelper.DB_SCHEMA;
+import static com.philips.cdp2.commlib.core.store.NonSecureNetworkNodeDatabaseHelper.DB_VERSION;
+import static com.philips.cdp2.commlib.core.store.NonSecureNetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 import static org.junit.Assert.assertEquals;
 
-abstract public class OpenNetworkNodeDatabaseHelperBaseTest extends RobolectricTest {
+abstract public class NonSecureNetworkNodeDatabaseHelperBaseTest extends RobolectricTest {
 
-    OpenNetworkNodeDatabaseHelper networkNodeDatabaseHelper;
+    NonSecureNetworkNodeDatabaseHelper networkNodeDatabaseHelper;
 
     @Override
     @After
@@ -59,7 +59,7 @@ abstract public class OpenNetworkNodeDatabaseHelperBaseTest extends RobolectricT
 
     @NonNull
     SQLiteDatabase prepareSqliteDatabase(final int oldVersion, String networkNodeTableStructure) {
-        networkNodeDatabaseHelper = new OpenNetworkNodeDatabaseHelper(RuntimeEnvironment.application, oldVersion) {
+        networkNodeDatabaseHelper = new NonSecureNetworkNodeDatabaseHelper(RuntimeEnvironment.application, oldVersion) {
             @Override
             void onBeforeUpgrade(SQLiteDatabase db, int currentVersion) {
                 logTableColumns(db, currentVersion);

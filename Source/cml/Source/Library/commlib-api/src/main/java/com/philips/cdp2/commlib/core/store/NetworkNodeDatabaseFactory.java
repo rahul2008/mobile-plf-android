@@ -25,7 +25,7 @@ public final class NetworkNodeDatabaseFactory {
         }
 
         if (dbHelper == null) {
-            dbHelper = new OpenNetworkNodeDatabaseHelper();
+            dbHelper = new NonSecureNetworkNodeDatabaseHelper();
         }
 
         final NetworkNodeDatabase database = new NetworkNodeDatabase(dbHelper);
@@ -37,10 +37,10 @@ public final class NetworkNodeDatabaseFactory {
     }
 
     private static void migrate(Context context, NetworkNodeDatabase newDatabase) {
-        File oldDatabaseFile = context.getDatabasePath(OpenNetworkNodeDatabaseHelper.DB_NAME);
+        File oldDatabaseFile = context.getDatabasePath(NonSecureNetworkNodeDatabaseHelper.DB_NAME);
 
         if (oldDatabaseFile.exists()) {
-            OpenNetworkNodeDatabaseHelper oldDBHelper = new OpenNetworkNodeDatabaseHelper();
+            NonSecureNetworkNodeDatabaseHelper oldDBHelper = new NonSecureNetworkNodeDatabaseHelper();
             final NetworkNodeDatabase oldDatabase = new NetworkNodeDatabase(oldDBHelper);
             for (NetworkNode networkNode : oldDatabase.getAll()) {
                 newDatabase.save(networkNode);

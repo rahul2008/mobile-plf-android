@@ -9,18 +9,17 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
-
 import org.junit.Test;
 
-import static com.philips.cdp2.commlib.core.store.OpenNetworkNodeDatabaseHelper.DB_VERSION;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.*;
-import static com.philips.cdp2.commlib.core.store.OpenNetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
+import static com.philips.cdp2.commlib.core.store.NonSecureNetworkNodeDatabaseHelper.DB_VERSION;
+import static com.philips.cdp2.commlib.core.store.NonSecureNetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 import static org.junit.Assert.assertEquals;
 
-public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDatabaseHelperBaseTest {
+public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNetworkNodeDatabaseHelperBaseTest {
 
-    private static final int OLD_VERSION = 5;
-    private String version5 = "CREATE TABLE IF NOT EXISTS network_node("
+    private static final int OLD_VERSION = 2;
+    private String version2 = "CREATE TABLE IF NOT EXISTS network_node("
             + "_id INTEGER NOT NULL UNIQUE,"
             + "cppid TEXT UNIQUE,"
             + "bootid NUMERIC,"
@@ -30,20 +29,20 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
             + "is_paired SMALLINT NOT NULL DEFAULT 0,"
             + "last_paired NUMERIC,"
             + "ip_address TEXT,"
-            + "device_type TEXT,"
-            + "model_id TEXT,"
+            + "model_name TEXT,"
+            + "model_type TEXT,"
             + "https SMALLINT NOT NULL DEFAULT 0,"
-            + "pin TEXT,"
             + "PRIMARY KEY(_id)"
             + ");";
+
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDatabaseStructureShouldBeCorrect() throws Exception {
-        verifyDatabaseUpgrade(5, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDatabaseStructureShouldBeCorrect() throws Exception {
+        verifyDatabaseUpgrade(2, version2);
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_cppId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_cppId() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -57,8 +56,8 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_bootId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_bootId() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -72,8 +71,8 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_encryptionKey() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_encryptionKey() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -87,8 +86,8 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_name() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_name() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -102,8 +101,8 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_lastKnownNetwork() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_lastKnownNetwork() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -117,8 +116,8 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_isPaired() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_isPaired() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -132,8 +131,8 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_lastPairedTime() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_lastPairedTime() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -147,8 +146,8 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_ipAddress() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_ipAddress() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -162,8 +161,8 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_deviceType() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_deviceType() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -171,14 +170,14 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
 
         Cursor cursor = getReadableDatabaseCursor();
         String deviceType = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
-        assertEquals("Some Device Type", deviceType);
+        assertEquals("Some Model Name", deviceType);
 
         closeCursor(cursor);
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_modelId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_modelId() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -186,14 +185,14 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
 
         Cursor cursor = getReadableDatabaseCursor();
         String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
-        assertEquals("Some Model Id", modelId);
+        assertEquals("Some Model Type", modelId);
 
         closeCursor(cursor);
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_https() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_https() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -207,8 +206,8 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_pin() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_pin() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -216,14 +215,14 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
 
         Cursor cursor = getReadableDatabaseCursor();
         String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
-        assertEquals("Some PIN", pin);
+        assertEquals(null, pin);
 
         closeCursor(cursor);
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_mismatchedPin() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
+    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_mismatchedPin() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -247,10 +246,9 @@ public class OpenNetworkNodeDatabaseHelperVersion5Test extends OpenNetworkNodeDa
         data.put(KEY_IS_PAIRED, 2);
         data.put(KEY_LAST_PAIRED, -1L);
         data.put(KEY_IP_ADDRESS, "Some IP Address");
-        data.put(KEY_DEVICE_TYPE, "Some Device Type");
-        data.put(KEY_MODEL_ID, "Some Model Id");
+        data.put("model_type", "Some Model Type");
+        data.put(KEY_MODEL_NAME, "Some Model Name");
         data.put(KEY_HTTPS, 1);
-        data.put(KEY_PIN, "Some PIN");
         return data;
     }
 }

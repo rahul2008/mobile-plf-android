@@ -12,6 +12,7 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
+        maven { url sonatype }
         maven {
             url repos.jcenter
             credentials {
@@ -74,6 +75,7 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
+        maven { url sonatype }
 
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'

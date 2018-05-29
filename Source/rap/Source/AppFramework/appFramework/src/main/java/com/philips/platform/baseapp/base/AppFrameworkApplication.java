@@ -110,7 +110,9 @@ public class AppFrameworkApplication extends Application {
         }
         super.onCreate();
 
-        Stetho.initializeWithDefaults(this);
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this);
+        }
 
         /*
          * Apteligent initialization.

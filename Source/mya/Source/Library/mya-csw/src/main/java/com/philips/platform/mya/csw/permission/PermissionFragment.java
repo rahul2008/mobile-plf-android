@@ -38,7 +38,7 @@ import java.util.List;
 
 public class PermissionFragment extends CswBaseFragment implements PermissionContract.View, HelpClickListener, android.view.View.OnClickListener {
 
-    public static final String TAG = "PermissionFragment";
+    public static final String TAG = PermissionFragment.class.getSimpleName();
     private ProgressDialogView progressDialog;
     private RecyclerView recyclerView;
 

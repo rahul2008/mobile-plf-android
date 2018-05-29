@@ -43,7 +43,7 @@ public class NetworkNodeDatabaseFactoryTest {
     private SecureNetworkNodeDatabaseHelper mockSecure;
 
     @Mock
-    private OpenNetworkNodeDatabaseHelper mockOpen;
+    private NonSecureNetworkNodeDatabaseHelper mockOpen;
 
     @Mock
     private NetworkNodeDatabase nonSecureDB;
@@ -56,7 +56,7 @@ public class NetworkNodeDatabaseFactoryTest {
         initMocks(this);
 
         whenNew(SecureNetworkNodeDatabaseHelper.class).withAnyArguments().thenReturn(mockSecure);
-        whenNew(OpenNetworkNodeDatabaseHelper.class).withAnyArguments().thenReturn(mockOpen);
+        whenNew(NonSecureNetworkNodeDatabaseHelper.class).withAnyArguments().thenReturn(mockOpen);
 
         whenNew(NetworkNodeDatabase.class).withArguments(mockOpen).thenReturn(nonSecureDB);
         whenNew(NetworkNodeDatabase.class).withArguments(mockSecure).thenReturn(secureDB);

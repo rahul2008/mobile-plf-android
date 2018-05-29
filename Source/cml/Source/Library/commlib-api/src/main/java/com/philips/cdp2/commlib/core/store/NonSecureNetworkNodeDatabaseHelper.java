@@ -35,7 +35,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_NAME;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
 
-class OpenNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements NetworkNodeDBHelper {
+class NonSecureNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements NetworkNodeDBHelper {
 
     static final int DB_VERSION = 6;
 
@@ -59,12 +59,12 @@ class OpenNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements NetworkN
     static final String DB_NAME = "network_node.db";
     static final String TABLE_NETWORK_NODE = "network_node";
 
-    OpenNetworkNodeDatabaseHelper() {
+    NonSecureNetworkNodeDatabaseHelper() {
         this(ContextProvider.get(), DB_VERSION);
     }
 
     @VisibleForTesting
-    OpenNetworkNodeDatabaseHelper(Context context, int version) {
+    NonSecureNetworkNodeDatabaseHelper(Context context, int version) {
         super(context, DB_NAME, null, version);
     }
 
