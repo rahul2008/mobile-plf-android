@@ -318,13 +318,14 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     public void showNotificationBarOnNetworkNotAvailable() {
         notification = new URNotification(getRegistrationFragment().getParentActivity(), NotificationType.NOTIFICATION_BAR);
-        notification.showNotification(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+        new Handler().postDelayed(() -> notification.showNotification(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_NoNetworkConnection)), 100);
+
     }
 
     public void hideNotificationBarOnNetworkAvailable() {
         if (notification != null)
             notification.hideNotification();
-        else{
+        else {
             return;
         }
     }
