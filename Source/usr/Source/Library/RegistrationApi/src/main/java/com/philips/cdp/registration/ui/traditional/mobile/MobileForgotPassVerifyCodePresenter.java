@@ -1,16 +1,15 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.support.annotation.*;
+import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp.registration.app.infra.*;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import io.reactivex.disposables.*;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class MobileForgotPassVerifyCodePresenter implements NetworkStateListener {
 
@@ -26,6 +25,7 @@ public class MobileForgotPassVerifyCodePresenter implements NetworkStateListener
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
+
     }
 
     public void cleanUp() {
@@ -47,5 +47,11 @@ public class MobileForgotPassVerifyCodePresenter implements NetworkStateListener
         serviceDiscoveryWrapper = wrapper;
     }
 
+    public void registerSMSReceiver() {
+        mobileVerifyCodeContract.getSMSBroadCastReceiver().registerReceiver();
+    }
 
+    public void unRegisterSMSReceiver() {
+        mobileVerifyCodeContract.getSMSBroadCastReceiver().unRegisterReceiver();
+    }
 }

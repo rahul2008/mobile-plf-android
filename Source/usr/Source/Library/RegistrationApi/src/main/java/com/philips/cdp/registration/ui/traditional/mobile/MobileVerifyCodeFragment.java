@@ -9,7 +9,9 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -39,6 +41,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver;
 import com.philips.cdp.registration.ui.utils.UpdateMobile;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -101,11 +104,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private Handler handler;
 
     boolean isVerified;
+    private SMSBroadCastReceiver mSMSBroadCastReceiver;
+    private boolean isUserTyping;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
         user = new User(context);
     }
 
@@ -114,9 +119,10 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         mobileVerifyCodePresenter = new MobileVerifyCodePresenter(this);
+        mSMSBroadCastReceiver = new SMSBroadCastReceiver(this);
 
         View view = inflater.inflate(R.layout.reg_mobile_activatiom_fragment, container, false);
-        trackActionStatus(REGISTRATION_ACTIVATION_SMS,"","");
+        trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         ButterKnife.bind(this, view);
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();
@@ -127,21 +133,28 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     private void setDescription() {
-        String userId =  user.getMobile();
+        String userId = user.getMobile();
         String normalText = getString(R.string.reg_DLS_VerifySMS_Description_Text);
         SpannableString str = new SpannableString(String.format(normalText, userId));
-        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length()-2, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length() - 2, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         regVerifyMobileDesc1.setText(str);
     }
 
     private void handleVerificationCode() {
         RxTextView.textChangeEvents(verificationCodeValidationEditText)
                 .subscribe(aBoolean -> {
-                    if (verificationCodeValidationEditText.getText().length() == 6)
-                        enableVerifyButton();
-                    else
-                        disableVerifyButton();
+                    decideToEnableVerifyButton();
                 });
+    }
+
+    private void decideToEnableVerifyButton() {
+        isUserTyping = false;
+        if (verificationCodeValidationEditText.getText().length() > 0) {
+            isUserTyping = true;
+        } else if (verificationCodeValidationEditText.getText().length() == 6)
+            enableVerifyButton();
+        else
+            disableVerifyButton();
     }
 
 
@@ -215,6 +228,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         map.put(MOBILE_INAPPNATIFICATION, MOBILE_RESEND_SMS_VERFICATION);
         AppTagging.trackMultipleActions(SEND_DATA, map);
     }
+
     @OnClick(R2.id.btn_reg_Verify)
     public void verifyClicked() {
         verifyButton.showProgressIndicator();
@@ -237,10 +251,11 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         user.refreshUser(this);
         super.onResume();
         EventBus.getDefault().register(this);
+        registerSMSReceiver();
     }
 
     @Subscribe
-    public void onEvent(UpdateMobile event){
+    public void onEvent(UpdateMobile event) {
         user.refreshUser(this);
     }
 
@@ -254,7 +269,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void resendButtonClicked() {
         disableVerifyButton();
         verifyButton.hideProgressIndicator();
-        getRegistrationFragment().addFragment( new MobileVerifyResendCodeFragment());
+        getRegistrationFragment().addFragment(new MobileVerifyResendCodeFragment());
         errorMessage.hideError();
 
     }
@@ -355,4 +370,59 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
         hideProgressSpinner();
     }
+
+    @Override
+    public void registerSMSReceiver() {
+        if (mSMSBroadCastReceiver.isSmsPermissionGranted()) {
+            mobileVerifyCodePresenter.registerSMSReceiver();
+        } else {
+            mSMSBroadCastReceiver.requestReadAndSendSmsPermission();
+        }
+    }
+
+    @Override
+    public void unRegisterSMSReceiver() {
+        mobileVerifyCodePresenter.unRegisterSMSReceiver();
+    }
+
+    @Override
+    public void onOTPReceived(String otp) {
+        RLog.i(TAG, "onOTPReceived : got otp");
+        if (!isUserTyping) {
+            verificationCodeValidationEditText.setText(otp);
+            verifyClicked();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        unRegisterSMSReceiver();
+        ;
+    }
+
+    @Override
+    public Activity getActivityContext() {
+        return getActivity();
+    }
+
+    @Override
+    public SMSBroadCastReceiver getSMSBroadCastReceiver() {
+        return mSMSBroadCastReceiver;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case SMSBroadCastReceiver.SMS_PERMISSION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    registerSMSReceiver();
+                }
+            }
+
+        }
+    }
+
 }
