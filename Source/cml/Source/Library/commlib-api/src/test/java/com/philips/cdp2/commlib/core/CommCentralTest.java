@@ -14,6 +14,8 @@ import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseFactory;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 import org.junit.After;
 import org.junit.Before;
@@ -38,9 +40,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(CommCentral.class)
+@PrepareForTest({CommCentral.class, NetworkNodeDatabaseFactory.class})
 public class CommCentralTest {
 
     @Mock
@@ -68,6 +71,9 @@ public class CommCentralTest {
     private ApplianceManager applianceManagerMock;
 
     @Mock
+    private NetworkNodeDatabase NetworkNodeDatabaseMock;
+
+    @Mock
     private Context contextMock;
 
     private Set<String> emptyDeviceTypes = Collections.emptySet();
@@ -79,6 +85,9 @@ public class CommCentralTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+
+        mockStatic(NetworkNodeDatabaseFactory.class);
+        when(NetworkNodeDatabaseFactory.create(runtimeConfigurationMock)).thenReturn(NetworkNodeDatabaseMock);
 
         DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
