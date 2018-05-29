@@ -1,11 +1,11 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.philips.cdp.di.iap.BuildConfig;
+
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.integration.IAPListener;
@@ -17,13 +17,13 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import junit.framework.Assert;
 
 import org.junit.Before;
-import org.junit.Ignore;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+
 
 import java.util.ArrayList;
 
@@ -61,7 +61,7 @@ public class ProductCatalogFragmentTest {
         Assert.assertNotNull(productCatalogFragment);
     }
 
-    @Ignore
+
     @Test(expected = NullPointerException.class)
     public void shouldNotDisplayCategorizedProductlist() {
         Utility.addCountryInPreference(PreferenceManager.getDefaultSharedPreferences(mContext), IAPConstant.IAP_COUNTRY_KEY, "US");
