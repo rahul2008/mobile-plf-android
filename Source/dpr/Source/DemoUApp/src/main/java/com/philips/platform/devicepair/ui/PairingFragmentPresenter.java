@@ -22,7 +22,7 @@ class PairingFragmentPresenter {
 
     void pairDevice(PairDevice pairDevice, IDevicePairingListener deviceStatusListener) {
         StateContext stateContext = new StateContext();
-        stateContext.setState(new PairDeviceState(pairDevice, null, deviceStatusListener, mActivity));
+        stateContext.setState(new PairDeviceState(pairDevice, deviceStatusListener, mActivity));
         stateContext.start();
     }
 

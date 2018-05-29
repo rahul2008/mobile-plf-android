@@ -61,7 +61,7 @@ public class GetSubjectProfileState extends AbstractBaseState implements Subject
     public void onGetSubjectProfiles(List<UCoreSubjectProfile> list) {
         StateContext stateContext = new StateContext();
         if (list.size() > 0) {
-            stateContext.setState(new PairDeviceState(pairDevice, list, mDeviceStatusListener, mActivity));
+            stateContext.setState(new PairDeviceState(pairDevice, mDeviceStatusListener, mActivity));
         } else {
             stateContext.setState(new CheckConsentState(mDeviceStatusListener, mActivity));
         }
