@@ -1,8 +1,9 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
 import com.android.volley.VolleyError;
+import com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver;
 
-public interface MobileVerifyCodeContract {
+public interface MobileVerifyCodeContract extends SMSBroadCastReceiver.ReceiveAndRegisterOTPListener{
 
     void enableVerifyButton();
 

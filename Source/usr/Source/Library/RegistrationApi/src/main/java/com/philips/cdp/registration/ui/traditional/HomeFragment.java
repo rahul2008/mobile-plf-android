@@ -137,7 +137,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         RLog.d(TAG, "OnCreateView : is Called");
         mURFaceBookUtility = new URFaceBookUtility(this);
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
-        homePresenter = new HomePresenter(this,mCallbackManager);
+        homePresenter = new HomePresenter(this, mCallbackManager);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         view = getViewFromRegistrationFunction(inflater, container);
@@ -436,8 +436,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void handleLoginSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
-        hideProgressDialog();
         enableControls(true);
+        hideProgressDialog();
         homePresenter.navigateToScreen();
     }
 
@@ -514,7 +514,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         privacyPolicy.setEnabled(state);
         mCountryDisplay2.setEnabled(state);
         privacyPolicy2.setEnabled(state);
-        continueWithouAccount.setEnabled(state);
+    //    continueWithouAccount.setEnabled(state);
     }
 
     @Override
@@ -550,7 +550,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void startAccessTokenAuthForFacebook() {
-       homePresenter.startAccessTokenAuthForFacebook();
+        showProgressDialog();
+        homePresenter.startAccessTokenAuthForFacebook();
     }
 
     @Override
