@@ -12,6 +12,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -34,11 +35,16 @@ import java.util.Map;
 
 public class ConsentCacheInteractor implements ConsentCacheInterface {
 
+    @SerializedName("CONSENT_CACHE")
     private String CONSENT_CACHE_KEY = "CONSENT_CACHE";
+    @SerializedName("ConsentCacheTTLInMinutes")
     private String CONSENT_EXPIRY_KEY = "ConsentCacheTTLInMinutes";
+    @SerializedName("appInfra")
     private AppInfraInterface appInfra;
+    @SerializedName("objGson")
     private Gson objGson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
             .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer()).create();
+    @SerializedName("inMemoryCache")
     private Map<String, Map<String, CachedConsentStatus>> inMemoryCache = new HashMap<>();
 
     public ConsentCacheInteractor(AppInfraInterface appInfra) {
