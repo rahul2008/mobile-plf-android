@@ -6,6 +6,7 @@ import com.philips.platform.devicepair.pojo.PairDevice;
 import com.philips.platform.devicepair.states.AbstractBaseState;
 import com.philips.platform.devicepair.states.PairDeviceState;
 import com.philips.platform.devicepair.states.StateContext;
+import com.philips.platform.devicepair.states.UnPairDeviceState;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,12 +28,35 @@ public class PairingFragmentPresenterTest {
 
     @Test
     public void pairDevice() throws Exception {
+        whenPairingDevice();
+        thenStateIsChangedTo(PairDeviceState.class);
+        thenStateIsStarted();
+    }
+
+    @Test
+    public void unpairDevice() throws Exception {
+        whenUnpairingDevice();
+        thenStateIsChangedTo(UnPairDeviceState.class);
+        thenStateIsStarted();
+    }
+
+    private void whenPairingDevice() throws Exception {
         PowerMockito.whenNew(StateContext.class).withAnyArguments().thenReturn(stateContext);
         pairingFragmentPresenter.pairDevice(pairDevice, iDevicePairingListener);
+    }
 
+    private void whenUnpairingDevice() throws Exception {
+        PowerMockito.whenNew(StateContext.class).withAnyArguments().thenReturn(stateContext);
+        pairingFragmentPresenter.unPairDevice(pairDevice.getDeviceID(), iDevicePairingListener);
+    }
+
+    private void thenStateIsChangedTo(Class<?> stateClass) {
         ArgumentCaptor<AbstractBaseState> argument = ArgumentCaptor.forClass(AbstractBaseState.class);
         verify(stateContext).setState(argument.capture());
-        assertEquals(PairDeviceState.class, argument.getValue().getClass());
+        assertEquals(stateClass, argument.getValue().getClass());
+    }
+
+    private void thenStateIsStarted() {
         verify(stateContext, times(1)).start();
     }
 
