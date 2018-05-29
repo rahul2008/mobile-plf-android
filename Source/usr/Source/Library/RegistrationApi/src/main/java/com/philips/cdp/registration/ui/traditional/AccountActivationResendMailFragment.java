@@ -55,6 +55,7 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -194,7 +195,8 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             return;
         } else if (savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY) != null
                 && savedInstanceState.getBoolean("isEmailVerifiedError")) {
-            mRegError.setError(savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY));
+            //mRegError.setError(savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY));
+            updateErrorNotification(savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY));
         }
     }
 
@@ -321,8 +323,11 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo,
                 AppTagingConstants.JANRAIN);
         try {
-            final String errorMsg = userRegistrationFailureInfo.getError().raw_response.getString("message");
-            mRegError.setError(errorMsg);
+            final JSONObject raw_response = userRegistrationFailureInfo.getError().raw_response;
+            if (raw_response == null) return;
+            final String errorMsg = raw_response.getString("message");
+//            mRegError.setError(errorMsg);
+            updateErrorNotification(errorMsg);
         } catch (JSONException e) {
             RLog.e(TAG, "handleResendVerificationEmailFailedWithError : Json Exception Occurred ");
         }
@@ -358,7 +363,8 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
                     @Override
                     public void onError(Throwable e) {
                         hideProgressDialog();
-                        mRegError.setError(e.getMessage());
+//                        mRegError.setError(e.getMessage());
+                        updateErrorNotification(e.getMessage());
                     }
                 }));
     }
@@ -408,7 +414,8 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Override
     public void onRefreshUserFailed(int error) {
-        mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
+//        mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
+        updateErrorNotification(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
     }
 
     boolean proceedResend = true;

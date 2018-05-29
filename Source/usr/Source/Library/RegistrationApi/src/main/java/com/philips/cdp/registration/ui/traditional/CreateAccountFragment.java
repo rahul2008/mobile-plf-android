@@ -527,8 +527,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void setErrorCode(int errorDesc) {
-        usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(new URError(context).getLocalizedError(ErrorType.JANRAIN, errorDesc));
-        scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
+        //usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(new URError(context).getLocalizedError(ErrorType.JANRAIN, errorDesc));
+        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.JANRAIN, errorDesc));
+//        scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
         enableCreateButton();
     }
 
