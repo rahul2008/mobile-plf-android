@@ -29,6 +29,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import org.junit.After;
 import org.junit.Before;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -105,6 +106,7 @@ public class SupportFragmentStateTest {
         fragmentLauncher=null;
     }
 
+    @Ignore
     @Test
     public void testMainMenuItemClicked(){
         supportFragmentStateMock.navigate(fragmentLauncher);

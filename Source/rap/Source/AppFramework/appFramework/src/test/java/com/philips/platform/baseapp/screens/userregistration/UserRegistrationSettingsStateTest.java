@@ -74,7 +74,6 @@ public class UserRegistrationSettingsStateTest {
     }
 
     @Test
-    @Ignore
     public void onUserLogoutSuccess() throws Exception {
         userRegState.onUserLogoutSuccess();
         verify(homeFragmentState).navigate(any(UiLauncher.class));
