@@ -14,10 +14,11 @@ Version {next}
 * N/A
 
 ### Breaking Changes
-* \#127781 CommLibCentral requires runtime configuration to enable secure nodes storage
+* \#127781 CommCentral requires runtime configuration to enable secure nodes storage. Secure storage requires AppInfraInterface provided via RuntimeConfiguration.
 
 ### Defects solved
 * \#121886 - Firmware update always starts from 0. Brought behaviour inline with iOS
+* \#127781 - CommLib persists NetworkNodes in secure manner. The feature is backwards compatible: existing stored nodes are migrated to secure DB.
 
 ### Residual anomalies
 * N/A
