@@ -85,10 +85,6 @@ dependencies {
         }
     }
 
-    implementation deps.ormlite.core
-    implementation deps.ormlite.android
-    implementation deps.sqlcipher
-
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
     testImplementation deps.assertj
