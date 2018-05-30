@@ -324,11 +324,13 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
                 AppTagingConstants.JANRAIN);
         try {
             final JSONObject raw_response = userRegistrationFailureInfo.getError().raw_response;
-            if (raw_response == null) return;
-            final String errorMsg = raw_response.getString("message");
-//            mRegError.setError(errorMsg);
-            updateErrorNotification(errorMsg);
+            if (raw_response == null) {
+                updateErrorNotification(mContext.getString(R.string.reg_Generic_Network_Error));
+                return;
+            }
+            updateErrorNotification(raw_response.getString("message"));
         } catch (JSONException e) {
+            updateErrorNotification(mContext.getString(R.string.reg_Generic_Network_Error));
             RLog.e(TAG, "handleResendVerificationEmailFailedWithError : Json Exception Occurred ");
         }
         mReturnButton.setEnabled(true);

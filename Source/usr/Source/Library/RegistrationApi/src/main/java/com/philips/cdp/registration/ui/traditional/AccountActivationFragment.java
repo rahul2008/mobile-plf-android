@@ -184,6 +184,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @OnClick(R2.id.usr_activation_emailVerified_button)
     void emailVerified() {
         RLog.d(RLog.ONCLICK, "AccountActivationFragment : Activate Account");
+
         showActivateSpinner();
         activateButtonEnable(false);
         mBtnResend.setEnabled(false);
@@ -361,12 +362,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
-
-        if (event.equals(RegConstants.COUNTER_FINISH)) {
-            proceedResend = true;
-        } else {
-            proceedResend = false;
-        }
+        proceedResend = event.equals(RegConstants.COUNTER_FINISH);
     }
 
     @Subscribe
