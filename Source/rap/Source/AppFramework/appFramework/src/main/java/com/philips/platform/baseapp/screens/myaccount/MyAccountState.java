@@ -3,8 +3,6 @@ package com.philips.platform.baseapp.screens.myaccount;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
@@ -73,7 +71,7 @@ public class MyAccountState extends BaseState{
         } else {
             profileItems = new String[]{"MYA_My_details"};
         }
-        String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings","Test cloud config"};
+        String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
         launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
         launchInput.setProfileMenuList(Arrays.asList(profileItems));
         launchInput.setSettingsMenuList(Arrays.asList(settingItems));
@@ -100,13 +98,6 @@ public class MyAccountState extends BaseState{
                         baseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity()));
                     }
                     return true;
-                } else if (itemName.equals("Test cloud config")) {
-                    FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
-                    TestCloudLogFragment testCloudLogFragment = new TestCloudLogFragment();
-                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    fragmentTransaction.addToBackStack(TestCloudLogFragment.TAG);
-                    fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), testCloudLogFragment, TestCloudLogFragment.TAG);
-                    fragmentTransaction.commitAllowingStateLoss();
                 }
                 return false;
             }
