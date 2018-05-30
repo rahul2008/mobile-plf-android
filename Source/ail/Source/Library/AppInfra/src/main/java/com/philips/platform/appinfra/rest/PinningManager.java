@@ -23,7 +23,11 @@ public class PinningManager implements PublicKeyPinInterface {
     private static final String PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE = "Could not find Public-Key-Pins in network response";
     private static final String STORAGE_ERROR_LOG_MESSAGE = "Could not update Public-Key-Pins in Secure Storage";
 
+    private static final String PUBLIC_KEY_REGEX = "pin-sha256=\".+?\";";
+    private static final int PIN_MISMATCH_LOG_MAX_COUNT = 3;
+
     private HashMap<String, String> publicKeyPinCache;
+    private HashMap<String, Integer> pinMismatchLogCount;
     private SecureStorageInterface secureStorageInterface;
     private LoggingInterface loggingInterface;
 
@@ -31,6 +35,7 @@ public class PinningManager implements PublicKeyPinInterface {
         this.secureStorageInterface = appInfraInterface.getSecureStorage();
         this.loggingInterface = appInfraInterface.getLogging();
         publicKeyPinCache = new HashMap<>();
+        pinMismatchLogCount = new HashMap<>();
     }
 
     @Override
@@ -40,12 +45,12 @@ public class PinningManager implements PublicKeyPinInterface {
 
         if (!hostName.isEmpty()) {
             if (!isKeyFound && storedKeyDetails != null) {
-                log(PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE, LoggingInterface.LogLevel.ERROR);
+                logError(PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE, hostName);
             } else if (isKeyFound && storedKeyDetails == null) {
                 updatePublicKeyInStorage(publicKeyDetails, hostName);
                 publicKeyPinCache.put(hostName, publicKeyDetails);
             } else if (isKeyFound) {
-                Pattern pattern = Pattern.compile("pin-sha256=\".+?\";");
+                Pattern pattern = Pattern.compile(PUBLIC_KEY_REGEX);
                 Matcher networkKeyMatcher = pattern.matcher(publicKeyDetails);
 
                 while (networkKeyMatcher.find()) {
@@ -77,7 +82,7 @@ public class PinningManager implements PublicKeyPinInterface {
             if (certificatePin != null && storedKeyDetails.contains(certificatePin))
                 return;
         }
-        log(PUBLIC_KEY_MISMATCH_LOG_MESSAGE, LoggingInterface.LogLevel.ERROR);
+        logError(PUBLIC_KEY_MISMATCH_LOG_MESSAGE, hostName);
     }
 
     private String getSHA256Value(X509Certificate certificate) {
@@ -106,6 +111,19 @@ public class PinningManager implements PublicKeyPinInterface {
 
     private void log(String message, LoggingInterface.LogLevel logLevel) {
         loggingInterface.log(logLevel, PinningManager.class.getSimpleName(), PUBLIC_KEY_MISMATCH_LOG_MESSAGE + ":" + message);
+    }
+
+    private void logError(String message, String hostname) {
+        if (pinMismatchLogCount.containsKey(hostname)) {
+            int count = pinMismatchLogCount.get(hostname);
+            if (count <= PIN_MISMATCH_LOG_MAX_COUNT) {
+                log(message, LoggingInterface.LogLevel.ERROR);
+                pinMismatchLogCount.put(hostname, count + 1);
+            }
+        } else {
+            log(message, LoggingInterface.LogLevel.ERROR);
+            pinMismatchLogCount.put(hostname, 1);
+        }
     }
 
     @VisibleForTesting
