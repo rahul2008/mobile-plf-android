@@ -887,7 +887,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         View v = getActivity().getCurrentFocus();
         if (v != null) {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
         mLocationDetailScroll.fullScroll(ScrollView.FOCUS_UP);
         AtosResultsModel resultModel = (AtosResultsModel) mAdapter
