@@ -319,7 +319,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     public void showProgressDialog() {
         if (this.isVisible()) {
             if (mProgressDialog == null) {
-                mProgressDialog = new ProgressAlertDialog(getContext(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog = new ProgressAlertDialog(getActivity(), R.style.reg_Custom_loaderTheme);
                 mProgressDialog.setCancelable(false);
             }
             mProgressDialog.show();
