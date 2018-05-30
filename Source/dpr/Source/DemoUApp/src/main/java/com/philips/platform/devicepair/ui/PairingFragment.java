@@ -124,31 +124,13 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pairing_layout, container, false);
-
         commCentral = DevicePairingUappInterface.getCommCentral();
-
         mLaunchFragmentPresenter = new PairingFragmentPresenter(getActivity());
         mPairedDevicesList = new ArrayList<>();
         mAvailableDevicesList = new ArrayList<>();
         mAppliancesList = new ArrayList<>();
-
-        mAvailableDevicesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1) {
-            @NonNull
-            public View getView(final int position, final View convertView, @NonNull final ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position));
-                return view;
-            }
-        };
-
-        mPairedDevicesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1) {
-            @NonNull
-            public View getView(final int position, final View convertView, @NonNull final ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position));
-                return view;
-            }
-        };
+        getAvailableDevices();
+        getPairedDevices();
 
         Button mLogoutBtn = (Button) view.findViewById(R.id.logout);
         mLogoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +140,25 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
             }
         });
 
+        pairDeviceOnClick(view);
+        unpairDeviceOnClick(view);
+
+        return view;
+    }
+
+    private void unpairDeviceOnClick(View view) {
+        ListView mPairedDevicesListView = (ListView) view.findViewById(R.id.paired_devices);
+        mPairedDevicesListView.setAdapter(mPairedDevicesAdapter);
+        mPairedDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+                showProgressDialog(getString(R.string.unpairing_device));
+                mLaunchFragmentPresenter.unPairDevice(mPairedDevicesAdapter.getItem(position), PairingFragment.this);
+            }
+        });
+    }
+
+    private void pairDeviceOnClick(View view) {
         ListView mAvailableDevicesListView = (ListView) view.findViewById(R.id.available_devices);
         mAvailableDevicesListView.setAdapter(mAvailableDevicesAdapter);
         mAvailableDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -173,19 +174,28 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
                 }
             }
         });
+    }
 
-        ListView mPairedDevicesListView = (ListView) view.findViewById(R.id.paired_devices);
-        mPairedDevicesListView.setAdapter(mPairedDevicesAdapter);
-        mPairedDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                showProgressDialog(getString(R.string.unpairing_device));
-                mLaunchFragmentPresenter.unPairDevice(mPairedDevicesAdapter.getItem(position), PairingFragment.this);
+    private void getPairedDevices() {
+        mPairedDevicesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1) {
+            @NonNull
+            public View getView(final int position, final View convertView, @NonNull final ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position));
+                return view;
             }
-        });
+        };
+    }
 
-
-        return view;
+    private void getAvailableDevices() {
+        mAvailableDevicesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1) {
+            @NonNull
+            public View getView(final int position, final View convertView, @NonNull final ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position));
+                return view;
+            }
+        };
     }
 
     @Override
@@ -345,42 +355,6 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     }
 
     @Override
-    public void onConsentNotAccepted() {
-        dismissProgressDialog();
-        launchConsents();
-    }
-
-    @Override
-    public void onConsentsAccepted() {
-        dismissProgressDialog();
-        launchSubjectProfile();
-    }
-
-    @Override
-    public void onProfileNotCreated() {
-        dismissProgressDialog();
-        launchSubjectProfile();
-    }
-
-    @Override
-    public void onProfileCreated() {
-        showProgressDialog(getString(R.string.pairing_device));
-        mLaunchFragmentPresenter.pairDevice(mPairDevice, PairingFragment.this);
-    }
-
-    private void launchConsents() {
-        ConsentsFragment consentsFragment = new ConsentsFragment();
-        consentsFragment.setDeviceStatusListener(this);
-        showFragment(consentsFragment);
-    }
-
-    private void launchSubjectProfile() {
-        CreateSubjectProfileFragment createProfileFragment = new CreateSubjectProfileFragment();
-        createProfileFragment.setDeviceStatusListener(this);
-        showFragment(createProfileFragment);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         clearProgressDialog();
@@ -388,18 +362,10 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
 
     @Override
     public void onSyncComplete() {
-//        mLaunchFragmentPresenter.pairDevice(getTepastDeviceDetails(), PairingFragment.this);
     }
 
     @Override
     public void onSyncFailed(Exception e) {
-        /*final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), PairingFragment.this);
-            }
-        }, 10000);*/
     }
 
     public void logOut() {

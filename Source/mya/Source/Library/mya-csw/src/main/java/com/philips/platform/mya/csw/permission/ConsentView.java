@@ -19,6 +19,7 @@ public class ConsentView {
     private boolean isLoading = true;
     private boolean isError = false;
     private boolean isOnline = true;
+
     private ConsentDefinitionStatus consentDefinitionStatus;
     private boolean isEnabled;
 
@@ -70,6 +71,10 @@ public class ConsentView {
 
     public void setEnabledFlag(boolean isEnabled) {
         this.isEnabled = isEnabled;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
     }
 
     public boolean isChecked() {
