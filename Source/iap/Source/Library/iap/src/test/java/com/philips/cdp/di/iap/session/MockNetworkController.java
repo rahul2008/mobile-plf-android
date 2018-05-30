@@ -37,6 +37,8 @@ public class MockNetworkController extends NetworkController {
         super(context);
         mContext = context;
         mMockedContext = mock(Context.class);
+        setIapSettings(iapSetting);
+        setNetworkEssentials(new HybrisNetworkEssentials());
     }
 
     @Override
