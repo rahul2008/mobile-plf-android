@@ -390,15 +390,15 @@
     <string name="reg_URX_SMS_Invalid_PhoneNumber">We can\'t send an SMS to this phone number.</string>
     <string name="reg_URX_SMS_PhoneNumber_UnAvail_ForSMS">We can not sent a SMS to this phone number.</string>
     <string name="reg_URX_SMS_UnSupported_Country_ForSMS">We can\'t send an SMS to this phone number. The country code is not supported.</string>
-    <string name="reg_URX_SMS_Limit_Reached">The SMS limit has been reached for this phone number. Please try again in %d secs.</string>
+    <string name="reg_URX_SMS_Limit_Reached">The SMS limit has been reached for this phone number. Please try again in 30 secs.</string>
     <string name="reg_URX_SMS_InternalServerError">SMS cannot be sent. Please try later.</string>
     <string name="reg_URX_SMS_NoInformation_Available">Unable to connect to server. Please try again later.</string>
     <string name="reg_URX_SMS_Not_Sent">SMS could not be delivered. Please try again later.</string>
     <string name="reg_URX_SMS_Already_Verified">Account already verified. Log in to continue.</string>
     <string name="reg_URX_SMS_Failure_case">The phone number/email or password you entered is not correct.</string>
     <!--Janrain Errors-->
-    <string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Cannot connect to server. Please try again later.Sill having difficulty? Contact Customer Care stating error code [%d]</string>
-    <string name="reg_Janrain_HSDP_ServerErrorMsg">Cannot connect to server. Please try later or check our FAQs for more information. If this doesn\'t resolve your query, contact consumer care stating error code [%d]</string>
+    <string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Cannot connect to server. Please try again later.Sill having difficulty? Contact Customer Care stating error code</string>
+    <string name="reg_Janrain_HSDP_ServerErrorMsg">Cannot connect to server. Please try later or check our FAQs for more information. If this doesn\'t resolve your query, contact consumer care stating error code</string>
 
     <string name="reg_Janrain_ErrorTriggeredInFlow_ErrorMsg">Failed to connect to the server, Please try again. If error continues, then contact customer care.</string>
     <string name="reg_Janrain_LimitError_ErrorMsg">The limit of too many unsuccessful attempts has been reached. Please try again later.</string>
@@ -407,7 +407,7 @@
     <string name="reg_Janrain_VerificationCodeExpired_ErrorMsg">"You have entered an incorrect or expired verification code. Please enter the correct code or resend the code."</string>
     <string name="reg_Janrain_AuthorizationCodeExpired_ErrorMsg">Sorry, something went wrong. Please go back and log in again.</string>
     <string name="reg_Janrain_Access_Token_Expired">The supplied access_token has expired.</string>
-    <string name="reg_Janrain_Connection_ErrorMsg">Failed to connect to the server, Please try again  later. /N Still not able to resolve the issue, contact customer care with error code %s</string>
+    <string name="reg_Janrain_Connection_ErrorMsg">Failed to connect to the server, Please try again  later. /N Still not able to resolve the issue, contact customer care with error code</string>
     <string name="reg_Janrain_EmailAddressInUse_ErrorMsg">This email address already exists. Please log in using this address or register using a different one.</string>
     <string name="reg_Janrain_LengthViolation_ErrorMsg">Please re-enter using 256 characters or less</string>
     <string name="reg_Janrain_Connection_Lost_Argument_Not_Match">There was an error while creating a new record.</string>
@@ -417,7 +417,7 @@
     <!--New-->
     <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">No account exists for this email. Create an account using this email or enter a different email address.</string>
     <string name="reg_Janrain_EntityAlreadyExists_ErrorMsg">Your email or phone number is already registered.</string>
-    <string name="reg_Janrain_FormValidation_ErrorMsg">Failed to connect to the server. Please try again later or you can visit FAQs section to find the solution. \N Still not able to resolve the issue? Reach out to customer care with error code [%ld]</string>
+    <string name="reg_Janrain_FormValidation_ErrorMsg">Failed to connect to the server. Please try again later or you can visit FAQs section to find the solution. \N Still not able to resolve the issue? Reach out to customer care with error code</string>
     <string name="reg_UnexpectedInternalError_ErrorMsg">Sorry, something went wrong. Please try again.</string>
     <string name="reg_LastNameField_ErrorMsg">Please enter your last name</string>
     <string name="reg_PasswordField_ErrorMsg">Please enter your password</string>
@@ -439,7 +439,7 @@
     <string name="reg_Title_AccountAlreadyExists_Txt">Account already exists.</string>
 
     <!--HSDP-->
-    <string name="reg_HSDP_Server_ErrorMsg">Sorry, something went wrong. Please try again later or you can visit FAQs section to find the solution. \N Still not able to resolve the issue, reach out to customer care with error code %s</string>
+    <string name="reg_HSDP_Server_ErrorMsg">Sorry, something went wrong. Please try again later or you can visit FAQs section to find the solution. \N Still not able to resolve the issue, reach out to customer care with error code</string>
     <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Signature expired due to time error. Please check your device time settings.</string>
 
     <!-- Facebook Keys-->
