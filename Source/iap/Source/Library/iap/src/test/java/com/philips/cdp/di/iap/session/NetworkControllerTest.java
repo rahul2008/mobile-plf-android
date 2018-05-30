@@ -35,7 +35,7 @@ public class NetworkControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         mockIAPSetting = new MockIAPSetting(mContext);
-        mNetworkController = new NetworkController(mContext, mNetworkEssentials, mockIAPSetting);
+        mNetworkController = new NetworkController(mContext);
     }
 
     @Test(expected = NullPointerException.class)
