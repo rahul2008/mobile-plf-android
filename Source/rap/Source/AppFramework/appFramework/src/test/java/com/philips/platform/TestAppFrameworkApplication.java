@@ -6,7 +6,6 @@
 package com.philips.platform;
 
 import android.content.Context;
-
 import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -22,7 +21,6 @@ import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
-import com.philips.platform.appinfra.consentmanager.ConsentManager;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
@@ -39,7 +37,6 @@ import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.RALog;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -104,6 +101,9 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
     @Mock
     AppUpdateInterface appUpdateInterface;
+
+    @Mock
+    RuntimeConfiguration mockRuntimeConfiguration;
 
     @Mock
     private UserRegistrationState userRegistrationState;
@@ -194,12 +194,10 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
             final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, true);
             ApplianceFactory applianceFactory = mock(RefAppApplianceFactory.class);
 
-            commCentral = new CommCentral(applianceFactory, bleTransportContext);
+            commCentral = new CommCentral(applianceFactory, mockRuntimeConfiguration, bleTransportContext);
         }
         return commCentral;
     }
-
-
 
     public IAPState getIap() {
         return iapState;
