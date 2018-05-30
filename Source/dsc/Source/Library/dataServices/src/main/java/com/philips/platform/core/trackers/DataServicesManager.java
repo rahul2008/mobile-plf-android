@@ -662,8 +662,8 @@ public class DataServicesManager {
     }
 
     public void setLastSyncTime(DateTime lastSyncTime) {
-        mBackendIdProvider.saveLastSyncTimeStamp(lastSyncTime.toString(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
-        mBackendIdProvider.saveLastSyncTimeStamp(lastSyncTime.toString(), UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY);
+        mBackendIdProvider.saveLastSyncTime(lastSyncTime.toString(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
+        mBackendIdProvider.saveLastSyncTime(lastSyncTime.toString(), UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY);
     }
 
     private void storeGdprMigrationFlag() {
