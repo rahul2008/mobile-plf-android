@@ -1,3 +1,3 @@
 # from dagger.android.DispatchingAndroidInjector
 -dontwarn com.google.errorprone.annotations.*
--dontobfuscate
+-keep class com.philips.platform.mya.catk.datamodel.CachedConsentStatus { *; }
