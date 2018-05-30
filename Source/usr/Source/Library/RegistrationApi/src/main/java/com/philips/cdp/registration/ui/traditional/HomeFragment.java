@@ -437,7 +437,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
         enableControls(true);
-        hideProgressDialog();
         homePresenter.navigateToScreen();
     }
 
@@ -775,7 +774,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void createSocialAccount(JSONObject prefilledRecord, String socialRegistrationToken) {
-        hideProgressDialog();
         enableControls(true);
         launchAlmostDoneFragment(prefilledRecord, socialRegistrationToken);
     }
@@ -803,8 +801,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void completeSocialLogin() {
         homePresenter.completeRegistation();
-        hideProgressDialog();
         enableControls(true);
+        hideProgressDialog();
     }
 
     @Override
@@ -918,5 +916,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        hideProgressDialog();
     }
 }
