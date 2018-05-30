@@ -148,13 +148,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     private void decideToEnableVerifyButton() {
+        disableVerifyButton();
         isUserTyping = false;
-        if (verificationCodeValidationEditText.getText().length() > 0) {
+        if(verificationCodeValidationEditText.getText().length() == 0) return;
+        if (verificationCodeValidationEditText.getText().length() < 6 ) {
             isUserTyping = true;
-        } else if (verificationCodeValidationEditText.getText().length() == 6)
+        } else
             enableVerifyButton();
-        else
-            disableVerifyButton();
     }
 
 
