@@ -75,7 +75,7 @@ public class PrivacySettingsStateTest {
     @Test
     public void shouldAddOneSampleConsentDefinition() throws Exception {
         final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        assertEquals(9, definitions.size());
+        assertEquals(10, definitions.size());
     }
 
     @Test
