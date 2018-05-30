@@ -160,13 +160,13 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     }
 
     private void decideToEnableVerifyButton() {
+        disableVerifyButton();
         isUserTyping = false;
-        if (verificationCodeValidationEditText.getText().length() > 0) {
+        if(verificationCodeValidationEditText.getText().length() == 0) return;
+        if (verificationCodeValidationEditText.getText().length() < 6 ) {
             isUserTyping = true;
-        } else if (verificationCodeValidationEditText.getText().length() == 6)
-            MobileForgotPassVerifyCodeFragment.this.enableVerifyButton();
-        else
-            MobileForgotPassVerifyCodeFragment.this.disableVerifyButton();
+        } else
+            enableVerifyButton();
     }
 
     @Override

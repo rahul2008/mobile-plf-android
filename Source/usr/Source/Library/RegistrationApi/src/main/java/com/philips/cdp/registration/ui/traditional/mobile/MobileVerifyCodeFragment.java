@@ -149,7 +149,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private void decideToEnableVerifyButton() {
         disableVerifyButton();
         isUserTyping = false;
-        if (verificationCodeValidationEditText.getText().length() < 6) {
+        if(verificationCodeValidationEditText.getText().length() == 0) return;
+        if (verificationCodeValidationEditText.getText().length() < 6 ) {
             isUserTyping = true;
         } else
             enableVerifyButton();
@@ -300,6 +301,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void netWorkStateOfflineUiHandle() {
         hideProgressSpinner();
+        errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
         smsNotReceived.setEnabled(false);
         disableVerifyButton();
     }

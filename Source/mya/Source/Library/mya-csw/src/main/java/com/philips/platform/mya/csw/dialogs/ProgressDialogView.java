@@ -54,7 +54,7 @@ public class ProgressDialogView implements View.OnClickListener {
     }
 
     protected void displayDialog(FragmentActivity activity) {
-        progressDialogFragment.show(activity.getSupportFragmentManager(), AlertDialogFragment.class.getCanonicalName());
+        progressDialogFragment.showAllowingStateLoss(activity.getSupportFragmentManager(), AlertDialogFragment.class.getCanonicalName());
     }
 
     protected void setupAlertDialogFragment(FragmentActivity activity) {

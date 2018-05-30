@@ -349,7 +349,12 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     }
 
     public void startAccessTokenAuthForFacebook() {
-        homeContract.getURFaceBookUtility().startAccessTokenAuthForFacebook(user, homeContract.getActivityContext(), this, AccessToken.getCurrentAccessToken().getToken(), null);
+        if (AccessToken.getCurrentAccessToken() != null) {
+            homeContract.getURFaceBookUtility().startAccessTokenAuthForFacebook(user, homeContract.getActivityContext(), this, AccessToken.getCurrentAccessToken().getToken(), null);
+        } else {
+            RLog.i(TAG, "onFaceBookEmailReceived : Facebook AccessToken null");
+            homeContract.genericError();
+        }
     }
 
     public enum FLOWDELIGATE {
