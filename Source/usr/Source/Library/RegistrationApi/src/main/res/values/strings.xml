@@ -422,7 +422,6 @@
     <string name="reg_LastNameField_ErrorMsg">Please enter your last name</string>
     <string name="reg_PasswordField_ErrorMsg">Please enter your password</string>
 
-    <!--<string name="reg_InvalidPhoneNumber_ErrorMsg">We cannot recognize your phone number. Please check country code.</string>-->
     <string name="reg_InvalidEmailOrPhoneNumber_ErrorMsg">Please enter a valid email address or phone number</string>
     <string name="reg_Action_OkGotIt_Txt">OK, got it</string>
     <string name="reg_Action_Retry_Txt">Retry</string>

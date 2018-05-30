@@ -16,6 +16,8 @@ public interface CreateAccountContract {
 
     void completeRegistration();
 
+    void emailError(int errorDescID);
+
     void setErrorCode(int errorDescID);
 
 //    void setErrorCode(String errorDesc);
@@ -44,7 +46,7 @@ public interface CreateAccountContract {
 
     void storeEMail();
 
-    void emailAlreadyUsed();
+    void userIdAlreadyUsedShowError();
 
     void registrtionFail();
 
