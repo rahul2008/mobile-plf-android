@@ -18,20 +18,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Objects;
 
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_CPP_ID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_HOME_SSID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_HTTPS;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_MISMATCHED_PIN;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_MODEL_ID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_PIN;
-
 /**
  * A network node represents an appliance that was found by discovery.
  * <p>
@@ -44,6 +30,24 @@ public class NetworkNode implements Parcelable {
     private static final int DICOMM_PROTOCOL_VERSION = 1;
 
     public enum PairingState {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
+
+    public static final String KEY_BOOT_ID = "bootid";
+    public static final String KEY_CPP_ID = "cppid";
+    public static final String KEY_DEVICE_NAME = "dev_name";
+    public static final String KEY_DEVICE_TYPE = "device_type";
+    public static final String KEY_ENCRYPTION_KEY = "encryption_key"; // was airpur_key
+    public static final String KEY_HOME_SSID = "home_ssid"; // Will not be persisted
+    public static final String KEY_HTTPS = "https";
+    public static final String KEY_ID = "_id";
+    public static final String KEY_IP_ADDRESS = "ip_address";
+    public static final String KEY_IS_PAIRED = "is_paired";
+    public static final String KEY_LAST_KNOWN_NETWORK = "lastknown_network";
+    public static final String KEY_LAST_PAIRED = "last_paired";
+    public static final String KEY_MODEL_ID = "model_id";
+    @Deprecated
+    public static final String KEY_MODEL_NAME = "model_name";
+    public static final String KEY_PIN = "pin";
+    public static final String KEY_MISMATCHED_PIN = "mismatched_pin";
 
     private boolean isHttps = true;
     private long bootId;

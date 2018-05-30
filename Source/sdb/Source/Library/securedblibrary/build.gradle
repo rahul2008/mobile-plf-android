@@ -5,6 +5,11 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/taskscc.gradle'
 
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 //apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -14,7 +19,8 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven {
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -43,9 +49,10 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "securedblibrary"
 
 allprojects {
@@ -83,7 +90,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -93,7 +100,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -137,11 +145,11 @@ android {
         versionName version
         multiDexEnabled true
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-      /*  ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
-        }*/
+        /*  ndk {
+              abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+          }*/
     }
-    
+
     buildTypes {
         release {
             //   minifyEnabled false
@@ -149,15 +157,13 @@ android {
         }
         debug {
             debuggable true
-            testCoverageEnabled=true
+            testCoverageEnabled = true
         }
     }
 
     lintOptions {
         abortOnError false
     }
-
-
 }
 
 configurations.all {
@@ -168,15 +174,15 @@ configurations.all {
 dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
-        implementation project(':AppInfra')
+    if (dp) {
+        api project(':AppInfra')
     } else {
-        implementation philipsdeps.AppInfra
+        api philipsdeps.AppInfra
     }
 
-    implementation deps.ormlite.core
+    api deps.ormlite.core
     implementation deps.ormlite.android
-    implementation deps.sqlcipher
+    api deps.sqlcipher
 
     androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -189,5 +195,5 @@ dependencies {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

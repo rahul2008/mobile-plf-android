@@ -35,10 +35,12 @@ public class NetworkControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         mockIAPSetting = new MockIAPSetting(mContext);
-        mNetworkController = new NetworkController(mContext, mNetworkEssentials, mockIAPSetting);
+        mNetworkController = new NetworkController(mContext);
+        mNetworkController.setIapSettings(mockIAPSetting);
+        mNetworkController.setNetworkEssentials(mNetworkEssentials);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNetworkControllerWithContext() {
         new NetworkController(mContext);
     }
@@ -73,7 +75,7 @@ public class NetworkControllerTest {
         mNetworkController.refreshOAuthToken(null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testSendHybrisRequest() throws Exception {
         mNetworkController.sendHybrisRequest(1, null, null);
     }

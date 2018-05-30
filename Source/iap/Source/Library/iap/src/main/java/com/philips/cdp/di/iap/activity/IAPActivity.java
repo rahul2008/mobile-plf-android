@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -67,6 +66,9 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_activity);
 
+        if(CartModelContainer.getInstance().getAppInfraInstance() == null){
+            finish();
+        }
         createActionBar();
 
         addLandingViews(savedInstanceState);
