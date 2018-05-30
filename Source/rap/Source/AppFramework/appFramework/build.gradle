@@ -318,7 +318,6 @@ dependencies {
         implementation (philipsdeps.mya) {
             exclude group: 'com.android.support'
         }
-        implementation philipsdeps.mya_mch
         implementation philipsdeps.telehealth
         implementation philipsdeps.telehealthUApp
         implementation philipsdeps.ewsUApp
