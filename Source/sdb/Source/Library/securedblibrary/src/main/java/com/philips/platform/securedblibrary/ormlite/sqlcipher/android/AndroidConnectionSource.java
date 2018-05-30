@@ -12,7 +12,6 @@ import com.j256.ormlite.support.DatabaseConnectionProxyFactory;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.securedblibrary.SecureDBLogEventID;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
-
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
 
@@ -21,151 +20,147 @@ import java.sql.SQLException;
 /**
  * Android version of the connection source. Takes a standard Android {@link SQLiteOpenHelper}. For best results, use
  * {@link SecureDbOrmLiteSqliteOpenHelper}. You can also construct with a {@link SQLiteDatabase}.
- *
  */
 public class AndroidConnectionSource extends BaseConnectionSource implements ConnectionSource {
 
-	private static final Logger logger = LoggerFactory.getLogger(AndroidConnectionSource.class);
+    private static final Logger logger = LoggerFactory.getLogger(AndroidConnectionSource.class);
 
-	private final SQLiteOpenHelper helper;
-	private final SQLiteDatabase sqliteDatabase;
-	private DatabaseConnection connection = null;
-	private volatile boolean isOpen = true;
-	private final DatabaseType databaseType = new SqliteAndroidDatabaseType();
-	private static DatabaseConnectionProxyFactory connectionProxyFactory;
-	private boolean cancelQueriesEnabled = false;
-	private  LoggingInterface loggingInterface;
-	private char[] key;
+    private final SQLiteOpenHelper helper;
+    private final SQLiteDatabase sqliteDatabase;
+    private DatabaseConnection connection = null;
+    private volatile boolean isOpen = true;
+    private final DatabaseType databaseType = new SqliteAndroidDatabaseType();
+    private static DatabaseConnectionProxyFactory connectionProxyFactory;
+    private boolean cancelQueriesEnabled = false;
+    private LoggingInterface loggingInterface;
+    private char[] key;
 
-	public AndroidConnectionSource(SQLiteOpenHelper helper,char[] key,LoggingInterface loggingInterface) {
-		this.helper = helper;
-		this.sqliteDatabase = null;
-		this.key=key;
-		this.loggingInterface=loggingInterface;
+    public AndroidConnectionSource(SQLiteOpenHelper helper, char[] key, LoggingInterface loggingInterface) {
+        this.helper = helper;
+        this.sqliteDatabase = null;
+        this.key = key;
+        this.loggingInterface = loggingInterface;
+    }
 
+    public AndroidConnectionSource(SQLiteDatabase sqliteDatabase, char[] key) {
+        this.helper = null;
+        this.key = key;
+        this.sqliteDatabase = sqliteDatabase;
+    }
 
-	}
+    @Override
+    public DatabaseConnection getReadOnlyConnection(String tableName) throws SQLException {
+        /*
+         * We have to use the read-write connection because getWritableDatabase() can call close on
+         * getReadableDatabase() in the future. This has something to do with Android's SQLite connection management.
+         *
+         * See android docs: http://developer.android.com/reference/android/database/sqlite/SQLiteOpenHelper.html
+         */
+        return getReadWriteConnection(tableName);
+    }
 
-	public AndroidConnectionSource(SQLiteDatabase sqliteDatabase,char[] key) {
-		this.helper = null;
-		this.key=key;
-		this.sqliteDatabase = sqliteDatabase;
-	}
+    @Override
+    public DatabaseConnection getReadWriteConnection(String tableName) throws SQLException {
+        DatabaseConnection conn = getSavedConnection();
+        if (conn != null) {
+            return conn;
+        }
+        if (connection == null) {
+            SQLiteDatabase db;
+            if (sqliteDatabase == null) {
+                try {
+                    if (helper instanceof SecureDbOrmLiteSqliteOpenHelper) {
+                        SecureDbOrmLiteSqliteOpenHelper openHelper = (SecureDbOrmLiteSqliteOpenHelper) helper;
+                    } else {
+                        throw new IllegalStateException("SQLiteOpenHelper must be an instance of OrmLiteSqliteOpenHelper");
+                    }
+                    db = helper.getWritableDatabase(key);
+                } catch (android.database.SQLException e) {
+                    throw SqlExceptionUtil.create("Getting a writable database from helper " + helper + " failed", e);
+                }
+            } else {
+                db = sqliteDatabase;
+            }
+            connection = new AndroidDatabaseConnection(db, true, cancelQueriesEnabled);
+            if (connectionProxyFactory != null) {
+                connection = connectionProxyFactory.createProxy(connection);
+            }
+            loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ANDROID_CONNECTION_SOURCE, "created connection {} for db {}, helper {}");
+        } else {
+            loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ANDROID_CONNECTION_SOURCE, "{}: returning read-write connection {}, helper {}");
+        }
+        return connection;
+    }
 
-	@Override
-	public DatabaseConnection getReadOnlyConnection(String tableName) throws SQLException {
-		/*
-		 * We have to use the read-write connection because getWritableDatabase() can call close on
-		 * getReadableDatabase() in the future. This has something to do with Android's SQLite connection management.
-		 *
-		 * See android docs: http://developer.android.com/reference/android/database/sqlite/SQLiteOpenHelper.html
-		 */
-		return getReadWriteConnection(tableName);
-	}
+    @Override
+    public void releaseConnection(DatabaseConnection connection) {
+        // noop since connection management is handled by AndroidOS
+    }
 
-	@Override
-	public DatabaseConnection getReadWriteConnection(String tableName) throws SQLException {
-		DatabaseConnection conn = getSavedConnection();
-		if (conn != null) {
-			return conn;
-		}
-		if (connection == null) {
-			SQLiteDatabase db;
-			if (sqliteDatabase == null) {
-				try {
-					if (helper instanceof SecureDbOrmLiteSqliteOpenHelper) {
-						SecureDbOrmLiteSqliteOpenHelper openHelper = (SecureDbOrmLiteSqliteOpenHelper) helper;
-					} else {
-						throw new IllegalStateException("SQLiteOpenHelper must be an instance of OrmLiteSqliteOpenHelper");
-					}
-					db = helper.getWritableDatabase(key);
-				} catch (android.database.SQLException e) {
-					throw SqlExceptionUtil.create("Getting a writable database from helper " + helper + " failed", e);
-				}
-			} else {
-				db = sqliteDatabase;
-			}
-			connection = new AndroidDatabaseConnection(db, true, cancelQueriesEnabled);
-			if (connectionProxyFactory != null) {
-				connection = connectionProxyFactory.createProxy(connection);
-			}
-			loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ANDROID_CONNECTION_SOURCE,"created connection {} for db {}, helper {}");
-		} else {
-			loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ANDROID_CONNECTION_SOURCE,"{}: returning read-write connection {}, helper {}");
-		}
-		return connection;
-	}
+    @Override
+    public boolean saveSpecialConnection(DatabaseConnection connection) throws SQLException {
+        return saveSpecial(connection);
+    }
 
-	@Override
-	public void releaseConnection(DatabaseConnection connection) {
-		// noop since connection management is handled by AndroidOS
-	}
+    @Override
+    public void clearSpecialConnection(DatabaseConnection connection) {
+        clearSpecial(connection, logger);
+    }
 
-	@Override
-	public boolean saveSpecialConnection(DatabaseConnection connection) throws SQLException {
-		return saveSpecial(connection);
-	}
+    @Override
+    public void close() {
+        // the helper is closed so it calls close here, so this CANNOT be a call back to helper.close()
+        isOpen = false;
+    }
 
-	@Override
-	public void clearSpecialConnection(DatabaseConnection connection) {
-		clearSpecial(connection, logger);
-	}
+    @Override
+    public void closeQuietly() {
+        close();
+    }
 
-	@Override
-	public void close() {
-		// the helper is closed so it calls close here, so this CANNOT be a call back to helper.close()
-		isOpen = false;
-	}
+    @Override
+    public DatabaseType getDatabaseType() {
+        return databaseType;
+    }
 
-	@Override
-	public void closeQuietly() {
-		close();
-	}
+    @Override
+    public boolean isOpen(String tableName) {
+        return false;
+    }
 
-	@Override
-	public DatabaseType getDatabaseType() {
-		return databaseType;
-	}
+    @Override
+    public boolean isSingleConnection(String tableName) {
+        return false;
+    }
 
-	@Override
-	public boolean isOpen(String tableName) {
-		return false;
-	}
+    public boolean isOpen() {
+        return isOpen;
+    }
 
-	@Override
-	public boolean isSingleConnection(String tableName) {
-		return false;
-	}
+    /**
+     * Set to enable connection proxying. Set to null to disable.
+     */
+    public static void setDatabaseConnectionProxyFactory(DatabaseConnectionProxyFactory connectionProxyFactory) {
+        AndroidConnectionSource.connectionProxyFactory = connectionProxyFactory;
+    }
 
-	public boolean isOpen() {
-		return isOpen;
-	}
+    public boolean isCancelQueriesEnabled() {
+        return cancelQueriesEnabled;
+    }
 
-	/**
-	 * Set to enable connection proxying. Set to null to disable.
-	 */
-	public static void setDatabaseConnectionProxyFactory(DatabaseConnectionProxyFactory connectionProxyFactory) {
-		AndroidConnectionSource.connectionProxyFactory = connectionProxyFactory;
-	}
+    /**
+     * Set to true to enable the canceling of queries.
+     * <p>
+     * <b>NOTE:</b> This will incur a slight memory increase for all Cursor based queries -- even if cancel is not
+     * called for them.
+     * </p>
+     */
+    public void setCancelQueriesEnabled(boolean cancelQueriesEnabled) {
+        this.cancelQueriesEnabled = cancelQueriesEnabled;
+    }
 
-	public boolean isCancelQueriesEnabled() {
-		return cancelQueriesEnabled;
-	}
-
-	/**
-	 * Set to true to enable the canceling of queries.
-	 *
-	 * <p>
-	 * <b>NOTE:</b> This will incur a slight memory increase for all Cursor based queries -- even if cancel is not
-	 * called for them.
-	 * </p>
-	 */
-	public void setCancelQueriesEnabled(boolean cancelQueriesEnabled) {
-		this.cancelQueriesEnabled = cancelQueriesEnabled;
-	}
-
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + "@" + Integer.toHexString(super.hashCode());
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "@" + Integer.toHexString(super.hashCode());
+    }
 }

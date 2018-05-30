@@ -12,27 +12,15 @@ import android.support.annotation.NonNull;
 
 import org.junit.Test;
 
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.DB_VERSION;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_CPP_ID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_HTTPS;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_LAST_KNOWN_NETWORK;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_MISMATCHED_PIN;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_MODEL_ID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_PIN;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
+import static com.philips.cdp2.commlib.core.store.NonSecureNetworkNodeDatabaseHelper.DB_VERSION;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.*;
+import static com.philips.cdp2.commlib.core.store.NonSecureNetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 import static org.junit.Assert.assertEquals;
 
-public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHelperBaseTest {
+public class NonSecureNetworkNodeDatabaseHelperVersion3Test extends NonSecureNetworkNodeDatabaseHelperBaseTest {
 
-    private static final int OLD_VERSION = 6;
-    private String version6 = "CREATE TABLE IF NOT EXISTS network_node("
+    private static final int OLD_VERSION = 3;
+    private String version3 = "CREATE TABLE IF NOT EXISTS network_node("
             + "_id INTEGER NOT NULL UNIQUE,"
             + "cppid TEXT UNIQUE,"
             + "bootid NUMERIC,"
@@ -42,22 +30,20 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
             + "is_paired SMALLINT NOT NULL DEFAULT 0,"
             + "last_paired NUMERIC,"
             + "ip_address TEXT,"
-            + "device_type TEXT,"
+            + "model_name TEXT,"
             + "model_id TEXT,"
             + "https SMALLINT NOT NULL DEFAULT 0,"
-            + "pin TEXT,"
-            + "mismatched_pin TEXT,"
             + "PRIMARY KEY(_id)"
             + ");";
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDatabaseStructureShouldBeCorrect() throws Exception {
-        verifyDatabaseUpgrade(6, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDatabaseStructureShouldBeCorrect() throws Exception {
+        verifyDatabaseUpgrade(3, version3);
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_cppId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_cppId() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -69,10 +55,10 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
 
         closeCursor(cursor);
     }
-    
+
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_bootId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_bootId() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -86,8 +72,8 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_encryptionKey() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_encryptionKey() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -101,8 +87,8 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_name() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_name() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -116,8 +102,8 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_lastKnownNetwork() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_lastKnownNetwork() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -131,8 +117,8 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_isPaired() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_isPaired() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -146,8 +132,8 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_lastPairedTime() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_lastPairedTime() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -161,8 +147,8 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_ipAddress() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_ipAddress() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -176,8 +162,8 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_deviceType() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_deviceType() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -185,14 +171,14 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
 
         Cursor cursor = getReadableDatabaseCursor();
         String deviceType = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
-        assertEquals("Some Device Type", deviceType);
+        assertEquals("Some Model Name", deviceType);
 
         closeCursor(cursor);
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_modelId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_modelId() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -206,8 +192,8 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_https() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_https() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -221,8 +207,8 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_pin() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_pin() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -230,14 +216,14 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
 
         Cursor cursor = getReadableDatabaseCursor();
         String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
-        assertEquals("Some PIN", pin);
+        assertEquals(null, pin);
 
         closeCursor(cursor);
     }
 
     @Test
-    public void whenStartingFromDatabaseVersion6_AndUpgrade_ThenDataShouldBeCorrect_mismatchedPin() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version6);
+    public void whenStartingFromDatabaseVersion3_AndUpgrade_ThenDataShouldBeCorrect_mismatchedPin() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version3);
         ContentValues data = createContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -245,7 +231,7 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
 
         Cursor cursor = getReadableDatabaseCursor();
         String mismatchedPin = cursor.getString(cursor.getColumnIndex(KEY_MISMATCHED_PIN));
-        assertEquals("Some Mismatched PIN", mismatchedPin);
+        assertEquals(null, mismatchedPin);
 
         closeCursor(cursor);
     }
@@ -261,11 +247,9 @@ public class NetworkNodeDatabaseHelperVersion6Test extends NetworkNodeDatabaseHe
         data.put(KEY_IS_PAIRED, 2);
         data.put(KEY_LAST_PAIRED, -1L);
         data.put(KEY_IP_ADDRESS, "Some IP Address");
-        data.put(KEY_DEVICE_TYPE, "Some Device Type");
+        data.put(KEY_MODEL_NAME, "Some Model Name");
         data.put(KEY_MODEL_ID, "Some Model Id");
         data.put(KEY_HTTPS, 1);
-        data.put(KEY_PIN, "Some PIN");
-        data.put(KEY_MISMATCHED_PIN, "Some Mismatched PIN");
         return data;
     }
 }

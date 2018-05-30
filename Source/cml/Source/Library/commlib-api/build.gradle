@@ -77,7 +77,7 @@ dependencies {
         testApi("$group:commlib-testutils:$platformversion$suffix") { changing = true }
     }
 
-    for (dep in [':AppInfra']) {
+    for (dep in [':AppInfra', ':securedblibrary']) {
         if (directdependencies) {
             implementation project(dep)
         } else {
