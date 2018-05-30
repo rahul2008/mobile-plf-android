@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
@@ -119,7 +120,7 @@ public class SHNCentralTest extends RobolectricTest {
         doReturn(TEST_DEVICE_TYPE).when(alternateShnDeviceMock).getDeviceTypeName();
         doReturn(TEST_DEVICE_MAC_ADDRESS).when(alternateShnDeviceMock).getAddress();
 
-        shnCentral = new SHNCentral(mockedUserHandler.getMock(), mockedContext) {
+        shnCentral = new SHNCentral(mockedUserHandler.getMock(), mockedContext, false, null, false) {
             @Override
             DataMigrater createDataMigrater() {
                 return mockedDataMigrater;
@@ -168,7 +169,7 @@ public class SHNCentralTest extends RobolectricTest {
 
     @Test
     public void givenASHNCentralListenerIsRegistered_WhenAStateChangeOccurs_ItNotifiesTheListenerOnTheUserHandler() throws InterruptedException {
-        SHNCentral.SHNCentralListener listenerMock = mock(SHNCentral.SHNCentralListener.class);
+        SHNCentralListener listenerMock = mock(SHNCentralListener.class);
         shnCentral.registerShnCentralListener(listenerMock);
 
         mockedUserHandler.enableImmediateExecuteOnPost(false);
@@ -299,5 +300,26 @@ public class SHNCentralTest extends RobolectricTest {
 
         assertNotNull(version);
         assertTrue(version.contains(BuildConfig.VERSION_NAME));
+    }
+
+    @Test
+    public void givenListenerIsRegistered_whenStatusChanges_thenListenerIsNotified() throws Exception {
+        SHNCentralListener listener = mock(SHNCentralListener.class);
+        shnCentral.addInternalListener(listener);
+
+        simulateBLEStateChange(BluetoothAdapter.STATE_TURNING_OFF);
+
+        verify(listener).onStateUpdated(shnCentral);
+    }
+
+    @Test
+    public void givenListenerIsRegisteredAndUnregistered_whenStatusChanges_thenListenerIsNotNotified() throws Exception {
+        SHNCentralListener listener = mock(SHNCentralListener.class);
+        shnCentral.addInternalListener(listener);
+        shnCentral.removeInternalListener(listener);
+
+        simulateBLEStateChange(BluetoothAdapter.STATE_TURNING_OFF);
+
+        verify(listener, times(0)).onStateUpdated(shnCentral);
     }
 }
