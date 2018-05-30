@@ -48,8 +48,9 @@ public class RestManager implements RestInterface {
         appInfra.getAppInfraContext().registerReceiver(new NetworkChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
+    
     @Override
-    public RequestQueue getRequestQueue() {
+    public synchronized RequestQueue getRequestQueue() {
         Integer cacheSizeinKB = null;
 
         if (mRequestQueue == null) {
