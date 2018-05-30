@@ -64,9 +64,7 @@ public enum JanrainErrorEnum {
     }
 
     public static int getStringId(int errorCode) {
-
         for (JanrainErrorEnum janrainErrorEnum : JanrainErrorEnum.values()) {
-
             if (errorCode == janrainErrorEnum.errorCode) {
                 return janrainErrorEnum.getStringId();
             }
