@@ -170,7 +170,6 @@ public class MomentFragment extends DSBaseFragment
     public void onResume() {
         super.onResume();
         mDataServicesManager.registerDBChangeListener(this);
-        mDataServicesManager.synchronize();
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
