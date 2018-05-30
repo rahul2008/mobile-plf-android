@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import com.philips.platform.mya.csw.mock.FragmentActivityMock;
 import com.philips.platform.mya.csw.mock.FragmentManagerMock;
 import com.philips.platform.mya.csw.mock.FragmentTransactionMock;
-import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +33,7 @@ public class ProgressDialogViewTest {
         thenAlertFragmentDismissAllowingStateLossIsCalled();
     }
 
-    private void givenProgressDialogViewIsShownWith(final AlertDialogFragment givenAlertDialogFragment) {
+    private void givenProgressDialogViewIsShownWith(final ProgressDialogFragment givenAlertDialogFragment) {
         progressDialogView = new ProgressDialogView() {
 
             @Override
@@ -44,7 +43,7 @@ public class ProgressDialogViewTest {
 
             @Override
             protected void setupAlertDialogFragment(FragmentActivity activity) {
-                this.alertDialogFragment = givenAlertDialogFragment;
+                this.progressDialogFragment = givenAlertDialogFragment;
             }
 
             @Override
@@ -68,6 +67,6 @@ public class ProgressDialogViewTest {
     private FragmentActivityMock fragmentActivity = new FragmentActivityMock(new FragmentManagerMock(new FragmentTransactionMock()));
     private ProgressDialogView progressDialogView;
     @Mock
-    private AlertDialogFragment mockAlertDialogFragment;
+    private ProgressDialogFragment mockAlertDialogFragment;
 
 }
