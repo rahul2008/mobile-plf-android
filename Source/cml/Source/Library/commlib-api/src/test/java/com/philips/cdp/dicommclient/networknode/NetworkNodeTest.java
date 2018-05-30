@@ -7,10 +7,8 @@ package com.philips.cdp.dicommclient.networknode;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.DICommLog;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -20,19 +18,18 @@ import org.mockito.Mock;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_BOOT_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_TYPE;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ENCRYPTION_KEY;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HOME_SSID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.PairingState.PAIRED;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_HOME_SSID;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_MODEL_ID;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -57,7 +54,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void test_ShouldReturnKey_WhenKeyIsSet_AndGetIsCalled() throws Exception {
+    public void test_ShouldReturnKey_WhenKeyIsSet_AndGetIsCalled() {
         NetworkNode networkNode = new NetworkNode();
 
         networkNode.setEncryptionKey(TEST_KEY);
@@ -68,7 +65,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void test_ShouldInformListener_WhenKeyIsSet() throws Exception {
+    public void test_ShouldInformListener_WhenKeyIsSet() {
         NetworkNode networkNode = new NetworkNode();
 
         networkNode.addPropertyChangeListener(mockPropertyChangeListener);
@@ -79,7 +76,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void test_ShouldInformListener_WhenKeyIsReset() throws Exception {
+    public void test_ShouldInformListener_WhenKeyIsReset() {
         NetworkNode networkNode = new NetworkNode();
 
         networkNode.addPropertyChangeListener(mockPropertyChangeListener);
@@ -92,7 +89,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void test_ShouldNotInformListener_WhenTheSameKeyIsSetTwice() throws Exception {
+    public void test_ShouldNotInformListener_WhenTheSameKeyIsSetTwice() {
         NetworkNode networkNode = new NetworkNode();
 
         networkNode.addPropertyChangeListener(mockPropertyChangeListener);
@@ -110,7 +107,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherCppId_ThenOriginalNetworkNodeShouldBeUnchanged() throws Exception {
+    public void whenUpdatingNetworkNodeWithOtherCppId_ThenOriginalNetworkNodeShouldBeUnchanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         originalNetworkNode.setCppId("ABC");
         NetworkNode networkNodeForUpdate = createNetworkNode();
@@ -125,7 +122,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherSsid_ThenSsidShouldBeChanged() throws Exception {
+    public void whenUpdatingNetworkNodeWithOtherSsid_ThenSsidShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
         networkNodeForUpdate.setHomeSsid("Some other ssid");
@@ -137,7 +134,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherIpAddress_ThenIpAddressShouldBeChanged() throws Exception {
+    public void whenUpdatingNetworkNodeWithOtherIpAddress_ThenIpAddressShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
         networkNodeForUpdate.setIpAddress("10.10.10.10");
@@ -149,7 +146,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherName_ThenNameShouldBeChanged() throws Exception {
+    public void whenUpdatingNetworkNodeWithOtherName_ThenNameShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
         networkNodeForUpdate.setName("My awesome appliance");
@@ -161,7 +158,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherModelId_ThenModelIdShouldBeChanged() throws Exception {
+    public void whenUpdatingNetworkNodeWithOtherModelId_ThenModelIdShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
         networkNodeForUpdate.setModelId("My awesome modelId");
@@ -173,7 +170,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherDeviceType_ThenDeviceTypeShouldBeChanged() throws Exception {
+    public void whenUpdatingNetworkNodeWithOtherDeviceType_ThenDeviceTypeShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
         networkNodeForUpdate.setDeviceType("My awesome deviceType");
@@ -185,7 +182,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithBootId_ThenBootIdShouldBeChanged() throws Exception {
+    public void whenUpdatingNetworkNodeWithBootId_ThenBootIdShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
         networkNodeForUpdate.setBootId(10L);
@@ -197,7 +194,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithNullEncryptionKey_ThenEncryptionKeyShouldNotBeChanged() throws Exception {
+    public void whenUpdatingNetworkNodeWithNullEncryptionKey_ThenEncryptionKeyShouldNotBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         originalNetworkNode.setEncryptionKey("Some really secret key");
         NetworkNode networkNodeForUpdate = createNetworkNode();
@@ -206,11 +203,11 @@ public class NetworkNodeTest extends RobolectricTest {
 
         originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
 
-        verify(mockPropertyChangeListener, never()).propertyChange((PropertyChangeEvent) anyObject());
+        verify(mockPropertyChangeListener, never()).propertyChange(any(PropertyChangeEvent.class));
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithEncryptionKey_ThenEncryptionKeyShouldBeReset() throws Exception {
+    public void whenUpdatingNetworkNodeWithEncryptionKey_ThenEncryptionKeyShouldBeReset() {
         NetworkNode originalNetworkNode = createNetworkNode();
         originalNetworkNode.setEncryptionKey("Some really secret key");
         NetworkNode networkNodeForUpdate = createNetworkNode();
@@ -283,7 +280,7 @@ public class NetworkNodeTest extends RobolectricTest {
         return networkNode;
     }
 
-    @Nullable
+    @NonNull
     private NetworkNode createNetworkNode() {
         return createNetworkNode(null);
     }
