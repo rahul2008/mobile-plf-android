@@ -154,7 +154,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-
+        registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_forgot_password, container, false);
 
         forgotPasswordPresenter = new ForgotPasswordPresenter(registrationHelper, eventHelper, this, context);
@@ -414,4 +414,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         hideForgotPasswordSpinner();
     }
 
+    @Override
+    public void notificationInlineMsg(String msg) {
+        mRegError.setError(msg);
+    }
 }

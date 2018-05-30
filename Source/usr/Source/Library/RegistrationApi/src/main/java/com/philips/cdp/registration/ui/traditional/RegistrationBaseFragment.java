@@ -25,19 +25,20 @@ import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.errors.NotificationMessage;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
-import com.philips.cdp.registration.ui.customviews.NotificationType;
 import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class RegistrationBaseFragment extends Fragment {
+public abstract class RegistrationBaseFragment extends Fragment implements URNotification.URNotificationInterface{
 
     private URNotification notification;
 
     private Context mContext;
+    private URNotification.URNotificationInterface notificationInterface;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -65,7 +66,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -315,19 +315,31 @@ public abstract class RegistrationBaseFragment extends Fragment {
         mHeight = 0;
     }
 
+    public void updateErrorNotification(String errorMessage, int errorCode) {
+
+        final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
+        urNotification.showNotification(new NotificationMessage(errorMessage,errorCode));
+    }
+
     public void updateErrorNotification(String errorMessage) {
-        final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), NotificationType.NOTIFICATION_BAR);
-        urNotification.showNotification(errorMessage, null);
+
+        final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
+        urNotification.showNotification(new NotificationMessage(errorMessage));
     }
     public void showNotificationBarOnNetworkNotAvailable() {
-        notification = new URNotification(getRegistrationFragment().getParentActivity(), NotificationType.NOTIFICATION_BAR);
-        new Handler().postDelayed(() -> notification.showNotification(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_NoNetworkConnection)), 100);
+        notification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
+        notification.showNotification(
+                new NotificationMessage(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_NoNetworkConnection)));
 
     }
 
     public void hideNotificationBarOnNetworkAvailable() {
         if (notification != null)
             notification.hideNotification();
+    }
+
+    public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment){
+        notificationInterface = baseFragment;
     }
 
 }

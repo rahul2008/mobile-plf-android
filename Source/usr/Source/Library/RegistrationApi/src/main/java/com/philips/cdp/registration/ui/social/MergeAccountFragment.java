@@ -96,6 +96,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_merge_account, container, false);
+        registerInlineNotificationListener(this);
         ButterKnife.bind(this, view);
         initUI(view);
         connectionStatus(networkUtility.isNetworkAvailable());
@@ -269,5 +270,10 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
             return;
         }
         disableMerge();
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        mRegError.setError(msg);
     }
 }

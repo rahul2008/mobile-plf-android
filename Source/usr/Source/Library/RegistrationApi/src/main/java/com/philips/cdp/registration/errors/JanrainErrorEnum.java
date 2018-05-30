@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.errors;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 /**
  * Created by philips on 4/17/18.
@@ -69,7 +70,7 @@ public enum JanrainErrorEnum {
                 return janrainErrorEnum.getStringId();
             }
         }
-        return ErrorCodes.UNKNOWN_ERROR;
+        return RegConstants.UNKNOWN_ERROR_ID;
     }
 
 

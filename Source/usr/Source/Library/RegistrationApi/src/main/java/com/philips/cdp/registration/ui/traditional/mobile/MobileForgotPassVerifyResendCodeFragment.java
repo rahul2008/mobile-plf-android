@@ -12,7 +12,6 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -96,8 +95,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     private MobileForgotPassVerifyResendCodePresenter mobileVerifyResendCodePresenter;
 
-    private Handler handler;
-
     private PopupWindow popupWindow;
 
     @Inject
@@ -116,7 +113,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-
+        registerInlineNotificationListener(this);
         mobileVerifyResendCodePresenter = new MobileForgotPassVerifyResendCodePresenter(this);
 
         final String mobileNumberKey = "mobileNumber";
@@ -135,7 +132,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         ButterKnife.bind(this, view);
         handleOrientation(view);
-        handler = new Handler();
         phoneNumberEditText.setText(mobileNumber);
         phoneNumberEditText.setInputType(InputType.TYPE_CLASS_PHONE);
         disableResendButton();
@@ -421,4 +417,8 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         }
     }
 
+    @Override
+    public void notificationInlineMsg(String msg) {
+        errorMessage.setError(msg);
+    }
 }

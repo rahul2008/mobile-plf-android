@@ -55,7 +55,7 @@ public class URError {
 
     public String getLocalizedError(ErrorType errorType, int errorCode) {
         RLog.i(TAG, "ErrorType : " + errorType + " : " + "errorCode : " + errorCode);
-        if (errorType.equals(ErrorType.HSDP)) {
+        if (errorType.equals(ErrorType.HSDP) || errorType.equals(ErrorType.NETWOK)) {
             return context.getString(getStringID(errorType, errorCode)) + " #" + errorCode;
         } else if (errorType.equals(ErrorType.JANRAIN) && janrainErrorCode.contains(errorCode)) {
             return context.getString(getStringID(errorType, errorCode)) + " #" + errorCode;

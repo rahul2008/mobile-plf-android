@@ -135,6 +135,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        registerInlineNotificationListener(this);
         RLog.d(TAG, "OnCreateView : is Called");
         mURFaceBookUtility = new URFaceBookUtility(this);
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
@@ -781,7 +782,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         hideProgressDialog();
         enableControls(true);
         updateErrorNotification(mContext.
-                getString(R.string.reg_JanRain_Server_Connection_Failed));
+                getString(R.string.reg_JanRain_Server_Connection_Failed) );
     }
 
     @Override
@@ -930,5 +931,10 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        mRegError.setError(msg);
     }
 }

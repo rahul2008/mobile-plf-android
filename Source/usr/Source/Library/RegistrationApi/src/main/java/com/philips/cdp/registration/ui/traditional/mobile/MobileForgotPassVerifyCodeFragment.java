@@ -119,7 +119,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
-
+        registerInlineNotificationListener(this);
         Bundle bundle = getArguments();
         if (bundle != null) {
             mobileNumber = bundle.getString(MOBILE_NUMBER_KEY);
@@ -390,5 +390,10 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public void onStop() {
         super.onStop();
         unRegisterSMSReceiver();
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        errorMessage.setError(msg);
     }
 }

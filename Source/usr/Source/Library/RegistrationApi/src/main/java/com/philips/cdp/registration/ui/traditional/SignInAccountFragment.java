@@ -165,6 +165,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
+        registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
@@ -261,8 +262,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mEtPassword.setOnClickListener(this);
         mEtPassword.setValidator(password -> password.length() > 0);
         mEtPassword.setErrorMessage(getString(R.string.reg_PasswordField_ErrorMsg));
-        linkifyPrivacyPolicy(resetPasswordLabel, forgotPasswordClickListener);
         mRegError = view.findViewById(R.id.usr_loginScreen_error_view);
+        linkifyPrivacyPolicy(resetPasswordLabel, forgotPasswordClickListener);
         handleUiState();
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
@@ -316,7 +317,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void linkifyPrivacyPolicy(TextView pTvPrivacyPolicy, ClickableSpan span) {
         String privacy = pTvPrivacyPolicy.getText().toString();
         SpannableString spannableString = new SpannableString(privacy);
-
+        mRegError.hideError();
         spannableString.setSpan(span, 0, privacy.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -392,11 +393,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
-            mRegError.hideError();
+//            mRegError.hideError();
             enableAll();
         } else {
             RLog.e(TAG, "You are in Offline or Network not available");
-            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
+//            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
+            updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
@@ -424,11 +426,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.e(TAG, "handleLogInFailed Error Code :" + userRegistrationFailureInfo.getErrorCode());
         if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UNKNOWN_ERROR || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.BAD_RESPONSE_CODE
                 || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UN_EXPECTED_ERROR || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.INPUTS_INVALID_CODE) {
-            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, userRegistrationFailureInfo.getErrorCode()));
+//            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, userRegistrationFailureInfo.getErrorCode()));
+            updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
         } else {
             if (userRegistrationFailureInfo.getErrorCode() != ErrorCodes.UNKNOWN_ERROR) {
                 scrollViewAutomatically(mRegError, mSvRootLayout);
-                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()));
+//                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()));
+                updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             } else {
                 scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -436,11 +440,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                     mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
                     trackInvalidCredentials();
                 } else {
-                    if (null != userRegistrationFailureInfo.getErrorDescription()) {
-                        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-                    } else {
-                        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-                    }
+                    updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
+//                    if (null != userRegistrationFailureInfo.getErrorDescription()) {
+//                        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+//                    } else {
+//                        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+//                    }
                 }
             }
         }
@@ -485,13 +490,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             return;
         } else {
             if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-                mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+//                mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+                updateErrorNotification(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
                 userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             }
         }
 
         if (null != userRegistrationFailureInfo.getErrorDescription()) {
-            mEtEmail.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
+//            mEtEmail.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
+            updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
             mEtEmail.showError();
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
@@ -601,7 +608,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void handleResendVerificationEmailFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.e(TAG, "handleResendVerificationEmailFailed : Error Code =" + userRegistrationFailureInfo.getErrorCode());
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
-        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+//        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+        updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
     }
 
     private void handleLoginSuccess() {
@@ -644,8 +652,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 getRegistrationFragment().addFragment(fragment);
             } else {
                 RLog.i(TAG, "SignInAccountFragment : invalid value");
-                mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
-                scrollViewAutomatically(mRegError, mSvRootLayout);
+                updateErrorNotification(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
+//                mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
+//                scrollViewAutomatically(mRegError, mSvRootLayout);
             }
         }
     }
@@ -798,4 +807,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private String getRedirectUri() {
         return resetPasswordSmsRedirectUri;
     }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        mRegError.setError(msg);
+    }
+
 }

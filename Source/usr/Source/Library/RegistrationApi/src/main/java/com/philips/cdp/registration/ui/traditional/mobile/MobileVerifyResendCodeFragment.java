@@ -121,7 +121,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-
+        registerInlineNotificationListener(this);
         mobileVerifyResendCodePresenter = new MobileVerifyResendCodePresenter(this);
         View view = inflater.inflate(R.layout.reg_mobile_activation_resend_fragment, container,
                 false);
@@ -192,7 +192,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mobileVerifyResendCodePresenter.cleanUp();
         CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_TICK,
                 this);
         CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_FINISH,
@@ -455,4 +454,8 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     }
 
 
+    @Override
+    public void notificationInlineMsg(String msg) {
+        errorMessage.setError(msg);
+    }
 }

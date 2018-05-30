@@ -34,7 +34,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -201,7 +200,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
-
+        registerInlineNotificationListener(this);
         createAccountPresenter = new CreateAccountPresenter(this);
         createAccountPresenter.registerListener();
 
@@ -473,9 +472,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         if (networkUtility.isNetworkAvailable()) {
             usrCreatescreenErrorView.hideError();
 
-        } else {
-            usrCreatescreenErrorView.setError(new URError(context).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-            scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
         }
     }
 
@@ -526,8 +522,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @Override
-    public void setErrorCode(int errorDesc) {
-        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.JANRAIN, errorDesc));
+    public void setErrorCode(int errorCode) {
+        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.JANRAIN, errorCode), errorCode);
         enableCreateButton();
     }
 
@@ -649,5 +645,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         } else {
             registerUserInfo();
         }
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        usrCreatescreenErrorView.setError(msg);
     }
 }

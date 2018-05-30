@@ -24,8 +24,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import io.reactivex.disposables.CompositeDisposable;
-
 public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     private String TAG = MobileVerifyResendCodePresenter.class.getSimpleName();
     private static final String VERIFICATION_SMS_CODE_SERVICE_ID = "userreg.urx.verificationsmscode";
@@ -45,7 +43,6 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     private final MobileVerifyResendCodeContract mobileVerifyCodeContract;
 
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public MobileVerifyResendCodePresenter(MobileVerifyResendCodeFragment mobileVerifyCodeContract) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -85,9 +82,6 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
         return verificationSmsCodeURL + JANRAIN_CHINA_PROVIDER + FieldsValidator.getMobileNumber(mobileNumber);
     }
 
-    public void cleanUp() {
-        compositeDisposable.clear();
-    }
 
     void handleOnSuccess(int resultCode, String response) {
         if (resultCode == RESEND_OTP_REQUEST_CODE) {
@@ -127,7 +121,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(response);
-            if (jsonObject.getString(ERROR_CODE).equals(ErrorCodes.URX_SUCCESS)) {
+            if (jsonObject.getInt(ERROR_CODE) == (ErrorCodes.URX_SUCCESS)) {
                 mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
             } else {
                 final String errorCode = jsonObject.getString(ERROR_CODE);

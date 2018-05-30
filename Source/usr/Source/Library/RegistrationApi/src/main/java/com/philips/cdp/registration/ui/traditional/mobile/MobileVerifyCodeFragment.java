@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.philips.cdp.registration.R;
@@ -31,7 +32,6 @@ import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -120,7 +120,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
         mobileVerifyCodePresenter = new MobileVerifyCodePresenter(this);
         mSMSBroadCastReceiver = new SMSBroadCastReceiver(this);
-
+        registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_mobile_activatiom_fragment, container, false);
         trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         ButterKnife.bind(this, view);
@@ -147,13 +147,12 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     private void decideToEnableVerifyButton() {
+        disableVerifyButton();
         isUserTyping = false;
-        if (verificationCodeValidationEditText.getText().length() > 0) {
+        if (verificationCodeValidationEditText.getText().length() < 6) {
             isUserTyping = true;
-        } else if (verificationCodeValidationEditText.getText().length() == 6)
+        } else
             enableVerifyButton();
-        else
-            disableVerifyButton();
     }
 
 
@@ -214,7 +213,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void onRefreshUserFailed(int error) {
         hideProgressSpinner();
         final String localizedError = new URError(context).getLocalizedError(ErrorType.HSDP, error);
-        errorMessage.setError(localizedError);
+//        errorMessage.setError(localizedError);
+        updateErrorNotification(localizedError );
         RLog.i(TAG, "onRefreshUserFailed : Error =" + localizedError);
     }
 
@@ -300,7 +300,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void netWorkStateOfflineUiHandle() {
         hideProgressSpinner();
-        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
         smsNotReceived.setEnabled(false);
         disableVerifyButton();
     }
@@ -338,6 +337,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void setOtpInvalidErrorMessage(int errorCode) {
         trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
         errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+
         hideProgressSpinner();
     }
 
@@ -363,7 +363,11 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void onErrorResponse(VolleyError error) {
         RLog.d(TAG, "onErrorResponse" + error);
 //        errorMessage.setError(getString(R.string.reg_URX_SMS_InternalServerError));
-        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.NETWOK, error.networkResponse.statusCode));
+//        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.NETWOK, error.networkResponse.statusCode));
+
+        final NetworkResponse response = error.networkResponse;
+        if (response == null) return;
+        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.NETWOK, response.statusCode));
         hideProgressSpinner();
     }
 
@@ -427,4 +431,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         }
     }
 
+    @Override
+    public void notificationInlineMsg(String msg) {
+        errorMessage.setError(msg);
+    }
 }

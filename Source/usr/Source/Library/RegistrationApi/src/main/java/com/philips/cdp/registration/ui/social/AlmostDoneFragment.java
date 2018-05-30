@@ -30,9 +30,6 @@ import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.errors.ErrorCodes;
-import com.philips.cdp.registration.errors.ErrorType;
-import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -147,6 +144,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         if (null != mBundle) {
             trackAbtesting();
         }
+        registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         initializeUI(view);
         RLog.d(TAG, "onCreateView : is called");
@@ -377,9 +375,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void handleOfflineMode() {
-        errorMessage.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
+//        errorMessage.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         continueButton.setEnabled(false);
-        scrollViewAutomatically(errorMessage, rootLayout);
+//        scrollViewAutomatically(errorMessage, rootLayout);
     }
 
     @Override
@@ -664,5 +662,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             default:
                 break;
         }
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        errorMessage.setError(msg);
     }
 }

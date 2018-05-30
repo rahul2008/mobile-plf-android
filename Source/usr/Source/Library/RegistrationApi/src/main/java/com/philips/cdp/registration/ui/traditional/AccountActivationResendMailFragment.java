@@ -141,6 +141,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
+        registerInlineNotificationListener(this);
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         accountActivationResendMailPresenter = new AccountActivationResendMailPresenter(this, user, registrationHelper);
         RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworkStateListener");
@@ -543,5 +544,10 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        mRegError.setError(msg);
     }
 }

@@ -44,11 +44,10 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        registerInlineNotificationListener(this);
         addSecureEmailPresenter = new AddSecureEmailPresenter(this);
         View view = inflater.inflate(R.layout.reg_fragment_secure_email, container, false);
         ButterKnife.bind(this, view);
-
         trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         setUpRecoveryEmail();
         return view;
@@ -161,5 +160,10 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     public void storePreference(String emailOrMobileNumber) {
         RegPreferenceUtility.storePreference(
                 getRegistrationFragment().getContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED,emailOrMobileNumber);
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        recoveryErrorTextView.setError(msg);
     }
 }
