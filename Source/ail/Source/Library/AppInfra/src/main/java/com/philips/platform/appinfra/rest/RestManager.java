@@ -43,7 +43,7 @@ public class RestManager implements RestInterface {
     }
 
     @Override
-    public RequestQueue getRequestQueue() {
+    public synchronized RequestQueue getRequestQueue() {
         Integer cacheSizeinKB = null;
 
         if (mRequestQueue == null) {
