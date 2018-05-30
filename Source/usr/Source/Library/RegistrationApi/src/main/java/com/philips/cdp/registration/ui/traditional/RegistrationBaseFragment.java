@@ -33,7 +33,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class RegistrationBaseFragment extends Fragment implements URNotification.URNotificationInterface{
+public abstract class RegistrationBaseFragment extends Fragment implements URNotification.URNotificationInterface {
 
     private URNotification notification;
 
@@ -318,19 +318,27 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     public void updateErrorNotification(String errorMessage, int errorCode) {
 
         final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
-        urNotification.showNotification(new NotificationMessage(errorMessage,errorCode));
+        urNotification.showNotification(new NotificationMessage(errorMessage, errorCode));
     }
 
     public void updateErrorNotification(String errorMessage) {
 
         final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
         urNotification.showNotification(new NotificationMessage(errorMessage));
-    }
-    public void showNotificationBarOnNetworkNotAvailable() {
-        notification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
-        notification.showNotification(
-                new NotificationMessage(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_NoNetworkConnection)));
 
+
+    }
+
+    public void showNotificationBarOnNetworkNotAvailable() {
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                notification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
+                notification.showNotification(
+                        new NotificationMessage(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_NoNetworkConnection)));
+            }
+        }, 100);
     }
 
     public void hideNotificationBarOnNetworkAvailable() {
@@ -338,7 +346,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
             notification.hideNotification();
     }
 
-    public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment){
+    public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment) {
         notificationInterface = baseFragment;
     }
 
