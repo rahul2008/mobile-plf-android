@@ -128,8 +128,6 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     public void onCreateConsentSuccess(final int position, boolean status) {
         if (position != NOT_FOUND) {
             ConsentView consentView = items.get(position - 1);
-            consentView.setError(false);
-            consentView.setIsLoading(false);
             consentView.storeConsentDefnitionStatus(getConsentDefinitionStatus(consentView.getDefinition(), status));
             notifyItemChanged(position);
         }
