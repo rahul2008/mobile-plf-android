@@ -189,9 +189,9 @@ public class SHNCentral {
 
         // The handler is used for callbacks to the usercode. When no handler is provided, the MainLoop a.k.a. UI Thread is used.
         if (handler == null) {
-            this.userHandler = new Handler(Looper.getMainLooper());
+            userHandler = new Handler(Looper.getMainLooper());
         } else {
-            this.userHandler = handler;
+            userHandler = handler;
         }
 
         Callable<Boolean> initCallable = new Callable<Boolean>() {
@@ -270,10 +270,12 @@ public class SHNCentral {
         return new PersistentStorageFactory(sharedPreferencesProvider);
     }
 
-    long getHandlerThreadId(Handler handler) {
+    @VisibleForTesting
+    long getHandlerThreadId(final @NonNull Handler handler) {
         return handler.getLooper().getThread().getId();
     }
 
+    @VisibleForTesting
     Handler createInternalHandler() {
         HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
         thread.setUncaughtExceptionHandler(new LoggingExceptionHandler());
@@ -379,10 +381,10 @@ public class SHNCentral {
         if (shnBondStatusListener != null) {
             SHNBondStatusListener listener = shnBondStatusListener.get();
 
-            if (listener != null) {
-                listener.onBondStatusChanged(device, bondState, previousBondState);
-            } else {
+            if (listener == null) {
                 shnBondStatusListeners.remove(device.getAddress());
+            } else {
+                listener.onBondStatusChanged(device, bondState, previousBondState);
             }
         }
     }
@@ -392,10 +394,11 @@ public class SHNCentral {
         for (String key : keys) {
             WeakReference<SHNCentralListener> shnCentralListenerWeakReference = shnCentralStatusListeners.get(key);
             SHNCentralListener shnCentralListener = shnCentralListenerWeakReference.get();
-            if (shnCentralListener != null) {
-                shnCentralListener.onStateUpdated(this);
-            } else {
+
+            if (shnCentralListener == null) {
                 shnCentralStatusListeners.remove(key);
+            } else {
+                shnCentralListener.onStateUpdated(this);
             }
         }
     }
@@ -456,6 +459,7 @@ public class SHNCentral {
     public void shutdown() {
         shnDeviceScanner.stopScanning();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
+
         if (bondStateChangedReceiver != null) {
             applicationContext.unregisterReceiver(bondStateChangedReceiver);
             bondStateChangedReceiver = null;

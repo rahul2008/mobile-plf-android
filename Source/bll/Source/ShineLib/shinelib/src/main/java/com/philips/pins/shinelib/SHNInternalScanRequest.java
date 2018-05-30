@@ -8,6 +8,7 @@ package com.philips.pins.shinelib;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,12 +65,14 @@ public class SHNInternalScanRequest {
         this.shnDeviceScannerListener = shnDeviceScannerListener;
     }
 
+    @VisibleForTesting
     void onScanningStarted(@NonNull final SHNDeviceScannerInternal deviceScannerInternal, @NonNull final Handler internalHandler) {
         this.deviceScannerInternal = deviceScannerInternal;
         this.internalHandler = internalHandler;
         this.internalHandler.postDelayed(timeoutRunnable, stopScanningAfterMS);
     }
 
+    @VisibleForTesting
     void onScanningStopped() {
         if (internalHandler != null) {
             internalHandler.removeCallbacks(timeoutRunnable);

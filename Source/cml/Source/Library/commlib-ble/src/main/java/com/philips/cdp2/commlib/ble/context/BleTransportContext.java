@@ -26,6 +26,8 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.concurrent.Executors;
 
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
+
 /**
  * Implementation of a TransportContext for BLE traffic.
  * Handles all communication to an appliance in case it is a BLE appliance.
@@ -41,7 +43,7 @@ public class BleTransportContext implements TransportContext {
     private final SHNCentralListener shnCentralListener = new SHNCentralListener() {
         @Override
         public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-            if (!shnCentral.isBluetoothAdapterEnabled()) {
+            if (!SHNCentralStateReady.equals(shnCentral.getShnCentralState())) {
                 discoveryStrategy.clearDiscoveredNetworkNodes();
             }
         }

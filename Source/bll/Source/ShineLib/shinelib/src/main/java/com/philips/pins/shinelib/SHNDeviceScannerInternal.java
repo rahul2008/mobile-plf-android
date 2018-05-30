@@ -117,7 +117,7 @@ public class SHNDeviceScannerInternal {
      * @param shnInternalScanRequest Contains scan settings and callback
      * @return Scan successfully started
      */
-    public synchronized boolean startScanning(@NonNull final SHNInternalScanRequest shnInternalScanRequest) {
+    public boolean startScanning(@NonNull final SHNInternalScanRequest shnInternalScanRequest) {
         SHNLogger.i(TAG, "Start scanning");
 
         if (leScanCallbackProxy == null) {
@@ -132,7 +132,12 @@ public class SHNDeviceScannerInternal {
         return true;
     }
 
-    public synchronized void stopScanning(final @NonNull SHNInternalScanRequest shnInternalScanRequest) {
+    /**
+     * Stop scanning for devices
+     *
+     * @param shnInternalScanRequest the scan request to stop scanning for
+     */
+    public void stopScanning(final @NonNull SHNInternalScanRequest shnInternalScanRequest) {
         shnInternalScanRequests.remove(shnInternalScanRequest);
         shnInternalScanRequest.onScanningStopped();
 

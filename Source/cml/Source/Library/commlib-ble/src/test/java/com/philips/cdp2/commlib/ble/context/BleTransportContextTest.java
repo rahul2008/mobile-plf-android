@@ -64,6 +64,7 @@ public class BleTransportContextTest {
     @Captor
     private ArgumentCaptor<SHNCentralListener> shnCentralListenerArgumentCaptor;
 
+    @SuppressWarnings("unused, FieldCanBeLocal")
     private BleTransportContext bleTransportContext;
 
     @Before
@@ -72,6 +73,7 @@ public class BleTransportContextTest {
         mockStatic(SHNLogger.class);
 
         when(runtimeConfigurationMock.getContext()).thenReturn(contextMock);
+        when(shnCentralMock.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateReady);
     }
 
     @Test
@@ -106,10 +108,10 @@ public class BleTransportContextTest {
     }
 
     @Test
-    public void givenBleTransportContextIsConstructed_whenBluetoothHardwareBecomesUnavailable_thenDiscoveredNodesAreCleared() {
+    public void givenBleTransportContextIsConstructed_whenSHNCentralBecomesNotReady_thenDiscoveredNodesAreCleared() {
         constructBleTransportContext();
 
-        when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(false);
+        when(shnCentralMock.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateNotReady);
         shnCentralListenerArgumentCaptor.getValue().onStateUpdated(shnCentralMock);
 
         verify(discoveryStrategyMock, times(1)).clearDiscoveredNetworkNodes();

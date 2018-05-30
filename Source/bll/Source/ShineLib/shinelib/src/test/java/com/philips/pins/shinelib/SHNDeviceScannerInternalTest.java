@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
 import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed;
 import static com.philips.pins.shinelib.SHNDeviceScannerInternal.SCANNING_RESTART_INTERVAL_MS;
@@ -98,6 +99,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     private ArgumentCaptor<SHNCentralListener> shnCentralListenerArgumentCaptor;
 
     private boolean isScanningStarted;
+    private SHNCentralListener shnCentralListenerArgumentCaptorValue;
 
     @Before
     public void setUp() throws Exception {
@@ -110,6 +112,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) {
+                shnCentralListenerArgumentCaptorValue = shnCentralListenerArgumentCaptor.getValue();
                 return null;
             }
         }).when(shnCentralMock).registerShnCentralListener(shnCentralListenerArgumentCaptor.capture());
@@ -155,7 +158,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     }
 
     @Test
-    public void givenScanningIsStarted_ThenStartLeScanOnTheLeProxyIsCalled() {
+    public void givenScanningIsStarted_thenStartLeScanOnTheLeProxyIsCalled() {
         startScanning();
 
         assertThat(isScanningStarted).isTrue();
@@ -164,22 +167,22 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     }
 
     @Test
-    public void givenScanningIsStarted_WhenBluetoothIsTurnedOff_ThenScanningIsNotRestarted() {
+    public void givenScanningIsStarted_whenSHNCentralIsNotReady_thenScanningIsNotRestarted() {
         startScanning();
 
-        when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(false);
-        shnCentralListenerArgumentCaptor.getValue().onStateUpdated(shnCentralMock);
+        when(shnCentralMock.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
+        shnCentralListenerArgumentCaptorValue.onStateUpdated(shnCentralMock);
 
         verify(leScanCallbackProxyMock, never()).stopLeScan(any(LeScanCallback.class));
         verify(leScanCallbackProxyMock, times(1)).startLeScan(any(LeScanCallback.class));
     }
 
     @Test
-    public void givenScanningIsStarted_WhenBluetoothIsTurnedOn_ThenScanningIsRestarted() {
+    public void givenScanningIsStarted_whenSHNCentralIsReady_thenScanningIsRestarted() {
         startScanning();
 
         when(shnCentralMock.getShnCentralState()).thenReturn(SHNCentralStateReady);
-        shnCentralListenerArgumentCaptor.getValue().onStateUpdated(shnCentralMock);
+        shnCentralListenerArgumentCaptorValue.onStateUpdated(shnCentralMock);
 
         verify(leScanCallbackProxyMock).stopLeScan(any(LeScanCallback.class));
         verify(leScanCallbackProxyMock, times(2)).startLeScan(any(LeScanCallback.class));
