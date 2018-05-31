@@ -14,7 +14,7 @@ Version {next}
 * N/A
 
 ### Breaking Changes
-* N/A
+* \#72961 ApplianceFactory no longer used to provided supported device types. Only the filter that is provided when starting discovery is taken into account.
 
 ### Defects solved
 * \#121886 - Firmware update always starts from 0. Brought behaviour inline with iOS

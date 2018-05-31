@@ -108,7 +108,7 @@ public final class CommCentral {
         DICommLog.d(TAG, "Starting discovery for model ids: " + modelIds.toString());
 
         for (DiscoveryStrategy strategy : this.discoveryStrategies) {
-            strategy.start(applianceFactory.getSupportedDeviceTypes(), modelIds);
+            strategy.start(modelIds);
         }
     }
 
