@@ -286,7 +286,8 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     @Override
     public void showSMSSpecifedError(int errorCode) {
         trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+        // errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
         enableResendButton();
         // String errorMsg = RegChinaUtil.getErrorMsgDescription(id, context);
 //        showSmsResendTechincalError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));

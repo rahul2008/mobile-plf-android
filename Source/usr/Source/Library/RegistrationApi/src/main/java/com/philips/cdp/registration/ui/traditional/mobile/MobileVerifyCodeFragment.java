@@ -149,8 +149,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private void decideToEnableVerifyButton() {
         disableVerifyButton();
         isUserTyping = false;
-        if(verificationCodeValidationEditText.getText().length() == 0) return;
-        if (verificationCodeValidationEditText.getText().length() < 6 ) {
+        if (verificationCodeValidationEditText.getText().length() == 0) return;
+        if (verificationCodeValidationEditText.getText().length() < 6) {
             isUserTyping = true;
         } else
             enableVerifyButton();
@@ -215,7 +215,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         hideProgressSpinner();
         final String localizedError = new URError(context).getLocalizedError(ErrorType.HSDP, error);
 //        errorMessage.setError(localizedError);
-        updateErrorNotification(localizedError );
+        updateErrorNotification(localizedError);
         RLog.i(TAG, "onRefreshUserFailed : Error =" + localizedError);
     }
 
@@ -338,15 +338,16 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void setOtpInvalidErrorMessage(int errorCode) {
         trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
-        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
-
+        //errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
         hideProgressSpinner();
     }
 
     @Override
     public void setOtpErrorMessageFromJson(int errorCode) {
         trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
-        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+//        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
         hideProgressSpinner();
     }
 
