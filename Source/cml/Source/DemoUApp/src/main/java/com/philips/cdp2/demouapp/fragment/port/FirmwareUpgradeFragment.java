@@ -318,7 +318,11 @@ public class FirmwareUpgradeFragment extends Fragment {
                 firmwareSizeInBytes = firmwareBytes.length;
                 startTimeMillis = currentTimeMillis();
 
-                firmwarePort.pushLocalFirmware(firmwareBytes, getTimeoutInMillisFromUi());
+                try {
+                    firmwarePort.pushLocalFirmware(firmwareBytes, getTimeoutInMillisFromUi());
+                } catch (IllegalStateException ex) {
+                    showMessage(getActivity(), rootView, getString(R.string.cml_firmware_update_already_in_progress));
+                }
             }
         }
     }
