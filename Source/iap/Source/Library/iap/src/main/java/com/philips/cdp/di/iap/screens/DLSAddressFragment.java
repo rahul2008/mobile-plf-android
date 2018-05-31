@@ -408,11 +408,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     public void onSetDeliveryAddress(Message msg) {
         Toast.makeText(mContext, "onSetDeliveryAddress", Toast.LENGTH_SHORT).show();
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            Bundle bundle = getArguments();
+            /*Bundle bundle = getArguments();
             DeliveryModes deliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
             if (deliveryMode == null)
                 mAddressController.getDeliveryModes();
-            else
+            else*/
                 mPaymentController.getPaymentDetails();
         } else {
             hideProgressBar();
