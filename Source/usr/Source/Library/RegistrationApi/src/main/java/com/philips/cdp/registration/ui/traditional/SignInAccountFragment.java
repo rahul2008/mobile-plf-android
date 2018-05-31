@@ -393,12 +393,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
-//            mRegError.hideError();
+            mRegError.hideError();
             enableAll();
         } else {
             RLog.e(TAG, "You are in Offline or Network not available");
-//            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-            updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
@@ -727,7 +726,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void enableAll() {
-        mBtnSignInAccount.setEnabled(true);
+        if (networkUtility.isNetworkAvailable()) {
+            mBtnSignInAccount.setEnabled(true);
+        } else {
+            if(isAdded()) mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+        }
         loginValidationEditText.setEnabled(true);
         passwordValidationEditText.setEnabled(true);
         resetPasswordLabel.setEnabled(true);

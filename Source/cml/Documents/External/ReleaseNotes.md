@@ -14,6 +14,7 @@ Version {next}
 * N/A
 
 ### Breaking Changes
+* The TransportContext interface does not extend the Availability interface anymore
 * \#127781 CommCentral requires runtime configuration to enable secure nodes storage. Secure storage requires AppInfraInterface provided via RuntimeConfiguration.
 
 ### Defects solved

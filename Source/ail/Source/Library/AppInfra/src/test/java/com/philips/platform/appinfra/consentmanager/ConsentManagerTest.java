@@ -2,6 +2,7 @@ package com.philips.platform.appinfra.consentmanager;
 
 import android.os.Looper;
 
+import com.google.common.collect.ImmutableList;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
@@ -13,6 +14,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentVersionStates;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +25,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
@@ -43,6 +47,7 @@ public class ConsentManagerTest {
     private ConsentHandlerInterface returnedHandler;
     private ConsentError returnedError;
     private boolean isPostConsentCallbackInvoked;
+    private List<ConsentDefinitionStatus> returnedConsentsStatus;
 
     @Mock
     private AppInfra appInfra;
@@ -52,6 +57,12 @@ public class ConsentManagerTest {
         MockitoAnnotations.initMocks(this);
         consentManager = new ConsentManager(appInfra);
         AndroidMockUtil.mockMainThreadHandler();
+    }
+
+    @After
+    public void tearDown() {
+        returnedError = null;
+        returnedConsentsStatus = null;
     }
 
     @Test
@@ -301,6 +312,23 @@ public class ConsentManagerTest {
         thenErrorIsReturned(error);
     }
 
+    @Test
+    public void fetchConsentStates_ShouldReturnErrorIfTimesOut() {
+        givenFetchTimeOutIs(3);
+        givenHandler(handler1, "testConsent");
+        givenFetchConsentDoesNotReturnForHandler(handler1);
+        whenFetchConsentStates(ImmutableList.of(consentDefinition(1,"testConsent")));
+        thenTimeoutErrorIsReturned();
+    }
+
+    private void givenFetchConsentDoesNotReturnForHandler(ConsentHandlerInterfaceSpy handler) {
+        handler.fetchDoNothing = true;
+    }
+
+    private void givenFetchTimeOutIs(int timeout) {
+        consentManager.timeout = timeout;
+    }
+
     private void givenHandler(ConsentHandlerInterfaceSpy handler, String... consentTypes) {
         consentManager.registerHandler(Arrays.asList(consentTypes), handler);
     }
@@ -333,6 +361,11 @@ public class ConsentManagerTest {
 
     private void whenFetchingConsentDefinitionState(ConsentDefinition consentDefinition) {
         consentManager.fetchConsentState(consentDefinition, new FetchConsentCallbackListener());
+        waitForThreadsToComplete();
+    }
+
+    private void whenFetchConsentStates(final List<ConsentDefinition> consentDefinitions) throws RuntimeException {
+        consentManager.fetchConsentStates(consentDefinitions, new FetchConsentsCallBackListener());
         waitForThreadsToComplete();
     }
 
@@ -370,6 +403,11 @@ public class ConsentManagerTest {
         returnedHandler = consentManager.getHandler(consentType);
     }
 
+    private void thenTimeoutErrorIsReturned() {
+        assertNotNull(returnedError);
+        assertEquals(returnedError.getErrorCode(), ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT);
+    }
+
     private void waitForThreadsToComplete() {
         try {
             lock.await();
@@ -383,15 +421,20 @@ public class ConsentManagerTest {
     }
 
     private class ConsentHandlerInterfaceSpy implements ConsentHandlerInterface {
-        public String fetchConsentTypeState_consentType;
-        public String storeConsentTypeState_consentType;
-        public int storeConsentTypeState_version;
-        public boolean storeConsentTypeState_status;
-        public ConsentStatus returns;
-        public ConsentError returnsError;
+        String fetchConsentTypeState_consentType;
+        String storeConsentTypeState_consentType;
+        int storeConsentTypeState_version;
+        boolean storeConsentTypeState_status;
+        ConsentStatus returns;
+        ConsentError returnsError;
+        boolean fetchDoNothing;
 
         @Override
         public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
+            if (fetchDoNothing) {
+                return;
+            }
+
             fetchConsentTypeState_consentType = consentType;
             if (returnsError != null) {
                 callback.onGetConsentsFailed(returnsError);
@@ -439,6 +482,21 @@ public class ConsentManagerTest {
         @Override
         public void onPostConsentSuccess() {
             isPostConsentCallbackInvoked = true;
+            lock.countDown();
+        }
+    }
+
+    private class FetchConsentsCallBackListener implements FetchConsentsCallback {
+
+        @Override
+        public void onGetConsentsSuccess(List<ConsentDefinitionStatus> consentDefinitionStatusList) {
+            returnedConsentsStatus = consentDefinitionStatusList;
+            lock.countDown();
+        }
+
+        @Override
+        public void onGetConsentsFailed(ConsentError error) {
+            returnedError = error;
             lock.countDown();
         }
     }
