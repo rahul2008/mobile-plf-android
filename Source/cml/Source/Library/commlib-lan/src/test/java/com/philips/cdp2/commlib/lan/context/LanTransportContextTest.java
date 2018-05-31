@@ -1,14 +1,11 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.cdp2.commlib.lan.context;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -26,14 +23,10 @@ import com.philips.cdp2.commlib.core.util.HandlerProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static android.net.ConnectivityManager.TYPE_WIFI;
-import static android.net.ConnectivityManager.TYPE_WIMAX;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.acceptNewPinFor;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.acceptPinFor;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.findAppliancesWithMismatchedPinIn;
@@ -43,8 +36,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -64,7 +55,7 @@ public class LanTransportContextTest extends RobolectricTest {
     private Context contextMock;
 
     @Mock
-    ConnectivityManager connectivityManagerMock;
+    private ConnectivityManager connectivityManagerMock;
 
     @Mock
     private NetworkInfo activeNetworkInfoMock;
@@ -73,7 +64,7 @@ public class LanTransportContextTest extends RobolectricTest {
     private DiscoveryStrategy lanDiscoveryStrategyMock;
 
     @Mock
-    RuntimeConfiguration runtimeConfigurationMock;
+    private RuntimeConfiguration runtimeConfigurationMock;
 
     private LanTransportContext lanTransportContext;
 
@@ -229,84 +220,6 @@ public class LanTransportContextTest extends RobolectricTest {
 
         assertEquals(1, result.size());
         assertEquals(result.toArray()[0], createTestAppliance(mismatchedNetworkNode));
-    }
-
-    @Test
-    public void whenConnectedToWifi_thenAvailableIsTrue() {
-        doAnswer(new Answer<Intent>() {
-            @Override
-            public Intent answer(InvocationOnMock invocation) throws Throwable {
-                BroadcastReceiver broadcastReceiver = invocation.getArgument(0);
-                broadcastReceiver.onReceive(contextMock, null);
-                return null;
-            }
-        }).when(contextMock).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
-        when(contextMock.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(connectivityManagerMock);
-        when(connectivityManagerMock.getActiveNetworkInfo()).thenReturn(activeNetworkInfoMock);
-        when(activeNetworkInfoMock.getType()).thenReturn(TYPE_WIFI);
-        when(activeNetworkInfoMock.isConnected()).thenReturn(true);
-
-        lanTransportContext = new LanTransportContext(runtimeConfigurationMock) {
-            @NonNull
-            @Override
-            DiscoveryStrategy createLanDiscoveryStrategy() {
-                return lanDiscoveryStrategyMock;
-            }
-        };
-
-        assertThat(lanTransportContext.isAvailable()).isTrue();
-    }
-
-    @Test
-    public void whenConnectedToOther_thenAvailableIsFalse() {
-        doAnswer(new Answer<Intent>() {
-            @Override
-            public Intent answer(InvocationOnMock invocation) throws Throwable {
-                BroadcastReceiver receiver = invocation.getArgument(0);
-                receiver.onReceive(contextMock, null);
-                return null;
-            }
-        }).when(contextMock).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
-        when(contextMock.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(connectivityManagerMock);
-        when(connectivityManagerMock.getActiveNetworkInfo()).thenReturn(activeNetworkInfoMock);
-        when(activeNetworkInfoMock.getType()).thenReturn(TYPE_WIMAX);
-        when(activeNetworkInfoMock.isConnected()).thenReturn(true);
-
-        lanTransportContext = new LanTransportContext(runtimeConfigurationMock) {
-            @NonNull
-            @Override
-            DiscoveryStrategy createLanDiscoveryStrategy() {
-                return lanDiscoveryStrategyMock;
-            }
-        };
-
-        assertThat(lanTransportContext.isAvailable()).isFalse();
-    }
-
-    @Test
-    public void whenNotConnectedToWifi_thenAvailableIsFalse() {
-        doAnswer(new Answer<Intent>() {
-            @Override
-            public Intent answer(InvocationOnMock invocation) throws Throwable {
-                BroadcastReceiver receiver = invocation.getArgument(0);
-                receiver.onReceive(contextMock, null);
-                return null;
-            }
-        }).when(contextMock).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
-        when(contextMock.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(connectivityManagerMock);
-        when(connectivityManagerMock.getActiveNetworkInfo()).thenReturn(activeNetworkInfoMock);
-        when(activeNetworkInfoMock.getType()).thenReturn(TYPE_WIFI);
-        when(activeNetworkInfoMock.isConnected()).thenReturn(false);
-
-        lanTransportContext = new LanTransportContext(runtimeConfigurationMock) {
-            @NonNull
-            @Override
-            DiscoveryStrategy createLanDiscoveryStrategy() {
-                return lanDiscoveryStrategyMock;
-            }
-        };
-
-        assertThat(lanTransportContext.isAvailable()).isFalse();
     }
 
     @Test
