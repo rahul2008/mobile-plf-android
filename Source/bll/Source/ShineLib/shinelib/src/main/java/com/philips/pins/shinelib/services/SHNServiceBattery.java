@@ -52,7 +52,7 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
             if (shnCharacteristic.getUuid() == SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID) {
                 ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
                 int level = ScalarConverters.ubyteToInt(buffer.get());
-                if (level < 100 && shnServiceBatteryListener != null) {
+                if (level <= 100 && shnServiceBatteryListener != null) {
                     shnServiceBatteryListener.onBatteryLevelUpdated(level);
                 }
             }

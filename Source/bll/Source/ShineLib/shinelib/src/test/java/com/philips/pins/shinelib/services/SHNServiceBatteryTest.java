@@ -13,17 +13,17 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.SHNFactory;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Set;
 import java.util.UUID;
 
+import static com.philips.pins.shinelib.services.SHNServiceBattery.SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -61,15 +61,15 @@ public class SHNServiceBatteryTest {
 
         ArgumentCaptor<UUID> uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
 
-        ArgumentCaptor<Set> requiredSetArgumentCaptor = ArgumentCaptor.forClass(Set.class);
-        ArgumentCaptor<Set> optionalSetArgumentCaptor = ArgumentCaptor.forClass(Set.class);
+        ArgumentCaptor<Set<SHNCharacteristicInfo>> requiredSetArgumentCaptor = ArgumentCaptor.forClass(Set.class);
+        ArgumentCaptor<Set<SHNCharacteristicInfo>> optionalSetArgumentCaptor = ArgumentCaptor.forClass(Set.class);
 
         verify(mockedShnFactory).createNewSHNService(uuidArgumentCaptor.capture(), requiredSetArgumentCaptor.capture(), optionalSetArgumentCaptor.capture());
         assertEquals(SHNServiceBattery.SERVICE_UUID, uuidArgumentCaptor.getValue());
 
         assertNotNull(requiredSetArgumentCaptor.getValue());
         assertEquals(1, requiredSetArgumentCaptor.getValue().size());
-        assertTrue(requiredSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceBattery.SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID, false)));
+        assertTrue(requiredSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID, false)));
 
         assertNotNull(optionalSetArgumentCaptor.getValue());
         assertEquals(0, optionalSetArgumentCaptor.getValue().size());
@@ -127,6 +127,22 @@ public class SHNServiceBatteryTest {
     @Test
     public void setNotificationDisabled() {
         checkNotificationSetting(false);
+    }
+
+    @Test
+    public void whenNotificationIsRecievedThenListenerIsNotified() {
+        ArgumentCaptor<SHNCharacteristic.SHNCharacteristicChangedListener> shnCharacteristicChangedListenerArgumentCaptor =
+                ArgumentCaptor.forClass(SHNCharacteristic.SHNCharacteristicChangedListener.class);
+        SHNResultListener mockedShnResultListener = Mockito.mock(SHNResultListener.class);
+        SHNServiceBattery.SHNServiceBatteryListener batteryListener = Mockito.mock(SHNServiceBattery.SHNServiceBatteryListener.class);
+        shnServiceBattery.setBatteryLevelNotifications(true, mockedShnResultListener);
+        shnServiceBattery.setShnServiceBatteryListener(batteryListener);
+
+        verify(mockedShnCharacteristic).setShnCharacteristicChangedListener(shnCharacteristicChangedListenerArgumentCaptor.capture());
+        when(mockedShnCharacteristic.getUuid()).thenReturn(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
+        shnCharacteristicChangedListenerArgumentCaptor.getValue().onCharacteristicChanged(mockedShnCharacteristic, new byte[]{0x64});
+
+        verify(batteryListener).onBatteryLevelUpdated(100);
     }
 
     private void checkNotificationSetting(boolean enabled) {
