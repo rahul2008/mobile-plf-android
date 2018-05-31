@@ -1,24 +1,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/usr_match_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <ScrollView
         android:id="@+id/sv_root_layout"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/usr_StartScreen_privacyNotice_country_LinearLayout">
 
         <LinearLayout
             android:id="@+id/usr_startScreen_baseLayout_LinearLayout"
-            android:layout_marginLeft="@dimen/reg_dimen_16dp"
-            android:layout_marginRight="@dimen/reg_dimen_16dp"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/reg_dimen_16dp"
+            android:layout_marginLeft="@dimen/reg_dimen_16dp"
+            android:layout_marginRight="@dimen/reg_dimen_16dp"
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
@@ -111,12 +111,12 @@
         android:id="@+id/usr_StartScreen_privacyNotice_country_LinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/reg_dimen_16dp"
-        android:layout_marginRight="@dimen/reg_dimen_16dp"
         android:layout_above="@+id/usr_StartScreen_privacyNotice_country2_LinearLayout"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/reg_dimen_16dp"
+        android:layout_marginLeft="@dimen/reg_dimen_16dp"
+        android:layout_marginRight="@dimen/reg_dimen_16dp"
         android:orientation="horizontal"
         android:visibility="invisible">
 
@@ -149,14 +149,13 @@
         android:id="@+id/usr_StartScreen_privacyNotice_country2_LinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/reg_dimen_16dp"
-        android:layout_marginRight="@dimen/reg_dimen_16dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/reg_dimen_16dp"
-        android:visibility="invisible"
+        android:layout_marginLeft="@dimen/reg_dimen_16dp"
+        android:layout_marginRight="@dimen/reg_dimen_16dp"
         android:orientation="vertical"
-        >
+        android:visibility="invisible">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/usr_StartScreen_privacyNotice2_label"

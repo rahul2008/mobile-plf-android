@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.uid.utils.UIDUtils;
 
 public class NotificationBarView {
 
@@ -33,7 +34,7 @@ public class NotificationBarView {
             popupWindow.dismiss();
         } else {
             if (popupWindow != null) {
-                popupWindow.showAtLocation(baseLayoutViewLocation, Gravity.TOP, 0, 0);
+                popupWindow.showAtLocation(baseLayoutViewLocation, Gravity.NO_GRAVITY, 0, UIDUtils.getActionBarHeight(mActivity) + UIDUtils.getStatusBarHeight(mActivity));
             }
         }
     }
@@ -53,7 +54,6 @@ public class NotificationBarView {
             view = View.inflate(mActivity, R.layout.reg_notification_bg_accent, null);
         ((TextView) view.findViewById(R.id.uid_notification_title)).setText(title);
         ((TextView) view.findViewById(R.id.uid_notification_content)).setText(message);
-        view.setBackgroundColor(R.attr.uidTrackWarningNormalOnBackgroundColor);
         view.findViewById(R.id.uid_notification_title).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_icon).setVisibility(View.VISIBLE);
