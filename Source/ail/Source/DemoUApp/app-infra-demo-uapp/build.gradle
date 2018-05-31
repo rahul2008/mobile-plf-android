@@ -154,7 +154,6 @@ dependencies {
         implementation philipsdeps.pif
     }
 
-    implementation deps.leakcanary
     implementation deps.gson
     implementation deps.volley
 }
