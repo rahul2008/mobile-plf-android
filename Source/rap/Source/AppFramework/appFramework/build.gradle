@@ -6,7 +6,7 @@ apply plugin: 'de.felixschulze.gradle.hockeyapp'
 apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting_logging.gradle"
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
-apply from: projectDir.absolutePath + '/../../../../build-support/gradle/cdpscm.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
 apply plugin: 'com.jakewharton.butterknife'
 
 buildscript {
