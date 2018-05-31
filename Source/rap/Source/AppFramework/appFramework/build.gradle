@@ -318,6 +318,34 @@ dependencies {
         implementation (philipsdeps.mya) {
             exclude group: 'com.android.support'
         }
+        implementation (philipsdeps.commlib) {
+            exclude group: 'com.android.support'
+        }
+        implementation (philipsdeps.commlib_demouapp) {
+            exclude group: 'com.android.support'
+        }
+        implementation (philipsdeps.digitalCareUApp) {
+            exclude group: 'com.android.support'
+        }
+        implementation (philipsdeps.uAppFwLibUApp) {
+            exclude group: 'com.android.support'
+        }
+        implementation (philipsdeps.iapUApp) {
+            exclude group: 'com.android.support'
+        }
+        implementation (philipsdeps.dataServicesUApp) {
+            exclude group: 'com.android.support'
+        }
+        implementation (philipsdeps.product_registration_libUApp) {
+            exclude group: 'com.android.support'
+        }
+        implementation (philipsdeps.UserRegistrationUApp) {
+            exclude group: 'com.android.support'
+            exclude group: 'com.philips.cdp', module: 'RegistrationApi'
+        }
+        implementation (philipsdeps.devicepairingUApp) {
+            exclude group: 'com.android.support'
+        }
         implementation philipsdeps.telehealth
         implementation philipsdeps.telehealthUApp
         implementation philipsdeps.ewsUApp
