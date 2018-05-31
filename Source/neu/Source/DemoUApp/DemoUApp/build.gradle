@@ -149,7 +149,9 @@ dependencies {
     implementation deps.calligraphy
     implementation deps.support.design
     implementation deps.firbase_messaging
-    implementation deps.theneura
+    implementation (deps.theneura) {
+        exclude group: 'com.google.android.gms'
+    }
     implementation deps.play_services_awareness
 
     def dp = project.ext.has('useprojectdependencies')
@@ -162,6 +164,8 @@ dependencies {
         implementation(philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
+        implementation (philipsdeps.uAppFwLib)
+        implementation (philipsdeps.AppInfra)
     }
 
     implementation(deps.support.appcompatv7) {
