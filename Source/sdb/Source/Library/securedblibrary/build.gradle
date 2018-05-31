@@ -4,6 +4,10 @@ apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/taskscc.gradle'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -16,7 +20,8 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven {
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -60,7 +65,6 @@ allprojects {
     group = 'com.philips.cdp'
 }
 
-
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
@@ -78,11 +82,11 @@ android {
         versionName version
         multiDexEnabled true
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-      /*  ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
-        }*/
+        /*  ndk {
+              abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+          }*/
     }
-    
+
     buildTypes {
         release {
             //   minifyEnabled false
@@ -90,7 +94,7 @@ android {
         }
         debug {
             debuggable true
-            testCoverageEnabled=true
+            testCoverageEnabled = true
         }
     }
 
@@ -107,15 +111,15 @@ configurations.all {
 dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
-        implementation project(':AppInfra')
+    if (dp) {
+        api project(':AppInfra')
     } else {
-        implementation philipsdeps.AppInfra
+        api philipsdeps.AppInfra
     }
 
-    implementation deps.ormlite.core
+    api deps.ormlite.core
     implementation deps.ormlite.android
-    implementation deps.sqlcipher
+    api deps.sqlcipher
 
     androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'

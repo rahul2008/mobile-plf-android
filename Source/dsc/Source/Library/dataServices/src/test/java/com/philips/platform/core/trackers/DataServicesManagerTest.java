@@ -844,6 +844,16 @@ public class DataServicesManagerTest {
         verify(uCoreAccessProvider).clearSyncTimeCache();
     }
 
+    @Test
+    public void settingLastSyncTime() {
+        final String expectedString = "2017-01-01T12:00:00.000Z";
+        DateTime expectedLastSyncTime = DateTime.parse(expectedString);
+        mDataServicesManager.setLastSyncTime(expectedLastSyncTime);
+
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY));
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY));
+    }
+
     private void givenFailedDeleteAllInsights() {
         doAnswer(new Answer<Object>() {
             @Override

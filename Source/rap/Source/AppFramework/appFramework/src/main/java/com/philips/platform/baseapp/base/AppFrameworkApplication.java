@@ -11,7 +11,6 @@ import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
@@ -50,8 +49,6 @@ import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
-
-//import com.crittercism.app.Crittercism;
 
 /**
  * Application class is used for initialization
@@ -109,12 +106,6 @@ public class AppFrameworkApplication extends Application {
             LeakCanary.install(this);
         }
         super.onCreate();
-
-        /*
-         * Apteligent initialization.
-         */
-//        Crittercism.setLoggingLevel(Crittercism.LoggingLevel.Silent);
-//        Crittercism.initialize(getApplicationContext(), Apteligent_APP_ID);
     }
 
     /**
@@ -322,7 +313,7 @@ public class AppFrameworkApplication extends Application {
         final LanTransportContext lanTransportContext = new LanTransportContext(runtimeConfiguration);
 
         applianceFactory = new RefAppApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
-        return new CommCentral(applianceFactory, bleTransportContext, lanTransportContext, cloudTransportContext);
+        return new CommCentral(applianceFactory, runtimeConfiguration, bleTransportContext, lanTransportContext, cloudTransportContext);
     }
 
     @NonNull

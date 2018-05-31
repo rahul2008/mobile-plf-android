@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import com.philips.cdp2.bluelib.demouapp.R;
 import com.philips.cdp2.bluelib.demouapp.fragment.associate.AssociatedDevicesFragment;
 import com.philips.cdp2.bluelib.demouapp.fragment.connect.ConnectDevicesFragment;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class MainFragment extends Fragment {
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 1;
@@ -48,6 +49,7 @@ public class MainFragment extends Fragment {
         // Acquire Bluetooth permission
         acquirePermission();
 
+        SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
         return rootview;
     }
 

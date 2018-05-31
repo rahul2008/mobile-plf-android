@@ -437,8 +437,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
         enableControls(true);
-        hideProgressDialog();
         homePresenter.navigateToScreen();
+        hideProgressDialog();
     }
 
     private void handleLoginFailedWithError(UserRegistrationFailureInfo
@@ -803,8 +803,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void completeSocialLogin() {
         homePresenter.completeRegistation();
-        hideProgressDialog();
         enableControls(true);
+        hideProgressDialog();
     }
 
     @Override

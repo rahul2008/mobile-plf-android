@@ -1,7 +1,5 @@
 package com.philips.pins.shinelib.statemachine.state;
 
-import android.content.Context;
-
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
@@ -36,9 +34,6 @@ public class SHNDisconnectingStateTest {
 
     @Mock
     private SHNDeviceStateMachine statemachineMock;
-
-    @Mock
-    private Context mockedContext;
 
     @Mock
     private BTDevice mockedBTDevice;

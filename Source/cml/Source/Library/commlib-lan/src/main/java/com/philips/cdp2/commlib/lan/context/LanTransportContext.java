@@ -27,7 +27,6 @@ import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executors;
 
 import static android.net.ConnectivityManager.TYPE_WIFI;
@@ -35,9 +34,10 @@ import static android.net.ConnectivityManager.TYPE_WIFI;
 /**
  * Implementation of the TransportContext for local network traffic.
  * Handles all communication to an appliance in case it's a local Wi-Fi appliance.
+ *
  * @publicApi
  */
-public class LanTransportContext implements TransportContext<LanTransportContext> {
+public class LanTransportContext implements TransportContext {
 
     private static final String TAG = "LanTransportContext";
 
@@ -47,31 +47,16 @@ public class LanTransportContext implements TransportContext<LanTransportContext
     private final ConnectivityMonitor connectivityMonitor;
     private final WifiNetworkProvider wifiNetworkProvider;
 
-    private AvailabilityListener<ConnectivityMonitor> lanAvailabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
-        @Override
-        public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
-            isAvailable = connectivityMonitor.isAvailable();
-            deviceCache.clear();
-            notifyAvailabilityListeners();
-        }
-    };
-
-    private boolean isAvailable;
-    private Set<AvailabilityListener<LanTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
-
     /**
      * Instantiates a LanTransportContext.
+     *
      * @param runtimeConfiguration RuntimeConfiguration Configuration to be used by CommLib
      */
     public LanTransportContext(@NonNull final RuntimeConfiguration runtimeConfiguration) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(runtimeConfiguration.getContext(), TYPE_WIFI);
-
         this.wifiNetworkProvider = WifiNetworkProvider.get(runtimeConfiguration.getContext());
-
         this.deviceCache = new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
         this.discoveryStrategy = createLanDiscoveryStrategy();
-
-        this.connectivityMonitor.addAvailabilityListener(lanAvailabilityListener);
     }
 
     @VisibleForTesting
@@ -82,6 +67,7 @@ public class LanTransportContext implements TransportContext<LanTransportContext
 
     /**
      * Returns a DiscoveryStrategy for local discovery.
+     *
      * @return DiscoveryStrategy A discovery strategy to discover appliances in the local network.
      */
     @Override
@@ -92,6 +78,7 @@ public class LanTransportContext implements TransportContext<LanTransportContext
 
     /**
      * Creates a CommunicationStrategy for communicating within a local network.
+     *
      * @param networkNode NetworkNode the network node
      * @return CommunicationStrategy A communication strategy for communicating with an appliance in the local network.
      */
@@ -99,35 +86,6 @@ public class LanTransportContext implements TransportContext<LanTransportContext
     @NonNull
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new LanCommunicationStrategy(networkNode, deviceCache, connectivityMonitor);
-    }
-
-    /**
-     * @return <code>true</code> when connected to a WiFi network.
-     */
-    @Override
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    @Override
-    public void addAvailabilityListener(@NonNull AvailabilityListener<LanTransportContext> listener) {
-        availabilityListeners.add(listener);
-        listener.onAvailabilityChanged(this);
-    }
-
-    @Override
-    public void removeAvailabilityListener(@NonNull AvailabilityListener<LanTransportContext> listener) {
-        availabilityListeners.remove(listener);
-    }
-
-    public void clearDiscoveredNetworkNodes() {
-
-    }
-
-    private void notifyAvailabilityListeners() {
-        for (AvailabilityListener<LanTransportContext> listener : availabilityListeners) {
-            listener.onAvailabilityChanged(this);
-        }
     }
 
     /**
@@ -172,7 +130,6 @@ public class LanTransportContext implements TransportContext<LanTransportContext
      *
      * @param appliance the appliance
      * @param pin       the pin, may be null to reset any stored pin
-     *
      * @throws IllegalArgumentException when supplied pin cannot be parsed into valid {@link PublicKeyPin}
      */
     @SuppressWarnings("WeakerAccess")
