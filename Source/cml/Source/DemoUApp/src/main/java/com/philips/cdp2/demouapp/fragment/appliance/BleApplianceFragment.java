@@ -151,6 +151,9 @@ public class BleApplianceFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
+        // Don't keep the connection open when leaving the screen.
+        switchContinuousConnection.setChecked(false);
+
         if (currentAppliance != null) {
             currentAppliance.getBleParamsPort().removePortListener(portListener);
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -141,7 +141,6 @@ public class SHNDeviceAssociationTest {
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
         doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition((String) any(), (SHNDeviceDefinitionInfo) any());
         doNothing().when(mockedSHNCentral).removeDeviceFromDeviceCache(isA(SHNDevice.class));
-        SHNDeviceFoundInfo.setSHNCentral(mockedSHNCentral);
 
         // mockedSHNDeviceScanner
         doReturn(true).when(mockedSHNDeviceScannerInternal).startScanning(isA(SHNInternalScanRequest.class));
@@ -313,7 +312,7 @@ public class SHNDeviceAssociationTest {
         doReturn("MoonshineTest").when(mockedBluetoothDevice).getName();
 
         byte[] mockedScanRecord = new byte[]{0x00, 0x0A};
-        SHNDeviceFoundInfo shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedBluetoothDevice, 321, mockedScanRecord, mockedSHNDeviceDefinitionInfo, bleScanRecordMock);
+        SHNDeviceFoundInfo shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedSHNCentral, mockedBluetoothDevice, 321, mockedScanRecord, mockedSHNDeviceDefinitionInfo, bleScanRecordMock);
 
         // Call the device scanner listener
         scanRequestCaptor.getValue().shnDeviceScannerListener.deviceFound(null, shnDeviceFoundInfo);
