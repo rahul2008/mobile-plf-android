@@ -6,6 +6,7 @@ apply plugin: 'de.felixschulze.gradle.hockeyapp'
 apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting_logging.gradle"
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
+apply from: projectDir.absolutePath + '/../../../../build-support/gradle/cdpscm.gradle'
 apply plugin: 'com.jakewharton.butterknife'
 
 buildscript {
@@ -41,22 +42,11 @@ buildscript {
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "referenceApp"
 
 allprojects {
@@ -82,31 +72,6 @@ allprojects {
     }
 }
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('apk')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -133,40 +98,6 @@ task tgzTask(type: Tar) {
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
 
-publishing {
-    publications {
-        apk(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/mapping/release/mapping.txt") {
-                classifier = 'mapping'
-            }
-
-            artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.implementation.allDependencies
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.group)
-                    dependencyNode.appendNode('artifactId', it.name)
-                    dependencyNode.appendNode('version', it.version)
-                }
-            }
-
-        }
-    }
-}
-
 hockeyapp {
     apiToken = "b9d6e2f453894b4fbcb161b33a94f6c8"
     commitSha = objcdp.getCommitHashLong()
@@ -180,10 +111,9 @@ hockeyapp {
     notes = new File(projectDir, "/../../../Documents/External/ReleaseNotes.md").getText('UTF-8')
 }
 
-def buildType 
+def buildType
 
 android {
-
     compileOptions {
         sourceCompatibility versions.sourceCompatibility
         targetCompatibility versions.targetCompatibility
@@ -193,11 +123,11 @@ android {
             includeAndroidResources = true
         }
     }
-	applicationVariants.all { variant ->
+    applicationVariants.all { variant ->
         buildType = variant.buildType.name // sets the current build type
-		println "*****BuildType****"+ buildType
+        println "*****BuildType****"+ buildType
     }
-	
+
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
@@ -263,7 +193,6 @@ dependencies {
     implementation deps.ormlite.android
     implementation deps.multidex
     annotationProcessor deps.butterknife_compiler
-
 
     def dp = project.ext.has('useprojectdependencies')
 
