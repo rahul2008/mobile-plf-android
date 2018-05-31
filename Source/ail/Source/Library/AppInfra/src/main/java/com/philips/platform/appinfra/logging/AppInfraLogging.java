@@ -9,6 +9,7 @@ package com.philips.platform.appinfra.logging;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -19,6 +20,7 @@ import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +30,7 @@ import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryMan
 
 public class AppInfraLogging implements LoggingInterface, AppInfraInitialisationCompleteListener {
 
+    public final static String CLOUD_CONSENT = "cloudConsent";
 
     private static final long serialVersionUID = -4898715486015827285L;
     private AppInfra mAppInfra;
@@ -51,14 +54,14 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
         mAppInfra = aAppInfra;
         loggingConfiguration = new LoggingConfiguration(mAppInfra, componentId, componentVersion);
         mJavaLogger = getJavaLogger(componentId, componentVersion);
-        ailCloudLogMetaData=createAilCloudLogInstance();
+        ailCloudLogMetaData = createAilCloudLogInstance();
         this.componentId = componentId;
         this.componentVersion = componentVersion;
     }
 
     protected AILCloudLogMetaData createAilCloudLogInstance() {
-        if(ailCloudLogMetaData==null){
-            ailCloudLogMetaData=new AILCloudLogMetaData();
+        if (ailCloudLogMetaData == null) {
+            ailCloudLogMetaData = new AILCloudLogMetaData();
         }
         return ailCloudLogMetaData;
     }
@@ -125,6 +128,11 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
         ailCloudLogMetaData.setUserUUID(userUUID);
     }
 
+    @Override
+    public String getCloudLoggingConsentIdentifier() {
+        return CLOUD_CONSENT;
+    }
+
     protected Logger getJavaLogger(String componentId, String componentVersion) {
         return LoggerFactory.getLoggerInstance(mAppInfra, loggingConfiguration);
     }
@@ -135,11 +143,13 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
     }
 
     @Override
-    public void onAppInfraInitialised(AppInfra appInfra) {
+    public void onAppInfraInitialised(final AppInfra appInfra) {
         if (loggingConfiguration.isCloudLogEnabled()) {
             updateMetadata(appInfra);
         }
         registerCloudHandler();
+
+
     }
 
     /**
@@ -185,8 +195,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
         if (loggingConfiguration != null && loggingConfiguration.isCloudLogEnabled()) {
             deviceStoredConsentHandler.registerConsentChangeListener(CloudLogSyncManager.getInstance(mAppInfra, loggingConfiguration));
         }
-        CloudConsentProvider cloudConsentProvider = new CloudConsentProvider(deviceStoredConsentHandler);
-        cloudConsentProvider.registerConsentHandler(mAppInfra.getConsentManager());
+        mAppInfra.getConsentManager().registerHandler(Collections.singletonList(CLOUD_CONSENT), deviceStoredConsentHandler);
     }
 
 }

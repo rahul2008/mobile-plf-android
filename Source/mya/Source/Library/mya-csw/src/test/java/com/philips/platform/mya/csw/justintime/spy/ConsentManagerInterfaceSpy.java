@@ -79,4 +79,9 @@ public class ConsentManagerInterfaceSpy implements ConsentManagerInterface {
     public void fetchConsentTypeState(String type, FetchConsentCallback callback) {
 
     }
+
+    @Override
+    public ConsentDefinition getConsentDefinitionForType(String consentType) {
+        return null;
+    }
 }

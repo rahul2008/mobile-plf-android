@@ -6,6 +6,7 @@ import android.util.Log;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDataBuilder;
+import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
 
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;

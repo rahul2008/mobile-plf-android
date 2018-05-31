@@ -7,13 +7,17 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
-import com.philips.platform.appinfra.logging.CloudConsentProvider;
+import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
 import com.philips.platform.appinfra.rest.NetworkConnectivityChangeListener;
 import com.philips.platform.pif.chi.ConsentChangeListener;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
+import java.util.Collections;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -23,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * Created by abhishek on 5/14/18.
  */
 
-public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeListener, NetworkConnectivityChangeListener {
+public class CloudLogSyncManager implements Observer<Integer>, NetworkConnectivityChangeListener, ConsentChangeListener {
 
     private static CloudLogSyncManager cloudLogSyncManager;
 
@@ -67,7 +71,6 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
         productKey = loggingConfiguration.getCLProductKey();
         isInternetAvailable = appInfra.getRestClient().isInternetReachable();
         appInfra.getRestClient().registerNetworkChnageListener(this);
-        consentStatus = new CloudConsentProvider(new DeviceStoredConsentHandler(appInfra)).isCloudLoggingConsentProvided();
         forceSync();
 
     }
@@ -81,50 +84,76 @@ public class CloudLogSyncManager implements Observer<Integer>, ConsentChangeList
 
     public boolean checkWhetherToSyncCloudLog() {
         //Add consent part here
-        if (isInternetAvailable && consentStatus && checkIfSecretKeyAnsSharedKeyAvailable()) {
-            Log.v("SyncTesting", "Cloud log all conditions met. Starting sync.....");
+        if (isInternetAvailable && checkIfSecretKeyAnsSharedKeyAvailable()) {
             return true;
         }
         return false;
     }
 
     private boolean checkIfSecretKeyAnsSharedKeyAvailable() {
-        if(TextUtils.isEmpty(secretKey)||TextUtils.isEmpty(sharedKey)||TextUtils.isEmpty(productKey)){
+        if (TextUtils.isEmpty(secretKey) || TextUtils.isEmpty(sharedKey) || TextUtils.isEmpty(productKey)) {
             return false;
         }
         return true;
     }
 
     @Override
-    public void onChanged(@Nullable Integer currentLogCount) {
+    public void onChanged(final @Nullable Integer currentLogCount) {
         Log.v("SyncTesting", "Inside cloud log db change:: count::" + currentLogCount);
         if (checkWhetherToSyncCloudLog()) {
-            Log.v("SyncTesting", "Sync enabled");
-            if (currentLogCount!=null && currentLogCount >= loggingConfiguration.getBatchLimit()) {
-                threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra, sharedKey, secretKey, productKey));
+            if (currentLogCount != null && currentLogCount >= loggingConfiguration.getBatchLimit()) {
+                checkForConsentAndSync();
             }
         } else {
             Log.v("SyncTesting", "Sync disabled");
             threadPoolExecutor.getQueue().clear();
         }
+
     }
 
-    @Override
-    public void onConsentChanged(String consentType, boolean status) {
-        if (CloudConsentProvider.CLOUD.equalsIgnoreCase(consentType)) {
-            consentStatus = status;
-            if (!consentStatus) {
-                threadPoolExecutor.getQueue().clear();
-            }else{
-                forceSync();
+    private void checkForConsentAndSync() {
+        try {
+            ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getLogging().getCloudLoggingConsentIdentifier());
+            if (consentDefinition != null) {
+                appInfra.getConsentManager().fetchConsentState(consentDefinition, new FetchConsentCallback() {
+                    @Override
+                    public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
+                        if (ConsentStates.active.equals(consentDefinitionStatus.getConsentState())) {
+                            threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra, sharedKey, secretKey, productKey));
+                        } else {
+                            Log.v("SyncTesting", "Sync disabled");
+                            threadPoolExecutor.getQueue().clear();
+                        }
+                    }
+
+                    @Override
+                    public void onGetConsentFailed(ConsentError error) {
+                        Log.v("SyncTesting", "Failed to get consent status");
+                    }
+                });
             }
+        } catch (RuntimeException exception) {
+            Log.e("SyncTesting", "Consent definition is not registered yet");
         }
     }
 
     private void forceSync() {
+        Log.v("SyncTesting", "Inside force sync");
         if (checkWhetherToSyncCloudLog()) {
-            Log.v("SyncTesting", "Inside force sync");
-            threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra, sharedKey, secretKey, productKey));
+            checkForConsentAndSync();
+        }
+
+    }
+
+    @Override
+    public void onConsentChanged(String consentType, boolean status) {
+        if (appInfra.getLogging().getCloudLoggingConsentIdentifier().equalsIgnoreCase(consentType)) {
+            consentStatus = status;
+            if (!consentStatus) {
+                threadPoolExecutor.getQueue().clear();
+            } else {
+                forceSync();
+            }
         }
     }
 

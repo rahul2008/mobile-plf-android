@@ -24,7 +24,6 @@ public class CloudLogConfigHandler {
     protected void handleCloudLogConfig(LoggingConfiguration loggingConfiguration, @NonNull Logger logger) {
         CloudLogHandler cloudLogHandler = getCurrentLogCloudLogHandler(logger);
         if (loggingConfiguration.isCloudLogEnabled()) {
-            //Initialize SyncManager for sync cloud log to server
             if (cloudLogHandler == null) {
                 cloudLogHandler = getCloudLogHandler();
                 if (null != logger.getLevel()) {

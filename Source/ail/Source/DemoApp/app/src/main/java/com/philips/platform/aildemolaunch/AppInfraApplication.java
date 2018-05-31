@@ -9,7 +9,7 @@ import android.app.Application;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.CloudConsentProvider;
+import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.tagging.ApplicationLifeCycleHandler;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.squareup.leakcanary.LeakCanary;
@@ -27,11 +27,19 @@ public class AppInfraApplication extends Application {
         LeakCanary.install(this);
         AppInfra.Builder builder = new AppInfra.Builder();
         gAppInfra = builder.build(getApplicationContext());
-        consentDefinitions.add(CloudConsentProvider.getCloudConsentDefinition());
+        consentDefinitions.add(getCloudConsentDefinition());
         gAppInfra.getConsentManager().registerConsentDefinitions(consentDefinitions);
         ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler((AppInfra) gAppInfra);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
+    }
+
+    public ConsentDefinition getCloudConsentDefinition() {
+        int text = R.string.ail_cloud_consent_title;
+        int helpText = R.string.ail_cloud_consent_help;
+        final ArrayList<String> types = new ArrayList<>();
+        types.add(AppInfraLogging.CLOUD_CONSENT);
+        return new ConsentDefinition(text, helpText, types, 1);
     }
 
     public AppInfraInterface getAppInfra() {

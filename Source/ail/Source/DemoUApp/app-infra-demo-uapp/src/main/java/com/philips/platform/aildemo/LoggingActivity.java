@@ -23,7 +23,7 @@ import com.philips.platform.appinfra.consentmanager.ConsentManager;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.appinfra.demo.R;
-import com.philips.platform.appinfra.logging.CloudConsentProvider;
+import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -54,7 +54,7 @@ public class LoggingActivity extends AppCompatActivity {
         cloudLoggingConsentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ConsentDefinition consentDefinition = ((ConsentManager) appInfra.getConsentManager()).getConsentDefinitionForType(CloudConsentProvider.CLOUD);
+                ConsentDefinition consentDefinition = ((ConsentManager) appInfra.getConsentManager()).getConsentDefinitionForType(AppInfraLogging.CLOUD_CONSENT);
                 appInfra.getConsentManager().storeConsentState(consentDefinition, isChecked, new PostConsentCallback() {
                     @Override
                     public void onPostConsentFailed(ConsentError error) {
@@ -68,7 +68,7 @@ public class LoggingActivity extends AppCompatActivity {
                 });
             }
         });
-        appInfra.getConsentManager().fetchConsentTypeState(CloudConsentProvider.CLOUD, new FetchConsentCallback() {
+        appInfra.getConsentManager().fetchConsentTypeState(AppInfraLogging.CLOUD_CONSENT, new FetchConsentCallback() {
             @Override
             public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
                 if (consentDefinitionStatus != null && consentDefinitionStatus.getConsentState() != null) {
