@@ -9,6 +9,7 @@ package com.philips.platform.dscdemo.moments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -70,7 +71,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     private TextView flagStateView;
     private TextView momentConsentStatusTextView;
     private View fragmentView;
-
+    private ToggleButton mEnableDisableSync;
     final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -128,6 +129,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         }
     };
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +153,8 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         momentConsentStatusTextView = fragmentView.findViewById(R.id.moment_consent_status);
         updateMigrationFlagView();
         updateMomentConsentStatusView();
-        ToggleButton mEnableDisableSync = fragmentView.findViewById(R.id.toggleButton);
+        mEnableDisableSync = fragmentView.findViewById(R.id.toggleButton);
+        loadPreferences();
 
         if (!SyncScheduler.getInstance().isSyncEnabled()) {
             mEnableDisableSync.setChecked(false);
@@ -162,9 +165,11 @@ public class SyncByDateRangeFragment extends DSBaseFragment
                 if (isChecked) {
                     SyncScheduler.getInstance().setSyncEnable(true);
                     SyncScheduler.getInstance().scheduleSync();
+                    savePreferences();
                 } else {
                     SyncScheduler.getInstance().setSyncEnable(false);
                     SyncScheduler.getInstance().stopSync();
+                    savePreferences();
                 }
             }
         });
@@ -213,6 +218,18 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        savePreferences();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        savePreferences();
     }
 
     @Override
@@ -297,6 +314,19 @@ public class SyncByDateRangeFragment extends DSBaseFragment
             updateTextView(getString(R.string.sync_inProgress));
         }
         mMomentPresenter.fetchSyncByDateRange(jodaStartDate, jodaEndDate, this);
+    }
+
+    private void loadPreferences(){
+        SharedPreferences sharedPreferences = getActivity().getPreferences(mContext.MODE_PRIVATE);
+        boolean  syncState = sharedPreferences.getBoolean("syncState", true );
+        mEnableDisableSync.setChecked(syncState);
+    }
+
+    private void savePreferences(){
+        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("syncState", mEnableDisableSync.isChecked());
+        editor.commit();
     }
 
 
