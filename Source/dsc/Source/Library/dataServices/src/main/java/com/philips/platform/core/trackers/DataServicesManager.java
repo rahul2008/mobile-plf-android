@@ -8,6 +8,7 @@ package com.philips.platform.core.trackers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.ConditionVariable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -504,11 +505,14 @@ public class DataServicesManager {
             return mDataServicesBaseUrl;
         }
 
+        final ConditionVariable fetchingServiceUrl = new ConditionVariable();
+
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(DataServicesConstants.BASE_URL_KEY, new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
                         errorHandlingInterface.onServiceDiscoveryError(s);
+                        fetchingServiceUrl.open();
                     }
 
                     @Override
@@ -518,8 +522,11 @@ public class DataServicesManager {
                         } else {
                             mDataServicesBaseUrl = url.toString();
                         }
+                        fetchingServiceUrl.open();
                     }
                 });
+
+        fetchingServiceUrl.block();
         return mDataServicesBaseUrl;
     }
 
