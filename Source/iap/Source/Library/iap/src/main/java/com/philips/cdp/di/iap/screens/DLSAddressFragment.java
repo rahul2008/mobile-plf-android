@@ -27,6 +27,7 @@ import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
@@ -240,7 +241,9 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     private void createNewAddressOrUpdateIfAddressIDPresent() {
         createCustomProgressBar(mParentContainer,BIG);
-        CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
+        if(shippingAddressFields!=null) {
+            CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
+        }
         if (checkBox.isChecked()) {
             CartModelContainer.getInstance().setSwitchToBillingAddress(true);
             CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
@@ -365,6 +368,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (msg.obj instanceof Addresses) {
             Addresses mAddresses = (Addresses) msg.obj;
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
+            CartModelContainer.getInstance().setShippingAddressFields(Utility.prepareAddressFields(mAddresses, HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail()));
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
             hideProgressBar();
