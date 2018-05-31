@@ -52,7 +52,7 @@ public class AppInfraHurlStack extends HurlStack {
                 ((HttpsURLConnection) connection).setSSLSocketFactory(new TLSSocketFactory());
             }
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
-            appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, this.getClass().getSimpleName(), e.getLocalizedMessage());
+            appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, this.getClass().getSimpleName(), e.getMessage());
         }
         this.connection = (HttpsURLConnection) connection;
         return connection;
@@ -63,8 +63,8 @@ public class AppInfraHurlStack extends HurlStack {
         HttpResponse httpResponse = super.executeRequest(request, additionalHeaders);
 
         String hostName = getHostname(request);
-        List<X509Certificate> certificatesList = getCertificatesList(connection);
-        pinInterface.validatePublicPins(hostName, certificatesList);
+        List<X509Certificate> certificatesList = getCertificatesList();
+        pinInterface.isPinnedCertificateMatching(hostName, certificatesList);
 
         String publicKeyDetails = getPublicKeyDetailsFromHeader(httpResponse);
         pinInterface.updatePublicPins(hostName, publicKeyDetails);
@@ -91,7 +91,7 @@ public class AppInfraHurlStack extends HurlStack {
         }
     }
 
-    private List<X509Certificate> getCertificatesList(HttpsURLConnection urlConnection) {
+    private List<X509Certificate> getCertificatesList() {
         List<X509Certificate> certificateChain = new ArrayList<>();
         try {
             TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
@@ -104,7 +104,7 @@ public class AppInfraHurlStack extends HurlStack {
             X509Certificate issuers[] = x509Tm.getAcceptedIssuers();
 
 //get the last intermediate certificate from server certificates.
-            Certificate cert[] = urlConnection.getServerCertificates();
+            Certificate cert[] = connection.getServerCertificates();
 
             for (Certificate aCert : cert) {
                 if (aCert instanceof X509Certificate)
@@ -119,11 +119,11 @@ public class AppInfraHurlStack extends HurlStack {
                     certificateChain.add(issuer);
                     break;
                 } catch (CertificateException | InvalidKeyException | NoSuchProviderException | SignatureException e) {
-                    appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, this.getClass().getSimpleName(), e.getLocalizedMessage());
+                    appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, this.getClass().getSimpleName(), e.getMessage());
                 }
             }
         } catch (NoSuchAlgorithmException | SSLPeerUnverifiedException | KeyStoreException e) {
-            appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, this.getClass().getSimpleName(), e.getLocalizedMessage());
+            appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, this.getClass().getSimpleName(), e.getMessage());
         }
         return certificateChain;
     }

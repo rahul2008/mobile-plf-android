@@ -26,5 +26,5 @@ public interface PublicKeyPinInterface {
      * @param chain Chain of certificates provided by the server for a particular hostname.
      * @since 2018.2.0
      */
-    void validatePublicPins(String hostName, List<X509Certificate> chain);
+    boolean isPinnedCertificateMatching(String hostName, List<X509Certificate> chain);
 }

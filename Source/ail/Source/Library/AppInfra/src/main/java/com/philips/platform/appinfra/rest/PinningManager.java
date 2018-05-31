@@ -19,11 +19,12 @@ import java.util.regex.Pattern;
 
 public class PinningManager implements PublicKeyPinInterface {
 
-    private static final String PUBLIC_KEY_MISMATCH_LOG_MESSAGE = "Public-key pins Mismatch";
-    private static final String PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE = "Could not find Public-Key-Pins in network response";
-    private static final String STORAGE_ERROR_LOG_MESSAGE = "Could not update Public-Key-Pins in Secure Storage";
+    private static final String LOG_MESSAGE_BASE = "Public-key pins Mismatch";
+    private static final String LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND = "Could not find Public-Key-Pins in network response";
+    private static final String LOG_MESSAGE_STORAGE_ERROR = "Could not update Public-Key-Pins in Secure Storage";
 
     private static final String PUBLIC_KEY_REGEX = "pin-sha256=\".+?\";";
+    private static final String STORAGE_KEY_PREFIX = "SSL_HPKP_";
     private static final int PIN_MISMATCH_LOG_MAX_COUNT = 3;
 
     private HashMap<String, String> publicKeyPinCache;
@@ -45,20 +46,20 @@ public class PinningManager implements PublicKeyPinInterface {
 
         if (!hostName.isEmpty()) {
             if (!isKeyFound && storedKeyDetails != null) {
-                logError(PUBLIC_KEY_NOT_FOUND_LOG_MESSAGE, hostName);
-            } else if (isKeyFound && storedKeyDetails == null) {
-                updatePublicKeyInStorage(publicKeyDetails, hostName);
-                publicKeyPinCache.put(hostName, publicKeyDetails);
+                logError(hostName, LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND);
             } else if (isKeyFound) {
-                Pattern pattern = Pattern.compile(PUBLIC_KEY_REGEX);
-                Matcher networkKeyMatcher = pattern.matcher(publicKeyDetails);
+                if (storedKeyDetails == null) {
+                    updateStoredPublicKey(hostName, publicKeyDetails);
+                } else {
+                    Pattern pattern = Pattern.compile(PUBLIC_KEY_REGEX);
+                    Matcher networkKeyMatcher = pattern.matcher(publicKeyDetails);
 
-                while (networkKeyMatcher.find()) {
-                    if (storedKeyDetails.contains(networkKeyMatcher.group()))
-                        return;
+                    while (networkKeyMatcher.find()) {
+                        if (storedKeyDetails.contains(networkKeyMatcher.group()))
+                            return;
+                    }
+                    updateStoredPublicKey(hostName, publicKeyDetails);
                 }
-                updatePublicKeyInStorage(publicKeyDetails, hostName);
-                publicKeyPinCache.put(hostName, publicKeyDetails);
             }
         }
     }
@@ -68,21 +69,22 @@ public class PinningManager implements PublicKeyPinInterface {
         if (publicKeyPinCache.containsKey(hostName)) {
             storedKeyDetails = publicKeyPinCache.get(hostName);
         } else {
-            storedKeyDetails = secureStorageInterface.fetchValueForKey(hostName, getSecureStorageError());
+            storedKeyDetails = secureStorageInterface.fetchValueForKey(STORAGE_KEY_PREFIX + hostName, getSecureStorageError());
             publicKeyPinCache.put(hostName, storedKeyDetails);
         }
         return storedKeyDetails;
     }
 
     @Override
-    public void validatePublicPins(String hostName, List<X509Certificate> chain) {
+    public boolean isPinnedCertificateMatching(String hostName, List<X509Certificate> chain) {
         String storedKeyDetails = getStoredPublicKey(hostName);
         for (X509Certificate certificate : chain) {
             String certificatePin = getSHA256Value(certificate);
             if (certificatePin != null && storedKeyDetails.contains(certificatePin))
-                return;
+                return true;
         }
-        logError(PUBLIC_KEY_MISMATCH_LOG_MESSAGE, hostName);
+        logError(hostName, LOG_MESSAGE_BASE);
+        return false;
     }
 
     private String getSHA256Value(X509Certificate certificate) {
@@ -100,28 +102,27 @@ public class PinningManager implements PublicKeyPinInterface {
         return Base64.encodeToString(spkiHash, Base64.DEFAULT).trim();
     }
 
-    private void updatePublicKeyInStorage(String publicKeyDetails, String hostName) {
-        boolean isUpdated = secureStorageInterface.storeValueForKey(hostName, publicKeyDetails, getSecureStorageError());
-        if (isUpdated) {
-            log(publicKeyDetails, LoggingInterface.LogLevel.INFO);
-        } else {
-            log(STORAGE_ERROR_LOG_MESSAGE, LoggingInterface.LogLevel.DEBUG);
+    private void updateStoredPublicKey(String hostName, String publicKeyDetails) {
+        boolean success = secureStorageInterface.storeValueForKey(STORAGE_KEY_PREFIX + hostName, publicKeyDetails, getSecureStorageError());
+        if (!success) {
+            log(hostName, LOG_MESSAGE_STORAGE_ERROR, LoggingInterface.LogLevel.DEBUG);
         }
+        publicKeyPinCache.put(hostName, publicKeyDetails);
     }
 
-    private void log(String message, LoggingInterface.LogLevel logLevel) {
-        loggingInterface.log(logLevel, PinningManager.class.getSimpleName(), PUBLIC_KEY_MISMATCH_LOG_MESSAGE + ":" + message);
+    private void log(String hostname, String message, LoggingInterface.LogLevel logLevel) {
+        loggingInterface.log(logLevel, PinningManager.class.getSimpleName(), LOG_MESSAGE_BASE + ":" + hostname + ":" + message);
     }
 
-    private void logError(String message, String hostname) {
+    private void logError(String hostname, String message) {
         if (pinMismatchLogCount.containsKey(hostname)) {
             int count = pinMismatchLogCount.get(hostname);
             if (count <= PIN_MISMATCH_LOG_MAX_COUNT) {
-                log(message, LoggingInterface.LogLevel.ERROR);
+                log(hostname, message, LoggingInterface.LogLevel.ERROR);
                 pinMismatchLogCount.put(hostname, count + 1);
             }
         } else {
-            log(message, LoggingInterface.LogLevel.ERROR);
+            log(hostname, message, LoggingInterface.LogLevel.ERROR);
             pinMismatchLogCount.put(hostname, 1);
         }
     }
