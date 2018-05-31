@@ -58,13 +58,17 @@ public class LogFormatter extends Formatter {
         String componentID="";
         String componentVersion="";
         if (null != params && params.length > 0) {
-            eventName = (String) params[0];  // params[0] is message
-            componentID=(String)params[1];
-            componentVersion=(String)params[2];
-            if (params.length == 4) {
+            //Getting log message from index 0.
+            eventName = (String) params[AppInfraLogging.LOG_MESSAGE_INDEX];  // params[0] is message
+            //Getting component Id and Component version from 1 and 2 index respectively.
+            componentID=(String)params[AppInfraLogging.COMPONENT_ID_INDEX];
+            componentVersion=(String)params[AppInfraLogging.COMPONENT_VERSION_INDEX];
+            //Size 4 indicates that additional key value pairs has been passed with log.
+            //Size 3 indicates that no additional key value pairs has been passed with log
+            if (params.length == AppInfraLogging.PARAM_SIZE_WITH_METADATA) {
                 try {
-                    if (params[1] instanceof Map)
-                        dictionary = (Map) params[3];
+                    if (params[AppInfraLogging.LOG_METADATA_INDEX] instanceof Map)
+                        dictionary = (Map) params[AppInfraLogging.LOG_METADATA_INDEX];
                 } catch (Exception e) {
                     mappInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LOGGING, "Not a valid Map(Dictionary)");
                 }
@@ -73,8 +77,6 @@ public class LogFormatter extends Formatter {
         builder.append("[").append(logLevelPrettyName).append("]");
         builder.append("[").append(componentID + " " + componentVersion).append("]");
         builder.append("[").append(formatMessage(record)).append("]"); // this we assume as event
-        //builder.append("[").append(record.getSourceClassName()).append("] ");
-        //builder.append("[").append(record.getSourceMethodName()).append("] ");
 
         builder.append("[").append(eventName).append("]");
         if (null != dictionary) {

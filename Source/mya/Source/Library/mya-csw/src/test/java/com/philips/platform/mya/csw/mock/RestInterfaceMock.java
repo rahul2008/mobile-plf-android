@@ -24,7 +24,7 @@ public class RestInterfaceMock implements RestInterface {
     }
 
     @Override
-    public void registerNetworkChnageListener(NetworkConnectivityChangeListener networkConnectivityChangeListener) {
+    public void registerNetworkChangeListener(NetworkConnectivityChangeListener networkConnectivityChangeListener) {
 
     }
 

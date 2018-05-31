@@ -25,7 +25,12 @@ class LoggingInterfaceStub implements LoggingInterface {
     }
 
     @Override
-    public void setUserUUID(String userUUID) {
+    public void setHSDPUserUUID(String userUUID) {
 
+    }
+
+    @Override
+    public String getCloudLoggingConsentIdentifier() {
+        return null;
     }
 }

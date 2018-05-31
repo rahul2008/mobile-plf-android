@@ -54,16 +54,6 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
     }
 
 
-    public String createSignatureForCloudLogging(String date) {
-        Log.v("Testing", "Date::" + date);
-        PsLib psLib = new PsLib();
-        final byte[] dateByteArray;
-        dateByteArray = date.getBytes(UTF_8_CHARSET);
-        String dateBase64 = Base64.encodeToString(dateByteArray, Base64.NO_WRAP);
-        byte[] signatureArray = psLib.createHmac(secretKey, dateBase64.getBytes(Charset.forName("UTF-8")));
-        return Base64.encodeToString(signatureArray, Base64.NO_WRAP);
-    }
-
     private String joinHeaders(Map<String, String> headers) {
         final List<String> headerList = new LinkedList<String>();
 

@@ -31,13 +31,17 @@ public class AILCloudLogDataBuilder {
 
         if (logRecord.getParameters() != null) {
             List<Object> parameters = Arrays.asList(logRecord.getParameters());
-            if (parameters.size() == 4) {
-                if (parameters.get(3) != null) {
-                    ailCloudLogData.details = LoggingUtils.convertObjectToJsonString(parameters.get(3));
+            //Size 4 indicates that additional key value pairs has been passed with log.
+            //Size 3 indicates that no additional key value pairs has been passed with log
+            if (parameters.size() == AppInfraLogging.PARAM_SIZE_WITH_METADATA) {
+                if (parameters.get(AppInfraLogging.LOG_METADATA_INDEX) != null) {
+                    ailCloudLogData.details = LoggingUtils.convertObjectToJsonString(parameters.get(AppInfraLogging.LOG_METADATA_INDEX));
                 }
             }
-            ailCloudLogData.logDescription = (String) parameters.get(0);
-            ailCloudLogData.component = (String) parameters.get(1) + "/" + (String) parameters.get(2);
+            //Getting log message from index 0.
+            ailCloudLogData.logDescription = (String) parameters.get(AppInfraLogging.LOG_MESSAGE_INDEX);
+            //Getting component Id and Component version from 1 and 2 index respectively.
+            ailCloudLogData.component = (String) parameters.get(AppInfraLogging.COMPONENT_ID_INDEX) + "/" + (String) parameters.get(AppInfraLogging.COMPONENT_VERSION_INDEX);
             if (LoggingUtils.getStringLengthInBytes(ailCloudLogData.logDescription + ailCloudLogData.details) > CloudLoggingConstants.MAX_LOG_SIZE) {
                 throw new MessageSizeExceedsException();
             }
@@ -63,11 +67,10 @@ public class AILCloudLogDataBuilder {
         if (appInfra.getRestClient() != null && appInfra.getRestClient().getNetworkReachabilityStatus() != null) {
             ailCloudLogData.networktype = appInfra.getRestClient().getNetworkReachabilityStatus().toString();
         }
-        ailCloudLogData.localtime = System.currentTimeMillis();
+        ailCloudLogData.localtime = logRecord.getMillis();
 
         ailCloudLogData.serverName = "Android/" + LoggingUtils.getOSVersion();
         ailCloudLogData.status= AILCloudLogDBManager.DBLogState.NEW.getState();
-        Log.v("test", "After adding heavy params:" + System.currentTimeMillis());
         return ailCloudLogData;
     }
 

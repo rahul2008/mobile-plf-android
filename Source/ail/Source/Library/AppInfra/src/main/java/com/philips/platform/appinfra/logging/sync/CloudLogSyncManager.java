@@ -17,7 +17,6 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
-import java.util.Collections;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -70,7 +69,7 @@ public class CloudLogSyncManager implements Observer<Integer>, NetworkConnectivi
         sharedKey = loggingConfiguration.getCLSharedKey();
         productKey = loggingConfiguration.getCLProductKey();
         isInternetAvailable = appInfra.getRestClient().isInternetReachable();
-        appInfra.getRestClient().registerNetworkChnageListener(this);
+        appInfra.getRestClient().registerNetworkChangeListener(this);
         forceSync();
 
     }
@@ -84,13 +83,13 @@ public class CloudLogSyncManager implements Observer<Integer>, NetworkConnectivi
 
     public boolean checkWhetherToSyncCloudLog() {
         //Add consent part here
-        if (isInternetAvailable && checkIfSecretKeyAnsSharedKeyAvailable()) {
+        if (isInternetAvailable && isSecretKeyAnsSharedKeyAvailable()) {
             return true;
         }
         return false;
     }
 
-    private boolean checkIfSecretKeyAnsSharedKeyAvailable() {
+    private boolean isSecretKeyAnsSharedKeyAvailable() {
         if (TextUtils.isEmpty(secretKey) || TextUtils.isEmpty(sharedKey) || TextUtils.isEmpty(productKey)) {
             return false;
         }

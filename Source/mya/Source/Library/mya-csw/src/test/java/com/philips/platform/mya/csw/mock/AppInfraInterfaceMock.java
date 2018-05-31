@@ -68,8 +68,13 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
             }
 
             @Override
-            public void setUserUUID(String userUUID) {
+            public void setHSDPUserUUID(String userUUID) {
 
+            }
+
+            @Override
+            public String getCloudLoggingConsentIdentifier() {
+                return null;
             }
         };
     }

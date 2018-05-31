@@ -392,7 +392,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     protected void setUrCompleted() {
         if (userObject != null) {
-            getApplicationContext().getAppInfra().getLogging().setUserUUID(userObject.getHsdpUUID());
+            getApplicationContext().getAppInfra().getLogging().setHSDPUserUUID(userObject.getHsdpUUID());
         }
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putBoolean(Constants.UR_LOGIN_COMPLETED, true);

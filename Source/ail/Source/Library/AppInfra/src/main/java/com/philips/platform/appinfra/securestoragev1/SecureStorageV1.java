@@ -86,7 +86,6 @@ public class SecureStorageV1 implements SecureStorageInterface {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
                 returnResult = false;
                 log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in SecureStorage");
-                //Log.e("SecureStorage", Log.getStackTraceString(e));
             }
 
         } finally {
@@ -159,7 +158,6 @@ public class SecureStorageV1 implements SecureStorageInterface {
             error.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
             returnResult = false;
             log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "Error in SecureStorage  SqlCipher Data Key ");
-            //Log.e("SecureStorage", Log.getStackTraceString(e));
         } finally {
             writeLock.unlock();
         }

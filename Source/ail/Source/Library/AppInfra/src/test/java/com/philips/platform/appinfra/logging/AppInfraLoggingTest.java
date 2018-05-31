@@ -134,7 +134,7 @@ public class AppInfraLoggingTest extends TestCase {
         when(appInfraMock.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraMock.getInternationalization()).thenReturn(internationalizationInterface);
         when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
-        appInfraLogging.setUserUUID("uuid");
+        appInfraLogging.setHSDPUserUUID("uuid");
         assertEquals(ailCloudLogMetaData.getUserUUID(),"uuid");
         appInfraLogging.updateMetadata(appInfraMock);
         assertEquals(ailCloudLogMetaData.getAppName(),"uGrow");

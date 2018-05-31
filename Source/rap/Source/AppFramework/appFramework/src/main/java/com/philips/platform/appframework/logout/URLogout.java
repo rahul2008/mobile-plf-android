@@ -85,7 +85,7 @@ public class URLogout implements URLogoutInterface {
                     urLogoutListener.onLogoutResultSuccess();
                 }
                 if (activityContext != null && activityContext.getApplicationContext() != null && ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra() != null) {
-                    ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra().getLogging().setUserUUID(null);
+                    ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra().getLogging().setHSDPUserUUID(null);
                 }
                 clearDataInDataServiceMicroApp();
                 stopDataSync(activityContext);

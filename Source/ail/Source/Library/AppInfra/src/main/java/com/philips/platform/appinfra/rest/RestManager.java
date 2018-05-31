@@ -102,7 +102,7 @@ public class RestManager implements RestInterface {
     }
 
     @Override
-    public void registerNetworkChnageListener(NetworkConnectivityChangeListener networkConnectivityChangeListener) {
+    public void registerNetworkChangeListener(NetworkConnectivityChangeListener networkConnectivityChangeListener) {
         if (!networkConnectivityChangeListeners.contains(networkConnectivityChangeListener)) {
             networkConnectivityChangeListeners.add(networkConnectivityChangeListener);
         }
@@ -192,11 +192,6 @@ public class RestManager implements RestInterface {
                 //  waitResult.await();
             } catch (Exception e) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST ERROR");
-            } finally {
-                //waitResult.signalAll();
-                //lock.unlock();
-//                if (resultURL.length() > 0)
-//                    resultURL.append(ServiceIDUrlFormatting.getUrlExtension(originalUrl));
             }
             if (resultURL.length() == 0)
                 return null;

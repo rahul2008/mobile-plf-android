@@ -58,7 +58,7 @@ public interface LoggingInterface extends Serializable {
      * @param userUUID
      * @since 1802.0.0
      */
-    void setUserUUID(String userUUID);
+    void setHSDPUserUUID(String userUUID);
     /**
      *
      * @return This method returns the Cloud Logging consent identifier

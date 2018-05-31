@@ -116,8 +116,7 @@ public class AppTaggingHandler {
     private Map<String, Object> addAnalyticsDataObject() {
         final Map<String, Object> contextData = new HashMap<>();
         contextData.put(AppTaggingConstants.LANGUAGE_KEY, getLanguage());
-        String trackingIdentifier=getTrackingIdentifier();
-        contextData.put(AppTaggingConstants.APPSID_KEY, trackingIdentifier);
+        contextData.put(AppTaggingConstants.APPSID_KEY, getTrackingIdentifier());
         if (getComponentId() != null) {
             contextData.put(AppTaggingConstants.COMPONENT_ID, getComponentId());
         }

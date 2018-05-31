@@ -32,6 +32,12 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
 
     public final static String CLOUD_CONSENT = "cloudConsent";
 
+    public static final int LOG_METADATA_INDEX=3;
+    public static final int LOG_MESSAGE_INDEX=0;
+    public static final int COMPONENT_ID_INDEX=1;
+    public static final int COMPONENT_VERSION_INDEX=2;
+    public static final int PARAM_SIZE_WITH_METADATA=4;
+
     private static final long serialVersionUID = -4898715486015827285L;
     private AppInfra mAppInfra;
     private transient Logger mJavaLogger;
@@ -97,10 +103,10 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
         if (loggingConfiguration.checkIfComponentLogCriteriaMet(componentId)) {
             Object[] params = getParamObjects();
             if (null != mJavaLogger) {
-                params[0] = message;
-                params[1] = componentId;
-                params[2] = componentVersion;
-                params[3] = map;
+                params[LOG_MESSAGE_INDEX] = message;
+                params[COMPONENT_ID_INDEX] = componentId;
+                params[COMPONENT_VERSION_INDEX] = componentVersion;
+                params[LOG_METADATA_INDEX] = map;
 
                 switch (level) {
                     case ERROR:
@@ -124,7 +130,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
     }
 
     @Override
-    public void setUserUUID(String userUUID) {
+    public void setHSDPUserUUID(String userUUID) {
         ailCloudLogMetaData.setUserUUID(userUUID);
     }
 

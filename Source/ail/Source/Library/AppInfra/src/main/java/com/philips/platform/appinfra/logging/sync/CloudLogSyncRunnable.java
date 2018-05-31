@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.apisigning.HSDPLoggingV2ApiSigning;
 import com.philips.platform.appinfra.apisigning.HSDPPHSApiSigning;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 import com.philips.platform.appinfra.logging.LoggingUtils;
@@ -99,14 +100,14 @@ public class CloudLogSyncRunnable implements Runnable {
 
     private Map<String, String> getCloudLoggingHeaders() {
         String signingDate = LoggingUtils.getCurrentDateAndTime(CloudLoggingConstants.CLOUD_LOGGING_DATE_TIME_FORMAT);
-        HSDPPHSApiSigning hsdpphsApiSigning = new HSDPPHSApiSigning(sharedKey, secretKey);
+        HSDPLoggingV2ApiSigning hsdpLoggingV2ApiSigning = new HSDPLoggingV2ApiSigning(secretKey);
         Map<String, String> header = new HashMap<>();
         header.put("Content-Type", "application/json");
         header.put("api-version", "1");//int value?
         header.put("SignedDate", signingDate);
         header.put("hsdp-api-signature", "HmacSHA256;Credential:"
                 + sharedKey + ";SignedHeaders:SignedDate;Signature:"
-                + hsdpphsApiSigning.createSignatureForCloudLogging(signingDate));
+                + hsdpLoggingV2ApiSigning.createSignatureForCloudLogging(signingDate));
         return header;
     }
 

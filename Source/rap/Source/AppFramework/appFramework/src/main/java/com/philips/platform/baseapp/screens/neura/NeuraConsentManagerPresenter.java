@@ -35,7 +35,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implements PostConsentTypeCallback {
 
     private FragmentView neuraFragmentView;
-    private String nueraPrivacyUrl = "https://www.theneura.com/privacy-policy/";
+    private String neuraPrivacyUrl = "https://www.theneura.com/privacy-policy/";
     NeuraConsentManagerPresenter(FragmentView neuraFragmentView) {
         super(neuraFragmentView);
         this.neuraFragmentView = neuraFragmentView;
@@ -127,7 +127,7 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
             return webViewStateData;
         } else if (viewId == R.id.csw_justInTimeView_privacyNeura_label){
             WebViewStateData webViewStateData = new WebViewStateData();
-            webViewStateData.setUrl(nueraPrivacyUrl);
+            webViewStateData.setUrl(neuraPrivacyUrl);
             webViewStateData.setTitle(neuraFragmentView.getFragmentActivity().getString(R.string.RA_privacy_policy));
             return webViewStateData;
         }
