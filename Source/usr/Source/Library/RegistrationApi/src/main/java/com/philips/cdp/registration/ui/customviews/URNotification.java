@@ -13,7 +13,6 @@ public class URNotification {
     private final Activity mActivity;
     private NotificationType mNotificationType = NotificationType.NOTIFICATION_BAR;
     private NotificationBarView notificationBarView;
-    private XRegError xRegError;
     private URNotificationInterface notificationInterface;
 
     public interface URNotificationInterface {
@@ -74,10 +73,6 @@ public class URNotification {
     public void hideNotification() {
 
         switch (mNotificationType) {
-            case INLINE:
-                xRegError.hideError();
-                break;
-
             case NOTIFICATION_BAR:
                 notificationBarView.hidePopup();
             case DIALOG:

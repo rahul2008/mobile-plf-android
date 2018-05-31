@@ -16,7 +16,7 @@ public class NotificationBarView {
     private final Activity mActivity;
     private PopupWindow popupWindow;
 
-    public NotificationBarView(Activity mActivity) {
+    NotificationBarView(Activity mActivity) {
         this.mActivity = mActivity;
     }
 
@@ -26,7 +26,6 @@ public class NotificationBarView {
             popupWindow = new PopupWindow(mActivity);
             popupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
             popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-            //popupWindow.setFocusable(true);
             popupWindow.setContentView(view);
 
         }
