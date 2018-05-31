@@ -350,6 +350,7 @@ dependencies {
         implementation philipsdeps.telehealthUApp
         implementation philipsdeps.ewsUApp
         implementation philipsdeps.bluelib_demouapp
+        implementation philipsdeps.NeuraUApp
         implementation project(':pushnotification')
         implementation project(':themesettings')
     }
