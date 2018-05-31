@@ -32,6 +32,7 @@ import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -301,7 +302,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void netWorkStateOfflineUiHandle() {
         hideProgressSpinner();
-        errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
+        //errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
+        updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         smsNotReceived.setEnabled(false);
         disableVerifyButton();
     }
