@@ -21,7 +21,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPassVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONException;
@@ -129,7 +128,9 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
         final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
         try {
             JSONObject jsonObject = new JSONObject(response);
-            if ("0".equals(jsonObject.getString("errorCode"))) {
+            final String errorCode = jsonObject.getString("errorCode");
+            RLog.e(TAG, " Response Error code = " + errorCode);
+            if ("0".equals(errorCode)) {
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
                 JSONObject json = null;
@@ -143,17 +144,17 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                RLog.d(TAG, " isAccountActivate is " + token + " -- " + response);
+                RLog.i(TAG, " isAccountActivate is " + token + " -- " + response);
                 constructMobileVerifyCodeFragment(mobileNumberKey, tokenKey, redirectUriKey, verificationSmsCodeURLKey, token);
             } else {
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode"), context);
-                forgotPasswordContract.forgotPasswordErrorMessage(errorMsg);
-                RLog.d(TAG, " SMS Resend failure = " + response);
+//                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode"), context);
+                forgotPasswordContract.forgotPasswordErrorMessage(errorCode);
+                RLog.i(TAG, " SMS Resend failure = " + response);
             }
         } catch (Exception e) {
-            RLog.d(TAG,"Exception : "+e.getMessage());
+            RLog.i(TAG,"Exception : "+e.getMessage());
         }
     }
 
@@ -207,10 +208,11 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
                     @Override
                     public void onError(Throwable e) {
-                        RLog.d(TAG, "Error = " + e.getMessage());
+                        RLog.e(TAG, "Error = " + e.getMessage());
                         forgotPasswordContract.hideForgotPasswordSpinner();
                         forgotPasswordContract.forgotPasswordErrorMessage(
-                                context.getString(R.string.reg_Generic_Network_Error));
+                                context.getString(R.string.reg_Janrain_HSDP_ServerErrorMsg));
+
                     }
                 }));
     }

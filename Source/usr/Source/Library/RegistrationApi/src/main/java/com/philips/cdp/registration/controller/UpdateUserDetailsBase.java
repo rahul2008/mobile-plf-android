@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
@@ -67,7 +68,7 @@ public class UpdateUserDetailsBase implements
             RLog.e(TAG, "onJanrainInitializeFailed : onUpdateFailedWithError");
         ThreadUtils.postInMainThread(mContext, () ->
                 mUpdateUserDetails
-                        .onUpdateFailedWithError(-1));
+                        .onUpdateFailedWithError(ErrorCodes.UNKNOWN_ERROR));
 
     }
 
@@ -89,11 +90,11 @@ public class UpdateUserDetailsBase implements
     @Override
     public void onUserUpdateFailed(int error) {
         RLog.e(TAG, "Error onUserUpdateFailed" + error);
-        if (error == -1) {
+        if (error == ErrorCodes.UNKNOWN_ERROR) {
             if (null != mUpdateUserDetails) {
                 ThreadUtils.postInMainThread(mContext, () ->
                         mUpdateUserDetails
-                                .onUpdateFailedWithError(-1));
+                                .onUpdateFailedWithError(ErrorCodes.UNKNOWN_ERROR));
             }
             return;
         }

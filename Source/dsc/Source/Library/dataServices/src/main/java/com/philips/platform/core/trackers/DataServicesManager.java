@@ -8,6 +8,7 @@ package com.philips.platform.core.trackers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.ConditionVariable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -137,7 +138,7 @@ public class DataServicesManager {
     Eventing mEventing;
 
     @Inject
-    BaseAppDataCreator mDataCreater;
+    BaseAppDataCreator dataCreator;
 
     @Inject
     UCoreAccessProvider mBackendIdProvider;
@@ -176,7 +177,7 @@ public class DataServicesManager {
     public void initializeDataServices(Context context, BaseAppDataCreator creator,
                                        UserRegistrationInterface userRegistrationInterface,
                                        ErrorHandlingInterface errorHandlingInterface, AppInfraInterface appInfraInterface) {
-        this.mDataCreater = creator;
+        this.dataCreator = creator;
         this.userRegistrationInterface = userRegistrationInterface;
         this.errorHandlingInterface = errorHandlingInterface;
         this.mAppInfra = appInfraInterface;
@@ -211,7 +212,7 @@ public class DataServicesManager {
     }
 
     private void buildDaggerComponent(Context context) {
-        BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), mDataCreater, userRegistrationInterface,
+        BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), dataCreator, userRegistrationInterface,
                 mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
                 mCustomFetchers, mCustomSenders, errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
@@ -271,12 +272,12 @@ public class DataServicesManager {
 
     @NonNull
     public Moment createMoment(@NonNull final String type) {
-        return mDataCreater.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type, null);
+        return dataCreator.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type, null);
     }
 
     @NonNull
     public MomentDetail createMomentDetail(@NonNull final String type, String value, @NonNull final Moment moment) {
-        MomentDetail momentDetail = mDataCreater.createMomentDetail(type, moment);
+        MomentDetail momentDetail = dataCreator.createMomentDetail(type, moment);
         moment.addMomentDetail(momentDetail);
         momentDetail.setValue(value);
         return momentDetail;
@@ -284,7 +285,7 @@ public class DataServicesManager {
 
     @NonNull
     public Measurement createMeasurement(@NonNull final String type, String value, String unit, @NonNull final MeasurementGroup measurementGroup) {
-        Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
+        Measurement measurement = dataCreator.createMeasurement(type, measurementGroup);
         measurement.setValue(value);
         measurement.setUnit(unit);
         measurementGroup.addMeasurement(measurement);
@@ -294,7 +295,7 @@ public class DataServicesManager {
     @NonNull
     public MeasurementDetail createMeasurementDetail(@NonNull final String type,
                                                      String value, @NonNull final Measurement measurement) {
-        MeasurementDetail measurementDetail = mDataCreater.createMeasurementDetail(type, measurement);
+        MeasurementDetail measurementDetail = dataCreator.createMeasurementDetail(type, measurement);
         measurementDetail.setValue(value);
         measurement.addMeasurementDetail(measurementDetail);
         return measurementDetail;
@@ -302,16 +303,16 @@ public class DataServicesManager {
 
     @NonNull
     public MeasurementGroup createMeasurementGroup(@NonNull final Moment moment) {
-        return mDataCreater.createMeasurementGroup(moment);
+        return dataCreator.createMeasurementGroup(moment);
     }
 
     @NonNull
     public MeasurementGroup createMeasurementGroup(@NonNull final MeasurementGroup measurementGroup) {
-        return mDataCreater.createMeasurementGroup(measurementGroup);
+        return dataCreator.createMeasurementGroup(measurementGroup);
     }
 
     public MeasurementGroupDetail createMeasurementGroupDetail(String type, String value, MeasurementGroup mMeasurementGroup) {
-        MeasurementGroupDetail measurementGroupDetail = mDataCreater.createMeasurementGroupDetail(type, mMeasurementGroup);
+        MeasurementGroupDetail measurementGroupDetail = dataCreator.createMeasurementGroupDetail(type, mMeasurementGroup);
         measurementGroupDetail.setValue(value);
         mMeasurementGroup.addMeasurementGroupDetail(measurementGroupDetail);
         return measurementGroupDetail;
@@ -378,7 +379,7 @@ public class DataServicesManager {
     }
 
     public ConsentDetail createConsentDetail(@NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, String documentVersion, final String deviceIdentificationNumber) {
-        return mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), documentVersion, deviceIdentificationNumber);
+        return dataCreator.createConsentDetail(detailType, consentDetailStatusType.getDescription(), documentVersion, deviceIdentificationNumber);
     }
 
     public void saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
@@ -394,7 +395,7 @@ public class DataServicesManager {
     }
 
     public Settings createUserSettings(String locale, String unit, String timeZone) {
-        return mDataCreater.createSettings(unit, locale, timeZone);
+        return dataCreator.createSettings(unit, locale, timeZone);
     }
 
     public void saveUserSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
@@ -412,9 +413,9 @@ public class DataServicesManager {
     public Characteristics createUserCharacteristics(@NonNull final String detailType, @NonNull final String detailValue, Characteristics characteristics) {
         Characteristics chDetail;
         if (characteristics != null) {
-            chDetail = mDataCreater.createCharacteristics(detailType, detailValue, characteristics);
+            chDetail = dataCreator.createCharacteristics(detailType, detailValue, characteristics);
         } else {
-            chDetail = mDataCreater.createCharacteristics(detailType, detailValue);
+            chDetail = dataCreator.createCharacteristics(detailType, detailValue);
         }
         return chDetail;
     }
@@ -504,22 +505,24 @@ public class DataServicesManager {
             return mDataServicesBaseUrl;
         }
 
+        final ConditionVariable fetchingServiceUrl = new ConditionVariable();
+
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(DataServicesConstants.BASE_URL_KEY, new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
                         errorHandlingInterface.onServiceDiscoveryError(s);
+                        fetchingServiceUrl.open();
                     }
 
                     @Override
                     public void onSuccess(URL url) {
-                        if (url.toString().isEmpty()) {
-                            errorHandlingInterface.onServiceDiscoveryError("Empty Url from Service discovery");
-                        } else {
-                            mDataServicesBaseUrl = url.toString();
-                        }
+                        mDataServicesBaseUrl = url.toString();
+                        fetchingServiceUrl.open();
                     }
                 });
+
+        fetchingServiceUrl.block();
         return mDataServicesBaseUrl;
     }
 
@@ -531,22 +534,24 @@ public class DataServicesManager {
         if (mDataServicesCoachingServiceUrl != null)
             return mDataServicesCoachingServiceUrl;
 
+        final ConditionVariable fetchingServiceUrl = new ConditionVariable();
+
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(DataServicesConstants.COACHING_SERVICE_URL_KEY, new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
                         errorHandlingInterface.onServiceDiscoveryError(s);
+                        fetchingServiceUrl.open();
                     }
 
                     @Override
                     public void onSuccess(URL url) {
-                        if (url.toString().isEmpty()) {
-                            errorHandlingInterface.onServiceDiscoveryError("Empty Url from Service discovery");
-                        } else {
-                            mDataServicesCoachingServiceUrl = url.toString();
-                        }
+                        mDataServicesCoachingServiceUrl = url.toString();
+                        fetchingServiceUrl.open();
                     }
                 });
+
+        fetchingServiceUrl.block();
         return mDataServicesCoachingServiceUrl;
     }
 

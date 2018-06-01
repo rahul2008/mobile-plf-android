@@ -108,7 +108,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         }
         mUser = new User(mContext);
         View view = inflater.inflate(R.layout.reg_fragment_account_activation, null);
-
+        registerInlineNotificationListener(this);
         accountActivationPresenter = new AccountActivationPresenter(this, registrationHelper);
         accountActivationPresenter.registerListener();
 
@@ -126,7 +126,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext=context;
+        mContext = context;
     }
 
     @Override
@@ -166,8 +166,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         if (savedInstanceState != null) {
             if (savedInstanceState.getString("saveEmailVerifiedErrorText") != null &&
                     savedInstanceState.getBoolean("isEmailVerifiedError")) {
-                mEMailVerifiedError.setError(
-                        savedInstanceState.getString("saveEmailVerifiedErrorText"));
+//                mEMailVerifiedError.setError(
+//                        savedInstanceState.getString("saveEmailVerifiedErrorText"));
+                updateErrorNotification(savedInstanceState.getString("saveEmailVerifiedErrorText"));
             }
         }
         mBundle = null;
@@ -183,6 +184,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @OnClick(R2.id.usr_activation_emailVerified_button)
     void emailVerified() {
         RLog.d(RLog.ONCLICK, "AccountActivationFragment : Activate Account");
+
         showActivateSpinner();
         activateButtonEnable(false);
         mBtnResend.setEnabled(false);
@@ -193,11 +195,11 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     void emailResend() {
         RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend email");
 
-      //  if (proceedResend) {
-            getRegistrationFragment().addFragment(new AccountActivationResendMailFragment());
-      //  } else {
-      //      showResendAlertDialog();
-      //  }
+        //  if (proceedResend) {
+        getRegistrationFragment().addFragment(new AccountActivationResendMailFragment());
+        //  } else {
+        //      showResendAlertDialog();
+        //  }
     }
 
     private void initUI(View view) {
@@ -206,16 +208,16 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         handleUiState(networkUtility.isNetworkAvailable());
     }
 
-   void setDiscription(){
-       mEmailId = mUser.getEmail();
-       String email = getString(R.string.reg_DLS_Verify_Email_Sent_Txt);
-       email = String.format(email, mEmailId);
-       setupSpannableText(mTvVerifyEmail, email, mEmailId);
+    void setDiscription() {
+        mEmailId = mUser.getEmail();
+        String email = getString(R.string.reg_DLS_Verify_Email_Sent_Txt);
+        email = String.format(email, mEmailId);
+        setupSpannableText(mTvVerifyEmail, email, mEmailId);
 
-   }
+    }
 
-    private  void setupSpannableText(TextView mTvVerifyEmailText,
-                                           String moreAccountSettings, String link) {
+    private void setupSpannableText(TextView mTvVerifyEmailText,
+                                    String moreAccountSettings, String link) {
         SpannableString spanableString = new SpannableString(moreAccountSettings);
         int termStartIndex = moreAccountSettings.toLowerCase().indexOf(
                 link.toLowerCase());
@@ -230,7 +232,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void setViewParams(Configuration config, int width) {
-       // applyParams(config, usr_activation_root_layout, width);
+        // applyParams(config, usr_activation_root_layout, width);
     }
 
     @Override
@@ -254,13 +256,17 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
                 mEMailVerifiedError.hideError();
                 activateButtonEnable(true);
                 mBtnResend.setEnabled(true);
+                mBtnActivate.setEnabled(true);
             } else {
                 activateButtonEnable(false);
                 mBtnResend.setEnabled(false);
-                mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
+                mBtnActivate.setEnabled(false);
+                // mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
+                showNotificationBarOnNetworkNotAvailable();
             }
         } else {
-            mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
+//            mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
+            showNotificationBarOnNetworkNotAvailable();
             activateButtonEnable(false);
             mBtnResend.setEnabled(false);
             scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);
@@ -278,7 +284,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
                     AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_USER_REGISTRATION);
             getRegistrationFragment().userRegistrationComplete();
         } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.EMAIL_VERIFICATION);
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.EMAIL_VERIFICATION);
             showVerifyAlertDialog();
@@ -311,11 +317,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void activateButtonEnable(boolean enable) {
         mBtnActivate.setClickable(enable);
+        mBtnActivate.setEnabled(enable);
     }
 
     @Override
     public void verificationError(String errorMsg) {
-        mEMailVerifiedError.setError(errorMsg);
+//        mEMailVerifiedError.setError(errorMsg);
+        updateErrorNotification(errorMsg);
     }
 
 
@@ -354,18 +362,14 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
-
-        if (event.equals(RegConstants.COUNTER_FINISH)) {
-            proceedResend = true;
-        } else {
-            proceedResend = false;
-        }
+        proceedResend = event.equals(RegConstants.COUNTER_FINISH);
     }
 
     @Subscribe
-    public void onEvent(UpdateEmail event){
+    public void onEvent(UpdateEmail event) {
         mUser.refreshUser(this);
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -377,11 +381,16 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         super.onResume();
         EventBus.getDefault().register(this);
         Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fl_reg_fragment_container);
-        if(wasAppInBackground && (currentFragment != null && currentFragment instanceof AccountActivationFragment)) {
+        if (wasAppInBackground && (currentFragment != null && currentFragment instanceof AccountActivationFragment)) {
             showActivateSpinner();
             handleUiState(networkUtility.isNetworkAvailable());
             mUser.refreshUser(this);
             wasAppInBackground = false;
         }
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        mEMailVerifiedError.setError(msg);
     }
 }
