@@ -390,7 +390,9 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         RLog.i(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
-            verifyClicked();
+            if(new NetworkUtility(getActivityContext()).isNetworkAvailable()) {
+                verifyClicked();
+            }
         }
     }
 
