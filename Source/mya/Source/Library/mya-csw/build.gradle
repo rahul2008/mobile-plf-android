@@ -130,6 +130,7 @@ dependencies {
     testImplementation deps.powermock_junit_rule
     testImplementation deps.powermock_junit_rule_agent
     testImplementation deps.powermock_classloading_xstream
+    testImplementation deps.adobemobilelib
 }
 
 task updateResources(type: Exec) {
