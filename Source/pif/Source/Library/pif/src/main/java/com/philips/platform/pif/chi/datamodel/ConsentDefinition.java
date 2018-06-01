@@ -105,6 +105,10 @@ public class ConsentDefinition implements Parcelable, Serializable {
         return revokeWarningTextRes;
     }
 
+    public void setRevokeWarningText(int revokeWarningTextRes) {
+         this.revokeWarningTextRes = revokeWarningTextRes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
