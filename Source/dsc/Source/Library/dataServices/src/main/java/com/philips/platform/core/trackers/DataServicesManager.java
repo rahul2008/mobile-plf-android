@@ -8,6 +8,7 @@ package com.philips.platform.core.trackers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.ConditionVariable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -504,22 +505,24 @@ public class DataServicesManager {
             return mDataServicesBaseUrl;
         }
 
+        final ConditionVariable fetchingServiceUrl = new ConditionVariable();
+
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(DataServicesConstants.BASE_URL_KEY, new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
                         errorHandlingInterface.onServiceDiscoveryError(s);
+                        fetchingServiceUrl.open();
                     }
 
                     @Override
                     public void onSuccess(URL url) {
-                        if (url.toString().isEmpty()) {
-                            errorHandlingInterface.onServiceDiscoveryError("Empty Url from Service discovery");
-                        } else {
-                            mDataServicesBaseUrl = url.toString();
-                        }
+                        mDataServicesBaseUrl = url.toString();
+                        fetchingServiceUrl.open();
                     }
                 });
+
+        fetchingServiceUrl.block();
         return mDataServicesBaseUrl;
     }
 
@@ -531,22 +534,24 @@ public class DataServicesManager {
         if (mDataServicesCoachingServiceUrl != null)
             return mDataServicesCoachingServiceUrl;
 
+        final ConditionVariable fetchingServiceUrl = new ConditionVariable();
+
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(DataServicesConstants.COACHING_SERVICE_URL_KEY, new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
                         errorHandlingInterface.onServiceDiscoveryError(s);
+                        fetchingServiceUrl.open();
                     }
 
                     @Override
                     public void onSuccess(URL url) {
-                        if (url.toString().isEmpty()) {
-                            errorHandlingInterface.onServiceDiscoveryError("Empty Url from Service discovery");
-                        } else {
-                            mDataServicesCoachingServiceUrl = url.toString();
-                        }
+                        mDataServicesCoachingServiceUrl = url.toString();
+                        fetchingServiceUrl.open();
                     }
                 });
+
+        fetchingServiceUrl.block();
         return mDataServicesCoachingServiceUrl;
     }
 
