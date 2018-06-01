@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 
+import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.LeScanCallbackProxy;
 import com.philips.pins.shinelib.framework.LeScanCallbackProxy.LeScanCallback;
@@ -25,6 +26,8 @@ import org.mockito.Captor;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,7 +35,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed;
+import static com.philips.pins.shinelib.SHNDeviceScannerInternal.SCANNING_RESTART_INTERVAL_MS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -41,6 +47,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -88,16 +95,27 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     @Captor
     private ArgumentCaptor<SHNDeviceFoundInfo> shnDeviceFoundInfoArgumentCaptor;
 
+    @Captor
+    private ArgumentCaptor<SHNCentralListener> shnCentralListenerArgumentCaptor;
+
     private boolean isScanningStarted;
+    private SHNCentralListener shnCentralListenerArgumentCaptorValue;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         initMocks(this);
 
         mockedHandler = new MockedHandler();
 
         when(shnCentralMock.getInternalHandler()).thenReturn(mockedHandler.getMock());
         doReturn(deviceMock).when(shnCentralMock).createSHNDeviceForAddressAndDefinition(anyString(), any(SHNDeviceDefinitionInfo.class));
+        doAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) {
+                shnCentralListenerArgumentCaptorValue = shnCentralListenerArgumentCaptor.getValue();
+                return null;
+            }
+        }).when(shnCentralMock).registerShnCentralListener(shnCentralListenerArgumentCaptor.capture());
 
         when(deviceMock.getDeviceTypeName()).thenReturn(MOCKED_BLUETOOTH_DEVICE_NAME);
 
@@ -140,7 +158,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     }
 
     @Test
-    public void givenScanningIsStarted_ThenStartLeScanOnTheLeProxyIsCalled() {
+    public void givenScanningIsStarted_thenStartLeScanOnTheLeProxyIsCalled() {
         startScanning();
 
         assertThat(isScanningStarted).isTrue();
@@ -149,22 +167,22 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     }
 
     @Test
-    public void givenScanningIsStarted_WhenBluetoothIsTurnedOff_ThenScanningIsNotRestarted() throws InterruptedException {
+    public void givenScanningIsStarted_whenSHNCentralIsNotReady_thenScanningIsNotRestarted() {
         startScanning();
 
-        when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(false);
-        shnDeviceScannerInternal.onStateUpdated(shnCentralMock);
+        when(shnCentralMock.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
+        shnCentralListenerArgumentCaptorValue.onStateUpdated(shnCentralMock);
 
         verify(leScanCallbackProxyMock, never()).stopLeScan(any(LeScanCallback.class));
         verify(leScanCallbackProxyMock, times(1)).startLeScan(any(LeScanCallback.class));
     }
 
     @Test
-    public void givenScanningIsStarted_WhenBluetoothIsTurnedOn_ThenScanningIsRestarted() throws InterruptedException {
+    public void givenScanningIsStarted_whenSHNCentralIsReady_thenScanningIsRestarted() {
         startScanning();
 
-        when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        shnDeviceScannerInternal.onStateUpdated(shnCentralMock);
+        when(shnCentralMock.getShnCentralState()).thenReturn(SHNCentralStateReady);
+        shnCentralListenerArgumentCaptorValue.onStateUpdated(shnCentralMock);
 
         verify(leScanCallbackProxyMock).stopLeScan(any(LeScanCallback.class));
         verify(leScanCallbackProxyMock, times(2)).startLeScan(any(LeScanCallback.class));
@@ -185,7 +203,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         startScanning();
         verify(leScanCallbackProxyMock).startLeScan(leScanCallbackCaptor.capture());
 
-        shnDeviceScannerInternal.stopScanning();
+        shnDeviceScannerInternal.onStopScanning();
         ArgumentCaptor<LeScanCallback> leScanCallbackStopArgumentCaptor = ArgumentCaptor.forClass(LeScanCallback.class);
         verify(leScanCallbackProxyMock).stopLeScan(leScanCallbackStopArgumentCaptor.capture());
 
@@ -196,7 +214,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     public void givenScanningIsStarted_whenScanningIsStopped_thenScanStoppedOnTheListenerIsCalled() {
         startScanning();
 
-        shnDeviceScannerInternal.stopScanning();
+        shnDeviceScannerInternal.onStopScanning();
 
         verify(mockedSHNDeviceScannerListener).scanStopped(null);
     }
@@ -308,7 +326,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
 
     @Test
     public void whenStopScanningIsCalledWhenNotScanning_ThenNothingBadHappens() {
-        shnDeviceScannerInternal.stopScanning();
+        shnDeviceScannerInternal.onStopScanning();
     }
 
     @Test
@@ -358,8 +376,8 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         shnDeviceScannerInternal.startScanning(internalScanRequestMock1);
         shnDeviceScannerInternal.startScanning(internalScanRequestMock2);
 
-        verify(internalScanRequestMock1).scanningStarted(shnDeviceScannerInternal, mockedHandler.getMock());
-        verify(internalScanRequestMock2).scanningStarted(shnDeviceScannerInternal, mockedHandler.getMock());
+        verify(internalScanRequestMock1).onScanningStarted(shnDeviceScannerInternal, mockedHandler.getMock());
+        verify(internalScanRequestMock2).onScanningStarted(shnDeviceScannerInternal, mockedHandler.getMock());
     }
 
     @Test
@@ -368,10 +386,10 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         shnDeviceScannerInternal.startScanning(internalScanRequestMock2);
 
         Handler handlerMock = mockedHandler.getMock();
-        verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SHNDeviceScannerInternal.SCANNING_RESTART_INTERVAL_MS));
+        verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SCANNING_RESTART_INTERVAL_MS));
 
         shnDeviceScannerInternal.stopScanning(internalScanRequestMock1);
-        verify(internalScanRequestMock1).scanningStopped();
+        verify(internalScanRequestMock1).onScanningStopped();
     }
 
     @Test
@@ -380,10 +398,10 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         shnDeviceScannerInternal.startScanning(internalScanRequestMock2);
 
         Handler handlerMock = mockedHandler.getMock();
-        verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SHNDeviceScannerInternal.SCANNING_RESTART_INTERVAL_MS));
+        verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SCANNING_RESTART_INTERVAL_MS));
 
         shnDeviceScannerInternal.stopScanning(internalScanRequestMock1);
-        verify(internalScanRequestMock1).scanningStopped();
+        verify(internalScanRequestMock1).onScanningStopped();
     }
 
     @Test
@@ -392,7 +410,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         shnDeviceScannerInternal.startScanning(internalScanRequestMock2);
 
         Handler handlerMock = mockedHandler.getMock();
-        verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SHNDeviceScannerInternal.SCANNING_RESTART_INTERVAL_MS));
+        verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SCANNING_RESTART_INTERVAL_MS));
 
         shnDeviceScannerInternal.stopScanning(internalScanRequestMock1);
         shnDeviceScannerInternal.stopScanning(internalScanRequestMock2);
@@ -422,7 +440,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         shnDeviceScannerInternal.startScanning(internalScanRequestMock2);
 
         Handler handlerMock = mockedHandler.getMock();
-        verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SHNDeviceScannerInternal.SCANNING_RESTART_INTERVAL_MS));
+        verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SCANNING_RESTART_INTERVAL_MS));
         reset(leScanCallbackProxyMock);
 
         runnableCaptor.getValue().run();

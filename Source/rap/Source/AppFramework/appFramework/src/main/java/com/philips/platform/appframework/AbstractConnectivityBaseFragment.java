@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
@@ -38,7 +39,6 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
 
-
     protected static final int STOP_DISCOVERY_TIMEOUT = 30000;
 
     protected static final int START_DISCOVERY_TIME = 100;
@@ -51,10 +51,18 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
         this.context = context;
     }
 
+    @Nullable
     protected BluetoothAdapter getBluetoothAdapter() {
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
-        return bluetoothManager.getAdapter();
+        final Context context = getActivity();
+        if (context == null) {
+            return null;
+        }
+
+        final BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
+        if (bluetoothManager != null) {
+            return bluetoothManager.getAdapter();
+        }
+        return null;
     }
 
     /**
@@ -67,9 +75,9 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
             AppFrameworkApplication appContext = ((AppFrameworkApplication) context.getApplicationContext().getApplicationContext());
             mCommCentral = appContext.getCommCentralInstance();
             mCommCentral.getApplianceManager().addApplianceListener(this.applianceListener);
-            RALog.i(TAG,"ConnectivityFragment getCommCentralInstance - " + mCommCentral);
+            RALog.i(TAG, "ConnectivityFragment getCommCentral instance - " + mCommCentral);
         } catch (TransportUnavailableException e) {
-            RALog.d(TAG, "Blutooth hardware unavailable");
+            RALog.d(TAG, "Bluetooth hardware unavailable");
         }
         return mCommCentral;
     }
@@ -77,8 +85,12 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
     protected final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
         public void onApplianceFound(@NonNull Appliance foundAppliance) {
-            RALog.d(TAG, "Device found :" + foundAppliance.getName());
-            if(foundAppliance instanceof RefAppBleReferenceAppliance) {
+            if (bleScanDialogFragment == null) {
+                return;
+            }
+            RALog.d(TAG, "Device found: " + foundAppliance.getName());
+
+            if (foundAppliance instanceof RefAppBleReferenceAppliance) {
                 bleScanDialogFragment.addDevice((RefAppBleReferenceAppliance) foundAppliance);
             } else {
                 RALog.i(TAG, "Appliance is not a BleReferenceAppliance");
@@ -105,15 +117,11 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
     }
 
     protected void checkForAccessFineLocation() {
-
-        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION);
+        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             startDiscovery();
         } else {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
 
@@ -130,13 +138,11 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION:
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // permission was granted, yay!
                     startDiscovery();

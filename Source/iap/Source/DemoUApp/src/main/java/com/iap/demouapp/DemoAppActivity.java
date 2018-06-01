@@ -132,8 +132,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mCategorizedProductList = new ArrayList<>();
         showScreenSizeInDp();
         // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
-        mUser = new User(this);
-        mUser.registerUserRegistrationListener(this);
+        try {
+            mUser = new User(this);
+            mUser.registerUserRegistrationListener(this);
+        }catch (Exception e){
+            this.finish();
+        }
         //Integration interface
         mIapInterface = new IAPInterface();
         mIAPSettings = new IAPSettings(this);

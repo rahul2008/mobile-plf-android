@@ -426,13 +426,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public String getHomeCountry() {
-        String country = fetchFromSecureStorage(COUNTRY);
-        if (TextUtils.isEmpty(country)) {
-            trackErrorAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_ERROR);
-            return null;
-        } else {
-            return country;
-        }
+        return fetchFromSecureStorage(COUNTRY);
     }
 
     @Override
@@ -456,7 +450,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
             } else {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"SAME COUNTRY Entered Country code is same as old one");
-                trackErrorAction(SERVICE_DISCOVERY, SD_SET_SAME_COUNTRY_CODE.concat(countryCode));
             }
         } else {
             trackErrorAction(SERVICE_DISCOVERY, countryCode != null ? SD_SET_INVALID_COUNTRY_CODE.concat(countryCode) : SD_SET_INVALID_COUNTRY_CODE);
@@ -794,7 +787,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             return countryCode;
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery URL error");
-            trackErrorAction(SERVICE_DISCOVERY, COUNTRY_CODE_SIM_ERROR);
         }
         return countryCode;
     }
@@ -833,8 +825,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 mCountrySourceType = value;
             }
         }
-        if (mSecureStorageError != null && !TextUtils.isEmpty(mSecureStorageError.getErrorMessage()))
-            trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_FETCH_FAILED);
         return value;
     }
 
@@ -885,10 +875,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 return true;
             }
         }
-        boolean serviceDiscoveryDataExpired = mRequestItemManager.isServiceDiscoveryDataExpired();
-        if (serviceDiscoveryDataExpired)
-            trackErrorAction(SERVICE_DISCOVERY, SD_DATA_EXPIRED);
-        return serviceDiscoveryDataExpired;
+        return mRequestItemManager.isServiceDiscoveryDataExpired();
     }
 
     /**

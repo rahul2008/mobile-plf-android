@@ -16,9 +16,11 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -169,6 +171,18 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     public void testPrivacyConsentOPTOUT() {
         appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
         assertEquals(AppTaggingInterface.PrivacyStatus.OPTOUT, appTagging.getPrivacyConsent());
+    }
+
+    public void testTimedActionStartWithParameters() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        InternationalizationInterface internationalizationInterface = mock(InternationalizationInterface.class);
+        when(appInfraMock.getInternationalization()).thenReturn(internationalizationInterface);
+        when(internationalizationInterface.getUILocaleString()).thenReturn("en");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        Map<String, Object> contextData = new HashMap<>();
+        contextData.put("some_key","someValue");
+        appTagging.trackTimedActionStart("Tagging_trackTimedAction",contextData);
+        verify(mAppTaggingHandlerMock).timeActionStart("Tagging_trackTimedAction", contextData);
     }
 
 

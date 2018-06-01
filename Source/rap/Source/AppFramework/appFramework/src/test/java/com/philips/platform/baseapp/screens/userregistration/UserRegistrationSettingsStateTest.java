@@ -73,8 +73,8 @@ public class UserRegistrationSettingsStateTest {
         when(flowManager.getNextState(any(BaseState.class), any(String.class))).thenReturn(homeFragmentState);
     }
 
-    @Test
     @Ignore
+    @Test
     public void onUserLogoutSuccess() throws Exception {
         userRegState.onUserLogoutSuccess();
         verify(homeFragmentState).navigate(any(UiLauncher.class));

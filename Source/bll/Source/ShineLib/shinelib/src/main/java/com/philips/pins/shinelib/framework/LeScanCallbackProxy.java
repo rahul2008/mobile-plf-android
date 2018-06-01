@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -37,12 +37,12 @@ public class LeScanCallbackProxy extends ScanCallback {
         this.bleUtilities = bleUtilities;
     }
 
-    public void startLeScan(@NonNull LeScanCallback leScanCallback) {
+    public synchronized void startLeScan(@NonNull LeScanCallback leScanCallback) {
         this.leScanCallback = leScanCallback;
         bleUtilities.startLeScan(this);
     }
 
-    public void stopLeScan(@NonNull LeScanCallback leScanCallback) {
+    public synchronized void stopLeScan(@NonNull LeScanCallback leScanCallback) {
         if (leScanCallback == this.leScanCallback) {
             bleUtilities.stopLeScan(this);
             this.leScanCallback = null;

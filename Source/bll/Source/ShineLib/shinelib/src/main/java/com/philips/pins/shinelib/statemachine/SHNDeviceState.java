@@ -55,6 +55,6 @@ public abstract class SHNDeviceState extends State<SHNDeviceStateMachine> {
     }
 
     private void showLogOfEmptyMethodCall(String methodName) {
-        SHNLogger.i(TAG, String.format("Called empty implementation of %s, current state: %s", methodName, this.stateMachine.getState().getClass().getSimpleName()));
+        SHNLogger.d(TAG, String.format("Called empty implementation of %s, current state: %s", methodName, this.stateMachine.getState().getClass().getSimpleName()));
     }
 }
