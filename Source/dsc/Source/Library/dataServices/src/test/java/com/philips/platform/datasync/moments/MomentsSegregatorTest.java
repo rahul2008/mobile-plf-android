@@ -35,6 +35,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -95,7 +96,7 @@ public class MomentsSegregatorTest {
         momentsSegregator.mBaseAppDataCreator = dataCreatorMock;
 
         momentSyncData = new OrmSynchronisationData(GUID_ID, false, NOW, 1);
-        moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW.plusMinutes(10));
+        whenCreatingMoment();
         moment.setSynchronisationData(momentSyncData);
         momentList.add(moment);
 
@@ -258,6 +259,7 @@ public class MomentsSegregatorTest {
     @Test
     public void momentTimeStampMustBeEqualWhenTimeIsFixed() throws InterruptedException {
         givenDateTimeIsFixed();
+        whenCreatingMoment();
         when2ndMomentIsCreatedAfter5MilliSeconds();
         thenMomentsHaveSameTimestamp();
     }
@@ -346,6 +348,10 @@ public class MomentsSegregatorTest {
         this.dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
     }
 
+    private void whenCreatingMoment() {
+        moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW.plusMinutes(10));
+    }
+
     private void when2ndMomentIsCreatedAfter5MilliSeconds() throws InterruptedException {
         Thread.sleep(5);
         moment2 = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
@@ -368,10 +374,10 @@ public class MomentsSegregatorTest {
     }
 
     private void thenMomentsHaveSameTimestamp() {
-        assertTrue(moment.getDateTime().equals(moment2.getDateTime()));
+        assertEquals(moment.getDateTime(), moment2.getDateTime());
     }
 
     private void thenMomentsDoNotHaveSameTimestamp() {
-        assertFalse(moment.getDateTime().equals(moment2.getDateTime()));
+        assertNotEquals(moment.getDateTime(), moment2.getDateTime());
     }
 }

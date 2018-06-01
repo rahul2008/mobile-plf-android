@@ -17,6 +17,7 @@
   <string name="csw_privacy_settings_desc">控制您的私隱設定。詳情請查閱{私隱聲明}。</string>
   <string name="csw_problem_occurred_error_message">出現了問題 (error %1$d)。請再試一次。</string>
   <string name="csw_problem_occurred_error_title">出現問題</string>
+  <string name="csw_user_session_expired">[zh-HK]Your session is invalid, please log out and log in again</string>
   <string name="mya_Account_settings">帳戶設定</string>
   <string name="mya_Address">地址</string>
   <string name="mya_Cancel">取消</string>
@@ -58,8 +59,8 @@
   <string name="mya_csw_justintime_accept">[zh-HK]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[zh-HK]Maybe later</string>
   <string name="mya_csw_justintime_title">[zh-HK]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,zh-HK][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[NT,zh-HK][NT]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,zh-HK]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,zh-HK]What do we have to offer?</string>
   <string name="mya_logout_message">您將會登出應用程式。登出後您可隨時重新登入。</string>
   <string name="mya_logout_title">您確定要登出嗎？</string>
 </resources>
