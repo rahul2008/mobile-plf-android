@@ -43,7 +43,7 @@
     ],
     "contentLoader.limitSize": 100,
     "servicediscovery.platformMicrositeId": "70000",
-    "servicediscovery.platformEnvironment": "production",
+    "servicediscovery.platformEnvironment": "staging",
     "timesync.ntp.hosts": [
       "0.pool.ntp.org",
       "1.pool.ntp.org",
@@ -84,10 +84,10 @@
       "fileName": "AppInfraLog",
       "numberOfFiles": 5,
       "fileSizeInBytes": 50000,
-      "logLevel": "All",
+      "logLevel": "Error",
       "fileLogEnabled": false,
       "consoleLogEnabled": true,
-      "componentLevelLogEnabled": true,
+      "componentLevelLogEnabled": false,
       "componentIds": [
         "usr",
         "ail:",
