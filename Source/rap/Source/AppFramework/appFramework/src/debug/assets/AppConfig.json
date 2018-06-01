@@ -43,7 +43,7 @@
     ],
     "contentLoader.limitSize": 100,
     "servicediscovery.platformMicrositeId": "70000",
-    "servicediscovery.platformEnvironment": "staging",
+    "servicediscovery.platformEnvironment": "production",
     "timesync.ntp.hosts": [
       "0.pool.ntp.org",
       "1.pool.ntp.org",
