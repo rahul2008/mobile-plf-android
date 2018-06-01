@@ -331,13 +331,10 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     public void showNotificationBarOnNetworkNotAvailable() {
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                notification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
-                notification.showNotification(
-                        new NotificationMessage(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_Network_ErrorMsg)));
-            }
+        new Handler().postDelayed(() -> {
+            notification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
+            notification.showNotification(
+                    new NotificationMessage(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_Network_ErrorMsg)));
         }, 100);
     }
 

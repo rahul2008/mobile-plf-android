@@ -57,26 +57,19 @@ public class URNotification {
         switch (mNotificationType) {
 
             case INLINE:
-//                xRegError.setError(notificationMessage.getMessage());
                 notificationInterface.notificationInlineMsg(notificationMessage.getMessage());
                 break;
 
             case NOTIFICATION_BAR:
-
                 notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_startScreen_baseLayout_LinearLayout));
-                break;
-            case DIALOG:
                 break;
         }
     }
 
     public void hideNotification() {
-
         switch (mNotificationType) {
             case NOTIFICATION_BAR:
                 notificationBarView.hidePopup();
-            case DIALOG:
-                break;
         }
     }
 

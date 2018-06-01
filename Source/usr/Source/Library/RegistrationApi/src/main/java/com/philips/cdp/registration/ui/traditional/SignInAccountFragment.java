@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
@@ -692,13 +693,25 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
         RLog.i(TAG, " envir :" + getClientId() + getRedirectUri());
-        URRequest urRequest = new URRequest(url, bodyContent, null, this::handleResendSMSRespone, error -> {
+        URRequest urRequest = new URRequest(url, bodyContent, null, this::handleResendSMSRespone, this::onErrorOfResendSMSIntent);
+        urRequest.makeRequest(true);
+    }
+
+    private void onErrorOfResendSMSIntent(VolleyError error) {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(error.getMessage());
+            final String errorCode = jsonObject.getString("errorCode");
             hideForgotPasswordSpinner();
             RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
-            mEtEmail.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
+            final Integer code = Integer.parseInt(errorCode);
+            mEtEmail.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.URX, code));
             mEtEmail.showError();
-        });
-        urRequest.makeRequest(true);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void serviceDiscovery() {
@@ -729,7 +742,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (networkUtility.isNetworkAvailable()) {
             mBtnSignInAccount.setEnabled(true);
         } else {
-            if (isAdded()) mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            if (isAdded())
+                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         }
         loginValidationEditText.setEnabled(true);
         passwordValidationEditText.setEnabled(true);
@@ -763,7 +777,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         final String tokenKey = "token";
         final String redirectUriKey = "redirectUri";
         final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
-
+        mEtEmail.hideError();
         try {
             JSONObject jsonObject = new JSONObject(response);
             final String errorCode = jsonObject.getString("errorCode");
@@ -794,7 +808,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 //                String errorMsg = RegChinaUtil.getErrorMsgDescription(errorCode, mContext);
                 mEtEmail.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.URX, Integer.parseInt(errorCode)));
                 mEtEmail.showError();
-                RLog.e(TAG, "handleResendSMSRespone :  SMS Resend failure with Error Response = " + response);
+                RLog.e(TAG, "handleResendSMSRespone :  SMS Resend failure with Error Response = " + response + " Error Code = " + errorCode);
             }
 
         } catch (Exception e) {
