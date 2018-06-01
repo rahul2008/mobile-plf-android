@@ -49,7 +49,7 @@ public class MomentsSegregatorTest {
     @Mock
     private DBUpdatingInterface updatingInterface;
     @Mock
-    private DBSavingInterface dbSavingInterface;
+    private DBSavingInterface savingInterface;
     @Mock
     private DBFetchingInterface fetchingInterface;
     @Mock
@@ -90,7 +90,7 @@ public class MomentsSegregatorTest {
         momentsSegregator.updatingInterface = updatingInterface;
         momentsSegregator.fetchingInterface = fetchingInterface;
         momentsSegregator.deletingInterface = deletingInterface;
-        momentsSegregator.dbSavingInterface = dbSavingInterface;
+        momentsSegregator.savingInterface = savingInterface;
         momentsSegregator.mBaseAppDataCreator = dataCreatorMock;
 
         momentSyncData = new OrmSynchronisationData(GUID_ID, false, NOW, 1);
@@ -129,7 +129,7 @@ public class MomentsSegregatorTest {
         whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
         //noinspection unchecked
-        verify(dbSavingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
+        verify(savingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
         verify(deletingInterface).deleteMeasurementGroup((Moment) any(), eq(dbRequestListener));
         verify(deletingInterface).deleteMomentDetail((Moment) any(), eq(dbRequestListener));
     }
@@ -141,7 +141,7 @@ public class MomentsSegregatorTest {
         whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
         //noinspection unchecked
-        verify(dbSavingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
+        verify(savingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
         verify(deletingInterface).deleteMeasurementGroup((Moment) any(), eq(dbRequestListener));
         verify(deletingInterface).deleteMomentDetail((Moment) any(), eq(dbRequestListener));
     }
@@ -152,7 +152,7 @@ public class MomentsSegregatorTest {
 
         whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
-        verify(dbSavingInterface).saveMoments(argThat(new MomentsListSizeMatcher(1)), eq(dbRequestListener));
+        verify(savingInterface).saveMoments(argThat(new MomentsListSizeMatcher(1)), eq(dbRequestListener));
     }
 
     @Test
@@ -161,7 +161,7 @@ public class MomentsSegregatorTest {
 
         whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
-        verify(dbSavingInterface).saveMoments(argThat(new MomentListVersionMatcher(2)), eq(dbRequestListener));
+        verify(savingInterface).saveMoments(argThat(new MomentListVersionMatcher(2)), eq(dbRequestListener));
     }
 
     @Test
@@ -182,7 +182,7 @@ public class MomentsSegregatorTest {
         whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
         //noinspection unchecked
-        verify(dbSavingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
+        verify(savingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
     }
 
     @Test
@@ -192,7 +192,7 @@ public class MomentsSegregatorTest {
 
         whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
-        verify(dbSavingInterface).saveMoments(argThat(new MomentListVersionMatcher(2)), eq(dbRequestListener));
+        verify(savingInterface).saveMoments(argThat(new MomentListVersionMatcher(2)), eq(dbRequestListener));
     }
 
     @Test
@@ -324,7 +324,7 @@ public class MomentsSegregatorTest {
     }
 
     private void thenVerifyDbSavingInterfaceIsCalled() throws SQLException {
-        verify(dbSavingInterface).saveMoment(moment, null);
+        verify(savingInterface).saveMoment(moment, null);
     }
 
     private void thenVerifyDataToSync() {

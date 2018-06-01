@@ -37,7 +37,7 @@ public class MomentsSegregator {
     @Inject
     DBDeletingInterface deletingInterface;
     @Inject
-    DBSavingInterface dbSavingInterface;
+    DBSavingInterface savingInterface;
     @Inject
     BaseAppDataCreator mBaseAppDataCreator;
 
@@ -67,7 +67,7 @@ public class MomentsSegregator {
             }
         }
         if (momentsToCreate.size() > 0)
-            dbSavingInterface.saveMoments(momentsToCreate, dbRequestListener);
+            savingInterface.saveMoments(momentsToCreate, dbRequestListener);
         if (momentsToDelete.size() > 0)
             deletingInterface.deleteMoments(momentsToDelete, dbRequestListener);
         if (momentsToUpdate.size() > 0)
@@ -80,7 +80,7 @@ public class MomentsSegregator {
         for (final Moment moment : moments) {
             moment.setSynced(true);
             try {
-                dbSavingInterface.saveMoment(moment, dbRequestListener);
+                savingInterface.saveMoment(moment, dbRequestListener);
             } catch (SQLException e) {
                 updatingInterface.updateFailed(e, dbRequestListener);
             }
@@ -104,7 +104,7 @@ public class MomentsSegregator {
             final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
             deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase, dbRequestListener);
         }
-        dbSavingInterface.saveMoments(moments, dbRequestListener);
+        savingInterface.saveMoments(moments, dbRequestListener);
     }
 
     private void createNewMomentInDB(List<Moment> momentsToCreate, Moment moment) {
