@@ -19,7 +19,7 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 public class ProgressDialogView implements View.OnClickListener {
     protected View view;
-    protected AlertDialogFragment alertDialogFragment;
+    protected ProgressDialogFragment progressDialogFragment;
     protected boolean isDialogShown;
     private View.OnClickListener okListener;
 
@@ -43,8 +43,8 @@ public class ProgressDialogView implements View.OnClickListener {
     }
 
     public void hideDialog() {
-        if (alertDialogFragment != null && isDialogShown) {
-            alertDialogFragment.dismissAllowingStateLoss();
+        if (progressDialogFragment != null && isDialogShown) {
+            progressDialogFragment.dismissAllowingStateLoss();
             isDialogShown = false;
         }
     }
@@ -54,16 +54,15 @@ public class ProgressDialogView implements View.OnClickListener {
     }
 
     protected void displayDialog(FragmentActivity activity) {
-        alertDialogFragment.show(activity.getSupportFragmentManager(), AlertDialogFragment.class.getCanonicalName());
+        progressDialogFragment.showAllowingStateLoss(activity.getSupportFragmentManager(), AlertDialogFragment.class.getCanonicalName());
     }
 
     protected void setupAlertDialogFragment(FragmentActivity activity) {
-        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(activity, R.style.MyaAlertDialog)
+        ProgressDialogFragment.Builder builder = new ProgressDialogFragment.Builder(activity, R.style.MyaAlertDialog)
                 .setDialogView(view)
                 .setDialogType(DialogConstants.TYPE_DIALOG)
-                .setDimLayer(DialogConstants.DIM_STRONG)
-                .setCancelable(true);
-        alertDialogFragment = builder.create(new AlertDialogFragment());
+                .setDimLayer(DialogConstants.DIM_STRONG);
+        progressDialogFragment = (ProgressDialogFragment) builder.create(new ProgressDialogFragment());
     }
 
     protected void setupView(FragmentActivity activity) {
@@ -76,7 +75,7 @@ public class ProgressDialogView implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        alertDialogFragment.dismiss();
+        progressDialogFragment.dismiss();
         if (okListener != null) {
             okListener.onClick(view);
         }

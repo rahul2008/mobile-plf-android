@@ -38,7 +38,6 @@ import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryMan
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PLATFORM_SERVICES_INVOKED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PREPOSITION_SERVICES_INVOKED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SIM_SUCCESS;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SYNCHRONOUS_ERROR;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FORCE_REFRESH_CALLED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_HOME_COUNTRY_FETCH_FAILED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_HOME_COUNTRY_STORE_FAILED;
@@ -245,7 +244,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			}
 		};
 		mServiceDiscoveryManager.getHomeCountry();
-		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_ERROR);
 		final String[] homeCountryCode = new String[1];
 		ServiceDiscoveryInterface.OnGetHomeCountryListener listenerMock = new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
 			@Override

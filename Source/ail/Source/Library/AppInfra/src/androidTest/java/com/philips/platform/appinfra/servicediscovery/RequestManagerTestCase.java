@@ -15,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_CLEAR_DATA;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FETCH_FAILED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_STORE_FAILED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
 import static org.mockito.Mockito.mock;
@@ -210,8 +209,7 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
         };
         when(sharedPreferencesMock.getString("SDPLATFORM",null)).thenThrow(new NullPointerException());
         AppInfraTaggingUtil appInfraTaggingAction = mock(AppInfraTaggingUtil.class);
-        mRequestItemManager.getCachedData(appInfraTaggingAction);
-        verify(appInfraTaggingAction).trackErrorAction(SERVICE_DISCOVERY, SD_FETCH_FAILED);
+        assertNull(mRequestItemManager.getCachedData(appInfraTaggingAction));
     }
 
     public void testgetUrlProposition() {

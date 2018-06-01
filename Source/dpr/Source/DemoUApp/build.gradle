@@ -75,6 +75,9 @@ dependencies {
     implementation deps.ormlite.android
 
     testImplementation deps.junit
+    testImplementation deps.powermock_core
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_api_mockito
 
     androidTestImplementation(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'

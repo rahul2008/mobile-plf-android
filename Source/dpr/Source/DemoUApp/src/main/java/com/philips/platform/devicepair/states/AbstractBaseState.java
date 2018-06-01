@@ -5,7 +5,7 @@
 */
 package com.philips.platform.devicepair.states;
 
-abstract class AbstractBaseState {
+public abstract class AbstractBaseState {
 
     AbstractBaseState() {
 

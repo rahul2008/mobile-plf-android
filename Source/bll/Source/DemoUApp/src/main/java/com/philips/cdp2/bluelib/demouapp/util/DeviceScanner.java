@@ -99,7 +99,7 @@ public class DeviceScanner {
 
     private class ScanTask extends AsyncTask<Long, Void, Void> implements SHNDeviceScanner.SHNDeviceScannerListener {
 
-        private static final long SCAN_TIMEOUT_MS = 10000L;
+        private static final long SCAN_TIMEOUT_MS = 30000L;
 
         @Override
         protected void onPreExecute() {

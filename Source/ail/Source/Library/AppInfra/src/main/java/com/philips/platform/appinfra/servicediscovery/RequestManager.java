@@ -33,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_CLEAR_DATA;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FETCH_FAILED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_STORE_FAILED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
 
@@ -177,7 +176,6 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
-					appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, SD_FETCH_FAILED);
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
 							AppInfraLogEventID.AI_SERVICE_DISCOVERY, "while getting cached data"+exception.getMessage());
 				}
@@ -198,7 +196,6 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
-					appInfraTaggingAction.trackErrorAction(SERVICE_DISCOVERY, SD_FETCH_FAILED);
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
 							AppInfraLogEventID.AI_SERVICE_DISCOVERY, "while getting cached data"+exception.getMessage());
 				}

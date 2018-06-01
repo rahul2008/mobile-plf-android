@@ -661,6 +661,11 @@ public class DataServicesManager {
         mBackendIdProvider.clearSyncTimeCache();
     }
 
+    public void setLastSyncTime(DateTime lastSyncTime) {
+        mBackendIdProvider.saveLastSyncTime(lastSyncTime.toString(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
+        mBackendIdProvider.saveLastSyncTime(lastSyncTime.toString(), UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY);
+    }
+
     private void storeGdprMigrationFlag() {
         gdprStorage.edit().putBoolean(GDPR_MIGRATION_FLAG, true).apply();
     }

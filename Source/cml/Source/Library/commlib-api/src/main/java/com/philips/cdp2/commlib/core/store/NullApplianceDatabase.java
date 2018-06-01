@@ -5,23 +5,24 @@
 
 package com.philips.cdp2.commlib.core.store;
 
+import android.support.annotation.NonNull;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 public class NullApplianceDatabase implements ApplianceDatabase {
 
     @Override
-    public boolean save(Appliance appliance) {
+    public boolean save(@NonNull Appliance appliance) {
         // NOP
         return false;
     }
 
     @Override
-    public void loadDataForAppliance(Appliance appliance) {
+    public void loadDataForAppliance(@NonNull Appliance appliance) {
         // NOP
     }
 
     @Override
-    public boolean delete(Appliance appliance) {
+    public boolean delete(@NonNull Appliance appliance) {
         // NOP
         return false;
     }
