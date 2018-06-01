@@ -727,7 +727,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (networkUtility.isNetworkAvailable()) {
             mBtnSignInAccount.setEnabled(true);
         } else {
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            if(isAdded()) mRegError.setError(getString(R.string.reg_NoNetworkConnection));
         }
         loginValidationEditText.setEnabled(true);
         passwordValidationEditText.setEnabled(true);
