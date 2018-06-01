@@ -60,6 +60,19 @@ public class ConsentDefinition implements Parcelable, Serializable {
         this.version = version;
     }
 
+    public boolean hasRevokeWarningText() {
+        return this.revokeWarningTextRes > 0;
+    }
+
+    public int getRevokeWarningText() {
+        return revokeWarningTextRes;
+    }
+
+    public void setRevokeWarningText(int revokeWarningTextRes)
+    {
+        this.revokeWarningTextRes = revokeWarningTextRes;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -97,17 +110,7 @@ public class ConsentDefinition implements Parcelable, Serializable {
         }
     };
 
-    public boolean hasRevokeWarningText() {
-        return this.revokeWarningTextRes > 0;
-    }
 
-    public int getRevokeWarningText() {
-        return revokeWarningTextRes;
-    }
-
-    public void setRevokeWarningText(int revokeWarningTextRes) {
-         this.revokeWarningTextRes = revokeWarningTextRes;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -135,6 +138,7 @@ public class ConsentDefinition implements Parcelable, Serializable {
         result = 31 * result + (types != null ? types.hashCode() : 0);
         result = 31 * result + version;
         result = 31 * result + revokeWarningTextRes;
+
         return result;
     }
 }
