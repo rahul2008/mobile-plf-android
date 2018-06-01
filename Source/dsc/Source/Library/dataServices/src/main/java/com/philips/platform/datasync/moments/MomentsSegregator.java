@@ -33,7 +33,7 @@ public class MomentsSegregator {
     @Inject
     DBUpdatingInterface updatingInterface;
     @Inject
-    DBFetchingInterface dbFetchingInterface;
+    DBFetchingInterface fetchingInterface;
     @Inject
     DBDeletingInterface dbDeletingInterface;
     @Inject
@@ -90,7 +90,7 @@ public class MomentsSegregator {
     public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) {
         List<? extends Moment> ormMomentList = null;
         try {
-            ormMomentList = (List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments();
+            ormMomentList = (List<? extends Moment>) fetchingInterface.fetchNonSynchronizedMoments();
         } catch (SQLException e) {
             //Debug Log
             Log.e(TAG, "putMomentsForSync: Could not fetch non-synchronized moments", e);
@@ -159,9 +159,9 @@ public class MomentsSegregator {
         final SynchronisationData synchronisationData = moment.getSynchronisationData();
 
         if (synchronisationData != null) {
-            momentInDatabase = (Moment) dbFetchingInterface.fetchMomentByGuid(synchronisationData.getGuid());
+            momentInDatabase = (Moment) fetchingInterface.fetchMomentByGuid(synchronisationData.getGuid());
             if (momentInDatabase == null) {
-                momentInDatabase = (Moment) dbFetchingInterface.fetchMomentById(moment.getId(), null);
+                momentInDatabase = (Moment) fetchingInterface.fetchMomentById(moment.getId(), null);
             }
         }
         return momentInDatabase;
