@@ -27,6 +27,9 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -100,6 +103,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_to_social_merge_account, container, false);
+        registerInlineNotificationListener(this);
         ButterKnife.bind(this, view);
         initUI(view);
         networkChangeStatus(networkUtility.isNetworkAvailable());
@@ -181,7 +185,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
             }
             showMergeSpinner();
         } else {
-            mRegError.setError(getString(R.string.reg_JanRain_Error_Check_Internet));
+            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
             scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
         }
     }
@@ -205,7 +209,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
             mRegError.hideError();
         } else {
             scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         }
     }
 
@@ -267,12 +271,10 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     }
 
     @Override
-    public void mergeFailure(String errorDescription) {
+    public void mergeFailure(int errorCode) {
         hideMergeSpinner();
-        if (null != errorDescription) {
-            mRegError.setError(errorDescription);
-            scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
-        }
+        mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, errorCode));
+        scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
     }
 
     @Override
@@ -329,5 +331,10 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        mRegError.setError(msg);
     }
 }
