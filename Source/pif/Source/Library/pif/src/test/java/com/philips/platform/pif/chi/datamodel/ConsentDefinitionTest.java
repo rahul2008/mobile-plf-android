@@ -1,7 +1,11 @@
 package com.philips.platform.pif.chi.datamodel;
 
+import android.os.Parcel;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +16,7 @@ import static org.junit.Assert.assertEquals;
  * (C) Koninklijke Philips N.V., 2018.
  * All rights reserved.
  */
+@RunWith(RobolectricTestRunner.class)
 public class ConsentDefinitionTest {
 
     private List<String> consentTypes;
@@ -105,5 +110,18 @@ public class ConsentDefinitionTest {
         assertEquals(true, consentDefinition.equals( consentDefinition));
         assertEquals(true, expectedConsentDefinition.equals( consentDefinition));
         assertEquals(true, consentDefinition.equals( expectedConsentDefinition));
+    }
+
+    @Test
+    public void ConsentDefinitionParcelableObject () {
+        Parcel parcel = Parcel.obtain();
+
+        consentDefinition.writeToParcel(parcel, consentDefinition.describeContents());
+        parcel.setDataPosition(0);
+
+        ConsentDefinition consentDefinitionFromParcel = ConsentDefinition.CREATOR.createFromParcel(parcel);
+
+        assertEquals(expectedConsentDefinition, consentDefinitionFromParcel);
+
     }
 }
