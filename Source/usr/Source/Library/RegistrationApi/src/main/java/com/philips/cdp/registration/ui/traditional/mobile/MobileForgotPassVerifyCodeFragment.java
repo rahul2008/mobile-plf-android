@@ -382,7 +382,9 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         RLog.i(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
-            verifyClicked();
+            if(new NetworkUtility(getActivityContext()).isInternetAvailable()) {
+                verifyClicked();
+            }
         }
     }
 

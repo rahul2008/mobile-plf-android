@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.cdp.registration.ui.utils.*;

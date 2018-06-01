@@ -634,12 +634,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 completeRegistration();
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.SUCCESS_LOGIN);
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+                        RegistrationHelper.getInstance().getCountryCode());
             } else {
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() || !mUser.getReceiveMarketingEmail()) {
                     launchAlmostDoneScreenForTermsAcceptance();
                 } else {
                     trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                             AppTagingConstants.SUCCESS_LOGIN);
+                    AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+                            RegistrationHelper.getInstance().getCountryCode());
                     completeRegistration();
                 }
             }
