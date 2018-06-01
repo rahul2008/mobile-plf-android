@@ -97,11 +97,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -666,9 +669,11 @@ public class DataServicesManager {
         mBackendIdProvider.clearSyncTimeCache();
     }
 
-    public void setLastSyncTime(DateTime lastSyncTime) {
-        mBackendIdProvider.saveLastSyncTime(lastSyncTime.toString(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
-        mBackendIdProvider.saveLastSyncTime(lastSyncTime.toString(), UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY);
+    public void resetLastSyncTimestampTo(DateTime lastSyncTime) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+        String formattedLastSyncTime = sdf.format(lastSyncTime.toLocalDateTime().toDate());
+        mBackendIdProvider.saveLastSyncTime(formattedLastSyncTime, UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
+        mBackendIdProvider.saveLastSyncTime(formattedLastSyncTime, UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY);
     }
 
     private void storeGdprMigrationFlag() {
