@@ -32,7 +32,7 @@ public class CloudLogHandlerTest extends AppInfraInstrumentation {
         MockitoAnnotations.initMocks(this);
     }
 
-    public void testPublish() throws MessageSizeExceedsException {
+    public void testPublish() throws AILCloudLogDataBuilder.MessageSizeExceedsException {
         final AILCloudLogDataBuilder ailCloudLogDataBuilder =mock(AILCloudLogDataBuilder.class);
         final AILCloudLogDBManager cloudLogDBManager =mock(AILCloudLogDBManager.class);
         CloudLogHandler cloudLogHandler = new CloudLogHandler(appInfra) {

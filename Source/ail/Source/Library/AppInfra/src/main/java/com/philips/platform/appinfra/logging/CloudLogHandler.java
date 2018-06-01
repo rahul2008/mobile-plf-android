@@ -6,7 +6,6 @@ import android.util.Log;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDataBuilder;
-import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
 
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
@@ -52,7 +51,7 @@ public class CloudLogHandler extends Handler {
             public void run() {
                 try {
                     getLogDbManager().insertLog(ailCloudLogDataBuilder.buildCloudLogModel(logRecord));
-                } catch (MessageSizeExceedsException e) {
+                } catch (AILCloudLogDataBuilder.MessageSizeExceedsException e) {
                     Log.v(TAG,"Message size exceeds allowed length"+e.getMessage());
                 }
             }

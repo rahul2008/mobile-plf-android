@@ -2,7 +2,6 @@ package com.philips.platform.appinfra.logging.database;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
-import com.philips.platform.appinfra.logging.MessageSizeExceedsException;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 
 import junit.framework.TestCase;
@@ -37,7 +36,7 @@ public class AILCloudLogDataBuilderTest extends TestCase {
         ailCloudLogDataBuilder = new AILCloudLogDataBuilder(appInfra);
     }
 
-    public void testSettingBuildCloudLogModel() throws MessageSizeExceedsException {
+    public void testSettingBuildCloudLogModel() throws AILCloudLogDataBuilder.MessageSizeExceedsException {
         LogRecord logRecord = mock(LogRecord.class);
         when(logRecord.getLevel()).thenReturn(Level.ALL);
         AILCloudLogMetaData ailCloudLogMetaData = getAILCloudLogMetaData();

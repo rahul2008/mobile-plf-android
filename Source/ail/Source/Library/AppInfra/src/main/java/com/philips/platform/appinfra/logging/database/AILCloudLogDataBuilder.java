@@ -1,12 +1,9 @@
 package com.philips.platform.appinfra.logging.database;
 
-import android.util.Log;
-
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 import com.philips.platform.appinfra.logging.LoggingUtils;
-import com.philips.platform.appinfra.logging.MessageSizeExceedsException;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 
 import java.util.Arrays;
@@ -75,4 +72,10 @@ public class AILCloudLogDataBuilder {
     }
 
 
+    /**
+     * Created by abhishek on 5/7/18.
+     */
+
+    public static class MessageSizeExceedsException extends Exception{
+    }
 }
