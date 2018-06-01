@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -255,9 +256,13 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                 if (FieldsValidator.isValidEmail(userIdEditText.getText().toString())) {
                     forgotPasswordPresenter.forgotPasswordRequest(userIdEditText.getText().toString(),
                             user);
+                    AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_FORGOT_PASSWORD_CHANNEL,
+                            AppTagingConstants.VALUE_FORGOT_PASSWORD_CHANNEL_EMAIL);
                 } else {
                     forgotPasswordPresenter.initateCreateResendSMSIntent(
                             userIdEditText.getText().toString());
+                    AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_FORGOT_PASSWORD_CHANNEL,
+                            AppTagingConstants.VALUE_FORGOT_PASSWORD_CHANNEL_PHONE_NUMBER);
                 }
             }
 
