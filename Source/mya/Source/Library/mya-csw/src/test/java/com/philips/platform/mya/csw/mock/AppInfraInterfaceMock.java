@@ -3,6 +3,7 @@ package com.philips.platform.mya.csw.mock;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 
+import com.adobe.mobile.Analytics;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.aikm.AIKMInterface;
@@ -181,7 +182,17 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
             }
 
             @Override
+            public void trackTimedActionStart(String actionStart, Map<String, Object> contextData) {
+
+            }
+
+            @Override
             public void trackTimedActionEnd(String s) {
+
+            }
+
+            @Override
+            public void trackTimedActionEnd(String actionEnd, Analytics.TimedActionBlock<Boolean> logic) {
 
             }
 

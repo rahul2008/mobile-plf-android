@@ -154,28 +154,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY," error while fetching ".concat(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh.name().concat(" due to ").concat(serviceDiscovery.getError().getErrorvalue().name())));
 	}
 
-	public void testTaggingFetchSD() {
-		final SecureStorageInterface.SecureStorageError secureStorageError = mock(SecureStorageInterface.SecureStorageError.class);
-		when(secureStorageError.getErrorMessage()).thenReturn("something went wrong while fetching");
-		when(secureStorageError.getErrorCode()).thenReturn(SecureStorageInterface.SecureStorageError.secureStorageError.NullData);
-		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
-				mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
-			@Override
-			SecureStorageInterface.SecureStorageError getSecureStorageError() {
-				return secureStorageError;
-			}
-
-					@Override
-					AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
-
-						return appInfraTaggingUtil;
-					}
-				};
-		mServiceDiscoveryManager.getHomeCountry();
-		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_FETCH_FAILED);
-
-	}
-
 	public void testTaggingStoreSD() {
 		final SecureStorageInterface.SecureStorageError secureStorageError = mock(SecureStorageInterface.SecureStorageError.class);
 		when(secureStorageError.getErrorMessage()).thenReturn("something went wrong while fetching");
