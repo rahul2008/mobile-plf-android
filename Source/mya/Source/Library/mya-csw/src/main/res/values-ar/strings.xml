@@ -17,6 +17,7 @@
   <string name="csw_privacy_settings_desc">تحكم بخصوصيتك: اقرأ {إشعار الخصوصية} للحصول على مزيد من المعلومات</string>
   <string name="csw_problem_occurred_error_message">حدثت مشكلة (خطأd$1% d). يرجى إعادة المحاولة.</string>
   <string name="csw_problem_occurred_error_title">حدثت مشكلة</string>
+  <string name="csw_user_session_expired">[ar]Your session is invalid, please log out and log in again</string>
   <string name="mya_Account_settings">إعدادات الحساب</string>
   <string name="mya_Address">العنوان</string>
   <string name="mya_Cancel">إلغاء</string>
@@ -58,8 +59,8 @@
   <string name="mya_csw_justintime_accept">[ar]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[ar]Maybe later</string>
   <string name="mya_csw_justintime_title">[ar]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,ar][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[NT,ar][NT]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,ar]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,ar]What do we have to offer?</string>
   <string name="mya_logout_message">سيتم تسجيل خروجك من التطبيق. يمكنك دائمًا تسجيل الدخول من جديد بعد تسجيل الخروج.</string>
   <string name="mya_logout_title">هل تريد بالتأكيد تسجيل الخروج؟</string>
 </resources>
