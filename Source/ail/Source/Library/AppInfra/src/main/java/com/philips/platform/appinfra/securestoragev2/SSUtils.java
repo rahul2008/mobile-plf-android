@@ -85,7 +85,7 @@ public class SSUtils {
             PackageInfo packageInfo = context.getPackageManager()
                     .getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : packageInfo.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
                 md.update(signature.toByteArray());
                 final String currentSignature = Base64.encodeToString(md.digest(), Base64.DEFAULT);
                 String SIGNATURE = "lDzCVHTBzfUEYeCh3RcMEj6PJ20=";
