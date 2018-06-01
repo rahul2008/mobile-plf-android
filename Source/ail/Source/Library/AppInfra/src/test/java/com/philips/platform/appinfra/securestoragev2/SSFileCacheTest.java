@@ -13,11 +13,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
 
 /**
  * Created by abhishek on 2/6/18.
@@ -66,14 +66,14 @@ public class SSFileCacheTest {
     public void testDeleteKey_Should_Return_True(){
         when(sharedPreferences.contains(anyString())).thenReturn(true);
         when(editor.commit()).thenReturn(true);
-        assertTrue(ssFileCache.deleteSecureKey("key"));
+        assertTrue(ssFileCache.deleteKey("key"));
     }
 
     @Test
     public void testDeleteKey_Should_throw_exception(){
         when(sharedPreferences.contains(anyString())).thenReturn(true);
         when(editor.commit()).thenThrow(new IllegalArgumentException());
-        assertFalse(ssFileCache.deleteSecureKey("key"));
+        assertFalse(ssFileCache.deleteKey("key"));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class SSFileCacheTest {
     @Test
     public void testDeleteKey_Should_return_false(){
         when(sharedPreferences.contains(anyString())).thenReturn(false);
-        assertFalse(ssFileCache.deleteSecureKey("key"));
+        assertFalse(ssFileCache.deleteKey("key"));
     }
     static class SSFileCacheMock extends SSFileCache{
 
