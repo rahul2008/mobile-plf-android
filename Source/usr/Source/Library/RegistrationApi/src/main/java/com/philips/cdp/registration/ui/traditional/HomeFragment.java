@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.facebook.CallbackManager;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -436,6 +437,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void handleLoginSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+                RegistrationHelper.getInstance().getCountryCode());
         enableControls(true);
         homePresenter.navigateToScreen();
         hideProgressDialog();
@@ -601,6 +604,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
             RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                     onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                    AppTagingConstants.SKIP_REGISTRATION);
         } else {
             RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
         }

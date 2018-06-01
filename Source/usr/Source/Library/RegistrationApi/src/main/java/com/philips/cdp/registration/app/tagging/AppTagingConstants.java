@@ -90,6 +90,7 @@ public class AppTagingConstants {
 
 	public static final String SUCCESS_RESEND_EMAIL_VERIFICATION = "successResendEmailVerification";
 	public static final String SUCCESS_RESEND_SMS_VERIFICATION = "successResendSMSVerification";
+	public static final String SUCCESS_RESEND_MOBILE_VERIFICATION = "successResendMobileVerification";
 
 
 	public static final String RESEND_VERIFICATION_MAIL_LINK_SENT = "We have sent an email to your email address to reset your password";
@@ -163,4 +164,11 @@ public class AppTagingConstants {
 	public static final String REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR = "UR:No worries! You do not need a Philips password. You have logged in with a social provider previously.";
 
 	public static final String KEY_HSDP_ID = "HSDPId";
+	public static final String VALUE_FORGOT_PASSWORD_CHANNEL_EMAIL = "email";
+	public static final String VALUE_FORGOT_PASSWORD_CHANNEL_PHONE_NUMBER = "phone number";
+	public static String SKIP_REGISTRATION = "loginRegistartionSkipped";
+
+	public static String KEY_COUNTRY_SELECTED = "countrySelected";
+	public static String KEY_FORGOT_PASSWORD_CHANNEL = "forgotPasswordChannel";
+	public static String KEY_SKIP_SECURE_DATA = "skipSecureData";
 }
