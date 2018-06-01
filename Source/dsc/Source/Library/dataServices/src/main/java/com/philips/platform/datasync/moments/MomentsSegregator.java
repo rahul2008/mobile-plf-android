@@ -35,7 +35,7 @@ public class MomentsSegregator {
     @Inject
     DBFetchingInterface fetchingInterface;
     @Inject
-    DBDeletingInterface dbDeletingInterface;
+    DBDeletingInterface deletingInterface;
     @Inject
     DBSavingInterface dbSavingInterface;
     @Inject
@@ -69,7 +69,7 @@ public class MomentsSegregator {
         if (momentsToCreate.size() > 0)
             dbSavingInterface.saveMoments(momentsToCreate, dbRequestListener);
         if (momentsToDelete.size() > 0)
-            dbDeletingInterface.deleteMoments(momentsToDelete, dbRequestListener);
+            deletingInterface.deleteMoments(momentsToDelete, dbRequestListener);
         if (momentsToUpdate.size() > 0)
             deleteAndSaveMoments(momentsToUpdate, dbRequestListener);
 
@@ -149,8 +149,8 @@ public class MomentsSegregator {
 
     private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         if (momentInDatabase != null) {
-            dbDeletingInterface.deleteMomentDetail(momentInDatabase, dbRequestListener);
-            dbDeletingInterface.deleteMeasurementGroup(momentInDatabase, dbRequestListener);
+            deletingInterface.deleteMomentDetail(momentInDatabase, dbRequestListener);
+            deletingInterface.deleteMeasurementGroup(momentInDatabase, dbRequestListener);
         }
     }
 

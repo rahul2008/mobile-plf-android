@@ -53,7 +53,7 @@ public class MomentsSegregatorTest {
     @Mock
     private DBFetchingInterface fetchingInterface;
     @Mock
-    private DBDeletingInterface dbDeletingInterface;
+    private DBDeletingInterface deletingInterface;
     @Mock
     private OrmMoment ormMomentMock;
     @Mock
@@ -89,7 +89,7 @@ public class MomentsSegregatorTest {
         momentsSegregator = new MomentsSegregator();
         momentsSegregator.updatingInterface = updatingInterface;
         momentsSegregator.fetchingInterface = fetchingInterface;
-        momentsSegregator.dbDeletingInterface = dbDeletingInterface;
+        momentsSegregator.deletingInterface = deletingInterface;
         momentsSegregator.dbSavingInterface = dbSavingInterface;
         momentsSegregator.mBaseAppDataCreator = dataCreatorMock;
 
@@ -130,8 +130,8 @@ public class MomentsSegregatorTest {
 
         //noinspection unchecked
         verify(dbSavingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
-        verify(dbDeletingInterface).deleteMeasurementGroup((Moment) any(), eq(dbRequestListener));
-        verify(dbDeletingInterface).deleteMomentDetail((Moment) any(), eq(dbRequestListener));
+        verify(deletingInterface).deleteMeasurementGroup((Moment) any(), eq(dbRequestListener));
+        verify(deletingInterface).deleteMomentDetail((Moment) any(), eq(dbRequestListener));
     }
 
     @Test
@@ -142,8 +142,8 @@ public class MomentsSegregatorTest {
 
         //noinspection unchecked
         verify(dbSavingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
-        verify(dbDeletingInterface).deleteMeasurementGroup((Moment) any(), eq(dbRequestListener));
-        verify(dbDeletingInterface).deleteMomentDetail((Moment) any(), eq(dbRequestListener));
+        verify(deletingInterface).deleteMeasurementGroup((Moment) any(), eq(dbRequestListener));
+        verify(deletingInterface).deleteMomentDetail((Moment) any(), eq(dbRequestListener));
     }
 
     @Test
