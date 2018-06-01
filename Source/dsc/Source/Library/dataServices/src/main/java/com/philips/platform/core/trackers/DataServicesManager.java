@@ -517,11 +517,7 @@ public class DataServicesManager {
 
                     @Override
                     public void onSuccess(URL url) {
-                        if (url.toString().isEmpty()) {
-                            errorHandlingInterface.onServiceDiscoveryError("Empty Url from Service discovery");
-                        } else {
-                            mDataServicesBaseUrl = url.toString();
-                        }
+                        mDataServicesBaseUrl = url.toString();
                         fetchingServiceUrl.open();
                     }
                 });
