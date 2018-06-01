@@ -41,6 +41,9 @@ import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -139,7 +142,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         RLog.d(TAG, "OnCreateView : is Called");
         mURFaceBookUtility = new URFaceBookUtility(this);
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
-        homePresenter = new HomePresenter(this,mCallbackManager);
+        homePresenter = new HomePresenter(this, mCallbackManager);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         view = getViewFromRegistrationFunction(inflater, container);
@@ -224,8 +227,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         });
         return socialButton;
     }
-
-
 
 
     @Override
@@ -453,12 +454,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         trackPage(AppTaggingPages.HOME);
         hideProgressDialog();
         enableControls(true);
-        if (userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED) {
-            updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
-        } else {
-            //  updateErrorNotification(mContext.getString(R.string.reg_Generic_Network_Error));
-            showNotificationBarOnNetworkNotAvailable();
-        }
+        updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
     }
 
 
@@ -524,7 +520,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         privacyPolicy.setEnabled(state);
         mCountryDisplay2.setEnabled(state);
         privacyPolicy2.setEnabled(state);
-    //    continueWithouAccount.setEnabled(state);
+        //    continueWithouAccount.setEnabled(state);
     }
 
     @Override
@@ -782,7 +778,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         hideProgressDialog();
         enableControls(true);
         updateErrorNotification(mContext.
-                getString(R.string.reg_JanRain_Server_Connection_Failed) );
+                getString(R.string.reg_JanRain_Server_Connection_Failed));
     }
 
     @Override
