@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -64,6 +65,17 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
                 showWebPage(url);
             }
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(event.getAction() == KeyEvent.ACTION_DOWN){
+            if(webView.canGoBack()){
+                webView.goBack();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void setActionbarTitle(String title) {
