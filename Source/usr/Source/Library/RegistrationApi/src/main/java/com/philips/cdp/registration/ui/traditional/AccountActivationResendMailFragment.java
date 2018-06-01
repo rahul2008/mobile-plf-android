@@ -326,12 +326,12 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         try {
             final JSONObject raw_response = userRegistrationFailureInfo.getError().raw_response;
             if (raw_response == null) {
-                updateErrorNotification(mContext.getString(R.string.reg_Generic_Network_Error));
+                updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg));
                 return;
             }
             updateErrorNotification(raw_response.getString("message"));
         } catch (JSONException e) {
-            updateErrorNotification(mContext.getString(R.string.reg_Generic_Network_Error));
+            updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg));
             RLog.e(TAG, "handleResendVerificationEmailFailedWithError : Json Exception Occurred ");
         }
         mReturnButton.setEnabled(true);
@@ -418,7 +418,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public void onRefreshUserFailed(int error) {
 //        mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
-        updateErrorNotification(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
+        updateErrorNotification(mContext.getResources().getString(R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg));
     }
 
     boolean proceedResend = true;

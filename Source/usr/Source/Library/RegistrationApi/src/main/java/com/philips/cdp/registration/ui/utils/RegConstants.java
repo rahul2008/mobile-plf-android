@@ -203,5 +203,5 @@ public class RegConstants {
     public static final String KEY_BUNDLE_COUNTRY_NAME = "KEY_BUNDLE_COUNTRY_NAME";
 
     public static final int CAMPAIGN_ID_UNAVAILABLE= 412;
-    public static final int UNKNOWN_ERROR_ID = R.string.reg_Generic_Network_Error;
+    public static final int UNKNOWN_ERROR_ID = R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg;
 }

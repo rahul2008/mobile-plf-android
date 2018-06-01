@@ -122,7 +122,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void showNetworkUnavailableError() {
-        recoveryErrorTextView.setError(getResources().getString(R.string.reg_Generic_Network_Error));
+        recoveryErrorTextView.setError(getResources().getString(R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg));
         recoveryErrorTextView.setVisibility(VISIBLE);
     }
 

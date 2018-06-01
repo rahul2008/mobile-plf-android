@@ -10,6 +10,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 public enum URXErrorEnum {
 
     URX_SMS_INVALID_NUMBER(ErrorCodes.URX_INVALID_PHONENUMBER, R.string.reg_URX_SMS_Invalid_PhoneNumber),
+    URX_PHONENUMBER_NOT_REGISTERED(ErrorCodes.URX_PHONENUMBER_NOT_REGISTERED, R.string.reg_URX_SMS_Invalid_PhoneNumber),
     URX_SMS__UNAVAILABLE_NUMBER(ErrorCodes.URX_PHONENUMBER_UNAVAILABLE, R.string.reg_URX_SMS_PhoneNumber_UnAvail_ForSMS),
     URX_SMS_UNSUPPORTED_COUNTRY(ErrorCodes.URX_UNSUPPORTED_COUNTRY, R.string.reg_URX_SMS_UnSupported_Country_ForSMS),
     URX_SMS_LIMIT_REACHED(ErrorCodes.URX_SMS_LIMIT_REACHED, R.string.reg_URX_SMS_Limit_Reached),

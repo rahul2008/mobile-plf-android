@@ -22,6 +22,8 @@ public class ErrorCodes {
 
     public static final int URX_INVALID_PHONENUMBER = 10;
 
+    public static final int URX_PHONENUMBER_NOT_REGISTERED = 15;
+
     public static final int URX_PHONENUMBER_UNAVAILABLE = 20;
 
     public static final int URX_UNSUPPORTED_COUNTRY = 30;

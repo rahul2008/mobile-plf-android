@@ -56,6 +56,7 @@ import com.philips.cdp.registration.restclient.URRequest;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
+import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPassVerifyCodeFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
@@ -705,8 +706,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             hideForgotPasswordSpinner();
             RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
             final Integer code = Integer.parseInt(errorCode);
-            mEtEmail.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.URX, code));
-            mEtEmail.showError();
+            if (URNotification.INLINE_ERROR_CODE.contains(code)) {
+                mEtEmail.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.URX, code));
+                mEtEmail.showError();
+            } else {
+                updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.URX, code));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

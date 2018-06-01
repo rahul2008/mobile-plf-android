@@ -19,7 +19,7 @@ public class URNotification {
         void notificationInlineMsg(String msg);
     }
 
-    private static List<Integer> INLINE_ERROR_CODE = new ArrayList<>();
+    public static List<Integer> INLINE_ERROR_CODE = new ArrayList<>();
 
     static {
 
@@ -34,6 +34,7 @@ public class URNotification {
         INLINE_ERROR_CODE.add(510);
         //URX Inline Error
         INLINE_ERROR_CODE.add(10);
+        INLINE_ERROR_CODE.add(15);
         INLINE_ERROR_CODE.add(20);
         INLINE_ERROR_CODE.add(30);
         INLINE_ERROR_CODE.add(40);

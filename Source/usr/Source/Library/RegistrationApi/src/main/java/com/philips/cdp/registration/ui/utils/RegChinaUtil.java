@@ -46,7 +46,7 @@ public class RegChinaUtil {
 
             default:
                 RLog.e(TAG, "Error Message not received for given error code : " + errorCode);
-                return context.getResources().getString(R.string.reg_Generic_Network_Error);
+                return context.getResources().getString(R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg);
         }
         RLog.e(TAG, "Error Message : " + errorMsg);
         return errorMsg;

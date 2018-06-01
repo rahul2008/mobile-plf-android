@@ -421,7 +421,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void showTryAgainError() {
-        errorMessage.setError(mContext.getString(R.string.reg_Generic_Network_Error));
+        errorMessage.setError(mContext.getString(R.string.reg_Janrain_HSDP_ServerErrorMsg));
         scrollViewAutomatically(errorMessage, rootLayout);
     }
 
