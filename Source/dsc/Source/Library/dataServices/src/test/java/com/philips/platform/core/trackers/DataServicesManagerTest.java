@@ -2,6 +2,8 @@ package com.philips.platform.core.trackers;
 
 import android.content.SharedPreferences;
 
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnGetServiceUrlListener;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -85,12 +87,14 @@ import org.mockito.stubbing.Answer;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowLooper;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -100,6 +104,7 @@ import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -175,7 +180,8 @@ public class DataServicesManagerTest {
     private SynchronisationCompleteListener synchronisationCompleteListener;
     @Mock
     private Settings settingsMock;
-
+    @Mock
+    private ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
     private DSPaginationSpy mDSPagination;
 
     @Mock
@@ -189,6 +195,10 @@ public class DataServicesManagerTest {
 
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.setAppComponent(appComponantMock);
+
+        // Since the DataServiceManager is a singleton, we need to clear the
+        // cached mDataServicesBaseUrl value forcefully to get to clean state for testing
+        mDataServicesManager.mDataServicesBaseUrl = null;
 
         baseAppDataCreator = new VerticalCreater();
         userRegistrationInterface = new VerticalUserRegistrationInterface();
@@ -204,6 +214,7 @@ public class DataServicesManagerTest {
         mDataServicesManager.mSynchronisationCompleteListener = synchronisationCompleteListenerMock;
         mDataServicesManager.gdprStorage = prefsMock;
         mDataServicesManager.mBackendIdProvider = uCoreAccessProvider;
+        mDataServicesManager.setServiceDiscoveryInterface(serviceDiscoveryInterfaceMock);
         when(requestEventMock.getEventId()).thenReturn(TEST_REFERENCE_ID);
     }
 
@@ -465,7 +476,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_registerSynchronisationCompleteListener_called() {
         mDataServicesManager.registerSynchronisationCompleteListener(synchronisationCompleteListenerMock);
-        assertThat(DataServicesManager.getInstance().mSynchronisationCompleteListener).isInstanceOf(SynchronisationCompleteListener.class);
+        assertThat(mDataServicesManager.mSynchronisationCompleteListener).isInstanceOf(SynchronisationCompleteListener.class);
     }
 
     @Test
@@ -479,7 +490,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_unRegisterSynchronisationCosmpleteListener_called() {
         mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
-        assertThat(DataServicesManager.getInstance().mSynchronisationCompleteListener).isNull();
+        assertThat(mDataServicesManager.mSynchronisationCompleteListener).isNull();
     }
 
     @Test
@@ -575,6 +586,31 @@ public class DataServicesManagerTest {
         givenNullServiceDiscoveryInterface();
         whenFetchBaseUrlIsInvoked();
         whenFetchCoachingServiceUrlIsInvoked();
+    }
+
+    public void fetchBaseUrlReturnsNullWhenServiceDiscoveryEncounterError() {
+        givenServiceDiscoveryReturnsError("Intentional error");
+        assertThat(mDataServicesManager.fetchBaseUrlFromServiceDiscovery()).isNull();
+    }
+
+    @Test
+    public void fetchBaseUrlReportsErrorWhenServiceDiscoveryEncounterError() {
+        givenServiceDiscoveryReturnsError("Intentional error");
+        whenFetchBaseUrlIsInvoked();
+        verify(errorHandlingInterfaceMock).onServiceDiscoveryError("Intentional error");
+    }
+
+    @Test
+    public void fetchBaseUrlReturnsServiceDiscoveryBaseUrl() {
+        givenServiceDiscoveryReturnsServiceUrl("http://api.example.com");
+        assertThat(mDataServicesManager.fetchBaseUrlFromServiceDiscovery()).isEqualTo("http://api.example.com");
+    }
+
+    @Test
+    public void fetchBaseUrlReturnsCachedServiceDiscoveryBaseUrl() {
+        givenServiceDiscoveryReturnsServiceUrl("http://api.example.com");
+        whenFetchBaseUrlIsInvokedTwice();
+        thenGetServiceUrlWithCountryPreferenceIsCalledOnlyOnce();
     }
 
     @Test
@@ -922,6 +958,28 @@ public class DataServicesManagerTest {
         mDataServicesManager.setServiceDiscoveryInterface(null);
     }
 
+    private void givenServiceDiscoveryReturnsError(final String error) {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                OnGetServiceUrlListener callback = invocation.getArgument(1);
+                callback.onError(NO_NETWORK, error);
+                return null;
+            }
+        }).when(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(anyString(), any(OnGetServiceUrlListener.class));
+    }
+
+    private void givenServiceDiscoveryReturnsServiceUrl(final String serviceUrl) {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                OnGetServiceUrlListener callback = invocation.getArgument(1);
+                callback.onSuccess(new URL(serviceUrl));
+                return null;
+            }
+        }).when(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(anyString(), any(OnGetServiceUrlListener.class));
+    }
+
     private void givenSyncCompletedOnStartSync() {
         doAnswer(new Answer() {
             @Override
@@ -948,6 +1006,15 @@ public class DataServicesManagerTest {
 
     private void whenFetchBaseUrlIsInvoked() {
         mDataServicesManager.fetchBaseUrlFromServiceDiscovery();
+    }
+
+    private void whenFetchBaseUrlIsInvokedTwice() {
+        mDataServicesManager.fetchBaseUrlFromServiceDiscovery();
+        mDataServicesManager.fetchBaseUrlFromServiceDiscovery();
+    }
+
+    private void thenGetServiceUrlWithCountryPreferenceIsCalledOnlyOnce() {
+        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(anyString(), any(OnGetServiceUrlListener.class));
     }
 
     private void whenFetchCoachingServiceUrlIsInvoked() {
