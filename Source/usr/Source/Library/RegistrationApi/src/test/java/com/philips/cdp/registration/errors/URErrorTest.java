@@ -67,10 +67,6 @@ public class URErrorTest {
     public void shouldTestJANRAINError_WithDefault() {
         urError.getLocalizedError(ErrorType.UNKNOWN, ErrorCodes.JANRAIN_AUTHORIZATION_CODE_EXPIRED);
     }
-
-    @Test
-    public void shouldTestJANRAINError_ErrorCodeNotGiven() {
-        urError.getLocalizedError(ErrorType.UNKNOWN, Mockito.anyInt());
-    }
+    
 
 }
