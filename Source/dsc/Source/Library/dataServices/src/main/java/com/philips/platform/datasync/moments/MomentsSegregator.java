@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.datasync.moments;
 
 import android.util.Log;
@@ -137,11 +137,11 @@ public class MomentsSegregator {
     private int getNewMomentVersion(Moment moment, Moment momentInDatabase) {
         int momentVersionOld = 0;
         int momentVersionNew = moment.getSynchronisationData().getVersion();
-        if(momentInDatabase.getSynchronisationData() != null) {
+        if (momentInDatabase.getSynchronisationData() != null) {
             momentVersionOld = momentInDatabase.getSynchronisationData().getVersion();
         }
 
-        if(momentVersionOld >= momentVersionNew) {
+        if (momentVersionOld >= momentVersionNew) {
             momentVersionNew = momentVersionOld;
         }
         return momentVersionNew;
