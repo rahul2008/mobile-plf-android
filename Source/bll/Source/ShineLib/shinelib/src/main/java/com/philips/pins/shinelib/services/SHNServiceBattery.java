@@ -46,7 +46,7 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
 
     private SHNService shnService;
 
-    protected SHNCharacteristic.SHNCharacteristicChangedListener shnCharacteristicChangedListener = new SHNCharacteristic.SHNCharacteristicChangedListener() {
+    private SHNCharacteristic.SHNCharacteristicChangedListener shnCharacteristicChangedListener = new SHNCharacteristic.SHNCharacteristicChangedListener() {
         @Override
         public void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data) {
             if (shnCharacteristic.getUuid() == SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID) {

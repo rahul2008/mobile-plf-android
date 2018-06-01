@@ -13,6 +13,8 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.SHNFactory;
+import com.philips.pins.shinelib.utility.ScalarConverters;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +29,10 @@ import static com.philips.pins.shinelib.services.SHNServiceBattery.SYSTEM_BATTER
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,19 +44,32 @@ public class SHNServiceBatteryTest {
     private SHNCharacteristic mockedShnCharacteristic;
     private SHNServiceBattery shnServiceBattery;
     private SHNIntegerResultListener mockedShnIntegerResultListener;
+    private SHNServiceBattery.SHNServiceBatteryListener mockedBatteryListener;
+    private SHNCharacteristic.SHNCharacteristicChangedListener characteristicChangedListener;
 
     @Before
     public void setUp() {
         mockedShnFactory = Mockito.mock(SHNFactory.class);
         mockedShnService = Mockito.mock(SHNService.class);
         mockedShnIntegerResultListener = Mockito.mock(SHNIntegerResultListener.class);
+        mockedBatteryListener = Mockito.mock(SHNServiceBattery.SHNServiceBatteryListener.class);
 
         when(mockedShnFactory.createNewSHNService(any(UUID.class), any(Set.class), any(Set.class))).thenReturn(mockedShnService);
 
         mockedShnCharacteristic = Mockito.mock(SHNCharacteristic.class);
         when(mockedShnService.getSHNCharacteristic(any(UUID.class))).thenReturn(mockedShnCharacteristic);
+        when(mockedShnCharacteristic.getUuid()).thenReturn(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
 
         shnServiceBattery = new SHNServiceBattery(mockedShnFactory);
+
+        ArgumentCaptor<SHNCharacteristic.SHNCharacteristicChangedListener> shnCharacteristicChangedListenerArgumentCaptor =
+                ArgumentCaptor.forClass(SHNCharacteristic.SHNCharacteristicChangedListener.class);
+        SHNResultListener mockedShnResultListener = Mockito.mock(SHNResultListener.class);
+        shnServiceBattery.setBatteryLevelNotifications(true, mockedShnResultListener);
+        verify(mockedShnCharacteristic).setShnCharacteristicChangedListener(shnCharacteristicChangedListenerArgumentCaptor.capture());
+        characteristicChangedListener = shnCharacteristicChangedListenerArgumentCaptor.getValue();
+
+        shnServiceBattery.setShnServiceBatteryListener(mockedBatteryListener);
     }
 
     @Test
@@ -130,22 +147,44 @@ public class SHNServiceBatteryTest {
     }
 
     @Test
-    public void whenNotificationIsRecievedThenListenerIsNotified() {
-        ArgumentCaptor<SHNCharacteristic.SHNCharacteristicChangedListener> shnCharacteristicChangedListenerArgumentCaptor =
-                ArgumentCaptor.forClass(SHNCharacteristic.SHNCharacteristicChangedListener.class);
-        SHNResultListener mockedShnResultListener = Mockito.mock(SHNResultListener.class);
-        SHNServiceBattery.SHNServiceBatteryListener batteryListener = Mockito.mock(SHNServiceBattery.SHNServiceBatteryListener.class);
-        shnServiceBattery.setBatteryLevelNotifications(true, mockedShnResultListener);
-        shnServiceBattery.setShnServiceBatteryListener(batteryListener);
+    public void givenBatteryListenerIsRegisteredWhenNotificationArrivesWithValidLevelThenListenerIsUpdated() throws Exception {
+        //setup step registers listener
 
-        verify(mockedShnCharacteristic).setShnCharacteristicChangedListener(shnCharacteristicChangedListenerArgumentCaptor.capture());
-        when(mockedShnCharacteristic.getUuid()).thenReturn(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
-        shnCharacteristicChangedListenerArgumentCaptor.getValue().onCharacteristicChanged(mockedShnCharacteristic, new byte[]{0x64});
+        characteristicChangedListener.onCharacteristicChanged(mockedShnCharacteristic, new byte[]{ScalarConverters.intToubyte(50)});
 
-        verify(batteryListener).onBatteryLevelUpdated(100);
+        verify(mockedBatteryListener).onBatteryLevelUpdated(50);
+    }
+
+    @Test
+    public void givenBatteryListenerIsRegisteredWhenNotificationArrivesWithUpperBoundLevelThenListenerIsUpdated() throws Exception {
+        //setup step registers listener
+
+        characteristicChangedListener.onCharacteristicChanged(mockedShnCharacteristic, new byte[]{ScalarConverters.intToubyte(100)});
+
+        verify(mockedBatteryListener).onBatteryLevelUpdated(100);
+    }
+
+    @Test
+    public void givenBatteryListenerIsRegisteredWhenNotificationArrivesWithLowerBoundLevelThenListenerIsUpdated() throws Exception {
+        //setup step registers listener
+
+        characteristicChangedListener.onCharacteristicChanged(mockedShnCharacteristic, new byte[]{ScalarConverters.intToubyte(0)});
+
+        verify(mockedBatteryListener).onBatteryLevelUpdated(0);
+    }
+
+    @Test
+    public void givenBatteryListenerIsRegisteredWhenNotificationArrivesWithAboveUpperBoundLevelThenListenerIsNotUpdated() throws Exception {
+        //setup step registers listener
+
+        characteristicChangedListener.onCharacteristicChanged(mockedShnCharacteristic, new byte[]{ScalarConverters.intToubyte(101)});
+
+        verify(mockedBatteryListener, never()).onBatteryLevelUpdated(anyInt());
     }
 
     private void checkNotificationSetting(boolean enabled) {
+        reset(mockedShnCharacteristic);
+
         SHNResultListener mockedShnResultListener = Mockito.mock(SHNResultListener.class);
 
         shnServiceBattery.setBatteryLevelNotifications(enabled, mockedShnResultListener);
@@ -162,7 +201,7 @@ public class SHNServiceBatteryTest {
         assertEquals(enabled, booleanArgumentCaptor.getValue());
 
         if (enabled) {
-            verify(mockedShnCharacteristic).setShnCharacteristicChangedListener(shnServiceBattery.shnCharacteristicChangedListener);
+            verify(mockedShnCharacteristic).setShnCharacteristicChangedListener(characteristicChangedListener);
         } else {
             verify(mockedShnCharacteristic).setShnCharacteristicChangedListener(null);
         }
