@@ -635,14 +635,14 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void fetchCoachingServiceUrlReturnsServiceDiscoveryBaseUrl() {
+    public void fetchCoachingServiceUrlReturnsServiceDiscoveryCoachingServiceUrl() {
         givenServiceDiscoveryReturnsServiceUrl("http://api.example.com");
         assertThat(mDataServicesManager.fetchCoachingServiceUrlFromServiceDiscovery()).isEqualTo("http://api.example.com");
         verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(COACHING_SERVICE_URL_KEY), any(OnGetServiceUrlListener.class));
     }
 
     @Test
-    public void fetchCoachingServiceUrlReturnsCachedServiceDiscoveryBaseUrl() {
+    public void fetchCoachingServiceUrlReturnsCachedServiceDiscoveryCoachingServiceUrl() {
         givenServiceDiscoveryReturnsServiceUrl("http://api.example.com");
         whenFetchCoachingServiceUrlIsInvokedTwice();
         thenGetServiceUrlWithCountryPreferenceIsCalledOnlyOnce();
