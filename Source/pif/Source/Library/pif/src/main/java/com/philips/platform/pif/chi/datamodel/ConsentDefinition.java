@@ -72,6 +72,7 @@ public class ConsentDefinition implements Parcelable, Serializable {
         parcel.writeInt(helpText);
         parcel.writeStringList(types);
         parcel.writeInt(version);
+        parcel.writeInt(revokeWarningTextRes);
     }
 
     protected ConsentDefinition(Parcel in) {
@@ -81,6 +82,7 @@ public class ConsentDefinition implements Parcelable, Serializable {
         types = new ArrayList<>();
         in.readStringList(types);
         version = in.readInt();
+        revokeWarningTextRes = in.readInt();
     }
 
     public static final Creator<ConsentDefinition> CREATOR = new Creator<ConsentDefinition>() {
@@ -116,6 +118,8 @@ public class ConsentDefinition implements Parcelable, Serializable {
         if (text != that.text) return false;
         if (helpText != that.helpText)
             return false;
+        if (revokeWarningTextRes != that.revokeWarningTextRes) return false;
+
         return types != null ? types.equals(that.types) : that.types == null;
     }
 
@@ -126,6 +130,7 @@ public class ConsentDefinition implements Parcelable, Serializable {
         result = 31 * result + helpText;
         result = 31 * result + (types != null ? types.hashCode() : 0);
         result = 31 * result + version;
+        result = 31 * result + revokeWarningTextRes;
         return result;
     }
 }
