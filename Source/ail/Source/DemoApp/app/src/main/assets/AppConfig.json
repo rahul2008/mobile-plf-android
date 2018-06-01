@@ -21,7 +21,7 @@
   "appinfra":{
     "appidentity.micrositeId": "77001",
     "appidentity.sector": "b2c",
-    "appidentity.appState": "staging",
+    "appidentity.appState": "production",
     "appidentity.serviceDiscoveryEnvironment": "production",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": ["bundleId"] ,
@@ -31,7 +31,7 @@
      },
     "contentLoader.limitSize":100,
     "servicediscovery.platformMicrositeId":"70000",
-    "servicediscovery.platformEnvironment":"staging",
+    "servicediscovery.platformEnvironment":"production",
     "servicediscovery.propositionEnabled":true,
     "appconfig.cloudServiceId":"appinfra.appconfigdownload",
     "timesync.ntp.hosts":["time1.google.com","time2.google.com","time3.google.com","time4.google.com"],
