@@ -17,6 +17,7 @@
   <string name="csw_privacy_settings_desc">Kiểm soát quyền riêng tư của bạn. Hãy đọc {thông báo về quyền riêng tư} để biết thêm thông tin.</string>
   <string name="csw_problem_occurred_error_message">Đã xảy ra vấn đề (lỗi %1$d). Vui lòng thử lại.</string>
   <string name="csw_problem_occurred_error_title">Đã xảy ra lỗi</string>
+  <string name="csw_user_session_expired">[vi]Your session is invalid, please log out and log in again</string>
   <string name="mya_Account_settings">Thiết đặt tài khoản</string>
   <string name="mya_Address">Địa chỉ</string>
   <string name="mya_Cancel">Hủy</string>
@@ -58,8 +59,8 @@
   <string name="mya_csw_justintime_accept">[vi]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[vi]Maybe later</string>
   <string name="mya_csw_justintime_title">[vi]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,vi][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[NT,vi][NT]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,vi]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,vi]What do we have to offer?</string>
   <string name="mya_logout_message">Bạn sẽ được đăng xuất khỏi ứng dụng. Sau khi đăng xuất, bạn vẫn luôn có thể đăng nhập lại.</string>
   <string name="mya_logout_title">Bạn có chắc chắn muốn đăng xuất không?</string>
 </resources>

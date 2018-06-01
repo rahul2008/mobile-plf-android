@@ -17,6 +17,7 @@
   <string name="csw_privacy_settings_desc">Suojaa yksityisyytesi. Tutustu {ietosuojailmoitukseen}.</string>
   <string name="csw_problem_occurred_error_message">Tapahtui virhe (virhe %1$d). Yritä uudelleen.</string>
   <string name="csw_problem_occurred_error_title">Tapahtui virhe</string>
+  <string name="csw_user_session_expired">[fi]Your session is invalid, please log out and log in again</string>
   <string name="mya_Account_settings">Tilin asetukset</string>
   <string name="mya_Address">Osoite</string>
   <string name="mya_Cancel">Peruuta</string>
@@ -58,8 +59,8 @@
   <string name="mya_csw_justintime_accept">[fi]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[fi]Maybe later</string>
   <string name="mya_csw_justintime_title">[fi]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,fi][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[NT,fi][NT]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,fi]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,fi]What do we have to offer?</string>
   <string name="mya_logout_message">Sinut kirjataan ulos sovelluksesta. Voit kirjautua sisään uudelleen.</string>
   <string name="mya_logout_title">Haluatko varmasti kirjautua ulos?</string>
 </resources>
