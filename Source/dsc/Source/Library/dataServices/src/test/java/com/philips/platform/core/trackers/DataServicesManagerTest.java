@@ -207,7 +207,7 @@ public class DataServicesManagerTest {
         userRegistrationInterface = new VerticalUserRegistrationInterface();
         mDSPagination = new DSPaginationSpy();
         mDataServicesManager.mEventing = eventingMock;
-        mDataServicesManager.mDataCreater = baseAppDataCreator;
+        mDataServicesManager.dataCreator = baseAppDataCreator;
         mDataServicesManager.mBackendIdProvider = uCoreAccessProvider;
         mDataServicesManager.mCore = coreMock;
         mDataServicesManager.mSynchronisationMonitor = synchronisationMonitorMock;
@@ -395,7 +395,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_createMomentDetail_called() {
-        mDataServicesManager.mDataCreater = dataCreatorMock;
+        mDataServicesManager.dataCreator = dataCreatorMock;
         when(dataCreatorMock.createMomentDetail("Temperature", momentMock)).thenReturn(momentDetailMock);
         MomentDetail detail = mDataServicesManager.createMomentDetail("Temperature", "23", momentMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
@@ -405,7 +405,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_createMeasurement_called() {
-        mDataServicesManager.mDataCreater = dataCreatorMock;
+        mDataServicesManager.dataCreator = dataCreatorMock;
         when(dataCreatorMock.createMeasurement("Temperature", measurementGroupMock)).thenReturn(measurementMock);
         Measurement measurement = mDataServicesManager.createMeasurement("Temperature", "23", "celcius", measurementGroupMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
@@ -415,7 +415,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_createMeasurementDetail_called() {
-        mDataServicesManager.mDataCreater = dataCreatorMock;
+        mDataServicesManager.dataCreator = dataCreatorMock;
         when(dataCreatorMock.createMeasurementDetail("Temperature", measurementMock)).thenReturn(measurementDetailMock);
         MeasurementDetail measurementDetail = mDataServicesManager.createMeasurementDetail("Temperature", "23", measurementMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
@@ -453,7 +453,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_createMeasurementGroupDetail_called() {
-        mDataServicesManager.mDataCreater = dataCreatorMock;
+        mDataServicesManager.dataCreator = dataCreatorMock;
         when(dataCreatorMock.createMeasurementGroupDetail("Temperature", measurementGroupMock)).thenReturn(measurementGroupDetailMock);
         MeasurementGroupDetail measurementGroupDetail = mDataServicesManager.createMeasurementGroupDetail("Temperature", "23", measurementGroupMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
