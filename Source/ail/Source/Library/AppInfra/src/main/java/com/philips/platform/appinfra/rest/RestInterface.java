@@ -42,4 +42,11 @@ public interface RestInterface extends Serializable {
 
     void unregisterNetworkChnageListener(NetworkConnectivityChangeListener networkConnectivityChangeListener);
 
+    /**
+     * Created by abhishek on 5/22/18.
+     */
+
+    interface NetworkConnectivityChangeListener {
+        void onConnectivityStateChange(boolean isConnected);
+    }
 }

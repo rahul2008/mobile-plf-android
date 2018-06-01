@@ -1,6 +1,5 @@
 package com.philips.platform.mya.catk.mock;
 
-import com.philips.platform.appinfra.rest.NetworkConnectivityChangeListener;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 

@@ -10,9 +10,9 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
-import com.philips.platform.appinfra.rest.NetworkConnectivityChangeListener;
-import com.philips.platform.pif.chi.ConsentChangeListener;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * Created by abhishek on 5/14/18.
  */
 
-public class CloudLogSyncManager implements Observer<Integer>, NetworkConnectivityChangeListener, ConsentChangeListener {
+public class CloudLogSyncManager implements Observer<Integer>, RestInterface.NetworkConnectivityChangeListener, ConsentHandlerInterface.ConsentChangeListener {
 
     private static CloudLogSyncManager cloudLogSyncManager;
 

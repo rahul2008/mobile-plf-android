@@ -1,6 +1,5 @@
 package com.philips.cdp.registration.consents;
 
-import com.philips.platform.appinfra.rest.NetworkConnectivityChangeListener;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 
