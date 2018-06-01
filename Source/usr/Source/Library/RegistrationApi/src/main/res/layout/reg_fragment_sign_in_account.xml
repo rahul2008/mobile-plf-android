@@ -13,8 +13,8 @@
         android:layout_height="match_parent"
         android:paddingTop="@dimen/reg_dimen_24dp"
         android:paddingBottom="@dimen/reg_dimen_12dp"
-        android:layout_marginLeft="@dimen/reg_layout_margin_16"
-        android:layout_marginRight="@dimen/reg_layout_margin_16"
+        android:layout_marginLeft="@dimen/reg_dimen_16dp"
+        android:layout_marginRight="@dimen/reg_dimen_16dp"
         android:background="@android:color/transparent"
         android:fillViewport="true">
 
@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/usr_loginScreen_forgotPassword_button"
-                android:layout_marginTop="@dimen/reg_margin_bottom" />
+                android:layout_marginTop="@dimen/reg_dimen_16dp" />
             
         </RelativeLayout>
     </ScrollView>

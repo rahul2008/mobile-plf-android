@@ -29,6 +29,8 @@ import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -96,7 +98,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     User user;
 
 
-
     @Inject
     RegistrationHelper registrationHelper;
 
@@ -148,16 +149,16 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-
+        registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_forgot_password, container, false);
 
-        forgotPasswordPresenter = new ForgotPasswordPresenter( registrationHelper, eventHelper, this, context);
+        forgotPasswordPresenter = new ForgotPasswordPresenter(registrationHelper, eventHelper, this, context);
         forgotPasswordPresenter.registerListener();
 
         ButterKnife.bind(this, view);
@@ -185,8 +186,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(forgotPasswordPresenter!=null)
-        forgotPasswordPresenter.clearDisposable();
+        if (forgotPasswordPresenter != null)
+            forgotPasswordPresenter.clearDisposable();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onDestroyView");
     }
 
@@ -198,8 +199,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onDestroy");
-        if(forgotPasswordPresenter!=null)
-        forgotPasswordPresenter.unRegisterListener();
+        if (forgotPasswordPresenter != null)
+            forgotPasswordPresenter.unRegisterListener();
 
         RLog.d(RLog.EVENT_LISTENERS,
                 "ResetPasswordFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
@@ -222,8 +223,10 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     private void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
+            hideNotificationBarOnNetworkAvailable();
         } else {
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+//            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            showNotificationBarOnNetworkNotAvailable();
             scrollViewAutomatically(mRegError, layoutScrollView);
         }
     }
@@ -235,9 +238,11 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
             }
             sendEmailOrSMSButton.hideProgressIndicator();
             mRegError.hideError();
+            hideNotificationBarOnNetworkAvailable();
         } else {
             sendEmailOrSMSButton.hideProgressIndicator();
             sendEmailOrSMSButton.setEnabled(false);
+            showNotificationBarOnNetworkNotAvailable();
         }
     }
 
@@ -268,7 +273,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
         } else {
             hideForgotPasswordSpinner();
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+//            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            showNotificationBarOnNetworkNotAvailable();
         }
     }
 
@@ -310,7 +316,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                         .setPositiveButton(getString(R.string.reg_DLS_Forgot_Password_Alert_Button_Title), v -> {
                             trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
                             alertDialogFragment.dismiss();
-                            alertDialogFragment=null;
+                            alertDialogFragment = null;
                             getFragmentManager().popBackStack();
                         })
                         .setDimLayer(DialogConstants.DIM_STRONG)
@@ -331,7 +337,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         hideForgotPasswordSpinner();
         if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT ||
                 userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE) {
-            mRegError.setError(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+//            mRegError.setError(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            updateErrorNotification(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             usr_forgotpassword_inputId_inputValidation.showError();
             return;
@@ -373,11 +380,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         trackActionStatus(state, key, value);
     }
 
-//    @Override
-//    public void intiateService(String url) {
-//        getActivity().startService(forgotPasswordPresenter.createResendSMSIntent(url));
-//
-//    }
+
 
     @Override
     public void addFragment(Fragment fragment) {
@@ -392,8 +395,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public void onErrorResponse(VolleyError error) {
         hideForgotPasswordSpinner();
-        forgotPasswordErrorMessage(
-                context.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
+        forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.NETWOK, error.networkResponse.statusCode));
     }
 
     @Override
@@ -415,5 +417,10 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     public void backPressed() {
         hideForgotPasswordSpinner();
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        mRegError.setError(msg);
     }
 }

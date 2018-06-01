@@ -40,7 +40,7 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/reg_scroll_margin" />
+                android:layout_height="@dimen/reg_dimen_16dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
