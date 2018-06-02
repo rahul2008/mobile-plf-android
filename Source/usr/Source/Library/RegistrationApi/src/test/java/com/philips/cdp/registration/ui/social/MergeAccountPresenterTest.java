@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.ui.social;
 
+import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
@@ -11,12 +13,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.annotation.Config;
+
 import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Created by philips on 11/22/17.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(CustomRobolectricRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class MergeAccountPresenterTest {
 
     @Mock
@@ -55,7 +60,7 @@ public class MergeAccountPresenterTest {
             }
 
             @Override
-            public void mergeFailure(String reason) {
+            public void mergeFailure(int reason) {
 
             }
 

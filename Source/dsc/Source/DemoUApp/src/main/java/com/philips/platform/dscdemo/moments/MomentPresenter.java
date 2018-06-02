@@ -136,7 +136,10 @@ class MomentPresenter {
         mDataServices.fetchMomentsWithTypeAndTimeLine(momentType,startDate,endDate,paginationModel,dbFetchRequestListener);
     }
 
-
+    void resetLastSyncTimestampTo(DateTime lastSyncTimestamp) {
+        mDataServices.deleteAll(dbRequestListener);
+        mDataServices.resetLastSyncTimestampTo(lastSyncTimestamp);
+    }
 
     private void saveRequest(Moment moment) {
         if (moment.getCreatorId() == null || moment.getSubjectId() == null) {

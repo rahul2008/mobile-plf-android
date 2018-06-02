@@ -15,6 +15,7 @@ import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
@@ -117,7 +118,7 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
     public void onFlowDownloadFailure() {
         RLog.d(TAG, "onFlowDownloadFailure : Jump not initialized, was initialized but failed");
         ThreadUtils.postInMainThread(mContext, () ->
-                mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(-1));
+                mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(ErrorCodes.UNKNOWN_ERROR));
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
 
