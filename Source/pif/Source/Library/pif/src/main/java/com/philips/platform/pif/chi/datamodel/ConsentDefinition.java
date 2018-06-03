@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConsentDefinition implements Parcelable, Serializable {
-    private String identifier;
     private int text;
     private int helpText;
     private List<String> types;
@@ -80,7 +79,6 @@ public class ConsentDefinition implements Parcelable, Serializable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(identifier);
         parcel.writeInt(text);
         parcel.writeInt(helpText);
         parcel.writeStringList(types);
@@ -89,7 +87,6 @@ public class ConsentDefinition implements Parcelable, Serializable {
     }
 
     protected ConsentDefinition(Parcel in) {
-        identifier = in.readString();
         text = in.readInt();
         helpText = in.readInt();
         types = new ArrayList<>();
@@ -110,8 +107,6 @@ public class ConsentDefinition implements Parcelable, Serializable {
         }
     };
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -120,8 +115,6 @@ public class ConsentDefinition implements Parcelable, Serializable {
         ConsentDefinition that = (ConsentDefinition) o;
 
         if (version != that.version) return false;
-        if (identifier != null ? !identifier.equals(that.identifier) : that.identifier != null)
-            return false;
         if (text != that.text) return false;
         if (helpText != that.helpText)
             return false;
@@ -132,8 +125,7 @@ public class ConsentDefinition implements Parcelable, Serializable {
 
     @Override
     public int hashCode() {
-        int result = identifier != null ? identifier.hashCode() : 0;
-        result = 31 * result + text;
+        int result = text;
         result = 31 * result + helpText;
         result = 31 * result + (types != null ? types.hashCode() : 0);
         result = 31 * result + version;
