@@ -10,7 +10,9 @@ import org.robolectric.RobolectricTestRunner;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * (C) Koninklijke Philips N.V., 2018.
@@ -123,5 +125,14 @@ public class ConsentDefinitionTest {
 
         assertEquals(expectedConsentDefinition, consentDefinitionFromParcel);
 
+    }
+
+    @Test
+    public void ConsentDefinitionCreateorNewArray() {
+        ConsentDefinition[] arrayOfConsentDefinition = ConsentDefinition.CREATOR.newArray(4);
+
+        assertNotNull(arrayOfConsentDefinition);
+        assertEquals(4, arrayOfConsentDefinition.length);
+        assertArrayEquals(new ConsentDefinition[4], arrayOfConsentDefinition);
     }
 }
