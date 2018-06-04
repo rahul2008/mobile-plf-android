@@ -42,8 +42,8 @@ public class PermissionViewHolder extends BasePermissionViewHolder {
     private int heilightColorCode;
     private int deafaultColorCode;
 
-    PermissionViewHolder(@NonNull View itemView, int parentWidth, @NonNull HelpClickListener helpClickListener, @Nullable PermissionContract.Presenter presenter) {
-        super(itemView, parentWidth);
+    PermissionViewHolder(@NonNull View itemView, @NonNull HelpClickListener helpClickListener, @Nullable PermissionContract.Presenter presenter) {
+        super(itemView);
         this.toggle = itemView.findViewById(R.id.toggleicon);
         this.label = itemView.findViewById(R.id.consentText);
         this.help = itemView.findViewById(R.id.consentHelp);

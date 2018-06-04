@@ -8,7 +8,6 @@
 package com.philips.platform.mya.csw.permission;
 
 import android.support.annotation.NonNull;
-
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
@@ -47,8 +46,7 @@ public class PermissionPresenter implements PermissionContract.Presenter, FetchC
     private boolean toggleStatus;
     private Map<String, String> preparedTaggingInfo;
 
-    PermissionPresenter(
-            @NonNull final PermissionContract.View view, @NonNull final PermissionAdapter adapter) {
+    PermissionPresenter(@NonNull final PermissionContract.View view, @NonNull final PermissionAdapter adapter) {
         this.view = view;
         this.view.setPresenter(this);
         this.adapter = adapter;
@@ -82,7 +80,7 @@ public class PermissionPresenter implements PermissionContract.Presenter, FetchC
     @Override
     public void onToggledConsent(int position, final ConsentDefinition definition, final boolean consentGiven, final ConsentToggleResponse responseHandler) {
         togglePosition = position;
-        if(definition.hasRevokeWarningText() && !consentGiven) {
+        if (definition.hasRevokeWarningText() && !consentGiven) {
             ConfirmDialogTextResources confirmDialogTextResources = new ConfirmDialogTextResources(
                     R.string.csw_privacy_settings,
                     definition.getRevokeWarningText(),
@@ -99,8 +97,7 @@ public class PermissionPresenter implements PermissionContract.Presenter, FetchC
                     responseHandler.handleResponse(true);
                 }
             });
-        }
-        else {
+        } else {
             postConsentChange(definition, consentGiven);
         }
     }
