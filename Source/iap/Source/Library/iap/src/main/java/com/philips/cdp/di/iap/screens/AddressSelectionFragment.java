@@ -178,9 +178,9 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             Addresses selectedAddress = retrieveSelectedAddress();
             mIsAddressUpdateAfterDelivery = true;
             mAddressController.setDefaultAddress(selectedAddress);
-            if (mDeliveryMode == null)
+            /*if (mDeliveryMode == null)
                 mAddressController.getDeliveryModes();
-            else
+            else*/
                 checkPaymentDetails();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);

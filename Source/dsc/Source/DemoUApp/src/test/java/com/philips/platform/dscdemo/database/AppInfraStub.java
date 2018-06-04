@@ -86,6 +86,16 @@ class AppInfraStub implements AppInfraInterface {
             }
 
             @Override
+            public boolean isCodeTampered() {
+                return false;
+            }
+
+            @Override
+            public boolean isEmulator() {
+                return false;
+            }
+
+            @Override
             public String getDeviceCapability() {
                 return null;
             }

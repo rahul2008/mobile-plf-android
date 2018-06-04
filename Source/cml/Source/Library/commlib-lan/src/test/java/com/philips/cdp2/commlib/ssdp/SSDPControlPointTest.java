@@ -14,6 +14,7 @@ import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -112,6 +113,13 @@ public class SSDPControlPointTest {
                 return listenSocketMock;
             }
         };
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        if (ssdpControlPoint != null && ssdpControlPoint.isDiscovering()) {
+            ssdpControlPoint.stop();
+        }
     }
 
     @Test

@@ -2,17 +2,17 @@ package com.philips.platform.appinfra.securestoragev2;
 
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Build;
+import android.util.Base64;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.security.KeyStore;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
+import java.security.MessageDigest;
 
 /**
  * Created by abhishek on 2/6/18.
@@ -20,8 +20,8 @@ import javax.crypto.SecretKey;
 
 public class SSUtils {
 
-    public static boolean isDeviceVersionUpgraded(){
-        if(Build.VERSION.SDK_INT>=23) {
+    public static boolean isDeviceVersionUpgraded() {
+        if (Build.VERSION.SDK_INT >= 23) {
             try {
                 KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
                 keyStore.load(null);
@@ -79,5 +79,36 @@ public class SSUtils {
         }
         return false;
     }
+
+    public static boolean isCodeTampered(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : packageInfo.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                md.update(signature.toByteArray());
+                final String currentSignature = Base64.encodeToString(md.digest(), Base64.DEFAULT);
+                String SIGNATURE = "lDzCVHTBzfUEYeCh3RcMEj6PJ20=";
+                if (SIGNATURE.equals(currentSignature)) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public static boolean isEmulator() {
+        return Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || "google_sdk".equals(Build.PRODUCT);
+    }
+
 
 }

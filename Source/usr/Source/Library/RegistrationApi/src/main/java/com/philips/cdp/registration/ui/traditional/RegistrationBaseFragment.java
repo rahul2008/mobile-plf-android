@@ -8,6 +8,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -15,9 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
@@ -26,13 +25,20 @@ import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.errors.NotificationMessage;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
+import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class RegistrationBaseFragment extends Fragment {
+public abstract class RegistrationBaseFragment extends Fragment implements URNotification.URNotificationInterface {
+
+    private URNotification notification;
+
+    private Context mContext;
+    private URNotification.URNotificationInterface notificationInterface;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -63,25 +69,16 @@ public abstract class RegistrationBaseFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-
-
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onActivityCreated");
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
-        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroy");
         setPrevTiltle();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
@@ -95,8 +92,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
-            RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : getFragmentCount" + fragment.getFragmentCount());
-
             if (fragment.getFragmentCount() > 1) {
                 fragment.getUpdateTitleListener().updateActionBar(
                         mPrevTitleResourceId, true);
@@ -107,19 +102,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             }
 
-            trackBackActionPage();
             fragment.setResourceID(mPrevTitleResourceId);
         }
-    }
-
-    private void trackBackActionPage() {
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        RLog.i(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDetach");
     }
 
     private void setCurrentTitle() {
@@ -129,7 +113,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 && -99 != fragment.getResourceID()) {
             mPrevTitleResourceId = fragment.getResourceID();
         }
-
         if (null != fragment) {
             if (fragment.getFragmentCount() > 1) {
                 if (this instanceof HomeFragment && null != fragment.
@@ -179,19 +162,13 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     protected void consumeTouch(View view) {
 
-        RLog.i(TAG,"consumeTouch is called");
+        RLog.i(TAG, "consumeTouch is called");
         if (view == null)
             return;
-        view.setOnTouchListener(new OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+        view.setOnTouchListener((v, event) -> true);
     }
 
-        private int dpToPx(int dp) {
+    private int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
@@ -289,7 +266,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
-        RLog.i(TAG,"scrollViewAutomatically is called");
+        RLog.i(TAG, "scrollViewAutomatically is called");
         view.requestFocus();
         if (scrollView != null) {
             scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -337,4 +314,37 @@ public abstract class RegistrationBaseFragment extends Fragment {
         mWidth = 0;
         mHeight = 0;
     }
+
+    public void updateErrorNotification(String errorMessage, int errorCode) {
+
+        final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
+        urNotification.showNotification(new NotificationMessage(errorMessage, errorCode));
+    }
+
+    public void updateErrorNotification(String errorMessage) {
+
+        final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
+        urNotification.showNotification(new NotificationMessage(errorMessage));
+
+
+    }
+
+    public void showNotificationBarOnNetworkNotAvailable() {
+
+        new Handler().postDelayed(() -> {
+            notification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
+            notification.showNotification(
+                    new NotificationMessage(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_Network_ErrorMsg)));
+        }, 100);
+    }
+
+    public void hideNotificationBarOnNetworkAvailable() {
+        if (notification != null)
+            notification.hideNotification();
+    }
+
+    public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment) {
+        notificationInterface = baseFragment;
+    }
+
 }

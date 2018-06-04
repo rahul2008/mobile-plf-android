@@ -8,7 +8,7 @@ interface MergeAccountContract {
 
     void mergeSuccess();
 
-    void mergeFailure(String reason);
+    void mergeFailure(int errorCode);
 
     void mergePasswordFailure();
 }
