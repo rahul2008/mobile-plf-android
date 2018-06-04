@@ -31,6 +31,9 @@ import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -116,7 +119,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
-
+        registerInlineNotificationListener(this);
         Bundle bundle = getArguments();
         if (bundle != null) {
             mobileNumber = bundle.getString(MOBILE_NUMBER_KEY);
@@ -322,7 +325,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     @Override
     public void netWorkStateOfflineUiHandle() {
         hideProgressSpinner();
-        errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
+        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         smsNotReceived.setEnabled(false);
         disableVerifyButton();
     }
@@ -379,7 +382,9 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         RLog.i(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
-            verifyClicked();
+            if(new NetworkUtility(getActivityContext()).isInternetAvailable()) {
+                verifyClicked();
+            }
         }
     }
 
@@ -387,5 +392,10 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public void onStop() {
         super.onStop();
         unRegisterSMSReceiver();
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        errorMessage.setError(msg);
     }
 }

@@ -53,7 +53,8 @@
     <string name="sync_inProgress">InProgress</string>
     <string name="sync_completed">Sync-Completed</string>
     <string name="sync_failed">Sync-Failed</string>
-    <string name="sync_stopped">Sync-Stopped</string>
+    <string name="sync_yet_to_start">Sync-Yet-to-Start</string>
+    <string name="set_lastSyncTime">Set lastSyncTime</string>
 
     <!-- Moment by data range-->
     <string name="fetch_moment_by_date_range">Moment by Date Range</string>

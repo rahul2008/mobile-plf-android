@@ -441,7 +441,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     @Override
     public void onSetDeliveryAddress(Message msg) {
-        mAddressController.getDeliveryModes();
+        //mAddressController.getDeliveryModes();
     }
 
     @Override

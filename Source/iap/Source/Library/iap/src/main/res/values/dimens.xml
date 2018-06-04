@@ -134,4 +134,6 @@
     <dimen name="iap_body_text">16sp</dimen>
     <dimen name="iap_title_padding">4dp</dimen>
     <dimen name="iap_body_text_line_spacing_extra">6dp</dimen>
+    <dimen name="reg_scroll_margin">15dip</dimen>
+
 </resources>

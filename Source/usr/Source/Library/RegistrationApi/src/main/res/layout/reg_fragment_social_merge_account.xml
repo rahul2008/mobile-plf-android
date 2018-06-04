@@ -16,8 +16,8 @@
             android:id="@+id/usr_mergeScreen_baseLayout_LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/reg_layout_margin_16"
-            android:layout_marginRight="@dimen/reg_layout_margin_16"
+            android:layout_marginLeft="@dimen/reg_dimen_16dp"
+            android:layout_marginRight="@dimen/reg_dimen_16dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/reg_dimen_24dp"
             android:orientation="vertical"
@@ -30,7 +30,7 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_margin_bottom"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:text="@string/reg_DLS_Merge_Accounts"
                 android:textSize="@dimen/reg_text_size_20"
@@ -42,7 +42,7 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_margin_bottom"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_DLS_Traditional_Merge_Title"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -50,7 +50,7 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_margin_bottom"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_DLS_Traditional_Merge_Description"/>
 
 
@@ -66,7 +66,7 @@
                 android:id="@+id/usr_mergeScreen_password_inputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_margin_bottom"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="inline_error_message">
 
@@ -104,12 +104,12 @@
                 android:id="@+id/reg_error_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:layout_marginTop="@dimen/reg_dimen_16dp"
                 />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/reg_margin_bottom"
+                android:layout_height="@dimen/reg_dimen_16dp"
                 android:layout_marginTop="20dip"/>
         </LinearLayout>
     </ScrollView>
