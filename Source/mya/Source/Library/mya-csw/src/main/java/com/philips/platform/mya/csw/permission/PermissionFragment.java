@@ -39,7 +39,7 @@ import java.util.List;
 public class PermissionFragment extends CswBaseFragment implements PermissionContract.View, HelpClickListener, android.view.View.OnClickListener {
 
     public static final String TAG = PermissionFragment.class.getSimpleName();
-    private ProgressDialogView progressDialog;
+    private ProgressDialogView progressDialogView;
     private RecyclerView recyclerView;
 
     private List<ConsentDefinition> consentDefinitionList = null;
@@ -81,6 +81,15 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     public void onResume() {
         super.onResume();
         mIsStateAlreadySaved = false;
+        if (errorDialogViewWithClickListener != null) {
+            errorDialogViewWithClickListener.hideDialog();
+        }
+        if (confirmDialogView != null) {
+            confirmDialogView.hideDialog();
+        }
+        if (progressDialogView != null) {
+            progressDialogView.hideDialog();
+        }
         presenter.fetchConsentStates(consentDefinitionList);
     }
 
@@ -89,9 +98,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     public void onPause() {
         super.onPause();
         mIsStateAlreadySaved = true;
-        if (confirmDialogView != null) {
-            confirmDialogView.hideDialog();
-        }
+
     }
 
     @Override
@@ -131,17 +138,17 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     @Override
     public void showProgressDialog() {
         if (!(getActivity().isFinishing())) {
-            if (progressDialog == null) {
-                progressDialog = new ProgressDialogView();
+            if (progressDialogView == null) {
+                progressDialogView = new ProgressDialogView();
             }
-            progressDialog.showDialog(getActivity());
+            progressDialogView.showDialog(getActivity());
         }
     }
 
     @Override
     public void hideProgressDialog() {
-        if (progressDialog != null && progressDialog.isDialogShown()) {
-            progressDialog.hideDialog();
+        if (progressDialogView != null && progressDialogView.isDialogShown()) {
+            progressDialogView.hideDialog();
         }
     }
 

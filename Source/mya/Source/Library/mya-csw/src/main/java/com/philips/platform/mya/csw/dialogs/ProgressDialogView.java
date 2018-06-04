@@ -44,7 +44,7 @@ public class ProgressDialogView implements View.OnClickListener {
 
     public void hideDialog() {
         if (alertDialogFragment != null && isDialogShown) {
-            alertDialogFragment.dismissAllowingStateLoss();
+            alertDialogFragment.dismiss();
             isDialogShown = false;
         }
     }
