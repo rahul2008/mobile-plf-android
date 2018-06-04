@@ -36,7 +36,6 @@ pipeline {
                 echo "Node labels: ${nodes}"
                 sh 'printenv'
                 InitialiseBuild()
-                checkout scm
                 BuildAndUnitTest()
             }
         }
