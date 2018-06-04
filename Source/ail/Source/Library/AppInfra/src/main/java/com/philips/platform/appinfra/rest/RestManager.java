@@ -34,12 +34,12 @@ public class RestManager implements RestInterface {
     private static final long serialVersionUID = -5276610949381468217L;
     private transient RequestQueue mRequestQueue;
     private AppInfra mAppInfra;
-    private PinningManager pinningManager;
+    private PinnedSignatureManager pinnedSignatureManager;
 
     public RestManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         VolleyLog.DEBUG = false;
-        pinningManager = new PinningManager(mAppInfra);
+        pinnedSignatureManager = new PinnedSignatureManager(mAppInfra);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class RestManager implements RestInterface {
     }
 
     private Network getNetwork() {
-        BaseHttpStack stack = new AppInfraHurlStack(pinningManager, new ServiceIDResolver(), mAppInfra.getLogging());
+        BaseHttpStack stack = new AppInfraHurlStack(pinnedSignatureManager, new ServiceIDResolver(), mAppInfra.getLogging());
         return new BasicNetwork(stack);
     }
 

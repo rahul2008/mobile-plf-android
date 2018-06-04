@@ -67,7 +67,7 @@ public class AppInfraHurlStack extends HurlStack {
         pinInterface.isPinnedCertificateMatching(hostName, certificatesList);
 
         String publicKeyDetails = getPublicKeyDetailsFromHeader(httpResponse);
-        pinInterface.updatePublicPins(hostName, publicKeyDetails);
+        pinInterface.updatePinnedPublicKey(hostName, publicKeyDetails);
 
         return httpResponse;
     }

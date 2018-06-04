@@ -17,7 +17,7 @@ public interface PublicKeyPinInterface {
      * @param publicKeyDetails  Public key details of a particular hostname
      * @since 2018.2.0
      */
-    void updatePublicPins(String hostName, String publicKeyDetails);
+    void updatePinnedPublicKey(String hostName, String publicKeyDetails);
 
     /**
      * Validate if the stored public key for a particular hostname matches the public key in the chain of certificates for the same hostname
