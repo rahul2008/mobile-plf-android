@@ -118,7 +118,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         if ((msg.obj instanceof IAPNetworkError)) {
             handleError(msg);
         } else {
-            mBuyDirectController.getDeliveryModes();
+           // mBuyDirectController.getDeliveryModes();
         }
     }
 

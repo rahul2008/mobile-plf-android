@@ -97,7 +97,9 @@ public class ConsentNetworkError implements NetworkErrorListener {
             if (error.networkResponse != null) {
                 String errorString = new String(error.networkResponse.data);
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
-                mCatkErrorCode = mServerError.getErrorCode();
+                if (mServerError.getErrorCode() != 0){
+                    mCatkErrorCode = mServerError.getErrorCode();
+                }
             }
         } catch (Exception e) {
             Log.e("NetworkError", e.getMessage());

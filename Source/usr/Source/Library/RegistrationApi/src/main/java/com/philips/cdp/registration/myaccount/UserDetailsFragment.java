@@ -203,4 +203,8 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
         }
     }
 
+    @Override
+    public void notificationInlineMsg(String msg) {
+     //NOP
+    }
 }

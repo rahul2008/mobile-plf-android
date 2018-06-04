@@ -189,6 +189,7 @@ public class UserRegistrationInitializer {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
+                if(source == null) return;
                 RLog.d(TAG, "onSuccess : Service discovry getHomeCountry : " + s + " and SOURCE : " + source.name());
                 if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
                     RegistrationHelper.getInstance().setCountryCode(s);

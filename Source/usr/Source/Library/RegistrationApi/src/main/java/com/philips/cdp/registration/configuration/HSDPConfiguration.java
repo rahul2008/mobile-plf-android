@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.configuration;
 
+import com.philips.cdp.registration.ui.utils.RLog;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -11,7 +13,11 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 
 public class HSDPConfiguration extends BaseConfiguration {
 
+    private static String TAG = HSDPConfiguration.class.getSimpleName();
+
     private static final String URL_ENCODING_FORMAT = "UTF-8";
+
+    private String baseUrlServiceDiscovery;
 
     public String getHsdpAppName() {
         Object appNameObject = appInfraWrapper.getURProperty(HSDP_CONFIGURATION_APPLICATION_NAME);
@@ -33,16 +39,17 @@ public class HSDPConfiguration extends BaseConfiguration {
         if (baseUrlAppConfig == null || baseUrlAppConfig.isEmpty()) {
             return baseUrlServiceDiscovery;
         }
+        RLog.i(TAG, "getHsdpBaseUrl : " + baseUrlAppConfig);
         return baseUrlAppConfig;
     }
 
     private String getBaseUrlFromHsdpConfig() {
         Object baseUrlObject = appInfraWrapper.getURProperty(HSDP_CONFIGURATION_BASE_URL);
         String baseUrl = getDecodedBaseUrl(baseUrlObject);
+        RLog.i(TAG, "getBaseUrlFromHsdpConfig : " + baseUrl);
         return baseUrl;
     }
 
-    private String baseUrlServiceDiscovery;
 
     public void setBaseUrlServiceDiscovery(String url) {
         baseUrlServiceDiscovery = url;
@@ -55,8 +62,9 @@ public class HSDPConfiguration extends BaseConfiguration {
         try {
             decodedBaseUrl = URLDecoder.decode(baseUrl, URL_ENCODING_FORMAT);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            RLog.i(TAG, "getDecodedBaseUrl : UnsupportedEncodingException " + e.getMessage());
         }
+        RLog.i(TAG, "getDecodedBaseUrl : " + decodedBaseUrl);
         return decodedBaseUrl;
     }
 }

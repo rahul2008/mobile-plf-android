@@ -20,16 +20,18 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-@Ignore
-//@RunWith(RobolectricTestRunner.class)
+
+@RunWith(RobolectricTestRunner.class)
 public class ProductAssetBuilderTest implements PRXAssetExecutor.AssetListener {
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();

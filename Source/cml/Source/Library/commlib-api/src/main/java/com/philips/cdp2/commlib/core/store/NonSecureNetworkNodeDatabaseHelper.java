@@ -5,22 +5,40 @@
 
 package com.philips.cdp2.commlib.core.store;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
-
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_BOOT_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_CPP_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_TYPE;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ENCRYPTION_KEY;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HTTPS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_KNOWN_NETWORK;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MISMATCHED_PIN;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
+
+class NonSecureNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements NetworkNodeDBHelper {
 
     static final int DB_VERSION = 6;
+
     static final Set<String> DB_SCHEMA = new HashSet<String>() {{
         add(KEY_BOOT_ID);
         add(KEY_CPP_ID);
@@ -38,34 +56,15 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
         add(KEY_MISMATCHED_PIN);
     }};
 
-    public static final String DB_NAME = "network_node.db";
-    public static final String TABLE_NETWORK_NODE = "network_node";
+    static final String DB_NAME = "network_node.db";
+    static final String TABLE_NETWORK_NODE = "network_node";
 
-    // NetworkNode table
-    public static final String KEY_BOOT_ID = "bootid";
-    public static final String KEY_CPP_ID = "cppid";
-    public static final String KEY_DEVICE_NAME = "dev_name";
-    public static final String KEY_DEVICE_TYPE = "device_type";
-    public static final String KEY_ENCRYPTION_KEY = "encryption_key"; // was airpur_key
-    public static final String KEY_HOME_SSID = "home_ssid"; // Will not be persisted
-    public static final String KEY_HTTPS = "https";
-    public static final String KEY_ID = "_id";
-    public static final String KEY_IP_ADDRESS = "ip_address";
-    public static final String KEY_IS_PAIRED = "is_paired";
-    public static final String KEY_LAST_KNOWN_NETWORK = "lastknown_network";
-    public static final String KEY_LAST_PAIRED = "last_paired";
-    public static final String KEY_MODEL_ID = "model_id";
-    @Deprecated
-    public static final String KEY_MODEL_NAME = "model_name";
-    public static final String KEY_PIN = "pin";
-    public static final String KEY_MISMATCHED_PIN = "mismatched_pin";
-
-    public NetworkNodeDatabaseHelper() {
+    NonSecureNetworkNodeDatabaseHelper() {
         this(ContextProvider.get(), DB_VERSION);
     }
 
     @VisibleForTesting
-    NetworkNodeDatabaseHelper(Context context, int version) {
+    NonSecureNetworkNodeDatabaseHelper(Context context, int version) {
         super(context, DB_NAME, null, version);
     }
 
@@ -223,5 +222,23 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
     private void upgradeToVersion6(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_MISMATCHED_PIN + " TEXT;");
+    }
+
+    @Override
+    public Cursor query(String selection, String[] selectionArgs) throws SQLException {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
+    }
+
+    @Override
+    public long insertRow(ContentValues values) throws SQLException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
+    @Override
+    public int deleteNetworkNodeWithCppId(String cppId) throws SQLException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{cppId});
     }
 }

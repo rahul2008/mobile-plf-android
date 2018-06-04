@@ -20,19 +20,14 @@ public class AppInfraTaggingUtil implements Serializable {
     private LoggingInterface appInfraLogging;
 
     public static final String MALFORMED_URL = "malformed url after applying url parameters";
-    public static final String NO_NETWORK = "Network not reachable";
+    public static final String NO_NETWORK = "Internet is not reachable";
 
     ////Technical Errors
-    public static final String GET_HOME_COUNTRY_SYNCHRONOUS_ERROR =  " error while fetching synchronous getHomeCountry due to secure storage returned empty or null data";
-    public static final String COUNTRY_CODE_SIM_ERROR = " Error fetching country code from sim";
-    public static final String SD_DATA_EXPIRED = " SD data expired - 24 hours";
     public static final String SD_URL_MISMATCH = " SD data refresh due to URL mismatch ";
-    public static final String SD_SET_SAME_COUNTRY_CODE = " setHomeCountry same country - ";
     public static final String SD_SET_INVALID_COUNTRY_CODE = " setHomeCountry invalid country - ";
     public static final String SD_SET_HOME_COUNTRY_STORE_FAILED = " setHomeCountry save failed";
     public static final String SD_SET_HOME_COUNTRY_FETCH_FAILED = " setHomeCountry fetch failed ";
     public static final String SD_STORE_FAILED = " error while saving SD data ";
-    public static final String SD_FETCH_FAILED = " error while fetching SD data ";
 
     // AppInfra Tagging Categories
     public static final String SERVICE_DISCOVERY = "ServiceDiscovery";

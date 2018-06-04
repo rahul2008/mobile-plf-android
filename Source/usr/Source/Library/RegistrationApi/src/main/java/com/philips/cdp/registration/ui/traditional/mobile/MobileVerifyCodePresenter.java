@@ -5,11 +5,12 @@ import android.support.annotation.VisibleForTesting;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.restclient.URRequest;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.RegChinaConstants;
+import com.philips.cdp.registration.ui.utils.RLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +21,8 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_R
 import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_RESPONSE_OK;
 
 public class MobileVerifyCodePresenter implements NetworkStateListener {
+
+    private static final String TAG = MobileVerifyCodePresenter.class.getSimpleName();
 
     public static final String HTTPS = "https://";
     private final String USE_VERIFICATION_CODE = "/access/useVerificationCode";
@@ -45,7 +48,7 @@ public class MobileVerifyCodePresenter implements NetworkStateListener {
     }
 
     private void getRequest(String url, String bodyContent) {
-        URRequest urRequest = new URRequest(url, bodyContent,null, mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse);
+        URRequest urRequest = new URRequest(url, bodyContent, null, mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse);
         urRequest.makeRequest(false);
     }
 
@@ -60,23 +63,25 @@ public class MobileVerifyCodePresenter implements NetworkStateListener {
                 smsActivationFailed(jsonObject);
             }
         } catch (JSONException e) {
-            mobileVerifyCodeContract.smsVerificationResponseError();
+//            mobileVerifyCodeContract.smsVerificationResponseError();
+            RLog.e(TAG, "handleActivation : Exception : " + e.getMessage());
         }
     }
 
     private void smsActivationFailed(JSONObject jsonObject) throws JSONException {
+        String errorCode = jsonObject.getString("code");
         if (isResponseCodeValid(jsonObject)) {
-            mobileVerifyCodeContract.setOtpInvalidErrorMessage();
+            mobileVerifyCodeContract.setOtpInvalidErrorMessage(ErrorCodes.URX_INVALID_VERIFICATION_CODE);
         } else {
-            String errorMessage = jsonObject.getString("error_description");
-            mobileVerifyCodeContract.setOtpErrorMessageFromJson(errorMessage);
+//            String errorMessage = jsonObject.getString("error_description");
+            mobileVerifyCodeContract.setOtpErrorMessageFromJson(Integer.parseInt(errorCode));
         }
-        mobileVerifyCodeContract.showOtpInvalidError();
+//        mobileVerifyCodeContract.showOtpInvalidError(errorCode);
         mobileVerifyCodeContract.enableVerifyButton();
     }
 
     private boolean isResponseCodeValid(JSONObject jsonObject) throws JSONException {
-        return jsonObject.getString("code").equals(String.valueOf(RegChinaConstants.URXInvalidVerificationCode));
+        return jsonObject.getString("code").equals(String.valueOf(ErrorCodes.URX_INVALID_VERIFICATION_CODE));
     }
 
     @Override
@@ -95,5 +100,11 @@ public class MobileVerifyCodePresenter implements NetworkStateListener {
         serviceDiscoveryWrapper = wrapper;
     }
 
+    public void registerSMSReceiver() {
+        mobileVerifyCodeContract.getSMSBroadCastReceiver().registerReceiver();
+    }
 
+    public void unRegisterSMSReceiver() {
+        mobileVerifyCodeContract.getSMSBroadCastReceiver().unRegisterReceiver();
+    }
 }

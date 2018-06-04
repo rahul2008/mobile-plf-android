@@ -37,7 +37,6 @@ import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryMan
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PLATFORM_SERVICES_INVOKED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PREPOSITION_SERVICES_INVOKED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SIM_SUCCESS;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SYNCHRONOUS_ERROR;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FORCE_REFRESH_CALLED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_HOME_COUNTRY_FETCH_FAILED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_HOME_COUNTRY_STORE_FAILED;
@@ -154,28 +153,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY," error while fetching ".concat(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh.name().concat(" due to ").concat(serviceDiscovery.getError().getErrorvalue().name())));
 	}
 
-	public void testTaggingFetchSD() {
-		final SecureStorageInterface.SecureStorageError secureStorageError = mock(SecureStorageInterface.SecureStorageError.class);
-		when(secureStorageError.getErrorMessage()).thenReturn("something went wrong while fetching");
-		when(secureStorageError.getErrorCode()).thenReturn(SecureStorageInterface.SecureStorageError.secureStorageError.NullData);
-		final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
-				mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
-			@Override
-			SecureStorageInterface.SecureStorageError getSecureStorageError() {
-				return secureStorageError;
-			}
-
-					@Override
-					AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
-
-						return appInfraTaggingUtil;
-					}
-				};
-		mServiceDiscoveryManager.getHomeCountry();
-		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_FETCH_FAILED);
-
-	}
-
 	public void testTaggingStoreSD() {
 		final SecureStorageInterface.SecureStorageError secureStorageError = mock(SecureStorageInterface.SecureStorageError.class);
 		when(secureStorageError.getErrorMessage()).thenReturn("something went wrong while fetching");
@@ -244,7 +221,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			}
 		};
 		mServiceDiscoveryManager.getHomeCountry();
-		verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SYNCHRONOUS_ERROR);
 		final String[] homeCountryCode = new String[1];
 		ServiceDiscoveryInterface.OnGetHomeCountryListener listenerMock = new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
 			@Override

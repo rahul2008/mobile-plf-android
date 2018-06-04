@@ -86,13 +86,17 @@ public class UCoreAccessProvider implements BackendIdProvider {
 
     public void saveLastSyncTimeStamp(String lastSyncUrl, String key) {
         if (lastSyncUrl != null && !lastSyncUrl.isEmpty()) {
-            SharedPreferences.Editor edit = sharedPreferences.edit();
             int indexOf = lastSyncUrl.indexOf('=');
             lastSyncUrl = lastSyncUrl.substring(indexOf + 1);
-            edit.putString(key, lastSyncUrl);
-            edit = edit.putBoolean("isSynced", true);
-            edit.apply();
+            saveLastSyncTime(lastSyncUrl, key);
         }
+    }
+
+    public void saveLastSyncTime(String lastSyncTime, String key) {
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString(key, lastSyncTime);
+        edit = edit.putBoolean("isSynced", true);
+        edit.apply();
     }
 
     public Map<String, String> getLastSyncTimeStampByDateRange(String syncUrl) {

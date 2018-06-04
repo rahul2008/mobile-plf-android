@@ -7,7 +7,6 @@ package com.philips.cdp.dicommclient.port;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -15,9 +14,7 @@ import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
-import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -683,35 +680,35 @@ public class DICommPortTest {
     }
 
     @Test
-    public void whenANetworkNodeIsSet_thenThePortStartsListeningForChangesToThatNode() throws Exception {
+    public void whenANetworkNodeIsSet_thenThePortStartsListeningForChangesToThatNode() {
 
         verify(networkNodeMock).addPropertyChangeListener(isA(PropertyChangeListener.class));
     }
 
     @Test
-    public void givenNetworkNodeIsSetOnPortAndSubscriptionIsEnabled_whenNetworkNodeChangesBootId_thenSubscriptionIsRenewed() throws Exception {
+    public void givenNetworkNodeIsSetOnPortAndSubscriptionIsEnabled_whenNetworkNodeChangesBootId_thenSubscriptionIsRenewed() {
         simulateSuccessfulSubscribe();
         reset(communicationStrategyMock);
 
-        networkNodeListener.propertyChange(new PropertyChangeEvent(networkNodeMock, NetworkNodeDatabaseHelper.KEY_BOOT_ID, 1, 2));
+        networkNodeListener.propertyChange(new PropertyChangeEvent(networkNodeMock, NetworkNode.KEY_BOOT_ID, 1, 2));
 
         verifySubscribeCalled(true);
     }
 
     @Test
-    public void givenNetworkNodeIsSetOnPortAndSubscriptionIsEnabled_whenNetworkNodeChangesSomethingOtherThanBootId_thenSubscriptionIsNotRenewed() throws Exception {
+    public void givenNetworkNodeIsSetOnPortAndSubscriptionIsEnabled_whenNetworkNodeChangesSomethingOtherThanBootId_thenSubscriptionIsNotRenewed() {
         simulateSuccessfulSubscribe();
         reset(communicationStrategyMock);
 
-        networkNodeListener.propertyChange(new PropertyChangeEvent(networkNodeMock, NetworkNodeDatabaseHelper.KEY_IP_ADDRESS, "1", "2"));
+        networkNodeListener.propertyChange(new PropertyChangeEvent(networkNodeMock, NetworkNode.KEY_IP_ADDRESS, "1", "2"));
 
         verifySubscribeCalled(false);
     }
 
     @Test
-    public void givenNetworkNodeIsSetOnPortAndSubscriptionIsNotEnabled_whenNetworkNodeChangesBootId_thenSubscriptionIsNotRenewed() throws Exception {
+    public void givenNetworkNodeIsSetOnPortAndSubscriptionIsNotEnabled_whenNetworkNodeChangesBootId_thenSubscriptionIsNotRenewed() {
 
-        networkNodeListener.propertyChange(new PropertyChangeEvent(networkNodeMock, NetworkNodeDatabaseHelper.KEY_BOOT_ID, 1, 2));
+        networkNodeListener.propertyChange(new PropertyChangeEvent(networkNodeMock, NetworkNode.KEY_BOOT_ID, 1, 2));
 
         verifySubscribeCalled(false);
     }

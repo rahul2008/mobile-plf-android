@@ -2,7 +2,6 @@ package com.philips.platform.datasync;
 
 import android.content.SharedPreferences;
 
-import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -20,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -37,8 +37,10 @@ public class UCoreAccessProviderTest {
     public static final String INSIGHT_FOR_USER_LAST_SYNC_URL_KEY = "INSIGHT_FOR_USER_LAST_SYNC_URL_KEY";
 
     private static final String SYNC_URL = "/api/users/0c821202-835d-423a-b3bd-3893a030037d/moments/_query?timestampStart=2015-01-01T00%3A00%3A00.000Z&timestampEnd=2015-01-01T00%3A00%3A00.000Z&lastModifiedStart=2015-01-01T00%3A00%3A00.000Z&lastModifiedEnd=2015-01-01T00%3A00%3A00.000Z&limit=100";
+    private static final String MOMENT_HISTORY_SYNC_URL = "/api/users/0c821202-835d-423a-b3bd-3893a030037d/moments/_history?_since=2018-05-01T01:00:00.000Z";
     private static final String START_DATE = "2015-01-01T00:00:00.000Z";
     private static final String END_DATE = "2015-01-01T00:00:00.000Z";
+    private static final String SINCE_DATE = "2018-05-01T01:00:00.000Z";
 
     @Mock
     private UserRegistrationInterface userRegistrationFacadeMock;
@@ -58,7 +60,6 @@ public class UCoreAccessProviderTest {
     private AppComponent appComponantMock;
 
     Map<String, String> timeStampMap;
-
 
     @Before
     public void setUp() {
@@ -214,6 +215,32 @@ public class UCoreAccessProviderTest {
 
         verify(editorMock).putString(MOMENT_LAST_SYNC_URL_KEY, MOMENT_LAST_SYNC_URL_KEY);
         verify(editorMock).commit();
+    }
+
+    @Test
+    public void saveLastSyncTime_WithMomentHistoryURLAsParameter() {
+        when(uCoreAccessProvider.sharedPreferences.edit()).thenReturn(editorMock);
+        when(editorMock.putString(anyString(), anyString())).thenReturn(editorMock);
+        when(editorMock.putBoolean(anyString(), anyBoolean())).thenReturn(editorMock);
+
+        uCoreAccessProvider.saveLastSyncTimeStamp(MOMENT_HISTORY_SYNC_URL, MOMENT_LAST_SYNC_URL_KEY);
+
+        verify(editorMock).putString(MOMENT_LAST_SYNC_URL_KEY, SINCE_DATE);
+        verify(editorMock).putBoolean("isSynced", true);
+        verify(editorMock).apply();
+    }
+
+    @Test
+    public void saveLastSyncTime_WithDateStringAsParameter() {
+        when(uCoreAccessProvider.sharedPreferences.edit()).thenReturn(editorMock);
+        when(editorMock.putString(anyString(), anyString())).thenReturn(editorMock);
+        when(editorMock.putBoolean(anyString(), anyBoolean())).thenReturn(editorMock);
+
+        uCoreAccessProvider.saveLastSyncTime(SINCE_DATE, MOMENT_LAST_SYNC_URL_KEY);
+
+        verify(editorMock).putString(MOMENT_LAST_SYNC_URL_KEY, SINCE_DATE);
+        verify(editorMock).putBoolean("isSynced", true);
+        verify(editorMock).apply();
     }
 
     @Test

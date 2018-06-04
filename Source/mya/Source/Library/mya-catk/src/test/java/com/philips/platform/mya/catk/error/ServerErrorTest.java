@@ -18,9 +18,9 @@ import static org.junit.Assert.assertNull;
 
 public class ServerErrorTest {
     @Test
-    public void itShouldParseServerCorrectly() throws Exception {
+    public void itShouldParseServerCorrectly() {
         givenJsonError(CORRECT_JSON_ERROR);
-        thenConsentErrorCodeIs(ConsentError.CONSENT_UNKNOWN_SERVER_ERROR);
+        thenConsentErrorCodeIs(ERROR_CODE);
         thenHasServerError();
         thenIncidentIdIs(INCIDENT_ID);
         thenServerErrorCodeIs(ERROR_CODE);
@@ -38,14 +38,14 @@ public class ServerErrorTest {
     }
 
     @Test
-    public void itShouldCreateEmptyErrorWhenJsonIsNull() throws Exception {
+    public void itShouldCreateEmptyErrorWhenJsonIsNull() {
         givenNullJsonError();
         thenConsentErrorCodeIs(ConsentError.CONSENT_UNKNOWN_SERVER_ERROR);
         thenHasNoServerError();
     }
 
     @Test
-    public void itShouldCreateEmptyErrorWhenInvalidJson() throws Exception {
+    public void itShouldCreateEmptyErrorWhenInvalidJson() {
         givenJsonError(INVALID_JSON_ERROR);
         thenConsentErrorCodeIs(ConsentError.CONSENT_UNKNOWN_SERVER_ERROR);
         thenHasNoServerError();

@@ -87,13 +87,24 @@ public class AppTagging implements AppTaggingInterface {
 
     @Override
     public void trackTimedActionStart(String actionStart) {
-        getAppTaggingHandler().timeActionStart(actionStart);
+        getAppTaggingHandler().timeActionStart(actionStart, null);
+    }
+
+    @Override
+    public void trackTimedActionStart(String actionStart, Map<String, Object> contextData) {
+        getAppTaggingHandler().timeActionStart(actionStart, contextData);
     }
 
     @Override
     public void trackTimedActionEnd(String actionEnd) {
-        getAppTaggingHandler().timeActionEnd(actionEnd);
+        getAppTaggingHandler().timeActionEnd(actionEnd, null);
     }
+
+    @Override
+    public void trackTimedActionEnd(String actionEnd, Analytics.TimedActionBlock<Boolean> logic) {
+        getAppTaggingHandler().timeActionEnd(actionEnd, logic);
+    }
+
 
     @Override
     public boolean getPrivacyConsentForSensitiveData() {

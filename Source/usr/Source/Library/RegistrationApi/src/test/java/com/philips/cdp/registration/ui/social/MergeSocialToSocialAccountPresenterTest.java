@@ -65,9 +65,9 @@ public class MergeSocialToSocialAccountPresenterTest {
 
     @Test
     public void onLoginFailedWithError() throws Exception {
-        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("unknown");
+        Mockito.when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(12);
         mergeSocialToSocialAccountPresenter.onLoginFailedWithError(userRegistrationFailureInfoMock);
-        verify(mergeSocialToSocialAccountContract).mergeFailure("unknown");
+        verify(mergeSocialToSocialAccountContract).mergeFailure(12);
     }
 
 

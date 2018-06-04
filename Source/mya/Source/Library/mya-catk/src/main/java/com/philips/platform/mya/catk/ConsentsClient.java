@@ -142,7 +142,7 @@ public class ConsentsClient {
         });
     }
 
-    void getStatusForConsentType(final String consentType, final ConsentResponseListener consentListener) {
+    synchronized void getStatusForConsentType(final String consentType, final ConsentResponseListener consentListener) {
 
         getConsentDetails(new ConsentResponseListener() {
 

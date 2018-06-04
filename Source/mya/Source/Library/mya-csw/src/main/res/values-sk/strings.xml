@@ -17,6 +17,7 @@
   <string name="csw_privacy_settings_desc">Regulujte si ochranu súkromia. Viac informácií nájdete v {oznámení o ochrane súkromia}.</string>
   <string name="csw_problem_occurred_error_message">Vyskytol sa problém (chyba %1$d). Skúste to znova.</string>
   <string name="csw_problem_occurred_error_title">Vyskytol sa problém</string>
+  <string name="csw_user_session_expired">[sk]Your session is invalid, please log out and log in again</string>
   <string name="mya_Account_settings">Nastavenia konta</string>
   <string name="mya_Address">Adresa</string>
   <string name="mya_Cancel">Zrušiť</string>
@@ -58,8 +59,8 @@
   <string name="mya_csw_justintime_accept">[sk]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[sk]Maybe later</string>
   <string name="mya_csw_justintime_title">[sk]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,sk][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[NT,sk][NT]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,sk]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,sk]What do we have to offer?</string>
   <string name="mya_logout_message">Budete odhlásení z aplikácie. Po odhlásení sa vždy môžete prihlásiť znova.</string>
   <string name="mya_logout_title">Naozaj sa chcete odhlásiť?</string>
 </resources>

@@ -29,12 +29,6 @@ public class MomentFragmentTests {
     }
 
     @Test
-    public void synchronize() {
-        sut.onResume();
-        verify(dataServicesManagerMock).synchronize();
-    }
-
-    @Test
     public void unregisterForDBChanges() {
         sut.onPause();
         verify(dataServicesManagerMock).unRegisterDBChangeListener();

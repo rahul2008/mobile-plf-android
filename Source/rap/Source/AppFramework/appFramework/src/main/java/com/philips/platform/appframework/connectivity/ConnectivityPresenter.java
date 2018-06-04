@@ -8,7 +8,6 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.DeviceMeasurementPort;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
@@ -77,7 +76,7 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
      * @return
      */
     protected boolean canSync(User user) {
-        if (user.getHsdpAccessToken() == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !BaseAppUtil.isNetworkAvailable(context)) {
+        if (user.getHsdpAccessToken() == null || !BaseAppUtil.isNetworkAvailable(context)) {
             return false;
         }
         RALog.d(TAG, " can sync data from data core or not ");
@@ -211,7 +210,7 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
                 });
     }
 
-    protected AppInfraInterface getAppInfra(){
+    protected AppInfraInterface getAppInfra() {
         return ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
     }
 }
