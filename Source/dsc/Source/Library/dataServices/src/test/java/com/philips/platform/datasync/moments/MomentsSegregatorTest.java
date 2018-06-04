@@ -18,8 +18,6 @@ import com.philips.testing.verticals.table.OrmMomentType;
 import com.philips.testing.verticals.table.OrmSynchronisationData;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -35,6 +33,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -50,11 +49,11 @@ public class MomentsSegregatorTest {
     @Mock
     private DBUpdatingInterface updatingInterface;
     @Mock
-    private DBSavingInterface dbSavingInterface;
+    private DBSavingInterface savingInterface;
     @Mock
-    private DBFetchingInterface dbFetchingInterface;
+    private DBFetchingInterface fetchingInterface;
     @Mock
-    private DBDeletingInterface dbDeletingInterface;
+    private DBDeletingInterface deletingInterface;
     @Mock
     private OrmMoment ormMomentMock;
     @Mock
@@ -75,9 +74,9 @@ public class MomentsSegregatorTest {
     private static final DateTime BEFORE_NOW = new DateTime().minusDays(1);
     private static final DateTime DATE_TIME = new DateTime("2015-01-10");
 
-    private List<Moment> momentList = new ArrayList<>();
+    private List<Moment> momentsFromBackend = new ArrayList<>();
     private int count;
-    private Moment moment, moment2;
+    private Moment moment;
     private Moment momentWithoutExpirationDate;
     private Map<Class, List<?>> dataToSync;
     private SynchronisationData momentSyncData;
@@ -89,42 +88,37 @@ public class MomentsSegregatorTest {
         when(ormMomentMock.getSynchronisationData()).thenReturn(ormSynchronisationDataMock);
         momentsSegregator = new MomentsSegregator();
         momentsSegregator.updatingInterface = updatingInterface;
-        momentsSegregator.dbFetchingInterface = dbFetchingInterface;
-        momentsSegregator.dbDeletingInterface = dbDeletingInterface;
-        momentsSegregator.dbSavingInterface = dbSavingInterface;
+        momentsSegregator.fetchingInterface = fetchingInterface;
+        momentsSegregator.deletingInterface = deletingInterface;
+        momentsSegregator.savingInterface = savingInterface;
         momentsSegregator.mBaseAppDataCreator = dataCreatorMock;
 
         momentSyncData = new OrmSynchronisationData(GUID_ID, false, NOW, 1);
-        moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW.plusMinutes(10));
+        whenCreatingMoment();
         moment.setSynchronisationData(momentSyncData);
-        momentList.add(moment);
+        momentsFromBackend.add(moment);
 
         momentWithoutExpirationDate = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), null);
     }
 
-    @After
-    public void tearDown() {
-        givenDateTimeIsNotFixed();
-    }
-
     @Test
     public void processMomentsReceivedFromBackend() throws SQLException {
-        givenMomentsInDataBase();
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        givenMomentInDatabase(moment);
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
         thenAssertUpdateCountIs(0);
     }
 
     @Test
     public void processMomentsReceivedFromBackend_whenMomentInDBIsNull() throws SQLException {
-        givenNullMomentsInDataBase();
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        givenMomentInDatabase(null);
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
         thenAssertUpdateCountIs(1);
     }
 
     @Test
     public void processMomentsReceivedFromBackend_whenUpdatedVersion() throws SQLException {
         givenMomentsInDataBaseWithUpdatedVersion(2);
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
         thenAssertUpdateCountIs(1);
     }
 
@@ -132,42 +126,42 @@ public class MomentsSegregatorTest {
     public void processMomentsReceivedFromBackend_whenUpdatedVersion_shouldCallSavingInterface() throws SQLException {
         givenMomentsInDataBaseWithUpdatedVersion(2);
 
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
         //noinspection unchecked
-        verify(dbSavingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
-        verify(dbDeletingInterface).deleteMeasurementGroup((Moment) any(), eq(dbRequestListener));
-        verify(dbDeletingInterface).deleteMomentDetail((Moment) any(), eq(dbRequestListener));
+        verify(savingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
+        verify(deletingInterface).deleteMeasurementGroup((Moment) any(), eq(dbRequestListener));
+        verify(deletingInterface).deleteMomentDetail((Moment) any(), eq(dbRequestListener));
     }
 
     @Test
     public void processMomentsReceivedFromBackend_whenTimeStampIsUpdatedInBackend_shouldUpdateInApp() throws SQLException {
         givenMomentsInDataBaseWithDifferentTimestamp();
 
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
         //noinspection unchecked
-        verify(dbSavingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
-        verify(dbDeletingInterface).deleteMeasurementGroup((Moment) any(), eq(dbRequestListener));
-        verify(dbDeletingInterface).deleteMomentDetail((Moment) any(), eq(dbRequestListener));
+        verify(savingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
+        verify(deletingInterface).deleteMeasurementGroup((Moment) any(), eq(dbRequestListener));
+        verify(deletingInterface).deleteMomentDetail((Moment) any(), eq(dbRequestListener));
     }
 
     @Test
     public void processMomentsReceivedFromBackend_whenUpdatedVersion_shouldUpdateMoments() throws SQLException {
         givenMomentsInDataBaseWithUpdatedVersion(2);
 
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
-        verify(dbSavingInterface).saveMoments(argThat(new MomentsListSizeMatcher(1)), eq(dbRequestListener));
+        verify(savingInterface).saveMoments(argThat(new MomentsListSizeMatcher(1)), eq(dbRequestListener));
     }
 
     @Test
     public void processMomentsReceivedFromBackend_whenUpdatedVersion_shouldSelectHighestMomentVersion() throws SQLException {
         givenMomentsInDataBaseWithUpdatedVersion(2);
 
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
-        verify(dbSavingInterface).saveMoments(argThat(new MomentListVersionMatcher(2)), eq(dbRequestListener));
+        verify(savingInterface).saveMoments(argThat(new MomentListVersionMatcher(2)), eq(dbRequestListener));
     }
 
     @Test
@@ -175,7 +169,7 @@ public class MomentsSegregatorTest {
         momentSyncData.setVersion(2);
         givenMomentsInDataBaseWithUpdatedVersion(1);
 
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
         thenAssertUpdateCountIs(1);
     }
@@ -185,10 +179,10 @@ public class MomentsSegregatorTest {
         momentSyncData.setVersion(2);
         givenMomentsInDataBaseWithUpdatedVersion(1);
 
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
         //noinspection unchecked
-        verify(dbSavingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
+        verify(savingInterface).saveMoments((List<Moment>) any(), eq(dbRequestListener));
     }
 
     @Test
@@ -196,29 +190,29 @@ public class MomentsSegregatorTest {
         momentSyncData.setVersion(2);
         givenMomentsInDataBaseWithUpdatedVersion(1);
 
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
 
-        verify(dbSavingInterface).saveMoments(argThat(new MomentListVersionMatcher(2)), eq(dbRequestListener));
+        verify(savingInterface).saveMoments(argThat(new MomentListVersionMatcher(2)), eq(dbRequestListener));
     }
 
     @Test
     public void processMomentsReceivedFromBackend_whenMomentsDeletedFromDB() throws SQLException {
         givenMomentsInDataBaseWithMomentsDeletedFromDB();
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
         thenAssertUpdateCountIs(1);
     }
 
     @Test
     public void processMomentsReceivedFromBackend_whenDeletedFromBackend() throws SQLException {
         givenMomentsIsDeletedFromBackend();
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
         thenAssertUpdateCountIs(1);
     }
 
     @Test
     public void processMomentsReceivedFromBackend_shouldProcessExpirationDate() throws SQLException {
         givenMomentsInDataBaseWithoutExpirationDate();
-        whenProcessMomentsReceivedFromBackendIsInvoked();
+        whenProcessMomentsReceivedFromBackendIsInvoked(momentsFromBackend);
         thenAssertUpdateCountIs(1);
     }
 
@@ -228,8 +222,8 @@ public class MomentsSegregatorTest {
         SynchronisationData synchronisationData = new OrmSynchronisationData("1234", false, new DateTime().minus(1), 1);
         synchronisationData.setVersion(2);
         moment1.setSynchronisationData(synchronisationData);
-        when(dbFetchingInterface.fetchMomentByGuid(synchronisationData.getGuid())).thenReturn(ormMomentMock);
-        when(dbFetchingInterface.fetchMomentByGuid("1234")).thenReturn(ormMomentMock);
+        when(fetchingInterface.fetchMomentByGuid(synchronisationData.getGuid())).thenReturn(ormMomentMock);
+        when(fetchingInterface.fetchMomentByGuid("1234")).thenReturn(ormMomentMock);
         when(ormSynchronisationDataMock.getGuid()).thenReturn("-1");
         int count = momentsSegregator.processMoments(Collections.singletonList(moment1), dbRequestListener);
         assertEquals(0, count);
@@ -237,7 +231,7 @@ public class MomentsSegregatorTest {
 
     @Test
     public void putMomentsForSync() throws SQLException {
-        givenMomentsInDataBase();
+        givenMomentsToSynchronizeInDatabase(moment);
         whenPutMomentForSyncIsInvoked();
         thenVerifyDbFetchingInterfaceIsCalled();
         thenVerifyDataToSync();
@@ -255,50 +249,39 @@ public class MomentsSegregatorTest {
         thenVerifyDbSavingInterfaceIsCalled();
     }
 
-    @Test
-    public void momentTimeStampMustBeEqualWhenTimeIsFixed() throws InterruptedException {
-        givenDateTimeIsFixed();
-        when2ndMomentIsCreatedAfter5MilliSeconds();
-        thenMomentsHaveSameTimestamp();
-    }
-
-    @Test
-    public void momentTimeStampMustBeEqualWhenTimeIsNotFixed() throws InterruptedException {
-        givenDateTimeIsNotFixed();
-        when2ndMomentIsCreatedAfter5MilliSeconds();
-        thenMomentsDoNotHaveSameTimestamp();
-    }
-
     private void givenMomentsInDataBaseWithoutExpirationDate() throws SQLException {
         SynchronisationData ormSynchronisationData = new OrmSynchronisationData(GUID_ID, false, BEFORE_NOW, 1);
         momentWithoutExpirationDate.setSynchronisationData(ormSynchronisationData);
-        when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(momentWithoutExpirationDate);
+        when((Moment) fetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(momentWithoutExpirationDate);
         List momentList = new ArrayList<>();
         momentList.add(momentWithoutExpirationDate);
-        when((List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments()).thenReturn(momentList);
+        when((List<? extends Moment>) fetchingInterface.fetchNonSynchronizedMoments()).thenReturn(momentList);
     }
 
     private void givenMomentsIsDeletedFromBackend() throws SQLException {
-        Moment moment2 = momentList.get(0);
+        Moment moment2 = momentsFromBackend.get(0);
         SynchronisationData ormSynchronisationData2 = new OrmSynchronisationData(GUID_ID, true, NOW, 2);
         moment2.setSynchronisationData(ormSynchronisationData2);
         Moment moment3 = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
         SynchronisationData ormSynchronisationData3 = new OrmSynchronisationData(GUID_ID, true, NOW, 3);
         moment2.setSynchronisationData(ormSynchronisationData3);
-        when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment3);
+        when((Moment) fetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment3);
     }
 
     private void givenMomentsInDataBaseWithMomentsDeletedFromDB() throws SQLException {
         Moment moment2 = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
         SynchronisationData ormSynchronisationData2 = new OrmSynchronisationData(DELETED_GUID, false, NOW, 2);
         moment2.setSynchronisationData(ormSynchronisationData2);
-        when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment2);
+        when((Moment) fetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment2);
     }
 
-    private void givenMomentsInDataBase() throws SQLException {
-        when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment);
+    private void givenMomentInDatabase(final Moment moment) throws SQLException {
+        when((Moment) fetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment);
+    }
+
+    private void givenMomentsToSynchronizeInDatabase(final Moment moment) throws SQLException {
         List momentList = Collections.singletonList(moment);
-        when(dbFetchingInterface.fetchNonSynchronizedMoments()).thenReturn(momentList);
+        when(fetchingInterface.fetchNonSynchronizedMoments()).thenReturn(momentList);
     }
 
     private void givenMomentsInDataBaseWithDifferentTimestamp() throws SQLException {
@@ -306,32 +289,18 @@ public class MomentsSegregatorTest {
         dbMoment.setDateTime(DATE_TIME);
         SynchronisationData syncData = new OrmSynchronisationData(GUID_ID, false, BEFORE_NOW, 1);
         dbMoment.setSynchronisationData(syncData);
-        when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(dbMoment);
-        List momentList = Collections.singletonList(moment);
-        when(dbFetchingInterface.fetchNonSynchronizedMoments()).thenReturn(momentList);
-    }
-
-    private void givenNullMomentsInDataBase() throws SQLException {
-        when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(null);
+        givenMomentInDatabase(dbMoment);
     }
 
     private void givenMomentsInDataBaseWithUpdatedVersion(int existingMomentVersion) throws SQLException {
         Moment moment2 = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
         SynchronisationData ormSynchronisationData2 = new OrmSynchronisationData(GUID_ID, false, BEFORE_NOW, existingMomentVersion);
         moment2.setSynchronisationData(ormSynchronisationData2);
-        when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment2);
+        when((Moment) fetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment2);
     }
 
-    private void givenDateTimeIsFixed() {
-        DateTimeUtils.setCurrentMillisFixed(DateTime.now().getMillis());
-    }
-
-    private void givenDateTimeIsNotFixed() {
-        DateTimeUtils.setCurrentMillisSystem();
-    }
-
-    private void whenProcessMomentsReceivedFromBackendIsInvoked() throws SQLException {
-        count = momentsSegregator.processMomentsReceivedFromBackend(momentList, dbRequestListener);
+    private void whenProcessMomentsReceivedFromBackendIsInvoked(final List<Moment> moments) throws SQLException {
+        count = momentsSegregator.processMomentsReceivedFromBackend(moments, dbRequestListener);
     }
 
     private void whenProcessCreatedMomentIsInvoked() {
@@ -346,17 +315,16 @@ public class MomentsSegregatorTest {
         this.dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
     }
 
-    private void when2ndMomentIsCreatedAfter5MilliSeconds() throws InterruptedException {
-        Thread.sleep(5);
-        moment2 = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
+    private void whenCreatingMoment() {
+        moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW.plusMinutes(10));
     }
 
     private void thenVerifyDbFetchingInterfaceIsCalled() throws SQLException {
-        verify(dbFetchingInterface).fetchNonSynchronizedMoments();
+        verify(fetchingInterface).fetchNonSynchronizedMoments();
     }
 
     private void thenVerifyDbSavingInterfaceIsCalled() throws SQLException {
-        verify(dbSavingInterface).saveMoment(moment, null);
+        verify(savingInterface).saveMoment(moment, null);
     }
 
     private void thenVerifyDataToSync() {
@@ -365,13 +333,5 @@ public class MomentsSegregatorTest {
 
     private void thenAssertUpdateCountIs(int count) {
         assertEquals(count, this.count);
-    }
-
-    private void thenMomentsHaveSameTimestamp() {
-        assertTrue(moment.getDateTime().equals(moment2.getDateTime()));
-    }
-
-    private void thenMomentsDoNotHaveSameTimestamp() {
-        assertFalse(moment.getDateTime().equals(moment2.getDateTime()));
     }
 }

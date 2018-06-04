@@ -84,6 +84,31 @@
             android:text="@string/start_sync_date_range"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_last_sync_Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/calendar"
+            android:drawablePadding="3dp"
+            android:focusable="false"
+            android:hint="pick date"
+            android:inputType="date"/>
+
+        <Button
+            android:id="@+id/btn_setSyncTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:enabled="false"
+            android:text="@string/set_lastSyncTime"/>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/btn_completeSync"
         android:layout_width="wrap_content"

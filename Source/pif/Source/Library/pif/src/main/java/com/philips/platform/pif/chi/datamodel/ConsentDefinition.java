@@ -7,9 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class ConsentDefinition implements Parcelable, Serializable {
     private String identifier;
     private int text;
@@ -51,7 +48,7 @@ public class ConsentDefinition implements Parcelable, Serializable {
         return types;
     }
 
-    public void setTypes(String type) {
+    public void setTypes(List<String> types) {
         this.types = types;
     }
 
@@ -105,6 +102,7 @@ public class ConsentDefinition implements Parcelable, Serializable {
     public int getRevokeWarningText() {
         return revokeWarningTextRes;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

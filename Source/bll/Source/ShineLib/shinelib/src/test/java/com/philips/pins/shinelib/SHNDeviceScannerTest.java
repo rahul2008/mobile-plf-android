@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -30,16 +30,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SHNDeviceScannerTest {
 
-    public static final long SCAN_TIMEOUT_MS = 30000;
+    private static final long SCAN_TIMEOUT_MS = 30_000L;
 
     @Mock
-    SHNDeviceScannerInternal mockedSHNDeviceScannerInternal;
+    private SHNDeviceScannerInternal mockedSHNDeviceScannerInternal;
 
     @Mock
-    SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener;
+    private SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener;
 
     @Mock
-    SHNInternalScanRequest SHNInternalScanRequestMock;
+    private SHNInternalScanRequest SHNInternalScanRequestMock;
 
     @Captor
     ArgumentCaptor<SHNDeviceScanner.SHNDeviceScannerListener> captureSHNDeviceScannerListener;
@@ -94,7 +94,6 @@ public class SHNDeviceScannerTest {
         FutureTask<Boolean> future = shnDeviceScanner.startScanningWithFuture(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, SCAN_TIMEOUT_MS);
         mockedInternalHandler.executeFirstPostedExecution();
         verify(mockedSHNDeviceScannerInternal).startScanning(SHNInternalScanRequestMock);
-//        verify(mockedSHNDeviceScannerInternal).startScanning(captureSHNDeviceScannerListener.capture(), isA(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
 
         assertEquals(0, mockedUserHandler.getPostedExecutionCount());
 
@@ -146,7 +145,7 @@ public class SHNDeviceScannerTest {
 
         /* verify that it is posted on the internal handler, but not executed yet */
         assertEquals(1, mockedInternalHandler.getPostedExecutionCount());
-        verify(mockedSHNDeviceScannerInternal, never()).stopScanning();
+        verify(mockedSHNDeviceScannerInternal, never()).onStopScanning();
 
         /* execute on the internal handler */
         mockedInternalHandler.executeFirstPostedExecution();
@@ -154,11 +153,10 @@ public class SHNDeviceScannerTest {
         verify(mockedSHNDeviceScannerInternal).stopScanning(SHNInternalScanRequestMock);
     }
 
-
-    private class TestSHNDeviceScanner extends SHNDeviceScanner{
-        public ScannerSettingDuplicates testScannerSettingDuplicates;
-        public long testScanningAfterMS;
-        public SHNDeviceScannerListener testWrappedSHNDeviceScannerListener;
+    private class TestSHNDeviceScanner extends SHNDeviceScanner {
+        ScannerSettingDuplicates testScannerSettingDuplicates;
+        long testScanningAfterMS;
+        SHNDeviceScannerListener testWrappedSHNDeviceScannerListener;
 
         TestSHNDeviceScanner(final SHNDeviceScannerInternal shnDeviceScannerInternal, final Handler internalHandler, final Handler userHandler) {
             super(shnDeviceScannerInternal, internalHandler, userHandler);

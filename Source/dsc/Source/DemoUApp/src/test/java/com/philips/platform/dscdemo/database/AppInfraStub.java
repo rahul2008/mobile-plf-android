@@ -16,18 +16,135 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
+import java.security.Key;
+
 class AppInfraStub implements AppInfraInterface {
 
     public LoggingInterfaceStub loggingInterfaceStub = new LoggingInterfaceStub();
 
     @Override
     public SecureStorageInterface getSecureStorage() {
-        return null;
+        return new SecureStorageInterface() {
+            @Override
+            public boolean storeValueForKey(String userKey, String valueToBeEncrypted, SecureStorageError secureStorageError) {
+                return false;
+            }
+
+            @Override
+            public String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
+                return null;
+            }
+
+            @Override
+            public boolean removeValueForKey(String userKey) {
+                return false;
+            }
+
+            @Override
+            public boolean createKey(KeyTypes keyType, String keyName, SecureStorageError error) {
+                return false;
+            }
+
+            @Override
+            public boolean doesStorageKeyExist(String key) {
+                return false;
+            }
+
+            @Override
+            public boolean doesEncryptionKeyExist(String key) {
+                return true;
+            }
+
+            @Override
+            public Key getKey(String keyName, SecureStorageError error) {
+                return null;
+            }
+
+            @Override
+            public boolean clearKey(String keyName, SecureStorageError error) {
+                return false;
+            }
+
+            @Override
+            public byte[] encryptData(byte[] dataToBeEncrypted, SecureStorageError secureStorageError) {
+                return new byte[0];
+            }
+
+            @Override
+            public void encryptBulkData(byte[] dataToBeEncrypted, DataEncryptionListener dataEncryptionListener) {
+
+            }
+
+            @Override
+            public byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError) {
+                return new byte[0];
+            }
+
+            @Override
+            public void decryptBulkData(byte[] dataToBeDecrypted, DataDecryptionListener dataDecryptionListener) {
+
+            }
+
+            @Override
+            public boolean isCodeTampered() {
+                return false;
+            }
+
+            @Override
+            public boolean isEmulator() {
+                return false;
+            }
+
+            @Override
+            public String getDeviceCapability() {
+                return null;
+            }
+
+            @Override
+            public boolean deviceHasPasscode() {
+                return false;
+            }
+        };
     }
 
     @Override
     public AppIdentityInterface getAppIdentity() {
-        return null;
+        return new AppIdentityInterface() {
+            @Override
+            public String getAppName() {
+                return null;
+            }
+
+            @Override
+            public String getAppVersion() {
+                return null;
+            }
+
+            @Override
+            public AppState getAppState() {
+                return null;
+            }
+
+            @Override
+            public String getLocalizedAppName() {
+                return null;
+            }
+
+            @Override
+            public String getMicrositeId() {
+                return null;
+            }
+
+            @Override
+            public String getSector() {
+                return null;
+            }
+
+            @Override
+            public String getServiceDiscoveryEnvironment() {
+                return null;
+            }
+        };
     }
 
     @Override

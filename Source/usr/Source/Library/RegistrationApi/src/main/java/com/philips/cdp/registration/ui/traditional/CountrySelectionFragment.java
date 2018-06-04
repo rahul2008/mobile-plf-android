@@ -121,4 +121,9 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         super.onResume();
         trackPage(AppTaggingPages.COUNTRY);
     }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        //NOP
+    }
 }

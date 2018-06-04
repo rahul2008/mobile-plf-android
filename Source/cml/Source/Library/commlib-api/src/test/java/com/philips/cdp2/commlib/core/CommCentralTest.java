@@ -7,18 +7,24 @@ package com.philips.cdp2.commlib.core;
 
 import android.content.Context;
 import android.os.Handler;
-
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseFactory;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import java.lang.ref.WeakReference;
@@ -34,7 +40,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({CommCentral.class, NetworkNodeDatabaseFactory.class})
 public class CommCentralTest {
 
     @Mock
@@ -56,6 +65,15 @@ public class CommCentralTest {
     private DiscoveryStrategy anotherDiscoveryStrategyMock;
 
     @Mock
+    private RuntimeConfiguration runtimeConfigurationMock;
+
+    @Mock
+    private ApplianceManager applianceManagerMock;
+
+    @Mock
+    private NetworkNodeDatabase NetworkNodeDatabaseMock;
+
+    @Mock
     private Context contextMock;
 
     private Set<String> emptyDeviceTypes = Collections.emptySet();
@@ -65,8 +83,11 @@ public class CommCentralTest {
     private CommCentral commCentral;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         initMocks(this);
+
+        mockStatic(NetworkNodeDatabaseFactory.class);
+        when(NetworkNodeDatabaseFactory.create(runtimeConfigurationMock)).thenReturn(NetworkNodeDatabaseMock);
 
         DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
@@ -76,7 +97,9 @@ public class CommCentralTest {
 
         setTestingContext(contextMock);
 
-        commCentral = new CommCentral(applianceFactoryMock, someTransportContextMock, anotherTransportContextMock);
+        PowerMockito.whenNew(ApplianceManager.class).withAnyArguments().thenReturn(applianceManagerMock);
+
+        commCentral = new CommCentral(applianceFactoryMock, runtimeConfigurationMock, someTransportContextMock, anotherTransportContextMock);
     }
 
     @After
@@ -88,7 +111,7 @@ public class CommCentralTest {
     @SuppressWarnings("unused")
     public void givenACommCentralInstance_whenASecondInstanceIsCreated_thenAnErrorMustBeThrown() {
         try {
-            new CommCentral(applianceFactoryMock, someTransportContextMock, anotherTransportContextMock);
+            new CommCentral(applianceFactoryMock, runtimeConfigurationMock, someTransportContextMock, anotherTransportContextMock);
             fail();
         } catch (UnsupportedOperationException ignored) {
         }

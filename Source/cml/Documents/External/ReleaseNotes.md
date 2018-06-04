@@ -8,16 +8,19 @@ Version {next}
 * N/A
 
 ### Backwards Compatibility
-* N/A
+* \#127781 Properties' definitions for NetworkNode moved from NetworkNodeDatabaseHelper to NetworkNode class
 
 ### Features not covered
 * N/A
 
 ### Breaking Changes
 * \#72961 ApplianceFactory no longer used to provided supported device types. Only the filter that is provided when starting discovery is taken into account.
+* The TransportContext interface does not extend the Availability interface anymore
+* \#127781 CommCentral requires runtime configuration to enable secure nodes storage. Secure storage requires AppInfraInterface provided via RuntimeConfiguration.
 
 ### Defects solved
 * \#121886 - Firmware update always starts from 0. Brought behaviour inline with iOS
+* \#127781 - CommLib persists NetworkNodes in secure manner. The feature is backwards compatible: existing stored nodes are migrated to secure DB.
 
 ### Residual anomalies
 * N/A

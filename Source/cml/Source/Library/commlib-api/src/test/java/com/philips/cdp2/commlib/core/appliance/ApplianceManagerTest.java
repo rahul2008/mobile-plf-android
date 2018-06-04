@@ -45,16 +45,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ApplianceManagerTest {
 
-    public static final String CPPID = "CPPID";
+    private static final String CPPID = "CPPID";
 
     @Mock
     private ApplianceFactory applianceFactoryMock;
 
     @Mock
     private Handler handlerMock;
-
-    @Mock
-    private DiscoveryStrategy strategyMock;
 
     @Mock
     private NetworkNode networkNodeMock;
@@ -86,7 +83,7 @@ public class ApplianceManagerTest {
         for (final Map.Entry<DiscoveryStrategy, Set<DiscoveryListener>> entry : discovery.entrySet()) {
             doAnswer(new Answer() {
                 @Override
-                public Object answer(InvocationOnMock invocation) throws Throwable {
+                public Object answer(InvocationOnMock invocation) {
                     entry.getValue().add((DiscoveryListener) invocation.getArgument(0));
                     return null;
                 }
@@ -108,7 +105,7 @@ public class ApplianceManagerTest {
 
         doAnswer(new Answer() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 Runnable r = invocation.getArgument(0);
                 r.run();
                 return null;
@@ -117,7 +114,7 @@ public class ApplianceManagerTest {
 
         doAnswer(new Answer() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 applianceMockAvailabilityListener = invocation.getArgument(0);
                 return null;
             }
@@ -125,7 +122,7 @@ public class ApplianceManagerTest {
 
         doAnswer(new Answer() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 applianceMockAvailabilityListener = null;
                 return null;
             }
@@ -133,7 +130,7 @@ public class ApplianceManagerTest {
 
         doAnswer(new Answer() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Object answer(InvocationOnMock invocation) {
                 networkNodeChangeListener = invocation.getArgument(0);
                 return null;
             }

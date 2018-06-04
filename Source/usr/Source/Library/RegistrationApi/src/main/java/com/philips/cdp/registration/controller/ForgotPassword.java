@@ -14,7 +14,6 @@ import android.content.Context;
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
@@ -25,7 +24,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.platform.appinfra.tagging.AppTaggingConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +49,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
     @Override
     public void onFailure(ForgetPasswordError error) {
         RLog.d(TAG,"onFailure : is called ");
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError);
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
         userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         handleOnlySocialSignIn(error.captureApiError, userRegistrationFailureInfo);
         ThreadUtils.postInMainThread(mContext, () ->
@@ -107,7 +105,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
         RLog.d(TAG,"onFlowDownloadFailure : is called");
         if (mForgotPaswordHandler != null) {
             RLog.d(TAG,"onFlowDownloadFailure : mForgotPaswordHandler is null");
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(RegConstants.FORGOT_PASSWORD_FAILED_SERVER_ERROR);
