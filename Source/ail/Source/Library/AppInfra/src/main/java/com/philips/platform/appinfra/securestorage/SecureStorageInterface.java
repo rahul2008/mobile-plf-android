@@ -136,6 +136,21 @@ public interface SecureStorageInterface extends Serializable {
      */
     void decryptBulkData(byte[] dataToBeDecrypted,DataDecryptionListener dataDecryptionListener);
 
+    /**
+     *  Validates whether our release apk is tampered or not
+     * @return true if code is tampered
+     * @default returns false on debug build
+     * @since 2018.2.0
+     */
+    boolean isCodeTampered();
+
+    /**
+     *  Validates whether application is launched on real time device or on emulator
+     * @return true if application is launched on emulator
+     * @since 2018.2.0
+     */
+    boolean isEmulator();
+
     class SecureStorageError {
         public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError,DeleteError, NoDataFoundForKey, NullData,SecureKeyAlreadyPresent}
 

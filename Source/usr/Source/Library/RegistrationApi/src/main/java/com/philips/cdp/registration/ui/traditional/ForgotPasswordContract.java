@@ -24,8 +24,6 @@ public interface ForgotPasswordContract {
 
     void trackAction(String state, String key, String value);
 
-    //void intiateService(String url);
-
     void addFragment(Fragment fragment);
 
     void onSuccessResponse(String response);

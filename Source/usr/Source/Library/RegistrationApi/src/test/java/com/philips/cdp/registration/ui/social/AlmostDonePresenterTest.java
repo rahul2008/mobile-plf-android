@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.social;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.philips.cdp.registration.BuildConfig;
@@ -25,6 +26,7 @@ import org.robolectric.annotation.Config;
 import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -55,7 +57,7 @@ public class AlmostDonePresenterTest {
         MockitoAnnotations.initMocks(this);
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
         presenter = new AlmostDonePresenter(mockContract, mockUser);
-        userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+        userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
         registrationSettingsURL = new RegistrationSettingsURL();
     }
 
@@ -216,14 +218,14 @@ public class AlmostDonePresenterTest {
 
     @Test
     public void testContinueSocialProviderLoginFailure_displayNameErrorMessage() {
-        userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+        userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
     }
 
     @Test
     public void testContinueSocialProviderLoginFailure_emailErrorMessage() {
-        userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+        userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
         //verify(mockContract).emailErrorMessage(userRegistrationFailureInfo);
@@ -231,7 +233,7 @@ public class AlmostDonePresenterTest {
 
     @Test
     public void testContinueSocialProviderLoginFailure_emailAlreadyInUse_mobile() {
-        userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+        userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
         userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
         registrationSettingsURL.setMobileFlow(true);
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
@@ -240,7 +242,7 @@ public class AlmostDonePresenterTest {
 
     @Test
     public void testContinueSocialProviderLoginFailure_emailAlreadyInUse_email() {
-        userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+        userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
         userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
         registrationSettingsURL.setMobileFlow(false);
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);

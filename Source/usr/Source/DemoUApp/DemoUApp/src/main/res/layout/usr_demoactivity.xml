@@ -4,10 +4,10 @@
     android:background="?attr/uidContentPrimaryBackgroundColor"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:paddingBottom="@dimen/reg_dimen_16dp"
+    android:paddingLeft="@dimen/reg_dimen_16dp"
+    android:paddingRight="@dimen/reg_dimen_16dp"
+    android:paddingTop="@dimen/reg_dimen_16dp">
 
     <ScrollView
         android:id="@+id/scrollView"

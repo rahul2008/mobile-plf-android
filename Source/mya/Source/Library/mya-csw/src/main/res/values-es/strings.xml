@@ -17,6 +17,7 @@
   <string name="csw_privacy_settings_desc">Controla tu privacidad. Lee el {aviso de privacidad} para obtener más información.</string>
   <string name="csw_problem_occurred_error_message">Se ha producido un problema (error %1$d). Inténtalo de nuevo.</string>
   <string name="csw_problem_occurred_error_title">Se ha producido un problema</string>
+  <string name="csw_user_session_expired">[es]Your session is invalid, please log out and log in again</string>
   <string name="mya_Account_settings">Ajustes de la cuenta</string>
   <string name="mya_Address">Dirección</string>
   <string name="mya_Cancel">Cancelar</string>
@@ -58,8 +59,8 @@
   <string name="mya_csw_justintime_accept">[es]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[es]Maybe later</string>
   <string name="mya_csw_justintime_title">[es]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,es][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[NT,es][NT]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,es]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,es]What do we have to offer?</string>
   <string name="mya_logout_message">Se cerrará la sesión en la aplicación. Después de cerrar sesión, siempre puedes iniciar sesión de nuevo.</string>
   <string name="mya_logout_title">¿Seguro que deseas cerrar la sesión?</string>
 </resources>

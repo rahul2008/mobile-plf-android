@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 
 public class RegisterTraditionalTest extends RegistrationApiInstrumentationBase {
@@ -59,7 +60,7 @@ public class RegisterTraditionalTest extends RegistrationApiInstrumentationBase 
     public  void testRegisterSocial(){
         mRegisterTraditional.onRegisterFailedWithFailure(null);
 
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
         mRegisterTraditional.onRegisterFailedWithFailure(userRegistrationFailureInfo);
         Jump.SignInResultHandler.SignInError.FailureReason reason = null;
 

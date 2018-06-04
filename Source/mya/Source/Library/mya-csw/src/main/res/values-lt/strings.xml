@@ -17,6 +17,7 @@
   <string name="csw_privacy_settings_desc">Valdykite privatumą. Norėdami sužinoti daugiau informacijos, žr. {privatumo pranešimą}.</string>
   <string name="csw_problem_occurred_error_message">Atsirado problema (error %1$d). Bandykite dar kartą.</string>
   <string name="csw_problem_occurred_error_title">Atsirado problema</string>
+  <string name="csw_user_session_expired">[lt]Your session is invalid, please log out and log in again</string>
   <string name="mya_Account_settings">Paskyros nustatymai</string>
   <string name="mya_Address">Adresas</string>
   <string name="mya_Cancel">Atšaukti</string>
@@ -58,8 +59,8 @@
   <string name="mya_csw_justintime_accept">[lt]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[lt]Maybe later</string>
   <string name="mya_csw_justintime_title">[lt]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,lt][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[NT,lt][NT]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,lt]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,lt]What do we have to offer?</string>
   <string name="mya_logout_message">Jūs atsijungsite nuo programos. Atsijungę visada galėsite vėl prisijungti.</string>
   <string name="mya_logout_title">Ar tikrai norite atsijungti?</string>
 </resources>

@@ -46,7 +46,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 
 	public void onFailure(CaptureApiError error) {
 		RLog.d(TAG,"onFailure : call onResendVerificationEmailFailedWithError ");
-		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error);
+		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error, mContext);
 		userRegistrationFailureInfo.setErrorCode(error.code);
 		ThreadUtils.postInMainThread(mContext,()->
 		mResendVerificationEmail
@@ -82,7 +82,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 	@Override
 	public void onFlowDownloadFailure() {
 		if(mResendVerificationEmail != null) {
-			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
 			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
 			userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
 			userRegistrationFailureInfo.setErrorCode(RegConstants.RESEND_MAIL_FAILED_SERVER_ERROR);
