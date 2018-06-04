@@ -182,6 +182,16 @@ public class SecureStorage implements SecureStorageInterface {
         getSecureStorage(ssVersion).decryptBulkData(dataToBeDecrypted, dataDecryptionListener);
     }
 
+    @Override
+    public boolean isCodeTampered() {
+        return SSUtils.isCodeTampered(mAppInfra.getAppInfraContext());
+    }
+
+    @Override
+    public boolean isEmulator() {
+        return SSUtils.isEmulator();
+    }
+
     protected SecureStorageInterface getSecureStorage(String version) {
         switch (version) {
             case SecureStorageV2.VERSION:

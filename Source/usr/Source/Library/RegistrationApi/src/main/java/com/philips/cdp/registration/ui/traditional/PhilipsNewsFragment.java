@@ -51,4 +51,9 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment {
     public int getTitleResourceId() {
         return R.string.reg_Philips_News_Title;
     }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        //NOP
+    }
 }

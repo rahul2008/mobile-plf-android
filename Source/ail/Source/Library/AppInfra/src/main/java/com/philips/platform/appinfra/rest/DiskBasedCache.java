@@ -23,6 +23,11 @@ public class DiskBasedCache extends com.android.volley.toolbox.DiskBasedCache {
     private AppInfra mAppInfra;
 
     /**
+     * Default maximum disk usage in bytes.
+     */
+    public static final int DEFAULT_DISK_USAGE_BYTES = 5 * 1024 * 1024;//5MB
+
+    /**
      * Constructs an instance of the DiskBasedCache at the specified directory.
      *
      * @param rootDirectory       The root directory of the cache.

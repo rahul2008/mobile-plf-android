@@ -13,19 +13,19 @@ public interface MobileVerifyCodeContract extends SMSBroadCastReceiver.ReceiveAn
 
     void netWorkStateOfflineUiHandle();
 
-    void showSmsSendFailedError();
+//    void showSmsSendFailedError();
 
     void refreshUserOnSmsVerificationSuccess();
 
-    void smsVerificationResponseError();
+//    void smsVerificationResponseError();
 
     void hideProgressSpinner();
 
-    void setOtpInvalidErrorMessage();
+    void setOtpInvalidErrorMessage(int errorCode);
 
-    void showOtpInvalidError();
+//    void showOtpInvalidError(int errorCode);
 
-    void setOtpErrorMessageFromJson(String errorDescription);
+    void setOtpErrorMessageFromJson(int errorCode);
 
     void storePreference(String emailOrMobileNumber);
 

@@ -20,7 +20,6 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
@@ -108,9 +107,11 @@ public class SHNCentral {
     private final Context applicationContext;
     private SHNUserConfiguration shnUserConfiguration;
     private SHNDeviceScanner shnDeviceScanner;
-    private BroadcastReceiver bondStateChangedReceiver;
     private boolean isBluetoothAdapterEnabled;
     private int bluetoothAdapterState;
+
+    @VisibleForTesting
+    BroadcastReceiver bondStateChangedReceiver;
 
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -174,9 +175,12 @@ public class SHNCentral {
         this(handler, context, false, null, false);
     }
 
+    @SuppressLint("UseSparseArrays")
     SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
         shnCentralListeners = new CopyOnWriteArraySet<>();
-        shnCentralInternalListeners = createShnCentralStatusListenersMap();
+        shnCentralInternalListeners = new HashMap<>();
+        shnBondStatusListeners = new HashMap<>();
+
         applicationContext = context.getApplicationContext();
 
         bleUtilities = new BleUtilities(applicationContext);
@@ -259,12 +263,6 @@ public class SHNCentral {
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
         shnUserConfiguration = createUserConfiguration();
-    }
-
-    @SuppressLint("UseSparseArrays")
-    @VisibleForTesting
-    Map<Integer, WeakReference<SHNCentralListener>> createShnCentralStatusListenersMap() {
-        return new HashMap<>();
     }
 
     SHNUserConfiguration createUserConfiguration() {
