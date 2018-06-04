@@ -14,9 +14,12 @@ public class ConsentDefinition implements Parcelable, Serializable {
     private int version;
     private int revokeWarningTextRes;
 
-    public ConsentDefinition(int textRes, int helpTextRes, List<String> types, int version) {
+    public ConsentDefinition(int textRes, int helpTextRes, List<String> types, int version) throws IllegalArgumentException {
         this.text = textRes;
         this.helpText = helpTextRes;
+
+        if (types == null || types.size() == 0)  throw new IllegalArgumentException();
+
         this.types = types;
         this.version = version;
         this.revokeWarningTextRes = 0;
@@ -48,6 +51,8 @@ public class ConsentDefinition implements Parcelable, Serializable {
     }
 
     public void setTypes(List<String> types) {
+        if (types == null || types.size() == 0)  throw new IllegalArgumentException();
+        
         this.types = types;
     }
 

@@ -3,7 +3,9 @@ package com.philips.platform.pif.chi.datamodel;
 import android.os.Parcel;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
@@ -24,6 +26,10 @@ public class ConsentDefinitionTest {
     private List<String> consentTypes;
     private ConsentDefinition consentDefinition;
     private ConsentDefinition expectedConsentDefinition;
+
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
 
     @Before
     public void Before()
@@ -128,11 +134,44 @@ public class ConsentDefinitionTest {
     }
 
     @Test
-    public void ConsentDefinitionCreateorNewArray() {
+    public void ConsentDefinitionCreatorNewArray() {
         ConsentDefinition[] arrayOfConsentDefinition = ConsentDefinition.CREATOR.newArray(4);
 
         assertNotNull(arrayOfConsentDefinition);
         assertEquals(4, arrayOfConsentDefinition.length);
         assertArrayEquals(new ConsentDefinition[4], arrayOfConsentDefinition);
     }
+
+    @Test
+    public void ConsentDefinitionConstructorTypesListNull() {
+        exception.expect(IllegalArgumentException.class);
+        consentDefinition = new ConsentDefinition(1,2,null,99);
+        //ends here
+    }
+
+    @Test
+    public void ConsentDefinitionSetTypesListNull() {
+        exception.expect(IllegalArgumentException.class);
+        consentDefinition.setTypes(null);
+        //ends here
+    }
+
+    @Test
+    public void ConsentDefinitionConstructorEmptyTypesList() {
+        consentTypes = Arrays.asList();
+
+        exception.expect(IllegalArgumentException.class);
+        consentDefinition = new ConsentDefinition(1,2,consentTypes,99);
+        //ends here
+    }
+
+    @Test
+    public void ConsentDefinitionSetTypesWithEmptyList() {
+        consentTypes = Arrays.asList();
+
+        exception.expect(IllegalArgumentException.class);
+        consentDefinition.setTypes(consentTypes);
+        //ends here
+    }
+
 }
