@@ -27,7 +27,7 @@ import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
-import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
+import com.philips.platform.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;

@@ -47,7 +47,7 @@ android {
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
-        testApplicationId "com.philips.platform.mya.catk.test"
+        testApplicationId "com.philips.platform.catk.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         generatedDensities = []
         // replace the below string with your own Google client ID. Make sure this is consistent
@@ -190,7 +190,7 @@ tasks.withType(Test) {
 }
 
 pitest {
-    targetClasses = ['com.philips.platform.mya.catk.*']  //by default "${project.group}.*"
+    targetClasses = ['com.philips.platform.catk.*']  //by default "${project.group}.*"
     pitestVersion = '1.1.0' //not needed when a default PIT version should be used
     threads = 1
     outputFormats = ['XML', 'HTML']
@@ -198,6 +198,6 @@ pitest {
     excludedClasses = [
             '**Factory*',
             '**_MembersInjector*',
-            'com.philips.platform.mya.catk.error.ServerErrorTest' // Causes error but no tests fail (false positive)
+            'com.philips.platform.catk.error.ServerErrorTest' // Causes error but no tests fail (false positive)
     ]
 }

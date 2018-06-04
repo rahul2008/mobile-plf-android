@@ -11,8 +11,8 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.catk.ConsentsClient;
+import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;

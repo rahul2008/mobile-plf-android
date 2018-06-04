@@ -4,7 +4,7 @@ import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
-import com.philips.platform.mya.catk.datamodel.ConsentDTO;
+import com.philips.platform.catk.datamodel.ConsentDTO;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;

@@ -1,7 +1,7 @@
 package com.philips.platform.csw.justintime;
 
 import com.google.common.collect.ImmutableMap;
-import com.philips.platform.mya.catk.datamodel.ConsentDTO;
+import com.philips.platform.catk.datamodel.ConsentDTO;
 import com.philips.platform.csw.BuildConfig;
 import com.philips.platform.csw.R;
 import com.philips.platform.csw.justintime.spy.ConsentManagerInterfaceSpy;
