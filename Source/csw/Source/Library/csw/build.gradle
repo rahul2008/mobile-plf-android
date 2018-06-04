@@ -12,7 +12,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "mya-csw"
+archivesBaseName = "csw"
 
 buildscript {
     repositories{
@@ -102,7 +102,7 @@ dependencies {
         implementation project(':registrationApi')
         implementation project(':pif')
         implementation project(':uikitLib')
-        implementation project(':mya-catk')
+        implementation project(':catk')
         implementation project(':uAppFwLib')
         implementation project(':AppInfra')
     } else {
@@ -113,7 +113,7 @@ dependencies {
         }
         implementation philipsdeps.pif
         implementation philipsdeps.uikitLib
-        implementation philipsdeps.mya-catk
+        implementation philipsdeps.catk
     }
 
     // Tests

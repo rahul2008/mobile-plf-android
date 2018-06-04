@@ -224,8 +224,8 @@ dependencies {
         implementation project(':uAppFwLib')
         implementation project(':AppInfra')
         implementation project(':prx')
-        implementation project(':mya-csw')
-        implementation project(':mya-catk')
+        implementation project(':csw')
+        implementation project(':catk')
         implementation project(':pif')
     } else {
         implementation philipsdeps.productselection
