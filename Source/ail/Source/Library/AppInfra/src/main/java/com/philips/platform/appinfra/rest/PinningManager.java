@@ -20,7 +20,8 @@ import java.util.regex.Pattern;
 public class PinningManager implements PublicKeyPinInterface {
 
     private static final String LOG_MESSAGE_BASE = "Public-key pins Mismatch";
-    private static final String LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND = "Could not find Public-Key-Pins in network response";
+    private static final String LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_NETWORK = "Could not find Public-Key-Pins in network response";
+    private static final String LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_STORAGE = "Could not find Public-Key-Pins in storage";
     private static final String LOG_MESSAGE_STORAGE_ERROR = "Could not update Public-Key-Pins in Secure Storage";
 
     private static final String PUBLIC_KEY_REGEX = "pin-sha256=\".+?\";";
@@ -46,10 +47,11 @@ public class PinningManager implements PublicKeyPinInterface {
 
         if (!hostName.isEmpty()) {
             if (!isKeyFound && storedKeyDetails != null) {
-                logError(hostName, LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND);
+                logError(hostName, LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_NETWORK);
             } else if (isKeyFound) {
                 if (storedKeyDetails == null) {
                     updateStoredPublicKey(hostName, publicKeyDetails);
+                    logError(hostName, LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_STORAGE);
                 } else {
                     Pattern pattern = Pattern.compile(PUBLIC_KEY_REGEX);
                     Matcher networkKeyMatcher = pattern.matcher(publicKeyDetails);
