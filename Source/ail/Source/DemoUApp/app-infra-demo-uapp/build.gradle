@@ -152,7 +152,6 @@ dependencies {
         implementation philipsdeps.AppInfra
     }
 
-    implementation deps.leakcanary
     implementation deps.gson
     implementation deps.volley
 }
