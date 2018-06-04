@@ -48,20 +48,18 @@ public class CloudLogRequestBodyBuilder {
         for (AILCloudLogData ailCloudLogData : ailCloudLogDataList) {
             Entry entry = new Entry();
             Resource resource = new Resource();
-            resource.setApplicationName(getValue(ailCloudLogMetaData.getAppName()));
-            String applicationVersion=!TextUtils.isEmpty(ailCloudLogData.appVersion)?ailCloudLogData.appVersion.replaceAll("[()]",""):CloudLoggingConstants.NA;
-            resource.setApplicationVersion(applicationVersion);
-            resource.setApplicationInstance(getValue(ailCloudLogData.appsId));
+            resource.setApplicationName(getFormattedString(ailCloudLogMetaData.getAppName()));
+            resource.setApplicationVersion(getFormattedString(ailCloudLogData.appVersion));
+            resource.setApplicationInstance(getFormattedString(ailCloudLogData.appsId));
             resource.setCategory("TraceLog");
-            String component=!TextUtils.isEmpty(ailCloudLogData.component)?ailCloudLogData.component.replaceAll("[()]",""):CloudLoggingConstants.NA;
-            resource.setComponent(component);
-            resource.setEventId(getValue(ailCloudLogData.eventId));
+            resource.setComponent(getFormattedString(ailCloudLogData.component));
+            resource.setEventId(getFormattedString(ailCloudLogData.eventId));
             resource.setId(getValue(ailCloudLogData.logId));
             resource.setLogTime("" + LoggingUtils.getFormattedDateAndTime(ailCloudLogData.logTime, CloudLoggingConstants.CLOUD_LOGGING_DATE_TIME_FORMAT));
-            resource.setOriginatingUser(getValue(ailCloudLogData.userUUID));
+            resource.setOriginatingUser(getFormattedString(ailCloudLogData.userUUID));
             resource.setResourceType("LogEvent");
-            resource.setServerName(getValue(ailCloudLogData.serverName));
-            resource.setSeverity(getValue(ailCloudLogData.severity));
+            resource.setServerName(getFormattedString(ailCloudLogData.serverName));
+            resource.setSeverity(getFormattedString(ailCloudLogData.severity));
             resource.setTransactionId(getValue(ailCloudLogData.logId));
             LogMetaDataModel logMetaDataModel=new LogMetaDataModel();
             logMetaDataModel.setAppstate(ailCloudLogData.appState);
@@ -103,6 +101,14 @@ public class CloudLogRequestBodyBuilder {
             return CloudLoggingConstants.NA;
         }
         return value;
+    }
+
+    private String getFormattedString(String value){
+        if(TextUtils.isEmpty(value)){
+            return CloudLoggingConstants.NA;
+        }else{
+            return value.replaceAll("[$&+,:;=?@#|<>()\\\\\\[\\]]", "_");
+        }
     }
 
 
