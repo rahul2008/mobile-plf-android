@@ -246,11 +246,11 @@ public class RegistrationConfiguration {
     }
 
 
-    /**
+    /*    *//**
      * Get HSDP information for specified configuration
      *
      * @return HSDPInfo Object
-     */
+     *//*
     public HSDPInfo getHSDPInfo() {
 
         String sharedId = hsdpConfiguration.getHsdpSharedId();
@@ -268,7 +268,7 @@ public class RegistrationConfiguration {
             return null;
         }
         return new HSDPInfo(sharedId, secreteId, baseUrl, appName);
-    }
+    }*/
 
     /**
      * Get provoders
@@ -305,9 +305,7 @@ public class RegistrationConfiguration {
     }
 
     private boolean isHsdpInfoAvailable() {
-        HSDPInfo hsdpInfo = getHSDPInfo();
-        return hsdpInfo != null
-                && hsdpInfo.getSecreteId() != null
-                && hsdpInfo.getSharedId() != null;
+        return hsdpConfiguration.getHsdpSecretId() != null
+                && hsdpConfiguration.getHsdpSharedId() != null;
     }
 }
