@@ -84,7 +84,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.i(TAG, "onCreateView : is called");
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-
+        registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
 
         marketingAccountPresenter = new MarketingAccountPresenter(this);
@@ -274,14 +274,21 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             } else {
                 countMeButton.setEnabled(false);
                 mayBeLaterButton.setEnabled(false);
-                errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
+//                errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
+                showNotificationBarOnNetworkNotAvailable();
             }
         } else {
-            errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
+//            errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            showNotificationBarOnNetworkNotAvailable();
             countMeButton.setEnabled(false);
             mayBeLaterButton.setEnabled(false);
             scrollViewAutomatically(errorRegError, rootLayoutScrollView);
         }
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        errorRegError.setError(msg);
     }
 }
 

@@ -12,17 +12,17 @@ public interface MobileForgotPassVerifyResendCodeContract {
 
     void netWorkStateOfflineUiHandle();
 
-    void showSmsSendFailedError();
+    void showSmsSendFailedError(String localizedError);
 
     void enableResendButtonAndHideSpinner();
 
-    void showSmsResendTechincalError(String errorCodeString);
+//    void showSmsResendTechincalError(String errorCodeString);
 
     void trackMultipleActionsOnMobileSuccess();
 
     void trackVerifyActionStatus(String state, String key, String value);
 
-    void showSMSSpecifedError(String errorId);
+    void showSMSSpecifedError(int errorId);
 
     void updateToken(String token);
 
