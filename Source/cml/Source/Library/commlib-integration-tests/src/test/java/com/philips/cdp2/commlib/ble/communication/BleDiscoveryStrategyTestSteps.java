@@ -133,12 +133,12 @@ public class BleDiscoveryStrategyTestSteps {
     public void applicationHasSupportFor(final List<String> applianceTypes) {
         ApplianceFactory testApplianceFactory = new ApplianceFactory() {
             @Override
-            public boolean canCreateApplianceForNode(NetworkNode networkNode) {
+            public boolean canCreateApplianceForNode(@NonNull NetworkNode networkNode) {
                 return applianceTypes.contains(networkNode.getDeviceType());
             }
 
             @Override
-            public Appliance createApplianceForNode(final NetworkNode networkNode) {
+            public Appliance createApplianceForNode(@NonNull final NetworkNode networkNode) {
                 if (canCreateApplianceForNode(networkNode)) {
                     return new Appliance(networkNode, new BleCommunicationStrategy(networkNode.getCppId(), bleDeviceCache, callbackHandlerMock)) {
                         @Override

@@ -6,7 +6,6 @@
 package com.philips.cdp2.commlib.devicetest.appliance;
 
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
@@ -14,11 +13,6 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.devicetest.CombinedCommunicationTestingStrategy;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import static java.util.Collections.unmodifiableSet;
 
 public final class ReferenceApplianceFactory implements ApplianceFactory {
     @NonNull
@@ -37,12 +31,12 @@ public final class ReferenceApplianceFactory implements ApplianceFactory {
     }
 
     @Override
-    public boolean canCreateApplianceForNode(NetworkNode networkNode) {
+    public boolean canCreateApplianceForNode(@NonNull NetworkNode networkNode) {
         return networkNode.isValid();
     }
 
     @Override
-    public Appliance createApplianceForNode(NetworkNode networkNode) {
+    public Appliance createApplianceForNode(@NonNull NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
 
             final CombinedCommunicationTestingStrategy communicationStrategy = new CombinedCommunicationTestingStrategy(
@@ -65,10 +59,5 @@ public final class ReferenceApplianceFactory implements ApplianceFactory {
             }
         }
         return null;
-    }
-
-    @Override
-    public Set<String> getSupportedDeviceTypes() {
-        return unmodifiableSet(new HashSet<String>());
     }
 }

@@ -6,7 +6,6 @@
 package com.philips.cdp2.demouapp;
 
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
@@ -23,10 +22,6 @@ import com.philips.cdp2.demouapp.appliance.dolphin.DolphinAppliance;
 import com.philips.cdp2.demouapp.appliance.polaris.PolarisAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.WifiReferenceAppliance;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 class CommlibUappApplianceFactory implements ApplianceFactory {
 
@@ -46,12 +41,12 @@ class CommlibUappApplianceFactory implements ApplianceFactory {
     }
 
     @Override
-    public boolean canCreateApplianceForNode(NetworkNode networkNode) {
+    public boolean canCreateApplianceForNode(@NonNull NetworkNode networkNode) {
         return networkNode.isValid();
     }
 
     @Override
-    public Appliance createApplianceForNode(NetworkNode networkNode) {
+    public Appliance createApplianceForNode(@NonNull NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
             final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
                     bleTransportContext.createCommunicationStrategyFor(networkNode),
@@ -89,10 +84,5 @@ class CommlibUappApplianceFactory implements ApplianceFactory {
             }
         }
         return null;
-    }
-
-    @Override
-    public Set<String> getSupportedDeviceTypes() {
-        return Collections.unmodifiableSet(new HashSet<String>());
     }
 }
