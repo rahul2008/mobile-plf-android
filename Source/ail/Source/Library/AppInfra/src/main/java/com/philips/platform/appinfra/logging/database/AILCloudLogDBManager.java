@@ -72,6 +72,13 @@ public class AILCloudLogDBManager {
         ailCloudLogDatabase.logModel().updateLogs(ailCloudLogDataList);
     }
 
+    public synchronized void updateAILCloudLogList(List<AILCloudLogData> ailCloudLogDataList,DBLogState dbLogState){
+        for (AILCloudLogData ailCloudLogData : ailCloudLogDataList) {
+            ailCloudLogData.status =dbLogState.getState();
+        }
+        ailCloudLogDatabase.logModel().updateLogs(ailCloudLogDataList);
+    }
+
     public synchronized void deleteLogRecords(List<AILCloudLogData> ailCloudLogDataList) {
         ailCloudLogDatabase.logModel().deleteLogs(ailCloudLogDataList);
     }

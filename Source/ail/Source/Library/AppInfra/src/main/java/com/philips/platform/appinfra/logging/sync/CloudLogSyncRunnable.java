@@ -68,6 +68,7 @@ public class CloudLogSyncRunnable implements Runnable {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    ailCloudLogDBManager.updateAILCloudLogList(ailCloudLogDataList, AILCloudLogDBManager.DBLogState.ERROR);
                     Log.v("SyncTesting", "Inside onErrorResponse" + error.getMessage());
                 }
             }) {
