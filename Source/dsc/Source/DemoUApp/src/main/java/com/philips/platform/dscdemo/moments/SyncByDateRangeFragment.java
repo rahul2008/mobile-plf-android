@@ -192,7 +192,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         if (SyncScheduler.getInstance().getSyncStatus()) {
             updateTextView(getString(R.string.sync_inProgress));
         } else {
-            updateTextView(getString(R.string.sync_stopped));
+            updateTextView(getString(R.string.sync_yet_to_start));
         }
 
         btnCompleteSync.setOnClickListener(clickListener);
@@ -279,7 +279,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
             if (isRunning) {
                 updateTextView(getString(R.string.sync_inProgress));
             } else {
-                updateTextView(getString(R.string.sync_stopped));
+                updateTextView(getString(R.string.sync_yet_to_start));
             }
         }
     }
