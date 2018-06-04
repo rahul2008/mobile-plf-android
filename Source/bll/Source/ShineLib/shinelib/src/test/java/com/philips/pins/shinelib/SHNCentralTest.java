@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,9 +14,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
 import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.helper.MockedHandler;
@@ -23,7 +24,6 @@ import com.philips.pins.shinelib.helper.Utility;
 import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -87,6 +87,9 @@ public class SHNCentralTest extends RobolectricTest {
 
     @Mock
     private SHNDevice alternateShnDeviceMock;
+
+    @Mock
+    private SHNCentral.SHNBondStatusListener shnBondStatusListenerMock;
 
     @Before
     public void setUp() throws SHNBluetoothHardwareUnavailableException, Exception {
@@ -322,5 +325,23 @@ public class SHNCentralTest extends RobolectricTest {
         simulateBLEStateChange(BluetoothAdapter.STATE_TURNING_OFF);
 
         verify(listener, times(0)).onStateUpdated(shnCentral);
+    }
+
+    @Test
+    public void givenBondListenerIsRegistered_whenBondIsCreated_thenListenerIsNotified() {
+        Intent intentMock = mock(Intent.class);
+        Bundle bundleMock = mock(Bundle.class);
+        BluetoothDevice bluetoothDeviceMock = mock(BluetoothDevice.class);
+        when(intentMock.getExtras()).thenReturn(bundleMock);
+        when(bundleMock.getInt(BluetoothDevice.EXTRA_BOND_STATE)).thenReturn(0);
+        when(bundleMock.getInt(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE)).thenReturn(1);
+        when(bundleMock.getParcelable(BluetoothDevice.EXTRA_DEVICE)).thenReturn(bluetoothDeviceMock);
+        final String address = "00:11:22:33:44:55";
+        when(bluetoothDeviceMock.getAddress()).thenReturn(address);
+        shnCentral.registerBondStatusListenerForAddress(shnBondStatusListenerMock, address);
+
+        shnCentral.bondStateChangedReceiver.onReceive(mockedContext, intentMock);
+
+        verify(shnBondStatusListenerMock).onBondStatusChanged(bluetoothDeviceMock, 0, 1);
     }
 }
