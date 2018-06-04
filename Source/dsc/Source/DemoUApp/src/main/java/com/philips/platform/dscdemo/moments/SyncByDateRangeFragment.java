@@ -69,7 +69,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     private TextView momentConsentStatusTextView;
     private View fragmentView;
     private ToggleButton mEnableDisableSync;
-    final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
     private EditText mLastSyncDateEt;
     private Button btnSetLastSyncTimestamp;
     private DateTime mLastSyncDateTime;
