@@ -9,7 +9,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public enum JanrainErrorEnum {
 
-    JANRAIN_UNKNOWN_ERROR(ErrorCodes.UNKNOWN_ERROR, R.string.reg_Janrain_Connection_Lost_No_Invalid_Mismatch),
+    JANRAIN_UNKNOWN_ERROR(ErrorCodes.UNKNOWN_ERROR, R.string.reg_UnexpectedInternalError_ErrorMsg),
     JANRAIN_CONNECTION_LOST_NO_ARGUMENT(ErrorCodes.JANRAIN_CONNECTION_LOST_NO_ARGUMENT, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
     JANRAIN_CONNECTION_LOST_INVALID_ARGUMENT(ErrorCodes.JANRAIN_CONNECTION_LOST_INVALID_ARGUMENT, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
     JANRAIN_CONNECTION_LOST_MISMATCH_ARGUMENT(ErrorCodes.JANRAIN_CONNECTION_LOST_MISMATCH_ARGUMENT, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
@@ -26,7 +26,7 @@ public enum JanrainErrorEnum {
     JANRAIN_CONNECTION_LOST_ENITY_ALREADY_EXIST(ErrorCodes.JANRAIN_CONNECTION_LOST_ENITY_ALREADY_EXIST, R.string.reg_Janrain_EntityAlreadyExists_ErrorMsg),
     JANRAIN_CONNECTION_LOST_ATTRIBUTE_ALREADY_EXIST(ErrorCodes.JANRAIN_CONNECTION_LOST_ATTRIBUTE_ALREADY_EXIST, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
     JANRAIN_CONNECTION_LOST_MODIFY_ATTRIBUTE(ErrorCodes.JANRAIN_CONNECTION_LOST_MODIFY_ATTRIBUTE, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
-    JANRAIN_CONNECTION_LOST_CREATE_RECORD_FAILED(ErrorCodes.JANRAIN_CONNECTION_LOST_CREATE_RECORD_FAILED, R.string.reg_Janrain_Connection_Lost_Argument_Not_Match),
+    JANRAIN_CONNECTION_LOST_CREATE_RECORD_FAILED(ErrorCodes.JANRAIN_CONNECTION_LOST_CREATE_RECORD_FAILED, R.string.reg_UnexpectedInternalError_ErrorMsg),
     JANRAIN_CONNECTION_LOST_ENTITY_NOT_AVAILABLE(ErrorCodes.JANRAIN_CONNECTION_LOST_ENTITY_NOT_AVAILABLE, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
     JANRAIN_CONNECTION_LOST_CREATE_RECORD_ID_FAILED(ErrorCodes.JANRAIN_CONNECTION_LOST_CREATE_RECORD_ID_FAILED, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
     JANRAIN_CONNECTION_LOST_ARGUMENT_NOT_MATCHIN(ErrorCodes.JANRAIN_CONNECTION_LOST_ARGUMENT_NOT_MATCHIN, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
