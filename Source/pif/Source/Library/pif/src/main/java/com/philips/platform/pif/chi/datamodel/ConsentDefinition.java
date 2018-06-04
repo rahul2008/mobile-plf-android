@@ -50,9 +50,9 @@ public class ConsentDefinition implements Parcelable, Serializable {
         return types;
     }
 
-    public void setTypes(List<String> types) {
+    public void setTypes(List<String> types) throws IllegalArgumentException {
         if (types == null || types.size() == 0)  throw new IllegalArgumentException();
-        
+
         this.types = types;
     }
 
