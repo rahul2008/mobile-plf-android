@@ -82,7 +82,7 @@ public class HsdpUser {
      *
      * @return HSDPInfo Object
      */
-    public HSDPInfo getHSDPInfo() {
+    private HSDPInfo getHSDPInfo() {
 
         String sharedId = hsdpConfiguration.getHsdpSharedId();
 
