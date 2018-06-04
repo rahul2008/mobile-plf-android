@@ -10,24 +10,25 @@ import java.util.List;
 public class ConsentDefinition implements Parcelable, Serializable {
     private int text;
     private int helpText;
+    private int revokeWarningText;
     private List<String> types;
     private int version;
-    private int revokeWarningTextRes;
+
 
     public ConsentDefinition(int textRes, int helpTextRes, List<String> types, int version) throws IllegalArgumentException {
         this.text = textRes;
         this.helpText = helpTextRes;
+        this.revokeWarningText = 0;
 
         if (types == null || types.size() == 0)  throw new IllegalArgumentException();
 
         this.types = types;
         this.version = version;
-        this.revokeWarningTextRes = 0;
     }
 
     public ConsentDefinition(int text, int helpText, List<String> types, int version, int revokeWarningText) {
         this(text, helpText, types, version);
-        this.revokeWarningTextRes = revokeWarningText;
+        this.revokeWarningText = revokeWarningText;
     }
 
     public int getText() {
@@ -65,16 +66,16 @@ public class ConsentDefinition implements Parcelable, Serializable {
     }
 
     public boolean hasRevokeWarningText() {
-        return this.revokeWarningTextRes > 0;
+        return this.revokeWarningText > 0;
     }
 
     public int getRevokeWarningText() {
-        return revokeWarningTextRes;
+        return revokeWarningText;
     }
 
     public void setRevokeWarningText(int revokeWarningTextRes)
     {
-        this.revokeWarningTextRes = revokeWarningTextRes;
+        this.revokeWarningText = revokeWarningTextRes;
     }
 
     @Override
@@ -86,18 +87,18 @@ public class ConsentDefinition implements Parcelable, Serializable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(text);
         parcel.writeInt(helpText);
+        parcel.writeInt(revokeWarningText);
         parcel.writeStringList(types);
         parcel.writeInt(version);
-        parcel.writeInt(revokeWarningTextRes);
     }
 
     protected ConsentDefinition(Parcel in) {
         text = in.readInt();
         helpText = in.readInt();
+        revokeWarningText = in.readInt();
         types = new ArrayList<>();
         in.readStringList(types);
         version = in.readInt();
-        revokeWarningTextRes = in.readInt();
     }
 
     public static final Creator<ConsentDefinition> CREATOR = new Creator<ConsentDefinition>() {
@@ -123,7 +124,7 @@ public class ConsentDefinition implements Parcelable, Serializable {
         if (text != that.text) return false;
         if (helpText != that.helpText)
             return false;
-        if (revokeWarningTextRes != that.revokeWarningTextRes) return false;
+        if (revokeWarningText != that.revokeWarningText) return false;
 
         return types != null ? types.equals(that.types) : that.types == null;
     }
@@ -132,9 +133,9 @@ public class ConsentDefinition implements Parcelable, Serializable {
     public int hashCode() {
         int result = text;
         result = 31 * result + helpText;
+        result = 31 * result + revokeWarningText;
         result = 31 * result + (types != null ? types.hashCode() : 0);
         result = 31 * result + version;
-        result = 31 * result + revokeWarningTextRes;
 
         return result;
     }

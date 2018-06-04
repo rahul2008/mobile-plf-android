@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2018.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.pif.chi.datamodel;
 
 import android.os.Parcel;
@@ -14,12 +21,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * (C) Koninklijke Philips N.V., 2018.
- * All rights reserved.
- */
 @RunWith(RobolectricTestRunner.class)
 public class ConsentDefinitionTest {
 
@@ -48,7 +52,7 @@ public class ConsentDefinitionTest {
         assertEquals(0, consentDefinition.getRevokeWarningText());
 
         assertEquals(false, consentDefinition.hasRevokeWarningText());
-        assertEquals(1541266526, consentDefinition.hashCode());
+        assertEquals(-1057708992, consentDefinition.hashCode());
     }
 
     @Test
@@ -62,7 +66,7 @@ public class ConsentDefinitionTest {
         assertEquals(8, consentDefinition.getRevokeWarningText());
 
         assertEquals(true, consentDefinition.hasRevokeWarningText());
-        assertEquals(1541266534, consentDefinition.hashCode());
+        assertEquals(-1057701304, consentDefinition.hashCode());
     }
 
     @Test
@@ -75,7 +79,7 @@ public class ConsentDefinitionTest {
         consentDefinition.setText(100);
         assertEquals(100, consentDefinition.getText());
 
-        assertEquals(false, expectedConsentDefinition.equals(consentDefinition));
+        assertNotEquals(expectedConsentDefinition, consentDefinition);
     }
 
     @Test
