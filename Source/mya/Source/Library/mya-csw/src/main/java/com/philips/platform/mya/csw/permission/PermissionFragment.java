@@ -10,11 +10,12 @@ package com.philips.platform.mya.csw.permission;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.mya.csw.CswBaseFragment;
 import com.philips.platform.mya.csw.CswConstants;
@@ -36,14 +37,13 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PermissionFragment extends CswBaseFragment implements PermissionContract.View, HelpClickListener, android.view.View.OnClickListener {
+public class PermissionFragment extends CswBaseFragment implements PermissionContract.View, HelpClickListener, View.OnClickListener {
 
-    public static final String TAG = PermissionFragment.class.getSimpleName();
+    public static final String TAG = "PermissionFragment";
     private ProgressDialogView progressDialog;
     private RecyclerView recyclerView;
 
     private List<ConsentDefinition> consentDefinitionList = null;
-    private PermissionAdapter adapter;
     private PermissionContract.Presenter presenter;
     private ConfirmDialogView confirmDialogView;
     private DialogView errorDialogViewWithClickListener;
@@ -61,8 +61,8 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     }
 
     @Override
-    public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        android.view.View view = inflater.inflate(R.layout.csw_permission_view, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.csw_permission_view, container, false);
         recyclerView = view.findViewById(R.id.consentsRecycler);
 
         if (getArguments() != null)
@@ -103,7 +103,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        adapter = new PermissionAdapter(createConsentsList(), this);
+        PermissionAdapter adapter = new PermissionAdapter(createConsentsList(), this);
         adapter.setPrivacyNoticeClickListener(new LinkSpanClickListener() {
             @Override
             public void onClick() {
@@ -114,7 +114,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
         new PermissionPresenter(this, adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
+        RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(recyclerView.getContext());
         recyclerView.addItemDecoration(separatorItemDecoration);
         recyclerView.setAdapter(adapter);
     }
@@ -130,11 +130,12 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
 
     @Override
     public void showProgressDialog() {
-        if (!(getActivity().isFinishing())) {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !(activity.isFinishing())) {
             if (progressDialog == null) {
                 progressDialog = new ProgressDialogView();
             }
-            progressDialog.showDialog(getActivity());
+            progressDialog.showDialog(activity);
         }
     }
 
@@ -148,15 +149,15 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     @Override
     public void showErrorDialog(boolean goBack, int titleRes, ConsentError error) {
         String message = toErrorMessage(error);
-        String title = getContext().getString(titleRes);
+        String title = getString(titleRes);
         showErrorDialog(goBack, title, message);
     }
 
     @Override
     public void showErrorDialog(boolean goBack, int titleRes, int messageRes) {
         if (!mIsStateAlreadySaved) {
-            String title = getContext().getString(titleRes);
-            String message = getContext().getString(messageRes);
+            String title = getString(titleRes);
+            String message = getString(messageRes);
             showErrorDialog(goBack, title, message);
         }
     }
@@ -181,7 +182,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     }
 
     @Override
-    public void onClick(android.view.View view) {
+    public void onClick(View view) {
         if (getActivity() != null) {
             getActivity().onBackPressed();
         }
@@ -218,9 +219,5 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
             }
         }
         return consentViewList;
-    }
-
-    protected DialogView getErrorDialogViewWithClickListener() {
-        return this.errorDialogViewWithClickListener;
     }
 }
