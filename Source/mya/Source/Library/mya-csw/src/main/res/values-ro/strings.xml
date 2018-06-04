@@ -17,6 +17,7 @@
   <string name="csw_privacy_settings_desc">Controlează-ţi confidenţialitatea. Pentru mai multe detalii, citeşte {notificarea de confidenţialitate}.</string>
   <string name="csw_problem_occurred_error_message">A apărut o problemă (eroarea %1$d). Încearcă din nou.</string>
   <string name="csw_problem_occurred_error_title">A apărut o problemă</string>
+  <string name="csw_user_session_expired">[ro]Your session is invalid, please log out and log in again</string>
   <string name="mya_Account_settings">Setările contului</string>
   <string name="mya_Address">Adresă</string>
   <string name="mya_Cancel">Anulare</string>
@@ -58,8 +59,8 @@
   <string name="mya_csw_justintime_accept">[ro]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[ro]Maybe later</string>
   <string name="mya_csw_justintime_title">[ro]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,ro][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[NT,ro][NT]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,ro]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,ro]What do we have to offer?</string>
   <string name="mya_logout_message">Vei fi deconectat(ă) din aplicaţie. După ce te deconectezi, te poţi reconecta oricând.</string>
   <string name="mya_logout_title">Sigur vrei să te deconectezi?</string>
 </resources>

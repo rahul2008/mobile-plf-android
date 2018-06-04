@@ -17,6 +17,7 @@
   <string name="csw_privacy_settings_desc">Ελέγξτε το απόρρητό σας. Διαβάστε τη {δήλωση απορρήτου} για περισσότερες πληροφορίες.</string>
   <string name="csw_problem_occurred_error_message">Προέκυψε πρόβλημα (σφάλμα %1$d). Δοκιμάστε ξανά.</string>
   <string name="csw_problem_occurred_error_title">Προέκυψε πρόβλημα</string>
+  <string name="csw_user_session_expired">[el]Your session is invalid, please log out and log in again</string>
   <string name="mya_Account_settings">Ρυθμίσεις λογαριασμού</string>
   <string name="mya_Address">Διεύθυνση</string>
   <string name="mya_Cancel">Άκυρο</string>
@@ -58,8 +59,8 @@
   <string name="mya_csw_justintime_accept">[el]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[el]Maybe later</string>
   <string name="mya_csw_justintime_title">[el]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,el][NT]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[NT,el][NT]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,el]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,el]What do we have to offer?</string>
   <string name="mya_logout_message">Θα αποσυνδεθείτε από την εφαρμογή. Μετά την αποσύνδεση, μπορείτε να συνδεθείτε ξανά.</string>
   <string name="mya_logout_title">Θέλετε σίγουρα να αποσυνδεθείτε;</string>
 </resources>
