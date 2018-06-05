@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothGattService;
@@ -36,6 +41,9 @@ public class SHNInitializingServicesState extends SHNConnectingState {
 
         if (state == SHNService.State.Error) {
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
+
+            // TODO Is this a good place?
+            stateMachine.getSharedResources().getShnCentral().getTagger().trackAction("foo", "bar", "baz");
         }
     }
 

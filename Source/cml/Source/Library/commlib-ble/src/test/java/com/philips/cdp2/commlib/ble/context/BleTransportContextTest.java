@@ -101,7 +101,7 @@ public class BleTransportContextTest {
         new BleTransportContext(runtimeConfigurationMock) {
             @NonNull
             @Override
-            SHNCentral createCentral(final Context context, final boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+            SHNCentral createCentral(final RuntimeConfiguration runtimeConfiguration, final boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
                 throw new SHNBluetoothHardwareUnavailableException();
             }
         };
@@ -127,7 +127,7 @@ public class BleTransportContextTest {
 
             @NonNull
             @Override
-            SHNCentral createCentral(final Context context, final boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+            SHNCentral createCentral(final RuntimeConfiguration runtimeConfiguration, final boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
                 return shnCentralMock;
             }
 

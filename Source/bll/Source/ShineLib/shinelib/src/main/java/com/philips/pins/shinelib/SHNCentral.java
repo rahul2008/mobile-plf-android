@@ -20,6 +20,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+
 import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
@@ -29,8 +30,11 @@ import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.utility.SHNTagger;
 import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -55,6 +59,9 @@ import java.util.concurrent.FutureTask;
  */
 public class SHNCentral {
 
+    @NonNull
+    private final SHNTagger tagger;
+
     /**
      * State that the {@link SHNCentral} currently is in.
      */
@@ -68,7 +75,7 @@ public class SHNCentral {
         SHNCentralStateNotReady, /**
          * {@code SHNCentral} is ready to communicate with peripherals
          */
-        SHNCentralStateReady
+        SHNCentralStateReady;
     }
 
     /**
@@ -82,6 +89,7 @@ public class SHNCentral {
          * @param shnCentral the {@code SHNCentral} object that had its state changed.
          */
         void onStateUpdated(@NonNull SHNCentral shnCentral);
+
     }
 
     /**
@@ -97,12 +105,14 @@ public class SHNCentral {
          * @param previousBondState Previous bond state of the device
          */
         void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
+
     }
 
     private static final String TAG = "SHNCentral";
 
     @NonNull
     private final BleUtilities bleUtilities;
+
     private final Handler userHandler;
     private final Context applicationContext;
     private SHNUserConfiguration shnUserConfiguration;
@@ -112,6 +122,8 @@ public class SHNCentral {
 
     @VisibleForTesting
     BroadcastReceiver bondStateChangedReceiver;
+
+    private Map<String, SHNDevice> createdDevices = new HashMap<>();
 
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -138,6 +150,7 @@ public class SHNCentral {
     };
 
     private final Set<SHNCentralListener> shnCentralListeners;
+
     private Map<Integer, WeakReference<SHNCentralListener>> shnCentralInternalListeners;
     private SHNDeviceScannerInternal shnDeviceScannerInternal;
     private SHNDeviceAssociation shnDeviceAssociation;
@@ -147,7 +160,6 @@ public class SHNCentral {
     private SHNDeviceDefinitions shnDeviceDefinitions;
     private PersistentStorageFactory persistentStorageFactory;
     private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners;
-
     private SharedPreferencesProvider defaultSharedPreferencesProvider = new SharedPreferencesProvider() {
         @NonNull
         @Override
@@ -162,26 +174,14 @@ public class SHNCentral {
         }
     };
 
-    /**
-     * Old constructor of {@code SHNCentral}. Do not use.
-     *
-     * @param handler the user handler to post callbacks on
-     * @param context the Android context
-     * @throws SHNBluetoothHardwareUnavailableException the exception thrown when no Bluetooth hardware is available
-     * @deprecated Use the {@link SHNCentral.Builder} instead.
-     */
-    @Deprecated
-    public SHNCentral(Handler handler, final Context context) throws SHNBluetoothHardwareUnavailableException {
-        this(handler, context, false, null, false);
-    }
-
     @SuppressLint("UseSparseArrays")
-    SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
+    SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider, @NonNull AppInfraInterface appInfraInterface) throws SHNBluetoothHardwareUnavailableException {
         shnCentralListeners = new CopyOnWriteArraySet<>();
         shnCentralInternalListeners = new HashMap<>();
         shnBondStatusListeners = new HashMap<>();
 
         applicationContext = context.getApplicationContext();
+        tagger = new SHNTagger(appInfraInterface);
 
         bleUtilities = new BleUtilities(applicationContext);
 
@@ -630,8 +630,6 @@ public class SHNCentral {
         return btAdapter.getRemoteDevice(address);
     }
 
-    private Map<String, SHNDevice> createdDevices = new HashMap<>();
-
     public SHNDevice createSHNDeviceForAddressAndDefinition(@NonNull String deviceAddress, @NonNull SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         final String key = deviceAddress + shnDeviceDefinitionInfo.getDeviceTypeName();
         SHNDevice shnDevice = createdDevices.get(key);
@@ -645,17 +643,29 @@ public class SHNCentral {
         return shnDevice;
     }
 
-    /* package */ void removeDeviceFromDeviceCache(SHNDevice shnDeviceToRemove) {
+    void removeDeviceFromDeviceCache(SHNDevice shnDeviceToRemove) {
         String key = shnDeviceToRemove.getAddress() + shnDeviceToRemove.getDeviceTypeName();
         createdDevices.remove(key);
     }
 
     /**
+     * Gets the tagger instance as supplied via the {@link AppInfraInterface}.
+     *
+     * @return the tagger instance
+     */
+    @NonNull
+    public SHNTagger getTagger() {
+        return tagger;
+    }
+
+    /**
      * The {@code SHNCentral.Builder} is used to build a {@code SHNCentral} object.
      */
+    @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
     public static class Builder {
         private Handler handler;
         private final Context context;
+        private final AppInfraInterface appInfraInterface;
         private Boolean showPopupIfBLEIsTurnedOff = false;
         private Boolean migrateFromDefaultProviderToCustom = false;
         private SharedPreferencesProvider sharedPreferencesProvider;
@@ -663,10 +673,12 @@ public class SHNCentral {
         /**
          * Create a {@code SHNCentral.Builder}.
          *
-         * @param context the {@code Context} in which the {@link SHNCentral} will be used
+         * @param context           the {@code Context} in which the {@link SHNCentral} will be used
+         * @param appInfraInterface the AppInfra interface instance used to obtain the {@link AppTaggingInterface} from.
          */
-        public Builder(@NonNull final Context context) {
+        public Builder(@NonNull final Context context, @NonNull final AppInfraInterface appInfraInterface) {
             this.context = context;
+            this.appInfraInterface = appInfraInterface;
         }
 
         /**
@@ -728,7 +740,7 @@ public class SHNCentral {
          * @throws SHNBluetoothHardwareUnavailableException if no BlueTooth hardware was available on the device
          */
         public SHNCentral create() throws SHNBluetoothHardwareUnavailableException {
-            return new SHNCentral(handler, context, showPopupIfBLEIsTurnedOff, sharedPreferencesProvider, migrateFromDefaultProviderToCustom);
+            return new SHNCentral(handler, context, showPopupIfBLEIsTurnedOff, sharedPreferencesProvider, migrateFromDefaultProviderToCustom, appInfraInterface);
         }
     }
 }

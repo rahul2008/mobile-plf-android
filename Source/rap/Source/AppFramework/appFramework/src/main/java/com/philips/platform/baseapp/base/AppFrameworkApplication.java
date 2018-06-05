@@ -10,7 +10,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
@@ -303,7 +303,7 @@ public class AppFrameworkApplication extends Application {
         return applianceFactory;
     }
 
-    private CommCentral createCommCentral(final @NonNull Context context, final @Nullable AppInfraInterface appInfraInterface) {
+    private CommCentral createCommCentral(final @NonNull Context context, final @NonNull AppInfraInterface appInfraInterface) {
         final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(context, appInfraInterface);
 
         final CloudController cloudController = setupCloudController(context);

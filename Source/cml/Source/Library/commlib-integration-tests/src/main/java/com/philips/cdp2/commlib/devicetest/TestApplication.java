@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -19,6 +19,7 @@ import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.devicetest.appliance.ReferenceApplianceFactory;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 public class TestApplication extends Application {
 
@@ -27,7 +28,8 @@ public class TestApplication extends Application {
 
     public CommCentral getCommCentral() {
         if (commCentral == null) {
-            final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(this, null);
+            final AppInfraInterface appInfraInterface = new TestAppInfra();
+            final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(this, appInfraInterface);
 
             cloudController = setupCloudController(this);
 

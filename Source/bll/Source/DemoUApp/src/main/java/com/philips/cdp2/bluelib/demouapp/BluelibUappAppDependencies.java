@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.bluelib.demouapp;
@@ -24,7 +24,7 @@ public class BluelibUappAppDependencies extends UappDependencies {
     public BluelibUappAppDependencies(final @NonNull Context context) {
         super(null);
 
-        SHNCentral.Builder builder = new SHNCentral.Builder(context);
+        SHNCentral.Builder builder = new SHNCentral.Builder(context, mAppInfraInterface);
         builder.showPopupIfBLEIsTurnedOff(true);
 
         try {

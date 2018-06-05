@@ -7,10 +7,12 @@ Version {next}
 ### Functionality Delivered
 
 ### Backwards Compatibility
+* \#132978 Deprecated constructor `SHNCentral(Handler, Context)` has been removed.
 
 ### Features not covered
 
 ### Breaking Changes
+* \#132978 `SHNCentral.Builder` now accepts a mandatory `AppInfraInterface` argument used for tagging
 
 ### Defects solved
 * \#121732 SHNDevice listeners now get connection failure notifications and state updates when Bluetooth is turned off. 
