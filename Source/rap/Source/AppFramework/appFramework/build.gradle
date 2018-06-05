@@ -308,6 +308,7 @@ dependencies {
         implementation project(':pushnotification')
         implementation project(':themesettings')
         implementation project(':NeuraUApp')
+        implementation project(':AppInfraUApp')
     } else {
         implementation philipsdeps.product_registration_lib
         implementation philipsdeps.digitalCare

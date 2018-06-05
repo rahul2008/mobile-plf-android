@@ -44,26 +44,13 @@ public class RestManager implements RestInterface {
 
     @Override
     public synchronized RequestQueue getRequestQueue() {
-        Integer cacheSizeinKB = null;
-
         if (mRequestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone ,passes one in.
             // Instantiate the cache
             ;
-            final AppConfigurationInterface mAppConfigurationInterface = mAppInfra.getConfigInterface();
-            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-            if (mAppInfra.getConfigInterface() != null) {
-                try {
-                    cacheSizeinKB = (Integer) mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB", "appinfra", configError);
-                } catch (IllegalArgumentException i) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST,"CONFIG ERROR while getRequestQueue");
-                }
-            }
-            if (cacheSizeinKB == null) {
-                cacheSizeinKB = 1024; // default fall back
-            }
-            final Cache cache = new DiskBasedCache(getCacheDir(), cacheSizeinKB, mAppInfra); //
+
+            final Cache cache = new DiskBasedCache(getCacheDir(), getCacheSize(), mAppInfra); //
 
             // Set up the network to use HttpURLConnection as the HTTP client.
             final Network network = getNetwork();
@@ -127,6 +114,24 @@ public class RestManager implements RestInterface {
 
     private File getCacheDir() {
         return mAppInfra.getAppInfraContext().getDir("CacheDir", Context.MODE_PRIVATE);
+    }
+
+    private int getCacheSize(){
+        Integer cacheSize=null;
+        final AppConfigurationInterface mAppConfigurationInterface = mAppInfra.getConfigInterface();
+        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        if (mAppInfra.getConfigInterface() != null) {
+            try {
+                cacheSize = (Integer) mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB", "appinfra", configError);//Convert to bytes
+                if(cacheSize!=null){
+                    cacheSize=cacheSize*1024;
+                }
+            } catch (IllegalArgumentException i) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST,"CONFIG ERROR while getRequestQueue");
+            }
+        }
+
+        return cacheSize!=null?cacheSize.intValue():DiskBasedCache.DEFAULT_DISK_USAGE_BYTES;
     }
 
     private class ServiceIDResolver implements HurlStack.UrlRewriter {
