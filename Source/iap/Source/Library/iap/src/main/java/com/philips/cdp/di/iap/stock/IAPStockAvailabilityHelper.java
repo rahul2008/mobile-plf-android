@@ -13,7 +13,11 @@ public class IAPStockAvailabilityHelper {
 
     public boolean isStockAvailable(String stockLevelStatus, int stockLevel) {
 
-        if (stockLevelStatus != null && stockLevelStatus.equalsIgnoreCase(IN_STOCK) ||
+        if(stockLevelStatus == null){
+            return false;
+        }
+
+        if (stockLevelStatus.equalsIgnoreCase(IN_STOCK) ||
                 stockLevelStatus.equalsIgnoreCase(LOW_STOCK) || stockLevel > 0) {
             return true;
         }
