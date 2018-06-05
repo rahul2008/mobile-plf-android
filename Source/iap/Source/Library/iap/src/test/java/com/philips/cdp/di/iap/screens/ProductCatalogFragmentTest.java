@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
+@Config(sdk=23)
 @RunWith(CustomRobolectricRunner.class)
 public class ProductCatalogFragmentTest {
     // private Activity activity;
