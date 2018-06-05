@@ -79,6 +79,7 @@
     <!--Consent-->
     <string name="consent">User Consents</string>
     <string name="fetching_consent">Fetching consents&#8230;</string>
+    <string name="gdpr_features">GDPR related features</string>
 
     <!--Settings-->
     <string name="settings">User Settings</string>
