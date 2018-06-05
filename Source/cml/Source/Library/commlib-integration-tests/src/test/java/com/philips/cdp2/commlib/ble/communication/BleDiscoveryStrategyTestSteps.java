@@ -8,6 +8,7 @@ package com.philips.cdp2.commlib.ble.communication;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleCacheData;
@@ -26,11 +27,7 @@ import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.BleScanRecord;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -44,6 +41,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
@@ -148,11 +151,6 @@ public class BleDiscoveryStrategyTestSteps {
                     };
                 }
                 return null;
-            }
-
-            @Override
-            public Set<String> getSupportedDeviceTypes() {
-                return new HashSet<>(applianceTypes);
             }
         };
         setTestingContext(contextMock);
