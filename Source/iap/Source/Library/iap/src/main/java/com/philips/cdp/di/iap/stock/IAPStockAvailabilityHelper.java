@@ -6,12 +6,18 @@
 
 package com.philips.cdp.di.iap.stock;
 
+import com.philips.cdp.di.iap.controller.ControllerFactory;
+
 public class IAPStockAvailabilityHelper {
 
     final String IN_STOCK = "inStock";
     final String LOW_STOCK = "lowStock";
 
     public boolean isStockAvailable(String stockLevelStatus, int stockLevel) {
+
+        if(stockLevelStatus == null && ControllerFactory.getInstance().isPlanB()){
+            return true;
+        }
 
         if(stockLevelStatus == null){
             return false;
