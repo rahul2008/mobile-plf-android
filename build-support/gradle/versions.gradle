@@ -63,6 +63,7 @@ ext.philipsdeps = [
         mya_catk                        : [group: 'com.philips.cdp', name: 'mya-catk', version: platformversionsuffix, changing: true],
         mya_csw                         : [group: 'com.philips.cdp', name: 'mya-csw', version: platformversionsuffix, changing: true],
         mya_chi                         : [group: 'com.philips.cdp', name: 'mya-chi', version: platformversionsuffix, changing: true],
+        NeuraUApp                       : [group: 'com.philips.cdp', name: 'NeuraUApp', version: platformversionsuffix, changing: true],
         uikitLib                        : [group: 'com.philips.cdp', name: 'uikitLib', version: platformversionsuffix, changing: true],
         iap                             : [group: 'com.philips.cdp', name: 'iap', version: platformversionsuffix, changing: true],
         iapUApp                         : [group: 'com.philips.cdp', name: 'iapUApp', version: platformversionsuffix, changing: true],

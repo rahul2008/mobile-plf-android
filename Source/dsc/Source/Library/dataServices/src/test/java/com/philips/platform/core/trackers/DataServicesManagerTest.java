@@ -2,6 +2,8 @@ package com.philips.platform.core.trackers;
 
 import android.content.SharedPreferences;
 
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnGetServiceUrlListener;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -85,12 +87,17 @@ import org.mockito.stubbing.Answer;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowLooper;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK;
+import static com.philips.platform.core.utils.DataServicesConstants.BASE_URL_KEY;
+import static com.philips.platform.core.utils.DataServicesConstants.COACHING_SERVICE_URL_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -175,7 +182,8 @@ public class DataServicesManagerTest {
     private SynchronisationCompleteListener synchronisationCompleteListener;
     @Mock
     private Settings settingsMock;
-
+    @Mock
+    private ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
     private DSPaginationSpy mDSPagination;
 
     @Mock
@@ -190,11 +198,16 @@ public class DataServicesManagerTest {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.setAppComponent(appComponantMock);
 
+        // Since the DataServiceManager is a singleton, we need to clear the
+        // cached ServiceUrl values forcefully to get to clean state for testing
+        mDataServicesManager.mDataServicesBaseUrl = null;
+        mDataServicesManager.mDataServicesCoachingServiceUrl = null;
+
         baseAppDataCreator = new VerticalCreater();
         userRegistrationInterface = new VerticalUserRegistrationInterface();
         mDSPagination = new DSPaginationSpy();
         mDataServicesManager.mEventing = eventingMock;
-        mDataServicesManager.mDataCreater = baseAppDataCreator;
+        mDataServicesManager.dataCreator = baseAppDataCreator;
         mDataServicesManager.mBackendIdProvider = uCoreAccessProvider;
         mDataServicesManager.mCore = coreMock;
         mDataServicesManager.mSynchronisationMonitor = synchronisationMonitorMock;
@@ -204,6 +217,7 @@ public class DataServicesManagerTest {
         mDataServicesManager.mSynchronisationCompleteListener = synchronisationCompleteListenerMock;
         mDataServicesManager.gdprStorage = prefsMock;
         mDataServicesManager.mBackendIdProvider = uCoreAccessProvider;
+        mDataServicesManager.setServiceDiscoveryInterface(serviceDiscoveryInterfaceMock);
         when(requestEventMock.getEventId()).thenReturn(TEST_REFERENCE_ID);
     }
 
@@ -381,7 +395,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_createMomentDetail_called() {
-        mDataServicesManager.mDataCreater = dataCreatorMock;
+        mDataServicesManager.dataCreator = dataCreatorMock;
         when(dataCreatorMock.createMomentDetail("Temperature", momentMock)).thenReturn(momentDetailMock);
         MomentDetail detail = mDataServicesManager.createMomentDetail("Temperature", "23", momentMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
@@ -391,7 +405,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_createMeasurement_called() {
-        mDataServicesManager.mDataCreater = dataCreatorMock;
+        mDataServicesManager.dataCreator = dataCreatorMock;
         when(dataCreatorMock.createMeasurement("Temperature", measurementGroupMock)).thenReturn(measurementMock);
         Measurement measurement = mDataServicesManager.createMeasurement("Temperature", "23", "celcius", measurementGroupMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
@@ -401,7 +415,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_createMeasurementDetail_called() {
-        mDataServicesManager.mDataCreater = dataCreatorMock;
+        mDataServicesManager.dataCreator = dataCreatorMock;
         when(dataCreatorMock.createMeasurementDetail("Temperature", measurementMock)).thenReturn(measurementDetailMock);
         MeasurementDetail measurementDetail = mDataServicesManager.createMeasurementDetail("Temperature", "23", measurementMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
@@ -439,7 +453,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_createMeasurementGroupDetail_called() {
-        mDataServicesManager.mDataCreater = dataCreatorMock;
+        mDataServicesManager.dataCreator = dataCreatorMock;
         when(dataCreatorMock.createMeasurementGroupDetail("Temperature", measurementGroupMock)).thenReturn(measurementGroupDetailMock);
         MeasurementGroupDetail measurementGroupDetail = mDataServicesManager.createMeasurementGroupDetail("Temperature", "23", measurementGroupMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
@@ -465,7 +479,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_registerSynchronisationCompleteListener_called() {
         mDataServicesManager.registerSynchronisationCompleteListener(synchronisationCompleteListenerMock);
-        assertThat(DataServicesManager.getInstance().mSynchronisationCompleteListener).isInstanceOf(SynchronisationCompleteListener.class);
+        assertThat(mDataServicesManager.mSynchronisationCompleteListener).isInstanceOf(SynchronisationCompleteListener.class);
     }
 
     @Test
@@ -479,7 +493,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_unRegisterSynchronisationCosmpleteListener_called() {
         mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
-        assertThat(DataServicesManager.getInstance().mSynchronisationCompleteListener).isNull();
+        assertThat(mDataServicesManager.mSynchronisationCompleteListener).isNull();
     }
 
     @Test
@@ -571,10 +585,67 @@ public class DataServicesManagerTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void postException_WhenServiceDiscoveryInterfaceIsNull() {
+    public void fetchBaseUrlThrowsExceptionWhenServiceDiscoveryInterfaceIsNull() {
         givenNullServiceDiscoveryInterface();
         whenFetchBaseUrlIsInvoked();
+    }
+
+    public void fetchBaseUrlReturnsNullWhenServiceDiscoveryEncounterError() {
+        givenServiceDiscoveryReturnsError("Intentional error");
+        assertThat(mDataServicesManager.fetchBaseUrlFromServiceDiscovery()).isNull();
+    }
+
+    @Test
+    public void fetchBaseUrlReportsErrorWhenServiceDiscoveryEncounterError() {
+        givenServiceDiscoveryReturnsError("Intentional error");
+        whenFetchBaseUrlIsInvoked();
+        verify(errorHandlingInterfaceMock).onServiceDiscoveryError("Intentional error");
+    }
+
+    @Test
+    public void fetchBaseUrlReturnsServiceDiscoveryBaseUrl() {
+        givenServiceDiscoveryReturnsServiceUrl("http://api.example.com");
+        assertThat(mDataServicesManager.fetchBaseUrlFromServiceDiscovery()).isEqualTo("http://api.example.com");
+        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(BASE_URL_KEY), any(OnGetServiceUrlListener.class));
+    }
+
+    @Test
+    public void fetchBaseUrlReturnsCachedServiceDiscoveryBaseUrl() {
+        givenServiceDiscoveryReturnsServiceUrl("http://api.example.com");
+        whenFetchBaseUrlIsInvokedTwice();
+        thenGetServiceUrlWithCountryPreferenceIsCalledOnlyOnce();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void fetchCoachingServiceUrlThrowsExceptionWhenServiceDiscoveryInterfaceIsNull() {
+        givenNullServiceDiscoveryInterface();
         whenFetchCoachingServiceUrlIsInvoked();
+    }
+
+    public void fetchCoachingServiceUrlReturnsNullWhenServiceDiscoveryEncounterError() {
+        givenServiceDiscoveryReturnsError("Intentional error");
+        assertThat(mDataServicesManager.fetchCoachingServiceUrlFromServiceDiscovery()).isNull();
+    }
+
+    @Test
+    public void fetchCoachingServiceUrlReportsErrorWhenServiceDiscoveryEncounterError() {
+        givenServiceDiscoveryReturnsError("Intentional error");
+        whenFetchCoachingServiceUrlIsInvoked();
+        verify(errorHandlingInterfaceMock).onServiceDiscoveryError("Intentional error");
+    }
+
+    @Test
+    public void fetchCoachingServiceUrlReturnsServiceDiscoveryCoachingServiceUrl() {
+        givenServiceDiscoveryReturnsServiceUrl("http://api.example.com");
+        assertThat(mDataServicesManager.fetchCoachingServiceUrlFromServiceDiscovery()).isEqualTo("http://api.example.com");
+        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(COACHING_SERVICE_URL_KEY), any(OnGetServiceUrlListener.class));
+    }
+
+    @Test
+    public void fetchCoachingServiceUrlReturnsCachedServiceDiscoveryCoachingServiceUrl() {
+        givenServiceDiscoveryReturnsServiceUrl("http://api.example.com");
+        whenFetchCoachingServiceUrlIsInvokedTwice();
+        thenGetServiceUrlWithCountryPreferenceIsCalledOnlyOnce();
     }
 
     @Test
@@ -844,6 +915,16 @@ public class DataServicesManagerTest {
         verify(uCoreAccessProvider).clearSyncTimeCache();
     }
 
+    @Test
+    public void settingLastSyncTime() {
+        final String expectedString = "2017-01-01T12:05:40.000Z";
+        DateTime expectedLastSyncTime = DateTime.parse(expectedString);
+        mDataServicesManager.resetLastSyncTimestampTo(expectedLastSyncTime);
+
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY));
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY));
+    }
+
     private void givenFailedDeleteAllInsights() {
         doAnswer(new Answer<Object>() {
             @Override
@@ -912,6 +993,46 @@ public class DataServicesManagerTest {
         mDataServicesManager.setServiceDiscoveryInterface(null);
     }
 
+    private void givenServiceDiscoveryReturnsError(final String error) {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                final OnGetServiceUrlListener callback = invocation.getArgument(1);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onError(NO_NETWORK, error);
+                    }
+                }).start();
+                return null;
+            }
+        }).when(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(anyString(), any(OnGetServiceUrlListener.class));
+    }
+
+    private void givenServiceDiscoveryReturnsServiceUrl(final String serviceUrl) {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                final OnGetServiceUrlListener callback = invocation.getArgument(1);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess(safeUrl(serviceUrl));
+                    }
+                }).start();
+                return null;
+            }
+        }).when(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(anyString(), any(OnGetServiceUrlListener.class));
+    }
+
+    private URL safeUrl(String url) {
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            return null;
+        }
+    }
+
     private void givenSyncCompletedOnStartSync() {
         doAnswer(new Answer() {
             @Override
@@ -940,7 +1061,21 @@ public class DataServicesManagerTest {
         mDataServicesManager.fetchBaseUrlFromServiceDiscovery();
     }
 
+    private void whenFetchBaseUrlIsInvokedTwice() {
+        mDataServicesManager.fetchBaseUrlFromServiceDiscovery();
+        mDataServicesManager.fetchBaseUrlFromServiceDiscovery();
+    }
+
+    private void thenGetServiceUrlWithCountryPreferenceIsCalledOnlyOnce() {
+        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(anyString(), any(OnGetServiceUrlListener.class));
+    }
+
     private void whenFetchCoachingServiceUrlIsInvoked() {
+        mDataServicesManager.fetchCoachingServiceUrlFromServiceDiscovery();
+    }
+
+    private void whenFetchCoachingServiceUrlIsInvokedTwice() {
+        mDataServicesManager.fetchCoachingServiceUrlFromServiceDiscovery();
         mDataServicesManager.fetchCoachingServiceUrlFromServiceDiscovery();
     }
 

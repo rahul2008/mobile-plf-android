@@ -71,9 +71,8 @@ public class AboutScreenPresenterTest {
         when(flowManager.getNextState(any(BaseState.class),any(String.class))).thenReturn(webViewState);
 
     }
-
-    @Test
     @Ignore
+    @Test
     public void loadTermsAndPrivacy() throws Exception {
         aboutScreenPresenterMock.loadTermsAndPrivacy(Constants.PRIVACY,any(String.class));
         verify(webViewState).navigate((UiLauncher)isNull());

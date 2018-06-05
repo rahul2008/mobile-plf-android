@@ -43,7 +43,9 @@ public class HybrisDelegate {
 
     public static HybrisDelegate getDelegateWithNetworkEssentials(NetworkEssentials networkEssentials,
                                                                   IAPSettings iapSettings) {
-        delegate.controller = new NetworkController(iapSettings.getContext(), networkEssentials, iapSettings);
+        delegate.controller = delegate.getNetworkController(iapSettings.getContext());
+        delegate.controller.setIapSettings(iapSettings);
+        delegate.controller.setNetworkEssentials(networkEssentials);
         return delegate;
     }
 

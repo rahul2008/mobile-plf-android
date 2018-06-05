@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.datasync.moments;
 
 import android.util.Log;
@@ -33,11 +33,11 @@ public class MomentsSegregator {
     @Inject
     DBUpdatingInterface updatingInterface;
     @Inject
-    DBFetchingInterface dbFetchingInterface;
+    DBFetchingInterface fetchingInterface;
     @Inject
-    DBDeletingInterface dbDeletingInterface;
+    DBDeletingInterface deletingInterface;
     @Inject
-    DBSavingInterface dbSavingInterface;
+    DBSavingInterface savingInterface;
     @Inject
     BaseAppDataCreator mBaseAppDataCreator;
 
@@ -67,9 +67,9 @@ public class MomentsSegregator {
             }
         }
         if (momentsToCreate.size() > 0)
-            dbSavingInterface.saveMoments(momentsToCreate, dbRequestListener);
+            savingInterface.saveMoments(momentsToCreate, dbRequestListener);
         if (momentsToDelete.size() > 0)
-            dbDeletingInterface.deleteMoments(momentsToDelete, dbRequestListener);
+            deletingInterface.deleteMoments(momentsToDelete, dbRequestListener);
         if (momentsToUpdate.size() > 0)
             deleteAndSaveMoments(momentsToUpdate, dbRequestListener);
 
@@ -80,7 +80,7 @@ public class MomentsSegregator {
         for (final Moment moment : moments) {
             moment.setSynced(true);
             try {
-                dbSavingInterface.saveMoment(moment, dbRequestListener);
+                savingInterface.saveMoment(moment, dbRequestListener);
             } catch (SQLException e) {
                 updatingInterface.updateFailed(e, dbRequestListener);
             }
@@ -90,7 +90,7 @@ public class MomentsSegregator {
     public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) {
         List<? extends Moment> ormMomentList = null;
         try {
-            ormMomentList = (List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments();
+            ormMomentList = (List<? extends Moment>) fetchingInterface.fetchNonSynchronizedMoments();
         } catch (SQLException e) {
             //Debug Log
             Log.e(TAG, "putMomentsForSync: Could not fetch non-synchronized moments", e);
@@ -104,7 +104,7 @@ public class MomentsSegregator {
             final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
             deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase, dbRequestListener);
         }
-        dbSavingInterface.saveMoments(moments, dbRequestListener);
+        savingInterface.saveMoments(moments, dbRequestListener);
     }
 
     private void createNewMomentInDB(List<Moment> momentsToCreate, Moment moment) {
@@ -137,11 +137,11 @@ public class MomentsSegregator {
     private int getNewMomentVersion(Moment moment, Moment momentInDatabase) {
         int momentVersionOld = 0;
         int momentVersionNew = moment.getSynchronisationData().getVersion();
-        if(momentInDatabase.getSynchronisationData() != null) {
+        if (momentInDatabase.getSynchronisationData() != null) {
             momentVersionOld = momentInDatabase.getSynchronisationData().getVersion();
         }
 
-        if(momentVersionOld >= momentVersionNew) {
+        if (momentVersionOld >= momentVersionNew) {
             momentVersionNew = momentVersionOld;
         }
         return momentVersionNew;
@@ -149,8 +149,8 @@ public class MomentsSegregator {
 
     private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         if (momentInDatabase != null) {
-            dbDeletingInterface.deleteMomentDetail(momentInDatabase, dbRequestListener);
-            dbDeletingInterface.deleteMeasurementGroup(momentInDatabase, dbRequestListener);
+            deletingInterface.deleteMomentDetail(momentInDatabase, dbRequestListener);
+            deletingInterface.deleteMeasurementGroup(momentInDatabase, dbRequestListener);
         }
     }
 
@@ -159,9 +159,9 @@ public class MomentsSegregator {
         final SynchronisationData synchronisationData = moment.getSynchronisationData();
 
         if (synchronisationData != null) {
-            momentInDatabase = (Moment) dbFetchingInterface.fetchMomentByGuid(synchronisationData.getGuid());
+            momentInDatabase = (Moment) fetchingInterface.fetchMomentByGuid(synchronisationData.getGuid());
             if (momentInDatabase == null) {
-                momentInDatabase = (Moment) dbFetchingInterface.fetchMomentById(moment.getId(), null);
+                momentInDatabase = (Moment) fetchingInterface.fetchMomentById(moment.getId(), null);
             }
         }
         return momentInDatabase;

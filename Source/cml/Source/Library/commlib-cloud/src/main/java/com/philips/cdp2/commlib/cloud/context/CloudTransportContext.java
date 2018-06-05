@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -22,9 +22,6 @@ import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
-
 import static android.net.ConnectivityManager.TYPE_MOBILE;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 
@@ -35,22 +32,11 @@ import static android.net.ConnectivityManager.TYPE_WIFI;
  * for {@link Appliance}s using that transport.
  * @publicApi
  */
-public class CloudTransportContext implements TransportContext<CloudTransportContext> {
+public class CloudTransportContext implements TransportContext {
 
     private static CloudController cloudController;
 
     private final ConnectivityMonitor connectivityMonitor;
-
-    private Set<AvailabilityListener<CloudTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
-
-    private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
-        @Override
-        public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
-            isConnected = connectivityMonitor.isAvailable();
-
-            handleAvailabilityChanged();
-        }
-    };
 
     private final SignonListener signOnListener = new SignonListener() {
         @Override
@@ -58,15 +44,10 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
             isSignedOn = signedOn;
 
             updateAppId();
-            handleAvailabilityChanged();
         }
     };
 
-    private boolean isConnected;
-
     private boolean isSignedOn;
-
-    private boolean isAvailable;
 
     /**
      * @param runtimeConfiguration RuntimeConfiguration
@@ -74,7 +55,6 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
      */
     public CloudTransportContext(final @NonNull RuntimeConfiguration runtimeConfiguration, @NonNull final CloudController cloudController) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(runtimeConfiguration.getContext(), TYPE_MOBILE, TYPE_WIFI);
-        this.connectivityMonitor.addAvailabilityListener(availabilityListener);
 
         CloudTransportContext.cloudController = cloudController;
         cloudController.addSignOnListener(signOnListener);
@@ -105,41 +85,10 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
     }
 
     /**
-     * @return <code>true</code> if there is an internet connection.
-     */
-    @Override
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    @Override
-    public void addAvailabilityListener(@NonNull AvailabilityListener<CloudTransportContext> listener) {
-        availabilityListeners.add(listener);
-        listener.onAvailabilityChanged(this);
-    }
-
-    @Override
-    public void removeAvailabilityListener(@NonNull AvailabilityListener<CloudTransportContext> listener) {
-        availabilityListeners.remove(listener);
-    }
-
-    /**
      * @return CloudController The instance
      */
     public static CloudController getCloudController() {
         return cloudController;
-    }
-
-    private void handleAvailabilityChanged() {
-        isAvailable = isConnected && isSignedOn;
-
-        notifyAvailabilityListeners();
-    }
-
-    private void notifyAvailabilityListeners() {
-        for (AvailabilityListener<CloudTransportContext> listener : availabilityListeners) {
-            listener.onAvailabilityChanged(this);
-        }
     }
 
     private void updateAppId() {

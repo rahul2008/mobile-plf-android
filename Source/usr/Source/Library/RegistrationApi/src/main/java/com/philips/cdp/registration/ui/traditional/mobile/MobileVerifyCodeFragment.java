@@ -15,7 +15,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -25,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.philips.cdp.registration.R;
@@ -32,6 +32,9 @@ import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
@@ -101,8 +104,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     private MobileVerifyCodePresenter mobileVerifyCodePresenter;
 
-    private Handler handler;
-
     boolean isVerified;
     private SMSBroadCastReceiver mSMSBroadCastReceiver;
     private boolean isUserTyping;
@@ -120,14 +121,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
         mobileVerifyCodePresenter = new MobileVerifyCodePresenter(this);
         mSMSBroadCastReceiver = new SMSBroadCastReceiver(this);
-
+        registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_mobile_activatiom_fragment, container, false);
         trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         ButterKnife.bind(this, view);
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();
         setDescription();
-        handler = new Handler();
         handleVerificationCode();
         return view;
     }
@@ -148,19 +148,19 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     private void decideToEnableVerifyButton() {
+        disableVerifyButton();
         isUserTyping = false;
-        if (verificationCodeValidationEditText.getText().length() > 0) {
+        if (verificationCodeValidationEditText.getText().length() == 0) return;
+        if (verificationCodeValidationEditText.getText().length() < 6) {
             isUserTyping = true;
-        } else if (verificationCodeValidationEditText.getText().length() == 6)
+        } else
             enableVerifyButton();
-        else
-            disableVerifyButton();
     }
 
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onConfigurationChanged");
+        RLog.d(TAG, "onConfigurationChanged");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
@@ -202,7 +202,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onRefreshUserSuccess() {
         if (this.isVisible()) {
-            RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
+            RLog.i(TAG, "onRefreshUserSuccess");
             storePreference(user.getMobile());
             setDescription();
             hideProgressSpinner();
@@ -214,7 +214,10 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onRefreshUserFailed(int error) {
         hideProgressSpinner();
-        RLog.d(TAG, "MobileActivationFragment : onRefreshUserFailed");
+        final String localizedError = new URError(context).getLocalizedError(ErrorType.HSDP, error);
+//        errorMessage.setError(localizedError);
+        updateErrorNotification(localizedError);
+        RLog.i(TAG, "onRefreshUserFailed : Error =" + localizedError);
     }
 
     @Override
@@ -299,16 +302,17 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void netWorkStateOfflineUiHandle() {
         hideProgressSpinner();
-        errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
+        //errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
+        updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         smsNotReceived.setEnabled(false);
         disableVerifyButton();
     }
 
-    @Override
-    public void showSmsSendFailedError() {
-        errorMessage.setError(getString(R.string.reg_URX_SMS_InternalServerError));
-        hideProgressSpinner();
-    }
+//    @Override
+//    public void showSmsSendFailedError() {
+//        errorMessage.setError(getString(R.string.reg_URX_SMS_InternalServerError));
+//        hideProgressSpinner();
+//    }
 
     @Override
     public void refreshUserOnSmsVerificationSuccess() {
@@ -318,12 +322,12 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         user.refreshUser(this);
     }
 
-    @Override
-    public void smsVerificationResponseError() {
-        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
-        hideProgressSpinner();
-
-    }
+//    @Override
+//    public void smsVerificationResponseError() {
+//        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
+//        hideProgressSpinner();
+//
+//    }
 
     @Override
     public void hideProgressSpinner() {
@@ -334,16 +338,18 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public void setOtpInvalidErrorMessage() {
+    public void setOtpInvalidErrorMessage(int errorCode) {
         trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
-        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
+        //errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
         hideProgressSpinner();
     }
 
     @Override
-    public void setOtpErrorMessageFromJson(String errorDescription) {
+    public void setOtpErrorMessageFromJson(int errorCode) {
         trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
-        errorMessage.setError(errorDescription);
+//        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
         hideProgressSpinner();
     }
 
@@ -361,15 +367,20 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onErrorResponse(VolleyError error) {
         RLog.d(TAG, "onErrorResponse" + error);
-        errorMessage.setError(getString(R.string.reg_URX_SMS_InternalServerError));
+//        errorMessage.setError(getString(R.string.reg_URX_SMS_InternalServerError));
+//        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.NETWOK, error.networkResponse.statusCode));
+
+        final NetworkResponse response = error.networkResponse;
+        if (response == null) return;
+        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.NETWOK, response.statusCode));
         hideProgressSpinner();
     }
 
-    @Override
-    public void showOtpInvalidError() {
-        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
-        hideProgressSpinner();
-    }
+//    @Override
+//    public void showOtpInvalidError() {
+//        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
+//        hideProgressSpinner();
+//    }
 
     @Override
     public void registerSMSReceiver() {
@@ -390,7 +401,9 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         RLog.i(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
-            verifyClicked();
+            if(new NetworkUtility(getActivityContext()).isInternetAvailable()) {
+                verifyClicked();
+            }
         }
     }
 
@@ -425,4 +438,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         }
     }
 
+    @Override
+    public void notificationInlineMsg(String msg) {
+        errorMessage.setError(msg);
+    }
 }

@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ConsentManager implements ConsentManagerInterface {
 
-    private static final long TIME_OUT_SECS = 100;
+    protected long timeout = 100;
     private final AppInfra mAppInfra;
     private Map<String, ConsentHandlerInterface> consentHandlerMapping = new HashMap<>();
     private Map<String, ConsentDefinition> consentDefinitionMapping = new HashMap<>();
@@ -182,7 +182,7 @@ public class ConsentManager implements ConsentManagerInterface {
 
     private boolean waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
         try {
-            return countDownLatch.await(TIME_OUT_SECS, TimeUnit.SECONDS);
+            return countDownLatch.await(timeout, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "", "");
         }

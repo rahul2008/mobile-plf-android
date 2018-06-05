@@ -35,8 +35,10 @@ public class RuntimeConfiguration {
     @VisibleForTesting
     static final String CONFIG_KEY_CONSOLE_LOG_ENABLED = "consoleLogEnabled";
 
+    @Nullable
     private AppInfraInterface appInfraInterface;
 
+    @NonNull
     private Context context;
 
     /**
@@ -85,7 +87,18 @@ public class RuntimeConfiguration {
      *
      * @return Context
      */
+    @NonNull
     public Context getContext() {
         return context;
+    }
+
+    /**
+     * Return AppInfraInterface
+     *
+     * @return AppInfraInterface
+     */
+    @Nullable
+    public AppInfraInterface getAppInfraInterface() {
+        return appInfraInterface;
     }
 }

@@ -36,7 +36,6 @@ pipeline {
                 echo "Node labels: ${nodes}"
                 sh 'printenv'
                 InitialiseBuild()
-                checkout scm
                 BuildAndUnitTest()
             }
         }
@@ -118,7 +117,7 @@ pipeline {
                     PSRA_APK_NAME = APK_INFO[0] + "referenceApp-" + APK_INFO[1].replace(".apk", "_PSRA.apk")
                     echo "PSRA_APK_NAME: ${PSRA_APK_NAME}"
                     sh """#!/bin/bash -le
-                        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/referenceApp-psraRelease.apk
+                        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
                     """
                 }
             }

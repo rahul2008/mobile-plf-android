@@ -8,7 +8,7 @@ package com.philips.platform.devicepair.ui;
 import android.app.Activity;
 
 import com.philips.platform.devicepair.pojo.PairDevice;
-import com.philips.platform.devicepair.states.GetSubjectProfileState;
+import com.philips.platform.devicepair.states.PairDeviceState;
 import com.philips.platform.devicepair.states.StateContext;
 import com.philips.platform.devicepair.states.UnPairDeviceState;
 
@@ -22,7 +22,7 @@ class PairingFragmentPresenter {
 
     void pairDevice(PairDevice pairDevice, IDevicePairingListener deviceStatusListener) {
         StateContext stateContext = new StateContext();
-        stateContext.setState(new GetSubjectProfileState(pairDevice, deviceStatusListener, mActivity));
+        stateContext.setState(new PairDeviceState(pairDevice, deviceStatusListener, mActivity));
         stateContext.start();
     }
 

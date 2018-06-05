@@ -5,7 +5,6 @@
 
 package com.philips.cdp.dicommclient.security;
 
-import com.philips.cdp.dicommclient.MockitoTestCase;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import org.junit.Before;

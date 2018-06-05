@@ -1,6 +1,5 @@
 package com.philips.pins.shinelib.statemachine.state;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothProfile;
 import android.support.annotation.NonNull;
 
@@ -11,6 +10,8 @@ import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.statemachine.SHNDeviceState;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
+
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
 
 public class SHNReadyState extends SHNDeviceState {
 
@@ -63,7 +64,7 @@ public class SHNReadyState extends SHNDeviceState {
 
     @Override
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-        if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
+        if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
             SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
             handleGattDisconnectEvent();
         }

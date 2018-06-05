@@ -14,7 +14,7 @@ interface MergeSocialToSocialAccountContract extends FaceBookContractor{
 
     void mergeSuccess();
 
-    void mergeFailure(String errorDescription);
+    void mergeFailure(int errorCode);
 
     void mergeFailureIgnored();
 

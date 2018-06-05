@@ -16,9 +16,9 @@
     </style>
 
     <style name="reg_style_tab_hint">
-        <item name="android:textSize">@dimen/btn_reg_text_size</item>
-        <item name="android:paddingLeft">@dimen/reg_home_tiltle_padding</item>
-        <item name="android:paddingRight">@dimen/reg_home_tiltle_padding</item>
+        <item name="android:textSize">@dimen/reg_dimen_16dp</item>
+        <item name="android:paddingLeft">@dimen/reg_dimen_12dp</item>
+        <item name="android:paddingRight">@dimen/reg_dimen_12dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -27,17 +27,17 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/reg_devider_color</item>
-        <item name="android:layout_marginTop">@dimen/reg_margin_bottom</item>
-        <item name="android:layout_marginBottom">@dimen/reg_margin_bottom</item>
+        <item name="android:layout_marginTop">@dimen/reg_dimen_12dp</item>
+        <item name="android:layout_marginBottom">@dimen/reg_dimen_12dp</item>
     </style>
 
     <style name="reg_textStyle">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center|left</item>
-        <item name="android:layout_marginBottom">@dimen/reg_margin_bottom</item>
+        <item name="android:layout_marginBottom">@dimen/reg_dimen_12dp</item>
         <item name="android:textColor">@color/reg_text_heading_one_color</item>
-        <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
+        <item name="android:textSize">@dimen/reg_dimen_16dp</item>
     </style>
 
     <style name="reg_text_description">
@@ -45,18 +45,18 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center|left</item>
         <item name="android:textColor">@color/reg_text_desc_color</item>
-        <item name="android:paddingTop">@dimen/reg_margin_bottom</item>
-        <item name="android:paddingBottom">@dimen/reg_margin_bottom</item>
-        <item name="android:paddingLeft">@dimen/reg_layout_margin</item>
-        <item name="android:paddingRight">@dimen/reg_layout_margin</item>
-        <item name="android:textSize">@dimen/reg_title_text_size_small</item>
+        <item name="android:paddingTop">@dimen/reg_dimen_12dp</item>
+        <item name="android:paddingBottom">@dimen/reg_dimen_12dp</item>
+        <item name="android:paddingLeft">@dimen/reg_dimen_28dp</item>
+        <item name="android:paddingRight">@dimen/reg_dimen_28dp</item>
+        <item name="android:textSize">@dimen/reg_dimen_12dp</item>
     </style>
 
     <style name="reg_text_background">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/reg_text_desc_bg</item>
-        <item name="android:layout_marginTop">@dimen/reg_common_margin_top</item>
+        <item name="android:layout_marginTop">@dimen/reg_dimen_16dp</item>
     </style>
 
     <style name="reg_titleTextStyle">
@@ -65,14 +65,14 @@
         <item name="android:layout_gravity">center|left</item>
         <item name="android:textColor">@color/reg_text_heading_one_color</item>
         <item name="android:textSize">@dimen/reg_dimen_20dp</item>
-        <item name="android:layout_marginTop">@dimen/reg_header_margin_top</item>
-        <item name="android:paddingLeft">@dimen/reg_layout_margin</item>
-        <item name="android:paddingRight">@dimen/reg_layout_margin</item>
+        <item name="android:layout_marginTop">@dimen/reg_dimen_28dp</item>
+        <item name="android:paddingLeft">@dimen/reg_dimen_28dp</item>
+        <item name="android:paddingRight">@dimen/reg_dimen_28dp</item>
     </style>
 
     <style name="reg_error_textStyle">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
+        <item name="android:textSize">@dimen/reg_dimen_16dp</item>
     </style>
 
     <style name="reg_forgot_password">
@@ -80,12 +80,12 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@drawable/reg_btn_secondary_text_selector</item>
-        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+        <item name="android:textSize">@dimen/reg_dimen_16dp</item>
     </style>
 
     <!-- Header style -->
     <style name="reg_style_homescreen_title">
-        <item name="android:textSize">@dimen/reg_header_title_size</item>
+        <item name="android:textSize">@dimen/reg_dimen_20dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -100,14 +100,14 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/reg_btn_selector</item>
-        <item name="android:paddingBottom">@dimen/reg_btn_padding_top</item>
-        <item name="android:paddingTop">@dimen/reg_btn_padding_top</item>
-        <item name="android:paddingLeft">@dimen/reg_btn_padding_left</item>
-        <item name="android:paddingRight">@dimen/reg_btn_padding_left</item>
-        <item name="android:minHeight">@dimen/reg_btn_height</item>
+        <item name="android:paddingBottom">@dimen/reg_dimen_4dp</item>
+        <item name="android:paddingTop">@dimen/reg_dimen_4dp</item>
+        <item name="android:paddingLeft">@dimen/reg_dimen_16dp</item>
+        <item name="android:paddingRight">@dimen/reg_dimen_16dp</item>
+        <item name="android:minHeight">@dimen/reg_dimen_48dp</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:textColor">@drawable/reg_btn_text_selector</item>
-        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+        <item name="android:textSize">@dimen/reg_dimen_16dp</item>
     </style>
 
     <style name="reg_password_hint_text">
@@ -117,7 +117,7 @@
 
         <item name="android:layout_marginBottom">5dip</item>
         <item name="android:textColor">@color/reg_text_desc_color</item>
-        <item name="android:textSize">@dimen/reg_title_text_size_small</item>
+        <item name="android:textSize">@dimen/reg_dimen_12dp</item>
     </style>
 
     <style name="reg_password_hint_title_text">
@@ -127,7 +127,7 @@
         <item name="android:layout_marginTop">5dip</item>
         <item name="android:layout_marginBottom">5dip</item>
         <item name="android:textColor">@color/reg_text_desc_color</item>
-        <item name="android:textSize">@dimen/reg_title_text_size_small</item>
+        <item name="android:textSize">@dimen/reg_dimen_12dp</item>
     </style>
 
     <style name="reg_correct_incorrect_text">
@@ -136,7 +136,7 @@
         <item name="android:layout_gravity">left</item>
         <item name="android:layout_marginTop">5dip</item>
         <item name="android:layout_marginBottom">5dip</item>
-        <item name="android:textSize">@dimen/reg_password_hint_correct_text_size</item>
+        <item name="android:textSize">@dimen/reg_dimen_12dp</item>
     </style>
 
     <style name="reg_custom_dialog" parent="android:style/Theme.Dialog">
@@ -191,9 +191,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/reg_btn_selector</item>
         <item name="android:minWidth">0dp</item>
-        <item name="android:layout_margin">@dimen/reg_coppa_layout_margin</item>
+        <item name="android:layout_margin">@dimen/reg_dimen_4dp</item>
         <item name="android:textColor">@drawable/reg_btn_text_selector</item>
-        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+        <item name="android:textSize">@dimen/reg_dimen_16dp</item>
     </style>
 
     <style name="NotificationBarTitle">

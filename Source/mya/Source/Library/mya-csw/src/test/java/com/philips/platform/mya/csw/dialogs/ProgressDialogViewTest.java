@@ -15,7 +15,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -28,13 +30,26 @@ public class ProgressDialogViewTest {
     }
 
     @Test
-    public void hideDialog() throws Exception {
+    public void hideDialog_hidesStateless()  {
         givenProgressDialogViewIsShownWith(mockAlertDialogFragment);
         whenHidingDialog();
         thenAlertFragmentDismissAllowingStateLossIsCalled();
     }
 
-    private void givenProgressDialogViewIsShownWith(final AlertDialogFragment givenAlertDialogFragment) {
+    @Test
+    public void showDialog_showsStateless()  {
+        givenProgressDialogViewIsSetupWith(mockAlertDialogFragment);
+        whenShowingDialog();
+        thenAlertFragmentShowAllowingStateLossIsCalled();
+    }
+
+
+    private void givenProgressDialogViewIsShownWith(final ProgressDialogFragment givenAlertDialogFragment) {
+        givenProgressDialogViewIsSetupWith(givenAlertDialogFragment);
+        whenShowingDialog();
+    }
+
+    private void givenProgressDialogViewIsSetupWith(final ProgressDialogFragment givenAlertDialogFragment) {
         progressDialogView = new ProgressDialogView() {
 
             @Override
@@ -44,16 +59,12 @@ public class ProgressDialogViewTest {
 
             @Override
             protected void setupAlertDialogFragment(FragmentActivity activity) {
-                this.alertDialogFragment = givenAlertDialogFragment;
+                this.progressDialogFragment = givenAlertDialogFragment;
             }
-
-            @Override
-            public void showDialog(FragmentActivity activity) {
-                setupAlertDialogFragment(activity);
-                this.isDialogShown = true;
-            }
-
         };
+    }
+
+    private void whenShowingDialog() {
         progressDialogView.showDialog(fragmentActivity);
     }
 
@@ -65,9 +76,13 @@ public class ProgressDialogViewTest {
         verify(mockAlertDialogFragment).dismissAllowingStateLoss();
     }
 
+    private void thenAlertFragmentShowAllowingStateLossIsCalled() {
+        verify(mockAlertDialogFragment, times(1)).showAllowingStateLoss(eq(fragmentActivity.getSupportFragmentManager()), eq(AlertDialogFragment.class.getCanonicalName()));
+    }
+
     private FragmentActivityMock fragmentActivity = new FragmentActivityMock(new FragmentManagerMock(new FragmentTransactionMock()));
     private ProgressDialogView progressDialogView;
     @Mock
-    private AlertDialogFragment mockAlertDialogFragment;
+    private ProgressDialogFragment mockAlertDialogFragment;
 
 }
