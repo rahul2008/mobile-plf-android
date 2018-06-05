@@ -12,17 +12,17 @@ import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 import static android.content.ContentValues.TAG;
 
 public class BluelibUappAppDependencies extends UappDependencies {
 
-    //private DeviceScanner mDeviceScanner;
     private SHNCentral shnCentral;
 
-    public BluelibUappAppDependencies(final @NonNull Context context) {
-        super(null);
+    public BluelibUappAppDependencies(final @NonNull Context context, @NonNull AppInfraInterface appInfraInterface) {
+        super(appInfraInterface);
 
         SHNCentral.Builder builder = new SHNCentral.Builder(context, mAppInfraInterface);
         builder.showPopupIfBLEIsTurnedOff(true);
@@ -30,11 +30,8 @@ public class BluelibUappAppDependencies extends UappDependencies {
         try {
             shnCentral = builder.create();
 
-        // Create device scanner
-        //mDeviceScanner = new DeviceScanner(shnCentral, new Handler(getMainLooper()));
-        SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = new DeviceDefinitionInfoReferenceBoard();
-        shnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
-
+            SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = new DeviceDefinitionInfoReferenceBoard();
+            shnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
         } catch (SHNBluetoothHardwareUnavailableException e) {
             SHNLogger.e(TAG, "Error obtaining BlueLib instance: " + e.getMessage());
         }
