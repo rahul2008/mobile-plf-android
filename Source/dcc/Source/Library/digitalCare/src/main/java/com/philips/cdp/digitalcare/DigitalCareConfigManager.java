@@ -126,17 +126,12 @@ public class DigitalCareConfigManager {
      */
     public void initializeDigitalCareLibrary(Context applicationContext, AppInfraInterface
             appInfraInterface) {
-        if (mContext == null) {
-            mContext = applicationContext;
-            mAppInfraInterface = appInfraInterface;
+        mContext = applicationContext;
+        mAppInfraInterface = appInfraInterface;
 
             // initializeTaggingContext(mContext);
-        }
-
 
         ProductModelSelectionHelper.getInstance().initialize(mContext, mAppInfraInterface);
-
-
     }
 
     /**
@@ -255,8 +250,8 @@ public class DigitalCareConfigManager {
      * @param orientation
      */
     protected void invokeDigitalCareAsActivity(int startAnimation, int endAnimation,
-                                                       ActivityLauncher.ActivityOrientation
-                                                       orientation ) {
+                                               ActivityLauncher.ActivityOrientation
+                                                       orientation) {
         if (mContext == null) {
             throw new RuntimeException("Please initialise context, " +
                     " and locale before Support page is invoked");
@@ -303,7 +298,7 @@ public class DigitalCareConfigManager {
 
         LoggingInterface loggingInterface = null;
         AppInfraInterface appInfraInstance = getAPPInfraInstance();
-        if (appInfraInstance != null && appInfraInstance.getLogging()!=null) {
+        if (appInfraInstance != null && appInfraInstance.getLogging() != null) {
             loggingInterface = appInfraInstance.getLogging().
                     createInstanceForComponent(AnalyticsConstants.COMPONENT_NAME_CC, com.philips.cdp.digitalcare.BuildConfig.VERSION_NAME);
         }
@@ -452,7 +447,7 @@ public class DigitalCareConfigManager {
         return themeConfiguration;
     }
 
-    public int getDlsTheme(){
+    public int getDlsTheme() {
         return DLS_THEME;
     }
 

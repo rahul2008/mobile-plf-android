@@ -55,6 +55,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.joda_time
     testImplementation deps.junit
+    testImplementation deps.robolectric_3_8
 }
 tasks.withType(Test) {
     ignoreFailures = true
