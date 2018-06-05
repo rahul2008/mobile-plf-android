@@ -22,7 +22,7 @@ public interface MobileVerifyResendCodeContract {
 
     void showSmsResendTechincalError(String errorCodeString);
 
-    void showNumberChangeTechincalError(String errorCodeString);
+    void showNumberChangeTechincalError(int errorCode);
 
     void refreshUser();
 

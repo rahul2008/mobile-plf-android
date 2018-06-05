@@ -36,7 +36,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class MyaSettingsFragmentTest {
     private Context mContext;
     private MyaSettingsFragment myaSettingsFragment;

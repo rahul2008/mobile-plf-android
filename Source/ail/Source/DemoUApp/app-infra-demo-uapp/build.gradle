@@ -3,6 +3,8 @@ apply plugin: 'com.android.library'
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.gradle'
 
+archivesBaseName = "AppInfraUApp"
+
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
@@ -30,18 +32,6 @@ buildscript {
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "AppInfraUApp"
-
 allprojects {
     repositories {
         maven {
@@ -68,54 +58,6 @@ allprojects {
     }
 }
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications ('apk')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-publishing {
-    publications {
-        apk(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml{
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
-
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -128,35 +70,30 @@ android {
 
         versionName "1.5.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
-
-    publishNonDefault true
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile deps.support.appcompatv7
-    compile deps.support.design
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
 
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
-        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
-        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
+    if (dp) {
+        implementation project(':uAppFwLib')
+        implementation project(':AppInfra')
     } else {
-        compile philipsdeps.uAppFwLib
-        compile philipsdeps.AppInfra
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
     }
 
-        compile deps.leakcanary
-        compile deps.gson
-    }
+    implementation deps.gson
+    implementation deps.volley
+}
 
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

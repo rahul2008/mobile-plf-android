@@ -1,22 +1,10 @@
-
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "thsUapp"
 
 allprojects {
@@ -42,33 +30,6 @@ allprojects {
             dirs 'libs'
         }
     }
-}
-
-
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -117,7 +78,7 @@ android {
             debuggable true
         }
     }
-    publishNonDefault true
+
 }
 
 buildscript {
@@ -141,68 +102,39 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
 
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml{
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
-
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile(deps.espresso_core, {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile deps.support.appcompatv7
-    compile deps.support.design
-    compile deps.constraintlayout
-    testCompile deps.junit
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
+    implementation deps.constraintlayout
+    implementation deps.calligraphy
+    testImplementation deps.junit
 
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
-        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
-        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
-        debugCompile project(path: ':telehealth', configuration: 'debug')
-        releaseCompile project(path: ':telehealth', configuration: 'release')
+        implementation project(':AppInfra')
+        implementation project(':uAppFwLib')
+        implementation project(':uid')
+        implementation project(':registrationApi')
+        implementation project(':telehealth')
     } else {
-        compile (philipsdeps.AppInfra) {
+        implementation (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        compile (philipsdeps.uAppFwLib) {
+        implementation (philipsdeps.uAppFwLib) {
             exclude group: 'com.android.support'
         }
-        compile (philipsdeps.telehealth) {
+        implementation (philipsdeps.telehealth) {
             exclude group: 'com.android.support'
             transitive = true
         }

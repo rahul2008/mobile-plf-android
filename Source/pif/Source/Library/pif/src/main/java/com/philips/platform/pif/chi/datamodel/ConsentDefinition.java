@@ -7,28 +7,28 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class ConsentDefinition implements Parcelable, Serializable {
-    private String identifier;
     private int text;
     private int helpText;
+    private int revokeWarningText;
     private List<String> types;
     private int version;
-    private int revokeWarningTextRes;
 
-    public ConsentDefinition(int textRes, int helpTextRes, List<String> types, int version) {
+
+    public ConsentDefinition(int textRes, int helpTextRes, List<String> types, int version) throws IllegalArgumentException {
         this.text = textRes;
         this.helpText = helpTextRes;
+        this.revokeWarningText = 0;
+
+        if (types == null || types.size() == 0)  throw new IllegalArgumentException();
+
         this.types = types;
         this.version = version;
-        this.revokeWarningTextRes = 0;
     }
 
     public ConsentDefinition(int text, int helpText, List<String> types, int version, int revokeWarningText) {
         this(text, helpText, types, version);
-        this.revokeWarningTextRes = revokeWarningText;
+        this.revokeWarningText = revokeWarningText;
     }
 
     public int getText() {
@@ -51,7 +51,9 @@ public class ConsentDefinition implements Parcelable, Serializable {
         return types;
     }
 
-    public void setTypes(String type) {
+    public void setTypes(List<String> types) throws IllegalArgumentException {
+        if (types == null || types.size() == 0)  throw new IllegalArgumentException();
+
         this.types = types;
     }
 
@@ -63,6 +65,19 @@ public class ConsentDefinition implements Parcelable, Serializable {
         this.version = version;
     }
 
+    public boolean hasRevokeWarningText() {
+        return this.revokeWarningText > 0;
+    }
+
+    public int getRevokeWarningText() {
+        return revokeWarningText;
+    }
+
+    public void setRevokeWarningText(int revokeWarningTextRes)
+    {
+        this.revokeWarningText = revokeWarningTextRes;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -70,17 +85,17 @@ public class ConsentDefinition implements Parcelable, Serializable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(identifier);
         parcel.writeInt(text);
         parcel.writeInt(helpText);
+        parcel.writeInt(revokeWarningText);
         parcel.writeStringList(types);
         parcel.writeInt(version);
     }
 
     protected ConsentDefinition(Parcel in) {
-        identifier = in.readString();
         text = in.readInt();
         helpText = in.readInt();
+        revokeWarningText = in.readInt();
         types = new ArrayList<>();
         in.readStringList(types);
         version = in.readInt();
@@ -98,13 +113,6 @@ public class ConsentDefinition implements Parcelable, Serializable {
         }
     };
 
-    public boolean hasRevokeWarningText() {
-        return this.revokeWarningTextRes > 0;
-    }
-
-    public int getRevokeWarningText() {
-        return revokeWarningTextRes;
-    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -113,21 +121,22 @@ public class ConsentDefinition implements Parcelable, Serializable {
         ConsentDefinition that = (ConsentDefinition) o;
 
         if (version != that.version) return false;
-        if (identifier != null ? !identifier.equals(that.identifier) : that.identifier != null)
-            return false;
         if (text != that.text) return false;
         if (helpText != that.helpText)
             return false;
+        if (revokeWarningText != that.revokeWarningText) return false;
+
         return types != null ? types.equals(that.types) : that.types == null;
     }
 
     @Override
     public int hashCode() {
-        int result = identifier != null ? identifier.hashCode() : 0;
-        result = 31 * result + text;
+        int result = text;
         result = 31 * result + helpText;
+        result = 31 * result + revokeWarningText;
         result = 31 * result + (types != null ? types.hashCode() : 0);
         result = 31 * result + version;
+
         return result;
     }
 }

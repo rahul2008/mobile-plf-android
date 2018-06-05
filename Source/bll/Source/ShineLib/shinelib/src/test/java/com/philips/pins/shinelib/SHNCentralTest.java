@@ -1,6 +1,12 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,16 +14,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
+import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
 import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -25,7 +31,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.List;
-import java.util.concurrent.FutureTask;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -46,8 +51,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 
 public class SHNCentralTest extends RobolectricTest {
-    public static final String TEST_DEVICE_MAC_ADDRESS = "DE:AD:C0:DE:01:23";
-    public static final String TEST_DEVICE_TYPE = "TestDeviceType";
+    private static final String TEST_DEVICE_MAC_ADDRESS = "DE:AD:C0:DE:01:23";
+    private static final String TEST_DEVICE_TYPE = "TestDeviceType";
     private SHNCentral shnCentral;
     private MockedHandler mockedUserHandler;
     private MockedHandler mockedInternalHandler;
@@ -60,16 +65,13 @@ public class SHNCentralTest extends RobolectricTest {
     private DataMigrater mockedDataMigrater;
 
     @Captor
-    ArgumentCaptor<BroadcastReceiver> broadcastReceiverArgumentCaptor;
+    private ArgumentCaptor<BroadcastReceiver> broadcastReceiverArgumentCaptor;
 
     @Captor
-    ArgumentCaptor<IntentFilter> intentFilterCaptor;
+    private ArgumentCaptor<IntentFilter> intentFilterCaptor;
 
     @Mock
-    PersistentStorageFactory persistentStorageFactoryMock;
-
-    @Mock
-    FutureTask<Boolean> futureTaskMock;
+    private PersistentStorageFactory persistentStorageFactoryMock;
 
     @Mock
     private SharedPreferencesMigrator mockedSharedPreferencesMigrator;
@@ -85,6 +87,9 @@ public class SHNCentralTest extends RobolectricTest {
 
     @Mock
     private SHNDevice alternateShnDeviceMock;
+
+    @Mock
+    private SHNCentral.SHNBondStatusListener shnBondStatusListenerMock;
 
     @Before
     public void setUp() throws SHNBluetoothHardwareUnavailableException, Exception {
@@ -119,7 +124,7 @@ public class SHNCentralTest extends RobolectricTest {
         doReturn(TEST_DEVICE_TYPE).when(alternateShnDeviceMock).getDeviceTypeName();
         doReturn(TEST_DEVICE_MAC_ADDRESS).when(alternateShnDeviceMock).getAddress();
 
-        shnCentral = new SHNCentral(mockedUserHandler.getMock(), mockedContext) {
+        shnCentral = new SHNCentral(mockedUserHandler.getMock(), mockedContext, false, null, false) {
             @Override
             DataMigrater createDataMigrater() {
                 return mockedDataMigrater;
@@ -168,7 +173,7 @@ public class SHNCentralTest extends RobolectricTest {
 
     @Test
     public void givenASHNCentralListenerIsRegistered_WhenAStateChangeOccurs_ItNotifiesTheListenerOnTheUserHandler() throws InterruptedException {
-        SHNCentral.SHNCentralListener listenerMock = mock(SHNCentral.SHNCentralListener.class);
+        SHNCentralListener listenerMock = mock(SHNCentralListener.class);
         shnCentral.registerShnCentralListener(listenerMock);
 
         mockedUserHandler.enableImmediateExecuteOnPost(false);
@@ -177,7 +182,8 @@ public class SHNCentralTest extends RobolectricTest {
 
         verify(listenerMock, never()).onStateUpdated(any(SHNCentral.class));
 
-        verify(mockedUserHandler.getMock()).post(isA(Runnable.class));
+        verify(mockedUserHandler.getMock(), times(2)).post(isA(Runnable.class));
+        mockedUserHandler.executeFirstPostedExecution();
         mockedUserHandler.executeFirstPostedExecution();
 
         verify(listenerMock).onStateUpdated(isA(SHNCentral.class));
@@ -293,10 +299,49 @@ public class SHNCentralTest extends RobolectricTest {
     }
 
     @Test
-    public void verifyVersionIsPresent() throws SHNBluetoothHardwareUnavailableException {
+    public void verifyVersionIsPresent() {
         String version = shnCentral.getVersion();
 
         assertNotNull(version);
         assertTrue(version.contains(BuildConfig.VERSION_NAME));
+    }
+
+    @Test
+    public void givenListenerIsRegistered_whenStatusChanges_thenListenerIsNotified() throws Exception {
+        SHNCentralListener listener = mock(SHNCentralListener.class);
+        shnCentral.addInternalListener(listener);
+
+        simulateBLEStateChange(BluetoothAdapter.STATE_TURNING_OFF);
+
+        verify(listener).onStateUpdated(shnCentral);
+    }
+
+    @Test
+    public void givenListenerIsRegisteredAndUnregistered_whenStatusChanges_thenListenerIsNotNotified() throws Exception {
+        SHNCentralListener listener = mock(SHNCentralListener.class);
+        shnCentral.addInternalListener(listener);
+        shnCentral.removeInternalListener(listener);
+
+        simulateBLEStateChange(BluetoothAdapter.STATE_TURNING_OFF);
+
+        verify(listener, times(0)).onStateUpdated(shnCentral);
+    }
+
+    @Test
+    public void givenBondListenerIsRegistered_whenBondIsCreated_thenListenerIsNotified() {
+        Intent intentMock = mock(Intent.class);
+        Bundle bundleMock = mock(Bundle.class);
+        BluetoothDevice bluetoothDeviceMock = mock(BluetoothDevice.class);
+        when(intentMock.getExtras()).thenReturn(bundleMock);
+        when(bundleMock.getInt(BluetoothDevice.EXTRA_BOND_STATE)).thenReturn(0);
+        when(bundleMock.getInt(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE)).thenReturn(1);
+        when(bundleMock.getParcelable(BluetoothDevice.EXTRA_DEVICE)).thenReturn(bluetoothDeviceMock);
+        final String address = "00:11:22:33:44:55";
+        when(bluetoothDeviceMock.getAddress()).thenReturn(address);
+        shnCentral.registerBondStatusListenerForAddress(shnBondStatusListenerMock, address);
+
+        shnCentral.bondStateChangedReceiver.onReceive(mockedContext, intentMock);
+
+        verify(shnBondStatusListenerMock).onBondStatusChanged(bluetoothDeviceMock, 0, 1);
     }
 }

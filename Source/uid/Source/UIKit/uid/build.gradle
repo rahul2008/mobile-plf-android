@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+
+archivesBaseName = 'uid'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -23,21 +27,8 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
     }
 }
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = 'uid'
 
 allprojects {
     repositories {
@@ -60,31 +51,6 @@ allprojects {
     group = 'com.philips.cdp'
 }
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications ('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
@@ -98,33 +64,6 @@ task zipDocuments(type: Zip) {
     }
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml{
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion versions.sdk
@@ -146,6 +85,7 @@ android {
             consumerProguardFiles "proguard-rules.pro"
         }
         debug {
+            testCoverageEnabled=true
         }
     }
 
@@ -156,40 +96,40 @@ android {
     }
 
     testOptions {
+        unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
     }
 
-    publishNonDefault true
+
 }
 
 dependencies {
-    testCompile deps.junit
+    testImplementation deps.junit
 
-    compile deps.support.appcompatv7
-    compile deps.support.design
-    compile deps.constraintlayout
-    compile deps.calligraphy
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
+    implementation deps.constraintlayout
+    implementation deps.calligraphy
 
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        debugCompile project(path: ':IconFont', configuration: 'debug')
-        releaseCompile project(path: ':IconFont', configuration: 'release')
+        implementation project(':IconFont')
     } else {
-        compile philipsdeps.IconFont
+        implementation philipsdeps.IconFont
     }
 
     //test
-    androidTestCompile(deps.espresso_core) {
+    androidTestImplementation(deps.espresso_core) {
         exclude module: "com.android.support"
     }
-    androidTestCompile(deps.android_testrunner) {
+    androidTestImplementation(deps.android_testrunner) {
         exclude module: "com.android.support"
     }
-    androidTestCompile(deps.android_testrules) {
+    androidTestImplementation(deps.android_testrules) {
         exclude module: "com.android.support"
     }
-    androidTestCompile deps.android_test_commons
+    androidTestImplementation deps.android_test_commons
 
 }
 

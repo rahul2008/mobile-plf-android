@@ -53,7 +53,7 @@ task printForcedModules << {
 }
 
 task printSnapshotDependencies << {
-    def dependencies = project.configurations.compile.getDependencies()
+    def dependencies = project.configurations.implementation.getDependencies()
     dependencies.matching{dependency -> dependency.version.toLowerCase().contains("snapshot")}.each { snapshot ->
         println snapshot.properties.toString()
         if(snapshotsPerProject.containsKey(project)) {
@@ -76,11 +76,11 @@ task printSnapshotDependencies << {
 }
 
 task copyDependencies(type: Copy) {
-    from configurations.compile
+    from configurations.implementation
     into 'dependencies'
 }
 task showMeCache << {
-    configurations.compile.each {
+    configurations.implementation.each {
         println it
     }
 }

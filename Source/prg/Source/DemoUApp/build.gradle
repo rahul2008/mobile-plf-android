@@ -3,6 +3,9 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+
+archivesBaseName = "product-registration-libUApp"
 
 def coverageSourceDirs = [
         '../product-registration-lib/src/main/java'
@@ -28,7 +31,6 @@ buildscript {
     }
     dependencies {
         classpath builddeps.gradle
-        classpath builddeps.androidapt
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
         classpath builddeps.jruby_gradle
@@ -37,18 +39,6 @@ buildscript {
 
 
 //apply from: 'localization.gradle'
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "product-registration-libUApp"
 
 allprojects {
     repositories {
@@ -76,31 +66,6 @@ allprojects {
     }
 }
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications ('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
@@ -114,35 +79,6 @@ task zipDocuments(type: Zip) {
     }
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml{
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion versions.sdk
@@ -178,57 +114,65 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
-    publishNonDefault true
+
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.calligraphy
+    implementation deps.support.design
+
 
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
-        debugCompile project(path: ':product-registration-lib', configuration: 'debug')
-        releaseCompile project(path: ':product-registration-lib', configuration: 'release')
+        implementation project(':uid')
+        implementation project(':product-registration-lib')
+        implementation project(':registrationApi')
+        implementation project(':prx')
+        implementation project(':uAppFwLib')
+        implementation project(':AppInfra')
     } else {
-        compile (philipsdeps.uid) {
+        implementation (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.product_registration_lib
+        implementation philipsdeps.product_registration_lib
     }
 
-    compile(deps.support.recyclerview) {
+    implementation(deps.support.recyclerview) {
         exclude module: "com.android.support"
     }
-    compile(deps.support.cardview) {
+    implementation(deps.support.cardview) {
         exclude module: "com.android.support"
     }
-    compile(deps.support.appcompatv7) {
+    implementation(deps.support.appcompatv7) {
         exclude module: "com.android.support"
     }
 
-    compile deps.support.cardview
+    implementation deps.support.cardview
 
-    compile(deps.butterknife) {
+    implementation(deps.butterknife) {
         exclude module: "com.android.support"
     }
-    compile deps.greenrobot
+    implementation deps.greenrobot
 
 
-    testCompile(deps.junit) {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
-
-    androidTestCompile(deps.espresso_core) {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
-    androidTestCompile(deps.android_testrunner) {
+    testImplementation(deps.junit) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
 
-    androidTestCompile deps.android_test_commons
+    androidTestImplementation(deps.espresso_core) {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
+    androidTestImplementation(deps.android_testrunner) {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
+
+    androidTestImplementation deps.android_test_commons
+}
+tasks.withType(Test) {
+    ignoreFailures = true
 }

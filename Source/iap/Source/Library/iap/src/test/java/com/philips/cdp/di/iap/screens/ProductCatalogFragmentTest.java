@@ -1,11 +1,11 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.philips.cdp.di.iap.BuildConfig;
+
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.integration.IAPListener;
@@ -17,6 +17,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import junit.framework.Assert;
 
 import org.junit.Before;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -24,13 +25,14 @@ import org.mockito.Mockito;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
+
 import java.util.ArrayList;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
+@Config(sdk=23)
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class ProductCatalogFragmentTest {
     // private Activity activity;
     private ProductCatalogFragment productCatalogFragment;
@@ -60,6 +62,7 @@ public class ProductCatalogFragmentTest {
         startFragment(productCatalogFragment);
         Assert.assertNotNull(productCatalogFragment);
     }
+
 
     @Test(expected = NullPointerException.class)
     public void shouldNotDisplayCategorizedProductlist() {

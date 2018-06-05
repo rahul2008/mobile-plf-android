@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.ui.traditional.countryselection.CountrySelectionAdapter;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -113,5 +114,16 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
                 getTargetRequestCode(),
                 Activity.RESULT_OK,
                 intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        trackPage(AppTaggingPages.COUNTRY);
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        //NOP
     }
 }

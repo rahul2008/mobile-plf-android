@@ -137,7 +137,7 @@
     <string name="reg_Generic_Network_Error">Oops! Something went wrong. Please try again later</string>
     <string name="reg_Already_Verified_Message">Your email is already verified. You may continue.</string>
     <string name="reg_PhoneNumberPlaceHolder_txtField">Enter your phone number</string>
-    <string name="reg_InvalidPhoneNumber_ErrorMsg">This is not a phone number I can recognize. Please double-check. \nIf you\'re in a different country, you may have to change your country settings .</string>
+    <string name="reg_InvalidPhoneNumber_ErrorMsg">We cannot recognize your phone number. Please check country code.</string>
     <string name="reg_Account_ActivationCode_Verify_Account">Verify account</string>
     <string name="reg_Account_ActivationCode_Instruction_lbltxt">Having Problems?\n-  It may take some time for the SMS with the code to arrive\n-  If you did not receive an SMS when the countdown clock ends, press the \'Resend\' button</string>
     <string name="reg_Account_ActivationCode_Title_lbltxt">We have sent an SMS with a code to your phone, please enter this code to log in.</string>
@@ -160,14 +160,8 @@
     <string name="reg_CreateAccount_Email_PhoneNumber">Your email or phone number</string>
     <string name="reg_InvalidEmail_PhoneNumber_ErrorMsg">I cannot recognize the email or phone number you entered. Please check.</string>
     <string name="reg_URX_SMS_Success">Success</string>
-    <string name="reg_URX_SMS_Invalid_PhoneNumber">This is not a phone number I can recognize. Please double-check. \nIf you\'re in a different country, you may have to change your country settings .</string>
-    <string name="reg_URX_SMS_PhoneNumber_UnAvail_ForSMS">Provided phone number is not enabled for SMS.</string>
-    <string name="reg_URX_SMS_UnSupported_Country_ForSMS">Provided phone number is not supported by the country.</string>
-    <string name="reg_URX_SMS_Limit_Reached">The limit has been reached for phone number. Please try again after some time.</string>
-    <string name="reg_URX_SMS_InternalServerError">Oops. Something went wrong and I was not able to send an SMS. Please try again later.</string>
-    <string name="reg_URX_SMS_NoInformation_Available">No information available.</string>
-    <string name="reg_URX_SMS_Not_Sent">SMS has not been sent.</string>
-    <string name="reg_URX_SMS_Already_Verified">SMS not sent. Account already verified.</string>
+
+
     <string name="reg_URX_Invalid_Credentials">I don’t recognize the phone number or password you entered. Please try again</string>
     <string name="reg_Janrain_Error_Need_Mobile_Verification">Please verify your mobile number through the activation code we sent to your mobile number</string>
     <string name="reg_Mobile_TraditionalSignIn_Instruction_lbltxt">Having Problems?\n-  It may take some time for the SMS with the code to arrive\n-  If you did not receive an SMS press the \'Resend\' button</string>
@@ -387,4 +381,70 @@
     <string name="reg_DLS_PhilipsNews_Description_Text">As a result of your consent, Philips group companies may contact you with promotional communications via email, SMS and other digital channels, such as mobile apps and social media. To be able to tailor the communications to your preferences and behavior and provide you with the best, personalized experience, we may analyze and combine your personal data. This data may include: \n\nData you give us\nData that you want to actively share with us such as: your name, date of birth or age, email address, physical address, country, gender, phone number, social media profile.\n\nData we get from your interactions with Philips\nData about your interactions and usage of the Philips digital channels, such as social media, websites, emails, apps and connected products. This data may include: IP address, cookies, device information, communications you click on, location details, and websites you visit\n\nPhilips will give you the opportunity to withdraw your consent at any time.\nFor more information, please read the Philips Privacy notice and the Philips Cookie notice.</string>
     <string name="reg_DLS_Almost_Done_TextField_Mobile_Text">To be able to complete your login and verify that you are a real person, we need a mobile number.</string>
     <string name="reg_DLS_Almost_Done_TextField_Email_Text">To be able to complete your login and verify that you are a real person, we need an email address.</string>
+
+
+    <!-- New Errors-->
+    <string name="reg_Generic_Network_ErrorMsg">Cannot connect to server. Please check your internet connection and try again.</string>
+    <string name="reg_Network_ErrorMsg">You seem to be offline. Please check your internet settings.</string>
+    <!--URX Errors-->
+    <string name="reg_URX_SMS_Invalid_PhoneNumber">We can\'t send an SMS to this phone number.</string>
+    <string name="reg_URX_SMS_PhoneNumber_UnAvail_ForSMS">We can not sent a SMS to this phone number.</string>
+    <string name="reg_URX_SMS_UnSupported_Country_ForSMS">We can\'t send an SMS to this phone number. The country code is not supported.</string>
+    <string name="reg_URX_SMS_Limit_Reached">The SMS limit has been reached for this phone number. Please try again in 30 secs.</string>
+    <string name="reg_URX_SMS_InternalServerError">SMS cannot be sent. Please try later.</string>
+    <string name="reg_URX_SMS_NoInformation_Available">Unable to connect to server. Please try again later.</string>
+    <string name="reg_URX_SMS_Not_Sent">SMS could not be delivered. Please try again later.</string>
+    <string name="reg_URX_SMS_Already_Verified">Account already verified. Log in to continue.</string>
+    <string name="reg_URX_SMS_Failure_case">The phone number/email or password you entered is not correct.</string>
+    <!--Janrain Errors-->
+    <string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Cannot connect to server. Please try again later.Sill having difficulty? Contact Customer Care stating error code</string>
+    <string name="reg_Janrain_HSDP_ServerErrorMsg">Cannot connect to server. Please try later or check our FAQs for more information. If this doesn\'t resolve your query, contact consumer care stating error code</string>
+
+    <string name="reg_Janrain_ErrorTriggeredInFlow_ErrorMsg">Failed to connect to the server, Please try again. If error continues, then contact customer care.</string>
+    <string name="reg_Janrain_LimitError_ErrorMsg">The limit of too many unsuccessful attempts has been reached. Please try again later.</string>
+    <string name="reg_Janrain_Invalid_DateTime_ErrorMsg">Failed to connect to the server. Please try again later or you can visit FAQs section to find the solution. \N Still not able to resolve the issue, reach out to customer care with error code </string>
+    <string name="reg_Janrain_CreationTokenExpired_ErrorMsg">Your creation token has expired. Please reinitiate the process to authenticate.</string>
+    <string name="reg_Janrain_VerificationCodeExpired_ErrorMsg">"You have entered an incorrect or expired verification code. Please enter the correct code or resend the code."</string>
+    <string name="reg_Janrain_AuthorizationCodeExpired_ErrorMsg">Sorry, something went wrong. Please go back and log in again.</string>
+    <string name="reg_Janrain_Access_Token_Expired">The supplied access_token has expired.</string>
+    <string name="reg_Janrain_Connection_ErrorMsg">Failed to connect to the server, Please try again  later. /N Still not able to resolve the issue, contact customer care with error code</string>
+    <string name="reg_Janrain_EmailAddressInUse_ErrorMsg">This email address already exists. Please log in using this address or register using a different one.</string>
+    <string name="reg_Janrain_LengthViolation_ErrorMsg">Please re-enter using 256 characters or less</string>
+    <string name="reg_Janrain_Connection_Lost_Argument_Not_Match">There was an error while creating a new record.</string>
+    <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">The phone number, email or password your entered is not correct.</string>
+    <string name="reg_Janrain_Email_Address_Not_Available">Login flow: The phone number / email or password you entered is not correct. Forgot password flow : Account doesn’t exist for this email. Please enter a different email address or create a new account.</string>
+    <string name="reg_Janrain_Connection_Lost_No_Invalid_Mismatch">Failed to connect to the server. Please try again.</string>
+    <!--New-->
+    <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">No account exists for this email. Create an account using this email or enter a different email address.</string>
+    <string name="reg_Janrain_EntityAlreadyExists_ErrorMsg">Your email or phone number is already registered.</string>
+    <string name="reg_Janrain_FormValidation_ErrorMsg">Failed to connect to the server. Please try again later or you can visit FAQs section to find the solution. \N Still not able to resolve the issue? Reach out to customer care with error code</string>
+    <string name="reg_UnexpectedInternalError_ErrorMsg">Sorry, something went wrong. Please try again.</string>
+    <string name="reg_LastNameField_ErrorMsg">Please enter your last name</string>
+    <string name="reg_PasswordField_ErrorMsg">Please enter your password</string>
+
+    <string name="reg_InvalidEmailOrPhoneNumber_ErrorMsg">Please enter a valid email address or phone number</string>
+    <string name="reg_Action_OkGotIt_Txt">OK, got it</string>
+    <string name="reg_Action_Retry_Txt">Retry</string>
+    <string name="reg_Action_ConsumerCare_Txt">Consumer Care</string>
+    <string name="reg_Action_FAQs_Txt">FAQs</string>
+    <string name="reg_Action_Login_Txt">Login</string>
+    <string name="reg_Title_SmsNotSent_Txt">SMS not sent</string>
+    <string name="reg_Title_TooManyRequests_Txt">Too many requests</string>
+    <string name="reg_Title_ConnectionLost_Txt">Connection lost</string>
+    <string name="reg_Title_AuthorizationCodeExpired_Txt">Authorization code has expired</string>
+    <string name="reg_Title_UnexpectedError_Txt">Unexpected error</string>
+    <string name="reg_Title_SignatureExpired_Txt">Signature expired</string>
+    <string name="reg_Title_NoInternetConnection_Txt">No internet connection</string>
+    <string name="reg_Title_AccountAlreadyExists_Txt">Account already exists.</string>
+
+    <!--HSDP-->
+    <string name="reg_HSDP_Server_ErrorMsg">Sorry, something went wrong. Please try again later or you can visit FAQs section to find the solution. \N Still not able to resolve the issue, reach out to customer care with error code</string>
+    <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Signature expired due to time error. Please check your device time settings.</string>
+
+    <!-- Facebook Keys-->
+    <string name="facebook_app_id">107243606103710</string>
+    <string name="fb_login_protocol_scheme">fb107243606103710demoApp</string>
+
+    <!--OTP Sender Mobile Number-->
+    <string name="otp_sender">10690669210073</string>
 </resources>

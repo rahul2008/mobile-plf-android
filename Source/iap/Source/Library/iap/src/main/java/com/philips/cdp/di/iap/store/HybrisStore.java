@@ -279,7 +279,13 @@ public class HybrisStore extends AbstractStore {
 
     @Override
     public String getSearchProductUrl(String ctnNumber) {
-        return String.format(mSearchProductUrl, ctnNumber);
+        if(mUpdateProductUrl != null && ctnNumber!=null){
+            return String.format(mSearchProductUrl, ctnNumber);
+        }
+        else{
+            return null;
+        }
+
     }
 
     //Carts

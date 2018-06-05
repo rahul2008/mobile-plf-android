@@ -57,6 +57,7 @@ public class MomentFragment extends DSBaseFragment
     private TextView mTvInsights;
     private TextView mTvMomentByDateRange;
     private TextView mTvSyncByDateRange;
+    private TextView mTvgdprFeatures;
     private TextView mTvMomentsCount;
     private ImageButton mAddButton;
 
@@ -118,12 +119,14 @@ public class MomentFragment extends DSBaseFragment
         mTvSettings = view.findViewById(R.id.tv_settings);
         mTvInsights = view.findViewById(R.id.tv_insights);
         mTvSyncByDateRange = view.findViewById(R.id.tv_sync_by_date_range);
+        mTvgdprFeatures = view.findViewById(R.id.tv_gdpr_features);
         TextView mTvLogout = view.findViewById(R.id.tv_logout);
 
         mTvAddMomentType.setOnClickListener(this);
         mTvLatestMoment.setOnClickListener(this);
         mTvMomentByDateRange.setOnClickListener(this);
         mTvSyncByDateRange.setOnClickListener(this);
+        mTvgdprFeatures.setOnClickListener(this);
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
@@ -153,6 +156,7 @@ public class MomentFragment extends DSBaseFragment
             mTvInsights.setVisibility(View.INVISIBLE);
             mTvSettings.setVisibility(View.INVISIBLE);
             mTvCharacteristics.setVisibility(View.INVISIBLE);
+            mTvgdprFeatures.setVisibility(View.INVISIBLE);
             return;
         }
         deleteUserDataIfNewUserLoggedIn();
@@ -170,7 +174,6 @@ public class MomentFragment extends DSBaseFragment
     public void onResume() {
         super.onResume();
         mDataServicesManager.registerDBChangeListener(this);
-        mDataServicesManager.synchronize();
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
@@ -228,6 +231,9 @@ public class MomentFragment extends DSBaseFragment
             showFragment(syncByDateRangeFragment);
         } else if (i == R.id.tv_add_moment_with_type) {
             mMomentPresenter.addOrUpdateMoment(MomentPresenter.ADD, null, true);
+        } else if (i == R.id.tv_gdpr_features) {
+            GdprFeatureFragment gdprFeatureFragment = new GdprFeatureFragment();
+            showFragment(gdprFeatureFragment);
         }
     }
 
@@ -277,7 +283,6 @@ public class MomentFragment extends DSBaseFragment
     @Override
     public void onSuccess(final List<? extends Moment> data) {
         mMomentPresenter.fetchData(this);
-        DataServicesManager.getInstance().synchronize();
     }
 
     @Override

@@ -3,7 +3,10 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+
+archivesBaseName = "product-registration-lib"
 
 def coverageSourceDirs = [
         '../product-registration-lib/src/main/java'
@@ -28,7 +31,6 @@ buildscript {
     }
     dependencies {
         classpath builddeps.gradle
-        classpath builddeps.androidapt
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
         classpath builddeps.jruby_gradle
@@ -42,18 +44,6 @@ buildscript {
  */
 
 //apply from: 'localization.gradle'
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "product-registration-lib"
 
 allprojects {
     repositories {
@@ -81,31 +71,6 @@ allprojects {
     }
 }
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications ('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
@@ -119,35 +84,6 @@ task zipDocuments(type: Zip) {
     }
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml{
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion versions.sdk
@@ -203,9 +139,10 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
     }
 
-    publishNonDefault true
+
 }
 
 configurations.all {
@@ -214,29 +151,33 @@ configurations.all {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile deps.support.appcompatv7
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.support.appcompatv7
+    implementation deps.gson
+    implementation deps.calligraphy
+    implementation deps.volley
+    implementation deps.libphonenumber
 
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        debugCompile project(path: ':registrationApi', configuration: 'debug')
-        releaseCompile project(path: ':registrationApi', configuration: 'release')
-        debugCompile project(path: ':prx', configuration: 'debug')
-        releaseCompile project(path: ':prx', configuration: 'release')
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
+        implementation project(':registrationApi')
+        implementation project(':prx')
+        implementation project(':uid')
+        implementation project(':uAppFwLib')
+        implementation project(':AppInfra')
+
     } else {
-        compile philipsdeps.registrationApi
-        compile philipsdeps.prx
-        compile (philipsdeps.uid) {
+        implementation philipsdeps.registrationApi
+        implementation philipsdeps.prx
+        implementation (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
     }
 
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.robolectric
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.robolectric
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

@@ -21,7 +21,7 @@ android {
         versionName version
         buildConfigField "String", "LIBRARY_VERSION", "\"${version}(${objcdp.getCommitHash()})\""
     }
-    publishNonDefault true
+
 
     buildTypes {
         debug {
@@ -63,27 +63,34 @@ task generateJavadocPublicApi(type: Javadoc) {
 }
 
 dependencies {
-    testCompile deps.junit
-    testCompile deps.assertj
-    testCompile deps.mockito
+    testImplementation deps.junit
+    testImplementation deps.assertj
+    testImplementation deps.mockito
 
-    compile deps.support.design
-    compile deps.support.cardview
+    implementation deps.support.design
+    implementation deps.support.cardview
 
-    provided deps.support.annotations
+    compileOnly deps.support.annotations
 
     if (directdependencies) {
-        debugCompile project(path: ':commlib', configuration: 'debug')
-        releaseCompile project(path: ':commlib', configuration: 'release')
-        debugCompile project(path: ':cloudcontroller', configuration: 'debug')
-        releaseCompile project(path: ':cloudcontroller', configuration: 'release')
-        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
-        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
+        implementation project(':commlib')
+        implementation project(':commlib-ble')
+        implementation project(':commlib-api')
+        implementation project(':commlib-lan')
+        implementation project(':commlib-cloud')
+        implementation project(':cloudcontroller')
+        implementation project(':cloudcontroller-api')
+        implementation project(':uAppFwLib')
+        implementation project(':AppInfra')
     } else {
-        compile philipsdeps.cloudcontroller
-        compile philipsdeps.commlib
-        compile philipsdeps.uAppFwLib
+        implementation philipsdeps.cloudcontroller
+        implementation philipsdeps.commlib
+        implementation philipsdeps.uAppFwLib
     }
 
-    compile deps.joda_time
+    implementation deps.joda_time
+    implementation deps.gson
+}
+tasks.withType(Test) {
+    ignoreFailures = true
 }

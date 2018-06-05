@@ -4,7 +4,7 @@ BranchName = env.BRANCH_NAME
 String cron_string = BranchName == "develop" ? "H H(20-22) * * *" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
-def nodes = 'android && device'
+def nodes = '27.0.2 && device'
 if (BranchName == "develop") {
     nodes = nodes + " && TICS"
 }
@@ -36,7 +36,6 @@ pipeline {
                 echo "Node labels: ${nodes}"
                 sh 'printenv'
                 InitialiseBuild()
-                checkout scm
                 BuildAndUnitTest()
             }
         }
@@ -118,7 +117,7 @@ pipeline {
                     PSRA_APK_NAME = APK_INFO[0] + "referenceApp-" + APK_INFO[1].replace(".apk", "_PSRA.apk")
                     echo "PSRA_APK_NAME: ${PSRA_APK_NAME}"
                     sh """#!/bin/bash -le
-                        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/referenceApp-psraRelease.apk
+                        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
                     """
                 }
             }
@@ -256,6 +255,8 @@ def BuildAndUnitTest() {
             :ews-android:testReleaseUnitTest \
             :referenceApp:testReleaseUnitTest
     '''
+
+    archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/release/*.apk'
 }
 
 def BuildLint() {

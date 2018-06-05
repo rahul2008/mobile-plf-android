@@ -1,8 +1,11 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 def buildOutputDir
+
+archivesBaseName = "uAppFwLib"
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -28,27 +31,13 @@ buildscript {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
-        classpath builddeps.androidapt
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
-
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "uAppFwLib"
 
 allprojects {
     repositories {
@@ -72,31 +61,6 @@ allprojects {
     }
 }
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -119,35 +83,6 @@ task tgzTask(type: Tar) {
     exclude('build')
     extension = 'tgz'
     compression = Compression.GZIP
-}
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
 }
 
 //=======To zip and upload "Documents/External" ==ENDS=============
@@ -176,7 +111,7 @@ android {
         }
     }
 
-    publishNonDefault true
+
 }
 
 configurations.all {
@@ -185,36 +120,35 @@ configurations.all {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile deps.junit
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation deps.junit
 
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
+        implementation project(':AppInfra')
+        implementation project(':uid')
     } else {
-        compile (philipsdeps.AppInfra) {
+        implementation (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        compile (philipsdeps.uid) {
+        implementation (philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
     }
 
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.robolectric
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.robolectric
 
-    compile deps.support.annotations
-    compile deps.support.appcompatv7
+    implementation deps.support.annotations
+    implementation deps.support.appcompatv7
+    implementation deps.gson
 }
 
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
-    from configurations.compile
+    from configurations.implementation
 }
 
 

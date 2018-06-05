@@ -19,7 +19,6 @@ public class CustomRobolectricRunner extends RobolectricTestRunner {
         super(klass);
     }
 
-    @Override
     protected AndroidManifest getAppManifest(Config config) {
         AndroidManifest appManifest = super.getAppManifest(config);
         FsFile androidManifestFile = appManifest.getAndroidManifestFile();

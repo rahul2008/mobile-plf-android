@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.securestoragev1.SecureStorageV1;
 
@@ -26,18 +27,19 @@ public class SecureStorageActivity extends AppCompatActivity  {
     boolean isOldSSEnabled;
 
     TextView statusTextView;
+    private AppInfraInterface appInfra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secure_storage);
-        AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
+        appInfra = AILDemouAppInterface.getInstance().getAppInfra();
         isOldSSEnabled=getIntent().getBooleanExtra(Constants.IS_OLD_SS_ENABLED,false);
         if(isOldSSEnabled) {
             mSecureStorage = new SecureStorageV1((AppInfra) appInfra);
             Toast.makeText(this,"Old secure storage is enabled",Toast.LENGTH_SHORT).show();
         }else{
-            mSecureStorage=appInfra.getSecureStorage();
+            mSecureStorage= appInfra.getSecureStorage();
         }
 
         final EditText userKey = (EditText) findViewById(R.id.Key_editText);
@@ -56,8 +58,9 @@ public class SecureStorageActivity extends AppCompatActivity  {
 
                 SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
                 decryptedDataTextView.setText(null);
-
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","before storeValueForKey::"+System.currentTimeMillis());
                 boolean isSaved = mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString(),sseStore);
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","after storeValueForKey::"+System.currentTimeMillis());
                 if(null!=sseStore.getErrorCode())
                 {
                     statusTextView.setText(sseStore.getErrorCode().toString());
@@ -78,7 +81,9 @@ public class SecureStorageActivity extends AppCompatActivity  {
             public void onClick(View v) {
 
                 SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","before fetchValueForKey::"+System.currentTimeMillis());
                 String decryptedData= mSecureStorage.fetchValueForKey(userKey.getText().toString(),sse);
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG,"SecureStorageNFRTesting","after fetchValueForKey::"+System.currentTimeMillis());
                 if(null!=sse.getErrorCode())
                 {
                     statusTextView.setText(sse.getErrorCode().toString());

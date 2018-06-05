@@ -153,6 +153,10 @@ public class ShoppingCartData implements Serializable {
         return mEntry.getProduct().getStock().getStockLevel();
     }
 
+    public String getStockLevelStatus(){
+        return mEntry.getProduct().getStock().getStockLevelStatus();
+    }
+
     public String getFormattedTotalPriceWithTax() {
         return mFormattedTotalPriceWithTax;
     }

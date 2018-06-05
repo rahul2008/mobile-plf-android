@@ -1,5 +1,7 @@
 // Flavors for Configuration Management
 android {
+
+
     buildTypes {
         def BOOLEAN = "bool"
         def TRUE = "true"
@@ -17,6 +19,7 @@ android {
             debuggable true
             signingConfig signingConfigs.debug
             resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+            matchingFallbacks = ['debug', 'release']
         }
         release {
             minifyEnabled true
@@ -24,6 +27,7 @@ android {
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
             resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+
         }
         psraRelease {
             minifyEnabled true
@@ -32,6 +36,7 @@ android {
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
             resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+            matchingFallbacks = ['debug', 'release']
         }
     }
 }

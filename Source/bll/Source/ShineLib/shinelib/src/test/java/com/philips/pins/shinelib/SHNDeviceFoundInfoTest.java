@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -36,12 +36,9 @@ public class SHNDeviceFoundInfoTest {
     @Mock
     private SHNDevice mockedSHNDevice;
 
-
     @Before
     public void setUp() {
         initMocks(this);
-
-        SHNDeviceFoundInfo.setSHNCentral(mockedSHNCentral);
 
         doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition((String) any(), (SHNDeviceDefinitionInfo) any());
     }
@@ -50,7 +47,7 @@ public class SHNDeviceFoundInfoTest {
     public void whenBluetoothDeviceHasNameThenThatNameIsUsed() {
         doReturn("name").when(mockedBluetoothDevice).getName();
 
-        shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedBluetoothDevice, 0,
+        shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedSHNCentral, mockedBluetoothDevice, 0,
                 new byte[0], mockedShnDeviceDefinitionInfo, mockedBleScanRecord);
 
         assertEquals(shnDeviceFoundInfo.getDeviceName(), "name");
@@ -60,7 +57,7 @@ public class SHNDeviceFoundInfoTest {
     public void whenOnlyScanRecordHasNameThenThatNameIsUsed() {
         doReturn("scanname").when(mockedBleScanRecord).getLocalName();
 
-        shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedBluetoothDevice, 0,
+        shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedSHNCentral, mockedBluetoothDevice, 0,
                 new byte[0], mockedShnDeviceDefinitionInfo, mockedBleScanRecord);
 
         assertEquals(shnDeviceFoundInfo.getDeviceName(), "scanname");
@@ -70,7 +67,7 @@ public class SHNDeviceFoundInfoTest {
     public void whenBothDeviceAndScanRecordDontHaveANameThenTheSHNDeviceNameIsUsed() {
         doReturn("shnname").when(mockedSHNDevice).getName();
 
-        shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedBluetoothDevice, 0,
+        shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedSHNCentral, mockedBluetoothDevice, 0,
                 new byte[0], mockedShnDeviceDefinitionInfo, mockedBleScanRecord);
 
         assertEquals(shnDeviceFoundInfo.getDeviceName(), "shnname");

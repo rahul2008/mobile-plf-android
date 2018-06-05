@@ -104,7 +104,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     void initializeViews(View rootView) {
         TextView tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
-        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "3"));
+        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps_overview), "3"));
 
         mPaymentController = new PaymentController(mContext, this);
         bundle = getArguments();
@@ -155,7 +155,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     private void updateCartOnResume() {
         createCustomProgressBar(mParentLayout,BIG);
-        mAddressController.getDeliveryModes();
+        updateCartDetails(mShoppingCartAPI);
     }
 
     @Override
@@ -297,11 +297,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onOutOfStock(boolean isOutOfStockReached) {
         if (mPayNowBtn == null) return;
-        if (isOutOfStockReached) {
-            mPayNowBtn.setEnabled(false);
-        } else {
-            mPayNowBtn.setEnabled(true);
-        }
+        mPayNowBtn.setEnabled(isOutOfStockReached);
     }
 
 //    @Override
@@ -412,7 +408,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
     public void onItemClick(int position) {
         final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         createCustomProgressBar(mParentLayout,BIG);
-        mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
+        updateCartDetails(mShoppingCartAPI);
+       // mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
 
         /*final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         mSelectedDeliveryMode = deliveryModes.get(position);

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.adobe.mobile.Analytics;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -343,7 +344,7 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackTimedActionStart("Tagging_trackTimedAction");
         when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
-        verify(mAppTaggingHandlerMock).timeActionStart("Tagging_trackTimedAction");
+        verify(mAppTaggingHandlerMock).timeActionStart("Tagging_trackTimedAction", null);
 
     }
 
@@ -351,7 +352,21 @@ public class AppTaggingHandlerTest extends AppInfraInstrumentation {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging.trackTimedActionEnd("Tagging_trackTimedAction");
         when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
-        verify(mAppTaggingHandlerMock).timeActionEnd("Tagging_trackTimedAction");
+        verify(mAppTaggingHandlerMock).timeActionEnd("Tagging_trackTimedAction", null);
+    }
+
+    public void testTrackTimedActionEndWithParameters() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+
+        Analytics.TimedActionBlock<Boolean> logic = new Analytics.TimedActionBlock<Boolean>() {
+            @Override
+            public Boolean call(long l, long l1, Map<String, Object> map) {
+                return null;
+            }
+        };
+        appTagging.trackTimedActionEnd("Tagging_trackTimedAction",logic);
+        verify(mAppTaggingHandlerMock).timeActionEnd("Tagging_trackTimedAction", logic);
     }
 
 

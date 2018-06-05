@@ -5,10 +5,13 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'maven'
 
-//apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+
+archivesBaseName = "productselection"
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -36,18 +39,6 @@ buildscript {
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "productselection"
-
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
@@ -55,29 +46,32 @@ configurations.all {
 
 dependencies {
 
-    testCompile deps.junit
-    testCompile deps.mockito
+    testImplementation deps.junit
+    testImplementation deps.mockito
 
     def dp = project.ext.has('useprojectdependencies')
 
-    compile deps.shamanland_fonticon
+    implementation deps.shamanland_fonticon
 
     if(dp) {
-        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
-        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
-        debugCompile project(path: ':prx', configuration: 'debug')
-        releaseCompile project(path: ':prx', configuration: 'release')
-        debugCompile project(path: ':uid', configuration: 'debug')
-        releaseCompile project(path: ':uid', configuration: 'release')
+        implementation project(':uAppFwLib')
+        implementation project(':prx')
+        implementation project(':uid')
+        implementation project(':AppInfra')
     } else {
-        compile philipsdeps.uAppFwLib
-        compile philipsdeps.prx
-        compile philipsdeps.uid
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.prx
+        implementation philipsdeps.uid
     }
 
-    compile deps.constraintlayout
+    implementation deps.constraintlayout
+    implementation deps.support.supportv4
+    implementation deps.support.appcompatv7
+    implementation deps.calligraphy
+    implementation deps.volley
 
-    androidTestCompile deps.espresso_core, {
+
+    androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
@@ -102,35 +96,6 @@ allprojects {
     }
 }
 
-//maven configuration stuff required for artifactory plugin
-group = 'com.philips.cdp'
-
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications ('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
@@ -138,35 +103,6 @@ artifacts {
 }
 
 //=======To zip and upload "Documents/External" ==ENDS===========
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml{
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion versions.sdk
@@ -191,6 +127,7 @@ android {
             debuggable false
             minifyEnabled false
             shrinkResources false
+            testCoverageEnabled=true
         }
     }
 
@@ -202,7 +139,7 @@ android {
         abortOnError false
     }
 
-    publishNonDefault true
+
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
@@ -240,7 +177,7 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
-    from configurations.compile
+    from configurations.implementation
 }
 
 tasks.withType(Test) {

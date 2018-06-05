@@ -1,23 +1,76 @@
-buildscript {
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-    }
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'pl.droidsonroids.pitest'
-
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply plugin: 'pl.droidsonroids.pitest'
+def coverageSourceDirs = [
+        '../dataServices/src/main/java'
+]
+
+archivesBaseName = "dataServices"
+
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+
+    repositories {
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath(builddeps.cdpSCM)
+        classpath builddeps.pitest_solidsoft
+    }
+}
+
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+allprojects {
+    repositories {
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -31,6 +84,7 @@ task zipDocuments(type: Zip) {
         classifier 'docs'
     }
 }
+//=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
     compileSdkVersion versions.sdk
@@ -91,7 +145,7 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
-
+        unitTests.includeAndroidResources = true
         unitTests.all {
             // set JVM arguments for the test JVM(s)
             jvmArgs '-noverify'
@@ -102,7 +156,7 @@ android {
         }
     }
 
-    publishNonDefault true
+
 }
 
 configurations.all {
@@ -114,41 +168,40 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        debugCompile project(path: ':mya-catk', configuration: 'debug')
-        releaseCompile project(path: ':mya-catk', configuration: 'release')
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
+        implementation project(':mya-catk')
+        implementation project(':pif')
+        implementation project(':AppInfra')
     } else {
-        compile (philipsdeps.mya_catk) {
+        implementation (philipsdeps.mya_catk) {
             exclude group: 'com.google.code.findbugs', module: 'jsr305'
         }
-        compile philipsdeps.AppInfra
+        implementation philipsdeps.AppInfra
     }
 
-    compile(deps.support.annotations) {
+    implementation(deps.support.annotations) {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     }
 
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile deps.greenrobot
-    compile deps.joda_time
-    compile deps.retrofit1
-    compile deps.okhttp
-    compile deps.javax_inject
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.greenrobot
+    implementation deps.joda_time
+    implementation deps.retrofit1
+    implementation deps.okhttp
+    implementation deps.javax_inject
 
-    compile deps.dagger.dagger
-    apt deps.dagger.compiler
-    provided deps.glassfish_annotation
-    provided deps.javax_annotation
-    testApt deps.dagger.compiler
+    implementation deps.dagger.dagger
+    annotationProcessor deps.dagger.compiler
+    compileOnly deps.glassfish_annotation
+    compileOnly deps.javax_annotation
+    testAnnotationProcessor deps.dagger.compiler
 
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.powermock_api_mockito
-    testCompile deps.powermock_junit
-    testCompile deps.assertj
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_junit
+    testImplementation deps.assertj
 
-    testCompile(deps.robolectric) {
+    testImplementation(deps.robolectric) {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }

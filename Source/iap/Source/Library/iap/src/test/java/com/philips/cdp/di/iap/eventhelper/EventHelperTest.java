@@ -6,16 +6,20 @@ package com.philips.cdp.di.iap.eventhelper;
 
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertNotNull;
 
+@Config(sdk=23)
 @RunWith(RobolectricTestRunner.class)
 public class EventHelperTest {
 
@@ -66,6 +70,7 @@ public class EventHelperTest {
         mEventHelper.unregisterEventNotification(null, null);
     }
 
+
     @Test
     public void testRegisterEventNotificationWithNotification() throws Exception {
         eventHelper.registerEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, listener);
@@ -78,6 +83,7 @@ public class EventHelperTest {
         eventHelper.unregisterEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, listener);
         assertNotNull(listener);
     }
+
 
     @Test
     public void testNotifyEventOccurred() throws Exception {

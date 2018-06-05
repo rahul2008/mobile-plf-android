@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -24,9 +24,9 @@ import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executors;
+
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 
 /**
  * Implementation of a TransportContext for BLE traffic.
@@ -34,20 +34,18 @@ import java.util.concurrent.Executors;
  *
  * @publicApi
  */
-public class BleTransportContext implements TransportContext<BleTransportContext> {
+public class BleTransportContext implements TransportContext {
 
     private final BleDeviceCache deviceCache;
     private final SHNCentral shnCentral;
     private final DiscoveryStrategy discoveryStrategy;
-    private Set<AvailabilityListener<BleTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
-
-    private boolean isAvailable;
 
     private final SHNCentralListener shnCentralListener = new SHNCentralListener() {
         @Override
         public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-            isAvailable = shnCentral.isBluetoothAdapterEnabled();
-            notifyAvailabilityListeners();
+            if (!SHNCentralStateReady.equals(shnCentral.getShnCentralState())) {
+                discoveryStrategy.clearDiscoveredNetworkNodes();
+            }
         }
     };
 
@@ -76,7 +74,7 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         }
 
         try {
-            this.shnCentral = createBlueLib(runtimeConfiguration.getContext(), showPopupIfBLEIsTurnedOff);
+            this.shnCentral = createCentral(runtimeConfiguration.getContext(), showPopupIfBLEIsTurnedOff);
         } catch (SHNBluetoothHardwareUnavailableException e) {
             throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
         }
@@ -84,9 +82,8 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
         shnCentral.registerShnCentralListener(shnCentralListener);
 
-        deviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
-        discoveryStrategy = new BleDiscoveryStrategy(runtimeConfiguration.getContext(), deviceCache, shnCentral.getShnDeviceScanner());
-        isAvailable = shnCentral.isBluetoothAdapterEnabled();
+        deviceCache = createBleDeviceCache();
+        discoveryStrategy = createDiscoveryStrategy(runtimeConfiguration);
     }
 
     /**
@@ -113,33 +110,24 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         return new BleCommunicationStrategy(networkNode.getCppId(), this.deviceCache);
     }
 
-    @Override
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    @Override
-    public void addAvailabilityListener(@NonNull AvailabilityListener<BleTransportContext> listener) {
-        availabilityListeners.add(listener);
-        listener.onAvailabilityChanged(this);
-    }
-
-    @Override
-    public void removeAvailabilityListener(@NonNull AvailabilityListener<BleTransportContext> listener) {
-        availabilityListeners.remove(listener);
-    }
-
-    private void notifyAvailabilityListeners() {
-        for (AvailabilityListener<BleTransportContext> listener : availabilityListeners) {
-            listener.onAvailabilityChanged(this);
-        }
+    @NonNull
+    @VisibleForTesting
+    BleDeviceCache createBleDeviceCache() {
+        return new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
     }
 
     @VisibleForTesting
-    SHNCentral createBlueLib(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+    @NonNull
+    SHNCentral createCentral(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
         SHNCentral.Builder builder = new SHNCentral.Builder(context);
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 
         return builder.create();
+    }
+
+    @NonNull
+    @VisibleForTesting
+    DiscoveryStrategy createDiscoveryStrategy(@NonNull RuntimeConfiguration runtimeConfiguration) {
+        return new BleDiscoveryStrategy(runtimeConfiguration.getContext(), deviceCache, shnCentral.getShnDeviceScanner());
     }
 }

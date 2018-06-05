@@ -23,7 +23,6 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class MyaPagerTest {
 
     private MyaPager myaPager;

@@ -8,12 +8,12 @@ package com.philips.cdp2.commlib.ble.communication;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
-import com.philips.cdp2.commlib.ble.communication.PollingSubscription.Callback;
 import com.philips.cdp2.commlib.ble.request.BleGetRequest;
 import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
@@ -44,11 +44,12 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
     @NonNull
     private final String cppId;
+
     @NonNull
     private final BleDeviceCache deviceCache;
+
     @NonNull
-    @VisibleForTesting
-    protected final VerboseExecutor requestExecutor;
+    private final VerboseExecutor requestExecutor;
 
     private final DeviceCacheListener<BleCacheData> deviceCacheListener = new DeviceCacheListener<BleCacheData>() {
         @Override
@@ -118,12 +119,16 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
      * @param subscriptionPollingInterval the interval used for polling subscriptions
      */
     public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, @NonNull Handler callbackHandler, long subscriptionPollingInterval) {
+        this(cppId, deviceCache, callbackHandler, subscriptionPollingInterval, new VerboseExecutor());
+    }
+
+    @VisibleForTesting
+    BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, @NonNull Handler callbackHandler, long subscriptionPollingInterval, @NonNull final VerboseExecutor requestExecutor) {
         this.cppId = cppId;
         this.deviceCache = deviceCache;
-
-        this.callbackHandler = callbackHandler;
+        this.requestExecutor = requestExecutor;
         this.subscriptionPollingInterval = subscriptionPollingInterval;
-        this.requestExecutor = new VerboseExecutor();
+        this.callbackHandler = callbackHandler;
 
         final BleCacheData cacheData = deviceCache.getCacheData(cppId);
         if (cacheData != null) {
@@ -158,28 +163,32 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     public void subscribe(final String portName, final int productId, final int subscriptionTtl, final ResponseHandler responseHandler) {
         final PortParameters portParameters = new PortParameters(portName, productId);
 
-        if (!this.subscriptionsCache.containsKey(portParameters)) {
-            final PollingSubscription subscription = new PollingSubscription(this, portParameters, subscriptionPollingInterval, subscriptionTtl * 1000, new ResponseHandler() {
-                @Override
-                public void onSuccess(String data) {
-                    notifySubscriptionEventListeners(portName, data);
-                }
-
-                @Override
-                public void onError(Error error, String errorData) {
-                    DICommLog.e(DICommLog.LOCAL_SUBSCRIPTION, String.format(Locale.US, "Subscription - onError, error [%s], message [%s]", error, errorData));
-                }
-            });
-
-            subscription.addCancelCallback(new Callback() {
-                @Override
-                public void onCancel() {
-                    subscriptionsCache.remove(portParameters);
-                }
-            });
-            this.subscriptionsCache.put(portParameters, subscription);
+        final PollingSubscription existingPollingSubscription = subscriptionsCache.remove(portParameters);
+        if (existingPollingSubscription != null) {
+            existingPollingSubscription.cancel();
         }
+
+        final ResponseHandler pollingResponseHandler = new ResponseHandler() {
+            @Override
+            public void onSuccess(String data) {
+                notifySubscriptionEventListeners(portName, data);
+            }
+
+            @Override
+            public void onError(Error error, String errorData) {
+                DICommLog.e(DICommLog.LOCAL_SUBSCRIPTION, String.format(Locale.US, "Subscription - onError, error [%s], message [%s]", error, errorData));
+            }
+        };
+
+        final PollingSubscription subscription = createPollingSubscription(subscriptionTtl, portParameters, pollingResponseHandler);
+        this.subscriptionsCache.put(portParameters, subscription);
+
         responseHandler.onSuccess(EMPTY_JSON_OBJECT_STRING);
+    }
+
+    @NonNull
+    protected PollingSubscription createPollingSubscription(final int subscriptionTtl, final PortParameters portParameters, final ResponseHandler responseHandler) {
+        return new PollingSubscription(this, portParameters, subscriptionPollingInterval, subscriptionTtl * 1000, responseHandler);
     }
 
     @Override

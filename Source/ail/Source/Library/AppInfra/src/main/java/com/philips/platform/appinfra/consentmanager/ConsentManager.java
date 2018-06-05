@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2018
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.consentmanager;
 
 import android.os.Handler;
@@ -21,17 +21,22 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentVersionStates;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ConsentManager implements ConsentManagerInterface {
 
+    protected long timeout = 100;
     private final AppInfra mAppInfra;
     private Map<String, ConsentHandlerInterface> consentHandlerMapping = new HashMap<>();
     private Map<String, ConsentDefinition> consentDefinitionMapping = new HashMap<>();
+    private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     public ConsentManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -80,15 +85,24 @@ public class ConsentManager implements ConsentManagerInterface {
             @Override
             public void run() {
                 final CountDownLatch countDownLatch = new CountDownLatch(consentDefinitions.size());
-                List<ConsentManagerCallbackListener> consentManagerCallbackListeners = new ArrayList<>();
+                final List<ConsentManagerCallbackListener> consentManagerCallbackListeners = Collections.synchronizedList(new ArrayList<ConsentManagerCallbackListener>());
+                ExecutorService cachedThreadPoolExecuter = Executors.newCachedThreadPool();
 
-                for (ConsentDefinition consentDefinition : consentDefinitions) {
-                    ConsentManagerCallbackListener listener = new ConsentManagerCallbackListener(countDownLatch);
-                    consentManagerCallbackListeners.add(listener);
-                    executeHandlerToFetchConsentState(consentDefinition, listener);
+                for (final ConsentDefinition consentDefinition : consentDefinitions) {
+                    cachedThreadPoolExecuter.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            ConsentManagerCallbackListener listener = new ConsentManagerCallbackListener(countDownLatch);
+                            consentManagerCallbackListeners.add(listener);
+                            executeHandlerToFetchConsentState(consentDefinition, listener);
+                        }
+                    });
                 }
-
-                waitTillThreadsGetsCompleted(countDownLatch);
+                cachedThreadPoolExecuter.shutdown();
+                if (!waitTillThreadsGetsCompleted(countDownLatch)) {
+                    postExceptionOnMainThread(callback, new ConsentError("Request Timed out", ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT));
+                    return;
+                }
                 postResultOnFetchConsents(consentManagerCallbackListeners, callback);
             }
         });
@@ -96,7 +110,7 @@ public class ConsentManager implements ConsentManagerInterface {
 
     @Override
     public void storeConsentState(final ConsentDefinition consentDefinition, final boolean status, final PostConsentCallback callback) throws RuntimeException {
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
+        singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 final CountDownLatch countDownLatch = new CountDownLatch(consentDefinition.getTypes().size());
@@ -166,12 +180,13 @@ public class ConsentManager implements ConsentManagerInterface {
         postResultOnFetchConsent(getConsentDefinitionForType(type), consentTypeCallbackListeners, callback);
     }
 
-    private void waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
+    private boolean waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
         try {
-            countDownLatch.await();
+            return countDownLatch.await(timeout, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "", "");
         }
+        return false;
     }
 
     private void postResultOnFetchConsent(final ConsentDefinition consentDefinition,
@@ -249,6 +264,7 @@ public class ConsentManager implements ConsentManagerInterface {
 
     }
 
+
     private void postResultOnStoreConsent(final List<ConsentTypeCallbackListener> consentCallbackListeners, final PostConsentCallback postConsentCallback) {
         Handler mainHandler = new Handler(Looper.getMainLooper());
         mainHandler.post(new Runnable() {
@@ -265,6 +281,19 @@ public class ConsentManager implements ConsentManagerInterface {
         });
 
     }
+
+
+    private void postExceptionOnMainThread(final FetchConsentsCallback callback, final ConsentError consentError) {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                callback.onGetConsentsFailed(consentError);
+            }
+        });
+
+    }
+
 
     private class ConsentManagerCallbackListener implements FetchConsentCallback {
         CountDownLatch countDownLatch;
@@ -322,18 +351,15 @@ public class ConsentManager implements ConsentManagerInterface {
 
         @Override
         public synchronized void onGetConsentsSuccess(ConsentStatus consentStatus) {
-            if (!calledBack) {
-                this.consentStatus = consentStatus;
-                markCalledBack();
-            }
+            this.consentStatus = consentStatus;
+            markCalledBack();
+
         }
 
         @Override
         public synchronized void onGetConsentsFailed(ConsentError error) {
-            if (!calledBack) {
-                consentError = error;
-                markCalledBack();
-            }
+            consentError = error;
+            markCalledBack();
         }
     }
 }

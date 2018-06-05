@@ -3,7 +3,9 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
+archivesBaseName = "ewsUApp"
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -26,29 +28,16 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
-
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "ewsUApp"
 
 allprojects {
     repositories {
@@ -75,69 +64,13 @@ allprojects {
     }
 }
 
-//start publishing
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            /*
-            release in the path done here to prevent local publishing, possibility to publish only release
-             which comes from jenkins
-             */
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
-
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode getMyVersionCode()
         versionName "1.0"
         consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
@@ -166,7 +99,7 @@ android {
         abortOnError false
     }
 
-    publishNonDefault true
+
 }
 
 def getMyVersionCode() {
@@ -175,18 +108,25 @@ def getMyVersionCode() {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Philips Dependencies
-    debugCompile project(path: ':ews-android', configuration: 'debug')
-    releaseCompile project(path: ':ews-android', configuration: 'release')
-
+    implementation project(':ews-android')
+    implementation project(':uid')
+    implementation project(':uAppFwLib')
+    implementation project(':AppInfra')
+    implementation project(':commlib-api')
     annotationProcessor deps.dagger.compiler
 
-    compile deps.constraintlayout
-    compile deps.dagger.dagger
-    compile deps.multidex
-    compile deps.support.animvecdraw
-    compile deps.support.annotations
-    compile deps.support.appcompatv7
-    compile deps.support.design
+    implementation deps.constraintlayout
+    implementation deps.dagger.dagger
+    implementation deps.multidex
+    implementation deps.calligraphy
+    implementation deps.support.animvecdraw
+    implementation deps.support.annotations
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
+
+}
+tasks.withType(Test) {
+    ignoreFailures = true
 }

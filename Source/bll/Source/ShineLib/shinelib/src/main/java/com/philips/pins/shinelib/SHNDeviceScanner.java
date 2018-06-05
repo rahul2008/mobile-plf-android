@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -7,6 +7,7 @@ package com.philips.pins.shinelib;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.utility.SHNLogger;
@@ -29,24 +30,16 @@ import java.util.concurrent.TimeoutException;
 public class SHNDeviceScanner {
     private static final String TAG = "SHNDeviceScanner";
 
+    private static final long START_SCANNING_TIMEOUT_MS = 1000L;
+
     private final SHNDeviceScannerInternal shnDeviceScannerInternal;
     private final Handler userHandler;
     private final Handler internalHandler;
 
     private SHNInternalScanRequest shnInternalScanRequest;
 
-    /**
-     * Possible scanning settings. Indicates if devices may be reported more than once.
-     */
     public enum ScannerSettingDuplicates {
-        /**
-         *  Indicates that devices may not be reported more than once.
-         */
-        DuplicatesNotAllowed,
-        /**
-         *  Indicates that devices could be reported more than once.
-         */
-        DuplicatesAllowed
+        DuplicatesNotAllowed, DuplicatesAllowed
     }
 
     /**
@@ -69,14 +62,14 @@ public class SHNDeviceScanner {
         void scanStopped(SHNDeviceScanner shnDeviceScanner);
     }
 
-    /* package */ SHNDeviceScanner(SHNDeviceScannerInternal shnDeviceScannerInternal, Handler internalHandler, Handler userHandler) {
+    SHNDeviceScanner(final @NonNull SHNDeviceScannerInternal shnDeviceScannerInternal, final @NonNull Handler internalHandler, final @NonNull Handler userHandler) {
         this.shnDeviceScannerInternal = shnDeviceScannerInternal;
         this.userHandler = userHandler;
         this.internalHandler = internalHandler;
     }
 
     @VisibleForTesting
-    /* package */  FutureTask<Boolean> startScanningWithFuture(final SHNDeviceScannerListener shnDeviceScannerListener, final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS) {
+    FutureTask<Boolean> startScanningWithFuture(final @Nullable SHNDeviceScannerListener shnDeviceScannerListener, final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS) {
         final SHNDeviceScannerListener wrappedSHNDeviceScannerListener = new SHNDeviceScannerListener() {
             @Override
             public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull final SHNDeviceFoundInfo shnDeviceFoundInfo) {
@@ -104,7 +97,7 @@ public class SHNDeviceScanner {
             }
         };
 
-        Callable<Boolean> booleanCallable = new Callable<Boolean>() {
+        final Callable<Boolean> startScanningCallable = new Callable<Boolean>() {
 
             @Override
             public Boolean call() throws Exception {
@@ -113,15 +106,15 @@ public class SHNDeviceScanner {
                 return shnDeviceScannerInternal.startScanning(shnInternalScanRequest);
             }
         };
-        FutureTask<Boolean> futureTask = new FutureTask<>(booleanCallable);
 
-        internalHandler.post(futureTask);
+        final FutureTask<Boolean> startScanningTask = new FutureTask<>(startScanningCallable);
+        internalHandler.post(startScanningTask);
 
-        return futureTask;
+        return startScanningTask;
     }
 
     @NonNull
-    /* package */ SHNInternalScanRequest createScanRequest(final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS, final SHNDeviceScannerListener wrappedSHNDeviceScannerListener) {
+    SHNInternalScanRequest createScanRequest(final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS, final SHNDeviceScannerListener wrappedSHNDeviceScannerListener) {
         return new SHNInternalScanRequest(null, null, scannerSettingDuplicates == ScannerSettingDuplicates.DuplicatesAllowed, stopScanningAfterMS, wrappedSHNDeviceScannerListener);
     }
 
@@ -130,26 +123,19 @@ public class SHNDeviceScanner {
      *
      * @param shnDeviceScannerListener an instance of a listener to receive scanning callbacks
      * @param scannerSettingDuplicates specified duplication option
-     * @param stopScanningAfterMS timeout interval in milliseconds
+     * @param stopScanningAfterMS      timeout interval in milliseconds
      * @return true if scan was started successfully, false otherwise
      */
-    public boolean startScanning(final SHNDeviceScannerListener shnDeviceScannerListener, final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS) {
+    public boolean startScanning(final @Nullable SHNDeviceScannerListener shnDeviceScannerListener, final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS) {
         FutureTask<Boolean> futureTask = startScanningWithFuture(shnDeviceScannerListener, scannerSettingDuplicates, stopScanningAfterMS);
 
-        boolean result = false;
+        boolean isScanningStarted = false;
         try {
-            result = futureTask.get(1000, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            SHNLogger.e(TAG, "startScanning InterruptedException", e);
-            assert (e == null); // Should not occur ever...
-        } catch (ExecutionException e) {
-            SHNLogger.e(TAG, "startScanning ExecutionException", e);
-            assert (e == null); // Should not occur ever...
-        } catch (TimeoutException e) {
-            SHNLogger.e(TAG, "startScanning TimeoutException", e);
-            assert (e == null); // Should not occur ever...
+            isScanningStarted = futureTask.get(START_SCANNING_TIMEOUT_MS, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            SHNLogger.e(TAG, "Error while starting scanning", e);
         }
-        return result;
+        return isScanningStarted;
     }
 
     /**

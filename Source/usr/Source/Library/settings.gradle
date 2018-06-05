@@ -1,7 +1,6 @@
 include ':hsdp'
 include ':jump'
 include ':RegistrationApi'
-include ':coppa'
 include ':RegistrationCoppaSampleApp'
 
 

@@ -34,6 +34,8 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
@@ -169,16 +171,16 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
         @Override
         public int isEmpty(boolean emptyField) {
-            if (emptyField) {
+            if (emptyField && !RegistrationHelper.getInstance().isMobileFlow()) {
                 usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                        R.string.reg_EmptyField_ErrorMsg);
+                        R.string.reg_kemailFieldErrorText);
             } else {
                 if (RegistrationHelper.getInstance().isMobileFlow()) {
                     usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                            R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
+                            R.string.reg_InvalidPhoneNumber_ErrorMsg);
                 } else {
                     usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                            R.string.reg_InvalidEmailAdddress_ErrorMsg);
+                            R.string.reg_kemailFieldErrorText);
                 }
             }
             isValidEmail = false;
@@ -190,7 +192,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -198,14 +200,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
         View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
-
+        registerInlineNotificationListener(this);
         createAccountPresenter = new CreateAccountPresenter(this);
         createAccountPresenter.registerListener();
 
         ButterKnife.bind(this, view);
         usrCreatescreenEmailormobileInputValidationLayout.setValidator(loginIdValidator);
         usrCreateScreenPasswordInputValidationField.setValidator(passwordValidator);
-        usrCreateScreenPasswordInputValidationField.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
+        usrCreateScreenPasswordInputValidationField.setErrorMessage(R.string.reg_PasswordField_ErrorMsg);
         initUI(view);
 
         handleABTestingFlow();
@@ -216,7 +218,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         return view;
     }
 
-    void setContentConfig(){
+    void setContentConfig() {
         if (null != getRegistrationFragment().getContentConfiguration()) {
             if (getRegistrationFragment().getContentConfiguration().getEnableLastName()) {
                 usrCreateScreenLastNameTextField.setVisibility(View.VISIBLE);
@@ -228,12 +230,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     private int passwordValidation(int strength) {
 
-        int strengthStrong=2;
-        int strengthMedium=1;
-        int stringthMeterNone=5;
-        int strengthMeterWeak=33;
-        int strengthMeterStrong=100;
-        int strengthMeterMedium=66;
+        int strengthStrong = 2;
+        int strengthMedium = 1;
+        int stringthMeterNone = 5;
+        int strengthMeterWeak = 33;
+        int strengthMeterStrong = 100;
+        int strengthMeterMedium = 66;
 
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment register: NetworkStateListener,strength " + strength);
@@ -283,8 +285,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     public void onDestroy() {
 
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
-        if(createAccountPresenter!=null)
-        createAccountPresenter.unRegisterListener();
+        if (createAccountPresenter != null)
+            createAccountPresenter.unRegisterListener();
 
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
@@ -300,7 +302,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void setViewParams(Configuration config, int width) {
-       // applyParams(config, usrCreateScreenBaseLayoutLinearLayout, width);
+        // applyParams(config, usrCreateScreenBaseLayoutLinearLayout, width);
     }
 
     @Override
@@ -321,24 +323,21 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         }
 
         usrCreatescreenCreateButton.setEnabled(false);
-        usrCreatescreenTermsandconditionsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                TextView tv = (TextView) buttonView;
-                usrCreatescreenTermsandconditionsalertView.hideError();
-                if(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1) {
-                    // No link is clicked
-                    if (!isChecked) {
-                        usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-                    }
+        usrCreatescreenTermsandconditionsCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            TextView tv = (TextView) buttonView;
+            usrCreatescreenTermsandconditionsalertView.hideError();
+            if (tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1) {
+                // No link is clicked
+                if (!isChecked) {
+                    usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                }
+            } else {
+                usrCreatescreenTermsandconditionsCheckbox.setChecked(!isChecked);
+                if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
+                    RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
+                            onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
                 } else {
-                    usrCreatescreenTermsandconditionsCheckbox.setChecked(!isChecked);
-                    if(RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()!=null){
-                        RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
-                                onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
-                    }else {
-                        RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
-                    }
+                    RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
                 }
             }
         });
@@ -347,7 +346,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 TextView tv = (TextView) compoundButton;
-                if(!(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1)){
+                if (!(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1)) {
                     usrCreatescreenMarketingmailsCheckbox.setChecked(!isChecked);
                     getRegistrationFragment().addPhilipsNewsFragment();
                 }
@@ -390,7 +389,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         } else {
             emailString = FieldsValidator.getMobileNumber(usrCreatescreenEmailormobileTextfield.getText().toString());
         }
-        RLog.d(RLog.CALLBACK, "create : family name"+ usrCreateScreenLastNameTextField.getText().toString());
+        RLog.d(RLog.CALLBACK, "create : family name" + usrCreateScreenLastNameTextField.getText().toString());
 
         createAccountPresenter.registerUserInfo(user, usrCreateScreenFirstNameTextField.getText().toString(), usrCreateScreenLastNameTextField.getText().toString(), emailString
                 , usrCreateScreenPasswordTextField.getText().toString(), true, usrCreatescreenMarketingmailsCheckbox.isChecked());
@@ -451,11 +450,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void storeEMail() {
-        RegPreferenceUtility.storePreference(context, RegConstants.TERMS_N_CONDITIONS_ACCEPTED,emailString);
+        RegPreferenceUtility.storePreference(context, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailString);
     }
 
     @Override
-    public void emailAlreadyUsed() {
+    public void userIdAlreadyUsedShowError() {
         ThreadUtils.postInMainThread(context, () -> {
             usrCreatescreenEmailormobileInputValidationLayout.showError();
         });
@@ -463,9 +462,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void registrtionFail() {
-            usrCreatescreenCreateButton.hideProgressIndicator();
-            usrCreatescreenSwitchtologinButton.setEnabled(true);
-            disableCreateButton();
+        usrCreatescreenCreateButton.hideProgressIndicator();
+        usrCreatescreenSwitchtologinButton.setEnabled(true);
+        disableCreateButton();
     }
 
     @Override
@@ -473,9 +472,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         if (networkUtility.isNetworkAvailable()) {
             usrCreatescreenErrorView.hideError();
 
-        } else {
-            usrCreatescreenErrorView.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
-            scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
         }
     }
 
@@ -526,32 +522,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @Override
-    public void emailError(int errorDesc) {
-        usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(context.getResources().getString(errorDesc));
-    }
-
-    @Override
-    public void emailError(String errorDesc) {
-        usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(errorDesc);
-    }
-
-    @Override
-    public void genericError(String errorDesc) {
-        usrCreatescreenErrorView.setError(errorDesc);
-        scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
-    }
-
-    @Override
-    public void genericError(int errorDescID) {
-        usrCreatescreenErrorView.setError(context.getString(errorDescID));
-        scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
-    }
-
-    @Override
-    public void serverConnectionError(int errorDescID) {
-        usrCreatescreenErrorView.setError(context.getString(errorDescID));
-        scrollViewAutomatically(usrCreatescreenErrorView, usrCreateScreenRootLayoutScrollView);
+    public void setErrorCode(int errorCode) {
+        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.JANRAIN, errorCode), errorCode);
         enableCreateButton();
+    }
+
+    @Override
+    public void emailError(int errorDescResId) {
+        usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(getString(errorDescResId));
+
     }
 
     @Override
@@ -604,8 +583,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     private void usernameUihandle() {
         usrCreateScreenFirstNameInputValidation.setValidator(firstName -> firstName.length() > 0);
         usrCreateScreenLastNameInputValidation.setValidator(lastName -> lastName.length() > 0);
-        usrCreateScreenFirstNameInputValidation.setErrorMessage((R.string.reg_EmptyField_ErrorMsg));
-        usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.reg_EmptyField_ErrorMsg));
+        usrCreateScreenFirstNameInputValidation.setErrorMessage((R.string.reg_NameField_ErrorText));
+        usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.reg_LastNameField_ErrorMsg));
         usrCreateScreenFirstNameTextField.requestFocus();
         usrCreateScreenFirstNameTextField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -666,5 +645,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         } else {
             registerUserInfo();
         }
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        usrCreatescreenErrorView.setError(msg);
     }
 }

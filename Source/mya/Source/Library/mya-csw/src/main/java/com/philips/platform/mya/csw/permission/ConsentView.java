@@ -19,7 +19,9 @@ public class ConsentView {
     private boolean isLoading = true;
     private boolean isError = false;
     private boolean isOnline = true;
+
     private ConsentDefinitionStatus consentDefinitionStatus;
+    private boolean isEnabled;
 
     ConsentView(final ConsentDefinition definition) {
         this.definition = definition;
@@ -46,6 +48,7 @@ public class ConsentView {
         this.isLoading = false;
         this.isError = false;
         this.isOnline = true;
+        this.isEnabled = (consentDefinitionStatus == null) || (!consentDefinitionStatus.getConsentVersionState().equals(AppVersionIsLower));
         return this;
     }
 
@@ -63,7 +66,15 @@ public class ConsentView {
     }
 
     public boolean isEnabled() {
-        return (consentDefinitionStatus == null) || (!consentDefinitionStatus.getConsentVersionState().equals(AppVersionIsLower));
+        return this.isEnabled;
+    }
+
+    public void setEnabledFlag(boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
     }
 
     public boolean isChecked() {
@@ -92,6 +103,7 @@ public class ConsentView {
         if (isLoading != that.isLoading) return false;
         if (isError != that.isError) return false;
         if (isOnline != that.isOnline) return false;
+        if (isEnabled != that.isEnabled) return false;
         if (!definition.equals(that.definition)) return false;
         return consentDefinitionStatus.equals(that.consentDefinitionStatus);
     }
@@ -102,6 +114,7 @@ public class ConsentView {
         result = 31 * result + (isLoading ? 1 : 0);
         result = 31 * result + (isError ? 1 : 0);
         result = 31 * result + (isOnline ? 1 : 0);
+        result = 31 * result + (isEnabled ? 1 : 0);
         result = 31 * result + consentDefinitionStatus.hashCode();
         return result;
     }

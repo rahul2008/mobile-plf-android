@@ -4,10 +4,12 @@ apply plugin: 'com.jfrog.artifactory'
 
 apply plugin: 'maven-publish'
 
-//apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
+archivesBaseName = "digitalCareUApp"
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
@@ -40,13 +42,6 @@ if (project.hasProperty('envCode')) {
     environment = envCode
 }
 
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "digitalCareUApp"
-
 allprojects {
     repositories {
         maven {
@@ -72,65 +67,15 @@ allprojects {
     }
 }
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications ('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml{
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
-
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
 
     defaultConfig {
-
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 1
@@ -139,7 +84,6 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
-
     }
 
     lintOptions {
@@ -149,32 +93,31 @@ android {
     packagingOptions {
         pickFirst 'META-INF/LICENSE'
     }
-
-    publishNonDefault true
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile deps.support.design
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.support.design
 
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
-        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
+        implementation project(':uAppFwLib')
+        implementation project(':AppInfra')
+        implementation project(':uid')
+        implementation project(':prx')
+        implementation project(':productselection')
     } else {
-        compile philipsdeps.uAppFwLib
-        compile philipsdeps.AppInfra
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
     }
 
-    compile deps.support.recyclerview
-    compile deps.support.appcompatv7
-    compile deps.support.supportv4
+    implementation deps.support.recyclerview
+    implementation deps.support.appcompatv7
+    implementation deps.support.supportv4
+    implementation deps.calligraphy
 
-    debugCompile project(path: ':digitalCare', configuration: 'debug')
-    releaseCompile project(path: ':digitalCare', configuration: 'release')
+    implementation project(':digitalCare')
 }
 
 tasks.withType(Test) {

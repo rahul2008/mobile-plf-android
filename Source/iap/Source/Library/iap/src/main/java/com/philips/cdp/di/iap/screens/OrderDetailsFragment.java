@@ -24,6 +24,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.Constants.OrderStatus;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.controller.OrderController;
@@ -87,7 +88,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     //Data and timr
     private TextView tvOpeningTimings;
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -98,7 +98,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_order_details_fragment, container, false);
-
         mParentView = view.findViewById(R.id.scrollView);
         mTvQuantity = view.findViewById(R.id.tv_quantity);
         mTvtotalPrice = view.findViewById(R.id.tv_total_price);
@@ -232,7 +231,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                     // bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, product.getValuePrice());
                     bundle.putString(IAPConstant.PRODUCT_OVERVIEW, product.getMarketingTextHeader());
 //                    bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
-//                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());
+//                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getmStockLevel());
                     addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
                 }
             });
@@ -357,13 +356,19 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         if (detail.getDeliveryAddress() != null) {
             mDeliveryName.setText(detail.getDeliveryAddress().getFirstName() + " " + detail.getDeliveryAddress().getLastName());
-            mDeliveryAddress.setText(Utility.formatAddress(detail.getDeliveryAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
+           // mDeliveryAddress.setText(Utility.formatAddress(detail.getDeliveryAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
+
+            AddressFields selectedAddress = Utility.prepareOrderAddressFields(detail.getDeliveryAddress());
+            mDeliveryAddress.setText(Utility.getAddressToDisplay(selectedAddress));
         }
 
         if (detail.getPaymentInfo() != null) {
             if (detail.getPaymentInfo().getBillingAddress() != null) {
                 mBillingName.setText(detail.getPaymentInfo().getBillingAddress().getFirstName() + " " + detail.getPaymentInfo().getBillingAddress().getLastName());
-                mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
+             //   mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
+
+                AddressFields selectedAddress = Utility.prepareOrderAddressFields(detail.getPaymentInfo().getBillingAddress());
+                mBillingAddress.setText(Utility.getAddressToDisplay(selectedAddress));
             }
             if (detail.getPaymentInfo().getCardType() != null) {
                 mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode());
@@ -380,6 +385,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             mShippingStatus.setText(getString(R.string.iap_order_completed_text_default));
         }
     }
+
+
 
     private int getDrawableIDFromOrderState(String statusString) {
         int drawableID = 0;

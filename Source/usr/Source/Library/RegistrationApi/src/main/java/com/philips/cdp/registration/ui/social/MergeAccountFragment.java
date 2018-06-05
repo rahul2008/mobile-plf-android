@@ -9,6 +9,7 @@
 
 package com.philips.cdp.registration.ui.social;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,6 +25,9 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
@@ -80,16 +84,24 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     private String mMergeToken;
 
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_merge_account, container, false);
+        registerInlineNotificationListener(this);
         ButterKnife.bind(this, view);
         initUI(view);
         connectionStatus(networkUtility.isNetworkAvailable());
         handleOrientation(view);
-        mergeAccountPresenter = new MergeAccountPresenter(this,user);
+        mergeAccountPresenter = new MergeAccountPresenter(this, user);
         return view;
     }
 
@@ -102,8 +114,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @Override
     public void onDestroy() {
-        if(mergeAccountPresenter!=null)
-        mergeAccountPresenter.cleanUp();
+        if (mergeAccountPresenter != null)
+            mergeAccountPresenter.cleanUp();
         super.onDestroy();
     }
 
@@ -155,7 +167,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
             mEtPassword.hideError();
             showMergeSpinner();
         } else {
-            mRegError.setError(getString(R.string.reg_JanRain_Error_Check_Internet));
+            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         }
     }
 
@@ -180,10 +192,10 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
-                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
             }
         } else {
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
@@ -227,7 +239,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     private void completeRegistration() {
         String emailorMobile = mergeAccountPresenter.getLoginWithDetails();
         if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
-                (!RegPreferenceUtility.getPreferenceValue(getContext(),RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile) || !mergeAccountPresenter.getReceiveMarketingEmail())) {
+                (!RegPreferenceUtility.getPreferenceValue(getContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile) || !mergeAccountPresenter.getReceiveMarketingEmail())) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }
@@ -236,9 +248,9 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
 
     @Override
-    public void mergeFailure(String reason) {
+    public void mergeFailure(int errorCode) {
         hideMergeSpinner();
-        mEtPassword.setErrorMessage(reason);
+        mEtPassword.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, errorCode));
         mEtPassword.showError();
     }
 
@@ -258,5 +270,10 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
             return;
         }
         disableMerge();
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        mRegError.setError(msg);
     }
 }

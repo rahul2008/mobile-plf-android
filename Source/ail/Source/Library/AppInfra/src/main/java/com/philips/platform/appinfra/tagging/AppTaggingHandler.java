@@ -156,7 +156,7 @@ public class AppTaggingHandler {
 
 
     private String getAppStateFromConfig() {
-        if (mAppInfra.getAppIdentity() != null) {
+        if (mAppInfra != null && mAppInfra.getAppIdentity() != null) {
             try {
                 return mAppInfra.getAppIdentity().
                         getAppState().toString();
@@ -169,17 +169,19 @@ public class AppTaggingHandler {
     }
 
     private String getLanguage() {
-            String mLanguage;
+        String mLanguage = null;
+        if (mAppInfra != null) {
             final String uiLocale = mAppInfra.getInternationalization().getUILocaleString();
             mLanguage = uiLocale.substring(0, 2);
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                     AppInfraLogEventID.AI_TAGGING, "Tagging" + mLanguage);
+        }
         return mLanguage;
     }
 
     private String getUTCTimestamp() {
         String mUTCTimestamp = null;
-        if (mAppInfra.getTime() != null) {
+        if (mAppInfra != null && mAppInfra.getTime() != null) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
             dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
             mUTCTimestamp = dateFormat.format(mAppInfra.getTime().getUTCTime());
@@ -287,24 +289,29 @@ public class AppTaggingHandler {
     }
 
 
-    void timeActionStart(String actionStart) {
+    void timeActionStart(String actionStart, Map<String, Object> contextData) {
         if (checkForSslConnection() || checkForProductionState()) {
-            Analytics.trackTimedActionStart(actionStart, addAnalyticsDataObject());
+            Map<String, Object> analyticsDefaultParameters = addAnalyticsDataObject();
+            if (contextData != null) analyticsDefaultParameters.putAll(contextData);
+            Analytics.trackTimedActionStart(actionStart, analyticsDefaultParameters);
         }
     }
 
-    void timeActionEnd(String actionEnd) {
+    void timeActionEnd(String actionEnd, Analytics.TimedActionBlock<Boolean> logic) {
         if (checkForSslConnection() || checkForProductionState()) {
-            Analytics.trackTimedActionEnd(actionEnd, null);
+            Analytics.trackTimedActionEnd(actionEnd, logic);
         }
     }
 
     boolean getPrivacyConsentSensitiveData() {
-        final String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
-        final boolean consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                AppInfraLogEventID.AI_TAGGING, "Tagging-consentValue" + consentValue);
-        return consentValue;
+        if (mAppInfra != null) {
+            final String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
+            final boolean consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
+                    AppInfraLogEventID.AI_TAGGING, "Tagging-consentValue" + consentValue);
+            return consentValue;
+        }
+        return false;
     }
 
     void setPrivacyConsentSensitiveData(boolean valueContent) {

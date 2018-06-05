@@ -51,6 +51,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+@Config(sdk=23)
 @RunWith(RobolectricTestRunner.class)
 public class ShoppingCartPresenterTest implements ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>, AddressController.AddressListener {
     private MockNetworkController mNetworkController;
@@ -471,6 +473,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mNetworkController.sendSuccess(obj);
     }
 
+
     @Test
     public void testAddToCartSuccessResponseWithIsBuyTrue() throws JSONException {
         IAPCartListener mProductCountListener = new IAPCartListener() {
@@ -491,6 +494,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
                 .class, "add_product_to_cart_response.txt"));
         mNetworkController.sendSuccess(obj);
     }
+
 
     @Test
     public void testAddToCartErrorResponse() throws JSONException {

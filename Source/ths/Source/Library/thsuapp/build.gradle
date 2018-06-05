@@ -1,8 +1,11 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'de.mobilej.unmock'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
+//apply plugin: 'de.mobilej.unmock'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+
+archivesBaseName = "telehealth"
 
 def coverageSourceDirs = [
         '../thsuapp/src/main/java'
@@ -31,31 +34,15 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-        classpath builddeps.androidapt
         classpath builddeps.bintrayplugin
         classpath builddeps.mobilej
     }
 }
 
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
-
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "telehealth"
 
 allprojects {
     repositories {
@@ -78,31 +65,6 @@ allprojects {
     }
 }
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -117,33 +79,6 @@ task zipDocuments(type: Zip) {
     }
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion versions.sdk
@@ -183,7 +118,7 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
-
+        unitTests.includeAndroidResources = true
         unitTests.all {
             // set JVM arguments for the test JVM(s)
             jvmArgs '-noverify'
@@ -194,12 +129,9 @@ android {
         }
     }
 
-    publishNonDefault true
+
 }
 
-unMock {
-    keep "android.os.Bundle"
-}
 
 configurations.all {
     // check for updates every build
@@ -207,68 +139,65 @@ configurations.all {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    androidTestCompile(deps.espresso_core, {
+    androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile deps.support.appcompatv7
-    compile deps.constraintlayout
-    compile deps.support.design
-    testCompile deps.opengl
+    implementation deps.support.appcompatv7
+    implementation deps.constraintlayout
+    implementation deps.support.design
+    testImplementation deps.opengl
 
-    def dp = true
+    def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
-        debugCompile project(path: ':registrationApi', configuration: 'debug')
-        releaseCompile project(path: ':registrationApi', configuration: 'release')
-        debugCompile project(path: ':mya-csw', configuration: 'debug')
-        releaseCompile project(path: ':mya-csw', configuration: 'release')
-        debugCompile project(path: ':mya-catk', configuration: 'debug')
-        releaseCompile project(path: ':mya-catk', configuration: 'release')
+        implementation project(':AppInfra')
+        implementation project(':registrationApi')
+        implementation project(':uAppFwLib')
+        implementation project(':uid')
+        implementation project(':pif')
+        implementation project(':mya-csw')
+        implementation project(':mya-catk')
     } else {
-        compile (philipsdeps.AppInfra) {
+        implementation (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        /*compile (philipsdeps.uid) {
-            exclude group: 'com.android.support'
-        }*/
-        compile (philipsdeps.registrationApi) {
+        implementation (philipsdeps.registrationApi) {
             exclude group: 'com.android.support'
         }
 
-        compile(group: 'com.philips.cdp', name: 'mya-csw', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        implementation(group: 'com.philips.cdp', name: 'mya-csw', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
 
-        compile(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        implementation(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
     }
 
-    compile(deps.americanwell) {
+    implementation(deps.americanwell) {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile deps.support.design
-    compile deps.play_services_maps
-    compile deps.play_services_location
+    implementation deps.support.design
+    implementation deps.play_services_maps
+    implementation deps.play_services_location
+    implementation deps.libphonenumber
+    implementation deps.calligraphy
 
-    testCompile deps.junit
-    testCompile deps.mockito
-    testCompile deps.assertj
-    testCompile(deps.robolectric) {
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.assertj
+    testImplementation(deps.robolectric) {
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
     }
-    testCompile deps.robolectric_shadows
-    testCompile deps.maven_ant
-    testCompile deps.opengl
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.maven_ant
+    testImplementation deps.opengl
 
-    unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }
 
 

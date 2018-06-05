@@ -28,18 +28,10 @@ public class NetworkController {
     protected StoreListener mStoreListener;
     protected OAuthListener mOAuthListener;
     protected NetworkEssentials mNetworkEssentials;
+    private IAPSettings mIapSettings;
 
     public NetworkController(Context context) {
-        this(context, null, null);
-    }
-
-    public NetworkController(Context context, NetworkEssentials essentials, IAPSettings iapSettings) {
         this.context = context;
-        mNetworkEssentials = essentials;
-        initStore(context, iapSettings);
-        mOAuthListener = essentials.getOAuthHandler();
-        initHurlStack(context);
-        hybrisVolleyCreateConnection(context);
     }
 
     void initHurlStack(final Context context) {
@@ -62,6 +54,10 @@ public class NetworkController {
 
     public void sendHybrisRequest(final int requestCode, final AbstractModel model,
                                   final RequestListener requestListener) {
+
+        if (mStoreListener == null) {
+            return;
+        }
 
         if (mStoreListener.isNewUser()) {
             mStoreListener.createNewUser(context);
@@ -126,6 +122,19 @@ public class NetworkController {
 
     public StoreListener getStore() {
         return mStoreListener;
+    }
+
+    public void setNetworkEssentials(NetworkEssentials networkEssentials) {
+        this.mNetworkEssentials = networkEssentials;
+        initStore(context, mIapSettings);
+        mOAuthListener = mNetworkEssentials.getOAuthHandler();
+
+        initHurlStack(context);
+        hybrisVolleyCreateConnection(context);
+    }
+
+    public void setIapSettings(IAPSettings iapSettings) {
+        this.mIapSettings = iapSettings;
     }
 
 }

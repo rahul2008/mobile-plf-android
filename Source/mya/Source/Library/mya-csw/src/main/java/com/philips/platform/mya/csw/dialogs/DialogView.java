@@ -23,6 +23,7 @@ public class DialogView implements View.OnClickListener {
     protected View view;
     protected AlertDialogFragment alertDialogFragment;
     private View.OnClickListener okListener;
+    private boolean isDialogShown;
 
     public DialogView() {
         okListener = null;
@@ -33,12 +34,13 @@ public class DialogView implements View.OnClickListener {
     }
 
     public void showDialog(FragmentActivity activity, String title, String body) {
-        if (!(activity.isFinishing())) {
+        if (!(activity.isFinishing()) && !isDialogShown) {
             setupView(activity);
             setupAlertDialogFragment(activity);
             setupTitleAndText(title, body);
             setupOkButton();
             showButton(activity);
+            isDialogShown = true;
         }
     }
 

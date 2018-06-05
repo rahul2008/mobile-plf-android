@@ -14,6 +14,7 @@ import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +25,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.SocketException;
 
 import static com.philips.cdp2.commlib.ssdp.SSDPDevice.createFromSearchResponse;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.BOOT_ID;
@@ -35,6 +37,7 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPD
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.USN;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -110,6 +113,13 @@ public class SSDPControlPointTest {
                 return listenSocketMock;
             }
         };
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        if (ssdpControlPoint != null && ssdpControlPoint.isDiscovering()) {
+            ssdpControlPoint.stop();
+        }
     }
 
     @Test
@@ -279,13 +289,16 @@ public class SSDPControlPointTest {
     }
 
     @Test(expected = TransportUnavailableException.class)
-    public void givenSocketsCannotBeOpened_whenStartIsInvoked_thenATransportUnavailableExceptionIsThrown() {
-        DefaultSSDPControlPoint ssdpControlPoint = new DefaultSSDPControlPoint() {
-            @Override
-            void openSockets() throws IOException {
-                throw new IOException("Not allowed during this test.");
-            }
-        };
+    public void givenSocketsCannotBeOpened_whenStartIsInvoked_thenATransportUnavailableExceptionIsThrown() throws SocketException {
+        doThrow(IOException.class).when(broadcastSocketMock).bind(null);
+
+        ssdpControlPoint.start();
+    }
+
+    @Test(expected = TransportUnavailableException.class)
+    public void givenStateCanNotBeReused_whenStartIsInvoked_thenATransportUnavailableExceptionIsThrown() throws SocketException {
+        doThrow(IllegalStateException.class).when(broadcastSocketMock).bind(null);
+
         ssdpControlPoint.start();
     }
 }

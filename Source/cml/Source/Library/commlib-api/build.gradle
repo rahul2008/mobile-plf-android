@@ -8,6 +8,7 @@ apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 archivesBaseName = "commlib-api"
 
@@ -36,7 +37,7 @@ android {
     lintOptions {
         abortOnError false
     }
-    publishNonDefault true
+
 }
 
 task generateJavadocPublicApi(type: Javadoc) {
@@ -64,31 +65,32 @@ task generateJavadocPublicApi(type: Javadoc) {
 }
 
 dependencies {
-    provided deps.support.annotations
+    compileOnly deps.support.annotations
 
-    compile deps.gson
+    implementation deps.gson
 
     def suffix = objcdp.getVersionSuffix()
 
-    if (findProject(":commlib-testutils")) {
-        testCompile project(path: ':commlib-testutils', configuration: 'debug')
+    if (findProject(':commlib-testutils')) {
+        testApi project(':commlib-testutils')
     } else {
-        testCompile("$group:commlib-testutils:$platformversion$suffix") { changing = true }
+        testApi("$group:commlib-testutils:$platformversion$suffix") { changing = true }
     }
 
-    for (dep in [':AppInfra']) {
+    for (dep in [':AppInfra', ':securedblibrary']) {
         if (directdependencies) {
-            debugCompile project(path: dep, configuration: 'debug')
-            releaseCompile project(path: dep, configuration: 'release')
+            implementation project(dep)
         } else {
-            compile("$group$dep:$platformversion$suffix") { changing = true }
+            implementation("$group$dep:$platformversion$suffix") { changing = true }
         }
     }
 
-    testCompile deps.assertj
-    testCompile deps.junit
-    testCompile deps.powermock_junit
-    testCompile deps.powermock_api_mockito
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.assertj
+    testImplementation deps.junit
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_api_mockito
 }
 
 pitest {
@@ -116,4 +118,7 @@ pitest {
     outputFormats = ['XML', 'HTML'] /* specify output format */
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
+}
+tasks.withType(Test) {
+    ignoreFailures = true
 }

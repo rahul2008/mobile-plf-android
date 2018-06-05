@@ -129,8 +129,8 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
         if (acquireMulticastLock()) {
             try {
                 openSockets();
-            } catch (IOException e) {
-                throw new TransportUnavailableException("Error opening socket(s): " + e.getMessage());
+            } catch (IOException | IllegalStateException ex) {
+                throw new TransportUnavailableException("Error opening socket(s): " + ex.getMessage());
             }
             startListening();
             startDiscovery();
@@ -189,8 +189,7 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
         }
     }
 
-    @VisibleForTesting
-    void openSockets() throws IOException {
+    private void openSockets() throws IOException {
         broadcastSocket = createBroadcastSocket();
         broadcastSocket.setReuseAddress(true);
         broadcastSocket.joinGroup(multicastGroup);

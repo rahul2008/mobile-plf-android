@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 
-import com.philips.platform.appinfra.consentmanager.ConsentManager;
+import com.adobe.mobile.Analytics;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
@@ -168,12 +168,29 @@ public interface AppTaggingInterface extends Serializable {
 	void trackTimedActionStart(String actionStart);
 
 	/**
+	 * Track Timed Action Start.
+	 * @param actionStart String filename.
+	 * @param contextData set of key/value pairs to be added to the tracking entry
+	 *                    @since 18.2.0
+	 */
+	void trackTimedActionStart(String actionStart, Map<String, Object> contextData);
+
+	/**
 	 * Track Timed Action end.
 	 *
 	 * @param actionEnd String filename.
 	 * @since 1.0.0
 	 */
 	void trackTimedActionEnd(String actionEnd);
+
+	/**
+	 * Track Timed Action end.
+	 * @param actionEnd String filename.
+	 * @param logic - Pass analytics timed action block
+	 *  @since 18.2.0
+	 */
+
+	void trackTimedActionEnd(String actionEnd, Analytics.TimedActionBlock<Boolean> logic);
 
 	/**
 	 * get Privacy Consent For SensitiveData.

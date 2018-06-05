@@ -16,7 +16,6 @@ import android.widget.ListView;
 
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
@@ -43,10 +42,7 @@ public class MismatchedPinAppliancesFragment extends Fragment {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 final Appliance appliance = applianceAdapter.getItem(position);
-                if (appliance != null) {
-                    CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
-                }
-                CommlibUapp.get().nextFragment(new ApplianceFragment());
+                CommlibUapp.get().nextFragment(ApplianceFragmentFactory.newInstance(ApplianceFragment.class, appliance));
             }
         });
 

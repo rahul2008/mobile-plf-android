@@ -17,6 +17,7 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
@@ -25,6 +26,10 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
+
+import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE;
+import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT;
+import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_ERROR_NO_CONNECTION;
 
 /**
  * This class contains all initialization & Launching details of IAP
@@ -38,12 +43,14 @@ public abstract class IAPState extends BaseState implements IAPListener {
     public static final int IAP_CATALOG_VIEW = 4001;
     protected int launchType;
     protected ArrayList<String> ctnList = null;
-    // public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
-    // public static final int IAP_SHOPPING_CART_VIEW = 4003;
-    private Context activityContext;
+    public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
+    public static final int IAP_SHOPPING_CART_VIEW = 4003;
+    protected Context activityContext;
     private Context applicationContext;
     private IAPInterface iapInterface;
-    private FragmentLauncher fragmentLauncher;
+    protected FragmentLauncher fragmentLauncher;
+    private boolean isCartVisible = false;
+    IAPSettings iapSettings;
 
     public IAPState() {
         super(AppStates.IAP);
@@ -59,6 +66,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         ((AbstractAppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
+        setLaunchType(IAPState.IAP_CATALOG_VIEW);
         updateDataModel();
         if (getApplicationContext().isShopingCartVisible) {         // for hybris flow
             setListener();
@@ -67,19 +75,27 @@ public abstract class IAPState extends BaseState implements IAPListener {
         }
     }
 
-    private int getIAPFlowType(int iapFlowType){
-       // switch (iapFlowType){
-           // case IAPState.IAP_CATALOG_VIEW:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
-            // case IAPState.IAP_PURCHASE_HISTORY_VIEW:return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
-            // case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
-           // default:
+    private int getIAPFlowType(int iapFlowType) {
+        switch (iapFlowType) {
+            case IAPState.IAP_CATALOG_VIEW:
                 return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
-      //  }
+            case IAPState.IAP_PURCHASE_HISTORY_VIEW:
+                return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
+            case IAPState.IAP_SHOPPING_CART_VIEW:
+                return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
+            default:
+                return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
+        }
     }
 
 
     public ArrayList<String> getCtnList() {
-        return ctnList;
+        final boolean shopingCartVisible = ((AppFrameworkApplication) applicationContext).isShopingCartVisible();
+        if (!shopingCartVisible) {
+            return ctnList;
+        } else {
+            return ((ArrayList<String>)null);
+        }
     }
 
     public void setCtnList(ArrayList<String> ctnList) {
@@ -94,18 +110,17 @@ public abstract class IAPState extends BaseState implements IAPListener {
         this.launchType = getIAPFlowType(launchType);
     }
 
-    private void launchIAP() {
+    protected void launchIAP() {
         RALog.d(TAG," launchIAP ");
         IAPInterface iapInterface = getApplicationContext().getIap().getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput);
-        iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
+        iapLaunchInput.setIapListener(this);
         try {
             ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
-            ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).showOverlayDialog(R.string.RA_DLS_Help_Philips_Shop,
-                    R.mipmap.philips_shop_overlay, IAPState.TAG);
+            shouldOverBeVisible();
         } catch (RuntimeException e) {
             //TODO: Deepthi - M -  not to show toast msg from exception, we need to defined string messages for all errors - (Had sent mail to Thiru long time ago. NO response. Will send another one to Bopanna)
             RALog.e(TAG,e.getMessage());
@@ -116,8 +131,20 @@ public abstract class IAPState extends BaseState implements IAPListener {
         }
     }
 
+    private void shouldOverBeVisible() {
+        final boolean isShopingCartVisible = ((AppFrameworkApplication) activityContext.getApplicationContext()).isShopingCartVisible;
+        if(!isShopingCartVisible) {
+            ((AbstractAppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).showOverlayDialog(R.string.RA_DLS_Help_Philips_Shop,
+                    R.mipmap.philips_shop_overlay, IAPState.TAG);
+        }
+    }
+
     protected AppFrameworkApplication getApplicationContext() {
-        return (AppFrameworkApplication) activityContext.getApplicationContext();
+        if(activityContext != null) {
+            return (AppFrameworkApplication) activityContext.getApplicationContext();
+        }else{
+            return null;
+        }
     }
 
     @Override
@@ -125,10 +152,9 @@ public abstract class IAPState extends BaseState implements IAPListener {
         RALog.d(TAG," init IAP ");
         applicationContext = context;
         iapInterface = new IAPInterface();
-        IAPSettings iapSettings = new IAPSettings(applicationContext);
+        iapSettings = new IAPSettings(applicationContext);
         IAPDependencies iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
         iapInterface.init(iapDependencies, iapSettings);
-
     }
 
     public void isCartVisible() {
@@ -146,14 +172,18 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
     @Override
     public void onGetCartCount(int i) {
+        ((HamburgerActivity) activityContext).cartIconVisibility(i);
     }
 
     @Override
     public void onUpdateCartCount() {
+
     }
 
     @Override
     public void updateCartIconVisibility(boolean b) {
+        isCartVisible = b;
+        ((AppFrameworkApplication) applicationContext).setShopingCartVisible((isCartVisible));
     }
 
     @Override
@@ -168,13 +198,33 @@ public abstract class IAPState extends BaseState implements IAPListener {
 
     @Override
     public void onSuccess(boolean isCartVisible) {
+        this.isCartVisible = isCartVisible;
         ((AppFrameworkApplication) applicationContext).setShopingCartVisible((isCartVisible));
     }
 
     @Override
     public void onFailure(int i) {
-        ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
-        RALog.d(TAG, "IAPState list fetching failed");
-        Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_DLS_check_internet_connectivity), Toast.LENGTH_LONG).show();
+        if(activityContext != null) {
+            ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
+        }
+
+        if(getApplicationContext() == null){
+            return;
+        }
+
+        switch (i){
+            case IAP_ERROR_NO_CONNECTION:
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_DLS_check_internet_connectivity), Toast.LENGTH_LONG).show();
+                break;
+            case IAP_ERROR_CONNECTION_TIME_OUT:
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_DLS_check_internet_connectivity), Toast.LENGTH_LONG).show();
+                break;
+            case IAP_ERROR_AUTHENTICATION_FAILURE:
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.iap_auth_error), Toast.LENGTH_LONG).show();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_something_wrong), Toast.LENGTH_LONG).show();
+                break;
+        }
     }
 }

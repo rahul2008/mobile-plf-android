@@ -85,22 +85,18 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            if (file("$projectDir/dependencies.lock").exists()) {
-                artifact("$projectDir/dependencies.lock") {
-                    classifier = '1stleveldependencies'
-                }
-            }
-
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+
+                configurations.getByName("archives").allDependencies.each {
+                    if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
                 }
             }
         }

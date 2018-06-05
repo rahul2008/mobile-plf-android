@@ -84,9 +84,11 @@ public class CCInterfaceTest {
         mContext = mock(Context.class);
         appInfraInterface = Mockito.mock(AppInfraInterface.class);
         digitalCareConfigManager = DigitalCareConfigManager.getInstance();
-        ccInterface = new CcInterface();
         digitalCareConfigManager.initializeDigitalCareLibrary(mContext, appInfraInterface);
+        ccInterface = new CcInterface();
         when(appInfraInterface.getConsentManager()).thenReturn(consentManager);
+        when(ccDependenciesMock.getAppInfra()).thenReturn(appInfraInterface);
+        when(ccSettingsMock.getContext()).thenReturn(mContext);
         ccInterface.init(ccDependenciesMock, ccSettingsMock);
 
 

@@ -8,6 +8,32 @@ Version {next}
 * N/A
 
 ### Backwards Compatibility
+* \#127781 Properties' definitions for NetworkNode moved from NetworkNodeDatabaseHelper to NetworkNode class
+
+### Features not covered
+* N/A
+
+### Breaking Changes
+* The TransportContext interface does not extend the Availability interface anymore
+* \#127781 CommCentral requires runtime configuration to enable secure nodes storage. Secure storage requires AppInfraInterface provided via RuntimeConfiguration.
+
+### Defects solved
+* \#121886 - Firmware update always starts from 0. Brought behaviour inline with iOS
+* \#127781 - CommLib persists NetworkNodes in secure manner. The feature is backwards compatible: existing stored nodes are migrated to secure DB.
+
+### Residual anomalies
+* N/A
+
+### Risks and mitigations
+* N/A
+
+Version 1801
+--------------
+
+### Functionality Delivered
+* N/A
+
+### Backwards Compatibility
 * CommLib - Deprecated `PairingPort#disableDemoMode()`
 * CommLib - Deprecated `PairingPort#triggerPairing(String, String, String)`, replaced by `PairingPort#pair(String, String, String)`
 * CommLib - Deprecated `PairingPort#triggerPairing(String, String, String, String, String, String[])`, replaced by `PairingPort#pair(String, String, String, String, String, String[])`
@@ -23,6 +49,7 @@ Version {next}
 * 119951 Don't crash during LAN discovery when SSDP is already active in another process.
 * 116302 Added missing API to revoke pairing relations to `PairingPort`
 * 123173 Fixed a null pointer exception in `LanRequest`
+* 127703 Most of the time the app doesn’t stop the communication with the device after calling `disableCommunication()` method
 
 ### Residual anomalies
 * N/A
@@ -88,7 +115,7 @@ Version 2017.5.0
 * CommLib - \#84930 CommLib responses should include port being subscribed to
 	* CommLib now determines for which port incoming data is.
 	* Ports are no longer required to determine if JSON matches their port properties.
-* CommLib - \#91908 NPE in LanCommunicationStrategy fixed. 
+* CommLib - \#91908 NPE in LanCommunicationStrategy fixed.
 * CommLib - \#81027 Subscriptions continue to work when security key changes.
 * CommLib - \#18943 On wifi switch, change from local request to remote request
 * CommLib - \#18964 On wifi switch, clear the devices found on the local network
@@ -181,7 +208,7 @@ Version 4.0.0
 
 ### New features
 * DiscoveryStrategy interface is extended with start(Set<String> deviceTypes, Set<String> modelIds) method to allow filtering on model ids.
- 
+
 ### Bugs fixed
 * 17024 Internet permission is added to CommLib. If you have manifest mergeing enabled you no longer have to specify this permission in your app.
 
@@ -202,7 +229,7 @@ Version 3.1.2
 * COM-209 BLE discovery
 * COM-249 Https support
 * CON-119 Firmware update
- 
+
 ### Bugs fixed
 * [DE15085] ProGuard configuration for release builds
 
@@ -214,7 +241,7 @@ Version 2.0.0
 
 ### New features
 * COM-119 DiComm client lib can now be initialized with external CloudController.
-* COM-24 Added startUserPairing call to PairingHandler that allows to create user relationship. 
+* COM-24 Added startUserPairing call to PairingHandler that allows to create user relationship.
 
 ### Bugs fixed
 
@@ -245,12 +272,12 @@ Version v1.2.0
 --------------
 
 ### New features
-* DICommAppliance class signature change: 
+* DICommAppliance class signature change:
 	disableSubscription() renamed to disableCommunication()
 * enableSubscription() renamed to enableCommunication()
 
 ### Bugs fixed
-* DE12197 Fixed timing issues with SignOn ongoing. 
+* DE12197 Fixed timing issues with SignOn ongoing.
 
 ### Known issues
 
@@ -261,7 +288,7 @@ Version v1.1.3
 * BG-294 Added impementation for getModelNumber in NetworkNode so it is possible to distinguish between appliance models in ApplianceFactory
 
 ### Bugs fixed
-* DE12042 Rebooting appliance no longer removes pairing relationships 
+* DE12042 Rebooting appliance no longer removes pairing relationships
 * DE11897 When requesting removal of backend relations then the reletions are actually removed  
 
 ### Known issues
@@ -273,8 +300,8 @@ Version v1.1.2
 * Upgraded ICPClient to v7.1.0_A.1
 
 ### Bugs fixed
-* DE11257 Remote subscriptions' reponse messages are now parsed properly. 
-* DE11299 DevicePort now supports subscription 
+* DE11257 Remote subscriptions' reponse messages are now parsed properly.
+* DE11299 DevicePort now supports subscription
 
 ### Known issues
 

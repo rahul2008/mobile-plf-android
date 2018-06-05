@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -45,6 +46,7 @@ import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -101,15 +103,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private ErrorDialogFragment mErrorDialogFragment;
     private boolean mIsFromVertical;
     private ArrayList<StoreEntity> mUpdtedStoreEntity;
-    private LinearLayout mParentLayout;
+    private RelativeLayout mParentLayout;
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
             hideProgressBar();
-            if(mAddToCart.isActivated()){
-                mAddToCart.hideProgressIndicator();
-            }
+            mAddToCart.hideProgressIndicator();
             tagItemAddedToCart();
             if (mIapListener != null) {
                 mIapListener.onUpdateCartCount();
@@ -119,10 +119,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         @Override
         public void onFailure(final Message msg) {
             hideProgressBar();
-            if(mAddToCart.isActivated()){
-                mAddToCart.hideProgressIndicator();
-            }
-
+            mAddToCart.hideProgressIndicator();
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
@@ -179,7 +176,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mProductStockInfo = rootView.findViewById(R.id.iap_productDetailsScreen_outOfStock_label);
         mDeleteProduct = rootView.findViewById(delete_btn);
         if(getContext()!=null) {
-            mDeleteProduct.setTextColor(getContext().getColor(R.color.uid_signal_red_level_45));
+            mDeleteProduct.setTextColor(ContextCompat.getColor(getContext(), R.color.uid_signal_red_level_45));
         }
         mDeleteProduct.setOnClickListener(this);
         mQuantity = rootView.findViewById(R.id.quantity_val);
@@ -309,7 +306,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         setCountArrow(mContext, true);
                         mCheckutAndCountinue.setVisibility(View.GONE);
                         mQuantityAndDelete.setVisibility(View.VISIBLE);
-                        //checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity());
+                        //checkForOutOfStock(cartData.getmStockLevel(), cartData.getQuantity());
                         mQuantity.setCompoundDrawables(null, null, countArrow, null);
 
                         mQuantity.setText(quantity + "");
@@ -331,16 +328,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private int mQuantityStatus;
     private int mNewCount;
     private UIPicker mPopupWindow;
-
-    private void checkForOutOfStock(int pStockLevel, int pQuantity) {
-        if (pStockLevel == 0) {
-
-        } else if (pStockLevel < pQuantity) {
-
-        } else {
-
-        }
-    }
 
     private void setCountArrow(final Context context, final boolean isEnable) {
         if (isEnable) {
@@ -408,8 +395,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mErrorDialogFragment != null)
-            mErrorDialogFragment.onDestroy();
     }
 
     private void handleViews() {
@@ -586,7 +571,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private void populateData() {
         String actualPrice;
         String discountedPrice;
-        String stockStatus;
+        String stockLevelStatus;
+        int stockLevel;
         if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();
@@ -600,9 +586,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (mProductDetail != null) {
                     actualPrice = mProductDetail.getPrice().getFormattedValue();
                     discountedPrice = mProductDetail.getDiscountPrice().getFormattedValue();
-                    stockStatus = mProductDetail.getStock().getStockLevelStatus();
                     setPrice(actualPrice, discountedPrice);
-                    setStockInfo(stockStatus);
+                    setStockInfo(mProductDetail.getStock().getStockLevelStatus(),mProductDetail.getStock().getStockLevel());
                 } else {
                     mPrice.setVisibility(View.GONE);
                     mProductDiscountedPrice.setVisibility(View.GONE);
@@ -612,7 +597,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         } else {
             actualPrice = mBundle.getString(IAPConstant.PRODUCT_PRICE);
             discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
-            stockStatus = mBundle.getString(IAPConstant.STOCK_STATUS);
+            stockLevelStatus = mBundle.getString(IAPConstant.STOCK_LEVEL_STATUS);
+            stockLevel = mBundle.getInt(IAPConstant.STOCK_LEVEL);
 
             mProductDescription.setText(mBundle.getString(IAPConstant.PRODUCT_TITLE));
             mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
@@ -627,7 +613,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
             if (mLaunchedFromProductCatalog) {
                 setPrice(actualPrice, discountedPrice);
-                setStockInfo(stockStatus);
+                setStockInfo(stockLevelStatus,stockLevel);
             } else {
                 mPrice.setVisibility(View.GONE);
                 mProductDiscountedPrice.setText(actualPrice);
@@ -635,13 +621,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
     }
 
-    private void setStockInfo(String stockInfo) {
-        // String stockLevel = mProductDetail.getStock().getStockLevelStatus();
-        if (stockInfo != null && stockInfo.equalsIgnoreCase("outOfStock")) {
+    private void setStockInfo(String stockLevelStatus, int stockLevel) {
+        IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
+        if (iapStockAvailabilityHelper.isStockAvailable(stockLevelStatus,stockLevel)) {
+            mAddToCart.setEnabled(true);
+            mProductStockInfo.setVisibility(View.GONE);
+        } else {
+            mAddToCart.setEnabled(false);
             mProductStockInfo.setText(mContext.getString(R.string.iap_out_of_stock));
             mProductStockInfo.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
-        } else {
-            mProductStockInfo.setVisibility(View.GONE);
         }
     }
 
@@ -678,9 +666,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onLoadFinished(ArrayList<? extends Object> data) {
         hideProgressBar();
-        if(mAddToCart.isActivated()){
-            mAddToCart.hideProgressIndicator();
-        }
+        mAddToCart.hideProgressIndicator();
 
         if (data != null && data.get(0) instanceof ShoppingCartData) {
 
@@ -749,6 +735,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             mShoppingCartAPI.updateProductQuantity(shoppingCartData, getNewCount(), getQuantityStatusInfo());
 
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
+            hideProgressBar();
             createCustomProgressBar(mParentLayout, BIG);
             ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
             mShoppingCartAPI.deleteProduct(shoppingCartData);

@@ -402,12 +402,13 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     .getCcListener().onProductMenuItemClicked(tag);
         }
 
-        if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
-                R.string.dcc_productDownloadManual))) {
-            String mFilePath = mViewProductDetailsModel.getManualLink();
+        if (isConnectionAvailable()) {
+            if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
+                    R.string.dcc_productDownloadManual))) {
+                String mFilePath = mViewProductDetailsModel.getManualLink();
 
-            if ((mFilePath != null) && (!mFilePath.equals(""))) {
-                if (isConnectionAvailable()) {
+                if ((mFilePath != null) && (!mFilePath.equals(""))) {
+
                     String pdfName = mFilePath.substring(mFilePath.lastIndexOf("/")+1);
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -423,18 +424,18 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     } else {
                         callDownloadPDFMethod(mFilePath, pdfName);
                     }
-                }
-            } else {
-                showAlert(getResources().getString(R.string.no_data));
-            }
 
-        } else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
-                R.string.dcc_productInformationOnWebsite))) {
-            if (isConnectionAvailable()) {
+                } else {
+                    showAlert(getResources().getString(R.string.no_data));
+                }
+
+            } else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
+                    R.string.dcc_productInformationOnWebsite))) {
+
                 showFragment(new ProductInformationFragment());
+            } else if (tag.equals(getResources().getResourceEntryName(R.string.FAQ_KEY))) {
+                launchFaqScreen();
             }
-        } else if (tag.equals(getResources().getResourceEntryName(R.string.FAQ_KEY))) {
-            launchFaqScreen();
         }
     }
 

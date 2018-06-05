@@ -37,7 +37,7 @@ public class TestApplication extends Application {
 
             final ApplianceFactory applianceFactory = new ReferenceApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
 
-            commCentral = new CommCentral(applianceFactory, bleTransportContext, lanTransportContext, cloudTransportContext);
+            commCentral = new CommCentral(applianceFactory, runtimeConfiguration, bleTransportContext, lanTransportContext, cloudTransportContext);
         }
 
         return commCentral;

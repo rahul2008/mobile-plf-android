@@ -8,6 +8,8 @@
 
 package com.philips.cdp.registration.ui.utils;
 
+import com.philips.cdp.registration.R;
+
 public class RegConstants {
 
     public static final String TRADITIONAL_REGISTRATION_FIRST_NAME = "traditionalRegistration_firstName";
@@ -89,15 +91,11 @@ public class RegConstants {
 
     public static final String MESSAGE = "message";
 
-    public static final int DI_PROFILE_NULL_ERROR_CODE = -1;
-
     public static final String FONT_PATH = "registration/fonts/";
 
     public static final String CONFIGURATION_JSON_PATH = "registration/configuration/configuration.json";
 
     public static final String REGISTRATION_FRAGMENT_TAG = "Registration_fragment_tag";
-
-    public static final String REGISTRATION_COPPA_FRAGMENT_TAG = "Registration_Coppa_fragment_tag";
 
     public static final String ORIENTAION = "Orientaion";
 
@@ -110,9 +108,7 @@ public class RegConstants {
 
     public static final String SOCIAL_MERGE_EMAIL = "social_merge_email";
 
-    public static final String HOCKEY_APPID = "db53413f9a0e675c40520bf48ce12e6c";
 
-    public static final int HSDP_LOWER_ERROR_BOUND = 7000;
 
     public static final int TRADITIONAL_LOGIN_FAILED_SERVER_ERROR = 7001;
 
@@ -207,4 +203,5 @@ public class RegConstants {
     public static final String KEY_BUNDLE_COUNTRY_NAME = "KEY_BUNDLE_COUNTRY_NAME";
 
     public static final int CAMPAIGN_ID_UNAVAILABLE= 412;
+    public static final int UNKNOWN_ERROR_ID = R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg;
 }

@@ -189,6 +189,7 @@ public class UserRegistrationInitializer {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
+                if(source == null) return;
                 RLog.d(TAG, "onSuccess : Service discovry getHomeCountry : " + s + " and SOURCE : " + source.name());
                 if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
                     RegistrationHelper.getInstance().setCountryCode(s);
@@ -199,6 +200,9 @@ public class UserRegistrationInitializer {
                     RegistrationHelper.getInstance().setCountryCode(fallbackCountryCode.toUpperCase());
                     RLog.d(TAG, "onSuccess : setHomeCountry(s) supportedCountryList not matched" + fallbackCountryCode.toUpperCase());
                 }
+                RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+                getLocaleServiceDiscovery(context, registrationType);
+
             }
 
             @Override
@@ -207,13 +211,11 @@ public class UserRegistrationInitializer {
                 serviceDiscoveryInterface.setHomeCountry(fallbackCountry);
                 RegistrationHelper.getInstance().setCountryCode(fallbackCountry);
                 RLog.d(TAG, "onError : setHomeCountry(s)" + fallbackCountry);
+                RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+                getLocaleServiceDiscovery(context, registrationType);
+
             }
         });
-
-        RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-
-        getLocaleServiceDiscovery(context, registrationType);
-
     }
 
     private void getLocaleServiceDiscovery(Context context, Configuration registrationType) {

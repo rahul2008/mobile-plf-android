@@ -82,7 +82,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         }
 
         */
-        mAdapter = new AddressSelectionAdapter(mAddresses);
+        mAdapter = new AddressSelectionAdapter(mAddresses,mJanRainEmail);
         mAddressListView.setAdapter(mAdapter);
         TextView tv_checkOutSteps = view.findViewById(R.id.tv_checkOutSteps);
         mLinearLayout = view.findViewById(R.id.parent_container);
@@ -116,7 +116,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     }
 
-    private void getAddresses() {
+    public void getAddresses() {
         String msg = mContext.getString(R.string.iap_please_wait);
         createCustomProgressBar(mLinearLayout, BIG);
         mAddressController.getAddresses();
@@ -178,9 +178,9 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             Addresses selectedAddress = retrieveSelectedAddress();
             mIsAddressUpdateAfterDelivery = true;
             mAddressController.setDefaultAddress(selectedAddress);
-            if (mDeliveryMode == null)
+            /*if (mDeliveryMode == null)
                 mAddressController.getDeliveryModes();
-            else
+            else*/
                 checkPaymentDetails();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);

@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-            app:uidTextBoxValidationErrorText="@string/iap_first_name_error">
+            app:uidTextBoxValidationErrorText="@string/iap_last_name_error">
 
             <com.philips.platform.uid.view.widget.ValidationEditText
                 android:id="@+id/et_last_name"

@@ -51,6 +51,10 @@ public class THSDependentPresenter implements THSBasePresenter {
                 case THSConstants.THS_PRACTICES:
                     mThsDependantHistoryFragment.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
                     break;
+                case THSConstants.THS_EDIT_CONSUMER_DETAILS:
+                    bundle.putBoolean(THSConstants.IS_LAUNCHED_FROM_EDIT_DETAILS,true);
+                    mThsDependantHistoryFragment.addFragment(new THSRegistrationFragment(), THSPracticeFragment.TAG, bundle, false);
+                    break;
             }
         } else {
             mThsDependantHistoryFragment.addFragment(new THSRegistrationFragment(), THSRegistrationFragment.TAG, bundle, false);

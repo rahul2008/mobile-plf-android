@@ -3,7 +3,6 @@ package com.iap.demouapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -29,11 +28,12 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appinfra.AppInfra;
@@ -132,15 +132,30 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mCategorizedProductList = new ArrayList<>();
         showScreenSizeInDp();
         // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
-        mUser = new User(this);
-        mUser.registerUserRegistrationListener(this);
+        try {
+            mUser = new User(this);
+            mUser.registerUserRegistrationListener(this);
+        }catch (Exception e){
+            this.finish();
+        }
         //Integration interface
         mIapInterface = new IAPInterface();
         mIAPSettings = new IAPSettings(this);
         // enableViews();
         actionBar();
-        initIAP();
+        initializeIAPComponant();
+    }
 
+    private void initializeIAPComponant() {
+        if (mUser != null && mUser.isUserSignIn()) {
+            mRegister.setText(this.getString(R.string.log_out));
+            showProgressDialog();
+            initIAP();
+        } else {
+            mRegister.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
+            dismissProgressDialog();
+        }
     }
 
     private void initIAP() {
@@ -152,21 +167,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
         //ignorelistedRetailer.add("John Lewis ");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (mUser != null && mUser.isUserSignIn()) {
-            mRegister.setText(this.getString(R.string.log_out));
-            displayUIOnCartVisible();
-            showProgressDialog();
-        } else {
-            mRegister.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
-            dismissProgressDialog();
-        }
+        displayUIOnCartVisible();
     }
 
     private void displayUIOnCartVisible() {
@@ -217,6 +218,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             mShopNow.setVisibility(View.GONE);
             mPurchaseHistory.setVisibility(View.GONE);
             mShoppingCart.setVisibility(View.GONE);
+            dismissProgressDialog();
         }
 
     }
@@ -264,6 +266,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onStop() {
         super.onStop();
+        mUser.unRegisterUserRegistrationListener(this);
         mCategorizedProductList.clear();
     }
 
@@ -287,8 +290,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         //if (!mIAPSettings.isUseLocalData()) {
 //        mCartIcon.setVisibility(View.VISIBLE);
 //        mCountText.setVisibility(View.VISIBLE);
-        Drawable mCartIconDrawable = VectorDrawableCompat.create(getResources(), R.drawable.iap_shopping_cart, getTheme());
-        mCartIcon.setBackground(mCartIconDrawable);
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -314,7 +315,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
 //        dismissProgressDialog();
-        mUser.unRegisterUserRegistrationListener(this);
+
         super.onDestroy();
     }
 
@@ -407,13 +408,22 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void gotoLogInScreen() {
+
         URLaunchInput urLaunchInput = new URLaunchInput();
-        urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
         urLaunchInput.setUserRegistrationUIEventListener(this);
-        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+        urLaunchInput.enableAddtoBackStack(true);
+        RegistrationContentConfiguration contentConfiguration = new RegistrationContentConfiguration();
+        contentConfiguration.enableContinueWithouAccount(true);
+        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+        urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         URInterface urInterface = new URInterface();
-        urInterface.launch(new ActivityLauncher(ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0), urLaunchInput);
+
+        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+        urInterface.launch(activityLauncher, urLaunchInput);
+
+
     }
 
 //    private void updateCartIcon() {
@@ -464,7 +474,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void showToast(int errorCode) {
-        String errorText = "Server error";
+        String errorText = null;
         if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
             errorText = "No connection";
         } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
@@ -474,9 +484,11 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
             errorText = "Product out of stock";
         }
-        Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+        if(errorText!=null) {
+            Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
     }
 
     //In-App listener functions
@@ -549,6 +561,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
         mRegister.setText(this.getString(R.string.log_out));
+        initializeIAPComponant();
         // displayUIOnCartVisible();
     }
 

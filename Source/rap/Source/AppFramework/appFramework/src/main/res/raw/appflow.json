@@ -72,6 +72,59 @@
         ]
       },
       {
+        "state": "neura",
+        "events": [
+          {
+            "eventId": "allow",
+            "nextStates": [
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "mayBeLater",
+            "nextStates": [
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "privacyPhilips",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          },
+          {
+            "eventId": "privacyNeura",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "onBoarding_registration",
         "events": [
           {
@@ -111,6 +164,12 @@
             "nextStates": [
               {
                 "condition": [
+                  "shouldLaunchNeura"
+                ],
+                "nextState": "neura"
+              },
+              {
+                "condition": [
                   "isLoggedIn"
                 ],
                 "nextState": "home"
@@ -124,6 +183,12 @@
           {
             "eventId": "welcome_done",
             "nextStates": [
+              {
+                "condition": [
+                  "shouldLaunchNeura"
+                ],
+                "nextState": "neura"
+              },
               {
                 "condition": [
                   "isLoggedIn"
@@ -191,7 +256,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "iap"
+                "nextState": "shopping_cart"
               }
             ]
           },
@@ -246,6 +311,15 @@
               {
                 "condition": [],
                 "nextState": "my_account"
+              }
+            ]
+          },
+          {
+            "eventId": "my_orders",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_orders"
               }
             ]
           },
@@ -316,6 +390,15 @@
               {
                 "condition": [],
                 "nextState": "my_details"
+              }
+            ]
+          },
+          {
+            "eventId": "MyOrdersEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_orders"
               }
             ]
           }
@@ -479,6 +562,15 @@
               {
                 "condition": [],
                 "nextState": "telehealthservicesdemo"
+              }
+            ]
+          },
+          {
+            "eventId": "TestNeuraDemoEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "neurademo"
               }
             ]
           }

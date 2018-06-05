@@ -69,6 +69,7 @@ public class THSConstants {
     public static final int THS_PRACTICES = 0;
     public static final int THS_SCHEDULED_VISITS = 1;
     public static final int THS_VISITS_HISTORY = 2;
+    public static final int THS_EDIT_CONSUMER_DETAILS = 3;
 
     // start of tagging constants
     public static final String THS_SEND_DATA = "sendData";
@@ -145,6 +146,7 @@ public class THSConstants {
     public static final String THS_ANDROID_CAMERA = "TH_11_01 Camera screen";
     public static final String THS_ANDROID_GALLERY = "TH_11_02 Photo Library";
     public static final String THS_APPOINTMENT_CANCEL_CONFIRMATION = "TH_00_02 Appointment cancelled";
+    public static final String THS_APPOINTMENT_AND_VISIT_LIST ="TH_00_04a Appointments";
 
     // end of tags
 
@@ -224,4 +226,7 @@ public class THSConstants {
     public static final String THS_ANALYTICS_PAYMENT_INFORMATION_VALIDATION = "Payment Information";
     public static final String THS_ANALYTICS_DATE_VALIDATION = "invalid Date";
     public static final String THS_ANALYTICS_PROMOCODE_VALIDATION ="Apply promocode";
+    public static final String IS_LAUNCHED_FROM_EDIT_DETAILS = "IS_LAUNCHED_FROM_EDIT_DETAILS";
+
+    public static final String THS_LOCATION_CONSENT_FRAGMENT = "IS_LAUNCHED_FROM_EDIT_DETAILS";
 }

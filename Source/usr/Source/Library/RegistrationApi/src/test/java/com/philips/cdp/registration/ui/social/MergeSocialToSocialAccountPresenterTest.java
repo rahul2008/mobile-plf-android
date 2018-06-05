@@ -1,12 +1,9 @@
 package com.philips.cdp.registration.ui.social;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.injection.RegistrationComponent;
-import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -16,17 +13,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 /**
  * Created by philips on 11/22/17.
  */
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(MockitoJUnitRunner.class)
 public class MergeSocialToSocialAccountPresenterTest {
 
     @Mock
@@ -70,9 +65,9 @@ public class MergeSocialToSocialAccountPresenterTest {
 
     @Test
     public void onLoginFailedWithError() throws Exception {
-        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("unknown");
+        Mockito.when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(12);
         mergeSocialToSocialAccountPresenter.onLoginFailedWithError(userRegistrationFailureInfoMock);
-        verify(mergeSocialToSocialAccountContract).mergeFailure("unknown");
+        verify(mergeSocialToSocialAccountContract).mergeFailure(12);
     }
 
 

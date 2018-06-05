@@ -1,8 +1,11 @@
 apply plugin: 'com.android.library'
-
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-def support_version = '26.0.2'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+
+archivesBaseName = "uAppFwLibUApp"
+
+def support_version = versions.support
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
@@ -21,27 +24,13 @@ buildscript {
                 password = "123qweasdzxc"
             }
         }
-
     }
 
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
     }
 }
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "uAppFwLibUApp"
 
 allprojects {
     repositories {
@@ -69,59 +58,6 @@ allprojects {
     }
 }
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications ('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml{
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
-}
-
-
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -140,34 +76,33 @@ android {
     lintOptions {
         abortOnError false
     }
-
-    publishNonDefault true
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile deps.calligraphy
-    compile deps.support.annotations
-    compile deps.shamanland_fonticon
-    compile deps.support.cardview
-    compile deps.support.recyclerview
-    compile deps.multidex
-    compile deps.support.appcompatv7
-    compile deps.support.design
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.calligraphy
+    implementation deps.support.annotations
+    implementation deps.shamanland_fonticon
+    implementation deps.support.cardview
+    implementation deps.support.recyclerview
+    implementation deps.multidex
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
+    implementation deps.gson
 
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        debugCompile project(path: ':uikitLib', configuration: 'debug')
-        releaseCompile project(path: ':uikitLib', configuration: 'release')
-        debugCompile project(path: ':uAppFwLib', configuration: 'debug')
-        releaseCompile project(path: ':uAppFwLib', configuration: 'release')
+        implementation project(':uikitLib')
+        implementation project(':uAppFwLib')
+        implementation project(':AppInfra')
+        implementation project(':uid')
     } else {
-        compile (philipsdeps.uikitLib) {
+        implementation (philipsdeps.uikitLib) {
             exclude group: 'com.android.support'
         }
-        compile philipsdeps.uAppFwLib
+        implementation philipsdeps.uAppFwLib
     }
 }
 

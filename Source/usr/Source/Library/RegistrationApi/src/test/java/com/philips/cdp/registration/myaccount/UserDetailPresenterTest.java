@@ -2,24 +2,18 @@ package com.philips.cdp.registration.myaccount;
 
 import android.view.View;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
-
-import static org.junit.Assert.*;
+import org.robolectric.RobolectricTestRunner;
 
 /**
  * Created by philips on 2/12/18.
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(RobolectricTestRunner.class)
 public class UserDetailPresenterTest {
 
     @Mock
@@ -61,4 +55,16 @@ public class UserDetailPresenterTest {
         Mockito.verify(viewMock).setCircleText("PP");
     }
 
+    @Mock
+    View viewMock1;
+
+    @Mock
+    View viewMock2;
+
+    @Test
+    public void shouldMakeViewsVisible() throws Exception {
+        myaDetailPresenter.makeVisible(viewMock1,viewMock2);
+        Mockito.verify(viewMock1).setVisibility(View.VISIBLE);
+        Mockito.verify(viewMock2).setVisibility(View.VISIBLE);
+    }
 }

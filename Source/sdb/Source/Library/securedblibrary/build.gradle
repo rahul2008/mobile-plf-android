@@ -4,17 +4,24 @@ apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/taskscc.gradle'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-//apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
+archivesBaseName = "securedblibrary"
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven {
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -32,21 +39,8 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
     }
 }
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "securedblibrary"
 
 allprojects {
     repositories {
@@ -71,65 +65,10 @@ allprojects {
     group = 'com.philips.cdp'
 }
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications ('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
     archives zipDoc
-}
-
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml{
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
-                }
-            }
-        }
-    }
 }
 
 android {
@@ -143,11 +82,11 @@ android {
         versionName version
         multiDexEnabled true
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-      /*  ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
-        }*/
+        /*  ndk {
+              abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+          }*/
     }
-    
+
     buildTypes {
         release {
             //   minifyEnabled false
@@ -155,14 +94,13 @@ android {
         }
         debug {
             debuggable true
+            testCoverageEnabled = true
         }
     }
 
     lintOptions {
         abortOnError false
     }
-
-    publishNonDefault true
 }
 
 configurations.all {
@@ -173,27 +111,26 @@ configurations.all {
 dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
-        debugCompile project(path: ':AppInfra', configuration: 'debug')
-        releaseCompile project(path: ':AppInfra', configuration: 'release')
+    if (dp) {
+        api project(':AppInfra')
     } else {
-        compile philipsdeps.AppInfra
+        api philipsdeps.AppInfra
     }
 
-    compile deps.ormlite.core
-    compile deps.ormlite.android
-    compile deps.sqlcipher
+    api deps.ormlite.core
+    implementation deps.ormlite.android
+    api deps.sqlcipher
 
-    androidTestCompile deps.espresso_core, {
+    androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    testCompile deps.junit
-    androidTestCompile deps.mockito
-    compile deps.support.appcompatv7
-    compile deps.support.design
-    compile deps.support.annotations
+    testImplementation deps.junit
+    androidTestImplementation deps.mockito
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
+    implementation deps.support.annotations
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

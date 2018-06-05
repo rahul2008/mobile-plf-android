@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (c) Koninklijke Philips N.V., 2018
-  All rights are reserved. Reproduction or dissemination
-  in whole or in part is prohibited without the prior written
-  consent of the copyright holder.
-  -->
-
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
 
 <resources>
+  <string name="MYA_Visit_Website">[es-MX]Visit our website</string>
   <string name="csw_consent_help_label">¿Qué significa?</string>
   <string name="csw_invalid_access_token_error_message">Hubo un problema con la conexión del servidor. Asegúrese de que la fecha/hora de su dispositivo se configure correctamente. Si el problema persiste, cierre sesión y vuelva a iniciarla.</string>
   <string name="csw_offline_message">Al parecer, su conexión a Internet no está funcionando. Compruébelo e inténtelo nuevamente.</string>
   <string name="csw_offline_title">Está desconectado.</string>
-  <string name="csw_ok">[es-MX]OK</string>
+  <string name="csw_ok">OK</string>
   <string name="csw_privacy_notice">[es-MX]Privacy Notice</string>
-  <string name="csw_privacy_notice_message">[es-MX]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_notice_message">Controle su privacidad. Lea el {aviso de privacidad} para obtener más información.</string>
   <string name="csw_privacy_settings">Ajustes de privacidad</string>
-  <string name="csw_privacy_settings_desc">[es-MX]Control Your Privacy. Read the {privacy notice} for more information.</string>
+  <string name="csw_privacy_settings_desc">Controle su privacidad. Lea el {aviso de privacidad} para obtener más información.</string>
   <string name="csw_problem_occurred_error_message">Hubo un problema (error %1$d). Inténtelo nuevamente.</string>
   <string name="csw_problem_occurred_error_title">Se produjo un problema</string>
+  <string name="csw_user_session_expired">[es-MX]Your session is invalid, please log out and log in again</string>
   <string name="mya_Account_settings">Configuración de cuenta</string>
   <string name="mya_Address">Dirección</string>
   <string name="mya_Cancel">Cancelar</string>
@@ -46,22 +45,22 @@
   <string name="mya_Ok">OK</string>
   <string name="mya_Personal_details">Detalles personales</string>
   <string name="mya_Privacy_Settings">Ajustes de privacidad</string>
-  <string name="mya_Privacy_Settings_Desc">Controle su privacidad. Lea el aviso de privacidad para obtener más información.</string>
+  <string name="mya_Privacy_Settings_Desc">Controle su privacidad. Lea el {aviso de privacidad} para obtener más información.</string>
   <string name="mya_Problem_Occurred_Error_Message">Hubo un problema (error %d). Inténtelo nuevamente.</string>
   <string name="mya_Problem_Occurred_Error_Title">Se produjo un problema</string>
   <string name="mya_Profile">Perfil</string>
   <string name="mya_Settings">Ajustes</string>
   <string name="mya_change_country">Cerrar sesión para cambiar país</string>
   <string name="mya_change_country_message">Cierre sesión para cambiar el país en el que reside. Esto nos permitirá personalizar la garantía y otro tipo de información sobre su ubicación</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_cancel">[es-MX]Cancel</string>
-  <string name="mya_csw_consent_revoked_confirm_btn_ok">[es-MX]OK</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_cancel">Cancelar</string>
+  <string name="mya_csw_consent_revoked_confirm_btn_ok">OK</string>
   <string name="mya_csw_consent_revoked_confirm_descr">[es-MX]By revoking consent your data will be deleted from our servers.</string>
   <string name="mya_csw_consent_revoked_confirm_title">[es-MX]Are you sure?</string>
   <string name="mya_csw_justintime_accept">[es-MX]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[es-MX]Maybe later</string>
   <string name="mya_csw_justintime_title">[es-MX]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[es-MX]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
-  <string name="mya_csw_justintime_user_benefits_title">[es-MX]What do we have to offer?</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,es-MX]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_title">[NT,es-MX]What do we have to offer?</string>
   <string name="mya_logout_message">Se cerrará su sesión de la aplicación. Después de cerrar sesión, siempre puede volver a iniciar sesión.</string>
   <string name="mya_logout_title">¿Está seguro de que desea cerrar sesión?</string>
 </resources>

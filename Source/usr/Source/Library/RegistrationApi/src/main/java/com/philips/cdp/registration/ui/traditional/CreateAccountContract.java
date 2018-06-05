@@ -18,13 +18,15 @@ public interface CreateAccountContract {
 
     void emailError(int errorDescID);
 
-    void emailError(String errorDesc);
+    void setErrorCode(int errorDescID);
 
-    void genericError(String errorDesc);
+//    void setErrorCode(String errorDesc);
+//
+//    void genericError(String errorDesc);
+//
+//    void genericError(int errorDescID);
 
-    void genericError(int errorDescID);
-
-    void serverConnectionError(int errorDesc);
+//    void serverConnectionError(int errorDesc);
 
     String getEmail();
 
@@ -44,7 +46,7 @@ public interface CreateAccountContract {
 
     void storeEMail();
 
-    void emailAlreadyUsed();
+    void userIdAlreadyUsedShowError();
 
     void registrtionFail();
 
