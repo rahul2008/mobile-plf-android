@@ -291,7 +291,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             }
         } else {
             RLog.e(TAG, "Not a valid Email ID or Invalid Email.");
-            mEtEmail.setErrorMessage(R.string.reg_kemailFieldErrorText);
+            mEtEmail.setErrorMessage(R.string.reg_InvalidOrMissingEmail_ErrorMsg);
             return FieldsValidator.isValidEmail(emailOrMobile);
         }
         return false;

@@ -430,30 +430,11 @@
 
     <!--Ends Here-->
 
-    <string name="reg_kemailFieldErrorText">Please enter a valid email address.</string>
-    <string name="reg_PrivacyNoticeText">Privacy Notice</string>
-    <string name="reg_Mobile_Verification_Invalid_Code">This is not a verification code I can recognize. Please try again.</string>
-
-
-    <string name="reg_Janrain_ErrorTriggeredInFlow_ErrorMsg">Failed to connect to the server, Please try again. If error continues, then contact customer care.</string>
-    <string name="reg_Janrain_Invalid_DateTime_ErrorMsg">Failed to connect to the server. Please try again later or you can visit FAQs section to find the solution. \n Still not able to resolve the issue, reach out to customer care with error code </string>
-    <string name="reg_Janrain_CreationTokenExpired_ErrorMsg">Your creation token has expired. Please reinitiate the process to authenticate.</string>
-    <string name="reg_Janrain_Access_Token_Expired">The supplied access_token has expired.</string>
-    <string name="reg_Janrain_Connection_ErrorMsg">Failed to connect to the server, Please try again  later. /n Still not able to resolve the issue, contact customer care with error code</string>
-    <string name="reg_Janrain_LengthViolation_ErrorMsg">Please re-enter using 256 characters or less</string>
-    <string name="reg_Janrain_Connection_Lost_Argument_Not_Match">There was an error while creating a new record.</string>
-    <string name="reg_Janrain_Email_Address_Not_Available">Login flow: The phone number / email or password you entered is not correct. Forgot password flow : Account doesn’t exist for this email. Please enter a different email address or create a new account.</string>
-    <string name="reg_Janrain_Connection_Lost_No_Invalid_Mismatch">Failed to connect to the server. Please try again.</string>
-    <!--New-->
-    <string name="reg_Janrain_FormValidation_ErrorMsg">Failed to connect to the server. Please try again later or you can visit FAQs section to find the solution. \n Still not able to resolve the issue? Reach out to customer care with error code</string>
-
-
-    <!--HSDP-->
-    <string name="reg_HSDP_Server_ErrorMsg">Sorry, something went wrong. Please try again later or you can visit FAQs section to find the solution. \n Still not able to resolve the issue, reach out to customer care with error code</string>
     <!-- Facebook Keys-->
     <string name="facebook_app_id">107243606103710</string>
     <string name="fb_login_protocol_scheme">fb107243606103710demoApp</string>
 
     <!--OTP Sender Mobile Number-->
     <string name="otp_sender">10690669210073</string>
+    <string name="reg_PrivacyNoticeText">Privacy Notice</string>
 </resources>

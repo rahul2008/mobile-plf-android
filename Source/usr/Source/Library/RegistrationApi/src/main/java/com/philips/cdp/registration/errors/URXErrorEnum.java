@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.errors;
 
+import android.content.Context;
+
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
@@ -19,10 +21,11 @@ public enum URXErrorEnum {
     URX_SMS_NOT_SENT(ErrorCodes.URX_SMS_NOT_SENT, R.string.reg_URX_SMS_Not_Sent),
     URX_SMS_ALREADY_VERIFIED(ErrorCodes.URX_SMS_ACCOUNT_ALREADY_VERIFIED, R.string.reg_URX_SMS_Already_Verified),
     URX_SMS_FAILURE_CASE(ErrorCodes.URX_MOBILE_ACCOUNT_FAIURE, R.string.reg_URX_Invalid_Credentials),
-    URX_INVALID_VERIFICATION_CODE(ErrorCodes.URX_INVALID_VERIFICATION_CODE, R.string.reg_Mobile_Verification_Invalid_Code);
+    URX_INVALID_VERIFICATION_CODE(ErrorCodes.URX_INVALID_VERIFICATION_CODE, R.string.reg_VerificationCode_ErrorText);
 
     int errorCode;
     int stringId;
+    private static int TIME_LIMIT = 60;
 
     private int getStringId() {
         return stringId;
@@ -43,6 +46,42 @@ public enum URXErrorEnum {
         }
         return RegConstants.UNKNOWN_ERROR_ID;
     }
+
+
+    public static String getLocalizedError(Context context, int errorCode){
+        return getURXFormattedError(context,errorCode);
+    }
+
+    private static String getURXFormattedError(Context context, int errorCode) {
+
+        switch (errorCode) {
+
+            case ErrorCodes.URX_UNSUPPORTED_COUNTRY:
+                return String.format(context.getString(getStringId(ErrorCodes.URX_UNSUPPORTED_COUNTRY)), context.getString(URXErrorEnum.getStringId(ErrorCodes.URX_INVALID_PHONENUMBER)));
+
+            case ErrorCodes.URX_SMS_INTERNAL_SERVER_ERROR:
+                return String.format(context.getString(URXErrorEnum.getStringId(ErrorCodes.URX_SMS_INTERNAL_SERVER_ERROR)), context.getString(R.string.reg_USR_Error_PleaseTryLater_Txt));
+
+            case ErrorCodes.URX_SMS_LIMIT_REACHED:
+                return String.format(context.getString(URXErrorEnum.getStringId(ErrorCodes.URX_SMS_LIMIT_REACHED)), TIME_LIMIT);
+
+            case ErrorCodes.URX_NO_INFO_AVAILABLE:
+                return String.format(context.getString(URXErrorEnum.getStringId(ErrorCodes.URX_NO_INFO_AVAILABLE)), context.getString(R.string.reg_USR_Error_PleaseTryLater_Txt));
+
+            case ErrorCodes.URX_SMS_NOT_SENT:
+                return String.format(context.getString(URXErrorEnum.getStringId(ErrorCodes.URX_SMS_NOT_SENT)), context.getString(R.string.reg_USR_Error_PleaseTryLater_Txt));
+
+            default:
+
+                if(getStringId(errorCode) == RegConstants.UNKNOWN_ERROR_ID ){
+                    return String.format(context.getString(getStringId(errorCode)),context.getString(R.string.reg_USR_Error_PleaseTryLater_Txt));
+                }
+                return context.getString(getStringId(errorCode));
+
+        }
+
+    }
+
 
 
 }

@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.errors;
 
+import android.content.Context;
+
 import com.philips.cdp.registration.R;
 
 /**
@@ -29,4 +31,10 @@ public enum NetworkErrorEnum {
     }
 
 
+    public static String getLocalizedError(Context context, int errorCode) {
+        if(errorCode == ErrorCodes.NETWORK_ERROR){
+            return String.format(context.getString(getStringId(errorCode)),errorCode);
+        }
+        return context.getString(getStringId(errorCode));
+    }
 }

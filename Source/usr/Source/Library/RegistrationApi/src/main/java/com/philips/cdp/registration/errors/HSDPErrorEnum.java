@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.errors;
 
+import android.content.Context;
+
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
@@ -110,4 +112,14 @@ public enum HSDPErrorEnum {
     }
 
 
+    public static String getLocalizedError(Context context, int errorCode) {
+        return getHSDPFormattedError(context,errorCode);
+    }
+
+    private static String getHSDPFormattedError(Context context, int errorCode) {
+        if(getStringId(errorCode) == RegConstants.UNKNOWN_ERROR_ID ){
+            return String.format(context.getString(getStringId(errorCode)),context.getString(R.string.reg_USR_Error_PleaseTryLater_Txt));
+        }
+        return String.format(context.getString(getStringId(errorCode)),errorCode);
+    }
 }
