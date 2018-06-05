@@ -17,9 +17,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PinnedSignatureManager implements PublicKeyPinInterface {
+class PinnedSignatureManager implements PublicKeyPinInterface {
 
     private static final String LOG_MESSAGE_BASE = "Public-key pins Mismatch";
+    private static final String LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH = "Mismatch of stored pinned Public-key with certificate signature";
     private static final String LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_NETWORK = "Could not find Public-Key-Pins in network response";
     private static final String LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_STORAGE = "Could not find Public-Key-Pins in storage";
     private static final String LOG_MESSAGE_STORAGE_ERROR = "Could not update Public-Key-Pins in Secure Storage";
@@ -85,7 +86,7 @@ public class PinnedSignatureManager implements PublicKeyPinInterface {
             if (certificatePin != null && storedKeyDetails.contains(certificatePin))
                 return true;
         }
-        logError(hostName, LOG_MESSAGE_BASE);
+        logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH);
         return false;
     }
 

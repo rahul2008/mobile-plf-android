@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * The SSL Public Key pinning Interface .
  */
-public interface PublicKeyPinInterface {
+interface PublicKeyPinInterface {
 
     /**
      * Persistently store and update public key for a particular hostname.
