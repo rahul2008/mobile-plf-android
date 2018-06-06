@@ -317,12 +317,12 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void updateErrorNotification(String errorMessage, int errorCode) {
-
+        RLog.e(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
         notification.showNotification(new NotificationMessage(errorMessage, errorCode));
     }
 
     public void updateErrorNotification(String errorMessage) {
-
+        RLog.e(TAG, "errorMessage = " + errorMessage );
         notification.showNotification(new NotificationMessage(errorMessage));
 
 
@@ -342,7 +342,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment) {
-       // notificationInterface = baseFragment;
+        // notificationInterface = baseFragment;
     }
 
 }

@@ -400,7 +400,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         } else {
             RLog.e(TAG, "You are in Offline or Network not available");
             updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+//            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
@@ -657,7 +657,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 getRegistrationFragment().addFragment(fragment);
             } else {
                 RLog.i(TAG, "SignInAccountFragment : invalid value");
-                updateErrorNotification(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
+//                updateErrorNotification(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
 //                mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
 //                scrollViewAutomatically(mRegError, mSvRootLayout);
             }
