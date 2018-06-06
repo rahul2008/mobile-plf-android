@@ -223,9 +223,6 @@ public class DataPushSynchronise extends EventMonitor {
                 case "characteristics":
                     dataSenders.add(userCharacteristicsSender);
                     break;
-                case "consent":
-                    dataSenders.add(consentsDataSender);
-                    break;
                 case "insight":
                     dataSenders.add(insightDataSender);
                     break;

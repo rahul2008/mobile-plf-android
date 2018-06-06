@@ -204,9 +204,6 @@ public class DataPullSynchronise {
                 case "characteristics":
                     fetchList.add(userCharacteristicsFetcher);
                     break;
-                case "consent":
-                    fetchList.add(consentsDataFetcher);
-                    break;
                 case "insight":
                     fetchList.add(insightDataFetcher);
                     break;
