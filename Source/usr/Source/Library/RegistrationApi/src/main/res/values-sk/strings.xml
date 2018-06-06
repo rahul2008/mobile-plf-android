@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Adresa</string>
 <string name="reg_MyDetails_TitleTxt">Moje detaily</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Platnosť podpisu vypršala kvôli časovej chybe. Skontrolujte časové nastavenia vášho zariadenia.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Pripojenie na server nie je možné. %s.\nPretrváva tento problém? Kontaktujte službu starostlivosti o zákazníkov a uveďte kód chyby [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Pripojenie na server nie je možné. %s.\nPretrváva tento problém? Kontaktujte službu starostlivosti o zákazníkov a uveďte kód chyby </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Zadaná %s alebo heslo sú nesprávne.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Pre túto e-mailovú adresu neexistuje žiadny účet. Vytvorte si účet použitím tejto e-mailovej adresy alebo zadajte inú.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Ľutujeme, došlo k chybe. Skúste to znova.</string>

@@ -16,7 +16,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
+import com.philips.platform.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.init.THSInitFragment;

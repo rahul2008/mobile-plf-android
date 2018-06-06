@@ -278,7 +278,7 @@
     <string name="reg_Address_TitleTxt">Address</string>
     <string name="reg_MyDetails_TitleTxt">My details</string>
     <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Signature expired due to time error. Please check your device time settings.</string>
-    <string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Cannot connect to server. %s.\nStill having difficulty? Contact Customer Care stating error code [%d]</string>
+    <string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Cannot connect to server. %s.\nStill having difficulty? Contact Customer Care stating error code </string>
     <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">The %s or password you entered is not correct.</string>
     <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">No account exists for this email. Create an account using this email or enter a different email address.</string>
     <string name="reg_UnexpectedInternalError_ErrorMsg">Sorry, something went wrong. Please try again.</string>
@@ -435,5 +435,4 @@
 
     <!--OTP Sender Mobile Number-->
     <string name="otp_sender">10690669210073</string>
-    <string name="reg_PrivacyNoticeText">Privacy Notice</string>
 </resources>

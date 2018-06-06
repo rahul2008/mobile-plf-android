@@ -57,10 +57,10 @@ dependencies {
         implementation project(':uAppFwLib')
         implementation project(':uid')
         implementation project(':pif')
-        implementation project(':mya-catk')
+        implementation project(':catk')
         implementation project(':jump')
     }
-    for (dep in [':registrationApi', ':securedblibrary', ':dataServices', ':mya-csw']) {
+    for (dep in [':registrationApi', ':securedblibrary', ':dataServices', ':csw']) {
         if (directdependencies) {
             implementation project(dep)
         } else {

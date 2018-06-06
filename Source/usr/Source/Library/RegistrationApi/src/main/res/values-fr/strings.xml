@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Adresse</string>
 <string name="reg_MyDetails_TitleTxt">Mes informations</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Signature expirée en raison d\'une erreur d\'heure. Vérifiez les réglages d\'heure de votre appareil.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Connexion au serveur impossible. %s.\nDes difficultés ? Contactez le Service Consommateurs en indiquant le code d\'erreur [%d].</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Connexion au serveur impossible. %s.\nDes difficultés ? Contactez le Service Consommateurs en indiquant le code d\'erreur </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Votre %s ou mot de passe saisi est incorrect.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Aucun compte n\'est associé à cette adresse e-mail. Créez un compte en utilisant cette adresse e-mail ou saisissez-en une autre.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Une erreur s\'est produite. Veuillez réessayer.</string>

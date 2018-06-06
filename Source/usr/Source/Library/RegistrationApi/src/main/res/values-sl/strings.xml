@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Naslov</string>
 <string name="reg_MyDetails_TitleTxt">Moji podatki</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Podpis je potekel zaradi časovne napake. Preverite nastavitve časa na svoji napravi.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Povezava s strežnikom ni mogoča. %s.\nTežava ni odpravljena? Obrnite se na center za pomoč uporabnikom in navedite kodo napake [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Povezava s strežnikom ni mogoča. %s.\nTežava ni odpravljena? Obrnite se na center za pomoč uporabnikom in navedite kodo napake </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Napačen vnos: %s ali geslo.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Račun za ta e-poštni naslov ne obstaja. Ustvarite račun s tem e-poštnim naslovom ali vnesite drug e-poštni naslov.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Žal je šlo nekaj narobe. Poskusite znova pozneje.</string>

@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Morada</string>
 <string name="reg_MyDetails_TitleTxt">Os meus detalhes</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">A assinatura expirou devido a um erro de hora. Verifique as definições de hora do dispositivo.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Não é possível ligar ao servidor. %s.\nContinua a ter dificuldades? Contacte o Apoio ao cliente e indique o código de erro [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Não é possível ligar ao servidor. %s.\nContinua a ter dificuldades? Contacte o Apoio ao cliente e indique o código de erro </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">O %s ou a palavra-passe introduzidos estão incorretos.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Não existe nenhuma conta associada a este e-mail. Crie uma conta utilizando este e-mail ou introduza outro endereço de e-mail.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Lamentamos, mas ocorreu um erro. Tente novamente.</string>

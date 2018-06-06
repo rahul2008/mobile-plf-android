@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Endereço</string>
 <string name="reg_MyDetails_TitleTxt">Meus detalhes</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">A assinatura expirou por erro de tempo. Verifique as configurações de tempo do seu dispositivo.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Sem conexão com o servidor. %s.\nAinda com problemas? Entre em contato c/ Atendimento ao cliente c/ o código de erro [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Sem conexão com o servidor. %s.\nAinda com problemas? Entre em contato c/ Atendimento ao cliente c/ o código de erro </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">%s ou senha inserida está incorreta.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Não existe conta para este e-mail. Crie uma conta usando este e-mail ou use outro e-mail.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Ocorreu um erro. Tente novamente.</string>

@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Adres</string>
 <string name="reg_MyDetails_TitleTxt">Bilgilerim</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Zaman hatası nedeniyle imzanın süresi doldu. Lütfen cihazınızın zaman ayarlarını kontrol edin.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Sunucuya bağlanılamıyor. %s.\nSorun hala devam ediyor mu? [%d] numaralı hata kodunu kullanarak Müşteri Desteğiyle iletişime geçin</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Sunucuya bağlanılamıyor. %s.\nSorun hala devam ediyor mu?  numaralı hata kodunu kullanarak Müşteri Desteğiyle iletişime geçin</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Girdiğiniz %s veya parola yanlış.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Bu e-postanın kayıtlı olduğu bir hesap yok. Bu e-postayı kullanarak bir hesap oluşturun veya farklı bir e-posta adresi girin.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Üzgünüz, bir sorun oluştu. Lütfen tekrar deneyin.</string>

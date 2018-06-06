@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Dirección</string>
 <string name="reg_MyDetails_TitleTxt">Mis datos</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">La firma ha caducado debido a un error de hora. Comprueba los ajustes de hora del dispositivo.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">No se puede conectar con el servidor. %s.\n¿Aún tienes problemas? Ponte en contacto con el Servicio de atención al cliente e indícales el código de error [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">No se puede conectar con el servidor. %s.\n¿Aún tienes problemas? Ponte en contacto con el Servicio de atención al cliente e indícales el código de error </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">El %s o la contraseña que has introducido son incorrectos.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">No hay ninguna cuenta para esta dirección de correo electrónico. Crea una cuenta mediante este mensaje o introduce una dirección diferente.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Se ha producido un error. Inténtalo de nuevo.</string>

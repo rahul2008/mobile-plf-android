@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Adres</string>
 <string name="reg_MyDetails_TitleTxt">Moje szczegóły</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Podpis wygasł z powodu błędu czasu. Sprawdź ustawienia czasu urządzenia.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Nie można połączyć z serwerem. %s.\nNadal występują problemy? Skontaktuj się z działem obsługi klienta i podaj kod błędu [%d].</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Nie można połączyć z serwerem. %s.\nNadal występują problemy? Skontaktuj się z działem obsługi klienta i podaj kod błędu .</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Wprowadzono nieprawidłowy adres/numer: %s lub nieprawidłowe hasło.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Konto powiązane z tym adresem e-mail nie istnieje. Utwórz konto z wykorzystaniem tego adresu e-mail lub wprowadź inny adres e-mail.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Przepraszamy, coś poszło nie tak. Spróbuj ponownie.</string>

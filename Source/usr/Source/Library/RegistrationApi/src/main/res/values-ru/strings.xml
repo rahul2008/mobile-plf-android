@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Адрес</string>
 <string name="reg_MyDetails_TitleTxt">Мои данные</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Срок действия подписи истек из-за сбоя времени. Проверьте настройки времени на своем устройстве.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Не удалось подключиться к серверу. %s.\nПроблема не устранена? Обратитесь в Центр поддержки потребителей, указав код ошибки [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Не удалось подключиться к серверу. %s.\nПроблема не устранена? Обратитесь в Центр поддержки потребителей, указав код ошибки </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Неверно введены %s или пароль.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">С этим адресом эл. почты не связана ни одна учетная запись. Создайте учетную запись с этим адресом эл. почты или введите другой адрес.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Произошла ошибка. Повторите попытку.</string>

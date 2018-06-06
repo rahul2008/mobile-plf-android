@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Cím</string>
 <string name="reg_MyDetails_TitleTxt">Saját adataim</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Idővel kapcsolatos hiba miatt lejárt az aláírás érvényessége. Kérjük, ellenőrizze készüléke időbeállításait.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Nem tud csatlakozni a szerverhez. %s.\nMég mindig fennáll a probléma? Forduljon az ügyfélszolgálathoz a(z) [%d] hibakód megnevezésével.</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Nem tud csatlakozni a szerverhez. %s.\nMég mindig fennáll a probléma? Forduljon az ügyfélszolgálathoz a(z)  hibakód megnevezésével.</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">A(z) %s vagy a megadott jelszó helytelen.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Nem létezik fiók ehhez az e-mailhez. Hozzon létre fiókot ezzel az e-mail-címmel, vagy adjon meg másik e-mail-címet.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Sajnos hiba történt. Próbálja meg újra.</string>

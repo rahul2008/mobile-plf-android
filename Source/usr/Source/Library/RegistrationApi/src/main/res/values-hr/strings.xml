@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Adresa</string>
 <string name="reg_MyDetails_TitleTxt">Moji detalji</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Potpis je istekao uslijed vremenske pogreške. Provjerite postavke vremena na uređaju.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Ne može se povezati s poslužiteljem. %s.\nI dalje imate poteškoće? Kontaktirajte korisničku službu i navedite šifru pogreške [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Ne može se povezati s poslužiteljem. %s.\nI dalje imate poteškoće? Kontaktirajte korisničku službu i navedite šifru pogreške </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Uneseni %s ili lozinka nije točna.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Ne postoji račun s ovom adresom e-pošte. Izradite račun s ovom adresom e-pošte ili unesite drugu adresu e-pošte.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Nažalost, došlo je do pogreške. Pokušajte ponovo.</string>

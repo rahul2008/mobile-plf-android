@@ -278,7 +278,7 @@
 <string name="reg_UnexpectedInternalError_ErrorMsg">Désolé, une erreur s’est produite. Veuillez réessayer.</string>
 <string name="reg_Janrain_EntityAlreadyExists_ErrorMsg">Votre %s est déjà enregistré.</string>
 <string name="reg_Janrain_EmailAddressInUse_ErrorMsg">Cette adresse courriel est déjà utilisée. Veuillez vous connecter avec cette adresse ou vous inscrire avec une adresse différente.</string>
-<string name="reg_Janrain_HSDP_ServerErrorMsg">Connexion au serveur impossible.\nRéessayez plus tard ou consultez notre FAQ pour en savoir plus.\nSi vous ne trouvez pas la solution, communiquez avec le Service à la clientèle et mentionnez le code d’erreur [%d].</string>
+<string name="reg_Janrain_HSDP_ServerErrorMsg">Connexion au serveur impossible.\nRéessayez plus tard ou consultez notre FAQ pour en savoir plus.\nSi vous ne trouvez pas la solution, communiquez avec le Service à la clientèle et mentionnez le code d’erreur </string>
 <string name="reg_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Revenez et connectez-vous de nouveau.</string>
 <string name="reg_Janrain_VerificationCodeExpired_ErrorMsg">Le code de vérification que vous avez entré n’est pas valide ou est expiré.\nVeuillez entrer un code valide ou renvoyer le code.</string>
 <string name="reg_Janrain_LimitError_ErrorMsg">Vous avez atteint la limite de tentatives infructueuses.\nVeuillez réessayer plus tard.</string>
