@@ -1,6 +1,5 @@
 package com.philips.platform.appinfra.securestoragev1;
 
-import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -14,7 +13,6 @@ import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
-import java.io.File;
 import java.security.Key;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -284,6 +282,7 @@ public class SecureStorageV1 implements SecureStorageInterface {
             }
         });
     }
+
     Key getSecretKey(SecureStorageError secureStorageError) {
         Key key = null;
         try {
@@ -315,7 +314,7 @@ public class SecureStorageV1 implements SecureStorageInterface {
 
     @Override
     public String getDeviceCapability() {
-        //Empty implementation as functionalSeity is moved to common class
+        //Empty implementation as functionality is moved to common class
         return null;
 
     }
@@ -323,6 +322,16 @@ public class SecureStorageV1 implements SecureStorageInterface {
     @Override
     public boolean deviceHasPasscode() {
         //Empty implementation as functionality is moved to common class
+        return false;
+    }
+
+    @Override
+    public boolean isCodeTampered() {
+        return false;
+    }
+
+    @Override
+    public boolean isEmulator() {
         return false;
     }
 

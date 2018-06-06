@@ -8,6 +8,7 @@ import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.restclient.URRequest;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -85,9 +86,9 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
             json = new JSONObject(payload);
             token = json.getString("token");
         } catch (JSONException e) {
-            e.printStackTrace();
+            RLog.d(TAG, "updateToken : Exception  is " + e.getMessage());
         }
-        RLog.d("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
+        RLog.d(TAG, "updateToken : isAccountActivate is " + token + " -- " + response);
 
         mobileVerifyCodeContract.updateToken(token);
     }
@@ -95,7 +96,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
     void handleResendSMSRespone(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
-            if (jsonObject.getString("errorCode").equals("0")) {
+            if (jsonObject.getString("errorCode").equals(String.valueOf(ErrorCodes.URX_SUCCESS))) {
                 mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
                 mobileVerifyCodeContract.trackMultipleActionsOnMobileSuccess();
                 handleResendVerificationEmailSuccess();
@@ -104,11 +105,12 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
                         AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR,
                         AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
-                RLog.d("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
-                mobileVerifyCodeContract.showSMSSpecifedError(jsonObject.getString("errorCode"));
+                RLog.i(TAG, " SMS Resend failure = " + response);
+                final String errorCode = jsonObject.getString("errorCode");
+                mobileVerifyCodeContract.showSMSSpecifedError(Integer.parseInt(errorCode));
             }
         } catch (JSONException e) {
-            RLog.d(TAG, " handleResendSMSRespone is " + e.getMessage());
+            RLog.e(TAG, " handleResendSMSRespone is " + e.getMessage());
         }
 
 
@@ -121,7 +123,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER Netowrk *** network: " + isOnline);
+        RLog.i(TAG, "MOBILE NUMBER Netowrk *** network: " + isOnline);
 
         if (isOnline) {
             mobileVerifyCodeContract.netWorkStateOnlineUiHandle();

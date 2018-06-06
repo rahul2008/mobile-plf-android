@@ -1,14 +1,17 @@
 package com.philips.cdp.registration.dao;
 
+import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
+import static org.mockito.Mockito.mock;
+
 
 public class UserRegistrationFailureInfoTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
 
-    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
 
 
     public UserRegistrationFailureInfoTest() {

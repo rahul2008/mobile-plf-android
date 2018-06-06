@@ -148,6 +148,16 @@
             android:textSize="20dp" />
 
         <TextView
+            android:id="@+id/tv_gdpr_features"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_sync_by_date_range"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/gdpr_features"
+            android:textSize="20dp" />
+
+        <TextView
             android:id="@+id/tv_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

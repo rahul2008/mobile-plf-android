@@ -120,6 +120,8 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
     public void onLoginSuccess() {
         AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+                RegistrationHelper.getInstance().getCountryCode());
     }
 
     @Override

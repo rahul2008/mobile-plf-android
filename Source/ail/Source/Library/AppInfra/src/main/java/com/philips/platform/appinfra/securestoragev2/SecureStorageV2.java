@@ -1,6 +1,5 @@
 package com.philips.platform.appinfra.securestoragev2;
 
-import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
@@ -14,7 +13,6 @@ import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
-import java.io.File;
 import java.security.Key;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -321,6 +319,16 @@ public class SecureStorageV2 implements SecureStorageInterface {
 
             }
         });
+    }
+
+    @Override
+    public boolean isCodeTampered() {
+        return false;
+    }
+
+    @Override
+    public boolean isEmulator() {
+        return false;
     }
 
 

@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -18,6 +19,7 @@ import java.lang.reflect.Method;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -240,7 +242,7 @@ public class AccountActivationFragmentTest extends RegistrationApiInstrumentatio
     @Test
     public void testHandleResendVerificationEmailFailedWithError(){
         Method method = null;
-        UserRegistrationFailureInfo userRegistrationFailureInfo= new UserRegistrationFailureInfo();
+        UserRegistrationFailureInfo userRegistrationFailureInfo= new UserRegistrationFailureInfo(mock(Context.class));
         try {
             synchronized(this){//synchronized block
 

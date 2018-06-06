@@ -1,6 +1,7 @@
 package com.philips.cdp.digitalcare;
 
 
+import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;

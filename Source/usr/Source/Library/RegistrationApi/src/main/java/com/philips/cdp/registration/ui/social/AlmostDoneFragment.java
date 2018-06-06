@@ -144,14 +144,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         if (null != mBundle) {
             trackAbtesting();
         }
+        registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         initializeUI(view);
-        RLog.d(TAG,"onCreateView : is called");
+        RLog.d(TAG, "onCreateView : is called");
         return view;
     }
 
     private void initializeUI(View view) {
-        RLog.d(TAG,"initializeUI : is called");
+        RLog.d(TAG, "initializeUI : is called");
         ButterKnife.bind(this, view);
         loginIdEditText.setValidator(loginIdValidator);
         almostDoneDescriptionLabel.setText("");
@@ -166,9 +167,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void onAttach(Context context) {
-        mContext=context;
+        mContext = context;
         super.onAttach(context);
-        RLog.d(TAG,"onAttach : is called");
+        RLog.d(TAG, "onAttach : is called");
     }
 
     @Override
@@ -189,7 +190,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void setViewParams(Configuration config, int width) {
-    //Do nothing
+        //Do nothing
     }
 
     @Override
@@ -207,17 +208,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 {
                     TextView tv = (TextView) buttonView;
                     acceptTermserrorMessage.hideError();
-                    if(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1) {
+                    if (tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1) {
                         // No link is clicked
                         if (!isChecked) {
                             acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
                         }
                     } else {
                         acceptTermsCheck.setChecked(!isChecked);
-                        if( RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null){
+                        if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
                             RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()
                                     .onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
-                        }else {
+                        } else {
                             RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
                         }
                     }
@@ -231,7 +232,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 {
                     TextView tv = (TextView) compoundButton;
-                    if(!(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1)){
+                    if (!(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1)) {
                         marketingOptCheck.setChecked(!b);
                         getRegistrationFragment().addPhilipsNewsFragment();
 
@@ -291,14 +292,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RLog.d(TAG,"PhilipsNewsClick : onClick : Philips ANNOUNCEMENT text is clicked");
+            RLog.d(TAG, "PhilipsNewsClick : onClick : Philips ANNOUNCEMENT text is clicked");
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
         }
     };
 
     @Override
     public void handleUiAcceptTerms() {
-        RLog.d(TAG,"handleUiAcceptTerms : is called");
+        RLog.d(TAG, "handleUiAcceptTerms : is called");
         almostDonePresenter.handleAcceptTermsAndReceiveMarketingOpt();
     }
 
@@ -374,9 +375,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void handleOfflineMode() {
-        errorMessage.setError(getString(R.string.reg_NoNetworkConnection));
+//        errorMessage.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         continueButton.setEnabled(false);
-        scrollViewAutomatically(errorMessage, rootLayout);
+//        scrollViewAutomatically(errorMessage, rootLayout);
     }
 
     @Override
@@ -420,7 +421,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void showTryAgainError() {
-        errorMessage.setError(mContext.getString(R.string.reg_Generic_Network_Error));
+        errorMessage.setError(mContext.getString(R.string.reg_Janrain_HSDP_ServerErrorMsg));
         scrollViewAutomatically(errorMessage, rootLayout);
     }
 
@@ -594,7 +595,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void marketingOptCheckDisable() {
         marketingOptCheck.setOnCheckedChangeListener(null);
         marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
-        errorMessage.setError(getString(R.string.reg_NoNetworkConnection));
+//        errorMessage.setError(getString(R.string.reg_NoNetworkConnection));
+        showNotificationBarOnNetworkNotAvailable();
     }
 
     @Override
@@ -642,7 +644,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     private void trackAbtesting() {
-        RLog.d(TAG,"trackAbtesting : is called");
+        RLog.d(TAG, "trackAbtesting : is called");
         final UIFlow abTestingFlow = RegUtility.getUiFlow();
 
         switch (abTestingFlow) {
@@ -660,5 +662,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             default:
                 break;
         }
+    }
+
+    @Override
+    public void notificationInlineMsg(String msg) {
+        errorMessage.setError(msg);
     }
 }

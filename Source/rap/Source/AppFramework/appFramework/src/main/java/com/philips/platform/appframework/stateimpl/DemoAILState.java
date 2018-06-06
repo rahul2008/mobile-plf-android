@@ -26,7 +26,6 @@ public class DemoAILState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-//        Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show();
         AILDemouAppDependencies mAIDemoAppDependencies = new AILDemouAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra());
         AILDemouAppSettings aiDemoAppSettings = new AILDemouAppSettings(context.getApplicationContext());
         AILDemouAppLaunchInput mAIDemoAppLaunchInput = new AILDemouAppLaunchInput();

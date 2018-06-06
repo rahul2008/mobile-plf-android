@@ -22,12 +22,14 @@ import org.junit.Ignore;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
+@Config(sdk=23)
 @RunWith(RobolectricTestRunner.class)
 public class HybrisHandlerTest {
     @Mock

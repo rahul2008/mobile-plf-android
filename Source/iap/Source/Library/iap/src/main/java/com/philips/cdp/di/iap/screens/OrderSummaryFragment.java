@@ -155,7 +155,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     private void updateCartOnResume() {
         createCustomProgressBar(mParentLayout,BIG);
-        mAddressController.getDeliveryModes();
+        updateCartDetails(mShoppingCartAPI);
     }
 
     @Override
@@ -408,7 +408,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
     public void onItemClick(int position) {
         final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         createCustomProgressBar(mParentLayout,BIG);
-        mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
+        updateCartDetails(mShoppingCartAPI);
+       // mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
 
         /*final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         mSelectedDeliveryMode = deliveryModes.get(position);

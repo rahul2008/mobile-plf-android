@@ -45,7 +45,7 @@ public class XRegError extends RelativeLayout {
         LayoutInflater li = LayoutInflater.from(mContext);
         li.inflate(resourceId, this, true);
         mTvError = (XTextView) findViewById(R.id.tv_reg_error_message);
-        mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
+        mTvCloseIcon = findViewById(R.id.iv_reg_close);
         FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
     }
 
@@ -55,6 +55,8 @@ public class XRegError extends RelativeLayout {
         }
         mSigninErrMsg = errorMsg;
         mTvError.setText(errorMsg);
+        mTvCloseIcon.setText(R.string.ic_reg_close);
+
         setVisibility(VISIBLE);
     }
 

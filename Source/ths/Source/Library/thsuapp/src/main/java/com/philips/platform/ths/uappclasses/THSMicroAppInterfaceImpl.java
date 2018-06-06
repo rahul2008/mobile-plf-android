@@ -7,8 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.catk.ConsentInteractor;
+import com.philips.platform.catk.ConsentsClient;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseFragment;
