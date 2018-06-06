@@ -454,13 +454,15 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     private void handleLoginFailedWithError(UserRegistrationFailureInfo
                                                     userRegistrationFailureInfo) {
-        trackPage(AppTaggingPages.HOME);
-        hideProgressDialog();
-        enableControls(true);
+        hideProgressDialogWithTrackHomeAndEnableControls();
         updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
     }
 
     private void userCancelledSocialLogin() {
+        hideProgressDialogWithTrackHomeAndEnableControls();
+    }
+
+    private void hideProgressDialogWithTrackHomeAndEnableControls() {
         trackPage(AppTaggingPages.HOME);
         hideProgressDialog();
         enableControls(true);
@@ -784,9 +786,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void wechatAuthenticationFailError() {
-        trackPage(AppTaggingPages.HOME);
-        hideProgressDialog();
-        enableControls(true);
+        hideProgressDialogWithTrackHomeAndEnableControls();
         updateErrorNotification(mContext.
                 getString(R.string.reg_JanRain_Server_Connection_Failed));
     }
