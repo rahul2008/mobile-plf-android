@@ -282,7 +282,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }
         if (getActivity() == null) return;
 
-        if(mData.get(0)!=null && mData.get(0).getDeliveryMode()!=null) {
+        if(mData!=null && mData.get(0)!=null && mData.get(0).getDeliveryMode()!=null) {
 
             onOutOfStock(false);
             mAdapter = new ShoppingCartAdapter(mContext, mData, this);
