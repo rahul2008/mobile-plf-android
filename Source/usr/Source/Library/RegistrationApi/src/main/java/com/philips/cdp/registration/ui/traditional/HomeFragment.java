@@ -454,12 +454,19 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     private void handleLoginFailedWithError(UserRegistrationFailureInfo
                                                     userRegistrationFailureInfo) {
-        trackPage(AppTaggingPages.HOME);
-        hideProgressDialog();
-        enableControls(true);
+        hideProgressDialogWithTrackHomeAndEnableControls();
         updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
     }
 
+    private void userCancelledSocialLogin() {
+        hideProgressDialogWithTrackHomeAndEnableControls();
+    }
+
+    private void hideProgressDialogWithTrackHomeAndEnableControls() {
+        trackPage(AppTaggingPages.HOME);
+        hideProgressDialog();
+        enableControls(true);
+    }
 
     private void launchAlmostDoneFragment(JSONObject prefilledRecord, String socialRegistrationToken) {
         trackPage(AppTaggingPages.ALMOST_DONE);
@@ -779,9 +786,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void wechatAuthenticationFailError() {
-        trackPage(AppTaggingPages.HOME);
-        hideProgressDialog();
-        enableControls(true);
+        hideProgressDialogWithTrackHomeAndEnableControls();
         updateErrorNotification(mContext.
                 getString(R.string.reg_JanRain_Server_Connection_Failed));
     }
@@ -800,7 +805,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void loginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleLoginFailedWithError(userRegistrationFailureInfo);
+        if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER) {
+            userCancelledSocialLogin();
+        } else {
+            handleLoginFailedWithError(userRegistrationFailureInfo);
+        }
     }
 
     @Override
