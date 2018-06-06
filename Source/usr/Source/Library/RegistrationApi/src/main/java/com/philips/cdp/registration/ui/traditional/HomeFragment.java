@@ -460,6 +460,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
     }
 
+    private void userCancelledSocialLogin() {
+        trackPage(AppTaggingPages.HOME);
+        hideProgressDialog();
+        enableControls(true);
+    }
 
     private void launchAlmostDoneFragment(JSONObject prefilledRecord, String socialRegistrationToken) {
         trackPage(AppTaggingPages.ALMOST_DONE);
@@ -800,7 +805,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void loginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleLoginFailedWithError(userRegistrationFailureInfo);
+        if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER) {
+            userCancelledSocialLogin();
+        } else {
+            handleLoginFailedWithError(userRegistrationFailureInfo);
+        }
     }
 
     @Override
