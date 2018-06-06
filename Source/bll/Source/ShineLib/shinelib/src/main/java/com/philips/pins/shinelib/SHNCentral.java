@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -20,9 +21,8 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
-import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
+import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.DataMigrater;
@@ -101,8 +101,8 @@ public class SHNCentral {
 
     private static final String TAG = "SHNCentral";
 
-    @NonNull
-    private final BleUtilities bleUtilities;
+    private BTAdapter btAdapter;
+
     private final Handler userHandler;
     private final Context applicationContext;
     private SHNUserConfiguration shnUserConfiguration;
@@ -142,7 +142,6 @@ public class SHNCentral {
     private SHNDeviceScannerInternal shnDeviceScannerInternal;
     private SHNDeviceAssociation shnDeviceAssociation;
     private State shnCentralState = State.SHNCentralStateNotReady;
-    private BTAdapter btAdapter;
     private Handler internalHandler;
     private SHNDeviceDefinitions shnDeviceDefinitions;
     private PersistentStorageFactory persistentStorageFactory;
@@ -183,9 +182,7 @@ public class SHNCentral {
 
         applicationContext = context.getApplicationContext();
 
-        bleUtilities = new BleUtilities(applicationContext);
-
-        if (!bleUtilities.isBleFeatureAvailable()) {
+        if (!isBleFeatureAvailable()) {
             throw new SHNBluetoothHardwareUnavailableException();
         }
 
@@ -227,24 +224,25 @@ public class SHNCentral {
     }
 
     /**
-     * Get the {@link BleUtilities}, used to scan for device
+     * Get the {@link BTAdapter}, used to scan for device
      *
      * @return BLE utilities
      */
     @NonNull
-    BleUtilities getBleUtilities() {
-        return bleUtilities;
+    BTAdapter getBtAdapter() {
+        return btAdapter;
     }
 
     private void initializeSHNCentral(boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
         persistentStorageFactory = setUpPersistentStorageFactory(applicationContext, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
 
         // Check that the adapter is enabled.
-        isBluetoothAdapterEnabled = bleUtilities.isBluetoothAdapterEnabled();
+        btAdapter = new BTAdapter(internalHandler);
+        isBluetoothAdapterEnabled = btAdapter.isBluetoothAdapterEnabled();
         if (isBluetoothAdapterEnabled) {
             shnCentralState = State.SHNCentralStateReady;
         } else if (showPopupIfBLEIsTurnedOff) {
-            bleUtilities.startEnableBluetoothActivity();
+            startEnableBluetoothActivity();
         }
 
         // Register a broadcast receiver listening for BluetoothAdapter state changes
@@ -259,8 +257,6 @@ public class SHNCentral {
         shnDeviceScanner = new SHNDeviceScanner(shnDeviceScannerInternal, internalHandler, userHandler);
 
         SHNDeviceWrapper.setHandlers(internalHandler, userHandler);
-
-        btAdapter = new BTAdapter(applicationContext, internalHandler);
 
         shnUserConfiguration = createUserConfiguration();
     }
@@ -295,6 +291,23 @@ public class SHNCentral {
         return new DataMigrater();
     }
 
+    /**
+     * Check if the current phone supports BLE
+     *
+     * @return BLE support
+     */
+    public boolean isBleFeatureAvailable() {
+        return applicationContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
+    }
+
+    /**
+     * Request BLE to be turned on
+     */
+    public void startEnableBluetoothActivity() {
+        Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        applicationContext.startActivity(intent);
+    }
     /**
      * Register a {@link SHNBondStatusListener} for device with specific address.
      *

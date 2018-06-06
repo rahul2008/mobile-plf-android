@@ -166,7 +166,7 @@ public class SHNDeviceScannerInternal {
 
     @VisibleForTesting
     LeScanCallbackProxy createLeScanCallbackProxy() {
-        return new LeScanCallbackProxy(shnCentral.getBleUtilities());
+        return new LeScanCallbackProxy(shnCentral.getBtAdapter());
     }
 
     @Nullable

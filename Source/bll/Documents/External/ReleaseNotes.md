@@ -11,6 +11,7 @@ Version {next}
 ### Features not covered
 
 ### Breaking Changes
+* BleUtilities class is removed. 'isBleFeatureAvailable' and 'startEnableBluetoothActivity' methods are moved to SHNCentral. 
 
 ### Defects solved
 * \#121732 SHNDevice listeners now get connection failure notifications and state updates when Bluetooth is turned off. 

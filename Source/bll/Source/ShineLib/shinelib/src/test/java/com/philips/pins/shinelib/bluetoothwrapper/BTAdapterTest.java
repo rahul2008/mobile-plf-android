@@ -9,9 +9,8 @@ import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanSettings;
-
 import com.philips.pins.shinelib.BuildConfig;
-
+import com.philips.pins.shinelib.helper.MockedHandler;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +20,6 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadow.api.Shadow;
-import org.robolectric.shadows.ShadowApplication;
 
 import java.util.List;
 
@@ -34,11 +32,10 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = {M}, shadows = {ShadowBluetoothLEAdapter.class})
-public class BleUtilitiesTest {
+public class BTAdapterTest {
 
-    private BleUtilities bleUtilities;
+    private BTAdapter BTAdapter;
     private ShadowBluetoothLEAdapter bluetoothAdapter;
-    private ShadowApplication application;
 
     @Mock
     private BluetoothLeScanner scanner;
@@ -50,20 +47,19 @@ public class BleUtilitiesTest {
     public void setUp() {
         initMocks(this);
 
-        application = ShadowApplication.getInstance();
-
         bluetoothAdapter = Shadow.extract(ShadowBluetoothLEAdapter.getDefaultAdapter());
         bluetoothAdapter.setEnabled(true);
         bluetoothAdapter.setIsOffloadedScanBatchingSupported(true);
         bluetoothAdapter.setBluetoothLeScanner(scanner);
 
-        bleUtilities = new BleUtilities(application.getApplicationContext());
+        MockedHandler handler = new MockedHandler();
+        BTAdapter = new BTAdapter(handler.getMock());
     }
 
     @Test
     public void whenStartLeScanIsCalledAndBluetoothIsOffThenTheScanIsNotStarted() {
         bluetoothAdapter.setEnabled(false);
-        bleUtilities.startLeScan(mockedScanCallback);
+        BTAdapter.startLeScan(mockedScanCallback);
 
         verify(scanner, never()).startScan(ArgumentMatchers.<ScanFilter>anyList(), any(ScanSettings.class), any(ScanCallback.class));
     }
@@ -71,7 +67,7 @@ public class BleUtilitiesTest {
     @SuppressWarnings("unchecked")
     @Test
     public void whenStartLeScanIsCalledAndBatchScanIsSupportedThenTheScanIsStarted() {
-        bleUtilities.startLeScan(mockedScanCallback);
+        BTAdapter.startLeScan(mockedScanCallback);
 
         ArgumentCaptor<ScanSettings> callbackCaptor = ArgumentCaptor.forClass(ScanSettings.class);
         verify(scanner).startScan((List<ScanFilter>) any(), callbackCaptor.capture(), any(ScanCallback.class));
@@ -86,7 +82,7 @@ public class BleUtilitiesTest {
     public void whenStartLeScanIsCalledAndBatchScanIsNotSupportedThenTheScanIsStarted() {
         bluetoothAdapter.setIsOffloadedScanBatchingSupported(false);
 
-        bleUtilities.startLeScan(mockedScanCallback);
+        BTAdapter.startLeScan(mockedScanCallback);
 
         ArgumentCaptor<ScanSettings> callbackCaptor = ArgumentCaptor.forClass(ScanSettings.class);
         verify(scanner).startScan((List<ScanFilter>) any(), callbackCaptor.capture(), any(ScanCallback.class));
@@ -98,7 +94,7 @@ public class BleUtilitiesTest {
 
     @Test
     public void whenStopLeScanIsCalledThenTheScanIsStopped() {
-        bleUtilities.stopLeScan(mockedScanCallback);
+        BTAdapter.stopLeScan(mockedScanCallback);
 
         verify(scanner).stopScan(any(ScanCallback.class));
     }
@@ -106,7 +102,7 @@ public class BleUtilitiesTest {
     @Test
     public void whenStopLeScanIsCalledAndBluetoothIsOffThenTheScanIsNotStopped() {
         bluetoothAdapter.setEnabled(false);
-        bleUtilities.stopLeScan(mockedScanCallback);
+        BTAdapter.stopLeScan(mockedScanCallback);
 
         verify(scanner, never()).stopScan(any(ScanCallback.class));
     }
