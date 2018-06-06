@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">Osoite</string>
 <string name="reg_MyDetails_TitleTxt">Omat tiedot</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Allekirjoitus vanheni aikavirheen takia. Tarkista laitteen aika-asetukset.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Yhteyttä palvelimeen ei voi muodostaa. %s.\nJos ongelma toistuu, ota yhteys asiakaspalveluun ja ilmoita virhekoodi [%d].</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Yhteyttä palvelimeen ei voi muodostaa. %s.\nJos ongelma toistuu, ota yhteys asiakaspalveluun ja ilmoita virhekoodi [%d].</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Annettu %s tai salasana ei kelpaa.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Tähän sähköpostiosoitteeseen ei liity tiliä. Luo tili tälle sähköpostiosoitteelle tai valitse jokin muu sähköpostiosoite.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Tuntematon virhe. Yritä uudelleen.</string>

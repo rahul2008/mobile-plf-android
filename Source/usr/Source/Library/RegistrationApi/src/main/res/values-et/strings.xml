@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">Aadress</string>
 <string name="reg_MyDetails_TitleTxt">Minu andmed</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Allkiri ajavea tõttu aegunud. Kontrollige oma seadme kellaaja seadeid.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Serveriga ei saa ühendust luua. %s.\nProbleem püsib? Võtke ühendust klienditeenindusega ja öelda oma veakood [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Serveriga ei saa ühendust luua. %s.\nProbleem püsib? Võtke ühendust klienditeenindusega ja öelda oma veakood [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Sisestatud %s või parool on vale.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Selle e-posti aadressiga ei ole seotud ühtegi kontot. Looge konto seda e-posti aadressi kasutades või sisestage teine e-posti aadress.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Vabandage, midagi läks valesti. Palun proovige uuesti.</string>

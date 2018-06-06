@@ -48,7 +48,7 @@ public enum JanrainErrorEnum {
     JANRAIN_UNAUTHORIZED_CLIENT(ErrorCodes.JANRAIN_UNAUTHORIZED_CLIENT, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
     JANRAIN_UNAUTHORIZED_USER(ErrorCodes.JANRAIN_UNAUTHORIZED_USER, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
     JANRAIN_ACCESS_TOKEN_EXPIRED(ErrorCodes.JANRAIN_ACCESS_TOKEN_EXPIRED, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
-    JANRAIN_AUTHORIZATION_CODE_EXPIRED(ErrorCodes.JANRAIN_AUTHORIZATION_CODE_EXPIRED, R.string.reg_Janrain_AuthorizationCodeExpired_ErrorMsg),
+    JANRAIN_AUTHORIZATION_CODE_EXPIRED(ErrorCodes.JANRAIN_AUTHORIZATION_CODE_EXPIRED, R.string.reg_Generic_Network_Error),
     JANRAIN_VERIFICATION_CODE_EXPIRED(ErrorCodes.JANRAIN_VERIFICATION_CODE_EXPIRED, R.string.reg_Janrain_VerificationCodeExpired_ErrorMsg),
     JANRAIN_CREATION_TOKEN_EXPIRED(ErrorCodes.JANRAIN_CREATION_TOKEN_EXPIRED, R.string.reg_USR_Error_PleaseTryLater_Txt),
     JANRAIN_REDIRECT_URI_MISMATCH(ErrorCodes.JANRAIN_REDIRECT_URI_MISMATCH, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),

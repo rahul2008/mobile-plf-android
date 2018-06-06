@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">Διεύθυνση</string>
 <string name="reg_MyDetails_TitleTxt">Στοιχεία</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Η υπογραφή έληξε λόγω χρονικού σφάλματος. Ελέγξτε τις ρυθμίσεις ώρας της συσκευής σας.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Αδύνατη η σύνδεση με τον διακομιστή. %s.\nΑκόμη δυσκολίες; Επικοινωνήστε με την υποστήριξη αναφέροντας τον κωδικό του σφάλματος [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Αδύνατη η σύνδεση με τον διακομιστή. %s.\nΑκόμη δυσκολίες; Επικοινωνήστε με την υποστήριξη αναφέροντας τον κωδικό του σφάλματος [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Το %s ή ο κωδικός πρόσβασης δεν είναι σωστός.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Δεν υπάρχει λογαριασμός για αυτό το email. Δημιουργήστε έναν λογαριασμό με αυτό το email ή εισαγάγετε μια διαφορετική διεύθυνση email.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Λυπούμαστε, αλλά κάτι πήγε στραβά. Δοκιμάστε ξανά αργότερα.</string>

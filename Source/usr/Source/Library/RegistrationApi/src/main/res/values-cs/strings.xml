@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">Адрес</string>
 <string name="reg_MyDetails_TitleTxt">Моите данни</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Podpis vypršel kvůli časové chybě. Zkontrolujte nastavení času ve svém zařízení.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Nepodařilo se připojit k serveru. %s.\nStále máte potíže? Kontaktujte oddělení péče o zákazníky a uveďte kód chyby [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Nepodařilo se připojit k serveru. %s.\nStále máte potíže? Kontaktujte oddělení péče o zákazníky a uveďte kód chyby [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Zadaná %s nebo heslo nejsou správné.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">S touto e-mailovou adresou není spojen žádný účet. Vytvořte nový účet s touto e-mailovou adresou nebo zadejte jinou e-mailovou adresu.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Je nám líto, ale něco se pokazilo. Zkuste to znovu.</string>

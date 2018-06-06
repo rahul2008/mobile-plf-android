@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">Adresă</string>
 <string name="reg_MyDetails_TitleTxt">Detaliile mele</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Semnătură expirată din cauza unei erori temporale. Verifică setările de oră ale dispozitivului.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Conectarea la server nu este posibilă. %s.\nMai ai încă dificultăţi? Contactează asistenţa clienţi, specificând codul de eroare [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Conectarea la server nu este posibilă. %s.\nMai ai încă dificultăţi? Contactează asistenţa clienţi, specificând codul de eroare [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">%s sau parola introdusă nu este corectă.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Nu există niciun cont pentru acest e-mail. Creează un cont utilizând acest e-mail sau introdu altă adresă de e-mail.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Ne pare rău, a apărut o problemă. Încearcă din nou.</string>

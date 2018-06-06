@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">Адреса</string>
 <string name="reg_MyDetails_TitleTxt">Мої деталі</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Термін дії підпису вийшов через помилку часу. Перевірте налаштування часу на пристрої.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Неможливо під’єднатися до сервера. %s.\nПроблема залишилася? Зверніться до Центру обслуговування клієнтів і вкажіть код помилки [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Неможливо під’єднатися до сервера. %s.\nПроблема залишилася? Зверніться до Центру обслуговування клієнтів і вкажіть код помилки [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">%s або введений пароль невірний.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Для цієї ел. пошти немає облікового запису. Створіть обліковий запис із використанням цієї адреси ел. пошти або введіть іншу адресу.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Вибачте, виникла помилка! Спробуйте пізніше.</string>

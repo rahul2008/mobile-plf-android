@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">地址</string>
 <string name="reg_MyDetails_TitleTxt">我的详细信息</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">签名由于时间错误而过期。请检查您的设备的时间设置。</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">无法连接到服务器。%s。\n仍然存在问题？联系客户服务中心并提供错误代码 [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">无法连接到服务器。%s。\n仍然存在问题？联系客户服务中心并提供错误代码 [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">您输入的 %s 或密码不正确。</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">此电子邮件帐户不存在。使用此电子邮件创建一个帐户或输入其他电子邮件地址。</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">抱歉，发生错误。请重试。</string>

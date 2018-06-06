@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">כתובת</string>
 <string name="reg_MyDetails_TitleTxt">הפרטים שלי</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">תוקף החתימה עומד לפוג בשל שגיאת זמן. בדוק את הגדרות הזמן במכשיר.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">אין אפשרות להתחבר לשרת. %s.\nעדיין נתקל בבעיות? פנה אל מחלקת הטיפול בלקוחות תוך ציון קוד השגיאה [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">אין אפשרות להתחבר לשרת. %s.\nעדיין נתקל בבעיות? פנה אל מחלקת הטיפול בלקוחות תוך ציון קוד השגיאה [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">ה%s או הסיסמה שהזנת שגויים.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">לא קיים חשבון עבור דוא\"ל זה. צור חשבון באמצעות דוא\"ל זה, או הזן כתובת דוא\"ל שונה.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">אפס! משהו השתבש. נסה שוב מאוחר יותר.</string>

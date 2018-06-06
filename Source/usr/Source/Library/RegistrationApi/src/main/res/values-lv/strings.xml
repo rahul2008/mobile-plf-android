@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">Adrese</string>
 <string name="reg_MyDetails_TitleTxt">Mana informācija</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Paraksta derīgums beidzies laika kļūdas dēļ. Lūdzu, pārbaudiet savas ierīces laika iestatījumus.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Neizdodas savienoties ar serveri. %s.\nProblēma joprojām nav novērsta? Sazinieties ar klientu atbalsta dienestu, norādot kļūdas kodu [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Neizdodas savienoties ar serveri. %s.\nProblēma joprojām nav novērsta? Sazinieties ar klientu atbalsta dienestu, norādot kļūdas kodu [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Ievadītais %s vai parole nav derīga.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Konts ar šādu e-pasta adresi neeksistē. Izveidojiet kontu, izmantojot šo e-pasta adresi vai ievadiet citu e-pasta adresi.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Radās neparedzēta kļūda. Lūdzu, mēģiniet vēlreiz.</string>

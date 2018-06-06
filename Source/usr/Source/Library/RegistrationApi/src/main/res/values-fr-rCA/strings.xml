@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">Adresse</string>
 <string name="reg_MyDetails_TitleTxt">Mes données</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">La signature a expiré en raison d’une erreur d’heure. Vérifiez les réglages d’heure de l’appareil.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Connexion au serveur impossible. %s.\nCommuniquez avec le Service à la clientèle et mentionnez le code d’erreur [%d].</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Connexion au serveur impossible. %s.\nCommuniquez avec le Service à la clientèle et mentionnez le code d’erreur [%d].</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Le %s ou le mot de passe entré n’est pas valide.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Il n’y a pas de compte associé à cette adresse courriel. Créez un compte avec cette adresse ou entrez une adresse différente.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Désolé, une erreur s’est produite. Veuillez réessayer.</string>

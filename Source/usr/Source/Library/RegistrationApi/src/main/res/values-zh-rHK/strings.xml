@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">地址</string>
 <string name="reg_MyDetails_TitleTxt">我的資料</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">由於時間錯誤，簽名已過期。請檢查您裝置的時間設定。</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">無法連接伺服器。%s。\n仍然存有疑難？請聯絡客戶服務，並註明錯誤代碼 [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">無法連接伺服器。%s。\n仍然存有疑難？請聯絡客戶服務，並註明錯誤代碼 [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">您所輸入的%s或密碼不正確。</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">沒有以此電郵地址註冊的帳戶。您可以用此電郵地址建立帳戶或輸入另一個電郵地址。</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">抱歉，發生錯誤。請重試。</string>

@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">Адрес</string>
 <string name="reg_MyDetails_TitleTxt">Моите данни</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Подписът е изтекъл поради времева грешка. Моля, проверете настройките за време на устройството.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Неуспешно свързване със сървър. %s.\nИзпитвате затруднения? Свържете се с отдела за обслужване на клиенти и кажете кода на грешката [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Неуспешно свързване със сървър. %s.\nИзпитвате затруднения? Свържете се с отдела за обслужване на клиенти и кажете кода на грешката [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">%s или паролата, която сте въвели, е грешна.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Няма съществуващ акаунт за този имейл. Създайте акаунт чрез този имейл или въведете различен имейл адрес.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Съжаляваме, нещо се обърка. Моля, опитайте отново.</string>

@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">Adresas</string>
 <string name="reg_MyDetails_TitleTxt">Informacija</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Pasirašyti skirtas laikas baigėsi dėl laiko klaidos. Patikrinkite savo prietaiso laiko nustatymus.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Negalima prisijungti prie serverio. %s.\nVis dar kyla sunkumų? Susisiekite su klientų aptarnavimo centru ir pasakykite klaidos kodą [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Negalima prisijungti prie serverio. %s.\nVis dar kyla sunkumų? Susisiekite su klientų aptarnavimo centru ir pasakykite klaidos kodą [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Įvestas %s arba slaptažodis neteisingas.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Šiam el. pašto adresui paskyra nesukurta. Sukurkite paskyrą naudodami šį el. pašto adresą arba įveskite kitą el. pašto adresą.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Atsiprašome, įvyko klaida. Bandykite dar kartą.</string>

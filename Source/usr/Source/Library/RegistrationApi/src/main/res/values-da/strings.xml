@@ -271,7 +271,7 @@
 <string name="reg_Address_TitleTxt">Adresse</string>
 <string name="reg_MyDetails_TitleTxt">Mine oplysn.</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Signaturen er udløbet pga. tidsfejl. Kontroller tidsindstillingerne på din enhed.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg">Kan ikke oprette forbindelse til serveren. %s.\nHar du stadig problemer? Kontakt kundecenteret, og oplys fejlkoden [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Kan ikke oprette forbindelse til serveren. %s.\nHar du stadig problemer? Kontakt kundecenteret, og oplys fejlkoden [%d]</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">%s eller adgangskode er forkert.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Ingen konto findes for denne e-mail. Opret en konto med denne e-mail, eller indtast en anden e-mailadresse.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Noget gik galt. Prøv igen.</string>
