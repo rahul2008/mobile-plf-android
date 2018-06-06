@@ -13,7 +13,7 @@ import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.neura.NeuraConsentProvider;
-import com.philips.platform.mya.catk.device.DeviceStoredConsentHandler;
+import com.philips.platform.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;

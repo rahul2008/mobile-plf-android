@@ -48,7 +48,7 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.textResources;
+import static com.philips.platform.csw.justintime.JustInTimeConsentDependencies.textResources;
 
 public class DemoDataServicesState extends DemoBaseState
         implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
