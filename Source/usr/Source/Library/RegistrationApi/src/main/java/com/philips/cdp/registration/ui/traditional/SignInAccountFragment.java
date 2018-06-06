@@ -397,11 +397,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
             enableAll();
-        } else {
-            RLog.e(TAG, "You are in Offline or Network not available");
-            updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-//            scrollViewAutomatically(mRegError, mSvRootLayout);
-        }
+        } 
     }
 
     @Override
