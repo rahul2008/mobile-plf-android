@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -21,9 +21,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
 import com.philips.cdp2.bluelib.demouapp.R;
 import com.philips.cdp2.bluelib.demouapp.fragment.associate.AssociatedDevicesFragment;
 import com.philips.cdp2.bluelib.demouapp.fragment.connect.ConnectDevicesFragment;
+import com.philips.cdp2.bluelib.demouapp.util.UiUtils;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class MainFragment extends Fragment {
@@ -92,7 +94,7 @@ public class MainFragment extends Fragment {
         switch (requestCode) {
             case ACCESS_COARSE_LOCATION_REQUEST_CODE: {
                 if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    //TODO: finish();
+                    UiUtils.showPersistentMessage(getView(), "Location permission not granted");
                 }
             }
         }
@@ -100,8 +102,10 @@ public class MainFragment extends Fragment {
 
     private void acquirePermission() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    ACCESS_COARSE_LOCATION_REQUEST_CODE);
+            SHNLogger.d("BLL_DEMO_UAPP", "Location permission missing");
+            BluelibUapp.get().getDependencies().getShnCentral().getTagger().sendData("BLL_DEMO_UAPP", "Location permission missing");
+
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION_REQUEST_CODE);
         }
     }
 }

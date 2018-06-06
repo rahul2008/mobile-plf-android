@@ -6,17 +6,16 @@
 package com.philips.pins.shinelib.utility;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppInfraTaggingUtil;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
-import java.util.Map;
-
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.TECHNICAL_ERROR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -32,7 +31,10 @@ public class SHNTaggerTest {
     private AppTaggingInterface appTaggingInterfaceMock;
 
     @Captor
-    private ArgumentCaptor<Map<String, String>> infoMapCaptor;
+    private ArgumentCaptor<String> keyCaptor;
+
+    @Captor
+    private ArgumentCaptor<String> valueCaptor;
 
     private SHNTagger tagger;
 
@@ -50,39 +52,33 @@ public class SHNTaggerTest {
 
     @Test
     public void givenATagger_whenTrackActionInvoked_thenTrackActionWithInfoIsInvokedOnAppTaggingInterface() {
-
-        final String action = "testAction";
-        tagger.trackAction(action, anyString(), anyString());
-
-        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(action), ArgumentMatchers.<String, String>anyMap());
-    }
-
-    @Test
-    public void givenATagger_whenTrackActionInvoked_thenTrackActionWithInfoIsInvokedWithSuppliedKeyAndValue() {
-
         final String key = "testKey";
         final String value = "testValue";
-        tagger.trackAction("testAction", key, value);
+        tagger.sendData(key, value);
 
-        verify(appTaggingInterfaceMock).trackActionWithInfo(anyString(), infoMapCaptor.capture());
-
-        final Map<String, String> infoMap = infoMapCaptor.getValue();
-
-        assertThat(infoMap.containsKey(eq(key)));
-        assertThat(infoMap.get(key)).isEqualTo(value);
+        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(AppInfraTaggingUtil.SEND_DATA), eq(key), eq(value));
     }
 
     @Test
-    public void givenATagger_whenTrackActionInvoked_thenTrackActionWithInfoIsInvokedWithMandatoryEntries() {
+    public void givenATagger_whenSendingData_thenTrackActionWithInfoIsInvokedWithSuppliedKeyAndValue() {
+        final String key = "testKey";
+        final String value = "testValue";
+        tagger.sendData(key, value);
 
-        tagger.trackAction("testAction", anyString(), anyString());
+        verify(appTaggingInterfaceMock).trackActionWithInfo(anyString(), keyCaptor.capture(), valueCaptor.capture());
 
-        verify(appTaggingInterfaceMock).trackActionWithInfo(anyString(), infoMapCaptor.capture());
+        assertThat(keyCaptor.getValue().equals(key));
+        assertThat(valueCaptor.getValue().equals(value));
+    }
 
-        final Map<String, String> infoMap = infoMapCaptor.getValue();
-        assertThat(infoMap.containsKey(SHNTagger.Key.KEY_LIBRARY_VERSION));
-        assertThat(infoMap.containsKey(SHNTagger.Key.KEY_MANUFACTURER));
-        assertThat(infoMap.containsKey(SHNTagger.Key.KEY_MODEL));
-        assertThat(infoMap.containsKey(SHNTagger.Key.KEY_OS));
+    @Test
+    public void givenATagger_whenSendingTechnicalError_thenTrackActionWithInfoIsInvokedWithPredefinedErrorKeyAndSuppliedValue() {
+        final String errorMsg = "Something went wrong!";
+        tagger.sendTechnicalError(errorMsg);
+
+        verify(appTaggingInterfaceMock).trackActionWithInfo(anyString(), keyCaptor.capture(), valueCaptor.capture());
+
+        assertThat(keyCaptor.getValue().equals(TECHNICAL_ERROR));
+        assertThat(valueCaptor.getValue().equals(errorMsg));
     }
 }

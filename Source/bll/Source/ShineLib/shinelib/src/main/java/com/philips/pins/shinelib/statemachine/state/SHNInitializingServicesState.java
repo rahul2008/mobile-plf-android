@@ -19,7 +19,6 @@ public class SHNInitializingServicesState extends SHNConnectingState {
     private static final String TAG = "SHNInitializingServicesState";
     private static final long SERVICE_INITIALIZATION_TIMEOUT = 20_000L;
 
-
     public SHNInitializingServicesState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine, SERVICE_INITIALIZATION_TIMEOUT);
     }
@@ -42,8 +41,7 @@ public class SHNInitializingServicesState extends SHNConnectingState {
         if (state == SHNService.State.Error) {
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
 
-            // TODO Is this a good place?
-            stateMachine.getSharedResources().getShnCentral().getTagger().trackAction("foo", "bar", "baz");
+            stateMachine.getSharedResources().getShnCentral().getTagger().sendTechnicalError("Error initializing services");
         }
     }
 
