@@ -26,7 +26,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
+import com.philips.platform.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 
