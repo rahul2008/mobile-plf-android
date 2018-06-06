@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">有効なメールアドレスを入力してください。</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">入力されたメールアドレスは既に使用されています。別のメールアドレスを入力するか、前に戻ってこのメールアドレスでログインしてください。</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">このメールアドレスは、フィリップスアカウントまたはソーシャルメディアアカウントで既に使用されています。\n戻って「ログイン」手順を実行するか、別のメールアドレスを使用してください。</string>
+<string name="reg_PrivacyNoticeText">プライバシーに関する通知</string>
 <string name="reg_TermsAndConditionsText">利用規約</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">お客様のメールアカウントに送信されたアクティベーションリンクを使用して、メールアドレスの照合を行ってください。</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">次のアドレスにメールを送信しました：%s。メール受信まで少々時間がかかる場合があります。</string>

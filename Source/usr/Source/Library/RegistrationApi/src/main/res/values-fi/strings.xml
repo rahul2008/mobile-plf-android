@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Kirjoita kelvollinen sähköpostiosoite.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Tämä sähköpostiosoite on jo käytössä. Anna toinen osoite tai palaa takaisin ja kirjaudu sisään tällä sähköpostiosoitteella.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Tämä sähköpostiosoite on jo Philips-tilin tai yhteisöpalvelun tilin käytössä.\nPalaa takaisin kirjautumisvaiheeseen tai käytä toista sähköpostiosoitetta.</string>
+<string name="reg_PrivacyNoticeText">Tietosuojalausunto</string>
 <string name="reg_TermsAndConditionsText">Käyttöehdot</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Vahvista sähköpostiosoitteesi sinulle lähetetyssä viestissä olevan aktivointilinkin kautta</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Olemme lähettäneet viestin sähköpostiosoitteeseen %s. Viestin saapuminen saattaa kestää jonkin aikaa.</string>

@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Lūdzu, ievadiet derīgu e-pasta adresi.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Šī e-pasta adrese jau tiek izmantota. Lūdzu, ievadiet citu e-pasta adresi vai atgriezieties un piesakieties ar šo e-pasta adresi.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Šī e-pasta adrese jau tiek izmantota ar Philips kontu vai sociālā tīkla kontu.\nLūdzu, pārejiet atpakaļ uz soli \'Pieteikšanās\' vai izmantojiet citu e-pasta adresi.</string>
+<string name="reg_PrivacyNoticeText">Paziņojums par konfidencialitāti</string>
 <string name="reg_TermsAndConditionsText">Noteikumi un nosacījumi</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Lūdzu, apstipriniet e-pasta adresi, izmantojot aktivizācijas saiti, kas nosūtīta uz jūsu e-pasta kontu</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Mēs nosūtījām e-pasta ziņojumu uz: %s. Iespējams, jāuzgaida, līdz e-pasta pienākšanai.</string>

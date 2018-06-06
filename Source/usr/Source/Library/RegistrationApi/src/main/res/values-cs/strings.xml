@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Zadejte platnou e-mailovou adresu.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Tato e-mailová adresa je již používána. Zadejte jinou nebo se vraťte zpět a přihlaste se pomocí této e-mailové adresy.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Tato e-mailová adresa se již používá s účtem Philips nebo účtem na sociálních médiích.\nVraťte se na krok „Přihlášení“ nebo použijte jinou e-mailovou adresu.</string>
+<string name="reg_PrivacyNoticeText">Oznámení o ochraně osobních údajů</string>
 <string name="reg_TermsAndConditionsText">Podmínky</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Ověřte svou e-mailovou adresu pomocí aktivačního odkazu, který jsme vám zaslali na e-mailový účet</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Zaslali jsme e-mail na adresu: %s. Může chvíli trvat, než e-mail obdržíte.</string>

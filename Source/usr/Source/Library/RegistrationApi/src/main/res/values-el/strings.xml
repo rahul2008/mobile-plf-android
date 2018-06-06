@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Γράψτε μια έγκυρη διεύθυνση email.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Αυτή η διεύθυνση email χρησιμοποιείται ήδη. Εισαγάγετε μια διαφορετική διεύθυνση ή επιστρέψτε στην προηγούμενη σελίδα και συνδεθείτε με αυτή τη διεύθυνση email.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Αυτή η διεύθυνση email χρησιμοποιείται ήδη με ένα λογαριασμό Philips ή λογαριασμό κοινωνικής δικτύωσης.\nΕπιστρέψτε στο βήμα \"Σύνδεση\" ή χρησιμοποιήστε μια άλλη διεύθυνση email.</string>
+<string name="reg_PrivacyNoticeText">Δήλωση απορρήτου</string>
 <string name="reg_TermsAndConditionsText">Όροι και προϋποθέσεις</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Επαληθεύστε τη διεύθυνση email σας μέσω του συνδέσμου ενεργοποίησης που έχει σταλεί στο λογαριασμό email σας</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Έχουμε στείλει ένα email στη διεύθυνση %s. Ίσως χρειαστεί λίγη ώρα μέχρι να φτάσει το email.</string>

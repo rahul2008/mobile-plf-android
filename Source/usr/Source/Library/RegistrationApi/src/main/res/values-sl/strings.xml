@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Vnesite veljaven e-poštni naslov.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Ta e-poštni naslov je že v uporabi. Vnesite drugega ali se vrnite in se prijavite s tem e-poštnim naslov.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Ta e-poštni naslov je že uporabljen za račun Philips ali račun družabnega omrežja.\nVrnite se na korak \"Prijava\" ali uporabite drug e-poštni naslov.</string>
+<string name="reg_PrivacyNoticeText">Obvestilo o zasebnosti</string>
 <string name="reg_TermsAndConditionsText">Pogoji in določila</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Prek povezave, ki smo vam jo poslali v e-poštnem sporočilu, preverite svoj e-poštni naslov</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Poslali smo e-poštno sporočilo na naslov: %s. Za prejem boste mogoče morali malo počakati.</string>

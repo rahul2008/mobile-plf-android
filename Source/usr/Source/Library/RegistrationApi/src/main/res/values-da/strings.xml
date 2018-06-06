@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Indtast gyldig e-mailadresse.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Denne e-mailadresse er allerede i brug. Indtast en anden adresse, eller gå tilbage, og log på med denne e-mailadresse.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Denne e-mailadresse anvendes allerede med en Philips-konto eller en konto på de sociale medier.\nGå tilbage til trinnet \"Log ind\", eller brug en anden e-mailadresse.</string>
+<string name="reg_PrivacyNoticeText">Meddelelse om beskyttelse af personlige oplysninger</string>
 <string name="reg_TermsAndConditionsText">Vilkår og betingelser</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Kontroller din e-mailadresse via det aktiveringslink, der er sendt til din e-mailkonto</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Vi har sendt en e-mail til: %s. Det kan tage noget tid, før e-mailen kommer.</string>

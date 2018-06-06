@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Introduza um endereço de correio electrónico válido.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Este endereço de correio electrónico já está a ser utilizado. Introduza um endereço diferente ou volte atrás e inicie a sessão com este endereço.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Este endereço de correio electrónico já está a ser utilizado com uma conta Philips ou de uma rede social.\nVolte ao passo \'Iniciar sessão\' ou utilize outro endereço de correio electrónico.</string>
+<string name="reg_PrivacyNoticeText">Declaração de privacidade</string>
 <string name="reg_TermsAndConditionsText">Termos e condições</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Verifique o seu endereço de correio electrónico através da ligação de activação enviada para a sua conta de correio electrónico</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Enviámos uma mensagem de correio electrónico para: %s. Esta pode demorar algum tempo a chegar.</string>

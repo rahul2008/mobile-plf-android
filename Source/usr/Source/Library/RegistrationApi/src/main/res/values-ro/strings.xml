@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Introdu o adresă de e-mail valabilă.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Această adresă de e-mail este deja în uz. Introdu altă adresă sau revino şi conectează-te cu această adresă de e-mail.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Această adresă de e-mail este deja în uz pentru un cont Philips sau un cont de reţele de socializare.\nTe rugăm să mergi înapoi la pasul de \'Conectare\' sau să foloseşti o altă adresă de e-mail.</string>
+<string name="reg_PrivacyNoticeText">Notificarea de confidențialitate</string>
 <string name="reg_TermsAndConditionsText">Termenii și condițiile</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Te rugăm să-ţi verifici adresa de e-mail prin legătura de activare expediată către contul tău de e-mail</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Am expediat un e-mail către: %s. Poate dura ceva timp până vei primi mesajul.</string>

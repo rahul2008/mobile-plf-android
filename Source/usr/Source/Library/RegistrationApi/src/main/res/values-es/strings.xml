@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Introduce una dirección de correo electrónico válida.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Esta dirección de correo electrónico ya está en uso. Introduce una dirección diferente o vuelve e inicia sesión con esta dirección.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Esta dirección de correo electrónico ya está en uso con una cuenta de Philips o de red social.\nVuelve al paso de inicio de sesión o utiliza otra dirección.</string>
+<string name="reg_PrivacyNoticeText">Aviso de privacidad</string>
 <string name="reg_TermsAndConditionsText">Términos y condiciones</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Verifica tu dirección de correo con el enlace de activación que te hemos enviado.</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Hemos enviado un correo electrónico a: %s. Es posible que tarde un poco en llegar.</string>

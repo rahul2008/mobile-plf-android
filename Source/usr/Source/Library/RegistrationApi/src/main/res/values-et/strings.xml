@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Palun sisestage kehtiv e-posti aadress.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">See e-posti aadress on juba kasutusel. Palun sisestage erinev aadress või minge tagasi ja logige selle e-posti aadressiga sisse.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">See e-posti aadress on juba Philipsi konto või suhtlusvõrgustiku kontoga seotud.\nPalun minge tagasi sammu \'Logi sisse\' või kasutage teist e-posti aadressi.</string>
+<string name="reg_PrivacyNoticeText">Privaatsusavaldus</string>
 <string name="reg_TermsAndConditionsText">Kasutustingimused</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Palun kinnitage oma e-posti aadress sellele saadetud aktiveerimislingi abil</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Saatsime e-kirja aadressile: %s. Selle kohalejõudmine võib veidi aega võtta.</string>

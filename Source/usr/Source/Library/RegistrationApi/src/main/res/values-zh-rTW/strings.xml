@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">請輸入有效的電子郵件地址。</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">此電子郵件地址已有人使用。請輸入不同的電子郵件地址，或返回並使用此電子郵件地址登入。</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">該電子郵件地址已有人用於飛利浦帳戶或社交媒體帳戶。\n請返回「登入」步驟，或使用其他電子郵件地址。</string>
+<string name="reg_PrivacyNoticeText">隱私權聲明</string>
 <string name="reg_TermsAndConditionsText">條款與條件</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">請利用寄到您電子郵件帳戶的啟動連結來驗證您的電子郵件地址</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">我們已寄送電子郵件至：%s。送達電子郵件可能要花一些時間。</string>

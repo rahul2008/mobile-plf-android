@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">הזן כתובת דוא\"ל חוקית</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">כתובת דוא\"ל זו כבר נמצאת בשימוש. הזן כתובת אחרת או חזור חזרה והתחבר עם כתובת דוא\"ל זו.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">כתובת דוא\"ל זו כבר נמצאת בשימוש עם חשבון פיליפס או חשבון של רשת חברתית.\nחזור לשלב \'התחבר\', או השתמש בכתובת דוא\"ל אחרת.</string>
+<string name="reg_PrivacyNoticeText">הודעת פרטיות</string>
 <string name="reg_TermsAndConditionsText">תנאים והתניות</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">אמת את כתובת הדוא\"ל שלך דרך קישור ההפעלה שנשלח לחשבון הדוא\"ל שלך</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">שלחנו הודעת דוא\"ל לכתובת: %s. הגעת ההודעה עשויה לארוך זמן מה.</string>

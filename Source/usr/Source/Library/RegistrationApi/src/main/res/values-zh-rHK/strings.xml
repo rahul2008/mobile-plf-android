@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">請輸入有效的電郵地址。</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">此電郵地址已被使用。請輸入另一個電郵地址，或返回前頁，然後使用此電郵地址登入。</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">此電郵地址已在 Philips 或社交媒體帳戶中使用。請返回「登入」步驟，或使用其他電郵地址。</string>
+<string name="reg_PrivacyNoticeText">私隱須知</string>
 <string name="reg_TermsAndConditionsText">條款與條件</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">請使用傳送到您電郵帳戶的啟用連結來驗證電郵地址。</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">我們已經發送了一封電郵到：。稍後您便會收到。</string>

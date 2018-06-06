@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">โปรดป้อนอีเมล์แอดเดรสที่ถูกต้อง</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">มีการใช้อีเมล์แอดเดรสนี้แล้ว โปรดป้อนอีเมล์แอดเดรสอื่น หรือย้อนกลับไปแล้วล็อกอินด้วยอีเมล์แอดเดรสนี้</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">อีเมล์แอดเดรสนี้ได้ถูกใช้งานกับบัญชี Phillips หรือบัญชีสื่อสังคมออนไลน์แล้ว\nโปรดย้อนกลับไปยังขั้นตอน \'ล็อกอิน\' หรือใช้อีเมล์แอดเดรสอื่น</string>
+<string name="reg_PrivacyNoticeText">ประกาศเกี่ยวกับการคุ้มครองข้อมูลส่วนบุคคล</string>
 <string name="reg_TermsAndConditionsText">ข้อกำหนดและเงื่อนไข</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">โปรดยืนยันอีเมล์แอดเดรสของคุณผ่านทางลิงค์สำหรับเปิดการใช้งานที่ส่งไปยังบัญชีอีเมล์ของคุณ</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">เราได้ส่งอีเมล์ไปยัง: %s อาจจะใช้เวลาสักครู่ก่อนที่อีเมล์จะไปถึง</string>

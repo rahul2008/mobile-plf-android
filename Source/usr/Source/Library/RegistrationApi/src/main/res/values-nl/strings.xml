@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Voer een geldig e-mailadres in.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Dit e-mailadres is al in gebruik. Voer een ander e-mailadres in of ga terug en meld u aan met dit e-mailadres.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Dit e-mailadres wordt al gebruikt met een Philips- of social media-account.\nGa terug naar de stap \'Aanmelden\' of gebruik een ander e-mailadres.</string>
+<string name="reg_PrivacyNoticeText">Privacyverklaring</string>
 <string name="reg_TermsAndConditionsText">Algemene voorwaarden</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Controleer uw e-mail adres via de activatielink die naar uw e-mailaccount is verzonden</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">We hebben een e-mail gestuurd naar: %s. Het kan enige tijd duren voordat de e-mail aankomt.</string>

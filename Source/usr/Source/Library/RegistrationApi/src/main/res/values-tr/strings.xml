@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Lütfen geçerli bir e-posta adresi girin.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Bu e-posta adresi zaten kullanılıyor. Lütfen farklı bir e-posta adresi girin veya geri dönüp bu adresle oturum açın.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Bu e-posta adresi zaten bir Philips hesabıyla veya sosyal medya hesabıyla kullanılıyor.\nLütfen \"Oturum açma\"\ adımına geri dönün ya da farklı bir e-posta adresi kullanın.</string>
+<string name="reg_PrivacyNoticeText">Gizlilik Bildirimi</string>
 <string name="reg_TermsAndConditionsText">Şartlar ve Koşullar</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Lütfen e-posta hesabınıza gönderilen etkinleştirme bağlantısını kullanarak e-posta adresinizi doğrulayın</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">%s adresine bir e-posta gönderdik. Bu e-postanın size ulaşması biraz zaman alabilir.</string>

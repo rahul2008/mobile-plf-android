@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Adjon meg érvényes e-mail címet.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Ez az e-mail cím már használatban van. Adjon meg másikat vagy lépjen vissza, és lépjen be ezzel az e-mail címmel.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Ez az e-mail cím már használatban van egy Philips fiókhoz vagy közösségi média fiókhoz.\nKérjük, térjen vissza a \’Bejelentkezés\’ lépéshez, vagy használjon másik e-mail címet.</string>
+<string name="reg_PrivacyNoticeText">Adatvédelmi nyilatkozat</string>
 <string name="reg_TermsAndConditionsText">Felhasználási feltételek</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Kérjük, erősítse meg e-mail címét az e-mail fiókjába küldött aktivációs linken keresztül</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Küldtünk levelet a(z) %s e-mail címre. Igénybe vehet egy kis időt, amíg megérkezik.</string>

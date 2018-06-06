@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Įveskite galiojantį el. pašto adresą.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Šis el. pašto adresas jau naudojamas. Įveskite kitą arba grįžkite atgal ir prisijunkite su šiuo el. pašto adresu.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Šis el. pašto adresas jau naudojamas „Philips“ paskyroje arba socialinio tinklo paskyroje.\nGrįžkite į\„Prisijungimą\“ arba naudokite kitą el. pašto adresą.</string>
+<string name="reg_PrivacyNoticeText">Privatumo nuostatos</string>
 <string name="reg_TermsAndConditionsText">Nuostatos ir sąlygos</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Patvirtinkite el. pašto adresą pasinaudodami į jūsų el. pašto paskyra atsiųsta aktyvinimo nuoroda</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">El. laišką išsiuntėme adresu: %s. Gali šiek tiek užtrukti, kol gausite el. laišką.</string>

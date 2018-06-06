@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Please enter a valid email address.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">This email address is already in use. Please enter a different one, or go back and log in with this email address.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">This email address is already in use with a Philips account or a social media account.\nPlease go back to the \'Log in\' step, or use another email address.</string>
+<string name="reg_PrivacyNoticeText">Privacy Notice</string>
 <string name="reg_TermsAndConditionsText">Terms and Conditions</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Please verify your email address through the activation link sent to your email account</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">We have sent an email to: %s. It may take some time for the email to arrive.</string>

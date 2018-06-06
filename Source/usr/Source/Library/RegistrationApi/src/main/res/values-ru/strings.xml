@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Укажите действующий адрес электронной почты.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Этот адрес электронной почты уже используется. Введите другой адрес или вернитесь назад и войдите в учетную запись с помощью этого адреса электронной почты.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Этот адрес электронной почты уже используется для учетной записи Philips или социальной сети.\nВернитесь к шагу \"Вход\" или выберите другой адрес электронной почты.</string>
+<string name="reg_PrivacyNoticeText">Заявление о конфиденциальности</string>
 <string name="reg_TermsAndConditionsText">Положения и условия</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Подтвердите адрес электронной почты с помощью ссылки активации, отправленной вам на этот адрес</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Письмо было отправлено на адрес: %s. Это может занять некоторое время.</string>

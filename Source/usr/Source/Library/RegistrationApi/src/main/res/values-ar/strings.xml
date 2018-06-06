@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">يرجى إدخال عنوان بريد إلكتروني صالح.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">سبق أن تم استخدام عنوان البريد الإلكتروني هذا. يرجى إدخال عنوان آخر أو العودة وتسجيل الدخول بواسطة عنوان البريد الإلكتروني هذا.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">إن عنوان البريد الإلكتروني مستخدم مع حساب Philips أو حساب الوسائط الاجتماعية. \nيرجى العودة إلى خطوة \'تسجيل الدخول\' أو استخدام عنوان بريد إلكتروني آخر.</string>
+<string name="reg_PrivacyNoticeText">إشعار الخصوصية</string>
 <string name="reg_TermsAndConditionsText">الأحكام والشروط</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">يرجى التحقق من عنوان بريدك الإلكتروني من خلال ارتباط التنشيط الذي تم إرساله إلى حساب بريدك الإلكتروني</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">لقد أرسلنا بريدًا إلكترونيًا إلى: %s. قد تستغرق عملية استلام البريد الإلكتروني بعض الوقت.</string>

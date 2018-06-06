@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Ange en giltig e-postadress.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Den här e-postadressen används redan. Ange en annan, eller gå tillbaka och logga in med den e-postadressen.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Denna e-postadress finns redan registrerad på ett annat Philips-konto eller sociala medier-konto.\nGå tillbaka till \Inloggningssteget\’, eller ange en annan e-postadress.</string>
+<string name="reg_PrivacyNoticeText">Sekretessmeddelande</string>
 <string name="reg_TermsAndConditionsText">Villkor</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Bekräfta din e-postadress via den aktiveringslänk som har skickats till ditt e-postkonto.</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Vi har skickat ett e-postmeddelande till: %s. Det kan dröja en stund innan du får e-postmeddelandet.</string>

@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">请输入有效的电子邮件地址。</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">此电子邮件地址已被使用。请输入其他电子邮件地址，或者使用此电子邮件地址重新登录。</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">此电子邮件地址已被飞利浦帐户或社交媒体帐户使用。\n请返回\'登录\'步骤，或使用其他电子邮件地址。</string>
+<string name="reg_PrivacyNoticeText">隐私声明</string>
 <string name="reg_TermsAndConditionsText">条款与条件</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">请通过发送到您的电子邮件帐户的激活链接验证您的电子邮件地址</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">我们已向以下地址发送电子邮件：%s。电子邮件到达可能需要一段时间。</string>

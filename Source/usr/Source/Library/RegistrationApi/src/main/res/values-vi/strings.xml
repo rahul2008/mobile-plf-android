@@ -24,6 +24,7 @@
 <string name="reg_InvalidOrMissingEmail_ErrorMsg">Vui lòng nhập địa chỉ email hợp lệ.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Địa chỉ email này đã được sử dụng. Vui lòng nhập địa chỉ khác, hoặc quay lại và đăng nhập bằng địa chỉ email này.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Địa chỉ email này đã được sử dụng với một tài khoản Philips hoặc tài khoản mạng xã hội.\nVui lòng quay lại bước \'Đăng nhập\', hoặc dùng địa chỉ email khác.</string>
+<string name="reg_PrivacyNoticeText">Thông báo về quyền riêng tư</string>
 <string name="reg_TermsAndConditionsText">Điều khoản và điều kiện</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Vui lòng xác thực địa chỉ email của bạn thông qua liên kết kích hoạt được gửi đến tài khoản email của bạn</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">Chúng tôi đã gửi email đến: %s. Có thể cần một lúc để email được gửi đến nơi.</string>
