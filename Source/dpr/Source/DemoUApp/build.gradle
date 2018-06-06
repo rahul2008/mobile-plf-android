@@ -52,8 +52,8 @@ dependencies {
         implementation project(':uid')
         implementation project(':commlib-api')
         implementation project(':commlib-lan')
-        implementation project(':mya-catk')
-        implementation project(':mya-csw')
+        implementation project(':catk')
+        implementation project(':csw')
         implementation project(':pif')
         implementation project(':dataServices')
     }

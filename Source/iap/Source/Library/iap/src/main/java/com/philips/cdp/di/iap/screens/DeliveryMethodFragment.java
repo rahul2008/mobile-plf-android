@@ -15,7 +15,9 @@ import com.philips.cdp.di.iap.adapters.DeliveryModeAdapter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 
 import java.util.List;
 
@@ -118,6 +120,10 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     @Override
     public void onSetDeliveryMode(Message msg) {
         hideProgressBar();
-        getFragmentManager().popBackStack();
+        if ((msg.obj instanceof IAPNetworkError)) {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+        }else {
+            getFragmentManager().popBackStack();
+        }
     }
 }
