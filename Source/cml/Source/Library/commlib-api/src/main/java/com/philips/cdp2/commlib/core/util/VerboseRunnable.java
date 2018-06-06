@@ -29,4 +29,9 @@ public class VerboseRunnable implements Runnable {
             throw t;
         }
     }
+
+    @NonNull
+    public Runnable getWrappedRunnable() {
+        return wrappedRunnable;
+    }
 }
