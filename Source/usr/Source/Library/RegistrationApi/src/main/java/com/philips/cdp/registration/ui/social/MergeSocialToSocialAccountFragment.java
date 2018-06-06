@@ -303,6 +303,12 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     }
 
     @Override
+    public void onFaceBookCancel() {
+        getFragmentManager().popBackStack();
+        getRegistrationFragment().handleBackEvent();
+    }
+
+    @Override
     public void onFaceBookEmailReceived(String email) {
             startAccessTokenAuthForFacebook();
     }

@@ -549,6 +549,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     @Override
+    public void onFaceBookCancel() {
+
+    }
+
+    @Override
     public void onFaceBookEmailReceived(String email) {
         mFacebookEmail = email;
         startAccessTokenAuthForFacebook();

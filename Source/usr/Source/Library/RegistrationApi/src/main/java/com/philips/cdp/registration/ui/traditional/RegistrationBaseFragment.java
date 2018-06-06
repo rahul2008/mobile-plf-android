@@ -38,7 +38,6 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     private URNotification notification;
 
     private Context mContext;
-    private URNotification.URNotificationInterface notificationInterface;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -73,6 +72,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        notification = new URNotification(getRegistrationFragment().getParentActivity(), this);
     }
 
     @Override
@@ -318,14 +318,12 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     public void updateErrorNotification(String errorMessage, int errorCode) {
 
-        final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
-        urNotification.showNotification(new NotificationMessage(errorMessage, errorCode));
+        notification.showNotification(new NotificationMessage(errorMessage, errorCode));
     }
 
     public void updateErrorNotification(String errorMessage) {
 
-        final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
-        urNotification.showNotification(new NotificationMessage(errorMessage));
+        notification.showNotification(new NotificationMessage(errorMessage));
 
 
     }
@@ -333,7 +331,6 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     public void showNotificationBarOnNetworkNotAvailable() {
 
         new Handler().postDelayed(() -> {
-            notification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
             notification.showNotification(
                     new NotificationMessage(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_Network_ErrorMsg)));
         }, 100);
@@ -345,7 +342,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment) {
-        notificationInterface = baseFragment;
+       // notificationInterface = baseFragment;
     }
 
 }

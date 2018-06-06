@@ -250,8 +250,9 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     @Override
     public void mergeFailure(int errorCode) {
         hideMergeSpinner();
-        mEtPassword.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, errorCode));
-        mEtPassword.showError();
+//        mEtPassword.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, errorCode));
+//        mEtPassword.showError();
+        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, errorCode));
     }
 
     @Override
