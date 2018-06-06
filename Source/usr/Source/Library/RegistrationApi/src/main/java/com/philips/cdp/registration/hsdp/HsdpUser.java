@@ -17,6 +17,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.app.tagging.Encryption;
+import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -53,6 +54,9 @@ public class HsdpUser {
     private String TAG = HsdpUser.class.getSimpleName();
 
     @Inject
+    HSDPConfiguration hsdpConfiguration;
+
+    @Inject
     NetworkUtility networkUtility;
 
     private Context mContext;
@@ -60,6 +64,8 @@ public class HsdpUser {
     private final String SUCCESS_CODE = "200";
 
     private final String HSDP_RECORD_FILE = "hsdpRecord";
+
+    private DhpResponse dhpResponse = null;
 
     /**
      * Class constructor
@@ -71,7 +77,28 @@ public class HsdpUser {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
     }
 
-    private DhpResponse dhpResponse = null;
+    /**
+     * Get HSDP information for specified configuration
+     *
+     * @return HSDPInfo Object
+     */
+    private HSDPInfo getHSDPInfo() {
+
+        String sharedId = hsdpConfiguration.getHsdpSharedId();
+
+        String secreteId = hsdpConfiguration.getHsdpSecretId();
+
+        String baseUrl = hsdpConfiguration.getHsdpBaseUrl();
+
+        String appName = hsdpConfiguration.getHsdpAppName();
+
+        RLog.d("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
+
+        if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
+            return null;
+        }
+        return new HSDPInfo(sharedId, secreteId, baseUrl, appName);
+    }
 
     /**
      * Logout
@@ -241,7 +268,7 @@ public class HsdpUser {
      */
     private DhpApiClientConfiguration getDhpApiClientConfiguration() {
         DhpApiClientConfiguration dhpApiClientConfiguration = null;
-        HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHSDPInfo();
+        HSDPInfo hsdpInfo = getHSDPInfo();
         if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null !=
                 hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getApplicationName()) {

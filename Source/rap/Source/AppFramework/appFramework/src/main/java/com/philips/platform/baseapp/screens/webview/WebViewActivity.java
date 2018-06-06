@@ -53,6 +53,7 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
             serviceId = (String) getIntent().getSerializableExtra(SERVICE_ID_KEY);
             title = (String) getIntent().getSerializableExtra(ACTION_BAR_TITLE);
             webView = (WebView) findViewById(R.id.web_view);
+            webView.getSettings().setJavaScriptEnabled(true);
             webView.setWebViewClient(new WebViewClient());
             webViewActions = getWebViewPresenter();
             if(title!=null) {

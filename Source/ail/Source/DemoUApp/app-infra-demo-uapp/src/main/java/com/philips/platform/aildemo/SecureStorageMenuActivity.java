@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -73,6 +74,15 @@ public class SecureStorageMenuActivity extends AppCompatActivity {
 
 			}
 		});
+	}
+
+	public void onClick(View view) {
+		AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
+		if(view.getId() == R.id.isCodeTampered) {
+			Toast.makeText(SecureStorageMenuActivity.this,String.valueOf(appInfra.getSecureStorage().isCodeTampered()),Toast.LENGTH_SHORT).show();
+		} else if(view.getId() == R.id.isEmulator){
+			Toast.makeText(SecureStorageMenuActivity.this,String.valueOf(appInfra.getSecureStorage().isEmulator()),Toast.LENGTH_SHORT).show();
+		}
 	}
 
 }

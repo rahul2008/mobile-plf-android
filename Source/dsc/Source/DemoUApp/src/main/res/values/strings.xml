@@ -53,7 +53,8 @@
     <string name="sync_inProgress">InProgress</string>
     <string name="sync_completed">Sync-Completed</string>
     <string name="sync_failed">Sync-Failed</string>
-    <string name="sync_stopped">Sync-Stopped</string>
+    <string name="sync_yet_to_start">Sync-Yet-to-Start</string>
+    <string name="set_lastSyncTime">Reset last sync time</string>
 
     <!-- Moment by data range-->
     <string name="fetch_moment_by_date_range">Moment by Date Range</string>
@@ -78,6 +79,7 @@
     <!--Consent-->
     <string name="consent">User Consents</string>
     <string name="fetching_consent">Fetching consents&#8230;</string>
+    <string name="gdpr_features">GDPR related features</string>
 
     <!--Settings-->
     <string name="settings">User Settings</string>
