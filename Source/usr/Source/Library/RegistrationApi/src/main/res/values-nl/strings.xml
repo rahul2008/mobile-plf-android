@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Adres</string>
 <string name="reg_MyDetails_TitleTxt">Mijn details</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Handtekening is verlopen vanwege een tijdsfout. Controleer de tijdsinstellingen van uw apparaat.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Kan geen verbinding maken met de server. %s.\nHebt u nog steeds problemen? Neem contact op met klantenservice en vermeld de foutcode [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Kan geen verbinding maken met de server. %s.\nHebt u nog steeds problemen? Neem contact op met klantenservice en vermeld de foutcode </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Het %s of het wachtwoord dat u hebt opgegeven, is onjuist.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Er bestaat geen account voor dit e-mailadres. Maak een account aan met dit e-mailadres of voer een ander e-mailadres in.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Er is iets fout gegaan. Probeer het opnieuw.</string>

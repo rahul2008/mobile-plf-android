@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Indirizzo</string>
 <string name="reg_MyDetails_TitleTxt">I miei dettagli</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Firma scaduta per un errore di data e ora. Controlla le relative impostazioni del dispositivo.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Impossibile connettersi al server. %s.\nI problemi persistono? Contatta l\'assistenza clienti indicando il codice di errore [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Impossibile connettersi al server. %s.\nI problemi persistono? Contatta l\'assistenza clienti indicando il codice di errore </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">%s o password non corretti.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Non esiste alcun account associato a questo indirizzo e-mail. Creane uno con questo indirizzo e-mail o immetti un indirizzo e-mail diverso.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Spiacenti, si è verificato un errore. Riprova.</string>

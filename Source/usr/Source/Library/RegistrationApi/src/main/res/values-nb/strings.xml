@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Adresse</string>
 <string name="reg_MyDetails_TitleTxt">Mine detaljer</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Signaturen utløp på grunn av en tidsfeil. Sjekk enhetens tidsinnstillinger.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Kan ikke koble til serveren. %s.\nHar du fortsatt problemer? Kontakt kundestøtten og oppgi feilkode [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Kan ikke koble til serveren. %s.\nHar du fortsatt problemer? Kontakt kundestøtten og oppgi feilkode </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Du har skrevet inn feil %s eller passord.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Det finnes ingen konto for denne e-postadressen. Opprett en konto med denne e-postadressen, eller bruk en annen e-postadresse.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Beklager, noe gikk galt. Prøv på nytt.</string>

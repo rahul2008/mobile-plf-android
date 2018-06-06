@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Địa chỉ</string>
 <string name="reg_MyDetails_TitleTxt">Thông tin chi tiết</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Chữ ký đã hết hạn do lỗi thời gian. Vui lòng kiểm tra các cài đặt thời gian trên thiết bị của bạn.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Không thể kết nối với máy chủ. %s.\nVẫn gặp khó khăn? Hãy liên hệ với Trung tâm chăm sóc khách hàng để thông báo mã lỗi [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Không thể kết nối với máy chủ. %s.\nVẫn gặp khó khăn? Hãy liên hệ với Trung tâm chăm sóc khách hàng để thông báo mã lỗi </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">%s hoặc mật khẩu mà bạn đã nhập không chính xác.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Không có tài khoản nào cho email này. Hãy tạo một tài khoản bằng email này hoặc nhập địa chỉ email khác.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Rất tiếc, có gì đó không ổn. Vui lòng thử lại sau.</string>

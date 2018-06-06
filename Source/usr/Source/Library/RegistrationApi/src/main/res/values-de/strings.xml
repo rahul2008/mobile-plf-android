@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Adresse</string>
 <string name="reg_MyDetails_TitleTxt">Meine Daten</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Signatur aufgrund eines Zeitfehlers abgelaufen. Bitte Zeiteinstellungen des Geräts überprüfen.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Verbindung zum Server nicht möglich. %s.\nImmer noch Schwierigkeiten? Wenden Sie sich mit Ihrem Fehlercode an den Kundendienst [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Verbindung zum Server nicht möglich. %s.\nImmer noch Schwierigkeiten? Wenden Sie sich mit Ihrem Fehlercode an den Kundendienst </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">Die %s oder das eingegebene Passwort ist falsch.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Kein Konto mit dieser E-Mail gefunden. Erstellen Sie ein Konto mit dieser E-Mail oder geben Sie eine andere E-Mail-Adresse ein.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Es tut uns leid, ein Fehler ist aufgetreten. Versuch es erneut.</string>

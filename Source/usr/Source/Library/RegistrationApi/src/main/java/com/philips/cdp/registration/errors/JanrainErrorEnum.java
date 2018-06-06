@@ -124,7 +124,7 @@ public enum JanrainErrorEnum {
         int stringId = getStringId(errorCode);
 
         if(stringId == R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg){
-            return String.format(context.getString(getStringId(errorCode)),context.getString(R.string.reg_USR_Error_PleaseTryLater_Txt));
+            return String.format(context.getString(getStringId(errorCode)),context.getString(R.string.reg_USR_Error_PleaseTryLater_Txt)) + "["+errorCode+"]" +".";
         }else if (stringId == R.string.reg_Janrain_Invalid_Credentials_ErrorMsg){
             return context.getString(R.string.reg_JanRain_Invalid_Credentials);
         }else if (stringId == R.string.reg_Janrain_EntityAlreadyExists_ErrorMsg){

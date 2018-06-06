@@ -272,13 +272,13 @@
 <string name="reg_Address_TitleTxt">Dirección</string>
 <string name="reg_MyDetails_TitleTxt">Mis datos</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">La firma caducó debido a un error de hora. Comprueba la configuración de hora del dispositivo.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">No se puede conectar al servidor. %s.\n¿Todavía presenta problemas? Comunícate con atención al cliente e indícale el código de error [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">No se puede conectar al servidor. %s.\n¿Todavía presenta problemas? Comunícate con atención al cliente e indícale el código de error </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">La contraseña o %s que ingresaste no es correcta.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">No existe una cuenta con este correo electrónico. Crea una cuenta utilizando este correo electrónico o ingresa una dirección distinta.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Lamentablemente, se produjo un error. Inténtalo de nuevo.</string>
 <string name="reg_Janrain_EntityAlreadyExists_ErrorMsg">%s ya está registrado(a).</string>
 <string name="reg_Janrain_EmailAddressInUse_ErrorMsg">Esta dirección de correo electrónico ya existe. Inicia sesión utilizando esta dirección o regístrate usando otra.</string>
-<string name="reg_Janrain_HSDP_ServerErrorMsg">No se puede conectar al servidor.\nInténtalo de nuevo más tarde o consulta las preguntas frecuentes para obtener información.\nSi esto no aclara tus dudas , comunícate con atención al cliente e indícale el código de error [%d]</string>
+<string name="reg_Janrain_HSDP_ServerErrorMsg">No se puede conectar al servidor.\nInténtalo de nuevo más tarde o consulta las preguntas frecuentes para obtener información.\nSi esto no aclara tus dudas , comunícate con atención al cliente e indícale el código de error </string>
 <string name="reg_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Regresa a la página e inicia sesión de nuevo.</string>
 <string name="reg_Janrain_VerificationCodeExpired_ErrorMsg">Has ingresado un código de verificación caducado o incorrecto. Ingresa el código correcto o envía uno de nuevo.</string>
 <string name="reg_Janrain_LimitError_ErrorMsg">Se alcanzó el límite de intentos incorrectos.\nInténtalo de nuevo más tarde.</string>

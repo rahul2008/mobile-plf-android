@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">ที่อยู่</string>
 <string name="reg_MyDetails_TitleTxt">ข้อมูลของฉัน</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">ลายเซ็นหมดอายุเนื่องจากเวลาที่ผิดพลาด โปรดตรวจสอบเวลาการติดตั้งอุปกรณ์ของคุณ</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ %s\nยังมีปัญหาอยู่ใช่ไหม โปรดติดต่อทีมบริการดูแลลูกค้า บอกสัญลักษณ์แสดงข้อผิดพลาด [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ %s\nยังมีปัญหาอยู่ใช่ไหม โปรดติดต่อทีมบริการดูแลลูกค้า บอกสัญลักษณ์แสดงข้อผิดพลาด </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">%s หรือรหัสผ่านที่ป้อนไม่ถูกต้อง</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">ไม่มีบัญชีสำหรับอีเมลนี้ สร้างบัญชีด้วยการใช้อีเมลนี้ หรือใส่อีเมลอื่นลงไป</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">ขออภัย เกิดข้อผิดพลาดบางประการ โปรดลองอีกครั้ง</string>

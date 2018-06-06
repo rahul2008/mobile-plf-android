@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">العنوان</string>
 <string name="reg_MyDetails_TitleTxt">التفاصيل الخاصة بي</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">انتهت صلاحية التوقيع بسبب خطأ في الوقت. يرجى التحقق من إعدادات الوقت في جهازك.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">يتعذّر الاتصال بالخادم. %s.\nهل ما زلت تواجه صعوبة؟ اتصل بمركز خدمة العملاء مع توفير رمز الخطأ [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">يتعذّر الاتصال بالخادم. %s.\nهل ما زلت تواجه صعوبة؟ اتصل بمركز خدمة العملاء مع توفير رمز الخطأ </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">إن %s أو كلمة المرور التي أدخلتها غير صحيحة.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">ما من حساب للبريد الإلكتروني هذا. قم بإنشاء حساب باستخدام هذا البريد الإلكتروني أو أدخِل عنوان بريد إلكتروني مختلف.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">عذرًا، حدث خطأ ما. يرجى إعادة المحاولة.</string>

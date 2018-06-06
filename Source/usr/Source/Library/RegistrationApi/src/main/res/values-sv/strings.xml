@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">Adress</string>
 <string name="reg_MyDetails_TitleTxt">Mina uppgifter</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">Signaturen upphörde på grund av tidsfel. Kontrollera enhetens tidsinställningar.</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Det går inte att ansluta till servern. %s.\nHar du fortfarande problem? Kontakta kundtjänst och ange felkoden [%d]</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Det går inte att ansluta till servern. %s.\nHar du fortfarande problem? Kontakta kundtjänst och ange felkoden </string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">%s eller lösenordet som du angav stämmer inte.</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Konto saknas för den här e-postadressen. Skapa ett konto med den här e-postadressen eller ange en annan e-postadress.</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">Något gick fel. Försök igen.</string>

@@ -272,7 +272,7 @@
 <string name="reg_Address_TitleTxt">住所</string>
 <string name="reg_MyDetails_TitleTxt">詳細</string>
 <string name="reg_HSDP_Signature_Expired_TimeErrorMsg">タイムエラーのためシグネチャーが期限切れになりました。デバイスの時刻設定を確認してください。</string>
-<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">サーバーに接続できません。%s。\n問題が解決しない場合は、カスタマーケアにお問い合わせください。その際エラーコード [%d] をお伝えください</string>
+<string name="reg_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">サーバーに接続できません。%s。\n問題が解決しない場合は、カスタマーケアにお問い合わせください。その際エラーコード  をお伝えください</string>
 <string name="reg_Janrain_Invalid_Credentials_ErrorMsg">入力された %s またはパスワードが間違っています。</string>
 <string name="reg_Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">このメールアドレスのアカウントは存在しません。このメールアドレスを使用してアカウントを作成するか、別のメールアドレスを入力してください。</string>
 <string name="reg_UnexpectedInternalError_ErrorMsg">問題が発生しました。再試行してください。</string>
