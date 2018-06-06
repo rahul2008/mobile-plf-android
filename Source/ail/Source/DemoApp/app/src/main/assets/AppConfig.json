@@ -47,12 +47,11 @@
       "logLevel":"Off",
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
-      "cloudLogEnabled":true,
+      "cloudLogEnabled":false,
       "cloudBatchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
-        "DemoAppInfra",
-        "PhilipsRegistration"
+        "ail","usr"
       ]
     },
     "logging.debugConfig":{
@@ -66,8 +65,7 @@
       "cloudBatchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
-        "DemoAppInfra",
-        "PhilipsRegistration","component1"
+        "ail"
       ]
 
     }

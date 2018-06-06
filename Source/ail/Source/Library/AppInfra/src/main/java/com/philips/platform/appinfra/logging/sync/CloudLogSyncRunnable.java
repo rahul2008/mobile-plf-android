@@ -10,7 +10,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.apisigning.HSDPLoggingV2ApiSigning;
-import com.philips.platform.appinfra.apisigning.HSDPPHSApiSigning;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 import com.philips.platform.appinfra.logging.LoggingUtils;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
@@ -67,9 +66,15 @@ public class CloudLogSyncRunnable implements Runnable {
                 }
             }, new Response.ErrorListener() {
                 @Override
-                public void onErrorResponse(VolleyError error) {
-                    ailCloudLogDBManager.updateAILCloudLogList(ailCloudLogDataList, AILCloudLogDBManager.DBLogState.ERROR);
-                    Log.v("SyncTesting", "Inside onErrorResponse" + error.getMessage());
+                public void onErrorResponse(final VolleyError error) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ailCloudLogDBManager.updateAILCloudLogList(ailCloudLogDataList, AILCloudLogDBManager.DBLogState.ERROR);
+                            Log.v("SyncTesting", "Inside onErrorResponse" + error.getMessage());
+                        }
+                    }).start();
+
                 }
             }) {
                 @Override

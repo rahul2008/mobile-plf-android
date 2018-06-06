@@ -477,10 +477,19 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                 }
             }).start();
 //            }
-            if (ai.getLogging() instanceof AppInfraLogging) {
-                ((AppInfraLogging) ai.getLogging()).onAppInfraInitialised(ai);
 
-            }
+
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (ai.getLogging() instanceof AppInfraLogging) {
+                        ((AppInfraLogging) ai.getLogging()).onAppInfraInitialised(ai);
+                    }
+                }
+            }).start();
+
+
             postLog(ai, startTime, "App-infra initialization ends with ");
             return ai;
         }

@@ -6,6 +6,7 @@
 package com.philips.platform.aildemolaunch;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -26,7 +27,12 @@ public class AppInfraApplication extends Application {
         super.onCreate();
         LeakCanary.install(this);
         AppInfra.Builder builder = new AppInfra.Builder();
+        long current_time = System.currentTimeMillis();
+        Log.i("time","Time before ail build "+ current_time);
         gAppInfra = builder.build(getApplicationContext());
+        long end_time = System.currentTimeMillis();
+        Log.i("time","Time after ail build "+ end_time);
+        Log.i("time","Application Diff is " + (end_time - current_time));
         consentDefinitions.add(getCloudConsentDefinition());
         gAppInfra.getConsentManager().registerConsentDefinitions(consentDefinitions);
         ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler((AppInfra) gAppInfra);
