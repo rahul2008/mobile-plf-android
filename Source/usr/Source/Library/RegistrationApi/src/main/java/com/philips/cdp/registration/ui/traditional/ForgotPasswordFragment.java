@@ -223,7 +223,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     private void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
-            hideNotificationBarOnNetworkAvailable();
+            hideNotificationBarView();
         } else {
 //            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             showNotificationBarOnNetworkNotAvailable();
@@ -238,7 +238,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
             }
             sendEmailOrSMSButton.hideProgressIndicator();
             mRegError.hideError();
-            hideNotificationBarOnNetworkAvailable();
+            hideNotificationBarView();
         } else {
             sendEmailOrSMSButton.hideProgressIndicator();
             sendEmailOrSMSButton.setEnabled(false);

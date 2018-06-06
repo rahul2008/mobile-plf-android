@@ -207,7 +207,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             }
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
             if (mRegError.isShown())
-                hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
+                hideNotificationBarView();//mRegError.hideError();
             if (homePresenter.isNetworkAvailable()) {
                 homePresenter.setFlowDeligate(HomePresenter.FLOWDELIGATE.SOCIALPROVIDER);
                 homePresenter.setProvider(providerName);
@@ -398,7 +398,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         public void onClick(View widget) {
             if (mRegError.isShown()) {
                 //mRegError.hideError();
-                hideNotificationBarOnNetworkAvailable();
+                hideNotificationBarView();
             }
             handleCountrySelection();
         }
@@ -515,7 +515,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void enableControls(boolean clickableState) {
         if (clickableState) {
             //mRegError.hideError();
-            hideNotificationBarOnNetworkAvailable();
+            hideNotificationBarView();
 
         }
         handleBtnClickableStates(clickableState);
@@ -599,21 +599,21 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @OnClick(R2.id.usr_startScreen_createAccount_Button)
     void createAccountButtonClick() {
-        if (mRegError.isShown()) hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
+        if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
         launchCreateAccountFragment();
     }
 
 
     @OnClick(R2.id.usr_startScreen_Login_Button)
     void myPhilipsButtonClick() {
-        if (mRegError.isShown()) hideNotificationBarOnNetworkAvailable();// mRegError.hideError();
+        if (mRegError.isShown()) hideNotificationBarView();// mRegError.hideError();
         trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
         launchSignInFragment();
     }
 
     @OnClick(R2.id.usr_StartScreen_Skip_Button)
     void skipButtonClick() {
-        if (mRegError.isShown()) hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
+        if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
 
         if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
             RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
@@ -741,7 +741,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         @Override
         public void onClick(View widget) {
             if (mRegError.isShown())
-                hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
+                hideNotificationBarView();//mRegError.hideError();
             handlePrivacyPolicy();
         }
     };

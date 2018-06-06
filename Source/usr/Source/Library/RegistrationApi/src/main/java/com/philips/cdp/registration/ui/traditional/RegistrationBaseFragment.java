@@ -79,6 +79,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     public void onStop() {
         super.onStop();
         setPrevTiltle();
+        hideNotificationBarView();
     }
 
     @Override
@@ -338,7 +339,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
         }, 100);
     }
 
-    public void hideNotificationBarOnNetworkAvailable() {
+    public void hideNotificationBarView() {
         if (notification != null)
             notification.hideNotification();
     }
