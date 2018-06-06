@@ -792,8 +792,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void wechatAuthenticationFailError() {
         hideProgressDialogWithTrackHomeAndEnableControls();
-        updateErrorNotification(mContext.
-                getString(R.string.reg_JanRain_Server_Connection_Failed));
+        updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
     }
 
     @Override
@@ -810,6 +809,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void loginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        if (!homePresenter.isNetworkAvailable()) return;
         if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER) {
             userCancelledSocialLogin();
         } else {

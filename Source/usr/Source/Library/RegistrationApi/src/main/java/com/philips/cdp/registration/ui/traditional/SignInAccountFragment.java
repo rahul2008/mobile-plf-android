@@ -397,7 +397,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
             enableAll();
-        } 
+        }
     }
 
     @Override
@@ -713,10 +713,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.URX, code));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+           RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred");
         }
-
-
     }
 
     private void serviceDiscovery() {
@@ -746,10 +744,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void enableAll() {
         if (networkUtility.isNetworkAvailable()) {
             mBtnSignInAccount.setEnabled(true);
-        } else {
-            if (isAdded())
-                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         }
+//        else {
+//            if (isAdded())
+//                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
+//        }
         loginValidationEditText.setEnabled(true);
         passwordValidationEditText.setEnabled(true);
         resetPasswordLabel.setEnabled(true);

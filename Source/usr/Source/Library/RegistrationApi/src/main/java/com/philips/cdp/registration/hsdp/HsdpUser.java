@@ -364,7 +364,7 @@ public class HsdpUser {
                                     accessToken, refreshSecret);
 
                     if (dhpAuthenticationResponse1 == null) {
-                        handler.post(() -> handleSocialConnectionFailed(loginHandler, ErrorCodes.NO_NETWORK,
+                        handler.post(() -> handleSocialNetworkFailure(loginHandler, ErrorCodes.NO_NETWORK,
                                 new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK), AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED));
                         return;
                     }
@@ -393,7 +393,7 @@ public class HsdpUser {
 
                             @Override
                             public void onFileWriteFailure() {
-                                handleSocialHsdpFailure(loginHandler, ErrorCodes.NO_NETWORK,
+                                handleSocialNetworkFailure(loginHandler, ErrorCodes.NO_NETWORK,
                                         new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK), AppTagingConstants.REG_NO_NETWORK_CONNECTION);
 
                             }
@@ -413,13 +413,13 @@ public class HsdpUser {
                     }
                 } catch (Exception e) {
                     RLog.e(RLog.HSDP, "HSDP Social Login : " + e.getMessage());
-                    handleSocialHsdpFailure(loginHandler,
+                    handleSocialNetworkFailure(loginHandler,
                             RegConstants.HSDP_CONFIGURATION_ERROR,
                             new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR), e.getMessage());
                 }
             }).start();
         } else {
-            handleSocialHsdpFailure(loginHandler, ErrorCodes.NO_NETWORK ,
+            handleSocialNetworkFailure(loginHandler, ErrorCodes.NO_NETWORK ,
                     new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK), AppTagingConstants.REG_NO_NETWORK_CONNECTION);
         }
 
@@ -461,14 +461,14 @@ public class HsdpUser {
      * @param errorCode    error code
      * @param string       string
      */
-    private void handleSocialHsdpFailure(SocialLoginHandler loginHandler, int errorCode,
-                                         String string, String errorTagging) {
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-        userRegistrationFailureInfo.setErrorCode(errorCode);
-        userRegistrationFailureInfo.setErrorDescription(string);
-        userRegistrationFailureInfo.setErrorTagging(errorTagging);
+    private void handleSocialNetworkFailure(SocialLoginHandler loginHandler, int errorCode,
+                                            String string, String errorTagging) {
+//        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+//        userRegistrationFailureInfo.setErrorCode(errorCode);
+//        userRegistrationFailureInfo.setErrorDescription(string);
+//        userRegistrationFailureInfo.setErrorTagging(errorTagging);
         ThreadUtils.postInMainThread(mContext, () ->
-                loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                loginHandler.onLoginFailedWithError(null));
     }
 
     /**

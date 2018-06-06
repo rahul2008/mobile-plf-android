@@ -38,6 +38,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     private URNotification notification;
 
     private Context mContext;
+    private URNotification.URNotificationInterface notificationInterface;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -342,7 +343,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment) {
-        // notificationInterface = baseFragment;
+         notificationInterface = baseFragment;
     }
 
 }
