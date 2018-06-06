@@ -49,7 +49,7 @@ public class SHNTagger {
     }
 
     /**
-     * Send data.
+     * Send technical error.
      *
      * @param technicalError the technical error message
      */
