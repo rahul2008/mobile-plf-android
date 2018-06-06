@@ -177,6 +177,16 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            mIapInterface.getProductCartCount(this);
+        }catch (Exception e){
+
+        }
+    }
+
     private void onResumeRetailer(){
         mAddCTNLl.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
