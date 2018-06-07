@@ -67,7 +67,7 @@ public class MergeSocialToSocialAccountPresenterTest {
     public void onLoginFailedWithError() throws Exception {
         Mockito.when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(12);
         mergeSocialToSocialAccountPresenter.onLoginFailedWithError(userRegistrationFailureInfoMock);
-        verify(mergeSocialToSocialAccountContract).mergeFailure(12);
+        verify(mergeSocialToSocialAccountContract).mergeFailure(userRegistrationFailureInfoMock);
     }
 
 

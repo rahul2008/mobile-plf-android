@@ -95,10 +95,10 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
         View view = inflater.inflate(R.layout.reg_fragment_social_merge_account, container, false);
         registerInlineNotificationListener(this);
         ButterKnife.bind(this, view);
-        initUI(view);
         connectionStatus(networkUtility.isNetworkAvailable());
-        handleOrientation(view);
         mergeAccountPresenter = new MergeAccountPresenter(this, user);
+        initUI(view);
+        handleOrientation(view);
         return view;
     }
 
