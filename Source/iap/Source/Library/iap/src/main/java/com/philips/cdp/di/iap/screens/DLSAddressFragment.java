@@ -57,6 +57,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     AddressFields shippingAddressFields;
     AddressFields billingAddressFields;
     private  TextView tv_checkOutSteps;
+    private boolean isCheckEnableContinueButton=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,6 +118,18 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                     }
 
                 }
+                if( isChecked && ((DLSShippingAddressFragment) shippingFragment).checkFields())
+                {
+                    mBtnContinue.setEnabled(true);
+
+                }else if(!isChecked && ((DLSBillingAddressFragment) billingFragment).checkBillingAddressFields() && ((DLSShippingAddressFragment) shippingFragment).checkFields()){
+                    mBtnContinue.setEnabled(true);
+                }
+                else
+                {
+                    mBtnContinue.setEnabled(false);
+                }
+
                 upDateUi(isChecked);
             }
         });
@@ -147,14 +160,17 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             updateCheckoutStepNumber("2");
             checkBox.setVisibility(View.VISIBLE);
             if(!isChecked){
-                ((DLSBillingAddressFragment) billingFragment).disableAllFields();
+                //((DLSBillingAddressFragment) billingFragment).disableAllFields();
+                ((DLSBillingAddressFragment) billingFragment).clearAllFields();
             }else {
-                ((DLSBillingAddressFragment) billingFragment).enableAllFields();
+                 ((DLSBillingAddressFragment) billingFragment).enableAllFields();
+                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
+                ((DLSBillingAddressFragment) billingFragment).updateFields(mAddressFieldsHashmap);
+
             }
             setFragmentVisibility(shippingFragment, false);
             setFragmentVisibility(billingFragment, true);
-            HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
-            ((DLSBillingAddressFragment) billingFragment).updateFields(mAddressFieldsHashmap);
+
         }
     }
     private void updateCheckoutStepNumber(String stepNumber){
@@ -240,6 +256,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     private void createNewAddressOrUpdateIfAddressIDPresent() {
         createCustomProgressBar(mParentContainer,BIG);
+        CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
         if (checkBox.isChecked()) {
             CartModelContainer.getInstance().setSwitchToBillingAddress(true);
             CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
@@ -276,6 +293,10 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 }
 
             } else {
+                if(isCheckEnableContinueButton){
+
+                }
+                CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
                 mAddressController.createAddress(shippingAddressFields);
             }
         } else {
@@ -284,6 +305,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     }
 
     private void setBillingAddressAndOpenOrderSummary(AddressFields billingAddressFields) {
+        CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
         CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
         hideProgressBar();
         addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE),
