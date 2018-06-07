@@ -66,7 +66,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        notification = new URNotification(getRegistrationFragment().getParentActivity(), this);
+        getNotification();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -320,12 +320,12 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     public void updateErrorNotification(String errorMessage, int errorCode) {
         RLog.e(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
-        notification.showNotification(new NotificationMessage(errorMessage, errorCode));
+        getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
     }
 
     public void updateErrorNotification(String errorMessage) {
-        RLog.e(TAG, "errorMessage = " + errorMessage );
-        notification.showNotification(new NotificationMessage(errorMessage));
+        RLog.e(TAG, "errorMessage = " + errorMessage);
+        getNotification().showNotification(new NotificationMessage(errorMessage));
 
 
     }
@@ -333,7 +333,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     public void showNotificationBarOnNetworkNotAvailable() {
 
         new Handler().postDelayed(() -> {
-            notification.showNotification(
+            getNotification().showNotification(
                     new NotificationMessage(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_Network_ErrorMsg)));
         }, 100);
     }
@@ -344,7 +344,12 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment) {
-         notificationInterface = baseFragment;
+        notificationInterface = baseFragment;
     }
 
+    public URNotification getNotification() {
+        if (notification == null)
+            notification = new URNotification(getRegistrationFragment().getParentActivity(), this);
+        return notification;
+    }
 }
