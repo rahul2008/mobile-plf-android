@@ -36,6 +36,7 @@ import com.philips.cdp.registration.events.CounterHelper;
 import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
+import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -51,6 +52,8 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -348,19 +351,19 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void netWorkStateOfflineUiHandle() {
 //        errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
-        showNotificationBarOnNetworkNotAvailable();
+       // showNotificationBarOnNetworkNotAvailable();
         phoneNumberEditText.setEnabled(false);
         resendSMSButton.setEnabled(false);
         smsReceivedButton.setEnabled(false);
         hideProgressDialog();
     }
 
-    @Override
-    public void showSmsSendFailedError() {
-        errorMessage.setError(getResources().getString(R.string.reg_URX_SMS_InternalServerError));
-        phoneNumberEditText.setText(user.getMobile());
-        enableResendButton();
-    }
+//    @Override
+//    public void showSmsSendFailedError() {
+////        errorMessage.setError(errorMsg);
+////        phoneNumberEditText.setText(user.getMobile());
+////        enableResendButton();
+//    }
 
     @Override
     public void enableResendButtonAndHideSpinner() {
@@ -398,11 +401,30 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void onErrorResponse(VolleyError error) {
+        RLog.e(TAG, "onErrorResponse : VolleyError = "+error.getMessage());
+        onErrorOfResendSMSIntent(error);
         hideProgressSpinner();
-        showSmsSendFailedError();
     }
 
-
+    private void onErrorOfResendSMSIntent(VolleyError error) {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(error.getMessage());
+            final String errorCode = jsonObject.getString("errorCode");
+//            errorMessage.setError(errorMsg);
+            phoneNumberEditText.setText(user.getMobile());
+            enableResendButton();
+            RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
+            final Integer code = Integer.parseInt(errorCode);
+            if (URNotification.INLINE_ERROR_CODE.contains(code)) {
+                errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, code));
+            } else {
+                updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, code));
+            }
+        } catch (JSONException e) {
+            RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred");
+        }
+    }
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
         int progress = 100;

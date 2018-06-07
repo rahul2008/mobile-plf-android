@@ -173,21 +173,21 @@ public class MobileVerifyCodePresenterTest {
 //        verify(mockContract).smsVerificationResponseError();
     }
 
-    @Test
-    public void testResultReceived_InvalidOtpWithCode() {
-//        Bundle resultData = new Bundle();
-        JSONObject resultJsonObject = new JSONObject();
-        try {
-            resultJsonObject.put("stat", "not ok");
-            resultJsonObject.put("code", "200");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-//        resultData.putString("responseStr", resultJsonObject.toString());
-        presenter.handleActivation(resultJsonObject.toString());
-        verify(mockContract).setOtpInvalidErrorMessage(200);
-//        verify(mockContract).showOtpInvalidError();
-    }
+//    @Test
+//    public void testResultReceived_InvalidOtpWithCode() {
+////        Bundle resultData = new Bundle();
+//        JSONObject resultJsonObject = new JSONObject();
+//        try {
+//            resultJsonObject.put("stat", "not ok");
+//            resultJsonObject.put("code", "200");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+////        resultData.putString("responseStr", resultJsonObject.toString());
+//        presenter.handleActivation(resultJsonObject.toString());
+//        verify(mockContract).setOtpInvalidErrorMessage(200);
+////        verify(mockContract).showOtpInvalidError();
+//    }
 
     @Test
     public void testResultReceived_InvalidOtpWithWrongCode() {
