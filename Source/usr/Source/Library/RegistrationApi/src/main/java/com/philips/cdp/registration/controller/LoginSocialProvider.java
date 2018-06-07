@@ -129,6 +129,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
                             existingIdpNameLocalized, finalEmailId));
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
+            RLog.e(TAG, "onFailure : userRegistrationFailureInfo.setErrorCode = "+error.captureApiError.code);
         } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isTwoStepRegFlowError()) {
 
@@ -139,20 +140,21 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
                             socialRegistrationToken));
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
+            RLog.e(TAG, "onFailure : userRegistrationFailureInfo.setErrorCode = "+error.captureApiError.code);
         } else if (error.reason == SignInError.FailureReason.AUTHENTICATION_CANCELLED_BY_USER) {
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER);
             ThreadUtils.postInMainThread(mContext, () ->
                     mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
             //   AUTHENTICATION_CANCELLED_BY_USER
 
-            RLog.d(TAG, "loginSocial : is cancelled" + error.reason);
+            RLog.d(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
 
         } else {
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->
                     mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 
-            RLog.d(TAG, "loginSocial : is cancelled" + error.reason);
+            RLog.d(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
 
         }
         AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
