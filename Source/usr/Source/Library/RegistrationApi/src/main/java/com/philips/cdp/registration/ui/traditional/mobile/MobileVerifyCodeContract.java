@@ -1,8 +1,9 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
 import com.android.volley.VolleyError;
+import com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver;
 
-public interface MobileVerifyCodeContract {
+public interface MobileVerifyCodeContract extends SMSBroadCastReceiver.ReceiveAndRegisterOTPListener{
 
     void enableVerifyButton();
 
@@ -12,19 +13,19 @@ public interface MobileVerifyCodeContract {
 
     void netWorkStateOfflineUiHandle();
 
-    void showSmsSendFailedError();
+//    void showSmsSendFailedError();
 
     void refreshUserOnSmsVerificationSuccess();
 
-    void smsVerificationResponseError();
+//    void smsVerificationResponseError();
 
     void hideProgressSpinner();
 
-    void setOtpInvalidErrorMessage();
+    void setOtpInvalidErrorMessage(int errorCode);
 
-    void showOtpInvalidError();
+//    void showOtpInvalidError(int errorCode);
 
-    void setOtpErrorMessageFromJson(String errorDescription);
+    void setOtpErrorMessageFromJson(int errorCode);
 
     void storePreference(String emailOrMobileNumber);
 

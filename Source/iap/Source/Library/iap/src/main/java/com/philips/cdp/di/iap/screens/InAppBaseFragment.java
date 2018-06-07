@@ -86,6 +86,10 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        if(CartModelContainer.getInstance().getAppInfraInstance() == null) {
+            moveToVerticalAppByClearingStack();
+        }
         mContext = context;
     }
 

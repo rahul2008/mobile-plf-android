@@ -507,7 +507,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
     void enableAllFields(){
         setFieldsEnabled(true);
-        disableFocus();
+        enableFocus();
     }
 
     private void enableFocus() {

@@ -7,7 +7,6 @@ package com.philips.cdp2.commlib.cloud.communication;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
@@ -18,7 +17,6 @@ import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.request.StartDcsRequest;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
-import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 
 import java.beans.PropertyChangeEvent;
@@ -51,7 +49,7 @@ public class CloudCommunicationStrategy extends ObservableCommunicationStrategy 
     private final PropertyChangeListener networkNodePropertyChangeListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-            if (propertyChangeEvent.getPropertyName().equals(NetworkNodeDatabaseHelper.KEY_IS_PAIRED)) {
+            if (propertyChangeEvent.getPropertyName().equals(NetworkNode.KEY_IS_PAIRED)) {
                 notifyAvailabilityChanged();
             }
         }

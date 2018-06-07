@@ -31,7 +31,7 @@ public class ProdRegTagging {
 
     @SuppressWarnings("deprecation")
     public static void init(AppInfra appInfra) {
-        aiAppTaggingInterface = appInfra.getTagging().createInstanceForComponent("Product registration", BuildConfig.VERSION_NAME);
+        aiAppTaggingInterface = appInfra.getTagging().createInstanceForComponent("prg", BuildConfig.VERSION_NAME);
     }
 
     public AppTaggingInterface getAiAppTaggingInterface() {

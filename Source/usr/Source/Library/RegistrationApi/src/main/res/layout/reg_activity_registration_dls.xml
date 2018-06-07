@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layoutDirection="locale"
                 android:background="?attr/uidNavigationSecondaryBackgroundColor"
-                app:elevation="0dp">
+                app:elevation="@dimen/reg_dimen_16dp">
 
                 <include layout="@layout/uid_toolbar_layout" />
             </android.support.design.widget.AppBarLayout>

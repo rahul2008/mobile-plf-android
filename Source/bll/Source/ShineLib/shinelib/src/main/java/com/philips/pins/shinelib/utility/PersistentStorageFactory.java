@@ -1,5 +1,5 @@
 /*
- * © 2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -32,7 +32,7 @@ public class PersistentStorageFactory {
     @NonNull
     private final SharedPreferencesProvider sharedPreferencesProvider;
 
-    public PersistentStorageFactory(SharedPreferencesProvider sharedPreferencesProvider) {
+    public PersistentStorageFactory(final @NonNull SharedPreferencesProvider sharedPreferencesProvider) {
         this.sharedPreferencesProvider = sharedPreferencesProvider;
     }
 

@@ -9,7 +9,11 @@
 
 package com.philips.cdp.registration.dao;
 
+import android.content.Context;
+
 import com.janrain.android.capture.CaptureApiError;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
@@ -20,6 +24,8 @@ import org.json.JSONObject;
  */
 public class UserRegistrationFailureInfo {
     private final String TAG = UserRegistrationFailureInfo.class.getSimpleName();
+
+    private Context mContext;
 
     /* Error code */
     private int errorCode;
@@ -41,8 +47,8 @@ public class UserRegistrationFailureInfo {
 
     private String errorTagging = "";
 
-    public UserRegistrationFailureInfo() {
-
+    public UserRegistrationFailureInfo(Context pContext) {
+        mContext = pContext;
     }
 
     /**
@@ -50,10 +56,12 @@ public class UserRegistrationFailureInfo {
      * {@link com.janrain.android.capture.CaptureApiError}
      *
      * @param error error
+     * @param pContext
      * @since 1.0.0
      */
-    public UserRegistrationFailureInfo(CaptureApiError error) {
+    public UserRegistrationFailureInfo(CaptureApiError error, Context pContext) {
         this.error = error;
+        this.mContext = pContext;
         setErrorTagging();
     }
 
@@ -69,12 +77,15 @@ public class UserRegistrationFailureInfo {
             JSONObject response = error.raw_response;
             String message = RegUtility.getErrorMessageFromInvalidField(response);
             if (message != null && !message.isEmpty()) {
+                RLog.e(TAG, "getErrorDescription : " + error.error_description);
                 return message;
+            }else{
+                final String localizedJanrainError = new URError(mContext).getLocalizedError(ErrorType.JANRAIN, error.code);
+                RLog.e(TAG, "getErrorDescription : " + localizedJanrainError);
+                return localizedJanrainError;
             }
-            RLog.d(TAG, "getErrorDescription : " + error.error_description);
-            return error.error_description;
         } else {
-            RLog.d(TAG, "getErrorDescription as error is null : " + errorDescription);
+            RLog.e(TAG, "getErrorDescription as error is null : " + errorDescription);
             return errorDescription;
         }
     }
@@ -87,7 +98,7 @@ public class UserRegistrationFailureInfo {
      */
 
     public String getErrorTagging() {
-        RLog.d(TAG, "getErrorTagging : " + this.errorTagging);
+        RLog.e(TAG, "getErrorTagging : " + this.errorTagging);
         return this.errorTagging;
     }
 
@@ -108,7 +119,7 @@ public class UserRegistrationFailureInfo {
      * @since 1.0.0
      */
     public int getErrorCode() {
-        RLog.d(TAG, "getErrorCode : " + this.errorCode);
+        RLog.e(TAG, "getErrorCode : " + this.errorCode);
         return errorCode;
     }
 
@@ -130,7 +141,7 @@ public class UserRegistrationFailureInfo {
      * @since 1.0.0
      */
     public CaptureApiError getError() {
-        RLog.d(TAG, "getError : " + error);
+        RLog.e(TAG, "getError : " + error);
         return error;
     }
 

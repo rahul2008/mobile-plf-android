@@ -28,11 +28,12 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appinfra.AppInfra;
@@ -131,8 +132,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mCategorizedProductList = new ArrayList<>();
         showScreenSizeInDp();
         // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
-        mUser = new User(this);
-        mUser.registerUserRegistrationListener(this);
+        try {
+            mUser = new User(this);
+            mUser.registerUserRegistrationListener(this);
+        }catch (Exception e){
+            this.finish();
+        }
         //Integration interface
         mIapInterface = new IAPInterface();
         mIAPSettings = new IAPSettings(this);
@@ -170,6 +175,16 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
       //  mIapInterface.getCompleteProductList(this);
 //        onResumeRetailer();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            mIapInterface.getProductCartCount(this);
+        }catch (Exception e){
+
+        }
     }
 
     private void onResumeRetailer(){
@@ -403,13 +418,22 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void gotoLogInScreen() {
+
         URLaunchInput urLaunchInput = new URLaunchInput();
-        urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
         urLaunchInput.setUserRegistrationUIEventListener(this);
-        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+        urLaunchInput.enableAddtoBackStack(true);
+        RegistrationContentConfiguration contentConfiguration = new RegistrationContentConfiguration();
+        contentConfiguration.enableContinueWithouAccount(true);
+        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+        urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         URInterface urInterface = new URInterface();
-        urInterface.launch(new ActivityLauncher(ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0), urLaunchInput);
+
+        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+        urInterface.launch(activityLauncher, urLaunchInput);
+
+
     }
 
 //    private void updateCartIcon() {

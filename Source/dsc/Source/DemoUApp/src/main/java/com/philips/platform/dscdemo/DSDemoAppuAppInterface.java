@@ -11,12 +11,12 @@ import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
+import com.philips.platform.csw.justintime.JustInTimeConsentDependencies;
+import com.philips.platform.csw.justintime.JustInTimeTextResources;
+import com.philips.platform.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.dscdemo.activity.DSLaunchActivity;
 import com.philips.platform.dscdemo.activity.JustInTimeActivity;
 import com.philips.platform.dscdemo.moments.MomentFragment;
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
-import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
-import com.philips.platform.mya.csw.justintime.JustInTimeWidgetHandler;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;

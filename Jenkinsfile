@@ -35,9 +35,11 @@ pipeline {
             steps {
                 echo "Node labels: ${nodes}"
                 sh 'printenv'
-                InitialiseBuild()
-                checkout scm
-                BuildAndUnitTest()
+
+                timeout(time: 1, unit: 'HOURS') {
+                    InitialiseBuild()
+                    BuildAndUnitTest()
+                }
             }
         }
 
@@ -118,7 +120,7 @@ pipeline {
                     PSRA_APK_NAME = APK_INFO[0] + "referenceApp-" + APK_INFO[1].replace(".apk", "_PSRA.apk")
                     echo "PSRA_APK_NAME: ${PSRA_APK_NAME}"
                     sh """#!/bin/bash -le
-                        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/referenceApp-psraRelease.apk
+                        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
                     """
                 }
             }
@@ -214,7 +216,7 @@ def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
-        ./gradlew --refresh-dependencies assembleRelease \
+        ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
             :AppInfra:cC \
             :uAppFwLib:testReleaseUnitTest \
             :securedblibrary:cC \
@@ -247,8 +249,8 @@ def BuildAndUnitTest() {
             :commlib-api:testReleaseUnitTest \
             :mya:cC \
             :mya:testRelease \
-            :mya-catk:testReleaseUnitTest \
-            :mya-csw:testReleaseUnitTest \
+            :catk:testReleaseUnitTest \
+            :csw:testReleaseUnitTest \
             :pif:testReleaseUnitTest \
             :dataServices:testReleaseUnitTest \
             :dataServicesUApp:testReleaseUnitTest \
@@ -278,8 +280,8 @@ def BuildLint() {
          :cloudcontroller-api:lintDebug \
          :commlib:lintDebug \
          :mya:lint \
-         :mya-catk:lint \
-         :mya-csw:lint \
+         :catk:lint \
+         :csw:lint \
          :pif:lint \
          :dataServices:lintRelease \
          :devicepairingUApp:lint \
@@ -434,8 +436,8 @@ def PublishUnitTestsresults() {
     }
 
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/DemoUApp/DemoUApp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya DemoUApp - release test'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-catk/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-catk'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-csw/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-csw'])
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/csw/Source/Library/catk/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'catk'])
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/csw/Source/Library/csw/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'csw'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mya'])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pif/Source/Library/chi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'pif'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])

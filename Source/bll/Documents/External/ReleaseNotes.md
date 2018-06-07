@@ -2,7 +2,27 @@ BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
 Version {next}
-----------------
+--------------
+
+### Functionality Delivered
+
+### Backwards Compatibility
+
+### Features not covered
+
+### Breaking Changes
+
+### Defects solved
+* \#121732 SHNDevice listeners now get connection failure notifications and state updates when Bluetooth is turned off. 
+* \#75769  SHNBatteryService gives updates for all battery ranges including 100
+
+### Residual anomalies
+
+### Risks and mitigations
+
+
+Version 1801
+------------
 
 ### Functionality Delivered
 

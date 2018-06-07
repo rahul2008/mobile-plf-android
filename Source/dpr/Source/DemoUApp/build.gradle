@@ -18,6 +18,7 @@ android {
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
 
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
@@ -52,8 +53,8 @@ dependencies {
         implementation project(':uid')
         implementation project(':commlib-api')
         implementation project(':commlib-lan')
-        implementation project(':mya-catk')
-        implementation project(':mya-csw')
+        implementation project(':catk')
+        implementation project(':csw')
         implementation project(':pif')
         implementation project(':dataServices')
     }
@@ -75,6 +76,9 @@ dependencies {
     implementation deps.ormlite.android
 
     testImplementation deps.junit
+    testImplementation deps.powermock_core
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_api_mockito
 
     androidTestImplementation(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'

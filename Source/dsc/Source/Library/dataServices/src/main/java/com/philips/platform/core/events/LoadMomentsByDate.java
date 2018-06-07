@@ -51,7 +51,7 @@ public class LoadMomentsByDate extends Event {
 		return mPaginationModel;
 	}
 
-	public DBFetchRequestListner<Moment> getDbFetchRequestListner() {
+	public DBFetchRequestListner<Moment> getDbFetchRequestListener() {
 		return mDbFetchRequestListener;
 	}
 }

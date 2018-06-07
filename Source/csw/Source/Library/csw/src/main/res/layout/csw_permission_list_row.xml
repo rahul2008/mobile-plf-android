@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp">
+
+    <com.philips.platform.csw.permission.uielement.SilenceableSwitch
+        android:id="@+id/toggleicon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:checked="false"
+        android:gravity="center_vertical|end" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/consentText"
+        style="@style/TestButtonTexts"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_toStartOf="@id/toggleicon"
+        android:textAlignment="viewStart"
+        tools:text="ConsentText" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/consentHelp"
+        style="@style/TestButtonTexts"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/consentText"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_toStartOf="@id/toggleicon"
+        android:clickable="true"
+        android:focusable="true"
+        android:textAlignment="viewStart"
+        android:paddingTop="4dp"
+        android:text="@string/csw_consent_help_label"
+        android:textColor="@color/reg_hyperlink_highlight_color" />
+
+</RelativeLayout>

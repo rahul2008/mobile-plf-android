@@ -164,7 +164,7 @@ public class SecureStorage implements SecureStorageInterface {
         ByteBuffer byteBuffer = getWrappedByteArray(dataToBeDecrypted);
         int ssVersionLenth = byteBuffer.getInt();
         String ssVersion= SecureStorageV1.VERSION;
-        if(ssVersionLenth<=2) {
+        if(ssVersionLenth<=2 && ssVersionLenth>0) {
             byte[] version = new byte[ssVersionLenth];
             byteBuffer.get(version);
             ssVersion = new String(version);
@@ -180,6 +180,16 @@ public class SecureStorage implements SecureStorageInterface {
     public void decryptBulkData(byte[] dataToBeDecrypted, DataDecryptionListener dataDecryptionListener) {
         String ssVersion = getSecureStorageVersion(dataToBeDecrypted);
         getSecureStorage(ssVersion).decryptBulkData(dataToBeDecrypted, dataDecryptionListener);
+    }
+
+    @Override
+    public boolean isCodeTampered() {
+        return SSUtils.isCodeTampered(mAppInfra.getAppInfraContext());
+    }
+
+    @Override
+    public boolean isEmulator() {
+        return SSUtils.isEmulator();
     }
 
     protected SecureStorageInterface getSecureStorage(String version) {

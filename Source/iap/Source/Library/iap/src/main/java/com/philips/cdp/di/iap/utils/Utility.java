@@ -21,6 +21,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import  com.philips.cdp.di.iap.response.orders.Address;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.text.ParseException;
@@ -164,6 +165,60 @@ public class Utility {
         }
         return fields;
     }
+
+    public static AddressFields prepareOrderAddressFields(Address address) {
+
+
+        AddressFields fields = new AddressFields();
+
+        if (isNotNullNorEmpty(address.getFirstName())) {
+            fields.setFirstName(address.getFirstName());
+        }
+
+        if (isNotNullNorEmpty(address.getLastName())) {
+            fields.setLastName(address.getLastName());
+        }
+
+        if (isNotNullNorEmpty(address.getTitleCode())) {
+            String titleCode = address.getTitleCode();
+            if (titleCode.trim().length() > 0)
+                fields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault())
+                        + titleCode.substring(1));
+        }
+
+        if (isNotNullNorEmpty(address.getLine1())) {
+            fields.setLine1(address.getLine1());
+        }
+
+        if (isNotNullNorEmpty(address.getLine2())) {
+            fields.setLine2(address.getLine2());
+        }
+
+        if (isNotNullNorEmpty(address.getTown())) {
+            fields.setTown(address.getTown());
+        }
+
+        if (isNotNullNorEmpty(address.getPostalCode())) {
+            fields.setPostalCode(address.getPostalCode());
+        }
+
+        if (isNotNullNorEmpty(address.getCountry().getIsocode())) {
+            fields.setCountryIsocode(address.getCountry().getIsocode());
+        }
+
+
+        if (isNotNullNorEmpty(address.getPhone1())) {
+            fields.setPhone1(address.getPhone1());
+        }
+
+        if (address.getRegion() != null) {
+            fields.setRegionName(address.getRegion().getIsocodeShort());
+            CartModelContainer.getInstance().setRegionIsoCode(address.getRegion().getIsocodeShort());
+        }
+        return fields;
+    }
+
+
 
     public static void showActionDialog(final Context context, String positiveBtnText, String negativeBtnText,
                                         String pErrorString, String descriptionText, final FragmentManager pFragmentManager, final AlertListener alertListener) {

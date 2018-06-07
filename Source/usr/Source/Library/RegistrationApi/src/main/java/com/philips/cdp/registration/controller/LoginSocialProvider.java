@@ -21,6 +21,7 @@ import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
@@ -88,21 +89,21 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
                     });
 
         } else {
-            ThreadUtils.postInMainThread(mContext, () ->
-                    mSocialLoginHandler.onLoginSuccess());
+            ThreadUtils.postInMainThread(mContext,()->
+            mSocialLoginHandler.onLoginSuccess());
         }
 
     }
 
     @Override
     public void onCode(String code) {
-        RLog.d(TAG, "onCode : is called");
+        RLog.d(TAG,"onCode : is called");
     }
 
     @Override
     public void onFailure(SignInError error) {
-        RLog.d(TAG, "onFailure : is called");
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+        RLog.d(TAG,"onFailure : is called");
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isMergeFlowError()) {
             String emailId = null;
@@ -122,10 +123,10 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             String existingIdpNameLocalized = JRProvider
                     .getLocalizedName(conflictingIdentityProvider);
             String finalEmailId = emailId;
-            ThreadUtils.postInMainThread(mContext, () ->
-                    mSocialLoginHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
-                            conflictingIdentityProvider, conflictingIdpNameLocalized,
-                            existingIdpNameLocalized, finalEmailId));
+            ThreadUtils.postInMainThread(mContext,()->
+            mSocialLoginHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
+                    conflictingIdentityProvider, conflictingIdpNameLocalized,
+                    existingIdpNameLocalized, finalEmailId));
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
@@ -133,15 +134,15 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
             JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
             String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
-            ThreadUtils.postInMainThread(mContext, () ->
-                    mSocialLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord,
-                            socialRegistrationToken));
+            ThreadUtils.postInMainThread(mContext,()->
+            mSocialLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord,
+                    socialRegistrationToken));
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         } else {
-            userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-            ThreadUtils.postInMainThread(mContext, () ->
-                    mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
+            ThreadUtils.postInMainThread(mContext,()->
+            mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
         AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
     }
@@ -150,7 +151,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
     private String mProviderName;
 
     public void loginSocial(final Activity activity, final String providerName, final String mergeToken) {
-        RLog.d(TAG, "loginSocial : is called");
+        RLog.d(TAG,"loginSocial : is called");
         mActivity = activity;
         mProviderName = providerName;
         mMergeToken = mergeToken;
@@ -184,20 +185,20 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onFlowDownloadSuccess() {
-        RLog.d(TAG, "onFlowDownloadSuccess : is called");
+        RLog.d(TAG,"onFlowDownloadSuccess : is called");
         Jump.showSignInDialog(mActivity, mProviderName, this, mMergeToken);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
 
     @Override
     public void onFlowDownloadFailure() {
-        RLog.d(TAG, "onFlowDownloadFailure : is called");
+        RLog.d(TAG,"onFlowDownloadFailure : is called");
         if (mSocialLoginHandler != null) {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(RegConstants.SOCIAL_LOGIN_FAILED_SERVER_ERROR);
-            ThreadUtils.postInMainThread(mContext, () ->
+            ThreadUtils.postInMainThread(mContext,()->
                     mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();

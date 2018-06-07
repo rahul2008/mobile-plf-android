@@ -8,6 +8,7 @@ package com.philips.cdp2.bluelib.demouapp.fragment.device;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class DeviceConnectionFragment extends Fragment {
 
         @Override
         public void onFailedToConnect(SHNDevice shnDevice, SHNResult result) {
+            Log.d("DeviceConnectFragment", "SHNDevice failed to connect");
             showState();
         }
 
@@ -75,7 +77,7 @@ public class DeviceConnectionFragment extends Fragment {
 
         switch (mDevice.getState()) {
             case Disconnected:
-                mDevice.connect();
+                mDevice.connect(120000L);
                 break;
             case Connected:
                 mDevice.disconnect();

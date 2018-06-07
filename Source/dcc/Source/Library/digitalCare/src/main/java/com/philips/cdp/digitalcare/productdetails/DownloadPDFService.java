@@ -96,9 +96,10 @@ public class DownloadPDFService extends Service {
             NotificationChannel mChannel = new NotificationChannel(
                     channelId, channelName, importance);
             mNotifyManager.createNotificationChannel(mChannel);
+            mBuilder = new NotificationCompat.Builder(ctx, channelId);
+        } else {
+            mBuilder = new NotificationCompat.Builder(ctx);
         }
-
-        mBuilder = new NotificationCompat.Builder(ctx, channelId);
 
         Intent newintent = new Intent();
         newintent.setAction("com.philips.cdp.digitalcare.productdetails.services.OPENPDF");

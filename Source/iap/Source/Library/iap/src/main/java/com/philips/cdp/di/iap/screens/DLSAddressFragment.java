@@ -236,7 +236,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             } else {
                 createNewAddressOrUpdateIfAddressIDPresent();
             }
-            // removeStaticFragments();
+           // removeStaticFragments();
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
@@ -384,7 +384,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (msg.obj instanceof Addresses) {
             Addresses mAddresses = (Addresses) msg.obj;
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
-            CartModelContainer.getInstance().setShippingAddressFields(Utility.prepareAddressFields(mAddresses, HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail()));
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
             hideProgressBar();
@@ -433,7 +432,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             if (deliveryMode == null)
                 mAddressController.getDeliveryModes();
             else*/
-            mPaymentController.getPaymentDetails();
+                mPaymentController.getPaymentDetails();
         } else {
             hideProgressBar();
             IAPLog.d(IAPLog.LOG, msg.getData().toString());

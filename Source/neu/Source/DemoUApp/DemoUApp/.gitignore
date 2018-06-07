@@ -1,0 +1,12 @@
+/.idea
+/.gradle
+/gradle.properties
+**/*.iml
+/.gradle/**
+/captures
+/build
+/app/build/
+/app/gradle/wrapper/
+/.idea/
+/build/generated/
+

@@ -3,6 +3,8 @@ apply plugin: 'com.android.library'
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
 apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.gradle'
 
+archivesBaseName = "AppInfraUApp"
+
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
@@ -30,19 +32,6 @@ buildscript {
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "AppInfraUApp"
-
 allprojects {
     repositories {
         maven {
@@ -69,55 +58,6 @@ allprojects {
     }
 }
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('apk')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-publishing {
-    publications {
-        apk(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.implementation.allDependencies
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.group)
-                    dependencyNode.appendNode('artifactId', it.name)
-                    dependencyNode.appendNode('version', it.version)
-                }
-            }
-        }
-    }
-}
-
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -127,13 +67,11 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
+        multiDexEnabled true
 
         versionName "1.5.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
-
-
 }
 
 dependencies {
@@ -152,7 +90,6 @@ dependencies {
         implementation philipsdeps.AppInfra
     }
 
-    implementation deps.leakcanary
     implementation deps.gson
     implementation deps.volley
 }
