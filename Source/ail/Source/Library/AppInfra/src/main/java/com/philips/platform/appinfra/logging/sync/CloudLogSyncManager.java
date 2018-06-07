@@ -61,7 +61,7 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
         mSyncDataWorkQueue = new LinkedBlockingQueue<>();
         threadPoolExecutor = new ThreadPoolExecutor(
                 NUMBER_OF_CORES,       // Initial pool size
-                NUMBER_OF_CORES,       // Max pool size
+                getMaxPoolSize(),       // Max pool size
                 KEEP_ALIVE_TIME,
                 KEEP_ALIVE_TIME_UNIT,
                 mSyncDataWorkQueue);
@@ -74,6 +74,10 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
         appInfra.getRestClient().registerNetworkChangeListener(this);
         forceSync();
 
+    }
+
+    private int getMaxPoolSize() {
+       return (NUMBER_OF_CORES>MAX_NUMBER_OF_CORES) ?  NUMBER_OF_CORES : MAX_NUMBER_OF_CORES;
     }
 
     public static CloudLogSyncManager getInstance(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
