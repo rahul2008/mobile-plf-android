@@ -293,10 +293,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 }
 
             } else {
-                if(isCheckEnableContinueButton){
-
-                }
-                CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
                 mAddressController.createAddress(shippingAddressFields);
             }
         } else {
@@ -305,7 +301,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     }
 
     private void setBillingAddressAndOpenOrderSummary(AddressFields billingAddressFields) {
-        CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
         CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
         hideProgressBar();
         addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE),
