@@ -25,9 +25,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.errors.ErrorCodes;
-import com.philips.cdp.registration.errors.ErrorType;
-import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
@@ -114,9 +111,10 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @Override
     public void onDestroy() {
-        if (mergeAccountPresenter != null)
-            mergeAccountPresenter.cleanUp();
         super.onDestroy();
+        if (mergeAccountPresenter != null) {
+            mergeAccountPresenter.cleanUp();
+        }
     }
 
 
@@ -166,8 +164,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
             mergeAccountPresenter.mergeToTraditionalAccount(mEmailId, passwordValidationEditText.getText().toString(), mMergeToken);
             mEtPassword.hideError();
             showMergeSpinner();
-        } else {
-            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         }
     }
 
@@ -188,15 +184,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @Override
     public void connectionStatus(boolean isOnline) {
-        if (isOnline) {
-            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                mRegError.hideError();
-            } else {
-                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-            }
-        } else {
-            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+        if (isOnline && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+            mRegError.hideError();
         }
     }
 
@@ -248,11 +237,12 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
 
     @Override
-    public void mergeFailure(int errorCode) {
+    public void mergeFailure(String errorDescription, int errorCode) {
+        if (errorCode == -1) return;
         hideMergeSpinner();
 //        mEtPassword.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, errorCode));
 //        mEtPassword.showError();
-        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, errorCode));
+        updateErrorNotification(errorDescription, errorCode);
     }
 
     @Override

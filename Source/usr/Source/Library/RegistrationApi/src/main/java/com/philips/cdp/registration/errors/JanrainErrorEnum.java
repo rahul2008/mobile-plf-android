@@ -55,6 +55,7 @@ public enum JanrainErrorEnum {
     JANRAIN_OPERATION_TEMPORARY_UNAVAILABLE(ErrorCodes.JANRAIN_OPERATION_TEMPORARY_UNAVAILABLE, R.string.reg_Janrain_HSDP_ServerErrorMsg),
     JANRAIN_UNEXPECTED_INTERNAL_ERROR(ErrorCodes.JANRAIN_UNEXPECTED_INTERNAL_ERROR, R.string.reg_UnexpectedInternalError_ErrorMsg),
     JANRAIN_API_CALL_LIMIT_REACHED(ErrorCodes.JANRAIN_API_CALL_LIMIT_REACHED, R.string.reg_Janrain_LimitError_ErrorMsg),
+    TRADITIONAL_LOGIN_FAILED_SERVER_ERROR(ErrorCodes.TRADITIONAL_LOGIN_FAILED_SERVER_ERROR, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
     JANRAIN_ERROR_ON_FLOW(ErrorCodes.JANRAIN_ERROR_ON_FLOW, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg);
 
     int errorCode;

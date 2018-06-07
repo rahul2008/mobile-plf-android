@@ -423,20 +423,23 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.e(TAG, "handleLogInFailed Error Code :" + userRegistrationFailureInfo.getErrorCode());
         if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UNKNOWN_ERROR || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.BAD_RESPONSE_CODE
                 || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UN_EXPECTED_ERROR || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.INPUTS_INVALID_CODE) {
+            RLog.i(TAG, "handleLogInFailed : equals to ErrorCodes.UNKNOWN_ERROR :ErrorCodes.BAD_RESPONSE_CODE :ErrorCodes.UN_EXPECTED_ERRO :ErrorCodes.INPUTS_INVALID_CODER");
 //            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, userRegistrationFailureInfo.getErrorCode()));
             updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
         } else {
             if (userRegistrationFailureInfo.getErrorCode() != ErrorCodes.UNKNOWN_ERROR) {
-                scrollViewAutomatically(mRegError, mSvRootLayout);
+//                scrollViewAutomatically(mRegError, mSvRootLayout);
 //                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()));
+                RLog.i(TAG, "handleLogInFailed : not equal ErrorCodes.UNKNOWN_ERROR =");
                 updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
-                scrollViewAutomatically(mRegError, mSvRootLayout);
+//                scrollViewAutomatically(mRegError, mSvRootLayout);
             } else {
                 scrollViewAutomatically(mRegError, mSvRootLayout);
                 if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
                     mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
                     trackInvalidCredentials();
                 } else {
+                    RLog.i(TAG, "handleLogInFailed : Error =" + userRegistrationFailureInfo.getErrorCode());
                     updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
 //                    if (null != userRegistrationFailureInfo.getErrorDescription()) {
 //                        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
@@ -713,7 +716,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.URX, code));
             }
         } catch (JSONException e) {
-           RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred");
+            RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred");
         }
     }
 
