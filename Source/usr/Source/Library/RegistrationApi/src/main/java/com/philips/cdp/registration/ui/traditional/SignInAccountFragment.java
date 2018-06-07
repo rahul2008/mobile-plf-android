@@ -488,18 +488,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR);
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
-        } else {
-            if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-//                mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-                updateErrorNotification(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-                userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
-            }
         }
 
         if (null != userRegistrationFailureInfo.getErrorDescription()) {
 //            mEtEmail.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
             updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
-            mEtEmail.showError();
+//            mEtEmail.showError();
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
         }

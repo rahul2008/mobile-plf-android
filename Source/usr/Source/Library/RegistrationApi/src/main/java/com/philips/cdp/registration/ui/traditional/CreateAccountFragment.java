@@ -177,7 +177,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             } else {
                 if (RegistrationHelper.getInstance().isMobileFlow()) {
                     usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                            R.string.reg_InvalidPhoneNumber_ErrorMsg);
+                            R.string.reg_EmptyField_ErrorMsg);
                 } else {
                     usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
                             R.string.reg_InvalidOrMissingEmail_ErrorMsg);
@@ -250,7 +250,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
                     R.drawable.reg_password_strength_weak, R.string.reg_InValid_PwdErrorMsg, false);
         } else {
             passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Weak), stringthMeterNone, false, R.color.uid_signal_red_level_15,
-                    R.drawable.reg_password_strength_weak, R.string.reg_EmptyField_ErrorMsg, false);
+                    R.drawable.reg_password_strength_weak, R.string.reg_PasswordField_ErrorMsg, false);
         }
         return 0;
     }
