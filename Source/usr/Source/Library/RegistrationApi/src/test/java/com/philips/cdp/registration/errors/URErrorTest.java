@@ -42,9 +42,9 @@ public class URErrorTest {
         urError.getLocalizedError(ErrorType.HSDP, ErrorCodes.HSDP_INPUT_ERROR_1114);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldTestHSDPError_WithDefault() {
-        urError.getLocalizedError(ErrorType.HSDP, ErrorCodes.UNKNOWN_ERROR);
+        urError.getLocalizedError(ErrorType.HSDP, ErrorCodes.HSDP_INPUT_ERROR_1112);
     }
 
     @Test
