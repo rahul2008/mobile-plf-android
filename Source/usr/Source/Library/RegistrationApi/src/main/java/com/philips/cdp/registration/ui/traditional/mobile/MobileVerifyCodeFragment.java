@@ -336,13 +336,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         enableVerifyButton();
     }
 
-    @Override
-    public void setOtpInvalidErrorMessage(int errorCode) {
-        trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
-        //errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
-        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
-        hideProgressSpinner();
-    }
+//    @Override
+//    public void setOtpInvalidErrorMessage(int errorCode) {
+//        trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
+//        //errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+//        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
+//        hideProgressSpinner();
+//    }
 
     @Override
     public void setOtpErrorMessageFromJson(int errorCode) {
