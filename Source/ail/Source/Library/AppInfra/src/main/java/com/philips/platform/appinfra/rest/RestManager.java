@@ -12,8 +12,8 @@ import android.net.NetworkInfo;
 import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.BaseHttpStack;
 import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -24,8 +24,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.io.File;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 /**
@@ -36,10 +34,12 @@ public class RestManager implements RestInterface {
     private static final long serialVersionUID = -5276610949381468217L;
     private transient RequestQueue mRequestQueue;
     private AppInfra mAppInfra;
+    private PinnedSignatureManager pinnedSignatureManager;
 
     public RestManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         VolleyLog.DEBUG = false;
+        pinnedSignatureManager = new PinnedSignatureManager(mAppInfra);
     }
 
     @Override
@@ -88,12 +88,7 @@ public class RestManager implements RestInterface {
     }
 
     private Network getNetwork() {
-        HttpStack stack = null;
-        try {
-            stack = new HurlStack(new ServiceIDResolver(), new TLSSocketFactory());
-        } catch (KeyManagementException | NoSuchAlgorithmException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST," ERROR while getting network");
-        }
+        BaseHttpStack stack = new AppInfraHurlStack(pinnedSignatureManager, new ServiceIDResolver(), mAppInfra.getLogging());
         return new BasicNetwork(stack);
     }
 
