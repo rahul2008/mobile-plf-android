@@ -13,8 +13,6 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.ble.BleCacheData;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
@@ -77,21 +75,23 @@ public abstract class BleRequest implements Runnable {
     }
 
     @NonNull
-    private final BleDeviceCache deviceCache;
-    @NonNull
-    private final String cppId;
-    @NonNull
     final ResponseHandler responseHandler;
+
     @NonNull
     final String productId;
+
     @NonNull
     final String portName;
+
     @NonNull
     private final Handler handlerToPostResponseOnto;
-    @NonNull
-    final private AtomicBoolean disconnectAfterRequest;
 
-    private SHNDevice bleDevice;
+    @NonNull
+    private final AtomicBoolean disconnectAfterRequest;
+
+    @NonNull
+    private final SHNDevice bleDevice;
+
     private CapabilityDiComm capability;
 
     @NonNull
@@ -157,23 +157,20 @@ public abstract class BleRequest implements Runnable {
     /**
      * Instantiates a new BleRequest.
      *
-     * @param deviceCache            the device cache
-     * @param cppId                  the cppId of the BleDevice
+     * @param bleDevice              the device to send requests to
      * @param portName               the port name
      * @param productId              the product id
      * @param responseHandler        the response handler
      * @param disconnectAfterRequest indicates if the request should disconnect from the device after communicating
      */
-    BleRequest(@NonNull BleDeviceCache deviceCache,
-               @NonNull String cppId,
+    BleRequest(@NonNull SHNDevice bleDevice,
                @NonNull String portName,
                int productId,
                @NonNull ResponseHandler responseHandler,
                @NonNull Handler handlerToPostResponseOnto,
                @NonNull AtomicBoolean disconnectAfterRequest) {
+        this.bleDevice = bleDevice;
         this.responseHandler = responseHandler;
-        this.deviceCache = deviceCache;
-        this.cppId = cppId;
         this.portName = portName;
         this.productId = Integer.toString(productId);
         this.handlerToPostResponseOnto = handlerToPostResponseOnto;
@@ -218,14 +215,6 @@ public abstract class BleRequest implements Runnable {
             return;
         }
 
-        final BleCacheData cacheData = deviceCache.getCacheData(cppId);
-
-        if (cacheData == null) {
-            onError(Error.NOT_AVAILABLE, "Communication is not available");
-            return;
-        }
-
-        bleDevice = cacheData.getDevice();
         bleDevice.registerSHNDeviceListener(bleDeviceListener);
         if (bleDevice.getState() == Connected) {
             onConnected();
@@ -333,7 +322,7 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void finishRequest() {
-        if (bleDevice != null && bleDevice.getState() != Disconnected && disconnectAfterRequest.get()) {
+        if (bleDevice.getState() != Disconnected && disconnectAfterRequest.get()) {
             bleDevice.disconnect();
         } else {
             completeRequest();
@@ -347,18 +336,30 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void cleanup() {
-        if (bleDevice != null) {
-            bleDevice.unregisterSHNDeviceListener(bleDeviceListener);
-            bleDevice = null;
+        bleDevice.unregisterSHNDeviceListener(bleDeviceListener);
 
-            if (capability != null) {
-                capability.removeDataListener(resultListener);
-                capability = null;
-            }
+        if (capability != null) {
+            capability.removeDataListener(resultListener);
+            capability = null;
         }
 
         if (timer != null) {
             timer.cancel();
         }
+    }
+
+    @NonNull
+    public String getPortName() {
+        return portName;
+    }
+
+    @NonNull
+    public String getProductId() {
+        return productId;
+    }
+
+    @NonNull
+    public SHNDevice getBleDevice() {
+        return bleDevice;
     }
 }

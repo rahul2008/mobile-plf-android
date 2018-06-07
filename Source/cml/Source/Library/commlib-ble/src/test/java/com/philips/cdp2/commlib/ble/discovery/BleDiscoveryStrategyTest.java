@@ -20,11 +20,15 @@ import com.philips.pins.shinelib.utility.BleScanRecord;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import java.util.HashSet;
 
+import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -33,7 +37,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleDiscoveryStrategyTest {
 
-    private static final String CPP_ID = "ADDR";
+    private static final String MAC_ADDRESS = "ADDR";
+    private static final String MODEL_ID = "NK1234";
 
     private BleDiscoveryStrategy strategyUnderTest;
 
@@ -76,29 +81,31 @@ public class BleDiscoveryStrategyTest {
         enableMockedHandler(mockHandler);
 
         networkNode = new NetworkNode();
-        networkNode.setCppId(CPP_ID);
-        //        when(networkNodeMock.getCppId()).thenReturn(CPP_ID);
+        networkNode.setCppId(MAC_ADDRESS);
 
         when(mockCentral.getShnDeviceScanner()).thenReturn(mockScanner);
-
         when(mockDeviceFoundInfo.getShnDevice()).thenReturn(mockDevice);
-        when(mockDevice.getAddress()).thenReturn(CPP_ID);
-
+        when(mockDevice.getAddress()).thenReturn(MAC_ADDRESS);
         when(mockDeviceFoundInfo.getBleScanRecord()).thenReturn(mockBleScanRecord);
-
-        when(mockCache.getCacheData(CPP_ID)).thenReturn(mockCacheData);
+        when(mockBleScanRecord.getManufacturerSpecificData(MANUFACTURER_PREAMBLE)).thenReturn(MODEL_ID.getBytes());
+        when(mockCache.getCacheData(MAC_ADDRESS)).thenReturn(mockCacheData);
         when(mockCacheData.getNetworkNode()).thenReturn(networkNode);
 
         strategyUnderTest = new BleDiscoveryStrategy(mockContext, mockCache, mockScanner);
+        strategyUnderTest.addDiscoveryListener(listener);
     }
 
     @Test
-    public void whenADeviceIsFoundANetworkNodeShouldBeDiscovered() {
-        strategyUnderTest.addDiscoveryListener(listener);
+    public void whenADeviceIsFound_thenTheNetworkNodeIsFilledWithTheProperValues() throws Exception {
 
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
-        verify(listener).onNetworkNodeDiscovered(networkNode);
+        ArgumentCaptor<NetworkNode> captor = ArgumentCaptor.forClass(NetworkNode.class);
+        verify(listener).onNetworkNodeDiscovered(captor.capture());
+        NetworkNode capturedNode = captor.getValue();
+        assertThat(capturedNode.getMacAddress()).isEqualTo(MAC_ADDRESS);
+        assertThat(capturedNode.getCppId()).isEqualTo(MAC_ADDRESS);
+        assertThat(capturedNode.getModelId()).isEqualTo(MODEL_ID);
     }
 
     @Test
@@ -106,17 +113,15 @@ public class BleDiscoveryStrategyTest {
         strategyUnderTest.modelIds = new HashSet<>();
         strategyUnderTest.modelIds.add("NOT A MODEL");
 
-        strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
-        verify(listener, never()).onNetworkNodeDiscovered(networkNode);
+        verify(listener, never()).onNetworkNodeDiscovered(any(NetworkNode.class));
     }
 
     @Test
     public void whenDeviceDiscoveredTwice_ThenItIsReportedTwice() {
-        strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
-        when(mockCache.contains(CPP_ID)).thenReturn(true);
+        when(mockCache.contains(MAC_ADDRESS)).thenReturn(true);
 
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
@@ -125,9 +130,8 @@ public class BleDiscoveryStrategyTest {
 
     @Test
     public void whenDeviceDiscoveredTwice_ThenItsCacheTimerMustBeReset_AndItsAvailabilitySetToTrue() {
-        strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
-        when(mockCache.contains(CPP_ID)).thenReturn(true);
+        when(mockCache.contains(MAC_ADDRESS)).thenReturn(true);
 
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
@@ -137,7 +141,6 @@ public class BleDiscoveryStrategyTest {
 
     @Test
     public void givenADeviceIsDiscovered_whenClearDiscoveredNetworkNodesIsInvoked_thenCacheShouldBeCleared() {
-        strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
         strategyUnderTest.clearDiscoveredNetworkNodes();

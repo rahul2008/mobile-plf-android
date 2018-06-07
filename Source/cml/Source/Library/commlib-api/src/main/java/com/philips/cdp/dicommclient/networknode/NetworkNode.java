@@ -35,7 +35,7 @@ public class NetworkNode implements Parcelable {
     public static final String KEY_CPP_ID = "cppid";
     public static final String KEY_DEVICE_NAME = "dev_name";
     public static final String KEY_DEVICE_TYPE = "device_type";
-    public static final String KEY_ENCRYPTION_KEY = "encryption_key"; // was airpur_key
+    public static final String KEY_ENCRYPTION_KEY = "encryption_key";
     public static final String KEY_HOME_SSID = "home_ssid"; // Will not be persisted
     public static final String KEY_HTTPS = "https";
     public static final String KEY_ID = "_id";
@@ -49,19 +49,27 @@ public class NetworkNode implements Parcelable {
     public static final String KEY_PIN = "pin";
     public static final String KEY_MISMATCHED_PIN = "mismatched_pin";
 
-    private boolean isHttps = true;
-    private long bootId;
-    private long lastPairedTime;
-    private PairingState pairedState = PairingState.NOT_PAIRED;
+    //Shared
     private String cppId;
+    private String modelId;
     private String deviceType;
+    private String name;
+
+    //LAN
+    private long bootId;
     private String encryptionKey;
+    private boolean isHttps = true;
     private String homeSsid;
     private String ipAddress;
-    private String modelId;
-    private String name;
     private String pin;
     private String mismatchedPin;
+
+    //cloud
+    private PairingState pairedState = PairingState.NOT_PAIRED;
+    private long lastPairedTime;
+
+    //BLE
+    private String macAddress;
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -256,7 +264,7 @@ public class NetworkNode implements Parcelable {
      * Returns the pin for HTTPS certificate pinning.
      * @return String
      */
-    public String getPin() {
+    public synchronized String getPin() {
         return pin;
     }
 
@@ -264,7 +272,7 @@ public class NetworkNode implements Parcelable {
      * Allows to set the pin for HTTPS certificate pinning.
      * @param pin String
      */
-    public void setPin(@Nullable String pin) {
+    public synchronized void setPin(@Nullable String pin) {
         final String oldPin = this.pin;
         this.pin = pin;
         this.pcs.firePropertyChange(KEY_PIN, oldPin, pin);
@@ -274,7 +282,7 @@ public class NetworkNode implements Parcelable {
      * Returns a pin if it was mismatched earlier in HTTPS certificate pinning.
      * @return String
      */
-    public String getMismatchedPin() {
+    public synchronized String getMismatchedPin() {
         return mismatchedPin;
     }
 
@@ -282,7 +290,7 @@ public class NetworkNode implements Parcelable {
      * Allows to set a mismatched pin after failed HTTPS certificate pinning.
      * @param mismatchedPin String
      */
-    public void setMismatchedPin(@Nullable String mismatchedPin) {
+    public synchronized void setMismatchedPin(@Nullable String mismatchedPin) {
         final String oldMismatchedPin = this.mismatchedPin;
         this.mismatchedPin = mismatchedPin;
         this.pcs.firePropertyChange(KEY_MISMATCHED_PIN, oldMismatchedPin, mismatchedPin);
@@ -334,6 +342,15 @@ public class NetworkNode implements Parcelable {
         final long oldPairedTime = this.lastPairedTime;
         this.lastPairedTime = lastPairedTime;
         this.pcs.firePropertyChange(KEY_LAST_PAIRED, oldPairedTime, lastPairedTime);
+    }
+
+    @Nullable
+    public synchronized String getMacAddress() {
+        return macAddress;
+    }
+
+    public synchronized void setMacAddress(final @Nullable String macAddress) {
+        this.macAddress = macAddress;
     }
 
     /**
@@ -446,16 +463,16 @@ public class NetworkNode implements Parcelable {
 
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("name: ").append(getName())
-                .append("   ipAddress: ").append(getIpAddress())
-                .append("   cppId: ").append(getCppId())
-                .append("   bootId: ").append(getBootId())
-                .append("   deviceType: ").append(getDeviceType())
-                .append("   modelId: ").append(getModelId())
-                .append("   paired: ").append(getPairedState())
-                .append("   homeSsid: ").append(getHomeSsid())
-                .append("   pin: ").append(getPin())
-                .append("   mismatchedPin: ").append(getMismatchedPin());
+        builder.append("name: ").append(getName())//all
+                .append("   ipAddress: ").append(getIpAddress())//lan
+                .append("   cppId: ").append(getCppId())//all
+                .append("   bootId: ").append(getBootId())//lan
+                .append("   deviceType: ").append(getDeviceType())//all -> remove?
+                .append("   modelId: ").append(getModelId())//all
+                .append("   paired: ").append(getPairedState())//cloud/ble?
+                .append("   homeSsid: ").append(getHomeSsid())//lan?
+                .append("   pin: ").append(getPin())//lan
+                .append("   mismatchedPin: ").append(getMismatchedPin());//lan
         return builder.toString();
     }
 

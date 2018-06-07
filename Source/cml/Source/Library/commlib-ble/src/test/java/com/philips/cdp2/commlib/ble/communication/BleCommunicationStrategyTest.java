@@ -7,22 +7,30 @@ package com.philips.cdp2.commlib.ble.communication;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
-import com.philips.cdp2.commlib.ble.BleCacheData;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
+import com.philips.cdp2.commlib.ble.request.BleGetRequest;
+import com.philips.cdp2.commlib.ble.request.BlePutRequest;
+import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.cdp2.commlib.util.VerboseExecutor;
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.anyString;
@@ -35,18 +43,12 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class BleCommunicationStrategyTest {
 
     private static final String PORT_NAME = "thePort";
+    private static final String MAC_ADDRESS = "00:11:22:33:44:55";
     private static final int PRODUCT_ID = 0;
-    private static final String CPP_ID = "NCC-1701";
     private static final int SUBSCRIPTION_TTL = 5000;
 
     @Mock
-    private BleDeviceCache deviceCacheMock;
-
-    @Mock
     private VerboseExecutor executorMock;
-
-    @Mock
-    private BleCacheData bleCacheDataMock;
 
     @Mock
     private SHNDevice deviceMock;
@@ -59,6 +61,12 @@ public class BleCommunicationStrategyTest {
 
     @Mock
     private SubscriptionEventListener subscriptionListenerMock;
+
+    @Mock
+    private SHNCentral centralMock;
+
+    @Mock
+    private NetworkNode networkNodeMock;
 
     private List<PollingSubscription> pollingSubscriptionMocks = new ArrayList<>();
 
@@ -75,11 +83,10 @@ public class BleCommunicationStrategyTest {
         initMocks(this);
         disableLogging();
 
-        when(deviceCacheMock.getCacheData(eq(CPP_ID))).thenReturn(bleCacheDataMock);
-        when(bleCacheDataMock.isAvailable()).thenReturn(true);
-        when(bleCacheDataMock.getDevice()).thenReturn(deviceMock);
+        when(networkNodeMock.getMacAddress()).thenReturn(MAC_ADDRESS);
+        when(centralMock.createSHNDeviceForAddressAndDefinition(eq(MAC_ADDRESS), any(ReferenceNodeDeviceDefinitionInfo.class))).thenReturn(deviceMock);
 
-        strategy = new BleCommunicationStrategy(CPP_ID, deviceCacheMock, callbackHandlerMock, 2000, executorMock) {
+        strategy = new BleCommunicationStrategy(centralMock, networkNodeMock, callbackHandlerMock, 2000, executorMock) {
             @NonNull
             @Override
             protected PollingSubscription createPollingSubscription(final int subscriptionTtl, final PortParameters portParameters, final ResponseHandler responseHandler) {
@@ -94,6 +101,33 @@ public class BleCommunicationStrategyTest {
         };
 
         strategy.addSubscriptionEventListener(subscriptionListenerMock);
+    }
+
+    @Test
+    public void whenGetPropertiesIsCalled_thenAGetRequestIsScheduledForExecution() throws Exception {
+
+        strategy.getProperties(PORT_NAME, PRODUCT_ID, responseHandlerMock);
+
+        ArgumentCaptor<VerboseRunnable> captor = ArgumentCaptor.forClass(VerboseRunnable.class);
+        verify(executorMock).execute(captor.capture());
+        BleGetRequest request = (BleGetRequest) captor.getValue().getWrappedRunnable();
+        assertThat(request.getPortName()).isEqualTo(PORT_NAME);
+        assertThat(request.getProductId()).isEqualTo(Integer.toString(PRODUCT_ID));
+        assertThat(request.getBleDevice()).isEqualTo(deviceMock);
+    }
+
+    @Test
+    public void whenPutPropertiesIsCalled_thenAPutRequestIsScheduledForExecution() throws Exception {
+
+        Map<String, Object> dataMap = new HashMap<>();
+        strategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+
+        ArgumentCaptor<VerboseRunnable> captor = ArgumentCaptor.forClass(VerboseRunnable.class);
+        verify(executorMock).execute(captor.capture());
+        BlePutRequest request = (BlePutRequest) captor.getValue().getWrappedRunnable();
+        assertThat(request.getPortName()).isEqualTo(PORT_NAME);
+        assertThat(request.getProductId()).isEqualTo(Integer.toString(PRODUCT_ID));
+        assertThat(request.getBleDevice()).isEqualTo(deviceMock);
     }
 
     @Test
@@ -184,7 +218,8 @@ public class BleCommunicationStrategyTest {
     }
 
     @Test
-    public void whenCommunicationIsEnabled_thenDeviceIsConnectedAndDisconnectAfterRequestIsFalse() {
+    public void givenStrategyIsAvailable_whenCommunicationIsEnabled_thenDeviceIsConnectedAndDisconnectAfterRequestIsFalse() {
+        when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
 
         strategy.enableCommunication();
 
@@ -194,6 +229,7 @@ public class BleCommunicationStrategyTest {
 
     @Test
     public void givenCommunicationIsEnabledAndExecutorIsIdle_whenCommunicationIsDisabled_thenDisconnectDeviceAndDisconnectAfterRequestIsSet() {
+        when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
         strategy.enableCommunication();
         when(executorMock.isIdle()).thenReturn(true);
 

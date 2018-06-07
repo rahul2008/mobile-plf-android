@@ -141,6 +141,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
         networkNode.setBootId(-1L);
         networkNode.setCppId(device.getAddress()); // Cloud identifier; hijacked MAC address for now
+        networkNode.setMacAddress(device.getAddress());
         networkNode.setName(device.getName()); // Friendly name, e.g. 'Vacuum cleaner'
         networkNode.setDeviceType(device.getDeviceTypeName()); // Model name, e.g. 'Polaris'
 

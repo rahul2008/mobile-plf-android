@@ -9,19 +9,19 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.ble.BleCacheData;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.cdp2.commlib.ble.request.BleGetRequest;
 import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
-import com.philips.cdp2.commlib.core.devicecache.DeviceCache.DeviceCacheListener;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.cdp2.commlib.util.VerboseExecutor;
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Locale;
@@ -43,40 +43,13 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     private static final long CONNECTION_TIMEOUT = 30000L;
 
     @NonNull
-    private final String cppId;
-
-    @NonNull
-    private final BleDeviceCache deviceCache;
+    private final SHNCentral central;
 
     @NonNull
     private final VerboseExecutor requestExecutor;
 
-    private final DeviceCacheListener<BleCacheData> deviceCacheListener = new DeviceCacheListener<BleCacheData>() {
-        @Override
-        public void onAdded(BleCacheData cacheData) {
-            if (cppId.equals(cacheData.getNetworkNode().getCppId())) {
-                cacheData.addAvailabilityListener(new AvailabilityListener<BleCacheData>() {
-                    @Override
-                    public void onAvailabilityChanged(@NonNull BleCacheData object) {
-                        if (isAvailable != object.isAvailable()) {
-                            isAvailable = object.isAvailable();
-                            notifyAvailabilityChanged();
-                        }
-                    }
-                });
-            }
-        }
-
-        @Override
-        public void onRemoved(BleCacheData cacheData) {
-            if (cppId.equals(cacheData.getNetworkNode().getCppId())) {
-                if (isAvailable) {
-                    isAvailable = false;
-                    notifyAvailabilityChanged();
-                }
-            }
-        }
-    };
+    @NonNull
+    private final NetworkNode networkNode;
 
     @NonNull
     @VisibleForTesting
@@ -89,65 +62,54 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     private Map<PortParameters, PollingSubscription> subscriptionsCache = new ConcurrentHashMap<>();
     private boolean isAvailable;
 
+    private SHNDevice bleDevice;
+
     /**
      * Instantiates a new Ble communication strategy with a sensible default subscription polling interval value.
-     *
-     * @param cppId       the cpp id
-     * @param deviceCache the device cache
      */
-    public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache) {
-        this(cppId, deviceCache, HandlerProvider.createHandler());
+    public BleCommunicationStrategy(@NonNull final SHNCentral central, @NonNull final NetworkNode networkNode) {
+        this(central, networkNode, HandlerProvider.createHandler());
     }
 
     /**
      * Instantiates a new BleCommunicationStrategy that provides callbacks on the specified handler.
      *
-     * @param cppId           the cpp id
-     * @param deviceCache     the device cache
+     * @param networkNode     the networkNode
      * @param callbackHandler the handler on which callbacks will be posted
      */
-    public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, @NonNull Handler callbackHandler) {
-        this(cppId, deviceCache, callbackHandler, DEFAULT_SUBSCRIPTION_POLLING_INTERVAL);
+    public BleCommunicationStrategy(@NonNull final SHNCentral central, @NonNull final NetworkNode networkNode, @NonNull final Handler callbackHandler) {
+        this(central, networkNode, callbackHandler, DEFAULT_SUBSCRIPTION_POLLING_INTERVAL);
     }
 
     /**
      * Instantiates a new BleCommunicationStrategy that provides callbacks on the specified handler.
      *
-     * @param cppId                       the cpp id
-     * @param deviceCache                 the device cache
+     * @param networkNode                 the networkNode
      * @param callbackHandler             the handler on which callbacks will be posted
      * @param subscriptionPollingInterval the interval used for polling subscriptions
      */
-    public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, @NonNull Handler callbackHandler, long subscriptionPollingInterval) {
-        this(cppId, deviceCache, callbackHandler, subscriptionPollingInterval, new VerboseExecutor());
+    public BleCommunicationStrategy(@NonNull final SHNCentral central, @NonNull final NetworkNode networkNode, @NonNull final Handler callbackHandler, long subscriptionPollingInterval) {
+        this(central, networkNode, callbackHandler, subscriptionPollingInterval, new VerboseExecutor());
     }
 
     @VisibleForTesting
-    BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, @NonNull Handler callbackHandler, long subscriptionPollingInterval, @NonNull final VerboseExecutor requestExecutor) {
-        this.cppId = cppId;
-        this.deviceCache = deviceCache;
+    BleCommunicationStrategy(@NonNull final SHNCentral central, @NonNull final NetworkNode networkNode, @NonNull final Handler callbackHandler, long subscriptionPollingInterval, @NonNull final VerboseExecutor requestExecutor) {
+        this.central = central;
+        this.networkNode = networkNode;
         this.requestExecutor = requestExecutor;
         this.subscriptionPollingInterval = subscriptionPollingInterval;
         this.callbackHandler = callbackHandler;
-
-        final BleCacheData cacheData = deviceCache.getCacheData(cppId);
-        if (cacheData != null) {
-            this.isAvailable = cacheData.isAvailable();
-            notifyAvailabilityChanged();
-        }
-
-        this.deviceCache.addDeviceCacheListener(deviceCacheListener, cppId);
     }
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        final BleRequest request = new BleGetRequest(deviceCache, cppId, portName, productId, responseHandler, callbackHandler, disconnectAfterRequest);
+        final BleRequest request = new BleGetRequest(getBleDevice(), portName, productId, responseHandler, callbackHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BlePutRequest(deviceCache, cppId, portName, productId, dataMap, responseHandler, callbackHandler, disconnectAfterRequest);
+        final BleRequest request = new BlePutRequest(getBleDevice(), portName, productId, dataMap, responseHandler, callbackHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
@@ -205,7 +167,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return this.isAvailable;
+        return central.isBluetoothAdapterEnabled();
     }
 
     /**
@@ -214,7 +176,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     @Override
     public void enableCommunication() {
         if (isAvailable()) {
-            SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
+            SHNDevice device = getBleDevice();
             device.connect(CONNECTION_TIMEOUT);
         }
         disconnectAfterRequest.set(false);
@@ -229,7 +191,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
         disconnectAfterRequest.set(true);
 
         if (isAvailable() && requestExecutor.isIdle()) {
-            SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
+            SHNDevice device = getBleDevice();
             device.disconnect();
         }
     }
@@ -237,5 +199,12 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     @VisibleForTesting
     protected void dispatchRequest(final BleRequest request) {
         requestExecutor.execute(new VerboseRunnable(request));
+    }
+
+    private SHNDevice getBleDevice() {
+        if (bleDevice == null) {
+            bleDevice = central.createSHNDeviceForAddressAndDefinition(networkNode.getMacAddress(), new ReferenceNodeDeviceDefinitionInfo());
+        }
+        return bleDevice;
     }
 }

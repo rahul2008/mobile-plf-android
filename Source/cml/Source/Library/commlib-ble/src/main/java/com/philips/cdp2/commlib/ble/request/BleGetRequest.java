@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommRequest;
@@ -21,21 +21,19 @@ public class BleGetRequest extends BleRequest {
     /**
      * Instantiates a new BleRequest.
      *
-     * @param deviceCache            the device cache
-     * @param cppId                  the cppId of the BleDevice
+     * @param bleDevice              the device to send requests to
      * @param portName               the port name
      * @param productId              the product id
      * @param responseHandler        the response handler
      * @param disconnectAfterRequest indicates if the request should disconnect from the device after communicating
      */
-    public BleGetRequest(@NonNull final BleDeviceCache deviceCache,
-                         @NonNull final String cppId,
+    public BleGetRequest(@NonNull final SHNDevice bleDevice,
                          @NonNull final String portName,
                          final int productId,
                          @NonNull final ResponseHandler responseHandler,
                          @NonNull final Handler handlerToPostResponseOnto,
                          @NonNull AtomicBoolean disconnectAfterRequest) {
-        super(deviceCache, cppId, portName, productId, responseHandler, handlerToPostResponseOnto, disconnectAfterRequest);
+        super(bleDevice, portName, productId, responseHandler, handlerToPostResponseOnto, disconnectAfterRequest);
     }
 
     @Override
