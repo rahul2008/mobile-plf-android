@@ -135,7 +135,8 @@ public enum JanrainErrorEnum {
         }
 
         if(stringId == RegConstants.UNKNOWN_ERROR_ID ){
-            return context.getString(R.string.reg_Generic_Network_Error) +" "+ "["+errorCode+"]";
+            stringId = R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg;
+            return String.format(context.getString(stringId),context.getString(R.string.reg_USR_Error_PleaseTryLater_Txt)) + "["+errorCode+"]" +".";
         }
         return context.getString(stringId);
     }
