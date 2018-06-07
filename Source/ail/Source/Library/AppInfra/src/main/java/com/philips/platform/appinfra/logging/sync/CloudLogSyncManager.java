@@ -61,7 +61,7 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
         mSyncDataWorkQueue = new LinkedBlockingQueue<>();
         threadPoolExecutor = new ThreadPoolExecutor(
                 NUMBER_OF_CORES,       // Initial pool size
-                MAX_NUMBER_OF_CORES,       // Max pool size
+                NUMBER_OF_CORES,       // Max pool size
                 KEEP_ALIVE_TIME,
                 KEEP_ALIVE_TIME_UNIT,
                 mSyncDataWorkQueue);
