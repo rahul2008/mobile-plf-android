@@ -117,8 +117,11 @@ public enum HSDPErrorEnum {
     }
 
     private static String getHSDPFormattedError(Context context, int errorCode) {
-        if(getStringId(errorCode) == RegConstants.UNKNOWN_ERROR_ID ){
-            return context.getString(R.string.reg_Generic_Network_Error) +" "+ "["+errorCode+"]";
+        int stringId = getStringId(errorCode);
+        if(stringId == RegConstants.UNKNOWN_ERROR_ID ){
+            //return context.getString(R.string.reg_Generic_Network_Error) +" "+ "["+errorCode+"]";
+            stringId = R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg;
+            return String.format(context.getString(stringId),context.getString(R.string.reg_USR_Error_PleaseTryLater_Txt)) + "["+errorCode+"]" +".";
         }
         return String.format(context.getString(getStringId(errorCode)),errorCode);
     }
