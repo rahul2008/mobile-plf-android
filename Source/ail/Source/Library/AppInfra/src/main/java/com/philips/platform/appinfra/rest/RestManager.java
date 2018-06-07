@@ -15,8 +15,8 @@ import android.net.NetworkInfo;
 import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.BaseHttpStack;
 import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -40,15 +40,16 @@ public class RestManager implements RestInterface {
     private static final long serialVersionUID = -5276610949381468217L;
     private transient RequestQueue mRequestQueue;
     private AppInfra mAppInfra;
+    private PinnedSignatureManager pinnedSignatureManager;
     private ArrayList<NetworkConnectivityChangeListener> networkConnectivityChangeListeners = new ArrayList<>();
 
     public RestManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         VolleyLog.DEBUG = false;
+        pinnedSignatureManager = new PinnedSignatureManager(mAppInfra);
         appInfra.getAppInfraContext().registerReceiver(new NetworkChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
-    
     @Override
     public synchronized RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
@@ -69,8 +70,8 @@ public class RestManager implements RestInterface {
     }
 
     @Override
-    public NetworkTypes getNetworkReachabilityStatus() {
-        NetworkTypes networkStatus = NetworkTypes.NO_NETWORK;
+    public NetworkTypes  getNetworkReachabilityStatus() {
+        NetworkTypes networkStatus=NetworkTypes.NO_NETWORK;
         final NetworkInfo connectionInfo = getNetworkInfo();
         if (null != connectionInfo && connectionInfo.isConnected()) {
             if (connectionInfo.getType() == ConnectivityManager.TYPE_WIFI) {
@@ -109,12 +110,7 @@ public class RestManager implements RestInterface {
     }
 
     private Network getNetwork() {
-        HttpStack stack = null;
-        try {
-            stack = new HurlStack(new ServiceIDResolver(), new TLSSocketFactory());
-        } catch (KeyManagementException | NoSuchAlgorithmException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST," ERROR while getting network");
-        }
+        BaseHttpStack stack = new AppInfraHurlStack(pinnedSignatureManager, new ServiceIDResolver(), mAppInfra.getLogging());
         return new BasicNetwork(stack);
     }
 

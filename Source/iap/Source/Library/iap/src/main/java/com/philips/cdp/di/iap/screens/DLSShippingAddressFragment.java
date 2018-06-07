@@ -474,6 +474,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
             mEtState.setText(stateCode);
             mlLState.setVisibility(View.VISIBLE);
         } else {
+            mEtState.setVisibility(View.GONE);
             mlLState.setVisibility(View.GONE);
         }
     }

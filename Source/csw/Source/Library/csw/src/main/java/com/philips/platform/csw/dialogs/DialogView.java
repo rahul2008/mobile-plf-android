@@ -44,6 +44,13 @@ public class DialogView implements View.OnClickListener {
         }
     }
 
+    public void hideDialog() {
+        isDialogShown = false;
+        if (alertDialogFragment != null) {
+            alertDialogFragment.dismiss();
+        }
+    }
+
     protected void setupTitleAndText(String title, String body) {
         Label titleLabel = view.findViewById(R.id.mya_csw_label_error_message_title);
         titleLabel.setText(title);

@@ -83,12 +83,11 @@ public class DemoDataServicesState extends DemoBaseState
         dsDemoAppuAppInterface = getDsDemoAppuAppInterface();
         dsDemoAppuAppInterface.init(getUappDependencies(context), dsDemoAppuAppSettings);
 
-        if (BaseAppUtil.isDSPollingEnabled(context)) {
-            User user = new User(context);
-            if (user.isUserSignIn()) {
-                SyncScheduler.getInstance().scheduleSync();
-            }
-        } else {
+        User user = new User(context);
+        if (user.isUserSignIn()) {
+            SyncScheduler.getInstance().scheduleSync();
+        }
+        if (!BaseAppUtil.isDSPollingEnabled(context)) {
             if (new User(context).isUserSignIn()) {
                 registerDSForRegisteringToken();
                 registerForReceivingPayload();
