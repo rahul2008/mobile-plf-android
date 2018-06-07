@@ -63,8 +63,7 @@ public class LogFormatter extends Formatter {
             //Getting component Id and Component version from 1 and 2 index respectively.
             componentID=(String)params[AppInfraLogging.COMPONENT_ID_INDEX];
             componentVersion=(String)params[AppInfraLogging.COMPONENT_VERSION_INDEX];
-            //Size 4 indicates that additional key value pairs has been passed with log.
-            //Size 3 indicates that no additional key value pairs has been passed with log
+
             if (params.length == AppInfraLogging.PARAM_SIZE_WITH_METADATA) {
                 try {
                     if (params[AppInfraLogging.LOG_METADATA_INDEX] instanceof Map)

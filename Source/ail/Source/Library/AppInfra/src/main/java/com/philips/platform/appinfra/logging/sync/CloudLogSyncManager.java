@@ -33,6 +33,8 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
     private static int NUMBER_OF_CORES =
             Runtime.getRuntime().availableProcessors();
 
+    private static int MAX_NUMBER_OF_CORES = 4;
+
     private static final int KEEP_ALIVE_TIME = 1;
     // Sets the Time Unit to seconds
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
@@ -59,7 +61,7 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
         mSyncDataWorkQueue = new LinkedBlockingQueue<>();
         threadPoolExecutor = new ThreadPoolExecutor(
                 NUMBER_OF_CORES,       // Initial pool size
-                NUMBER_OF_CORES,       // Max pool size
+                MAX_NUMBER_OF_CORES,       // Max pool size
                 KEEP_ALIVE_TIME,
                 KEEP_ALIVE_TIME_UNIT,
                 mSyncDataWorkQueue);
@@ -83,13 +85,13 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
 
     public boolean checkWhetherToSyncCloudLog() {
         //Add consent part here
-        if (isInternetAvailable && isSecretKeyAnsSharedKeyAvailable()) {
+        if (isInternetAvailable && isSecretKeyAndSharedKeyAvailable()) {
             return true;
         }
         return false;
     }
 
-    private boolean isSecretKeyAnsSharedKeyAvailable() {
+    private boolean isSecretKeyAndSharedKeyAvailable() {
         if (TextUtils.isEmpty(secretKey) || TextUtils.isEmpty(sharedKey) || TextUtils.isEmpty(productKey)) {
             return false;
         }

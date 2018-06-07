@@ -34,10 +34,6 @@ public interface ConsentHandlerInterface {
 
     }
 
-    /**
-     * Created by abhishek on 5/21/18.
-     */
-
     interface ConsentChangeListener {
         void onConsentChanged(String consentType, boolean status);
     }

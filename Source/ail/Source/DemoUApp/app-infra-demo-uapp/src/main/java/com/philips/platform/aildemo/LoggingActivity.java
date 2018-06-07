@@ -87,7 +87,7 @@ public class LoggingActivity extends AppCompatActivity {
 
             @Override
             public void onGetConsentFailed(ConsentError error) {
-
+                Log.v("LoggingActivity","Getting consent failed");
             }
         });
         /////////////////////////////////////

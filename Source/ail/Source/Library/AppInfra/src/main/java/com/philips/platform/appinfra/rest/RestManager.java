@@ -96,7 +96,7 @@ public class RestManager implements RestInterface {
     }
 
     @Override
-    public void unregisterNetworkChnageListener(NetworkConnectivityChangeListener networkConnectivityChangeListener) {
+    public void unregisterNetworkChangeListener(NetworkConnectivityChangeListener networkConnectivityChangeListener) {
         if (networkConnectivityChangeListeners.contains(networkConnectivityChangeListener)) {
             networkConnectivityChangeListeners.remove(networkConnectivityChangeListener);
         }
