@@ -1,7 +1,8 @@
 package com.philips.cdp2.commlib.core.store;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -14,6 +15,17 @@ public final class NetworkNodeDatabaseFactory {
     }
 
     public static NetworkNodeDatabase create(final @Nullable RuntimeConfiguration runtimeConfiguration) {
+        NetworkNodeDBHelper dbHelper = createNetworkNodeDBHelper(runtimeConfiguration);
+
+        final NetworkNodeDatabase database = new NetworkNodeDatabase(dbHelper);
+
+        migrate(runtimeConfiguration, database, dbHelper);
+
+        return database;
+    }
+
+    @NonNull
+    private static NetworkNodeDBHelper createNetworkNodeDBHelper(final @Nullable RuntimeConfiguration runtimeConfiguration) {
         NetworkNodeDBHelper dbHelper = null;
 
         if (runtimeConfiguration != null) {
@@ -27,18 +39,16 @@ public final class NetworkNodeDatabaseFactory {
         if (dbHelper == null) {
             dbHelper = new NonSecureNetworkNodeDatabaseHelper();
         }
-
-        final NetworkNodeDatabase database = new NetworkNodeDatabase(dbHelper);
-
-        if (runtimeConfiguration != null) {
-            migrate(runtimeConfiguration.getContext(), database);
-        }
-        return database;
+        return dbHelper;
     }
 
-    private static void migrate(Context context, NetworkNodeDatabase newDatabase) {
-        File oldDatabaseFile = context.getDatabasePath(NonSecureNetworkNodeDatabaseHelper.DB_NAME);
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private static void migrate(@Nullable final RuntimeConfiguration runtimeConfiguration, @NonNull final NetworkNodeDatabase newDatabase, @NonNull final NetworkNodeDBHelper dbHelper) {
+        if (runtimeConfiguration == null || dbHelper instanceof NonSecureNetworkNodeDatabaseHelper) {
+            return;
+        }
 
+        File oldDatabaseFile = runtimeConfiguration.getContext().getDatabasePath(NonSecureNetworkNodeDatabaseHelper.DB_NAME);
         if (oldDatabaseFile.exists()) {
             NonSecureNetworkNodeDatabaseHelper oldDBHelper = new NonSecureNetworkNodeDatabaseHelper();
             final NetworkNodeDatabase oldDatabase = new NetworkNodeDatabase(oldDBHelper);
