@@ -35,8 +35,11 @@ pipeline {
             steps {
                 echo "Node labels: ${nodes}"
                 sh 'printenv'
-                InitialiseBuild()
-                BuildAndUnitTest()
+
+                timeout(time: 1, unit: 'HOURS') {
+                    InitialiseBuild()
+                    BuildAndUnitTest()
+                }
             }
         }
 
@@ -213,7 +216,7 @@ def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
-        ./gradlew --refresh-dependencies assembleRelease \
+        ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
             :AppInfra:cC \
             :uAppFwLib:testReleaseUnitTest \
             :securedblibrary:cC \

@@ -117,14 +117,10 @@ public class BackendModuleTest {
     InsightDataFetcher mInsightDataFetcher;
     @Mock
     SettingsDataFetcher settingsDataFetcher;
-    @Mock
-    ConsentsDataFetcher consentsDataFetcher;
 
     @Mock
     MomentsDataSender momentsDataSender;
-
-    @Mock
-    ConsentDataSender consentDataSender;
+    
     @Mock
     UserCharacteristicsSender userCharacteristicsSender;
     @Mock
@@ -281,7 +277,7 @@ public class BackendModuleTest {
     @Test
     public void ShouldReturnDataPullSynchronise_WhenProvidesDataPullSynchroniseIsCalled() throws Exception {
         final DataPullSynchronise dataPullSynchronise = backendModule.providesDataSynchronise(momentsDataFetcher,
-                consentsDataFetcher, userCharacteristicsFetcher, settingsDataFetcher, mInsightDataFetcher);
+                 userCharacteristicsFetcher, settingsDataFetcher, mInsightDataFetcher);
         assertThat(dataPullSynchronise).isNotNull();
         assertThat(dataPullSynchronise).isInstanceOf(DataPullSynchronise.class);
     }
@@ -289,7 +285,7 @@ public class BackendModuleTest {
     @Test
     public void ShouldReturnDataPushSynchronise_WhenProvidesDataPushSynchroniseIsCalled() throws Exception {
         final DataPushSynchronise dataPushSynchronise = backendModule.providesDataPushSynchronise(momentsDataSender,
-                consentDataSender, userCharacteristicsSender, settingsDataSender, mInsightDataSender);
+                userCharacteristicsSender, settingsDataSender, mInsightDataSender);
         assertThat(dataPushSynchronise).isNotNull();
         assertThat(dataPushSynchronise).isInstanceOf(DataPushSynchronise.class);
     }
