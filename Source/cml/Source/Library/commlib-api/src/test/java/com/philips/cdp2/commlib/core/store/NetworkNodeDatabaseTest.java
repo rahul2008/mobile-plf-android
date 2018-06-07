@@ -20,6 +20,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NA
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MAC_ADDRESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -46,7 +47,8 @@ public class NetworkNodeDatabaseTest {
     private final String CPP_ID = "cppId";
     private final String DEVICE_NAME = "deviceName";
     private final String IP_ADDRESS = "198.162.1.0";
-    
+    private final String MAC_ADDRESS = "00:11:22:33:44:55";
+
     private final NetworkNode networkNode = new NetworkNode();
 
     @Before
@@ -102,6 +104,19 @@ public class NetworkNodeDatabaseTest {
 
         assertTrue(all.size() == 1);
         assertEquals(CPP_ID, all.get(0).getCppId());
+    }
+
+    @Test
+    public void whenNodeIsReturned_thenMacAddressIsRedFromDatabase() {
+        when(cursorMock.getCount()).thenReturn(1);
+        when(cursorMock.getColumnIndex(KEY_MAC_ADDRESS)).thenReturn(0);
+        when(cursorMock.getString(0)).thenReturn(MAC_ADDRESS);
+        when(networkNodeDBHelperMock.query(null, null)).thenReturn(cursorMock);
+
+        List<NetworkNode> all = networkNodeDatabase.getAll();
+
+        assertTrue(all.size() == 1);
+        assertEquals(MAC_ADDRESS, all.get(0).getMacAddress());
     }
 
     @Test
@@ -175,6 +190,16 @@ public class NetworkNodeDatabaseTest {
 
         verify(networkNodeDBHelperMock).insertRow(contentValuesArgumentCaptor.capture());
         assertEquals(DEVICE_NAME, contentValuesArgumentCaptor.getValue().get(KEY_DEVICE_NAME));
+    }
+
+    @Test
+    public void whenNodeIsSaved_thenDeviceMacAddressIsSaved() {
+        networkNode.setMacAddress(MAC_ADDRESS);
+
+        networkNodeDatabase.save(networkNode);
+
+        verify(networkNodeDBHelperMock).insertRow(contentValuesArgumentCaptor.capture());
+        assertEquals(MAC_ADDRESS, contentValuesArgumentCaptor.getValue().get(KEY_MAC_ADDRESS));
     }
 
     @Test

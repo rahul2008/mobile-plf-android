@@ -48,6 +48,7 @@ public class NetworkNode implements Parcelable {
     public static final String KEY_MODEL_NAME = "model_name";
     public static final String KEY_PIN = "pin";
     public static final String KEY_MISMATCHED_PIN = "mismatched_pin";
+    public static final String KEY_MAC_ADDRESS = "mac_address";
 
     //Shared
     private String cppId;
