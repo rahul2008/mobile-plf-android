@@ -7,13 +7,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.core.BaseAppDataCreator;
-import com.philips.platform.core.Eventing;
+import com.philips.platform.catk.ConsentsClient;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.consent.ConsentsClient;
 import com.philips.platform.datasync.insights.InsightClient;
-import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.junit.Before;

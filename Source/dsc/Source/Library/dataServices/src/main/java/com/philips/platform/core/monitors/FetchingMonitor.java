@@ -23,7 +23,6 @@ import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.settings.SettingsSegregator;
@@ -48,9 +47,6 @@ public class FetchingMonitor extends EventMonitor {
     MomentsSegregator momentsSegregator;
 
     @Inject
-    ConsentsSegregator consentsSegregator;
-
-    @Inject
     SettingsSegregator settingsSegregator;
 
     @Inject
@@ -66,7 +62,6 @@ public class FetchingMonitor extends EventMonitor {
     public void onEventAsync(GetNonSynchronizedDataRequest event) {
         Map<Class, List<?>> dataToSync = new HashMap<>();
         dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
-        dataToSync = consentsSegregator.putConsentForSync(dataToSync);
         try {
             dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
         } catch (SQLException e) {

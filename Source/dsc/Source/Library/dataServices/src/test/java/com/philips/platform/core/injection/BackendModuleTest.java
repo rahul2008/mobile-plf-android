@@ -10,7 +10,6 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
-import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -24,10 +23,6 @@ import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
-import com.philips.platform.datasync.consent.ConsentDataSender;
-import com.philips.platform.datasync.consent.ConsentsDataFetcher;
-import com.philips.platform.datasync.consent.ConsentsMonitor;
-import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.devicePairing.DevicePairingMonitor;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataSender;
@@ -70,7 +65,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
@@ -90,8 +84,6 @@ public class BackendModuleTest {
     @Mock
     Eventing eventingMock;
     @Mock
-    ConsentsMonitor consentsMonitor;
-    @Mock
     UserCharacteristicsMonitor userCharacteristicsMonitor;
     @Mock
     PushNotificationMonitor pushNotificationMonitor;
@@ -105,8 +97,6 @@ public class BackendModuleTest {
 
     @Mock
     SubjectProfileMonitor subjectProfileMonitor;
-
-    ExecutorService executorService;
 
     @Mock
     MomentsDataFetcher momentsDataFetcher;
@@ -134,9 +124,6 @@ public class BackendModuleTest {
     RestAdapter.Builder builder;
     @Mock
     Context context;
-
-    @Mock
-    SynchronisationCompleteListener mSynchronisationCompleteListener;
 
     @Mock
     private AppComponent appComponantMock;
@@ -220,7 +207,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnBackend_WhenProvidesBackendIsCalled() throws Exception {
-        final Backend backend = backendModule.providesBackend(consentsMonitor, userCharacteristicsMonitor, settingsMonitor, mInsightMonitor, pushNotificationMonitor, devicePairingMonitor, subjectProfileMonitor);
+        final Backend backend = backendModule.providesBackend(userCharacteristicsMonitor, settingsMonitor, mInsightMonitor, pushNotificationMonitor, devicePairingMonitor, subjectProfileMonitor);
         assertThat(backend).isNotNull();
         assertThat(backend).isInstanceOf(Backend.class);
     }
@@ -353,13 +340,6 @@ public class BackendModuleTest {
         UserCharacteristicsSegregator userCharacteristicsSegregator = backendModule.providesUserCharacteristicsSegregator();
         assertThat(userCharacteristicsSegregator).isNotNull();
         assertThat(userCharacteristicsSegregator).isInstanceOf(UserCharacteristicsSegregator.class);
-    }
-
-    @Test
-    public void ShouldReturnEventing_WhenProvidesConsentsSegregaterIsCalled() throws Exception {
-        ConsentsSegregator consentsSegregator = backendModule.providesConsentsSegregater();
-        assertThat(consentsSegregator).isNotNull();
-        assertThat(consentsSegregator).isInstanceOf(ConsentsSegregator.class);
     }
 
     @Test
