@@ -11,6 +11,7 @@ package com.philips.platform.appinfra.apisigning;
  */
 
 import android.util.Base64;
+import android.util.Log;
 
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
@@ -52,6 +53,7 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
         return buildAuthorizationHeaderValue(joinHeaders(headers), signature);
     }
 
+
     private String joinHeaders(Map<String, String> headers) {
         final List<String> headerList = new LinkedList<String>();
 
@@ -88,14 +90,14 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
         buffer.append(";");
         buffer.append("Signature:");
         buffer.append(signature);
-     //   Log.v(AppInfraLogEventID.AI_API_SIGNING, "Build Authorization Header Value String "+buffer);
+        //   Log.v(AppInfraLogEventID.AI_API_SIGNING, "Build Authorization Header Value String "+buffer);
         return buffer.toString();
     }
 
     private byte[] hashRequest(String requestMethod, String queryString, String requestBody, String requestHeaders) {
         final PsLib psLib = new PsLib();
 //        Log.v(AppInfraLogEventID.AI_API_SIGNING, "PS Library Loaded ");
-        final byte[] kMethod = psLib.createHmac(this.secretKey,requestMethod.getBytes());
+        final byte[] kMethod = psLib.createHmac(this.secretKey, requestMethod.getBytes());
 //        Log.v(AppInfraLogEventID.AI_API_SIGNING, "Created Hmac Key");
         final byte[] kQueryString = hash(queryString, kMethod);
         final byte[] kBody = hash(requestBody, kQueryString);
@@ -105,14 +107,14 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
     private String signString(byte[] signatureKey, String uriToBeSigned) {
         final byte[] signatureArray = hash(uriToBeSigned, signatureKey);
 //        Log.v(AppInfraLogEventID.AI_API_SIGNING, "Encode  signature Array to Base64 encode string ");
-        return Base64.encodeToString(signatureArray,Base64.DEFAULT);
+        return Base64.encodeToString(signatureArray, Base64.DEFAULT);
     }
 
     private byte[] hash(String data, byte[] key) {
         try {
             final Mac mac = Mac.getInstance(ALGORITHM_NAME);
             mac.init(new SecretKeySpec(key, ALGORITHM_NAME));
-            if (data== null) {
+            if (data == null) {
                 return mac.doFinal(null);
             }
 //            Log.v(AppInfraLogEventID.AI_API_SIGNING, "hash Mac SecretKeySpec");
@@ -127,9 +129,9 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
         final byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
             data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
+                    + Character.digit(s.charAt(i + 1), 16));
         }
 //        Log.v(AppInfraLogEventID.AI_API_SIGNING, "hexString To ByteArray type Casting");
         return data;
     }
- }
+}

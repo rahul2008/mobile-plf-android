@@ -215,5 +215,9 @@ ext.deps = [
         spoon_gradle_plugin           : 'com.stanfy.spoon:spoon-gradle-plugin:1.1.0',
         thoughtworks_xstream          : 'com.thoughtworks.xstream:xstream:1.4.7',
         commons_io                    : [group: 'commons-io', name: 'commons-io', version: '2.0.1'],
-        facebook                      : 'com.facebook.android:facebook-login:[4,5)'
+        facebook                      : 'com.facebook.android:facebook-login:[4,5)',
+        room_runtime                  : 'android.arch.persistence.room:runtime:1.1.0',
+        room_compiler                 : 'android.arch.persistence.room:compiler:1.1.0',
+        livedata                      : 'android.arch.lifecycle:livedata:1.1.0',
+        livedata_compiler             : 'android.arch.lifecycle:compiler:1.1.0'
 ]

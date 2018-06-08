@@ -67,6 +67,16 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
             public void log(LogLevel logLevel, String s, String s1, Map<String, ?> map) {
 
             }
+
+            @Override
+            public void setHSDPUserUUID(String userUUID) {
+
+            }
+
+            @Override
+            public String getCloudLoggingConsentIdentifier() {
+                return null;
+            }
         };
     }
 

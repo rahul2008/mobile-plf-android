@@ -5,7 +5,10 @@
  */
 package com.philips.platform.appinfra.rest;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -24,6 +27,9 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.io.File;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -35,11 +41,13 @@ public class RestManager implements RestInterface {
     private transient RequestQueue mRequestQueue;
     private AppInfra mAppInfra;
     private PinnedSignatureManager pinnedSignatureManager;
+    private ArrayList<NetworkConnectivityChangeListener> networkConnectivityChangeListeners = new ArrayList<>();
 
     public RestManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         VolleyLog.DEBUG = false;
         pinnedSignatureManager = new PinnedSignatureManager(mAppInfra);
+        appInfra.getAppInfraContext().registerReceiver(new NetworkChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Override
@@ -79,6 +87,20 @@ public class RestManager implements RestInterface {
     public boolean isInternetReachable() {
         final NetworkInfo networkInfo = getNetworkInfo();
         return (null != networkInfo && networkInfo.isConnected());
+    }
+
+    @Override
+    public void registerNetworkChangeListener(NetworkConnectivityChangeListener networkConnectivityChangeListener) {
+        if (!networkConnectivityChangeListeners.contains(networkConnectivityChangeListener)) {
+            networkConnectivityChangeListeners.add(networkConnectivityChangeListener);
+        }
+    }
+
+    @Override
+    public void unregisterNetworkChangeListener(NetworkConnectivityChangeListener networkConnectivityChangeListener) {
+        if (networkConnectivityChangeListeners.contains(networkConnectivityChangeListener)) {
+            networkConnectivityChangeListeners.remove(networkConnectivityChangeListener);
+        }
     }
 
     private NetworkInfo getNetworkInfo() {
@@ -132,7 +154,7 @@ public class RestManager implements RestInterface {
     private class ServiceIDResolver implements HurlStack.UrlRewriter {
 
         @Override
-        public String rewriteUrl(final String originalUrl) {
+        public synchronized String rewriteUrl(final String originalUrl) {
             if (!ServiceIDUrlFormatting.isServiceIDUrl(originalUrl))
                 return originalUrl;
 
@@ -171,19 +193,34 @@ public class RestManager implements RestInterface {
                 //  waitResult.await();
             } catch (Exception e) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST ERROR");
-            } finally {
-                //waitResult.signalAll();
-                //lock.unlock();
-                if (resultURL.length() > 0)
-                    resultURL.append(ServiceIDUrlFormatting.getUrlExtension(originalUrl));
             }
             if (resultURL.length() == 0)
                 return null;
-            if(resultURL.toString().contains("v1/")) {
-                return  resultURL.toString().replace("v1/","v1");
+            if (resultURL.toString().contains("v1/")) {
+                return resultURL.toString().replace("v1/", "v1");
             }
             return resultURL.toString();
         }
 
     }
+
+    class NetworkChangeReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            boolean connected = false;
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                    connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+                //we are connected to a network
+                connected = true;
+            } else
+                connected = false;
+            for (NetworkConnectivityChangeListener networkConnectivityChangeListener : networkConnectivityChangeListeners) {
+                networkConnectivityChangeListener.onConnectivityStateChange(connected);
+            }
+        }
+
+    }
+
 }
