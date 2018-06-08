@@ -94,7 +94,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNodeIsReturned_thenCppIdIsRedFromDatabase() {
+    public void whenNodeIsReturned_thenCppIdIsReadFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
         when(cursorMock.getColumnIndex(KEY_CPP_ID)).thenReturn(0);
         when(cursorMock.getString(0)).thenReturn(CPP_ID);
@@ -107,7 +107,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNodeIsReturned_thenMacAddressIsRedFromDatabase() {
+    public void whenNodeIsReturned_thenMacAddressIsReadFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
         when(cursorMock.getColumnIndex(KEY_MAC_ADDRESS)).thenReturn(0);
         when(cursorMock.getString(0)).thenReturn(MAC_ADDRESS);
@@ -120,7 +120,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNodeIsReturned_thenDeviceNameIsRedFromDatabase() {
+    public void whenNodeIsReturned_thenDeviceNameIsReadFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
         when(cursorMock.getColumnIndex(KEY_DEVICE_NAME)).thenReturn(0);
         when(cursorMock.getString(0)).thenReturn(DEVICE_NAME);
@@ -133,7 +133,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNodeIsReturned_thenIpAddressIsRedFromDatabase() {
+    public void whenNodeIsReturned_thenIpAddressIsReadFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
         when(cursorMock.getColumnIndex(KEY_IP_ADDRESS)).thenReturn(0);
         when(cursorMock.getString(0)).thenReturn(IP_ADDRESS);
@@ -157,7 +157,7 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenExceptionIsThrownWhileReadingOneNode_thenSuccessfullyRedNodesAreReturned() {
+    public void whenExceptionIsThrownWhileReadingOneNode_thenSuccessfullyReadNodesAreReturned() {
         when(cursorMock.getCount()).thenReturn(3);
         when(cursorMock.moveToNext()).thenReturn(true).thenReturn(true).thenReturn(false);
         when(networkNodeDBHelperMock.query(null, null)).thenReturn(cursorMock);
