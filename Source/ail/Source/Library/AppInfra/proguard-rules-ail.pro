@@ -1,3 +1,3 @@
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
 -keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
--keep public class com.philips.platform.appinfra.rest.** { *; }
+-keepclassmembers class com.philips.platform.appinfra.rest.AppInfraTrustManager {*;}
