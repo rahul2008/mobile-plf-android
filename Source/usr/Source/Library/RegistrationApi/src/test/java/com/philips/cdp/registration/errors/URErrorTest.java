@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 @RunWith(CustomRobolectricRunner.class)
@@ -38,14 +37,14 @@ public class URErrorTest {
         urError.getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldTestHSDPError() {
         urError.getLocalizedError(ErrorType.HSDP, ErrorCodes.HSDP_INPUT_ERROR_1114);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldTestHSDPError_WithDefault() {
-        urError.getLocalizedError(ErrorType.HSDP, ErrorCodes.UNKNOWN_ERROR);
+        urError.getLocalizedError(ErrorType.HSDP, ErrorCodes.HSDP_INPUT_ERROR_1112);
     }
 
     @Test

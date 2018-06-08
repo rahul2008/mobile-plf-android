@@ -11,6 +11,8 @@ public interface FaceBookContractor {
 
     void initFacebookLogIn();
 
+    void onFaceBookCancel();
+
     void onFaceBookEmailReceived(String email);
 
     void startFaceBookLogin();
