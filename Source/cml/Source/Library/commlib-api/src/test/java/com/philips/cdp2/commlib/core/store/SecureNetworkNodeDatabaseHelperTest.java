@@ -45,7 +45,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
     private SecureStorage secureStorageMock;
 
     @Mock
-    private SQLiteDatabase sqLiteDatabase;
+    private SQLiteDatabase sqLiteDatabaseMock;
 
     @Mock
     private ConnectionSource connectionSource;
@@ -74,7 +74,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
         }) {
             @Override
             public SQLiteDatabase getWriteDbPermission() {
-                return sqLiteDatabase;
+                return sqLiteDatabaseMock;
             }
         };
     }
@@ -99,69 +99,70 @@ public class SecureNetworkNodeDatabaseHelperTest {
             + ");";
 
     @Test
-    public void thenDatabaseIsCreated() {
-        subject.onCreate(sqLiteDatabase, connectionSource);
+    public void whenDbHelperIsAskedToCreateTheDatabase_thenItIsCreatedWithCorrectSchema() {
+        subject.onCreate(sqLiteDatabaseMock, connectionSource);
 
-        verify(sqLiteDatabase).execSQL(stringArgumentCaptor.capture());
+        verify(sqLiteDatabaseMock).execSQL(stringArgumentCaptor.capture());
 
         assertEquals(VERSION2, stringArgumentCaptor.getValue());
     }
 
     @Test
-    public void thenDatabaseIsQueried() {
+    public void whenDatabaseIsQueried_thenCorrectTableAndSelectionArgsAreUsed() {
         final String selection = "selection";
         final String[] selectionArgs = {"1", "2"};
         subject.query(selection, selectionArgs);
 
-        verify(sqLiteDatabase).query("secure_network_node", null, selection, selectionArgs, null, null, null);
+        verify(sqLiteDatabaseMock).query("secure_network_node", null, selection, selectionArgs, null, null, null);
     }
 
     @Test
-    public void thenDatabaseRowIsAdded() {
+    public void whenRowInsertionIsRequested_thenRowIsInsertedWithReplaceStrategy() {
         ContentValues contentValues = mock(ContentValues.class);
         subject.insertRow(contentValues);
 
-        verify(sqLiteDatabase).insertWithOnConflict("secure_network_node", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+        verify(sqLiteDatabaseMock).insertWithOnConflict("secure_network_node", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     @Test
-    public void thenDatabaseRowIsDeleted() {
+    public void whenDeletionOfNodeWithCppIdIsRequested_thenRowIsDeletedWithCurrectWhereClause() {
         final String id = "id";
         subject.deleteNetworkNodeWithCppId(id);
 
-        verify(sqLiteDatabase).delete("secure_network_node", "cppid= ?", new String[]{id});
+        verify(sqLiteDatabaseMock).delete("secure_network_node", "cppid= ?", new String[]{id});
     }
 
     @Test(expected = android.database.SQLException.class)
-    public void givenExceptionIsThrown_whenDataBaseIsQueried_thenExceptionIsReturned() {
+    public void givenDataBaseIsQueried_whenExceptionIsThrown_thenExceptionIsReturned() {
         final String selection = "selection";
         final String[] selectionArgs = {"1", "2"};
-        doThrow(SQLException.class).when(sqLiteDatabase).query("secure_network_node", null, selection, selectionArgs, null, null, null);
+        doThrow(SQLException.class).when(sqLiteDatabaseMock).query("secure_network_node", null, selection, selectionArgs, null, null, null);
 
         subject.query(selection, selectionArgs);
     }
 
     @Test(expected = android.database.SQLException.class)
-    public void givenExceptionIsThrown_whenDataBaseRowIsInserted_thenExceptionIsReturned() {
+    public void givenDataBaseRowIsInserted_whenExceptionIsThrown_thenExceptionIsReturned() {
         ContentValues contentValues = mock(ContentValues.class);
-        doThrow(SQLException.class).when(sqLiteDatabase).insertWithOnConflict("secure_network_node", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+        doThrow(SQLException.class).when(sqLiteDatabaseMock).insertWithOnConflict("secure_network_node", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
 
         subject.insertRow(contentValues);
     }
 
     @Test(expected = android.database.SQLException.class)
-    public void givenExceptionIsThrown_whenDataBaseRowIsDeleted_thenExceptionIsReturned() {
+    public void givenDataBaseRowIsDeleted_whenExceptionIsThrown_thenExceptionIsReturned() {
         final String id = "id";
-        doThrow(SQLException.class).when(sqLiteDatabase).delete("secure_network_node", "cppid= ?", new String[]{id});
+        doThrow(SQLException.class).when(sqLiteDatabaseMock).delete("secure_network_node", "cppid= ?", new String[]{id});
 
         subject.deleteNetworkNodeWithCppId(id);
     }
 
     @Test
-    public void whenDatabaseIsUpdatedFrom1To2_thenMacAddressColumnIsAddedAndFilledWithCppId() {
-        subject.onUpgrade(sqLiteDatabase, connectionSource, 1,2 );
+    public void givenDatabaseIsAtVersion1_whenDatabaseIsUpdatedToVersion2_thenMacAddressColumnIsAddedAndFilledWithCppId() {
 
-        verify(sqLiteDatabase, times(2)).rawExecSQL(stringArgumentCaptor.capture());
+        subject.onUpgrade(sqLiteDatabaseMock, connectionSource, 1,2 );
+
+        verify(sqLiteDatabaseMock, times(2)).rawExecSQL(stringArgumentCaptor.capture());
 
         assertEquals("ALTER TABLE secure_network_node ADD COLUMN mac_address STRING NULL", stringArgumentCaptor.getAllValues().get(0));
         assertEquals("UPDATE secure_network_node SET mac_address = cppid", stringArgumentCaptor.getAllValues().get(1));
