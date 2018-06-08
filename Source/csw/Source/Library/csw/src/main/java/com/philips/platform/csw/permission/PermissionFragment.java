@@ -137,13 +137,14 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
 
     @Override
     public void showProgressDialog() {
-        if (!(getActivity().isFinishing())) {
+        if (!isActivityFinishing()) {
             if (progressDialogView == null) {
                 progressDialogView = new ProgressDialogView();
             }
             progressDialogView.showDialog(getActivity());
         }
     }
+
 
     @Override
     public void hideProgressDialog() {
@@ -168,6 +169,12 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
         }
     }
 
+
+    @VisibleForTesting
+    protected boolean isActivityFinishing() {
+        return getActivity().isFinishing();
+    }
+
     private void showErrorDialog(boolean goBack, String title, String message) {
         CswLogger.e(TAG, message);
         DialogView dialogView = getDialogView(goBack);
@@ -180,6 +187,11 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
         confirmDialogView.setupDialog(dialogTexts);
         confirmDialogView.setResultHandler(handler);
         confirmDialogView.showDialog(getActivity());
+    }
+
+    @Override
+    public boolean isActive() {
+        return (getContext() != null);
     }
 
     @Override
