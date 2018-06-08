@@ -22,7 +22,6 @@ public class URNotification {
     public static List<Integer> INLINE_ERROR_CODE = new ArrayList<>();
 
     static {
-
         INLINE_ERROR_CODE.add(210);
         INLINE_ERROR_CODE.add(211);
         INLINE_ERROR_CODE.add(212);
@@ -38,6 +37,7 @@ public class URNotification {
         INLINE_ERROR_CODE.add(20);
         INLINE_ERROR_CODE.add(30);
         INLINE_ERROR_CODE.add(40);
+        INLINE_ERROR_CODE.add(200);
 
     }
 
