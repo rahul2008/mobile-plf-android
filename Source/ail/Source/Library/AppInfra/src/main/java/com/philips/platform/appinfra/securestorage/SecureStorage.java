@@ -58,13 +58,19 @@ public class SecureStorage implements SecureStorageInterface {
     @Override
     public String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
         if (latestSecureStorage.doesStorageKeyExist(userKey)) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Available in latest module :: Key" + userKey);
+            log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Available in latest module :: Key" + userKey);
             return latestSecureStorage.fetchValueForKey(userKey, secureStorageError);
         } else if (doesKeyExistInOldSS(userKey)) {
             return migrateDataFromOldToNewSS(userKey, secureStorageError);
         } else {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
             return null;
+        }
+    }
+
+    private void log(LoggingInterface.LogLevel logLevel, String eventId, String message) {
+        if(mAppInfra !=null && mAppInfra.getAppInfraLogInstance()!=null) {
+            mAppInfra.getAppInfraLogInstance().log(logLevel, eventId,message);
         }
     }
 
@@ -220,12 +226,12 @@ public class SecureStorage implements SecureStorageInterface {
             if(data!=null) {
                 boolean isSuccessful = latestSecureStorage.storeValueForKey(userKey, data, secureStorageError);
                 if (isSuccessful) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Migrated to latest SS:: Key" + userKey);
+                    log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Migrated to latest SS:: Key" + userKey);
                     boolean isDeleted = oldSecureStorageInstance.removeValueForKey(userKey);
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Is deleted from old SS? ::" + isDeleted);
+                    log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Is deleted from old SS? ::" + isDeleted);
                     return data;
                 } else {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Failed to migrate to latest SS:: Key" + userKey);
+                    log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Failed to migrate to latest SS:: Key" + userKey);
                     return data;
                 }
             }else{
@@ -246,14 +252,14 @@ public class SecureStorage implements SecureStorageInterface {
      * @return
      */
     protected boolean doesKeyExistInOldSS(String key) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Checking availability in old SS:: Key" + key);
+        log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Checking availability in old SS:: Key" + key);
         for (SecureStorageInterface secureStorage : getListOfOldSecureStorage()) {
             if (secureStorage.doesStorageKeyExist(key)) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Found in old ss:: Key" + key);
+                log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Found in old ss:: Key" + key);
                 return true;
             }
         }
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Not available in old SS:: Key" + key);
+        log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Not available in old SS:: Key" + key);
         return false;
     }
 
@@ -264,14 +270,14 @@ public class SecureStorage implements SecureStorageInterface {
      * @return
      */
     protected boolean doesSecureKeyExistInOldSS(String key) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Checking secure key availability in old SS:: Key" + key);
+        log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Checking secure key availability in old SS:: Key" + key);
         for (SecureStorageInterface secureStorage : getListOfOldSecureStorage()) {
             if (secureStorage.doesEncryptionKeyExist(key)) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Found secure key in old ss:: Key" + key);
+                log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Found secure key in old ss:: Key" + key);
                 return true;
             }
         }
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Secure key Not available in old SS:: Key" + key);
+        log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Secure key Not available in old SS:: Key" + key);
         return false;
     }
 
@@ -284,11 +290,11 @@ public class SecureStorage implements SecureStorageInterface {
     protected SecureStorageInterface getOldSSInstanceWhereSecureKeyIsAvailable(String key) {
         for (SecureStorageInterface secureStorage : getListOfOldSecureStorage()) {
             if (secureStorage.doesEncryptionKeyExist(key)) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Found in old ss:: Key" + key);
+                log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Found in old ss:: Key" + key);
                 return secureStorage;
             }
         }
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Not available in old SS:: Key" + key);
+        log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Not available in old SS:: Key" + key);
         return null;
     }
 
@@ -301,11 +307,11 @@ public class SecureStorage implements SecureStorageInterface {
     protected SecureStorageInterface getOldSSInstanceWhereKeyIsAvailable(String key) {
         for (SecureStorageInterface secureStorage : getListOfOldSecureStorage()) {
             if (secureStorage.doesStorageKeyExist(key)) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Found in old ss:: Key" + key);
+                log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Found in old ss:: Key" + key);
                 return secureStorage;
             }
         }
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Not available in old SS:: Key" + key);
+        log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Not available in old SS:: Key" + key);
         return null;
     }
 

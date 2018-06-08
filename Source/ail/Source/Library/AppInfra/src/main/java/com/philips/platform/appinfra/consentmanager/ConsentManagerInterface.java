@@ -72,4 +72,11 @@ public interface ConsentManagerInterface {
      * @since 2018.1.0
      */
     void fetchConsentTypeState(String type, FetchConsentCallback callback);
+
+    /**
+     * Get consent definition for consent type
+     * @param consentType
+     * @since 2018.2.0
+     */
+    ConsentDefinition getConsentDefinitionForType(String consentType);
 }

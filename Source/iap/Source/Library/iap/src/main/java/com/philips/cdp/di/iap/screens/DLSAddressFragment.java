@@ -148,14 +148,17 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             updateCheckoutStepNumber("2");
             checkBox.setVisibility(View.VISIBLE);
             if(!isChecked){
-                ((DLSBillingAddressFragment) billingFragment).disableAllFields();
+                //((DLSBillingAddressFragment) billingFragment).disableAllFields();
+                ((DLSBillingAddressFragment) billingFragment).clearAllFields();
             }else {
-                ((DLSBillingAddressFragment) billingFragment).enableAllFields();
+                 ((DLSBillingAddressFragment) billingFragment).enableAllFields();
+                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
+                ((DLSBillingAddressFragment) billingFragment).updateFields(mAddressFieldsHashmap);
+
             }
             setFragmentVisibility(shippingFragment, false);
             setFragmentVisibility(billingFragment, true);
-            HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
-            ((DLSBillingAddressFragment) billingFragment).updateFields(mAddressFieldsHashmap);
+
         }
     }
     private void updateCheckoutStepNumber(String stepNumber){

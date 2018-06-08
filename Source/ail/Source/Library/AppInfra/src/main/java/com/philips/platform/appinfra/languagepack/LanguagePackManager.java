@@ -126,7 +126,7 @@ public class  LanguagePackManager implements LanguagePackInterface {
 
 
     private Runnable postRefreshSuccess(final OnRefreshListener aILPRefreshResult, final OnRefreshListener.AILPRefreshResult ailpRefreshResult) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_LANGUAGE_PACK, "post Refresh Success");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LANGUAGE_PACK, "post Refresh Success");
         return new Runnable() {
             @Override
             public void run() {
@@ -149,7 +149,7 @@ public class  LanguagePackManager implements LanguagePackInterface {
 
     private void processForLanguagePack(JSONObject response, OnRefreshListener aILPRefreshResult) {
         mLanguageList = gson.fromJson(response.toString(), LanguageList.class);
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_LANGUAGE_PACK, "process For Language Pack");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LANGUAGE_PACK, "process For Language Pack");
         if (null != mLanguageList) {
             final String url = getPreferredLocaleURL();
             if (null == url) {
@@ -172,12 +172,12 @@ public class  LanguagePackManager implements LanguagePackInterface {
         final String json = languagePackUtil.readFile(file);
         final LanguagePackMetadata languagePackMetadata = gson.fromJson(json, LanguagePackMetadata.class);
         if (languagePackMetadata == null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_LANGUAGE_PACK, "is Language Pack Download Required true");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LANGUAGE_PACK, "is Language Pack Download Required true");
             return true;
         } else if (languagePackMetadata.getUrl().equalsIgnoreCase(selectedLanguageModel.getUrl())
                 && (Integer.parseInt(languagePackMetadata.getVersion()) >= Integer.parseInt(selectedLanguageModel.getVersion()))
                 && languagePackMetadata.getLocale().equalsIgnoreCase(selectedLanguageModel.getLocale())) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_LANGUAGE_PACK, "is Language Pack Download Required false");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LANGUAGE_PACK, "is Language Pack Download Required false");
             return false;
         }
 
@@ -189,7 +189,7 @@ public class  LanguagePackManager implements LanguagePackInterface {
     }
 
     private void downloadLanguagePack(String url, final OnRefreshListener aILPRefreshResult) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_LANGUAGE_PACK, "downloading language pack to fetch Language Pack Json ");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LANGUAGE_PACK, "downloading language pack to fetch Language Pack Json ");
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override

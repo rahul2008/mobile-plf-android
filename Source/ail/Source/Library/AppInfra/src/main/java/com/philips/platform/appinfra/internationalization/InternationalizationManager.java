@@ -31,13 +31,13 @@ public class InternationalizationManager implements InternationalizationInterfac
 
     @Override
     public String getUILocaleString() {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get UI Locale String");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get UI Locale String");
         return context.getResources().getString(R.string.ail_locale);
     }
 
     @Override
     public String getBCP47UILocale() {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get full UI Locale String");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get full UI Locale String");
         return context.getResources().getString(R.string.ail_fullLocale);
     }
 }

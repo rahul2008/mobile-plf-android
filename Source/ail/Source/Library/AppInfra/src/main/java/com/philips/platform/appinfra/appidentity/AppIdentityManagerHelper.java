@@ -54,10 +54,10 @@ class AppIdentityManagerHelper {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
                     "validate AppVersion" + appVersion);
             if (appVersion != null && !appVersion.isEmpty()) {
-                boolean isValid = isValidAppVersion(appVersion);
-                if (!isValid)
-                    throw new IllegalArgumentException("AppVersion should in this format " +
-                            "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
+                    boolean isValid = isValidAppVersion(appVersion);
+                    if (!isValid)
+                        throw new IllegalArgumentException("AppVersion should in this format " +
+                                "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
             } else {
                 throw new IllegalArgumentException("Appversion cannot be null");
             }
@@ -179,6 +179,7 @@ class AppIdentityManagerHelper {
                         "STAGING, \\\\n ACCEPTANCE, \\\\n PRODUCTION\"");
             }
         }
+
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
                 "App State Environment " + mAppStateEnum);
         return mAppStateEnum;

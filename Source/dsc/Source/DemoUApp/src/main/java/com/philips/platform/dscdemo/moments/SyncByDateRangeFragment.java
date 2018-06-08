@@ -35,7 +35,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies;
+import com.philips.platform.csw.justintime.JustInTimeConsentDependencies;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 
@@ -56,17 +56,12 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     private Button btnCompleteSync;
     private Button btnStartSyncByDateRange;
     private Button btnDeleteSyncedData;
-    private Button btnFetchMomentConsentStatus;
     private Date mStartDate;
     private Date mEndDate;
     private EditText mMomentStartDateEt;
     private EditText mMomentEndDateEt;
     private Calendar myCalendar;
     private TextView tvSyncStatus;
-    private Button btnMigrateData;
-    private Button btnResetMigrationFlag;
-    private TextView flagStateView;
-    private TextView momentConsentStatusTextView;
     private View fragmentView;
     private ToggleButton mEnableDisableSync;
     private EditText mLastSyncDateEt;
@@ -119,13 +114,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
                 fetchSyncByDateRange();
             } else if (view == btnDeleteSyncedData) {
                 deleteSyncedData();
-            } else if (view == btnMigrateData) {
-                migrateGDPRData();
-            } else if (view == btnResetMigrationFlag) {
-                DataServicesManager.getInstance().resetGDPRMigrationFlag();
-                updateMigrationFlagView();
-            } else if (view == btnFetchMomentConsentStatus) {
-                updateMomentConsentStatusView();
             } else if (view == btnSetLastSyncTimestamp) {
                 resetLastSyncTime();
             } else if (view == mLastSyncDateEt) {
@@ -141,7 +129,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     private void resetLastSyncTime() {
         mMomentPresenter.resetLastSyncTimestampTo(mLastSyncDateTime);
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -159,15 +146,8 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         btnStartSyncByDateRange = fragmentView.findViewById(R.id.btn_startSyncBy_dateRange);
         tvSyncStatus = fragmentView.findViewById(R.id.tvSyncStatus);
         btnDeleteSyncedData = fragmentView.findViewById(R.id.mya_delete_synced_data);
-        btnMigrateData = fragmentView.findViewById(R.id.migrate_data);
-        btnResetMigrationFlag = fragmentView.findViewById(R.id.reset_migration_flag);
-        flagStateView = fragmentView.findViewById(R.id.migration_flag_status);
-        btnFetchMomentConsentStatus = fragmentView.findViewById(R.id.fetch_moment_consent_status);
-        momentConsentStatusTextView = fragmentView.findViewById(R.id.moment_consent_status);
         mLastSyncDateEt = fragmentView.findViewById(R.id.et_last_sync_Date);
         btnSetLastSyncTimestamp = fragmentView.findViewById(R.id.btn_setSyncTimestamp);
-        updateMigrationFlagView();
-        updateMomentConsentStatusView();
         mEnableDisableSync = fragmentView.findViewById(R.id.toggleButton);
         loadPreferences();
 
@@ -200,28 +180,10 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         mMomentEndDateEt.setOnClickListener(clickListener);
         btnStartSyncByDateRange.setOnClickListener(clickListener);
         btnDeleteSyncedData.setOnClickListener(clickListener);
-        btnMigrateData.setOnClickListener(clickListener);
-        btnResetMigrationFlag.setOnClickListener(clickListener);
-        btnFetchMomentConsentStatus.setOnClickListener(clickListener);
         btnSetLastSyncTimestamp.setOnClickListener(clickListener);
         mLastSyncDateEt.setOnClickListener(clickListener);
 
         return fragmentView;
-    }
-
-    private void updateMomentConsentStatusView() {
-        momentConsentStatusTextView.setText("fetching...");
-        JustInTimeConsentDependencies.appInfra.getConsentManager().fetchConsentTypeState("moment", new FetchConsentCallback() {
-            @Override
-            public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
-                momentConsentStatusTextView.setText(consentDefinitionStatus.getConsentState().toString());
-            }
-
-            @Override
-            public void onGetConsentFailed(ConsentError error) {
-                momentConsentStatusTextView.setText("Error fetching...");
-            }
-        });
     }
 
     @Override
@@ -345,15 +307,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         editor.commit();
     }
 
-
-    private void updateMigrationFlagView() {
-        flagStateView.setText(checkMigrationFlag() ? "Yes" : "No");
-    }
-
-    private boolean checkMigrationFlag() {
-        return DataServicesManager.getInstance().isGdprMigrationDone();
-    }
-
     private void updateEditTextView(EditText editTextView, String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
         String dateAsString = sdf.format(myCalendar.getTime());
@@ -385,21 +338,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
             private void showSnackbar(int msg) {
                 Snackbar.make(fragmentView, msg, Snackbar.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    private void migrateGDPRData() {
-        DataServicesManager.getInstance().migrateGDPR(new DBRequestListener<Object>() {
-            @Override
-            public void onSuccess(List<?> data) {
-                Toast.makeText(getContext(), "GDPR migration completed", Toast.LENGTH_LONG).show();
-                updateMigrationFlagView();
-            }
-
-            @Override
-            public void onFailure(Exception exception) {
-                Toast.makeText(getContext(), "GDPR migration failed", Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -177,6 +177,16 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            mIapInterface.getProductCartCount(this);
+        }catch (Exception e){
+
+        }
+    }
+
     private void onResumeRetailer(){
         mAddCTNLl.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
@@ -345,11 +355,13 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         } else if (view == mPurchaseHistory) {
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {
-            IAPFlowInput iapFlowInput =
-                    new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput, null);
-            mEtCTN.setText("");
-            hideKeypad(this);
+         
+            if (null!=mCategorizedProductList && mCategorizedProductList.size() > 0) {
+                IAPFlowInput iapFlowInput = new IAPFlowInput(mCategorizedProductList.get(mCategorizedProductList.size()-1).toString().toUpperCase().replaceAll("\\s+", ""));
+                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput, null);
+            } else {
+                Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+            }
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
                 IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);

@@ -209,7 +209,6 @@ dependencies {
     androidTestImplementation deps.support.annotations
     androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.android_testrules
-    androidTestImplementation deps.espresso_core
     androidTestImplementation deps.uiautomator
     implementation project(':AppInfra')
     implementation project(':uAppFwLib')

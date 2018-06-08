@@ -135,17 +135,12 @@ public class User {
                                 ThreadUtils.postInMainThread(mContext, traditionalLoginHandler::onLoginSuccess);
                             } else {
                                 if (traditionalLoginHandler != null) {
-                                    UserRegistrationFailureInfo
-                                            userRegistrationFailureInfo =
-                                            new UserRegistrationFailureInfo(mContext);
-                                    userRegistrationFailureInfo.
-                                            setErrorCode(ErrorCodes.
-                                                    NETWORK_ERROR);
+                                    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+                                    userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
                                     RLog.e(TAG, "loginUsingTraditional onLoginSuccess without DIUserProfile, So throw onLoginFailedWithError" + userRegistrationFailureInfo.getErrorDescription());
                                     ThreadUtils.postInMainThread(mContext, () -> {
                                         traditionalLoginHandler.
-                                                onLoginFailedWithError(userRegistrationFailureInfo
-                                                );
+                                                onLoginFailedWithError(userRegistrationFailureInfo);
                                     });
                                 }
                             }
@@ -373,7 +368,7 @@ public class User {
             loginTraditionalResultHandler.mergeTraditionally(emailAddress, password, mergeToken);
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
             RLog.d(TAG, "mergeTraditionalAccount without email address and password, So called onLoginFailedWithError" + userRegistrationFailureInfo.getErrorDescription());
             ThreadUtils.postInMainThread(mContext, () ->
                     traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
