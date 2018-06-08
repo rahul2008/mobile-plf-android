@@ -70,6 +70,7 @@ public class URNotification {
     public void hideNotification() {
         switch (mNotificationType) {
             case NOTIFICATION_BAR:
+                if(notificationBarView!=null)
                 notificationBarView.hidePopup();
         }
     }

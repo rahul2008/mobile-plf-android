@@ -61,6 +61,8 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
 
     @Override
     public void onCancel() {
+        RLog.i(TAG, "onCancel()");
+        faceBookContractor.onFaceBookCancel();
         faceBookContractor.doHideProgressDialog();
     }
 

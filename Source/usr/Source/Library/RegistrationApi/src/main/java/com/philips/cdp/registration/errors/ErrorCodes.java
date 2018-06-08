@@ -206,6 +206,8 @@ public class ErrorCodes {
     public static final int HSDP_INPUT_ERROR_3061 = 3161;
 
 
+    public static final int AUTHENTICATION_CANCELLED_BY_USER = 7010;
     public static final int REGISTER_TRADITIONAL_FAILED_SERVER_ERROR = 7003;
 
+    public static final int TRADITIONAL_LOGIN_FAILED_SERVER_ERROR = 7001;
 }

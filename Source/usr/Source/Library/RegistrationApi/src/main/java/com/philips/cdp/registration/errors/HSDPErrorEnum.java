@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.errors;
 
+import android.content.Context;
+
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
@@ -110,4 +112,17 @@ public enum HSDPErrorEnum {
     }
 
 
+    public static String getLocalizedError(Context context, int errorCode) {
+        return getHSDPFormattedError(context,errorCode);
+    }
+
+    private static String getHSDPFormattedError(Context context, int errorCode) {
+        int stringId = getStringId(errorCode);
+        if(stringId == RegConstants.UNKNOWN_ERROR_ID ){
+            //return context.getString(R.string.reg_Generic_Network_Error) +" "+ "["+errorCode+"]";
+            stringId = R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg;
+            return String.format(context.getString(stringId),context.getString(R.string.reg_USR_Error_PleaseTryLater_Txt)) + "["+errorCode+"]" +".";
+        }
+        return String.format(context.getString(getStringId(errorCode)),errorCode);
+    }
 }

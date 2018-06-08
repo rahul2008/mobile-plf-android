@@ -20,7 +20,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
@@ -125,9 +124,10 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
 
         } else {
             RLog.d(TAG,"onFailure : else is called");
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
-            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+//            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+//            userRegistrationFailureInfo.setErrorDescription();
+//            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
+//            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 
         }
     }

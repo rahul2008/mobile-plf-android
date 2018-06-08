@@ -242,7 +242,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         if (isOnline) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
-                hideNotificationBarOnNetworkAvailable();
+                hideNotificationBarView();
                 if (!getRegistrationFragment().getCounterState()) {
                     mResendEmail.setEnabled(true);
                 }
