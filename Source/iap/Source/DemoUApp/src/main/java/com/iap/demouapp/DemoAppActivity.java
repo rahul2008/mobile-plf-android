@@ -358,7 +358,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
            
             if (mCategorizedProductList.size() > 0) {
                 IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
-                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, null);
+                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input, null);
             } else {
                 Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
             }
