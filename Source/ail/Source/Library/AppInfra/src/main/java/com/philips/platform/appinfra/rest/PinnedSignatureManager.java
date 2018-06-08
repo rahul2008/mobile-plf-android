@@ -73,9 +73,11 @@ class PinnedSignatureManager implements PublicKeyPinInterface {
             storedKeyDetails = publicKeyPinCache.get(hostName);
         } else {
             storedKeyDetails = secureStorageInterface.fetchValueForKey(STORAGE_KEY_PREFIX + hostName, getSecureStorageError());
-            publicKeyPinCache.put(hostName, storedKeyDetails);
+            if (storedKeyDetails != null) {
+                publicKeyPinCache.put(hostName, storedKeyDetails);
+            }
         }
-        return storedKeyDetails;
+        return storedKeyDetails == null ? "" : storedKeyDetails;
     }
 
     @Override
