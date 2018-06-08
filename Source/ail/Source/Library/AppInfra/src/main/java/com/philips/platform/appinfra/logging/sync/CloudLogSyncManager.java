@@ -30,8 +30,7 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
 
     private static CloudLogSyncManager cloudLogSyncManager;
 
-    private static int NUMBER_OF_CORES =
-            Runtime.getRuntime().availableProcessors();
+    private static int NUMBER_OF_CORES = 2;
 
     private static int MAX_NUMBER_OF_CORES = 4;
 
@@ -61,7 +60,7 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
         mSyncDataWorkQueue = new LinkedBlockingQueue<>();
         threadPoolExecutor = new ThreadPoolExecutor(
                 NUMBER_OF_CORES,       // Initial pool size
-                getMaxPoolSize(),       // Max pool size
+                MAX_NUMBER_OF_CORES,       // Max pool size
                 KEEP_ALIVE_TIME,
                 KEEP_ALIVE_TIME_UNIT,
                 mSyncDataWorkQueue);
