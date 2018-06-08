@@ -76,7 +76,11 @@ android {
         abortOnError false
     }
 
-
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
