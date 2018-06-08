@@ -297,8 +297,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     public void localeServiceDiscoveryFailed() {
         RLog.d(TAG, "localeServiceDiscoveryFailed : is called");
         hideProgressDialog();
-//        updateErrorNotification(mContext.getString(R.string.reg_Generic_Network_Error));
-        showNotificationBarOnNetworkNotAvailable();
+        updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
     }
 
     @Override
