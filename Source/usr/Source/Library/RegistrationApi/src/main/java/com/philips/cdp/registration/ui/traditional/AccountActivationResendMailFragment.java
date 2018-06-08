@@ -409,7 +409,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         hideProgressDialog();
         enableResendButton();
         emailUser = mUser.getEmail();
-        viewOrHideNotificationBar();
         getRegistrationFragment().startCountDownTimer();
         EventBus.getDefault().post(new UpdateEmail(user.getEmail()));
         handleResend(mUser.getEmail());
