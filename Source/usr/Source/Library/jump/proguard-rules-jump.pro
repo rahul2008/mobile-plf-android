@@ -20,6 +20,9 @@
 -dontwarn android.net.http.SslError
 -dontwarn android.webkit.WebViewClient
 -dontwarn okio.**
+-dontoptimize
+-keepattributes InnerClasses
+
 
 -keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
 -keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
@@ -30,4 +33,3 @@
 -keep class com.squareup.okhttp3.** { *; }
 -keep interface com.squareup.okhttp3.** { *; }
 -keep class com.squareup.okhttp3.** {*;}
-
