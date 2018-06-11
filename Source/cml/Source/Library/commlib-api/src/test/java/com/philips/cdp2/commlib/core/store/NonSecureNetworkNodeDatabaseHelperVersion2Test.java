@@ -12,12 +12,16 @@ import android.support.annotation.NonNull;
 
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_BOOT_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_CPP_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NAME;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_TYPE;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ENCRYPTION_KEY;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HTTPS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_KNOWN_NETWORK;
@@ -28,12 +32,28 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_NAM
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseSchema.DB_VERSION;
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseSchema.TABLE_NETWORK_NODE;
+import static com.philips.cdp2.commlib.core.store.NonSecureNetworkNodeDatabaseHelperVersion1Test.VERSION_1_CREATE_QUERY;
 import static org.junit.Assert.assertEquals;
 
 public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNetworkNodeDatabaseHelperBaseTest {
 
-    private static final int OLD_VERSION = 2;
-    private String OLD_VERSION_CREATE_QUERY = "CREATE TABLE IF NOT EXISTS network_node("
+    private static final Set<String> DB_SCHEMA = new HashSet<String>() {{
+        add(KEY_BOOT_ID);
+        add(KEY_CPP_ID);
+        add(KEY_DEVICE_NAME);
+        add(KEY_MODEL_NAME);
+        add(KEY_ENCRYPTION_KEY);
+        add(KEY_HTTPS);
+        add(KEY_ID);
+        add(KEY_IP_ADDRESS);
+        add(KEY_IS_PAIRED);
+        add(KEY_LAST_KNOWN_NETWORK);
+        add(KEY_LAST_PAIRED);
+        add("model_type");
+    }};
+
+    private static final int VERSION = 2;
+    private String VERSION_2_CREATE_QUERY = "CREATE TABLE IF NOT EXISTS network_node("
             + "_id INTEGER NOT NULL UNIQUE,"
             + "cppid TEXT UNIQUE,"
             + "bootid NUMERIC,"
@@ -50,17 +70,22 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
             + ");";
 
     @Test
-    public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDatabaseStructureShouldBeCorrect() throws Exception {
-        verifyDatabaseUpgrade(2, OLD_VERSION_CREATE_QUERY);
+    public void givenVersionIs1_whenUpgradingToVersion2_thenDatabaseStructureShouldBeCorrect() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(1, VERSION_1_CREATE_QUERY);
+
+        networkNodeDatabaseHelper.onUpgrade(database, 1, VERSION);
+
+        Set<String> columnNames = getColumns(database);
+        assertEquals(DB_SCHEMA, columnNames);
     }
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_cppId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         String cppId = cursor.getString(cursor.getColumnIndex(KEY_CPP_ID));
@@ -71,11 +96,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_bootId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         long bootId = cursor.getLong(cursor.getColumnIndex(KEY_BOOT_ID));
@@ -86,11 +111,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_encryptionKey() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         String encryptionKey = cursor.getString(cursor.getColumnIndex(KEY_ENCRYPTION_KEY));
@@ -101,11 +126,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_name() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         String name = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_NAME));
@@ -116,11 +141,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_lastKnownNetwork() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(KEY_LAST_KNOWN_NETWORK));
@@ -131,11 +156,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_isPaired() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         int pairedStatus = cursor.getInt(cursor.getColumnIndex(KEY_IS_PAIRED));
@@ -146,11 +171,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_lastPairedTime() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
@@ -161,11 +186,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_ipAddress() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
@@ -176,11 +201,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_deviceType() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         String deviceType = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
@@ -191,11 +216,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_modelId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
@@ -206,11 +231,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_https() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         short https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS));
@@ -221,11 +246,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_pin() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
@@ -236,11 +261,11 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_mismatchedPin() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_2_CREATE_QUERY);
         ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
-        networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
         String mismatchedPin = cursor.getString(cursor.getColumnIndex(KEY_MISMATCHED_PIN));
