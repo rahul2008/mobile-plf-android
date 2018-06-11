@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothGatt;
@@ -30,8 +35,9 @@ public class SHNDiscoveringServicesState extends SHNConnectingState {
     public void onServicesDiscovered(BTGatt gatt, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             if (gatt.getServices().size() == 0) {
-                SHNLogger.i(TAG, "No services found, rediscovery the services");
+                SHNLogger.i(TAG, "No services found, rediscover the services");
                 gatt.disconnect();
+                // TODO send tag no services found
                 stateMachine.setState(new SHNGattConnectingState(stateMachine));
                 return;
             }
@@ -39,6 +45,7 @@ public class SHNDiscoveringServicesState extends SHNConnectingState {
             stateMachine.setState(new SHNInitializingServicesState(stateMachine));
         } else {
             SHNLogger.e(TAG, "onServicedDiscovered: error discovering services (status = '" + status + "'); disconnecting");
+            // TODO send tag that GATT connection failed, include status
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }

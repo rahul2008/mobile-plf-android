@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothProfile;
@@ -51,6 +56,7 @@ public class SHNReadyState extends SHNDeviceState {
         SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
 
         if (state == SHNService.State.Error) {
+            // TODO TAG which service went to error state
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
@@ -66,6 +72,7 @@ public class SHNReadyState extends SHNDeviceState {
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
         if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
             SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
+            // TODO TAG stack didn't disconnect from peripheral
             handleGattDisconnectEvent();
         }
     }

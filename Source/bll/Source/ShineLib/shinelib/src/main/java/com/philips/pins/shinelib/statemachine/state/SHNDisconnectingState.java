@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothProfile;
@@ -80,6 +85,7 @@ public class SHNDisconnectingState extends SHNDeviceState {
     @Override
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
         if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
+            // TODO send TAG when this occurs (phone/os issue?)
             SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
             handleGattDisconnectEvent();
         }

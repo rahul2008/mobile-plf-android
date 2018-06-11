@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine;
 
 import android.support.annotation.NonNull;
@@ -55,6 +60,7 @@ public class SHNDeviceResources {
     }
 
     public void notifyFailureToListener(SHNResult result) {
+        // TODO Send TAG with reason of failure
         if (shnDeviceListener != null) {
             shnDeviceListener.onFailedToConnect(shnDevice, result);
         }

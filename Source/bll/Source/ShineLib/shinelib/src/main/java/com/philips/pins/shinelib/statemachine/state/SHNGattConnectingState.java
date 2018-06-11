@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothDevice;
@@ -85,6 +90,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
                 stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
             }
         } else {
+            // TODO send TAG with BluetoothGatt status
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
@@ -102,6 +108,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
             sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+            // TODO send TAG disconnected, not retrying
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }

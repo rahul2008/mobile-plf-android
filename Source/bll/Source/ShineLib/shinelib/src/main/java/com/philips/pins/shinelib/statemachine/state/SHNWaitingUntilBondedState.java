@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothDevice;
@@ -20,6 +25,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
     private Timer bondingTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
+            // TODO send tag that timeout occured during bonding
             SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
             stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
         }
@@ -37,6 +43,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
 
         if (sharedResources.getShnBondInitiator() == SHNDeviceImpl.SHNBondInitiator.APP) {
             if (!sharedResources.getBtDevice().createBond()) {
+                // TODO send TAG why bond failed
                 SHNLogger.w(TAG, "Failed to start bond creation procedure");
                 stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
             }
@@ -68,6 +75,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
             } else if (bondState == BluetoothDevice.BOND_NONE) {
                 sharedResources.notifyFailureToListener(SHNResult.SHNErrorBondLost);
                 stateMachine.setState(new SHNDisconnectingState(stateMachine));
+                // TODO send tag why bonding failed
             }
         }
     }

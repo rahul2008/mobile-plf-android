@@ -87,6 +87,7 @@ public class SHNDeviceScannerInternal {
                 public void run() {
                     leScanCallbackProxy = null;
                     SHNLogger.e(TAG, String.format(Locale.US, "Error starting scanning, errorCode: %d", errorCode));
+                    // TODO TAG failure of starting scan including the errorCode
                 }
             });
         }

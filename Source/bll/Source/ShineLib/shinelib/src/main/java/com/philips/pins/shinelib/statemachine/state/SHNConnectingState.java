@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothProfile;
@@ -28,6 +33,8 @@ public abstract class SHNConnectingState extends SHNDeviceState {
                 @Override
                 public void run() {
                     SHNLogger.e(TAG, "connect timeout in SHNConnectingState");
+                    // TODO TAG connect timeout
+
                     stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorTimeout);
                     stateMachine.setState(new SHNDisconnectingState(stateMachine));
                 }
@@ -37,12 +44,14 @@ public abstract class SHNConnectingState extends SHNDeviceState {
 
     @Override
     protected void onEnter() {
-        if (connectingTimer != null) connectingTimer.restart();
+        if (connectingTimer != null)
+            connectingTimer.restart();
     }
 
     @Override
     protected void onExit() {
-        if (connectingTimer != null) connectingTimer.stop();
+        if (connectingTimer != null)
+            connectingTimer.stop();
     }
 
     @Override
@@ -59,7 +68,8 @@ public abstract class SHNConnectingState extends SHNDeviceState {
     @Override
     public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
         if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-            handleGattDisconnectEvent();
+            // TODO TAG stack disconnect error
+            handleDisconnectEvent();
         }
     }
 
@@ -67,19 +77,18 @@ public abstract class SHNConnectingState extends SHNDeviceState {
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
         if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
             SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
-            handleGattDisconnectEvent();
+            // TODO TAG stack disconnect error
+            handleDisconnectEvent();
         }
     }
 
-    private void handleGattDisconnectEvent() {
+    private void handleDisconnectEvent() {
         BTGatt btGatt = stateMachine.getSharedResources().getBtGatt();
         if (btGatt != null) {
             btGatt.close();
         }
         stateMachine.getSharedResources().setBtGatt(null);
-
         stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorInvalidState);
-
         stateMachine.setState(new SHNDisconnectingState(stateMachine));
     }
 }

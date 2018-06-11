@@ -41,6 +41,7 @@ public class SHNInitializingServicesState extends SHNConnectingState {
         if (state == SHNService.State.Error) {
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
 
+            // TODO send tag with which service in error?
             stateMachine.getSharedResources().getShnCentral().getTagger().sendTechnicalError("Error initializing services");
         }
     }

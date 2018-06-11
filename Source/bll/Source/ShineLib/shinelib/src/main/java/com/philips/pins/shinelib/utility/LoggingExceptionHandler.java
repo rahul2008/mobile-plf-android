@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.utility;
 
 import java.io.PrintWriter;
@@ -16,6 +21,8 @@ public class LoggingExceptionHandler implements Thread.UncaughtExceptionHandler 
         StringWriter sw = new StringWriter();
         throwable.printStackTrace(new PrintWriter(sw));
         SHNLogger.e(TAG, String.format("Uncaught exception: %s\nStack trace: %s\n", throwable.toString(), sw.toString()));
+        // TODO TAG to supply feedback to dev team of what happened
+
         defaultUncaughtExceptionHandler.uncaughtException(thread, throwable);
     }
 }
