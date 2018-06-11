@@ -2,14 +2,18 @@ package com.philips.cdp2.commlib.core.store;
 
 import android.content.ContentValues;
 import android.content.Context;
+
 import com.j256.ormlite.support.ConnectionSource;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.securedblibrary.SqlLiteInitializer;
+
 import net.sqlcipher.database.SQLiteDatabase;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -29,6 +33,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SecureNetworkNodeDatabaseHelperTest {
 
+    public static final String TABLE_NAME = "network_node";
     @Mock
     private Context contextMock;
 
@@ -58,6 +63,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        DICommLog.disableLogging();
         ContextProvider.setTestingContext(contextMock);
 
         when(appIdentityInterfaceMock.getAppVersion()).thenReturn("version");
@@ -79,7 +85,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
         };
     }
 
-    private String VERSION2 = "CREATE TABLE IF NOT EXISTS secure_network_node("
+    private String CREATE_QUERY = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "("
             + "_id INTEGER NOT NULL UNIQUE,"
             + "cppid TEXT UNIQUE,"
             + "mac_address TEXT,"
@@ -104,7 +110,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
 
         verify(sqLiteDatabaseMock).execSQL(stringArgumentCaptor.capture());
 
-        assertEquals(VERSION2, stringArgumentCaptor.getValue());
+        assertEquals(CREATE_QUERY, stringArgumentCaptor.getValue());
     }
 
     @Test
@@ -113,7 +119,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
         final String[] selectionArgs = {"1", "2"};
         subject.query(selection, selectionArgs);
 
-        verify(sqLiteDatabaseMock).query("secure_network_node", null, selection, selectionArgs, null, null, null);
+        verify(sqLiteDatabaseMock).query(TABLE_NAME, null, selection, selectionArgs, null, null, null);
     }
 
     @Test
@@ -121,7 +127,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
         ContentValues contentValues = mock(ContentValues.class);
         subject.insertRow(contentValues);
 
-        verify(sqLiteDatabaseMock).insertWithOnConflict("secure_network_node", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+        verify(sqLiteDatabaseMock).insertWithOnConflict(TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     @Test
@@ -129,14 +135,14 @@ public class SecureNetworkNodeDatabaseHelperTest {
         final String id = "id";
         subject.delete(id);
 
-        verify(sqLiteDatabaseMock).delete("secure_network_node", "cppid= ?", new String[]{id});
+        verify(sqLiteDatabaseMock).delete(TABLE_NAME, "cppid= ?", new String[]{id});
     }
 
     @Test(expected = android.database.SQLException.class)
     public void givenDataBaseIsQueried_whenExceptionIsThrown_thenExceptionIsReturned() {
         final String selection = "selection";
         final String[] selectionArgs = {"1", "2"};
-        doThrow(SQLException.class).when(sqLiteDatabaseMock).query("secure_network_node", null, selection, selectionArgs, null, null, null);
+        doThrow(SQLException.class).when(sqLiteDatabaseMock).query(TABLE_NAME, null, selection, selectionArgs, null, null, null);
 
         subject.query(selection, selectionArgs);
     }
@@ -144,7 +150,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
     @Test(expected = android.database.SQLException.class)
     public void givenDataBaseRowIsInserted_whenExceptionIsThrown_thenExceptionIsReturned() {
         ContentValues contentValues = mock(ContentValues.class);
-        doThrow(SQLException.class).when(sqLiteDatabaseMock).insertWithOnConflict("secure_network_node", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+        doThrow(SQLException.class).when(sqLiteDatabaseMock).insertWithOnConflict(TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
 
         subject.insertRow(contentValues);
     }
@@ -152,7 +158,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
     @Test(expected = android.database.SQLException.class)
     public void givenDataBaseRowIsDeleted_whenExceptionIsThrown_thenExceptionIsReturned() {
         final String id = "id";
-        doThrow(SQLException.class).when(sqLiteDatabaseMock).delete("secure_network_node", "cppid= ?", new String[]{id});
+        doThrow(SQLException.class).when(sqLiteDatabaseMock).delete(TABLE_NAME, "cppid= ?", new String[]{id});
 
         subject.delete(id);
     }
@@ -160,11 +166,11 @@ public class SecureNetworkNodeDatabaseHelperTest {
     @Test
     public void givenDatabaseIsAtVersion1_whenDatabaseIsUpdatedToVersion2_thenMacAddressColumnIsAddedAndFilledWithCppId() {
 
-        subject.onUpgrade(sqLiteDatabaseMock, connectionSource, 1,2 );
+        subject.onUpgrade(sqLiteDatabaseMock, connectionSource, 6, 7);
 
         verify(sqLiteDatabaseMock, times(2)).rawExecSQL(stringArgumentCaptor.capture());
 
-        assertEquals("ALTER TABLE secure_network_node ADD COLUMN mac_address STRING NULL", stringArgumentCaptor.getAllValues().get(0));
-        assertEquals("UPDATE secure_network_node SET mac_address = cppid", stringArgumentCaptor.getAllValues().get(1));
+        assertEquals("ALTER TABLE " + TABLE_NAME + " ADD COLUMN mac_address STRING NULL", stringArgumentCaptor.getAllValues().get(0));
+        assertEquals("UPDATE " + TABLE_NAME + " SET mac_address = cppid", stringArgumentCaptor.getAllValues().get(1));
     }
 }
