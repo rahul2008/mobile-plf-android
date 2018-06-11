@@ -35,7 +35,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_NAME;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
 
-class NonSecureNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements NetworkNodeDBHelper {
+class NonSecureNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements DatabaseHelper {
 
     static final int DB_VERSION = 6;
 
@@ -237,8 +237,8 @@ class NonSecureNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements Net
     }
 
     @Override
-    public int deleteNetworkNodeWithCppId(String cppId) throws SQLException {
+    public int delete(String selection) throws SQLException {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{cppId});
+        return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{selection});
     }
 }

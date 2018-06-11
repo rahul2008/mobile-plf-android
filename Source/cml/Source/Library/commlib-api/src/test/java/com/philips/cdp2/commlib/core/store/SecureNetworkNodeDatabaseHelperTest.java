@@ -127,7 +127,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
     @Test
     public void whenDeletionOfNodeWithCppIdIsRequested_thenRowIsDeletedWithCurrectWhereClause() {
         final String id = "id";
-        subject.deleteNetworkNodeWithCppId(id);
+        subject.delete(id);
 
         verify(sqLiteDatabaseMock).delete("secure_network_node", "cppid= ?", new String[]{id});
     }
@@ -154,7 +154,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
         final String id = "id";
         doThrow(SQLException.class).when(sqLiteDatabaseMock).delete("secure_network_node", "cppid= ?", new String[]{id});
 
-        subject.deleteNetworkNodeWithCppId(id);
+        subject.delete(id);
     }
 
     @Test
