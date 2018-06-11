@@ -40,7 +40,6 @@ public class NonSecureNetworkNodeDatabaseHelperVersion1Test extends NonSecureNet
         add("model_type");
     }};
 
-    private static final int VERSION = 1;
     static String VERSION_1_CREATE_QUERY = "CREATE TABLE IF NOT EXISTS network_node("
             + "_id INTEGER NOT NULL UNIQUE,"
             + "cppid TEXT UNIQUE,"
@@ -57,10 +56,10 @@ public class NonSecureNetworkNodeDatabaseHelperVersion1Test extends NonSecureNet
             + ");";
 
     @Test
-    public void whenDatabaseIsCreated_thenAllColumnsAreCreated() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(VERSION, VERSION_1_CREATE_QUERY);
+    public void whenDatabaseIsCreatedOfVersion1_thenAllColumnsAreCreated() throws Exception {
+        prepareSqliteDatabase(VERSION_1, VERSION_1_CREATE_QUERY);
 
-        networkNodeDatabaseHelper.getReadableDatabase();
+        final SQLiteDatabase database = networkNodeDatabaseHelper.getReadableDatabase();
 
         Set<String> columnNames = getColumns(database);
         assertEquals(DB_SCHEMA, columnNames);

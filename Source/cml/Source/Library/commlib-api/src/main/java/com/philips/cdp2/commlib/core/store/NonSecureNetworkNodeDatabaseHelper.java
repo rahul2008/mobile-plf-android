@@ -50,10 +50,6 @@ class NonSecureNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements Dat
         }
     }
 
-    @VisibleForTesting
-    void onBeforeUpgrade(SQLiteDatabase db, int currentVersion) {
-    }
-
     @Override
     public Cursor query(String selection, String[] selectionArgs) throws SQLException {
         SQLiteDatabase db = this.getReadableDatabase();
