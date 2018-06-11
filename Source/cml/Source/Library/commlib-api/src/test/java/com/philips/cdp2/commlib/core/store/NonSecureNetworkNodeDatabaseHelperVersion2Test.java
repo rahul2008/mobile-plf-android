@@ -33,7 +33,7 @@ import static org.junit.Assert.assertEquals;
 public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNetworkNodeDatabaseHelperBaseTest {
 
     private static final int OLD_VERSION = 2;
-    private String version2 = "CREATE TABLE IF NOT EXISTS network_node("
+    private String OLD_VERSION_CREATE_QUERY = "CREATE TABLE IF NOT EXISTS network_node("
             + "_id INTEGER NOT NULL UNIQUE,"
             + "cppid TEXT UNIQUE,"
             + "bootid NUMERIC,"
@@ -51,13 +51,13 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDatabaseStructureShouldBeCorrect() throws Exception {
-        verifyDatabaseUpgrade(2, version2);
+        verifyDatabaseUpgrade(2, OLD_VERSION_CREATE_QUERY);
     }
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_cppId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -71,8 +71,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_bootId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -86,8 +86,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_encryptionKey() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -101,8 +101,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_name() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -116,8 +116,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_lastKnownNetwork() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -131,8 +131,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_isPaired() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -146,8 +146,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_lastPairedTime() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -161,8 +161,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_ipAddress() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -176,8 +176,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_deviceType() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -191,8 +191,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_modelId() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -206,8 +206,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_https() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -221,8 +221,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_pin() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -236,8 +236,8 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
 
     @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDataShouldBeCorrect_mismatchedPin() throws Exception {
-        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version2);
-        ContentValues data = createContentValues();
+        final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, OLD_VERSION_CREATE_QUERY);
+        ContentValues data = createOldContentValues();
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
@@ -250,7 +250,7 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
     }
 
     @NonNull
-    private ContentValues createContentValues() {
+    private ContentValues createOldContentValues() {
         ContentValues data = new ContentValues();
         data.put(KEY_CPP_ID, "Some Cpp Id");
         data.put(KEY_BOOT_ID, 1337L);
