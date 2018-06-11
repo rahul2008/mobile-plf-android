@@ -17,9 +17,6 @@ import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
-import com.philips.platform.catk.device.DeviceStoredConsentHandler;
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
 
 public class Utils {

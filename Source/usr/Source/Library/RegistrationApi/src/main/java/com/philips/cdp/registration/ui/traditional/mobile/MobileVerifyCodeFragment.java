@@ -32,7 +32,6 @@ import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -303,7 +302,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void netWorkStateOfflineUiHandle() {
         hideProgressSpinner();
         //errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
-        updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
+       // updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         smsNotReceived.setEnabled(false);
         disableVerifyButton();
     }
@@ -337,13 +336,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         enableVerifyButton();
     }
 
-    @Override
-    public void setOtpInvalidErrorMessage(int errorCode) {
-        trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
-        //errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
-        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
-        hideProgressSpinner();
-    }
+//    @Override
+//    public void setOtpInvalidErrorMessage(int errorCode) {
+//        trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
+//        //errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
+//        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
+//        hideProgressSpinner();
+//    }
 
     @Override
     public void setOtpErrorMessageFromJson(int errorCode) {

@@ -9,7 +9,9 @@
 
     <application
         android:supportsRtl="false"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:supportsRtl"
+        >
 
         <activity android:name="com.philips.cdp2.demouapp.CommlibUappActivity" />
     </application>

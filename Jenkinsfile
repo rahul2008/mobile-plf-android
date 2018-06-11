@@ -218,6 +218,7 @@ def BuildAndUnitTest() {
         chmod -R 755 .
         ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
             :AppInfra:cC \
+            :AppInfra:testReleaseUnitTest \
             :uAppFwLib:testReleaseUnitTest \
             :securedblibrary:cC \
             :registrationApi:cC \

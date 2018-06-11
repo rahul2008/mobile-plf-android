@@ -1,4 +1,4 @@
-package com.philips.platform.catk.device;
+package com.philips.platform.appinfra.consentmanager.consenthandler;
 
 import android.support.annotation.NonNull;
 
@@ -20,12 +20,16 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Created by abhishek on 5/22/18.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DeviceStoredConsentHandlerTest {
 

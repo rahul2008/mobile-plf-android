@@ -207,7 +207,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             }
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
             if (mRegError.isShown())
-                hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
+                hideNotificationBarView();//mRegError.hideError();
             if (homePresenter.isNetworkAvailable()) {
                 homePresenter.setFlowDeligate(HomePresenter.FLOWDELIGATE.SOCIALPROVIDER);
                 homePresenter.setProvider(providerName);
@@ -297,8 +297,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     public void localeServiceDiscoveryFailed() {
         RLog.d(TAG, "localeServiceDiscoveryFailed : is called");
         hideProgressDialog();
-//        updateErrorNotification(mContext.getString(R.string.reg_Generic_Network_Error));
-        showNotificationBarOnNetworkNotAvailable();
+        updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
     }
 
     @Override
@@ -398,7 +397,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         public void onClick(View widget) {
             if (mRegError.isShown()) {
                 //mRegError.hideError();
-                hideNotificationBarOnNetworkAvailable();
+                hideNotificationBarView();
             }
             handleCountrySelection();
         }
@@ -454,12 +453,19 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     private void handleLoginFailedWithError(UserRegistrationFailureInfo
                                                     userRegistrationFailureInfo) {
-        trackPage(AppTaggingPages.HOME);
-        hideProgressDialog();
-        enableControls(true);
+        hideProgressDialogWithTrackHomeAndEnableControls();
         updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
     }
 
+    private void userCancelledSocialLogin() {
+        hideProgressDialogWithTrackHomeAndEnableControls();
+    }
+
+    private void hideProgressDialogWithTrackHomeAndEnableControls() {
+        trackPage(AppTaggingPages.HOME);
+        hideProgressDialog();
+        enableControls(true);
+    }
 
     private void launchAlmostDoneFragment(JSONObject prefilledRecord, String socialRegistrationToken) {
         trackPage(AppTaggingPages.ALMOST_DONE);
@@ -508,7 +514,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void enableControls(boolean clickableState) {
         if (clickableState) {
             //mRegError.hideError();
-            hideNotificationBarOnNetworkAvailable();
+            hideNotificationBarView();
 
         }
         handleBtnClickableStates(clickableState);
@@ -539,6 +545,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void initFacebookLogIn() {
         homePresenter.registerFaceBookCallBack();
+    }
+
+    @Override
+    public void onFaceBookCancel() {
+
     }
 
     @Override
@@ -592,21 +603,21 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @OnClick(R2.id.usr_startScreen_createAccount_Button)
     void createAccountButtonClick() {
-        if (mRegError.isShown()) hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
+        if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
         launchCreateAccountFragment();
     }
 
 
     @OnClick(R2.id.usr_startScreen_Login_Button)
     void myPhilipsButtonClick() {
-        if (mRegError.isShown()) hideNotificationBarOnNetworkAvailable();// mRegError.hideError();
+        if (mRegError.isShown()) hideNotificationBarView();// mRegError.hideError();
         trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
         launchSignInFragment();
     }
 
     @OnClick(R2.id.usr_StartScreen_Skip_Button)
     void skipButtonClick() {
-        if (mRegError.isShown()) hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
+        if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
 
         if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
             RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
@@ -734,7 +745,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         @Override
         public void onClick(View widget) {
             if (mRegError.isShown())
-                hideNotificationBarOnNetworkAvailable();//mRegError.hideError();
+                hideNotificationBarView();//mRegError.hideError();
             handlePrivacyPolicy();
         }
     };
@@ -779,11 +790,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void wechatAuthenticationFailError() {
-        trackPage(AppTaggingPages.HOME);
-        hideProgressDialog();
-        enableControls(true);
-        updateErrorNotification(mContext.
-                getString(R.string.reg_JanRain_Server_Connection_Failed));
+        hideProgressDialogWithTrackHomeAndEnableControls();
+        updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
     }
 
     @Override
@@ -800,7 +808,12 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void loginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleLoginFailedWithError(userRegistrationFailureInfo);
+        if (!homePresenter.isNetworkAvailable()) return;
+        if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER) {
+            userCancelledSocialLogin();
+        } else {
+            handleLoginFailedWithError(userRegistrationFailureInfo);
+        }
     }
 
     @Override

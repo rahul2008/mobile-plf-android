@@ -1,4 +1,4 @@
-package com.philips.platform.catk.device;
+package com.philips.platform.appinfra.consentmanager.consenthandler;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -15,6 +15,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -29,14 +30,17 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     private static final String DEVICESTORE_TLA = "CAL";
     private static final String DEVICESTORE_ERROR_UPDATE = "Error updating device stored consent";
     private final AppInfraInterface appInfra;
-
+    private HashMap<String, ConsentStatus> consentStatusMemoryCache = new HashMap<>();
+    private List<ConsentChangeListener> consentChangeListenerList=new ArrayList<>();
     public DeviceStoredConsentHandler(final AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
 
     private void logError(SecureStorageInterface.SecureStorageError storageError, String type) {
         if (storageError.getErrorCode() != null) {
-            appInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, type, storageError.getErrorCode().toString());
+            if (appInfra.getLogging() != null) {
+                appInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, type, storageError.getErrorCode().toString());
+            }
         }
     }
 
@@ -71,19 +75,23 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
-        ConsentStatus consentStatus;
+        if (consentStatusMemoryCache.containsKey(consentType)) {
+            callback.onGetConsentsSuccess(consentStatusMemoryCache.get(consentType));
+        } else {
+            ConsentStatus consentStatus;
 
-        SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
-        String consentInfo = appInfra.getSecureStorage().fetchValueForKey(getStoredKey(consentType), storageError);
+            SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
+            String consentInfo = appInfra.getSecureStorage().fetchValueForKey(getStoredKey(consentType), storageError);
 
-        if (consentInfo == null || storageError.getErrorCode() != null || consentInfo.toUpperCase().startsWith("FALSE")) {
-            logError(storageError, consentType);
-            consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
-        }else {
-            consentStatus = new ConsentStatus(ConsentStates.active, Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)));
+            if (consentInfo == null || storageError.getErrorCode() != null || consentInfo.toUpperCase().startsWith("FALSE")) {
+                logError(storageError, consentType);
+                consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
+            } else {
+                consentStatus = new ConsentStatus(ConsentStates.active, Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)));
+            }
+            consentStatusMemoryCache.put(consentType, consentStatus);
+            callback.onGetConsentsSuccess(consentStatus);
         }
-
-        callback.onGetConsentsSuccess(consentStatus);
     }
 
     @Override
@@ -103,7 +111,30 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
             callback.onPostConsentFailed(new ConsentError(DEVICESTORE_ERROR_UPDATE + storageError.getErrorCode().toString(), -1));
             return;
         }
-
+        if (status) {
+            consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.active, version));
+        } else {
+            consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.rejected, version));
+        }
+        for(ConsentChangeListener consentChangeListener:consentChangeListenerList){
+            if(consentChangeListener!=null){
+                consentChangeListener.onConsentChanged(consentType,status);
+            }
+        }
         callback.onPostConsentSuccess();
+    }
+
+    @Override
+    public void registerConsentChangeListener(ConsentChangeListener consentChangeListener) {
+        if (!consentChangeListenerList.contains(consentChangeListener)) {
+            consentChangeListenerList.add(consentChangeListener);
+        }
+    }
+
+    @Override
+    public void unregisterConsentChangeListener(ConsentChangeListener consentChangeListener) {
+        if (consentChangeListenerList.contains(consentChangeListener)) {
+            consentChangeListenerList.remove(consentChangeListener);
+        }
     }
 }

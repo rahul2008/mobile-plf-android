@@ -21,13 +21,13 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
-import com.philips.platform.catk.device.DeviceStoredConsentHandler;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -35,7 +35,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implements PostConsentTypeCallback {
 
     private FragmentView neuraFragmentView;
-    private String nueraPrivacyUrl = "https://www.theneura.com/privacy-policy/";
+    private String neuraPrivacyUrl = "https://www.theneura.com/privacy-policy/";
     NeuraConsentManagerPresenter(FragmentView neuraFragmentView) {
         super(neuraFragmentView);
         this.neuraFragmentView = neuraFragmentView;
@@ -127,7 +127,7 @@ public class NeuraConsentManagerPresenter extends AbstractUIBasePresenter implem
             return webViewStateData;
         } else if (viewId == R.id.csw_justInTimeView_privacyNeura_label){
             WebViewStateData webViewStateData = new WebViewStateData();
-            webViewStateData.setUrl(nueraPrivacyUrl);
+            webViewStateData.setUrl(neuraPrivacyUrl);
             webViewStateData.setTitle(neuraFragmentView.getFragmentActivity().getString(R.string.RA_privacy_policy));
             return webViewStateData;
         }

@@ -42,11 +42,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class PrivacySettingsState extends BaseState implements MyAccountUIEventListener{
+public class PrivacySettingsState extends BaseState implements MyAccountUIEventListener {
 
     public PrivacySettingsState() {
         super(AppStates.PRIVACY_SETTINGS_STATE);
     }
+
     private static final String PRIVACY_NOTICE = "PrivacyNotice";
     private Context actContext;
     private FragmentLauncher fragmentLauncher;
@@ -64,10 +65,10 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
             cswInterface.init(dependencies, uappSettings);
             cswInterface.launch(fragmentLauncher, buildLaunchInput(true, actContext));
         } else {
-                String title = actContext.getString(R.string.MYA_Offline_title);
-                String message = actContext.getString(R.string.MYA_Offline_message);
-                showDialog(title, message);
-            }
+            String title = actContext.getString(R.string.MYA_Offline_title);
+            String message = actContext.getString(R.string.MYA_Offline_message);
+            showDialog(title, message);
+        }
     }
 
     private void showDialog(String title, String message) {
@@ -151,8 +152,11 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
     }
 
     private ConsentDefinition getClickStreamConsentDefinition(Context context) {
+        List<String> consentTypes = new ArrayList<>();
+        consentTypes.add(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra().getTagging().getClickStreamConsentIdentifier());
+        consentTypes.add(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra().getLogging().getCloudLoggingConsentIdentifier());
         return new ConsentDefinition(R.string.RA_MYA_Click_Stream_Hosting_Consent, R.string.RA_MYA_Consent_Clickstream_Help,
-                Collections.singletonList(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra().getTagging().getClickStreamConsentIdentifier()), 1);
+                consentTypes, 1);
     }
 
     @Override
@@ -178,6 +182,7 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
     public void onPrivacyNoticeClicked() {
         launchWebView(Constants.PRIVACY);
     }
+
     private void launchWebView(String serviceId) {
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;

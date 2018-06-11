@@ -210,7 +210,8 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
 
     /**
-     *  This Api is used to tag only App-infra based events
+     * This Api is used to tag only App-infra based events
+     *
      * @return - returns AppTaggingInterface instance
      */
     public AppTaggingInterface getAppInfraTaggingInstance() { // this tag should be used withing App Infra library
@@ -477,6 +478,18 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             }).start();
 //            }
 
+
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (ai.getLogging() instanceof AppInfraLogging) {
+                        ((AppInfraLogging) ai.getLogging()).onAppInfraInitialised(ai);
+                    }
+                }
+            }).start();
+
+
             postLog(ai, startTime, "App-infra initialization ends with ");
             return ai;
         }
@@ -502,5 +515,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_APPINFRA, "AppInfra initialized " + appInfraLogStatement.toString());
     }
+
 
 }
