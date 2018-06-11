@@ -6,16 +6,22 @@
 package com.philips.pins.shinelib.utility;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.tagging.AppInfraTaggingUtil;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import java.util.Map;
+
+import static com.philips.pins.shinelib.utility.SHNTagger.DELIMITER;
+import static com.philips.pins.shinelib.utility.SHNTagger.TAGGING_VERSION_STRING;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SEND_DATA;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.TECHNICAL_ERROR;
+import static com.philips.platform.appinfra.tagging.AppTaggingConstants.COMPONENT_VERSION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -24,6 +30,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SHNTaggerTest {
 
+    private static final String COMPONENT_ID_BLL = "bll";
+
     @Mock
     private AppInfraInterface appInfraInterfaceMock;
 
@@ -31,10 +39,7 @@ public class SHNTaggerTest {
     private AppTaggingInterface appTaggingInterfaceMock;
 
     @Captor
-    private ArgumentCaptor<String> keyCaptor;
-
-    @Captor
-    private ArgumentCaptor<String> valueCaptor;
+    private ArgumentCaptor<Map<String, String>> dataObjectCaptor;
 
     private SHNTagger tagger;
 
@@ -44,41 +49,45 @@ public class SHNTaggerTest {
 
         tagger = new SHNTagger(appInfraInterfaceMock) {
             @Override
-            AppTaggingInterface createTagging(AppInfraInterface appInfraInterface) {
+            AppTaggingInterface createTaggingInstance(AppInfraInterface appInfraInterface) {
                 return appTaggingInterfaceMock;
             }
         };
     }
 
     @Test
-    public void givenATagger_whenTrackActionInvoked_thenTrackActionWithInfoIsInvokedOnAppTaggingInterface() {
-        final String key = "testKey";
-        final String value = "testValue";
-        tagger.sendData(key, value);
+    public void givenATagger_thenTheComponentIdAndVersionShouldBeValid() {
+        final String[] pieces = TAGGING_VERSION_STRING.split(DELIMITER);
+        final String componentId = pieces[0];
+        final String componentVersion = pieces[1];
 
-        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(AppInfraTaggingUtil.SEND_DATA), eq(key), eq(value));
+        assertThat(componentId).isEqualTo(COMPONENT_ID_BLL);
+        assertThat(componentVersion).isNotEmpty();
     }
 
     @Test
-    public void givenATagger_whenSendingData_thenTrackActionWithInfoIsInvokedWithSuppliedKeyAndValue() {
-        final String key = "testKey";
-        final String value = "testValue";
-        tagger.sendData(key, value);
+    public void givenATagger_whenSendingTechnicalError_thenDataObjectContainsComponentVersion() {
+        final String technicalError = "testError";
+        tagger.sendTechnicalError(technicalError);
 
-        verify(appTaggingInterfaceMock).trackActionWithInfo(anyString(), keyCaptor.capture(), valueCaptor.capture());
+        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(SEND_DATA), dataObjectCaptor.capture());
+        assertThat(dataObjectCaptor.getValue().get(COMPONENT_VERSION)).isEqualTo(TAGGING_VERSION_STRING);
+    }
 
-        assertThat(keyCaptor.getValue().equals(key));
-        assertThat(valueCaptor.getValue().equals(value));
+    @Test
+    public void givenATagger_whenSendingData_thenTrackActionWithInfoIsInvokedOnAppTaggingInterface() {
+        final String technicalError = "testError";
+        tagger.sendTechnicalError(technicalError);
+
+        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(SEND_DATA), ArgumentMatchers.<String, String>anyMap());
     }
 
     @Test
     public void givenATagger_whenSendingTechnicalError_thenTrackActionWithInfoIsInvokedWithPredefinedErrorKeyAndSuppliedValue() {
-        final String errorMsg = "Something went wrong!";
-        tagger.sendTechnicalError(errorMsg);
+        final String technicalError = "testError";
+        tagger.sendTechnicalError(technicalError);
 
-        verify(appTaggingInterfaceMock).trackActionWithInfo(anyString(), keyCaptor.capture(), valueCaptor.capture());
-
-        assertThat(keyCaptor.getValue().equals(TECHNICAL_ERROR));
-        assertThat(valueCaptor.getValue().equals(errorMsg));
+        verify(appTaggingInterfaceMock).trackActionWithInfo(anyString(), dataObjectCaptor.capture());
+        assertThat(dataObjectCaptor.getValue().get(TECHNICAL_ERROR)).isEqualTo(COMPONENT_ID_BLL + DELIMITER + technicalError);
     }
 }
