@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright (c) 2015-2018 Koninklijke Philips N.V.
+  ~ All rights reserved.
+  -->
+
+<network-security-config>
+    <debug-overrides>
+        <trust-anchors>
+            <!-- Trust user added CAs while debuggable only -->
+            <certificates src="user" />
+            <certificates src="system" />
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>
