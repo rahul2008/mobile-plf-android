@@ -26,7 +26,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -104,6 +103,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
             + "PRIMARY KEY(_id)"
             + ");";
 
+    //todo move v7 test
     @Test
     public void whenDbHelperIsAskedToCreateTheDatabase_thenItIsCreatedWithCorrectSchema() {
         subject.onCreate(sqLiteDatabaseMock, connectionSource);
@@ -161,16 +161,5 @@ public class SecureNetworkNodeDatabaseHelperTest {
         doThrow(SQLException.class).when(sqLiteDatabaseMock).delete(TABLE_NAME, "cppid= ?", new String[]{id});
 
         subject.delete(id);
-    }
-
-    @Test
-    public void givenDatabaseIsAtVersion1_whenDatabaseIsUpdatedToVersion2_thenMacAddressColumnIsAddedAndFilledWithCppId() {
-
-        subject.onUpgrade(sqLiteDatabaseMock, connectionSource, 6, 7);
-
-        verify(sqLiteDatabaseMock, times(2)).rawExecSQL(stringArgumentCaptor.capture());
-
-        assertEquals("ALTER TABLE " + TABLE_NAME + " ADD COLUMN mac_address STRING NULL", stringArgumentCaptor.getAllValues().get(0));
-        assertEquals("UPDATE " + TABLE_NAME + " SET mac_address = cppid", stringArgumentCaptor.getAllValues().get(1));
     }
 }
