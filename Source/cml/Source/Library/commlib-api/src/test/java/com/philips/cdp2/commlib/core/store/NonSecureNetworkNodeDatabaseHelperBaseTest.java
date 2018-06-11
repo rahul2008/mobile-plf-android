@@ -17,12 +17,44 @@ import org.robolectric.RuntimeEnvironment;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.philips.cdp2.commlib.core.store.NonSecureNetworkNodeDatabaseHelper.DB_SCHEMA;
-import static com.philips.cdp2.commlib.core.store.NonSecureNetworkNodeDatabaseHelper.DB_VERSION;
-import static com.philips.cdp2.commlib.core.store.NonSecureNetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_BOOT_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_CPP_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_TYPE;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ENCRYPTION_KEY;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HTTPS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_KNOWN_NETWORK;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MAC_ADDRESS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MISMATCHED_PIN;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
+import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseSchema.DB_VERSION;
+import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseSchema.TABLE_NETWORK_NODE;
 import static org.junit.Assert.assertEquals;
 
 abstract public class NonSecureNetworkNodeDatabaseHelperBaseTest extends RobolectricTest {
+
+    static final Set<String> DB_SCHEMA = new HashSet<String>() {{
+        add(KEY_BOOT_ID);
+        add(KEY_CPP_ID);
+        add(KEY_DEVICE_NAME);
+        add(KEY_DEVICE_TYPE);
+        add(KEY_ENCRYPTION_KEY);
+        add(KEY_HTTPS);
+        add(KEY_ID);
+        add(KEY_IP_ADDRESS);
+        add(KEY_IS_PAIRED);
+        add(KEY_LAST_KNOWN_NETWORK);
+        add(KEY_LAST_PAIRED);
+        add(KEY_MODEL_ID);
+        add(KEY_PIN);
+        add(KEY_MISMATCHED_PIN);
+        add(KEY_MAC_ADDRESS);
+    }};
 
     NonSecureNetworkNodeDatabaseHelper networkNodeDatabaseHelper;
 
