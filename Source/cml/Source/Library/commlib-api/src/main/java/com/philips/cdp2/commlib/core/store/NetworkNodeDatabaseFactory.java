@@ -15,7 +15,7 @@ public final class NetworkNodeDatabaseFactory {
     }
 
     public static NetworkNodeDatabase create(final @Nullable RuntimeConfiguration runtimeConfiguration) {
-        NetworkNodeDBHelper dbHelper = createNetworkNodeDBHelper(runtimeConfiguration);
+        DatabaseHelper dbHelper = createNetworkNodeDBHelper(runtimeConfiguration);
 
         final NetworkNodeDatabase database = new NetworkNodeDatabase(dbHelper);
 
@@ -25,8 +25,8 @@ public final class NetworkNodeDatabaseFactory {
     }
 
     @NonNull
-    private static NetworkNodeDBHelper createNetworkNodeDBHelper(final @Nullable RuntimeConfiguration runtimeConfiguration) {
-        NetworkNodeDBHelper dbHelper = null;
+    private static DatabaseHelper createNetworkNodeDBHelper(final @Nullable RuntimeConfiguration runtimeConfiguration) {
+        DatabaseHelper dbHelper = null;
 
         if (runtimeConfiguration != null) {
             AppInfraInterface appInfraInterface = runtimeConfiguration.getAppInfraInterface();
@@ -43,7 +43,7 @@ public final class NetworkNodeDatabaseFactory {
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private static void migrate(@Nullable final RuntimeConfiguration runtimeConfiguration, @NonNull final NetworkNodeDatabase newDatabase, @NonNull final NetworkNodeDBHelper dbHelper) {
+    private static void migrate(@Nullable final RuntimeConfiguration runtimeConfiguration, @NonNull final NetworkNodeDatabase newDatabase, @NonNull final DatabaseHelper dbHelper) {
         if (runtimeConfiguration == null || dbHelper instanceof NonSecureNetworkNodeDatabaseHelper) {
             return;
         }

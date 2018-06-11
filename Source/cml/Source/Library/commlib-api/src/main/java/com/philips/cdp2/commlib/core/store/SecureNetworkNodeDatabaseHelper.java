@@ -30,7 +30,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MISMATCHE
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
 
-class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper<NetworkNode> implements NetworkNodeDBHelper {
+class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper<NetworkNode> implements DatabaseHelper {
 
     private static final String DB_NAME = "secure_network_node.db";
     private static final String TABLE_NETWORK_NODE = "secure_network_node";
@@ -105,10 +105,10 @@ class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper<Ne
     }
 
     @Override
-    public int deleteNetworkNodeWithCppId(String cppId) {
+    public int delete(String selection) {
         try {
             SQLiteDatabase db = this.getWriteDbPermission();
-            return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{cppId});
+            return db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{selection});
         } catch (SQLException e) {
             throw new android.database.SQLException(e.getMessage());
         }
