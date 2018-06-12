@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * Created by abhishek on 5/14/18.
  */
 
-public class CloudLogSyncManager implements Observer<Integer>, RestInterface.NetworkConnectivityChangeListener, ConsentHandlerInterface.ConsentChangeListener {
+public class CloudLogSyncManager implements Observer<Integer>, RestInterface.NetworkConnectivityChangeListener {
 
     private static CloudLogSyncManager cloudLogSyncManager;
 
@@ -149,17 +149,6 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
 
     }
 
-    @Override
-    public void onConsentChanged(String consentType, boolean status) {
-        if (appInfra.getLogging().getCloudLoggingConsentIdentifier().equalsIgnoreCase(consentType)) {
-            consentStatus = status;
-            if (!consentStatus) {
-                threadPoolExecutor.getQueue().clear();
-            } else {
-                forceSync();
-            }
-        }
-    }
 
     @Override
     public void onConnectivityStateChange(boolean isConnected) {

@@ -36,6 +36,7 @@ import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.io.File;
@@ -51,6 +52,7 @@ import javax.inject.Inject;
  */
 public class HsdpUser {
 
+    private final LoggingInterface loggingInterface;
     private String TAG = HsdpUser.class.getSimpleName();
 
     @Inject
@@ -75,6 +77,7 @@ public class HsdpUser {
     public HsdpUser(Context context) {
         this.mContext = context;
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        loggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
     }
 
     /**
@@ -334,6 +337,9 @@ public class HsdpUser {
             if (obj instanceof HsdpUserRecord) {
                 final HsdpUserRecord hsdpUserRecord = (HsdpUserRecord) obj;
                 HsdpUserInstance.getInstance().setHsdpUserRecord(hsdpUserRecord);
+                if (loggingInterface != null && hsdpUserRecord != null) {
+                    loggingInterface.setHSDPUserUUID(hsdpUserRecord.getUserUUID());
+                }
                 sendEncryptedUUIDToAnalytics(hsdpUserRecord);
             }
         }
@@ -379,6 +385,9 @@ public class HsdpUser {
                         saveToDisk(new UserFileWriteListener() {
                             @Override
                             public void onFileWriteSuccess() {
+                                if (loggingInterface != null && hsdpUserRecord != null) {
+                                    loggingInterface.setHSDPUserUUID(hsdpUserRecord.getUserUUID());
+                                }
                                 handler.post(() -> {
                                     RLog.d(RLog.HSDP, "Social onHsdpLoginSuccess : response :"
                                             + rawResponse.toString());

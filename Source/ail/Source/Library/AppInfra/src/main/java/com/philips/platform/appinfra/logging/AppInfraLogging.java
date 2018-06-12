@@ -199,7 +199,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
     public void registerCloudHandler() {
         DeviceStoredConsentHandler deviceStoredConsentHandler = new DeviceStoredConsentHandler(mAppInfra);
         if (loggingConfiguration != null && loggingConfiguration.isCloudLogEnabled()) {
-            deviceStoredConsentHandler.registerConsentChangeListener(CloudLogSyncManager.getInstance(mAppInfra, loggingConfiguration));
+            CloudLogSyncManager.getInstance(mAppInfra, loggingConfiguration);
         }
         mAppInfra.getConsentManager().registerHandler(Collections.singletonList(CLOUD_CONSENT), deviceStoredConsentHandler);
     }
