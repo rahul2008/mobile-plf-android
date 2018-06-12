@@ -657,6 +657,7 @@ public class SHNCentral {
     public static class Builder {
         private Handler handler;
         private final Context context;
+        @Nullable
         private final AppInfraInterface appInfraInterface;
         private Boolean showPopupIfBLEIsTurnedOff = false;
         private Boolean migrateFromDefaultProviderToCustom = false;
@@ -668,7 +669,7 @@ public class SHNCentral {
          * @param context           the {@code Context} in which the {@link SHNCentral} will be used
          * @param appInfraInterface the AppInfra interface instance used to obtain the {@link AppTaggingInterface} from.
          */
-        public Builder(@NonNull final Context context, @NonNull final AppInfraInterface appInfraInterface) {
+        public Builder(@NonNull final Context context, @Nullable final AppInfraInterface appInfraInterface) {
             this.context = context;
             this.appInfraInterface = appInfraInterface;
         }

@@ -6,6 +6,7 @@ package com.philips.cdp2.bluelib.demouapp;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
 import com.philips.pins.shinelib.SHNCentral;
@@ -21,7 +22,7 @@ public class BluelibUappAppDependencies extends UappDependencies {
 
     private SHNCentral shnCentral;
 
-    public BluelibUappAppDependencies(final @NonNull Context context, @NonNull AppInfraInterface appInfraInterface) {
+    public BluelibUappAppDependencies(final @NonNull Context context, @Nullable AppInfraInterface appInfraInterface) {
         super(appInfraInterface);
 
         SHNCentral.Builder builder = new SHNCentral.Builder(context, mAppInfraInterface);
