@@ -217,7 +217,7 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
     }
 
     @Test
-    public void givenVersionIs1_whenUpgradingToVersion2_ThenDataShouldHaveDefaultHttpValue() {
+    public void givenVersionIs1_whenUpgradingToVersion2_ThenDataShouldHaveDefaultHttpsValue() {
         final SQLiteDatabase database = prepareSqliteDatabase(VERSION_1, VERSION_1_CREATE_QUERY);
         ContentValues data = createContentValues(VERSION_1);
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
