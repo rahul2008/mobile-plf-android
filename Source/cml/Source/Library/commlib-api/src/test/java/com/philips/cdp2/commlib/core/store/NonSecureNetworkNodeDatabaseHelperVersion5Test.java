@@ -369,7 +369,6 @@ public class NonSecureNetworkNodeDatabaseHelperVersion5Test extends NonSecureNet
 
         Cursor cursor = getReadableDatabaseCursor();
         String deviceType = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
-        // todo check with Bas
         assertEquals(MODEL_NAME, deviceType);
 
         closeCursor(cursor);

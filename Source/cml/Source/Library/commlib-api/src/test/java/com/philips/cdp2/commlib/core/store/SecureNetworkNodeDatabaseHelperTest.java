@@ -17,6 +17,8 @@ import org.mockito.Mock;
 import java.sql.SQLException;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -69,6 +71,13 @@ public class SecureNetworkNodeDatabaseHelperTest {
                 return sqLiteDatabaseMock;
             }
         };
+    }
+
+    @Test
+    public void whenDatabaseIsUpdated_thenMacAddressIsAdded() {
+        subject.onUpgrade(sqLiteDatabaseMock, null, 6, 7);
+
+        verify(sqLiteDatabaseMock, atLeastOnce()).execSQL(anyString());
     }
 
     @Test
