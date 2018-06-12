@@ -136,6 +136,8 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 //project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
 //include ':commlib-demoapp'
 //project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
+//include ':ews-demoapp'
+//project(':ews-demoapp').projectDir = new File('./Source/ews/Source/DemoApp')
 //include ':bluelib-demoapp'
 //project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
 //include ':dcc-demoapp'
