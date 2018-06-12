@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -27,7 +27,6 @@ public class BTAdapter {
         Context applicationContext = context.getApplicationContext();
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
-        // TODO check if the device has Bluetooth and that it is enabled (optionaly enable)
     }
 
     public BTDevice getRemoteDevice(String address) {
