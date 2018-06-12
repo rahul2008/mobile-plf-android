@@ -166,6 +166,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         public int isValid(boolean valid) {
             isValidEmail = valid;
             enableCreateButton();
+            if(!valid)
+                usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(R.string.reg_InvalidPhoneNumber_ErrorMsg);
+            else
+                usrCreatescreenEmailormobileInputValidationLayout.hideError();
             return 0;
         }
 
@@ -173,16 +177,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         public int isEmpty(boolean emptyField) {
             if (emptyField && !RegistrationHelper.getInstance().isMobileFlow()) {
                 usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                        R.string.reg_kemailFieldErrorText);
+                        R.string.reg_InvalidOrMissingEmail_ErrorMsg);
+            } else if (emptyField && RegistrationHelper.getInstance().isMobileFlow()) {
+                usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
+                        R.string.reg_EmptyField_ErrorMsg);
             } else {
-                if (RegistrationHelper.getInstance().isMobileFlow()) {
-                    usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                            R.string.reg_InvalidPhoneNumber_ErrorMsg);
-                } else {
-                    usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                            R.string.reg_kemailFieldErrorText);
-                }
+                usrCreatescreenEmailormobileInputValidationLayout.hideError();
             }
+
             isValidEmail = false;
             disableCreateButton();
             return 0;
@@ -250,7 +252,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
                     R.drawable.reg_password_strength_weak, R.string.reg_InValid_PwdErrorMsg, false);
         } else {
             passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Weak), stringthMeterNone, false, R.color.uid_signal_red_level_15,
-                    R.drawable.reg_password_strength_weak, R.string.reg_EmptyField_ErrorMsg, false);
+                    R.drawable.reg_password_strength_weak, R.string.reg_PasswordField_ErrorMsg, false);
         }
         return 0;
     }

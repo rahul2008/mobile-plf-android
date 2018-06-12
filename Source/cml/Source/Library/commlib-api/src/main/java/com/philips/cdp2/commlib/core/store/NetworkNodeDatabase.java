@@ -36,10 +36,10 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
 
 public class NetworkNodeDatabase {
 
-    private NetworkNodeDBHelper networkNodeDBHelper;
+    private DatabaseHelper databaseHelper;
 
-    NetworkNodeDatabase(NetworkNodeDBHelper networkNodeDBHelper) {
-        this.networkNodeDBHelper = networkNodeDBHelper;
+    NetworkNodeDatabase(DatabaseHelper databaseHelper) {
+        this.databaseHelper = databaseHelper;
     }
 
     /**
@@ -52,7 +52,7 @@ public class NetworkNodeDatabase {
 
         Cursor cursor = null;
         try {
-            cursor = networkNodeDBHelper.query(null, null);
+            cursor = databaseHelper.query(null, null);
 
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -93,7 +93,7 @@ public class NetworkNodeDatabase {
             DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
         } finally {
             closeCursor(cursor);
-            networkNodeDBHelper.close();
+            databaseHelper.close();
         }
 
         return result;
@@ -139,12 +139,12 @@ public class NetworkNodeDatabase {
             values.put(KEY_HTTPS, networkNode.isHttps());
             values.put(KEY_PIN, networkNode.getPin());
 
-            rowId = networkNodeDBHelper.insertRow(values);
+            rowId = databaseHelper.insertRow(values);
             DICommLog.d(DICommLog.DATABASE, "Saved NetworkNode in db: " + networkNode);
         } catch (SQLException e) {
             DICommLog.e(DICommLog.DATABASE, "Failed to save NetworkNode" + " ,Error: " + e.getMessage());
         } finally {
-            networkNodeDBHelper.close();
+            databaseHelper.close();
         }
 
         return rowId;
@@ -161,7 +161,7 @@ public class NetworkNodeDatabase {
 
         Cursor cursor = null;
         try {
-            cursor = networkNodeDBHelper.query(KEY_CPP_ID + " = ?", new String[]{networkNode.getCppId()});
+            cursor = databaseHelper.query(KEY_CPP_ID + " = ?", new String[]{networkNode.getCppId()});
 
             if (cursor.getCount() > 0) {
                 DICommLog.d(DICommLog.DATABASE, "NetworkNode already in db - " + networkNode);
@@ -171,7 +171,7 @@ public class NetworkNodeDatabase {
             DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
         } finally {
             closeCursor(cursor);
-            networkNodeDBHelper.close();
+            databaseHelper.close();
         }
 
         DICommLog.d(DICommLog.DATABASE, "NetworkNode not yet in db - " + networkNode);
@@ -181,18 +181,18 @@ public class NetworkNodeDatabase {
     /**
      * Delete a {@link NetworkNode} from this database.
      *
-     * @param networkNode {@link NetworkNode} to deleteNetworkNodeWithCppId.
+     * @param networkNode {@link NetworkNode} to delete.
      * @return the number of rows deleted.
      */
     public int delete(@Nullable NetworkNode networkNode) {
         int rowsDeleted = 0;
         try {
-            rowsDeleted = networkNodeDBHelper.deleteNetworkNodeWithCppId(networkNode.getCppId());
+            rowsDeleted = databaseHelper.delete(networkNode.getCppId());
             DICommLog.d(DICommLog.DATABASE, "Deleted NetworkNode from db: " + networkNode + "  (" + rowsDeleted + ")");
         } catch (SQLException | NullPointerException e) {
             DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
         } finally {
-            networkNodeDBHelper.close();
+            databaseHelper.close();
         }
         return rowsDeleted;
     }

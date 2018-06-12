@@ -208,7 +208,7 @@ public class MyAccountState extends BaseState{
     }
 
     @NonNull
-    protected MyaDependencies getUappDependencies(Context actContext) {
+    private MyaDependencies getUappDependencies(Context actContext) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra();
         return new MyaDependencies(appInfra);
     }

@@ -242,7 +242,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         if (isOnline) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
-                hideNotificationBarOnNetworkAvailable();
+                hideNotificationBarView();
                 if (!getRegistrationFragment().getCounterState()) {
                     mResendEmail.setEnabled(true);
                 }
@@ -409,7 +409,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         hideProgressDialog();
         enableResendButton();
         emailUser = mUser.getEmail();
-        viewOrHideNotificationBar();
         getRegistrationFragment().startCountDownTimer();
         EventBus.getDefault().post(new UpdateEmail(user.getEmail()));
         handleResend(mUser.getEmail());

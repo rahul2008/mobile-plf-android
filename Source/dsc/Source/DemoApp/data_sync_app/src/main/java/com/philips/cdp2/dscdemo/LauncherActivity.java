@@ -9,7 +9,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.dscdemo.DSDemoAppuAppDependencies;
 import com.philips.platform.dscdemo.DSDemoAppuAppInterface;
 import com.philips.platform.dscdemo.DSDemoAppuAppLaunchInput;
-import com.philips.platform.mya.csw.justintime.JustInTimeTextResources;
+import com.philips.platform.csw.justintime.JustInTimeTextResources;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;

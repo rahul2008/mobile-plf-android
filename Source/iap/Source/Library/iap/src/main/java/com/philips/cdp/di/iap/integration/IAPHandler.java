@@ -159,19 +159,26 @@ class IAPHandler {
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW:
                 fragment = new ProductDetailFragment();
-                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, iapLaunchInput.mIAPFlowInput.getProductCTN());
+                if (iapLaunchInput.mIAPFlowInput!= null  && iapLaunchInput.mIAPFlowInput.getProductCTN() != null) {
+                    bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, iapLaunchInput.mIAPFlowInput.getProductCTN());
+                }
                 bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
                 fragment.setArguments(bundle);
                 break;
             case IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW:
                 fragment = new BuyDirectFragment();
-                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, iapLaunchInput.mIAPFlowInput.getProductCTN());
+                if (iapLaunchInput.mIAPFlowInput!= null  && iapLaunchInput.mIAPFlowInput.getProductCTN() != null) {
+                    bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, iapLaunchInput.mIAPFlowInput.getProductCTN());
+                }
                 bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
-                ArrayList<String> CTNs = iapLaunchInput.mIAPFlowInput.getProductCTNs();
                 fragment = new ProductCatalogFragment();
-                bundle.putStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS, CTNs);
+                if (iapLaunchInput.mIAPFlowInput!= null && iapLaunchInput.mIAPFlowInput.getProductCTNs()!= null) {
+                    ArrayList<String> CTNs = iapLaunchInput.mIAPFlowInput.getProductCTNs();
+                    bundle.putStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS, CTNs);
+                }
+
                 bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
                 fragment.setArguments(bundle);
                 break;

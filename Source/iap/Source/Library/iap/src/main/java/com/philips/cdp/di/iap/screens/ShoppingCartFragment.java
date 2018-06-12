@@ -117,14 +117,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_dls, true);
         if (isNetworkConnected()) {
-            updateCartOnResume();
+           updateCartDetails(mShoppingCartAPI);
         }
-    }
-
-    private void updateCartOnResume() {
-        createCustomProgressBar(mParentLayout,BIG);
-
-        mAddressController.getDeliveryModes();
     }
 
     @Override
@@ -137,6 +131,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     private void updateCartDetails(ShoppingCartAPI presenter) {
+        createCustomProgressBar(mParentLayout,BIG);
         presenter.getCurrentCartDetails();
     }
 
@@ -281,26 +276,33 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onLoadFinished(ArrayList<?> data) {
-        if (data!=null && data instanceof ArrayList)
-        hideProgressBar();
+        if (data!=null && data instanceof ArrayList) {
+            hideProgressBar();
+            mData = (ArrayList<ShoppingCartData>) data;
+        }
         if (getActivity() == null) return;
-        mData = (ArrayList<ShoppingCartData>) data;
-        onOutOfStock(false);
-        mAdapter = new ShoppingCartAdapter(mContext, mData, this);
-        mAdapter.setCountArrow(mContext,true);
-        if (mData.get(0) != null && mData.get(0).getDeliveryItemsQuantity() > 0) {
-            updateCount(mData.get(0).getDeliveryItemsQuantity());
-        }
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.tagProducts();
 
-        String numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_products);
-        if(mData.size() == 1){
-            numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_product);
+        if(mData!=null && mData.get(0)!=null && mData.get(0).getDeliveryMode()!=null) {
+
+            onOutOfStock(false);
+            mAdapter = new ShoppingCartAdapter(mContext, mData, this);
+            mAdapter.setCountArrow(mContext, true);
+            if (mData.get(0) != null && mData.get(0).getDeliveryItemsQuantity() > 0) {
+                updateCount(mData.get(0).getDeliveryItemsQuantity());
+            }
+            mRecyclerView.setAdapter(mAdapter);
+            mAdapter.tagProducts();
+
+            String numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_products);
+            if (mData.size() == 1) {
+                numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_product);
+            }
+            numberOfProducts = String.format(numberOfProducts, mData.size());
+            mNumberOfProducts.setText(numberOfProducts);
+            mNumberOfProducts.setVisibility(View.VISIBLE);
+        }else {
+            mAddressController.getDeliveryModes();
         }
-        numberOfProducts = String.format(numberOfProducts, mData.size());
-        mNumberOfProducts.setText(numberOfProducts);
-        mNumberOfProducts.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -334,7 +336,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
-            updateCartDetails(mShoppingCartAPI);
+            handleDeliveryMode(msg,mAddressController);
         }
     }
 

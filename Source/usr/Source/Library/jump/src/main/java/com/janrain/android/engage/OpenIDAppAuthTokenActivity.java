@@ -151,7 +151,7 @@ public class OpenIDAppAuthTokenActivity extends Activity {
             @Nullable TokenResponse tokenResponse,
             @Nullable AuthorizationException authException) {
         LogUtils.logd(TAG, "Token request complete");
-        LogUtils.logd(TAG, "Token: " + tokenResponse.accessToken);
+        LogUtils.logd(TAG, "Token: " + tokenResponse);
 
         mAuthState.update(tokenResponse, authException);
         final JRSession session = JRSession.getInstance();

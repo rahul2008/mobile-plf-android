@@ -67,6 +67,7 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
+        multiDexEnabled true
 
         versionName "1.5.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -84,9 +85,11 @@ dependencies {
     if (dp) {
         implementation project(':uAppFwLib')
         implementation project(':AppInfra')
+        implementation project(':pif')
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
+        implementation philipsdeps.pif
     }
 
     implementation deps.gson

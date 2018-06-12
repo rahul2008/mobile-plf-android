@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
 
 /**
  * The wrapper class for SSLSocketFactory
@@ -21,7 +22,8 @@ public class TLSSocketFactory extends SSLSocketFactory {
 
     public TLSSocketFactory() throws KeyManagementException, NoSuchAlgorithmException {
         final SSLContext context = SSLContext.getInstance("TLS");
-        context.init(null, null, null);
+        TrustManager trustManagers[] = {new AppInfraTrustManager()};
+        context.init(null, trustManagers, null);
         internalSSLSocketFactory = context.getSocketFactory();
     }
 

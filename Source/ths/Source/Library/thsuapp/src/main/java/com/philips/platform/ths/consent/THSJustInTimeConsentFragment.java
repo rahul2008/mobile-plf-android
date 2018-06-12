@@ -2,7 +2,7 @@ package com.philips.platform.ths.consent;
 
 import android.support.v4.app.Fragment;
 
-import com.philips.platform.mya.csw.justintime.JustInTimeConsentFragment;
+import com.philips.platform.csw.justintime.JustInTimeConsentFragment;
 import com.philips.platform.ths.intake.THSFollowUpFragment;
 import com.philips.platform.uappframework.listener.BackEventListener;
 

@@ -1,8 +1,8 @@
 CommLib for Android - Release Notes
 ===================================
 
-Version {next}
---------------
+Version 1802
+------------
 
 ### Functionality Delivered
 * N/A
@@ -23,6 +23,7 @@ Version {next}
 * \#72961 - Changed filtering of discovered devices to be in line with iOS version of library: filter only passed to startDiscovery() call.
 * \#121886 - Firmware update always starts from 0. Brought behaviour inline with iOS
 * \#127781 - CommLib persists NetworkNodes in secure manner. The feature is backwards compatible: existing stored nodes are migrated to secure DB.
+* \#134047 - Database migration for secure and unsecure databases now all use incremental version numbers.
 
 ### Residual anomalies
 * N/A

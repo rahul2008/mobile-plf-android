@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left|center_vertical"
-        android:text="@string/iap_shipping_address" />
+        android:text="@string/iap_shipping_address"
+        android:textStyle="bold"/>
 
 
     <!--Personal Detail Linear Layout-->
@@ -21,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/border24_margin"
         android:layout_height="wrap_content"
-        android:text="Personal details" />
+        android:text="Personal details"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +35,8 @@
             style="@style/AddressItemLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/iap_salutation" />
+            android:text="@string/iap_salutation"
+            android:textStyle="bold"/>
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
             android:id="@+id/ll_salutation"
@@ -123,6 +126,7 @@
         <com.philips.platform.uid.view.widget.Label
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="Contact details" />
 
         <LinearLayout
@@ -191,6 +195,7 @@
         <com.philips.platform.uid.view.widget.Label
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="Address" />
 
         <LinearLayout
