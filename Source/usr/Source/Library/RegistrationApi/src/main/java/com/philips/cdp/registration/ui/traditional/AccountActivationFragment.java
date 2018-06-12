@@ -210,7 +210,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     void setDiscription() {
         mEmailId = mUser.getEmail();
-        String email = getString(R.string.reg_DLS_Verify_Email_Sent_Txt);
+        String email = getString(R.string.DLS_Verify_Email_Sent_Txt);
         email = String.format(email, mEmailId);
         setupSpannableText(mTvVerifyEmail, email, mEmailId);
 
@@ -243,9 +243,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public int getTitleResourceId() {
         if (isSocialProvider) {
-            return R.string.reg_DLS_SigIn_TitleTxt;
+            return R.string.DLS_SigIn_TitleTxt;
         } else {
-            return R.string.reg_DLS_URCreateAccount_NavTitle;
+            return R.string.DLS_URCreateAccount_NavTitle;
         }
     }
 
@@ -298,7 +298,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void showVerifyAlertDialog() {
         if (isInstanceofCurrentFragment()) {
             RegAlertDialog.showDialog(mContext.getResources().getString(
-                    R.string.reg_DLS_Email_Verify_Alert_Title),
+                    R.string.DLS_Email_Verify_Alert_Title),
                     mContext.getResources().getString(
                             R.string.reg_DLS_Email_Verify_Alert_Body_Line1),
                     mContext.getResources().getString(
@@ -349,7 +349,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleRefreshUserFailed(int error) {
         RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
         if (error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED) {
-            verificationError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            verificationError(mContext.getString(R.string.Generic_Network_ErrorMsg));
             hideActivateSpinner();
             activateButtonEnable(true);
             mBtnResend.setEnabled(true);

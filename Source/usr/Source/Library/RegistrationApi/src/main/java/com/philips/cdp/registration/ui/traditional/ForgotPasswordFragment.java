@@ -122,9 +122,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         @Override
         public int isEmpty(boolean emptyField) {
             if (emptyField) {
-                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
+                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.EmptyField_ErrorMsg);
             } else {
-                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
+                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.InvalidEmailAdddress_ErrorMsg);
             }
             disableSendButton();
             return 0;
@@ -312,7 +312,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                 final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                         .setDialogType(DialogConstants.TYPE_DIALOG)
                         .setDialogLayout(R.layout.reg_forgot_password_alert)
-                        .setPositiveButton(getString(R.string.reg_DLS_Forgot_Password_Alert_Button_Title), v -> {
+                        .setPositiveButton(getString(R.string.DLS_Forgot_Password_Alert_Button_Title), v -> {
                             trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
                             alertDialogFragment.dismiss();
                             alertDialogFragment = null;
@@ -370,7 +370,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_DLS_SigIn_TitleTxt;
+        return R.string.DLS_SigIn_TitleTxt;
     }
 
     @Override

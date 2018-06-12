@@ -269,7 +269,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         handleUiState();
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            usr_loginScreen_email_label.setText(R.string.reg_DLS_Email_Phone_Label_Text);
+            usr_loginScreen_email_label.setText(R.string.DLS_Email_Phone_Label_Text);
         }
         mUser = new User(mContext);
         registrationSettingsURL = new RegistrationSettingsURL();
@@ -278,20 +278,20 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private boolean emailOrMobileValidator(String emailOrMobile) {
         RLog.e(TAG, "Email or Mobile No. is Empty");
         if (emailOrMobile.isEmpty() && !RegistrationHelper.getInstance().isMobileFlow()) {
-            mEtEmail.setErrorMessage(R.string.reg_NameField_ErrorText);
+            mEtEmail.setErrorMessage(R.string.NameField_ErrorText);
         } else {
-            mEtEmail.setErrorMessage(R.string.reg_InvalidEmailOrPhoneNumber_ErrorMsg);
+            mEtEmail.setErrorMessage(R.string.InvalidEmailOrPhoneNumber_ErrorMsg);
         }
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
             if ((!FieldsValidator.isValidMobileNumber(emailOrMobile) || !FieldsValidator.isValidEmail(emailOrMobile))) {
                 RLog.e(TAG, "Not a valid Mobile No.");
-                mEtEmail.setErrorMessage(R.string.reg_InvalidEmailOrPhoneNumber_ErrorMsg);
+                mEtEmail.setErrorMessage(R.string.InvalidEmailOrPhoneNumber_ErrorMsg);
                 return FieldsValidator.isValidMobileNumber(emailOrMobile) || FieldsValidator.isValidEmail(emailOrMobile);
             }
         } else {
             RLog.e(TAG, "Not a valid Email ID or Invalid Email.");
-            mEtEmail.setErrorMessage(R.string.reg_InvalidOrMissingEmail_ErrorMsg);
+            mEtEmail.setErrorMessage(R.string.InvalidOrMissingEmail_ErrorMsg);
             return FieldsValidator.isValidEmail(emailOrMobile);
         }
         return false;
@@ -372,7 +372,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_DLS_SigIn_TitleTxt;
+        return R.string.DLS_SigIn_TitleTxt;
     }
 
     private void signIn() {
@@ -436,7 +436,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             } else {
                 scrollViewAutomatically(mRegError, mSvRootLayout);
                 if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
-                    mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
+                    mRegError.setError(mContext.getResources().getString(R.string.Janrain_Invalid_Credentials));
                     trackInvalidCredentials();
                 } else {
                     RLog.i(TAG, "handleLogInFailed : Error =" + userRegistrationFailureInfo.getErrorCode());
@@ -464,7 +464,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogLayout(R.layout.forgot_password_dialog)
-                .setPositiveButton(mContext.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Button_Title), this)
+                .setPositiveButton(mContext.getResources().getString(R.string.DLS_Forgot_Password_Alert_Button_Title), this)
                 .setTitle(mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg_Title))
                 .setCancelable(false);
         alertDialogFragment = builder.create();

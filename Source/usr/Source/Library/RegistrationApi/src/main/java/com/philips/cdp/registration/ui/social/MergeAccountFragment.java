@@ -210,7 +210,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_SigIn_TitleTxt;
+        return R.string.SigIn_TitleTxt;
     }
 
     @Override

@@ -334,7 +334,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
         new Handler().postDelayed(() -> {
             getNotification().showNotification(
-                    new NotificationMessage(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_Network_ErrorMsg)));
+                    new NotificationMessage(mContext.getResources().getString(R.string.Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_Network_ErrorMsg)));
         }, 100);
     }
 

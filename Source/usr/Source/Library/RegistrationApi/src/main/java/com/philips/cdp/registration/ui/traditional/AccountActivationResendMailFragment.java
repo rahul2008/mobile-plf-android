@@ -275,9 +275,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public int getTitleResourceId() {
         if (isSocialProvider) {
-            return R.string.reg_DLS_SigIn_TitleTxt;
+            return R.string.DLS_SigIn_TitleTxt;
         } else {
-            return R.string.reg_DLS_Resend_Email_Screen_title;
+            return R.string.DLS_Resend_Email_Screen_title;
         }
     }
 
@@ -305,7 +305,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
                 mContext.getResources().getString(
                         R.string.reg_DLS_Resend_Email_Wait_Error_Msg_Body_Line2),
                 mContext.getResources().getString(
-                        R.string.reg_DLS_Button_Title_Ok)
+                        R.string.DLS_Button_Title_Ok)
                 , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
     }
 
@@ -326,12 +326,12 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         try {
             final JSONObject raw_response = userRegistrationFailureInfo.getError().raw_response;
             if (raw_response == null) {
-                updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg));
+                updateErrorNotification(mContext.getString(R.string.Generic_Network_ErrorMsg));
                 return;
             }
             updateErrorNotification(raw_response.getString("message"));
         } catch (JSONException e) {
-            updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg));
+            updateErrorNotification(mContext.getString(R.string.Generic_Network_ErrorMsg));
             RLog.e(TAG, "handleResendVerificationEmailFailedWithError : Json Exception Occurred ");
         }
         mReturnButton.setEnabled(true);
@@ -417,7 +417,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public void onRefreshUserFailed(int error) {
 //        mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
-        updateErrorNotification(mContext.getResources().getString(R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg));
+        updateErrorNotification(mContext.getResources().getString(R.string.Generic_Network_ErrorMsg));
     }
 
     boolean proceedResend = true;
@@ -428,7 +428,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             emailResendTimerProgress.setSecondaryProgress(
                     ((60 - timeRemaining) * 100) / 60);
             emailResendTimerProgress.setText(
-                    String.format(mContext.getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
+                    String.format(mContext.getResources().getString(R.string.DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
             disableResendButton();
         }
     }
@@ -451,7 +451,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     public void viewOrHideNotificationBar() {
         if (popupWindow == null) {
             View contentView = getRegistrationFragment().getNotificationContentView(
-                    mContext.getResources().getString(R.string.reg_DLS_Resend_Email_NotificationBar_Title),
+                    mContext.getResources().getString(R.string.DLS_Resend_Email_NotificationBar_Title),
                     mUser.getEmail());
             popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -516,9 +516,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     public void enableResendButton() {
         mResendEmail.setText(getResources().getString(
-                R.string.reg_DLS_Resend_The_Email_Button_Title));
+                R.string.DLS_Resend_The_Email_Button_Title));
         mResendEmail.setProgressText(getResources().getString(
-                R.string.reg_DLS_Resend_The_Email_Button_Title));
+                R.string.DLS_Resend_The_Email_Button_Title));
         if (networkUtility.isNetworkAvailable())
             mResendEmail.setEnabled(true);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : resend enab");

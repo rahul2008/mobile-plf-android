@@ -166,8 +166,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         public int isValid(boolean valid) {
             isValidEmail = valid;
             enableCreateButton();
-            if(!valid)
-                usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(R.string.reg_InvalidPhoneNumber_ErrorMsg);
+            if (!valid)
+                usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(R.string.InvalidPhoneNumber_ErrorMsg);
             else
                 usrCreatescreenEmailormobileInputValidationLayout.hideError();
             return 0;
@@ -177,10 +177,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         public int isEmpty(boolean emptyField) {
             if (emptyField && !RegistrationHelper.getInstance().isMobileFlow()) {
                 usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                        R.string.reg_InvalidOrMissingEmail_ErrorMsg);
+                        R.string.InvalidOrMissingEmail_ErrorMsg);
             } else if (emptyField && RegistrationHelper.getInstance().isMobileFlow()) {
                 usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(
-                        R.string.reg_EmptyField_ErrorMsg);
+                        R.string.EmptyField_ErrorMsg);
             } else {
                 usrCreatescreenEmailormobileInputValidationLayout.hideError();
             }
@@ -209,7 +209,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         ButterKnife.bind(this, view);
         usrCreatescreenEmailormobileInputValidationLayout.setValidator(loginIdValidator);
         usrCreateScreenPasswordInputValidationField.setValidator(passwordValidator);
-        usrCreateScreenPasswordInputValidationField.setErrorMessage(R.string.reg_PasswordField_ErrorMsg);
+        usrCreateScreenPasswordInputValidationField.setErrorMessage(R.string.PasswordField_ErrorMsg);
         initUI(view);
 
         handleABTestingFlow();
@@ -242,17 +242,17 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment register: NetworkStateListener,strength " + strength);
         if (strength > strengthStrong) {
-            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Strong), strengthMeterStrong, true, R.color.uid_green_level_30,
+            passwordUiUpdate(getResources().getString(R.string.Password_Strength_Strong), strengthMeterStrong, true, R.color.uid_green_level_30,
                     R.drawable.reg_password_strength_strong, 0, true);
         } else if (strength == strengthStrong) {
-            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Medium), strengthMeterMedium, true, R.color.uid_pink_level_30,
+            passwordUiUpdate(getResources().getString(R.string.Password_Strength_Medium), strengthMeterMedium, true, R.color.uid_pink_level_30,
                     R.drawable.reg_password_strength_medium, 0, false);
         } else if (strength == strengthMedium) {
-            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_15,
-                    R.drawable.reg_password_strength_weak, R.string.reg_InValid_PwdErrorMsg, false);
+            passwordUiUpdate(getResources().getString(R.string.Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_15,
+                    R.drawable.reg_password_strength_weak, R.string.InValid_PwdErrorMsg, false);
         } else {
-            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Weak), stringthMeterNone, false, R.color.uid_signal_red_level_15,
-                    R.drawable.reg_password_strength_weak, R.string.reg_PasswordField_ErrorMsg, false);
+            passwordUiUpdate(getResources().getString(R.string.Password_Strength_Weak), stringthMeterNone, false, R.color.uid_signal_red_level_15,
+                    R.drawable.reg_password_strength_weak, R.string.PasswordField_ErrorMsg, false);
         }
         return 0;
     }
@@ -320,7 +320,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         usernameUihandle();
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            usrCreatescreenEmailormobileLabel.setText(R.string.reg_DLS_Phonenumber_Label_Text);
+            usrCreatescreenEmailormobileLabel.setText(R.string.DLS_Phonenumber_Label_Text);
             usrCreatescreenEmailormobileTextfield.setInputType(InputType.TYPE_CLASS_PHONE);
         }
 
@@ -331,7 +331,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             if (tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1) {
                 // No link is clicked
                 if (!isChecked) {
-                    usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                    usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
                 }
             } else {
                 usrCreatescreenTermsandconditionsCheckbox.setChecked(!isChecked);
@@ -507,7 +507,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_DLS_URCreateAccount_NavTitle;
+        return R.string.DLS_URCreateAccount_NavTitle;
     }
 
     @Override
@@ -585,8 +585,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     private void usernameUihandle() {
         usrCreateScreenFirstNameInputValidation.setValidator(firstName -> firstName.length() > 0);
         usrCreateScreenLastNameInputValidation.setValidator(lastName -> lastName.length() > 0);
-        usrCreateScreenFirstNameInputValidation.setErrorMessage((R.string.reg_NameField_ErrorText));
-        usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.reg_LastNameField_ErrorMsg));
+        usrCreateScreenFirstNameInputValidation.setErrorMessage((R.string.NameField_ErrorText));
+        usrCreateScreenLastNameInputValidation.setErrorMessage((R.string.LastNameField_ErrorMsg));
         usrCreateScreenFirstNameTextField.requestFocus();
         usrCreateScreenFirstNameTextField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -642,7 +642,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             if (usrCreatescreenTermsandconditionsCheckbox.isChecked()) {
                 registerUserInfo();
             } else {
-                usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
             }
         } else {
             registerUserInfo();
