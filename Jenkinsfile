@@ -35,9 +35,11 @@ pipeline {
             steps {
                 echo "Node labels: ${nodes}"
                 sh 'printenv'
-                InitialiseBuild()
-                checkout scm
-                BuildAndUnitTest()
+
+                timeout(time: 1, unit: 'HOURS') {
+                    InitialiseBuild()
+                    BuildAndUnitTest()
+                }
             }
         }
 
@@ -131,7 +133,8 @@ pipeline {
             steps {
                 script {
                     echo "Running TICS..."
-                    sh """#!/bin/bash -le
+                    sh """#!/bin/bash -le 
+                        ./gradlew jacocoTestReport
                         /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
                         /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity
                     """
@@ -214,8 +217,9 @@ def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
-        ./gradlew --refresh-dependencies assembleRelease \
+        ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
             :AppInfra:cC \
+            :AppInfra:testReleaseUnitTest \
             :uAppFwLib:testReleaseUnitTest \
             :securedblibrary:cC \
             :registrationApi:cC \
@@ -247,8 +251,8 @@ def BuildAndUnitTest() {
             :commlib-api:testReleaseUnitTest \
             :mya:cC \
             :mya:testRelease \
-            :mya-catk:testReleaseUnitTest \
-            :mya-csw:testReleaseUnitTest \
+            :catk:testReleaseUnitTest \
+            :csw:testReleaseUnitTest \
             :pif:testReleaseUnitTest \
             :dataServices:testReleaseUnitTest \
             :dataServicesUApp:testReleaseUnitTest \
@@ -278,8 +282,8 @@ def BuildLint() {
          :cloudcontroller-api:lintDebug \
          :commlib:lintDebug \
          :mya:lint \
-         :mya-catk:lint \
-         :mya-csw:lint \
+         :catk:lint \
+         :csw:lint \
          :pif:lint \
          :dataServices:lintRelease \
          :devicepairingUApp:lint \
@@ -434,8 +438,8 @@ def PublishUnitTestsresults() {
     }
 
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/DemoUApp/DemoUApp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya DemoUApp - release test'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-catk/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-catk'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya-csw/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-csw'])
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/csw/Source/Library/catk/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'catk'])
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/csw/Source/Library/csw/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'csw'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mya'])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pif/Source/Library/chi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'pif'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])

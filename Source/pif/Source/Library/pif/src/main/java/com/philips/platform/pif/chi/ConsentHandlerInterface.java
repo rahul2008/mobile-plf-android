@@ -25,4 +25,5 @@ public interface ConsentHandlerInterface {
      * @since 2018.1.0
      */
     void storeConsentTypeState(final String consentType, boolean status, int version, PostConsentTypeCallback callback);
+
 }

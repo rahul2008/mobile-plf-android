@@ -31,7 +31,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     AppTaggingInterface mAIAppTaggingInterface;
     AppTaggingInterface mockAppTaggingInterface;
     AppConfigurationManager mConfigInterface;
-    AppTagging mAppTagging,appTagging;
+    AppTagging mAppTagging, appTagging;
     private Context context;
     private AppInfra mAppInfra;
     private AppConfigurationInterface.AppConfigurationError configError;
@@ -91,13 +91,13 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
         assertNotNull(mAIAppTaggingInterface);
 
-        mAppTaggingHandler=new AppTaggingHandler(mAppInfra);
+        mAppTaggingHandler = new AppTaggingHandler(mAppInfra);
 
         mockAppTaggingInterface = mock(AppTaggingInterface.class);
 
         mAppTaggingHandlerMock = mock(AppTaggingHandler.class);
         appInfraMock = mock(AppInfra.class);
-        appTagging=new AppTagging(appInfraMock) {
+        appTagging = new AppTagging(appInfraMock) {
             @Override
             AppTaggingHandler getAppTaggingHandler() {
                 return mAppTaggingHandlerMock;
@@ -105,14 +105,12 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         };
 
         loggingInterfaceMock = mock(LoggingInterface.class);
-        appIdentityInterfaceMock=mock(AppIdentityInterface.class);
-        secureStorageInterfaceMock=mock(SecureStorageInterface.class);
-        internationalizationInterfaceMock=mock(InternationalizationInterface.class);
+        appIdentityInterfaceMock = mock(AppIdentityInterface.class);
+        secureStorageInterfaceMock = mock(SecureStorageInterface.class);
+        internationalizationInterfaceMock = mock(InternationalizationInterface.class);
         mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
                 "PRODUCTION", configError);
     }
-
-
 
 
     public void testConfig(final String value) {
@@ -163,6 +161,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         mAppInfra = new AppInfra.Builder().setTagging(mAppTagging).build(context);
         mAppInfra.setConfigInterface(mConfigInterface);
     }
+
     public void testPrivacyConsentOPTIN() {
         appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         assertEquals(AppTaggingInterface.PrivacyStatus.OPTIN, appTagging.getPrivacyConsent());
@@ -189,6 +188,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     public void testEmumValues_facebook() {
         assertEquals("facebook", AppTaggingInterface.SocialMedium.Facebook.toString());
     }
+
     public void testEmumValues_twitter() {
         assertEquals("twitter", AppTaggingInterface.SocialMedium.Twitter.toString());
     }
@@ -198,11 +198,10 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     }
 
 
-
     public void testPrivacyConsentForSensitiveData() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         when(appInfraMock.getSecureStorage()).thenReturn(secureStorageInterfaceMock);
-        AppTagging appTaggingPage=new AppTagging(appInfraMock);
+        AppTagging appTaggingPage = new AppTagging(appInfraMock);
         appTaggingPage.setPrivacyConsentForSensitiveData(false);
         assertFalse(appTaggingPage.getPrivacyConsentForSensitiveData());
     }

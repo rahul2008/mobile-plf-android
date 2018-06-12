@@ -38,7 +38,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.LoginIdValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -56,7 +55,7 @@ import butterknife.OnClick;
 public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         ForgotPasswordContract {
 
-    private static final int FAILURE_TO_CONNECT = -1;
+    private static final String TAG = ForgotPasswordFragment.class.getSimpleName();
 
     @Inject
     NetworkUtility networkUtility;
@@ -223,7 +222,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     private void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
-            hideNotificationBarOnNetworkAvailable();
+            hideNotificationBarView();
         } else {
 //            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             showNotificationBarOnNetworkNotAvailable();
@@ -238,7 +237,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
             }
             sendEmailOrSMSButton.hideProgressIndicator();
             mRegError.hideError();
-            hideNotificationBarOnNetworkAvailable();
+            hideNotificationBarView();
         } else {
             sendEmailOrSMSButton.hideProgressIndicator();
             sendEmailOrSMSButton.setEnabled(false);
@@ -335,35 +334,34 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     public void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.d(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
         hideForgotPasswordSpinner();
-        if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT ||
-                userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE) {
-//            mRegError.setError(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-            updateErrorNotification(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
-            usr_forgotpassword_inputId_inputValidation.showError();
-            return;
-        }
+//        if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT ||
+//                userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE) {
+////            mRegError.setError(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+//            updateErrorNotification(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+//            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
+//            usr_forgotpassword_inputId_inputValidation.showError();
+//            return;
+//        }
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
             forgotPasswordErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR);
+            RLog.e(TAG, "equal to SOCIAL_SIGIN_IN_ONLY_CODE Error code = " + userRegistrationFailureInfo.getErrorCode());
             sendEmailOrSMSButton.setEnabled(false);
         } else {
+            RLog.e(TAG, " not equal to Social sigin Response Error code = " + userRegistrationFailureInfo.getErrorCode());
+            if (userRegistrationFailureInfo.getErrorCode() == -1) return;
             forgotPasswordErrorMessage(userRegistrationFailureInfo.getErrorDescription());
             sendEmailOrSMSButton.setEnabled(false);
         }
-        scrollViewAutomatically(userIdEditText, layoutScrollView);
+//        scrollViewAutomatically(userIdEditText, layoutScrollView);
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
     }
 
-    private View.OnClickListener mContinueBtnClick = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View view) {
-            trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
-            getFragmentManager().popBackStack();
-            RegAlertDialog.dismissDialog();
-        }
-    };
+//    private View.OnClickListener mContinueBtnClick = view -> {
+//        trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
+//        getFragmentManager().popBackStack();
+//        RegAlertDialog.dismissDialog();
+//    };
 
     @Override
     protected void handleOrientation(View view) {
@@ -379,7 +377,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     public void trackAction(String state, String key, String value) {
         trackActionStatus(state, key, value);
     }
-
 
 
     @Override

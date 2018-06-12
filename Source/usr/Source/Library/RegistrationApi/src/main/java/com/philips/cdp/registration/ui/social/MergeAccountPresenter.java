@@ -9,7 +9,6 @@ import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -60,11 +59,11 @@ public class MergeAccountPresenter implements TraditionalLoginHandler, NetworkSt
     @Override
     public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         EventBus.getDefault().post(new LoginFailureNotification());
-        if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
-            mergeAccountContract.mergePasswordFailure();
-            return;
-        }
-        mergeAccountContract.mergeFailure(userRegistrationFailureInfo.getErrorCode());
+//        if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
+//            mergeAccountContract.mergePasswordFailure();
+//            return;
+//        }
+        mergeAccountContract.mergeFailure(userRegistrationFailureInfo.getErrorDescription(),userRegistrationFailureInfo.getErrorCode());
     }
 
 

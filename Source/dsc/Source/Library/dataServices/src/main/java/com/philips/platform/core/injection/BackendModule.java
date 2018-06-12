@@ -11,8 +11,8 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.philips.platform.mya.catk.ConsentsClient;
-import com.philips.platform.mya.catk.ConsentInteractor;
+import com.philips.platform.catk.ConsentsClient;
+import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -153,11 +153,10 @@ public class BackendModule {
     @Singleton
     DataPullSynchronise providesDataSynchronise(
             @NonNull final MomentsDataFetcher momentsDataFetcher,
-            @NonNull final ConsentsDataFetcher consentsDataFetcher,
             @NonNull final UserCharacteristicsFetcher userCharacteristicsFetcher,
             @NonNull final SettingsDataFetcher settingsDataFetcher,
             @NonNull final InsightDataFetcher insightDataFetcher) {
-        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher, settingsDataFetcher, insightDataFetcher);
+        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, userCharacteristicsFetcher, settingsDataFetcher, insightDataFetcher);
         if (fetchers != null && fetchers.size() != 0) {
             for (DataFetcher fetcher : fetchers) {
                 dataFetchers.add(fetcher);
@@ -170,12 +169,11 @@ public class BackendModule {
     @Singleton
     DataPushSynchronise providesDataPushSynchronise(
             @NonNull final MomentsDataSender momentsDataSender,
-            @NonNull final ConsentDataSender consentDataSender,
             @NonNull final UserCharacteristicsSender userCharacteristicsSender,
             @NonNull final SettingsDataSender settingsDataSender,
             @NonNull final InsightDataSender insightDataSender) {
 
-        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender, userCharacteristicsSender, settingsDataSender, insightDataSender);
+        List dataSenders = Arrays.asList(momentsDataSender, userCharacteristicsSender, settingsDataSender, insightDataSender);
         if (senders != null && senders.size() != 0) {
             for (DataSender sender : senders) {
                 dataSenders.add(sender);

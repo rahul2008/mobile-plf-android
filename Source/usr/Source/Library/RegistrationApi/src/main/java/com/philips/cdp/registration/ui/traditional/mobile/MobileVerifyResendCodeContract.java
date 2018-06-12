@@ -16,7 +16,7 @@ public interface MobileVerifyResendCodeContract {
 
     void netWorkStateOfflineUiHandle();
 
-    void showSmsSendFailedError();
+//    void showSmsSendFailedError();
 
     void enableResendButtonAndHideSpinner();
 

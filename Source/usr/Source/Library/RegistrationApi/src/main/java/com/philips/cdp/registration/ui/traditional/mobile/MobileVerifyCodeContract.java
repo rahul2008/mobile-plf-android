@@ -21,7 +21,7 @@ public interface MobileVerifyCodeContract extends SMSBroadCastReceiver.ReceiveAn
 
     void hideProgressSpinner();
 
-    void setOtpInvalidErrorMessage(int errorCode);
+//    void setOtpInvalidErrorMessage(int errorCode);
 
 //    void showOtpInvalidError(int errorCode);
 

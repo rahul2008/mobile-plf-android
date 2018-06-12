@@ -48,7 +48,7 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-import static com.philips.platform.mya.csw.justintime.JustInTimeConsentDependencies.textResources;
+import static com.philips.platform.csw.justintime.JustInTimeConsentDependencies.textResources;
 
 public class DemoDataServicesState extends DemoBaseState
         implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
@@ -83,12 +83,11 @@ public class DemoDataServicesState extends DemoBaseState
         dsDemoAppuAppInterface = getDsDemoAppuAppInterface();
         dsDemoAppuAppInterface.init(getUappDependencies(context), dsDemoAppuAppSettings);
 
-        if (BaseAppUtil.isDSPollingEnabled(context)) {
-            User user = new User(context);
-            if (user.isUserSignIn()) {
-                SyncScheduler.getInstance().scheduleSync();
-            }
-        } else {
+        User user = new User(context);
+        if (user.isUserSignIn()) {
+            SyncScheduler.getInstance().scheduleSync();
+        }
+        if (!BaseAppUtil.isDSPollingEnabled(context)) {
             if (new User(context).isUserSignIn()) {
                 registerDSForRegisteringToken();
                 registerForReceivingPayload();

@@ -32,7 +32,7 @@ public class DemoAILState extends BaseState {
         AILDemouAppInterface mAIDemoAppInterface = AILDemouAppInterface.getInstance();
         mAIDemoAppInterface.init(mAIDemoAppDependencies, aiDemoAppSettings);
         ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR,null, 0,null);
         mAIDemoAppInterface.launch(activityLauncher, mAIDemoAppLaunchInput);
     }
 
