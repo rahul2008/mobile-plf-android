@@ -44,9 +44,9 @@ android {
 dependencies {
     for (dep in [':AppInfra']) {
         if (directdependencies) {
-            implementation project(dep)
+            api project(dep)
         } else {
-            implementation("$group$dep:$platformversion$suffix") { changing = true }
+            api("$group$dep:$platformversion$suffix") { changing = true }
         }
     }
 
