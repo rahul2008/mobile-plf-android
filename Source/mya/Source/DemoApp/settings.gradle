@@ -2,8 +2,8 @@ rootProject.setName 'MyAccount'
 include ':app'
 include ':mya'
 project(':mya').projectDir = new File('../Library/mya')
-include ':mya-csw'
-project(':mya-csw').projectDir = new File('../Library/mya-csw')
-include ':mya-catk'
-project(':mya-catk').projectDir = new File('../Library/mya-catk')
+include ':csw'
+project(':csw').projectDir = new File('../Library/csw')
+include ':catk'
+project(':catk').projectDir = new File('../Library/catk')
 

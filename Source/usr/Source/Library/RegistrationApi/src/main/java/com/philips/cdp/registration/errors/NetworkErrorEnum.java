@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.errors;
 
+import android.content.Context;
+
 import com.philips.cdp.registration.R;
 
 /**
@@ -8,7 +10,7 @@ import com.philips.cdp.registration.R;
 
 public enum NetworkErrorEnum {
 
-    NETWORK_ERROR(ErrorCodes.NETWORK_ERROR, R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg),
+    NETWORK_ERROR(ErrorCodes.NETWORK_ERROR, R.string.reg_Generic_Network_ErrorMsg),
     NO_NETWORK(ErrorCodes.NO_NETWORK, R.string.reg_Network_ErrorMsg);
 
     int errorCode;
@@ -29,4 +31,10 @@ public enum NetworkErrorEnum {
     }
 
 
+    public static String getLocalizedError(Context context, int errorCode) {
+        if(errorCode == ErrorCodes.NETWORK_ERROR){
+            return context.getString(R.string.reg_Generic_Network_Error) +" "+ "["+errorCode+"]";
+        }
+        return context.getString(getStringId(errorCode));
+    }
 }

@@ -36,6 +36,7 @@ import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.io.File;
@@ -51,6 +52,7 @@ import javax.inject.Inject;
  */
 public class HsdpUser {
 
+    private final LoggingInterface loggingInterface;
     private String TAG = HsdpUser.class.getSimpleName();
 
     @Inject
@@ -75,6 +77,7 @@ public class HsdpUser {
     public HsdpUser(Context context) {
         this.mContext = context;
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        loggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
     }
 
     /**
@@ -334,6 +337,9 @@ public class HsdpUser {
             if (obj instanceof HsdpUserRecord) {
                 final HsdpUserRecord hsdpUserRecord = (HsdpUserRecord) obj;
                 HsdpUserInstance.getInstance().setHsdpUserRecord(hsdpUserRecord);
+                if (loggingInterface != null && hsdpUserRecord != null) {
+                    loggingInterface.setHSDPUserUUID(hsdpUserRecord.getUserUUID());
+                }
                 sendEncryptedUUIDToAnalytics(hsdpUserRecord);
             }
         }
@@ -364,8 +370,7 @@ public class HsdpUser {
                                     accessToken, refreshSecret);
 
                     if (dhpAuthenticationResponse1 == null) {
-                        handler.post(() -> handleSocialConnectionFailed(loginHandler, ErrorCodes.NO_NETWORK,
-                                new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK), AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED));
+                        handler.post(() -> handleSocialNetworkFailure(loginHandler));
                         return;
                     }
 
@@ -380,6 +385,9 @@ public class HsdpUser {
                         saveToDisk(new UserFileWriteListener() {
                             @Override
                             public void onFileWriteSuccess() {
+                                if (loggingInterface != null && hsdpUserRecord != null) {
+                                    loggingInterface.setHSDPUserUUID(hsdpUserRecord.getUserUUID());
+                                }
                                 handler.post(() -> {
                                     RLog.d(RLog.HSDP, "Social onHsdpLoginSuccess : response :"
                                             + rawResponse.toString());
@@ -393,8 +401,7 @@ public class HsdpUser {
 
                             @Override
                             public void onFileWriteFailure() {
-                                handleSocialHsdpFailure(loginHandler, ErrorCodes.NO_NETWORK,
-                                        new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK), AppTagingConstants.REG_NO_NETWORK_CONNECTION);
+                                handleSocialNetworkFailure(loginHandler);
 
                             }
                         });
@@ -413,14 +420,11 @@ public class HsdpUser {
                     }
                 } catch (Exception e) {
                     RLog.e(RLog.HSDP, "HSDP Social Login : " + e.getMessage());
-                    handleSocialHsdpFailure(loginHandler,
-                            RegConstants.HSDP_CONFIGURATION_ERROR,
-                            new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR), e.getMessage());
+                    handleSocialNetworkFailure(loginHandler);
                 }
             }).start();
         } else {
-            handleSocialHsdpFailure(loginHandler, ErrorCodes.NO_NETWORK ,
-                    new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK), AppTagingConstants.REG_NO_NETWORK_CONNECTION);
+            handleSocialNetworkFailure(loginHandler);
         }
 
     }
@@ -458,17 +462,10 @@ public class HsdpUser {
      * handle social hsdp failure
      *
      * @param loginHandler login handler
-     * @param errorCode    error code
-     * @param string       string
      */
-    private void handleSocialHsdpFailure(SocialLoginHandler loginHandler, int errorCode,
-                                         String string, String errorTagging) {
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-        userRegistrationFailureInfo.setErrorCode(errorCode);
-        userRegistrationFailureInfo.setErrorDescription(string);
-        userRegistrationFailureInfo.setErrorTagging(errorTagging);
+    private void handleSocialNetworkFailure(SocialLoginHandler loginHandler) {
         ThreadUtils.postInMainThread(mContext, () ->
-                loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                loginHandler.onLoginFailedWithError(null));
     }
 
     /**

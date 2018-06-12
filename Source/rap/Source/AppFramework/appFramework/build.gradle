@@ -142,10 +142,6 @@ publishing {
 
             artifact zipDocuments
 
-            artifact("$projectDir/dependencies.lock") {
-                classifier = '1stleveldependencies'
-            }
-
             artifact("$buildDir/outputs/mapping/release/mapping.txt") {
                 classifier = 'mapping'
             }
@@ -155,7 +151,7 @@ publishing {
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
 
-                configurations.getByName("archives").allDependencies.each {
+                configurations.getByName("implementation").allDependencies.each {
                     if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
                         def dependencyNode = dependenciesNode.appendNode('dependency')
                         dependencyNode.appendNode('groupId', it.group)
@@ -164,7 +160,6 @@ publishing {
                     }
                 }
             }
-
         }
     }
 }
@@ -253,6 +248,7 @@ dependencies {
     implementation deps.volley
     implementation deps.javax_inject
     implementation deps.javax_annotation
+    implementation deps.play_services_gcm
 
     debugImplementation deps.leakcanary_no_op
     leakCanaryImplementation deps.leakcanary
@@ -276,8 +272,8 @@ dependencies {
         implementation project(':commlib-api')
         implementation project(':commlib-ble')
         implementation project(':AppInfra')
-        implementation project(':mya-catk')
-        implementation project(':mya-csw')
+        implementation project(':catk')
+        implementation project(':csw')
         implementation project(':cloudcontroller')
         implementation project(':cloudcontroller-api')
         implementation project(':productselection')

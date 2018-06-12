@@ -291,7 +291,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             }
         } else {
             RLog.e(TAG, "Not a valid Email ID or Invalid Email.");
-            mEtEmail.setErrorMessage(R.string.reg_kemailFieldErrorText);
+            mEtEmail.setErrorMessage(R.string.reg_InvalidOrMissingEmail_ErrorMsg);
             return FieldsValidator.isValidEmail(emailOrMobile);
         }
         return false;
@@ -397,10 +397,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
             enableAll();
-        } else {
-            RLog.e(TAG, "You are in Offline or Network not available");
-            updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
@@ -427,20 +423,23 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.e(TAG, "handleLogInFailed Error Code :" + userRegistrationFailureInfo.getErrorCode());
         if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UNKNOWN_ERROR || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.BAD_RESPONSE_CODE
                 || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UN_EXPECTED_ERROR || userRegistrationFailureInfo.getErrorCode() == ErrorCodes.INPUTS_INVALID_CODE) {
+            RLog.i(TAG, "handleLogInFailed : equals to ErrorCodes.UNKNOWN_ERROR :ErrorCodes.BAD_RESPONSE_CODE :ErrorCodes.UN_EXPECTED_ERRO :ErrorCodes.INPUTS_INVALID_CODER");
 //            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, userRegistrationFailureInfo.getErrorCode()));
             updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
         } else {
             if (userRegistrationFailureInfo.getErrorCode() != ErrorCodes.UNKNOWN_ERROR) {
-                scrollViewAutomatically(mRegError, mSvRootLayout);
+//                scrollViewAutomatically(mRegError, mSvRootLayout);
 //                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()));
+                RLog.i(TAG, "handleLogInFailed : not equal ErrorCodes.UNKNOWN_ERROR =");
                 updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
-                scrollViewAutomatically(mRegError, mSvRootLayout);
+//                scrollViewAutomatically(mRegError, mSvRootLayout);
             } else {
                 scrollViewAutomatically(mRegError, mSvRootLayout);
                 if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
                     mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
                     trackInvalidCredentials();
                 } else {
+                    RLog.i(TAG, "handleLogInFailed : Error =" + userRegistrationFailureInfo.getErrorCode());
                     updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
 //                    if (null != userRegistrationFailureInfo.getErrorDescription()) {
 //                        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
@@ -489,18 +488,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR);
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
-        } else {
-            if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-//                mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-                updateErrorNotification(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-                userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
-            }
         }
 
         if (null != userRegistrationFailureInfo.getErrorDescription()) {
 //            mEtEmail.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
             updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
-            mEtEmail.showError();
+//            mEtEmail.showError();
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
         }
@@ -657,7 +650,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 getRegistrationFragment().addFragment(fragment);
             } else {
                 RLog.i(TAG, "SignInAccountFragment : invalid value");
-                updateErrorNotification(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
+//                updateErrorNotification(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
 //                mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
 //                scrollViewAutomatically(mRegError, mSvRootLayout);
             }
@@ -717,10 +710,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.URX, code));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred");
         }
-
-
     }
 
     private void serviceDiscovery() {
@@ -750,10 +741,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void enableAll() {
         if (networkUtility.isNetworkAvailable()) {
             mBtnSignInAccount.setEnabled(true);
-        } else {
-            if (isAdded())
-                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         }
+//        else {
+//            if (isAdded())
+//                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
+//        }
         loginValidationEditText.setEnabled(true);
         passwordValidationEditText.setEnabled(true);
         resetPasswordLabel.setEnabled(true);

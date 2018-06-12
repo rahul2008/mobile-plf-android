@@ -70,19 +70,10 @@ public class MobileVerifyCodePresenter implements NetworkStateListener {
 
     private void smsActivationFailed(JSONObject jsonObject) throws JSONException {
         String errorCode = jsonObject.getString("code");
-        if (isResponseCodeValid(jsonObject)) {
-            mobileVerifyCodeContract.setOtpInvalidErrorMessage(ErrorCodes.URX_INVALID_VERIFICATION_CODE);
-        } else {
-//            String errorMessage = jsonObject.getString("error_description");
-            mobileVerifyCodeContract.setOtpErrorMessageFromJson(Integer.parseInt(errorCode));
-        }
-//        mobileVerifyCodeContract.showOtpInvalidError(errorCode);
+        mobileVerifyCodeContract.setOtpErrorMessageFromJson(Integer.parseInt(errorCode));
         mobileVerifyCodeContract.enableVerifyButton();
     }
 
-    private boolean isResponseCodeValid(JSONObject jsonObject) throws JSONException {
-        return jsonObject.getString("code").equals(String.valueOf(ErrorCodes.URX_INVALID_VERIFICATION_CODE));
-    }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {

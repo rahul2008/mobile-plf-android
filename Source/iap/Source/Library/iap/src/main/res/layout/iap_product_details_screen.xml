@@ -143,6 +143,7 @@
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:visibility="gone"
             app:uidIsIndeterminateProgressIndicator="true"
+            app:uidComponentType="Primary"
             app:uidProgressIndicatorButtonText="@string/iap_add_to_cart" />
 
         <com.philips.platform.uid.view.widget.ProgressBarButton

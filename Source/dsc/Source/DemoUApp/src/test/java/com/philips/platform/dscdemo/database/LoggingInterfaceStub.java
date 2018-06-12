@@ -23,4 +23,14 @@ class LoggingInterfaceStub implements LoggingInterface {
     public void log(final LogLevel level, final String eventId, final String message, final Map<String, ?> map) {
 
     }
+
+    @Override
+    public void setHSDPUserUUID(String userUUID) {
+
+    }
+
+    @Override
+    public String getCloudLoggingConsentIdentifier() {
+        return null;
+    }
 }

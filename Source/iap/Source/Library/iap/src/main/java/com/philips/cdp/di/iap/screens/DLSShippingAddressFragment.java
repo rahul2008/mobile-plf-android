@@ -393,7 +393,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
     }
 
-    public void checkFields() {
+    public boolean checkFields() {
         String firstName = mEtFirstName.getText().toString();
         String lastName = mEtLastName.getText().toString();
         String addressLineOne = mEtAddressLineOne.getText().toString();
@@ -415,15 +415,24 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
             setAddressFields(shippingAddressFields);
             IAPLog.d(IAPLog.LOG, shippingAddressFields.toString());
-            if (mParentFragment.checkBox.isChecked() && shippingAddressFields!=null) {
+            if (mParentFragment.checkBox.isChecked() && shippingAddressFields!=null ) {
                 mParentFragment.mBtnContinue.setEnabled(true);
+                Utility.isShippingAddressFilled=true;
                 mParentFragment.setShippingAddressFields(shippingAddressFields);
-            } else {
-                mParentFragment.mBtnContinue.setEnabled(false);
+            } else if(shippingAddressFields!=null && Utility.isBillingAddressFilled) {
+                mParentFragment.mBtnContinue.setEnabled(true);
+                Utility.isShippingAddressFilled=true;
+            }else{
+             //  mParentFragment.mBtnContinue.setEnabled(false);
+                Utility.isShippingAddressFilled=false;
             }
+
+            return true;
         } else {
-            mParentFragment.mBtnContinue.setEnabled(false);
+           // mParentFragment.mBtnContinue.setEnabled(false);
+            Utility.isShippingAddressFilled=false;
         }
+        return false;
     }
 
     protected AddressFields setAddressFields(AddressFields shippingAddressFields) {
@@ -474,6 +483,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
             mEtState.setText(stateCode);
             mlLState.setVisibility(View.VISIBLE);
         } else {
+            mEtState.setVisibility(View.GONE);
             mlLState.setVisibility(View.GONE);
         }
     }
