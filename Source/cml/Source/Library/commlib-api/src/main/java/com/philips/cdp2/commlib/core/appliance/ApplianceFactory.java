@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-import java.util.Set;
-
 /**
  * Factory for <code>Appliances</code>. This interface is implemented by an app developer to create
  * <code>Appliances</code> for specific hardware.
@@ -35,14 +33,4 @@ public interface ApplianceFactory {
      * @return Created <code>Appliance</code>
      */
     Appliance createApplianceForNode(@NonNull NetworkNode networkNode);
-
-    /**
-     * Indicate the device types supported by this <code>ApplianceFactory</code>.
-     * <p>
-     * This can be used to filter during discovery but will not guarantee that only
-     * {@link NetworkNode}s for these device types are discovered.
-     *
-     * @return Set of supported device types.
-     */
-    Set<String> getSupportedDeviceTypes();
 }

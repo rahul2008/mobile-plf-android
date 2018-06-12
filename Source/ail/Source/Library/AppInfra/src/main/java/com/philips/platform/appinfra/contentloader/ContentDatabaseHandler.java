@@ -69,7 +69,7 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
                 + " PRIMARY KEY (" + KEY_ID + " , " + KEY_SERVICE_ID + ") )";
 
         sqLiteDatabase.execSQL(CREATE_CONTENT_TABLE);
-//        Log.d(AppInfraLogEventID.AI_CONTENT_LOADER,"first run"+" " + CONTENT_TABLE + "DB CREATED");
+//        Log.v(AppInfraLogEventID.AI_CONTENT_LOADER,"first run"+" " + CONTENT_TABLE + "DB CREATED");
 
         final String CREATE_CONTENT_LOADER_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_LOADER_STATES + "("
                 + KEY_SERVICE_ID + " TEXT PRIMARY KEY,"
@@ -77,7 +77,7 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
                 + KEY_LAST_UPDATED_TIME + " DATETIME "
                 + ")";
         sqLiteDatabase.execSQL(CREATE_CONTENT_LOADER_TABLE);
-//        Log.d(AppInfraLogEventID.AI_CONTENT_LOADER,"first run"+"" + CONTENT_LOADER_STATES + "DB CREATED");
+//        Log.v(AppInfraLogEventID.AI_CONTENT_LOADER,"first run"+"" + CONTENT_LOADER_STATES + "DB CREATED");
     }
 
     @Override
@@ -335,7 +335,7 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
             final SQLiteDatabase db = this.getWritableDatabase();
             db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ?", new String[]{serviceID});
             db.delete(CONTENT_LOADER_STATES, KEY_SERVICE_ID + " = ?", new String[]{serviceID});
-//            Log.d(AppInfraLogEventID.AI_CONTENT_LOADER,"DEL Success " + CONTENT_LOADER_STATES + " & " + CONTENT_TABLE);
+//            Log.v(AppInfraLogEventID.AI_CONTENT_LOADER,"DEL Success " + CONTENT_LOADER_STATES + " & " + CONTENT_TABLE);
 
         } catch (Exception e) {
             result = false;

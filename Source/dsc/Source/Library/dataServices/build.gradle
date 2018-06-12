@@ -91,6 +91,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
+        multiDexEnabled true
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 1
@@ -168,7 +169,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if (dp) {
-        implementation project(':mya-catk')
+        implementation project(':catk')
         implementation project(':pif')
         implementation project(':AppInfra')
     } else {

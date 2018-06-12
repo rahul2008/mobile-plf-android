@@ -17,7 +17,6 @@ import org.json.JSONObject;
 public class AppInfraTest extends AppInfraInstrumentation {
 
 
-
     AppInfra mAppInfra;
 	Context context;
 	ABTestClientManager abTestClientManager;
@@ -62,19 +61,19 @@ public class AppInfraTest extends AppInfraInstrumentation {
 	    Object abTestConfig = ABTestClientManager.getAbtestConfig(configInterface, mAppInfra);
 
 	    if(abTestConfig == null) {
-		    assertTrue(mAppInfra.getAbTesting() == null);
-	    }
+			assertTrue(mAppInfra.getAbTesting() == null);
+		}
 
 	    String languagePackConfig = LanguagePackManager.getLanguagePackConfig(configInterface,mAppInfra);
 	    if(languagePackConfig == null) {
-		    assertTrue(mAppInfra.getLanguagePack() == null);
-	    }
+			assertTrue(mAppInfra.getLanguagePack() == null);
+		}
 
 	    Object appUpdateConfig = AppUpdateManager.getAutoRefreshValue(configInterface,mAppInfra);
 	    if(appUpdateConfig == null) {
-		    assertTrue(mAppInfra.getAppUpdate() == null);
-	    }
-    }
+			assertTrue(mAppInfra.getAppUpdate() == null);
+		}
+	}
 
     public void testInitializationWithValues() {
 

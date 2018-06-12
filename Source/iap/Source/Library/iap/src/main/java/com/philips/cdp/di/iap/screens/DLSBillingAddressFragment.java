@@ -413,7 +413,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
     }
 
-    public void checkBillingAddressFields() {
+    public boolean checkBillingAddressFields() {
         String firstName = mEtFirstNameBilling.getText().toString();
         String lastName = mEtLastNameBilling.getText().toString();
         String addressLineOne = mEtAddressLineOneBilling.getText().toString();
@@ -437,13 +437,24 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             IAPLog.d(IAPLog.LOG, billingAddressFields.toString());
             if (billingAddressFields != null) {
                 dlsAddressFragment.setBillingAddressFields(billingAddressFields);
-                dlsAddressFragment.mBtnContinue.setEnabled(true);
+                Utility.isBillingAddressFilled=true;
+                if(Utility.isShippingAddressFilled) {
+                    dlsAddressFragment.mBtnContinue.setEnabled(true);
+                }
+                else
+                {
+                    dlsAddressFragment.mBtnContinue.setEnabled(false);
+                }
+                return true;
             }else {
-                dlsAddressFragment.mBtnContinue.setEnabled(false);
+                Utility.isBillingAddressFilled=false;
+               dlsAddressFragment.mBtnContinue.setEnabled(false);
             }
         } else {
+            Utility.isBillingAddressFilled=false;
             dlsAddressFragment.mBtnContinue.setEnabled(false);
         }
+        return false;
     }
 
     protected AddressFields setBillingAddressFields(AddressFields billingAddressFields) {
@@ -496,7 +507,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
     void enableAllFields(){
         setFieldsEnabled(true);
-        disableFocus();
+        enableFocus();
     }
 
     private void enableFocus() {

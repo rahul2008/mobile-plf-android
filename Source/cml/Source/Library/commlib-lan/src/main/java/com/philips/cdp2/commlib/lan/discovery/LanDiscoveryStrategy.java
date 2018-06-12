@@ -46,9 +46,6 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private final WifiNetworkProvider wifiNetworkProvider;
 
     @NonNull
-    private Set<String> deviceTypes;
-
-    @NonNull
     private Set<String> modelIds;
 
     private boolean isConnected;
@@ -111,8 +108,6 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         this.deviceCache = requireNonNull(deviceCache);
         this.wifiNetworkProvider = requireNonNull(wifiNetworkProvider);
         this.ssdpControlPoint = createSsdpControlPoint();
-
-        this.deviceTypes = Collections.emptySet();
         this.modelIds = Collections.emptySet();
 
         requireNonNull(connectivityMonitor);
@@ -133,13 +128,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @Override
-    public void start(@NonNull Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException {
-        start(deviceTypes, Collections.<String>emptySet());
-    }
-
-    @Override
-    public void start(@NonNull Set<String> deviceTypes, @NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
-        this.deviceTypes = deviceTypes;
+    public void start(@NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
         this.modelIds = modelIds;
 
         isStartRequested = true;
@@ -164,11 +153,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
             return;
         }
 
-        if (!deviceTypes.isEmpty() && !deviceTypes.contains(networkNode.getDeviceType())) {
-            return;
-        }
-
-        if (!modelIds.isEmpty() && !modelIds.contains(networkNode.getModelId())) {
+        if (!nodePassesFilter(networkNode)) {
             return;
         }
 
@@ -182,6 +167,10 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         }
 
         notifyNetworkNodeDiscovered(networkNode);
+    }
+
+    private boolean nodePassesFilter(final NetworkNode networkNode) {
+        return modelIds.isEmpty() || modelIds.contains(networkNode.getModelId()) || modelIds.contains(networkNode.getDeviceType());
     }
 
     @VisibleForTesting

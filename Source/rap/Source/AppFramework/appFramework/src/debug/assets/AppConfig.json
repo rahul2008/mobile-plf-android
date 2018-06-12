@@ -62,9 +62,11 @@
       "fileName": "AppInfraLog",
       "numberOfFiles": 5,
       "fileSizeInBytes": 50000,
-      "logLevel": "All",
+      "logLevel": "Info",
       "fileLogEnabled": false,
       "consoleLogEnabled": true,
+      "cloudLogEnabled":true,
+      "cloudBatchLimit":5,
       "componentLevelLogEnabled": true,
       "componentIds": [
         "usr",
@@ -84,10 +86,12 @@
       "fileName": "AppInfraLog",
       "numberOfFiles": 5,
       "fileSizeInBytes": 50000,
-      "logLevel": "All",
+      "logLevel": "Error",
       "fileLogEnabled": false,
+      "cloudLogEnabled":true,
+      "cloudBatchLimit":5,
       "consoleLogEnabled": true,
-      "componentLevelLogEnabled": true,
+      "componentLevelLogEnabled": false,
       "componentIds": [
         "usr",
         "ail:",
@@ -114,7 +118,10 @@
   },
   "hsdp": {
     "appName": "OneBackend",
-    "propositionName": "OneBackendProp"
+    "propositionName": "OneBackendProp",
+    "appInfra.cloudLoggingSecretKey": "96a5cd559d9299e4632faae2320777347d0e35acd77e3c1e9edcf244a30443ad3fcefdbb62806f15bb758c5903a0d7be635e0240cc671261f14cb37cc2ef1153",
+    "appInfra.cloudLoggingSharedKey": "YMV5QLdKOW9vlQ1fgG0txw8Tdglfe2ePIFwkub68eN8=",
+    "appInfra.cloudLoggingProductKey":"a074cf36-ab05-4ad7-9fb8-cb315087c727"
   },
   "css":{
     "ConsentCacheTTLInMinutes" : 3
