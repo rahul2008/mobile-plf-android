@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.philips.platform.csw.R;
 import com.philips.platform.csw.permission.ConsentView;
 import com.philips.platform.csw.permission.HelpClickListener;
@@ -25,10 +24,9 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentVersionStates;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 
 public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHolder> {
@@ -67,11 +65,11 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     public BasePermissionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.csw_permission_list_row, parent, false);
-            return new PermissionViewHolder(view, parent.getWidth(), helpClickListener, presenter);
+            return new PermissionViewHolder(view, helpClickListener, presenter);
 
         } else if (viewType == TYPE_HEADER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.csw_permission_list_header, parent, false);
-            return new PermissionHeaderViewHolder(view, parent.getWidth());
+            return new PermissionHeaderViewHolder(view);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
