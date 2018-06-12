@@ -17,6 +17,7 @@ import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.statemachine.SHNDeviceState;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.utility.SHNTagger;
 
 import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
 
@@ -85,9 +86,10 @@ public class SHNDisconnectingState extends SHNDeviceState {
     @Override
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
         if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
-            // TODO send TAG when this occurs (phone/os issue?)
-            SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
-            handleGattDisconnectEvent();
+            final String errorMsg = "Not ready for connection to the peripheral.";
+
+            SHNLogger.e(TAG, errorMsg);
+            SHNTagger.sendTechnicalError(errorMsg);
         }
     }
 

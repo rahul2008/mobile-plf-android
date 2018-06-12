@@ -16,6 +16,9 @@ import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.statemachine.SHNDeviceState;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.utility.SHNTagger;
+
+import java.util.Locale;
 
 import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
 
@@ -32,8 +35,10 @@ public abstract class SHNConnectingState extends SHNDeviceState {
             connectingTimer = Timer.createTimer(new Runnable() {
                 @Override
                 public void run() {
-                    SHNLogger.e(TAG, "connect timeout in SHNConnectingState");
-                    // TODO TAG connect timeout
+                    final String errorMsg = "connect timeout in SHNConnectingState";
+
+                    SHNLogger.e(TAG, errorMsg);
+                    SHNTagger.sendTechnicalError(errorMsg);
 
                     stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorTimeout);
                     stateMachine.setState(new SHNDisconnectingState(stateMachine));
@@ -68,7 +73,11 @@ public abstract class SHNConnectingState extends SHNDeviceState {
     @Override
     public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
         if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-            // TODO TAG stack disconnect error
+            final String errorMsg = String.format(Locale.US, "Connection state changed to disconnected, status [%d], newState [%d]", status, newState);
+
+            SHNLogger.e(TAG, errorMsg);
+            SHNTagger.sendTechnicalError(errorMsg);
+
             handleDisconnectEvent();
         }
     }
@@ -76,8 +85,11 @@ public abstract class SHNConnectingState extends SHNDeviceState {
     @Override
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
         if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
-            SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
-            // TODO TAG stack disconnect error
+            final String errorMsg = "Not ready for connection to the peripheral.";
+
+            SHNLogger.e(TAG, errorMsg);
+            SHNTagger.sendTechnicalError(errorMsg);
+
             handleDisconnectEvent();
         }
     }

@@ -16,12 +16,13 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.utility.SHNTagger;
 import com.philips.pins.shinelib.workarounds.Workaround;
 
 import java.security.InvalidParameterException;
+import java.util.Locale;
 
 import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
-import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 
 public class SHNGattConnectingState extends SHNConnectingState {
 
@@ -73,16 +74,26 @@ public class SHNGattConnectingState extends SHNConnectingState {
             return;
         }
 
-        if (SHNCentralStateReady.equals(sharedResources.getShnCentral().getShnCentralState())) {
-            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
-        } else {
-            sharedResources.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
-            stateMachine.setState(new SHNDisconnectingState(stateMachine));
+        switch (sharedResources.getShnCentral().getShnCentralState()) {
+            case SHNCentralStateReady:
+                sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
+                break;
+            case SHNCentralStateNotReady:
+            case SHNCentralStateError:
+                final String errorMsg = "Not ready for connection to the peripheral, assuming Bluetooth is disabled.";
+
+                SHNLogger.e(TAG, errorMsg);
+                SHNTagger.sendTechnicalError(errorMsg);
+
+                sharedResources.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
+                stateMachine.setState(new SHNDisconnectingState(stateMachine));
+                break;
         }
     }
 
     private void handleGattConnectEvent(int status) {
         SHNLogger.d(TAG, "Handle connect event in SHNGattConnectingState");
+
         if (status == BluetoothGatt.GATT_SUCCESS) {
             if (shouldWaitUntilBonded()) {
                 stateMachine.setState(new SHNWaitingUntilBondedState(stateMachine));
@@ -90,7 +101,11 @@ public class SHNGattConnectingState extends SHNConnectingState {
                 stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
             }
         } else {
-            // TODO send TAG with BluetoothGatt status
+            final String errorMsg = String.format(Locale.US, "Bluetooth GATT connect failure, status [%d]", status);
+
+            SHNLogger.e(TAG, errorMsg);
+            SHNTagger.sendTechnicalError(errorMsg);
+
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
@@ -107,8 +122,12 @@ public class SHNGattConnectingState extends SHNConnectingState {
             SHNLogger.d(TAG, "Retrying to connect GATT in SHNGattConnectingState");
             sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
+            final String errorMsg = "Bluetooth GATT disconnected, not retrying to connect.";
+
+            SHNLogger.e(TAG, errorMsg);
+            SHNTagger.sendTechnicalError(errorMsg);
+
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
-            // TODO send TAG disconnected, not retrying
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }

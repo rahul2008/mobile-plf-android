@@ -13,6 +13,9 @@ import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.utility.SHNTagger;
+
+import java.util.Locale;
 
 public class SHNInitializingServicesState extends SHNConnectingState {
 
@@ -32,17 +35,19 @@ public class SHNInitializingServicesState extends SHNConnectingState {
 
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
+        SHNLogger.d(TAG, "onServiceStateChanged: " + state + " [" + shnService.getUuid() + "]");
 
         if (areAllRegisteredServicesReady()) {
             stateMachine.setState(new SHNReadyState(stateMachine));
         }
 
         if (state == SHNService.State.Error) {
-            stateMachine.setState(new SHNDisconnectingState(stateMachine));
+            final String errorMsg = String.format(Locale.US, "Service [%s] state changed to error, state [%s]", shnService.getUuid(), state);
 
-            // TODO send tag with which service in error?
-            stateMachine.getSharedResources().getShnCentral().getTagger().sendTechnicalError("Error initializing services");
+            SHNLogger.e(TAG, errorMsg);
+            SHNTagger.sendTechnicalError(errorMsg);
+
+            stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
 

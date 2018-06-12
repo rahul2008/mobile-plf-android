@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.core.configuration;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -34,7 +35,7 @@ public class RuntimeConfiguration {
     @VisibleForTesting
     static final String CONFIG_KEY_CONSOLE_LOG_ENABLED = "consoleLogEnabled";
 
-    @NonNull
+    @Nullable
     private AppInfraInterface appInfraInterface;
 
     @NonNull
@@ -46,7 +47,7 @@ public class RuntimeConfiguration {
      * @param context  The Context object that will be used in {@link CommCentral}.
      * @param appInfra Instance of {@link AppInfraInterface} to read additional configuration from.
      */
-    public RuntimeConfiguration(final @NonNull Context context, final @NonNull AppInfraInterface appInfra) {
+    public RuntimeConfiguration(final @NonNull Context context, final @Nullable AppInfraInterface appInfra) {
         this.context = context;
         this.appInfraInterface = appInfra;
     }
@@ -59,6 +60,10 @@ public class RuntimeConfiguration {
      * @return <code>true</code> if logging is allowed, <code>false</code> if logging must be disabled.
      */
     public boolean isLogEnabled() {
+        if (appInfraInterface == null) {
+            return true;
+        }
+
         boolean isLogEnabled = true;
         boolean isAppInfraStateProduction = appInfraInterface.getAppIdentity().getAppState() == PRODUCTION;
         boolean isAppInfraUsingConsoleLog = true;
@@ -92,7 +97,7 @@ public class RuntimeConfiguration {
      *
      * @return AppInfraInterface
      */
-    @NonNull
+    @Nullable
     public AppInfraInterface getAppInfraInterface() {
         return appInfraInterface;
     }

@@ -126,8 +126,6 @@ public class SHNDeviceImplTest {
 
         Timer.setHandler(mockedInternalHandler.getMock());
 
-        when(mockedSHNCentral.getTagger()).thenReturn(mockedTagger);
-
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
         doReturn(SHNCentral.State.SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();

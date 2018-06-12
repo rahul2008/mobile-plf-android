@@ -28,6 +28,7 @@ import com.philips.cdp2.bluelib.demouapp.fragment.connect.ConnectDevicesFragment
 import com.philips.cdp2.bluelib.demouapp.util.UiUtils;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.utility.SHNTagger;
 
 public class MainFragment extends Fragment {
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 1;
@@ -106,7 +107,7 @@ public class MainFragment extends Fragment {
             SHNLogger.d("BLL_DEMO_UAPP", "Location permission missing");
 
             final SHNCentral shnCentral = BluelibUapp.get().getDependencies().getShnCentral();
-            shnCentral.getTagger().sendTechnicalError("Location permission missing for packageName: " + shnCentral.getApplicationContext().getPackageName());
+            SHNTagger.sendTechnicalError("Location permission missing for packageName: " + shnCentral.getApplicationContext().getPackageName());
 
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION_REQUEST_CODE);
         }

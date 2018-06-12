@@ -6,7 +6,7 @@
 package com.philips.pins.shinelib.utility;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import android.support.annotation.Nullable;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -17,8 +17,8 @@ import java.util.Map;
 import static com.philips.pins.shinelib.BuildConfig.LIBRARY_VERSION;
 import static com.philips.pins.shinelib.BuildConfig.TLA;
 import static com.philips.pins.shinelib.BuildConfig.VERSION_NAME;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SEND_DATA;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.TECHNICAL_ERROR;
+import static com.philips.pins.shinelib.utility.SHNTagger.Key.SEND_DATA;
+import static com.philips.pins.shinelib.utility.SHNTagger.Key.TECHNICAL_ERROR;
 import static com.philips.platform.appinfra.tagging.AppTaggingConstants.COMPONENT_VERSION;
 
 /**
@@ -30,24 +30,19 @@ import static com.philips.platform.appinfra.tagging.AppTaggingConstants.COMPONEN
  */
 public class SHNTagger {
 
+    interface Key {
+        String SEND_DATA = "sendData";
+        String TECHNICAL_ERROR = "TechnicalError";
+    }
+
     static final String DELIMITER = ":";
     static final String TAGGING_VERSION_STRING = TLA + DELIMITER + LIBRARY_VERSION;
 
-    @NonNull
-    private final AppTaggingInterface taggingInstance;
+    @Nullable
+    static AppTaggingInterface taggingInstance;
 
-    /**
-     * Instantiates a new SHNTagger.
-     *
-     * @param appInfraInterface the appInfraInterface instance to create a tagging instance from
-     */
-    public SHNTagger(final @NonNull AppInfraInterface appInfraInterface) {
-        this.taggingInstance = createTaggingInstance(appInfraInterface);
-    }
-
-    @VisibleForTesting
-    AppTaggingInterface createTaggingInstance(AppInfraInterface appInfraInterface) {
-        return appInfraInterface.getTagging().createInstanceForComponent(TLA, VERSION_NAME);
+    private SHNTagger() {
+        // Prevent instances to be created.
     }
 
     /**
@@ -57,11 +52,24 @@ public class SHNTagger {
      *
      * @param technicalError the technical error message
      */
-    public void sendTechnicalError(final @NonNull String technicalError) {
+    public static void sendTechnicalError(final @NonNull String technicalError) {
+        if (taggingInstance == null) {
+            return;
+        }
+
         final Map<String, String> data = new HashMap<>();
         data.put(COMPONENT_VERSION, TAGGING_VERSION_STRING);
         data.put(TECHNICAL_ERROR, TLA + DELIMITER + technicalError);
 
         taggingInstance.trackActionWithInfo(SEND_DATA, data);
+    }
+
+    /**
+     * Initializes SHNTagger with an instance of {@link AppInfraInterface}.
+     *
+     * @param appInfraInterface the {@link AppInfraInterface} instance to create a tagging instance from
+     */
+    public static void initialize(final @NonNull AppInfraInterface appInfraInterface) {
+        taggingInstance = appInfraInterface.getTagging().createInstanceForComponent(TLA, VERSION_NAME);
     }
 }

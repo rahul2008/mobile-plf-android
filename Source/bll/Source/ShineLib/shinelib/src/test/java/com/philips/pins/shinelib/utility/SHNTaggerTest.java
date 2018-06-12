@@ -5,7 +5,6 @@
 
 package com.philips.pins.shinelib.utility;
 
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.Before;
@@ -25,6 +24,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingConstants.COMPONEN
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -33,26 +33,16 @@ public class SHNTaggerTest {
     private static final String COMPONENT_ID_BLL = "bll";
 
     @Mock
-    private AppInfraInterface appInfraInterfaceMock;
-
-    @Mock
     private AppTaggingInterface appTaggingInterfaceMock;
 
     @Captor
     private ArgumentCaptor<Map<String, String>> dataObjectCaptor;
 
-    private SHNTagger tagger;
-
     @Before
     public void setUp() {
         initMocks(this);
 
-        tagger = new SHNTagger(appInfraInterfaceMock) {
-            @Override
-            AppTaggingInterface createTaggingInstance(AppInfraInterface appInfraInterface) {
-                return appTaggingInterfaceMock;
-            }
-        };
+        SHNTagger.taggingInstance = appTaggingInterfaceMock;
     }
 
     @Test
@@ -68,7 +58,7 @@ public class SHNTaggerTest {
     @Test
     public void givenATagger_whenSendingTechnicalError_thenDataObjectContainsComponentVersion() {
         final String technicalError = "testError";
-        tagger.sendTechnicalError(technicalError);
+        SHNTagger.sendTechnicalError(technicalError);
 
         verify(appTaggingInterfaceMock).trackActionWithInfo(eq(SEND_DATA), dataObjectCaptor.capture());
         assertThat(dataObjectCaptor.getValue().get(COMPONENT_VERSION)).isEqualTo(TAGGING_VERSION_STRING);
@@ -77,7 +67,7 @@ public class SHNTaggerTest {
     @Test
     public void givenATagger_whenSendingData_thenTrackActionWithInfoIsInvokedOnAppTaggingInterface() {
         final String technicalError = "testError";
-        tagger.sendTechnicalError(technicalError);
+        SHNTagger.sendTechnicalError(technicalError);
 
         verify(appTaggingInterfaceMock).trackActionWithInfo(eq(SEND_DATA), ArgumentMatchers.<String, String>anyMap());
     }
@@ -85,9 +75,18 @@ public class SHNTaggerTest {
     @Test
     public void givenATagger_whenSendingTechnicalError_thenTrackActionWithInfoIsInvokedWithPredefinedErrorKeyAndSuppliedValue() {
         final String technicalError = "testError";
-        tagger.sendTechnicalError(technicalError);
+        SHNTagger.sendTechnicalError(technicalError);
 
         verify(appTaggingInterfaceMock).trackActionWithInfo(anyString(), dataObjectCaptor.capture());
         assertThat(dataObjectCaptor.getValue().get(TECHNICAL_ERROR)).isEqualTo(COMPONENT_ID_BLL + DELIMITER + technicalError);
+    }
+
+    @Test
+    public void givenATagger_whenTaggerIsNotInitialized_thenTrackActionIsNotInvokedOnTaggingInstance() {
+        SHNTagger.taggingInstance = null;
+
+        SHNTagger.sendTechnicalError("dontcare");
+
+        verify(appTaggingInterfaceMock, never()).trackActionWithInfo(anyString(), ArgumentMatchers.<String, String>anyMap());
     }
 }

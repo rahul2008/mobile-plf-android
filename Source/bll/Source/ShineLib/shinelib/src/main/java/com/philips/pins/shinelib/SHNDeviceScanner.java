@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.utility.SHNTagger;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -133,8 +134,10 @@ public class SHNDeviceScanner {
         try {
             isScanningStarted = futureTask.get(START_SCANNING_TIMEOUT_MS, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            SHNLogger.e(TAG, "Error while starting scanning", e);
-            // TODO TAG including reason (check originating exception)
+            final String errorMsg = "Error while starting scanning: " + e.getMessage();
+
+            SHNLogger.e(TAG, errorMsg, e);
+            SHNTagger.sendTechnicalError(errorMsg);
         }
         return isScanningStarted;
     }

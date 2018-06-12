@@ -59,9 +59,6 @@ import java.util.concurrent.FutureTask;
  */
 public class SHNCentral {
 
-    @NonNull
-    private final SHNTagger tagger;
-
     /**
      * State that the {@link SHNCentral} currently is in.
      */
@@ -69,10 +66,14 @@ public class SHNCentral {
         /**
          * {@code SHNCentral} is in an error state
          */
-        SHNCentralStateError, /**
+        SHNCentralStateError,
+
+        /**
          * {@code SHNCentral} is not yet ready to communicate with peripherals (for instance when bluetooth is disabled)
          */
-        SHNCentralStateNotReady, /**
+        SHNCentralStateNotReady,
+
+        /**
          * {@code SHNCentral} is ready to communicate with peripherals
          */
         SHNCentralStateReady;
@@ -175,14 +176,15 @@ public class SHNCentral {
     };
 
     @SuppressLint("UseSparseArrays")
-    SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider, @NonNull AppInfraInterface appInfraInterface) throws SHNBluetoothHardwareUnavailableException {
+    SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider, @Nullable AppInfraInterface appInfraInterface) throws SHNBluetoothHardwareUnavailableException {
         shnCentralListeners = new CopyOnWriteArraySet<>();
         shnCentralInternalListeners = new HashMap<>();
         shnBondStatusListeners = new HashMap<>();
 
         applicationContext = context.getApplicationContext();
-        tagger = new SHNTagger(appInfraInterface);
-
+        if (appInfraInterface != null) {
+            SHNTagger.initialize(appInfraInterface);
+        }
         bleUtilities = new BleUtilities(applicationContext);
 
         if (!bleUtilities.isBleFeatureAvailable()) {
@@ -646,16 +648,6 @@ public class SHNCentral {
     void removeDeviceFromDeviceCache(SHNDevice shnDeviceToRemove) {
         String key = shnDeviceToRemove.getAddress() + shnDeviceToRemove.getDeviceTypeName();
         createdDevices.remove(key);
-    }
-
-    /**
-     * Gets the tagger instance as supplied via the {@link AppInfraInterface}.
-     *
-     * @return the tagger instance
-     */
-    @NonNull
-    public SHNTagger getTagger() {
-        return tagger;
     }
 
     /**

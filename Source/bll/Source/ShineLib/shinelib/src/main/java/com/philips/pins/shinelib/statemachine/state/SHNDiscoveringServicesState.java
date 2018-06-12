@@ -11,6 +11,9 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.utility.SHNTagger;
+
+import java.util.Locale;
 
 public class SHNDiscoveringServicesState extends SHNConnectingState {
 
@@ -35,17 +38,24 @@ public class SHNDiscoveringServicesState extends SHNConnectingState {
     public void onServicesDiscovered(BTGatt gatt, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             if (gatt.getServices().size() == 0) {
-                SHNLogger.i(TAG, "No services found, rediscover the services");
+                final String errorMsg = "No services found.";
+
+                SHNLogger.w(TAG, errorMsg);
+                SHNTagger.sendTechnicalError(errorMsg);
+
                 gatt.disconnect();
-                // TODO send tag no services found
+
                 stateMachine.setState(new SHNGattConnectingState(stateMachine));
                 return;
             }
 
             stateMachine.setState(new SHNInitializingServicesState(stateMachine));
         } else {
-            SHNLogger.e(TAG, "onServicedDiscovered: error discovering services (status = '" + status + "'); disconnecting");
-            // TODO send tag that GATT connection failed, include status
+            final String errorMsg = String.format(Locale.US, "onServicedDiscovered: error discovering services, status [%d]; disconnecting.", status);
+
+            SHNLogger.e(TAG, errorMsg);
+            SHNTagger.sendTechnicalError(errorMsg);
+
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
