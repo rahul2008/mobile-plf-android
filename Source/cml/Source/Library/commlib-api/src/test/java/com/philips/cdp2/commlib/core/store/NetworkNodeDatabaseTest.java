@@ -46,7 +46,6 @@ public class NetworkNodeDatabaseTest {
     private final String CPP_ID = "cppId";
     private final String DEVICE_NAME = "deviceName";
     private final String IP_ADDRESS = "198.162.1.0";
-    private final String MAC_ADDRESS = "00:11:22:33:44:55";
 
     private final NetworkNode networkNode = new NetworkNode();
 
