@@ -43,8 +43,7 @@ class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper<Ne
         final String[] upgradeQuery = NetworkNodeDatabaseSchema.getUpgradeQuery(oldVersion, newVersion);
 
         for (String query : upgradeQuery) {
-            // todo: raw vs exec
-            database.rawExecSQL(query);
+            database.execSQL(query);
         }
     }
 
