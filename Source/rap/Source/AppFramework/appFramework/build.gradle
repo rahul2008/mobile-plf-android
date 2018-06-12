@@ -248,6 +248,7 @@ dependencies {
     implementation deps.volley
     implementation deps.javax_inject
     implementation deps.javax_annotation
+    implementation deps.play_services_gcm
 
     debugImplementation deps.leakcanary_no_op
     leakCanaryImplementation deps.leakcanary
