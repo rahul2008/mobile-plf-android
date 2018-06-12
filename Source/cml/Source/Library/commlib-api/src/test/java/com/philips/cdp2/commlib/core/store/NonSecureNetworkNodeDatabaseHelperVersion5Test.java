@@ -80,6 +80,46 @@ public class NonSecureNetworkNodeDatabaseHelperVersion5Test extends NonSecureNet
     }
 
     @Test
+    public void givenVersionIs1_whenUpgradingToVersion5_thenDatabaseStructureShouldBeCorrect() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_1, VERSION_1_CREATE_QUERY);
+
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION_1, VERSION_5);
+
+        Set<String> columnNames = getColumns(database);
+        assertEquals(DB_SCHEMA, columnNames);
+    }
+
+    @Test
+    public void givenVersionIs2_whenUpgradingToVersion5_thenDatabaseStructureShouldBeCorrect() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_2, VERSION_2_CREATE_QUERY);
+
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION_2, VERSION_5);
+
+        Set<String> columnNames = getColumns(database);
+        assertEquals(DB_SCHEMA, columnNames);
+    }
+
+    @Test
+    public void givenVersionIs3_whenUpgradingToVersion5_thenDatabaseStructureShouldBeCorrect() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_3, VERSION_3_CREATE_QUERY);
+
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION_3, VERSION_5);
+
+        Set<String> columnNames = getColumns(database);
+        assertEquals(DB_SCHEMA, columnNames);
+    }
+
+    @Test
+    public void givenVersionIs4_whenUpgradingToVersion5_thenDatabaseStructureShouldBeCorrect() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_4, VERSION_4_CREATE_QUERY);
+
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION_4, VERSION_5);
+
+        Set<String> columnNames = getColumns(database);
+        assertEquals(DB_SCHEMA, columnNames);
+    }
+    
+    @Test
     public void givenVersionIs1_whenUpgradingToVersion5_ThenDataShouldBeCorrect_cppId() {
         final SQLiteDatabase database = prepareSqliteDatabase(VERSION_1, VERSION_1_CREATE_QUERY);
         ContentValues data = createContentValues(VERSION_1);

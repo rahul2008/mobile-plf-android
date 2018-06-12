@@ -74,6 +74,26 @@ public class NonSecureNetworkNodeDatabaseHelperVersion3Test extends NonSecureNet
     }
 
     @Test
+    public void givenVersionIs1_whenUpgradingToVersion3_thenDatabaseStructureShouldBeCorrect() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_1, VERSION_1_CREATE_QUERY);
+
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION_1, VERSION_3);
+
+        Set<String> columnNames = getColumns(database);
+        assertEquals(DB_SCHEMA, columnNames);
+    }
+
+    @Test
+    public void givenVersionIs2_whenUpgradingToVersion3_thenDatabaseStructureShouldBeCorrect() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_2, VERSION_2_CREATE_QUERY);
+
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION_2, VERSION_3);
+
+        Set<String> columnNames = getColumns(database);
+        assertEquals(DB_SCHEMA, columnNames);
+    }
+
+    @Test
     public void givenVersionIs1_whenUpgradingToVersion3_ThenDataShouldBeCorrect_cppId() {
         final SQLiteDatabase database = prepareSqliteDatabase(VERSION_1, VERSION_1_CREATE_QUERY);
         ContentValues data = createContentValues(VERSION_1);
@@ -245,6 +265,19 @@ public class NonSecureNetworkNodeDatabaseHelperVersion3Test extends NonSecureNet
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, VERSION_2, VERSION_3);
+
+        Cursor cursor = getReadableDatabaseCursor();
+        String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
+        assertEquals(MODEL_ID, modelId);
+
+        closeCursor(cursor);
+    }
+
+    @Test
+    public void givenVersionIs3_whenStoringModelId_ThenDataHasCorrectModelId() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_3, VERSION_3_CREATE_QUERY);
+        ContentValues data = createContentValues(VERSION_3);
+        database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         Cursor cursor = getReadableDatabaseCursor();
         String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));

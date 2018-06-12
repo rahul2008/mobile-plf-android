@@ -79,6 +79,36 @@ public class NonSecureNetworkNodeDatabaseHelperVersion4Test extends NonSecureNet
     }
 
     @Test
+    public void givenVersionIs1_whenUpgradingToVersion4_thenDatabaseStructureShouldBeCorrect() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_1, VERSION_1_CREATE_QUERY);
+
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION_1, VERSION_4);
+
+        Set<String> columnNames = getColumns(database);
+        assertEquals(DB_SCHEMA, columnNames);
+    }
+
+    @Test
+    public void givenVersionIs2_whenUpgradingToVersion4_thenDatabaseStructureShouldBeCorrect() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_2, VERSION_2_CREATE_QUERY);
+
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION_2, VERSION_4);
+
+        Set<String> columnNames = getColumns(database);
+        assertEquals(DB_SCHEMA, columnNames);
+    }
+
+    @Test
+    public void givenVersionIs3_whenUpgradingToVersion4_thenDatabaseStructureShouldBeCorrect() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_3, VERSION_3_CREATE_QUERY);
+
+        networkNodeDatabaseHelper.onUpgrade(database, VERSION_3, VERSION_4);
+
+        Set<String> columnNames = getColumns(database);
+        assertEquals(DB_SCHEMA, columnNames);
+    }
+
+    @Test
     public void givenVersionIs1_whenUpgradingToVersion4_ThenDataShouldBeCorrect_cppId() {
         final SQLiteDatabase database = prepareSqliteDatabase(VERSION_1, VERSION_1_CREATE_QUERY);
         ContentValues data = createContentValues(VERSION_1);
@@ -299,6 +329,19 @@ public class NonSecureNetworkNodeDatabaseHelperVersion4Test extends NonSecureNet
         Cursor cursor = getReadableDatabaseCursor();
         String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
         assertNull(pin);
+
+        closeCursor(cursor);
+    }
+
+    @Test
+    public void givenVersionIs4_whenStoringPin_ThenDataHasCorrectPin() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_4, VERSION_4_CREATE_QUERY);
+        ContentValues data = createContentValues(VERSION_4);
+        database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
+
+        Cursor cursor = getReadableDatabaseCursor();
+        String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
+        assertEquals(PIN, pin);
 
         closeCursor(cursor);
     }
