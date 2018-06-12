@@ -10,7 +10,6 @@ package com.philips.platform.csw.permission;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,7 +39,7 @@ import java.util.List;
 public class PermissionFragment extends CswBaseFragment implements PermissionContract.View, HelpClickListener, View.OnClickListener {
 
     public static final String TAG = "PermissionFragment";
-    private ProgressDialogView progressDialog;
+    private ProgressDialogView progressDialogView;
     private RecyclerView recyclerView;
 
     private List<ConsentDefinition> consentDefinitionList = null;
@@ -81,6 +80,15 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     public void onResume() {
         super.onResume();
         mIsStateAlreadySaved = false;
+        if (errorDialogViewWithClickListener != null) {
+            errorDialogViewWithClickListener.hideDialog();
+        }
+        if (confirmDialogView != null) {
+            confirmDialogView.hideDialog();
+        }
+        if (progressDialogView != null) {
+            progressDialogView.hideDialog();
+        }
         presenter.fetchConsentStates(consentDefinitionList);
     }
 
@@ -89,9 +97,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     public void onPause() {
         super.onPause();
         mIsStateAlreadySaved = true;
-        if (confirmDialogView != null) {
-            confirmDialogView.hideDialog();
-        }
+
     }
 
     @Override
@@ -114,7 +120,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
         new PermissionPresenter(this, adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(recyclerView.getContext());
+        RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.addItemDecoration(separatorItemDecoration);
         recyclerView.setAdapter(adapter);
     }
@@ -130,36 +136,42 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
 
     @Override
     public void showProgressDialog() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !(activity.isFinishing())) {
-            if (progressDialog == null) {
-                progressDialog = new ProgressDialogView();
+        if (!isActivityFinishing()) {
+            if (progressDialogView == null) {
+                progressDialogView = new ProgressDialogView();
             }
-            progressDialog.showDialog(activity);
+            progressDialogView.showDialog(getActivity());
         }
     }
 
+
     @Override
     public void hideProgressDialog() {
-        if (progressDialog != null && progressDialog.isDialogShown()) {
-            progressDialog.hideDialog();
+        if (progressDialogView != null && progressDialogView.isDialogShown()) {
+            progressDialogView.hideDialog();
         }
     }
 
     @Override
     public void showErrorDialog(boolean goBack, int titleRes, ConsentError error) {
         String message = toErrorMessage(error);
-        String title = getString(titleRes);
+        String title = getContext().getString(titleRes);
         showErrorDialog(goBack, title, message);
     }
 
     @Override
     public void showErrorDialog(boolean goBack, int titleRes, int messageRes) {
         if (!mIsStateAlreadySaved) {
-            String title = getString(titleRes);
-            String message = getString(messageRes);
+            String title = getContext().getString(titleRes);
+            String message = getContext().getString(messageRes);
             showErrorDialog(goBack, title, message);
         }
+    }
+
+
+    @VisibleForTesting
+    protected boolean isActivityFinishing() {
+        return getActivity().isFinishing();
     }
 
     private void showErrorDialog(boolean goBack, String title, String message) {
