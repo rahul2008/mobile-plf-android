@@ -38,7 +38,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -97,6 +96,7 @@ public class PermissionPresenterTest {
     @Test
     public void fetchConsentStatesShowsOfflineErrorMessageWhenNotOnline() {
         givenNoConnectionConsentError();
+        givenViewIsActive();
         whenGetConsentFailed();
         thenErrorIsShown(true, R.string.csw_offline_title, R.string.csw_offline_message);
     }
@@ -132,6 +132,7 @@ public class PermissionPresenterTest {
     @Test
     public void testHideProgressDialog_onError() {
         givenConsentError();
+        givenViewIsActive();
         presenter.onGetConsentsFailed(givenError);
         verify(mockView).hideProgressDialog();
     }
@@ -147,6 +148,7 @@ public class PermissionPresenterTest {
     @Test
     public void testShouldShowErrorWhenGetConsentFails() {
         givenConsentError();
+        givenViewIsActive();
         whenGetConsentFailed();
         thenErrorIsShown(true, R.string.csw_problem_occurred_error_title, givenError);
     }
@@ -303,6 +305,10 @@ public class PermissionPresenterTest {
 
     private void givenNoConnectionConsentError() {
         givenError = new ConsentError("NO CONNECTION ERROR", ConsentError.CONSENT_ERROR_NO_CONNECTION);
+    }
+
+    private void givenViewIsActive() {
+        when(mockView.isActive()).thenReturn(true);
     }
 
     private void givenConsentDefinitions() {

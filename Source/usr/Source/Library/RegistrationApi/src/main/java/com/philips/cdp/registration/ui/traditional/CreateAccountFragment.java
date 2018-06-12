@@ -166,9 +166,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         public int isValid(boolean valid) {
             isValidEmail = valid;
             enableCreateButton();
-            if(!valid)
-                usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(R.string.reg_InvalidPhoneNumber_ErrorMsg);
-            else
+            if (!valid) {
+                if (RegistrationHelper.getInstance().isMobileFlow()) {
+                    usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(R.string.reg_InvalidPhoneNumber_ErrorMsg);
+                } else {
+                    usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(R.string.reg_InvalidOrMissingEmail_ErrorMsg);
+                }
+            } else
                 usrCreatescreenEmailormobileInputValidationLayout.hideError();
             return 0;
         }

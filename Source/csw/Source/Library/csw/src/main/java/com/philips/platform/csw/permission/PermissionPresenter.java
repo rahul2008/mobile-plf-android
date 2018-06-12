@@ -128,9 +128,12 @@ public class PermissionPresenter implements PermissionContract.Presenter, FetchC
 
     @Override
     public void onGetConsentsFailed(ConsentError error) {
-        adapter.onGetConsentFailed(error);
-        view.hideProgressDialog();
-        showErrorDialogFor(true, error);
+        if (view.isActive()) {
+            adapter.onGetConsentFailed(error);
+            view.hideProgressDialog();
+            showErrorDialogFor(true, error);
+        }
+
     }
 
     @Override
