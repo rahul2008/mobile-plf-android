@@ -64,7 +64,6 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
             } else {
                 showWebPage(url);
             }
-
         }
     }
 
