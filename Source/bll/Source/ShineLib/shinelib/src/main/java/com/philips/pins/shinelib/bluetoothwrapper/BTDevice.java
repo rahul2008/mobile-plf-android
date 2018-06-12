@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -56,6 +56,11 @@ public class BTDevice {
         return btGatt;
     }
 
+    /**
+     * Create bond.
+     *
+     * @return true, if bond didn't exist before and was created successfully, false otherwise.
+     */
     public boolean createBond() {
         if (getBondState() == BluetoothDevice.BOND_NONE) {
             return device.createBond();
