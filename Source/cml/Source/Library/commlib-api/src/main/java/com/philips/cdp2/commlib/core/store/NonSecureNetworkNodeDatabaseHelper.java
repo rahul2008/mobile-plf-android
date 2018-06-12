@@ -12,8 +12,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
-
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 
@@ -37,7 +35,7 @@ class NonSecureNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements Dat
         try {
             db.execSQL(NetworkNodeDatabaseSchema.CREATE_NETWORK_NODE_TABLE);
         } catch (SQLException e) {
-            Log.e(DICommLog.DATABASE, "Table creation error", e);
+            DICommLog.e(DICommLog.DATABASE, "Table creation error" + e.getMessage());
         }
     }
 
@@ -53,7 +51,7 @@ class NonSecureNetworkNodeDatabaseHelper extends SQLiteOpenHelper implements Dat
     @Override
     public Cursor query(String selection, String[] selectionArgs) throws SQLException {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(NetworkNodeDatabaseSchema.TABLE_NETWORK_NODE, null, null, null, null, null, null);
+        return db.query(NetworkNodeDatabaseSchema.TABLE_NETWORK_NODE, null, selection, selectionArgs, null, null, null);
     }
 
     @Override

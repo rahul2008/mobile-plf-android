@@ -62,7 +62,7 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
             + ");";
 
     @Test
-    public void whenDatabaseIsCreatedOfVesrion2_thenAllColumnsAreCreated() {
+    public void whenDatabaseIsCreatedOfVersion2_thenAllColumnsAreCreated() {
         prepareSqliteDatabase(VERSION_2, VERSION_2_CREATE_QUERY);
 
         final SQLiteDatabase database = networkNodeDatabaseHelper.getReadableDatabase();
@@ -227,6 +227,19 @@ public class NonSecureNetworkNodeDatabaseHelperVersion2Test extends NonSecureNet
         Cursor cursor = getReadableDatabaseCursor();
         short https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS));
         assertEquals(0, https);
+
+        closeCursor(cursor);
+    }
+
+    @Test
+    public void givenVersionIs2_whenStoringHttps_ThenDataHasCorrectHttps() {
+        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_2, VERSION_2_CREATE_QUERY);
+        ContentValues data = createContentValues(VERSION_2);
+        database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
+
+        Cursor cursor = getReadableDatabaseCursor();
+        short https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS));
+        assertEquals(HTTPS, https);
 
         closeCursor(cursor);
     }
