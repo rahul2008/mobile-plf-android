@@ -20,7 +20,6 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NA
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_PAIRED;
-import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MAC_ADDRESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -107,19 +106,6 @@ public class NetworkNodeDatabaseTest {
     }
 
     @Test
-    public void whenNodeIsReturned_thenMacAddressIsReadFromDatabase() {
-        when(cursorMock.getCount()).thenReturn(1);
-        when(cursorMock.getColumnIndex(KEY_MAC_ADDRESS)).thenReturn(0);
-        when(cursorMock.getString(0)).thenReturn(MAC_ADDRESS);
-        when(databaseHelperMock.query(null, null)).thenReturn(cursorMock);
-
-        List<NetworkNode> all = networkNodeDatabase.getAll();
-
-        assertTrue(all.size() == 1);
-        assertEquals(MAC_ADDRESS, all.get(0).getMacAddress());
-    }
-
-    @Test
     public void whenNodeIsReturned_thenDeviceNameIsReadFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
         when(cursorMock.getColumnIndex(KEY_DEVICE_NAME)).thenReturn(0);
@@ -190,16 +176,6 @@ public class NetworkNodeDatabaseTest {
 
         verify(databaseHelperMock).insertRow(contentValuesArgumentCaptor.capture());
         assertEquals(DEVICE_NAME, contentValuesArgumentCaptor.getValue().get(KEY_DEVICE_NAME));
-    }
-
-    @Test
-    public void whenNodeIsSaved_thenDeviceMacAddressIsSaved() {
-        networkNode.setMacAddress(MAC_ADDRESS);
-
-        networkNodeDatabase.save(networkNode);
-
-        verify(databaseHelperMock).insertRow(contentValuesArgumentCaptor.capture());
-        assertEquals(MAC_ADDRESS, contentValuesArgumentCaptor.getValue().get(KEY_MAC_ADDRESS));
     }
 
     @Test
