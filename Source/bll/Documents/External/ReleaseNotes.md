@@ -5,6 +5,7 @@ Version {next}
 --------------
 
 ### Functionality Delivered
+* \#132978 Introduced `SHNTagger` class which allows for uploading analytics data.
 
 ### Backwards Compatibility
 * \#132978 Deprecated constructor `SHNCentral(Handler, Context)` has been removed.
