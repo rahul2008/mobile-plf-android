@@ -1,6 +1,30 @@
 CommLib for Android - Release Notes
 ===================================
 
+Version {next}
+------------
+
+### Functionality Delivered
+* N/A
+
+### Backwards Compatibility
+* N/A
+
+### Features not covered
+* N/A
+
+### Breaking Changes
+* N/A
+
+### Defects solved
+* N/A
+
+### Residual anomalies
+* N/A
+
+### Risks and mitigations
+* N/A
+
 Version 1802
 ------------
 
