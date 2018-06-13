@@ -48,7 +48,7 @@ public class SecureStorageV2 implements SecureStorageInterface {
     }
 
     protected SSKeyProvider getSecureStorageKeyprovider() {
-        if (Build.VERSION.SDK_INT >= 23 && !SSUtils.isDeviceVersionUpgraded()) {
+        if (!SSUtils.isDeviceVersionUpgraded()) {
             return new SSKeyProvider23Impl(mAppInfra, ssFileCache);
         } else {
             return new SSKeyProvider18Impl(mAppInfra, ssFileCache);
