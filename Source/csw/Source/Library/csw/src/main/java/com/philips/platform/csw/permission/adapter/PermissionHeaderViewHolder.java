@@ -18,8 +18,8 @@ import android.view.View;
 class PermissionHeaderViewHolder extends BasePermissionViewHolder {
     private Label headerTextView;
 
-    PermissionHeaderViewHolder(View itemView, int parentWidth) {
-        super(itemView, parentWidth);
+    PermissionHeaderViewHolder(View itemView) {
+        super(itemView);
         this.headerTextView = itemView.findViewById(R.id.csw_privacy_settings_desc);
     }
 
