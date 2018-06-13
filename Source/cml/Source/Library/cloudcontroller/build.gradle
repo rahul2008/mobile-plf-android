@@ -38,7 +38,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
+    testImplementation fileTree(include: ['*.jar'], dir: 'libs')
 
     compileOnly deps.support.annotations
 
