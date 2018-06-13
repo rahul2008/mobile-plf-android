@@ -608,7 +608,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void failedToConnectToServer() {
-        errorMessage.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+        errorMessage.setError(mContext.getResources().getString(R.string.Generic_Network_Error));
     }
 
     @Override

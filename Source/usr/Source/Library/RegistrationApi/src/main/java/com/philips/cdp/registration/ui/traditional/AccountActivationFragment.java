@@ -156,7 +156,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             isEmailVerifiedError = true;
             mBundle.putBoolean("isEmailVerifiedError", isEmailVerifiedError);
             mBundle.putString("saveEmailVerifiedErrorText",
-                    mContext.getResources().getString(R.string.reg_RegEmailNotVerified_AlertPopupErrorText));
+                    mContext.getResources().getString(R.string.Janrain_Error_Need_Email_Verification));
         }
     }
 
@@ -300,11 +300,11 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             RegAlertDialog.showDialog(mContext.getResources().getString(
                     R.string.DLS_Email_Verify_Alert_Title),
                     mContext.getResources().getString(
-                            R.string.reg_DLS_Email_Verify_Alert_Body_Line1),
+                            R.string.DLS_Forgot_Password_Alert_Message_Line1),
                     mContext.getResources().getString(
-                            R.string.reg_DLS_Email_Verify_Alert_Body_Line2),
+                            R.string.DLS_Forgot_Password_Alert_Message_Line2),
                     mContext.getResources().getString(
-                            R.string.reg_Ok_Btn_Txt)
+                            R.string.DLS_Button_Title_Ok)
                     , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
         }
     }

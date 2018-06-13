@@ -207,7 +207,7 @@ public class RegistrationActivity extends UIDActivity implements
 
     @Override
     public void updateActionBar(int titleResourceID, boolean isShowBack) {
-        if (titleResourceID == R.string.reg_DLS_StratScreen_Nav_Title_Txt) {
+        if (titleResourceID == R.string.DLS_StratScreen_Nav_Title_Txt) {
             toolbar.setNavigationIcon(R.drawable.reg_ic_cross_icon);
             isShowBack = true;
         } else {
@@ -226,7 +226,7 @@ public class RegistrationActivity extends UIDActivity implements
     public void updateActionBar(String titleResourceText, boolean isShowBack) {
 
         mTvTitle.setText(titleResourceText);
-        if (getString(R.string.reg_DLS_StratScreen_Nav_Title_Txt).equals(titleResourceText)) {
+        if (getString(R.string.DLS_StratScreen_Nav_Title_Txt).equals(titleResourceText)) {
             toolbar.setNavigationIcon(R.drawable.reg_ic_cross_icon);
             isShowBack = true;
         } else {

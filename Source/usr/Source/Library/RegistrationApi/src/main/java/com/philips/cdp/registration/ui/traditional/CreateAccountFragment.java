@@ -524,14 +524,19 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @Override
+    public Context getFragmentContext() {
+        return this.getContext();
+    }
+
+    @Override
     public void setErrorCode(int errorCode) {
         updateErrorNotification(new URError(context).getLocalizedError(ErrorType.JANRAIN, errorCode), errorCode);
         enableCreateButton();
     }
 
     @Override
-    public void emailError(int errorDescResId) {
-        usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(getString(errorDescResId));
+    public void emailError(String errorDescResId) {
+        usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(errorDescResId);
 
     }
 

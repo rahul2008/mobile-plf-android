@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">Retry</string>
   <string name="Address_TitleTxt">Address</string>
   <string name="AppNotInstalled_Alert_Title">App not installed</string>
-  <string name="App_NotInstalled_AlertMessage">Please install %@ app to use this feature.</string>
+  <string name="App_NotInstalled_AlertMessage">Please install %s app to use this feature.</string>
   <string name="App_NotInstalled_InstallButton">Install</string>
   <string name="Column1">Column12</string>
   <string name="Continue_Btntxt">Continue</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">Maybe later</string>
   <string name="DLS_AddRecovery_Title_Text">Recovery email</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">Subscribe to our newsletter to receive exclusive promotions and coupons and be the first to know about new products</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">To be able to complete your login and verify the account, we need %@</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">To be able to complete your login and verify the account, we need %s</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">we need an email address.</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">a mobile number.</string>
   <string name="DLS_Almost_Done_TextField_Text">To be able to complete your login and verify that you are a real person, we need an email address or mobile number.</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Special offers, promotions and first-hand information about new product releases. Tailored for you!</string>
   <string name="DLS_Optin_Body_Line2">Join 140,000 of your peers now!</string>
   <string name="DLS_Password_lbltxt">Password</string>
-  <string name="DLS_PhilipsNews_Description_Text">As a result of your consent, Philips group companies may contact you with promotional communications via email, SMS and other digital channels, such as mobile apps and social media. To be able to tailor the communications to your preferences and behaviour and provide you with the best, personalised experience, we may analyze and combine your personal data. This data may include: \\n\\nData you give us\\nData that you want to actively share with us such as: your name, date of birth or age, email address, physical address, country, gender, phone number, social media profile.\\n\\nData we get from your interactions with Philips\\nData about your interactions and usage of the Philips digital channels, such as social media, websites, emails, apps and connected products. This data may include: IP address, cookies, device information, communications you click on, location details, and websites you visit\\n\\nPhilips will give you the opportunity to withdraw your consent at any time.\\nFor more information, please read the Philips Privacy notice and the Philips Cookie notice.</string>
+  <string name="DLS_PhilipsNews_Description_Text">As a result of your consent, Philips group companies may contact you with promotional communications via email, SMS and other digital channels, such as mobile apps and social media. To be able to tailor the communications to your preferences and behaviour and provide you with the best, personalised experience, we may analyze and combine your personal data. This data may include: nnData you give usnData that you want to actively share with us such as: your name, date of birth or age, email address, physical address, country, gender, phone number, social media profile.nnData we get from your interactions with PhilipsnData about your interactions and usage of the Philips digital channels, such as social media, websites, emails, apps and connected products. This data may include: IP address, cookies, device information, communications you click on, location details, and websites you visitnnPhilips will give you the opportunity to withdraw your consent at any time.nFor more information, please read the Philips Privacy notice and the Philips Cookie notice.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philips communication</string>
   <string name="DLS_Phonenumber_Label_Text">Phone number</string>
   <string name="DLS_ResendSMS_Body_Line1">It may take some time for the SMS with the code to arrive.</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">Resend the email</string>
   <string name="DLS_ResetAccount_EnterCode_Text">Please enter the code to reset your account password.</string>
   <string name="DLS_SigIn_TitleTxt">Log in</string>
-  <string name="DLS_Social_Merge_Description">To do this, please log in again using %@.</string>
+  <string name="DLS_Social_Merge_Description">To do this, please log in again using %s.</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">No, log out</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">Yes, log in with %@</string>
-  <string name="DLS_Social_Merge_Title">You\'ve logged in before using %@ on a Philips app or website. We can also link this social login to your account.</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">Yes, log in with %s</string>
+  <string name="DLS_Social_Merge_Title">You\'ve logged in before using %s on a Philips app or website. We can also link this social login to your account.</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">Getting Started</string>
   <string name="DLS_StratView_Detail_Txt">Set up your account or log in to get the most from your connected product</string>
   <string name="DLS_StratView_Title_Txt">Let\'s get started</string>
   <string name="DLS_SwitchToLogin_Txt">Switch to login</string>
-  <string name="DLS_TermsAndConditionsAcceptanceText">Sure, I accept the app\'s %@</string>
+  <string name="DLS_TermsAndConditionsAcceptanceText">Sure, I accept the app\'s %s</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">Please accept the Terms and Conditions</string>
   <string name="DLS_TermsAndConditionsText">Terms and Conditions</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Log in now</string>
   <string name="DLS_Traditional_Merge_Description">Would you like to merge your accounts?</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">Forgotten password</string>
-  <string name="DLS_Traditional_Merge_Title">You\'ve used %@ before to create a Philips account.</string>
+  <string name="DLS_Traditional_Merge_Title">You\'ve used %s before to create a Philips account.</string>
   <string name="DLS_URCreateAccount_NavTitle">Create account</string>
-  <string name="DLS_VerifySMS_Description_Text">We\'ve just sent an SMS with a six-digit code to your phone number %@</string>
+  <string name="DLS_VerifySMS_Description_Text">We\'ve just sent an SMS with a six-digit code to your phone number %s</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">I did not receive an SMS</string>
   <string name="DLS_VerifySMS_EnterCode_Text">Please enter the code to activate your account.</string>
   <string name="DLS_VerifySMS_Title_Text">Confirm your phone number</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">Please check your email and activate your account.</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">I haven\'t received an email</string>
   <string name="DLS_Verify_Email_Security_Txt">We go through this process for your security.</string>
-  <string name="DLS_Verify_Email_Sent_Txt">We\'ve just sent you an email to %@.</string>
+  <string name="DLS_Verify_Email_Sent_Txt">We\'ve just sent you an email to %s.</string>
   <string name="DLS_Verify_Email_Title_Txt">Confirm your email address</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">I\'ve already verified</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">Or log in with:</string>
@@ -184,18 +184,18 @@ Please check your internet connection and try again.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Please enter a valid email address.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">We cannot recognise your phone number. Please check country code.</string>
   <string name="JanRain_Error_Check_Internet">There was a problem with the network connection. Please try again.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Cannot connect to server. %@.
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Cannot connect to server. %s.
 Still having difficulty? Contact Customer Care stating error code [%d]</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@. Please go back and log in again.</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Please go back and log in again.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">This email address already exists. Please log in using this address or register using a different one.</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">Your %@ is already registered.</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">Your %s is already registered.</string>
   <string name="Janrain_Error_Need_Email_Verification">Please verify your email address through the activation link sent to your email account</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Please verify your mobile number through the activation code we sent to you via SMS</string>
   <string name="Janrain_HSDP_ServerErrorMsg">Cannot connect to server.
 Please try later or check our FAQs for more information.
 If this doesn\'t resolve your query, contact consumer care stating error code [%d]</string>
   <string name="Janrain_Invalid_Credentials">The username or password you entered is incorrect.</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">The %@ or password you entered is not correct.</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">The %s or password you entered is not correct.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">No account exists for this email. Create an account using this email or enter a different email address.</string>
   <string name="Janrain_LimitError_ErrorMsg">The limit of too many unsuccessful attempts has been reached.
 Please try again later.</string>
@@ -221,10 +221,10 @@ Please enter the correct code or resend the code.</string>
   <string name="Resend_SMS_title">Resend SMS</string>
   <string name="SigIn_TitleTxt">Log In</string>
   <string name="SignOut_btntxt">Log Out</string>
-  <string name="Social_Merge_Accounts_lbltxt">To make sure it is really you, please log in with %@ once more.</string>
+  <string name="Social_Merge_Accounts_lbltxt">To make sure it is really you, please log in with %s once more.</string>
   <string name="Social_Merge_Cancel_btntxt">Cancel</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">Almost done!</string>
-  <string name="TermsAndConditionsAcceptanceText">I accept the app\'s %@</string>
+  <string name="TermsAndConditionsAcceptanceText">I accept the app\'s %s</string>
   <string name="TermsAndConditionsAcceptanceText_Error">Please accept the Terms and Conditions</string>
   <string name="TermsAndConditionsText">Terms and Conditions</string>
   <string name="Title_AccountAlreadyExists_Txt">Account already exists.</string>
@@ -239,13 +239,13 @@ Please enter the correct code or resend the code.</string>
   <string name="URX_SMS_Already_Verified">Account already verified.
 Log in to continue.</string>
   <string name="URX_SMS_InternalServerError">SMS cannot be sent.
-%@.</string>
+%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">We can\'t send an SMS to this phone number.</string>
   <string name="URX_SMS_Limit_Reached">The SMS limit has been reached for this phone number.
 Please try again in %d secs.</string>
-  <string name="URX_SMS_NoInformation_Available">Unable to connect to server. %@.</string>
-  <string name="URX_SMS_Not_Sent">SMS could not be delivered. %@.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">Unable to connect to server. %s.</string>
+  <string name="URX_SMS_Not_Sent">SMS could not be delivered. %s.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 The country code is not supported.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Please try again later</string>
   <string name="UnexpectedInternalError_ErrorMsg">Sorry, something went wrong. Please try again.</string>

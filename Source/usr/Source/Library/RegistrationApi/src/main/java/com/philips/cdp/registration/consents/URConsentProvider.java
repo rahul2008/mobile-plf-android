@@ -21,8 +21,8 @@ public class URConsentProvider {
      */
 
     public static ConsentDefinition fetchMarketingConsentDefinition() {
-        int text = R.string.reg_DLS_OptIn_Promotional_Message_Line1;
-        int helpText = R.string.reg_DLS_PhilipsNews_Description_Text;
+        int text = R.string.DLS_OptIn_Promotional_Message_Line1;
+        int helpText = R.string.DLS_PhilipsNews_Description_Text;
         final ArrayList<String> types = new ArrayList<>();
         types.add(USR_MARKETING_CONSENT);
         return new ConsentDefinition(text, helpText, types, 0);

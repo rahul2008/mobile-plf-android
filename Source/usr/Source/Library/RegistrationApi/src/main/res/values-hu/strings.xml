@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">Ismét</string>
   <string name="Address_TitleTxt">Cím</string>
   <string name="AppNotInstalled_Alert_Title">Az alkalmazás nincs telepítve</string>
-  <string name="App_NotInstalled_AlertMessage">Kérjük, telepítse a(z) %@ alkalmazást a funkció használatához.</string>
+  <string name="App_NotInstalled_AlertMessage">Kérjük, telepítse a(z) %s alkalmazást a funkció használatához.</string>
   <string name="App_NotInstalled_InstallButton">Telepítés</string>
   <string name="Column1">Column22</string>
   <string name="Continue_Btntxt">Folytatás</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">Talán később</string>
   <string name="DLS_AddRecovery_Title_Text">Helyreállítási e-mail-cím</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">Iratkozzon fel hírlevelünkre, hogy exkluzív promóciókban és kuponokban részesülhessen, valamint elsőként értesülhessen az új termékekről</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">A bejelentkezés befejezéséhez és a fiók visszaigazolásához szükséges a(z) %@</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">A bejelentkezés befejezéséhez és a fiók visszaigazolásához szükséges a(z) %s</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">szükséges egy e-mail-cím.</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">egy mobilszám.</string>
   <string name="DLS_Almost_Done_TextField_Text">A bejelentkezés befejezéséhez és annak igazolásához, hogy Ön valódi személy, szükségünk van az e-mail-címére vagy a mobilszámára.</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Különleges ajánlatokat, promóciókat és első kézből származó információkat az új termékekről. Az Ön igényeihez szabva!</string>
   <string name="DLS_Optin_Body_Line2">Csatlakozzon 140 000 fős táborunkhoz!</string>
   <string name="DLS_Password_lbltxt">Jelszó</string>
-  <string name="DLS_PhilipsNews_Description_Text">Az Ön beleegyezésének eredményeként előfordulhat, hogy a Philips csoport vállalatai promóciós céllal felveszik Önnel a kapcsolatot e-mailben, SMS-ben és más digitális csatornákon keresztül (pl. mobilalkalmazások és közösségi oldalak). Ahhoz hogy az Ön elvárásainak és szokásainak megfelelően alakítsuk ezt a kommunikációt, illetve hogy a legjobb, személyre szabott élményt nyújthassuk, elemezhetjük és összekapcsolhatjuk az Ön személyes adatait. Ezek az adatok az alábbiakat tartalmazhatják: \\n\\nÖn által megadott adatok\\nAzok az adatok, melyeket Ön aktívan meg kíván osztani velünk, pl: név, születési dátum vagy életkor, e-mail cím, lakcím, ország, nem, telefonszám, közösségioldal-profil.\\n\\nAz Ön Philips-szel való kapcsolatba kerüléséből származó, nekünk megadott adatai\\nAz Ön Philips digitális csatornákkal (pl. közösségi oldalak, weboldalak, e-mail, alkalmazások és kapcsolódó termékek) való kapcsolatba kerüléséből, illetve ezek használatából adódó adatok. Ezek az adatok az alábbiakat tartalmazhatják: IP-cím, cookie-k, eszközadatok, kommunikációs csatornák, amelyekre Ön rákattint, részletes helyadatok, valamint az Ön által látogatott weboldalak\\n\\nA Philips lehetőséget biztosít Önnek arra, hogy bármikor visszavonja beleegyezését.\\nTovábbi tájékoztatást a Philips adatvédelmi nyilatkozatban és a Philips Cookie-kkal kapcsolatos nyilatkozatban talál.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Az Ön beleegyezésének eredményeként előfordulhat, hogy a Philips csoport vállalatai promóciós céllal felveszik Önnel a kapcsolatot e-mailben, SMS-ben és más digitális csatornákon keresztül (pl. mobilalkalmazások és közösségi oldalak). Ahhoz hogy az Ön elvárásainak és szokásainak megfelelően alakítsuk ezt a kommunikációt, illetve hogy a legjobb, személyre szabott élményt nyújthassuk, elemezhetjük és összekapcsolhatjuk az Ön személyes adatait. Ezek az adatok az alábbiakat tartalmazhatják: nnÖn által megadott adatoknAzok az adatok, melyeket Ön aktívan meg kíván osztani velünk, pl: név, születési dátum vagy életkor, e-mail cím, lakcím, ország, nem, telefonszám, közösségioldal-profil.nnAz Ön Philips-szel való kapcsolatba kerüléséből származó, nekünk megadott adatainAz Ön Philips digitális csatornákkal (pl. közösségi oldalak, weboldalak, e-mail, alkalmazások és kapcsolódó termékek) való kapcsolatba kerüléséből, illetve ezek használatából adódó adatok. Ezek az adatok az alábbiakat tartalmazhatják: IP-cím, cookie-k, eszközadatok, kommunikációs csatornák, amelyekre Ön rákattint, részletes helyadatok, valamint az Ön által látogatott weboldalaknnA Philips lehetőséget biztosít Önnek arra, hogy bármikor visszavonja beleegyezését.nTovábbi tájékoztatást a Philips adatvédelmi nyilatkozatban és a Philips Cookie-kkal kapcsolatos nyilatkozatban talál.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philips kommunikáció</string>
   <string name="DLS_Phonenumber_Label_Text">Telefonszám</string>
   <string name="DLS_ResendSMS_Body_Line1">Eltelhet egy kis idő, amíg a kódot tartalmazó SMS megérkezik.</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">E-mail újraküldése</string>
   <string name="DLS_ResetAccount_EnterCode_Text">Adja meg a kódot fiókja jelszavának módosításához.</string>
   <string name="DLS_SigIn_TitleTxt">Bejelentkezés</string>
-  <string name="DLS_Social_Merge_Description">Ehhez jelentkezzen be újra a %@ használatával.</string>
+  <string name="DLS_Social_Merge_Description">Ehhez jelentkezzen be újra a %s használatával.</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">Nem, kijelentkezek</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">Igen, bejelentkezek ezzel: %@</string>
-  <string name="DLS_Social_Merge_Title">Ön már bejelentkezett egy Philips alkalmazásba vagy weboldalra a(z) %@ használatával. Az ezen a közösségi oldalon való bejelentkezését hozzá tudjuk kapcsolni a fiókjához.</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">Igen, bejelentkezek ezzel: %s</string>
+  <string name="DLS_Social_Merge_Title">Ön már bejelentkezett egy Philips alkalmazásba vagy weboldalra a(z) %s használatával. Az ezen a közösségi oldalon való bejelentkezését hozzá tudjuk kapcsolni a fiókjához.</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">Bevezetés</string>
   <string name="DLS_StratView_Detail_Txt">Állítsa be saját fiókját, vagy jelentkezzen be, hogy a legtöbbet hozhassa ki a csatlakoztatott eszközéből</string>
   <string name="DLS_StratView_Title_Txt">Kezdjünk hozzá</string>
   <string name="DLS_SwitchToLogin_Txt">Váltás a bejelentkezésre</string>
-  <string name="DLS_TermsAndConditionsAcceptanceText">Rendben, elfogadom a következőt: alkalmazás – %@</string>
+  <string name="DLS_TermsAndConditionsAcceptanceText">Rendben, elfogadom a következőt: alkalmazás – %s</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">Kérjük, fogadja el a használati feltételeket</string>
   <string name="DLS_TermsAndConditionsText">Használati feltételek</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Bejelentkezés most</string>
   <string name="DLS_Traditional_Merge_Description">Szeretné egyesíteni a fiókjait?</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">Elfelejtett jelszó</string>
-  <string name="DLS_Traditional_Merge_Title">Már használta a következőt Philips fiók létrehozásához: %@.</string>
+  <string name="DLS_Traditional_Merge_Title">Már használta a következőt Philips fiók létrehozásához: %s.</string>
   <string name="DLS_URCreateAccount_NavTitle">Fiók létrehozása</string>
-  <string name="DLS_VerifySMS_Description_Text">Egy hatjegyű kódot tartalmazó SMS-t küldtünk a következő telefonszámra: %@</string>
+  <string name="DLS_VerifySMS_Description_Text">Egy hatjegyű kódot tartalmazó SMS-t küldtünk a következő telefonszámra: %s</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">Nem kaptam SMS-t</string>
   <string name="DLS_VerifySMS_EnterCode_Text">Adja meg a kódot fiókja aktiválásához.</string>
   <string name="DLS_VerifySMS_Title_Text">Erősítse meg a telefonszámát</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">Nézze meg az e-mailjeit, és aktiválja a fiókját.</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">Nem kaptam meg az e-mailt</string>
   <string name="DLS_Verify_Email_Security_Txt">Ez a folyamat az Ön biztonságát szolgálja.</string>
-  <string name="DLS_Verify_Email_Sent_Txt">E-mailt küldtünk Önnek a %@ címre.</string>
+  <string name="DLS_Verify_Email_Sent_Txt">E-mailt küldtünk Önnek a %s címre.</string>
   <string name="DLS_Verify_Email_Title_Txt">E-mail visszaigazolása</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">Már elvégeztem a megerősítést</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">Vagy bejelentkezés a következővel:</string>
@@ -184,18 +184,18 @@ Kérjük, ellenőrizze az internetkapcsolatot, és próbálja meg újra.[%d]</st
   <string name="InvalidOrMissingEmail_ErrorMsg">Adjon meg érvényes e-mail címet.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Nem ismerjük fel a telefonszámát. Kérjük, ellenőrizze az országhívó kódot.</string>
   <string name="JanRain_Error_Check_Internet">Probléma lépett fel a hálózati kapcsolattal. Kérjük, próbálja újra.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Nem tud csatlakozni a szerverhez. %@.
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Nem tud csatlakozni a szerverhez. %s.
 Még mindig fennáll a probléma? Forduljon az ügyfélszolgálathoz a(z) [%d] hibakód megnevezésével.</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@. Kérjük, lépjen vissza, és jelentkezzen be újra.</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Kérjük, lépjen vissza, és jelentkezzen be újra.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Ez az e-mail-cím már létezik. Kérjük, jelentkezzen be ezzel az e-mail-címmel, vagy regisztráljon másik e-mail-cím használatával.</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">A(z) %@ már regisztrálva van.</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">A(z) %s már regisztrálva van.</string>
   <string name="Janrain_Error_Need_Email_Verification">Kérjük, erősítse meg e-mail címét az e-mail fiókjába küldött aktivációs linken keresztül</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Kérjük, erősítse meg a telefonszámát a telefonszámára küldött aktivációs kódon keresztül</string>
   <string name="Janrain_HSDP_ServerErrorMsg">Nem tud csatlakozni a szerverhez.
 Kérjük, próbálja meg később, vagy tekintse meg a GYIK szakaszt további információkért.
 Ha ez nem oldja meg a kérdést, forduljon az ügyfélszolgálathoz a(z) [%d] hibakód megnevezésével.</string>
   <string name="Janrain_Invalid_Credentials">A megadott felhasználónév vagy jelszó hibás.</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">A(z) %@ vagy a megadott jelszó helytelen.</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">A(z) %s vagy a megadott jelszó helytelen.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Nem létezik fiók ehhez az e-mailhez. Hozzon létre fiókot ezzel az e-mail-címmel, vagy adjon meg másik e-mail-címet.</string>
   <string name="Janrain_LimitError_ErrorMsg">Elérte a sikertelen próbálkozások limitét.
 Próbálja meg újra később.</string>
@@ -221,10 +221,10 @@ Kérjük, adja meg a megfelelő kódot, vagy küldje el újra a kódot.</string>
   <string name="Resend_SMS_title">SMS újraküldése</string>
   <string name="SigIn_TitleTxt">Bejelentkezés</string>
   <string name="SignOut_btntxt">Kijelentkezés</string>
-  <string name="Social_Merge_Accounts_lbltxt">Annak érdekében, hogy ellenőrizzük az Ön személyazonosságát, kérjük, jelentkezzen be még egyszer a(z) %@ használatával.</string>
+  <string name="Social_Merge_Accounts_lbltxt">Annak érdekében, hogy ellenőrizzük az Ön személyazonosságát, kérjük, jelentkezzen be még egyszer a(z) %s használatával.</string>
   <string name="Social_Merge_Cancel_btntxt">Mégse</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">Majdnem készen van!</string>
-  <string name="TermsAndConditionsAcceptanceText">Elfogadom: alkalmazás %@</string>
+  <string name="TermsAndConditionsAcceptanceText">Elfogadom: alkalmazás %s</string>
   <string name="TermsAndConditionsAcceptanceText_Error">Kérjük, fogadja el a használati feltételeket</string>
   <string name="TermsAndConditionsText">Felhasználási feltételek</string>
   <string name="Title_AccountAlreadyExists_Txt">A fiók már létezik.</string>
@@ -239,12 +239,12 @@ Kérjük, adja meg a megfelelő kódot, vagy küldje el újra a kódot.</string>
   <string name="URX_SMS_Already_Verified">A fiók visszaigazolása már megtörtént.
 Jelentkezzen be a folytatáshoz.</string>
   <string name="URX_SMS_InternalServerError">Az SMS elküldése sikertelen.
-%@.</string>
+%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Nem tudunk SMS-t küldeni erre a telefonszámra.</string>
   <string name="URX_SMS_Limit_Reached">Elérte a telefonszámhoz tartozó maximális SMS limitet. Kérjük, próbálja újra %d másodperc múlva.</string>
-  <string name="URX_SMS_NoInformation_Available">Nem tud csatlakozni a szerverhez. %@.</string>
-  <string name="URX_SMS_Not_Sent">Az SMS kézbesítése sikertelen. %@.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">Nem tud csatlakozni a szerverhez. %s.</string>
+  <string name="URX_SMS_Not_Sent">Az SMS kézbesítése sikertelen. %s.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 Az országhívó kód nem támogatott.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Próbálja újra később</string>
   <string name="UnexpectedInternalError_ErrorMsg">Sajnos hiba történt. Próbálja meg újra.</string>

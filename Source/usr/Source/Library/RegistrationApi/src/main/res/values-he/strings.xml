@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">נסה שנית</string>
   <string name="Address_TitleTxt">כתובת</string>
   <string name="AppNotInstalled_Alert_Title">היישום אינו מותקן</string>
-  <string name="App_NotInstalled_AlertMessage">התקן את היישום %@ כדי ליהנות מתכונה זו.</string>
+  <string name="App_NotInstalled_AlertMessage">התקן את היישום %s כדי ליהנות מתכונה זו.</string>
   <string name="App_NotInstalled_InstallButton">התקן</string>
   <string name="Column1">Column20</string>
   <string name="Continue_Btntxt">המשך</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">אולי מאוחר יותר</string>
   <string name="DLS_AddRecovery_Title_Text">כתובת דוא\"ל לשחזור</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">הירשם לעלון החדשות שלנו כדי לקבל מבצעים וקופונים בלעדיים ולהיות הראשון לשמוע על מוצרים חדשים</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">כדי שתוכל להשלים את ההתחברות ולאמת את החשבון, אנו זקוקים ל%@</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">כדי שתוכל להשלים את ההתחברות ולאמת את החשבון, אנו זקוקים ל%s</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">אנו זקוקים לכתובת דוא\"ל.</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">מספר טלפון נייד</string>
   <string name="DLS_Almost_Done_TextField_Text">כדי שתוכל להשלים את ההתחברות וכדי שנוודא שאתה אדם אמיתי, אנו זקוקים לכתובת דוא\"ל או למספר טלפון נייד.</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">הצעות מיוחדות, מבצעים ומידע ממקור ראשון על גרסאות מוצר חדשות. מותאם במיוחד בשבילך!</string>
   <string name="DLS_Optin_Body_Line2">הצטרף אל 140,000 מעמיתיך עכשיו!</string>
   <string name="DLS_Password_lbltxt">סיסמה</string>
-  <string name="DLS_PhilipsNews_Description_Text">כתוצאה מהסכמתך, חברות הקבוצה של פיליפס עשויות ליצור עמך קשר באמצעות תקשורת פרסומית באמצעות דואר אלקטרוני, SMS וערוצים דיגיטליים אחרים, כגון אפליקציות לנייד ומדיה חברתית.כדי להתאים את התקשורת להעדפותיך ולהתנהגותך ולספק לך את החוויה הטובה ביותר, אישית, אנו עשויים לנתח ולשלב את הנתונים האישיים שלך.הנתונים עשויים לכלול:\\n\\nהנתונים שאתה נותן לנו\\nנתונים שברצונך לשתף איתנו באופן פעיל כגון: שמך, תאריך לידה או גיל, כתובת דוא\"\"ל, כתובת פיזית, ארץ, מין, מספר טלפון, פרופיל מדיה חברתית.\\n\\nהנתונים שאנו מקבלים מהאינטראקציות שלך עם פיליפס\\nנתונים על האינטראקציות והשימוש בערוצים הדיגיטליים של פיליפס, כגון מדיה חברתית, אתרי אינטרנט, הודעות דוא\"\"ל, אפליקציות ומוצרים מחוברים. נתונים אלה עשויים לכלול: כתובת IP, קובצי Cookie, פרטי מכשיר, תקשורת שאתה לוחץ עליה, פרטי מיקום ואתרים שבהם אתה מבקר\\n\\nפיליפס תיתן לך את ההזדמנות לבטל את הסכמתך בכל עת.\\nלקבלת מידע נוסף, קרא את הודעת הפרטיות של Philips ואת הודעת ה- Cookie של Philips.</string>
+  <string name="DLS_PhilipsNews_Description_Text">כתוצאה מהסכמתך, חברות הקבוצה של פיליפס עשויות ליצור עמך קשר באמצעות תקשורת פרסומית באמצעות דואר אלקטרוני, SMS וערוצים דיגיטליים אחרים, כגון אפליקציות לנייד ומדיה חברתית.כדי להתאים את התקשורת להעדפותיך ולהתנהגותך ולספק לך את החוויה הטובה ביותר, אישית, אנו עשויים לנתח ולשלב את הנתונים האישיים שלך.הנתונים עשויים לכלול:nnהנתונים שאתה נותן לנוnנתונים שברצונך לשתף איתנו באופן פעיל כגון: שמך, תאריך לידה או גיל, כתובת דוא\"\"ל, כתובת פיזית, ארץ, מין, מספר טלפון, פרופיל מדיה חברתית.nnהנתונים שאנו מקבלים מהאינטראקציות שלך עם פיליפסnנתונים על האינטראקציות והשימוש בערוצים הדיגיטליים של פיליפס, כגון מדיה חברתית, אתרי אינטרנט, הודעות דוא\"\"ל, אפליקציות ומוצרים מחוברים. נתונים אלה עשויים לכלול: כתובת IP, קובצי Cookie, פרטי מכשיר, תקשורת שאתה לוחץ עליה, פרטי מיקום ואתרים שבהם אתה מבקרnnפיליפס תיתן לך את ההזדמנות לבטל את הסכמתך בכל עת.nלקבלת מידע נוסף, קרא את הודעת הפרטיות של Philips ואת הודעת ה- Cookie של Philips.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">הודעה של Philips</string>
   <string name="DLS_Phonenumber_Label_Text">מספר טלפון</string>
   <string name="DLS_ResendSMS_Body_Line1">הגעת הודעת ה-SMS עם הקוד עשויה לארוך זמן מה.</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">שלח שוב את הודעת הדוא\"ל</string>
   <string name="DLS_ResetAccount_EnterCode_Text">הזן את הקוד לשחזור סיסמת החשבון.</string>
   <string name="DLS_SigIn_TitleTxt">התחבר</string>
-  <string name="DLS_Social_Merge_Description">כדי לעשות זאת, היכנס שוב באמצעות %@.</string>
+  <string name="DLS_Social_Merge_Description">כדי לעשות זאת, היכנס שוב באמצעות %s.</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">לא, ברצוני להתנתק</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">כן, ברצוני להתחבר באמצעות %@</string>
-  <string name="DLS_Social_Merge_Title">התחברת בעבר דרך חשבון %@ לאפליקציה או לאתר של Philips. באפשרותנו לקשר את פרטי ההתחברות שלך ברשת חברתית זו לחשבון Philips שלך.</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">כן, ברצוני להתחבר באמצעות %s</string>
+  <string name="DLS_Social_Merge_Title">התחברת בעבר דרך חשבון %s לאפליקציה או לאתר של Philips. באפשרותנו לקשר את פרטי ההתחברות שלך ברשת חברתית זו לחשבון Philips שלך.</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">צעדים ראשונים</string>
   <string name="DLS_StratView_Detail_Txt">הגדר את החשבון או התחבר כדי להפיק את המרב מהמוצר המחובר שברשותך</string>
   <string name="DLS_StratView_Title_Txt">בואו נתחיל</string>
   <string name="DLS_SwitchToLogin_Txt">עבור להתחברות</string>
   <string name="DLS_TermsAndConditionsAcceptanceText">ברור, אני מקבל את</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">אשר את התנאים והתניות</string>
-  <string name="DLS_TermsAndConditionsText">%@ התנאים והתניות של האפליקציה</string>
+  <string name="DLS_TermsAndConditionsText">%s התנאים והתניות של האפליקציה</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">התחבר עכשיו</string>
   <string name="DLS_Traditional_Merge_Description">האם ברצונך למזג את החשבונות?</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">שכחתי סיסמה</string>
-  <string name="DLS_Traditional_Merge_Title">השתמשת בעבר בפרטי %@ כדי ליצור חשבון Philips.</string>
+  <string name="DLS_Traditional_Merge_Title">השתמשת בעבר בפרטי %s כדי ליצור חשבון Philips.</string>
   <string name="DLS_URCreateAccount_NavTitle">צור חשבון</string>
-  <string name="DLS_VerifySMS_Description_Text">שלחנו הודעת SMS עם קוד בן 6 ספרות למספר הטלפון שלך, %@</string>
+  <string name="DLS_VerifySMS_Description_Text">שלחנו הודעת SMS עם קוד בן 6 ספרות למספר הטלפון שלך, %s</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">לא קיבלתי הודעת SMS</string>
   <string name="DLS_VerifySMS_EnterCode_Text">הזן את הקוד כדי להפעיל את החשבון.</string>
   <string name="DLS_VerifySMS_Title_Text">אשר את מספר הטלפון</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">בדוק את תיבת הדוא\"ל שלך והפעל את החשבון.</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">לא קיבלתי הודעת דוא\"ל</string>
   <string name="DLS_Verify_Email_Security_Txt">אנו מבצעים תהליך זה לצורכי אבטחתך.</string>
-  <string name="DLS_Verify_Email_Sent_Txt">שלחנו לך עכשיו הודעת דוא\"ל לכתובת %@.</string>
+  <string name="DLS_Verify_Email_Sent_Txt">שלחנו לך עכשיו הודעת דוא\"ל לכתובת %s.</string>
   <string name="DLS_Verify_Email_Title_Txt">אשר את כתובת הדוא\"ל שלך</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">כבר ביצעתי אימות</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">או התחבר באמצעות:</string>
@@ -184,18 +184,18 @@
   <string name="InvalidOrMissingEmail_ErrorMsg">הזן כתובת דוא\"ל חוקית</string>
   <string name="InvalidPhoneNumber_ErrorMsg">איננו מזהים את מספר הטלפון שלך. בדוק את קידומת המדינה.</string>
   <string name="JanRain_Error_Check_Internet">יש בעיה בחיבור לרשת. אנא נסה שוב.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">אין אפשרות להתחבר לשרת. %@.
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">אין אפשרות להתחבר לשרת. %s.
 עדיין נתקל בבעיות? פנה אל מחלקת הטיפול בלקוחות תוך ציון קוד השגיאה [%d]</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@. חזור והיכנס שוב.</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. חזור והיכנס שוב.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">כתובת דוא\"ל זו קיימת כבר. היכנס באמצעות כתובת זו או הירשם באמצעות אחרת.</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">ה %@שלך רשום כבר.</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">ה %sשלך רשום כבר.</string>
   <string name="Janrain_Error_Need_Email_Verification">אמת את כתובת הדוא\"ל שלך באמצעות קישור ההפעלה שנשלח לחשבון הדוא\"ל שלך</string>
   <string name="Janrain_Error_Need_Mobile_Verification">אמת את מספר הטלפון הנייד שלך באמצעות קוד ההפעלה ששלחנו למספר הנייד שלך</string>
   <string name="Janrain_HSDP_ServerErrorMsg">אין אפשרות להתחבר לשרת.
 נסה מאוחר יותר, או בדוק את השאלות הנפוצות שלנו לקבלת מידע נוסף.
 אם צעדים אלה אינם עונים על שאלתך, פנה אל מחלקת הטיפול בלקוחות תוך ציון קוד השגיאה [%d]</string>
   <string name="Janrain_Invalid_Credentials">שם המשתמש או הסיסמה שהזנת שגויים.</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">ה%@ או הסיסמה שהזנת שגויים.</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">ה%s או הסיסמה שהזנת שגויים.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">לא קיים חשבון עבור דוא\"ל זה. צור חשבון באמצעות דוא\"ל זה, או הזן כתובת דוא\"ל שונה.</string>
   <string name="Janrain_LimitError_ErrorMsg">הגעת למספר המרבי של ניסיונות התחברות לא מוצלחים.
 נסה שוב מאוחר יותר.</string>
@@ -221,10 +221,10 @@
   <string name="Resend_SMS_title">הודעת SMS חדשה</string>
   <string name="SigIn_TitleTxt">התחבר</string>
   <string name="SignOut_btntxt">התנתק</string>
-  <string name="Social_Merge_Accounts_lbltxt">כדי לוודא שאכן מדובר בך, התחבר באמצעות %@ פעם נוספת.</string>
+  <string name="Social_Merge_Accounts_lbltxt">כדי לוודא שאכן מדובר בך, התחבר באמצעות %s פעם נוספת.</string>
   <string name="Social_Merge_Cancel_btntxt">ביטול</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">כמעט סיימת!</string>
-  <string name="TermsAndConditionsAcceptanceText">אני מאשר את ה%@ של היישום</string>
+  <string name="TermsAndConditionsAcceptanceText">אני מאשר את ה%s של היישום</string>
   <string name="TermsAndConditionsAcceptanceText_Error">אשר את התנאים והתניות</string>
   <string name="TermsAndConditionsText">תנאים והתניות</string>
   <string name="Title_AccountAlreadyExists_Txt">החשבון קיים כבר.</string>
@@ -239,13 +239,13 @@
   <string name="URX_SMS_Already_Verified">החשבון כבר אומת.
 היכנס כדי להמשיך.</string>
   <string name="URX_SMS_InternalServerError">אי אפשר לשלוח SMS.
-%@.</string>
+%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">אין לנו אפשרות לשלוח הודעת SMS למספר טלפון זה.</string>
   <string name="URX_SMS_Limit_Reached">הגעת למגבלת הודעות ה-SMS עבור מספר טלפון זה.
 נסה שוב בעוד %d שניות.</string>
-  <string name="URX_SMS_NoInformation_Available">אי אפשר להתחבר לשרת. %@.</string>
-  <string name="URX_SMS_Not_Sent">אי אפשר לשלוח SMS. %@.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">אי אפשר להתחבר לשרת. %s.</string>
+  <string name="URX_SMS_Not_Sent">אי אפשר לשלוח SMS. %s.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 אין תמיכה בקידומת המדינה.</string>
   <string name="USR_Error_PleaseTryLater_Txt">אנא נסה שנית במועד מאוחר יותר.</string>
   <string name="UnexpectedInternalError_ErrorMsg">אפס! משהו השתבש. נסה שוב מאוחר יותר.</string>

@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">Novamente</string>
   <string name="Address_TitleTxt">Morada</string>
   <string name="AppNotInstalled_Alert_Title">Aplicação não instalada</string>
-  <string name="App_NotInstalled_AlertMessage">Instale a aplicação %@ para utilizar esta funcionalidade.</string>
+  <string name="App_NotInstalled_AlertMessage">Instale a aplicação %s para utilizar esta funcionalidade.</string>
   <string name="App_NotInstalled_InstallButton">Instalar</string>
   <string name="Column1">Column31</string>
   <string name="Continue_Btntxt">Continuar</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">Talvez mais tarde</string>
   <string name="DLS_AddRecovery_Title_Text">Endereço de e-mail de recuperação</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">Subscreva a nossa newsletter para receber promoções exclusivas e cupões e seja o primeiro a saber tudo sobre novos produtos</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">Para podermos concluir o seu início de sessão e verificar a conta, é necessário o seu %@</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">Para podermos concluir o seu início de sessão e verificar a conta, é necessário o seu %s</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">precisamos de um endereço de e-mail.</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">número de telemóvel.</string>
   <string name="DLS_Almost_Done_TextField_Text">Para concluirmos o seu início de sessão e verificarmos que é realmente uma pessoa, precisamos de um endereço de e-mail ou de um número de telemóvel.</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Ofertas especiais, promoções e informações em primeira mão sobre o lançamento de novos produtos. Tudo adaptado a si!</string>
   <string name="DLS_Optin_Body_Line2">Junte-se já a 140 000 utilizadores!</string>
   <string name="DLS_Password_lbltxt">Palavra-passe</string>
-  <string name="DLS_PhilipsNews_Description_Text">No seguimento do seu consentimento, as empresas do grupo Philips poderão contactá-lo com informações promocionais via correio electrónico, SMS e outros canais digitais, como aplicações móveis e redes sociais. Para poder adaptar as comunicações às suas preferências e ao seu comportamento e para lhe fornecer a melhor experiência personalizada, poderemos proceder à análise e combinação dos seus dados pessoais. Estes dados poderão incluir: \\n\\nDados que nos forneceu\\nDados que partilhou connosco activamente, tais como: o seu nome, data de nascimento ou idade, endereço de correio electrónico, endereço postal, país, género, número de telefone, perfil de rede social.\\n\\nDados que obtivemos das suas interacções com a Philips\\nDados sobre as suas interacções e utilização dos canais digitais da Philips, como redes sociais, Web sites, correio electrónico, aplicações e produtos conectados. Estes dados podem incluir: endereço IP, cookies, informações de dispositivos, comunicações onde clicou, detalhes de localização e Web sites que visitou\\n\\nA Philips permite-lhe cancelar o seu consentimento a qualquer momento.\\nPara obter mais informações, leia a Política de privacidade da Philips e a Declaração de cookies da Philips.</string>
+  <string name="DLS_PhilipsNews_Description_Text">No seguimento do seu consentimento, as empresas do grupo Philips poderão contactá-lo com informações promocionais via correio electrónico, SMS e outros canais digitais, como aplicações móveis e redes sociais. Para poder adaptar as comunicações às suas preferências e ao seu comportamento e para lhe fornecer a melhor experiência personalizada, poderemos proceder à análise e combinação dos seus dados pessoais. Estes dados poderão incluir: nnDados que nos forneceunDados que partilhou connosco activamente, tais como: o seu nome, data de nascimento ou idade, endereço de correio electrónico, endereço postal, país, género, número de telefone, perfil de rede social.nnDados que obtivemos das suas interacções com a PhilipsnDados sobre as suas interacções e utilização dos canais digitais da Philips, como redes sociais, Web sites, correio electrónico, aplicações e produtos conectados. Estes dados podem incluir: endereço IP, cookies, informações de dispositivos, comunicações onde clicou, detalhes de localização e Web sites que visitounnA Philips permite-lhe cancelar o seu consentimento a qualquer momento.nPara obter mais informações, leia a Política de privacidade da Philips e a Declaração de cookies da Philips.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Comunicação da Philips</string>
   <string name="DLS_Phonenumber_Label_Text">Número de telefone</string>
   <string name="DLS_ResendSMS_Body_Line1">Poderá ter de aguardar algum tempo pela mensagem de SMS com o código.</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">Reenviar o e-mail</string>
   <string name="DLS_ResetAccount_EnterCode_Text">Introduza o código para repor a palavra-passe da conta.</string>
   <string name="DLS_SigIn_TitleTxt">Iniciar sessão</string>
-  <string name="DLS_Social_Merge_Description">Para tal, inicie sessão novamente com %@.</string>
+  <string name="DLS_Social_Merge_Description">Para tal, inicie sessão novamente com %s.</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">Não, terminar sessão</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">Sim, iniciar sessão com %@</string>
-  <string name="DLS_Social_Merge_Title">Iniciou sessão anteriormente com %@ numa aplicação ou Web site da Philips. Também podemos associar estas credenciais de redes sociais à sua conta.</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">Sim, iniciar sessão com %s</string>
+  <string name="DLS_Social_Merge_Title">Iniciou sessão anteriormente com %s numa aplicação ou Web site da Philips. Também podemos associar estas credenciais de redes sociais à sua conta.</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">Começar a usar o seu aparelho</string>
   <string name="DLS_StratView_Detail_Txt">Configure a sua conta ou inicie sessão para tirar o máximo partido do seu produto conectado</string>
   <string name="DLS_StratView_Title_Txt">Vamos começar</string>
   <string name="DLS_SwitchToLogin_Txt">Mudar para início de sessão</string>
-  <string name="DLS_TermsAndConditionsAcceptanceText">Sim, aceito os %@ da aplicação</string>
+  <string name="DLS_TermsAndConditionsAcceptanceText">Sim, aceito os %s da aplicação</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">Aceite os Termos e condições</string>
   <string name="DLS_TermsAndConditionsText">Termos e condições</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Inicie sessão agora</string>
   <string name="DLS_Traditional_Merge_Description">Deseja juntar as suas contas?</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">Esqueceu-se da palavra-passe</string>
-  <string name="DLS_Traditional_Merge_Title">Já utilizou o endereço %@ anteriormente para criar uma conta Philips.</string>
+  <string name="DLS_Traditional_Merge_Title">Já utilizou o endereço %s anteriormente para criar uma conta Philips.</string>
   <string name="DLS_URCreateAccount_NavTitle">Criar conta</string>
-  <string name="DLS_VerifySMS_Description_Text">Acabámos de lhe enviar uma SMS com um código de seis dígitos para o seu número de telefone %@</string>
+  <string name="DLS_VerifySMS_Description_Text">Acabámos de lhe enviar uma SMS com um código de seis dígitos para o seu número de telefone %s</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">Não recebi uma SMS</string>
   <string name="DLS_VerifySMS_EnterCode_Text">Introduza o código para activar a sua conta.</string>
   <string name="DLS_VerifySMS_Title_Text">Confirme o seu número de telefone</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">Verifique o seu e-mail e active a sua conta.</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">Não recebi um e-mail</string>
   <string name="DLS_Verify_Email_Security_Txt">Efectuamos este processo para sua segurança.</string>
-  <string name="DLS_Verify_Email_Sent_Txt">Acabámos de lhe enviar um e-mail para %@.</string>
+  <string name="DLS_Verify_Email_Sent_Txt">Acabámos de lhe enviar um e-mail para %s.</string>
   <string name="DLS_Verify_Email_Title_Txt">Confirme o seu endereço de correio electrónico</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">Já efectuei a verificação</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">Ou inicie sessão com:</string>
@@ -184,18 +184,18 @@ Verifique a sua ligação à Internet e tente novamente.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Introduza um endereço de correio electrónico válido.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Não é possível reconhecer o seu número de telefone. Verifique o indicativo do país.</string>
   <string name="JanRain_Error_Check_Internet">Ocorreu um problema com a ligação de rede. Tente novamente.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Não é possível ligar ao servidor. %@.
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Não é possível ligar ao servidor. %s.
 Continua a ter dificuldades? Contacte o Apoio ao cliente e indique o código de erro [%d]</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@. Retroceda e volte a iniciar sessão.</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Retroceda e volte a iniciar sessão.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Este endereço de e-mail já existe. Inicie sessão utilizando este endereço de e-mail ou registe-se utilizando outro.</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">O %@ já se encontra registado.</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">O %s já se encontra registado.</string>
   <string name="Janrain_Error_Need_Email_Verification">Verifique o seu endereço de correio electrónico através da ligação de activação enviada para a sua conta de correio electrónico</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Verifique o seu número de telemóvel através do código de activação que enviámos para o mesmo</string>
   <string name="Janrain_HSDP_ServerErrorMsg">Não é possível ligar ao servidor.
 Tente mais tarde ou consulte as nossas FAQ para obter mais informações.
 Se isto não resolver a sua questão, contacte o apoio ao cliente e indique o código de erro [%d]</string>
   <string name="Janrain_Invalid_Credentials">O nome de utilizador ou palavra-passe que introduziu está incorrecto.</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">O %@ ou a palavra-passe introduzidos estão incorretos.</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">O %s ou a palavra-passe introduzidos estão incorretos.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Não existe nenhuma conta associada a este e-mail. Crie uma conta utilizando este e-mail ou introduza outro endereço de e-mail.</string>
   <string name="Janrain_LimitError_ErrorMsg">Atingiu o limite de tentativas sem sucesso.
 Tente novamente mais tarde.</string>
@@ -221,10 +221,10 @@ Introduza o código correto ou reenvie-o.</string>
   <string name="Resend_SMS_title">Reenviar SMS</string>
   <string name="SigIn_TitleTxt">Iniciar sessão</string>
   <string name="SignOut_btntxt">Terminar sessão</string>
-  <string name="Social_Merge_Accounts_lbltxt">Para assegurar que a conta é mesmo sua, inicie sessão com %@ novamente.</string>
+  <string name="Social_Merge_Accounts_lbltxt">Para assegurar que a conta é mesmo sua, inicie sessão com %s novamente.</string>
   <string name="Social_Merge_Cancel_btntxt">Cancelar</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">Está quase a terminar!</string>
-  <string name="TermsAndConditionsAcceptanceText">Aceito os %@ da aplicação</string>
+  <string name="TermsAndConditionsAcceptanceText">Aceito os %s da aplicação</string>
   <string name="TermsAndConditionsAcceptanceText_Error">Aceite os Termos e condições</string>
   <string name="TermsAndConditionsText">Termos e condições</string>
   <string name="Title_AccountAlreadyExists_Txt">A conta já existe.</string>
@@ -239,13 +239,13 @@ Introduza o código correto ou reenvie-o.</string>
   <string name="URX_SMS_Already_Verified">Conta já verificada.
 Inicie sessão para continuar.</string>
   <string name="URX_SMS_InternalServerError">Não é possível enviar SMS.
-%@.</string>
+%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Não é possível enviar uma SMS para o número de telefone.</string>
   <string name="URX_SMS_Limit_Reached">Atingiu o limite de SMS para este número de telefone.
 Tente novamente dentro de %d segundos.</string>
-  <string name="URX_SMS_NoInformation_Available">Não é possível ligar ao servidor. %@.</string>
-  <string name="URX_SMS_Not_Sent">Não foi possível entregar a SMS. %@.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">Não é possível ligar ao servidor. %s.</string>
+  <string name="URX_SMS_Not_Sent">Não foi possível entregar a SMS. %s.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 O indicativo do país não é compatível.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Volte a tentar mais tarde</string>
   <string name="UnexpectedInternalError_ErrorMsg">Lamentamos, mas ocorreu um erro. Tente novamente.</string>

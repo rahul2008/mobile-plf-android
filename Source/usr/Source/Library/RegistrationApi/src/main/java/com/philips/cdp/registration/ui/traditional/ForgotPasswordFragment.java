@@ -89,8 +89,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
-    private final int BAD_RESPONSE_CODE = 7004;
-
     private Context context;
 
     @Inject
@@ -173,8 +171,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     private void initUI() {
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            usr_forgotpassword_email_label.setText(R.string.reg_CreateAccount_Email_PhoneNumber);
-            usr_forgotpassword_input_label.setText(R.string.reg_DLS_Forgot_Password_Body_With_Phone_No);
+            usr_forgotpassword_email_label.setText(R.string.DLS_Email_Phone_Label_Text);
+            usr_forgotpassword_input_label.setText(R.string.DLS_Forgot_Password_Body_With_Phone_No);
         }
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         userIdEditText.requestFocus();

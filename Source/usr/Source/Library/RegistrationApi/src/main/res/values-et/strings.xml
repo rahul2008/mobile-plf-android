@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">Proovi veel</string>
   <string name="Address_TitleTxt">Aadress</string>
   <string name="AppNotInstalled_Alert_Title">Rakendus ei ole installitud</string>
-  <string name="App_NotInstalled_AlertMessage">Selle funktsiooni kasutamiseks installige %@ rakendus.</string>
+  <string name="App_NotInstalled_AlertMessage">Selle funktsiooni kasutamiseks installige %s rakendus.</string>
   <string name="App_NotInstalled_InstallButton">Installimine</string>
   <string name="Column1">Column16</string>
   <string name="Continue_Btntxt">Jätka</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">Võib-olla hiljem</string>
   <string name="DLS_AddRecovery_Title_Text">Taastamise e-kiri</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">Tellige meie uudiskiri ning saadame teile eksklusiivseid kampaaniapakkumisi ja kuponge! Samuti saate esimeste seas teada meie uutest toodetest</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">Sisselogimise lõpetamiseks ja konto kinnitamiseks vajame %@</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">Sisselogimise lõpetamiseks ja konto kinnitamiseks vajame %s</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">vajame e-posti aadressi.</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">mobiilinumbrit.</string>
   <string name="DLS_Almost_Done_TextField_Text">Meil on vaja teie e-posti aadressi või mobiiltelefoni numbrit, et sisselogimise oleks võimalik lõpule viia ja et saaksime kinnitada, et olete reaalne inimene.</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Eripakkumised, kampaaniad ja värskeim teave uute toodete turuletuleku koha. Mõeldud just teile!</string>
   <string name="DLS_Optin_Body_Line2">Liituge 140 000 kaaslasega!</string>
   <string name="DLS_Password_lbltxt">Salasõna</string>
-  <string name="DLS_PhilipsNews_Description_Text">Teie nõusolekule tuginedes võivad Philipsi kontserni ettevõtted teile e-kirja, SMSi või muude digitaalsete kanalite kaudu (nt mobiilirakendused ja sotsiaalmeedia) saata reklaamkirju. Selleks, et saaksime teile saata teie eelistustele ja tarbimiskäitumisele vastavaid teavitusi ja pakkuda teile parimat ja personaalset kogemust, võime teie isikuandmeid analüüsida ja kombineerida. Need andmed võivad hõlmata:\\n\\nAndmeid, mida meile annate\\nAndmeid, mida soovite meiega aktiivselt jagada, näiteks teie nimi, sünniaeg või vanus, e-posti aadress, füüsiline aadress, riik, sugu, telefoninumber, suhtlusvõrgustiku profiil.\\n\\nAndmeid, mida me teie suhtlemisest Philipsiga kogume\\nAndmeid teie tegevuse ja Philipsi digitaalsete kanalite (nt sotsiaalmeedia, veebilehed, e-kirjad, rakendused ja nendega seotud tooted) kasutamise kohta. Need andmed võivad hõlmata järgmist: IP-aadress, küpsised, teave seadme kohta, teated, millele olete klõpsanud, asukoha andmed ja külastatavad veebilehed.\\n\\nPhilips annab teile võimaluse igal ajal oma nõusoleku tagasi võtta.\\nLisateabe saamiseks lugege palun Philipsi privaatsusavaldust ja küpsiste teadet.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Teie nõusolekule tuginedes võivad Philipsi kontserni ettevõtted teile e-kirja, SMSi või muude digitaalsete kanalite kaudu (nt mobiilirakendused ja sotsiaalmeedia) saata reklaamkirju. Selleks, et saaksime teile saata teie eelistustele ja tarbimiskäitumisele vastavaid teavitusi ja pakkuda teile parimat ja personaalset kogemust, võime teie isikuandmeid analüüsida ja kombineerida. Need andmed võivad hõlmata:nnAndmeid, mida meile annatenAndmeid, mida soovite meiega aktiivselt jagada, näiteks teie nimi, sünniaeg või vanus, e-posti aadress, füüsiline aadress, riik, sugu, telefoninumber, suhtlusvõrgustiku profiil.nnAndmeid, mida me teie suhtlemisest Philipsiga kogumenAndmeid teie tegevuse ja Philipsi digitaalsete kanalite (nt sotsiaalmeedia, veebilehed, e-kirjad, rakendused ja nendega seotud tooted) kasutamise kohta. Need andmed võivad hõlmata järgmist: IP-aadress, küpsised, teave seadme kohta, teated, millele olete klõpsanud, asukoha andmed ja külastatavad veebilehed.nnPhilips annab teile võimaluse igal ajal oma nõusoleku tagasi võtta.nLisateabe saamiseks lugege palun Philipsi privaatsusavaldust ja küpsiste teadet.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philipsi teated</string>
   <string name="DLS_Phonenumber_Label_Text">Telefoninumber</string>
   <string name="DLS_ResendSMS_Body_Line1">Koodiga SMS-i kohalejõudmine võib veidi aega võtta.</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">Saada e-kiri uuesti</string>
   <string name="DLS_ResetAccount_EnterCode_Text">Palun sisestage konto parooli lähtestamiseks kood.</string>
   <string name="DLS_SigIn_TitleTxt">Logi sisse</string>
-  <string name="DLS_Social_Merge_Description">Selleks logige palun uuesti sisse, kasutades valikut %@.</string>
+  <string name="DLS_Social_Merge_Description">Selleks logige palun uuesti sisse, kasutades valikut %s.</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">Ei, logi välja</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">Jah, logi sisse valikuga %@</string>
-  <string name="DLS_Social_Merge_Title">Olete Philipsi rakenduses või veebisaidil varem sisselogimiseks kasutanud valikut %@. Saame sotsiaalvõrgustiku teenuse andmete alusel sisselogimise teie kontoga seostada.</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">Jah, logi sisse valikuga %s</string>
+  <string name="DLS_Social_Merge_Title">Olete Philipsi rakenduses või veebisaidil varem sisselogimiseks kasutanud valikut %s. Saame sotsiaalvõrgustiku teenuse andmete alusel sisselogimise teie kontoga seostada.</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">Alustamine</string>
   <string name="DLS_StratView_Detail_Txt">Seadistage oma konto või logige sisse, et oma ühendatud toodet maksimaalselt kasutada</string>
   <string name="DLS_StratView_Title_Txt">Alustame</string>
   <string name="DLS_SwitchToLogin_Txt">Sisselogimislehele</string>
-  <string name="DLS_TermsAndConditionsAcceptanceText">Jah, nõustun rakenduse jaotisega %@</string>
+  <string name="DLS_TermsAndConditionsAcceptanceText">Jah, nõustun rakenduse jaotisega %s</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">Palun kinnitage tingimused</string>
   <string name="DLS_TermsAndConditionsText">Tingimused</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Logi kohe sisse</string>
   <string name="DLS_Traditional_Merge_Description">Kas sooviksite oma kontod ühendada?</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">Unustasite salasõna?</string>
-  <string name="DLS_Traditional_Merge_Title">Olete valikut %@ eelnevalt Philipsi konto loomiseks kasutanud.</string>
+  <string name="DLS_Traditional_Merge_Title">Olete valikut %s eelnevalt Philipsi konto loomiseks kasutanud.</string>
   <string name="DLS_URCreateAccount_NavTitle">Loo konto</string>
-  <string name="DLS_VerifySMS_Description_Text">Saatsime kuuekohalise koodiga SMSi telefoninumbrile %@</string>
+  <string name="DLS_VerifySMS_Description_Text">Saatsime kuuekohalise koodiga SMSi telefoninumbrile %s</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">Ma ei saanud SMS-i</string>
   <string name="DLS_VerifySMS_EnterCode_Text">Palun sisestage oma konto aktiveerimiseks kood.</string>
   <string name="DLS_VerifySMS_Title_Text">Kinnitage oma telefoninumber</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">Palun kontrollige oma postkasti ja aktiveerige konto.</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">Ma ei ole e-kirja saanud</string>
   <string name="DLS_Verify_Email_Security_Txt">Selle protsessi läbimine on vajalik teie turvalisuse tagamiseks.</string>
-  <string name="DLS_Verify_Email_Sent_Txt">Saatsime teile e-kirja aadressile %@.</string>
+  <string name="DLS_Verify_Email_Sent_Txt">Saatsime teile e-kirja aadressile %s.</string>
   <string name="DLS_Verify_Email_Title_Txt">Kinnitage oma e-posti aadress</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">Olen juba kinnitanud</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">Või logige sisse kontoga:</string>
@@ -184,18 +184,18 @@ Kontrollige internetiühendust ja proovige uuesti.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Palun sisestage kehtiv e-posti aadress.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Meil ei õnnestu teie telefoninumbrit tuvastada. Kontrollige riigi koodi.</string>
   <string name="JanRain_Error_Check_Internet">Võrguühenduse viga. Palun proovige uuesti.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Serveriga ei saa ühendust luua. %@.
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Serveriga ei saa ühendust luua. %s.
 Probleem püsib? Võtke ühendust klienditeenindusega ja öelda oma veakood [%d]</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@. Naaske ja logige uuesti sisse.</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Naaske ja logige uuesti sisse.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">See e-posti aadress on juba olemas. Logige sisse seda aadressi kasutades või registreerige teine aadress.</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">Teie %@ on juba registreeritud.</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">Teie %s on juba registreeritud.</string>
   <string name="Janrain_Error_Need_Email_Verification">Palun kinnitage oma e-posti aadress sellele saadetud aktiveerimislingi abil</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Palun kinnitage oma mobiiltelefoni number teie mobiiltelefoni numbrile saadetud aktiveerimiskoodi kasutades</string>
   <string name="Janrain_HSDP_ServerErrorMsg">Ei saa serveriga ühendust luua.
 Proovige hiljem uuesti või lugege lisateavet osast KKK.
 Kui see probleemi ei lahenda, võtke ühendust klienditeenindusega ja öelge oma veakood [%d]</string>
   <string name="Janrain_Invalid_Credentials">Sisestatud kasutajanimi või parool on vale.</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">Sisestatud %@ või parool on vale.</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">Sisestatud %s või parool on vale.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Selle e-posti aadressiga ei ole seotud ühtegi kontot. Looge konto seda e-posti aadressi kasutades või sisestage teine e-posti aadress.</string>
   <string name="Janrain_LimitError_ErrorMsg">Liiga palju ebaõnnestunud katseid.
 Proovige hiljem uuesti.</string>
@@ -221,10 +221,10 @@ Sisestage õige kood või saatke kood uuesti.</string>
   <string name="Resend_SMS_title">Saada SMS uuesti</string>
   <string name="SigIn_TitleTxt">Logi sisse</string>
   <string name="SignOut_btntxt">Logi välja</string>
-  <string name="Social_Merge_Accounts_lbltxt">Veendumaks, et see olete tõesti teie, logige veel korra kontoga %@ sisse.</string>
+  <string name="Social_Merge_Accounts_lbltxt">Veendumaks, et see olete tõesti teie, logige veel korra kontoga %s sisse.</string>
   <string name="Social_Merge_Cancel_btntxt">Tühista</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">Peaaegu valmis!</string>
-  <string name="TermsAndConditionsAcceptanceText">Nõustun rakenduse jaotisega %@</string>
+  <string name="TermsAndConditionsAcceptanceText">Nõustun rakenduse jaotisega %s</string>
   <string name="TermsAndConditionsAcceptanceText_Error">Palun kinnitage tingimused</string>
   <string name="TermsAndConditionsText">Kasutustingimused</string>
   <string name="Title_AccountAlreadyExists_Txt">Konto juba olemas.</string>
@@ -239,13 +239,13 @@ Sisestage õige kood või saatke kood uuesti.</string>
   <string name="URX_SMS_Already_Verified">Konto juba kinnitatud.
 Jätkamiseks logige sisse.</string>
   <string name="URX_SMS_InternalServerError">SMSi ei saa saata.
-%@.</string>
+%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Me ei saa sellele telefoninumbrile SMSi saata.</string>
   <string name="URX_SMS_Limit_Reached">SMSide piirarv on selle telefoninumbri jaoks saavutatud.
 Proovige uuesti %d s pärast.</string>
-  <string name="URX_SMS_NoInformation_Available">Serveriga ei saa ühendust luua. %@.</string>
-  <string name="URX_SMS_Not_Sent">SMSi ei saanud edastada. %@.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">Serveriga ei saa ühendust luua. %s.</string>
+  <string name="URX_SMS_Not_Sent">SMSi ei saanud edastada. %s.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 Riigi koodi ei toetata.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Proovige hiljem uuesti</string>
   <string name="UnexpectedInternalError_ErrorMsg">Vabandage, midagi läks valesti. Palun proovige uuesti.</string>

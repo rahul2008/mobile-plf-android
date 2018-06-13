@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">再試行</string>
   <string name="Address_TitleTxt">住所</string>
   <string name="AppNotInstalled_Alert_Title">アプリがインストールされていません</string>
-  <string name="App_NotInstalled_AlertMessage">この機能を利用するには、%@ アプリをインストールしてください。</string>
+  <string name="App_NotInstalled_AlertMessage">この機能を利用するには、%s アプリをインストールしてください。</string>
   <string name="App_NotInstalled_InstallButton">インストール</string>
   <string name="Column1">Column24</string>
   <string name="Continue_Btntxt">続行</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">後で実行</string>
   <string name="DLS_AddRecovery_Title_Text">リカバリメール</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">特別プロモーションとクーポンを受け取るためのニュースレターを購読し、新製品についての最新情報を入手しましょう</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">ログインを完了してアカウントを確認するには、%@が必要です</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">ログインを完了してアカウントを確認するには、%sが必要です</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">メールアドレスが必要です。</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">携帯電話番号。</string>
   <string name="DLS_Almost_Done_TextField_Text">ログインを完了してあなたが本人であることを確認するには、メールアドレスまたは携帯電話番号が必要です。</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">特別オファー、プロモーション、新製品の発売に関する情報など、あなたにぴったりの情報をお届けします。</string>
   <string name="DLS_Optin_Body_Line2">14 万人のユーザーがいる my Philips に参加しましょう！</string>
   <string name="DLS_Password_lbltxt">パスワード</string>
-  <string name="DLS_PhilipsNews_Description_Text">お客様にご同意いただいた場合、フィリップスグループ各社が、メール、SMS、モバイルアプリやソーシャルメディアなどのその他デジタルチャネルを利用して、プロモーションについてご連絡させていただく場合があります。 お客様の嗜好や行動に応じて最適な情報をご提供するために、当社では、お客様の個人データを分析したり結びつけたりする場合があります。 それらのデータには次が含まれます： \\n\\nお客様にご提供いただく可能性のあるデータ\\nお客様のお名前、生年月日、年齢、メールアドレス、住所、お住まいの国、性別、電話番号、ソーシャルメディアプロフィールなど、お客様が同意の上ご提供いただくデータ。\\n\\nお客様とのやり取りで当社が入手するデータ\\nソーシャルメディア、ウェブサイト、メール、アプリ、コネクテッド製品などのフィリップスのデジタルチャネルでのやり取りおよび使用に関するデータ。 これらのデータには、IP アドレス、cookie、デバイス情報、お客様がクリックした情報、位置情報の詳細、アクセスしたウェブサイトなども含まれます。\\n\\nお客様はいつでも同意を取り消すことができます。\\n詳細については、当社のプライバシーに関する通知 および cookie に関するポリシーをお読みください。</string>
+  <string name="DLS_PhilipsNews_Description_Text">お客様にご同意いただいた場合、フィリップスグループ各社が、メール、SMS、モバイルアプリやソーシャルメディアなどのその他デジタルチャネルを利用して、プロモーションについてご連絡させていただく場合があります。 お客様の嗜好や行動に応じて最適な情報をご提供するために、当社では、お客様の個人データを分析したり結びつけたりする場合があります。 それらのデータには次が含まれます： nnお客様にご提供いただく可能性のあるデータnお客様のお名前、生年月日、年齢、メールアドレス、住所、お住まいの国、性別、電話番号、ソーシャルメディアプロフィールなど、お客様が同意の上ご提供いただくデータ。nnお客様とのやり取りで当社が入手するデータnソーシャルメディア、ウェブサイト、メール、アプリ、コネクテッド製品などのフィリップスのデジタルチャネルでのやり取りおよび使用に関するデータ。 これらのデータには、IP アドレス、cookie、デバイス情報、お客様がクリックした情報、位置情報の詳細、アクセスしたウェブサイトなども含まれます。nnお客様はいつでも同意を取り消すことができます。n詳細については、当社のプライバシーに関する通知 および cookie に関するポリシーをお読みください。</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">フィリップスコミュニケーション</string>
   <string name="DLS_Phonenumber_Label_Text">電話番号</string>
   <string name="DLS_ResendSMS_Body_Line1">コードを記載した SMS が届くまで少々時間がかかることがあります。</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">メールの再送</string>
   <string name="DLS_ResetAccount_EnterCode_Text">アカウントのパスワードをリセットするには、コードを入力してください。</string>
   <string name="DLS_SigIn_TitleTxt">ログイン</string>
-  <string name="DLS_Social_Merge_Description">アカウントにリンクするには、%@ を使用して再度ログインしてください。</string>
+  <string name="DLS_Social_Merge_Description">アカウントにリンクするには、%s を使用して再度ログインしてください。</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">いいえ、ログアウトします</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">はい、%@ でログインします</string>
-  <string name="DLS_Social_Merge_Title">%@ を使用する前にフィリップスのアプリまたは Web サイトにログインしています。このソーシャルログインをアカウントにリンクすることもできます。</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">はい、%s でログインします</string>
+  <string name="DLS_Social_Merge_Title">%s を使用する前にフィリップスのアプリまたは Web サイトにログインしています。このソーシャルログインをアカウントにリンクすることもできます。</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">はじめに</string>
   <string name="DLS_StratView_Detail_Txt">接続された製品を最大限に活用するには、アカウントを設定するかログインしてください</string>
   <string name="DLS_StratView_Title_Txt">早速、始めましょう</string>
   <string name="DLS_SwitchToLogin_Txt">ログインに切り替える</string>
-  <string name="DLS_TermsAndConditionsAcceptanceText">はい、アプリの %@ に同意します</string>
+  <string name="DLS_TermsAndConditionsAcceptanceText">はい、アプリの %s に同意します</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">アプリの利用規約に同意する</string>
   <string name="DLS_TermsAndConditionsText">諸条件</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">今すぐログイン</string>
   <string name="DLS_Traditional_Merge_Description">アカウントをマージしますか？</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">パスワードをお忘れの場合</string>
-  <string name="DLS_Traditional_Merge_Title">%@ は、以前フィリップスアカウントを作成するために使用されています。</string>
+  <string name="DLS_Traditional_Merge_Title">%s は、以前フィリップスアカウントを作成するために使用されています。</string>
   <string name="DLS_URCreateAccount_NavTitle">アカウントを作成</string>
-  <string name="DLS_VerifySMS_Description_Text">あなたの電話番号 %@ に 6 桁のコードを含む SMS を送信しました</string>
+  <string name="DLS_VerifySMS_Description_Text">あなたの電話番号 %s に 6 桁のコードを含む SMS を送信しました</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">SMS を受信していません</string>
   <string name="DLS_VerifySMS_EnterCode_Text">コードを入力してアカウントをアクティベートしてください。</string>
   <string name="DLS_VerifySMS_Title_Text">電話番号を確認してください</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">メールを確認してアカウントをアクティベートしてください。</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">メールを受信していません</string>
   <string name="DLS_Verify_Email_Security_Txt">お客様のセキュリティの保護のため、このプロセスを実行します。</string>
-  <string name="DLS_Verify_Email_Sent_Txt">%@ にメールを送信しました。</string>
+  <string name="DLS_Verify_Email_Sent_Txt">%s にメールを送信しました。</string>
   <string name="DLS_Verify_Email_Title_Txt">メールを確認</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">確認済みです</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">または次のアカウントでログイン：</string>
@@ -184,18 +184,18 @@
   <string name="InvalidOrMissingEmail_ErrorMsg">有効なメールアドレスを入力してください。</string>
   <string name="InvalidPhoneNumber_ErrorMsg">電話番号を認識できませんでした。国番号を確認してください。</string>
   <string name="JanRain_Error_Check_Internet">ネットワーク接続に問題があります。再試行してください。</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">サーバーに接続できません。%@。
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">サーバーに接続できません。%s。
 問題が解決しない場合は、カスタマーケアにお問い合わせください。その際エラーコード [%d] をお伝えください</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@。戻って再度ログインしてください。</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s。戻って再度ログインしてください。</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">このメールアドレスは既に存在します。このアドレスを使用してログインするか、別のアドレスを使用して登録してください。</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">%@ は既に登録されています。</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">%s は既に登録されています。</string>
   <string name="Janrain_Error_Need_Email_Verification">お客様のメールアカウントに送信されたアクティベーションリンクを使用して、メールアドレスの照合を行ってください。</string>
   <string name="Janrain_Error_Need_Mobile_Verification">携帯電話番号にお送りしたアクティベーションコードを使用して、携帯電話番号を確認してください。</string>
   <string name="Janrain_HSDP_ServerErrorMsg">サーバーに接続できません。
 しばらくしてから再試行するか、よくある質問で詳細を確認してください。
 問題が解決しない場合は、サポートにお問い合わせください。その際エラーコード [%d] をお伝えください</string>
   <string name="Janrain_Invalid_Credentials">入力されたユーザー名またはパスワードが間違っています。</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">入力された %@ またはパスワードが間違っています。</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">入力された %s またはパスワードが間違っています。</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">このメールアドレスのアカウントは存在しません。このメールアドレスを使用してアカウントを作成するか、別のメールアドレスを入力してください。</string>
   <string name="Janrain_LimitError_ErrorMsg">試行回数の上限に達しました。
 しばらくしてから再試行してください。</string>
@@ -221,10 +221,10 @@
   <string name="Resend_SMS_title">SMS を再送</string>
   <string name="SigIn_TitleTxt">ログイン</string>
   <string name="SignOut_btntxt">ログアウト</string>
-  <string name="Social_Merge_Accounts_lbltxt">お客様ご自身であることを確認するために、もう一度 %@ でログインしてください。</string>
+  <string name="Social_Merge_Accounts_lbltxt">お客様ご自身であることを確認するために、もう一度 %s でログインしてください。</string>
   <string name="Social_Merge_Cancel_btntxt">キャンセル</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">もう少しで完了です</string>
-  <string name="TermsAndConditionsAcceptanceText">アプリの %@ に同意する</string>
+  <string name="TermsAndConditionsAcceptanceText">アプリの %s に同意する</string>
   <string name="TermsAndConditionsAcceptanceText_Error">アプリの利用規約に同意する</string>
   <string name="TermsAndConditionsText">利用規約</string>
   <string name="Title_AccountAlreadyExists_Txt">アカウントは既に存在します。</string>
@@ -239,13 +239,13 @@
   <string name="URX_SMS_Already_Verified">アカウントは確認済みです。
 ログインして続行してください。</string>
   <string name="URX_SMS_InternalServerError">SMS を送信できません。
-%@。</string>
+%s。</string>
   <string name="URX_SMS_Invalid_PhoneNumber">この電話番号には SMS を送信できません。</string>
   <string name="URX_SMS_Limit_Reached">SMS の試行回数の上限に達しました。
 %d 秒以内に再試行してください。</string>
-  <string name="URX_SMS_NoInformation_Available">サーバーに接続できません。%@。</string>
-  <string name="URX_SMS_Not_Sent">SMS を送信できませんでした。%@。</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">サーバーに接続できません。%s。</string>
+  <string name="URX_SMS_Not_Sent">SMS を送信できませんでした。%s。</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 入力された国番号はサポートされていません。</string>
   <string name="USR_Error_PleaseTryLater_Txt">しばらくしてから再試行してください</string>
   <string name="UnexpectedInternalError_ErrorMsg">問題が発生しました。再試行してください。</string>

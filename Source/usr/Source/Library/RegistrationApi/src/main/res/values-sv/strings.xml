@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">Försök igen</string>
   <string name="Address_TitleTxt">Adress</string>
   <string name="AppNotInstalled_Alert_Title">Appen är inte installerad</string>
-  <string name="App_NotInstalled_AlertMessage">Installera %@-appen för att utnyttja den här funktionen.</string>
+  <string name="App_NotInstalled_AlertMessage">Installera %s-appen för att utnyttja den här funktionen.</string>
   <string name="App_NotInstalled_InstallButton">Installation</string>
   <string name="Column1">Column37</string>
   <string name="Continue_Btntxt">Fortsätt</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">Kanske senare</string>
   <string name="DLS_AddRecovery_Title_Text">E-postadress för återskapande</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">Prenumerera på vårt nyhetsbrev för att få exklusiva erbjudanden och kuponger och bli först med att få veta om nya produkter</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">För att kunna slutföra inloggningen och verifiera kontot behöver vi %@</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">För att kunna slutföra inloggningen och verifiera kontot behöver vi %s</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">vi behöver en e-postadress.</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">ett mobilnummer.</string>
   <string name="DLS_Almost_Done_TextField_Text">För att kunna slutföra inloggningen och verifiera att du är en verklig person behöver vi en e-postadress eller ett mobilnummer.</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Specialerbjudanden, kampanjer och förstahandsinformation om nya produktlanseringar. Skräddarsydda för dig!</string>
   <string name="DLS_Optin_Body_Line2">Gör som 140 000 andra och gå med nu!</string>
   <string name="DLS_Password_lbltxt">Lösenord</string>
-  <string name="DLS_PhilipsNews_Description_Text">Som ett resultat av ditt medgivande kan det hända att Philips företagsgrupp skickar marknadsföringsinformation till dig via e-post, SMS och andra digitala kanaler, såsom mobilappar och sociala medier. För att kunna skräddarsy informationen efter dina preferenser och vanor och förse dig med ett material som är bäst anpassat för dig, kan vi analysera och kombinera dina personuppgifter. Denna information kan innefatta: \\n\\nUppgifterna du ger oss\\nData som du aktivt vill dela med oss som: namn, födelsedatum eller ålder, e-postadress, besöksadress, land, kön, telefonnummer, profil på sociala medier.\\n\\nData som vi får från din interaktion med Philips\\nData om dina interaktioner och användning av Philips digitala kanaler, som sociala medier, webbplatser, e-post, appar och anslutna produkter. Dessa data kan inkludera: IP-adresser, cookies, enhetsinformation, meddelanden som du kan klicka i, adressuppgifter och webbplatser du besöker\\n\\nPhilips ger dig möjlighet att när som helst återkalla ditt medgivande.\\nMer information finns i Philips sekretessmeddelande och Philips cookie-meddelande.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Som ett resultat av ditt medgivande kan det hända att Philips företagsgrupp skickar marknadsföringsinformation till dig via e-post, SMS och andra digitala kanaler, såsom mobilappar och sociala medier. För att kunna skräddarsy informationen efter dina preferenser och vanor och förse dig med ett material som är bäst anpassat för dig, kan vi analysera och kombinera dina personuppgifter. Denna information kan innefatta: nnUppgifterna du ger ossnData som du aktivt vill dela med oss som: namn, födelsedatum eller ålder, e-postadress, besöksadress, land, kön, telefonnummer, profil på sociala medier.nnData som vi får från din interaktion med PhilipsnData om dina interaktioner och användning av Philips digitala kanaler, som sociala medier, webbplatser, e-post, appar och anslutna produkter. Dessa data kan inkludera: IP-adresser, cookies, enhetsinformation, meddelanden som du kan klicka i, adressuppgifter och webbplatser du besökernnPhilips ger dig möjlighet att när som helst återkalla ditt medgivande.nMer information finns i Philips sekretessmeddelande och Philips cookie-meddelande.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Kommunikation från Philips</string>
   <string name="DLS_Phonenumber_Label_Text">Telefonnummer</string>
   <string name="DLS_ResendSMS_Body_Line1">Det kan dröja en stund innan du får ett SMS med koden.</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">Skicka om e-postbekräftelsen</string>
   <string name="DLS_ResetAccount_EnterCode_Text">Ange koden för att återställa ditt lösenord.</string>
   <string name="DLS_SigIn_TitleTxt">Logga in</string>
-  <string name="DLS_Social_Merge_Description">Det gör du genom att logga in igen med %@.</string>
+  <string name="DLS_Social_Merge_Description">Det gör du genom att logga in igen med %s.</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">Nej, logga ut</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">Ja, logga in med %@</string>
-  <string name="DLS_Social_Merge_Title">Du har tidigare loggat in med %@ på en Philips-app eller -webbplats. Vi kan också länka den här sociala inloggningen till ditt konto.</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">Ja, logga in med %s</string>
+  <string name="DLS_Social_Merge_Title">Du har tidigare loggat in med %s på en Philips-app eller -webbplats. Vi kan också länka den här sociala inloggningen till ditt konto.</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">Så här gör du</string>
   <string name="DLS_StratView_Detail_Txt">Skapa ett konto eller logga in för att få ut mesta möjliga av din produkt</string>
   <string name="DLS_StratView_Title_Txt">Då sätter vi igång</string>
   <string name="DLS_SwitchToLogin_Txt">Växla till inloggning</string>
-  <string name="DLS_TermsAndConditionsAcceptanceText">Jag godkänner appens %@</string>
+  <string name="DLS_TermsAndConditionsAcceptanceText">Jag godkänner appens %s</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">Godkänn våra Villkor</string>
   <string name="DLS_TermsAndConditionsText">Villkor</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Logga in nu</string>
   <string name="DLS_Traditional_Merge_Description">Vill du slå ihop dina konton?</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">Om du har glömt lösenordet</string>
-  <string name="DLS_Traditional_Merge_Title">Du har tidigare använt %@ för att skapa ett Philips-konto.</string>
+  <string name="DLS_Traditional_Merge_Title">Du har tidigare använt %s för att skapa ett Philips-konto.</string>
   <string name="DLS_URCreateAccount_NavTitle">Skapa konto</string>
-  <string name="DLS_VerifySMS_Description_Text">Vi har skickat ett SMS med en sexsiffrig kod till din telefon %@</string>
+  <string name="DLS_VerifySMS_Description_Text">Vi har skickat ett SMS med en sexsiffrig kod till din telefon %s</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">Jag fick inget SMS</string>
   <string name="DLS_VerifySMS_EnterCode_Text">Ange koden för att aktivera ditt konto.</string>
   <string name="DLS_VerifySMS_Title_Text">Bekräfta telefonnumret</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">Kontrollera din e-post för att aktivera ditt konto.</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">Jag har inte fått något e-postmeddelande</string>
   <string name="DLS_Verify_Email_Security_Txt">Den här processen är till för din säkerhet.</string>
-  <string name="DLS_Verify_Email_Sent_Txt">Vi har skickat ett e-postmeddelande till %@.</string>
+  <string name="DLS_Verify_Email_Sent_Txt">Vi har skickat ett e-postmeddelande till %s.</string>
   <string name="DLS_Verify_Email_Title_Txt">Bekräfta din e-postadress</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">Jag har redan verifierat kontot</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">Eller logga in med:</string>
@@ -183,18 +183,18 @@
   <string name="InvalidOrMissingEmail_ErrorMsg">Ange en giltig e-postadress.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Vi känner inte igen ditt telefonnummer. Kontrollera landskod.</string>
   <string name="JanRain_Error_Check_Internet">Ett fel inträffade i nätverksanslutningen. Försök igen.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Det går inte att ansluta till servern. %@.
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Det går inte att ansluta till servern. %s.
 Har du fortfarande problem? Kontakta kundtjänst och ange felkoden [%d]</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@. Gå tillbaka och logga in igen.</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Gå tillbaka och logga in igen.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Den här e-postadressen finns redan. Logga in med adressen eller registrera dig med en annan adress.</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">Din %@ är redan registrerad.</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">Din %s är redan registrerad.</string>
   <string name="Janrain_Error_Need_Email_Verification">Bekräfta din e-postadress via den aktiveringslänk som har skickats till ditt e-postkonto.</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Verifiera ditt mobilnummer via aktiveringskoden vi skickade till din mobiltelefon</string>
   <string name="Janrain_HSDP_ServerErrorMsg">Det går inte att ansluta till servern.
 Försök igen senare eller kolla in våra Vanliga frågor för mer information.
 Om detta inte löser frågan kontaktar du kundtjänst och anger felkod [%d]</string>
   <string name="Janrain_Invalid_Credentials">Användarnamnet eller lösenordet du angav är felaktigt.</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">%@ eller lösenordet som du angav stämmer inte.</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">%s eller lösenordet som du angav stämmer inte.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Konto saknas för den här e-postadressen. Skapa ett konto med den här e-postadressen eller ange en annan e-postadress.</string>
   <string name="Janrain_LimitError_ErrorMsg">Gränsen för för många misslyckade inloggningsförsök har uppnåtts.
 Försök igen senare.</string>
@@ -220,10 +220,10 @@ Ange rätt kod eller skicka om koden.</string>
   <string name="Resend_SMS_title">Skicka om SMS</string>
   <string name="SigIn_TitleTxt">Logga in</string>
   <string name="SignOut_btntxt">Logga ut</string>
-  <string name="Social_Merge_Accounts_lbltxt">För att bekräfta att det verkligen är du, logga in med %@ igen.</string>
+  <string name="Social_Merge_Accounts_lbltxt">För att bekräfta att det verkligen är du, logga in med %s igen.</string>
   <string name="Social_Merge_Cancel_btntxt">Avbryt</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">Nästan klar!</string>
-  <string name="TermsAndConditionsAcceptanceText">Jag godkänner appens %@</string>
+  <string name="TermsAndConditionsAcceptanceText">Jag godkänner appens %s</string>
   <string name="TermsAndConditionsAcceptanceText_Error">Godkänn våra Villkor</string>
   <string name="TermsAndConditionsText">Villkor</string>
   <string name="Title_AccountAlreadyExists_Txt">Kontot finns redan.</string>
@@ -238,12 +238,12 @@ Ange rätt kod eller skicka om koden.</string>
   <string name="URX_SMS_Already_Verified">Kontot har redan verifierats.
 Logga in för att fortsätta.</string>
   <string name="URX_SMS_InternalServerError">Det går inte att skicka SMS.
-%@.</string>
+%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Det går inte att skicka ett SMS till det här telefonnumret.</string>
   <string name="URX_SMS_Limit_Reached">Gränsen har uppnåtts för telefonnumret. Försök igen om %d sekunder.</string>
-  <string name="URX_SMS_NoInformation_Available">Det går inte att ansluta till servern %@.</string>
-  <string name="URX_SMS_Not_Sent">SMS:et kunde inte levereras. %@.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">Det går inte att ansluta till servern %s.</string>
+  <string name="URX_SMS_Not_Sent">SMS:et kunde inte levereras. %s.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 Landskoden stöds inte.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Försök igen senare</string>
   <string name="UnexpectedInternalError_ErrorMsg">Något gick fel. Försök igen.</string>

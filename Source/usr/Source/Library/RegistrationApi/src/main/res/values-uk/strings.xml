@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">Повторити спробу</string>
   <string name="Address_TitleTxt">Адреса</string>
   <string name="AppNotInstalled_Alert_Title">Додаток не встановлено</string>
-  <string name="App_NotInstalled_AlertMessage">Встановіть додаток %@, щоб скористатися цією функцією.</string>
+  <string name="App_NotInstalled_AlertMessage">Встановіть додаток %s, щоб скористатися цією функцією.</string>
   <string name="App_NotInstalled_InstallButton">Встановлення</string>
   <string name="Column1">Column40</string>
   <string name="Continue_Btntxt">Продовжити</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">Можливо пізніше</string>
   <string name="DLS_AddRecovery_Title_Text">Електронний лист для відновлення</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">Підпишіться на нашу розсилку новин, щоб отримувати ексклюзивні акції та купони і першими дізнаватися про нові вироби</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">Щоб завершити вхід у систему та підтвердити обліковий запис, нам потрібно %@</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">Щоб завершити вхід у систему та підтвердити обліковий запис, нам потрібно %s</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">нам потрібно адресу ел. пошти.</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">номер моб. телефону.</string>
   <string name="DLS_Almost_Done_TextField_Text">Щоб завершити вхід у систему та дізнатися про те, чи Ви реальна особа, нам потрібна адреса електронної пошти або номер телефону.</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Спеціальні пропозиції, акції та інформацію з перших рук про випуск нових продуктів. Підібрані спеціально для Вас!</string>
   <string name="DLS_Optin_Body_Line2">Приєднайтеся до 140 000 користувачів зараз!</string>
   <string name="DLS_Password_lbltxt">Пароль</string>
-  <string name="DLS_PhilipsNews_Description_Text">За Вашою згодою компанії групи Philips можуть надсилати Вам рекламно-інформаційні повідомлення електронною поштою, через SMS-повідомлення та інші цифрові канали (наприклад, мобільні додатки та соціальні мережі). Щоб мати змогу підібрати повідомлення відповідно до Ваших інтересів і запропонувати Вам найкраще персоналізоване використання ми можемо аналізувати та поєднувати Ваші особисті дані. Ці дані можуть включати:\\n\\nДані, які Ви даєте нам\\nДані, якими Ви бажаєте активно з нами поділитися, такими як: Ваше ім’я, дата народження або вік, електронна адреса, поштова адреса, країна, стать, номер телефону, профіль у соціальній мережі.\\n\\nДані, які ми отримуємо від Вашої взаємодії з Philips\\nДані про Вашу взаємодію та використання цифрових каналів Philips, наприклад соціальні мережі, веб-сайти, електронні адреси, додатки та підключені вироби. Ці дані можуть включати: IP-адресу, файли cookie, інформацію про виріб, повідомлення, на які Ви переходите, деталі про місцезнаходження та веб-сайти, які Ви відвідуєте\\n\\nКомпанія Philips надасть Вам можливість у будь-який час анулювати свою згоду.\\nЩоб отримати докладні відомості, читайте Політику конфіденційності Philips і повідомлення Philips про файли Cookie.</string>
+  <string name="DLS_PhilipsNews_Description_Text">За Вашою згодою компанії групи Philips можуть надсилати Вам рекламно-інформаційні повідомлення електронною поштою, через SMS-повідомлення та інші цифрові канали (наприклад, мобільні додатки та соціальні мережі). Щоб мати змогу підібрати повідомлення відповідно до Ваших інтересів і запропонувати Вам найкраще персоналізоване використання ми можемо аналізувати та поєднувати Ваші особисті дані. Ці дані можуть включати:nnДані, які Ви даєте намnДані, якими Ви бажаєте активно з нами поділитися, такими як: Ваше ім’я, дата народження або вік, електронна адреса, поштова адреса, країна, стать, номер телефону, профіль у соціальній мережі.nnДані, які ми отримуємо від Вашої взаємодії з PhilipsnДані про Вашу взаємодію та використання цифрових каналів Philips, наприклад соціальні мережі, веб-сайти, електронні адреси, додатки та підключені вироби. Ці дані можуть включати: IP-адресу, файли cookie, інформацію про виріб, повідомлення, на які Ви переходите, деталі про місцезнаходження та веб-сайти, які Ви відвідуєтеnnКомпанія Philips надасть Вам можливість у будь-який час анулювати свою згоду.nЩоб отримати докладні відомості, читайте Політику конфіденційності Philips і повідомлення Philips про файли Cookie.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Спілкування з Philips</string>
   <string name="DLS_Phonenumber_Label_Text">Номер телефону</string>
   <string name="DLS_ResendSMS_Body_Line1">SMS із кодом може надійти через деякий час.</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">Надіслати електронного листа ще раз</string>
   <string name="DLS_ResetAccount_EnterCode_Text">Введіть код, щоб скинути пароль облікового запису.</string>
   <string name="DLS_SigIn_TitleTxt">Увійти</string>
-  <string name="DLS_Social_Merge_Description">Для цього ввійдіть у систему знову за допомогою %@.</string>
+  <string name="DLS_Social_Merge_Description">Для цього ввійдіть у систему знову за допомогою %s.</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">Ні, вийти</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">Так, увійти за допомогою %@</string>
-  <string name="DLS_Social_Merge_Title">Раніше Ви заходили за допомогою %@ у додатку або на веб-сайті Philips. Ми можемо також пов’язати цей соціальний вхід з обліковим записом.</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">Так, увійти за допомогою %s</string>
+  <string name="DLS_Social_Merge_Title">Раніше Ви заходили за допомогою %s у додатку або на веб-сайті Philips. Ми можемо також пов’язати цей соціальний вхід з обліковим записом.</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">Початок роботи</string>
   <string name="DLS_StratView_Detail_Txt">Налаштуйте обліковий запис або увійдіть у систему, щоб користуватися усіма перевагами під’єднаного виробу</string>
   <string name="DLS_StratView_Title_Txt">Розпочнімо</string>
   <string name="DLS_SwitchToLogin_Txt">Перейти до входу</string>
-  <string name="DLS_TermsAndConditionsAcceptanceText">Звичайно, я приймаю %@ додатка</string>
+  <string name="DLS_TermsAndConditionsAcceptanceText">Звичайно, я приймаю %s додатка</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">Прийміть Умови використання</string>
   <string name="DLS_TermsAndConditionsText">Умови використання</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Увійти зараз</string>
   <string name="DLS_Traditional_Merge_Description">Хочете об’єднати облікові записи?</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">Забули пароль?</string>
-  <string name="DLS_Traditional_Merge_Title">Ви використовували %@ раніше для створення облікового запису Philips.</string>
+  <string name="DLS_Traditional_Merge_Title">Ви використовували %s раніше для створення облікового запису Philips.</string>
   <string name="DLS_URCreateAccount_NavTitle">Створити обліковий запис</string>
-  <string name="DLS_VerifySMS_Description_Text">Ми щойно надіслали SMS-повідомлення із шестизначним кодом на номер телефону %@</string>
+  <string name="DLS_VerifySMS_Description_Text">Ми щойно надіслали SMS-повідомлення із шестизначним кодом на номер телефону %s</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">Я не отримав(ла) SMS</string>
   <string name="DLS_VerifySMS_EnterCode_Text">Введіть код, щоб активувати обліковий запис.</string>
   <string name="DLS_VerifySMS_Title_Text">Підтвердіть свій номер телефону</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">Перевірте електронну скриньку, щоб активувати обліковий запис.</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">Я не отримав(ла) електронного листа</string>
   <string name="DLS_Verify_Email_Security_Txt">Ми виконуємо цю процедуру для Вашої безпеки.</string>
-  <string name="DLS_Verify_Email_Sent_Txt">Ми щойно надіслали Вам електронного листа на %@.</string>
+  <string name="DLS_Verify_Email_Sent_Txt">Ми щойно надіслали Вам електронного листа на %s.</string>
   <string name="DLS_Verify_Email_Title_Txt">Підтвердьте адресу електронної пошти</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">Я вже перевірив(ла)</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">Або ввійти за допомогою:</string>
@@ -184,18 +184,18 @@
   <string name="InvalidOrMissingEmail_ErrorMsg">Введіть дійсну адресу ел. пошти.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Неможливо розпізнати Ваш номер телефону. Перевірте код країни.</string>
   <string name="JanRain_Error_Check_Internet">Виникла проблема з мережевим з’єднанням. Спробуйте ще раз.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Неможливо під’єднатися до сервера. %@.
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Неможливо під’єднатися до сервера. %s.
 Проблема залишилася? Зверніться до Центру обслуговування клієнтів і вкажіть код помилки [%d]</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@. Поверніться назад і знову увійдіть у систему.</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Поверніться назад і знову увійдіть у систему.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Ця адреса електронної пошти уже існує. Увійдіть у систему за допомогою цієї адреси або зареєструйтеся за допомогою іншої адреси.</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">%@ уже зареєстровано.</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">%s уже зареєстровано.</string>
   <string name="Janrain_Error_Need_Email_Verification">Підтвердіть свою адресу ел. пошти за допомогою посилання для активації, надісланого на обліковий запис ел. пошти</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Перевірте номер мобільного телефону через код активації, який ми надіслали на Ваш мобільний номер</string>
   <string name="Janrain_HSDP_ServerErrorMsg">Неможливо під’єднатися до сервера.
 Спробуйте пізніше або дізнайтеся більше у нашому розділі із запитаннями та відповідями.
 Якщо це не допоможе, зверніться до Центру обслуговування клієнтів і вкажіть код помилки [%d]</string>
   <string name="Janrain_Invalid_Credentials">Неправильно введено ім’я користувача або пароль.</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">%@ або введений пароль невірний.</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">%s або введений пароль невірний.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Для цієї ел. пошти немає облікового запису. Створіть обліковий запис із використанням цієї адреси ел. пошти або введіть іншу адресу.</string>
   <string name="Janrain_LimitError_ErrorMsg">Досягнено ліміту максимальної кількості невдалих спроб.
 Спробуйте ще раз пізніше.</string>
@@ -221,10 +221,10 @@
   <string name="Resend_SMS_title">Надіслати ще раз SMS</string>
   <string name="SigIn_TitleTxt">Увійти в систему</string>
   <string name="SignOut_btntxt">Вийти</string>
-  <string name="Social_Merge_Accounts_lbltxt">Щоб перевірити, чи це справді Ви, ввійдіть у систему за допомогою %@ ще раз.</string>
+  <string name="Social_Merge_Accounts_lbltxt">Щоб перевірити, чи це справді Ви, ввійдіть у систему за допомогою %s ще раз.</string>
   <string name="Social_Merge_Cancel_btntxt">Скасувати</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">Майже готово!</string>
-  <string name="TermsAndConditionsAcceptanceText">Я приймаю %@ додатка</string>
+  <string name="TermsAndConditionsAcceptanceText">Я приймаю %s додатка</string>
   <string name="TermsAndConditionsAcceptanceText_Error">Прийміть Умови використання</string>
   <string name="TermsAndConditionsText">Умови та положення</string>
   <string name="Title_AccountAlreadyExists_Txt">Обліковий запис уже існує.</string>
@@ -239,13 +239,13 @@
   <string name="URX_SMS_Already_Verified">Обліковий запис уже підтверджено.
 Увійдіть для продовження.</string>
   <string name="URX_SMS_InternalServerError">Неможливо надіслати SMS.
-%@.</string>
+%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Неможливо надіслати SMS на цей номер телефону.</string>
   <string name="URX_SMS_Limit_Reached">Досягнуто ліміту SMS для цього номера телефону.
 Спробуйте ще раз через %d сек.</string>
-  <string name="URX_SMS_NoInformation_Available">Неможливо під’єднатися до сервера. %@.</string>
-  <string name="URX_SMS_Not_Sent">Неможливо надіслати SMS. %@.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">Неможливо під’єднатися до сервера. %s.</string>
+  <string name="URX_SMS_Not_Sent">Неможливо надіслати SMS. %s.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 Код країни не підтримується.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Спробуйте пізніше</string>
   <string name="UnexpectedInternalError_ErrorMsg">Вибачте, виникла помилка! Спробуйте пізніше.</string>

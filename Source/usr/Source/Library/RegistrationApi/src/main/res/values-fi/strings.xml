@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">Uudell.</string>
   <string name="Address_TitleTxt">Osoite</string>
   <string name="AppNotInstalled_Alert_Title">Sovellusta ei ole asennettu</string>
-  <string name="App_NotInstalled_AlertMessage">Asenna %@, jos haluat käyttää tätä ominaisuutta.</string>
+  <string name="App_NotInstalled_AlertMessage">Asenna %s, jos haluat käyttää tätä ominaisuutta.</string>
   <string name="App_NotInstalled_InstallButton">Asenna</string>
   <string name="Column1">Column17</string>
   <string name="Continue_Btntxt">Jatka</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">Ehkä myöhemmin</string>
   <string name="DLS_AddRecovery_Title_Text">Palautussähköposti</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">Saat erikoistarjouksia ja kuponkeja ja tietoja uusista tuotteista ensimmäisten joukossa tilaamalla uutiskirjeemme</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">Jotta kirjautuminen onnistuu ja tili voidaan vahvistaa, tarvitsemme %@</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">Jotta kirjautuminen onnistuu ja tili voidaan vahvistaa, tarvitsemme %s</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">tarvitsemme sähköpostiosoitteen.</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">matkapuhelinnumeron.</string>
   <string name="DLS_Almost_Done_TextField_Text">Tarvitsemme sähköpostiosoitteen tai puhelinnumeron kirjautumisen viimeistelyyn vahvistaaksemme, että olet oikea henkilö.</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Erikoistarjouksia, kampanjoita ja ensi käden tietoa uusista tuotteista – räätälöitynä juuri sinulle!</string>
   <string name="DLS_Optin_Body_Line2">Liity nyt yli 140 000 kaltaisesi joukkoon!</string>
   <string name="DLS_Password_lbltxt">Salasana</string>
-  <string name="DLS_PhilipsNews_Description_Text">Kun annat suostumuksesi, Philips-konserniin kuuluvat yritykset voivat lähettää sinulle mainosviestejä sähköpostilla, tekstiviestillä tai muiden digitaalisten kanavien, kuten mobiilisovellusten tai yhteisöpalvelun, välityksellä. Saatamme analysoida ja yhdistää henkilötietojasi, jotta voimme mukauttaa viestejä mieltymyksiäsi ja ostokäyttäytymistäsi vastaavaksi sekä tarjota juuri sinulle sopivan kokemuksen. Näitä tietoja voivat olla: \\n\\nAntamasi tiedot\\nAktiivisesti meille jakamasi tiedot, kuten nimi, syntymäaika tai ikä, sähköpostiosoite, fyysinen osoite, maa, sukupuoli, puhelinnumero ja yhteisöpalveluprofiili.\\n\\nTiedot, jotka saamme vuorovaikutuksestasi Philipsin kanssa\\nTiedot, jotka koskevat vuorovaikutustasi sekä Philipsin digitaalisten kanavien, kuten yhteisöpalvelun, verkkosivujen, sähköpostin, sovellusten ja liitettyjen tuotteiden käyttöä. Näitä tietoja voivat olla: IP-osoite, evästeet, laitetiedot, napsauttamasi mainosviestit, sijaintitiedot sekä verkkosivuvierailusi\\n\\nPhilips myöntää käyttäjälle oikeuden peruuttaa suostumuksensa milloin tahansa.\\nLisätietoja on Philipsin tietosuojalausunnossa ja Philipsin evästeitä koskevassa ilmoituksessa.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Kun annat suostumuksesi, Philips-konserniin kuuluvat yritykset voivat lähettää sinulle mainosviestejä sähköpostilla, tekstiviestillä tai muiden digitaalisten kanavien, kuten mobiilisovellusten tai yhteisöpalvelun, välityksellä. Saatamme analysoida ja yhdistää henkilötietojasi, jotta voimme mukauttaa viestejä mieltymyksiäsi ja ostokäyttäytymistäsi vastaavaksi sekä tarjota juuri sinulle sopivan kokemuksen. Näitä tietoja voivat olla: nnAntamasi tiedotnAktiivisesti meille jakamasi tiedot, kuten nimi, syntymäaika tai ikä, sähköpostiosoite, fyysinen osoite, maa, sukupuoli, puhelinnumero ja yhteisöpalveluprofiili.nnTiedot, jotka saamme vuorovaikutuksestasi Philipsin kanssanTiedot, jotka koskevat vuorovaikutustasi sekä Philipsin digitaalisten kanavien, kuten yhteisöpalvelun, verkkosivujen, sähköpostin, sovellusten ja liitettyjen tuotteiden käyttöä. Näitä tietoja voivat olla: IP-osoite, evästeet, laitetiedot, napsauttamasi mainosviestit, sijaintitiedot sekä verkkosivuvierailusinnPhilips myöntää käyttäjälle oikeuden peruuttaa suostumuksensa milloin tahansa.nLisätietoja on Philipsin tietosuojalausunnossa ja Philipsin evästeitä koskevassa ilmoituksessa.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philipsin viestit ja ilmoitukset</string>
   <string name="DLS_Phonenumber_Label_Text">Puhelinnumero</string>
   <string name="DLS_ResendSMS_Body_Line1">Varmennuskoodin sisältävän tekstiviestin perille tulo saattaa kestää jonkin aikaa.</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">Lähetä viesti uudelleen</string>
   <string name="DLS_ResetAccount_EnterCode_Text">Palauta tilisi salasana antamalla koodi.</string>
   <string name="DLS_SigIn_TitleTxt">Kirjaudu</string>
-  <string name="DLS_Social_Merge_Description">Edellä mainitun toteuttamiseksi kirjaudu uudelleen sisään tunnuksella %@.</string>
+  <string name="DLS_Social_Merge_Description">Edellä mainitun toteuttamiseksi kirjaudu uudelleen sisään tunnuksella %s.</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">Ei, kirjaudu ulos</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">Kyllä, kirjaudu sisään tunnuksella %@</string>
-  <string name="DLS_Social_Merge_Title">Olet kirjautunut sisään ennen tunnuksen %@ käyttöä Philipsin sovelluksessa tai verkkosivulla. Voimme myös yhdistää tämän yhteisösivuston tiliisi.</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">Kyllä, kirjaudu sisään tunnuksella %s</string>
+  <string name="DLS_Social_Merge_Title">Olet kirjautunut sisään ennen tunnuksen %s käyttöä Philipsin sovelluksessa tai verkkosivulla. Voimme myös yhdistää tämän yhteisösivuston tiliisi.</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">Aloittaminen</string>
   <string name="DLS_StratView_Detail_Txt">Ota enemmän irti tuotteestasi määrittämällä tilisi tai kirjautumalla sisään</string>
   <string name="DLS_StratView_Title_Txt">Aloitus</string>
   <string name="DLS_SwitchToLogin_Txt">Siirry kirjautumiseen</string>
-  <string name="DLS_TermsAndConditionsAcceptanceText">Hyväksyn sovelluksen %@</string>
+  <string name="DLS_TermsAndConditionsAcceptanceText">Hyväksyn sovelluksen %s</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">Hyväksy käyttöehdot</string>
   <string name="DLS_TermsAndConditionsText">Käyttöehdot</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Kirjaudu nyt</string>
   <string name="DLS_Traditional_Merge_Description">Haluatko yhdistää tilisi?</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">Unohdin salasanan</string>
-  <string name="DLS_Traditional_Merge_Title">Olet käyttänyt %@ aiemmin Philips-tilin luomiseen.</string>
+  <string name="DLS_Traditional_Merge_Title">Olet käyttänyt %s aiemmin Philips-tilin luomiseen.</string>
   <string name="DLS_URCreateAccount_NavTitle">Luo tili</string>
-  <string name="DLS_VerifySMS_Description_Text">Lähetimme sinulle kuusinumeroisen koodin tekstiviestillä puhelinnumeroon %@</string>
+  <string name="DLS_VerifySMS_Description_Text">Lähetimme sinulle kuusinumeroisen koodin tekstiviestillä puhelinnumeroon %s</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">En saanut tekstiviestiä</string>
   <string name="DLS_VerifySMS_EnterCode_Text">Aktivoi tilisi antamalla koodi.</string>
   <string name="DLS_VerifySMS_Title_Text">Vahvista puhelinnumerosi</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">Tarkista sähköpostisi ja aktivoi tilisi.</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">En ole saanut sähköpostiviestiä</string>
   <string name="DLS_Verify_Email_Security_Txt">Teemme tämän menettelyn turvallisuussyistä.</string>
-  <string name="DLS_Verify_Email_Sent_Txt">Olemme lähettäneet sähköpostiviestin osoitteeseen %@.</string>
+  <string name="DLS_Verify_Email_Sent_Txt">Olemme lähettäneet sähköpostiviestin osoitteeseen %s.</string>
   <string name="DLS_Verify_Email_Title_Txt">Vahvista sähköpostiosoitteesi</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">Vahvistus on jo tehty</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">Tai kirjaudu tilillä:</string>
@@ -184,18 +184,18 @@ Tarkista verkkoyhteys ja yritä uudelleen. [%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Kirjoita kelvollinen sähköpostiosoite.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Järjestelmä ei tunnista puhelinnumeroa. Tarkista maatunnus.</string>
   <string name="JanRain_Error_Check_Internet">Verkkoyhteydessä oli ongelma. Yritä uudelleen.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Yhteyttä palvelimeen ei voi muodostaa. %@.
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Yhteyttä palvelimeen ei voi muodostaa. %s.
 Jos ongelma toistuu, ota yhteys asiakaspalveluun ja ilmoita virhekoodi [%d].</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@. Siirry takaisin ja kirjaudu sisään uudelleen.</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Siirry takaisin ja kirjaudu sisään uudelleen.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Tämä sähköpostiosoite on jo käytössä. Kirjaudu sisään tällä sähköpostiosoitteella tai rekisteröi jokin muu sähköpostiosoite.</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">%@ on jo rekisteröity.</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">%s on jo rekisteröity.</string>
   <string name="Janrain_Error_Need_Email_Verification">Vahvista sähköpostiosoitteesi sinulle lähetetyssä viestissä olevan aktivointilinkin kautta</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Vahvista matkapuhelinnumerosi matkapuhelimeesi lähetetyllä aktivointikoodilla</string>
   <string name="Janrain_HSDP_ServerErrorMsg">Yhteyttä palvelimeen ei voi muodostaa.
 Yritä myöhemmin uudelleen tai katso lisätietoja ohjeesta.
 Jos ongelma toistuu, ota yhteys asiakaspalveluun ja ilmoita virhekoodi [%d]</string>
   <string name="Janrain_Invalid_Credentials">Antamasi käyttäjätunnus tai salasana on virheellinen.</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">Annettu %@ tai salasana ei kelpaa.</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">Annettu %s tai salasana ei kelpaa.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Tähän sähköpostiosoitteeseen ei liity tiliä. Luo tili tälle sähköpostiosoitteelle tai valitse jokin muu sähköpostiosoite.</string>
   <string name="Janrain_LimitError_ErrorMsg">Virheellisten yrityksien enimmäismäärä on saavutettu.
 Yritä myöhemmin uudelleen.</string>
@@ -221,10 +221,10 @@ Anna oikea koodi tai pyydä uusi koodi.</string>
   <string name="Resend_SMS_title">Lähetä tekstiviesti uudelleen</string>
   <string name="SigIn_TitleTxt">Kirjaudu</string>
   <string name="SignOut_btntxt">Kirjaudu ulos</string>
-  <string name="Social_Merge_Accounts_lbltxt">Varmista henkilöllisyytesi kirjautumalla %@-tililläsi vielä kerran.</string>
+  <string name="Social_Merge_Accounts_lbltxt">Varmista henkilöllisyytesi kirjautumalla %s-tililläsi vielä kerran.</string>
   <string name="Social_Merge_Cancel_btntxt">Peruuta</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">Melkein valmista!</string>
-  <string name="TermsAndConditionsAcceptanceText">Hyväksyn sovelluksen %@</string>
+  <string name="TermsAndConditionsAcceptanceText">Hyväksyn sovelluksen %s</string>
   <string name="TermsAndConditionsAcceptanceText_Error">Hyväksy Käyttöehdot</string>
   <string name="TermsAndConditionsText">Käyttöehdot</string>
   <string name="Title_AccountAlreadyExists_Txt">Tili on jo käytössä.</string>
@@ -239,13 +239,13 @@ Anna oikea koodi tai pyydä uusi koodi.</string>
   <string name="URX_SMS_Already_Verified">Tili on jo vahvistettu.
 Jatka kirjautumalla sisään.</string>
   <string name="URX_SMS_InternalServerError">Viestiä ei voi lähettää.
-%@.</string>
+%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Tähän puhelinnumeroon ei voi lähettää tekstiviestiä.</string>
   <string name="URX_SMS_Limit_Reached">Tämän puhelinnumeron tekstiviestien enimmäismäärä on saavutettu.
 Yritä uudelleen %d sekunnin kuluttua.</string>
-  <string name="URX_SMS_NoInformation_Available">Yhteyttä palvelimeen ei voi muodostaa. %@.</string>
-  <string name="URX_SMS_Not_Sent">Tekstiviestiä ei voitu toimittaa. %@.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">Yhteyttä palvelimeen ei voi muodostaa. %s.</string>
+  <string name="URX_SMS_Not_Sent">Tekstiviestiä ei voitu toimittaa. %s.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 Maatunnusta ei tueta.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Yritä myöhemmin uudelleen</string>
   <string name="UnexpectedInternalError_ErrorMsg">Tuntematon virhe. Yritä uudelleen.</string>

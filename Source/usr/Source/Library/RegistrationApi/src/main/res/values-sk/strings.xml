@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">Skúsiť znova</string>
   <string name="Address_TitleTxt">Adresa</string>
   <string name="AppNotInstalled_Alert_Title">Aplikácia nie je nainštalovaná</string>
-  <string name="App_NotInstalled_AlertMessage">Na využívanie tejto funkcie si nainštalujte aplikáciu %@.</string>
+  <string name="App_NotInstalled_AlertMessage">Na využívanie tejto funkcie si nainštalujte aplikáciu %s.</string>
   <string name="App_NotInstalled_InstallButton">Inštalácia</string>
   <string name="Column1">Column35</string>
   <string name="Continue_Btntxt">Pokračovať</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">Možno neskôr</string>
   <string name="DLS_AddRecovery_Title_Text">E-mail na obnovenie</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">Ak sa prihlásite na odber noviniek, budete dostávať exkluzívne ponuky a kupóny a o nových produktoch sa dozviete medzi prvými</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">Na dokončenie vášho prihlásenia a overenie vášho účtu potrebujeme %@</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">Na dokončenie vášho prihlásenia a overenie vášho účtu potrebujeme %s</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">potrebujeme e-mailovú adresu.</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">číslo mobil. telefónu</string>
   <string name="DLS_Almost_Done_TextField_Text">Na dokončenie prihlásenia a overenie, či ste skutočná osoba, budeme potrebovať vašu e-mailovú adresu alebo číslo mobilu.</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Špeciálne ponuky, propagačné akcie a informácie o nových výrobkoch z prvej ruky. Prispôsobené presne pre vás!</string>
   <string name="DLS_Optin_Body_Line2">Pridajte sa hneď teraz k 140 000 odberateľom!</string>
   <string name="DLS_Password_lbltxt">Heslo</string>
-  <string name="DLS_PhilipsNews_Description_Text">Na základe súhlasu vás môžu kontaktovať spoločnosti skupiny Philips s reklamnými informáciami prostredníctvom e-mailu, SMS a iných digitálnych kanálov, ako napríklad mobilných aplikácií a sociálnych médií. Na to, aby sme mohli prispôsobiť komunikáciu vašim preferenciám a správaniu a zabezpečiť tak najlepšiu osobnú skúsenosť, budeme musieť analyzovať a kombinovať vaše osobné údaje. Tieto údaje môžu zahŕňať:\\n\\nÚdaje, ktoré nám poskytnete.\\nÚdaje, ktoré chcete s nami aktívne zdieľať, ako napríklad: meno, dátum narodenia alebo vek, e-mailová adresa, poštová adresa, krajina, pohlavie, telefónne číslo, profil na sociálnej sieti.\\n\\nÚdaje, ktoré sme získali na základe vašej interakcie so spoločnosťou Philips.\\nÚdaje o vašich interakciách a používaní digitálnych kanálov spoločnosti Philips, ako napríklad sociálnych médií, webových lokalít, e-mailov, aplikácií a pripojených produktov. Tieto údaje môžu obsahovať: adresu IP, súbory „cookie“, informácie o zariadení, konverzácie, na ktoré ste klikli, údaje o polohe a webové lokality, ktoré ste navštívili.\\n\\nSpoločnosť Philips vám umožní váš súhlas kedykoľvek zrušiť.\\nAk sa chcete dozvedieť viac, prečítajte si vyhlásenie spoločnosti Philips o používaní osobných údajov a súboroch „cookie“.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Na základe súhlasu vás môžu kontaktovať spoločnosti skupiny Philips s reklamnými informáciami prostredníctvom e-mailu, SMS a iných digitálnych kanálov, ako napríklad mobilných aplikácií a sociálnych médií. Na to, aby sme mohli prispôsobiť komunikáciu vašim preferenciám a správaniu a zabezpečiť tak najlepšiu osobnú skúsenosť, budeme musieť analyzovať a kombinovať vaše osobné údaje. Tieto údaje môžu zahŕňať:nnÚdaje, ktoré nám poskytnete.nÚdaje, ktoré chcete s nami aktívne zdieľať, ako napríklad: meno, dátum narodenia alebo vek, e-mailová adresa, poštová adresa, krajina, pohlavie, telefónne číslo, profil na sociálnej sieti.nnÚdaje, ktoré sme získali na základe vašej interakcie so spoločnosťou Philips.nÚdaje o vašich interakciách a používaní digitálnych kanálov spoločnosti Philips, ako napríklad sociálnych médií, webových lokalít, e-mailov, aplikácií a pripojených produktov. Tieto údaje môžu obsahovať: adresu IP, súbory „cookie“, informácie o zariadení, konverzácie, na ktoré ste klikli, údaje o polohe a webové lokality, ktoré ste navštívili.nnSpoločnosť Philips vám umožní váš súhlas kedykoľvek zrušiť.nAk sa chcete dozvedieť viac, prečítajte si vyhlásenie spoločnosti Philips o používaní osobných údajov a súboroch „cookie“.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Správa od spoločnosti Philips</string>
   <string name="DLS_Phonenumber_Label_Text">Telefónne číslo</string>
   <string name="DLS_ResendSMS_Body_Line1">Doručenie správy SMS s kódom môže chvíľu trvať.</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">Znova odoslať e-mail</string>
   <string name="DLS_ResetAccount_EnterCode_Text">Zadajte kód a vytvorte nové heslo svojho konta.</string>
   <string name="DLS_SigIn_TitleTxt">Prihlásiť sa</string>
-  <string name="DLS_Social_Merge_Description">Ak to chcete urobiť, prihláste sa znova cez %@.</string>
+  <string name="DLS_Social_Merge_Description">Ak to chcete urobiť, prihláste sa znova cez %s.</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">Nie, odhlásiť sa</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">Áno, prihlásiť sa cez %@</string>
-  <string name="DLS_Social_Merge_Title">Do aplikácie alebo na webovú lokalitu Philips ste sa v minulosti prihlasovali cez %@. Toto prihlasovacie meno do sociálnej siete môžete teraz prepojiť so svojím kontom.</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">Áno, prihlásiť sa cez %s</string>
+  <string name="DLS_Social_Merge_Title">Do aplikácie alebo na webovú lokalitu Philips ste sa v minulosti prihlasovali cez %s. Toto prihlasovacie meno do sociálnej siete môžete teraz prepojiť so svojím kontom.</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">Začíname</string>
   <string name="DLS_StratView_Detail_Txt">Vytvorte si konto alebo sa prihláste, aby ste svoj pripojený produkt mohli využívať čo najlepšie</string>
   <string name="DLS_StratView_Title_Txt">Poďme na to</string>
   <string name="DLS_SwitchToLogin_Txt">Prepnúť na prihlásenie</string>
-  <string name="DLS_TermsAndConditionsAcceptanceText">Vyjadrujem súhlas s dokumentom %@ aplikácie</string>
+  <string name="DLS_TermsAndConditionsAcceptanceText">Vyjadrujem súhlas s dokumentom %s aplikácie</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">Vyjadrite súhlas so všeobecnými podmienkami</string>
   <string name="DLS_TermsAndConditionsText">Zmluvné podmienky</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prihlásiť sa teraz</string>
   <string name="DLS_Traditional_Merge_Description">Chcete svoje kontá zlúčiť?</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">Zabudli ste heslo?</string>
-  <string name="DLS_Traditional_Merge_Title">Kým ste si vytvorili konto Philips, prihlasovali ste sa cez %@.</string>
+  <string name="DLS_Traditional_Merge_Title">Kým ste si vytvorili konto Philips, prihlasovali ste sa cez %s.</string>
   <string name="DLS_URCreateAccount_NavTitle">Vytvoriť konto</string>
-  <string name="DLS_VerifySMS_Description_Text">Práve sme odoslali SMS so šesťmiestnym kódom na vaše telefónne číslo %@</string>
+  <string name="DLS_VerifySMS_Description_Text">Práve sme odoslali SMS so šesťmiestnym kódom na vaše telefónne číslo %s</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">Neprišla mi správa SMS</string>
   <string name="DLS_VerifySMS_EnterCode_Text">Zadajte kód a aktivujte si konto.</string>
   <string name="DLS_VerifySMS_Title_Text">Potvrďte svoje telefónne číslo</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">Skontrolujte si e-mailovú schránku a aktivujte si konto.</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">Žiadny e-mail mi neprišiel</string>
   <string name="DLS_Verify_Email_Security_Txt">Týmto procesom chceme zaistiť vašu bezpečnosť.</string>
-  <string name="DLS_Verify_Email_Sent_Txt">Práve sme vám odoslali e-mail na adresu %@.</string>
+  <string name="DLS_Verify_Email_Sent_Txt">Práve sme vám odoslali e-mail na adresu %s.</string>
   <string name="DLS_Verify_Email_Title_Txt">Potvrdenie e-mailu</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">Overenie som už vykonal(a)</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">Alebo sa prihlásiť cez:</string>
@@ -184,17 +184,17 @@ Skontrolujte svoje pripojenie na internet a skúste to znova.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Zadajte platnú e-mailovú adresu.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Nevieme rozoznať vaše telefónne číslo. Skontrolujte kód krajiny.</string>
   <string name="JanRain_Error_Check_Internet">Vyskytol sa problém so sieťovým pripojením. Skúste to znova.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Pripojenie na server nie je možné. %@.
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Pripojenie na server nie je možné. %s.
 Pretrváva tento problém? Kontaktujte službu starostlivosti o zákazníkov a uveďte kód chyby [%d]</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@. Vráťte sa naspäť a znova sa prihláste.</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Vráťte sa naspäť a znova sa prihláste.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Táto e-mailová adresa už existuje. Prihláste sa pomocou tejto adresy alebo si zaregistrujte inú.</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">Vaša %@ už je zaregistrovaná.</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">Vaša %s už je zaregistrovaná.</string>
   <string name="Janrain_Error_Need_Email_Verification">Overte svoju e-mailovú adresu prostredníctvom aktivačného prepojenia zaslaného na vaše e-mailové konto</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Overte svoje mobilné číslo pomocou aktivačného kódu, ktorý sme odoslali vaše mobilné číslo</string>
   <string name="Janrain_HSDP_ServerErrorMsg">Pripojenie na server nie je možné.
 Skúste to neskôr alebo nájdite viac informácií v často kladených otázkach. Ak nenájdete odpoveď na vašu otázku, kontaktujte službu starostlivosti o zákazníkov a uveďte kód chyby [%d]</string>
   <string name="Janrain_Invalid_Credentials">Zadané používateľské meno alebo heslo sú nesprávne.</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">Zadaná %@ alebo heslo sú nesprávne.</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">Zadaná %s alebo heslo sú nesprávne.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Pre túto e-mailovú adresu neexistuje žiadny účet. Vytvorte si účet použitím tejto e-mailovej adresy alebo zadajte inú.</string>
   <string name="Janrain_LimitError_ErrorMsg">Dosiahli ste limit neúspešných pokusov.
 Skúste to znova neskôr.</string>
@@ -220,10 +220,10 @@ Zadajte správny kód alebo ho znova odošlite.</string>
   <string name="Resend_SMS_title">Znova odoslať správu SMS</string>
   <string name="SigIn_TitleTxt">Prihlásenie</string>
   <string name="SignOut_btntxt">Odhlásiť sa</string>
-  <string name="Social_Merge_Accounts_lbltxt">Na overenie, či ste to naozaj vy, sa ešte raz prihláste cez %@.</string>
+  <string name="Social_Merge_Accounts_lbltxt">Na overenie, či ste to naozaj vy, sa ešte raz prihláste cez %s.</string>
   <string name="Social_Merge_Cancel_btntxt">Zrušiť</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">Takmer hotovo!</string>
-  <string name="TermsAndConditionsAcceptanceText">Vyjadrujem súhlas s týmto dokumentom aplikácie: %@</string>
+  <string name="TermsAndConditionsAcceptanceText">Vyjadrujem súhlas s týmto dokumentom aplikácie: %s</string>
   <string name="TermsAndConditionsAcceptanceText_Error">Vyjadrite súhlas so všeobecnými podmienkami</string>
   <string name="TermsAndConditionsText">Všeobecné podmienky</string>
   <string name="Title_AccountAlreadyExists_Txt">Účet už existuje.</string>
@@ -238,13 +238,13 @@ Zadajte správny kód alebo ho znova odošlite.</string>
   <string name="URX_SMS_Already_Verified">Účet už je overený.
 Prihláste sa, aby ste mohli pokračovať.</string>
   <string name="URX_SMS_InternalServerError">Nie je možné poslať SMS.
-%@.</string>
+%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Na toto telefónne číslo nemôžeme poslať SMS správu.</string>
   <string name="URX_SMS_Limit_Reached">Bol dosiahnutý limit pre dané telefónne číslo.
 Skúste to znova o %d sekúnd.</string>
-  <string name="URX_SMS_NoInformation_Available">Nie je možné pripojiť sa na server. %@.</string>
-  <string name="URX_SMS_Not_Sent">SMS správu nebolo možné doručiť. %@.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">Nie je možné pripojiť sa na server. %s.</string>
+  <string name="URX_SMS_Not_Sent">SMS správu nebolo možné doručiť. %s.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 Kód krajiny nie je podporovaný.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Skúste znova neskôr</string>
   <string name="UnexpectedInternalError_ErrorMsg">Ľutujeme, došlo k chybe. Skúste to znova.</string>

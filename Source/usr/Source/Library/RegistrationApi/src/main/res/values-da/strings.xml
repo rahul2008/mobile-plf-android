@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">Prøv igen</string>
   <string name="Address_TitleTxt">Adresse</string>
   <string name="AppNotInstalled_Alert_Title">App ikke installeret</string>
-  <string name="App_NotInstalled_AlertMessage">Installer %@ appen for at benytte denne funktion.</string>
+  <string name="App_NotInstalled_AlertMessage">Installer %s appen for at benytte denne funktion.</string>
   <string name="App_NotInstalled_InstallButton">Installation</string>
   <string name="Column1">Column9</string>
   <string name="Continue_Btntxt">Fortsæt</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">Måske senere</string>
   <string name="DLS_AddRecovery_Title_Text">E-mail til kontogendannelse</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">Tilmeld dig vores nyhedsbrev, og modtag eksklusive tilbud og rabatkuponer, og vær blandt de første, der får besked om nye produkter</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">Vi skal bruge %@ for at kunne fuldføre dit login og godkende kontoen</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">Vi skal bruge %s for at kunne fuldføre dit login og godkende kontoen</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">vi skal bruge en e-mailadresse.</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">et mobilnummer.</string>
   <string name="DLS_Almost_Done_TextField_Text">Vi skal bruge en e-mailadresse eller et mobilnummer for at kunne fuldføre dit login og bekræfte, at du er en virkelig person.</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Specialtilbud, kampagner og førstehåndsoplysninger om nye produkter. Skræddersyet til dig!</string>
   <string name="DLS_Optin_Body_Line2">140.000 har allerede tilmeldt sig!</string>
   <string name="DLS_Password_lbltxt">Adgangskode</string>
-  <string name="DLS_PhilipsNews_Description_Text">Som et resultat af dit samtykke må Philips\' koncernselskaber kontakte dig med salgsfremmende kommunikation via e-mail, SMS og andre digitale kanaler, som f.eks. mobilapps og sociale medier. For at kunne tilpasse kommunikationen til dine præferencer og din adfærd og give dig den bedste personlige oplevelse må vi analysere og kombinere dine personlige oplysninger. Disse oplysninger kan indeholde: \\n\\nOplysninger, som du deler med os\\nOplysninger, som du aktivt ønsker at dele med os, f.eks.: dit navn, din fødselsdato eller alder, din e-mailadresse, fysiske adresse, dit land, køn, telefonnummer og din profil på sociale medier.\\n\\nOplysninger, som vi får via dine interaktioner med Philips\\nOplysninger om dine interaktioner med og din brug af Philips\' digitale kanaler, som f.eks. sociale medier, websteder, e-mails, apps og tilknyttede produkter. Disse oplysninger kan indeholde: IP-adresse, cookies, oplysninger, enhedsoplysninger, kommunikation, som du klikker på, placeringsoplysninger og websteder, som du besøger\\n\\nPhilips giver dig mulighed for at tilbagekalde dit samtykke til enhver tid.\\nDu kan få flere oplysninger ved at læse Philips\' meddelelse om beskyttelse af personlige oplysninger og Philips\' meddelelse om brugen af cookies.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Som et resultat af dit samtykke må Philips\' koncernselskaber kontakte dig med salgsfremmende kommunikation via e-mail, SMS og andre digitale kanaler, som f.eks. mobilapps og sociale medier. For at kunne tilpasse kommunikationen til dine præferencer og din adfærd og give dig den bedste personlige oplevelse må vi analysere og kombinere dine personlige oplysninger. Disse oplysninger kan indeholde: nnOplysninger, som du deler med osnOplysninger, som du aktivt ønsker at dele med os, f.eks.: dit navn, din fødselsdato eller alder, din e-mailadresse, fysiske adresse, dit land, køn, telefonnummer og din profil på sociale medier.nnOplysninger, som vi får via dine interaktioner med PhilipsnOplysninger om dine interaktioner med og din brug af Philips\' digitale kanaler, som f.eks. sociale medier, websteder, e-mails, apps og tilknyttede produkter. Disse oplysninger kan indeholde: IP-adresse, cookies, oplysninger, enhedsoplysninger, kommunikation, som du klikker på, placeringsoplysninger og websteder, som du besøgernnPhilips giver dig mulighed for at tilbagekalde dit samtykke til enhver tid.nDu kan få flere oplysninger ved at læse Philips\' meddelelse om beskyttelse af personlige oplysninger og Philips\' meddelelse om brugen af cookies.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philips-kommunikation</string>
   <string name="DLS_Phonenumber_Label_Text">Telefonnummer</string>
   <string name="DLS_ResendSMS_Body_Line1">Det kan tage noget tid, før sms\'en med koden kommer.</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">Send e-mailen igen</string>
   <string name="DLS_ResetAccount_EnterCode_Text">Indtast koden for at nulstille adgangskoden til din konto.</string>
   <string name="DLS_SigIn_TitleTxt">Log ind</string>
-  <string name="DLS_Social_Merge_Description">Dette gøres ved at logge på igen med %@.</string>
+  <string name="DLS_Social_Merge_Description">Dette gøres ved at logge på igen med %s.</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">Nej, log af</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">Ja, log på med %@</string>
-  <string name="DLS_Social_Merge_Title">Du er logget på, før du har brugt %@ på en Philips-app eller et website. Vi kan også tilknytte dette sociale login til din konto.</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">Ja, log på med %s</string>
+  <string name="DLS_Social_Merge_Title">Du er logget på, før du har brugt %s på en Philips-app eller et website. Vi kan også tilknytte dette sociale login til din konto.</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">Kom godt i gang</string>
   <string name="DLS_StratView_Detail_Txt">Opret din konto eller log på for at få mest muligt ud af dit tilsluttede produkt</string>
   <string name="DLS_StratView_Title_Txt">Lad os begynde</string>
   <string name="DLS_SwitchToLogin_Txt">Gå til login</string>
-  <string name="DLS_TermsAndConditionsAcceptanceText">Ja, jeg accepterer appens %@</string>
+  <string name="DLS_TermsAndConditionsAcceptanceText">Ja, jeg accepterer appens %s</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">Accepter Vilkår og betingelser</string>
   <string name="DLS_TermsAndConditionsText">Vilkår og betingelser</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Log på nu</string>
   <string name="DLS_Traditional_Merge_Description">Vil du gerne flette dine konti?</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">Glemt adgangskode</string>
-  <string name="DLS_Traditional_Merge_Title">Du har før anvendt %@ til at oprette en Philips-konto.</string>
+  <string name="DLS_Traditional_Merge_Title">Du har før anvendt %s til at oprette en Philips-konto.</string>
   <string name="DLS_URCreateAccount_NavTitle">Opret konto:</string>
-  <string name="DLS_VerifySMS_Description_Text">Vi har lige sendt en sms med en sekscifret kode til dit telefonnummer %@</string>
+  <string name="DLS_VerifySMS_Description_Text">Vi har lige sendt en sms med en sekscifret kode til dit telefonnummer %s</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">Jeg fik ikke tilsendt en sms</string>
   <string name="DLS_VerifySMS_EnterCode_Text">Indtast koden for at aktivere din konto.</string>
   <string name="DLS_VerifySMS_Title_Text">Bekræft dit telefonnummer</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">Tjek din e-mail, og aktiver din konto.</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">Jeg har ikke modtaget en e-mail</string>
   <string name="DLS_Verify_Email_Security_Txt">Vi bruger denne proces af hensyn til din sikkerhed.</string>
-  <string name="DLS_Verify_Email_Sent_Txt">Vi har lige sendt en e-mail til %@.</string>
+  <string name="DLS_Verify_Email_Sent_Txt">Vi har lige sendt en e-mail til %s.</string>
   <string name="DLS_Verify_Email_Title_Txt">Bekræft din e-mail</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">Jeg har allerede bekræftet</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">Eller log på med:</string>
@@ -184,18 +184,18 @@ Kontroller din internetforbindelse, og prøv igen.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Indtast gyldig e-mailadresse.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Vi kan ikke genkende dit telefonnummer. Kontroller landekoden.</string>
   <string name="JanRain_Error_Check_Internet">Der var et problem med netværksforbindelsen. Prøv igen.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Kan ikke oprette forbindelse til serveren. %@.
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Kan ikke oprette forbindelse til serveren. %s.
 Har du stadig problemer? Kontakt kundecenteret, og oplys fejlkoden [%d]</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@. Gå tilbage, og log på igen.</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Gå tilbage, og log på igen.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Denne e-mailadresse findes allerede. Log på med denne adresse, eller tilmeld dig ved hjælp af en anden.</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">Din %@ er allerede registreret.</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">Din %s er allerede registreret.</string>
   <string name="Janrain_Error_Need_Email_Verification">Kontroller din e-mailadresse via det aktiveringslink, der er sendt til din e-mailkonto</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Bekræft dit mobilnummer vha. den aktiveringskode, vi har sendt til dit mobilnummer</string>
   <string name="Janrain_HSDP_ServerErrorMsg">Kan ikke oprette forbindelse til server.
 Prøv igen senere, eller se vores ofte stillede spørgsmål for at få flere oplysninger.
 Hvis det ikke løser dit problem, skal du kontakte kundecenteret og oplyse fejlkoden [%d]</string>
   <string name="Janrain_Invalid_Credentials">Det indtastede brugernavn eller adgangskoden er forkert.</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">%@ eller adgangskode er forkert.</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">%s eller adgangskode er forkert.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Ingen konto findes for denne e-mail. Opret en konto med denne e-mail, eller indtast en anden e-mailadresse.</string>
   <string name="Janrain_LimitError_ErrorMsg">Grænsen for mange mislykkede forsøg er nået.
 Prøv igen senere.</string>
@@ -221,10 +221,10 @@ Indtast den korrekte kode, eller send koden igen.</string>
   <string name="Resend_SMS_title">Send SMS igen</string>
   <string name="SigIn_TitleTxt">Log ind</string>
   <string name="SignOut_btntxt">Log af</string>
-  <string name="Social_Merge_Accounts_lbltxt">For at bekræfte at det virkelig er dig, skal du logge ind med %@ en gang til.</string>
+  <string name="Social_Merge_Accounts_lbltxt">For at bekræfte at det virkelig er dig, skal du logge ind med %s en gang til.</string>
   <string name="Social_Merge_Cancel_btntxt">Annuller</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">Næsten færdig!</string>
-  <string name="TermsAndConditionsAcceptanceText">Jeg accepterer app\'ens %@</string>
+  <string name="TermsAndConditionsAcceptanceText">Jeg accepterer app\'ens %s</string>
   <string name="TermsAndConditionsAcceptanceText_Error">Accepter Vilkår og betingelser</string>
   <string name="TermsAndConditionsText">Vilkår og betingelser</string>
   <string name="Title_AccountAlreadyExists_Txt">Konto findes allerede.</string>
@@ -239,13 +239,13 @@ Indtast den korrekte kode, eller send koden igen.</string>
   <string name="URX_SMS_Already_Verified">Konto er allerede bekræftet.
 Log på for at fortsætte.</string>
   <string name="URX_SMS_InternalServerError">SMS kan ikke sendes.
-%@.</string>
+%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Vi kan ikke sende en SMS til dette nummer.</string>
   <string name="URX_SMS_Limit_Reached">Grænsen for SMS\'er er nået for dette telefonnummer.
 Prøv igen om %d sekunder.</string>
-  <string name="URX_SMS_NoInformation_Available">Kan ikke oprette forbindelse til server. %@.</string>
-  <string name="URX_SMS_Not_Sent">SMS kunne ikke leveres. %@.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">Kan ikke oprette forbindelse til server. %s.</string>
+  <string name="URX_SMS_Not_Sent">SMS kunne ikke leveres. %s.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 Landekoden understøttes ikke.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Prøv igen senere</string>
   <string name="UnexpectedInternalError_ErrorMsg">Noget gik galt. Prøv igen.</string>

@@ -53,7 +53,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_DLS_Country_Selection_Nav_Title_Text;
+        return R.string.DLS_Country_Selection_Nav_Title_Text;
     }
 
 

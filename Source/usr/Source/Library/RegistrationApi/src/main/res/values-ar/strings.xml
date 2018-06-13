@@ -14,7 +14,7 @@
   <string name="Action_Retry_Txt">إعادة المحاولة</string>
   <string name="Address_TitleTxt">العنوان</string>
   <string name="AppNotInstalled_Alert_Title">التطبيق غير مثبّت</string>
-  <string name="App_NotInstalled_AlertMessage">يرجى تثبيت تطبيق %@ للاستفادة من هذه الميزة.</string>
+  <string name="App_NotInstalled_AlertMessage">يرجى تثبيت تطبيق %s للاستفادة من هذه الميزة.</string>
   <string name="App_NotInstalled_InstallButton">تثبيت</string>
   <string name="Column1">Column6</string>
   <string name="Continue_Btntxt">متابعة</string>
@@ -86,7 +86,7 @@
   <string name="DLS_AddRecovery_MaybeLater_Button_Title">ربما لاحقًا</string>
   <string name="DLS_AddRecovery_Title_Text">البريد الإلكتروني للاسترداد</string>
   <string name="DLS_Almost_Done_Marketing_OptIn_Text">اشترك في نشرتنا الإخبارية لتتلقى عروض ترويجية وقسائم حصرية ولتصبح أول من يعلم بالمنتجات الجديدة</string>
-  <string name="DLS_Almost_Done_TextField_Base_Text">نحن بحاجة إلى %@ لتتمكّن من إكمال عملية تسجيل الدخول والتحقق من الحساب</string>
+  <string name="DLS_Almost_Done_TextField_Base_Text">نحن بحاجة إلى %s لتتمكّن من إكمال عملية تسجيل الدخول والتحقق من الحساب</string>
   <string name="DLS_Almost_Done_TextField_Email_Text">نحن بحاجة إلى عنوان بريد إلكتروني.</string>
   <string name="DLS_Almost_Done_TextField_Mobile_Text">رقم هاتف محمول.</string>
   <string name="DLS_Almost_Done_TextField_Text">لنتمكّن من إكمال تسجيل دخولك والتأكد من أنك شخص حقيقي، نحتاج إلى عنوان بريد إلكتروني أو رقم هاتف.</string>
@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">عروض خاصة وعروض ترويجية ومعلومات أولية حول إطلاق منتجات جديدة، مصممة خصيصًا لك!</string>
   <string name="DLS_Optin_Body_Line2">انضم إلى 140000 من زملائك الآن!</string>
   <string name="DLS_Password_lbltxt">كلمة المرور</string>
-  <string name="DLS_PhilipsNews_Description_Text">ونتيجة لموافقتك، قد تقوم مجموعة شركات فيليبس بالاتصال بك عن طريق الرسائل الترويجية عبر البريد الإلكتروني، والرسائل القصيرة والقنوات الرقمية الأخرى، مثل تطبيقات الجوال ووسائل التواصل الاجتماعي. لتكون قادرة على تكييف الاتصالات بحسب تفضيلاتك وسلوكك وتوفير لك أفضل تجربة شخصية لك. وقد نقوم في فيليبس بتحليل وجمع البيانات الشخصية الخاصة بك. ويمكن أن تشمل هذه البيانات: \\n\\nالبيانات التي تزوّدُنا بها\\nإن البيانات التي نطلب منك مشاركتها إيّانا تتضمن: إسمك، تاريخ الولادة أو العمر، عنوان البريد الالكتروني، مكان السكن، البلد، الجنس، رقم الهاتف بالإضافة إلى ملفك الشخصي في وسائل التواصل الاجتماعي.\\n\\nالبيانات التي نحصل عليها من تفاعلك مع فيليبس\\nبيانات عن تعاملاتك واستخدامك للقنوات الرقمية الخاصة بفيليبس، مثل وسائل التواصل الاجتماعي والمواقع الإلكترونية ورسائل البريد الإلكتروني والتطبيقات والمنتجات ذات الصلة. ويمكن أن تشمل هذه البيانات: عنوان الIP، الكوكيز، معلومات الجهاز، والاتصالات تضغط عليها وتفاصيل المكان، والمواقع الالكترونية التي تزورها.\\n\\nتقوم فيليبس بإعطاءك الفرصة لسحب الموافقة في أي وقت.\\nلمزيد من المعلومات، يرجى قراءة مذكرة الخصوصية وملفات تعريف الإرتباطالخاصة بفيليبس. \\n\\n</string>
+  <string name="DLS_PhilipsNews_Description_Text">ونتيجة لموافقتك، قد تقوم مجموعة شركات فيليبس بالاتصال بك عن طريق الرسائل الترويجية عبر البريد الإلكتروني، والرسائل القصيرة والقنوات الرقمية الأخرى، مثل تطبيقات الجوال ووسائل التواصل الاجتماعي. لتكون قادرة على تكييف الاتصالات بحسب تفضيلاتك وسلوكك وتوفير لك أفضل تجربة شخصية لك. وقد نقوم في فيليبس بتحليل وجمع البيانات الشخصية الخاصة بك. ويمكن أن تشمل هذه البيانات: nnالبيانات التي تزوّدُنا بهاnإن البيانات التي نطلب منك مشاركتها إيّانا تتضمن: إسمك، تاريخ الولادة أو العمر، عنوان البريد الالكتروني، مكان السكن، البلد، الجنس، رقم الهاتف بالإضافة إلى ملفك الشخصي في وسائل التواصل الاجتماعي.nnالبيانات التي نحصل عليها من تفاعلك مع فيليبسnبيانات عن تعاملاتك واستخدامك للقنوات الرقمية الخاصة بفيليبس، مثل وسائل التواصل الاجتماعي والمواقع الإلكترونية ورسائل البريد الإلكتروني والتطبيقات والمنتجات ذات الصلة. ويمكن أن تشمل هذه البيانات: عنوان الIP، الكوكيز، معلومات الجهاز، والاتصالات تضغط عليها وتفاصيل المكان، والمواقع الالكترونية التي تزورها.nnتقوم فيليبس بإعطاءك الفرصة لسحب الموافقة في أي وقت.nلمزيد من المعلومات، يرجى قراءة مذكرة الخصوصية وملفات تعريف الإرتباطالخاصة بفيليبس. nn</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">مراسلات Philips</string>
   <string name="DLS_Phonenumber_Label_Text">رقم الهاتف</string>
   <string name="DLS_ResendSMS_Body_Line1">قد تستغرق رسالة SMS التي تتضمن الرمز بعض الوقت لتتلقاها.</string>
@@ -141,23 +141,23 @@
   <string name="DLS_Resend_The_Email_Button_Title">إعادة إرسال البريد الإلكتروني</string>
   <string name="DLS_ResetAccount_EnterCode_Text">يرجى إضافة الرمز لإعادة تعيين كلمة مرور حسابك.</string>
   <string name="DLS_SigIn_TitleTxt">حساب تسجيل الدخول،</string>
-  <string name="DLS_Social_Merge_Description">للقيام بذلك، يرجى تسجيل الدخول باستخدام %@.</string>
+  <string name="DLS_Social_Merge_Description">للقيام بذلك، يرجى تسجيل الدخول باستخدام %s.</string>
   <string name="DLS_Social_Merge_Disabled_Button_Title">كلا، تسجيل الخروج</string>
-  <string name="DLS_Social_Merge_Enabled_Button_Title">نعم، تسجيل الدخول بواسطة %@</string>
-  <string name="DLS_Social_Merge_Title">لقد سجلت دخولك مسبقًا باستخدام %@ على تطبيق أو موقع ويب من Philips. يمكننا أيضًا ربط تسجيل الدخول الاجتماعي هذا بحسابك.</string>
+  <string name="DLS_Social_Merge_Enabled_Button_Title">نعم، تسجيل الدخول بواسطة %s</string>
+  <string name="DLS_Social_Merge_Title">لقد سجلت دخولك مسبقًا باستخدام %s على تطبيق أو موقع ويب من Philips. يمكننا أيضًا ربط تسجيل الدخول الاجتماعي هذا بحسابك.</string>
   <string name="DLS_StratScreen_Nav_Title_Txt">بدء الاستخدام</string>
   <string name="DLS_StratView_Detail_Txt">قم بإعداد حسابك أو سجل دخولك للاستفادة إلى أقصى حد من منتجك المتصل</string>
   <string name="DLS_StratView_Title_Txt">فلنبدأ</string>
   <string name="DLS_SwitchToLogin_Txt">التبديل لتسجيل الدخول</string>
-  <string name="DLS_TermsAndConditionsAcceptanceText">بالطبع، أوافق على %@ الخاصة بالتطبيق</string>
+  <string name="DLS_TermsAndConditionsAcceptanceText">بالطبع، أوافق على %s الخاصة بالتطبيق</string>
   <string name="DLS_TermsAndConditionsAcceptanceText_Error">يرجى الموافقة على الشروط والأحكام</string>
   <string name="DLS_TermsAndConditionsText">الأحكام والشروط</string>
   <string name="DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">تسجيل الدخول الآن</string>
   <string name="DLS_Traditional_Merge_Description">هل تريد دمج حساباتك؟</string>
   <string name="DLS_Traditional_Merge_ForgotPassword">نسيان كلمة المرور</string>
-  <string name="DLS_Traditional_Merge_Title">لقد سبق واستخدمت %@ لإنشاء حساب Philips.</string>
+  <string name="DLS_Traditional_Merge_Title">لقد سبق واستخدمت %s لإنشاء حساب Philips.</string>
   <string name="DLS_URCreateAccount_NavTitle">إنشاء حساب</string>
-  <string name="DLS_VerifySMS_Description_Text">لقد أرسلنا للتو رسالة SMS مع رمز يتألف من 6 أرقام إلى رقم هاتفك %@</string>
+  <string name="DLS_VerifySMS_Description_Text">لقد أرسلنا للتو رسالة SMS مع رمز يتألف من 6 أرقام إلى رقم هاتفك %s</string>
   <string name="DLS_VerifySMS_DidNotReceieve_Button_Title">لم أتلقَ رسالة SMS</string>
   <string name="DLS_VerifySMS_EnterCode_Text">يرجى إدخال الرمز لتنشيط حسابك.</string>
   <string name="DLS_VerifySMS_Title_Text">التأكيد على رقم هاتفك</string>
@@ -165,7 +165,7 @@
   <string name="DLS_Verify_Email_Explainary_Txt">يرجى التحقق من بريدك الإلكتروني وتنشيط حسابك.</string>
   <string name="DLS_Verify_Email_Resend_Btn_Title_Txt">لم أتلقَّ بريدًا إلكترونيًا</string>
   <string name="DLS_Verify_Email_Security_Txt">نقوم بهذه العملية لأمانك.</string>
-  <string name="DLS_Verify_Email_Sent_Txt">لقد أرسلنا إليك للتو بريدًا إلكترونيًا على %@.</string>
+  <string name="DLS_Verify_Email_Sent_Txt">لقد أرسلنا إليك للتو بريدًا إلكترونيًا على %s.</string>
   <string name="DLS_Verify_Email_Title_Txt">تأكيد بريدك الإلكتروني</string>
   <string name="DLS_Verify_Email_Verified_Btn_Title_Txt">سبق أن تحققت</string>
   <string name="DLS_Welcome_Alternate_SignInAccount_lbltxt">أو تسجيل الدخول بواسطة:</string>
@@ -184,18 +184,18 @@
   <string name="InvalidOrMissingEmail_ErrorMsg">يرجى إدخال عنوان بريد إلكتروني صالح.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">يتعذّر علينا التعرّف على رقم هاتفك. يرجى التحقق من رمز البلد.</string>
   <string name="JanRain_Error_Check_Internet">حدثت مشكلة في اتصال الشبكة. يرجى إعادة المحاولة.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">يتعذّر الاتصال بالخادم. %@.
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg">يتعذّر الاتصال بالخادم. %s.
 هل ما زلت تواجه صعوبة؟ اتصل بمركز خدمة العملاء مع توفير رمز الخطأ [%d]</string>
-  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%@. يرجى العودة وتسجيل الدخول من جديد.</string>
+  <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. يرجى العودة وتسجيل الدخول من جديد.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">عنوان البريد الإلكتروني هذا موجود مسبقًا. يرجى تسجيل الدخول باستخدام هذا العنوان أو تسجل باستخدام عنوان مختلف.</string>
-  <string name="Janrain_EntityAlreadyExists_ErrorMsg">سبق أن تم تسجيل %@.</string>
+  <string name="Janrain_EntityAlreadyExists_ErrorMsg">سبق أن تم تسجيل %s.</string>
   <string name="Janrain_Error_Need_Email_Verification">يرجى التحقق من عنوان بريدك الإلكتروني من خلال ارتباط التنشيط الذي تم إرساله إلى حساب بريدك الإلكتروني</string>
   <string name="Janrain_Error_Need_Mobile_Verification">يرجى التحقق من رقم هاتفك المحمول من خلال رمز التنشيط الذي أرسلناه إلى رقم هاتفك المحمول.</string>
   <string name="Janrain_HSDP_ServerErrorMsg">يتعذّر الاتصال بالخادم.
 يرجى المحاولة لاحقًا أو اطّلع على الأسئلة الشائعة للحصول على مزيد من المعلومات.
 في حال لم يساعدك ذلك في حل مشكلتك، فاتصل بمركز خدمة العملاء مع توفير رمز الخطأ [%d]</string>
   <string name="Janrain_Invalid_Credentials">كلمة المرور أو اسم المستخدم الذي أدخلته غير صحيح.</string>
-  <string name="Janrain_Invalid_Credentials_ErrorMsg">إن %@ أو كلمة المرور التي أدخلتها غير صحيحة.</string>
+  <string name="Janrain_Invalid_Credentials_ErrorMsg">إن %s أو كلمة المرور التي أدخلتها غير صحيحة.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">ما من حساب للبريد الإلكتروني هذا. قم بإنشاء حساب باستخدام هذا البريد الإلكتروني أو أدخِل عنوان بريد إلكتروني مختلف.</string>
   <string name="Janrain_LimitError_ErrorMsg">تم بلوغ الحد الأقصى لعدد المحاولات غير الناجحة.
 يرجى إعادة المحاولة لاحقًا.</string>
@@ -221,10 +221,10 @@
   <string name="Resend_SMS_title">إعادة إرسال رسالة SMS</string>
   <string name="SigIn_TitleTxt">تسجيل الدخول</string>
   <string name="SignOut_btntxt">تسجيل الخروج</string>
-  <string name="Social_Merge_Accounts_lbltxt">للتأكد من صحة هويتك، يرجى تسجيل الدخول بواسطة %@ مرة أخرى.</string>
+  <string name="Social_Merge_Accounts_lbltxt">للتأكد من صحة هويتك، يرجى تسجيل الدخول بواسطة %s مرة أخرى.</string>
   <string name="Social_Merge_Cancel_btntxt">إلغاء</string>
   <string name="Social_SignIn_AlmostDone_lbltxt">أوشكت على الانتهاء!</string>
-  <string name="TermsAndConditionsAcceptanceText">أوافق على %@ التطبيق</string>
+  <string name="TermsAndConditionsAcceptanceText">أوافق على %s التطبيق</string>
   <string name="TermsAndConditionsAcceptanceText_Error">يرجى الموافقة على الشروط والأحكام</string>
   <string name="TermsAndConditionsText">الأحكام والشروط</string>
   <string name="Title_AccountAlreadyExists_Txt">الحساب موجود مسبقًا.</string>
@@ -239,12 +239,12 @@
   <string name="URX_SMS_Already_Verified">سبق أن تم التحقق من الحساب.
 سجّل الدخول للمتابعة.</string>
   <string name="URX_SMS_InternalServerError">يتعذّر إرسال رسالة نصية قصيرة.
-%@.</string>
+%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">يتعذّر علينا إرسال رسالة نصية قصيرة إلى رقم الهاتف هذا.</string>
   <string name="URX_SMS_Limit_Reached">تم بلوغ الحد الأقصى للرسائل النصية القصيرة المخصصة برقم الهاتف هذا. يرجى إعادة المحاولة بعد %d من الثواني.</string>
-  <string name="URX_SMS_NoInformation_Available">يتعذّر الاتصال بالخادم. %@.</string>
-  <string name="URX_SMS_Not_Sent">تعذّر تسليم الرسالة النصية القصيرة. %@.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%@
+  <string name="URX_SMS_NoInformation_Available">يتعذّر الاتصال بالخادم. %s.</string>
+  <string name="URX_SMS_Not_Sent">تعذّر تسليم الرسالة النصية القصيرة. %s.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
 رمز البلد غير معتمد.</string>
   <string name="USR_Error_PleaseTryLater_Txt">يُرجى إعادة المحاولة لاحقًا</string>
   <string name="UnexpectedInternalError_ErrorMsg">عذرًا، حدث خطأ ما. يرجى إعادة المحاولة.</string>
