@@ -7,10 +7,10 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowNoTitle">true</item>
         <item name="colorControlHighlight">@android:color/transparent</item>
-        <item name="android:timePickerDialogTheme" tools:targetApi="lollipop">
+        <item name="android:timePickerDialogTheme">
             @style/UIDDatePickerDialogTheme
         </item>
-        <item name="android:datePickerDialogTheme" tools:targetApi="lollipop">
+        <item name="android:datePickerDialogTheme">
             @style/UIDDatePickerDialogTheme
         </item>
 
@@ -18,16 +18,16 @@
         <!-- <item name="actionBarStyle">@style/UIDToolbar</item>
          <item name="android:actionBarStyle">@style/UIDToolbar</item>
         -->
-        <item name="android:toolbarStyle" tools:targetApi="lollipop">@style/UIDToolbar</item>
+        <item name="android:toolbarStyle">@style/UIDToolbar</item>
 
         <item name="toolbarStyle">@style/UIDToolbar</item>
 
 
         <item name="actionOverflowButtonStyle">@style/UIDActionBarOverflowButton</item>
         <!-- Navigation color for lolipop-->
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
-        <item name="android:colorPrimary" tools:targetApi="lollipop">
+        <item name="android:colorPrimary">
             ?attr/uidNavigationPrimaryBackgroundColor
         </item>
 
