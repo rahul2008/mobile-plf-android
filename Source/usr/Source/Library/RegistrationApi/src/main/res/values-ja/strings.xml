@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\n入力された国番号はサポートされていません。</string>
   <string name="USR_Error_PleaseTryLater_Txt">しばらくしてから再試行してください</string>
   <string name="UnexpectedInternalError_ErrorMsg">問題が発生しました。再試行してください。</string>
+  <string name="Update_Email_Button_Text">メールアドレスの更新</string>
   <string name="Update_MobileNumber_Button_Text">電話番号を更新</string>
   <string name="Update_MobileNumber_Thanks_Got_It">受信しました。</string>
   <string name="VerificationCode_ErrorText">入力された確認コードが間違っています。入力し直してください。</string>

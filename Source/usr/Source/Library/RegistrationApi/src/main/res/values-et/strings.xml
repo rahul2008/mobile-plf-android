@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nRiigi koodi ei toetata.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Proovige hiljem uuesti</string>
   <string name="UnexpectedInternalError_ErrorMsg">Vabandage, midagi läks valesti. Palun proovige uuesti.</string>
+  <string name="Update_Email_Button_Text">Värskendage e-posti aadressi</string>
   <string name="Update_MobileNumber_Button_Text">Värskendage telefoninumbrit</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Aitäh, sain aru.</string>
   <string name="VerificationCode_ErrorText">Sisestatud kinnituskood on vale. Palun proovige uuesti.</string>

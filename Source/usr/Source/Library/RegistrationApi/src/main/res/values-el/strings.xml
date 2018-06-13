@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nΟ κωδικός χώρας δεν υποστηρίζεται.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Δοκιμάστε ξανά αργότερα</string>
   <string name="UnexpectedInternalError_ErrorMsg">Λυπούμαστε, αλλά κάτι πήγε στραβά. Δοκιμάστε ξανά αργότερα.</string>
+  <string name="Update_Email_Button_Text">Ενημέρωση διεύθυνσης email</string>
   <string name="Update_MobileNumber_Button_Text">Ενημέρωση αριθμού τηλεφώνου</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Ευχαριστώ, το έλαβα.</string>
   <string name="VerificationCode_ErrorText">Η διεύθυνση email που εισαγάγατε είναι λανθασμένη. Δοκιμάστε ξανά.</string>

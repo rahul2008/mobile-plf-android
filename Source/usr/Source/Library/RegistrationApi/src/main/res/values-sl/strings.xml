@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nKoda države ni podprta.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Poskusite znova pozneje</string>
   <string name="UnexpectedInternalError_ErrorMsg">Žal je šlo nekaj narobe. Poskusite znova pozneje.</string>
+  <string name="Update_Email_Button_Text">Posodobitev e-poštnega naslova</string>
   <string name="Update_MobileNumber_Button_Text">Posodobi telefonsko številko</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Hvala, prejeto.</string>
   <string name="VerificationCode_ErrorText">Vnesli ste napačno potrditveno kodo. Poskusite znova.</string>

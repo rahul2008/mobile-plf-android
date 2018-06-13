@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nKód předvolby není podporován.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Zkuste to znovu později</string>
   <string name="UnexpectedInternalError_ErrorMsg">Je nám líto, ale něco se pokazilo. Zkuste to znovu.</string>
+  <string name="Update_Email_Button_Text">Aktualizovat e-mailovou adresu</string>
   <string name="Update_MobileNumber_Button_Text">Aktualizace telefonního čísla</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Děkuji, zprávu jsem obdržel.</string>
   <string name="VerificationCode_ErrorText">Zadaný ověřovací kód není správný. Zkuste to znovu.</string>

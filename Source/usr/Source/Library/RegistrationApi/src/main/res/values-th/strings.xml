@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nไม่รองรับรหัสประเทศ</string>
   <string name="USR_Error_PleaseTryLater_Txt">โปรดลองอีกครั้งในภายหลัง</string>
   <string name="UnexpectedInternalError_ErrorMsg">ขออภัย เกิดข้อผิดพลาดบางประการ โปรดลองอีกครั้ง</string>
+  <string name="Update_Email_Button_Text">อัพเดตอีเมล์แอดเดรส</string>
   <string name="Update_MobileNumber_Button_Text">อัปเดต PhoneNumber</string>
   <string name="Update_MobileNumber_Thanks_Got_It">ขอบคุณ เข้าใจแล้ว</string>
   <string name="VerificationCode_ErrorText">รหัสการตรวจสอบที่คุณป้อนไม่ถูกต้อง โปรดลองอีกครั้ง</string>

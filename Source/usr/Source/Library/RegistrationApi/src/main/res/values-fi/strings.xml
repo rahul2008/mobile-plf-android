@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nMaatunnusta ei tueta.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Yritä myöhemmin uudelleen</string>
   <string name="UnexpectedInternalError_ErrorMsg">Tuntematon virhe. Yritä uudelleen.</string>
+  <string name="Update_Email_Button_Text">Päivitä sähköpostiosoite</string>
   <string name="Update_MobileNumber_Button_Text">Puhelinnumeron päivitys</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Kiitos, ymmärsin.</string>
   <string name="VerificationCode_ErrorText">Antamasi varmennuskoodi on virheellinen. Yritä uudelleen.</string>

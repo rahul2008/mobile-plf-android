@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nLandekoden understøttes ikke.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Prøv igen senere</string>
   <string name="UnexpectedInternalError_ErrorMsg">Noget gik galt. Prøv igen.</string>
+  <string name="Update_Email_Button_Text">Opdater e-mailadresse</string>
   <string name="Update_MobileNumber_Button_Text">Opdater telefonnummer</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Tak, jeg har modtaget den.</string>
   <string name="VerificationCode_ErrorText">Den indtastede bekræftelseskode er forkert. Prøv igen.</string>

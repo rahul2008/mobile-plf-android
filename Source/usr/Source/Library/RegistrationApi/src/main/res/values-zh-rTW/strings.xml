@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\n該國碼不受支援。</string>
   <string name="USR_Error_PleaseTryLater_Txt">請稍後再試一次</string>
   <string name="UnexpectedInternalError_ErrorMsg">抱歉，發生問題，請稍後再試。</string>
+  <string name="Update_Email_Button_Text">更新電子郵件地址</string>
   <string name="Update_MobileNumber_Button_Text">更新電話號碼</string>
   <string name="Update_MobileNumber_Thanks_Got_It">謝謝，收到了。</string>
   <string name="VerificationCode_ErrorText">您所輸入的驗證碼不正確。請再試一次。</string>

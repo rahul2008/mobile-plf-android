@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nKód krajiny nie je podporovaný.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Skúste znova neskôr</string>
   <string name="UnexpectedInternalError_ErrorMsg">Ľutujeme, došlo k chybe. Skúste to znova.</string>
+  <string name="Update_Email_Button_Text">Aktualizovať e-mailovú adresu</string>
   <string name="Update_MobileNumber_Button_Text">Aktualizácia telefónneho čísla</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Ďakujem, mám to.</string>
   <string name="VerificationCode_ErrorText">Zadaný overovací kód je nesprávny. Skúste to znova.</string>

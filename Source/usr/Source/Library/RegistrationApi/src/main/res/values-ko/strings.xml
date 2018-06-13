@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\n국가 코드가 지원되지 않습니다.</string>
   <string name="USR_Error_PleaseTryLater_Txt">다시 시도하십시오.</string>
   <string name="UnexpectedInternalError_ErrorMsg">죄송합니다. 문제가 발생했습니다. 다시 시도하십시오.</string>
+  <string name="Update_Email_Button_Text">이메일 주소 업데이트</string>
   <string name="Update_MobileNumber_Button_Text">전화번호 업데이트</string>
   <string name="Update_MobileNumber_Thanks_Got_It">네, 알겠습니다.</string>
   <string name="VerificationCode_ErrorText">입력한 확인 코드가 올바르지 않습니다. 다시 시도하십시오.</string>

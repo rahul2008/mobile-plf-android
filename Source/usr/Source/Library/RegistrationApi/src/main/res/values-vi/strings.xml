@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nMã quốc gia không được hỗ trợ.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Vui lòng thử lại sau</string>
   <string name="UnexpectedInternalError_ErrorMsg">Rất tiếc, có gì đó không ổn. Vui lòng thử lại sau.</string>
+  <string name="Update_Email_Button_Text">Cập nhật địa chỉ email</string>
   <string name="Update_MobileNumber_Button_Text">Cập nhật số điện thoại</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Cảm ơn, tôi nhận được rồi.</string>
   <string name="VerificationCode_ErrorText">Mã xác thực mà bạn đã nhập không chính xác. Vui lòng thử lại.</string>

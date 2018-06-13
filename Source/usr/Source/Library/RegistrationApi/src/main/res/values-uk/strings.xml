@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nКод країни не підтримується.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Спробуйте пізніше</string>
   <string name="UnexpectedInternalError_ErrorMsg">Вибачте, виникла помилка! Спробуйте пізніше.</string>
+  <string name="Update_Email_Button_Text">Оновити адресу ел. пошти</string>
   <string name="Update_MobileNumber_Button_Text">Оновити номер телефону</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Дякую, отримав(ла).</string>
   <string name="VerificationCode_ErrorText">Введений код перевірки неправильний. Спробуйте ще раз.</string>

@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nCodul de ţară nu este acceptat.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Încearcă din nou mai târziu</string>
   <string name="UnexpectedInternalError_ErrorMsg">Ne pare rău, a apărut o problemă. Încearcă din nou.</string>
+  <string name="Update_Email_Button_Text">Actualizare adresă e-mail</string>
   <string name="Update_MobileNumber_Button_Text">Actualizează-ţi numărul de telefon</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Mulţumesc, am înţeles.</string>
   <string name="VerificationCode_ErrorText">Codul de verificare introdus este incorect. Încearcă din nou.</string>

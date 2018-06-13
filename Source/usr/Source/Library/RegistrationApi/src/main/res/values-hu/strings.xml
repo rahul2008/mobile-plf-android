@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nAz országhívó kód nem támogatott.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Próbálja újra később</string>
   <string name="UnexpectedInternalError_ErrorMsg">Sajnos hiba történt. Próbálja meg újra.</string>
+  <string name="Update_Email_Button_Text">E-mail-cím frissítése</string>
   <string name="Update_MobileNumber_Button_Text">PhoneNumber frissítése</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Köszönöm, megkaptam.</string>
   <string name="VerificationCode_ErrorText">A megadott visszaigazoló kód hibás. Kérjük, próbálja újra.</string>

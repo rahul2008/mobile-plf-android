@@ -4,7 +4,7 @@
 
     <!--The below one need to be removed , Why IAP is using it-->
     <string name="delete_row">Delete</string>
-    
+
     <string name="Account_Merge_Merge_btntxt">Merge</string>
     <string name="Account_Setting_Titletxt">Account settings</string>
     <string name="Action_ConsumerCare_Txt">Consumer Care</string>
@@ -239,6 +239,7 @@
     <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nThe country code is not supported.</string>
     <string name="USR_Error_PleaseTryLater_Txt">Please try again later</string>
     <string name="UnexpectedInternalError_ErrorMsg">Sorry, something went wrong. Please try again.</string>
+    <string name="Update_Email_Button_Text">Update Email</string>
     <string name="Update_MobileNumber_Button_Text">Update PhoneNumber</string>
     <string name="Update_MobileNumber_Thanks_Got_It">Thanks, I got it.</string>
     <string name="VerificationCode_ErrorText">The verification code you entered is incorrect. Please try again.</string>
@@ -281,5 +282,5 @@
 
     <!--OTP Sender Mobile Number-->
     <string name="otp_sender">10690669210073</string>
-    <string name="Update_Email_Button_Text">Update Email</string>
+
 </resources>

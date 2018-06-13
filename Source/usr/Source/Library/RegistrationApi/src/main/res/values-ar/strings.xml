@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nرمز البلد غير معتمد.</string>
   <string name="USR_Error_PleaseTryLater_Txt">يُرجى إعادة المحاولة لاحقًا</string>
   <string name="UnexpectedInternalError_ErrorMsg">عذرًا، حدث خطأ ما. يرجى إعادة المحاولة.</string>
+  <string name="Update_Email_Button_Text">تحديث عنوان البريد الإلكتروني</string>
   <string name="Update_MobileNumber_Button_Text">تحديث رقم الهاتف</string>
   <string name="Update_MobileNumber_Thanks_Got_It">شكرًا، تلقيتها.</string>
   <string name="VerificationCode_ErrorText">رمز التحقق الذي أدخلته غير صحيح. يُرجى إعادة المحاولة.</string>

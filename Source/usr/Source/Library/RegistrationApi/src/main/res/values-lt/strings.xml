@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nTokio šalies kodo nėra.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Bandykite vėliau</string>
   <string name="UnexpectedInternalError_ErrorMsg">Atsiprašome, įvyko klaida. Bandykite dar kartą.</string>
+  <string name="Update_Email_Button_Text">Atnaujinkite el. pašto adresą</string>
   <string name="Update_MobileNumber_Button_Text">Atnaujinkite telefono numerį</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Ačiū, gavau.</string>
   <string name="VerificationCode_ErrorText">Įvedėte neteisingą patvirtinimo kodą. Bandykite dar kartą.</string>

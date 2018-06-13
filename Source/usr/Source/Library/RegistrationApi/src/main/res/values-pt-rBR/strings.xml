@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nNão temos suporte para este código de país.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Tente novamente mais tarde</string>
   <string name="UnexpectedInternalError_ErrorMsg">Ocorreu um erro. Tente novamente.</string>
+  <string name="Update_Email_Button_Text">Atualizar e-mail</string>
   <string name="Update_MobileNumber_Button_Text">Atualizar número do telefone</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Obrigado, recebido.</string>
   <string name="VerificationCode_ErrorText">O código de verificação inserido está incorreto. Tente novamente.</string>

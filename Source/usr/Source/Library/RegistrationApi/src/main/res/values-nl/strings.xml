@@ -239,6 +239,7 @@
   <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nDe landcode wordt niet ondersteund.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Probeer het later opnieuw</string>
   <string name="UnexpectedInternalError_ErrorMsg">Er is iets fout gegaan. Probeer het opnieuw.</string>
+  <string name="Update_Email_Button_Text">E-mailadres bijwerken</string>
   <string name="Update_MobileNumber_Button_Text">Telefoonnummer bijwerken</string>
   <string name="Update_MobileNumber_Thanks_Got_It">Bedankt, ik snap het.</string>
   <string name="VerificationCode_ErrorText">De verificatiecode die u hebt ingevoerd is onjuist. Probeer het opnieuw.</string>
