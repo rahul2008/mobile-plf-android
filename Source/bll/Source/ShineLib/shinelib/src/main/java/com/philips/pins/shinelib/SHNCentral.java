@@ -217,10 +217,10 @@ public class SHNCentral {
             try {
                 initFuture.get();
             } catch (InterruptedException e) {
-                SHNLogger.e(TAG, e.getMessage(), e);
+                SHNLogger.e(TAG, e.toString(), e);
                 throw new InternalError("Caught unexpected InterruptedException");
             } catch (ExecutionException e) {
-                SHNLogger.e(TAG, e.getMessage(), e);
+                SHNLogger.e(TAG, e.toString(), e);
                 throw new InternalError("Caught unexpected ExecutionException");
             }
         } else {

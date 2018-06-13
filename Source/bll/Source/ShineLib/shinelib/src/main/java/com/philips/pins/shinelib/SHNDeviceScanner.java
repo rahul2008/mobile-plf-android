@@ -134,7 +134,7 @@ public class SHNDeviceScanner {
         try {
             isScanningStarted = futureTask.get(START_SCANNING_TIMEOUT_MS, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            final String errorMsg = "Error while starting scanning: " + e.getMessage();
+            final String errorMsg = "Error while starting scanning: " + e.toString();
 
             SHNLogger.e(TAG, errorMsg, e);
             SHNTagger.sendTechnicalError(errorMsg);
