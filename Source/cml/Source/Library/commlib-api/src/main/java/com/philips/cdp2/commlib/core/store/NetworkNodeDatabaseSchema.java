@@ -69,7 +69,7 @@ class NetworkNodeDatabaseSchema {
                     queries.addAll(Arrays.asList(addMismatchPinColumn()));
                     break;
                 case 7:
-                    queries.addAll(Arrays.asList(addMacAddress()));
+                    queries.addAll(Arrays.asList(addMacAddressColumn()));
                 default:
                     DICommLog.e(DICommLog.DATABASE, "Table creation error");
                     break;
@@ -155,7 +155,7 @@ class NetworkNodeDatabaseSchema {
         return new String[]{"ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_MISMATCHED_PIN + " TEXT;"};
     }
 
-    private static String[] addMacAddress() {
+    private static String[] addMacAddressColumn() {
         return new String[]{"ALTER TABLE " + NetworkNodeDatabaseSchema.TABLE_NETWORK_NODE + " ADD COLUMN " +
                 KEY_MAC_ADDRESS + " STRING NULL",
                 "UPDATE " + NetworkNodeDatabaseSchema.TABLE_NETWORK_NODE + " SET " +

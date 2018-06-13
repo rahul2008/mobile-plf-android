@@ -96,8 +96,8 @@ public class NetworkNodeDatabaseTest {
     @Test
     public void whenNodeIsReturned_thenCppIdIsReadFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
-        when(cursorMock.getColumnIndex(KEY_CPP_ID)).thenReturn(0);
-        when(cursorMock.getString(0)).thenReturn(CPP_ID);
+        when(cursorMock.getColumnIndex(KEY_CPP_ID)).thenReturn(1);
+        when(cursorMock.getString(1)).thenReturn(CPP_ID);
         when(databaseHelperMock.query(null, null)).thenReturn(cursorMock);
 
         List<NetworkNode> all = networkNodeDatabase.getAll();
@@ -109,8 +109,8 @@ public class NetworkNodeDatabaseTest {
     @Test
     public void whenNodeIsReturned_thenMacAddressIsReadFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
-        when(cursorMock.getColumnIndex(KEY_MAC_ADDRESS)).thenReturn(0);
-        when(cursorMock.getString(0)).thenReturn(MAC_ADDRESS);
+        when(cursorMock.getColumnIndex(KEY_MAC_ADDRESS)).thenReturn(1);
+        when(cursorMock.getString(1)).thenReturn(MAC_ADDRESS);
         when(databaseHelperMock.query(null, null)).thenReturn(cursorMock);
 
         List<NetworkNode> all = networkNodeDatabase.getAll();
@@ -122,8 +122,8 @@ public class NetworkNodeDatabaseTest {
     @Test
     public void whenNodeIsReturned_thenDeviceNameIsReadFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
-        when(cursorMock.getColumnIndex(KEY_DEVICE_NAME)).thenReturn(0);
-        when(cursorMock.getString(0)).thenReturn(DEVICE_NAME);
+        when(cursorMock.getColumnIndex(KEY_DEVICE_NAME)).thenReturn(1);
+        when(cursorMock.getString(1)).thenReturn(DEVICE_NAME);
         when(databaseHelperMock.query(null, null)).thenReturn(cursorMock);
 
         List<NetworkNode> all = networkNodeDatabase.getAll();
@@ -135,8 +135,8 @@ public class NetworkNodeDatabaseTest {
     @Test
     public void whenNodeIsReturned_thenIpAddressIsReadFromDatabase() {
         when(cursorMock.getCount()).thenReturn(1);
-        when(cursorMock.getColumnIndex(KEY_IP_ADDRESS)).thenReturn(0);
-        when(cursorMock.getString(0)).thenReturn(IP_ADDRESS);
+        when(cursorMock.getColumnIndex(KEY_IP_ADDRESS)).thenReturn(1);
+        when(cursorMock.getString(1)).thenReturn(IP_ADDRESS);
         when(databaseHelperMock.query(null, null)).thenReturn(cursorMock);
 
         List<NetworkNode> all = networkNodeDatabase.getAll();

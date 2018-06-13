@@ -73,8 +73,8 @@ public class NetworkNodeDatabase {
                     String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
 
                     NetworkNode networkNode = new NetworkNode();
-                    networkNode.setCppId(macAddress);
-                    networkNode.setMacAddress(cppId);
+                    networkNode.setCppId(cppId);
+                    networkNode.setMacAddress(macAddress);
                     networkNode.setBootId(bootId);
                     networkNode.setEncryptionKey(encryptionKey);
                     networkNode.setName(name);

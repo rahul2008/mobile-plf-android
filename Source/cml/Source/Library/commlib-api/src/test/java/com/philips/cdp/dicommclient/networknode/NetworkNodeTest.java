@@ -5,6 +5,7 @@
 
 package com.philips.cdp.dicommclient.networknode;
 
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
@@ -103,11 +104,11 @@ public class NetworkNodeTest extends RobolectricTest {
     public void whenPropertyChanges_thenPropertyChangeEventIsFired() {
         createNetworkNode(mockPropertyChangeListener);
 
-        verify(mockPropertyChangeListener, times(11)).propertyChange(any(PropertyChangeEvent.class));
+        verify(mockPropertyChangeListener, times(13)).propertyChange(any(PropertyChangeEvent.class));
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherCppId_ThenOriginalNetworkNodeShouldBeUnchanged() {
+    public void whenUpdatingNetworkNodeWithNetworkNodeThatHasOtherCppId_ThenOriginalNetworkNodeShouldBeUnchanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         originalNetworkNode.setCppId("ABC");
         NetworkNode networkNodeForUpdate = createNetworkNode();
@@ -122,7 +123,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherSsid_ThenSsidShouldBeChanged() {
+    public void whenUpdatingNetworkNodeWithNetworkNodeThatHasOtherSsid_ThenSsidShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
         networkNodeForUpdate.setHomeSsid("Some other ssid");
@@ -134,7 +135,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherIpAddress_ThenIpAddressShouldBeChanged() {
+    public void whenUpdatingNetworkNodeWithNetworkNodeThatHasOtherIpAddress_ThenIpAddressShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
         networkNodeForUpdate.setIpAddress("10.10.10.10");
@@ -146,7 +147,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherName_ThenNameShouldBeChanged() {
+    public void whenUpdatingNetworkNodeWithNetworkNodeThatHasOtherName_ThenNameShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
         networkNodeForUpdate.setName("My awesome appliance");
@@ -158,7 +159,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherModelId_ThenModelIdShouldBeChanged() {
+    public void whenUpdatingNetworkNodeWithNetworkNodeThatHasOtherModelId_ThenModelIdShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
         networkNodeForUpdate.setModelId("My awesome modelId");
@@ -170,7 +171,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithOtherDeviceType_ThenDeviceTypeShouldBeChanged() {
+    public void whenUpdatingNetworkNodeWithNetworkNodeThatHasOtherDeviceType_ThenDeviceTypeShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
         networkNodeForUpdate.setDeviceType("My awesome deviceType");
@@ -257,6 +258,24 @@ public class NetworkNodeTest extends RobolectricTest {
         assertTrue("PropertyChange not called for '" + propertyName + "' property.", foundProperty);
     }
 
+    @Test
+    public void givenNetworkNodeIsSerialized_whenItIsDEsirialized_thenNodeIsTheSame() {
+        NetworkNode networkNode = createNetworkNode();
+
+        Parcel parcel = Parcel.obtain();
+        networkNode.writeToParcel(parcel, 0);
+        parcel.setDataPosition(0);
+
+        NetworkNode createdFromParcel = NetworkNode.CREATOR.createFromParcel(parcel);
+        parcel.recycle();
+
+        assertThat(networkNode).isEqualTo(createdFromParcel);
+        assertThat(networkNode.getMacAddress()).isEqualTo(createdFromParcel.getMacAddress());
+        assertThat(networkNode.getIpAddress()).isEqualTo(createdFromParcel.getIpAddress());
+        assertThat(networkNode.getDeviceType()).isEqualTo(createdFromParcel.getDeviceType());
+        assertThat(networkNode.getModelId()).isEqualTo(createdFromParcel.getModelId());
+    }
+
     @NonNull
     private NetworkNode createNetworkNode(@Nullable PropertyChangeListener propertyChangeListener) {
         NetworkNode networkNode = new NetworkNode();
@@ -276,6 +295,8 @@ public class NetworkNodeTest extends RobolectricTest {
         networkNode.setName("Anton");
         networkNode.setPairedState(PAIRED);
         networkNode.setPin("ALL YOUR BASE ARE BELONG TO US");
+        networkNode.setMacAddress("00:11:22:33:44:55");
+        networkNode.setMismatchedPin("mismatched pin");
 
         return networkNode;
     }

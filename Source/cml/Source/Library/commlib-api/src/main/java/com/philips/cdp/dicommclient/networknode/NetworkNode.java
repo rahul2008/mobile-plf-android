@@ -351,7 +351,9 @@ public class NetworkNode implements Parcelable {
     }
 
     public synchronized void setMacAddress(final @Nullable String macAddress) {
+        final String oldMacAddress = this.macAddress;
         this.macAddress = macAddress;
+        this.pcs.firePropertyChange(KEY_MAC_ADDRESS, oldMacAddress, macAddress);
     }
 
     /**
@@ -414,6 +416,7 @@ public class NetworkNode implements Parcelable {
         lastPairedTime = in.readLong();
         pin = in.readString();
         mismatchedPin = in.readString();
+        macAddress = in.readString();
     }
 
     @Override
@@ -435,6 +438,7 @@ public class NetworkNode implements Parcelable {
         dest.writeLong(lastPairedTime);
         dest.writeString(pin);
         dest.writeString(mismatchedPin);
+        dest.writeString(macAddress);
     }
 
     public static final Parcelable.Creator<NetworkNode> CREATOR = new Parcelable.Creator<NetworkNode>() {
@@ -460,21 +464,6 @@ public class NetworkNode implements Parcelable {
             return PairingState.values()[status];
         }
         return PairingState.NOT_PAIRED;
-    }
-
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("name: ").append(getName())//all
-                .append("   ipAddress: ").append(getIpAddress())//lan
-                .append("   cppId: ").append(getCppId())//all
-                .append("   bootId: ").append(getBootId())//lan
-                .append("   deviceType: ").append(getDeviceType())//all -> remove?
-                .append("   modelId: ").append(getModelId())//all
-                .append("   paired: ").append(getPairedState())//cloud/ble?
-                .append("   homeSsid: ").append(getHomeSsid())//lan?
-                .append("   pin: ").append(getPin())//lan
-                .append("   mismatchedPin: ").append(getMismatchedPin());//lan
-        return builder.toString();
     }
 
     /**
@@ -507,5 +496,25 @@ public class NetworkNode implements Parcelable {
     @Override
     public int hashCode() {
         return cppId.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "NetworkNode{" +
+                "cppId='" + cppId + '\'' +
+                ", modelId='" + modelId + '\'' +
+                ", deviceType='" + deviceType + '\'' +
+                ", name='" + name + '\'' +
+                ", bootId=" + bootId +
+                ", encryptionKey='" + encryptionKey + '\'' +
+                ", isHttps=" + isHttps +
+                ", homeSsid='" + homeSsid + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", pin='" + pin + '\'' +
+                ", mismatchedPin='" + mismatchedPin + '\'' +
+                ", pairedState=" + pairedState +
+                ", lastPairedTime=" + lastPairedTime +
+                ", macAddress='" + macAddress + '\'' +
+                '}';
     }
 }
