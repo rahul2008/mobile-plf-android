@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Special offers, promotions and first-hand information about new product releases. Tailored for you!</string>
   <string name="DLS_Optin_Body_Line2">Join 140,000 of your peers now!</string>
   <string name="DLS_Password_lbltxt">Password</string>
-  <string name="DLS_PhilipsNews_Description_Text">As a result of your consent, Philips group companies may contact you with promotional communications via email, SMS and other digital channels, such as mobile apps and social media. To be able to tailor the communications to your preferences and behaviour and provide you with the best, personalised experience, we may analyze and combine your personal data. This data may include: nnData you give usnData that you want to actively share with us such as: your name, date of birth or age, email address, physical address, country, gender, phone number, social media profile.nnData we get from your interactions with PhilipsnData about your interactions and usage of the Philips digital channels, such as social media, websites, emails, apps and connected products. This data may include: IP address, cookies, device information, communications you click on, location details, and websites you visitnnPhilips will give you the opportunity to withdraw your consent at any time.nFor more information, please read the Philips Privacy notice and the Philips Cookie notice.</string>
+  <string name="DLS_PhilipsNews_Description_Text">As a result of your consent, Philips group companies may contact you with promotional communications via email, SMS and other digital channels, such as mobile apps and social media. To be able to tailor the communications to your preferences and behaviour and provide you with the best, personalised experience, we may analyze and combine your personal data. This data may include: \n\nData you give us\nData that you want to actively share with us such as: your name, date of birth or age, email address, physical address, country, gender, phone number, social media profile.\n\nData we get from your interactions with Philips\nData about your interactions and usage of the Philips digital channels, such as social media, websites, emails, apps and connected products. This data may include: IP address, cookies, device information, communications you click on, location details, and websites you visit\n\nPhilips will give you the opportunity to withdraw your consent at any time.\nFor more information, please read the Philips Privacy notice and the Philips Cookie notice.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philips communication</string>
   <string name="DLS_Phonenumber_Label_Text">Phone number</string>
   <string name="DLS_ResendSMS_Body_Line1">It may take some time for the SMS with the code to arrive.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Forgotten password?</string>
   <string name="Gender_TitleTxt">Gender</string>
   <string name="Generic_Network_Error">Oops! Something went wrong. Please try again later</string>
-  <string name="Generic_Network_ErrorMsg">Cannot connect to server.
-Please check your internet connection and try again.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Cannot connect to server.\nPlease check your internet connection and try again.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Signature expired due to time error. Please check your device time settings.</string>
   <string name="InValid_PwdErrorMsg">The password does not follow the password guidelines below.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Invalid email address. Please check.</string>
@@ -184,23 +183,18 @@ Please check your internet connection and try again.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Please enter a valid email address.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">We cannot recognise your phone number. Please check country code.</string>
   <string name="JanRain_Error_Check_Internet">There was a problem with the network connection. Please try again.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Cannot connect to server. %s.
-Still having difficulty? Contact Customer Care stating error code [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Cannot connect to server. %s.\nStill having difficulty? Contact Customer Care stating error code [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Please go back and log in again.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">This email address already exists. Please log in using this address or register using a different one.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">Your %s is already registered.</string>
   <string name="Janrain_Error_Need_Email_Verification">Please verify your email address through the activation link sent to your email account</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Please verify your mobile number through the activation code we sent to you via SMS</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Cannot connect to server.
-Please try later or check our FAQs for more information.
-If this doesn\'t resolve your query, contact consumer care stating error code [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Cannot connect to server.\nPlease try later or check our FAQs for more information.\nIf this doesn\'t resolve your query, contact consumer care stating error code [%d]</string>
   <string name="Janrain_Invalid_Credentials">The username or password you entered is incorrect.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">The %s or password you entered is not correct.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">No account exists for this email. Create an account using this email or enter a different email address.</string>
-  <string name="Janrain_LimitError_ErrorMsg">The limit of too many unsuccessful attempts has been reached.
-Please try again later.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">You have entered an incorrect or expired verification code.
-Please enter the correct code or resend the code.</string>
+  <string name="Janrain_LimitError_ErrorMsg">The limit of too many unsuccessful attempts has been reached.\nPlease try again later.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">You have entered an incorrect or expired verification code.\nPlease enter the correct code or resend the code.</string>
   <string name="LastNameField_ErrorMsg">Please enter your last name</string>
   <string name="Login_Details_Txt">Login details</string>
   <string name="MaxiumCharacters_ErrorMsg">You cannot enter more than 256 characters.</string>
@@ -236,17 +230,13 @@ Please enter the correct code or resend the code.</string>
   <string name="Title_TooManyRequests_Txt">Too many requests</string>
   <string name="Title_UnexpectedError_Txt">Unexpected error</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Log in with Philips account</string>
-  <string name="URX_SMS_Already_Verified">Account already verified.
-Log in to continue.</string>
-  <string name="URX_SMS_InternalServerError">SMS cannot be sent.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Account already verified.\nLog in to continue.</string>
+  <string name="URX_SMS_InternalServerError">SMS cannot be sent.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">We can\'t send an SMS to this phone number.</string>
-  <string name="URX_SMS_Limit_Reached">The SMS limit has been reached for this phone number.
-Please try again in %d secs.</string>
+  <string name="URX_SMS_Limit_Reached">The SMS limit has been reached for this phone number.\nPlease try again in %d secs.</string>
   <string name="URX_SMS_NoInformation_Available">Unable to connect to server. %s.</string>
   <string name="URX_SMS_Not_Sent">SMS could not be delivered. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-The country code is not supported.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nThe country code is not supported.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Please try again later</string>
   <string name="UnexpectedInternalError_ErrorMsg">Sorry, something went wrong. Please try again.</string>
   <string name="Update_MobileNumber_Button_Text">Update PhoneNumber</string>

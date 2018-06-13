@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">عروض خاصة وعروض ترويجية ومعلومات أولية حول إطلاق منتجات جديدة، مصممة خصيصًا لك!</string>
   <string name="DLS_Optin_Body_Line2">انضم إلى 140000 من زملائك الآن!</string>
   <string name="DLS_Password_lbltxt">كلمة المرور</string>
-  <string name="DLS_PhilipsNews_Description_Text">ونتيجة لموافقتك، قد تقوم مجموعة شركات فيليبس بالاتصال بك عن طريق الرسائل الترويجية عبر البريد الإلكتروني، والرسائل القصيرة والقنوات الرقمية الأخرى، مثل تطبيقات الجوال ووسائل التواصل الاجتماعي. لتكون قادرة على تكييف الاتصالات بحسب تفضيلاتك وسلوكك وتوفير لك أفضل تجربة شخصية لك. وقد نقوم في فيليبس بتحليل وجمع البيانات الشخصية الخاصة بك. ويمكن أن تشمل هذه البيانات: nnالبيانات التي تزوّدُنا بهاnإن البيانات التي نطلب منك مشاركتها إيّانا تتضمن: إسمك، تاريخ الولادة أو العمر، عنوان البريد الالكتروني، مكان السكن، البلد، الجنس، رقم الهاتف بالإضافة إلى ملفك الشخصي في وسائل التواصل الاجتماعي.nnالبيانات التي نحصل عليها من تفاعلك مع فيليبسnبيانات عن تعاملاتك واستخدامك للقنوات الرقمية الخاصة بفيليبس، مثل وسائل التواصل الاجتماعي والمواقع الإلكترونية ورسائل البريد الإلكتروني والتطبيقات والمنتجات ذات الصلة. ويمكن أن تشمل هذه البيانات: عنوان الIP، الكوكيز، معلومات الجهاز، والاتصالات تضغط عليها وتفاصيل المكان، والمواقع الالكترونية التي تزورها.nnتقوم فيليبس بإعطاءك الفرصة لسحب الموافقة في أي وقت.nلمزيد من المعلومات، يرجى قراءة مذكرة الخصوصية وملفات تعريف الإرتباطالخاصة بفيليبس. nn</string>
+  <string name="DLS_PhilipsNews_Description_Text">ونتيجة لموافقتك، قد تقوم مجموعة شركات فيليبس بالاتصال بك عن طريق الرسائل الترويجية عبر البريد الإلكتروني، والرسائل القصيرة والقنوات الرقمية الأخرى، مثل تطبيقات الجوال ووسائل التواصل الاجتماعي. لتكون قادرة على تكييف الاتصالات بحسب تفضيلاتك وسلوكك وتوفير لك أفضل تجربة شخصية لك. وقد نقوم في فيليبس بتحليل وجمع البيانات الشخصية الخاصة بك. ويمكن أن تشمل هذه البيانات: \n\nالبيانات التي تزوّدُنا بها\nإن البيانات التي نطلب منك مشاركتها إيّانا تتضمن: إسمك، تاريخ الولادة أو العمر، عنوان البريد الالكتروني، مكان السكن، البلد، الجنس، رقم الهاتف بالإضافة إلى ملفك الشخصي في وسائل التواصل الاجتماعي.\n\nالبيانات التي نحصل عليها من تفاعلك مع فيليبس\nبيانات عن تعاملاتك واستخدامك للقنوات الرقمية الخاصة بفيليبس، مثل وسائل التواصل الاجتماعي والمواقع الإلكترونية ورسائل البريد الإلكتروني والتطبيقات والمنتجات ذات الصلة. ويمكن أن تشمل هذه البيانات: عنوان الIP، الكوكيز، معلومات الجهاز، والاتصالات تضغط عليها وتفاصيل المكان، والمواقع الالكترونية التي تزورها.\n\nتقوم فيليبس بإعطاءك الفرصة لسحب الموافقة في أي وقت.\nلمزيد من المعلومات، يرجى قراءة مذكرة الخصوصية وملفات تعريف الإرتباطالخاصة بفيليبس. \n\n</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">مراسلات Philips</string>
   <string name="DLS_Phonenumber_Label_Text">رقم الهاتف</string>
   <string name="DLS_ResendSMS_Body_Line1">قد تستغرق رسالة SMS التي تتضمن الرمز بعض الوقت لتتلقاها.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">هل نسيت كلمة المرور؟</string>
   <string name="Gender_TitleTxt">الجنس</string>
   <string name="Generic_Network_Error">عذرًا! حدث خطأ ما. يرجى إعادة المحاولة لاحقًا</string>
-  <string name="Generic_Network_ErrorMsg">يتعذّر الاتصال بالخادم.
-يُرجى التحقق من اتصال الإنترنت لديك وإعادة المحاولة.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">يتعذّر الاتصال بالخادم.\nيُرجى التحقق من اتصال الإنترنت لديك وإعادة المحاولة.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">انتهت صلاحية التوقيع بسبب خطأ في الوقت. يرجى التحقق من إعدادات الوقت في جهازك.</string>
   <string name="InValid_PwdErrorMsg">لا تتوافق كلمة المرور مع إرشادات كلمة المرور أدناه.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">عنوان البريد الإلكتروني غير صالح. يرجى التحقق.</string>
@@ -184,23 +183,18 @@
   <string name="InvalidOrMissingEmail_ErrorMsg">يرجى إدخال عنوان بريد إلكتروني صالح.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">يتعذّر علينا التعرّف على رقم هاتفك. يرجى التحقق من رمز البلد.</string>
   <string name="JanRain_Error_Check_Internet">حدثت مشكلة في اتصال الشبكة. يرجى إعادة المحاولة.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">يتعذّر الاتصال بالخادم. %s.
-هل ما زلت تواجه صعوبة؟ اتصل بمركز خدمة العملاء مع توفير رمز الخطأ [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">يتعذّر الاتصال بالخادم. %s.\nهل ما زلت تواجه صعوبة؟ اتصل بمركز خدمة العملاء مع توفير رمز الخطأ [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. يرجى العودة وتسجيل الدخول من جديد.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">عنوان البريد الإلكتروني هذا موجود مسبقًا. يرجى تسجيل الدخول باستخدام هذا العنوان أو تسجل باستخدام عنوان مختلف.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">سبق أن تم تسجيل %s.</string>
   <string name="Janrain_Error_Need_Email_Verification">يرجى التحقق من عنوان بريدك الإلكتروني من خلال ارتباط التنشيط الذي تم إرساله إلى حساب بريدك الإلكتروني</string>
   <string name="Janrain_Error_Need_Mobile_Verification">يرجى التحقق من رقم هاتفك المحمول من خلال رمز التنشيط الذي أرسلناه إلى رقم هاتفك المحمول.</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">يتعذّر الاتصال بالخادم.
-يرجى المحاولة لاحقًا أو اطّلع على الأسئلة الشائعة للحصول على مزيد من المعلومات.
-في حال لم يساعدك ذلك في حل مشكلتك، فاتصل بمركز خدمة العملاء مع توفير رمز الخطأ [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">يتعذّر الاتصال بالخادم.\nيرجى المحاولة لاحقًا أو اطّلع على الأسئلة الشائعة للحصول على مزيد من المعلومات.\nفي حال لم يساعدك ذلك في حل مشكلتك، فاتصل بمركز خدمة العملاء مع توفير رمز الخطأ [%d]</string>
   <string name="Janrain_Invalid_Credentials">كلمة المرور أو اسم المستخدم الذي أدخلته غير صحيح.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">إن %s أو كلمة المرور التي أدخلتها غير صحيحة.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">ما من حساب للبريد الإلكتروني هذا. قم بإنشاء حساب باستخدام هذا البريد الإلكتروني أو أدخِل عنوان بريد إلكتروني مختلف.</string>
-  <string name="Janrain_LimitError_ErrorMsg">تم بلوغ الحد الأقصى لعدد المحاولات غير الناجحة.
-يرجى إعادة المحاولة لاحقًا.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">لقد أدخلتَ رمز تحقق غير صحيح أو منتهي الصلاحية.
-يرجى إدخال الرمز الصحيح أو إعادة إرسال الرمز.</string>
+  <string name="Janrain_LimitError_ErrorMsg">تم بلوغ الحد الأقصى لعدد المحاولات غير الناجحة.\nيرجى إعادة المحاولة لاحقًا.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">لقد أدخلتَ رمز تحقق غير صحيح أو منتهي الصلاحية.\nيرجى إدخال الرمز الصحيح أو إعادة إرسال الرمز.</string>
   <string name="LastNameField_ErrorMsg">يُرجى إدخال اسم عائلتك</string>
   <string name="Login_Details_Txt">تفاصيل تسجيل الدخول</string>
   <string name="MaxiumCharacters_ErrorMsg">لا يمكنك إدخال أكثر من 256 حرفًا.</string>
@@ -236,16 +230,13 @@
   <string name="Title_TooManyRequests_Txt">عدد الطلبات مرتفع جدًا</string>
   <string name="Title_UnexpectedError_Txt">خطأ غير متوقع</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">تسجيل الدخول بواسطة حساب Philips</string>
-  <string name="URX_SMS_Already_Verified">سبق أن تم التحقق من الحساب.
-سجّل الدخول للمتابعة.</string>
-  <string name="URX_SMS_InternalServerError">يتعذّر إرسال رسالة نصية قصيرة.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">سبق أن تم التحقق من الحساب.\nسجّل الدخول للمتابعة.</string>
+  <string name="URX_SMS_InternalServerError">يتعذّر إرسال رسالة نصية قصيرة.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">يتعذّر علينا إرسال رسالة نصية قصيرة إلى رقم الهاتف هذا.</string>
   <string name="URX_SMS_Limit_Reached">تم بلوغ الحد الأقصى للرسائل النصية القصيرة المخصصة برقم الهاتف هذا. يرجى إعادة المحاولة بعد %d من الثواني.</string>
   <string name="URX_SMS_NoInformation_Available">يتعذّر الاتصال بالخادم. %s.</string>
   <string name="URX_SMS_Not_Sent">تعذّر تسليم الرسالة النصية القصيرة. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-رمز البلد غير معتمد.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nرمز البلد غير معتمد.</string>
   <string name="USR_Error_PleaseTryLater_Txt">يُرجى إعادة المحاولة لاحقًا</string>
   <string name="UnexpectedInternalError_ErrorMsg">عذرًا، حدث خطأ ما. يرجى إعادة المحاولة.</string>
   <string name="Update_MobileNumber_Button_Text">تحديث رقم الهاتف</string>

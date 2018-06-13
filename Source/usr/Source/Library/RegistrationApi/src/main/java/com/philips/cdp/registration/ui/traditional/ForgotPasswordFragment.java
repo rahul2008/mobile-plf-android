@@ -341,7 +341,11 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 //            return;
 //        }
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
-            forgotPasswordErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
+            //forgotPasswordErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
+            if (RegistrationHelper.getInstance().isMobileFlow())
+                forgotPasswordErrorMessage(getString(R.string.DLS_Forgot_Password_Body_With_Phone_No));
+            else
+                forgotPasswordErrorMessage(getString(R.string.DLS_Forgot_Password_Body_Without_Phone_No));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR);
             RLog.e(TAG, "equal to SOCIAL_SIGIN_IN_ONLY_CODE Error code = " + userRegistrationFailureInfo.getErrorCode());
             sendEmailOrSMSButton.setEnabled(false);

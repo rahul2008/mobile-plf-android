@@ -248,7 +248,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     @Override
     public void mergePasswordFailure() {
         hideMergeSpinner();
-        mEtPassword.setErrorMessage(getString(R.string.reg_Merge_validate_password_mismatch_errortxt));
+        mEtPassword.setErrorMessage(getString(R.string.Janrain_Invalid_Credentials));
         mEtPassword.showError();
     }
 

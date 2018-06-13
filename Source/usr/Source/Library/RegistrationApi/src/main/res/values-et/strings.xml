@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Eripakkumised, kampaaniad ja värskeim teave uute toodete turuletuleku koha. Mõeldud just teile!</string>
   <string name="DLS_Optin_Body_Line2">Liituge 140 000 kaaslasega!</string>
   <string name="DLS_Password_lbltxt">Salasõna</string>
-  <string name="DLS_PhilipsNews_Description_Text">Teie nõusolekule tuginedes võivad Philipsi kontserni ettevõtted teile e-kirja, SMSi või muude digitaalsete kanalite kaudu (nt mobiilirakendused ja sotsiaalmeedia) saata reklaamkirju. Selleks, et saaksime teile saata teie eelistustele ja tarbimiskäitumisele vastavaid teavitusi ja pakkuda teile parimat ja personaalset kogemust, võime teie isikuandmeid analüüsida ja kombineerida. Need andmed võivad hõlmata:nnAndmeid, mida meile annatenAndmeid, mida soovite meiega aktiivselt jagada, näiteks teie nimi, sünniaeg või vanus, e-posti aadress, füüsiline aadress, riik, sugu, telefoninumber, suhtlusvõrgustiku profiil.nnAndmeid, mida me teie suhtlemisest Philipsiga kogumenAndmeid teie tegevuse ja Philipsi digitaalsete kanalite (nt sotsiaalmeedia, veebilehed, e-kirjad, rakendused ja nendega seotud tooted) kasutamise kohta. Need andmed võivad hõlmata järgmist: IP-aadress, küpsised, teave seadme kohta, teated, millele olete klõpsanud, asukoha andmed ja külastatavad veebilehed.nnPhilips annab teile võimaluse igal ajal oma nõusoleku tagasi võtta.nLisateabe saamiseks lugege palun Philipsi privaatsusavaldust ja küpsiste teadet.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Teie nõusolekule tuginedes võivad Philipsi kontserni ettevõtted teile e-kirja, SMSi või muude digitaalsete kanalite kaudu (nt mobiilirakendused ja sotsiaalmeedia) saata reklaamkirju. Selleks, et saaksime teile saata teie eelistustele ja tarbimiskäitumisele vastavaid teavitusi ja pakkuda teile parimat ja personaalset kogemust, võime teie isikuandmeid analüüsida ja kombineerida. Need andmed võivad hõlmata:\n\nAndmeid, mida meile annate\nAndmeid, mida soovite meiega aktiivselt jagada, näiteks teie nimi, sünniaeg või vanus, e-posti aadress, füüsiline aadress, riik, sugu, telefoninumber, suhtlusvõrgustiku profiil.\n\nAndmeid, mida me teie suhtlemisest Philipsiga kogume\nAndmeid teie tegevuse ja Philipsi digitaalsete kanalite (nt sotsiaalmeedia, veebilehed, e-kirjad, rakendused ja nendega seotud tooted) kasutamise kohta. Need andmed võivad hõlmata järgmist: IP-aadress, küpsised, teave seadme kohta, teated, millele olete klõpsanud, asukoha andmed ja külastatavad veebilehed.\n\nPhilips annab teile võimaluse igal ajal oma nõusoleku tagasi võtta.\nLisateabe saamiseks lugege palun Philipsi privaatsusavaldust ja küpsiste teadet.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philipsi teated</string>
   <string name="DLS_Phonenumber_Label_Text">Telefoninumber</string>
   <string name="DLS_ResendSMS_Body_Line1">Koodiga SMS-i kohalejõudmine võib veidi aega võtta.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Unustasite salasõna?</string>
   <string name="Gender_TitleTxt">Sugu</string>
   <string name="Generic_Network_Error">Ups! Midagi läks valesti. Palun proovige hiljem uuesti</string>
-  <string name="Generic_Network_ErrorMsg">Serveriga ei saa ühendust luua.
-Kontrollige internetiühendust ja proovige uuesti.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Serveriga ei saa ühendust luua.\nKontrollige internetiühendust ja proovige uuesti.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Allkiri ajavea tõttu aegunud. Kontrollige oma seadme kellaaja seadeid.</string>
   <string name="InValid_PwdErrorMsg">Salasõna ei vasta alltoodud salasõna loomise juhistele.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Vale e-posti aadress. Palun kontrollige.</string>
@@ -184,23 +183,18 @@ Kontrollige internetiühendust ja proovige uuesti.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Palun sisestage kehtiv e-posti aadress.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Meil ei õnnestu teie telefoninumbrit tuvastada. Kontrollige riigi koodi.</string>
   <string name="JanRain_Error_Check_Internet">Võrguühenduse viga. Palun proovige uuesti.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Serveriga ei saa ühendust luua. %s.
-Probleem püsib? Võtke ühendust klienditeenindusega ja öelda oma veakood [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Serveriga ei saa ühendust luua. %s.\nProbleem püsib? Võtke ühendust klienditeenindusega ja öelda oma veakood [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Naaske ja logige uuesti sisse.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">See e-posti aadress on juba olemas. Logige sisse seda aadressi kasutades või registreerige teine aadress.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">Teie %s on juba registreeritud.</string>
   <string name="Janrain_Error_Need_Email_Verification">Palun kinnitage oma e-posti aadress sellele saadetud aktiveerimislingi abil</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Palun kinnitage oma mobiiltelefoni number teie mobiiltelefoni numbrile saadetud aktiveerimiskoodi kasutades</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Ei saa serveriga ühendust luua.
-Proovige hiljem uuesti või lugege lisateavet osast KKK.
-Kui see probleemi ei lahenda, võtke ühendust klienditeenindusega ja öelge oma veakood [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Ei saa serveriga ühendust luua.\nProovige hiljem uuesti või lugege lisateavet osast KKK.\nKui see probleemi ei lahenda, võtke ühendust klienditeenindusega ja öelge oma veakood [%d]</string>
   <string name="Janrain_Invalid_Credentials">Sisestatud kasutajanimi või parool on vale.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">Sisestatud %s või parool on vale.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Selle e-posti aadressiga ei ole seotud ühtegi kontot. Looge konto seda e-posti aadressi kasutades või sisestage teine e-posti aadress.</string>
-  <string name="Janrain_LimitError_ErrorMsg">Liiga palju ebaõnnestunud katseid.
-Proovige hiljem uuesti.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Olete sisestanud vale või aegunud kinnituskoodi.
-Sisestage õige kood või saatke kood uuesti.</string>
+  <string name="Janrain_LimitError_ErrorMsg">Liiga palju ebaõnnestunud katseid.\nProovige hiljem uuesti.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Olete sisestanud vale või aegunud kinnituskoodi.\nSisestage õige kood või saatke kood uuesti.</string>
   <string name="LastNameField_ErrorMsg">Sisestage oma perekonnanimi</string>
   <string name="Login_Details_Txt">Sisselogimise andmed</string>
   <string name="MaxiumCharacters_ErrorMsg">Saate sisestada kuni 256 tähemärki.</string>
@@ -236,17 +230,13 @@ Sisestage õige kood või saatke kood uuesti.</string>
   <string name="Title_TooManyRequests_Txt">Liiga palju taotlusi</string>
   <string name="Title_UnexpectedError_Txt">Ootamatu viga</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Logi sisse Philipsi kontoga</string>
-  <string name="URX_SMS_Already_Verified">Konto juba kinnitatud.
-Jätkamiseks logige sisse.</string>
-  <string name="URX_SMS_InternalServerError">SMSi ei saa saata.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Konto juba kinnitatud.\nJätkamiseks logige sisse.</string>
+  <string name="URX_SMS_InternalServerError">SMSi ei saa saata.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Me ei saa sellele telefoninumbrile SMSi saata.</string>
-  <string name="URX_SMS_Limit_Reached">SMSide piirarv on selle telefoninumbri jaoks saavutatud.
-Proovige uuesti %d s pärast.</string>
+  <string name="URX_SMS_Limit_Reached">SMSide piirarv on selle telefoninumbri jaoks saavutatud.\nProovige uuesti %d s pärast.</string>
   <string name="URX_SMS_NoInformation_Available">Serveriga ei saa ühendust luua. %s.</string>
   <string name="URX_SMS_Not_Sent">SMSi ei saanud edastada. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-Riigi koodi ei toetata.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nRiigi koodi ei toetata.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Proovige hiljem uuesti</string>
   <string name="UnexpectedInternalError_ErrorMsg">Vabandage, midagi läks valesti. Palun proovige uuesti.</string>
   <string name="Update_MobileNumber_Button_Text">Värskendage telefoninumbrit</string>

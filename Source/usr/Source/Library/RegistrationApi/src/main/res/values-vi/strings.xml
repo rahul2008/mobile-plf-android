@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Đề nghị chào hàng đặc biệt, chương trình quảng cáo và thông tin đầu tiên về các đợt phát hành sản phẩm mới, được điều chỉnh riêng cho bạn!</string>
   <string name="DLS_Optin_Body_Line2">Gia nhập ngay 140,000 người có cùng sở thích như bạn!</string>
   <string name="DLS_Password_lbltxt">Mật khẩu</string>
-  <string name="DLS_PhilipsNews_Description_Text">Với sự chấp thuận của bạn, các công ty thuộc tập đoàn Philips có thể liên hệ với bạn kèm theo các thông tin quảng cáo qua email, SMS và các kênh kỹ thuật số khác, chẳng hạn như ứng dụng di động và mạng xã hội. Chúng tôi có thể sẽ phân tích và kết hợp dữ liệu cá nhân của bạn nhằm điều chỉnh thích hợp các thông tin theo đúng sở thích và hành vi của bạn, cũng như mang đến cho bạn trải nghiệm tùy chỉnh theo từng cá nhân tốt nhất. Dữ liệu này có thể bao gồm:nnDữ liệu mà bạn đưa cho chúng tôinDữ liệu mà bạn chủ động muốn chia sẻ với chúng tôi như: tên, ngày tháng năm sinh hay tuổi của bạn, địa chỉ email, địa chỉ vật lý, quốc gia, giới tính, số điện thoại, hồ sơ mạng xã hội.nnDữ liệu mà chúng tôi lấy được từ các tương tác của bạn với PhilipsnDữ liệu về các tương tác và cách bạn sử dụng các kênh kỹ thuật số của Philips, chẳng hạn như mạng xã hội, trang web, email, ứng dụng và các sản phẩm được kết nối. Dữ liệu này có thể bao gồm: địa chỉ IP, cookie, thông tin thiết bị, các liên lạc mà bạn bấm vào, thông tin chi tiết về địa chỉ và các trang web bạn truy cậpnnPhilips sẽ cho bạn cơ hội rút lại thỏa thuận của bạn bất kỳ lúc nào.nĐể biết thêm thông tin, vui lòng đọc Thông báo về quyền riêng tư của Philips và Thông báo về cookie của Philips.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Với sự chấp thuận của bạn, các công ty thuộc tập đoàn Philips có thể liên hệ với bạn kèm theo các thông tin quảng cáo qua email, SMS và các kênh kỹ thuật số khác, chẳng hạn như ứng dụng di động và mạng xã hội. Chúng tôi có thể sẽ phân tích và kết hợp dữ liệu cá nhân của bạn nhằm điều chỉnh thích hợp các thông tin theo đúng sở thích và hành vi của bạn, cũng như mang đến cho bạn trải nghiệm tùy chỉnh theo từng cá nhân tốt nhất. Dữ liệu này có thể bao gồm:\n\nDữ liệu mà bạn đưa cho chúng tôi\nDữ liệu mà bạn chủ động muốn chia sẻ với chúng tôi như: tên, ngày tháng năm sinh hay tuổi của bạn, địa chỉ email, địa chỉ vật lý, quốc gia, giới tính, số điện thoại, hồ sơ mạng xã hội.\n\nDữ liệu mà chúng tôi lấy được từ các tương tác của bạn với Philips\nDữ liệu về các tương tác và cách bạn sử dụng các kênh kỹ thuật số của Philips, chẳng hạn như mạng xã hội, trang web, email, ứng dụng và các sản phẩm được kết nối. Dữ liệu này có thể bao gồm: địa chỉ IP, cookie, thông tin thiết bị, các liên lạc mà bạn bấm vào, thông tin chi tiết về địa chỉ và các trang web bạn truy cập\n\nPhilips sẽ cho bạn cơ hội rút lại thỏa thuận của bạn bất kỳ lúc nào.\nĐể biết thêm thông tin, vui lòng đọc Thông báo về quyền riêng tư của Philips và Thông báo về cookie của Philips.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Liên lạc Philips</string>
   <string name="DLS_Phonenumber_Label_Text">Số điện thoại</string>
   <string name="DLS_ResendSMS_Body_Line1">Có thể cần một lúc để tin nhắn SMS chứa mã được gửi đến nơi.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Quên mật khẩu?</string>
   <string name="Gender_TitleTxt">Giới tính</string>
   <string name="Generic_Network_Error">Rất tiếc, có gì đó không ổn. Vui lòng thử lại sau</string>
-  <string name="Generic_Network_ErrorMsg">Không thể kết nối với máy chủ.
-Vui lòng kiểm tra kết nối internet của bạn và thử lại.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Không thể kết nối với máy chủ.\nVui lòng kiểm tra kết nối internet của bạn và thử lại.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Chữ ký đã hết hạn do lỗi thời gian. Vui lòng kiểm tra các cài đặt thời gian trên thiết bị của bạn.</string>
   <string name="InValid_PwdErrorMsg">Mật khẩu không tuân theo các hướng dẫn mật khẩu dưới đây.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Địa chỉ email không hợp lệ. Vui lòng kiểm tra.</string>
@@ -184,23 +183,18 @@ Vui lòng kiểm tra kết nối internet của bạn và thử lại.[%d]</stri
   <string name="InvalidOrMissingEmail_ErrorMsg">Vui lòng nhập địa chỉ email hợp lệ.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Chúng tôi không thể nhận diện số điện thoại của bạn. Vui lòng kiểm tra mã quốc gia.</string>
   <string name="JanRain_Error_Check_Internet">Đã xảy ra vấn đề với kết nối mạng. Vui lòng thử lại.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Không thể kết nối với máy chủ. %s.
-Vẫn gặp khó khăn? Hãy liên hệ với Trung tâm chăm sóc khách hàng để thông báo mã lỗi [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Không thể kết nối với máy chủ. %s.\nVẫn gặp khó khăn? Hãy liên hệ với Trung tâm chăm sóc khách hàng để thông báo mã lỗi [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Vui lòng quay lại và đăng nhập lần nữa.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Địa chỉ email này đã tồn tại. Vui lòng đăng nhập bằng địa chỉ này hoặc đăng ký bằng địa chỉ khác.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">%s của bạn đã được đăng ký.</string>
   <string name="Janrain_Error_Need_Email_Verification">Vui lòng xác thực địa chỉ email của bạn thông qua liên kết kích hoạt được gửi đến tài khoản email của bạn</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Vui lòng xác thực số điện thoại di động của bạn bằng mã kích hoạt mà chúng tôi gửi đến số điện thoại của bạn</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Không thể kết nối với máy chủ.
-Vui lòng thử lại sau hoặc kiểm tra các câu hỏi thường gặp của chúng tôi để biết thêm thông tin.
-Nếu việc này vẫn không giải quyết được câu hỏi của bạn, hãy liên hệ với trung tâm chăm sóc khách hàng để thông báo mã lỗi [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Không thể kết nối với máy chủ.\nVui lòng thử lại sau hoặc kiểm tra các câu hỏi thường gặp của chúng tôi để biết thêm thông tin.\nNếu việc này vẫn không giải quyết được câu hỏi của bạn, hãy liên hệ với trung tâm chăm sóc khách hàng để thông báo mã lỗi [%d]</string>
   <string name="Janrain_Invalid_Credentials">Tên người dùng hoặc mật khẩu mà bạn đã nhập không chính xác.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">%s hoặc mật khẩu mà bạn đã nhập không chính xác.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Không có tài khoản nào cho email này. Hãy tạo một tài khoản bằng email này hoặc nhập địa chỉ email khác.</string>
-  <string name="Janrain_LimitError_ErrorMsg">Đã đạt đến giới hạn quá nhiều lần thử không thành công.
-Vui lòng thử lại sau.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Bạn đã nhập sai mã xác thực hoặc mã xác thực đã hết hạn.
-Vui lòng nhập mã đúng hoặc gửi lại mã.</string>
+  <string name="Janrain_LimitError_ErrorMsg">Đã đạt đến giới hạn quá nhiều lần thử không thành công.\nVui lòng thử lại sau.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Bạn đã nhập sai mã xác thực hoặc mã xác thực đã hết hạn.\nVui lòng nhập mã đúng hoặc gửi lại mã.</string>
   <string name="LastNameField_ErrorMsg">Vui lòng nhập họ của bạn</string>
   <string name="Login_Details_Txt">Chi tiết đăng nhập</string>
   <string name="MaxiumCharacters_ErrorMsg">Bạn không thể nhập quá 256 ký tự.</string>
@@ -236,16 +230,13 @@ Vui lòng nhập mã đúng hoặc gửi lại mã.</string>
   <string name="Title_TooManyRequests_Txt">Quá nhiều yêu cầu</string>
   <string name="Title_UnexpectedError_Txt">Lỗi không mong muốn</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Đăng nhập bằng tài khoản Philips</string>
-  <string name="URX_SMS_Already_Verified">Đã xác thực tài khoản.
-Đăng nhập để tiếp tục.</string>
-  <string name="URX_SMS_InternalServerError">Không thể gửi SMS được.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Đã xác thực tài khoản.\nĐăng nhập để tiếp tục.</string>
+  <string name="URX_SMS_InternalServerError">Không thể gửi SMS được.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Chúng tôi không thể gửi SMS tới số điện thoại này.</string>
   <string name="URX_SMS_Limit_Reached">Đã đạt đến giới hạn SMS dành cho số điện thoại. Vui lòng thử lại sau %d giây.</string>
   <string name="URX_SMS_NoInformation_Available">Không thể kết nối với máy chủ. %s.</string>
   <string name="URX_SMS_Not_Sent">Không thể gửi SMS được. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-Mã quốc gia không được hỗ trợ.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nMã quốc gia không được hỗ trợ.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Vui lòng thử lại sau</string>
   <string name="UnexpectedInternalError_ErrorMsg">Rất tiếc, có gì đó không ổn. Vui lòng thử lại sau.</string>
   <string name="Update_MobileNumber_Button_Text">Cập nhật số điện thoại</string>

@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
-                android:text="@string/reg_DLS_StratView_Title_Txt"
+                android:text="@string/DLS_StratView_Title_Txt"
                 android:textSize="@dimen/reg_text_size_20" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_DLS_StratView_Detail_Txt"
+                android:text="@string/DLS_StratView_Detail_Txt"
                 android:textSize="@dimen/reg_text_size_16" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -48,7 +48,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
-                android:text="@string/reg_DLS_OR_With_Label_Text"
+                android:text="@string/DLS_OR_With_Label_Text"
                 android:textSize="@dimen/reg_text_size_12" />
 
             <LinearLayout
@@ -66,7 +66,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:layout_marginTop="@dimen/reg_dimen_8dp"
-                android:text="@string/reg_DLS_OR_Label_Text"
+                android:text="@string/DLS_OR_Label_Text"
                 android:textSize="@dimen/reg_text_size_12" />
 
             <com.philips.platform.uid.view.widget.Button
@@ -74,14 +74,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:text="@string/reg_DLS_SigIn_TitleTxt" />
+                android:text="@string/DLS_SigIn_TitleTxt" />
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_startScreen_createAccount_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:text="@string/reg_DLS_Create_Account_CreateMyPhilips_btntxt"
+                android:text="@string/DLS_Create_Account_CreateMyPhilips_btntxt"
                 app:uidComponentType="Secondary" />/>
 
             <com.philips.platform.uid.view.widget.Button
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
-                android:text="@string/reg_DLS_Continue_Without_Account" />
+                android:text="@string/DLS_Continue_Without_Account" />
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/reg_error_msg"
@@ -128,7 +128,7 @@
             android:layout_alignParentStart="true"
             android:lines="1"
             android:padding="@dimen/reg_dimen_4dp"
-            android:text="@string/reg_PrivacyNoticeText"
+            android:text="@string/PrivacyNoticeText"
             android:textSize="@dimen/reg_text_size_12" />
 
 
@@ -140,7 +140,7 @@
             android:layout_alignParentEnd="true"
             android:lines="1"
             android:padding="@dimen/reg_dimen_4dp"
-            android:text="@string/reg_Country_Region"
+            android:text="@string/Country_Region"
             android:textSize="@dimen/reg_text_size_12" />
     </RelativeLayout>
 
@@ -167,7 +167,7 @@
             android:gravity="center_horizontal"
             android:lines="1"
             android:padding="@dimen/reg_dimen_4dp"
-            android:text="@string/reg_PrivacyNoticeText"
+            android:text="@string/PrivacyNoticeText"
             android:textSize="@dimen/reg_text_size_12" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -178,7 +178,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:padding="@dimen/reg_dimen_4dp"
-            android:text="@string/reg_Country_Region"
+            android:text="@string/Country_Region"
             android:textSize="@dimen/reg_text_size_12" />
     </LinearLayout>
 

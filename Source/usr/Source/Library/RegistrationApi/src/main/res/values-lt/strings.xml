@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Specialius pasiūlymus, reklamas ir informaciją iš pirmų lūpų apie naujai išleidžiamus produktus. Skirta specialiai jums!</string>
   <string name="DLS_Optin_Body_Line2">Prisijunkite prie 140 000 bendraminčių dabar!</string>
   <string name="DLS_Password_lbltxt">Slaptažodis</string>
-  <string name="DLS_PhilipsNews_Description_Text">Gavę jūsų sutikimą, „Philips group“ priklausančios įmonės gali pateikti jums reklaminių pranešimų el. paštu, SMS žinute arba kitais skaitmeniniais kanalais, pvz., per mobiliesiems skirtas programas ir socialinius tinklus. Siekdami pateikti jūsų poreikius geriausiai atitinkančius pasiūlymus, mes analizuosime ir derinsime jūsų asmeninius duomenis. Šie duomenys apima: nnDuomenis, kuriuos mums pateikiatenDuomenis, kuriais norite aktyviai su mumis dalintis, pvz., vardas, gimimo metai arba amžius, el. pašto adresas, adresas, šalis, lytis, telefono numeris, socialinių tinklų profilis.nnDuomenis, kuriuos gauname jums naudojantis „Philips“nDuomenis apie jūsų naudojamus „Philips“ skaitmeninius kanalus, pvz., socialiniai tinklai, svetainės, el. paštas, programos ir susiję gaminiai. Šie duomenys apima: IP adresą, slapukus, įrenginio informaciją, jūsų spustelėtus pranešimus, vietos informaciją ir jūsų lankomas svetainesnn„Philips“ palieka jums galimybę bet kada atšaukti savo sutikimą.nJei reikia daugiau informacijos, perskaitykite „Philips“ privatumo nuostatas ir „Philips“ slapukų nuostatas.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Gavę jūsų sutikimą, „Philips group“ priklausančios įmonės gali pateikti jums reklaminių pranešimų el. paštu, SMS žinute arba kitais skaitmeniniais kanalais, pvz., per mobiliesiems skirtas programas ir socialinius tinklus. Siekdami pateikti jūsų poreikius geriausiai atitinkančius pasiūlymus, mes analizuosime ir derinsime jūsų asmeninius duomenis. Šie duomenys apima: \n\nDuomenis, kuriuos mums pateikiate\nDuomenis, kuriais norite aktyviai su mumis dalintis, pvz., vardas, gimimo metai arba amžius, el. pašto adresas, adresas, šalis, lytis, telefono numeris, socialinių tinklų profilis.\n\nDuomenis, kuriuos gauname jums naudojantis „Philips“\nDuomenis apie jūsų naudojamus „Philips“ skaitmeninius kanalus, pvz., socialiniai tinklai, svetainės, el. paštas, programos ir susiję gaminiai. Šie duomenys apima: IP adresą, slapukus, įrenginio informaciją, jūsų spustelėtus pranešimus, vietos informaciją ir jūsų lankomas svetaines\n\n„Philips“ palieka jums galimybę bet kada atšaukti savo sutikimą.\nJei reikia daugiau informacijos, perskaitykite „Philips“ privatumo nuostatas ir „Philips“ slapukų nuostatas.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">„Philips“ ryšiai</string>
   <string name="DLS_Phonenumber_Label_Text">Telefono numeris</string>
   <string name="DLS_ResendSMS_Body_Line1">Gali šiek tiek užtrukti, kol gausite SMS su kodu.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Pamiršote slaptažodį?</string>
   <string name="Gender_TitleTxt">Lytis</string>
   <string name="Generic_Network_Error">Oi! Įvyko klaida. Bandykite dar kartą vėliau</string>
-  <string name="Generic_Network_ErrorMsg">Negalima prisijungti prie serverio.
-Patikrinkite interneto ryšį ir bandykite dar kartą.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Negalima prisijungti prie serverio.\nPatikrinkite interneto ryšį ir bandykite dar kartą.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Pasirašyti skirtas laikas baigėsi dėl laiko klaidos. Patikrinkite savo prietaiso laiko nustatymus.</string>
   <string name="InValid_PwdErrorMsg">Slaptažodis neatitinka žemiau pateiktų slaptažodžio nurodymų.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Neteisingas el. pašto adresas. Patikrinkite.</string>
@@ -184,23 +183,18 @@ Patikrinkite interneto ryšį ir bandykite dar kartą.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Įveskite galiojantį el. pašto adresą.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Neatpažįstame telefono numerio. Patikrinkite šalies kodą.</string>
   <string name="JanRain_Error_Check_Internet">Iškilo tinklo ryšio problema. Bandykite dar kartą.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Negalima prisijungti prie serverio. %s.
-Vis dar kyla sunkumų? Susisiekite su klientų aptarnavimo centru ir pasakykite klaidos kodą [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Negalima prisijungti prie serverio. %s.\nVis dar kyla sunkumų? Susisiekite su klientų aptarnavimo centru ir pasakykite klaidos kodą [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Grįžkite ir prisijunkite dar kartą.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Šis el. pašto adresas jau egzistuoja. Prisijunkite naudodami šį adresą arba užregistruokite kitą.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">Jūsų %s jau užregistruotas.</string>
   <string name="Janrain_Error_Need_Email_Verification">Patvirtinkite el. pašto adresą pasinaudodami į jūsų el. pašto paskyra atsiųsta aktyvinimo nuoroda</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Patvirtinkite mobiliojo telefono numerį aktyvavimo kodu, kurį nusiuntėme jūsų mobiliojo telefono numeriu</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Negalima prisijungti prie serverio.
-Bandykite vėliau arba daugiau informacijos ieškokite DUK.
-Jei tai nepadės išspręsti problemos, susisiekite su klientų aptarnavimo centru ir pasakykite klaidos kodą [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Negalima prisijungti prie serverio.\nBandykite vėliau arba daugiau informacijos ieškokite DUK.\nJei tai nepadės išspręsti problemos, susisiekite su klientų aptarnavimo centru ir pasakykite klaidos kodą [%d]</string>
   <string name="Janrain_Invalid_Credentials">Įvestas naudotojo vardas arba slaptažodis neteisingas.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">Įvestas %s arba slaptažodis neteisingas.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Šiam el. pašto adresui paskyra nesukurta. Sukurkite paskyrą naudodami šį el. pašto adresą arba įveskite kitą el. pašto adresą.</string>
-  <string name="Janrain_LimitError_ErrorMsg">Pasiekta nesėkmingų bandymų įvesti kodą riba.
-Bandykite dar kartą vėliau.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Įvedėte neteisingą arba nebegaliojantį patvirtinimo kodą.
-Įveskite teisingą kodą arba atsisiųskite kodą dar kartą.</string>
+  <string name="Janrain_LimitError_ErrorMsg">Pasiekta nesėkmingų bandymų įvesti kodą riba.\nBandykite dar kartą vėliau.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Įvedėte neteisingą arba nebegaliojantį patvirtinimo kodą.\nĮveskite teisingą kodą arba atsisiųskite kodą dar kartą.</string>
   <string name="LastNameField_ErrorMsg">Įveskite pavardę</string>
   <string name="Login_Details_Txt">Prisijungimo informacija</string>
   <string name="MaxiumCharacters_ErrorMsg">Negalite įvesti daugiau nei 256 ženklus.</string>
@@ -236,17 +230,13 @@ Bandykite dar kartą vėliau.</string>
   <string name="Title_TooManyRequests_Txt">Per daug užklausų</string>
   <string name="Title_UnexpectedError_Txt">Netikėta klaida</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prisijunkite naudodami „Philips“ paskyrą</string>
-  <string name="URX_SMS_Already_Verified">Paskyra jau patvirtinta.
-Prisijunkite, jei norite tęsti.</string>
-  <string name="URX_SMS_InternalServerError">Negalime išsiųsti SMS.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Paskyra jau patvirtinta.\nPrisijunkite, jei norite tęsti.</string>
+  <string name="URX_SMS_InternalServerError">Negalime išsiųsti SMS.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Negalime išsiųsti SMS šiuo telefono numeriu.</string>
-  <string name="URX_SMS_Limit_Reached">Buvo pasiektas telefono numeriui skirtas SMS limitas.
-Po %d sek. bandykite dar kartą.</string>
+  <string name="URX_SMS_Limit_Reached">Buvo pasiektas telefono numeriui skirtas SMS limitas.\nPo %d sek. bandykite dar kartą.</string>
   <string name="URX_SMS_NoInformation_Available">Negalima prisijungti prie serverio. %s.</string>
   <string name="URX_SMS_Not_Sent">Negalime išsiųsti SMS. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-Tokio šalies kodo nėra.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nTokio šalies kodo nėra.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Bandykite vėliau</string>
   <string name="UnexpectedInternalError_ErrorMsg">Atsiprašome, įvyko klaida. Bandykite dar kartą.</string>
   <string name="Update_MobileNumber_Button_Text">Atnaujinkite telefono numerį</string>

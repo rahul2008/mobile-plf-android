@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">特惠、促销以及有关新产品发布的第一手信息。为您量身定制！</string>
   <string name="DLS_Optin_Body_Line2">立即加入 140.000 位伙伴的行列之中！</string>
   <string name="DLS_Password_lbltxt">密码</string>
-  <string name="DLS_PhilipsNews_Description_Text">在您同意的前提下，飞利浦集团可能会通过电子邮件、短信以及移动APP和社交媒体等其他数字渠道与您联系，为您提供推广与促销资讯。 为了能够依据您的偏好和习惯量身定制宣传内容并提供最佳的个性化体验，我们可能会分析和合并您的个人资料。 这些资料可能包括：nn您向我们提供的资料n您主动分享的资料，如：姓名、出生日期或年龄、电子邮件地址、实际地址、国家/地区、性别、电话号码、社交媒体个人资料。nn我们通过您与飞利浦的互动获得的资料n有关您的互动活动和使用飞利浦数字频道（如社交媒体、网站、电子邮件、应用程序APP和互联产品）的资料。 这些资料可能包括：IP 地址、Cookie、设备信息、您点击的信息、位置详细信息以及您访问的网站nn飞利浦将为您提供随时撤回许可的机会。n有关更多信息，请阅读飞利浦隐私声明 和飞利浦 Cookie 声明。</string>
+  <string name="DLS_PhilipsNews_Description_Text">在您同意的前提下，飞利浦集团可能会通过电子邮件、短信以及移动APP和社交媒体等其他数字渠道与您联系，为您提供推广与促销资讯。 为了能够依据您的偏好和习惯量身定制宣传内容并提供最佳的个性化体验，我们可能会分析和合并您的个人资料。 这些资料可能包括：\n\n您向我们提供的资料\n您主动分享的资料，如：姓名、出生日期或年龄、电子邮件地址、实际地址、国家/地区、性别、电话号码、社交媒体个人资料。\n\n我们通过您与飞利浦的互动获得的资料\n有关您的互动活动和使用飞利浦数字频道（如社交媒体、网站、电子邮件、应用程序APP和互联产品）的资料。 这些资料可能包括：IP 地址、Cookie、设备信息、您点击的信息、位置详细信息以及您访问的网站\n\n飞利浦将为您提供随时撤回许可的机会。\n有关更多信息，请阅读飞利浦隐私声明 和飞利浦 Cookie 声明。</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">飞利浦通信</string>
   <string name="DLS_Phonenumber_Label_Text">电话号码</string>
   <string name="DLS_ResendSMS_Body_Line1">获取含代码的短信可能需要一段时间。</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">忘记了密码？</string>
   <string name="Gender_TitleTxt">性别</string>
   <string name="Generic_Network_Error">啊呀！出错了。请稍后重试</string>
-  <string name="Generic_Network_ErrorMsg">无法连接到服务器。
-请检查您的网络连接，然后重试。[%d]</string>
+  <string name="Generic_Network_ErrorMsg">无法连接到服务器。\n请检查您的网络连接，然后重试。[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">签名由于时间错误而过期。请检查您的设备的时间设置。</string>
   <string name="InValid_PwdErrorMsg">此密码不符合以下密码指南。</string>
   <string name="InvalidEmailAdddress_ErrorMsg">电子邮件地址无效。请检查。</string>
@@ -184,23 +183,18 @@
   <string name="InvalidOrMissingEmail_ErrorMsg">请输入有效的电子邮件地址。</string>
   <string name="InvalidPhoneNumber_ErrorMsg">我们无法识别您的电话号码。请检查国家编码。</string>
   <string name="JanRain_Error_Check_Internet">网络连接出现问题。请重试。</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">无法连接到服务器。%s。
-仍然存在问题？联系客户服务中心并提供错误代码 [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">无法连接到服务器。%s。\n仍然存在问题？联系客户服务中心并提供错误代码 [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s。请返回并重新登录。</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">此电子邮件地址已存在。请使用此地址登录或使用其他地址注册。</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">您的 %s 已注册。</string>
   <string name="Janrain_Error_Need_Email_Verification">请通过发送到您的电子邮件帐户的激活链接验证您的电子邮件地址</string>
   <string name="Janrain_Error_Need_Mobile_Verification">请通过我们向您的手机号码发送的激活码来验证您的手机号码</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">无法连接到服务器。
-请稍后再试或查看我们的常见问题解答以获取更多信息。
-如果依旧不能解决您的问题，请联系客户服务中心，并提供错误代码 [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">无法连接到服务器。\n请稍后再试或查看我们的常见问题解答以获取更多信息。\n如果依旧不能解决您的问题，请联系客户服务中心，并提供错误代码 [%d]</string>
   <string name="Janrain_Invalid_Credentials">您输入的用户名或密码不正确。</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">您输入的 %s 或密码不正确。</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">此电子邮件帐户不存在。使用此电子邮件创建一个帐户或输入其他电子邮件地址。</string>
-  <string name="Janrain_LimitError_ErrorMsg">您已达到错误次数上限。
-请稍后再试。</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">您输入的验证码错误或已过期。
-请输入正确的代码或重新发送代码。</string>
+  <string name="Janrain_LimitError_ErrorMsg">您已达到错误次数上限。\n请稍后再试。</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">您输入的验证码错误或已过期。\n请输入正确的代码或重新发送代码。</string>
   <string name="LastNameField_ErrorMsg">请输入您的姓氏</string>
   <string name="Login_Details_Txt">登录详情</string>
   <string name="MaxiumCharacters_ErrorMsg">您输入的字符不能超过 256 个。</string>
@@ -236,17 +230,13 @@
   <string name="Title_TooManyRequests_Txt">请求过多</string>
   <string name="Title_UnexpectedError_Txt">发生意外错误</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">用飞利浦帐户登录</string>
-  <string name="URX_SMS_Already_Verified">帐户已验证。
-登录并继续。</string>
-  <string name="URX_SMS_InternalServerError">短信无法发送。
-%s。</string>
+  <string name="URX_SMS_Already_Verified">帐户已验证。\n登录并继续。</string>
+  <string name="URX_SMS_InternalServerError">短信无法发送。\n%s。</string>
   <string name="URX_SMS_Invalid_PhoneNumber">我们无法将短信发送到此电话号码。</string>
-  <string name="URX_SMS_Limit_Reached">此电话号码已达到短信上限。
-请在 %d 秒后重试。</string>
+  <string name="URX_SMS_Limit_Reached">此电话号码已达到短信上限。\n请在 %d 秒后重试。</string>
   <string name="URX_SMS_NoInformation_Available">无法连接到服务器。%s。</string>
   <string name="URX_SMS_Not_Sent">无法发送短信。%s。</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-该国家编码不受支持。</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\n该国家编码不受支持。</string>
   <string name="USR_Error_PleaseTryLater_Txt">请稍后再试</string>
   <string name="UnexpectedInternalError_ErrorMsg">抱歉，发生错误。请重试。</string>
   <string name="Update_MobileNumber_Button_Text">更新电话号码</string>

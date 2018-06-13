@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Speciální nabídky, propagační akce a informace z první ruky o nových výrobcích. Přizpůsobeno pro vás!</string>
   <string name="DLS_Optin_Body_Line2">Přidejte se ke 140 000 dalších uživatelů ještě dnes!</string>
   <string name="DLS_Password_lbltxt">Heslo</string>
-  <string name="DLS_PhilipsNews_Description_Text">Na základě vašeho souhlasu vás mohou společnosti skupiny Philips kontaktovat s reklamními zprávami prostřednictvím e-mailu, SMS a jiných digitálních kanálů, jako jsou mobilní aplikace a sociální média. Abychom vám mohli tyto zprávy přizpůsobit na míru a poskytnout vám tu nejlepší, individuální zkušenost, analyzujeme a kombinujeme vaše osobní údaje. Tyto údaje mohou zahrnovat:nnVámi poskytované údajenÚdaje, které s námi aktivně sdílíte: vaše jméno, datum narození či věk, e-mailová adresa, adresa bydliště, země, pohlaví, telefonní číslo, profily na sociálních médiích.nnÚdaje získané z vašich interakcí se společností PhilipsnÚdaje o vašich interakcích a používání digitálních prostředků Philips, jako jsou sociální média, webové stránky, e-mail, aplikace a připojené výrobky. Tyto údaje mohou zahrnovat: IP adresu, soubory cookie, informace o zařízení, zprávy, na které kliknete, údaje o poloze a navštívené webové stránky.nnSpolečnost Philips vám dává možnost svůj souhlas kdykoliv zrušit.nVíce informací naleznete Oznámení o ochraně osobních společnosti Philips a Oznámení o souborech cookie společnosti Philips.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Na základě vašeho souhlasu vás mohou společnosti skupiny Philips kontaktovat s reklamními zprávami prostřednictvím e-mailu, SMS a jiných digitálních kanálů, jako jsou mobilní aplikace a sociální média. Abychom vám mohli tyto zprávy přizpůsobit na míru a poskytnout vám tu nejlepší, individuální zkušenost, analyzujeme a kombinujeme vaše osobní údaje. Tyto údaje mohou zahrnovat:\n\nVámi poskytované údaje\nÚdaje, které s námi aktivně sdílíte: vaše jméno, datum narození či věk, e-mailová adresa, adresa bydliště, země, pohlaví, telefonní číslo, profily na sociálních médiích.\n\nÚdaje získané z vašich interakcí se společností Philips\nÚdaje o vašich interakcích a používání digitálních prostředků Philips, jako jsou sociální média, webové stránky, e-mail, aplikace a připojené výrobky. Tyto údaje mohou zahrnovat: IP adresu, soubory cookie, informace o zařízení, zprávy, na které kliknete, údaje o poloze a navštívené webové stránky.\n\nSpolečnost Philips vám dává možnost svůj souhlas kdykoliv zrušit.\nVíce informací naleznete Oznámení o ochraně osobních společnosti Philips a Oznámení o souborech cookie společnosti Philips.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Komunikace společnosti Philips</string>
   <string name="DLS_Phonenumber_Label_Text">Telefonní číslo</string>
   <string name="DLS_ResendSMS_Body_Line1">Může chvíli trvat, než zprávu SMS s kódem obdržíte.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Zapomněli jste heslo?</string>
   <string name="Gender_TitleTxt">Пол</string>
   <string name="Generic_Network_Error">Jéje! Něco se pokazilo. Zkuste to znovu později.</string>
-  <string name="Generic_Network_ErrorMsg">Nepodařilo se připojit k serveru
-Zkontrolujte své internetové připojení a zkuste to znovu.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Nepodařilo se připojit k serveru\nZkontrolujte své internetové připojení a zkuste to znovu.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Podpis vypršel kvůli časové chybě. Zkontrolujte nastavení času ve svém zařízení.</string>
   <string name="InValid_PwdErrorMsg">Heslo nesplňuje níže uvedené podmínky.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Neplatná e-mailová adresa. Zkontrolujte zadání.</string>
@@ -184,23 +183,18 @@ Zkontrolujte své internetové připojení a zkuste to znovu.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Zadejte platnou e-mailovou adresu.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Nepoznáváme vaše telefonní číslo. Zkontrolujte předvolbu své země.</string>
   <string name="JanRain_Error_Check_Internet">Došlo k problému s připojením k síti. Zkuste to znovu.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Nepodařilo se připojit k serveru. %s.
-Stále máte potíže? Kontaktujte oddělení péče o zákazníky a uveďte kód chyby [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Nepodařilo se připojit k serveru. %s.\nStále máte potíže? Kontaktujte oddělení péče o zákazníky a uveďte kód chyby [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Vraťte se a znovu se přihlaste.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Tato e-mailová adresa již existuje. Přihlaste se pomocí ní nebo se zaregistrujte a použijte jinou adresu.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">Vaše %s jsou již zaregistrovány.</string>
   <string name="Janrain_Error_Need_Email_Verification">Ověřte svou e-mailovou adresu pomocí aktivačního odkazu, který jsme vám zaslali na e-mailový účet</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Ověřte číslo vašeho mobilního telefonu prostřednictvím aktivačního kódu, který jsme vám zaslali na váš mobilní telefon.</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Nepodařilo se připojit k serveru.
-Zkuste to později nebo se podívejte do sekce často kladených dotazů.
-Pokud tam nenaleznete odpověď, kontaktujte oddělení péče o zákazníky a uveďte kód chyby [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Nepodařilo se připojit k serveru.\nZkuste to později nebo se podívejte do sekce často kladených dotazů.\nPokud tam nenaleznete odpověď, kontaktujte oddělení péče o zákazníky a uveďte kód chyby [%d]</string>
   <string name="Janrain_Invalid_Credentials">Zadaná e-mailová adresa nebo heslo nejsou správné.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">Zadaná %s nebo heslo nejsou správné.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">S touto e-mailovou adresou není spojen žádný účet. Vytvořte nový účet s touto e-mailovou adresou nebo zadejte jinou e-mailovou adresu.</string>
-  <string name="Janrain_LimitError_ErrorMsg">Dosáhli jste limitu nesprávných pokusů.
-Zkuste to znovu později.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Zadali jste nesprávný nebo neplatný ověřovací kód.
-Zadejte správný kód nebo si nechte zaslat nový.</string>
+  <string name="Janrain_LimitError_ErrorMsg">Dosáhli jste limitu nesprávných pokusů.\nZkuste to znovu později.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Zadali jste nesprávný nebo neplatný ověřovací kód.\nZadejte správný kód nebo si nechte zaslat nový.</string>
   <string name="LastNameField_ErrorMsg">Zadejte své příjmení</string>
   <string name="Login_Details_Txt">Данни за влизане</string>
   <string name="MaxiumCharacters_ErrorMsg">Nelze zadat více než 256 znaků.</string>
@@ -236,17 +230,13 @@ Zadejte správný kód nebo si nechte zaslat nový.</string>
   <string name="Title_TooManyRequests_Txt">Příliš mnoho požadavků</string>
   <string name="Title_UnexpectedError_Txt">Neočekávaná chyba</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Přihlásit se pomocí účtu Philips</string>
-  <string name="URX_SMS_Already_Verified">Účet byl již ověřen.
-Pokračujte přihlášením.</string>
-  <string name="URX_SMS_InternalServerError">Zpráva SMS nebyla odeslána.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Účet byl již ověřen.\nPokračujte přihlášením.</string>
+  <string name="URX_SMS_InternalServerError">Zpráva SMS nebyla odeslána.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Na toto telefonní číslo nemůžeme zaslat zprávu SMS.</string>
-  <string name="URX_SMS_Limit_Reached">Byl dosažen limit zpráv SMS pro toto telefonní číslo.
-Zkuste to znovu po %d sekundách.</string>
+  <string name="URX_SMS_Limit_Reached">Byl dosažen limit zpráv SMS pro toto telefonní číslo.\nZkuste to znovu po %d sekundách.</string>
   <string name="URX_SMS_NoInformation_Available">Nepodařilo se připojit k serveru. %s.</string>
   <string name="URX_SMS_Not_Sent">Zprávu SMS nelze doručit. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-Kód předvolby není podporován.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nKód předvolby není podporován.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Zkuste to znovu později</string>
   <string name="UnexpectedInternalError_ErrorMsg">Je nám líto, ale něco se pokazilo. Zkuste to znovu.</string>
   <string name="Update_MobileNumber_Button_Text">Aktualizace telefonního čísla</string>

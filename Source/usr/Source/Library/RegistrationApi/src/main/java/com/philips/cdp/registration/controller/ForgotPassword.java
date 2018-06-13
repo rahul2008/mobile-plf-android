@@ -106,7 +106,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
         if (mForgotPaswordHandler != null) {
             RLog.d(TAG,"onFlowDownloadFailure : mForgotPaswordHandler is null");
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.Janrain_HSDP_ServerErrorMsg));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(RegConstants.FORGOT_PASSWORD_FAILED_SERVER_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->

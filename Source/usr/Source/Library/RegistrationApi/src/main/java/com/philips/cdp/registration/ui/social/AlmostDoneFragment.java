@@ -497,13 +497,19 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void phoneNumberAlreadyInuseError() {
-        loginIdEditText.setErrorMessage(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
+        final String string = getPhoneOrEmailString(mContext.getResources().getString(R.string.DLS_Phonenumber_Label_Text));
+        loginIdEditText.setErrorMessage(string);
         loginIdEditText.showError();
+    }
+
+    private String getPhoneOrEmailString(String string) {
+        return String.format(mContext.getResources().getString(R.string.Janrain_EntityAlreadyExists_ErrorMsg), string);
     }
 
     @Override
     public void emailAlreadyInuseError() {
-        loginIdEditText.setErrorMessage(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+        final String string = getPhoneOrEmailString(mContext.getResources().getString(R.string.DLS_Email_Label_Text));
+        loginIdEditText.setErrorMessage(string);
         loginIdEditText.showError();
     }
 

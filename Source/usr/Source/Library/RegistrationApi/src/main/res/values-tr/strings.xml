@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Özel teklifler, promosyonlar ve yeni ürün lansmanları hakkında ilk elden bilgiler. Sizin için tasarlandı!</string>
   <string name="DLS_Optin_Body_Line2">Sizin gibi 140.000 kullanıcıya hemen katılın!</string>
   <string name="DLS_Password_lbltxt">Parola</string>
-  <string name="DLS_PhilipsNews_Description_Text">Philips şirketler grubu, onayınız doğrultusunda e-posta, SMS, mobil uygulamalar ve sosyal medya gibi diğer dijital kanallar üzerinden promosyonlar ile ilgili sizinle iletişime geçebilir. İletişimleri tercihlerinize ve davranışlarınıza göre şekillendirmek ve sizlere en iyi deneyimi sunmak için kişisel verilerinizi analiz edebilir ve birleştirebiliriz. Bu verilere şunlar dahil olabilir:nnBize sağladığınız verilernBizimle aktif olarak paylaşmak istediğiniz veriler: adınız, doğum tarihiniz veya yaşınız, e-posta adresiniz, posta adresiniz, ülkeniz, cinsiyetiniz, telefon numaranız, sosyal medya profiliniz.nnPhilips ile olan etkileşimlerinizden elde ettiğimiz verilernSosyal medya, web siteleri, e-posta, uygulamalar ve bağlı ürünler gibi Philips dijital kanallarıyla olan etkileşiminiz ve bu kanalları kullanımınıza ilişkin veriler. Bu verilere şunlar dahil olabilir: IP adresi, çerezler, cihaz bilgileri, tıkladığınız iletişimler, konum ayrıntıları ve ziyaret ettiğiniz web sitelerinnPhilips, her zaman onayınızı geri çekme fırsatı sunar.nDaha fazla bilgi için lütfen Philips Gizlilik bildirimini ve Philips Çerez bildirimini okuyun.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Philips şirketler grubu, onayınız doğrultusunda e-posta, SMS, mobil uygulamalar ve sosyal medya gibi diğer dijital kanallar üzerinden promosyonlar ile ilgili sizinle iletişime geçebilir. İletişimleri tercihlerinize ve davranışlarınıza göre şekillendirmek ve sizlere en iyi deneyimi sunmak için kişisel verilerinizi analiz edebilir ve birleştirebiliriz. Bu verilere şunlar dahil olabilir:\n\nBize sağladığınız veriler\nBizimle aktif olarak paylaşmak istediğiniz veriler: adınız, doğum tarihiniz veya yaşınız, e-posta adresiniz, posta adresiniz, ülkeniz, cinsiyetiniz, telefon numaranız, sosyal medya profiliniz.\n\nPhilips ile olan etkileşimlerinizden elde ettiğimiz veriler\nSosyal medya, web siteleri, e-posta, uygulamalar ve bağlı ürünler gibi Philips dijital kanallarıyla olan etkileşiminiz ve bu kanalları kullanımınıza ilişkin veriler. Bu verilere şunlar dahil olabilir: IP adresi, çerezler, cihaz bilgileri, tıkladığınız iletişimler, konum ayrıntıları ve ziyaret ettiğiniz web siteleri\n\nPhilips, her zaman onayınızı geri çekme fırsatı sunar.\nDaha fazla bilgi için lütfen Philips Gizlilik bildirimini ve Philips Çerez bildirimini okuyun.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philips iletişimi</string>
   <string name="DLS_Phonenumber_Label_Text">Telefon numarası</string>
   <string name="DLS_ResendSMS_Body_Line1">SMS kodunun size ulaşması biraz zaman alabilir.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Parolanızı mı unuttunuz?</string>
   <string name="Gender_TitleTxt">Cinsiyet</string>
   <string name="Generic_Network_Error">Bir sorun oluştu. Lütfen daha sonra tekrar deneyin</string>
-  <string name="Generic_Network_ErrorMsg">Sunucuya bağlanılamıyor.
-Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Sunucuya bağlanılamıyor.\nLütfen internet bağlantınızı kontrol edin ve tekrar deneyin.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Zaman hatası nedeniyle imzanın süresi doldu. Lütfen cihazınızın zaman ayarlarını kontrol edin.</string>
   <string name="InValid_PwdErrorMsg">Parola, aşağıdaki parola yönergelerine uygun değildir.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Geçersiz e-posta adresi. Lütfen kontrol edin.</string>
@@ -184,23 +183,18 @@ Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Lütfen geçerli bir e-posta adresi girin.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Telefon numaranız tanınmıyor. Lütfen ülke kodunu kontrol edin.</string>
   <string name="JanRain_Error_Check_Internet">Ağ bağlantısında bir sorun oluştu. Lütfen tekrar deneyin.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Sunucuya bağlanılamıyor. %s.
-Sorun hala devam ediyor mu? [%d] numaralı hata kodunu kullanarak Müşteri Desteğiyle iletişime geçin</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Sunucuya bağlanılamıyor. %s.\nSorun hala devam ediyor mu? [%d] numaralı hata kodunu kullanarak Müşteri Desteğiyle iletişime geçin</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Lütfen geri gidin ve tekrar oturum açın.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Bu e-posta adresi zaten mevcut. Lütfen bu adresi kullanarak oturum açın veya farklı bir adres kullanarak kaydolun.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">%s zaten kayıtlı.</string>
   <string name="Janrain_Error_Need_Email_Verification">Lütfen e-posta hesabınıza gönderilen etkinleştirme bağlantısını kullanarak e-posta adresinizi doğrulayın</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Lütfen cep telefonunuza gönderilen aktivasyon kodunu girerek cep telefonunuzu doğrulayın</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Sunucuya bağlanılamıyor.
-Lütfen daha sonra deneyin veya daha fazla bilgi için SSS\'leri inceleyin.
-Bu, sorununuzu çözmezse [%d] numaralı hata kodunu kullanarak müşteri desteğiyle iletişime geçin</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Sunucuya bağlanılamıyor.\nLütfen daha sonra deneyin veya daha fazla bilgi için SSS\'leri inceleyin.\nBu, sorununuzu çözmezse [%d] numaralı hata kodunu kullanarak müşteri desteğiyle iletişime geçin</string>
   <string name="Janrain_Invalid_Credentials">Girdiğiniz kullanıcı adı veya parola yanlış.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">Girdiğiniz %s veya parola yanlış.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Bu e-postanın kayıtlı olduğu bir hesap yok. Bu e-postayı kullanarak bir hesap oluşturun veya farklı bir e-posta adresi girin.</string>
-  <string name="Janrain_LimitError_ErrorMsg">Çok fazla başarısız deneme sonucu giriş sınırına ulaşıldı.
-Lütfen daha sonra tekrar deneyin.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Yanlış veya süresi dolmuş bir doğrulama kodu girdiniz.
-Lütfen doğru kodu girin veya kodu yeniden gönderin.</string>
+  <string name="Janrain_LimitError_ErrorMsg">Çok fazla başarısız deneme sonucu giriş sınırına ulaşıldı.\nLütfen daha sonra tekrar deneyin.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Yanlış veya süresi dolmuş bir doğrulama kodu girdiniz.\nLütfen doğru kodu girin veya kodu yeniden gönderin.</string>
   <string name="LastNameField_ErrorMsg">Lütfen soyadınızı girin</string>
   <string name="Login_Details_Txt">Oturum açma bilgileri</string>
   <string name="MaxiumCharacters_ErrorMsg">En fazla 256 karakter girebilirsiniz.</string>
@@ -236,17 +230,13 @@ Lütfen doğru kodu girin veya kodu yeniden gönderin.</string>
   <string name="Title_TooManyRequests_Txt">Çok fazla talep mevcut</string>
   <string name="Title_UnexpectedError_Txt">Beklenmeyen hata</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Philips hesabıyla oturum açın</string>
-  <string name="URX_SMS_Already_Verified">Hesap zaten doğrulandı.
-Devam etmek için oturum açın.</string>
-  <string name="URX_SMS_InternalServerError">SMS gönderilemiyor.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Hesap zaten doğrulandı.\nDevam etmek için oturum açın.</string>
+  <string name="URX_SMS_InternalServerError">SMS gönderilemiyor.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Bu telefon numarasına SMS gönderilemiyor.</string>
-  <string name="URX_SMS_Limit_Reached">Bu telefon numarası için SMS sınırına ulaşıldı.
-Lütfen %d saniye sonra tekrar deneyin.</string>
+  <string name="URX_SMS_Limit_Reached">Bu telefon numarası için SMS sınırına ulaşıldı.\nLütfen %d saniye sonra tekrar deneyin.</string>
   <string name="URX_SMS_NoInformation_Available">Sunucuya bağlanılamıyor. %s.</string>
   <string name="URX_SMS_Not_Sent">SMS gönderilemedi. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-Ülke kodu desteklenmiyor.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nÜlke kodu desteklenmiyor.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Daha sonra tekrar deneyin</string>
   <string name="UnexpectedInternalError_ErrorMsg">Üzgünüz, bir sorun oluştu. Lütfen tekrar deneyin.</string>
   <string name="Update_MobileNumber_Button_Text">Telefon Numarasını Güncelle</string>

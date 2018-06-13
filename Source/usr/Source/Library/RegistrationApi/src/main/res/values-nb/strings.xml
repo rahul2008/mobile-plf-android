@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Spesialtilbud, kampanjer og førstehåndsinformasjon om nye produktlanseringer. Tilpasset deg!</string>
   <string name="DLS_Optin_Body_Line2">Gjør som 140 000 andre personer nå!</string>
   <string name="DLS_Password_lbltxt">Passord</string>
-  <string name="DLS_PhilipsNews_Description_Text">Gruppen av selskaper som Philips er en del av, kan som følge av ditt samtykke kontakte deg med salgsfremmende kommunikasjon via e-post, SMS og andre digitale kanaler, som mobilapper og sosiale medier. Vi kan analysere og kombinere personopplysningene dine for å gi deg en personlig tilpasset opplevelse og skreddersy kommunikasjonen etter preferansene dine og forbrukeratferden din. Disse opplysningene kan inkludere følgende: nnOpplysningene du gir oss.nOpplysningene som du aktivt deler med oss, for eksempel navn, fødselsdato eller alder, e-postadresse, adresse, land, kjønn, telefonnummer, profiler i sosiale medier.nnOpplysningene vi får fra samhandlingen din med Philips.nOpplysninger om din samhandling med og bruk av Philips\' digitale kanaler, for eksempel sosiale medier, nettsteder, e-post, apper og tilkoblede produkter. Disse opplysningene kan inkludere: IP-adresse, informasjonskapsler, enhetsinformasjon, kommunikasjoner du klikker på, opplysninger om sted og nettsteder du besøker.nnPhilips gir deg anledning til å trekke tilbake samtykket ditt når som helst.nFor mer informasjon kan du lese merknad om personvern fra Philips og merknad om informasjonskapsler fra Philips.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Gruppen av selskaper som Philips er en del av, kan som følge av ditt samtykke kontakte deg med salgsfremmende kommunikasjon via e-post, SMS og andre digitale kanaler, som mobilapper og sosiale medier. Vi kan analysere og kombinere personopplysningene dine for å gi deg en personlig tilpasset opplevelse og skreddersy kommunikasjonen etter preferansene dine og forbrukeratferden din. Disse opplysningene kan inkludere følgende: \n\nOpplysningene du gir oss.\nOpplysningene som du aktivt deler med oss, for eksempel navn, fødselsdato eller alder, e-postadresse, adresse, land, kjønn, telefonnummer, profiler i sosiale medier.\n\nOpplysningene vi får fra samhandlingen din med Philips.\nOpplysninger om din samhandling med og bruk av Philips\' digitale kanaler, for eksempel sosiale medier, nettsteder, e-post, apper og tilkoblede produkter. Disse opplysningene kan inkludere: IP-adresse, informasjonskapsler, enhetsinformasjon, kommunikasjoner du klikker på, opplysninger om sted og nettsteder du besøker.\n\nPhilips gir deg anledning til å trekke tilbake samtykket ditt når som helst.\nFor mer informasjon kan du lese merknad om personvern fra Philips og merknad om informasjonskapsler fra Philips.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philips-kommunikasjon</string>
   <string name="DLS_Phonenumber_Label_Text">Telefonnummer</string>
   <string name="DLS_ResendSMS_Body_Line1">Det kan ta litt tid før du mottar SMS-en med koden.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Glemt passordet?</string>
   <string name="Gender_TitleTxt">Kjønn</string>
   <string name="Generic_Network_Error">Oi! Noe gikk galt. Prøv på nytt senere</string>
-  <string name="Generic_Network_ErrorMsg">Kan ikke koble til serveren.
-Kontroller Internett-tilkoblingen, og prøv på nytt.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Kan ikke koble til serveren.\nKontroller Internett-tilkoblingen, og prøv på nytt.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Signaturen utløp på grunn av en tidsfeil. Sjekk enhetens tidsinnstillinger.</string>
   <string name="InValid_PwdErrorMsg">Passordet samsvarer ikke med retningslinjene nedenfor.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Ugyldig e-postadresse. Kontroller adressen.</string>
@@ -184,23 +183,18 @@ Kontroller Internett-tilkoblingen, og prøv på nytt.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Angi en gyldig e-postadresse.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Vi kan ikke gjenkjenne telefonnummeret ditt. Sjekk landskoden.</string>
   <string name="JanRain_Error_Check_Internet">Det er et problem med nettverkstilkoblingen. Prøv på nytt.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Kan ikke koble til serveren. %s.
-Har du fortsatt problemer? Kontakt kundestøtten og oppgi feilkode [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Kan ikke koble til serveren. %s.\nHar du fortsatt problemer? Kontakt kundestøtten og oppgi feilkode [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Gå tilbake og logg deg på på nytt.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Denne e-postadressen finnes allerede. Logg på med denne e-postadressen, eller bruk en annen adresse.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">%s er allerede registrert.</string>
   <string name="Janrain_Error_Need_Email_Verification">Bekreft e-postadressen din med koblingen for aktivering som ble sendt til e-postkontoen din</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Bekreft mobilnummeret ved hjelp av aktiveringskoden vi sendte til mobilen din</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Kan ikke koble til serveren.
-Prøv på nytt senere eller les Vanlige spørsmål for å finne mer informasjon.
-Hvis dette ikke løser problemet, kan du kontakte forbrukerstøtten og oppgi feilkode [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Kan ikke koble til serveren.\nPrøv på nytt senere eller les Vanlige spørsmål for å finne mer informasjon.\nHvis dette ikke løser problemet, kan du kontakte forbrukerstøtten og oppgi feilkode [%d]</string>
   <string name="Janrain_Invalid_Credentials">Du har skrevet inn feil brukernavn eller passord.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">Du har skrevet inn feil %s eller passord.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Det finnes ingen konto for denne e-postadressen. Opprett en konto med denne e-postadressen, eller bruk en annen e-postadresse.</string>
-  <string name="Janrain_LimitError_ErrorMsg">Du har nådd grensen for mislykkede forsøk.
-Prøv på nytt senere.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Du har angitt en bekreftelseskode som er feil eller utløpt.
-Angi riktig kode eller få tilsendt en ny kode.</string>
+  <string name="Janrain_LimitError_ErrorMsg">Du har nådd grensen for mislykkede forsøk.\nPrøv på nytt senere.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Du har angitt en bekreftelseskode som er feil eller utløpt.\nAngi riktig kode eller få tilsendt en ny kode.</string>
   <string name="LastNameField_ErrorMsg">Skriv inn etternavnet ditt</string>
   <string name="Login_Details_Txt">Påloggingsdetaljer</string>
   <string name="MaxiumCharacters_ErrorMsg">Du kan ikke skrive inn mer enn 256 tegn.</string>
@@ -236,17 +230,13 @@ Angi riktig kode eller få tilsendt en ny kode.</string>
   <string name="Title_TooManyRequests_Txt">For mange forespørsler</string>
   <string name="Title_UnexpectedError_Txt">Uventet feil</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Logg deg på med Philips-kontoen</string>
-  <string name="URX_SMS_Already_Verified">Kontoen er allerede bekreftet.
-Logg på for å fortsette.</string>
-  <string name="URX_SMS_InternalServerError">Kan ikke sende SMS.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Kontoen er allerede bekreftet.\nLogg på for å fortsette.</string>
+  <string name="URX_SMS_InternalServerError">Kan ikke sende SMS.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Vi kan ikke sende SMS til dette telefonnummeret.</string>
-  <string name="URX_SMS_Limit_Reached">SMS-grensen er nådd for dette telefonnummeret.
-Prøv på nytt om %d sekunder.</string>
+  <string name="URX_SMS_Limit_Reached">SMS-grensen er nådd for dette telefonnummeret.\nPrøv på nytt om %d sekunder.</string>
   <string name="URX_SMS_NoInformation_Available">Kan ikke koble til serveren. %s.</string>
   <string name="URX_SMS_Not_Sent">Kan ikke levere SMS. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-Landskoden støttes ikke.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nLandskoden støttes ikke.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Prøv på nytt senere</string>
   <string name="UnexpectedInternalError_ErrorMsg">Beklager, noe gikk galt. Prøv på nytt.</string>
   <string name="Update_MobileNumber_Button_Text">Oppdatere telefonnummer</string>

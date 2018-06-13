@@ -395,7 +395,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     public void viewOrHideNotificationBar() {
         if (popupWindow == null) {
             View view = getRegistrationFragment().getNotificationContentView(
-                    context.getResources().getString(R.string.reg_Resend_SMS_Success_Content)
+                    context.getResources().getString(R.string.DLS_ResendSMS_NotificationBar_Title)
                     , mobileNumber);
             popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Különleges ajánlatokat, promóciókat és első kézből származó információkat az új termékekről. Az Ön igényeihez szabva!</string>
   <string name="DLS_Optin_Body_Line2">Csatlakozzon 140 000 fős táborunkhoz!</string>
   <string name="DLS_Password_lbltxt">Jelszó</string>
-  <string name="DLS_PhilipsNews_Description_Text">Az Ön beleegyezésének eredményeként előfordulhat, hogy a Philips csoport vállalatai promóciós céllal felveszik Önnel a kapcsolatot e-mailben, SMS-ben és más digitális csatornákon keresztül (pl. mobilalkalmazások és közösségi oldalak). Ahhoz hogy az Ön elvárásainak és szokásainak megfelelően alakítsuk ezt a kommunikációt, illetve hogy a legjobb, személyre szabott élményt nyújthassuk, elemezhetjük és összekapcsolhatjuk az Ön személyes adatait. Ezek az adatok az alábbiakat tartalmazhatják: nnÖn által megadott adatoknAzok az adatok, melyeket Ön aktívan meg kíván osztani velünk, pl: név, születési dátum vagy életkor, e-mail cím, lakcím, ország, nem, telefonszám, közösségioldal-profil.nnAz Ön Philips-szel való kapcsolatba kerüléséből származó, nekünk megadott adatainAz Ön Philips digitális csatornákkal (pl. közösségi oldalak, weboldalak, e-mail, alkalmazások és kapcsolódó termékek) való kapcsolatba kerüléséből, illetve ezek használatából adódó adatok. Ezek az adatok az alábbiakat tartalmazhatják: IP-cím, cookie-k, eszközadatok, kommunikációs csatornák, amelyekre Ön rákattint, részletes helyadatok, valamint az Ön által látogatott weboldalaknnA Philips lehetőséget biztosít Önnek arra, hogy bármikor visszavonja beleegyezését.nTovábbi tájékoztatást a Philips adatvédelmi nyilatkozatban és a Philips Cookie-kkal kapcsolatos nyilatkozatban talál.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Az Ön beleegyezésének eredményeként előfordulhat, hogy a Philips csoport vállalatai promóciós céllal felveszik Önnel a kapcsolatot e-mailben, SMS-ben és más digitális csatornákon keresztül (pl. mobilalkalmazások és közösségi oldalak). Ahhoz hogy az Ön elvárásainak és szokásainak megfelelően alakítsuk ezt a kommunikációt, illetve hogy a legjobb, személyre szabott élményt nyújthassuk, elemezhetjük és összekapcsolhatjuk az Ön személyes adatait. Ezek az adatok az alábbiakat tartalmazhatják: \n\nÖn által megadott adatok\nAzok az adatok, melyeket Ön aktívan meg kíván osztani velünk, pl: név, születési dátum vagy életkor, e-mail cím, lakcím, ország, nem, telefonszám, közösségioldal-profil.\n\nAz Ön Philips-szel való kapcsolatba kerüléséből származó, nekünk megadott adatai\nAz Ön Philips digitális csatornákkal (pl. közösségi oldalak, weboldalak, e-mail, alkalmazások és kapcsolódó termékek) való kapcsolatba kerüléséből, illetve ezek használatából adódó adatok. Ezek az adatok az alábbiakat tartalmazhatják: IP-cím, cookie-k, eszközadatok, kommunikációs csatornák, amelyekre Ön rákattint, részletes helyadatok, valamint az Ön által látogatott weboldalak\n\nA Philips lehetőséget biztosít Önnek arra, hogy bármikor visszavonja beleegyezését.\nTovábbi tájékoztatást a Philips adatvédelmi nyilatkozatban és a Philips Cookie-kkal kapcsolatos nyilatkozatban talál.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philips kommunikáció</string>
   <string name="DLS_Phonenumber_Label_Text">Telefonszám</string>
   <string name="DLS_ResendSMS_Body_Line1">Eltelhet egy kis idő, amíg a kódot tartalmazó SMS megérkezik.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Elfelejtette a jelszót?</string>
   <string name="Gender_TitleTxt">Nem</string>
   <string name="Generic_Network_Error">Hoppá! Valami nem sikerült. Próbálja meg később</string>
-  <string name="Generic_Network_ErrorMsg">Nem tud csatlakozni a szerverhez.
-Kérjük, ellenőrizze az internetkapcsolatot, és próbálja meg újra.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Nem tud csatlakozni a szerverhez.\nKérjük, ellenőrizze az internetkapcsolatot, és próbálja meg újra.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Idővel kapcsolatos hiba miatt lejárt az aláírás érvényessége. Kérjük, ellenőrizze készüléke időbeállításait.</string>
   <string name="InValid_PwdErrorMsg">A jelszó nem követi a jelszavakra vonatkozó alábbi irányelveket.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Érvénytelen e-mail cím. Kérjük, ellenőrizze.</string>
@@ -184,23 +183,18 @@ Kérjük, ellenőrizze az internetkapcsolatot, és próbálja meg újra.[%d]</st
   <string name="InvalidOrMissingEmail_ErrorMsg">Adjon meg érvényes e-mail címet.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Nem ismerjük fel a telefonszámát. Kérjük, ellenőrizze az országhívó kódot.</string>
   <string name="JanRain_Error_Check_Internet">Probléma lépett fel a hálózati kapcsolattal. Kérjük, próbálja újra.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Nem tud csatlakozni a szerverhez. %s.
-Még mindig fennáll a probléma? Forduljon az ügyfélszolgálathoz a(z) [%d] hibakód megnevezésével.</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Nem tud csatlakozni a szerverhez. %s.\nMég mindig fennáll a probléma? Forduljon az ügyfélszolgálathoz a(z) [%d] hibakód megnevezésével.</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Kérjük, lépjen vissza, és jelentkezzen be újra.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Ez az e-mail-cím már létezik. Kérjük, jelentkezzen be ezzel az e-mail-címmel, vagy regisztráljon másik e-mail-cím használatával.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">A(z) %s már regisztrálva van.</string>
   <string name="Janrain_Error_Need_Email_Verification">Kérjük, erősítse meg e-mail címét az e-mail fiókjába küldött aktivációs linken keresztül</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Kérjük, erősítse meg a telefonszámát a telefonszámára küldött aktivációs kódon keresztül</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Nem tud csatlakozni a szerverhez.
-Kérjük, próbálja meg később, vagy tekintse meg a GYIK szakaszt további információkért.
-Ha ez nem oldja meg a kérdést, forduljon az ügyfélszolgálathoz a(z) [%d] hibakód megnevezésével.</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Nem tud csatlakozni a szerverhez.\nKérjük, próbálja meg később, vagy tekintse meg a GYIK szakaszt további információkért.\nHa ez nem oldja meg a kérdést, forduljon az ügyfélszolgálathoz a(z) [%d] hibakód megnevezésével.</string>
   <string name="Janrain_Invalid_Credentials">A megadott felhasználónév vagy jelszó hibás.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">A(z) %s vagy a megadott jelszó helytelen.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Nem létezik fiók ehhez az e-mailhez. Hozzon létre fiókot ezzel az e-mail-címmel, vagy adjon meg másik e-mail-címet.</string>
-  <string name="Janrain_LimitError_ErrorMsg">Elérte a sikertelen próbálkozások limitét.
-Próbálja meg újra később.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Nem megfelelő vagy lejárt ellenőrzőkódot adott meg.
-Kérjük, adja meg a megfelelő kódot, vagy küldje el újra a kódot.</string>
+  <string name="Janrain_LimitError_ErrorMsg">Elérte a sikertelen próbálkozások limitét.\nPróbálja meg újra később.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Nem megfelelő vagy lejárt ellenőrzőkódot adott meg.\nKérjük, adja meg a megfelelő kódot, vagy küldje el újra a kódot.</string>
   <string name="LastNameField_ErrorMsg">Adja meg a vezetéknevét</string>
   <string name="Login_Details_Txt">Bejelentkezési adatok</string>
   <string name="MaxiumCharacters_ErrorMsg">Legfeljebb 256 karakter hosszúságú szöveget adhat meg.</string>
@@ -236,16 +230,13 @@ Kérjük, adja meg a megfelelő kódot, vagy küldje el újra a kódot.</string>
   <string name="Title_TooManyRequests_Txt">Túl sok a kérelem.</string>
   <string name="Title_UnexpectedError_Txt">Váratlan hiba</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Bejelentkezés Philips-fiókkal</string>
-  <string name="URX_SMS_Already_Verified">A fiók visszaigazolása már megtörtént.
-Jelentkezzen be a folytatáshoz.</string>
-  <string name="URX_SMS_InternalServerError">Az SMS elküldése sikertelen.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">A fiók visszaigazolása már megtörtént.\nJelentkezzen be a folytatáshoz.</string>
+  <string name="URX_SMS_InternalServerError">Az SMS elküldése sikertelen.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Nem tudunk SMS-t küldeni erre a telefonszámra.</string>
   <string name="URX_SMS_Limit_Reached">Elérte a telefonszámhoz tartozó maximális SMS limitet. Kérjük, próbálja újra %d másodperc múlva.</string>
   <string name="URX_SMS_NoInformation_Available">Nem tud csatlakozni a szerverhez. %s.</string>
   <string name="URX_SMS_Not_Sent">Az SMS kézbesítése sikertelen. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-Az országhívó kód nem támogatott.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nAz országhívó kód nem támogatott.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Próbálja újra később</string>
   <string name="UnexpectedInternalError_ErrorMsg">Sajnos hiba történt. Próbálja meg újra.</string>
   <string name="Update_MobileNumber_Button_Text">PhoneNumber frissítése</string>

@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Информация о специальных предложениях, промоакциях и выпуске новых продуктов — специально для вас!</string>
   <string name="DLS_Optin_Body_Line2">Присоединяйтесь к 140 000 других пользователей!</string>
   <string name="DLS_Password_lbltxt">Пароль</string>
-  <string name="DLS_PhilipsNews_Description_Text">В результате соглашения, компании группы Philips смогут отправлять рекламно-информационные материалы на Вашу электронную почту, в SMS-сообщениях и с помощью других цифровых средств связи, например мобильных приложений и социальных сетей. В целях персонализации сообщений согласно Вашим предпочтениям и действиям, а также предоставления наиболее актуальной информации мы можем анализировать и комбинировать Ваши персональные данные.nЭти данные могут включать следующую информацию:nnПредоставляемые Вами данные nДанные, которыми Вы хотите делиться с нами: имя, дата рождения или возраст, адрес электронной почты, почтовый адрес, страна, пол, номер телефона, учетная запись в социальной сети.nnДанные, получаемые при взаимодействии с компанией PhilipsnДанные о взаимодействии с компанией Philips и об использовании таких цифровых средств связи, как социальные сети, веб-сайты, электронная почта, приложения и подключаемые устройства. Такие данные могут включать следующую информацию: IP-адрес, файлы cookie, информацию об устройстве, переход по ссылкам, информация о местоположении, посещаемые веб-сайты.nnВы сможете в любое время отказаться от соглашения с Philips.nДля получения дополнительной информации ознакомьтесь с Политикой конфиденциальности Philips и Уведомлением о cookie-файлах Philips.</string>
+  <string name="DLS_PhilipsNews_Description_Text">В результате соглашения, компании группы Philips смогут отправлять рекламно-информационные материалы на Вашу электронную почту, в SMS-сообщениях и с помощью других цифровых средств связи, например мобильных приложений и социальных сетей. В целях персонализации сообщений согласно Вашим предпочтениям и действиям, а также предоставления наиболее актуальной информации мы можем анализировать и комбинировать Ваши персональные данные.\nЭти данные могут включать следующую информацию:\n\nПредоставляемые Вами данные \nДанные, которыми Вы хотите делиться с нами: имя, дата рождения или возраст, адрес электронной почты, почтовый адрес, страна, пол, номер телефона, учетная запись в социальной сети.\n\nДанные, получаемые при взаимодействии с компанией Philips\nДанные о взаимодействии с компанией Philips и об использовании таких цифровых средств связи, как социальные сети, веб-сайты, электронная почта, приложения и подключаемые устройства. Такие данные могут включать следующую информацию: IP-адрес, файлы cookie, информацию об устройстве, переход по ссылкам, информация о местоположении, посещаемые веб-сайты.\n\nВы сможете в любое время отказаться от соглашения с Philips.\nДля получения дополнительной информации ознакомьтесь с Политикой конфиденциальности Philips и Уведомлением о cookie-файлах Philips.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Рекламная рассылка от Philips</string>
   <string name="DLS_Phonenumber_Label_Text">Номер телефона</string>
   <string name="DLS_ResendSMS_Body_Line1">Отправка SMS-сообщения с кодом может занять некоторое время.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Забыли пароль?</string>
   <string name="Gender_TitleTxt">Пол</string>
   <string name="Generic_Network_Error">К сожалению, произошла ошибка. Повторите попытку позже.</string>
-  <string name="Generic_Network_ErrorMsg">Не удалось подключиться к серверу.
-Проверьте подключение к сети Интернет и повторите попытку.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Не удалось подключиться к серверу.\nПроверьте подключение к сети Интернет и повторите попытку.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Срок действия подписи истек из-за сбоя времени. Проверьте настройки времени на своем устройстве.</string>
   <string name="InValid_PwdErrorMsg">Пароль не удовлетворяет требованиям, описанным ниже.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Недопустимый адрес электронной почты. Проверьте введенные данные.</string>
@@ -184,23 +183,18 @@
   <string name="InvalidOrMissingEmail_ErrorMsg">Укажите действующий адрес электронной почты.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Не удалось распознать номер телефона. Проверьте код страны.</string>
   <string name="JanRain_Error_Check_Internet">При подключении к сети произошла ошибка. Повторите попытку.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Не удалось подключиться к серверу. %s.
-Проблема не устранена? Обратитесь в Центр поддержки потребителей, указав код ошибки [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Не удалось подключиться к серверу. %s.\nПроблема не устранена? Обратитесь в Центр поддержки потребителей, указав код ошибки [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Вернитесь назад и повторите попытку входа.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Этот адрес эл. почты уже используется. Войдите в учетную запись с этим адресом или зарегистрируйте новую.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">%s уже зарегистрирован.</string>
   <string name="Janrain_Error_Need_Email_Verification">Подтвердите адрес электронной почты с помощью ссылки активации, отправленной вам на этот адрес</string>
   <string name="Janrain_Error_Need_Mobile_Verification">На ваш номер телефона выслан код активации для подтверждения.</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Не удалось подключиться к серверу.
-Повторите попытку позже или ознакомьтесь с вопросами и ответами для получения информации.
-Если это не помогло, обратитесь в Центр поддержки потребителей, указав код ошибки [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Не удалось подключиться к серверу.\nПовторите попытку позже или ознакомьтесь с вопросами и ответами для получения информации.\nЕсли это не помогло, обратитесь в Центр поддержки потребителей, указав код ошибки [%d]</string>
   <string name="Janrain_Invalid_Credentials">Неверное имя пользователя или пароль.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">Неверно введены %s или пароль.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">С этим адресом эл. почты не связана ни одна учетная запись. Создайте учетную запись с этим адресом эл. почты или введите другой адрес.</string>
-  <string name="Janrain_LimitError_ErrorMsg">Превышен лимит неудачных попыток.
-Повторите попытку позже.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Введен неверный или устаревший защитный код.
-Введите правильный код или запросите повторную отправку.</string>
+  <string name="Janrain_LimitError_ErrorMsg">Превышен лимит неудачных попыток.\nПовторите попытку позже.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Введен неверный или устаревший защитный код.\nВведите правильный код или запросите повторную отправку.</string>
   <string name="LastNameField_ErrorMsg">Укажите свою фамилию</string>
   <string name="Login_Details_Txt">Данные для входа</string>
   <string name="MaxiumCharacters_ErrorMsg">Максимально возможное число символов — 256.</string>
@@ -236,17 +230,13 @@
   <string name="Title_TooManyRequests_Txt">Слишком много запросов</string>
   <string name="Title_UnexpectedError_Txt">Непредвиденная ошибка</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Войти с помощью учетной записи Philips</string>
-  <string name="URX_SMS_Already_Verified">Учетная запись подтверждена.
-Войдите, чтобы продолжить.</string>
-  <string name="URX_SMS_InternalServerError">Не удалось отправить SMS.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Учетная запись подтверждена.\nВойдите, чтобы продолжить.</string>
+  <string name="URX_SMS_InternalServerError">Не удалось отправить SMS.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Не удалось отправить SMS на этот номер телефона.</string>
-  <string name="URX_SMS_Limit_Reached">Превышено ограничение на отправку SMS на этот номер телефона.
-Повторите попытку через %d с.</string>
+  <string name="URX_SMS_Limit_Reached">Превышено ограничение на отправку SMS на этот номер телефона.\nПовторите попытку через %d с.</string>
   <string name="URX_SMS_NoInformation_Available">Не удалось подключиться к серверу. %s.</string>
   <string name="URX_SMS_Not_Sent">Не удалось доставить SMS. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-Этот код страны не поддерживается.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nЭтот код страны не поддерживается.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Повторите попытку позже</string>
   <string name="UnexpectedInternalError_ErrorMsg">Произошла ошибка. Повторите попытку.</string>
   <string name="Update_MobileNumber_Button_Text">Обновление номера телефона</string>

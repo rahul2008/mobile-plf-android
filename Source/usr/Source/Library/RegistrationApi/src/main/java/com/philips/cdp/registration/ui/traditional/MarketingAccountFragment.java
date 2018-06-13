@@ -120,7 +120,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @SuppressLint("StringFormatInvalid")
     void defalutBannerText(View view) {
         RLog.i(TAG, "defalutBannerText : is called");
-        String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
+        String joinNow = mContext.getResources().getString(R.string.DLS_Optin_Body_Line2);
         String updateJoinNowText = mContext.getResources().getString(R.string.DLS_Optin_Body_Line2);
         joinNow = String.format(joinNow, updateJoinNowText);
         updateText(view, R.id.usr_marketingScreen_joinNow_Label, joinNow);

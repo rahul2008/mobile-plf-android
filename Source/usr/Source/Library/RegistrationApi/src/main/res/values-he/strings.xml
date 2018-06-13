@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">הצעות מיוחדות, מבצעים ומידע ממקור ראשון על גרסאות מוצר חדשות. מותאם במיוחד בשבילך!</string>
   <string name="DLS_Optin_Body_Line2">הצטרף אל 140,000 מעמיתיך עכשיו!</string>
   <string name="DLS_Password_lbltxt">סיסמה</string>
-  <string name="DLS_PhilipsNews_Description_Text">כתוצאה מהסכמתך, חברות הקבוצה של פיליפס עשויות ליצור עמך קשר באמצעות תקשורת פרסומית באמצעות דואר אלקטרוני, SMS וערוצים דיגיטליים אחרים, כגון אפליקציות לנייד ומדיה חברתית.כדי להתאים את התקשורת להעדפותיך ולהתנהגותך ולספק לך את החוויה הטובה ביותר, אישית, אנו עשויים לנתח ולשלב את הנתונים האישיים שלך.הנתונים עשויים לכלול:nnהנתונים שאתה נותן לנוnנתונים שברצונך לשתף איתנו באופן פעיל כגון: שמך, תאריך לידה או גיל, כתובת דוא\"\"ל, כתובת פיזית, ארץ, מין, מספר טלפון, פרופיל מדיה חברתית.nnהנתונים שאנו מקבלים מהאינטראקציות שלך עם פיליפסnנתונים על האינטראקציות והשימוש בערוצים הדיגיטליים של פיליפס, כגון מדיה חברתית, אתרי אינטרנט, הודעות דוא\"\"ל, אפליקציות ומוצרים מחוברים. נתונים אלה עשויים לכלול: כתובת IP, קובצי Cookie, פרטי מכשיר, תקשורת שאתה לוחץ עליה, פרטי מיקום ואתרים שבהם אתה מבקרnnפיליפס תיתן לך את ההזדמנות לבטל את הסכמתך בכל עת.nלקבלת מידע נוסף, קרא את הודעת הפרטיות של Philips ואת הודעת ה- Cookie של Philips.</string>
+  <string name="DLS_PhilipsNews_Description_Text">כתוצאה מהסכמתך, חברות הקבוצה של פיליפס עשויות ליצור עמך קשר באמצעות תקשורת פרסומית באמצעות דואר אלקטרוני, SMS וערוצים דיגיטליים אחרים, כגון אפליקציות לנייד ומדיה חברתית.כדי להתאים את התקשורת להעדפותיך ולהתנהגותך ולספק לך את החוויה הטובה ביותר, אישית, אנו עשויים לנתח ולשלב את הנתונים האישיים שלך.הנתונים עשויים לכלול:\n\nהנתונים שאתה נותן לנו\nנתונים שברצונך לשתף איתנו באופן פעיל כגון: שמך, תאריך לידה או גיל, כתובת דוא\"\"ל, כתובת פיזית, ארץ, מין, מספר טלפון, פרופיל מדיה חברתית.\n\nהנתונים שאנו מקבלים מהאינטראקציות שלך עם פיליפס\nנתונים על האינטראקציות והשימוש בערוצים הדיגיטליים של פיליפס, כגון מדיה חברתית, אתרי אינטרנט, הודעות דוא\"\"ל, אפליקציות ומוצרים מחוברים. נתונים אלה עשויים לכלול: כתובת IP, קובצי Cookie, פרטי מכשיר, תקשורת שאתה לוחץ עליה, פרטי מיקום ואתרים שבהם אתה מבקר\n\nפיליפס תיתן לך את ההזדמנות לבטל את הסכמתך בכל עת.\nלקבלת מידע נוסף, קרא את הודעת הפרטיות של Philips ואת הודעת ה- Cookie של Philips.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">הודעה של Philips</string>
   <string name="DLS_Phonenumber_Label_Text">מספר טלפון</string>
   <string name="DLS_ResendSMS_Body_Line1">הגעת הודעת ה-SMS עם הקוד עשויה לארוך זמן מה.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">שכחת את סיסמתך?</string>
   <string name="Gender_TitleTxt">מין</string>
   <string name="Generic_Network_Error">אופס! משהו השתבש. נסה שוב מאוחר יותר</string>
-  <string name="Generic_Network_ErrorMsg">אין אפשרות להתחבר לשרת.
-בדוק את חיבור האינטרנט ונסה שוב.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">אין אפשרות להתחבר לשרת.\nבדוק את חיבור האינטרנט ונסה שוב.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">תוקף החתימה עומד לפוג בשל שגיאת זמן. בדוק את הגדרות הזמן במכשיר.</string>
   <string name="InValid_PwdErrorMsg">הסיסמה אינה עומדת בהנחיות לגבי יצירת סיסמה שלהלן.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">כתובת דוא\"ל לא חוקית. אנא בדוק.</string>
@@ -184,23 +183,18 @@
   <string name="InvalidOrMissingEmail_ErrorMsg">הזן כתובת דוא\"ל חוקית</string>
   <string name="InvalidPhoneNumber_ErrorMsg">איננו מזהים את מספר הטלפון שלך. בדוק את קידומת המדינה.</string>
   <string name="JanRain_Error_Check_Internet">יש בעיה בחיבור לרשת. אנא נסה שוב.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">אין אפשרות להתחבר לשרת. %s.
-עדיין נתקל בבעיות? פנה אל מחלקת הטיפול בלקוחות תוך ציון קוד השגיאה [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">אין אפשרות להתחבר לשרת. %s.\nעדיין נתקל בבעיות? פנה אל מחלקת הטיפול בלקוחות תוך ציון קוד השגיאה [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. חזור והיכנס שוב.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">כתובת דוא\"ל זו קיימת כבר. היכנס באמצעות כתובת זו או הירשם באמצעות אחרת.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">ה %sשלך רשום כבר.</string>
   <string name="Janrain_Error_Need_Email_Verification">אמת את כתובת הדוא\"ל שלך באמצעות קישור ההפעלה שנשלח לחשבון הדוא\"ל שלך</string>
   <string name="Janrain_Error_Need_Mobile_Verification">אמת את מספר הטלפון הנייד שלך באמצעות קוד ההפעלה ששלחנו למספר הנייד שלך</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">אין אפשרות להתחבר לשרת.
-נסה מאוחר יותר, או בדוק את השאלות הנפוצות שלנו לקבלת מידע נוסף.
-אם צעדים אלה אינם עונים על שאלתך, פנה אל מחלקת הטיפול בלקוחות תוך ציון קוד השגיאה [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">אין אפשרות להתחבר לשרת.\nנסה מאוחר יותר, או בדוק את השאלות הנפוצות שלנו לקבלת מידע נוסף.\nאם צעדים אלה אינם עונים על שאלתך, פנה אל מחלקת הטיפול בלקוחות תוך ציון קוד השגיאה [%d]</string>
   <string name="Janrain_Invalid_Credentials">שם המשתמש או הסיסמה שהזנת שגויים.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">ה%s או הסיסמה שהזנת שגויים.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">לא קיים חשבון עבור דוא\"ל זה. צור חשבון באמצעות דוא\"ל זה, או הזן כתובת דוא\"ל שונה.</string>
-  <string name="Janrain_LimitError_ErrorMsg">הגעת למספר המרבי של ניסיונות התחברות לא מוצלחים.
-נסה שוב מאוחר יותר.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">הזנת קוד אימות שגוי או פג תוקף.
-הזן את הקוד הנכון או שלח את הקוד שוב.</string>
+  <string name="Janrain_LimitError_ErrorMsg">הגעת למספר המרבי של ניסיונות התחברות לא מוצלחים.\nנסה שוב מאוחר יותר.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">הזנת קוד אימות שגוי או פג תוקף.\nהזן את הקוד הנכון או שלח את הקוד שוב.</string>
   <string name="LastNameField_ErrorMsg">אנא הזן שם המשפחה שלך</string>
   <string name="Login_Details_Txt">פרטי כניסה</string>
   <string name="MaxiumCharacters_ErrorMsg">אי אפשר להזין יותר מ-256 תווים.</string>
@@ -236,17 +230,13 @@
   <string name="Title_TooManyRequests_Txt">בקשות רבות מדי</string>
   <string name="Title_UnexpectedError_Txt">שגיאה לא צפויה</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">התחבר באמצעות חשבון הפיליפס שלך</string>
-  <string name="URX_SMS_Already_Verified">החשבון כבר אומת.
-היכנס כדי להמשיך.</string>
-  <string name="URX_SMS_InternalServerError">אי אפשר לשלוח SMS.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">החשבון כבר אומת.\nהיכנס כדי להמשיך.</string>
+  <string name="URX_SMS_InternalServerError">אי אפשר לשלוח SMS.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">אין לנו אפשרות לשלוח הודעת SMS למספר טלפון זה.</string>
-  <string name="URX_SMS_Limit_Reached">הגעת למגבלת הודעות ה-SMS עבור מספר טלפון זה.
-נסה שוב בעוד %d שניות.</string>
+  <string name="URX_SMS_Limit_Reached">הגעת למגבלת הודעות ה-SMS עבור מספר טלפון זה.\nנסה שוב בעוד %d שניות.</string>
   <string name="URX_SMS_NoInformation_Available">אי אפשר להתחבר לשרת. %s.</string>
   <string name="URX_SMS_Not_Sent">אי אפשר לשלוח SMS. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-אין תמיכה בקידומת המדינה.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nאין תמיכה בקידומת המדינה.</string>
   <string name="USR_Error_PleaseTryLater_Txt">אנא נסה שנית במועד מאוחר יותר.</string>
   <string name="UnexpectedInternalError_ErrorMsg">אפס! משהו השתבש. נסה שוב מאוחר יותר.</string>
   <string name="Update_MobileNumber_Button_Text">עדכן מספר  טלפון</string>

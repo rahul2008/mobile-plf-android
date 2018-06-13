@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Ofertas especiales, promociones e información de primera mano acerca de los lanzamientos de nuevos productos. ¡Todo ello diseñado especialmente para ti!</string>
   <string name="DLS_Optin_Body_Line2">¡Únete a 140 000 compañeros ahora!</string>
   <string name="DLS_Password_lbltxt">Contraseña</string>
-  <string name="DLS_PhilipsNews_Description_Text">Mediante tu consentimiento, las empresas del grupo Philips pueden contactarte para entregar comunicaciones promocionales a través de correo electrónico, SMS y otros canales digitales, como aplicaciones móviles y medios sociales. Para personalizar las comunicaciones a tus preferencias y comportamiento y para entregar la mejor experiencia personalizada, es posible que analicemos y combinemos tus datos personales. Estos datos pueden incluir:nnLos datos que nos entregastenLos datos que desees compartir activamente con nosotros, como tu nombre, fecha de nacimiento o edad, dirección de correo electrónico, dirección postal, país, sexo, número de teléfono o perfil en medios sociales.nnLos datos que obtenemos de tus interacciones con PhilipsnLos datos sobre tus interacciones y uso de los canales digitales de Philips, como medios sociales, sitios web, correos electrónicos, aplicaciones y productos conectados. Estos datos pueden incluir: dirección IP, cookies, información de dispositivo, comunicaciones donde haces clic, detalles de ubicación y sitios web que visitasnnPhilips te da la oportunidad de retirar tu consentimiento en cualquier momento.nPara obtener más información, leé el aviso de privacidad de Philips y el aviso de cookie de Philips.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Mediante tu consentimiento, las empresas del grupo Philips pueden contactarte para entregar comunicaciones promocionales a través de correo electrónico, SMS y otros canales digitales, como aplicaciones móviles y medios sociales. Para personalizar las comunicaciones a tus preferencias y comportamiento y para entregar la mejor experiencia personalizada, es posible que analicemos y combinemos tus datos personales. Estos datos pueden incluir:\n\nLos datos que nos entregaste\nLos datos que desees compartir activamente con nosotros, como tu nombre, fecha de nacimiento o edad, dirección de correo electrónico, dirección postal, país, sexo, número de teléfono o perfil en medios sociales.\n\nLos datos que obtenemos de tus interacciones con Philips\nLos datos sobre tus interacciones y uso de los canales digitales de Philips, como medios sociales, sitios web, correos electrónicos, aplicaciones y productos conectados. Estos datos pueden incluir: dirección IP, cookies, información de dispositivo, comunicaciones donde haces clic, detalles de ubicación y sitios web que visitas\n\nPhilips te da la oportunidad de retirar tu consentimiento en cualquier momento.\nPara obtener más información, leé el aviso de privacidad de Philips y el aviso de cookie de Philips.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Comunicación de Philips</string>
   <string name="DLS_Phonenumber_Label_Text">Número de teléfono</string>
   <string name="DLS_ResendSMS_Body_Line1">Es posible que el SMS con el código tarde un poco en llegar.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">¿Se te olvidó la contraseña?</string>
   <string name="Gender_TitleTxt">Sexo</string>
   <string name="Generic_Network_Error">¡Vaya! Se ha producido un error. Inténtalo de nuevo más tarde</string>
-  <string name="Generic_Network_ErrorMsg">No se puede conectar con el servidor.
-Comprueba la conexión a Internet e inténtalo de nuevo.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">No se puede conectar con el servidor.\nComprueba la conexión a Internet e inténtalo de nuevo.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">La firma ha caducado debido a un error de hora. Comprueba los ajustes de hora del dispositivo.</string>
   <string name="InValid_PwdErrorMsg">La contraseña no cumple los siguientes requisitos.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">La dirección de correo electrónico no es válida. Compruébala.</string>
@@ -184,23 +183,18 @@ Comprueba la conexión a Internet e inténtalo de nuevo.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Introduce una dirección de correo electrónico válida.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">No se reconoce tu número de teléfono. Comprueba el código del país.</string>
   <string name="JanRain_Error_Check_Internet">Se ha producido un problema con la conexión de red. Inténtalo de nuevo.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">No se puede conectar con el servidor. %s.
-¿Aún tienes problemas? Ponte en contacto con el Servicio de atención al cliente e indícales el código de error [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">No se puede conectar con el servidor. %s.\n¿Aún tienes problemas? Ponte en contacto con el Servicio de atención al cliente e indícales el código de error [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Vuelve atrás e inicia sesión de nuevo.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Esta dirección de correo electrónico ya existe. Inicia sesión con esta dirección o regístrate con una distinta.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">Tu %s ya se ha registrado.</string>
   <string name="Janrain_Error_Need_Email_Verification">Verifica tu dirección de correo con el enlace de activación que te hemos enviado.</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Verifica el número de tu móvil a través del código de activación que hemos enviado a tu teléfono móvil</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">No se puede conectar con el servidor.
-Vuelve a intentarlo más tarde o visita nuestras preguntas más frecuentes para obtener más información.
-Si no resuelves tu pregunta de esta forma, ponte en contacto con el Servicio de atención al cliente e indícales el código de error [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">No se puede conectar con el servidor.\nVuelve a intentarlo más tarde o visita nuestras preguntas más frecuentes para obtener más información.\nSi no resuelves tu pregunta de esta forma, ponte en contacto con el Servicio de atención al cliente e indícales el código de error [%d]</string>
   <string name="Janrain_Invalid_Credentials">El nombre de usuario o la contraseña que has introducido son incorrectos.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">El %s o la contraseña que has introducido son incorrectos.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">No hay ninguna cuenta para esta dirección de correo electrónico. Crea una cuenta mediante este mensaje o introduce una dirección diferente.</string>
-  <string name="Janrain_LimitError_ErrorMsg">Se ha alcanzado el límite de intentos fallidos.
-Vuelve a intentarlo más tarde.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Has introducido un código de verificación incorrecto o caducado.
-Introduce el código correcto o vuelve a enviar el código.</string>
+  <string name="Janrain_LimitError_ErrorMsg">Se ha alcanzado el límite de intentos fallidos.\nVuelve a intentarlo más tarde.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Has introducido un código de verificación incorrecto o caducado.\nIntroduce el código correcto o vuelve a enviar el código.</string>
   <string name="LastNameField_ErrorMsg">Introduce tus apellidos</string>
   <string name="Login_Details_Txt">Datos para iniciar sesión</string>
   <string name="MaxiumCharacters_ErrorMsg">No se pueden introducir más de 256 caracteres.</string>
@@ -236,17 +230,13 @@ Introduce el código correcto o vuelve a enviar el código.</string>
   <string name="Title_TooManyRequests_Txt">Demasiadas solicitudes</string>
   <string name="Title_UnexpectedError_Txt">Error inesperado</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Iniciar sesión con una cuenta de Philips</string>
-  <string name="URX_SMS_Already_Verified">La cuenta ya se ha verificado.
-Inicia sesión para continuar.</string>
-  <string name="URX_SMS_InternalServerError">No se pueden enviar SMS.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">La cuenta ya se ha verificado.\nInicia sesión para continuar.</string>
+  <string name="URX_SMS_InternalServerError">No se pueden enviar SMS.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">No podemos enviar un SMS a este número de teléfono.</string>
-  <string name="URX_SMS_Limit_Reached">Se ha alcanzado el límite de SMS para este número de teléfono.
-Inténtalo de nuevo en %d segundos.</string>
+  <string name="URX_SMS_Limit_Reached">Se ha alcanzado el límite de SMS para este número de teléfono.\nInténtalo de nuevo en %d segundos.</string>
   <string name="URX_SMS_NoInformation_Available">No se pudo conectar con el servidor. %s.</string>
   <string name="URX_SMS_Not_Sent">No se ha podido entregar el SMS. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-No se admite el código del país.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nNo se admite el código del país.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Vuelve a intentarlo más tarde</string>
   <string name="UnexpectedInternalError_ErrorMsg">Se ha producido un error. Inténtalo de nuevo.</string>
   <string name="Update_MobileNumber_Button_Text">Actualiza el número de teléfono</string>

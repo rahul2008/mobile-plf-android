@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Īpašie piedāvājumi, reklāmas akcijas un informācija no pirmavota par jaunu produktu izlaidi. Īpaši jums!</string>
   <string name="DLS_Optin_Body_Line2">Pievienojieties 140 000 lietotāju!</string>
   <string name="DLS_Password_lbltxt">Parole</string>
-  <string name="DLS_PhilipsNews_Description_Text">Jūsu piekrišanas rezultātā Philips grupas uzņēmumi var nosūtīt jums reklāmas piedāvājumus, izmantojot e-pastu, īsziņas un citos digitālos kanālus, piemēram, mobilās lietotnes un sociālos tīklus. Lai pielāgotu saziņu jūsu izvēlēm un darbībām tā nodrošinot vislabāko, personalizēto pieredzi, mēs varam analizēt un jūsu personas datus. Šie dati var ietvert:nnJūsu norādītie datinDati, kurus vēlaties aktīvi mums sniegt: jūsu vārds un uzvārds, dzimšanas datums vai vecums, e-pasta adrese, faktiskā adrese, valsts, dzimums, tālruņa numurs, sociālā tīkla profils.nnDati, kurus mēs iegūstam no jūsu mijiedarbības ar PhilipsnDati par jūsu mijiedarbību ar Philips digitālajiem kanāliem un to lietojumu, piemēram, sociālajiem tīkliem, tīmekļa vietnēm, e-pasta ziņojumiem, lietotnēm un pievienotajiem produktiem. Šie dati var ietvert: IP adresi, sīkfailus, ierīces informāciju, saziņas kanālus, uz kuriem noklikšķināts, atrašanās vietas informāciju un apmeklētās tīmekļa vietnes.nnPhilips sniegs jums iespēju jebkurā brīdī atteikties no piekrišanas.nPapildinformāciju, lūdzu, lasiet Philips paziņojumā par konfidencialitāti Philips paziņojumā par sīkfailiem.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Jūsu piekrišanas rezultātā Philips grupas uzņēmumi var nosūtīt jums reklāmas piedāvājumus, izmantojot e-pastu, īsziņas un citos digitālos kanālus, piemēram, mobilās lietotnes un sociālos tīklus. Lai pielāgotu saziņu jūsu izvēlēm un darbībām tā nodrošinot vislabāko, personalizēto pieredzi, mēs varam analizēt un jūsu personas datus. Šie dati var ietvert:\n\nJūsu norādītie dati\nDati, kurus vēlaties aktīvi mums sniegt: jūsu vārds un uzvārds, dzimšanas datums vai vecums, e-pasta adrese, faktiskā adrese, valsts, dzimums, tālruņa numurs, sociālā tīkla profils.\n\nDati, kurus mēs iegūstam no jūsu mijiedarbības ar Philips\nDati par jūsu mijiedarbību ar Philips digitālajiem kanāliem un to lietojumu, piemēram, sociālajiem tīkliem, tīmekļa vietnēm, e-pasta ziņojumiem, lietotnēm un pievienotajiem produktiem. Šie dati var ietvert: IP adresi, sīkfailus, ierīces informāciju, saziņas kanālus, uz kuriem noklikšķināts, atrašanās vietas informāciju un apmeklētās tīmekļa vietnes.\n\nPhilips sniegs jums iespēju jebkurā brīdī atteikties no piekrišanas.\nPapildinformāciju, lūdzu, lasiet Philips paziņojumā par konfidencialitāti Philips paziņojumā par sīkfailiem.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philips saziņa</string>
   <string name="DLS_Phonenumber_Label_Text">Tālruņa numurs</string>
   <string name="DLS_ResendSMS_Body_Line1">Iespējams, jāuzgaida, līdz īsziņas ar kodu pienākšanai.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Vai aizmirsāt paroli?</string>
   <string name="Gender_TitleTxt">Dzimums</string>
   <string name="Generic_Network_Error">Radās neparedzēta kļūda. Lūdzu, vēlāk mēģiniet vēlreiz</string>
-  <string name="Generic_Network_ErrorMsg">Neizdodas savienoties ar serveri.
-Lūdzu, pārbaudiet savu interneta savienojumu un mēģiniet vēlreiz.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Neizdodas savienoties ar serveri.\nLūdzu, pārbaudiet savu interneta savienojumu un mēģiniet vēlreiz.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Paraksta derīgums beidzies laika kļūdas dēļ. Lūdzu, pārbaudiet savas ierīces laika iestatījumus.</string>
   <string name="InValid_PwdErrorMsg">Parole neatbilst tālāk esošajām paroles vadlīnijām.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Epasta adrese nav derīga. Lūdzu, pārbaudiet.</string>
@@ -184,23 +183,18 @@ Lūdzu, pārbaudiet savu interneta savienojumu un mēģiniet vēlreiz.[%d]</stri
   <string name="InvalidOrMissingEmail_ErrorMsg">Lūdzu, ievadiet derīgu e-pasta adresi.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Mēs neatpazīstam jūsu tālruņa numuru. Lūdzu, pārbaudiet valsts kodu.</string>
   <string name="JanRain_Error_Check_Internet">Tīkla savienojuma problēma. Lūdzu, mēģiniet vēlreiz.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Neizdodas savienoties ar serveri. %s.
-Problēma joprojām nav novērsta? Sazinieties ar klientu atbalsta dienestu, norādot kļūdas kodu [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Neizdodas savienoties ar serveri. %s.\nProblēma joprojām nav novērsta? Sazinieties ar klientu atbalsta dienestu, norādot kļūdas kodu [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Dodieties atpakaļ un piesakieties vēlreiz.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Šī e-pasta adrese jau eksistē. Lūdzu, piesakieties sistēmā ar šo e-pasta adresi vai reģistrējieties ar jaunu adresi.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">Jūsu %s jau ir reģistrēts.</string>
   <string name="Janrain_Error_Need_Email_Verification">Lūdzu, apstipriniet e-pasta adresi, izmantojot aktivizācijas saiti, kas nosūtīta uz jūsu e-pasta kontu</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Lūdzu, verificējiet savu mobilā tālruņa numuru, izmantojot uz jūsu mobilā tālruņa numuru nosūtīto aktivizācijas kodu</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Neizdodas savienoties ar serveri.
-Lūdzu, mēģiniet vēlāk vēlreiz vai skatiet mūsu biežāk uzdoto jautājumu sadaļu.
-Ja problēmu neizdodas novērst, sazinieties ar klientu atbalsta dienestu, norādot kļūdas kodu [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Neizdodas savienoties ar serveri.\nLūdzu, mēģiniet vēlāk vēlreiz vai skatiet mūsu biežāk uzdoto jautājumu sadaļu.\nJa problēmu neizdodas novērst, sazinieties ar klientu atbalsta dienestu, norādot kļūdas kodu [%d]</string>
   <string name="Janrain_Invalid_Credentials">Ievadītais lietotājvārds vai parole nav derīga.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">Ievadītais %s vai parole nav derīga.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Konts ar šādu e-pasta adresi neeksistē. Izveidojiet kontu, izmantojot šo e-pasta adresi vai ievadiet citu e-pasta adresi.</string>
-  <string name="Janrain_LimitError_ErrorMsg">Jūs esat sasniedzis maksimālo nesekmīgo mēģinājumu skaitu.
-Lūdzu, mēģiniet vēlāk vēlreiz.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Jūsu ievadītais verifikācijas kods ir nederīgs vai tam ir beidzies derīgums.
-Lūdzu, ievadiet pareizo kodu vai nosūtiet kodu atkārtoti.</string>
+  <string name="Janrain_LimitError_ErrorMsg">Jūs esat sasniedzis maksimālo nesekmīgo mēģinājumu skaitu.\nLūdzu, mēģiniet vēlāk vēlreiz.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Jūsu ievadītais verifikācijas kods ir nederīgs vai tam ir beidzies derīgums.\nLūdzu, ievadiet pareizo kodu vai nosūtiet kodu atkārtoti.</string>
   <string name="LastNameField_ErrorMsg">Lūdzu, ievadiet savu uzvārdu</string>
   <string name="Login_Details_Txt">Pieteikšanās detaļas</string>
   <string name="MaxiumCharacters_ErrorMsg">Nevar ievadīt vairāk kā 256 rakstzīmes.</string>
@@ -236,16 +230,13 @@ Lūdzu, ievadiet pareizo kodu vai nosūtiet kodu atkārtoti.</string>
   <string name="Title_TooManyRequests_Txt">Par daudz pieprasījumu</string>
   <string name="Title_UnexpectedError_Txt">Neparedzēta kļūda</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Pieteikties ar Philips kontu</string>
-  <string name="URX_SMS_Already_Verified">Konts jau ir apstiprināts.
-Ieejiet sistēmā, lai turpinātu.</string>
-  <string name="URX_SMS_InternalServerError">Neizdevās nosūtīt īsziņu.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Konts jau ir apstiprināts.\nIeejiet sistēmā, lai turpinātu.</string>
+  <string name="URX_SMS_InternalServerError">Neizdevās nosūtīt īsziņu.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Mēs nevaram nosūtīt īsziņu uz šo tālruņa numuru.</string>
   <string name="URX_SMS_Limit_Reached">Tālruņa numuram ir sasniegts īsziņu skaita ierobežojums. Lūdzu, mēģiniet vēlreiz pēc %d sekundēm.</string>
   <string name="URX_SMS_NoInformation_Available">Neizdodas savienoties ar serveri. %s.</string>
   <string name="URX_SMS_Not_Sent">Īsziņas piegāde neizdevās. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-Šis valsts kods netiek atbalstīts.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nŠis valsts kods netiek atbalstīts.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Lūdzu, vēlāk mēģiniet vēlreiz</string>
   <string name="UnexpectedInternalError_ErrorMsg">Radās neparedzēta kļūda. Lūdzu, mēģiniet vēlreiz.</string>
   <string name="Update_MobileNumber_Button_Text">Atjauniniet tālruņa numuru</string>

@@ -299,11 +299,10 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     private void showAlertDialog() {
         RegAlertDialog.showDialog(mContext.getResources().getString(
-                R.string.reg_DLS_Resend_Email_Wait_Error_Msg_Title),
+                R.string.DLS_Email_Verify_Alert_Title),
                 mContext.getResources().getString(
-                        R.string.reg_DLS_Resend_Email_Wait_Error_Msg_Body_Line1),
-                mContext.getResources().getString(
-                        R.string.reg_DLS_Resend_Email_Wait_Error_Msg_Body_Line2),
+                        R.string.Janrain_Error_Need_Email_Verification),
+                null,
                 mContext.getResources().getString(
                         R.string.DLS_Button_Title_Ok)
                 , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
@@ -528,9 +527,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : resend update enable");
 
         mResendEmail.setText(getString(
-                R.string.reg_Update_Email_Button_Text));
+                R.string.Update_Email_Button_Text));
         mResendEmail.setProgressText(getString(
-                R.string.reg_Update_Email_Button_Text));
+                R.string.Update_Email_Button_Text));
         mResendEmail.setEnabled(true);
 
     }

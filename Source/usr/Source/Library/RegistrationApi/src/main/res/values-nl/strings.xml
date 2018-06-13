@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Speciale aanbiedingen, promoties en informatie uit de eerste hand over nieuwe productreleases. Voor u op maat!</string>
   <string name="DLS_Optin_Body_Line2">140.000 mensen gingen u al voor!</string>
   <string name="DLS_Password_lbltxt">Wachtwoord</string>
-  <string name="DLS_PhilipsNews_Description_Text">Door uw toestemming kunnen de bedrijven uit de Philips-groep u promotionele berichten sturen via e-mail, sms en andere digitale kanalen, zoals mobiele apps en social media. Om de berichtgeving te kunnen aanpassen aan uw voorkeuren en gedrag en u de beste persoonlijke ervaring te bieden, kunnen we mogelijk uw persoonsgegevens analyseren en combineren. Deze gegevens kunnen bestaan uit: nnGegevens die u ons verstrektnGegevens die u met ons hebt gedeeld, zoals uw naam, geboortedatum of leeftijd, e-mailadres, woonadres, land, geslacht, telefoonnummer, social-mediaprofiel.nnGegevens die wij hebben verkregen via uw interactie met PhilipsnGegevens over uw interactie met en gebruik van de digitale kanalen van Philips, zoals social media, websites, e-mails, apps en gerelateerde producten. Deze gegevens kunnen bestaan uit: IP-adres, cookies, apparaatinformatie, berichten waarop u klikt, locatiegegevens en websites die u bezoektnnU kunt uw toestemming aan Philips op ieder gewenst moment intrekken.nLees voor meer informatie de Philips-privacyverklaring en de Philips-cookieverklaring.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Door uw toestemming kunnen de bedrijven uit de Philips-groep u promotionele berichten sturen via e-mail, sms en andere digitale kanalen, zoals mobiele apps en social media. Om de berichtgeving te kunnen aanpassen aan uw voorkeuren en gedrag en u de beste persoonlijke ervaring te bieden, kunnen we mogelijk uw persoonsgegevens analyseren en combineren. Deze gegevens kunnen bestaan uit: \n\nGegevens die u ons verstrekt\nGegevens die u met ons hebt gedeeld, zoals uw naam, geboortedatum of leeftijd, e-mailadres, woonadres, land, geslacht, telefoonnummer, social-mediaprofiel.\n\nGegevens die wij hebben verkregen via uw interactie met Philips\nGegevens over uw interactie met en gebruik van de digitale kanalen van Philips, zoals social media, websites, e-mails, apps en gerelateerde producten. Deze gegevens kunnen bestaan uit: IP-adres, cookies, apparaatinformatie, berichten waarop u klikt, locatiegegevens en websites die u bezoekt\n\nU kunt uw toestemming aan Philips op ieder gewenst moment intrekken.\nLees voor meer informatie de Philips-privacyverklaring en de Philips-cookieverklaring.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philips-communicatie</string>
   <string name="DLS_Phonenumber_Label_Text">Telefoonnummer</string>
   <string name="DLS_ResendSMS_Body_Line1">Het kan enige tijd duren voordat de SMS met de code aankomt.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Wachtwoord vergeten?</string>
   <string name="Gender_TitleTxt">Geslacht</string>
   <string name="Generic_Network_Error">Oeps, er is iets fout gegaan. Probeer het later opnieuw</string>
-  <string name="Generic_Network_ErrorMsg">Kan geen verbinding maken met de server.
-Controleer uw internetverbinding en probeer het opnieuw.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Kan geen verbinding maken met de server.\nControleer uw internetverbinding en probeer het opnieuw.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Handtekening is verlopen vanwege een tijdsfout. Controleer de tijdsinstellingen van uw apparaat.</string>
   <string name="InValid_PwdErrorMsg">Het wachtwoord voldoet niet aan de wachtwoordrichtlijnen hieronder.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Ongeldig e-mailadres. Controleer het alstublieft.</string>
@@ -184,23 +183,18 @@ Controleer uw internetverbinding en probeer het opnieuw.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Voer een geldig e-mailadres in.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">We herkennen uw telefoonnummer niet. Controleer de landcode.</string>
   <string name="JanRain_Error_Check_Internet">Er is een probleem opgetreden met de netwerkverbinding. Probeer het opnieuw.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Kan geen verbinding maken met de server. %s.
-Hebt u nog steeds problemen? Neem contact op met klantenservice en vermeld de foutcode [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Kan geen verbinding maken met de server. %s.\nHebt u nog steeds problemen? Neem contact op met klantenservice en vermeld de foutcode [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Ga terug en meld u opnieuw aan.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Dit e-mailadres bestaat al. Meld u aan met dit adres of registreer u met een ander e-mailadres.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">Uw %s is al geregistreerd.</string>
   <string name="Janrain_Error_Need_Email_Verification">Controleer uw e-mail adres via de activatielink die naar uw e-mailaccount is verzonden</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Controleer uw mobiele nummer met de activeringscode die wij hebben verzonden naar uw mobiele nummer</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Kan geen verbinding maken met de server.
-Probeer het later opnieuw of raadpleeg onze veelgestelde vragen.
-Als ook dit uw vraag niet oplost, neem dan contact op met klantenservice en vermeld de foutcode [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Kan geen verbinding maken met de server.\nProbeer het later opnieuw of raadpleeg onze veelgestelde vragen.\nAls ook dit uw vraag niet oplost, neem dan contact op met klantenservice en vermeld de foutcode [%d]</string>
   <string name="Janrain_Invalid_Credentials">U hebt een onjuiste gebruikersnaam of een onjuist wachtwoord ingevoerd.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">Het %s of het wachtwoord dat u hebt opgegeven, is onjuist.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Er bestaat geen account voor dit e-mailadres. Maak een account aan met dit e-mailadres of voer een ander e-mailadres in.</string>
-  <string name="Janrain_LimitError_ErrorMsg">U hebt de limiet van het aantal mislukte pogingen bereikt.
-Probeer het later opnieuw.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">U hebt een onjuiste of verlopen verificatiecode ingevoerd.
-Voer de juiste code in of laat een nieuwe code opsturen.</string>
+  <string name="Janrain_LimitError_ErrorMsg">U hebt de limiet van het aantal mislukte pogingen bereikt.\nProbeer het later opnieuw.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">U hebt een onjuiste of verlopen verificatiecode ingevoerd.\nVoer de juiste code in of laat een nieuwe code opsturen.</string>
   <string name="LastNameField_ErrorMsg">Voer uw achternaam in</string>
   <string name="Login_Details_Txt">Aanmeldingsgegevens</string>
   <string name="MaxiumCharacters_ErrorMsg">U kunt maximaal 256 tekens invoeren.</string>
@@ -236,17 +230,13 @@ Voer de juiste code in of laat een nieuwe code opsturen.</string>
   <string name="Title_TooManyRequests_Txt">Te veel verzoeken</string>
   <string name="Title_UnexpectedError_Txt">Onverwachte fout</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Meld aan met uw Philips-account</string>
-  <string name="URX_SMS_Already_Verified">Account is al geverifieerd.
-Meld u aan om verder te gaan.</string>
-  <string name="URX_SMS_InternalServerError">SMS kan niet worden verstuurd.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Account is al geverifieerd.\nMeld u aan om verder te gaan.</string>
+  <string name="URX_SMS_InternalServerError">SMS kan niet worden verstuurd.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">We kunnen geen SMS naar dit telefoonnummer sturen.</string>
-  <string name="URX_SMS_Limit_Reached">De SMS-limiet is bereikt voor dit telefoonnummer.
-Probeer het opnieuw over %d seconden.</string>
+  <string name="URX_SMS_Limit_Reached">De SMS-limiet is bereikt voor dit telefoonnummer.\nProbeer het opnieuw over %d seconden.</string>
   <string name="URX_SMS_NoInformation_Available">Kan geen verbinding maken met de server. %s.</string>
   <string name="URX_SMS_Not_Sent">SMS is niet aangekomen. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-De landcode wordt niet ondersteund.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nDe landcode wordt niet ondersteund.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Probeer het later opnieuw</string>
   <string name="UnexpectedInternalError_ErrorMsg">Er is iets fout gegaan. Probeer het opnieuw.</string>
   <string name="Update_MobileNumber_Button_Text">Telefoonnummer bijwerken</string>

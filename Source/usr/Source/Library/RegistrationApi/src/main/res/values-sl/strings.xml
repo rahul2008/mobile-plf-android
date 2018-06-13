@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Posebne ponudbe, promocije in informacije iz prve roke o novih izdelkih na trgu. Prilagojeno posebej za vas.</string>
   <string name="DLS_Optin_Body_Line2">Pridružite se 140.000 somišljenikom.</string>
   <string name="DLS_Password_lbltxt">Geslo</string>
-  <string name="DLS_PhilipsNews_Description_Text">Ob vašem soglasju vam družbe iz skupine Philips glede na vaše izbire in vedenje lahko pošiljajo promocijska obvestila prek e-pošte, sporočil SMS in drugih digitalnih kanalov, kot so mobilne aplikacije in družabna omrežja. Da bomo obvestila lahko prilagodili vašim izbiram in vedenju ter vam nudili najboljše osebno prilagojeno doživetje, lahko analiziramo in združujemo vaše osebne podatke. Ti podatki lahko vključujejo: nnPodatke, ki nam jih posredujetenPodatke, ki jih aktivno delite z nami, kot so: ime, datum rojstva ali starost, e-poštni naslov, hišni naslov, država, spol, telefonska številka, profil v družabnem omrežju.nnPodatke, ki jih pridobimo prek komunikacije z družbo PhilipsnPodatke o vaši komunikaciji in uporabi Philipsovih digitalnih kanalov, kot so družabna omrežja, spletne strani, e-pošta, aplikacije in povezani izdelki. Ti podatki lahko vključujejo: naslov IP, piškotke, informacije o napravi, uporabljene povezave, podrobnosti o lokaciji in obiskane spletne strani.nnPhilips vam omogoča možnost, da soglasje kadarkoli prekličete.nVeč informacij lahko preberete v Philipsovem obvestilu o zasebnosti in Philipsovem obvestilu o piškotkih.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Ob vašem soglasju vam družbe iz skupine Philips glede na vaše izbire in vedenje lahko pošiljajo promocijska obvestila prek e-pošte, sporočil SMS in drugih digitalnih kanalov, kot so mobilne aplikacije in družabna omrežja. Da bomo obvestila lahko prilagodili vašim izbiram in vedenju ter vam nudili najboljše osebno prilagojeno doživetje, lahko analiziramo in združujemo vaše osebne podatke. Ti podatki lahko vključujejo: \n\nPodatke, ki nam jih posredujete\nPodatke, ki jih aktivno delite z nami, kot so: ime, datum rojstva ali starost, e-poštni naslov, hišni naslov, država, spol, telefonska številka, profil v družabnem omrežju.\n\nPodatke, ki jih pridobimo prek komunikacije z družbo Philips\nPodatke o vaši komunikaciji in uporabi Philipsovih digitalnih kanalov, kot so družabna omrežja, spletne strani, e-pošta, aplikacije in povezani izdelki. Ti podatki lahko vključujejo: naslov IP, piškotke, informacije o napravi, uporabljene povezave, podrobnosti o lokaciji in obiskane spletne strani.\n\nPhilips vam omogoča možnost, da soglasje kadarkoli prekličete.\nVeč informacij lahko preberete v Philipsovem obvestilu o zasebnosti in Philipsovem obvestilu o piškotkih.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Philipsova obvestila</string>
   <string name="DLS_Phonenumber_Label_Text">Telefonska številka</string>
   <string name="DLS_ResendSMS_Body_Line1">Za prejem sporočila SMS s kodo boste mogoče morali malo počakati.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Ste pozabili geslo?</string>
   <string name="Gender_TitleTxt">Spol</string>
   <string name="Generic_Network_Error">Opa! Nekaj je bilo narobe. Poskusite znova pozneje.</string>
-  <string name="Generic_Network_ErrorMsg">Povezave s strežnikom ni mogoče vzpostaviti.
-Preverite internetno povezavo in poskusite znova.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Povezave s strežnikom ni mogoče vzpostaviti.\nPreverite internetno povezavo in poskusite znova.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Podpis je potekel zaradi časovne napake. Preverite nastavitve časa na svoji napravi.</string>
   <string name="InValid_PwdErrorMsg">Geslo ni v skladu s spodnjimi smernicami za gesla.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Neveljaven e-poštni naslov. Preverite.</string>
@@ -184,23 +183,18 @@ Preverite internetno povezavo in poskusite znova.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Vnesite veljaven e-poštni naslov.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Ne prepoznamo vaše telefonske številke. Preverite kodo države.</string>
   <string name="JanRain_Error_Check_Internet">Pri omrežni povezavi je prišlo do težave. Poskusite znova.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Povezava s strežnikom ni mogoča. %s.
-Težava ni odpravljena? Obrnite se na center za pomoč uporabnikom in navedite kodo napake [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Povezava s strežnikom ni mogoča. %s.\nTežava ni odpravljena? Obrnite se na center za pomoč uporabnikom in navedite kodo napake [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Vrnite se in se znova prijavite.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Ta e-poštni naslov že obstaja. Prijavite se s tem naslovom ali se registrirajte z drugim.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">Že registrirano: %s.</string>
   <string name="Janrain_Error_Need_Email_Verification">Prek povezave, ki smo vam jo poslali v e-poštnem sporočilu, preverite svoj e-poštni naslov</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Potrdite mobilno telefonsko številko z aktivacijsko kodo, ki smo vam jo poslali na mobilno telefonsko številko.</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Povezave s strežnikom ni mogoče vzpostaviti.
-Poskusite znova pozneje ali preberite naše odgovore na pogosta vprašanja.
-Če ne najdete odgovora, se obrnite na center za pomoč uporabnikom in navedite kodo napake [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Povezave s strežnikom ni mogoče vzpostaviti.\nPoskusite znova pozneje ali preberite naše odgovore na pogosta vprašanja.\nČe ne najdete odgovora, se obrnite na center za pomoč uporabnikom in navedite kodo napake [%d]</string>
   <string name="Janrain_Invalid_Credentials">Vnesli ste napačno uporabniško ime ali geslo.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">Napačen vnos: %s ali geslo.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Račun za ta e-poštni naslov ne obstaja. Ustvarite račun s tem e-poštnim naslovom ali vnesite drug e-poštni naslov.</string>
-  <string name="Janrain_LimitError_ErrorMsg">Dosežena je bila omejitev neuspešnih poskusov.
-Poskusite znova pozneje.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Vnesli ste napačno ali pretečeno potrditveno kodo.
-Vnesite pravilno kodo ali jo pošljite ponovno.</string>
+  <string name="Janrain_LimitError_ErrorMsg">Dosežena je bila omejitev neuspešnih poskusov.\nPoskusite znova pozneje.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Vnesli ste napačno ali pretečeno potrditveno kodo.\nVnesite pravilno kodo ali jo pošljite ponovno.</string>
   <string name="LastNameField_ErrorMsg">Vnesite svoj priimek</string>
   <string name="Login_Details_Txt">Podrobnosti prijave</string>
   <string name="MaxiumCharacters_ErrorMsg">Ne morete vnesti več kot 256 znakov.</string>
@@ -236,16 +230,13 @@ Vnesite pravilno kodo ali jo pošljite ponovno.</string>
   <string name="Title_TooManyRequests_Txt">Preveč zahtev</string>
   <string name="Title_UnexpectedError_Txt">Nepričakovana napaka</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Prijava z računom Philips</string>
-  <string name="URX_SMS_Already_Verified">Račun je že potrjen.
-Za nadaljevanje se prijavite.</string>
-  <string name="URX_SMS_InternalServerError">SMS ni mogoče poslati.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Račun je že potrjen.\nZa nadaljevanje se prijavite.</string>
+  <string name="URX_SMS_InternalServerError">SMS ni mogoče poslati.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Na to tel. številko ne moremo poslati sporočila SMS.</string>
   <string name="URX_SMS_Limit_Reached">Za telefonsko številko je bila dosežena omejitev sporočil SMS. Poskusite znova čez %d sekund.</string>
   <string name="URX_SMS_NoInformation_Available">Povezava s strežnikom ni mogoča. %s.</string>
   <string name="URX_SMS_Not_Sent">Sporočila SMS ni bilo mogoče poslati. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-Koda države ni podprta.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nKoda države ni podprta.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Poskusite znova pozneje</string>
   <string name="UnexpectedInternalError_ErrorMsg">Žal je šlo nekaj narobe. Poskusite znova pozneje.</string>
   <string name="Update_MobileNumber_Button_Text">Posodobi telefonsko številko</string>

@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">特別オファー、プロモーション、新製品の発売に関する情報など、あなたにぴったりの情報をお届けします。</string>
   <string name="DLS_Optin_Body_Line2">14 万人のユーザーがいる my Philips に参加しましょう！</string>
   <string name="DLS_Password_lbltxt">パスワード</string>
-  <string name="DLS_PhilipsNews_Description_Text">お客様にご同意いただいた場合、フィリップスグループ各社が、メール、SMS、モバイルアプリやソーシャルメディアなどのその他デジタルチャネルを利用して、プロモーションについてご連絡させていただく場合があります。 お客様の嗜好や行動に応じて最適な情報をご提供するために、当社では、お客様の個人データを分析したり結びつけたりする場合があります。 それらのデータには次が含まれます： nnお客様にご提供いただく可能性のあるデータnお客様のお名前、生年月日、年齢、メールアドレス、住所、お住まいの国、性別、電話番号、ソーシャルメディアプロフィールなど、お客様が同意の上ご提供いただくデータ。nnお客様とのやり取りで当社が入手するデータnソーシャルメディア、ウェブサイト、メール、アプリ、コネクテッド製品などのフィリップスのデジタルチャネルでのやり取りおよび使用に関するデータ。 これらのデータには、IP アドレス、cookie、デバイス情報、お客様がクリックした情報、位置情報の詳細、アクセスしたウェブサイトなども含まれます。nnお客様はいつでも同意を取り消すことができます。n詳細については、当社のプライバシーに関する通知 および cookie に関するポリシーをお読みください。</string>
+  <string name="DLS_PhilipsNews_Description_Text">お客様にご同意いただいた場合、フィリップスグループ各社が、メール、SMS、モバイルアプリやソーシャルメディアなどのその他デジタルチャネルを利用して、プロモーションについてご連絡させていただく場合があります。 お客様の嗜好や行動に応じて最適な情報をご提供するために、当社では、お客様の個人データを分析したり結びつけたりする場合があります。 それらのデータには次が含まれます： \n\nお客様にご提供いただく可能性のあるデータ\nお客様のお名前、生年月日、年齢、メールアドレス、住所、お住まいの国、性別、電話番号、ソーシャルメディアプロフィールなど、お客様が同意の上ご提供いただくデータ。\n\nお客様とのやり取りで当社が入手するデータ\nソーシャルメディア、ウェブサイト、メール、アプリ、コネクテッド製品などのフィリップスのデジタルチャネルでのやり取りおよび使用に関するデータ。 これらのデータには、IP アドレス、cookie、デバイス情報、お客様がクリックした情報、位置情報の詳細、アクセスしたウェブサイトなども含まれます。\n\nお客様はいつでも同意を取り消すことができます。\n詳細については、当社のプライバシーに関する通知 および cookie に関するポリシーをお読みください。</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">フィリップスコミュニケーション</string>
   <string name="DLS_Phonenumber_Label_Text">電話番号</string>
   <string name="DLS_ResendSMS_Body_Line1">コードを記載した SMS が届くまで少々時間がかかることがあります。</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">パスワードをお忘れの場合</string>
   <string name="Gender_TitleTxt">性別</string>
   <string name="Generic_Network_Error">問題が発生しました。しばらくしてから再試行してください</string>
-  <string name="Generic_Network_ErrorMsg">サーバーに接続できません。
-インターネット接続を確認してから再試行してください。[%d]</string>
+  <string name="Generic_Network_ErrorMsg">サーバーに接続できません。\nインターネット接続を確認してから再試行してください。[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">タイムエラーのためシグネチャーが期限切れになりました。デバイスの時刻設定を確認してください。</string>
   <string name="InValid_PwdErrorMsg">パスワードが以下の条件に合っていません。</string>
   <string name="InvalidEmailAdddress_ErrorMsg">メールアドレスが無効です。確認してください。</string>
@@ -184,23 +183,18 @@
   <string name="InvalidOrMissingEmail_ErrorMsg">有効なメールアドレスを入力してください。</string>
   <string name="InvalidPhoneNumber_ErrorMsg">電話番号を認識できませんでした。国番号を確認してください。</string>
   <string name="JanRain_Error_Check_Internet">ネットワーク接続に問題があります。再試行してください。</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">サーバーに接続できません。%s。
-問題が解決しない場合は、カスタマーケアにお問い合わせください。その際エラーコード [%d] をお伝えください</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">サーバーに接続できません。%s。\n問題が解決しない場合は、カスタマーケアにお問い合わせください。その際エラーコード [%d] をお伝えください</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s。戻って再度ログインしてください。</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">このメールアドレスは既に存在します。このアドレスを使用してログインするか、別のアドレスを使用して登録してください。</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">%s は既に登録されています。</string>
   <string name="Janrain_Error_Need_Email_Verification">お客様のメールアカウントに送信されたアクティベーションリンクを使用して、メールアドレスの照合を行ってください。</string>
   <string name="Janrain_Error_Need_Mobile_Verification">携帯電話番号にお送りしたアクティベーションコードを使用して、携帯電話番号を確認してください。</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">サーバーに接続できません。
-しばらくしてから再試行するか、よくある質問で詳細を確認してください。
-問題が解決しない場合は、サポートにお問い合わせください。その際エラーコード [%d] をお伝えください</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">サーバーに接続できません。\nしばらくしてから再試行するか、よくある質問で詳細を確認してください。\n問題が解決しない場合は、サポートにお問い合わせください。その際エラーコード [%d] をお伝えください</string>
   <string name="Janrain_Invalid_Credentials">入力されたユーザー名またはパスワードが間違っています。</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">入力された %s またはパスワードが間違っています。</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">このメールアドレスのアカウントは存在しません。このメールアドレスを使用してアカウントを作成するか、別のメールアドレスを入力してください。</string>
-  <string name="Janrain_LimitError_ErrorMsg">試行回数の上限に達しました。
-しばらくしてから再試行してください。</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">入力された確認コードが間違っているか、期限切れです。
-正しいコードを入力するか、コードを再送信してください。</string>
+  <string name="Janrain_LimitError_ErrorMsg">試行回数の上限に達しました。\nしばらくしてから再試行してください。</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">入力された確認コードが間違っているか、期限切れです。\n正しいコードを入力するか、コードを再送信してください。</string>
   <string name="LastNameField_ErrorMsg">名前（姓）を入力してください</string>
   <string name="Login_Details_Txt">ログイン詳細</string>
   <string name="MaxiumCharacters_ErrorMsg">256 文字を超える入力はできません。</string>
@@ -236,17 +230,13 @@
   <string name="Title_TooManyRequests_Txt">リクエスト過多</string>
   <string name="Title_UnexpectedError_Txt">不明なエラー</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">MyPhilipsでログイン</string>
-  <string name="URX_SMS_Already_Verified">アカウントは確認済みです。
-ログインして続行してください。</string>
-  <string name="URX_SMS_InternalServerError">SMS を送信できません。
-%s。</string>
+  <string name="URX_SMS_Already_Verified">アカウントは確認済みです。\nログインして続行してください。</string>
+  <string name="URX_SMS_InternalServerError">SMS を送信できません。\n%s。</string>
   <string name="URX_SMS_Invalid_PhoneNumber">この電話番号には SMS を送信できません。</string>
-  <string name="URX_SMS_Limit_Reached">SMS の試行回数の上限に達しました。
-%d 秒以内に再試行してください。</string>
+  <string name="URX_SMS_Limit_Reached">SMS の試行回数の上限に達しました。\n%d 秒以内に再試行してください。</string>
   <string name="URX_SMS_NoInformation_Available">サーバーに接続できません。%s。</string>
   <string name="URX_SMS_Not_Sent">SMS を送信できませんでした。%s。</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-入力された国番号はサポートされていません。</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\n入力された国番号はサポートされていません。</string>
   <string name="USR_Error_PleaseTryLater_Txt">しばらくしてから再試行してください</string>
   <string name="UnexpectedInternalError_ErrorMsg">問題が発生しました。再試行してください。</string>
   <string name="Update_MobileNumber_Button_Text">電話番号を更新</string>

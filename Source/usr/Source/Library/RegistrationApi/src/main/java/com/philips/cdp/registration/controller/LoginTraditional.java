@@ -149,7 +149,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         RLog.d(TAG,"onFlowDownloadFailure : is called");
         if (mTraditionalLoginHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.Janrain_HSDP_ServerErrorMsg));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.TRADITIONAL_LOGIN_FAILED_SERVER_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->

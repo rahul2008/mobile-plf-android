@@ -440,7 +440,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     public void viewOrHideNotificationBar() {
         if (popupWindow == null) {
             View view = getRegistrationFragment().getNotificationContentView(
-                    context.getResources().getString(R.string.reg_Resend_SMS_Success_Content),
+                    context.getResources().getString(R.string.DLS_ResendSMS_NotificationBar_Title),
                     user.getMobile());
             RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess mobile" + user.getMobile());
             popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,

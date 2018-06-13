@@ -123,7 +123,7 @@
   <string name="DLS_Optin_Body_Line1">Oferte speciale, promoţii şi informaţii direct de la sursă despre noile produse lansate. Adaptate special pentru tine!</string>
   <string name="DLS_Optin_Body_Line2">Alătură-te acum celor 140.000 de colegi!</string>
   <string name="DLS_Password_lbltxt">Parolă</string>
-  <string name="DLS_PhilipsNews_Description_Text">Ca urmare a consimţământului tău, companiile din grupul Philips ar putea să te contacteze cu comunicaţii promoţionale prin e-mail, SMS şi alte canale digitale, cum ar fi aplicaţiile mobile şi reţelele sociale. Pentru a adapta comunicaţiile în funcţie de comportamentul şi preferinţele tale şi a-ţi oferi cea mai bună şi personalizată experienţă, este posibil să analizăm şi să combinăm datele tale personale. Cand vom analiza si combina datele tale personale, o vom face doar in conformitate cu prevederile legale aplicabile, care ar putea implica obtinerea unei prealabile aprobari sau confirmari si/ sau de informatii suplimentare din partea ta. Aceste date pot include: nnDatele furnizate de tinenDatele pe care doreşti să le partajezi activ cu noi, precum numele, data naşterii sau vârsta, adresa de e-mail, adresa fizică, ţara, sexul, numărul de telefon, profilul de reţele sociale.nnDatele pe care le primim din interacţiunile tale cu PhilipsnDatele despre interacţiunile cu şi folosirea canalelor digitale Philips, cum ar fi reţelele de socializare, site-urile web, e-mailurile, aplicaţiile şi produsele conectate. Aceste date pot include adresa IP, module cookie, informaţii despre dispozitiv, comunicaţiile pe care faci clic, detalii despre locaţie şi despre site-uri web pe care le accesezinnPhilips îţi oferă oportunitatea să-ţi retragi consimţământul în orice moment.nPentru mai multe informaţii, citeşte notificarea de confidenţialitate Philips şi notificarea privind modulele cookie Philips.</string>
+  <string name="DLS_PhilipsNews_Description_Text">Ca urmare a consimţământului tău, companiile din grupul Philips ar putea să te contacteze cu comunicaţii promoţionale prin e-mail, SMS şi alte canale digitale, cum ar fi aplicaţiile mobile şi reţelele sociale. Pentru a adapta comunicaţiile în funcţie de comportamentul şi preferinţele tale şi a-ţi oferi cea mai bună şi personalizată experienţă, este posibil să analizăm şi să combinăm datele tale personale. Cand vom analiza si combina datele tale personale, o vom face doar in conformitate cu prevederile legale aplicabile, care ar putea implica obtinerea unei prealabile aprobari sau confirmari si/ sau de informatii suplimentare din partea ta. Aceste date pot include: \n\nDatele furnizate de tine\nDatele pe care doreşti să le partajezi activ cu noi, precum numele, data naşterii sau vârsta, adresa de e-mail, adresa fizică, ţara, sexul, numărul de telefon, profilul de reţele sociale.\n\nDatele pe care le primim din interacţiunile tale cu Philips\nDatele despre interacţiunile cu şi folosirea canalelor digitale Philips, cum ar fi reţelele de socializare, site-urile web, e-mailurile, aplicaţiile şi produsele conectate. Aceste date pot include adresa IP, module cookie, informaţii despre dispozitiv, comunicaţiile pe care faci clic, detalii despre locaţie şi despre site-uri web pe care le accesezi\n\nPhilips îţi oferă oportunitatea să-ţi retragi consimţământul în orice moment.\nPentru mai multe informaţii, citeşte notificarea de confidenţialitate Philips şi notificarea privind modulele cookie Philips.</string>
   <string name="DLS_PhilipsNews_NavigationBar_Title">Comunicare Philips</string>
   <string name="DLS_Phonenumber_Label_Text">Număr de telefon</string>
   <string name="DLS_ResendSMS_Body_Line1">Poate dura ceva timp până vei primi mesajul SMS cu codul.</string>
@@ -175,8 +175,7 @@
   <string name="Forgot_Password_Title">Ai uitat parola?</string>
   <string name="Gender_TitleTxt">Sex</string>
   <string name="Generic_Network_Error">Ups! A apărut o problemă. Încearcă din nou mai târziu.</string>
-  <string name="Generic_Network_ErrorMsg">Conectarea la server nu este posibilă.
-Verifică-ţi conexiunea la internet şi încearcă din nou.[%d]</string>
+  <string name="Generic_Network_ErrorMsg">Conectarea la server nu este posibilă.\nVerifică-ţi conexiunea la internet şi încearcă din nou.[%d]</string>
   <string name="HSDP_Signature_Expired_TimeErrorMsg">Semnătură expirată din cauza unei erori temporale. Verifică setările de oră ale dispozitivului.</string>
   <string name="InValid_PwdErrorMsg">Parola nu corespunde indicaţiilor pentru parolă de mai jos.</string>
   <string name="InvalidEmailAdddress_ErrorMsg">Adresă de e-mail nevalidă. Te rugăm să verifici.</string>
@@ -184,23 +183,18 @@ Verifică-ţi conexiunea la internet şi încearcă din nou.[%d]</string>
   <string name="InvalidOrMissingEmail_ErrorMsg">Introdu o adresă de e-mail valabilă.</string>
   <string name="InvalidPhoneNumber_ErrorMsg">Nu îţi putem recunoaşte numărul de telefon. Verifică codul de ţară.</string>
   <string name="JanRain_Error_Check_Internet">A apărut o problemă la conexiunea la reţea. Încearcă din nou.</string>
-  <string name="JanRain_Server_ConnectionLost_ErrorMsg">Conectarea la server nu este posibilă. %s.
-Mai ai încă dificultăţi? Contactează asistenţa clienţi, specificând codul de eroare [%d]</string>
+  <string name="JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Conectarea la server nu este posibilă. %s.\nMai ai încă dificultăţi? Contactează asistenţa clienţi, specificând codul de eroare [%d]</string>
   <string name="Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Revino şi conectează-te din nou.</string>
   <string name="Janrain_EmailAddressInUse_ErrorMsg">Această adresă de e-mail există deja. Conectează-te utilizând această adresă sau înregistrează-te utilizând altă adresă.</string>
   <string name="Janrain_EntityAlreadyExists_ErrorMsg">%s este deja înregistrat.</string>
   <string name="Janrain_Error_Need_Email_Verification">Te rugăm să-ţi verifici adresa de e-mail prin legătura de activare expediată către contul tău de e-mail</string>
   <string name="Janrain_Error_Need_Mobile_Verification">Verifică-ţi numărul de telefon mobil folosind codul de activare trimis la numărul tău de telefon mobil</string>
-  <string name="Janrain_HSDP_ServerErrorMsg">Conectarea la server nu este posibilă.
-Încearcă mai târziu sau consultă întrebările frecvente pentru mai multe informaţii.
-Dacă nu găseşti răspuns, contactează asistenţa clienţi, specificând codul de eroare [%d]</string>
+  <string name="Janrain_HSDP_ServerErrorMsg">Conectarea la server nu este posibilă.\nÎncearcă mai târziu sau consultă întrebările frecvente pentru mai multe informaţii.\nDacă nu găseşti răspuns, contactează asistenţa clienţi, specificând codul de eroare [%d]</string>
   <string name="Janrain_Invalid_Credentials">Numele de utilizator sau parola introdusă este incorectă.</string>
   <string name="Janrain_Invalid_Credentials_ErrorMsg">%s sau parola introdusă nu este corectă.</string>
   <string name="Janrain_Invalid_Credentials_ForgotPasswordFlow_ErrorMsg">Nu există niciun cont pentru acest e-mail. Creează un cont utilizând acest e-mail sau introdu altă adresă de e-mail.</string>
-  <string name="Janrain_LimitError_ErrorMsg">S-a atins limita de încercări nereuşite.
-Încearcă din nou mai târziu.</string>
-  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Ai introdus un cod de verificare incorect sau expirat.
-Introdu codul corect sau retrimite codul.</string>
+  <string name="Janrain_LimitError_ErrorMsg">S-a atins limita de încercări nereuşite.\nÎncearcă din nou mai târziu.</string>
+  <string name="Janrain_VerificationCodeExpired_ErrorMsg">Ai introdus un cod de verificare incorect sau expirat.\nIntrodu codul corect sau retrimite codul.</string>
   <string name="LastNameField_ErrorMsg">Introdu numele de familie</string>
   <string name="Login_Details_Txt">Detalii conectare</string>
   <string name="MaxiumCharacters_ErrorMsg">Nu poţi să introduci mai mult de 256 de caractere.</string>
@@ -236,17 +230,13 @@ Introdu codul corect sau retrimite codul.</string>
   <string name="Title_TooManyRequests_Txt">Prea multe solicitări</string>
   <string name="Title_UnexpectedError_Txt">Eroare neaşteptată</string>
   <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Conectează-te cu ajutorul contului Philips</string>
-  <string name="URX_SMS_Already_Verified">Cont deja verificat.
-Conectează-te pentru a continua.</string>
-  <string name="URX_SMS_InternalServerError">Nu se poate trimite SMS-ul.
-%s.</string>
+  <string name="URX_SMS_Already_Verified">Cont deja verificat.\nConectează-te pentru a continua.</string>
+  <string name="URX_SMS_InternalServerError">Nu se poate trimite SMS-ul.\n%s.</string>
   <string name="URX_SMS_Invalid_PhoneNumber">Nu putem trimite un SMS la acest număr de telefon.</string>
-  <string name="URX_SMS_Limit_Reached">S-a atins limita de SMS-uri pentru acest număr de telefon.
-Încearcă din nou după %d secunde.</string>
+  <string name="URX_SMS_Limit_Reached">S-a atins limita de SMS-uri pentru acest număr de telefon.\nÎncearcă din nou după %d secunde.</string>
   <string name="URX_SMS_NoInformation_Available">Imposibil de conectat la server. %s.</string>
   <string name="URX_SMS_Not_Sent">Nu s-a putut livra SMS-ul. %s.</string>
-  <string name="URX_SMS_UnSupported_Country_ForSMS">%s
-Codul de ţară nu este acceptat.</string>
+  <string name="URX_SMS_UnSupported_Country_ForSMS">%s\nCodul de ţară nu este acceptat.</string>
   <string name="USR_Error_PleaseTryLater_Txt">Încearcă din nou mai târziu</string>
   <string name="UnexpectedInternalError_ErrorMsg">Ne pare rău, a apărut o problemă. Încearcă din nou.</string>
   <string name="Update_MobileNumber_Button_Text">Actualizează-ţi numărul de telefon</string>
