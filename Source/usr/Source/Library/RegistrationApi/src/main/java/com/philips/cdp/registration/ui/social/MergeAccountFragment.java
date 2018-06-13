@@ -135,7 +135,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtPassword.requestFocus();
         mEtPassword.setValidator(password -> password.length() > 0);
-        mEtPassword.setErrorMessage(getString(R.string.reg_EmptyField_ErrorMsg));
+        mEtPassword.setErrorMessage(getString(R.string.EmptyField_ErrorMsg));
 
 
         trackActionStatus(AppTagingConstants.SEND_DATA,

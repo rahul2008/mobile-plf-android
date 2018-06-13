@@ -184,7 +184,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             boolean isEmailVerifiedError = true;
             mBundle.putBoolean("isEmailVerifiedError", isEmailVerifiedError);
             mBundle.putString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY,
-                    mContext.getResources().getString(R.string.reg_RegEmailNotVerified_AlertPopupErrorText));
+                    mContext.getResources().getString(R.string.Janrain_Error_Need_Email_Verification));
         }
     }
 

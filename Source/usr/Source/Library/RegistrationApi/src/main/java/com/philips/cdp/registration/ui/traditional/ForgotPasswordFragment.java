@@ -318,7 +318,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                         })
                         .setDimLayer(DialogConstants.DIM_STRONG)
                         .setCancelable(false);
-                builder.setTitle(getString(R.string.reg_ForgotPwdEmailResendMsg_Title));
+                builder.setTitle(getString(R.string.DLS_Forgot_Password_Alert_Title));
                 alertDialogFragment = builder.create();
                 alertDialogFragment.show(getFragmentManager(), null);
             }

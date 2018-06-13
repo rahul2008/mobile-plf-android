@@ -465,7 +465,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogLayout(R.layout.forgot_password_dialog)
                 .setPositiveButton(mContext.getResources().getString(R.string.DLS_Forgot_Password_Alert_Button_Title), this)
-                .setTitle(mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg_Title))
+                .setTitle(mContext.getResources().getString(R.string.DLS_Forgot_Password_Alert_Title))
                 .setCancelable(false);
         alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
@@ -576,8 +576,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void handleResendVerificationEmailSuccess() {
         RLog.i(TAG, "handleResendVerificationEmailSuccess");
         trackMultipleActionResendEmailStatus();
-        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Verification_email_Title),
-                mContext.getResources().getString(R.string.reg_Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.DLS_Resend_Email_NotificationBar_Title),
+                mContext.getResources().getString(R.string.DLS_Resend_Email_Body_Line1), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
     }
 
     private void trackMultipleActionResendEmailStatus() {
