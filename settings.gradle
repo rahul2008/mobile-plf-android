@@ -58,7 +58,7 @@ include ':NeuraUApp'
 
 //opa archive references:
 project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra')
-project(':AppInfraUApp').projectDir = new File('./Source/ail/Source/DemoUApp/app-infra-demo-uapp')
+project(':AppInfraUApp').projectDir = new File('./Source/ail/Source/DemoUApp/')
 project(':prx').projectDir = new File('./Source/prx/Source/Library/PrxSample/prx')
 project(':uikitLib').projectDir = new File('./Source/uit/Source/UiKit/uikitLib')
 project(':uid').projectDir = new File('./Source/uid/Source/UIKit/uid')
