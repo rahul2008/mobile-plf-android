@@ -14,10 +14,13 @@ Version 1802
 * N/A
 
 ### Breaking Changes
+* \#72961 ApplianceFactory is no longer providing supported device types. Only the filter that is provided when starting discovery is taken into account.
+* \#72961 DiscoveryStrategy now only takes one argument as filter for `start` method.
 * The TransportContext interface does not extend the Availability interface anymore
 * \#127781 CommCentral requires runtime configuration to enable secure nodes storage. Secure storage requires AppInfraInterface provided via RuntimeConfiguration.
 
 ### Defects solved
+* \#72961 - Changed filtering of discovered devices to be in line with iOS version of library: filter only passed to startDiscovery() call.
 * \#121886 - Firmware update always starts from 0. Brought behaviour inline with iOS
 * \#127781 - CommLib persists NetworkNodes in secure manner. The feature is backwards compatible: existing stored nodes are migrated to secure DB.
 * \#134047 - Database migration for secure and unsecure databases now all use incremental version numbers.
