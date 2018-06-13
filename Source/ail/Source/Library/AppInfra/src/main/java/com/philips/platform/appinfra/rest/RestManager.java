@@ -23,12 +23,12 @@ import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
+import com.philips.platform.appinfra.rest.sslpinning.PinnedSignatureManager;
+import com.philips.platform.appinfra.rest.sslpinning.PublicKeyPinInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.io.File;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -40,7 +40,7 @@ public class RestManager implements RestInterface {
     private static final long serialVersionUID = -5276610949381468217L;
     private transient RequestQueue mRequestQueue;
     private AppInfra mAppInfra;
-    private PinnedSignatureManager pinnedSignatureManager;
+    private PublicKeyPinInterface pinnedSignatureManager;
     private ArrayList<NetworkConnectivityChangeListener> networkConnectivityChangeListeners = new ArrayList<>();
 
     public RestManager(AppInfra appInfra) {

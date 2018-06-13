@@ -6,6 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.HttpResponse;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.sslpinning.PublicKeyPinInterface;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
