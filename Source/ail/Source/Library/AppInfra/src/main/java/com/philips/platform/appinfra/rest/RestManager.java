@@ -23,8 +23,8 @@ import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
-import com.philips.platform.appinfra.rest.sslpinning.PinnedSignatureManager;
-import com.philips.platform.appinfra.rest.sslpinning.PublicKeyPinInterface;
+import com.philips.platform.appinfra.rest.hpkp.HPKPManager;
+import com.philips.platform.appinfra.rest.hpkp.HPKPInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.io.File;
@@ -40,13 +40,13 @@ public class RestManager implements RestInterface {
     private static final long serialVersionUID = -5276610949381468217L;
     private transient RequestQueue mRequestQueue;
     private AppInfra mAppInfra;
-    private PublicKeyPinInterface pinnedSignatureManager;
+    private HPKPInterface pinnedSignatureManager;
     private ArrayList<NetworkConnectivityChangeListener> networkConnectivityChangeListeners = new ArrayList<>();
 
     public RestManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         VolleyLog.DEBUG = false;
-        pinnedSignatureManager = new PinnedSignatureManager(mAppInfra);
+        pinnedSignatureManager = new HPKPManager(mAppInfra);
         appInfra.getAppInfraContext().registerReceiver(new NetworkChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
