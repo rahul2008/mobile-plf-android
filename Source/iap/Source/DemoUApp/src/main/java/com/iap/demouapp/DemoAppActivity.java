@@ -187,6 +187,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mShoppingCart.setOnClickListener(null);
+    }
+
     private void onResumeRetailer(){
         mAddCTNLl.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
