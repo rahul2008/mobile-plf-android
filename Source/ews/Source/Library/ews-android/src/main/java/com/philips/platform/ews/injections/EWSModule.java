@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
@@ -12,13 +12,11 @@ import android.os.Looper;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.platform.ews.appliance.EWSGenericAppliance;
 import com.philips.platform.ews.communication.DiscoveryHelper;
@@ -33,15 +31,13 @@ import com.philips.platform.ews.setupsteps.SecondSetupStepsViewModel;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.util.StringProvider;
 import com.philips.platform.ews.wifi.WiFiUtil;
-
-import java.util.UUID;
-import java.util.concurrent.Executors;
+import dagger.Module;
+import dagger.Provides;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
+import java.util.UUID;
+import java.util.concurrent.Executors;
 
 
 @SuppressWarnings("WeakerAccess")
@@ -71,7 +67,7 @@ public class EWSModule {
 
     @Provides
     @Singleton
-    CommCentral provideCommCentral(){
+    CommCentral provideCommCentral() {
         return commCentral;
     }
 
@@ -81,27 +77,27 @@ public class EWSModule {
         NetworkNode fakeNetworkNode = createFakeNetworkNodeForHotSpot();
         ConnectivityMonitor monitor =
                 ConnectivityMonitor.forNetworkTypes(context, ConnectivityManager.TYPE_WIFI);
-        LanDeviceCache lanDeviceCache = createLanCache();
-        injectFakeNodeIntoDeviceCache(lanDeviceCache, fakeNetworkNode);
+        DeviceCache deviceCache = createLanCache();
+        injectFakeNodeIntoDeviceCache(deviceCache, fakeNetworkNode);
         // We are intentionally not creating the strategy from the transport context!
         CommunicationStrategy communicationStrategy = new LanCommunicationStrategy(fakeNetworkNode,
-                lanDeviceCache, monitor);
+                deviceCache, monitor);
         return new EWSGenericAppliance(fakeNetworkNode, communicationStrategy);
     }
 
-    private void injectFakeNodeIntoDeviceCache(@NonNull LanDeviceCache lanDeviceCache,
+    private void injectFakeNodeIntoDeviceCache(@NonNull DeviceCache deviceCache,
                                                @NonNull NetworkNode fakeNetworkNode) {
-        lanDeviceCache.addNetworkNode(fakeNetworkNode, new DeviceCache.ExpirationCallback() {
+        deviceCache.add(fakeNetworkNode, new DeviceCache.ExpirationCallback() {
             @Override
             public void onCacheExpired(NetworkNode networkNode) {
                 // Do nothing
             }
         }, 300);
-        lanDeviceCache.stopTimers();
+        deviceCache.stopTimers();
     }
 
-    private LanDeviceCache createLanCache() {
-        return new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
+    private DeviceCache createLanCache() {
+        return new DeviceCache(Executors.newSingleThreadScheduledExecutor());
     }
 
     private NetworkNode createFakeNetworkNodeForHotSpot() {

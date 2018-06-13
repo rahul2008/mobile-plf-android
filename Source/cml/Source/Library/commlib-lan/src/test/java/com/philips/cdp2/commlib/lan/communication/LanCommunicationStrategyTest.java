@@ -7,14 +7,12 @@ package com.philips.cdp2.commlib.lan.communication;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
-import com.philips.cdp2.commlib.lan.LanDeviceCache;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -43,7 +41,7 @@ public class LanCommunicationStrategyTest {
     private NetworkNode networkNodeMock;
 
     @Mock
-    private LanDeviceCache lanDeviceCacheMock;
+    private DeviceCache deviceCacheMock;
 
     @Mock
     private RequestQueue requestQueueMock;
@@ -60,7 +58,7 @@ public class LanCommunicationStrategyTest {
         DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
 
-        lanCommunicationStrategy = new LanCommunicationStrategy(networkNodeMock, lanDeviceCacheMock, connectivityMonitor) {
+        lanCommunicationStrategy = new LanCommunicationStrategy(networkNodeMock, deviceCacheMock, connectivityMonitor) {
             @Override
             @NonNull
             RequestQueue createRequestQueue() {

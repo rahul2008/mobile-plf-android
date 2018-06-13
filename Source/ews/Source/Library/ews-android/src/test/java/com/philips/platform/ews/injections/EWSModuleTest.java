@@ -8,11 +8,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.support.v4.app.FragmentManager;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
 import com.philips.platform.ews.configuration.HappyFlowContentConfiguration;
@@ -22,7 +21,6 @@ import com.philips.platform.ews.permission.PermissionHandler;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.util.StringProvider;
 import com.philips.platform.ews.wifi.WiFiUtil;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +36,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CommCentral.class, ConnectivityMonitor.class,EWSModule.class})
+@PrepareForTest({CommCentral.class, ConnectivityMonitor.class, EWSModule.class})
 public class EWSModuleTest {
 
     private EWSModule subject;
@@ -78,7 +76,7 @@ public class EWSModuleTest {
 
     @Mock
     WiFiUtil mockWiFiUtil;
-    
+
 
     @Mock
     ConnectivityMonitor mockConnectivityMonitor;
@@ -90,7 +88,7 @@ public class EWSModuleTest {
     NetworkNode mockNetworkNode;
 
     @Mock
-    LanDeviceCache mockDeviceCache;
+    DeviceCache mockDeviceCache;
 
 
     @Before
@@ -115,7 +113,7 @@ public class EWSModuleTest {
     @Test
     public void provideTemporaryAppliance() throws Exception {
         when(ConnectivityMonitor.forNetworkTypes(mockContext, ConnectivityManager.TYPE_WIFI)).thenReturn(mockConnectivityMonitor);
-        whenNew(LanCommunicationStrategy.class).withArguments(mockNetworkNode,mockDeviceCache,mockConnectivityMonitor).thenReturn(mockCommunicationStrategy);
+        whenNew(LanCommunicationStrategy.class).withArguments(mockNetworkNode, mockDeviceCache, mockConnectivityMonitor).thenReturn(mockCommunicationStrategy);
         subject.provideTemporaryAppliance();
 
     }

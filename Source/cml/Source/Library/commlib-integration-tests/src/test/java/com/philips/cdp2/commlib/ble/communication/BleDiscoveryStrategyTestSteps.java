@@ -8,26 +8,30 @@ package com.philips.cdp2.commlib.ble.communication;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.ble.BleCacheData;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
+import com.philips.cdp2.commlib.core.devicecache.CacheData;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.BleScanRecord;
-
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -41,12 +45,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
@@ -77,7 +75,7 @@ public class BleDiscoveryStrategyTestSteps {
     private RuntimeConfiguration mockRuntimeConfiguration;
 
     private BleDiscoveryStrategy bleDiscoveryStrategy;
-    private BleDeviceCache bleDeviceCache;
+    private DeviceCache deviceCache;
     private static int cppId = 0;
 
     @Mock
@@ -88,6 +86,9 @@ public class BleDiscoveryStrategyTestSteps {
 
     @Mock
     private Context contextMock;
+
+    @Mock
+    private SHNCentral mockShnCentral;
 
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
@@ -103,9 +104,9 @@ public class BleDiscoveryStrategyTestSteps {
 
         final Context mockContext = mock(Context.class);
 
-        bleDeviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
+        deviceCache = new DeviceCache(Executors.newSingleThreadScheduledExecutor());
 
-        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner) {
+        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, deviceCache, deviceScanner) {
             @Override
             public int checkAndroidPermission(Context context, String permission) {
                 return PERMISSION_GRANTED;
@@ -143,7 +144,7 @@ public class BleDiscoveryStrategyTestSteps {
             @Override
             public Appliance createApplianceForNode(@NonNull final NetworkNode networkNode) {
                 if (canCreateApplianceForNode(networkNode)) {
-                    return new Appliance(networkNode, new BleCommunicationStrategy(networkNode.getCppId(), bleDeviceCache, callbackHandlerMock)) {
+                    return new Appliance(networkNode, new BleCommunicationStrategy(mockShnCentral, networkNode, callbackHandlerMock)) {
                         @Override
                         public String getDeviceType() {
                             return networkNode.getDeviceType();
@@ -281,12 +282,11 @@ public class BleDiscoveryStrategyTestSteps {
         for (String applianceName : appliances) {
             for (Appliance appliance : availableAppliances) {
                 if (applianceName.equals(appliance.getName())) {
-                    final BleCacheData cacheData = bleDeviceCache.getCacheData(appliance.getNetworkNode().getCppId());
+                    final CacheData cacheData = deviceCache.getCacheData(appliance.getNetworkNode().getCppId());
                     if (cacheData == null) {
                         continue;
                     }
 
-                    when(cacheData.getDevice().getState()).thenReturn(SHNDevice.State.Disconnected);
                     cacheData.getExpirationCallback().onCacheExpired(appliance.getNetworkNode());
                 }
             }

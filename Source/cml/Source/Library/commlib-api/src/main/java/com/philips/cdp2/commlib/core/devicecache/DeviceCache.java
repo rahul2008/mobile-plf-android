@@ -6,7 +6,7 @@
 package com.philips.cdp2.commlib.core.devicecache;
 
 import android.support.annotation.NonNull;
-
+import android.support.annotation.VisibleForTesting;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import java.util.ArrayList;
@@ -19,12 +19,12 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import static java.util.Collections.unmodifiableCollection;
 
-public class DeviceCache<T extends CacheData> {
+public class DeviceCache {
 
-    public interface DeviceCacheListener<T> {
-        void onAdded(T cacheData);
+    public interface DeviceCacheListener {
+        void onAdded(CacheData cacheData);
 
-        void onRemoved(T cacheData);
+        void onRemoved(CacheData cacheData);
     }
 
     public interface ExpirationCallback {
@@ -35,9 +35,9 @@ public class DeviceCache<T extends CacheData> {
     protected final ScheduledExecutorService executor;
 
     @NonNull
-    private final Map<String, T> data = new ConcurrentHashMap<>();
+    private final Map<String, CacheData> data = new ConcurrentHashMap<>();
 
-    private final Set<DeviceCacheListener<T>> deviceCacheListeners = new CopyOnWriteArraySet<>();
+    private final Set<DeviceCacheListener> deviceCacheListeners = new CopyOnWriteArraySet<>();
 
     public DeviceCache(@NonNull final ScheduledExecutorService executor) {
         this.executor = executor;
@@ -49,8 +49,8 @@ public class DeviceCache<T extends CacheData> {
      *
      * @return the collection of items that are removed from the cache.
      */
-    public synchronized Collection<T> clear() {
-        final Collection<T> cleared = unmodifiableCollection(new ArrayList<>(data.values()));
+    public synchronized Collection<CacheData> clear() {
+        final Collection<CacheData> cleared = unmodifiableCollection(new ArrayList<>(data.values()));
 
         for (String key : data.keySet()) {
             remove(key);
@@ -59,12 +59,17 @@ public class DeviceCache<T extends CacheData> {
     }
 
     public void stopTimers() {
-        for (T cacheData : data.values()) {
+        for (CacheData cacheData : data.values()) {
             cacheData.stopTimer();
         }
     }
 
-    public synchronized void add(T cacheData) {
+    public void add(final @NonNull NetworkNode networkNode, final @NonNull ExpirationCallback expirationCallback, long expirationPeriodMillis) {
+        add(new CacheData(executor, expirationCallback, expirationPeriodMillis, networkNode));
+    }
+
+    @VisibleForTesting
+    synchronized void add(CacheData cacheData) {
         if (cacheData.getExpirationPeriodMillis() <= 0L) {
             throw new IllegalArgumentException("Expiration period must be a positive non-zero value.");
         }
@@ -79,7 +84,7 @@ public class DeviceCache<T extends CacheData> {
         }
     }
 
-    public T getCacheData(@NonNull final String cppId) {
+    public CacheData getCacheData(@NonNull final String cppId) {
         return data.get(cppId);
     }
 
@@ -87,8 +92,8 @@ public class DeviceCache<T extends CacheData> {
         return data.containsKey(cppId);
     }
 
-    public T remove(@NonNull final String cppId) {
-        final T cacheData = data.remove(cppId);
+    public CacheData remove(@NonNull final String cppId) {
+        final CacheData cacheData = data.remove(cppId);
         cacheData.stopTimer();
 
         notifyCacheDataRemoved(cacheData);
@@ -96,27 +101,27 @@ public class DeviceCache<T extends CacheData> {
         return cacheData;
     }
 
-    public void addDeviceCacheListener(final @NonNull DeviceCacheListener<T> listener, String forCppId) {
+    public void addDeviceCacheListener(final @NonNull DeviceCacheListener listener, String forCppId) {
         deviceCacheListeners.add(listener);
 
-        final T cacheData = data.get(forCppId);
+        final CacheData cacheData = data.get(forCppId);
         if (cacheData != null) {
             notifyCacheDataAdded(cacheData);
         }
     }
 
-    public void removeDeviceCacheListener(final @NonNull DeviceCacheListener<T> listener) {
+    public void removeDeviceCacheListener(final @NonNull DeviceCacheListener listener) {
         deviceCacheListeners.remove(listener);
     }
 
-    private void notifyCacheDataAdded(T cacheData) {
-        for (DeviceCacheListener<T> listener : deviceCacheListeners) {
+    private void notifyCacheDataAdded(CacheData cacheData) {
+        for (DeviceCacheListener listener : deviceCacheListeners) {
             listener.onAdded(cacheData);
         }
     }
 
-    private void notifyCacheDataRemoved(T cacheData) {
-        for (DeviceCacheListener<T> listener : deviceCacheListeners) {
+    private void notifyCacheDataRemoved(CacheData cacheData) {
+        for (DeviceCacheListener listener : deviceCacheListeners) {
             listener.onRemoved(cacheData);
         }
     }

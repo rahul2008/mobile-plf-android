@@ -8,7 +8,6 @@ package com.philips.cdp2.commlib.lan.context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
@@ -16,9 +15,9 @@ import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.context.TransportContext;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.cdp2.commlib.lan.discovery.LanDiscoveryStrategy;
 import com.philips.cdp2.commlib.lan.security.PublicKeyPin;
@@ -41,7 +40,7 @@ public class LanTransportContext implements TransportContext {
 
     private static final String TAG = "LanTransportContext";
 
-    private final LanDeviceCache deviceCache;
+    private final DeviceCache deviceCache;
     @NonNull
     private final DiscoveryStrategy discoveryStrategy;
     private final ConnectivityMonitor connectivityMonitor;
@@ -55,7 +54,7 @@ public class LanTransportContext implements TransportContext {
     public LanTransportContext(@NonNull final RuntimeConfiguration runtimeConfiguration) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(runtimeConfiguration.getContext(), TYPE_WIFI);
         this.wifiNetworkProvider = WifiNetworkProvider.get(runtimeConfiguration.getContext());
-        this.deviceCache = new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
+        this.deviceCache = new DeviceCache(Executors.newSingleThreadScheduledExecutor());
         this.discoveryStrategy = createLanDiscoveryStrategy();
     }
 

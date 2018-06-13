@@ -8,7 +8,6 @@ package com.philips.cdp2.commlib.lan.communication;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.Request;
@@ -19,21 +18,20 @@ import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFail
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
 import com.philips.cdp2.commlib.core.devicecache.CacheData;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.DeviceCacheListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
 import com.philips.cdp2.commlib.lan.subscription.LocalSubscriptionHandler;
 import com.philips.cdp2.commlib.lan.subscription.UdpEventReceiver;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.X509TrustManager;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.X509TrustManager;
 
 import static java.util.Objects.requireNonNull;
 
@@ -85,7 +83,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
         }
     };
 
-    private final DeviceCacheListener<CacheData> deviceCacheListener = new DeviceCacheListener<CacheData>() {
+    private final DeviceCacheListener deviceCacheListener = new DeviceCacheListener() {
         @Override
         public void onAdded(CacheData cacheData) {
             if (networkNode.getCppId().equals(cacheData.getNetworkNode().getCppId())) {
@@ -103,7 +101,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
         }
     };
 
-    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor) {
+    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull DeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor) {
         this.networkNode = requireNonNull(networkNode);
         requireNonNull(deviceCache);
         requireNonNull(connectivityMonitor);

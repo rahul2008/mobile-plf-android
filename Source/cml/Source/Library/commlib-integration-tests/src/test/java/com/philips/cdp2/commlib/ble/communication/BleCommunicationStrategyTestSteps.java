@@ -7,7 +7,6 @@ package com.philips.cdp2.commlib.ble.communication;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -15,15 +14,22 @@ import com.google.gson.JsonParser;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.pins.shinelib.ResultListener;
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
-
+import cucumber.api.PendingException;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -44,14 +50,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import cucumber.api.PendingException;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.SCAN_WINDOW_MILLIS;
 import static com.philips.pins.shinelib.SHNCapabilityType.DI_COMM;
@@ -88,7 +86,7 @@ public class BleCommunicationStrategyTestSteps {
         }
     }
 
-    private BleDeviceCache mDeviceCache;
+    private DeviceCache mDeviceCache;
     private BleCommunicationStrategy mStrategy;
 
     private Map<String, Set<ResultListener<SHNDataRaw>>> mRawDataListeners;
@@ -110,6 +108,9 @@ public class BleCommunicationStrategyTestSteps {
     @Mock
     private Handler callbackHandlerMock;
 
+    @Mock
+    private SHNCentral shnCentralMock;
+
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
@@ -119,7 +120,7 @@ public class BleCommunicationStrategyTestSteps {
 
         mRawDataListeners = new ConcurrentHashMap<>();
         writtenBytes = new ConcurrentHashMap<>();
-        mDeviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
+        mDeviceCache = new DeviceCache(Executors.newSingleThreadScheduledExecutor());
         mRequestQueue = new ArrayDeque<>();
         mGson = new GsonBuilder().serializeNulls().create();
         deviceListenerMap = new ConcurrentHashMap<>();
@@ -140,7 +141,7 @@ public class BleCommunicationStrategyTestSteps {
 
     @Given("^the BLE communication strategy is initialized with id '(.*?)'$")
     public void theBLECommunicationStrategyIsInitializedWithId(String deviceId) {
-        mStrategy = new BleCommunicationStrategy(deviceId, mDeviceCache, callbackHandlerMock) {
+        mStrategy = new BleCommunicationStrategy(shnCentralMock, mockNetworkNode, callbackHandlerMock) {
 
             @Override
             protected void dispatchRequest(final BleRequest request) {
@@ -212,7 +213,7 @@ public class BleCommunicationStrategyTestSteps {
 
         when(mockNetworkNode.getCppId()).thenReturn(deviceId);
 
-        mDeviceCache.addDevice(device, mockNetworkNode, new BleDeviceCache.ExpirationCallback() {
+        mDeviceCache.add(mockNetworkNode, new DeviceCache.ExpirationCallback() {
             @Override
             public void onCacheExpired(NetworkNode networkNode) {
                 // Ignored
@@ -234,7 +235,7 @@ public class BleCommunicationStrategyTestSteps {
         doAnswer(new Answer() {
             @Override
             public Void answer(InvocationOnMock invocation) {
-                mRawDataListeners.get(deviceId).remove((ResultListener<SHNDataRaw>) invocation.getArguments()[0]);
+                mRawDataListeners.get(deviceId).remove(invocation.getArguments()[0]);
                 return null;
             }
         }).when(capability).removeDataListener(any(ResultListener.class));

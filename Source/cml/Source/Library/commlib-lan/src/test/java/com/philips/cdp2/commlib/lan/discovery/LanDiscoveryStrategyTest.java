@@ -6,20 +6,18 @@
 package com.philips.cdp2.commlib.lan.discovery;
 
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -54,7 +52,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     private SSDPControlPoint ssdpControlPointMock;
 
     @Mock
-    private LanDeviceCache deviceCacheMock;
+    private DeviceCache deviceCacheMock;
 
     @Mock
     private ConnectivityMonitor connectivityMonitorMock;
@@ -174,7 +172,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
                 ref.set((ExpirationCallback) invocation.getArgument(1));
                 return null;
             }
-        }).when(deviceCacheMock).addNetworkNode(any(NetworkNode.class), any(ExpirationCallback.class), anyLong());
+        }).when(deviceCacheMock).add(any(NetworkNode.class), any(ExpirationCallback.class), anyLong());
 
         try {
             strategyUnderTest.start();

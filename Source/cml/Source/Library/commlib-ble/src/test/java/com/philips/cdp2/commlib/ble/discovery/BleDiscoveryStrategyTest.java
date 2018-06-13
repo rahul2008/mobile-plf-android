@@ -7,17 +7,15 @@ package com.philips.cdp2.commlib.ble.discovery;
 
 import android.content.Context;
 import android.os.Handler;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp2.commlib.ble.BleCacheData;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.core.devicecache.CacheData;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.utility.BleScanRecord;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -50,7 +48,7 @@ public class BleDiscoveryStrategyTest {
     private Context mockContext;
 
     @Mock
-    private BleDeviceCache mockCache;
+    private DeviceCache mockCache;
 
     @Mock
     private SHNDeviceScanner mockScanner;
@@ -71,7 +69,7 @@ public class BleDiscoveryStrategyTest {
     private SHNDevice mockDevice;
 
     @Mock
-    private BleCacheData mockCacheData;
+    private CacheData mockCacheData;
 
     private NetworkNode networkNode;
 
@@ -136,7 +134,6 @@ public class BleDiscoveryStrategyTest {
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
         verify(mockCacheData).resetTimer();
-        verify(mockCacheData).setAvailable(true);
     }
 
     @Test

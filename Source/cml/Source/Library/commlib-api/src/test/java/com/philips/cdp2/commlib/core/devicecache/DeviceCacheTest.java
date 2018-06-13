@@ -23,7 +23,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DeviceCacheTest {
 
-    private DeviceCache<CacheData> deviceCache;
+    private DeviceCache deviceCache;
 
     @Mock
     private ScheduledExecutorService scheduledExecutorServiceMock;
@@ -41,13 +41,13 @@ public class DeviceCacheTest {
     private CacheData secondCacheDataMock;
 
     @Mock
-    private DeviceCacheListener<CacheData> listener;
+    private DeviceCacheListener listener;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         initMocks(this);
 
-        deviceCache = new DeviceCache<>(scheduledExecutorServiceMock);
+        deviceCache = new DeviceCache(scheduledExecutorServiceMock);
 
         when(networkNodeMock.getCppId()).thenReturn("my-cpp-id");
         when(secondNetworkNodeMock.getCppId()).thenReturn("my-cpp-id-other");
@@ -60,7 +60,7 @@ public class DeviceCacheTest {
     }
 
     @Test
-    public void whenAddingADevice_ThenCacheShouldContainData() throws Exception {
+    public void whenAddingADevice_ThenCacheShouldContainData() {
         deviceCache.add(cacheDataMock);
 
         assertTrue(deviceCache.contains("my-cpp-id"));
@@ -74,7 +74,7 @@ public class DeviceCacheTest {
     }
 
     @Test
-    public void whenAddingADeviceTwice_ThenTheTimerShouldReset() throws Exception {
+    public void whenAddingADeviceTwice_ThenTheTimerShouldReset() {
         deviceCache.add(cacheDataMock);
         deviceCache.add(cacheDataMock);
 

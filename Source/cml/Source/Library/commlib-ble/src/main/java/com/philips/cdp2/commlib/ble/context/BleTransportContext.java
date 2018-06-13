@@ -8,15 +8,14 @@ package com.philips.cdp2.commlib.ble.context;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.context.TransportContext;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNCentral;
@@ -36,7 +35,7 @@ import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
  */
 public class BleTransportContext implements TransportContext {
 
-    private final BleDeviceCache deviceCache;
+    private final DeviceCache deviceCache;
     private final SHNCentral shnCentral;
     private final DiscoveryStrategy discoveryStrategy;
 
@@ -82,7 +81,7 @@ public class BleTransportContext implements TransportContext {
         shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
         shnCentral.registerShnCentralListener(shnCentralListener);
 
-        deviceCache = createBleDeviceCache();
+        deviceCache = createDeviceCache();
         discoveryStrategy = createDiscoveryStrategy(runtimeConfiguration);
     }
 
@@ -112,8 +111,8 @@ public class BleTransportContext implements TransportContext {
 
     @NonNull
     @VisibleForTesting
-    BleDeviceCache createBleDeviceCache() {
-        return new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
+    DeviceCache createDeviceCache() {
+        return new DeviceCache(Executors.newSingleThreadScheduledExecutor());
     }
 
     @VisibleForTesting
