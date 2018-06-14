@@ -784,7 +784,7 @@ public class User {
         } else {
             RLog.e(TAG, "refreshUser failed because of network issue");
             ThreadUtils.postInMainThread(mContext, () ->
-                    handler.onRefreshUserFailed(ErrorCodes.UNKNOWN_ERROR));
+                    handler.onRefreshUserFailed(ErrorCodes.NETWORK_ERROR));
         }
     }
 

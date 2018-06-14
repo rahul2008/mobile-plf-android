@@ -297,7 +297,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     public void localeServiceDiscoveryFailed() {
         RLog.d(TAG, "localeServiceDiscoveryFailed : is called");
         hideProgressDialog();
-        updateErrorNotification(mContext.getString(R.string.Generic_Network_ErrorMsg));
+        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
     }
 
     @Override
@@ -334,7 +334,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         }
     }
 
-    
+
     private void showSignInAccountFragment() {
         if (!getRegistrationFragment().isHomeFragment()) {
             return;
@@ -792,7 +792,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void wechatAuthenticationFailError() {
         hideProgressDialogWithTrackHomeAndEnableControls();
-        updateErrorNotification(mContext.getString(R.string.Generic_Network_ErrorMsg));
+        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK,ErrorCodes.NETWORK_ERROR));
     }
 
     @Override
@@ -841,7 +841,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void initFailed() {
-        updateErrorNotification(mContext.getString(R.string.Generic_Network_ErrorMsg));
+        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK,ErrorCodes.NETWORK_ERROR));
         hideProgressDialog();
     }
 

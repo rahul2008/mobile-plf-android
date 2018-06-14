@@ -31,6 +31,9 @@ import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.CounterHelper;
 import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -325,12 +328,12 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         try {
             final JSONObject raw_response = userRegistrationFailureInfo.getError().raw_response;
             if (raw_response == null) {
-                updateErrorNotification(mContext.getString(R.string.Generic_Network_ErrorMsg));
+                updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
                 return;
             }
             updateErrorNotification(raw_response.getString("message"));
         } catch (JSONException e) {
-            updateErrorNotification(mContext.getString(R.string.Generic_Network_ErrorMsg));
+            updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK,ErrorCodes.NETWORK_ERROR));
             RLog.e(TAG, "handleResendVerificationEmailFailedWithError : Json Exception Occurred ");
         }
         mReturnButton.setEnabled(true);
@@ -416,7 +419,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public void onRefreshUserFailed(int error) {
 //        mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
-        updateErrorNotification(mContext.getResources().getString(R.string.Generic_Network_ErrorMsg));
+        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK,error));
     }
 
     boolean proceedResend = true;

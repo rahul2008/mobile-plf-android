@@ -30,6 +30,9 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.CounterHelper;
 import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -349,7 +352,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleRefreshUserFailed(int error) {
         RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
         if (error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED) {
-            verificationError(mContext.getString(R.string.Generic_Network_ErrorMsg));
+            verificationError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
             hideActivateSpinner();
             activateButtonEnable(true);
             mBtnResend.setEnabled(true);
