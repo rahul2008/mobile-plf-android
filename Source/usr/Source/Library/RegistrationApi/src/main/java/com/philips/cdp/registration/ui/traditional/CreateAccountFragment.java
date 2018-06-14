@@ -166,9 +166,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         public int isValid(boolean valid) {
             isValidEmail = valid;
             enableCreateButton();
-            if (!valid)
-                usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(R.string.InvalidPhoneNumber_ErrorMsg);
-            else
+            if (!valid) {
+                if (RegistrationHelper.getInstance().isMobileFlow()) {
+                    usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(R.string.InvalidPhoneNumber_ErrorMsg);
+                } else {
+                    usrCreatescreenEmailormobileInputValidationLayout.setErrorMessage(R.string.InvalidOrMissingEmail_ErrorMsg);
+                }
+            } else
                 usrCreatescreenEmailormobileInputValidationLayout.hideError();
             return 0;
         }
@@ -525,7 +529,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public Context getFragmentContext() {
-        return this.getContext();
+        return context;
     }
 
     @Override

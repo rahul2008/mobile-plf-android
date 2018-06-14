@@ -13,8 +13,8 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.csw.CswConstants;
@@ -36,14 +36,13 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PermissionFragment extends CswBaseFragment implements PermissionContract.View, HelpClickListener, android.view.View.OnClickListener {
+public class PermissionFragment extends CswBaseFragment implements PermissionContract.View, HelpClickListener, View.OnClickListener {
 
-    public static final String TAG = PermissionFragment.class.getSimpleName();
+    public static final String TAG = "PermissionFragment";
     private ProgressDialogView progressDialogView;
     private RecyclerView recyclerView;
 
     private List<ConsentDefinition> consentDefinitionList = null;
-    private PermissionAdapter adapter;
     private PermissionContract.Presenter presenter;
     private ConfirmDialogView confirmDialogView;
     private DialogView errorDialogViewWithClickListener;
@@ -61,8 +60,8 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     }
 
     @Override
-    public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        android.view.View view = inflater.inflate(R.layout.csw_permission_view, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.csw_permission_view, container, false);
         recyclerView = view.findViewById(R.id.consentsRecycler);
 
         if (getArguments() != null)
@@ -110,7 +109,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        adapter = new PermissionAdapter(createConsentsList(), this);
+        PermissionAdapter adapter = new PermissionAdapter(createConsentsList(), this);
         adapter.setPrivacyNoticeClickListener(new LinkSpanClickListener() {
             @Override
             public void onClick() {
@@ -200,7 +199,7 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
     }
 
     @Override
-    public void onClick(android.view.View view) {
+    public void onClick(View view) {
         if (getActivity() != null) {
             getActivity().onBackPressed();
         }
@@ -237,9 +236,5 @@ public class PermissionFragment extends CswBaseFragment implements PermissionCon
             }
         }
         return consentViewList;
-    }
-
-    protected DialogView getErrorDialogViewWithClickListener() {
-        return this.errorDialogViewWithClickListener;
     }
 }

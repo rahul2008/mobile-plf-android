@@ -16,7 +16,6 @@ import com.philips.testing.verticals.datatyes.MomentType;
 import com.philips.testing.verticals.table.OrmMoment;
 import com.philips.testing.verticals.table.OrmMomentType;
 import com.philips.testing.verticals.table.OrmSynchronisationData;
-
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,9 +31,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
