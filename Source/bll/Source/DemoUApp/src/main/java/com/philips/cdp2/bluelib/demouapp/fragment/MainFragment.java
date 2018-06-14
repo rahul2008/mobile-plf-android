@@ -21,12 +21,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
 import com.philips.cdp2.bluelib.demouapp.R;
 import com.philips.cdp2.bluelib.demouapp.fragment.associate.AssociatedDevicesFragment;
 import com.philips.cdp2.bluelib.demouapp.fragment.connect.ConnectDevicesFragment;
 import com.philips.cdp2.bluelib.demouapp.util.UiUtils;
-import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.SHNTagger;
 
@@ -104,10 +102,7 @@ public class MainFragment extends Fragment {
 
     private void acquirePermission() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            SHNLogger.d("BLL_DEMO_UAPP", "Location permission missing");
-
-            final SHNCentral shnCentral = BluelibUapp.get().getDependencies().getShnCentral();
-            SHNTagger.sendTechnicalError("Location permission missing for packageName: " + shnCentral.getApplicationContext().getPackageName());
+            SHNTagger.sendTechnicalError("Location permission missing");
 
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION_REQUEST_CODE);
         }

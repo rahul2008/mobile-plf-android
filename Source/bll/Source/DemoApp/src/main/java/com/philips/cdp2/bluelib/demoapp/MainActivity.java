@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         final Context context = getApplicationContext();
         final AppInfraInterface appInfraInterface = new AppInfra.Builder().build(context);
 
-        bluelibUapp.init(new BluelibUappAppDependencies(context), new UappSettings(getApplicationContext()));
+        bluelibUapp.init(new BluelibUappAppDependencies(context, appInfraInterface), new UappSettings(getApplicationContext()));
     }
 
     @Override
