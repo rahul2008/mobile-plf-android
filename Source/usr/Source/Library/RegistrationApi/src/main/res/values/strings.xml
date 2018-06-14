@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-
-    <!--The below one need to be removed , Why IAP is using it-->
-    <string name="delete_row">Delete</string>
-
     <string name="Account_Merge_Merge_btntxt">Merge</string>
     <string name="Account_Setting_Titletxt">Account settings</string>
     <string name="Action_ConsumerCare_Txt">Consumer Care</string>
