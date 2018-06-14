@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 
 @RunWith(org.mockito.junit.MockitoJUnitRunner.Silent.class)
-public class RefAppBleReferenceApplianceFactoryTest {
+public class RefAppApplianceFactoryTest {
 
     @Mock
     private BleTransportContext bleTransportContext;
@@ -72,10 +72,5 @@ public class RefAppBleReferenceApplianceFactoryTest {
     public void createApplianceWithNullType_forNodeWithEmptyDeviceType() {
         when(networkNode.getDeviceType()).thenReturn("");
         assertNull(bleReferenceApplianceFactory.createApplianceForNode(networkNode).getDeviceType());
-    }
-
-    @Test
-    public void getSupportedDeviceTypes_isEmpty() {
-        assertTrue(bleReferenceApplianceFactory.getSupportedDeviceTypes().isEmpty());
     }
 }

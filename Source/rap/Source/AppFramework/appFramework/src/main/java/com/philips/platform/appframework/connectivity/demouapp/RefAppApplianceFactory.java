@@ -6,7 +6,6 @@
 package com.philips.platform.appframework.connectivity.demouapp;
 
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
@@ -24,10 +23,6 @@ import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.WifiReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.baseapp.screens.utility.RALog;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 public class RefAppApplianceFactory implements ApplianceFactory {
     public static final String TAG = RefAppApplianceFactory.class.getSimpleName();
@@ -84,10 +79,5 @@ public class RefAppApplianceFactory implements ApplianceFactory {
                     }
                 };
         }
-    }
-
-    @Override
-    public Set<String> getSupportedDeviceTypes() {
-        return Collections.unmodifiableSet(new HashSet<String>());
     }
 }

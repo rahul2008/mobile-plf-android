@@ -31,7 +31,6 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     private static final String DEVICESTORE_ERROR_UPDATE = "Error updating device stored consent";
     private final AppInfraInterface appInfra;
     private HashMap<String, ConsentStatus> consentStatusMemoryCache = new HashMap<>();
-    private List<ConsentChangeListener> consentChangeListenerList=new ArrayList<>();
     public DeviceStoredConsentHandler(final AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
@@ -116,25 +115,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         } else {
             consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.rejected, version));
         }
-        for(ConsentChangeListener consentChangeListener:consentChangeListenerList){
-            if(consentChangeListener!=null){
-                consentChangeListener.onConsentChanged(consentType,status);
-            }
-        }
         callback.onPostConsentSuccess();
     }
 
-    @Override
-    public void registerConsentChangeListener(ConsentChangeListener consentChangeListener) {
-        if (!consentChangeListenerList.contains(consentChangeListener)) {
-            consentChangeListenerList.add(consentChangeListener);
-        }
-    }
-
-    @Override
-    public void unregisterConsentChangeListener(ConsentChangeListener consentChangeListener) {
-        if (consentChangeListenerList.contains(consentChangeListener)) {
-            consentChangeListenerList.remove(consentChangeListener);
-        }
-    }
 }
