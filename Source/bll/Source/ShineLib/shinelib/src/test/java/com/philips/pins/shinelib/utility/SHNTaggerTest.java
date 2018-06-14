@@ -24,7 +24,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingConstants.COMPONEN
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -45,6 +45,13 @@ public class SHNTaggerTest {
         SHNTagger.taggingInstance = appTaggingInterfaceMock;
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void givenATagger_whenTaggerIsNotInitialized_thenTrackActionIsNotInvokedOnTaggingInstance() {
+        SHNTagger.taggingInstance = null;
+
+        SHNTagger.sendTechnicalError("dontcare");
+    }
+
     @Test
     public void givenATagger_thenTheComponentIdAndVersionShouldBeValid() {
         final String[] pieces = TAGGING_VERSION_STRING.split(DELIMITER);
@@ -60,7 +67,7 @@ public class SHNTaggerTest {
         final String technicalError = "testError";
         SHNTagger.sendTechnicalError(technicalError);
 
-        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(SEND_DATA), dataObjectCaptor.capture());
+        verify(appTaggingInterfaceMock, times(1)).trackActionWithInfo(eq(SEND_DATA), dataObjectCaptor.capture());
         assertThat(dataObjectCaptor.getValue().get(COMPONENT_VERSION)).isEqualTo(TAGGING_VERSION_STRING);
     }
 
@@ -69,24 +76,31 @@ public class SHNTaggerTest {
         final String technicalError = "testError";
         SHNTagger.sendTechnicalError(technicalError);
 
-        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(SEND_DATA), ArgumentMatchers.<String, String>anyMap());
+        verify(appTaggingInterfaceMock, times(1)).trackActionWithInfo(eq(SEND_DATA), ArgumentMatchers.<String, String>anyMap());
     }
 
     @Test
-    public void givenATagger_whenSendingTechnicalError_thenTrackActionWithInfoIsInvokedWithPredefinedErrorKeyAndSuppliedValue() {
+    public void givenATagger_whenSendingTechnicalError_thenTrackActionWithInfoIsInvokedWithANonEmptyValue() {
         final String technicalError = "testError";
         SHNTagger.sendTechnicalError(technicalError);
 
-        verify(appTaggingInterfaceMock).trackActionWithInfo(anyString(), dataObjectCaptor.capture());
-        assertThat(dataObjectCaptor.getValue().get(TECHNICAL_ERROR)).isEqualTo(COMPONENT_ID_BLL + DELIMITER + technicalError);
+        verify(appTaggingInterfaceMock, times(1)).trackActionWithInfo(anyString(), dataObjectCaptor.capture());
+        assertThat(dataObjectCaptor.getValue().get(TECHNICAL_ERROR)).isNotEmpty();
     }
 
     @Test
-    public void givenATagger_whenTaggerIsNotInitialized_thenTrackActionIsNotInvokedOnTaggingInstance() {
-        SHNTagger.taggingInstance = null;
+    public void givenATagger_whenSendingTechnicalErrorWithExplanations_thenTheTaggedValueMustBeADelimitedString() {
+        SHNTagger.sendTechnicalError("error", "foo", "bar", "baz");
 
-        SHNTagger.sendTechnicalError("dontcare");
+        verify(appTaggingInterfaceMock, times(1)).trackActionWithInfo(anyString(), dataObjectCaptor.capture());
+        final String[] pieces = dataObjectCaptor.getValue().get(TECHNICAL_ERROR).split(DELIMITER);
 
-        verify(appTaggingInterfaceMock, never()).trackActionWithInfo(anyString(), ArgumentMatchers.<String, String>anyMap());
+        assertThat(pieces.length).isEqualTo(6);
+        assertThat(pieces[0]).isEqualTo(COMPONENT_ID_BLL);
+        assertThat(pieces[1]).isNotEmpty();
+        assertThat(pieces[2]).isEqualTo("error");
+        assertThat(pieces[3]).isEqualTo("foo");
+        assertThat(pieces[4]).isEqualTo("bar");
+        assertThat(pieces[5]).isEqualTo("baz");
     }
 }
