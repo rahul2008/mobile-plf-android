@@ -24,7 +24,6 @@ public class CartDeleteProductRequest extends AbstractModel {
 
     @Override
     public int getMethod() {
-        IAPLog.d(IAPLog.LOG, "DELETE");
         return Request.Method.PUT;
     }
 
