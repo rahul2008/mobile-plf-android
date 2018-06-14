@@ -41,12 +41,12 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
 
     @Override
     public int getActionbarTitleResId() {
-        return R.string.PPR_NavBar_Title;
+        return R.string.PRG_NavBar_Title;
     }
 
     @Override
     public String getActionbarTitle() {
-        return getString(R.string.PPR_NavBar_Title);
+        return getString(R.string.PRG_NavBar_Title);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
                 } else {
                     String defaultString = "  " + warntyPeriod;
                     prg_success_thanks_textView.setText(prodRegUtil.generateSpannableText
-                            (getString(R.string.PPR_Extended_Warranty_Lbltxt) , defaultString));
+                            (getString(R.string.PRG_Extended_Warranty_Lbltxt) , defaultString));
                     prg_success_thanks_textView.setVisibility(View.VISIBLE);
                 }
             }

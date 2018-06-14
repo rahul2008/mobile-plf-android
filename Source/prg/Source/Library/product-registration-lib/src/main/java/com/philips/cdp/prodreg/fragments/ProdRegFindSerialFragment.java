@@ -38,12 +38,12 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
 
     @Override
     public int getActionbarTitleResId() {
-        return R.string.PPR_NavBar_Title;
+        return R.string.PRG_NavBar_Title;
     }
 
     @Override
     public String getActionbarTitle() {
-        return getString(R.string.PPR_NavBar_Title);
+        return getString(R.string.PRG_NavBar_Title);
     }
 
     @Override
@@ -118,9 +118,9 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
                 String emptyString = " ";
                 String serialNumberExampleData = snExample.substring(snExample.indexOf(stringSplit)+1, snExample.length());
                 serialNumberExampleData = serialNumberExampleData.replace(emptyString,"");
-                String serialErrorText = getString(R.string.PPR_serial_number_consists).concat(emptyString) +
-                        serialNumberExampleData.length() + emptyString + getString(R.string.PPR_number_starting).concat(emptyString)
-                        + serialNumberExampleData.charAt(0) + emptyString + getString(R.string.PPR_eg) + serialNumberExampleData;
+                String serialErrorText = getString(R.string.PRG_serial_number_consists).concat(emptyString) +
+                        serialNumberExampleData.length() + emptyString + getString(R.string.PRG_number_starting).concat(emptyString)
+                        + serialNumberExampleData.charAt(0) + emptyString + getString(R.string.PRG_eg) + serialNumberExampleData;
                 serialNumberTextView.setText(serialErrorText);
                 serialNumberForamtTextView.setText(snDescription);
             } catch (Exception exception) {
