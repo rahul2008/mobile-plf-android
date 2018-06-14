@@ -24,6 +24,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingConstants.COMPONEN
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -45,11 +46,13 @@ public class SHNTaggerTest {
         SHNTagger.taggingInstance = appTaggingInterfaceMock;
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void givenATagger_whenTaggerIsNotInitialized_thenTrackActionIsNotInvokedOnTaggingInstance() {
         SHNTagger.taggingInstance = null;
 
         SHNTagger.sendTechnicalError("dontcare");
+
+        verify(appTaggingInterfaceMock, never()).trackActionWithInfo(eq(SEND_DATA), ArgumentMatchers.<String, String>anyMap());
     }
 
     @Test

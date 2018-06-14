@@ -30,13 +30,15 @@ import static com.philips.platform.appinfra.tagging.AppTaggingConstants.COMPONEN
  */
 public class SHNTagger {
 
+    private static final String TAG = "SHNTagger";
+
+    static final String DELIMITER = ":";
+    static final String TAGGING_VERSION_STRING = TLA + DELIMITER + LIBRARY_VERSION;
+
     interface Key {
         String SEND_DATA = "sendData";
         String TECHNICAL_ERROR = "TechnicalError";
     }
-
-    static final String DELIMITER = ":";
-    static final String TAGGING_VERSION_STRING = TLA + DELIMITER + LIBRARY_VERSION;
 
     @Nullable
     static AppTaggingInterface taggingInstance;
@@ -64,7 +66,8 @@ public class SHNTagger {
      */
     public static void sendTechnicalError(final @NonNull String technicalError, @NonNull final String... explanations) {
         if (taggingInstance == null) {
-            throw new IllegalStateException("Tagging instance is null, please call SHNTagger#initialize(AppInfraInterface) first.");
+            SHNLogger.w(TAG, "Tagger not initialized, call SHNTagger.initialize(AppInfraInterface) first.");
+            return;
         }
         final StringBuilder builder = new StringBuilder(TLA);
 
