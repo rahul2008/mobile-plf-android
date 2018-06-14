@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib.workarounds;
 
 public enum OS {
+    LOLLIPOP(21, 22),
     MARSHMALLOW(23),
     NOUGAT(24, 25),
     OREO(26);
