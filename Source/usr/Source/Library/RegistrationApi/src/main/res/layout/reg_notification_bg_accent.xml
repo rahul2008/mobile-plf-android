@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <com.philips.platform.uid.view.widget.Label
+        <!--<com.philips.platform.uid.view.widget.Label
             android:id="@id/uid_notification_content"
             style="@style/UIDNotificationBarContent"
             android:textColor="?attr/uidNotificationBarAccentNormalSecondaryTextColor"
@@ -34,7 +34,7 @@
             app:layout_constraintEnd_toStartOf="@id/uid_notification_icon"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/uid_notification_title"/>
+            app:layout_constraintTop_toBottomOf="@id/uid_notification_title"/>-->
 
         <ImageButton
             android:id="@id/uid_notification_icon"
