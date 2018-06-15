@@ -32,6 +32,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Looper.class, ConsentManager.class})
@@ -51,6 +53,9 @@ public class ConsentManagerTest {
 
     @Mock
     private AppInfra appInfra;
+
+    @Mock
+    private ConsentStatusChangedListener statusChangedListener;
 
     @Before
     public void setUp() throws Exception {
@@ -111,9 +116,11 @@ public class ConsentManagerTest {
         givenHandler(handler1, "testConsent");
         givenHandlerReturnsError(handler1, error);
         givenRegisteredConsentDefinitions(1, "testConsent");
+        registerForConsentUpdates(consentManager.getConsentDefinitionForType("testConsent"));
         whenStoringConsents(consentDefinition(1, "testConsent"), true);
         thenErrorIsReturned(error);
         thenPostConsentSuccessCallbackIsInvoked(false);
+        verify(consentManager.consentStatusChangeMapper).consentStatusChanged(consentManager.getConsentDefinitionForType("testConsent"), error, true);
     }
 
     @Test
@@ -321,6 +328,25 @@ public class ConsentManagerTest {
         thenTimeoutErrorIsReturned();
     }
 
+    @Test
+    public void storeConsentState_CallsConsentStatusChangeNotifier() {
+        givenHandler(handler1, "testConsent");
+        givenRegisteredConsentDefinitions(1, "testConsent");
+        registerForConsentUpdates(consentManager.getConsentDefinitionForType("testConsent"));
+        whenStoringConsents(consentDefinition(1, "testConsent"), true);
+        thenPostConsentSuccessCallbackIsInvoked(true);
+        verify(consentManager.consentStatusChangeMapper).consentStatusChanged(consentManager.getConsentDefinitionForType("testConsent"), null, true);
+    }
+
+    @Test
+    public void unregisterConsentStatusUpdate_CallsNotifierUnRegister() {
+        consentManager.consentStatusChangeMapper = mock(ConsentStatusChangeMapper.class);
+        ConsentDefinition consentDefinition = mock(ConsentDefinition.class);
+        ConsentStatusChangedListener consentStatusChangedListener = mock(ConsentStatusChangedListener.class);
+        consentManager.removeConsentStatusChangedListener(consentDefinition, consentStatusChangedListener);
+        verify(consentManager.consentStatusChangeMapper).unRegisterConsentStatusUpdate(consentDefinition,consentStatusChangedListener);
+    }
+
     private void givenFetchConsentDoesNotReturnForHandler(ConsentHandlerInterfaceSpy handler) {
         handler.fetchDoNothing = true;
     }
@@ -343,6 +369,7 @@ public class ConsentManagerTest {
 
     private void givenRegisteredConsentDefinitions(int version, String... consentTypes) {
         consentManager.registerConsentDefinitions(Collections.singletonList(consentDefinition(version, consentTypes)));
+        consentManager.consentStatusChangeMapper = mock(ConsentStatusChangeMapper.class);
     }
 
     private void whenFetchingConsentTypeState(String consentType) {
@@ -418,6 +445,10 @@ public class ConsentManagerTest {
 
     private ConsentDefinition consentDefinition(int version, String... strings) {
         return new ConsentDefinition(0, 0, Arrays.asList(strings), version);
+    }
+
+    private void registerForConsentUpdates(ConsentDefinition testConsentDefinition) {
+        consentManager.addConsentStatusChangedListener(testConsentDefinition, statusChangedListener);
     }
 
     private class ConsentHandlerInterfaceSpy implements ConsentHandlerInterface {
