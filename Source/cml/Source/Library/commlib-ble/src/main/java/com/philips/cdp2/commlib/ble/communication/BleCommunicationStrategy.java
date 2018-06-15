@@ -43,20 +43,6 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
     private static final long CONNECTION_TIMEOUT = 30000L;
 
-    private final SHNCentral.SHNCentralListener centralListener = new SHNCentral.SHNCentralListener() {
-        @Override
-        public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-            handleAvailabilityChange();
-        }
-    };
-
-    private PropertyChangeListener networkNodePropertyChangeListener = new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            handleAvailabilityChange();
-        }
-    };
-
     @NonNull
     private final SHNCentral central;
 
@@ -78,6 +64,20 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     private boolean isAvailable;
 
     private SHNDevice bleDevice;
+
+    private final SHNCentral.SHNCentralListener centralListener = new SHNCentral.SHNCentralListener() {
+        @Override
+        public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+            handleAvailabilityChange();
+        }
+    };
+
+    private PropertyChangeListener networkNodePropertyChangeListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            handleAvailabilityChange();
+        }
+    };
 
     /**
      * Instantiates a new Ble communication strategy with a sensible default subscription polling interval value.

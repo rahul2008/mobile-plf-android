@@ -84,7 +84,7 @@ public class LanTransportContext implements TransportContext {
     @Override
     @NonNull
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
-        return new LanCommunicationStrategy(networkNode, deviceCache, connectivityMonitor);
+        return new LanCommunicationStrategy(networkNode, connectivityMonitor);
     }
 
     /**

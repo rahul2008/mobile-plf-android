@@ -10,7 +10,6 @@ import android.net.wifi.WifiManager;
 import android.support.v4.app.FragmentManager;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
@@ -87,10 +86,6 @@ public class EWSModuleTest {
     @Mock
     NetworkNode mockNetworkNode;
 
-    @Mock
-    DeviceCache mockDeviceCache;
-
-
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -113,7 +108,7 @@ public class EWSModuleTest {
     @Test
     public void provideTemporaryAppliance() throws Exception {
         when(ConnectivityMonitor.forNetworkTypes(mockContext, ConnectivityManager.TYPE_WIFI)).thenReturn(mockConnectivityMonitor);
-        whenNew(LanCommunicationStrategy.class).withArguments(mockNetworkNode, mockDeviceCache, mockConnectivityMonitor).thenReturn(mockCommunicationStrategy);
+        whenNew(LanCommunicationStrategy.class).withArguments(mockNetworkNode, mockConnectivityMonitor).thenReturn(mockCommunicationStrategy);
         subject.provideTemporaryAppliance();
 
     }

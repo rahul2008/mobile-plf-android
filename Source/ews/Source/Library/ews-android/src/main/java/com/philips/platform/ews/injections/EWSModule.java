@@ -80,8 +80,7 @@ public class EWSModule {
         DeviceCache deviceCache = createLanCache();
         injectFakeNodeIntoDeviceCache(deviceCache, fakeNetworkNode);
         // We are intentionally not creating the strategy from the transport context!
-        CommunicationStrategy communicationStrategy = new LanCommunicationStrategy(fakeNetworkNode,
-                deviceCache, monitor);
+        CommunicationStrategy communicationStrategy = new LanCommunicationStrategy(fakeNetworkNode, monitor);
         return new EWSGenericAppliance(fakeNetworkNode, communicationStrategy);
     }
 

@@ -17,9 +17,6 @@ import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
-import com.philips.cdp2.commlib.core.devicecache.CacheData;
-import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
-import com.philips.cdp2.commlib.core.devicecache.DeviceCache.DeviceCacheListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
 import com.philips.cdp2.commlib.lan.subscription.LocalSubscriptionHandler;
@@ -27,6 +24,8 @@ import com.philips.cdp2.commlib.lan.subscription.UdpEventReceiver;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.X509TrustManager;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -51,6 +50,9 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     private final NetworkNode networkNode;
 
     @NonNull
+    private final ConnectivityMonitor connectivityMonitor;
+
+    @NonNull
     private final LocalSubscriptionHandler localSubscriptionHandler;
 
     @Nullable
@@ -58,9 +60,8 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
 
     private boolean isKeyExchangeOngoing;
     private boolean isAvailable;
-    private boolean isConnected;
-    private boolean isCached;
 
+    @NonNull
     private final EncryptionDecryptionFailedListener encryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
 
         @Override
@@ -74,42 +75,29 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
         }
     };
 
+    @NonNull
     private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
 
         @Override
         public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
-            isConnected = connectivityMonitor.isAvailable();
             handleAvailabilityChanged();
         }
     };
 
-    private final DeviceCacheListener deviceCacheListener = new DeviceCacheListener() {
+    @NonNull
+    private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
         @Override
-        public void onAdded(CacheData cacheData) {
-            if (networkNode.getCppId().equals(cacheData.getNetworkNode().getCppId())) {
-                isCached = true;
-                handleAvailabilityChanged();
-            }
-        }
-
-        @Override
-        public void onRemoved(CacheData cacheData) {
-            if (networkNode.getCppId().equals(cacheData.getNetworkNode().getCppId())) {
-                isCached = false;
-                handleAvailabilityChanged();
-            }
+        public void propertyChange(PropertyChangeEvent evt) {
+            handleAvailabilityChanged();
         }
     };
 
-    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull DeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor) {
+    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull ConnectivityMonitor connectivityMonitor) {
         this.networkNode = requireNonNull(networkNode);
-        requireNonNull(deviceCache);
-        requireNonNull(connectivityMonitor);
+        this.connectivityMonitor = requireNonNull(connectivityMonitor);
 
         this.diSecurity = new DISecurity(networkNode);
         localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
-
-        this.isCached = deviceCache.contains(networkNode.getCppId());
 
         if (networkNode.isHttps()) {
             try {
@@ -119,11 +107,13 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
             }
         }
 
+        this.connectivityMonitor.addAvailabilityListener(availabilityListener);
+        this.networkNode.addPropertyChangeListener(propertyChangeListener);
         requestQueue = createRequestQueue();
 
-        deviceCache.addDeviceCacheListener(deviceCacheListener, networkNode.getCppId());
-        connectivityMonitor.addAvailabilityListener(availabilityListener);
         this.diSecurity.setEncryptionDecryptionFailedListener(encryptionDecryptionFailedListener);
+
+        isAvailable = isAvailable();
     }
 
     @VisibleForTesting
@@ -177,7 +167,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return isAvailable;
+        return connectivityMonitor.isAvailable() && networkNode.getIpAddress() != null;
     }
 
     @VisibleForTesting
@@ -238,16 +228,15 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     }
 
     private synchronized void handleAvailabilityChanged() {
-        boolean currentlyAvailable = isAvailable;
+        DICommLog.d("LanCommunicationStrategy", String.format(Locale.US, "NetworkNode: [%s] : isAvailable: [%s]", networkNode.getName(), isAvailable()));
 
-        isAvailable = isCached && isConnected;
-        if (isAvailable != currentlyAvailable) {
+        boolean newIsAvailable = isAvailable();
+        if (newIsAvailable != isAvailable) {
+            isAvailable = newIsAvailable;
             notifyAvailabilityChanged();
         }
 
-        DICommLog.d("LanCommunicationStrategy", String.format(Locale.US, "NetworkNode: [%s] - currentlyAvailable: [%s], isAvailable: [%s], isCached: [%s], isConnected: [%s]", networkNode.getName(), currentlyAvailable, isAvailable, isCached, isConnected));
-
-        if (isAvailable) {
+        if (isAvailable()) {
             localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
         } else {
             localSubscriptionHandler.disableSubscription();
