@@ -151,14 +151,14 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogLayout(R.layout.social_merge_dialog)
-                .setNegativeButton(mContext.getString(R.string.Social_Merge_Cancel_btntxt), v -> alertDialogFragment.dismiss())
-                .setPositiveButton(mContext.getString(R.string.DLS_Merge_Accounts_Logout_Dialog__Button_Title), v -> {
+                .setNegativeButton(mContext.getString(R.string.USR_Social_Merge_Cancel_btntxt), v -> alertDialogFragment.dismiss())
+                .setPositiveButton(mContext.getString(R.string.USR_DLS_Merge_Accounts_Logout_Dialog__Button_Title), v -> {
                     alertDialogFragment.dismiss();
                     performAction();
                 })
                 .setDimLayer(DialogConstants.DIM_STRONG)
                 .setCancelable(false);
-        builder.setTitle(mContext.getString(R.string.DLS_Merge_Accounts_Logout_Dialog_Title));
+        builder.setTitle(mContext.getString(R.string.USR_DLS_Merge_Accounts_Logout_Dialog_Title));
         alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), null);
 
@@ -235,7 +235,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        return R.string.USR_SigIn_TitleTxt;
     }
 
     private void completeRegistration() {

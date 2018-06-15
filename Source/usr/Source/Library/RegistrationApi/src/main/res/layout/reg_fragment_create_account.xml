@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:textColor="?attr/uidLabelRegularNormalTextColor"
-                android:text="@string/DLS_First_Name_Label_Text"/>
+                android:text="@string/USR_DLS_First_Name_Label_Text"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createScreen_firstName_inputValidation"
@@ -56,7 +56,7 @@
                 android:visibility="gone"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:textColor="?attr/uidLabelRegularNormalTextColor"
-                android:text="@string/DLS_Last_Name_Label_Text"/>
+                android:text="@string/USR_DLS_Last_Name_Label_Text"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createScreen_lastName_inputValidation"
@@ -84,7 +84,7 @@
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:textColor="?attr/uidLabelRegularNormalTextColor"
                 android:layout_height="wrap_content"
-                android:text="@string/DLS_Email_Label_Text"/>
+                android:text="@string/USR_DLS_Email_Label_Text"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createscreen_emailormobile_inputValidationLayout"
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:textColor="?attr/uidLabelRegularNormalTextColor"
-                android:text="@string/DLS_Password_lbltxt"/>
+                android:text="@string/USR_DLS_Password_lbltxt"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createScreen_password_inputValidationField"
@@ -165,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/uid_signal_red_level_15"
                     android:padding="@dimen/reg_dimen_12dp"
-                    android:text="@string/Password_Guidelines"
+                    android:text="@string/USR_Password_Guidelines"
                     android:textColor="?attr/uidLabelDescriptorNormalTextColor"/>
             </LinearLayout>
 
@@ -180,14 +180,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:text="@string/DLS_OptIn_Promotional_Message_Line1"/>
+                android:text="@string/USR_DLS_OptIn_Promotional_Message_Line1"/>
 
             <com.philips.platform.uid.view.widget.CheckBox
                 android:id="@+id/usr_createscreen_termsandconditions_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
-                android:text="@string/DLS_TermsAndConditionsAcceptanceText"/>
+                android:text="@string/USR_DLS_TermsAndConditionsAcceptanceText"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/usr_createscreen_termsandconditionsalert_view"
@@ -204,8 +204,8 @@
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonProgressText="@string/DLS_Create_Account_CreateMyPhilips_btntxt"
-                app:uidProgressIndicatorButtonText="@string/DLS_Create_Account_CreateMyPhilips_btntxt"/>
+                app:uidProgressIndicatorButtonProgressText="@string/USR_DLS_Create_Account_CreateMyPhilips_btntxt"
+                app:uidProgressIndicatorButtonText="@string/USR_DLS_Create_Account_CreateMyPhilips_btntxt"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_createscreen_switchtologin_button"
@@ -213,7 +213,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/DLS_SwitchToLogin_Txt"
+                android:text="@string/USR_DLS_SwitchToLogin_Txt"
                 android:visibility="gone"
                 app:uidComponentType="Secondary"/>
 

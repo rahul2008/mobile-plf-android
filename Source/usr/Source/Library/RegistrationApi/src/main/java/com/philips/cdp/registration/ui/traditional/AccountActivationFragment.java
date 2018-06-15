@@ -159,7 +159,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             isEmailVerifiedError = true;
             mBundle.putBoolean("isEmailVerifiedError", isEmailVerifiedError);
             mBundle.putString("saveEmailVerifiedErrorText",
-                    mContext.getResources().getString(R.string.Janrain_Error_Need_Email_Verification));
+                    mContext.getResources().getString(R.string.USR_Janrain_Error_Need_Email_Verification));
         }
     }
 
@@ -213,7 +213,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     void setDiscription() {
         mEmailId = mUser.getEmail();
-        String email = getString(R.string.DLS_Verify_Email_Sent_Txt);
+        String email = getString(R.string.USR_DLS_Verify_Email_Sent_Txt);
         email = String.format(email, mEmailId);
         setupSpannableText(mTvVerifyEmail, email, mEmailId);
 
@@ -246,9 +246,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public int getTitleResourceId() {
         if (isSocialProvider) {
-            return R.string.DLS_SigIn_TitleTxt;
+            return R.string.USR_DLS_SigIn_TitleTxt;
         } else {
-            return R.string.DLS_URCreateAccount_NavTitle;
+            return R.string.USR_DLS_URCreateAccount_NavTitle;
         }
     }
 
@@ -301,13 +301,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void showVerifyAlertDialog() {
         if (isInstanceofCurrentFragment()) {
             RegAlertDialog.showDialog(mContext.getResources().getString(
-                    R.string.DLS_Email_Verify_Alert_Title),
+                    R.string.USR_DLS_Email_Verify_Alert_Title),
                     mContext.getResources().getString(
-                            R.string.DLS_Forgot_Password_Alert_Message_Line1),
+                            R.string.USR_DLS_Forgot_Password_Alert_Message_Line1),
                     mContext.getResources().getString(
-                            R.string.DLS_Forgot_Password_Alert_Message_Line2),
+                            R.string.USR_DLS_Forgot_Password_Alert_Message_Line2),
                     mContext.getResources().getString(
-                            R.string.DLS_Button_Title_Ok)
+                            R.string.USR_DLS_Button_Title_Ok)
                     , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
         }
     }

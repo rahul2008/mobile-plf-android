@@ -708,11 +708,11 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
         String valueForEmailVerification = "sample";
-        String optInTitleText = getResources().getString(R.string.DLS_OptIn_Navigation_Bar_Title);
-        String optInQuessionaryText = getResources().getString(R.string.DLS_OptIn_Header_Label);
-        String optInDetailDescription = getResources().getString(R.string.DLS_Optin_Body_Line1);
+        String optInTitleText = getResources().getString(R.string.USR_DLS_OptIn_Navigation_Bar_Title);
+        String optInQuessionaryText = getResources().getString(R.string.USR_DLS_OptIn_Header_Label);
+        String optInDetailDescription = getResources().getString(R.string.USR_DLS_Optin_Body_Line1);
         //String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String optInTitleBarText = getResources().getString(R.string.DLS_OptIn_Navigation_Bar_Title);
+        String optInTitleBarText = getResources().getString(R.string.USR_DLS_OptIn_Navigation_Bar_Title);
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
         registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
         registrationContentConfiguration.setOptInTitleText(optInTitleText);

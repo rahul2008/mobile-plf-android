@@ -11,17 +11,17 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public enum URXErrorEnum {
 
-    URX_SMS_INVALID_NUMBER(ErrorCodes.URX_INVALID_PHONENUMBER, R.string.URX_SMS_Invalid_PhoneNumber),
-    URX_PHONENUMBER_NOT_REGISTERED(ErrorCodes.URX_PHONENUMBER_NOT_REGISTERED, R.string.URX_SMS_Invalid_PhoneNumber),
-    URX_SMS__UNAVAILABLE_NUMBER(ErrorCodes.URX_PHONENUMBER_UNAVAILABLE, R.string.URX_SMS_Invalid_PhoneNumber),
-    URX_SMS_UNSUPPORTED_COUNTRY(ErrorCodes.URX_UNSUPPORTED_COUNTRY, R.string.URX_SMS_UnSupported_Country_ForSMS),
-    URX_SMS_LIMIT_REACHED(ErrorCodes.URX_SMS_LIMIT_REACHED, R.string.URX_SMS_Limit_Reached),
-    URX_SMS_INTERNAL_SERVER_ERROR(ErrorCodes.URX_SMS_INTERNAL_SERVER_ERROR, R.string.URX_SMS_InternalServerError),
-    URX_SMS_NO_INFO(ErrorCodes.URX_NO_INFO_AVAILABLE, R.string.URX_SMS_NoInformation_Available),
-    URX_SMS_NOT_SENT(ErrorCodes.URX_SMS_NOT_SENT, R.string.URX_SMS_Not_Sent),
-    URX_SMS_ALREADY_VERIFIED(ErrorCodes.URX_SMS_ACCOUNT_ALREADY_VERIFIED, R.string.URX_SMS_Already_Verified),
-    URX_SMS_FAILURE_CASE(ErrorCodes.URX_MOBILE_ACCOUNT_FAIURE, R.string.InvalidPhoneNumber_ErrorMsg),
-    URX_INVALID_VERIFICATION_CODE(ErrorCodes.URX_INVALID_VERIFICATION_CODE, R.string.VerificationCode_ErrorText);
+    URX_SMS_INVALID_NUMBER(ErrorCodes.URX_INVALID_PHONENUMBER, R.string.USR_URX_SMS_Invalid_PhoneNumber),
+    URX_PHONENUMBER_NOT_REGISTERED(ErrorCodes.URX_PHONENUMBER_NOT_REGISTERED, R.string.USR_URX_SMS_Invalid_PhoneNumber),
+    URX_SMS__UNAVAILABLE_NUMBER(ErrorCodes.URX_PHONENUMBER_UNAVAILABLE, R.string.USR_URX_SMS_Invalid_PhoneNumber),
+    URX_SMS_UNSUPPORTED_COUNTRY(ErrorCodes.URX_UNSUPPORTED_COUNTRY, R.string.USR_URX_SMS_UnSupported_Country_ForSMS),
+    URX_SMS_LIMIT_REACHED(ErrorCodes.URX_SMS_LIMIT_REACHED, R.string.USR_URX_SMS_Limit_Reached),
+    URX_SMS_INTERNAL_SERVER_ERROR(ErrorCodes.URX_SMS_INTERNAL_SERVER_ERROR, R.string.USR_URX_SMS_InternalServerError),
+    URX_SMS_NO_INFO(ErrorCodes.URX_NO_INFO_AVAILABLE, R.string.USR_URX_SMS_NoInformation_Available),
+    URX_SMS_NOT_SENT(ErrorCodes.URX_SMS_NOT_SENT, R.string.USR_URX_SMS_Not_Sent),
+    URX_SMS_ALREADY_VERIFIED(ErrorCodes.URX_SMS_ACCOUNT_ALREADY_VERIFIED, R.string.USR_URX_SMS_Already_Verified),
+    URX_SMS_FAILURE_CASE(ErrorCodes.URX_MOBILE_ACCOUNT_FAIURE, R.string.USR_InvalidPhoneNumber_ErrorMsg),
+    URX_INVALID_VERIFICATION_CODE(ErrorCodes.URX_INVALID_VERIFICATION_CODE, R.string.USR_VerificationCode_ErrorText);
 
     int errorCode;
     int stringId;
@@ -74,7 +74,7 @@ public enum URXErrorEnum {
             default:
 
                 if(getStringId(errorCode) == RegConstants.UNKNOWN_ERROR_ID ){
-                    return context.getString(R.string.Generic_Network_Error) +" "+ "["+errorCode+"]";
+                    return context.getString(R.string.USR_Generic_Network_Error) +" "+ "["+errorCode+"]";
                 }
                 return context.getString(getStringId(errorCode));
 

@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:text="@string/DLS_Merge_Accounts"
+                android:text="@string/USR_DLS_Merge_Accounts"
                 android:textSize="@dimen/reg_text_size_20"
                 android:textStyle="bold"/>
 
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/DLS_Traditional_Merge_Title"/>
+                android:text="@string/USR_DLS_Traditional_Merge_Title"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_mergeScreen_merge_account_label"
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/DLS_Traditional_Merge_Description"/>
+                android:text="@string/USR_DLS_Traditional_Merge_Description"/>
 
 
             <com.philips.platform.uid.view.widget.Label
@@ -60,7 +60,7 @@
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/DLS_Password_lbltxt"/>
+                android:text="@string/USR_DLS_Password_lbltxt"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_mergeScreen_password_inputLayout"
@@ -88,8 +88,8 @@
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonProgressText="@string/Account_Merge_Merge_btntxt"
-                app:uidProgressIndicatorButtonText="@string/Account_Merge_Merge_btntxt"/>
+                app:uidProgressIndicatorButtonProgressText="@string/USR_Account_Merge_Merge_btntxt"
+                app:uidProgressIndicatorButtonText="@string/USR_Account_Merge_Merge_btntxt"/>
 
 
             <com.philips.platform.uid.view.widget.Button
@@ -97,7 +97,7 @@
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/DLS_Traditional_Merge_ForgotPassword"
+                android:text="@string/USR_DLS_Traditional_Merge_ForgotPassword"
                 app:uidComponentType="Secondary"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError

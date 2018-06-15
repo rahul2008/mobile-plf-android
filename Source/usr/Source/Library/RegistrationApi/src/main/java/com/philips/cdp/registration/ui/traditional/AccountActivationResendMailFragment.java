@@ -187,7 +187,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             boolean isEmailVerifiedError = true;
             mBundle.putBoolean("isEmailVerifiedError", isEmailVerifiedError);
             mBundle.putString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY,
-                    mContext.getResources().getString(R.string.Janrain_Error_Need_Email_Verification));
+                    mContext.getResources().getString(R.string.USR_Janrain_Error_Need_Email_Verification));
         }
     }
 
@@ -278,9 +278,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public int getTitleResourceId() {
         if (isSocialProvider) {
-            return R.string.DLS_SigIn_TitleTxt;
+            return R.string.USR_DLS_SigIn_TitleTxt;
         } else {
-            return R.string.DLS_Resend_Email_Screen_title;
+            return R.string.USR_DLS_Resend_Email_Screen_title;
         }
     }
 
@@ -302,12 +302,12 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     private void showAlertDialog() {
         RegAlertDialog.showDialog(mContext.getResources().getString(
-                R.string.DLS_Email_Verify_Alert_Title),
+                R.string.USR_DLS_Email_Verify_Alert_Title),
                 mContext.getResources().getString(
-                        R.string.Janrain_Error_Need_Email_Verification),
+                        R.string.USR_Janrain_Error_Need_Email_Verification),
                 null,
                 mContext.getResources().getString(
-                        R.string.DLS_Button_Title_Ok)
+                        R.string.USR_DLS_Button_Title_Ok)
                 , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
     }
 
@@ -430,7 +430,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             emailResendTimerProgress.setSecondaryProgress(
                     ((60 - timeRemaining) * 100) / 60);
             emailResendTimerProgress.setText(
-                    String.format(mContext.getResources().getString(R.string.DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
+                    String.format(mContext.getResources().getString(R.string.USR_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
             disableResendButton();
         }
     }
@@ -453,7 +453,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     public void viewOrHideNotificationBar() {
         if (popupWindow == null) {
             View contentView = getRegistrationFragment().getNotificationContentView(
-                    mContext.getResources().getString(R.string.DLS_Resend_Email_NotificationBar_Title),
+                    mContext.getResources().getString(R.string.USR_DLS_Resend_Email_NotificationBar_Title),
                     mUser.getEmail());
             popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -518,9 +518,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     public void enableResendButton() {
         mResendEmail.setText(getResources().getString(
-                R.string.DLS_Resend_The_Email_Button_Title));
+                R.string.USR_DLS_Resend_The_Email_Button_Title));
         mResendEmail.setProgressText(getResources().getString(
-                R.string.DLS_Resend_The_Email_Button_Title));
+                R.string.USR_DLS_Resend_The_Email_Button_Title));
         if (networkUtility.isNetworkAvailable())
             mResendEmail.setEnabled(true);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : resend enab");
@@ -530,9 +530,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : resend update enable");
 
         mResendEmail.setText(getString(
-                R.string.Update_Email_Button_Text));
+                R.string.USR_Update_Email_Button_Text));
         mResendEmail.setProgressText(getString(
-                R.string.Update_Email_Button_Text));
+                R.string.USR_Update_Email_Button_Text));
         mResendEmail.setEnabled(true);
 
     }

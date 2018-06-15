@@ -120,9 +120,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         @Override
         public int isEmpty(boolean emptyField) {
             if (emptyField) {
-                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.EmptyField_ErrorMsg);
+                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.USR_EmptyField_ErrorMsg);
             } else {
-                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.InvalidEmailAdddress_ErrorMsg);
+                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.USR_InvalidEmailAdddress_ErrorMsg);
             }
             disableSendButton();
             return 0;
@@ -171,8 +171,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     private void initUI() {
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            usr_forgotpassword_email_label.setText(R.string.DLS_Email_Phone_Label_Text);
-            usr_forgotpassword_input_label.setText(R.string.DLS_Forgot_Password_Body_With_Phone_No);
+            usr_forgotpassword_email_label.setText(R.string.USR_DLS_Email_Phone_Label_Text);
+            usr_forgotpassword_input_label.setText(R.string.USR_DLS_Forgot_Password_Body_With_Phone_No);
         }
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         userIdEditText.requestFocus();
@@ -310,7 +310,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                 final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                         .setDialogType(DialogConstants.TYPE_DIALOG)
                         .setDialogLayout(R.layout.reg_forgot_password_alert)
-                        .setPositiveButton(getString(R.string.DLS_Forgot_Password_Alert_Button_Title), v -> {
+                        .setPositiveButton(getString(R.string.USR_DLS_Forgot_Password_Alert_Button_Title), v -> {
                             trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
                             alertDialogFragment.dismiss();
                             alertDialogFragment = null;
@@ -318,7 +318,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                         })
                         .setDimLayer(DialogConstants.DIM_STRONG)
                         .setCancelable(false);
-                builder.setTitle(getString(R.string.DLS_Forgot_Password_Alert_Title));
+                builder.setTitle(getString(R.string.USR_DLS_Forgot_Password_Alert_Title));
                 alertDialogFragment = builder.create();
                 alertDialogFragment.show(getFragmentManager(), null);
             }
@@ -343,9 +343,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
             //forgotPasswordErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
             if (RegistrationHelper.getInstance().isMobileFlow())
-                forgotPasswordErrorMessage(getString(R.string.DLS_Forgot_Password_Body_With_Phone_No));
+                forgotPasswordErrorMessage(getString(R.string.USR_DLS_Forgot_Password_Body_With_Phone_No));
             else
-                forgotPasswordErrorMessage(getString(R.string.DLS_Forgot_Password_Body_Without_Phone_No));
+                forgotPasswordErrorMessage(getString(R.string.USR_DLS_Forgot_Password_Body_Without_Phone_No));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR);
             RLog.e(TAG, "equal to SOCIAL_SIGIN_IN_ONLY_CODE Error code = " + userRegistrationFailureInfo.getErrorCode());
             sendEmailOrSMSButton.setEnabled(false);
@@ -372,7 +372,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public int getTitleResourceId() {
-        return R.string.DLS_SigIn_TitleTxt;
+        return R.string.USR_DLS_SigIn_TitleTxt;
     }
 
     @Override

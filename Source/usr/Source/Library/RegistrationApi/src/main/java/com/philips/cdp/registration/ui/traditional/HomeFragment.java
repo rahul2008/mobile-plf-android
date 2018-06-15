@@ -151,6 +151,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         initUI(view);
         handleOrientation(view);
         homePresenter.registerWeChatApp();
+
         initFacebookLogIn();
         return view;
     }
@@ -390,7 +391,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public int getTitleResourceId() {
-        return R.string.DLS_StratScreen_Nav_Title_Txt;
+        return R.string.USR_DLS_StratScreen_Nav_Title_Txt;
     }
 
     private ClickableSpan countryClickListener = new ClickableSpan() {
@@ -650,8 +651,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void updateCountryText(String text) {
-        mCountryDisplay.setText(String.format("%s %s", getString(R.string.Country_Region) + ":", text));
-        mCountryDisplay2.setText(String.format("%s %s", getString(R.string.Country_Region) + ":", text));
+        mCountryDisplay.setText(String.format("%s %s", getString(R.string.USR_Country_Region) + ":", text));
+        mCountryDisplay2.setText(String.format("%s %s", getString(R.string.USR_Country_Region) + ":", text));
 
         linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
         linkifyPrivacyPolicy(mCountryDisplay2, countryClickListener);
@@ -771,8 +772,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void wechatAppNotInstalled() {
         handleBtnClickableStates(true);
-        final String formatedString = String.format(mContext.getText(R.string.App_NotInstalled_AlertMessage).toString(),
-                mContext.getText(R.string.wechat));
+        final String formatedString = String.format(mContext.getText(R.string.USR_App_NotInstalled_AlertMessage).toString(),
+                mContext.getText(R.string.USR_wechat));
         Toast.makeText(mContext, formatedString
                 , Toast.LENGTH_SHORT).show();
     }
@@ -780,7 +781,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void wechatAppNotSupported() {
         handleBtnClickableStates(true);
-        Toast.makeText(mContext, mContext.getText(R.string.Provider_Not_Supported)
+        Toast.makeText(mContext, mContext.getText(R.string.USR_Provider_Not_Supported)
                 , Toast.LENGTH_SHORT).show();
     }
 

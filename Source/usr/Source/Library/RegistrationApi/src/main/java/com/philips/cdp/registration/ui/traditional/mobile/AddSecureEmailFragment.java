@@ -78,7 +78,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     public int getTitleResourceId() {
-        return R.string.DLS_URCreateAccount_NavTitle;
+        return R.string.USR_DLS_URCreateAccount_NavTitle;
     }
 
 
@@ -101,7 +101,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     @Override
     public void showInvalidEmailError() {
         rl_reg_securedata_email_field_inputValidation.setErrorMessage(
-                getString(R.string.InvalidEmailAdddress_ErrorMsg));
+                getString(R.string.USR_InvalidEmailAdddress_ErrorMsg));
         rl_reg_securedata_email_field_inputValidation.showError();
     }
 
@@ -131,7 +131,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void showNetworkUnavailableError() {
-        recoveryErrorTextView.setError(getResources().getString(R.string.JanRain_Server_ConnectionLost_ErrorMsg));
+        recoveryErrorTextView.setError(getResources().getString(R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg));
         recoveryErrorTextView.setVisibility(VISIBLE);
     }
 

@@ -127,7 +127,7 @@ public class HsdpUser {
                     handler.post(() -> ThreadUtils.postInMainThread(mContext, () ->
                             logoutHandler.
                                     onLogoutFailure(ErrorCodes.NETWORK_ERROR, mContext.
-                                            getString(R.string.Generic_Network_ErrorMsg))));
+                                            getString(R.string.USR_Generic_Network_ErrorMsg))));
                 } else {
                     if (dhpResponse.responseCode != null &&
                             dhpResponse.responseCode.equals(SUCCESS_CODE)) {

@@ -80,11 +80,11 @@ public class RegUtility {
             TextView termsAndConditionsAcceptance,
             final Activity activity, ClickableSpan termsAndConditionClickListener) {
 
-        String termsAndCondition = activity.getString(R.string.TermsAndConditionsAcceptanceText);
-        String acceptTermsAndCondition = activity.getString(R.string.TermsAndConditionsText);
+        String termsAndCondition = activity.getString(R.string.USR_TermsAndConditionsAcceptanceText);
+        String acceptTermsAndCondition = activity.getString(R.string.USR_TermsAndConditionsText);
         termsAndCondition = String.format(termsAndCondition, acceptTermsAndCondition);
         termsAndConditionsAcceptance.setText(termsAndCondition);
-        String terms = activity.getString(R.string.TermsAndConditionsText);
+        String terms = activity.getString(R.string.USR_TermsAndConditionsText);
         setupLinkify(termsAndConditionsAcceptance, activity, termsAndConditionClickListener, termsAndCondition, terms);
     }
 
@@ -98,11 +98,11 @@ public class RegUtility {
             CheckBox termsAndConditionsAcceptance,
             final Activity activity, ClickableSpan termsAndConditionClickListener) {
 
-        String termsAndCondition = activity.getString(R.string.DLS_TermsAndConditionsAcceptanceText);
-        String acceptTermsAndCondition = "\n" + activity.getString(R.string.DLS_TermsAndConditionsText);
+        String termsAndCondition = activity.getString(R.string.USR_DLS_TermsAndConditionsAcceptanceText);
+        String acceptTermsAndCondition = "\n" + activity.getString(R.string.USR_DLS_TermsAndConditionsText);
         termsAndCondition = String.format(termsAndCondition, acceptTermsAndCondition);
         termsAndConditionsAcceptance.setText(termsAndCondition);
-        String terms = activity.getString(R.string.DLS_TermsAndConditionsText);
+        String terms = activity.getString(R.string.USR_DLS_TermsAndConditionsText);
         setupLinkify(termsAndConditionsAcceptance, activity, termsAndConditionClickListener, termsAndCondition, terms);
     }
 
@@ -115,11 +115,11 @@ public class RegUtility {
     public static void linkifyPhilipsNews(TextView receivePhilipsNewsView,
                                           final Activity activity, ClickableSpan
                                                   receivePhilipsNewsClickListener) {
-        String receivePhilipsNews = activity.getString(R.string.DLS_OptIn_Promotional_Message_Line1);
-        String doesThisMeanStr = activity.getString(R.string.Receive_Philips_News_Meaning_lbltxt);
+        String receivePhilipsNews = activity.getString(R.string.USR_DLS_OptIn_Promotional_Message_Line1);
+        String doesThisMeanStr = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
         receivePhilipsNews = receivePhilipsNews + "\n" + doesThisMeanStr;
         receivePhilipsNewsView.setText(receivePhilipsNews);
-        String link = activity.getString(R.string.Receive_Philips_News_Meaning_lbltxt);
+        String link = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
     }
 
@@ -132,11 +132,11 @@ public class RegUtility {
     public static void linkifyPhilipsNewsMarketing(TextView receivePhilipsNewsView,
                                                    final Activity activity, ClickableSpan
                                                            receivePhilipsNewsClickListener) {
-        String receivePhilipsNews = activity.getString(R.string.DLS_OptIn_Promotional_Message_Line1);
-        String doesThisMeanStr = activity.getString(R.string.Receive_Philips_News_Meaning_lbltxt);
+        String receivePhilipsNews = activity.getString(R.string.USR_DLS_OptIn_Promotional_Message_Line1);
+        String doesThisMeanStr = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
         receivePhilipsNews = receivePhilipsNews + "\n" + doesThisMeanStr;
         receivePhilipsNewsView.setText(receivePhilipsNews);
-        String link = "\n" + activity.getString(R.string.Receive_Philips_News_Meaning_lbltxt);
+        String link = "\n" + activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
     }
 
@@ -385,7 +385,7 @@ public class RegUtility {
     }
 
     public static void showErrorMessage(Activity parentActivity) {
-        parentActivity.runOnUiThread(() -> Toast.makeText(parentActivity, parentActivity.getResources().getString(R.string.JanRain_Server_ConnectionLost_ErrorMsg), Toast.LENGTH_SHORT).show());
+        parentActivity.runOnUiThread(() -> Toast.makeText(parentActivity, parentActivity.getResources().getString(R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg), Toast.LENGTH_SHORT).show());
     }
 
     public static void handleDynamicPermissionChange(Activity registrationActivity) {
