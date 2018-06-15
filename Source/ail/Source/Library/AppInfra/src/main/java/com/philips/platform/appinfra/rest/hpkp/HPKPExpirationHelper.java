@@ -16,26 +16,25 @@ class HPKPExpirationHelper {
     private static final int BUFFER_TIME_IN_SECONDS = 86400;
 
     private String networkPinsExpiryDate;
-    private String storedPinsExpiryDate;
     private Date storedPinsExpiry;
     private Date networkPinsExpiry;
 
     HPKPExpirationHelper(String storedPublicKeyDetails, String networkPublicKeyDetails) {
-        int maxAge = getMaxAgeValue(networkPublicKeyDetails);
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND, maxAge);
-        networkPinsExpiryDate = getDateStringFromDate(calendar.getTime());
-        storedPinsExpiryDate = getExpiryDateString(storedPublicKeyDetails);
-        networkPinsExpiry = getDateFromDateString(networkPinsExpiryDate);
-        storedPinsExpiry = getDateFromDateString(storedPinsExpiryDate);
+        if(storedPublicKeyDetails!= null && storedPublicKeyDetails.isEmpty()){
+            String storedPinsExpiryDate = getExpiryDateString(storedPublicKeyDetails);
+            storedPinsExpiry = getDateFromDateString(storedPinsExpiryDate);
+        }
+        if(networkPublicKeyDetails!= null && networkPublicKeyDetails.isEmpty()){
+            int maxAge = getMaxAgeValue(networkPublicKeyDetails);
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.SECOND, maxAge);
+            networkPinsExpiryDate = getDateStringFromDate(calendar.getTime());
+            networkPinsExpiry = getDateFromDateString(networkPinsExpiryDate);
+        }
     }
 
     String getNetworkPinsExpiryDate() {
         return networkPinsExpiryDate;
-    }
-
-    String getStoredPinsExpiryDate() {
-        return storedPinsExpiryDate;
     }
 
     boolean shouldExpiryBeUpdated() {

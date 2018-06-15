@@ -6,8 +6,10 @@ import java.util.HashMap;
 
 class HPKPLoggingHelper {
 
-    static final String LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE = "Mismatch of stored pinned Public-key with certificate signature";
-    static final String LOG_MESSAGE_PUBLIC_KEY_PIN_EXPIRED = "Stored pinned Public-key matching header pinned Public-key is expired";
+    static final String LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE_EXPIRED = "Mismatch of certificate signature with stored pinned Public-key due to expiry";
+    static final String LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE = "Mismatch of certificate signature with stored pinned Public-key";
+    static final String LOG_MESSAGE_PUBLIC_KEY_PIN_CERTIFICATE_EXPIRED = "Certificate signature matching the Stored pinned Public-key is expired";
+    static final String LOG_MESSAGE_PUBLIC_KEY_PIN_HEADER_EXPIRED = "Stored pinned Public-key matching header pinned Public-key is expired";
     static final String LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_HEADER = "Mismatch of stored pinned Public-key with response header pinned Public-key";
     static final String LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_NETWORK = "Could not find Public-Key-Pins in network response";
     static final String LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_STORAGE = "Could not find Public-Key-Pins in storage";
@@ -36,11 +38,11 @@ class HPKPLoggingHelper {
         }
     }
 
-    private void log(String hostname, String message, LoggingInterface.LogLevel logLevel) {
-        loggingInterface.log(logLevel, HPKPManager.class.getSimpleName(), LOG_MESSAGE_BASE + ":" + hostname + ":" + message);
-    }
-
     void logDebug(String hostname, String message) {
         log(hostname, message, LoggingInterface.LogLevel.DEBUG);
+    }
+
+    private void log(String hostname, String message, LoggingInterface.LogLevel logLevel) {
+        loggingInterface.log(logLevel, HPKPManager.class.getSimpleName(), LOG_MESSAGE_BASE + ":" + hostname + ":" + message);
     }
 }

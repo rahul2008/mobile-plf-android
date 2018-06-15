@@ -16,8 +16,10 @@ import java.util.regex.Pattern;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPExpirationHelper.EXPIRY_DATE_REGEX;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_NETWORK;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_STORAGE;
-import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_EXPIRED;
+import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_CERTIFICATE_EXPIRED;
+import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_HEADER_EXPIRED;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE;
+import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE_EXPIRED;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_HEADER;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_STORAGE_ERROR;
 
@@ -51,7 +53,7 @@ public class HPKPManager implements HPKPInterface {
                     for (String publicKey : publicKeys) {
                         if (storedPublicKeyDetails.contains(publicKey)) {
                             if (hpkpExpirationHelper.isPinnedPublicKeyExpired()) {
-                                hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_EXPIRED);
+                                hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_HEADER_EXPIRED);
                             } else if (hpkpExpirationHelper.shouldExpiryBeUpdated()) {
                                 String updatedStoredKeyDetails = storedPublicKeyDetails.split(EXPIRY_DATE_REGEX)[0];
                                 updateStoredPublicKeyDetails(hostName, updatedStoredKeyDetails.concat(" " + "expiry-date=\"" + hpkpExpirationHelper.getNetworkPinsExpiryDate() + "\";"));
@@ -66,23 +68,26 @@ public class HPKPManager implements HPKPInterface {
         }
     }
 
-    private void updateStoredPublicKeyDetails(String hostName, String networkPublicKeyDetails) {
-        boolean isSuccess = hpkpStorageHelper.updateStoredPublicKeyDetails(hostName, networkPublicKeyDetails);
-        if (!isSuccess) {
-            hpkpLoggingHelper.logDebug(hostName, LOG_MESSAGE_STORAGE_ERROR);
-        }
-    }
-
     @Override
     public boolean isPinnedCertificateMatching(String hostName, List<X509Certificate> chain) {
         String storedPublicKeyDetails = hpkpStorageHelper.getStoredPublicKeyDetails(hostName);
+        boolean isCertificatePinsMisMatch = true;
         for (X509Certificate certificate : chain) {
             String certificatePin = getSHA256Value(certificate);
             if (certificatePin != null && storedPublicKeyDetails.contains(certificatePin))
-                return true;
+                isCertificatePinsMisMatch = false;
+                break;
         }
-        hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE);
-        return false;
+        HPKPExpirationHelper hpkpExpirationHelper = new HPKPExpirationHelper(storedPublicKeyDetails, null);
+        boolean isPinnedPublicKeyExpired = hpkpExpirationHelper.isPinnedPublicKeyExpired();
+        if(isCertificatePinsMisMatch && isPinnedPublicKeyExpired){
+            hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE_EXPIRED);
+        }else if(isCertificatePinsMisMatch){
+            hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE);
+        }else if(isPinnedPublicKeyExpired){
+            hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_CERTIFICATE_EXPIRED);
+        }
+        return !isCertificatePinsMisMatch && !isPinnedPublicKeyExpired;
     }
 
     private String getSHA256Value(X509Certificate certificate) {
@@ -108,5 +113,12 @@ public class HPKPManager implements HPKPInterface {
             pinnedKeysList.add(matcher.group(1));
         }
         return pinnedKeysList;
+    }
+
+    private void updateStoredPublicKeyDetails(String hostName, String networkPublicKeyDetails) {
+        boolean isSuccess = hpkpStorageHelper.updateStoredPublicKeyDetails(hostName, networkPublicKeyDetails);
+        if (!isSuccess) {
+            hpkpLoggingHelper.logDebug(hostName, LOG_MESSAGE_STORAGE_ERROR);
+        }
     }
 }
