@@ -14,7 +14,7 @@ Version {next}
 * N/A
 
 ### Breaking Changes
-* N/A
+* \#73052 Earlier logging was enabled by default, after this change, it has been disabled. If a proposition now needs CommLib logging, it has to explicitly enable it by calling DICommLog.enableLogging. 
 
 ### Defects solved
 * N/A
