@@ -94,34 +94,6 @@ public class TabUtils {
     }
 
     /**
-     * In case UIKit default tabstyle is used this function must be called to hide the action bar
-     * shadow.
-     *
-     * @param activity
-     */
-    public static void disableActionbarShadow(Activity activity) {
-        if (activity == null) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (activity instanceof AppCompatActivity) {
-                if (((AppCompatActivity) activity).getSupportActionBar() != null)
-                    ((AppCompatActivity) activity).getSupportActionBar().setElevation(0);
-            } else {
-                if (activity.getActionBar() != null)
-                    activity.getActionBar().setElevation(0);
-            }
-        } else {
-            View content = activity.findViewById(android.R.id.content);
-            if (content != null && content.getParent() instanceof ActionBarOverlayLayout) {
-                ((ViewGroup) content.getParent()).setWillNotDraw(true);
-
-                if (content instanceof FrameLayout) {
-                    ((FrameLayout)content).setForeground(null);
-                }
-            }
-        }
-    }
-
-    /**
      * Creates a new Tab. Initializes the tab with different layouts.
      * If image is required in tabs, it must be called with non zero value for image resource id
      * and later can be udpated with proper resourceID or drawable.

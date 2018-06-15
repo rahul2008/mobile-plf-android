@@ -17,7 +17,7 @@ ext.platformversionsuffix = baseplatformversion + ".+"
 ext.versions = [
         sdk                  : 27,
         target               : 27,
-        minsdk               : 21,
+        minsdk               : 23,
         buildtools           : '27.0.3',
         support              : '27.0.2',
         jacoco               : '0.8.0',

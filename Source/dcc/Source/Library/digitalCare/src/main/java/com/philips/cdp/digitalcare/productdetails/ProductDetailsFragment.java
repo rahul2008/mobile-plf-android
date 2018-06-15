@@ -409,18 +409,14 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
                 if ((mFilePath != null) && (!mFilePath.equals(""))) {
 
-                    String pdfName = mFilePath.substring(mFilePath.lastIndexOf("/")+1);
+                    String pdfName = mFilePath.substring(mFilePath.lastIndexOf("/") + 1);
 
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-                        int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
-                                WRITE_EXTERNAL_STORAGE);
-                        if (hasPermission != PackageManager.PERMISSION_GRANTED) {
-                            requestPermissions(new String[]{Manifest.permission.
-                                            WRITE_EXTERNAL_STORAGE},
-                                    123);
-                        } else {
-                            callDownloadPDFMethod(mFilePath, pdfName);
-                        }
+                    int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
+                            WRITE_EXTERNAL_STORAGE);
+                    if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.
+                                        WRITE_EXTERNAL_STORAGE},
+                                123);
                     } else {
                         callDownloadPDFMethod(mFilePath, pdfName);
                     }

@@ -19,7 +19,7 @@ import org.robolectric.annotation.Config;
  * Created by philips on 11/22/17.
  */
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class MergeAccountPresenterTest {
 
     @Mock

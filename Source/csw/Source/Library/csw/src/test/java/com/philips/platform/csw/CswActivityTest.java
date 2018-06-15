@@ -31,7 +31,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21, application = CswTestApplication.class, shadows = {ShadowXIConTextView.class})
+@Config(constants = BuildConfig.class, sdk = 25, application = CswTestApplication.class, shadows = {ShadowXIConTextView.class})
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "com.android.*", "com.sun.org.apache.xerces.internal.jaxp.*" })
 @PrepareForTest({ThemeUtils.class, FontLoader.class})
 public class CswActivityTest {
