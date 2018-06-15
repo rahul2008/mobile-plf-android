@@ -8,7 +8,6 @@ package com.philips.cdp2.commlib.ble.communication;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -24,6 +23,8 @@ import com.philips.cdp2.commlib.util.VerboseExecutor;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,6 +42,20 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     private static final long DEFAULT_SUBSCRIPTION_POLLING_INTERVAL = 2000;
 
     private static final long CONNECTION_TIMEOUT = 30000L;
+
+    private final SHNCentral.SHNCentralListener centralListener = new SHNCentral.SHNCentralListener() {
+        @Override
+        public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+            handleAvailabilityChange();
+        }
+    };
+
+    private PropertyChangeListener networkNodePropertyChangeListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            handleAvailabilityChange();
+        }
+    };
 
     @NonNull
     private final SHNCentral central;
@@ -99,18 +114,31 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
         this.requestExecutor = requestExecutor;
         this.subscriptionPollingInterval = subscriptionPollingInterval;
         this.callbackHandler = callbackHandler;
+
+        this.central.registerShnCentralListener(centralListener);
+        this.networkNode.addPropertyChangeListener(networkNodePropertyChangeListener);
+
+        isAvailable = isAvailable();
     }
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        final BleRequest request = new BleGetRequest(getBleDevice(), portName, productId, responseHandler, callbackHandler, disconnectAfterRequest);
-        dispatchRequest(request);
+        if (isAvailable()) {
+            final BleRequest request = new BleGetRequest(getBleDevice(), portName, productId, responseHandler, callbackHandler, disconnectAfterRequest);
+            dispatchRequest(request);
+        } else {
+            responseHandler.onError(Error.CANNOT_CONNECT, "Communication is not available");
+        }
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BlePutRequest(getBleDevice(), portName, productId, dataMap, responseHandler, callbackHandler, disconnectAfterRequest);
-        dispatchRequest(request);
+        if (isAvailable()) {
+            final BleRequest request = new BlePutRequest(getBleDevice(), portName, productId, dataMap, responseHandler, callbackHandler, disconnectAfterRequest);
+            dispatchRequest(request);
+        } else {
+            responseHandler.onError(Error.CANNOT_CONNECT, "Communication is not available");
+        }
     }
 
     @Override
@@ -167,7 +195,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return central.isBluetoothAdapterEnabled();
+        return central.isBluetoothAdapterEnabled() && networkNode.getMacAddress() != null;
     }
 
     /**
@@ -206,5 +234,14 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
             bleDevice = central.createSHNDeviceForAddressAndDefinition(networkNode.getMacAddress(), new ReferenceNodeDeviceDefinitionInfo());
         }
         return bleDevice;
+    }
+
+    private void handleAvailabilityChange() {
+        boolean newAvailability = isAvailable();
+
+        if (newAvailability != isAvailable) {
+            isAvailable = newAvailability;
+            notifyAvailabilityChanged();
+        }
     }
 }
