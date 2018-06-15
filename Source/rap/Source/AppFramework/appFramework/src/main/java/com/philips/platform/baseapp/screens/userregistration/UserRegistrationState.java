@@ -327,12 +327,12 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
-        launchWebView(Constants.PRIVACY, getApplicationContext().getString(R.string.PrivacyNoticeText));
+        launchWebView(Constants.PRIVACY, getApplicationContext().getString(R.string.USR_PrivacyNoticeText));
     }
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
-        launchWebView(Constants.TERMS_AND_CONDITIONS, getApplicationContext().getString(R.string.TermsAndConditionsText));
+        launchWebView(Constants.TERMS_AND_CONDITIONS, getApplicationContext().getString(R.string.USR_TermsAndConditionsText));
     }
 
     public void launchWebView(String serviceId, String title) {
