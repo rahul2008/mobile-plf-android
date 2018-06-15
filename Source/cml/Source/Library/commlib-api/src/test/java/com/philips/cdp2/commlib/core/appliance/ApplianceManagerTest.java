@@ -228,14 +228,14 @@ public class ApplianceManagerTest {
     }
 
     @Test
-    public void whenStrategyLosesNodeButApplianceIsStillAvailable_thenApplianceListenerIsNotCalled() {
+    public void whenStrategyLosesNodeButApplianceIsStillAvailable_thenApplianceListenerIsCalled() {
         managerUnderTest.addApplianceListener(applianceListenerMock);
         when(applianceMock.isAvailable()).thenReturn(true);
 
         firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
         firstDiscoveryListener().onNetworkNodeLost(networkNodeMock);
 
-        verify(applianceListenerMock, never()).onApplianceLost(applianceMock);
+        verify(applianceListenerMock).onApplianceLost(applianceMock);
     }
 
     @Test
