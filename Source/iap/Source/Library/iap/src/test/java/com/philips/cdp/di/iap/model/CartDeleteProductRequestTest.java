@@ -50,7 +50,7 @@ public class CartDeleteProductRequestTest {
     @Test
     public void testRequestMethodIsDELETE() {
         CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, null, null);
-        assertEquals(Request.Method.DELETE, request.getMethod());
+        assertEquals(Request.Method.PUT, request.getMethod());
     }
 
     @Test
