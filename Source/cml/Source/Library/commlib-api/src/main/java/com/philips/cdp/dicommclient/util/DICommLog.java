@@ -61,7 +61,7 @@ public class DICommLog {
     public static final String APPLIANCE_MANAGER = "ApplianceManager";
     public static final String UDPRECEIVER = "UdpEventReceiver";
 
-    private static boolean isLoggingEnabled = true;
+    private static boolean isLoggingEnabled = false;
 
     private static boolean isSaveToFileEnabled = false;
 
