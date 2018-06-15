@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">Inserisci un indirizzo e-mail valido.</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">Impossibile riconoscere il numero di telefono. Controlla il codice paese.</string>
   <string name="USR_JanRain_Error_Check_Internet">Si è verificato un problema con la connessione di rete. Riprova.</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Impossibile connettersi al server. %s.\nI problemi persistono? Contatta l\'assistenza clienti indicando il codice di errore [%d]</string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Impossibile connettersi al server. %s.\nI problemi persistono? Contatta l\'assistenza clienti indicando il codice di errore </string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Torna indietro e accedi nuovamente.</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">Questo indirizzo e-mail esiste già. Accedi con questo indirizzo o effettua la registrazione con un altro indirizzo.</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">Registrazione %s già effettuata.</string>

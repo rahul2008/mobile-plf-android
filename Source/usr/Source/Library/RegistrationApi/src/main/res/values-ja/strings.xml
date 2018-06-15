@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">有効なメールアドレスを入力してください。</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">電話番号を認識できませんでした。国番号を確認してください。</string>
   <string name="USR_JanRain_Error_Check_Internet">ネットワーク接続に問題があります。再試行してください。</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">サーバーに接続できません。%s。\n問題が解決しない場合は、カスタマーケアにお問い合わせください。その際エラーコード [%d] をお伝えください</string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">サーバーに接続できません。%s。\n問題が解決しない場合は、カスタマーケアにお問い合わせください。その際エラーコード  をお伝えください</string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s。戻って再度ログインしてください。</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">このメールアドレスは既に存在します。このアドレスを使用してログインするか、別のアドレスを使用して登録してください。</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">%s は既に登録されています。</string>

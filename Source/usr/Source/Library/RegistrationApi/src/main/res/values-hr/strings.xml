@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">Unesite valjanu adresu e-pošte.</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">Ne prepoznaje se telefonski broj. Provjerite pozivni broj države.</string>
   <string name="USR_JanRain_Error_Check_Internet">Došlo je do problema u vezi s mrežom. Pokušajte ponovo.</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Ne može se povezati s poslužiteljem. %s.\nI dalje imate poteškoće? Kontaktirajte korisničku službu i navedite šifru pogreške [%d]</string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Ne može se povezati s poslužiteljem. %s.\nI dalje imate poteškoće? Kontaktirajte korisničku službu i navedite šifru pogreške</string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Vratite se i ponovo se prijavite.</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">Ova adresa e-pošte već postoji. Prijavite se s ovom adresom ili se registrirajte s drugom.</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">%s je već registriran.</string>

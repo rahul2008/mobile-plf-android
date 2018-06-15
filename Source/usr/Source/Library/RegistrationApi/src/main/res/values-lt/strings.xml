@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">Įveskite galiojantį el. pašto adresą.</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">Neatpažįstame telefono numerio. Patikrinkite šalies kodą.</string>
   <string name="USR_JanRain_Error_Check_Internet">Iškilo tinklo ryšio problema. Bandykite dar kartą.</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Negalima prisijungti prie serverio. %s.\nVis dar kyla sunkumų? Susisiekite su klientų aptarnavimo centru ir pasakykite klaidos kodą [%d]</string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Negalima prisijungti prie serverio. %s.\nVis dar kyla sunkumų? Susisiekite su klientų aptarnavimo centru ir pasakykite klaidos kodą </string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Grįžkite ir prisijunkite dar kartą.</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">Šis el. pašto adresas jau egzistuoja. Prisijunkite naudodami šį adresą arba užregistruokite kitą.</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">Jūsų %s jau užregistruotas.</string>

@@ -263,7 +263,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         mEtPassword.setOnClickListener(this);
         mEtPassword.setValidator(password -> password.length() > 0);
-//        mEtPassword.setErrorMessage(getString(R.string.reg_PasswordField_ErrorMsg));
         mRegError = view.findViewById(R.id.usr_loginScreen_error_view);
         linkifyPrivacyPolicy(resetPasswordLabel, forgotPasswordClickListener);
         handleUiState();

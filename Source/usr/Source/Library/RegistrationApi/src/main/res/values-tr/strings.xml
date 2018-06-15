@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">Lütfen geçerli bir e-posta adresi girin.</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">Telefon numaranız tanınmıyor. Lütfen ülke kodunu kontrol edin.</string>
   <string name="USR_JanRain_Error_Check_Internet">Ağ bağlantısında bir sorun oluştu. Lütfen tekrar deneyin.</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Sunucuya bağlanılamıyor. %s.\nSorun hala devam ediyor mu? [%d] numaralı hata kodunu kullanarak Müşteri Desteğiyle iletişime geçin</string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Sunucuya bağlanılamıyor. %s.\nSorun hala devam ediyor mu?  numaralı hata kodunu kullanarak Müşteri Desteğiyle iletişime geçin</string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Lütfen geri gidin ve tekrar oturum açın.</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">Bu e-posta adresi zaten mevcut. Lütfen bu adresi kullanarak oturum açın veya farklı bir adres kullanarak kaydolun.</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">%s zaten kayıtlı.</string>

@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">Zadejte platnou e-mailovou adresu.</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">Nepoznáváme vaše telefonní číslo. Zkontrolujte předvolbu své země.</string>
   <string name="USR_JanRain_Error_Check_Internet">Došlo k problému s připojením k síti. Zkuste to znovu.</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Nepodařilo se připojit k serveru. %s.\nStále máte potíže? Kontaktujte oddělení péče o zákazníky a uveďte kód chyby [%d]</string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Nepodařilo se připojit k serveru. %s.\nStále máte potíže? Kontaktujte oddělení péče o zákazníky a uveďte kód chyby</string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Vraťte se a znovu se přihlaste.</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">Tato e-mailová adresa již existuje. Přihlaste se pomocí ní nebo se zaregistrujte a použijte jinou adresu.</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">Vaše %s jsou již zaregistrovány.</string>
