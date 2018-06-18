@@ -5,8 +5,12 @@
    - consent of the copyright holder. -->
 
 <resources>
+  <string name="CATK_NO_INTERNET_CONNECTION_KEY">Φαίνεστε offline. Ελέγξτε τις ρυθμίσεις internet.</string>
+  <string name="CATK_PROBLEM_OCCURED">Λυπούμαστε, αλλά κάτι πήγε στραβά. Δοκιμάστε ξανά αργότερα.</string>
   <string name="MYA_Visit_Website">[el]Visit our website</string>
   <string name="csw_consent_help_label">Τι σημαίνει αυτό;</string>
+  <string name="csw_generic_network_error">Αδύνατη η σύνδεση με τον διακομιστή.
+Ελέγξτε τη σύνδεση στο internet και δοκιμάστε πάλι.</string>
   <string name="csw_invalid_access_token_error_message">Προέκυψε πρόβλημα κατά τη σύνδεση στο διακομιστή. Βεβαιωθείτε ότι η ημερομηνία/ώρα έχουν ρυθμιστεί σωστά στη συσκευή σας. Αν το πρόβλημα παραμένει, αποσυνδεθείτε και συνδεθείτε ξανά.</string>
   <string name="csw_offline_message">Η σύνδεσή σας στο Internet πιθανόν να μην λειτουργεί. Ελέγξτε τη και δοκιμάστε ξανά</string>
   <string name="csw_offline_title">Βρίσκεστε εκτός σύνδεσης</string>
@@ -17,7 +21,7 @@
   <string name="csw_privacy_settings_desc">Ελέγξτε το απόρρητό σας. Διαβάστε τη {δήλωση απορρήτου} για περισσότερες πληροφορίες.</string>
   <string name="csw_problem_occurred_error_message">Προέκυψε πρόβλημα (σφάλμα %1$d). Δοκιμάστε ξανά.</string>
   <string name="csw_problem_occurred_error_title">Προέκυψε πρόβλημα</string>
-  <string name="csw_user_session_expired">[el]Your session is invalid, please log out and log in again</string>
+  <string name="csw_user_session_expired">Η περίοδος σύνδεσης έληξε. Αποσυνδεθείτε και συνδεθείτε ξανά.</string>
   <string name="mya_Account_settings">Ρυθμίσεις λογαριασμού</string>
   <string name="mya_Address">Διεύθυνση</string>
   <string name="mya_Cancel">Άκυρο</string>
