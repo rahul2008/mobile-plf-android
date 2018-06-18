@@ -5,8 +5,12 @@
    - consent of the copyright holder. -->
 
 <resources>
+  <string name="CATK_NO_INTERNET_CONNECTION_KEY">Brak połączenia z Internetem. Sprawdź ustawienia internetowe.</string>
+  <string name="CATK_PROBLEM_OCCURED">Przepraszamy, coś poszło nie tak. Spróbuj ponownie.</string>
   <string name="MYA_Visit_Website">[pl]Visit our website</string>
   <string name="csw_consent_help_label">Co to oznacza?</string>
+  <string name="csw_generic_network_error">Nie można połączyć z serwerem.
+Sprawdź połączenie z Internetem i spróbuj ponownie.</string>
   <string name="csw_invalid_access_token_error_message">Wystąpił problem z połączeniem z serwerem. Upewnij się, że ustawienie daty/godziny w telefonie jest poprawne. Jeśli problem nie ustąpi, wyloguj się i zaloguj się ponownie.</string>
   <string name="csw_offline_message">Połączenie internetowe prawdopodobnie nie działa. Sprawdź i spróbuj ponownie</string>
   <string name="csw_offline_title">Nie masz połączenia z Internetem</string>
@@ -17,7 +21,7 @@
   <string name="csw_privacy_settings_desc">Dbaj o swoją prywatność. Więcej informacji znajdziesz w {oświadczeniu o prywatności}.</string>
   <string name="csw_problem_occurred_error_message">Wystąpił problem (błąd %1$d). Spróbuj ponownie.</string>
   <string name="csw_problem_occurred_error_title">Wystąpił problem</string>
-  <string name="csw_user_session_expired">[pl]Your session is invalid, please log out and log in again</string>
+  <string name="csw_user_session_expired">Sesja jest nieprawidłowa, wyloguj się, a następnie zaloguj się ponownie.</string>
   <string name="mya_Account_settings">Ustawienia konta</string>
   <string name="mya_Address">Adres</string>
   <string name="mya_Cancel">Anuluj</string>

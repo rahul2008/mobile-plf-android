@@ -5,8 +5,12 @@
    - consent of the copyright holder. -->
 
 <resources>
+  <string name="CATK_NO_INTERNET_CONNECTION_KEY">Vypadá to, že jste offline. Zkontrolujte nastavení připojení.</string>
+  <string name="CATK_PROBLEM_OCCURED">Je nám líto, ale něco se pokazilo. Zkuste to znovu.</string>
   <string name="MYA_Visit_Website">[cs]Visit our website</string>
   <string name="csw_consent_help_label">Co to znamená?</string>
+  <string name="csw_generic_network_error">Nepodařilo se připojit k serveru
+Zkontrolujte své internetové připojení a zkuste to znovu.</string>
   <string name="csw_invalid_access_token_error_message">Při připojování k serveru došlo k problému. Zkontrolujte, že datum a čas na zařízení jsou nastaveny správně. Pokud problém přetrvává, zkuste se odhlásit a znovu přihlásit.</string>
   <string name="csw_offline_message">Připojení k internetu zřejmě nefunguje. Zkontrolujte a zopakujte akci</string>
   <string name="csw_offline_title">Jste offline</string>
@@ -18,7 +22,7 @@
   <string name="csw_privacy_settings_desc">Spravujte své soukromí. Více informací najdete v zásadách ochrany osobních údajů.</string>
   <string name="csw_problem_occurred_error_message">Došlo k problému (chyba %d). Zkuste to znovu.</string>
   <string name="csw_problem_occurred_error_title">Došlo k problému</string>
-  <string name="csw_user_session_expired">[cs]Your session is invalid, please log out and log in again</string>
+  <string name="csw_user_session_expired">Vaše relace je neplatná. Odhlaste se a znovu se přihlaste</string>
   <string name="mya_Account_settings">Nastavení účtu</string>
   <string name="mya_Address">Adresa</string>
   <string name="mya_Cancel">Zrušit</string>
