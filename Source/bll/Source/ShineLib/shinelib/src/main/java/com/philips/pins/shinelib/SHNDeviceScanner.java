@@ -10,8 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinelib.utility.SHNTagger;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;

@@ -17,9 +17,9 @@ import com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates;
 import com.philips.pins.shinelib.framework.BleDeviceFoundInfo;
 import com.philips.pins.shinelib.framework.LeScanCallbackProxy;
 import com.philips.pins.shinelib.framework.LeScanCallbackProxy.LeScanCallback;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.BleScanRecord;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinelib.utility.SHNTagger;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -15,8 +15,8 @@ import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinelib.utility.SHNTagger;
 import com.philips.pins.shinelib.workarounds.Workaround;
 
 import java.security.InvalidParameterException;

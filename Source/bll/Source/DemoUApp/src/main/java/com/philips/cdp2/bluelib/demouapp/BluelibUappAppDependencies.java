@@ -6,12 +6,13 @@ package com.philips.cdp2.bluelib.demouapp;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
+import com.philips.pins.shinelib.tagging.AppInfraTagger;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -22,10 +23,13 @@ public class BluelibUappAppDependencies extends UappDependencies {
 
     private SHNCentral shnCentral;
 
-    public BluelibUappAppDependencies(final @NonNull Context context, @Nullable AppInfraInterface appInfraInterface) {
-        super(appInfraInterface);
+    public BluelibUappAppDependencies(final @NonNull Context context, final @NonNull AppInfraInterface appInfraInstance) {
+        super(null);
 
-        SHNCentral.Builder builder = new SHNCentral.Builder(context, mAppInfraInterface);
+        SHNTagger.registerTagger(new AppInfraTagger(appInfraInstance));
+        SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
+
+        SHNCentral.Builder builder = new SHNCentral.Builder(context);
         builder.showPopupIfBLEIsTurnedOff(true);
 
         try {

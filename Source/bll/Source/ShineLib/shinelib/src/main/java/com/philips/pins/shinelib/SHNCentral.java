@@ -30,11 +30,8 @@ import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinelib.utility.SHNTagger;
 import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -90,7 +87,6 @@ public class SHNCentral {
          * @param shnCentral the {@code SHNCentral} object that had its state changed.
          */
         void onStateUpdated(@NonNull SHNCentral shnCentral);
-
     }
 
     /**
@@ -106,14 +102,12 @@ public class SHNCentral {
          * @param previousBondState Previous bond state of the device
          */
         void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
-
     }
 
     private static final String TAG = "SHNCentral";
 
     @NonNull
     private final BleUtilities bleUtilities;
-
     private final Handler userHandler;
     private final Context applicationContext;
     private SHNUserConfiguration shnUserConfiguration;
@@ -176,15 +170,13 @@ public class SHNCentral {
     };
 
     @SuppressLint("UseSparseArrays")
-    SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider, @Nullable AppInfraInterface appInfraInterface) throws SHNBluetoothHardwareUnavailableException {
+    SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
         shnCentralListeners = new CopyOnWriteArraySet<>();
         shnCentralInternalListeners = new HashMap<>();
         shnBondStatusListeners = new HashMap<>();
 
         applicationContext = context.getApplicationContext();
-        if (appInfraInterface != null) {
-            SHNTagger.initialize(appInfraInterface);
-        }
+
         bleUtilities = new BleUtilities(applicationContext);
 
         if (!bleUtilities.isBleFeatureAvailable()) {
@@ -657,8 +649,6 @@ public class SHNCentral {
     public static class Builder {
         private Handler handler;
         private final Context context;
-        @Nullable
-        private final AppInfraInterface appInfraInterface;
         private Boolean showPopupIfBLEIsTurnedOff = false;
         private Boolean migrateFromDefaultProviderToCustom = false;
         private SharedPreferencesProvider sharedPreferencesProvider;
@@ -666,12 +656,10 @@ public class SHNCentral {
         /**
          * Create a {@code SHNCentral.Builder}.
          *
-         * @param context           the {@code Context} in which the {@link SHNCentral} will be used
-         * @param appInfraInterface the AppInfra interface instance used to obtain the {@link AppTaggingInterface} from.
+         * @param context the {@code Context} in which the {@link SHNCentral} will be used
          */
-        public Builder(@NonNull final Context context, @Nullable final AppInfraInterface appInfraInterface) {
+        public Builder(@NonNull final Context context) {
             this.context = context;
-            this.appInfraInterface = appInfraInterface;
         }
 
         /**
@@ -733,7 +721,7 @@ public class SHNCentral {
          * @throws SHNBluetoothHardwareUnavailableException if no BlueTooth hardware was available on the device
          */
         public SHNCentral create() throws SHNBluetoothHardwareUnavailableException {
-            return new SHNCentral(handler, context, showPopupIfBLEIsTurnedOff, sharedPreferencesProvider, migrateFromDefaultProviderToCustom, appInfraInterface);
+            return new SHNCentral(handler, context, showPopupIfBLEIsTurnedOff, sharedPreferencesProvider, migrateFromDefaultProviderToCustom);
         }
     }
 }

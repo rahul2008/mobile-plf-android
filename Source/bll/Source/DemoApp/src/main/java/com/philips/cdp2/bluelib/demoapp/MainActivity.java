@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         final Context context = getApplicationContext();
-        final AppInfraInterface appInfraInterface = new AppInfra.Builder().build(context);
+        final AppInfraInterface appInfraInstance = new AppInfra.Builder().build(context);
 
-        bluelibUapp.init(new BluelibUappAppDependencies(context, appInfraInterface), new UappSettings(getApplicationContext()));
+        bluelibUapp.init(new BluelibUappAppDependencies(context, appInfraInstance), new UappSettings(getApplicationContext()));
     }
 
     @Override

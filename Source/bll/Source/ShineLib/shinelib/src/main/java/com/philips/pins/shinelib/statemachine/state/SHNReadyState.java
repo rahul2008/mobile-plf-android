@@ -14,8 +14,8 @@ import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.statemachine.SHNDeviceState;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinelib.utility.SHNTagger;
 
 import java.util.Locale;
 

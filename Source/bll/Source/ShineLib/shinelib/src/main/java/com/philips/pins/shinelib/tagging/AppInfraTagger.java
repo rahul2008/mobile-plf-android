@@ -3,10 +3,10 @@
  * All rights reserved.
  */
 
-package com.philips.pins.shinelib.utility;
+package com.philips.pins.shinelib.tagging;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -17,58 +17,43 @@ import java.util.Map;
 import static com.philips.pins.shinelib.BuildConfig.LIBRARY_VERSION;
 import static com.philips.pins.shinelib.BuildConfig.TLA;
 import static com.philips.pins.shinelib.BuildConfig.VERSION_NAME;
-import static com.philips.pins.shinelib.utility.SHNTagger.Key.SEND_DATA;
-import static com.philips.pins.shinelib.utility.SHNTagger.Key.TECHNICAL_ERROR;
 import static com.philips.platform.appinfra.tagging.AppTaggingConstants.COMPONENT_VERSION;
 
-/**
- * Tagger for BlueLib.
- * <p>
- * Makes use of AppInfra's {@link AppTaggingInterface} to send debug data.
- *
- * @publicApi
- */
-public class SHNTagger {
-
-    private static final String TAG = "SHNTagger";
+public class AppInfraTagger implements SHNTagger.Tagger {
 
     static final String DELIMITER = ":";
     static final String TAGGING_VERSION_STRING = TLA + DELIMITER + LIBRARY_VERSION;
 
-    interface Key {
-        String SEND_DATA = "sendData";
-        String TECHNICAL_ERROR = "TechnicalError";
-    }
+    private static final String SEND_DATA = "sendData";
+    private static final String TECHNICAL_ERROR = "TechnicalError";
 
-    @Nullable
-    static AppTaggingInterface taggingInstance;
-
-    private SHNTagger() {
-        // Prevent instances to be created.
-    }
+    @NonNull
+    private AppTaggingInterface taggingInstance;
 
     /**
-     * Initializes SHNTagger with an instance of {@link AppInfraInterface}.
+     * Create a new AppInfraTagger with an instance of {@link AppInfraInterface}.
      *
      * @param appInfraInterface the {@link AppInfraInterface} instance to create a tagging instance from
      */
-    public static void initialize(final @NonNull AppInfraInterface appInfraInterface) {
-        taggingInstance = appInfraInterface.getTagging().createInstanceForComponent(TLA, VERSION_NAME);
+    public AppInfraTagger(final @NonNull AppInfraInterface appInfraInterface) {
+        taggingInstance = createTaggingInstance(appInfraInterface);
+    }
+
+    @VisibleForTesting
+    AppTaggingInterface createTaggingInstance(@NonNull AppInfraInterface appInfraInterface) {
+        return appInfraInterface.getTagging().createInstanceForComponent(TLA, VERSION_NAME);
     }
 
     /**
-     * Send a technical error.
+     * Send a BlueLib technical error using {@link AppTaggingInterface}.
      * <p>
-     * The technical error and any additional explanations will be prepended with the component's TLA and colon-delimited before sending.
+     * The technical error and any additional explanations will be prepended with BlueLib's component TLA and colon-delimited before sending.
      *
      * @param technicalError the technical error message
      * @param explanations   the explanations
      */
-    public static void sendTechnicalError(final @NonNull String technicalError, @NonNull final String... explanations) {
-        if (taggingInstance == null) {
-            SHNLogger.w(TAG, "Tagger not initialized, call SHNTagger.initialize(AppInfraInterface) first.");
-            return;
-        }
+    @Override
+    public void sendTechnicalError(@NonNull String technicalError, @NonNull String... explanations) {
         final StringBuilder builder = new StringBuilder(TLA);
 
         // Add calling class and method

@@ -118,7 +118,7 @@ public class BleTransportContext implements TransportContext {
     @VisibleForTesting
     @NonNull
     SHNCentral createCentral(RuntimeConfiguration runtimeConfiguration, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
-        SHNCentral.Builder builder = new SHNCentral.Builder(runtimeConfiguration.getContext(), runtimeConfiguration.getAppInfraInterface());
+        SHNCentral.Builder builder = new SHNCentral.Builder(runtimeConfiguration.getContext());
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 
         return builder.create();

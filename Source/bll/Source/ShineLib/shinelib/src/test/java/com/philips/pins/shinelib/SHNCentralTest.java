@@ -25,8 +25,6 @@ import com.philips.pins.shinelib.helper.Utility;
 import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -93,12 +91,6 @@ public class SHNCentralTest extends RobolectricTest {
     @Mock
     private SHNCentral.SHNBondStatusListener shnBondStatusListenerMock;
 
-    @Mock
-    private AppInfraInterface appInfraInterfaceMock;
-
-    @Mock
-    private AppTaggingInterface appTaggingInterfaceMock;
-
     @Before
     public void setUp() throws SHNBluetoothHardwareUnavailableException, Exception {
         initMocks(this);
@@ -132,9 +124,7 @@ public class SHNCentralTest extends RobolectricTest {
         doReturn(TEST_DEVICE_TYPE).when(alternateShnDeviceMock).getDeviceTypeName();
         doReturn(TEST_DEVICE_MAC_ADDRESS).when(alternateShnDeviceMock).getAddress();
 
-        doReturn(appTaggingInterfaceMock).when(appInfraInterfaceMock).getTagging();
-
-        shnCentral = new SHNCentral(mockedUserHandler.getMock(), mockedContext, false, null, false, appInfraInterfaceMock) {
+        shnCentral = new SHNCentral(mockedUserHandler.getMock(), mockedContext, false, null, false) {
             @Override
             DataMigrater createDataMigrater() {
                 return mockedDataMigrater;
@@ -205,7 +195,7 @@ public class SHNCentralTest extends RobolectricTest {
     }
 
     private void createSHNCentralWithProvider(final SharedPreferencesProvider mockedSharedPreferencesProvider, boolean migrateFromDefaultProviderToCustom) throws SHNBluetoothHardwareUnavailableException {
-        new SHNCentral(mockedUserHandler.getMock(), mockedContext, false, mockedSharedPreferencesProvider, migrateFromDefaultProviderToCustom, appInfraInterfaceMock) {
+        new SHNCentral(mockedUserHandler.getMock(), mockedContext, false, mockedSharedPreferencesProvider, migrateFromDefaultProviderToCustom) {
             @Override
             SharedPreferencesMigrator createSharedPreferencesMigrator(PersistentStorageFactory source, PersistentStorageFactory destination) {
                 return mockedSharedPreferencesMigrator;

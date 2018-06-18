@@ -5,6 +5,8 @@
 
 package com.philips.pins.shinelib.utility;
 
+import com.philips.pins.shinelib.tagging.SHNTagger;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Locale;
