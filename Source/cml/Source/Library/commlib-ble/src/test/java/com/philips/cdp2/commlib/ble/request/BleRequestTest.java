@@ -165,11 +165,6 @@ public class BleRequestTest {
         });
     }
 
-    @After
-    public void tearDown() {
-        DICommLog.enableLogging();
-    }
-
     @Test
     public void whenRequestIsCancelledAfterSuccessThenNoErrorIsReported() {
         request.run();
