@@ -1,7 +1,5 @@
 package com.philips.platform.appinfra.rest;
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Header;
 import com.android.volley.Request;
@@ -110,7 +108,6 @@ public class AppInfraHurlStack extends HurlStack {
 
             //get the last intermediate certificate from server certificates.
             Certificate cert[] = connection.getServerCertificates();
-            Log.d("amit", "getCertificatesList: count=" + cert.length);
 
             for (Certificate aCert : cert) {
                 if (aCert instanceof X509Certificate)
