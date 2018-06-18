@@ -75,12 +75,18 @@ public class HPKPManager implements HPKPInterface {
         boolean isCertificatePinsMisMatch = true;
         for (X509Certificate certificate : chain) {
             String certificatePin = getSHA256Value(certificate);
-            if (certificatePin != null && storedPublicKeyDetails.contains(certificatePin))
+            if (certificatePin != null && storedPublicKeyDetails.contains(certificatePin)){
                 isCertificatePinsMisMatch = false;
-            break;
+                break;
+            }
         }
         HPKPExpirationHelper hpkpExpirationHelper = new HPKPExpirationHelper(storedPublicKeyDetails, null);
         boolean isPinnedPublicKeyExpired = hpkpExpirationHelper.isPinnedPublicKeyExpired();
+        logError(hostName, isCertificatePinsMisMatch, isPinnedPublicKeyExpired);
+        return !isCertificatePinsMisMatch && !isPinnedPublicKeyExpired;
+    }
+
+    private void logError(String hostName, boolean isCertificatePinsMisMatch, boolean isPinnedPublicKeyExpired) {
         if (isCertificatePinsMisMatch && isPinnedPublicKeyExpired) {
             hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE_EXPIRED);
         } else if (isCertificatePinsMisMatch) {
@@ -88,7 +94,6 @@ public class HPKPManager implements HPKPInterface {
         } else if (isPinnedPublicKeyExpired) {
             hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_CERTIFICATE_EXPIRED);
         }
-        return !isCertificatePinsMisMatch && !isPinnedPublicKeyExpired;
     }
 
     private String getSHA256Value(X509Certificate certificate) {
