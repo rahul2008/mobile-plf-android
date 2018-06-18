@@ -32,11 +32,11 @@ android {
         psraRelease {
             minifyEnabled true
             shrinkResources true
-            debuggable false
+            debuggable true
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
             resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
-            matchingFallbacks = ['debug', 'release']
+            matchingFallbacks = ['release']
         }
     }
 }
