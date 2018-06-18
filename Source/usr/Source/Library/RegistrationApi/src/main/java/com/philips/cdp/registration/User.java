@@ -26,6 +26,7 @@ import com.philips.cdp.registration.hsdp.*;
 import com.philips.cdp.registration.listener.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.json.*;
 
@@ -45,6 +46,7 @@ import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.*;
 public class User {
 
     private final String TAG = User.class.getSimpleName();
+    private final LoggingInterface loggingInterface;
 
     @Inject
     NetworkUtility networkUtility;
@@ -105,6 +107,7 @@ public class User {
      */
     public User(Context context) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        loggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
         mContext = context;
         mUpdateUserRecordHandler = new UpdateUserRecord(mContext);
     }
@@ -135,17 +138,12 @@ public class User {
                                 ThreadUtils.postInMainThread(mContext, traditionalLoginHandler::onLoginSuccess);
                             } else {
                                 if (traditionalLoginHandler != null) {
-                                    UserRegistrationFailureInfo
-                                            userRegistrationFailureInfo =
-                                            new UserRegistrationFailureInfo(mContext);
-                                    userRegistrationFailureInfo.
-                                            setErrorCode(ErrorCodes.
-                                                    NETWORK_ERROR);
+                                    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+                                    userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
                                     RLog.e(TAG, "loginUsingTraditional onLoginSuccess without DIUserProfile, So throw onLoginFailedWithError" + userRegistrationFailureInfo.getErrorDescription());
                                     ThreadUtils.postInMainThread(mContext, () -> {
                                         traditionalLoginHandler.
-                                                onLoginFailedWithError(userRegistrationFailureInfo
-                                                );
+                                                onLoginFailedWithError(userRegistrationFailureInfo);
                                     });
                                 }
                             }
@@ -198,12 +196,11 @@ public class User {
     }
 
     /**
-     *
      * @param activity
-     * @param providerName - for example "facebook" or "wechat"
+     * @param providerName       - for example "facebook" or "wechat"
      * @param socialLoginHandler - object of SocialProviderLoginHandler
-     * @param mergeToken - mergeToken when gets a merge token from janrain
-     * @param accessToken - accessToken from social provider
+     * @param mergeToken         - mergeToken when gets a merge token from janrain
+     * @param accessToken        - accessToken from social provider
      */
     public void startTokenAuthForNativeProvider(final Activity activity, final String providerName, final SocialProviderLoginHandler socialLoginHandler, final String mergeToken, final String accessToken) {
 
@@ -212,7 +209,7 @@ public class User {
                 LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
                         socialLoginHandler, activity, mUpdateUserRecordHandler);
                 RLog.d(TAG, "loginUserUsingSocialProvider with providename = " + providerName + " and activity is not null");
-                loginSocialResultHandler.startTokenAuthForNativeProvider(activity, providerName, mergeToken,accessToken);
+                loginSocialResultHandler.startTokenAuthForNativeProvider(activity, providerName, mergeToken, accessToken);
             } else {
                 if (null == socialLoginHandler) return;
                 UserRegistrationFailureInfo userRegistrationFailureInfo =
@@ -325,10 +322,10 @@ public class User {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if(new NetworkUtility(mContext).isInternetAvailable()){
+                if (new NetworkUtility(mContext).isInternetAvailable()) {
                     RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
                     refreshUserSession.refreshUserSession();
-                }else{
+                } else {
                     ThreadUtils.postInMainThread(mContext, new Runnable() {
                         @Override
                         public void run() {
@@ -373,7 +370,7 @@ public class User {
             loginTraditionalResultHandler.mergeTraditionally(emailAddress, password, mergeToken);
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
             RLog.d(TAG, "mergeTraditionalAccount without email address and password, So called onLoginFailedWithError" + userRegistrationFailureInfo.getErrorDescription());
             ThreadUtils.postInMainThread(mContext, () ->
                     traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
@@ -802,7 +799,7 @@ public class User {
                 clearData();
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.LOGOUT_SUCCESS);
-                if(logoutHandler != null) {
+                if (logoutHandler != null) {
                     ThreadUtils.postInMainThread(mContext, logoutHandler::onLogoutSuccess);
                 }
                 RegistrationHelper.getInstance().getUserRegistrationListener()
@@ -1056,6 +1053,9 @@ public class User {
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
+        if (loggingInterface != null) {
+            loggingInterface.setHSDPUserUUID(null);
+        }
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }

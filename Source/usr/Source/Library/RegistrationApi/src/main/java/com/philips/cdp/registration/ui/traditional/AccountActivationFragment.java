@@ -296,7 +296,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     }
 
     private void showVerifyAlertDialog() {
-        if (isVisible()) {
+        if (isInstanceofCurrentFragment()) {
             RegAlertDialog.showDialog(mContext.getResources().getString(
                     R.string.reg_DLS_Email_Verify_Alert_Title),
                     mContext.getResources().getString(
@@ -380,13 +380,18 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fl_reg_fragment_container);
-        if (wasAppInBackground && (currentFragment != null && currentFragment instanceof AccountActivationFragment)) {
+
+        if (wasAppInBackground && isInstanceofCurrentFragment()) {
             showActivateSpinner();
             handleUiState(networkUtility.isNetworkAvailable());
             mUser.refreshUser(this);
             wasAppInBackground = false;
         }
+    }
+
+    private boolean isInstanceofCurrentFragment() {
+        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fl_reg_fragment_container);
+        return (currentFragment != null && currentFragment instanceof AccountActivationFragment);
     }
 
     @Override

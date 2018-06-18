@@ -35,8 +35,11 @@ pipeline {
             steps {
                 echo "Node labels: ${nodes}"
                 sh 'printenv'
-                InitialiseBuild()
-                BuildAndUnitTest()
+
+                timeout(time: 1, unit: 'HOURS') {
+                    InitialiseBuild()
+                    BuildAndUnitTest()
+                }
             }
         }
 
@@ -130,7 +133,8 @@ pipeline {
             steps {
                 script {
                     echo "Running TICS..."
-                    sh """#!/bin/bash -le
+                    sh """#!/bin/bash -le 
+                        ./gradlew jacocoTestReport
                         /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
                         /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity
                     """
@@ -213,8 +217,9 @@ def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
-        ./gradlew --refresh-dependencies assembleRelease \
+        ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
             :AppInfra:cC \
+            :AppInfra:testReleaseUnitTest \
             :uAppFwLib:testReleaseUnitTest \
             :securedblibrary:cC \
             :registrationApi:cC \

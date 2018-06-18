@@ -13,9 +13,6 @@
 
   <string name="centrale_sans_book" translatable="false">fonts/centralesansbook.ttf</string>
 
-
-  ///////////
-
   <style name="Txt" parent="@android:style/Widget.TextView">
     <item name="fontPath">@string/centrale_sans_book</item>
     <item name="android:lineSpacingExtra">@dimen/line_spacing_extra</item>

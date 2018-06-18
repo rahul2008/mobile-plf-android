@@ -27,7 +27,7 @@
             android:id="@+id/csw_textview_header_title"
             style="@style/reg_style_homescreen_title"
             android:layout_marginEnd="@dimen/reg_header_title_margin_right"
-            android:layout_toEndOf="@+id/mya_textview_back"
+            android:layout_toEndOf="@+id/csw_textview_back"
             android:textColor="?attr/uidNavigationPrimaryTextColor"
             reglib:fontAssetName="CentraleSans-Book.OTF" />
     </RelativeLayout>

@@ -54,12 +54,12 @@ public class AISDResponse {
 		}
 
 		if (propositionUrl != null && platformUrl != null) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Service Discovery Platform URL is overriden by proposition URL ");
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Service Discovery Platform URL is overriden by proposition URL ");
 		}
 
 		if (propositionUrl != null) {
 			if (propositionUrl.toString().equalsIgnoreCase(SDEmptyURL)) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery Proposition has empty URL , So ignoring platform URL");
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery Proposition has empty URL , So ignoring platform URL");
 				return null;
 			}
 			return propositionUrl;

@@ -4,6 +4,7 @@ apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 archivesBaseName = "prx"
 
 buildscript {
@@ -55,6 +56,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
+        multiDexEnabled true
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 1
@@ -65,6 +67,7 @@ android {
     buildTypes {
         debug {
             debuggable true
+            testCoverageEnabled=true
         }
     }
 }

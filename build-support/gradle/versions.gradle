@@ -10,14 +10,14 @@ def epochTime() {
     return epoch
 }
 
-ext.baseplatformversion = "1802.0"
+ext.baseplatformversion = "1803.0"
 ext.platformversion = baseplatformversion + "." + epochTime()
 ext.platformversionsuffix = baseplatformversion + ".+"
 
 ext.versions = [
         sdk                  : 27,
         target               : 27,
-        minsdk               : 21,
+        minsdk               : 23,
         buildtools           : '27.0.3',
         support              : '27.0.2',
         jacoco               : '0.8.0',
@@ -117,7 +117,7 @@ ext.deps = [
         greenrobot                    : 'org.greenrobot:eventbus:3.1.1',
         groovy                        : 'org.codehaus.groovy:groovy-all:2.4.13',
         gson                          : 'com.google.code.gson:gson:2.8.2',
-        javax_annotation              : 'javax.annotation:jsr250-api:1.0',
+        javax_annotation              : 'javax.annotation:javax.annotation-api:1.2',
         javax_inject                  : 'javax.inject:javax.inject:1',
         joda_time                     : 'joda-time:joda-time:2.9.9',
         json                          : 'org.json:json:20171018',
@@ -215,5 +215,9 @@ ext.deps = [
         spoon_gradle_plugin           : 'com.stanfy.spoon:spoon-gradle-plugin:1.1.0',
         thoughtworks_xstream          : 'com.thoughtworks.xstream:xstream:1.4.7',
         commons_io                    : [group: 'commons-io', name: 'commons-io', version: '2.0.1'],
-        facebook                      : 'com.facebook.android:facebook-login:[4,5)'
+        facebook                      : 'com.facebook.android:facebook-login:[4,5)',
+        room_runtime                  : 'android.arch.persistence.room:runtime:1.1.0',
+        room_compiler                 : 'android.arch.persistence.room:compiler:1.1.0',
+        livedata                      : 'android.arch.lifecycle:livedata:1.1.0',
+        livedata_compiler             : 'android.arch.lifecycle:compiler:1.1.0'
 ]

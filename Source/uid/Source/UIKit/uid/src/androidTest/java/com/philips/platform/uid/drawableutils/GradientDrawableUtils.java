@@ -40,12 +40,8 @@ public class GradientDrawableUtils {
         StateColors impl;
         if (d instanceof DrawableWrapper) {
             impl = new DrawableStateColorsWrapper(d);
-        } else if (version >= 23) {
-            impl = new MarshmallowStateColors(d);
-        } else if (version >= 21) {
-            impl = new LollipopStateColors(d);
         } else {
-            impl = new KitKatStateColors(d);
+            impl = new MarshmallowStateColors(d);
         }
         return impl;
     }

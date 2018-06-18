@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -54,6 +55,9 @@ public class PrivacySettingsStateTest {
     @Mock
     private AppTaggingInterface appTaggingInterfaceMock;
 
+    @Mock
+    private LoggingInterface loggingInterfaceMock;
+
     private PrivacySettingsState privacySettingsState;
     @Before
     public void setUp(){
@@ -64,6 +68,7 @@ public class PrivacySettingsStateTest {
         when(mockContext.getResources()).thenReturn(resources);
         when(application.getAppInfra()).thenReturn(appInfraInterface);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterfaceMock);
         when(appInfraInterface.getConsentManager()).thenReturn(consentManagerInterfaceMock);
         when(resources.getString(anyInt())).thenReturn("ABC");
     }

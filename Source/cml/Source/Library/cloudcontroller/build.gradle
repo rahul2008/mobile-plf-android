@@ -16,6 +16,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
+        multiDexEnabled true
         minSdkVersion versions.minsdk
         targetSdkVersion versions.sdk
         versionCode 1
@@ -37,7 +38,6 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-
 
     compileOnly deps.support.annotations
 

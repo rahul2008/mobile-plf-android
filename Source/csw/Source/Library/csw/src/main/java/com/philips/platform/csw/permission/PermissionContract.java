@@ -20,6 +20,8 @@ public interface PermissionContract {
         void showErrorDialog(boolean goBack, int titleRes, int messageRes);
 
         void showConfirmRevokeConsentDialog(ConfirmDialogTextResources dialogTexts, ConfirmDialogView.ConfirmDialogResultHandler handler);
+
+        boolean isActive();
     }
 
     interface Presenter {

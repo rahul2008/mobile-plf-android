@@ -23,7 +23,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * Created by philips on 2/22/18.
  */
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class CountrySelectionFragmentTest {
 
     private Context mContext;

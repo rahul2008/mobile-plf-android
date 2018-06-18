@@ -66,6 +66,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getNotification();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -73,12 +74,14 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
         setPrevTiltle();
+        hideNotificationBarView();
     }
 
     @Override
@@ -316,15 +319,13 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void updateErrorNotification(String errorMessage, int errorCode) {
-
-        final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
-        urNotification.showNotification(new NotificationMessage(errorMessage, errorCode));
+        RLog.e(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
+        getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
     }
 
     public void updateErrorNotification(String errorMessage) {
-
-        final URNotification urNotification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
-        urNotification.showNotification(new NotificationMessage(errorMessage));
+        RLog.e(TAG, "errorMessage = " + errorMessage);
+        getNotification().showNotification(new NotificationMessage(errorMessage));
 
 
     }
@@ -332,13 +333,12 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     public void showNotificationBarOnNetworkNotAvailable() {
 
         new Handler().postDelayed(() -> {
-            notification = new URNotification(getRegistrationFragment().getParentActivity(), notificationInterface);
-            notification.showNotification(
+            getNotification().showNotification(
                     new NotificationMessage(mContext.getResources().getString(R.string.reg_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.reg_Network_ErrorMsg)));
         }, 100);
     }
 
-    public void hideNotificationBarOnNetworkAvailable() {
+    public void hideNotificationBarView() {
         if (notification != null)
             notification.hideNotification();
     }
@@ -347,4 +347,9 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
         notificationInterface = baseFragment;
     }
 
+    public URNotification getNotification() {
+        if (notification == null)
+            notification = new URNotification(getRegistrationFragment().getParentActivity(), this);
+        return notification;
+    }
 }
