@@ -97,7 +97,6 @@ public class FirmwareUpdatePushLocalTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DICommLog.disableLogging();
 
         when(mockPortProperties.getState()).thenReturn(IDLE);
         when(mockFirmwarePort.getPortProperties()).thenReturn(mockPortProperties);

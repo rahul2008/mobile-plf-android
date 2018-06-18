@@ -51,8 +51,6 @@ public class RuntimeConfigurationTest {
     public void setUp() {
         initMocks(this);
 
-        DICommLog.disableLogging();
-
         when(appInfraInterfaceMock.getAppIdentity()).thenReturn(appIdentityMock);
         when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
         when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationError.class))).thenReturn(logConfig);

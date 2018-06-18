@@ -30,7 +30,6 @@ public class NonSecureNetworkNodeDatabaseHelperTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DICommLog.disableLogging();
         ContextProvider.setTestingContext(contextMock);
 
         subject = new NonSecureNetworkNodeDatabaseHelper(){
