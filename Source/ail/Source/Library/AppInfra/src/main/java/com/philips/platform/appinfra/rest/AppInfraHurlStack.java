@@ -35,8 +35,9 @@ public class AppInfraHurlStack extends HurlStack {
 
     private static final String SSL_RESPONSE_PUBLIC_KEY = "Public-Key-Pins";
     private PublicKeyPinInterface pinInterface;
-    private HttpsURLConnection connection;
     private LoggingInterface appInfraLogging;
+
+    private static final ThreadLocal<HttpsURLConnection> localURLConnection = new ThreadLocal<>();
 
     public AppInfraHurlStack(PublicKeyPinInterface pinInterface, UrlRewriter urlRewriter, LoggingInterface logging) {
         super(urlRewriter);
@@ -50,11 +51,11 @@ public class AppInfraHurlStack extends HurlStack {
         try {
             if (connection != null && "https".equals(url.getProtocol())) {
                 ((HttpsURLConnection) connection).setSSLSocketFactory(new TLSSocketFactory());
+                localURLConnection.set((HttpsURLConnection) connection);
             }
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
             appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, this.getClass().getSimpleName(), e.getMessage());
         }
-        this.connection = (HttpsURLConnection) connection;
         return connection;
     }
 
@@ -62,13 +63,15 @@ public class AppInfraHurlStack extends HurlStack {
     public HttpResponse executeRequest(Request<?> request, Map<String, String> additionalHeaders) throws IOException, AuthFailureError {
         HttpResponse httpResponse = super.executeRequest(request, additionalHeaders);
 
-        String hostName = getHostname(request);
-        List<X509Certificate> certificatesList = getCertificatesList();
-        pinInterface.isPinnedCertificateMatching(hostName, certificatesList);
+        if (localURLConnection.get() != null) {
+            String hostName = getHostname(request);
+            List<X509Certificate> certificatesList = getCertificatesList(localURLConnection.get());
+            pinInterface.isPinnedCertificateMatching(hostName, certificatesList);
 
-        String publicKeyDetails = getPublicKeyDetailsFromHeader(httpResponse);
-        pinInterface.updatePinnedPublicKey(hostName, publicKeyDetails);
-
+            String publicKeyDetails = getPublicKeyDetailsFromHeader(httpResponse);
+            pinInterface.updatePinnedPublicKey(hostName, publicKeyDetails);
+            localURLConnection.remove();
+        }
         return httpResponse;
     }
 
@@ -91,19 +94,19 @@ public class AppInfraHurlStack extends HurlStack {
         }
     }
 
-    private List<X509Certificate> getCertificatesList() {
+    private List<X509Certificate> getCertificatesList(HttpsURLConnection connection) {
         List<X509Certificate> certificateChain = new ArrayList<>();
         try {
             TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             tmf.init((KeyStore) null);
-//get default X509TrustManager
+            //get default X509TrustManager
             TrustManager[] trustManagers = tmf.getTrustManagers();
             final X509TrustManager x509Tm = (X509TrustManager) trustManagers[0];
 
-//trusted certificate issuers
+            //trusted certificate issuers
             X509Certificate issuers[] = x509Tm.getAcceptedIssuers();
 
-//get the last intermediate certificate from server certificates.
+            //get the last intermediate certificate from server certificates.
             Certificate cert[] = connection.getServerCertificates();
 
             for (Certificate aCert : cert) {
