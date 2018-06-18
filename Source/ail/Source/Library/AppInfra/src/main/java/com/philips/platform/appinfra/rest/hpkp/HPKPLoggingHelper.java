@@ -26,15 +26,11 @@ class HPKPLoggingHelper {
     }
 
     void logError(String hostname, String message) {
-        if (pinMismatchLogCount.containsKey(hostname)) {
-            int count = pinMismatchLogCount.get(hostname);
-            if (count <= PIN_MISMATCH_LOG_MAX_COUNT) {
-                log(hostname, message, LoggingInterface.LogLevel.ERROR);
-                pinMismatchLogCount.put(hostname, count + 1);
-            }
-        } else {
+        boolean entryExistsForHost = pinMismatchLogCount.containsKey(hostname);
+        int count = entryExistsForHost ? pinMismatchLogCount.get(hostname) : 0;
+        if (count <= PIN_MISMATCH_LOG_MAX_COUNT) {
             log(hostname, message, LoggingInterface.LogLevel.ERROR);
-            pinMismatchLogCount.put(hostname, 1);
+            pinMismatchLogCount.put(hostname, count + 1);
         }
     }
 
