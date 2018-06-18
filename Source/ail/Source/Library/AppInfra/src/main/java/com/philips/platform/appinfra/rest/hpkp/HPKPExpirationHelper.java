@@ -1,5 +1,7 @@
 package com.philips.platform.appinfra.rest.hpkp;
 
+import android.text.TextUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,13 +20,16 @@ class HPKPExpirationHelper {
     private String networkPinsExpiryDate;
     private Date storedPinsExpiry;
     private Date networkPinsExpiry;
+    private Pattern maxAgePattern = Pattern.compile(MAX_AGE_REGEX);
+    private Pattern expiryPattern = Pattern.compile(EXPIRY_DATE_REGEX);
+    private SimpleDateFormat dateFormat = new SimpleDateFormat(EXPIRY_DATE_FORMAT, Locale.ENGLISH);
 
     HPKPExpirationHelper(String storedPublicKeyDetails, String networkPublicKeyDetails) {
-        if(storedPublicKeyDetails!= null && storedPublicKeyDetails.isEmpty()){
+        if (!TextUtils.isEmpty(storedPublicKeyDetails)) {
             String storedPinsExpiryDate = getExpiryDateString(storedPublicKeyDetails);
             storedPinsExpiry = getDateFromDateString(storedPinsExpiryDate);
         }
-        if(networkPublicKeyDetails!= null && networkPublicKeyDetails.isEmpty()){
+        if (!TextUtils.isEmpty(networkPublicKeyDetails)) {
             int maxAge = getMaxAgeValue(networkPublicKeyDetails);
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.SECOND, maxAge);
@@ -51,19 +56,16 @@ class HPKPExpirationHelper {
     }
 
     private int getMaxAgeValue(String publicKeyDetails) {
-        Pattern pattern = Pattern.compile(MAX_AGE_REGEX);
-        Matcher matcher = pattern.matcher(publicKeyDetails);
+        Matcher matcher = maxAgePattern.matcher(publicKeyDetails);
         return matcher.find() ? Integer.parseInt(matcher.group(1)) : 0;
     }
 
     private String getExpiryDateString(String publicKeyDetails) {
-        Pattern pattern = Pattern.compile(EXPIRY_DATE_REGEX);
-        Matcher matcher = pattern.matcher(publicKeyDetails);
+        Matcher matcher = expiryPattern.matcher(publicKeyDetails);
         return matcher.find() ? matcher.group(1) : "";
     }
 
     private Date getDateFromDateString(String dateString) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(EXPIRY_DATE_FORMAT, Locale.ENGLISH);
         try {
             return dateFormat.parse(dateString);
         } catch (ParseException e) {
@@ -72,7 +74,6 @@ class HPKPExpirationHelper {
     }
 
     private String getDateStringFromDate(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(EXPIRY_DATE_FORMAT, Locale.ENGLISH);
         return dateFormat.format(date);
     }
 }

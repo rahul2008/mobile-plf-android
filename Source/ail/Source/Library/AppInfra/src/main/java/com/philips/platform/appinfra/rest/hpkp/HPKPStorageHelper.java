@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 class HPKPStorageHelper {
 
+    private static final String STORAGE_KEY_PREFIX = "SSL_HPKP_";
     private SecureStorageInterface secureStorageInterface;
     private HashMap<String, String> publicKeyPinCache;
-    private static final String STORAGE_KEY_PREFIX = "SSL_HPKP_";
 
     HPKPStorageHelper(SecureStorageInterface secureStorage) {
         this.secureStorageInterface = secureStorage;

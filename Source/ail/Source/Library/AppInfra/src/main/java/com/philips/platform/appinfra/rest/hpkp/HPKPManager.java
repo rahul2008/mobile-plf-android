@@ -1,6 +1,7 @@
 package com.philips.platform.appinfra.rest.hpkp;
 
 
+import android.text.TextUtils;
 import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -39,13 +40,13 @@ public class HPKPManager implements HPKPInterface {
         String storedPublicKeyDetails = hpkpStorageHelper.getStoredPublicKeyDetails(hostName);
         boolean isKeyFound = networkPublicKeyDetails.contains("pin-sha256");
 
-        if (!hostName.isEmpty()) {
-            if (!isKeyFound && !storedPublicKeyDetails.isEmpty()) {
+        if (!TextUtils.isEmpty(hostName)) {
+            if (!isKeyFound && !TextUtils.isEmpty(storedPublicKeyDetails)) {
                 hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_NETWORK);
             } else if (isKeyFound) {
                 HPKPExpirationHelper hpkpExpirationHelper = new HPKPExpirationHelper(storedPublicKeyDetails, networkPublicKeyDetails);
 
-                if (storedPublicKeyDetails.isEmpty()) {
+                if (TextUtils.isEmpty(storedPublicKeyDetails)) {
                     updateStoredPublicKeyDetails(hostName, networkPublicKeyDetails.concat(" " + "expiry-date=\"" + hpkpExpirationHelper.getNetworkPinsExpiryDate() + "\";"));
                     hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_STORAGE);
                 } else {
@@ -76,15 +77,15 @@ public class HPKPManager implements HPKPInterface {
             String certificatePin = getSHA256Value(certificate);
             if (certificatePin != null && storedPublicKeyDetails.contains(certificatePin))
                 isCertificatePinsMisMatch = false;
-                break;
+            break;
         }
         HPKPExpirationHelper hpkpExpirationHelper = new HPKPExpirationHelper(storedPublicKeyDetails, null);
         boolean isPinnedPublicKeyExpired = hpkpExpirationHelper.isPinnedPublicKeyExpired();
-        if(isCertificatePinsMisMatch && isPinnedPublicKeyExpired){
+        if (isCertificatePinsMisMatch && isPinnedPublicKeyExpired) {
             hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE_EXPIRED);
-        }else if(isCertificatePinsMisMatch){
+        } else if (isCertificatePinsMisMatch) {
             hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE);
-        }else if(isPinnedPublicKeyExpired){
+        } else if (isPinnedPublicKeyExpired) {
             hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_CERTIFICATE_EXPIRED);
         }
         return !isCertificatePinsMisMatch && !isPinnedPublicKeyExpired;
