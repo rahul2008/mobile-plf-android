@@ -89,7 +89,6 @@ public class CommCentralTest {
         mockStatic(NetworkNodeDatabaseFactory.class);
         when(NetworkNodeDatabaseFactory.create(runtimeConfigurationMock)).thenReturn(NetworkNodeDatabaseMock);
 
-        DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
 
         when(someTransportContextMock.getDiscoveryStrategy()).thenReturn(someDiscoveryStrategyMock);
