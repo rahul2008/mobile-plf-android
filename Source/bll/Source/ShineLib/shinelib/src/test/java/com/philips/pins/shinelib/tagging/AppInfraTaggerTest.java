@@ -17,6 +17,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import static com.philips.pins.shinelib.tagging.AppInfraTagger.DELIMITER;
@@ -100,6 +101,7 @@ public class AppInfraTaggerTest {
 
         verify(appTaggingInterfaceMock, times(1)).trackActionWithInfo(anyString(), dataObjectCaptor.capture());
         final String[] pieces = dataObjectCaptor.getValue().get(TECHNICAL_ERROR).split(DELIMITER);
+        System.out.println(Arrays.toString(pieces));
 
         assertThat(pieces.length).isEqualTo(6);
         assertThat(pieces[0]).isEqualTo(COMPONENT_ID_BLL);

@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib.tagging;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -56,16 +57,18 @@ public class AppInfraTagger implements SHNTagger.Tagger {
     public void sendTechnicalError(@NonNull String technicalError, @NonNull String... explanations) {
         final StringBuilder builder = new StringBuilder(TLA);
 
-        // Add calling class and method
-        final StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
-        builder.append(DELIMITER).append(caller.getClassName()).append(".").append(caller.getMethodName());
+        // Add calling class and method, if available
+        final StackTraceElement caller = getCaller();
+        if (caller != null) {
+            builder.append(DELIMITER).append(caller.getClassName()).append(".").append(caller.getMethodName());
+        }
 
         // Add the error message
-        builder.append(DELIMITER).append(technicalError.trim());
+        builder.append(DELIMITER).append(technicalError.trim().replace(DELIMITER, ""));
 
         // Add optional explanations
         for (final String explanation : explanations) {
-            builder.append(DELIMITER).append(explanation.trim());
+            builder.append(DELIMITER).append(explanation.trim().replace(DELIMITER, ""));
         }
 
         final Map<String, String> data = new HashMap<>();
@@ -73,5 +76,20 @@ public class AppInfraTagger implements SHNTagger.Tagger {
         data.put(COMPONENT_VERSION, TAGGING_VERSION_STRING);
 
         taggingInstance.trackActionWithInfo(SEND_DATA, data);
+    }
+
+    @Nullable
+    private StackTraceElement getCaller() {
+        StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+
+        for (int i = 0; i < stackTrace.length; i++) {
+            final StackTraceElement el = stackTrace[i];
+
+            if (AppInfraTagger.class.getName().equals(el.getClassName())) {
+                // Get item at index + 2 to account for the local method calls in this class
+                return stackTrace[i + 2];
+            }
+        }
+        return null;
     }
 }
