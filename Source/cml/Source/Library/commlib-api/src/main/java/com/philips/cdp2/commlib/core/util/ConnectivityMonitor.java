@@ -17,7 +17,6 @@ import android.net.NetworkRequest;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 
@@ -66,32 +65,6 @@ public abstract class ConnectivityMonitor implements Availability<ConnectivityMo
     };
 
     /**
-     * Create a connectivity monitor that notifies network changes based on network capabilities.
-     *
-     * @param context             the context
-     * @param networkCapabilities the networkCapabilities (see {@link android.net.NetworkCapabilities})
-     * @return the connectivity monitor
-     */
-    public static ConnectivityMonitor forNetworkCapabilities(final @NonNull Context context, final int... networkCapabilities) {
-        if (networkCapabilities.length == 0) {
-            throw new IllegalArgumentException("At least one capability must be provided.");
-        }
-
-        return new ConnectivityMonitor(context) {
-            @Override
-            protected boolean determineIfConnected() {
-                Network network = getActiveNetwork();
-                for (int capability : networkCapabilities) {
-                    if (connectivityManager.getNetworkCapabilities(network).hasCapability(capability)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        };
-    }
-
-    /**
      * Create a connectivity monitor that notifies network changes based on network types.
      *
      * @param context      the context
@@ -121,10 +94,12 @@ public abstract class ConnectivityMonitor implements Availability<ConnectivityMo
         };
     }
 
-    @VisibleForTesting
-    ConnectivityMonitor(final @NonNull Context context) {
+    private ConnectivityMonitor(final @NonNull Context context) {
         connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        context.registerReceiver(connectivityReceiver, createFilter());
+        context.registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+        activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        isConnected = determineIfConnected();
     }
 
     abstract protected boolean determineIfConnected();
@@ -136,26 +111,6 @@ public abstract class ConnectivityMonitor implements Availability<ConnectivityMo
     @Override
     public boolean isAvailable() {
         return isConnected;
-    }
-
-    @VisibleForTesting
-    IntentFilter createFilter() {
-        return new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-    }
-
-    @Nullable
-    protected Network getActiveNetwork() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return connectivityManager.getActiveNetwork();
-        }
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-
-        for (Network network : connectivityManager.getAllNetworks()) {
-            if (connectivityManager.getNetworkInfo(network).equals(activeNetworkInfo)) {
-                return network;
-            }
-        }
-        return null;
     }
 
     @Override
