@@ -3,7 +3,6 @@ package com.philips.platform.appinfra.appupdate;
 import android.os.Handler;
 
 import com.android.volley.Network;
-import com.android.volley.VolleyLog;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -25,40 +24,39 @@ import static org.mockito.Mockito.when;
 
 public class AppUpdateTest extends TestCase {
 
-	@Mock
-	private Network mMockNetwork;
+    @Mock
+    private Network mMockNetwork;
 
-	AppConfigurationInterface appConfigurationInterface;
+    AppConfigurationInterface appConfigurationInterface;
 
-	ServiceDiscoveryInterface serviceDiscoveryInterface;
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
-	Gson mGson;
+    Gson mGson;
 
-	AppUpdateManager mAppUpdateManager;
+    AppUpdateManager mAppUpdateManager;
 
-	@Before
-	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
         AppInfra mAppInfra = mock(AppInfra.class);
-		VolleyLog.DEBUG = false;
-		Runnable runnableMock = mock(Runnable.class);
-		Handler handlerMock = mock(Handler.class);
+        Runnable runnableMock = mock(Runnable.class);
+        Handler handlerMock = mock(Handler.class);
 
 
-		when(handlerMock.post(runnableMock)).thenReturn(true);
-		appConfigurationInterface = Mockito.mock(AppConfigurationInterface.class);
+        when(handlerMock.post(runnableMock)).thenReturn(true);
+        appConfigurationInterface = Mockito.mock(AppConfigurationInterface.class);
 
-		AppUpdateInterface appupdateInterface = mock(AppUpdateInterface.class);
-		Mockito.when(mAppInfra.getConfigInterface()).thenReturn(appConfigurationInterface);
-		Mockito.when(mAppInfra.getAppUpdate()).thenReturn(appupdateInterface);
-		serviceDiscoveryInterface = Mockito.mock(ServiceDiscoveryInterface.class);
-		mAppUpdateManager = mock(AppUpdateManager.class);
-	}
+        AppUpdateInterface appupdateInterface = mock(AppUpdateInterface.class);
+        Mockito.when(mAppInfra.getConfigInterface()).thenReturn(appConfigurationInterface);
+        Mockito.when(mAppInfra.getAppUpdate()).thenReturn(appupdateInterface);
+        serviceDiscoveryInterface = Mockito.mock(ServiceDiscoveryInterface.class);
+        mAppUpdateManager = mock(AppUpdateManager.class);
+    }
 
-	public void testServiceIdKey() {
-		when(mAppUpdateManager.getServiceIdFromAppConfig()).thenReturn(null);
-		assertNull(mAppUpdateManager.getServiceIdFromAppConfig());
-	}
+    public void testServiceIdKey() {
+        when(mAppUpdateManager.getServiceIdFromAppConfig()).thenReturn(null);
+        assertNull(mAppUpdateManager.getServiceIdFromAppConfig());
+    }
 
 //	@Test
 //	public void testRefresh()  {
@@ -79,5 +77,5 @@ public class AppUpdateTest extends TestCase {
 //		Mockito.verify(onGetServiceUrlListener).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "No Loacle error");
 //		Mockito.verify(onRefreshListener).onError(AppUpdateInterface.OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "Invalid ServiceID");
 
-	//}
+    //}
 }

@@ -49,8 +49,6 @@ public class NetworkNodeTest extends RobolectricTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-
-        DICommLog.disableLogging();
     }
 
     @Test

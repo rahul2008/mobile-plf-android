@@ -29,7 +29,9 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -74,8 +76,6 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     public void setUp() {
         initMocks(this);
 
-        DICommLog.disableLogging();
-
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -106,9 +106,9 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     }
 
     @Test
-    public void givenDiscoveryIsStartedWithDeviceTypes_whenNodesAreDiscovered_thenListenerIsOnlyInformedOfMatchingNodes() throws MissingPermissionException {
-        Set<String> deviceTypes = Collections.singleton("CoffeeMaker");
-        strategyUnderTest.start(deviceTypes);
+    public void givenDiscoveryIsStartedWithModelIds_whenNodesAreDiscovered_thenListenerIsInformedOfNodesWithMatchingModelId() throws MissingPermissionException {
+        Set<String> modelIds = Collections.singleton("CM9000");
+        strategyUnderTest.start(modelIds);
 
         SSDPDevice ssdpDevice1 = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
         SSDPDevice ssdpDevice2 = createSsdpDevice("tea123", "TeaMaker", "TM8000");
@@ -120,13 +120,12 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     }
 
     @Test
-    public void givenDiscoveryIsStartedWithModelIds_whenNodesAreDiscovered_thenListenerIsOnlyInformedOfMatchingNodes() throws MissingPermissionException {
-        Set<String> deviceTypes = Collections.singleton("CoffeeMaker");
-        Set<String> modelIds = Collections.singleton("CM9000");
-        strategyUnderTest.start(deviceTypes, modelIds);
+    public void givenDiscoveryIsStartedWithModelIds_whenNodesAreDiscovered_thenListenerIsInformedOfNodesWithMatchingModelName() throws MissingPermissionException {
+        Set<String> modelIds = new HashSet<>(Arrays.asList("CoffeeMaker"));
+        strategyUnderTest.start(modelIds);
 
         SSDPDevice ssdpDevice1 = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
-        SSDPDevice ssdpDevice2 = createSsdpDevice("coffee123", "CoffeeMaker", "UNSUPPORTED");
+        SSDPDevice ssdpDevice2 = createSsdpDevice("coffee123", "TeaMaker", "UNSUPPORTED");
 
         strategyUnderTest.onDeviceDiscovered(ssdpDevice1);
         strategyUnderTest.onDeviceDiscovered(ssdpDevice2);

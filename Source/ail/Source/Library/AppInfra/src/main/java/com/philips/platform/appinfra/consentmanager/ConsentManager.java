@@ -7,6 +7,8 @@ package com.philips.platform.appinfra.consentmanager;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -37,6 +39,9 @@ public class ConsentManager implements ConsentManagerInterface {
     private Map<String, ConsentHandlerInterface> consentHandlerMapping = new HashMap<>();
     private Map<String, ConsentDefinition> consentDefinitionMapping = new HashMap<>();
     private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+
+    @VisibleForTesting
+    ConsentStatusChangeMapper consentStatusChangeMapper = new ConsentStatusChangeMapper();
 
     public ConsentManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -123,7 +128,7 @@ public class ConsentManager implements ConsentManagerInterface {
                 }
 
                 waitTillThreadsGetsCompleted(countDownLatch);
-                postResultOnStoreConsent(consentTypeCallbackListeners, callback);
+                postResultOnStoreConsent(consentDefinition, consentTypeCallbackListeners, callback, status);
             }
         });
     }
@@ -138,12 +143,29 @@ public class ConsentManager implements ConsentManagerInterface {
         });
     }
 
-    private ConsentDefinition getConsentDefinitionForType(String consentType) {
+    @Nullable
+    public ConsentDefinition getConsentDefinitionForType(String consentType) {
         ConsentDefinition consentDefinition = consentDefinitionMapping.get(consentType);
         if (consentDefinition != null) {
             return consentDefinition;
         }
-        throw new RuntimeException("ConsentDefinition is not registered for the type " + consentType);
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addConsentStatusChangedListener(ConsentDefinition consentDefinition, ConsentStatusChangedListener listener) {
+        consentStatusChangeMapper.registerConsentStatusUpdate(consentDefinition, listener);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeConsentStatusChangedListener(ConsentDefinition consentDefinition, ConsentStatusChangedListener consentStatusChangedListener) {
+        consentStatusChangeMapper.unRegisterConsentStatusUpdate(consentDefinition, consentStatusChangedListener);
     }
 
     protected ConsentHandlerInterface getHandler(String consentType) {
@@ -264,24 +286,24 @@ public class ConsentManager implements ConsentManagerInterface {
 
     }
 
-
-    private void postResultOnStoreConsent(final List<ConsentTypeCallbackListener> consentCallbackListeners, final PostConsentCallback postConsentCallback) {
+    private void postResultOnStoreConsent(ConsentDefinition consentDefinition, final List<ConsentTypeCallbackListener> consentCallbackListeners, final PostConsentCallback postConsentCallback, boolean status) {
         Handler mainHandler = new Handler(Looper.getMainLooper());
-        mainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                for (ConsentTypeCallbackListener consentTypeCallbackListener : consentCallbackListeners) {
-                    if (consentTypeCallbackListener.consentError != null) {
-                        postConsentCallback.onPostConsentFailed(consentTypeCallbackListener.consentError);
-                        return;
-                    }
+        mainHandler.post(() -> {
+            ConsentError consentError = null;
+            for (ConsentTypeCallbackListener consentTypeCallbackListener : consentCallbackListeners) {
+                if (consentTypeCallbackListener.consentError != null) {
+                    consentError = consentTypeCallbackListener.consentError;
+                    break;
                 }
+            }
+            consentStatusChangeMapper.consentStatusChanged(consentDefinition, consentError, status);
+            if (consentError != null) {
+                postConsentCallback.onPostConsentFailed(consentError);
+            } else {
                 postConsentCallback.onPostConsentSuccess();
             }
         });
-
     }
-
 
     private void postExceptionOnMainThread(final FetchConsentsCallback callback, final ConsentError consentError) {
         Handler mainHandler = new Handler(Looper.getMainLooper());

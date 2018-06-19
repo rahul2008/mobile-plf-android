@@ -84,6 +84,11 @@ android {
             testCoverageEnabled=true
         }
     }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -102,6 +107,17 @@ dependencies {
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.support.annotations
+    implementation deps.joda_time
+    api deps.room_runtime,{
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
+    }
+    api deps.livedata,{
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
+    }
+    annotationProcessor deps.room_compiler
+    annotationProcessor deps.livedata_compiler
 
     testImplementation deps.robolectric
     testImplementation deps.assertj

@@ -113,7 +113,6 @@ public class BleRequestTest {
     public void setUp() throws Exception {
         executeCounter = 0;
         initMocks(this);
-        DICommLog.disableLogging();
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
 
@@ -164,11 +163,6 @@ public class BleRequestTest {
                 return null;
             }
         });
-    }
-
-    @After
-    public void tearDown() {
-        DICommLog.enableLogging();
     }
 
     @Test

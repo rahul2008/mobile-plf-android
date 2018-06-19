@@ -320,7 +320,6 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @NonNull
     protected View getNavigationDisplayView() {
         final AppCompatImageView dotImageView = new AppCompatImageView(getContext(), null, R.attr.uidDotNavigationStyle);

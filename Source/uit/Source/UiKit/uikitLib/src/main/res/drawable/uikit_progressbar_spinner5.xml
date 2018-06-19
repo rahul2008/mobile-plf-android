@@ -7,8 +7,7 @@
     android:viewportHeight="172"
     android:viewportWidth="172"
     app:uikit_vc_viewportHeight="172"
-    app:uikit_vc_viewportWidth="172"
-    tools:targetApi="21">
+    app:uikit_vc_viewportWidth="172">
 
 
 

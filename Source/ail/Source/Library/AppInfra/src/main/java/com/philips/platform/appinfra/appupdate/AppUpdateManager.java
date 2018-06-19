@@ -324,8 +324,8 @@ public class AppUpdateManager implements AppUpdateInterface {
 		File appupdateCache = getAppUpdatefromCache(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
 				, AppUpdateConstants.APPUPDATE_PATH);
 		if (appupdateCache != null && appupdateCache.exists() && appupdateCache.length() > 0) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
-					"appdate info already downloaded");
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_APPINFRA,
+					"appupdate info already downloaded");
 			return;
 		}
 		try {

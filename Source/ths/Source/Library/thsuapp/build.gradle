@@ -116,6 +116,11 @@ android {
 
     }
 
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
@@ -157,8 +162,8 @@ dependencies {
         implementation project(':uAppFwLib')
         implementation project(':uid')
         implementation project(':pif')
-        implementation project(':mya-csw')
-        implementation project(':mya-catk')
+        implementation project(':csw')
+        implementation project(':catk')
     } else {
         implementation (philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
@@ -167,11 +172,11 @@ dependencies {
             exclude group: 'com.android.support'
         }
 
-        implementation(group: 'com.philips.cdp', name: 'mya-csw', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        implementation(group: 'com.philips.cdp', name: 'csw', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
 
-        implementation(group: 'com.philips.cdp', name: 'mya-catk', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
+        implementation(group: 'com.philips.cdp', name: 'catk', version: platformversion + objcdp.getVersionSuffix(), changing: true) {
             exclude group: 'com.android.support'
         }
     }

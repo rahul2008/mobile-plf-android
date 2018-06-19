@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/default_body_labels_margin"
+              android:layout_marginStart="@dimen/default_screen_side_margin"
+              android:layout_marginEnd="@dimen/default_screen_side_margin"
+              android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/csw_privacy_settings_desc"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_body_labels_margin"
+            android:textAlignment="viewStart"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/button_toggle_text_size"
+            android:text="@string/csw_privacy_settings_desc"/>
+
+</LinearLayout>

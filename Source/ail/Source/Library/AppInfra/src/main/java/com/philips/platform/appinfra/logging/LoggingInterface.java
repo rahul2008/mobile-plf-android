@@ -16,11 +16,15 @@ public interface LoggingInterface extends Serializable {
     /**
      * The enum Log level.
      */
-    enum  LogLevel {VERBOSE, DEBUG, INFO, WARNING, ERROR}
+    enum LogLevel {
+        VERBOSE, DEBUG, INFO, WARNING, ERROR
+    }
 
     /**
+     * <p>
      * Create instance for component logging interface.
      * This method to be used by all component to get their respective logging
+     *
      * @param componentId      the base package name of component
      * @param componentVersion the component version
      * @return the logging interface
@@ -30,6 +34,7 @@ public interface LoggingInterface extends Serializable {
 
     /**
      * Logs message on console and file .
+     *
      * @param level   the level {VERBOSE, DEBUG, INFO, WARNING, ERROR}
      * @param eventId the Event name or Tag
      * @param message the message
@@ -39,14 +44,27 @@ public interface LoggingInterface extends Serializable {
 
     /**
      * Logs message on console and file .
+     *
      * @param level   the level {VERBOSE, DEBUG, INFO, WARNING, ERROR}
      * @param eventId the Event name or Tag
      * @param message the message
-     * @param map the dictionary
+     * @param map     the dictionary
      * @since 1.0.0
      */
     void log(LogLevel level, String eventId, String message, Map<String, ?> map);
 
+    /**
+     * To identify log originated from which user set/reset when user login/logout can be empty (will not be able to track based on user)
+     * @param userUUID
+     * @since 1802.0.0
+     */
+    void setHSDPUserUUID(String userUUID);
+    /**
+     *
+     * @return This method returns the Cloud Logging consent identifier
+     * @since 2018.2.0
+     */
+    String getCloudLoggingConsentIdentifier();
 
 
 }

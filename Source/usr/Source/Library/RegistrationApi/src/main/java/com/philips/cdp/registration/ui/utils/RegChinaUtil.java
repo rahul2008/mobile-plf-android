@@ -23,7 +23,7 @@ public class RegChinaUtil {
                 errorMsg = context.getResources().getString(R.string.reg_URX_SMS_Invalid_PhoneNumber);
                 break;
             case RegChinaConstants.URXSMSUnAvailNumber:
-                errorMsg = context.getResources().getString(R.string.reg_URX_SMS_PhoneNumber_UnAvail_ForSMS);
+                errorMsg = context.getResources().getString(R.string.reg_URX_SMS_Invalid_PhoneNumber);
                 break;
             case RegChinaConstants.URXSMSUnSupportedCountry:
                 errorMsg = context.getResources().getString(R.string.reg_URX_SMS_UnSupported_Country_ForSMS);

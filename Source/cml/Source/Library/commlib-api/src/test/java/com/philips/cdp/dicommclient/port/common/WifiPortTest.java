@@ -34,7 +34,6 @@ public class WifiPortTest {
     public void setUp() {
         initMocks(this);
 
-        DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
     }
 

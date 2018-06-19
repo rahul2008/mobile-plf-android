@@ -66,14 +66,14 @@ public class SSFileCacheTest {
     public void testDeleteKey_Should_Return_True(){
         when(sharedPreferences.contains(anyString())).thenReturn(true);
         when(editor.commit()).thenReturn(true);
-        assertTrue(ssFileCache.deleteKey("key"));
+        assertTrue(ssFileCache.deleteSecureKey("key"));
     }
 
     @Test
     public void testDeleteKey_Should_throw_exception(){
         when(sharedPreferences.contains(anyString())).thenReturn(true);
         when(editor.commit()).thenThrow(new IllegalArgumentException());
-        assertFalse(ssFileCache.deleteKey("key"));
+        assertFalse(ssFileCache.deleteSecureKey("key"));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class SSFileCacheTest {
     @Test
     public void testDeleteKey_Should_return_false(){
         when(sharedPreferences.contains(anyString())).thenReturn(false);
-        assertFalse(ssFileCache.deleteKey("key"));
+        assertFalse(ssFileCache.deleteSecureKey("key"));
     }
     static class SSFileCacheMock extends SSFileCache{
 

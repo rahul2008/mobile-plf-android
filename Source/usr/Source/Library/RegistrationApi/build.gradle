@@ -190,7 +190,6 @@ dependencies {
     implementation deps.multidex
     androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.android_testrules
-    androidTestImplementation deps.espresso_core
     androidTestImplementation deps.uiautomator
     implementation deps.support.supportv4
     implementation deps.volley

@@ -90,7 +90,6 @@ public class CheckBox extends AppCompatCheckBox {
         setCheckBoxDrawables(checkedEnabled, checkedDisabled, uncheckedDisabled, uncheckedEnabled);
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private void applyRippleTint(Context themedContext) {
         ColorStateList borderColorStateID = ThemeUtils.buildColorStateList(themedContext, R.color.uid_checkbox_ripple_selector);
 

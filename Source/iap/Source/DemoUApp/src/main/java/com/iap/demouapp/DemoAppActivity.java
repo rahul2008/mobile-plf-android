@@ -115,7 +115,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mLaunchProductDetail.setOnClickListener(this);
 
         mShoppingCart = findViewById(R.id.shopping_cart_icon);
-        mShoppingCart.setOnClickListener(this);
+
 
         mShopNowCategorized = findViewById(R.id.btn_categorized_shop_now);
         mShopNowCategorized.setOnClickListener(this);
@@ -175,6 +175,22 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
       //  mIapInterface.getCompleteProductList(this);
 //        onResumeRetailer();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            mIapInterface.getProductCartCount(this);
+        }catch (Exception e){
+
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mShoppingCart.setOnClickListener(null);
     }
 
     private void onResumeRetailer(){
@@ -345,11 +361,13 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         } else if (view == mPurchaseHistory) {
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {
-            IAPFlowInput iapFlowInput =
-                    new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput, null);
-            mEtCTN.setText("");
-            hideKeypad(this);
+
+            if (null!=mCategorizedProductList && mCategorizedProductList.size() > 0) {
+                IAPFlowInput iapFlowInput = new IAPFlowInput(mCategorizedProductList.get(mCategorizedProductList.size()-1).toString().toUpperCase().replaceAll("\\s+", ""));
+                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput, null);
+            } else {
+                Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+            }
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
                 IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
@@ -531,6 +549,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
         Toast.makeText(this, "Fetched product list done", Toast.LENGTH_SHORT).show();
+        mShoppingCart.setOnClickListener(this);
 //        mEtCTN.setText(productList.get(1));
 //        ArrayList<String> arrayList = new ArrayList<>();
 //        arrayList.add(productList.get(1));
@@ -541,7 +560,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onSuccess() {
-        mShoppingCart.setOnClickListener(this);
+       // mShoppingCart.setOnClickListener(this);
     }
 
     @Override

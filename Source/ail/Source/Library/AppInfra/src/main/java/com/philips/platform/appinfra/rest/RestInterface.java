@@ -38,4 +38,11 @@ public interface RestInterface extends Serializable {
      */
     boolean isInternetReachable() ;
 
+    void registerNetworkChangeListener(NetworkConnectivityChangeListener networkConnectivityChangeListener);
+
+    void unregisterNetworkChangeListener(NetworkConnectivityChangeListener networkConnectivityChangeListener);
+
+    interface NetworkConnectivityChangeListener {
+        void onConnectivityStateChange(boolean isConnected);
+    }
 }

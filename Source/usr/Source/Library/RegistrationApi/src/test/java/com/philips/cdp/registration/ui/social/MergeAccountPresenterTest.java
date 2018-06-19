@@ -15,13 +15,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.annotation.Config;
 
-import org.mockito.runners.MockitoJUnitRunner;
-
 /**
  * Created by philips on 11/22/17.
  */
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class MergeAccountPresenterTest {
 
     @Mock
@@ -60,7 +58,7 @@ public class MergeAccountPresenterTest {
             }
 
             @Override
-            public void mergeFailure(int reason) {
+            public void mergeFailure(String errorDescription, int reason) {
 
             }
 

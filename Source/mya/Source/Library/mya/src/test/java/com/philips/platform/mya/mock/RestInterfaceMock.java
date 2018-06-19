@@ -21,4 +21,14 @@ public class RestInterfaceMock implements RestInterface {
     public boolean isInternetReachable() {
         return isInternetAvailable;
     }
+
+    @Override
+    public void registerNetworkChangeListener(NetworkConnectivityChangeListener networkConnectivityChangeListener) {
+
+    }
+
+    @Override
+    public void unregisterNetworkChangeListener(NetworkConnectivityChangeListener networkConnectivityChangeListener) {
+
+    }
 }

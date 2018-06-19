@@ -6,8 +6,6 @@ import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
-import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
-import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +14,6 @@ import org.mockito.Mock;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import static org.junit.Assert.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -24,7 +21,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class CreateAccountFragmentTest {
 
     CreateAccountFragment createAccountFragment;

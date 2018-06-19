@@ -7,8 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.catk.ConsentInteractor;
-import com.philips.platform.mya.catk.ConsentsClient;
+import com.philips.platform.catk.ConsentInteractor;
+import com.philips.platform.catk.ConsentsClient;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -30,7 +30,6 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfig;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -103,24 +102,19 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
         Intent intent = new Intent();
         for (ThemeConfig config : configurations) {
             if(config instanceof ColorRange) {
-                intent.putExtra(THSConstants.KEY_COLOR_RANGE, getConfigElement(config));
+                intent.putExtra(THSConstants.KEY_COLOR_RANGE, ((ColorRange)config));
             }
             if (config instanceof ContentColor) {
-                intent.putExtra(THSConstants.KEY_CONTENT_COLOR, getConfigElement(config));
+                intent.putExtra(THSConstants.KEY_CONTENT_COLOR, ((ContentColor)config));
             }
             if(config instanceof NavigationColor) {
-                intent.putExtra(THSConstants.KEY_NAVIGATION_COLOR, getConfigElement(config));
+                intent.putExtra(THSConstants.KEY_NAVIGATION_COLOR, ((NavigationColor)config));
             }
             if(config instanceof AccentRange) {
-                intent.putExtra(THSConstants.KEY_ACCENT_RANGE, getConfigElement(config));
+                intent.putExtra(THSConstants.KEY_ACCENT_RANGE, ((AccentRange)config));
             }
         }
         return intent;
-    }
-
-    private <T extends Serializable> T getConfigElement(ThemeConfig config) {
-        T configElement = (T) config;
-        return configElement;
     }
 
     private void lauchFirstFragment(THSBaseFragment thsBaseFragment,FragmentLauncher fragmentLauncher, FragmentTransaction fragmentTransaction,boolean isDeeplinkingFlow) {

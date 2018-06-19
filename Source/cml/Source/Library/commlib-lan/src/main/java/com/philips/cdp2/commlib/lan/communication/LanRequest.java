@@ -216,16 +216,12 @@ public class LanRequest extends Request {
     HttpURLConnection createConnection(final @NonNull URL url, final @NonNull String requestMethod) throws IOException, TransportUnavailableException {
         HttpURLConnection conn;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            final Network network = getWifiNetwork();
+        final Network network = getWifiNetwork();
 
-            if (network == null) {
-                throw new TransportUnavailableException("Network unavailable.");
-            }
-            conn = (HttpURLConnection) network.openConnection(url);
-        } else {
-            conn = (HttpURLConnection) url.openConnection();
+        if (network == null) {
+            throw new TransportUnavailableException("Network unavailable.");
         }
+        conn = (HttpURLConnection) network.openConnection(url);
 
         if (conn instanceof HttpsURLConnection) {
             ((HttpsURLConnection) conn).setHostnameVerifier(hostnameVerifier);

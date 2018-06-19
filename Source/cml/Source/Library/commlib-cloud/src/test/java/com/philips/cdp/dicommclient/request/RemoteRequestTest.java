@@ -43,8 +43,6 @@ public class RemoteRequestTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DICommLog.disableLogging();
-        //
         subject = new RemoteRequest("", "", 1, RemoteRequestType.GET_PROPS, null, handlerMock, cloudControllerMock) {
             @Override
             protected CountDownLatch createCountDownLatch() {

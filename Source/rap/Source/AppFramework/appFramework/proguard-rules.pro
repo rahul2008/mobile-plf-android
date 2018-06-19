@@ -239,7 +239,7 @@ public void set*(...);
 
 # Model classes for test microapp should not be obfuscated
 -keep class com.philips.platform.appframework.models.** {*;}
-
+-keep class com.philips.platform.catk.datamodel.CachedConsentStatus { *; }
 
 #Enumeration
 -keepclassmembers enum * {

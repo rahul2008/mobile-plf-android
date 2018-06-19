@@ -7,7 +7,6 @@ import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +22,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class AccountActivationFragmentTest {
 
     AccountActivationFragment accountActivationFragment;

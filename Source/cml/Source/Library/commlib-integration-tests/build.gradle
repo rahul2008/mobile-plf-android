@@ -50,6 +50,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
+        multiDexEnabled true
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
 
@@ -70,6 +71,11 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 
     packagingOptions {

@@ -3,6 +3,7 @@ package com.philips.cdp.registration.ui.social;
 
 import android.app.Activity;
 
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.ui.traditional.mobile.FaceBookContractor;
 import com.philips.cdp.registration.ui.utils.URFaceBookUtility;
 
@@ -14,7 +15,7 @@ interface MergeSocialToSocialAccountContract extends FaceBookContractor{
 
     void mergeSuccess();
 
-    void mergeFailure(int errorCode);
+    void mergeFailure(UserRegistrationFailureInfo error);
 
     void mergeFailureIgnored();
 
