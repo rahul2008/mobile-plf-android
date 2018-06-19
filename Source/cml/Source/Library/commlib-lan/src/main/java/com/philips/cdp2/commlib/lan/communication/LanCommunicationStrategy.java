@@ -125,28 +125,28 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     @Override
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.GET, null, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.GET, null, responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.PUT, dataMap, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.PUT, dataMap, responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
     @Override
     public void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.POST, dataMap, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.POST, dataMap, responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
     @Override
     public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.DELETE, null, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.DELETE, null, responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
@@ -154,14 +154,14 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
         localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
     @Override
     public void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.DELETE, getUnsubscriptionData(), responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.DELETE, getUnsubscriptionData(), responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
@@ -205,7 +205,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
             }
         };
 
-        final Request request = networkNode.isHttps() ? new GetKeyRequest(networkNode, sslContext, responseHandler) : new ExchangeKeyRequest(networkNode, responseHandler);
+        final Request request = networkNode.isHttps() ? new GetKeyRequest(networkNode, connectivityMonitor, sslContext, responseHandler) : new ExchangeKeyRequest(networkNode, connectivityMonitor, responseHandler);
 
         isKeyExchangeOngoing = true;
         requestQueue.addRequestInFrontOfQueue(request);

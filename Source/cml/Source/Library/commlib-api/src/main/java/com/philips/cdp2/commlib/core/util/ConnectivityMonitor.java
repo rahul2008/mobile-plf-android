@@ -11,7 +11,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,8 +24,13 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class ConnectivityMonitor implements Availability<ConnectivityMonitor> {
+
+    private static final int WIFI_NETWORK_TIMEOUT_SECONDS = 3;
 
     protected ConnectivityManager connectivityManager;
 
@@ -160,6 +167,50 @@ public abstract class ConnectivityMonitor implements Availability<ConnectivityMo
     @Override
     public void removeAvailabilityListener(@NonNull AvailabilityListener<ConnectivityMonitor> listener) {
         availabilityListeners.remove(listener);
+    }
+
+    @Nullable
+    public final Network getNetwork() {
+        final AtomicReference<Network> result = new AtomicReference<>(null);
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        NetworkRequest.Builder builder = new NetworkRequest.Builder();
+        builder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+
+        ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(Network network) {
+                final NetworkInfo networkInfo = connectivityManager.getNetworkInfo(network);
+
+                if (networkInfo.isConnected()) {
+                    DICommLog.i(DICommLog.WIFI, "Wifi network available.");
+                    result.set(network);
+                }
+                latch.countDown();
+            }
+
+            @Override
+            public void onLost(Network network) {
+                DICommLog.i(DICommLog.WIFI, "Wifi network lost.");
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    connectivityManager.bindProcessToNetwork(null);
+                } else {
+                    ConnectivityManager.setProcessDefaultNetwork(null);
+                }
+            }
+        };
+        connectivityManager.registerNetworkCallback(builder.build(), networkCallback);
+
+        try {
+            DICommLog.i(DICommLog.WIFI, "Waiting max 3 seconds for Wifi network to become available.");
+            latch.await(WIFI_NETWORK_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            DICommLog.e(DICommLog.WIFI, "Interrupted while waiting for Wifi network to become available.");
+        } finally {
+            connectivityManager.unregisterNetworkCallback(networkCallback);
+        }
+        return result.get();
     }
 
     private void notifyConnectivityListeners() {
