@@ -15,7 +15,7 @@ import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListen
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
+import com.philips.cdp2.commlib.lan.util.SsidProvider;
 import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
 import org.junit.Before;
@@ -58,7 +58,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     private ConnectivityMonitor connectivityMonitorMock;
 
     @Mock
-    private WifiNetworkProvider wifiNetworkProviderMock;
+    private SsidProvider ssidProviderMock;
 
     @Mock
     private DiscoveryListener discoveryListenerMock;
@@ -84,7 +84,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
             }
         }).when(connectivityMonitorMock).addAvailabilityListener(ArgumentMatchers.<AvailabilityListener<ConnectivityMonitor>>any());
 
-        strategyUnderTest = new LanDiscoveryStrategy(deviceCacheMock, connectivityMonitorMock, wifiNetworkProviderMock) {
+        strategyUnderTest = new LanDiscoveryStrategy(deviceCacheMock, connectivityMonitorMock, ssidProviderMock) {
             @Override
             SSDPControlPoint createSsdpControlPoint() {
                 return ssdpControlPointMock;

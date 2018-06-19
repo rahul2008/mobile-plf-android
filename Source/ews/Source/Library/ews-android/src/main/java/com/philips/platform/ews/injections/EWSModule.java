@@ -18,6 +18,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
+import com.philips.cdp2.commlib.lan.util.SsidProvider;
 import com.philips.platform.ews.appliance.EWSGenericAppliance;
 import com.philips.platform.ews.communication.DiscoveryHelper;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
@@ -80,7 +81,8 @@ public class EWSModule {
         DeviceCache deviceCache = createLanCache();
         injectFakeNodeIntoDeviceCache(deviceCache, fakeNetworkNode);
         // We are intentionally not creating the strategy from the transport context!
-        CommunicationStrategy communicationStrategy = new LanCommunicationStrategy(fakeNetworkNode, monitor);
+        SsidProvider ssidProvider = new SsidProvider(context);
+        CommunicationStrategy communicationStrategy = new LanCommunicationStrategy(fakeNetworkNode, monitor, ssidProvider);
         return new EWSGenericAppliance(fakeNetworkNode, communicationStrategy);
     }
 

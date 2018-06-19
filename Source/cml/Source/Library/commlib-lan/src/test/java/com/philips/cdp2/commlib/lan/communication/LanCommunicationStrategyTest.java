@@ -14,6 +14,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
+import com.philips.cdp2.commlib.lan.util.SsidProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -43,6 +44,7 @@ public class LanCommunicationStrategyTest {
     private static final int PRODUCT_ID = 1;
     private static final int SUBSCRIPTION_TTL = 10;
     public static final String IP_ADDRESS = "192.168.1.1";
+    public static final String SSID = "ssid";
 
     @Mock
     private Handler handlerMock;
@@ -55,6 +57,9 @@ public class LanCommunicationStrategyTest {
 
     @Mock
     private ConnectivityMonitor connectivityMonitorMock;
+
+    @Mock
+    private SsidProvider ssidProviderMock;
 
     @Mock
     private PropertyChangeEvent propertyChangeEventMock;
@@ -78,7 +83,7 @@ public class LanCommunicationStrategyTest {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
 
-        lanCommunicationStrategy = new LanCommunicationStrategy(networkNodeMock, connectivityMonitorMock) {
+        lanCommunicationStrategy = new LanCommunicationStrategy(networkNodeMock, connectivityMonitorMock, ssidProviderMock) {
             @Override
             @NonNull
             RequestQueue createRequestQueue() {
@@ -345,6 +350,36 @@ public class LanCommunicationStrategyTest {
         when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
 
         assertThat(lanCommunicationStrategy.isAvailable()).isFalse();
+    }
+
+    @Test
+    public void whenUserIsConnectedToHomeNetwork_ThenStrategyIsAvailable() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
+        when(networkNodeMock.getHomeSsid()).thenReturn(SSID);
+        when(ssidProviderMock.getHomeSsid()).thenReturn(SSID);
+
+        assertThat(lanCommunicationStrategy.isAvailable()).isTrue();
+    }
+
+    @Test
+    public void whenUserIsConnectedToAnotherNetwork_ThenStrategyIsNotAvailable() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
+        when(networkNodeMock.getHomeSsid()).thenReturn(SSID);
+        when(ssidProviderMock.getHomeSsid()).thenReturn("ssid2");
+
+        assertThat(lanCommunicationStrategy.isAvailable()).isFalse();
+    }
+
+    @Test
+    public void whenUserNetworkIsUnknown_ThenStrategyIsAvailable() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
+        when(networkNodeMock.getHomeSsid()).thenReturn(SSID);
+        when(ssidProviderMock.getHomeSsid()).thenReturn(null);
+
+        assertThat(lanCommunicationStrategy.isAvailable()).isTrue();
     }
 
     @Test

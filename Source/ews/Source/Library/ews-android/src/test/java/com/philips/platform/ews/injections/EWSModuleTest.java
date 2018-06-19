@@ -12,6 +12,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
+import com.philips.cdp2.commlib.lan.util.SsidProvider;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
 import com.philips.platform.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.platform.ews.logger.EWSLogger;
@@ -41,55 +42,58 @@ public class EWSModuleTest {
     private EWSModule subject;
 
     @Mock
-    Context mockContext;
+    private Context mockContext;
 
     @Mock
-    FragmentManager mockFragmentManager;
+    private FragmentManager mockFragmentManager;
 
     @Mock
-    CommCentral mockCommCentral;
+    private CommCentral mockCommCentral;
 
     @Mock
-    WifiManager mockWifiManager;
+    private WifiManager mockWifiManager;
 
     @Mock
-    Navigator mockNavigator;
+    private Navigator mockNavigator;
 
     @Mock
-    PermissionHandler mockPermissionHandler;
+    private PermissionHandler mockPermissionHandler;
 
     @Mock
-    HappyFlowContentConfiguration mockHappyFlowContentConfiguration;
+    private HappyFlowContentConfiguration mockHappyFlowContentConfiguration;
 
     @Mock
-    StringProvider mockStringProvider;
+    private StringProvider mockStringProvider;
 
     @Mock
-    BaseContentConfiguration mockBaseContentConfiguration;
+    private BaseContentConfiguration mockBaseContentConfiguration;
 
     @Mock
-    EWSTagger mockEWSTagger;
+    private EWSTagger mockEWSTagger;
 
     @Mock
-    EWSLogger mockEWSLogger;
+    private EWSLogger mockEWSLogger;
 
     @Mock
-    WiFiUtil mockWiFiUtil;
-
-
-    @Mock
-    ConnectivityMonitor mockConnectivityMonitor;
+    private WiFiUtil mockWiFiUtil;
 
     @Mock
-    LanCommunicationStrategy mockCommunicationStrategy;
+    private ConnectivityMonitor mockConnectivityMonitor;
 
     @Mock
-    NetworkNode mockNetworkNode;
+    private SsidProvider ssidProviderMock;
+
+    @Mock
+    private LanCommunicationStrategy mockCommunicationStrategy;
+
+    @Mock
+    private NetworkNode mockNetworkNode;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(ConnectivityMonitor.class);
+        when(mockContext.getApplicationContext()).thenReturn(mockContext);
         subject = new EWSModule(mockContext, mockFragmentManager, 1, mockCommCentral);
     }
 
@@ -108,9 +112,8 @@ public class EWSModuleTest {
     @Test
     public void provideTemporaryAppliance() throws Exception {
         when(ConnectivityMonitor.forNetworkTypes(mockContext, ConnectivityManager.TYPE_WIFI)).thenReturn(mockConnectivityMonitor);
-        whenNew(LanCommunicationStrategy.class).withArguments(mockNetworkNode, mockConnectivityMonitor).thenReturn(mockCommunicationStrategy);
+        whenNew(LanCommunicationStrategy.class).withArguments(mockNetworkNode, mockConnectivityMonitor, ssidProviderMock).thenReturn(mockCommunicationStrategy);
         subject.provideTemporaryAppliance();
-
     }
 
     @Test
@@ -137,5 +140,4 @@ public class EWSModuleTest {
     public void provideHandlerWithMainLooper() throws Exception {
         assertNotNull(subject.provideHandlerWithMainLooper());
     }
-
 }

@@ -4,8 +4,6 @@
  */
 package com.philips.cdp2.commlib.lan.discovery;
 
-import android.net.wifi.SupplicantState;
-import android.net.wifi.WifiInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -19,7 +17,7 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
+import com.philips.cdp2.commlib.lan.util.SsidProvider;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
@@ -42,7 +40,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private final DeviceCache deviceCache;
 
     @NonNull
-    private final WifiNetworkProvider wifiNetworkProvider;
+    private final SsidProvider ssidProvider;
 
     @NonNull
     private Set<String> modelIds;
@@ -103,9 +101,9 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         }
     };
 
-    public LanDiscoveryStrategy(final @NonNull DeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor, @NonNull WifiNetworkProvider wifiNetworkProvider) {
+    public LanDiscoveryStrategy(final @NonNull DeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor, final @NonNull SsidProvider ssidProvider) {
         this.deviceCache = requireNonNull(deviceCache);
-        this.wifiNetworkProvider = requireNonNull(wifiNetworkProvider);
+        this.ssidProvider = requireNonNull(ssidProvider);
         this.ssdpControlPoint = createSsdpControlPoint();
         this.modelIds = Collections.emptySet();
 
@@ -195,7 +193,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         final String ipAddress = ssdpDevice.getIpAddress();
         final String name = ssdpDevice.getFriendlyName();
         final String deviceType = ssdpDevice.getModelName();
-        final String homeSsid = getHomeSsid();
+        final String homeSsid = ssidProvider.getHomeSsid();
         Long bootId = -1L;
         final String modelNumber = ssdpDevice.getModelNumber();
 
@@ -215,18 +213,6 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
         if (networkNode.isValid()) {
             return networkNode;
-        }
-        return null;
-    }
-
-    @Nullable
-    private String getHomeSsid() {
-        WifiInfo wifiInfo = wifiNetworkProvider.getWifiInfo();
-
-        if (wifiInfo == null) {
-            return null;
-        } else if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
-            return wifiInfo.getSSID();
         }
         return null;
     }

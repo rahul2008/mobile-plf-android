@@ -61,30 +61,27 @@ public class ConnectivityMonitorTest {
     }
 
     @Test
-    public void givenSelectedTypeIsAvailable_whenConnectivityMonitorIsInitialied_thenItIsAvailable() {
+    public void givenSelectedTypeIsAvailable_whenConnectivityMonitorIsInitialised_thenItIsAvailable() {
         assertThat(connectivityMonitor.isAvailable()).isTrue();
-        assertThat(connectivityMonitor.isConnected()).isTrue();
     }
 
     @Test
-    public void givenOneOfSelectedTypesIsAvailable_whenConnectivityMonitorIsInitialied_thenItIsAvailable() {
+    public void givenOneOfSelectedTypesIsAvailable_whenConnectivityMonitorIsInitialised_thenItIsAvailable() {
         when(networkInfoMock.getType()).thenReturn(ConnectivityManager.TYPE_MOBILE);
         when(networkInfoMock.isConnected()).thenReturn(true);
 
         ConnectivityMonitor connectivityMonitor = ConnectivityMonitor.forNetworkTypes(mockContext, ConnectivityManager.TYPE_WIFI, ConnectivityManager.TYPE_MOBILE);
 
         assertThat(connectivityMonitor.isAvailable()).isTrue();
-        assertThat(connectivityMonitor.isConnected()).isTrue();
     }
 
     @Test
-    public void givenSelectedTypeIsNotAvailable_whenConnectivityMonitorIsInitialied_thenItIsNotAvailable() {
+    public void givenSelectedTypeIsNotAvailable_whenConnectivityMonitorIsInitialised_thenItIsNotAvailable() {
         when(networkInfoMock.getType()).thenReturn(ConnectivityManager.TYPE_MOBILE);
 
         ConnectivityMonitor connectivityMonitor = ConnectivityMonitor.forNetworkTypes(mockContext, ConnectivityManager.TYPE_WIFI);
 
         assertThat(connectivityMonitor.isAvailable()).isFalse();
-        assertThat(connectivityMonitor.isConnected()).isFalse();
     }
 
     @Test
@@ -113,5 +110,23 @@ public class ConnectivityMonitorTest {
         broadcastReceiverArgumentCaptor.getValue().onReceive(mockContext, null);
 
         verifyZeroInteractions(availabilityListenerMock);
+    }
+
+    @Test
+    public void givenConnectivityServiceIsNotAvailable_whenConnectivityMonitorIsInitialised_thenItIsNotAvailable() {
+        when(mockContext.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(null);
+
+        ConnectivityMonitor connectivityMonitor = ConnectivityMonitor.forNetworkTypes(mockContext, ConnectivityManager.TYPE_WIFI);
+
+        assertThat(connectivityMonitor.isAvailable()).isFalse();
+    }
+
+    @Test
+    public void givenConnectivityServiceIsNotAvailable_whenNetworkIsRequested_thenNetworkIsNull() {
+        when(mockContext.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(null);
+
+        ConnectivityMonitor connectivityMonitor = ConnectivityMonitor.forNetworkTypes(mockContext, ConnectivityManager.TYPE_WIFI);
+
+        assertThat(connectivityMonitor.getNetwork()).isNull();
     }
 }

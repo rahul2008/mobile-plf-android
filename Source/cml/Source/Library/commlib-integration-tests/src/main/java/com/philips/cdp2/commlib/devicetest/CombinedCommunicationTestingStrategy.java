@@ -177,9 +177,8 @@ public class CombinedCommunicationTestingStrategy extends ObservableCommunicatio
                 }
             });
         } else {
-            responseHandler.onError(Error.NOT_CONNECTED, "Appliance is not connected");
+            responseHandler.onError(Error.NO_TRANSPORT_AVAILABLE, "Appliance is not connected");
         }
-
     }
 
     @Override

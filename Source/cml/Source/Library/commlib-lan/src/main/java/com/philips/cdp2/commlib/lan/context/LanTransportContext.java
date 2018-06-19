@@ -21,7 +21,7 @@ import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.cdp2.commlib.lan.discovery.LanDiscoveryStrategy;
 import com.philips.cdp2.commlib.lan.security.PublicKeyPin;
-import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
+import com.philips.cdp2.commlib.lan.util.SsidProvider;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -43,8 +43,10 @@ public class LanTransportContext implements TransportContext {
     private final DeviceCache deviceCache;
     @NonNull
     private final DiscoveryStrategy discoveryStrategy;
+    @NonNull
     private final ConnectivityMonitor connectivityMonitor;
-    private final WifiNetworkProvider wifiNetworkProvider;
+    @NonNull
+    private final SsidProvider ssidProvider;
 
     /**
      * Instantiates a LanTransportContext.
@@ -53,7 +55,7 @@ public class LanTransportContext implements TransportContext {
      */
     public LanTransportContext(@NonNull final RuntimeConfiguration runtimeConfiguration) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(runtimeConfiguration.getContext(), TYPE_WIFI);
-        this.wifiNetworkProvider = new WifiNetworkProvider(runtimeConfiguration.getContext());
+        this.ssidProvider = new SsidProvider(runtimeConfiguration.getContext());
         this.deviceCache = new DeviceCache(Executors.newSingleThreadScheduledExecutor());
         this.discoveryStrategy = createLanDiscoveryStrategy();
     }
@@ -61,7 +63,7 @@ public class LanTransportContext implements TransportContext {
     @VisibleForTesting
     @NonNull
     DiscoveryStrategy createLanDiscoveryStrategy() {
-        return new LanDiscoveryStrategy(deviceCache, connectivityMonitor, wifiNetworkProvider);
+        return new LanDiscoveryStrategy(deviceCache, connectivityMonitor, ssidProvider);
     }
 
     /**
@@ -84,7 +86,7 @@ public class LanTransportContext implements TransportContext {
     @Override
     @NonNull
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
-        return new LanCommunicationStrategy(networkNode, connectivityMonitor);
+        return new LanCommunicationStrategy(networkNode, connectivityMonitor, ssidProvider);
     }
 
     /**

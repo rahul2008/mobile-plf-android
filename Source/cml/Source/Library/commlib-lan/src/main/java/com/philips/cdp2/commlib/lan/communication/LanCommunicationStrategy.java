@@ -21,6 +21,7 @@ import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
 import com.philips.cdp2.commlib.lan.subscription.LocalSubscriptionHandler;
 import com.philips.cdp2.commlib.lan.subscription.UdpEventReceiver;
+import com.philips.cdp2.commlib.lan.util.SsidProvider;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.X509TrustManager;
@@ -45,6 +46,9 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
 
     @NonNull
     private final DISecurity diSecurity;
+
+    @NonNull
+    private SsidProvider ssidProvider;
 
     @NonNull
     private final NetworkNode networkNode;
@@ -92,9 +96,10 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
         }
     };
 
-    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull ConnectivityMonitor connectivityMonitor) {
+    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull ConnectivityMonitor connectivityMonitor, final @NonNull SsidProvider ssidProvider) {
         this.networkNode = requireNonNull(networkNode);
         this.connectivityMonitor = requireNonNull(connectivityMonitor);
+        this.ssidProvider = requireNonNull(ssidProvider);
 
         this.diSecurity = new DISecurity(networkNode);
         localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
@@ -167,7 +172,11 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return connectivityMonitor.isAvailable() && networkNode.getIpAddress() != null;
+        return networkNode.getIpAddress() != null && connectivityMonitor.isAvailable() && isOnSameNetwork();
+    }
+
+    private boolean isOnSameNetwork() {
+        return ssidProvider.getHomeSsid() == null || ssidProvider.getHomeSsid().equals(networkNode.getHomeSsid());
     }
 
     @VisibleForTesting

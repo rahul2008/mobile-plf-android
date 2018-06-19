@@ -17,7 +17,6 @@ import android.net.NetworkRequest;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.philips.cdp.dicommclient.util.DICommLog;
 
 import java.util.Locale;
@@ -27,18 +26,15 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-public abstract class ConnectivityMonitor implements Availability<ConnectivityMonitor> {
+public class ConnectivityMonitor implements Availability<ConnectivityMonitor> {
 
     private static final int WIFI_NETWORK_TIMEOUT_SECONDS = 3;
 
-    protected ConnectivityManager connectivityManager;
+    @Nullable
+    private ConnectivityManager connectivityManager;
+    private int[] networkTypes;
 
     private Set<AvailabilityListener<ConnectivityMonitor>> availabilityListeners = new CopyOnWriteArraySet<>();
-
-    @Nullable
-    public NetworkInfo getActiveNetworkInfo() {
-        return activeNetworkInfo;
-    }
 
     private NetworkInfo activeNetworkInfo;
     private boolean isConnected;
@@ -76,36 +72,31 @@ public abstract class ConnectivityMonitor implements Availability<ConnectivityMo
             throw new IllegalArgumentException("At least one network type must be provided.");
         }
 
-        return new ConnectivityMonitor(context) {
-            @Override
-            protected boolean determineIfConnected() {
-                final NetworkInfo activeNetworkInfo = getActiveNetworkInfo();
-                if (activeNetworkInfo == null) {
-                    return false;
-                }
+        return new ConnectivityMonitor(context, networkTypes);
+    }
 
-                for (int networkType : networkTypes) {
-                    if (activeNetworkInfo.getType() == networkType && activeNetworkInfo.isConnected()) {
-                        return true;
-                    }
-                }
-                return false;
+    private ConnectivityMonitor(final @NonNull Context context, final int... networkTypes) {
+        this.connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager != null) {
+            this.networkTypes = networkTypes;
+            this.activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            this.isConnected = determineIfConnected();
+            context.registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+    }
+
+    private boolean determineIfConnected() {
+        if (activeNetworkInfo == null) {
+            return false;
+        }
+
+        for (int networkType : networkTypes) {
+            if (activeNetworkInfo.getType() == networkType && activeNetworkInfo.isConnected()) {
+                return true;
             }
-        };
-    }
-
-    private ConnectivityMonitor(final @NonNull Context context) {
-        connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        context.registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-
-        activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        isConnected = determineIfConnected();
-    }
-
-    abstract protected boolean determineIfConnected();
-
-    public boolean isConnected() {
-        return isConnected;
+        }
+        return false;
     }
 
     @Override
@@ -126,6 +117,9 @@ public abstract class ConnectivityMonitor implements Availability<ConnectivityMo
 
     @Nullable
     public final Network getNetwork() {
+        if (connectivityManager == null) {
+            return null;
+        }
         final AtomicReference<Network> result = new AtomicReference<>(null);
         final CountDownLatch latch = new CountDownLatch(1);
 
