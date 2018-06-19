@@ -68,24 +68,24 @@ public class ShadowBluetoothLEAdapter {
         this.scanner = scanner;
     }
 
-    @Implementation(minSdk = LOLLIPOP)
+    @Implementation
     public BluetoothLeScanner getBluetoothLeScanner() {
         return scanner;
     }
 
-    @Implementation(minSdk = JELLY_BEAN_MR2)
+    @Implementation
     public boolean startLeScan(BluetoothAdapter.LeScanCallback callback) {
         return startLeScan(null, callback);
     }
 
-    @Implementation(minSdk = JELLY_BEAN_MR2)
+    @Implementation
     public boolean startLeScan(UUID[] serviceUuids, BluetoothAdapter.LeScanCallback callback) {
         // Ignoring the serviceUuids param for now.
         leScanCallbacks.add(callback);
         return true;
     }
 
-    @Implementation(minSdk = JELLY_BEAN_MR2)
+    @Implementation
     public void stopLeScan(BluetoothAdapter.LeScanCallback callback) {
         leScanCallbacks.remove(callback);
     }

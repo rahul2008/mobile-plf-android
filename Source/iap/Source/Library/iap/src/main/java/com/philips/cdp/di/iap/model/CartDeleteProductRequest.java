@@ -24,8 +24,7 @@ public class CartDeleteProductRequest extends AbstractModel {
 
     @Override
     public int getMethod() {
-        IAPLog.d(IAPLog.LOG, "DELETE");
-        return Request.Method.DELETE;
+        return Request.Method.PUT;
     }
 
     @Override
@@ -33,6 +32,7 @@ public class CartDeleteProductRequest extends AbstractModel {
         Map<String, String> payload = new HashMap<>();
         payload.put(ModelConstants.PRODUCT_CODE, params.get(ModelConstants.PRODUCT_CODE));
         payload.put(ModelConstants.ENTRY_CODE, params.get(ModelConstants.ENTRY_CODE));
+        payload.put(ModelConstants.PRODUCT_QUANTITY, String.valueOf(0));
         return payload;
     }
 

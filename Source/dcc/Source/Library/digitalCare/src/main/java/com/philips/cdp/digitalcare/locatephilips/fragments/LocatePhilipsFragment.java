@@ -11,7 +11,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -30,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -421,16 +421,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     /*
      Android Marshmallow: Android M : Permission has to be requested at runtime.
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void requestPermissionAndroidM() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
-                    ACCESS_COARSE_LOCATION);
-            if (hasPermission != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        REQUEST_CODE_ASK_PERMISSIONS);
-            } else {
-                getCurrentLocation();
-            }
+
+        int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
+                ACCESS_COARSE_LOCATION);
+        if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    REQUEST_CODE_ASK_PERMISSIONS);
         } else {
             getCurrentLocation();
         }
@@ -805,12 +803,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 DigiCareLogger.v(TAG, "Check the SIM");
                 showAlert(getActivity().getString(R.string.check_sim));
             }
-        }else if ((v.getId() == R.id.marker_icon) || (v.getId() == R.id.arabic_marker_icon)) {
+        } else if ((v.getId() == R.id.marker_icon) || (v.getId() == R.id.arabic_marker_icon)) {
             mListView.setVisibility(View.GONE);
             removeListData();
             removeArabicSearchIcon();
             mSearchBox.setText(null);
-        }else if (v.getId() == R.id.getdirection) {
+        } else if (v.getId() == R.id.getdirection) {
             DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                     (AnalyticsConstants.ACTION_SEND_DATA,
                             AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
@@ -819,18 +817,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             if (isConnectionAvailable()) {
                 if (mSourceLat == 0 && mSourceLng == 0) {
 
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-                        int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
-                                ACCESS_COARSE_LOCATION);
-                        if (hasPermission != PackageManager.PERMISSION_GRANTED) {
-                            requestPermissions(new String[]{Manifest.permission.
-                                            ACCESS_COARSE_LOCATION},
-                                    REQUEST_CODE_ASK_PERMISSIONS);
-                        }
-                    } else {
-                        gpsAlertView.showAlert(this, -1,
-                                R.string.gps_disabled,
-                                android.R.string.yes, android.R.string.no);
+                    int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
+                            ACCESS_COARSE_LOCATION);
+                    if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.
+                                        ACCESS_COARSE_LOCATION},
+                                REQUEST_CODE_ASK_PERMISSIONS);
                     }
                 } else {
                     gpsAlertView.removeAlert();
@@ -841,7 +833,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 mLinearLayout.setVisibility(View.GONE);
             }
 
-        }else if((v.getId() == R.id.close_icon)){
+        } else if ((v.getId() == R.id.close_icon)) {
             hideListData();
         }
     }

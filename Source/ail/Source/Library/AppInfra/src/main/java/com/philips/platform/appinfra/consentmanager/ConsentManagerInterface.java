@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2018
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.consentmanager;
 
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
@@ -67,6 +67,7 @@ public interface ConsentManagerInterface {
 
     /**
      * Fetch the consent status of the give type by delegating to the corresponding handler
+     *
      * @param type
      * @param callback
      * @since 2018.1.0
@@ -75,8 +76,28 @@ public interface ConsentManagerInterface {
 
     /**
      * Get consent definition for consent type
+     *
      * @param consentType
      * @since 2018.2.0
      */
     ConsentDefinition getConsentDefinitionForType(String consentType);
+
+    /**
+     * Register for conset status changes for a given {@link ConsentDefinition}
+     * @param consentDefinition {@link ConsentDefinition} to be observed for the changes.
+     * @param listener {@link ConsentStatusChangedListener} provides the callback for respective store call.
+     * @since 2018.3.0
+     */
+    default void addConsentStatusChangedListener(ConsentDefinition consentDefinition, ConsentStatusChangedListener listener) {
+    }
+
+    /**
+     * Unregister {@link ConsentDefinition} for update changes. Call this has no impact if the {@link ConsentDefinition} was not registered.
+     *
+     * @param consentDefinition {@link ConsentDefinition} for which no further callbacks are required.
+     * @param consentStatusChangedListener {@link ConsentStatusChangedListener} to be unregistered.
+     * @since 2018.3.0
+     */
+    default void removeConsentStatusChangedListener(ConsentDefinition consentDefinition, ConsentStatusChangedListener consentStatusChangedListener) {
+    }
 }

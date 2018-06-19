@@ -7,7 +7,6 @@ package com.philips.cdp2.commlib.lan.communication;
 
 import android.annotation.SuppressLint;
 import android.net.Network;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -72,7 +71,7 @@ public class LanRequest extends Request {
         }
     };
 
-    LanRequest(final @NonNull NetworkNode networkNode, final @NonNull ConnectivityMonitor connectivityMonitor, @Nullable SSLContext sslContext, String portName, int productId, LanRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler, DISecurity diSecurity) {
+    LanRequest(final @NonNull NetworkNode networkNode, @NonNull ConnectivityMonitor connectivityMonitor, @Nullable SSLContext sslContext, String portName, int productId, LanRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler, DISecurity diSecurity) {
         super(dataMap, responseHandler);
 
         this.networkNode = networkNode;
@@ -227,16 +226,12 @@ public class LanRequest extends Request {
     HttpURLConnection createConnection(final @NonNull URL url, final @NonNull String requestMethod) throws IOException, TransportUnavailableException {
         HttpURLConnection conn;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            final Network network = connectivityMonitor.getNetwork();
+        final Network network = connectivityMonitor.getNetwork();
 
-            if (network == null) {
-                throw new TransportUnavailableException("Network unavailable.");
-            }
-            conn = (HttpURLConnection) network.openConnection(url);
-        } else {
-            conn = (HttpURLConnection) url.openConnection();
+        if (network == null) {
+            throw new TransportUnavailableException("Network unavailable.");
         }
+        conn = (HttpURLConnection) network.openConnection(url);
 
         if (conn instanceof HttpsURLConnection) {
             ((HttpsURLConnection) conn).setHostnameVerifier(hostnameVerifier);

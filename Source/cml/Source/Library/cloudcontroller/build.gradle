@@ -39,7 +39,6 @@ android {
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
 
-
     compileOnly deps.support.annotations
 
     def suffix = objcdp.getVersionSuffix()

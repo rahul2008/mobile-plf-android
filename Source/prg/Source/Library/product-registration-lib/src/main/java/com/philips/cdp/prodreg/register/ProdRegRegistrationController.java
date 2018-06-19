@@ -184,7 +184,7 @@ public class ProdRegRegistrationController {
 
     private boolean validatePurchaseDate(final String purchaseDate) {
         boolean validPurchaseDate = true;
-        if (productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
+        if (productMetadataResponseData!=null && productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
             validPurchaseDate = isValidDate(purchaseDate);
         }
         return validPurchaseDate;

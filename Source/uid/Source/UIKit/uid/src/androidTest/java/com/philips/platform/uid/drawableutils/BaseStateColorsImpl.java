@@ -72,8 +72,7 @@ public abstract class BaseStateColorsImpl implements GradientDrawableUtils.State
 
     @Override
     public int[] getColors() {
-        String colorField = Build.VERSION.SDK_INT >= 23 ? STATE_COLORS_MARSHMALLOW_ABOVE : STATE_COLORS;
-        return UIDTestUtils.getIntegerArrayFromReflection(getConstantStateForRadius(), colorField);
+        return UIDTestUtils.getIntegerArrayFromReflection(getConstantStateForRadius(), STATE_COLORS_MARSHMALLOW_ABOVE);
     }
 
     protected Drawable.ConstantState getConstantStateForRadius() {

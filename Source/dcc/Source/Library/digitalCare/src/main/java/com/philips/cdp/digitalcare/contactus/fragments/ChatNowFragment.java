@@ -201,7 +201,6 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 
         //Android 5.0+
         @Override
-        @SuppressLint("NewApi")
         public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
             if (mFilePathCallbackArray != null) {
                 mFilePathCallbackArray.onReceiveValue(null);
@@ -244,17 +243,13 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 
 
                 if (result != null) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        mFilePathCallbackArray.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
-                    } else {
-                        mUploadMessage.onReceiveValue(result);
-                    }
+
+                    mFilePathCallbackArray.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+
                 } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        mFilePathCallbackArray.onReceiveValue(null);
-                    } else {
-                        mUploadMessage.onReceiveValue(null);
-                    }
+
+                    mFilePathCallbackArray.onReceiveValue(null);
+
                 }
                 mFilePathCallbackArray = null;
                 mUploadMessage = null;
@@ -263,22 +258,14 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void checkPermissionForGallery(Context context) {
-        int currentAPIVersion = Build.VERSION.SDK_INT;
-        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_GALLERY);
-            } else {
-                startActivityForResult(createImagePickerIntent(), SELECT_IMAGE);
-            }
-        }else{
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_GALLERY);
+        } else {
             startActivityForResult(createImagePickerIntent(), SELECT_IMAGE);
         }
     }
-    
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {

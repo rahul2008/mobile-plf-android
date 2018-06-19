@@ -22,7 +22,7 @@ import java.util.List;
  * Created by philips on 12/3/17.
  */
 @RunWith(CustomRobolectricRunner.class)
-@org.robolectric.annotation.Config(constants = BuildConfig.class, sdk = 21)
+@org.robolectric.annotation.Config(constants = BuildConfig.class, sdk = 25)
 public class CountrySelectionAdapterTest {
 
 

@@ -5,8 +5,12 @@
    - consent of the copyright holder. -->
 
 <resources>
+  <string name="CATK_NO_INTERNET_CONNECTION_KEY">Šķiet, ka neatrodaties tiešsaistē. Lūdzu, pārbaudiet interneta iestatījumus.</string>
+  <string name="CATK_PROBLEM_OCCURED">Radās neparedzēta kļūda. Lūdzu, mēģiniet vēlreiz.</string>
   <string name="MYA_Visit_Website">[lv]Visit our website</string>
   <string name="csw_consent_help_label">Ko tas nozīmē?</string>
+  <string name="csw_generic_network_error">Neizdodas savienoties ar serveri.
+Lūdzu, pārbaudiet savu interneta savienojumu un mēģiniet vēlreiz.</string>
   <string name="csw_invalid_access_token_error_message">Radās problēma, veidojot savienojumu ar serveri. Pārliecinieties, vai jūsu ierīcē ir pareizi iestatīts datums/laiks. Ja problēma joprojām pastāv, lūdzu, atsakieties un piesakieties vēlreiz.</string>
   <string name="csw_offline_message">Iespējams, nedarbojas jūsu interneta savienojums. Lūdzu, pārbaudiet un mēģiniet vēlreiz.</string>
   <string name="csw_offline_title">Jūs esat bezsaistē</string>
@@ -17,7 +21,7 @@
   <string name="csw_privacy_settings_desc">Kontrolējiet savu privātumu. Informācijai izlasiet {paziņojums par konfidencialitāti}.</string>
   <string name="csw_problem_occurred_error_message">Ir radusies problēma (error %1$d). Lūdzu, mēģiniet vēlreiz.</string>
   <string name="csw_problem_occurred_error_title">Radās problēma</string>
-  <string name="csw_user_session_expired">[lv]Your session is invalid, please log out and log in again</string>
+  <string name="csw_user_session_expired">Jūsu sesija ir nederīga. Lūdzu, izejiet un piesakieties vēlreiz</string>
   <string name="mya_Account_settings">Konta iestatījumi</string>
   <string name="mya_Address">Adrese</string>
   <string name="mya_Cancel">Atcelt</string>
