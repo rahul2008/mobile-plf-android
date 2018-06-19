@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">請輸入有效的電子郵件地址。</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">我們無法辨識您的電話號碼。請檢查國碼。</string>
   <string name="USR_JanRain_Error_Check_Internet">網路連線出現問題。請再試一次。</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">無法連接至伺服器。%s。\n仍遇到困難？請聯絡客戶服務中心並說明錯誤代碼 </string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg">無法連接至伺服器。請稍後再試一次。\n仍遇到困難？請聯絡客戶服務中心並說明錯誤代碼 [%d]</string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s。請返回並再次登入。</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">此電子郵件地址已存在。請使用此地址登入，或使用其他電子郵件註冊。</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">您的 %s 已註冊。</string>

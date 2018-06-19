@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">Въведете валиден имейл адрес.</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">Не можем да разпознаем телефонния ви номер. Моля, проверете кода на държавата.</string>
   <string name="USR_JanRain_Error_Check_Internet">Възникна проблем във връзката с мрежата. Опитайте отново.</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Неуспешно свързване със сървър. %s.\nИзпитвате затруднения? Свържете се с отдела за обслужване на клиенти и кажете кода на грешката</string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg">Неуспешно свързване със сървър. Опитайте отново по-късно.\nИзпитвате затруднения? Свържете се с отдела за обслужване на клиенти и кажете кода на грешката [%d]</string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Моля, върнете се обратно и влезте отново.</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">Този имейл адрес вече съществува. Моля, влезте чрез този адрес или регистрирайте друг.</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">Вашият %s вече е регистриран.</string>

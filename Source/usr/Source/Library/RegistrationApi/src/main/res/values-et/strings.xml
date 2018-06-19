@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">Palun sisestage kehtiv e-posti aadress.</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">Meil ei õnnestu teie telefoninumbrit tuvastada. Kontrollige riigi koodi.</string>
   <string name="USR_JanRain_Error_Check_Internet">Võrguühenduse viga. Palun proovige uuesti.</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Serveriga ei saa ühendust luua. %s.\nProbleem püsib? Võtke ühendust klienditeenindusega ja öelda oma veakood</string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg">Serveriga ei saa ühendust luua. Proovige hiljem uuesti.\nProbleem püsib? Võtke ühendust klienditeenindusega ja öelda oma veakood [%d]</string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Naaske ja logige uuesti sisse.</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">See e-posti aadress on juba olemas. Logige sisse seda aadressi kasutades või registreerige teine aadress.</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">Teie %s on juba registreeritud.</string>

@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">Vui lòng nhập địa chỉ email hợp lệ.</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">Chúng tôi không thể nhận diện số điện thoại của bạn. Vui lòng kiểm tra mã quốc gia.</string>
   <string name="USR_JanRain_Error_Check_Internet">Đã xảy ra vấn đề với kết nối mạng. Vui lòng thử lại.</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Không thể kết nối với máy chủ. %s.\nVẫn gặp khó khăn? Hãy liên hệ với Trung tâm chăm sóc khách hàng để thông báo mã lỗi </string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg">Không thể kết nối với máy chủ. Vui lòng thử lại sau.\nVẫn gặp khó khăn? Hãy liên hệ với Trung tâm chăm sóc khách hàng để thông báo mã lỗi [%d]</string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Vui lòng quay lại và đăng nhập lần nữa.</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">Địa chỉ email này đã tồn tại. Vui lòng đăng nhập bằng địa chỉ này hoặc đăng ký bằng địa chỉ khác.</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">%s của bạn đã được đăng ký.</string>

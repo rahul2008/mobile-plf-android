@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">Indtast gyldig e-mailadresse.</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">Vi kan ikke genkende dit telefonnummer. Kontroller landekoden.</string>
   <string name="USR_JanRain_Error_Check_Internet">Der var et problem med netværksforbindelsen. Prøv igen.</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">Kan ikke oprette forbindelse til serveren. %s.\nHar du stadig problemer? Kontakt kundecenteret, og oplys fejlkoden</string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg">Kan ikke oprette forbindelse til serveren. Prøv igen senere.\nHar du stadig problemer? Kontakt kundecenteret, og oplys fejlkoden [%d]</string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. Gå tilbage, og log på igen.</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">Denne e-mailadresse findes allerede. Log på med denne adresse, eller tilmeld dig ved hjælp af en anden.</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">Din %s er allerede registreret.</string>

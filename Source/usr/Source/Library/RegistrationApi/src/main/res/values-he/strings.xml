@@ -184,7 +184,7 @@
   <string name="USR_InvalidOrMissingEmail_ErrorMsg">הזן כתובת דוא\"ל חוקית</string>
   <string name="USR_InvalidPhoneNumber_ErrorMsg">איננו מזהים את מספר הטלפון שלך. בדוק את קידומת המדינה.</string>
   <string name="USR_JanRain_Error_Check_Internet">יש בעיה בחיבור לרשת. אנא נסה שוב.</string>
-  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg" formatted="false">אין אפשרות להתחבר לשרת. %s.\nעדיין נתקל בבעיות? פנה אל מחלקת הטיפול בלקוחות תוך ציון קוד השגיאה </string>
+  <string name="USR_JanRain_Server_ConnectionLost_ErrorMsg">אין אפשרות להתחבר לשרת. אנא נסה שנית במועד מאוחר יותר..\nעדיין נתקל בבעיות? פנה אל מחלקת הטיפול בלקוחות תוך ציון קוד השגיאה [%d]</string>
   <string name="USR_Janrain_AuthorizationCodeExpired_ErrorMsg">%s. חזור והיכנס שוב.</string>
   <string name="USR_Janrain_EmailAddressInUse_ErrorMsg">כתובת דוא\"ל זו קיימת כבר. היכנס באמצעות כתובת זו או הירשם באמצעות אחרת.</string>
   <string name="USR_Janrain_EntityAlreadyExists_ErrorMsg">ה %sשלך רשום כבר.</string>
