@@ -12,11 +12,6 @@ import android.bluetooth.le.ScanSettings;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-/**
- * Utility class to scan for BLE devices
- *
- * @publicApi
- */
 public class BTAdapter {
 
     private static final int DISCOVERY_REPORT_DELAY_MILLIS = 1000;
@@ -29,22 +24,12 @@ public class BTAdapter {
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
-    /**
-     * Check if BLE is enabled
-     *
-     * @return BLE enabled
-     */
-    public boolean isBluetoothAdapterEnabled() {
+    public boolean isEnabled() {
         return bluetoothAdapter.isEnabled();
     }
 
-    /**
-     * Start scanning for BLE devices
-     *
-     * @param scanCallback Callback for found devices
-     */
     public void startLeScan(final @NonNull ScanCallback scanCallback) {
-        if (!isBluetoothAdapterEnabled()) {
+        if (!isEnabled()) {
             return;
         }
 
@@ -61,13 +46,8 @@ public class BTAdapter {
         bluetoothScanner.startScan(null, settings, scanCallback);
     }
 
-    /**
-     * Stop scanning for devices
-     *
-     * @param scanCallback Callback that should not receive found devices anymore
-     */
     public void stopLeScan(final @NonNull ScanCallback scanCallback) {
-        if (!isBluetoothAdapterEnabled()) {
+        if (!isEnabled()) {
             return;
         }
         final BluetoothLeScanner bluetoothScanner = bluetoothAdapter.getBluetoothLeScanner();
@@ -75,12 +55,6 @@ public class BTAdapter {
         bluetoothScanner.stopScan(scanCallback);
     }
 
-    /**
-     * Get {@code BTDevice} based on the MAC address
-     *
-     * @param macAddress MAC address of the device
-     * @return Bluetooth device
-     */
     public BTDevice getRemoteDevice(String macAddress) {
         return new BTDevice(bluetoothAdapter.getRemoteDevice(macAddress), handler);
     }

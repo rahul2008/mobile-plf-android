@@ -107,7 +107,6 @@ public class SHNCentral {
     private final Context applicationContext;
     private SHNUserConfiguration shnUserConfiguration;
     private SHNDeviceScanner shnDeviceScanner;
-    private boolean isBluetoothAdapterEnabled;
     private int bluetoothAdapterState;
 
     @VisibleForTesting
@@ -125,11 +124,9 @@ public class SHNCentral {
                     case BluetoothAdapter.STATE_OFF:
                     case BluetoothAdapter.STATE_TURNING_OFF:
                     case BluetoothAdapter.STATE_TURNING_ON:
-                        isBluetoothAdapterEnabled = false;
                         setState(State.SHNCentralStateNotReady);
                         break;
                     case BluetoothAdapter.STATE_ON:
-                        isBluetoothAdapterEnabled = true;
                         setState(State.SHNCentralStateReady);
                         break;
                 }
@@ -238,8 +235,7 @@ public class SHNCentral {
 
         // Check that the adapter is enabled.
         btAdapter = new BTAdapter(internalHandler);
-        isBluetoothAdapterEnabled = btAdapter.isBluetoothAdapterEnabled();
-        if (isBluetoothAdapterEnabled) {
+        if (isBluetoothAdapterEnabled()) {
             shnCentralState = State.SHNCentralStateReady;
         } else if (showPopupIfBLEIsTurnedOff) {
             startEnableBluetoothActivity();
@@ -538,7 +534,7 @@ public class SHNCentral {
      * @return true if bluetooth adapter is enabled
      */
     public boolean isBluetoothAdapterEnabled() {
-        return isBluetoothAdapterEnabled;
+        return btAdapter.isEnabled();
     }
 
     /**

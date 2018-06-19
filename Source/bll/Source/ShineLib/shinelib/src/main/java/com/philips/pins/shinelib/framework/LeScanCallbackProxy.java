@@ -23,7 +23,7 @@ import java.util.List;
 public class LeScanCallbackProxy extends ScanCallback {
 
     @NonNull
-    private final BTAdapter BTAdapter;
+    private final BTAdapter btAdapter;
 
     public interface LeScanCallback {
         void onScanResult(BluetoothDevice device, int rssi, ScanRecord scanRecord);
@@ -33,18 +33,18 @@ public class LeScanCallbackProxy extends ScanCallback {
 
     private LeScanCallback leScanCallback;
 
-    public LeScanCallbackProxy(final @NonNull BTAdapter BTAdapter) {
-        this.BTAdapter = BTAdapter;
+    public LeScanCallbackProxy(final @NonNull BTAdapter btAdapter) {
+        this.btAdapter = btAdapter;
     }
 
     public synchronized void startLeScan(@NonNull LeScanCallback leScanCallback) {
         this.leScanCallback = leScanCallback;
-        BTAdapter.startLeScan(this);
+        btAdapter.startLeScan(this);
     }
 
     public synchronized void stopLeScan(@NonNull LeScanCallback leScanCallback) {
         if (leScanCallback == this.leScanCallback) {
-            BTAdapter.stopLeScan(this);
+            btAdapter.stopLeScan(this);
             this.leScanCallback = null;
         }
     }

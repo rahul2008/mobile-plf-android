@@ -2,7 +2,26 @@ BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
 Version {next}
---------------
+------------
+
+### Functionality Delivered
+* `isBleFeatureAvailable` and `startEnableBluetoothActivity` methods are added to SHNCentral. 
+
+### Backwards Compatibility
+
+### Features not covered
+
+### Breaking Changes
+
+### Defects solved
+
+### Residual anomalies
+
+### Risks and mitigations
+
+
+Version 1802
+------------
 
 ### Functionality Delivered
 
@@ -11,7 +30,6 @@ Version {next}
 ### Features not covered
 
 ### Breaking Changes
-* BleUtilities class is removed. 'isBleFeatureAvailable' and 'startEnableBluetoothActivity' methods are moved to SHNCentral. 
 
 ### Defects solved
 * \#121732 SHNDevice listeners now get connection failure notifications and state updates when Bluetooth is turned off. 
