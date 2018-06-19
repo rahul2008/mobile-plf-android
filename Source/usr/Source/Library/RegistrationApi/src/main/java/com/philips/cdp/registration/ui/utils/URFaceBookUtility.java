@@ -51,7 +51,12 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
 
     public void registerFaceBookCallBack() {
         RLog.i(TAG, "registerFaceBookCallBack");
-        LoginManager.getInstance().registerCallback(faceBookContractor.getCallBackManager(), this);
+        try {
+            LoginManager.getInstance().registerCallback(faceBookContractor.getCallBackManager(), this);
+        }catch (Exception e){
+            RLog.i(TAG,e.getMessage());
+            RLog.i(TAG,"Facebook Activities are not present in proposition Manifest file");
+        }
     }
 
     @Override
