@@ -5,7 +5,8 @@ Version {next}
 --------------
 
 ### Functionality Delivered
-* \#132978 Introduced `SHNTagger` class which allows for uploading analytics data.
+* \#132978 Introduced `SHNTagger` class, which provides an API to perform tagging.
+Added an implementation `AppInfraTagger` based on `AppTaggingInterface`, which uploads the tag messages to a remote analytics server.
 
 ### Backwards Compatibility
 * \#132978 Deprecated constructor `SHNCentral(Handler, Context)` has been removed.
@@ -13,7 +14,6 @@ Version {next}
 ### Features not covered
 
 ### Breaking Changes
-* \#132978 `SHNCentral.Builder` now accepts a mandatory `AppInfraInterface` argument used for tagging
 
 ### Defects solved
 * \#121732 SHNDevice listeners now get connection failure notifications and state updates when Bluetooth is turned off. 
