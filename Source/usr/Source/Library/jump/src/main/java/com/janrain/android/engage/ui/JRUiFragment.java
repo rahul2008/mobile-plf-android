@@ -478,12 +478,7 @@ public abstract class JRUiFragment extends Fragment {
     }
     */
     int getColor(Context context, int id) {
-        final int version = Build.VERSION.SDK_INT;
-        if (version >= 23) {
-            return ContextCompat.getColor(context, id);
-        } else {
-            return context.getResources().getColor(id);
-        }
+        return ContextCompat.getColor(context, id);
     }
 
 

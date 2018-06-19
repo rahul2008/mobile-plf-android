@@ -5,8 +5,12 @@
    - consent of the copyright holder. -->
 
 <resources>
+  <string name="CATK_NO_INTERNET_CONNECTION_KEY">Du ser ud til at være offline. Kontroller dine internetindstillinger.</string>
+  <string name="CATK_PROBLEM_OCCURED">Noget gik galt. Prøv igen.</string>
   <string name="MYA_Visit_Website">[da]Visit our website</string>
   <string name="csw_consent_help_label">Hvad betyder dette?</string>
+  <string name="csw_generic_network_error">Kan ikke oprette forbindelse til serveren.
+Kontroller din internetforbindelse, og prøv igen.</string>
   <string name="csw_invalid_access_token_error_message">Der opstod et problem med at oprette forbindelse til serveren. Sørg for, at dato/klokkeslæt på din enhed er indstillet korrekt. Hvis problemet fortsætter, skal du logge ud og logge på igen.</string>
   <string name="csw_offline_message">Din internetforbindelse virker tilsyneladende ikke. Kontrollér forbindelsen, og prøv igen</string>
   <string name="csw_offline_title">Du er offline</string>
@@ -17,7 +21,7 @@
   <string name="csw_privacy_settings_desc">Styr dine personlige oplysninger. Læs_meddelelse om beskyttelse af personlige oplysninger.</string>
   <string name="csw_problem_occurred_error_message">Der opstod et problem (error %1$d). Prøv igen.</string>
   <string name="csw_problem_occurred_error_title">Der opstod et problem</string>
-  <string name="csw_user_session_expired">[da]Your session is invalid, please log out and log in again</string>
+  <string name="csw_user_session_expired">Din session er ugyldig. Log af, og log på igen</string>
   <string name="mya_Account_settings">Kontoindstillinger</string>
   <string name="mya_Address">Adresse</string>
   <string name="mya_Cancel">Annuller</string>

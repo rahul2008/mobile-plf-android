@@ -132,8 +132,8 @@ public class CommCentralTest {
         try {
             commCentral.startDiscovery();
 
-            verify(someDiscoveryStrategyMock).start(emptyDeviceTypes, emptyModelIds);
-            verify(anotherDiscoveryStrategyMock).start(emptyDeviceTypes, emptyModelIds);
+            verify(someDiscoveryStrategyMock).start(emptyModelIds);
+            verify(anotherDiscoveryStrategyMock).start(emptyModelIds);
         } catch (MissingPermissionException e) {
             fail();
         }
@@ -144,8 +144,8 @@ public class CommCentralTest {
         try {
             commCentral.startDiscovery(modelIds);
 
-            verify(someDiscoveryStrategyMock).start(emptyDeviceTypes, modelIds);
-            verify(anotherDiscoveryStrategyMock).start(emptyDeviceTypes, modelIds);
+            verify(someDiscoveryStrategyMock).start(modelIds);
+            verify(anotherDiscoveryStrategyMock).start(modelIds);
         } catch (MissingPermissionException e) {
             fail();
         }

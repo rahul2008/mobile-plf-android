@@ -7,16 +7,11 @@ package com.philips.platform.ews.appliance;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 public class BEApplianceFactory implements ApplianceFactory {
 
@@ -29,7 +24,9 @@ public class BEApplianceFactory implements ApplianceFactory {
 
     @Override
     public boolean canCreateApplianceForNode(@NonNull NetworkNode networkNode) {
-        return getSupportedDeviceTypes().contains(networkNode.getDeviceType());
+        final String deviceType = networkNode.getDeviceType();
+
+        return BEAppliance.DEVICE_TYPE.equals(deviceType) || BEAppliance.PRODUCT_STUB.equals(deviceType);
     }
 
     @Override
@@ -39,14 +36,6 @@ public class BEApplianceFactory implements ApplianceFactory {
             return createAppliance(networkNode, communicationStrategy);
         }
         return null;
-    }
-
-    @Override
-    public Set<String> getSupportedDeviceTypes() {
-        return Collections.unmodifiableSet(new HashSet<String>() {{
-            add(BEAppliance.DEVICE_TYPE);
-            add(BEAppliance.PRODUCT_STUB);
-        }});
     }
 
     @VisibleForTesting
@@ -59,5 +48,4 @@ public class BEApplianceFactory implements ApplianceFactory {
     private CommunicationStrategy createCommunicationStrategy(@NonNull NetworkNode networkNode) {
         return lanTransportContext.createCommunicationStrategyFor(networkNode);
     }
-
 }

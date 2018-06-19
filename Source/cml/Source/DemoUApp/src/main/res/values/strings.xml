@@ -37,6 +37,7 @@
     <string name="cml_no_firmware_directory_found">No firmware directory found</string>
     <string name="cml_select_a_firmware_image">Please, select a firmware image</string>
     <string name="cml_invalid_firmware_image">Invalid firmware image</string>
+    <string name="cml_firmware_update_already_in_progress">Firmware update already in progress. Please, cancel first to start new update</string>
     <string name="cml_timeout">Timeout</string>
     <string name="cml_refresh_props">Refresh properties</string>
     <string name="cml_upload_firmware">Upload firmware</string>

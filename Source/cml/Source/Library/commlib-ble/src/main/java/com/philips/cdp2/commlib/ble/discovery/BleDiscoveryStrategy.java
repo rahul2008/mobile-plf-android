@@ -89,12 +89,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     }
 
     @Override
-    public void start(@NonNull Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException {
-        start(deviceTypes, Collections.<String>emptySet());
-    }
-
-    @Override
-    public void start(@NonNull Set<String> deviceTypes, @NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
+    public void start(@NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
         this.modelIds = modelIds;
 
         if (checkAndroidPermission(this.context, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {

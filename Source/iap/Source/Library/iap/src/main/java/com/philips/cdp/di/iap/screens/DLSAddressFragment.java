@@ -163,8 +163,15 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             if(!isChecked){
                 //((DLSBillingAddressFragment) billingFragment).disableAllFields();
                 ((DLSBillingAddressFragment) billingFragment).clearAllFields();
-            }else {
+                mBtnContinue.setEnabled(false);
+                Utility.isAddressFilledFromDeliveryAddress=true;
                 ((DLSBillingAddressFragment) billingFragment).enableAllFields();
+
+            }else {
+               // ((DLSBillingAddressFragment) billingFragment).enableAllFields();
+                ((DLSBillingAddressFragment) billingFragment).disableAllFields();
+                Utility.isAddressFilledFromDeliveryAddress=true;
+                mBtnContinue.setEnabled(true);
                 HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
                 ((DLSBillingAddressFragment) billingFragment).updateFields(mAddressFieldsHashmap);
 

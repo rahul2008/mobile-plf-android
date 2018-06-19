@@ -149,7 +149,6 @@ public class ActionButton extends ImageButton {
         setShadow(shadowValue);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setShadow(float value) {
         setElevation(value);
     }
