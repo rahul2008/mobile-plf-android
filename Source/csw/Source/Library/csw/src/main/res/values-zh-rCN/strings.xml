@@ -5,8 +5,12 @@
    - consent of the copyright holder. -->
 
 <resources>
+  <string name="CATK_NO_INTERNET_CONNECTION_KEY">你似乎已离线。请检查您的网络设置。</string>
+  <string name="CATK_PROBLEM_OCCURED">抱歉，发生错误。请重试。</string>
   <string name="MYA_Visit_Website">[zh-CN]Visit our website</string>
   <string name="csw_consent_help_label">这意味着什么？</string>
+  <string name="csw_generic_network_error">无法连接到服务器。
+请检查您的网络连接，然后重试。</string>
   <string name="csw_invalid_access_token_error_message">连接到服务器过程中出错。请确保您设备上的日期/时间设置正确。如果问题仍存在，请退出并重新登录。</string>
   <string name="csw_offline_message">您的互联网似乎无法正常连接。请检查并重试</string>
   <string name="csw_offline_title">您处于脱机状态</string>
@@ -17,7 +21,7 @@
   <string name="csw_privacy_settings_desc">管控您的个人隐私。有关详细信息，请阅读 { 隐私声明 }。</string>
   <string name="csw_problem_occurred_error_message">出现了一个问题（错误 %1$d）。请重试。</string>
   <string name="csw_problem_occurred_error_title">出现了一个问题</string>
-  <string name="csw_user_session_expired">[zh-CN]Your session is invalid, please log out and log in again</string>
+  <string name="csw_user_session_expired">您的会话无效，请退出并重新登录</string>
   <string name="mya_Account_settings">帐户设置</string>
   <string name="mya_Address">地址</string>
   <string name="mya_Cancel">取消</string>

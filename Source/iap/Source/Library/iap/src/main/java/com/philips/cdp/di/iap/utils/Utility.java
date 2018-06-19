@@ -36,6 +36,7 @@ public class Utility {
     private static AlertDialogFragment alertDialogFragment;
     public static boolean isShippingAddressFilled=false;
     public static boolean isBillingAddressFilled=false;
+    public static boolean isAddressFilledFromDeliveryAddress=false;
 
     public static void hideKeypad(Activity pContext) {
         if(pContext == null){

@@ -36,7 +36,7 @@ import static org.junit.Assert.*;
  * Created by philips on 5/24/18.
  */
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class SMSBroadCastReceiverTest {
 
     @Mock

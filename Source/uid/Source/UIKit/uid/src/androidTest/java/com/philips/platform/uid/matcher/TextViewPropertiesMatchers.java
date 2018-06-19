@@ -275,21 +275,6 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<? super View> sameBackgroundColorTintList(final int attributeColor) {
-        return new BaseTypeSafteyMatcher<View>() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            protected boolean matchesSafely(final View view) {
-                if (view instanceof TextView) {
-                    TextView textView = (TextView) view;
-                    setValues(textView.getBackgroundTintList(), attributeColor);
-                    return areEqual();
-                }
-                return false;
-            }
-        };
-    }
-
     public static Matcher<View> sameBackgroundColor(final int color) {
         Checks.checkNotNull(color);
         return new BoundedMatcher<View, TextView>(TextView.class) {

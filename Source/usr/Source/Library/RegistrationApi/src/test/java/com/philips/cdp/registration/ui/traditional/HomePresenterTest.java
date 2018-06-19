@@ -43,7 +43,7 @@ import static org.junit.Assert.*;
  */
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class HomePresenterTest {
 
     @Mock
