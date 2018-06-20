@@ -14,7 +14,7 @@ public interface HPKPInterface {
      * If there is a mismatch in the stored value and the provided value, new value is to be updated.
      *
      * @param hostName hostname of a URL which would be used as key to store the public key in secure storage
-     * @param publicKeyDetails  Public key details of a particular hostname
+     * @param publicKeyDetails  Public key details of a particular hostname received in response header
      * @since 2018.2.0
      */
     void updatePinnedPublicKey(String hostName, String publicKeyDetails);
