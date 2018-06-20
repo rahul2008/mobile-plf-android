@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.datatypes.Measurement;
@@ -27,7 +26,6 @@ import com.philips.platform.dscdemo.database.datatypes.MeasurementType;
 import com.philips.platform.dscdemo.database.datatypes.MomentDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
-import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmInsight;
 import com.philips.platform.dscdemo.database.table.OrmInsightMetaData;
 import com.philips.platform.dscdemo.database.table.OrmMeasurement;
@@ -116,14 +114,6 @@ public class OrmCreator implements BaseAppDataCreator {
     public OrmSynchronisationData createSynchronisationData(@NonNull final String guid, final boolean inactive,
                                                             @NonNull DateTime lastModifiedTime, final int version) {
         return new OrmSynchronisationData(guid, inactive, lastModifiedTime, version);
-    }
-
-
-    @NonNull
-    @Override
-    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber) {
-
-        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber);
     }
 
     @NonNull

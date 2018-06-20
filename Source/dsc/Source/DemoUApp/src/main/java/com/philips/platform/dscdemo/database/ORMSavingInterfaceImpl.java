@@ -6,7 +6,6 @@
 package com.philips.platform.dscdemo.database;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -14,7 +13,6 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
-import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.utility.NotifyDBRequestListener;
@@ -62,25 +60,6 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         notifyDBRequestListener.notifyMomentsSaveSuccess(moments, dbRequestListener);
         return isSaved;
     }
-
-    //Consents
-    @Override
-    public boolean saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException {
-        deleting.deleteAllConsentDetails();
-
-        for (ConsentDetail consentDetail : consentDetails) {
-            try {
-                OrmConsentDetail ormConsent = OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
-                saving.saveConsentDetail(ormConsent);
-            } catch (OrmTypeChecking.OrmTypeException e) {
-                e.printStackTrace();
-            }
-
-        }
-        notifyDBRequestListener.notifySuccess(consentDetails, dbRequestListener, SyncType.CONSENT);
-        return true;
-    }
-
     //User Characteristics
     @Override
     public boolean saveUserCharacteristics(List<Characteristics> characteristicsList, DBRequestListener<Characteristics> dbRequestListener) throws SQLException {
@@ -115,7 +94,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             deleting.deleteSettings();
             OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
             saving.saveSettings(ormSettings);
-            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.CONSENT);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.SETTINGS);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");

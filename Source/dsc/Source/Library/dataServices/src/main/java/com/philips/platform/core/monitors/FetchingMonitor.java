@@ -8,14 +8,11 @@ package com.philips.platform.core.monitors;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetNonSynchronizedConsentsRequest;
-import com.philips.platform.core.events.GetNonSynchronizedConsentssResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
-import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
 import com.philips.platform.core.events.LoadMomentsByDate;
@@ -118,27 +115,6 @@ public class FetchingMonitor extends EventMonitor {
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbFetchRequestListener());
         }
-    }
-
-    //Consent
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(LoadConsentsRequest event) {
-        try {
-            dbInterface.fetchConsentDetails(event.getDbFetchRequestListner());
-        } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbFetchRequestListner());
-        }
-    }
-
-    @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(GetNonSynchronizedConsentsRequest event) {
-        List<ConsentDetail> consentDetails = null;
-        try {
-            consentDetails = (List<ConsentDetail>) dbInterface.fetchConsentDetails();
-        } catch (SQLException e) {
-            //dbInterface.postError(e, event.getDbFetchRequestListener());
-        }
-        eventing.post(new GetNonSynchronizedConsentssResponse(consentDetails));
     }
 
     //Characteristics

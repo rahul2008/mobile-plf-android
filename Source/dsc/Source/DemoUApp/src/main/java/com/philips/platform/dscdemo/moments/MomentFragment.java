@@ -33,7 +33,6 @@ import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.characteristics.CharacteristicsFragment;
-import com.philips.platform.dscdemo.consents.ConsentFragment;
 import com.philips.platform.dscdemo.insights.InsightFragment;
 import com.philips.platform.dscdemo.settings.SettingsFragment;
 
@@ -207,8 +206,6 @@ public class MomentFragment extends DSBaseFragment
         } else if (i == R.id.delete_moments) {
             mDataServicesManager.clearExpiredMoments(new DeleteExpiredMomentsListener());
         } else if (i == R.id.tv_set_consents) {
-            ConsentFragment consentsFragment = new ConsentFragment();
-            showFragment(consentsFragment);
         } else if (i == R.id.tv_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
             showFragment(settingsFragment);

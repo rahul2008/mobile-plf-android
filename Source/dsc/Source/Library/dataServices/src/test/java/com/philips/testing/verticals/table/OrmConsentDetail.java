@@ -1,7 +1,5 @@
 package com.philips.testing.verticals.table;
 
-import com.philips.platform.core.datatypes.ConsentDetail;
-
 import java.io.Serializable;
 
 /**
