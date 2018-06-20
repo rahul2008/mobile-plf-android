@@ -33,8 +33,6 @@ public class OrmFetchingInterfaceImplTest {
     @Mock
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
     @Mock
-    private Dao<OrmConsentDetail, Integer> consentDetailsDao;
-    @Mock
     private Dao<OrmCharacteristics, Integer> characteristicsDao;
     @Mock
     private Dao<OrmSettings, Integer> settingsDao;

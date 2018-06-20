@@ -51,8 +51,6 @@ public class OrmDeletingTest {
     @Mock
     private Dao<OrmMeasurementGroup, Integer> measurementGroupsDaoMock;
     @Mock
-    private Dao<OrmConsentDetail, Integer> constentDetailsDaoMock;
-    @Mock
     private Dao<OrmCharacteristics, Integer> characteristicsesDaoMock;
     @Mock
     private Dao<OrmSettings, Integer> settingsDaoMock;
