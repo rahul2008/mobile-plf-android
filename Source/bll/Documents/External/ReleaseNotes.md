@@ -2,7 +2,26 @@ BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
 Version {next}
---------------
+------------
+
+### Functionality Delivered
+* `isBleFeatureAvailable` and `startEnableBluetoothActivity` methods are added to SHNCentral. 
+
+### Backwards Compatibility
+
+### Features not covered
+
+### Breaking Changes
+
+### Defects solved
+
+### Residual anomalies
+
+### Risks and mitigations
+
+
+Version 1802
+------------
 
 ### Functionality Delivered
 * \#132978 Introduced `SHNTagger` class, which provides an API to perform tagging.

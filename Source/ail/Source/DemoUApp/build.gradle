@@ -1,0 +1,102 @@
+apply plugin: 'com.android.library'
+
+apply from: projectDir.absolutePath + '/../../../../build-support/gradle/cdpscm.gradle'
+apply from: projectDir.absolutePath + '/../../../../build-support/gradle/lib.gradle'
+
+archivesBaseName = "AppInfraUApp"
+
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
+
+    repositories {
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath(builddeps.cdpSCM)
+    }
+}
+
+allprojects {
+    repositories {
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        versionName version + "(" + objcdp.getCommitHash() + ")"
+        multiDexEnabled true
+
+        versionName "1.5.6"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
+
+    def dp = project.ext.has('useprojectdependencies')
+
+    if (dp) {
+        implementation project(':uAppFwLib')
+        implementation project(':AppInfra')
+        implementation project(':pif')
+    } else {
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.pif
+    }
+
+    implementation deps.gson
+    implementation deps.volley
+}
+
+
+tasks.withType(Test) {
+    ignoreFailures = true
+}
