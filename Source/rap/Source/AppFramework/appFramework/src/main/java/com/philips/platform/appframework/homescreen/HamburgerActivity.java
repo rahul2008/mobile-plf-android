@@ -41,8 +41,8 @@ import com.philips.platform.appframework.logout.URLogout;
 import com.philips.platform.appframework.logout.URLogoutInterface;
 import com.philips.platform.appframework.models.HamburgerMenuItem;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentStatusChangedListener;
-import com.philips.platform.appinfra.tagging.AppTagging;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -150,9 +150,12 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     private void registerClickStreamStatusChanges() {
         AppInfraInterface appInfra = ((AppFrameworkApplication) getApplicationContext()).getAppInfra();
-        ConsentDefinition clickStreamDefinition = appInfra.getConsentManager().getConsentDefinitionForType(AppTagging.CLICKSTREAM_CONSENT_TYPE);
-        if (clickStreamDefinition != null) {
-            appInfra.getConsentManager().addConsentStatusChangedListener(clickStreamDefinition, clickStreamStatusChanegListener);
+        ConsentManagerInterface consentManager = appInfra.getConsentManager();
+        if (consentManager != null) {
+            ConsentDefinition clickStreamDefinition = consentManager.getConsentDefinitionForType(appInfra.getTagging().getClickStreamConsentIdentifier());
+            if (clickStreamDefinition != null) {
+                consentManager.addConsentStatusChangedListener(clickStreamDefinition, clickStreamStatusChanegListener);
+            }
         }
     }
 
@@ -356,9 +359,12 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     private void removeClickStreamStatusChanges() {
         AppInfraInterface appInfra = ((AppFrameworkApplication) getApplicationContext()).getAppInfra();
-        ConsentDefinition clickStreamDefinition = appInfra.getConsentManager().getConsentDefinitionForType(AppTagging.CLICKSTREAM_CONSENT_TYPE);
-        if (clickStreamDefinition != null) {
-            appInfra.getConsentManager().removeConsentStatusChangedListener(clickStreamDefinition, clickStreamStatusChanegListener);
+        ConsentManagerInterface consentManager = appInfra.getConsentManager();
+        if (consentManager != null) {
+            ConsentDefinition clickStreamDefinition = consentManager.getConsentDefinitionForType(appInfra.getTagging().getClickStreamConsentIdentifier());
+            if (clickStreamDefinition != null) {
+                consentManager.removeConsentStatusChangedListener(clickStreamDefinition, clickStreamStatusChanegListener);
+            }
         }
     }
 
