@@ -88,6 +88,13 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
         }
     };
 
+    private final SsidProvider.NetworkChangeListener networkChangeListener = new SsidProvider.NetworkChangeListener() {
+        @Override
+        public void onNetworkChanged() {
+            handleAvailabilityChanged();
+        }
+    };
+
     @NonNull
     private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
         @Override
@@ -102,7 +109,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
         this.ssidProvider = requireNonNull(ssidProvider);
 
         this.diSecurity = new DISecurity(networkNode);
-        localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
+        this.localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
 
         if (networkNode.isHttps()) {
             try {
@@ -114,7 +121,8 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
 
         this.connectivityMonitor.addAvailabilityListener(availabilityListener);
         this.networkNode.addPropertyChangeListener(propertyChangeListener);
-        requestQueue = createRequestQueue();
+        this.ssidProvider.addNetworkChangeListener(networkChangeListener);
+        this.requestQueue = createRequestQueue();
 
         this.diSecurity.setEncryptionDecryptionFailedListener(encryptionDecryptionFailedListener);
 

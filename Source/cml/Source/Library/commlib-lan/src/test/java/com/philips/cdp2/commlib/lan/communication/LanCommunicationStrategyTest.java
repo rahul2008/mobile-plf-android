@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.RequestQueue;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
@@ -73,6 +72,8 @@ public class LanCommunicationStrategyTest {
 
     private PropertyChangeListener propertyChangeListener;
 
+    private SsidProvider.NetworkChangeListener networkChangeListener;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -99,6 +100,10 @@ public class LanCommunicationStrategyTest {
         ArgumentCaptor<PropertyChangeListener> propertyChangeListenerArgumentCaptor = ArgumentCaptor.forClass(PropertyChangeListener.class);
         verify(networkNodeMock).addPropertyChangeListener(propertyChangeListenerArgumentCaptor.capture());
         propertyChangeListener = propertyChangeListenerArgumentCaptor.getValue();
+
+        ArgumentCaptor<SsidProvider.NetworkChangeListener> networkChangeListenerArgumentCaptor = ArgumentCaptor.forClass(SsidProvider.NetworkChangeListener.class);
+        verify(ssidProviderMock).addNetworkChangeListener(networkChangeListenerArgumentCaptor.capture());
+        networkChangeListener = networkChangeListenerArgumentCaptor.getValue();
     }
 
     @Test
@@ -391,6 +396,16 @@ public class LanCommunicationStrategyTest {
     }
 
     @Test
+    public void givenCommunicationIsAvailable_whenWifiIsChanged_thenListenerIsNotifiedAboutChange() {
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+
+        when(ssidProviderMock.getHomeSsid()).thenReturn("ssid2");
+        networkChangeListener.onNetworkChanged();
+
+        verify(availabilityListenerMock).onAvailabilityChanged(lanCommunicationStrategy);
+    }
+
+    @Test
     public void givenWifiIsOffAndNetworkNodeHasNoIpAddress_whenWifiIsTurnedOn_thenListenerIsNotNotified() {
         when(connectivityMonitorMock.isAvailable()).thenReturn(false);
         when(networkNodeMock.getIpAddress()).thenReturn(null);
@@ -430,6 +445,21 @@ public class LanCommunicationStrategyTest {
         when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
         when(propertyChangeEventMock.getPropertyName()).thenReturn(KEY_IP_ADDRESS);
         propertyChangeListener.propertyChange(propertyChangeEventMock);
+
+        verify(availabilityListenerMock).onAvailabilityChanged(lanCommunicationStrategy);
+        assertThat(lanCommunicationStrategy.isAvailable()).isTrue();
+    }
+
+    @Test
+    public void givenUserIsConnectedToNonHomeNetwork_whenHomeNetworkBecomesAvailable_thenListenerIsNotified() {
+        when(networkNodeMock.getHomeSsid()).thenReturn(SSID);
+        when(ssidProviderMock.getHomeSsid()).thenReturn("ssid2");
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+        //noinspection unchecked
+        reset(availabilityListenerMock);
+
+        when(ssidProviderMock.getHomeSsid()).thenReturn(SSID);
+        networkChangeListener.onNetworkChanged();
 
         verify(availabilityListenerMock).onAvailabilityChanged(lanCommunicationStrategy);
         assertThat(lanCommunicationStrategy.isAvailable()).isTrue();

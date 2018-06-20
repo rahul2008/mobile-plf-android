@@ -21,7 +21,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 public class SsidProvider {
 
-    interface NetworkChangeListener {
+    public interface NetworkChangeListener {
         void onNetworkChanged();
     }
 

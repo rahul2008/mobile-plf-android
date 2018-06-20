@@ -69,7 +69,7 @@ public class DeviceCache {
     }
 
     @VisibleForTesting
-    synchronized void add(CacheData cacheData) {
+    synchronized void add(final @NonNull CacheData cacheData) {
         if (cacheData.getExpirationPeriodMillis() <= 0L) {
             throw new IllegalArgumentException("Expiration period must be a positive non-zero value.");
         }

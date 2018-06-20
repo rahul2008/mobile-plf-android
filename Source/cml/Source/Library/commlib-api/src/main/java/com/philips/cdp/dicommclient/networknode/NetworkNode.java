@@ -50,6 +50,8 @@ public class NetworkNode implements Parcelable {
     public static final String KEY_MISMATCHED_PIN = "mismatched_pin";
     public static final String KEY_MAC_ADDRESS = "mac_address";
 
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
     //Shared
     private String cppId;
     private String modelId;
@@ -71,8 +73,6 @@ public class NetworkNode implements Parcelable {
 
     //BLE
     private String macAddress;
-
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public NetworkNode() {
     }
