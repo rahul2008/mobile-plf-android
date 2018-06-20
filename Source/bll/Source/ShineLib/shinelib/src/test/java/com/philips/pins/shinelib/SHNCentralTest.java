@@ -33,6 +33,7 @@ import org.mockito.Mock;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -343,5 +344,19 @@ public class SHNCentralTest extends RobolectricTest {
         shnCentral.bondStateChangedReceiver.onReceive(mockedContext, intentMock);
 
         verify(shnBondStatusListenerMock).onBondStatusChanged(bluetoothDeviceMock, 0, 1);
+    }
+
+    @Test
+    public void whenMacAddressIsValid_thenShnCentralReturnTrue() {
+        final boolean validity = shnCentral.isValidMacAddress("00:11:22:33:44:55");
+
+        assertTrue(validity);
+    }
+
+    @Test
+    public void whenMacAddressIsInvalid_thenShnCentralReturnTrue() {
+        final boolean validity = shnCentral.isValidMacAddress("00:1a:22:33:44:55");
+
+        assertFalse(validity);
     }
 }

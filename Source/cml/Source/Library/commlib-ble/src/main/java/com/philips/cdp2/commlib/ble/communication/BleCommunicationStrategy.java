@@ -195,7 +195,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return central.isBluetoothAdapterEnabled() && networkNode.getMacAddress() != null;
+        return central.isBluetoothAdapterEnabled() && central.isValidMacAddress(networkNode.getMacAddress());
     }
 
     /**
