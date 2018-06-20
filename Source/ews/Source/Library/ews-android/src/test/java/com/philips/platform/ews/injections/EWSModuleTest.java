@@ -113,6 +113,7 @@ public class EWSModuleTest {
     public void provideTemporaryAppliance() throws Exception {
         when(ConnectivityMonitor.forNetworkTypes(mockContext, ConnectivityManager.TYPE_WIFI)).thenReturn(mockConnectivityMonitor);
         whenNew(LanCommunicationStrategy.class).withArguments(mockNetworkNode, mockConnectivityMonitor, ssidProviderMock).thenReturn(mockCommunicationStrategy);
+        whenNew(SsidProvider.class).withArguments(mockContext).thenReturn(ssidProviderMock);
         subject.provideTemporaryAppliance();
     }
 

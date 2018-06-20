@@ -8,11 +8,11 @@ package com.philips.cdp2.commlib.lan.context;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
@@ -76,6 +76,7 @@ public class LanTransportContextTest extends RobolectricTest {
         when(runtimeConfigurationMock.getContext()).thenReturn(contextMock);
         when(contextMock.getApplicationContext()).thenReturn(contextMock);
         when(contextMock.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(mock(ConnectivityManager.class));
+        when(contextMock.getSystemService(Context.WIFI_SERVICE)).thenReturn(mock(WifiManager.class));
     }
 
     @Test
