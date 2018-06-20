@@ -58,10 +58,10 @@
       "fileName":"AppInfraLog",
       "numberOfFiles":5,
       "fileSizeInBytes":50000,
-      "logLevel":"Info",
+      "logLevel":"Verbose",
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
-      "cloudLogEnabled":false,
+      "cloudLogEnabled":true,
       "cloudBatchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [

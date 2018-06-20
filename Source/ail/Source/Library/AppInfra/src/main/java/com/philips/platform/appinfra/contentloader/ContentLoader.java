@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.contentloader.model.ContentItem;
@@ -37,7 +38,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * The Content Loader class.
  */
 
-public class ContentLoader<Content extends ContentInterface> implements ContentLoaderInterface<Content>,Serializable {
+public class ContentLoader<Content extends ContentInterface> implements ContentLoaderInterface<Content>, Serializable {
 
     private static final long serialVersionUID = -9138112456497881450L;
     private final int downloadLimit;
@@ -64,7 +65,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
      * @param maxAgeInHours    maximum age of the content, a refresh is recommended if cached content is older
      * @param contentClassType type of the content class (use Content.class)
      * @param contentType      name of the content as given in the server JSON structure
-     * @param downloadLimit no of pages that should be downloaded in one attempt. This will override the limit set in the app config. Pass '0' for taking the default limit from app config.
+     * @param downloadLimit    no of pages that should be downloaded in one attempt. This will override the limit set in the app config. Pass '0' for taking the default limit from app config.
      */
     public ContentLoader(Context context, String serviceId, int maxAgeInHours, Class<Content> contentClassType,
                          String contentType, AppInfraInterface appInfra, int downloadLimit) {
@@ -205,7 +206,9 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                     10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         } catch (Exception e) {
-            mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "ContentLoader", e.toString());
+            if (mAppInfra instanceof AppInfra) {
+                ((AppInfra) mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ContentLoader", e.toString());
+            }
         }
         if (null != jsonRequest) {
             mRestInterface.getRequestQueue().add(jsonRequest);
@@ -326,7 +329,9 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 }
 
             } catch (IllegalArgumentException exception) {
-                mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "ContentLoader", exception.toString());
+                if (mAppInfra instanceof AppInfra) {
+                    ((AppInfra) mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ContentLoader", exception.toString());
+                }
             }
         }
         return 0;

@@ -60,6 +60,10 @@ android {
     signingConfigs {
         release
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
     defaultConfig {
