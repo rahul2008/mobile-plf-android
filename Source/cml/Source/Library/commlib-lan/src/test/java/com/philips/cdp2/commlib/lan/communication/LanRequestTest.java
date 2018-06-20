@@ -45,8 +45,6 @@ public class LanRequestTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        DICommLog.disableLogging();
-
         when(networkNodeMock.getIpAddress()).thenReturn("ipaddress");
         when(networkNodeMock.getDICommProtocolVersion()).thenReturn(1);
         when(networkNodeMock.isHttps()).thenReturn(true);

@@ -97,8 +97,6 @@ public class BleDiscoveryStrategyTestSteps {
     public void setup() throws SHNBluetoothHardwareUnavailableException {
         initMocks(this);
 
-        DICommLog.disableLogging();
-
         Handler mockMainThreadHandler = mock(Handler.class);
         HandlerProvider.enableMockedHandler(mockMainThreadHandler);
 

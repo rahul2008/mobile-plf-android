@@ -50,7 +50,6 @@ public class PairingPortTest {
     public void setUp() {
         initMocks(this);
 
-        DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
 
         pairingport = new PairingPort(communicationStrategyMock);

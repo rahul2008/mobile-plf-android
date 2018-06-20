@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/cdpscm.gradle'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/lib.gradle'
+apply from: projectDir.absolutePath + '/../../../../build-support/gradle/cdpscm.gradle'
+apply from: projectDir.absolutePath + '/../../../../build-support/gradle/lib.gradle'
 
 archivesBaseName = "AppInfraUApp"
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {

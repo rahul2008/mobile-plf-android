@@ -72,7 +72,6 @@ public class LanTransportContextTest extends RobolectricTest {
         initMocks(this);
 
         HandlerProvider.enableMockedHandler(handlerMock);
-        DICommLog.disableLogging();
 
         when(runtimeConfigurationMock.getContext()).thenReturn(contextMock);
         when(contextMock.getApplicationContext()).thenReturn(contextMock);

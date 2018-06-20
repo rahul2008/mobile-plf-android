@@ -74,8 +74,6 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     public void setUp() {
         initMocks(this);
 
-        DICommLog.disableLogging();
-
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {

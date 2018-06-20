@@ -91,7 +91,6 @@ public class CloudCommunicationStrategyTest {
         initMocks(this);
 
         HandlerProvider.enableMockedHandler(handlerMock);
-        DICommLog.disableLogging();
 
         when(contextMock.getApplicationContext()).thenReturn(contextMock);
 

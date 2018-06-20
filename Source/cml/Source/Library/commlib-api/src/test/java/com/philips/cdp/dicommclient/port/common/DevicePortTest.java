@@ -47,7 +47,6 @@ public class DevicePortTest {
     public void setUp() {
         initMocks(this);
 
-        DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
 
         devicePort = new DevicePort(communicationStrategyMock);

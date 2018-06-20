@@ -76,8 +76,6 @@ public class LanCommunicationStrategyTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-
-        DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
 
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
