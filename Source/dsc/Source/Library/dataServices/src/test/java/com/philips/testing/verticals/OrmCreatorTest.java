@@ -21,7 +21,6 @@ import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementType;
 import com.philips.testing.verticals.datatyes.MomentDetailType;
 import com.philips.testing.verticals.datatyes.MomentType;
-import com.philips.testing.verticals.table.OrmConsentDetail;
 import com.philips.testing.verticals.table.OrmInsight;
 import com.philips.testing.verticals.table.OrmInsightMetaData;
 import com.philips.testing.verticals.table.OrmMeasurement;
@@ -99,13 +98,6 @@ public class OrmCreatorTest implements BaseAppDataCreator{
     public SynchronisationData createSynchronisationData(@NonNull String guid, boolean inactive, @NonNull DateTime lastModifiedTime, int version) {
         return new OrmSynchronisationData(guid, inactive, lastModifiedTime, version);
     }
-
-    @NonNull
-    @Override
-    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber) {
-        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber);
-    }
-
 
     @NonNull
     @Override

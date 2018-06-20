@@ -25,12 +25,6 @@ public class VerticalDBSavingInterface implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException {
-        return false;
-    }
-
-
-    @Override
     public void postError(Exception e, DBRequestListener dbRequestListener) {
 
     }

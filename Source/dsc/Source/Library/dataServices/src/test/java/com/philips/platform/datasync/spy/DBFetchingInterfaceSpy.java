@@ -71,21 +71,6 @@ public class DBFetchingInterfaceSpy implements DBFetchingInterface {
     }
 
     @Override
-    public void fetchConsentDetails(final DBFetchRequestListner<ConsentDetail> dbFetchRequestListner) throws SQLException {
-
-    }
-
-    @Override
-    public List<?> fetchNonSyncConsentDetails() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public List<?> fetchConsentDetails() throws SQLException {
-        return null;
-    }
-
-    @Override
     public void fetchUserCharacteristics(final DBFetchRequestListner<Characteristics> dbFetchRequestListner) throws SQLException {
 
     }

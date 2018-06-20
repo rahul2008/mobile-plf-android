@@ -23,11 +23,6 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public boolean updateConsent(List<? extends ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException {
-        return false;
-    }
-
-    @Override
     public void updateFailed(Exception e, DBRequestListener dbRequestListener) {
 
     }
