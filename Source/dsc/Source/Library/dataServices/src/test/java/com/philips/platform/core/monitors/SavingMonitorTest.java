@@ -89,15 +89,6 @@ public class SavingMonitorTest {
         savingMonitor.onEventBackGround(new MomentsSaveRequest(list, dbRequestListener));
         verify(savingMock).saveMoments(list, dbRequestListener);
     }
-
-    @Test
-    public void Test_DatabaseConsentSaveRequest() throws Exception {
-        List list = new ArrayList();
-        list.add(moment);
-        savingMonitor.onEventBackGround(new DatabaseConsentSaveRequest(list, dbRequestListener));
-        verify(savingMock).saveConsentDetails(list, dbRequestListener);
-    }
-
     @Test
     public void Test_DatabaseSettingsSaveRequest() throws Exception {
         savingMonitor.onEventBackGround(new DatabaseSettingsSaveRequest(settingsMock, dbRequestListener));

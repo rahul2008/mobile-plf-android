@@ -125,14 +125,6 @@ public class FetchingMonitorTest {
     }
 
     @Test
-    public void ShouldFetchConsents_WhenLoadConsentsRequest() throws Exception {
-
-        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
-
-        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
-    }
-
-    @Test
     public void ShouldFetchSettings_WhenLoadSettingsRequestIsCalled() throws Exception {
 
         fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbFetchRequestListner));
@@ -153,14 +145,6 @@ public class FetchingMonitorTest {
         fetchingMonitor.onEventAsync(new GetNonSynchronizedDataRequest(1));
         Map<Class, List<?>> dataToSync = new HashMap<>();
         verify(momentsSegregatorMock).putMomentsForSync(dataToSync);
-        eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
-    }
-
-    @Test
-    public void getNonSynchronizedMomentRequestTest() throws SQLException {
-        fetchingMonitor.onEventAsync(getNonSynchronizedConsentsRequestMock);
-        Map<Class, List<?>> dataToSync = new HashMap<>();
-        verify(fetching).fetchConsentDetails();
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
 
@@ -212,21 +196,6 @@ public class FetchingMonitorTest {
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails_1() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchConsentDetails(dbFetchRequestListner);
-        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
-        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
-    }
-
-
-    @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchConsentDetails();
-        fetchingMonitor.onEventAsync(new GetNonSynchronizedConsentsRequest(dbRequestListener));
-        verify(fetching).fetchConsentDetails();
-    }
-
-    @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchCharacteristics() throws Exception {
         doThrow(SQLException.class).when(fetching).fetchCharacteristics(dbFetchRequestListner);
         fetchingMonitor.onEventAsync(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
@@ -238,13 +207,6 @@ public class FetchingMonitorTest {
         doThrow(SQLException.class).when(fetching).fetchSettings(dbFetchRequestListner);
         fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbFetchRequestListner));
         verify(fetching).fetchSettings(dbFetchRequestListner);
-    }
-
-    @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails_2() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchConsentDetails(dbFetchRequestListner);
-        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
-        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
     }
 
     @Test
