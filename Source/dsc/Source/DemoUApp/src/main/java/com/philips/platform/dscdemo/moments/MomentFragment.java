@@ -50,7 +50,6 @@ public class MomentFragment extends DSBaseFragment
 
     private TextView mTvAddMomentType;
     private TextView mTvLatestMoment;
-    private TextView mTvConsents;
     private TextView mTvCharacteristics;
     private TextView mTvSettings;
     private TextView mTvInsights;
@@ -112,7 +111,6 @@ public class MomentFragment extends DSBaseFragment
         mTvAddMomentType = view.findViewById(R.id.tv_add_moment_with_type);
         mTvLatestMoment = view.findViewById(R.id.tv_last_moment);
         mTvMomentByDateRange = view.findViewById(R.id.tv_moment_by_date_range);
-        mTvConsents = view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = view.findViewById(R.id.tv_set_characteristics);
         mTvSettings = view.findViewById(R.id.tv_settings);
         mTvSettings = view.findViewById(R.id.tv_settings);
@@ -126,7 +124,6 @@ public class MomentFragment extends DSBaseFragment
         mTvMomentByDateRange.setOnClickListener(this);
         mTvSyncByDateRange.setOnClickListener(this);
         mTvgdprFeatures.setOnClickListener(this);
-        mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
         mTvInsights.setOnClickListener(this);
@@ -151,7 +148,6 @@ public class MomentFragment extends DSBaseFragment
             mTvMomentByDateRange.setVisibility(View.INVISIBLE);
             mTvSyncByDateRange.setVisibility(View.INVISIBLE);
             mAddButton.setVisibility(View.INVISIBLE);
-            mTvConsents.setVisibility(View.INVISIBLE);
             mTvInsights.setVisibility(View.INVISIBLE);
             mTvSettings.setVisibility(View.INVISIBLE);
             mTvCharacteristics.setVisibility(View.INVISIBLE);
@@ -205,8 +201,7 @@ public class MomentFragment extends DSBaseFragment
             mMomentPresenter.addOrUpdateMoment(MomentPresenter.ADD, null, false);
         } else if (i == R.id.delete_moments) {
             mDataServicesManager.clearExpiredMoments(new DeleteExpiredMomentsListener());
-        } else if (i == R.id.tv_set_consents) {
-        } else if (i == R.id.tv_settings) {
+        }  else if (i == R.id.tv_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
             showFragment(settingsFragment);
         } else if (i == R.id.tv_set_characteristics) {
