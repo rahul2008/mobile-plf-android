@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.bluetoothwrapper;
 
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import static android.os.Build.VERSION_CODES.M;
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -34,11 +36,15 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @Config(constants = BuildConfig.class, sdk = {M}, shadows = {ShadowBluetoothLEAdapter.class})
 public class BTAdapterTest {
 
-    private BTAdapter BTAdapter;
+    private BTAdapter btAdapter;
+
     private ShadowBluetoothLEAdapter bluetoothAdapter;
 
     @Mock
     private BluetoothLeScanner scanner;
+
+    @Mock
+    private BluetoothDevice bluetoothDevice;
 
     @Mock
     private ScanCallback mockedScanCallback;
@@ -53,13 +59,13 @@ public class BTAdapterTest {
         bluetoothAdapter.setBluetoothLeScanner(scanner);
 
         MockedHandler handler = new MockedHandler();
-        BTAdapter = new BTAdapter(handler.getMock());
+        btAdapter = new BTAdapter(handler.getMock());
     }
 
     @Test
     public void whenStartLeScanIsCalledAndBluetoothIsOffThenTheScanIsNotStarted() {
         bluetoothAdapter.setEnabled(false);
-        BTAdapter.startLeScan(mockedScanCallback);
+        btAdapter.startLeScan(mockedScanCallback);
 
         verify(scanner, never()).startScan(ArgumentMatchers.<ScanFilter>anyList(), any(ScanSettings.class), any(ScanCallback.class));
     }
@@ -67,7 +73,7 @@ public class BTAdapterTest {
     @SuppressWarnings("unchecked")
     @Test
     public void whenStartLeScanIsCalledAndBatchScanIsSupportedThenTheScanIsStarted() {
-        BTAdapter.startLeScan(mockedScanCallback);
+        btAdapter.startLeScan(mockedScanCallback);
 
         ArgumentCaptor<ScanSettings> callbackCaptor = ArgumentCaptor.forClass(ScanSettings.class);
         verify(scanner).startScan((List<ScanFilter>) any(), callbackCaptor.capture(), any(ScanCallback.class));
@@ -82,7 +88,7 @@ public class BTAdapterTest {
     public void whenStartLeScanIsCalledAndBatchScanIsNotSupportedThenTheScanIsStarted() {
         bluetoothAdapter.setIsOffloadedScanBatchingSupported(false);
 
-        BTAdapter.startLeScan(mockedScanCallback);
+        btAdapter.startLeScan(mockedScanCallback);
 
         ArgumentCaptor<ScanSettings> callbackCaptor = ArgumentCaptor.forClass(ScanSettings.class);
         verify(scanner).startScan((List<ScanFilter>) any(), callbackCaptor.capture(), any(ScanCallback.class));
@@ -94,7 +100,7 @@ public class BTAdapterTest {
 
     @Test
     public void whenStopLeScanIsCalledThenTheScanIsStopped() {
-        BTAdapter.stopLeScan(mockedScanCallback);
+        btAdapter.stopLeScan(mockedScanCallback);
 
         verify(scanner).stopScan(any(ScanCallback.class));
     }
@@ -102,9 +108,19 @@ public class BTAdapterTest {
     @Test
     public void whenStopLeScanIsCalledAndBluetoothIsOffThenTheScanIsNotStopped() {
         bluetoothAdapter.setEnabled(false);
-        BTAdapter.stopLeScan(mockedScanCallback);
+        btAdapter.stopLeScan(mockedScanCallback);
 
         verify(scanner, never()).stopScan(any(ScanCallback.class));
+    }
+
+    @Test
+    public void whenRemoteDeviceIsRequested_thenBtDeviceIsCreated() {
+        final String macAddress = "00:11:22:33:44:55";
+        bluetoothAdapter.setRemoteDevice(macAddress, bluetoothDevice);
+
+        final BTDevice remoteDevice = btAdapter.getRemoteDevice(macAddress);
+
+        assertNotNull(remoteDevice);
     }
 }
 
