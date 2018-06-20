@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -206,10 +206,10 @@ public class SHNDeviceAssociation {
                 try {
                     initFuture.get();
                 } catch (InterruptedException e) {
-                    SHNLogger.e(TAG, e.getMessage(), e);
+                    SHNLogger.e(TAG, e.toString(), e);
                     throw new InternalError("Caught unexpected InterruptedException");
                 } catch (ExecutionException e) {
-                    SHNLogger.e(TAG, e.getMessage(), e);
+                    SHNLogger.e(TAG, e.toString(), e);
                     throw new InternalError("Caught unexpected ExecutionException");
                 }
             } else {

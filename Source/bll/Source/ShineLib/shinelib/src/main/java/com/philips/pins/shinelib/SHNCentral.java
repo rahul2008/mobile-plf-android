@@ -62,13 +62,17 @@ public class SHNCentral {
         /**
          * {@code SHNCentral} is in an error state
          */
-        SHNCentralStateError, /**
+        SHNCentralStateError,
+
+        /**
          * {@code SHNCentral} is not yet ready to communicate with peripherals (for instance when bluetooth is disabled)
          */
-        SHNCentralStateNotReady, /**
+        SHNCentralStateNotReady,
+
+        /**
          * {@code SHNCentral} is ready to communicate with peripherals
          */
-        SHNCentralStateReady
+        SHNCentralStateReady;
     }
 
     /**
@@ -112,6 +116,8 @@ public class SHNCentral {
     @VisibleForTesting
     BroadcastReceiver bondStateChangedReceiver;
 
+    private Map<String, SHNDevice> createdDevices = new HashMap<>();
+
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -135,6 +141,7 @@ public class SHNCentral {
     };
 
     private final Set<SHNCentralListener> shnCentralListeners;
+
     private Map<Integer, WeakReference<SHNCentralListener>> shnCentralInternalListeners;
     private SHNDeviceScannerInternal shnDeviceScannerInternal;
     private SHNDeviceAssociation shnDeviceAssociation;
@@ -143,7 +150,6 @@ public class SHNCentral {
     private SHNDeviceDefinitions shnDeviceDefinitions;
     private PersistentStorageFactory persistentStorageFactory;
     private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners;
-
     private SharedPreferencesProvider defaultSharedPreferencesProvider = new SharedPreferencesProvider() {
         @NonNull
         @Override
@@ -157,19 +163,6 @@ public class SHNCentral {
             return "";
         }
     };
-
-    /**
-     * Old constructor of {@code SHNCentral}. Do not use.
-     *
-     * @param handler the user handler to post callbacks on
-     * @param context the Android context
-     * @throws SHNBluetoothHardwareUnavailableException the exception thrown when no Bluetooth hardware is available
-     * @deprecated Use the {@link SHNCentral.Builder} instead.
-     */
-    @Deprecated
-    public SHNCentral(Handler handler, final Context context) throws SHNBluetoothHardwareUnavailableException {
-        this(handler, context, false, null, false);
-    }
 
     @SuppressLint("UseSparseArrays")
     SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
@@ -209,10 +202,10 @@ public class SHNCentral {
             try {
                 initFuture.get();
             } catch (InterruptedException e) {
-                SHNLogger.e(TAG, e.getMessage(), e);
+                SHNLogger.e(TAG, e.toString(), e);
                 throw new InternalError("Caught unexpected InterruptedException");
             } catch (ExecutionException e) {
-                SHNLogger.e(TAG, e.getMessage(), e);
+                SHNLogger.e(TAG, e.toString(), e);
                 throw new InternalError("Caught unexpected ExecutionException");
             }
         } else {
@@ -639,8 +632,6 @@ public class SHNCentral {
         return btAdapter.getRemoteDevice(address);
     }
 
-    private Map<String, SHNDevice> createdDevices = new HashMap<>();
-
     public SHNDevice createSHNDeviceForAddressAndDefinition(@NonNull String deviceAddress, @NonNull SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         final String key = deviceAddress + shnDeviceDefinitionInfo.getDeviceTypeName();
         SHNDevice shnDevice = createdDevices.get(key);
@@ -654,7 +645,7 @@ public class SHNCentral {
         return shnDevice;
     }
 
-    /* package */ void removeDeviceFromDeviceCache(SHNDevice shnDeviceToRemove) {
+    void removeDeviceFromDeviceCache(SHNDevice shnDeviceToRemove) {
         String key = shnDeviceToRemove.getAddress() + shnDeviceToRemove.getDeviceTypeName();
         createdDevices.remove(key);
     }
@@ -662,6 +653,7 @@ public class SHNCentral {
     /**
      * The {@code SHNCentral.Builder} is used to build a {@code SHNCentral} object.
      */
+    @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
     public static class Builder {
         private Handler handler;
         private final Context context;

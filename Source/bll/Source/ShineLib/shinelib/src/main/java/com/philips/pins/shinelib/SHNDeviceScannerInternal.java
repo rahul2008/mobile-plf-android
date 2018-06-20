@@ -17,6 +17,7 @@ import com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates;
 import com.philips.pins.shinelib.framework.BleDeviceFoundInfo;
 import com.philips.pins.shinelib.framework.LeScanCallbackProxy;
 import com.philips.pins.shinelib.framework.LeScanCallbackProxy.LeScanCallback;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.BleScanRecord;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -86,7 +87,10 @@ public class SHNDeviceScannerInternal {
                 @Override
                 public void run() {
                     leScanCallbackProxy = null;
-                    SHNLogger.e(TAG, String.format(Locale.US, "Error starting scanning, errorCode: %d", errorCode));
+                    final String errorMsg = String.format(Locale.US, "Error starting scanning, errorCode: %d", errorCode);
+
+                    SHNLogger.e(TAG, errorMsg);
+                    SHNTagger.sendTechnicalError(errorMsg);
                 }
             });
         }
