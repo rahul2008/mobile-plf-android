@@ -15,7 +15,6 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
-import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmDCSync;
 import com.philips.platform.dscdemo.database.table.OrmInsight;
 import com.philips.platform.dscdemo.database.table.OrmInsightMetaData;
@@ -60,9 +59,6 @@ public class OrmSaving {
     private final Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
 
     @NonNull
-    private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
-
-    @NonNull
     private final Dao<OrmCharacteristics, Integer> characteristicsesDao;
 
     @NonNull
@@ -85,7 +81,6 @@ public class OrmSaving {
                      @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                      @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
                      @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
-                     @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
                      @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                      @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails,
                      @NonNull final Dao<OrmCharacteristics, Integer> characteristicsesDao,
@@ -97,8 +92,6 @@ public class OrmSaving {
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
         this.synchronisationDataDao = synchronisationDataDao;
-
-        this.consentDetailsDao = constentDetailsDao;
         this.measurementGroupDao = measurementGroup;
         this.measurementGroupDetailsDao = measurementGroupDetails;
         this.characteristicsesDao = characteristicsesDao;
@@ -166,10 +159,6 @@ public class OrmSaving {
         if (synchronisationData != null) {
             saveSynchronisationData(synchronisationData);
         }
-    }
-
-    public void saveConsentDetail(OrmConsentDetail consentDetail) throws SQLException {
-        consentDetailsDao.createOrUpdate(consentDetail);
     }
 
     //User AppUserCharacteristics

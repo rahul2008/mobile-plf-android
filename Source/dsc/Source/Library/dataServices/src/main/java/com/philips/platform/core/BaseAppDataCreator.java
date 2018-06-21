@@ -9,7 +9,6 @@ package com.philips.platform.core;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.datatypes.Measurement;
@@ -107,18 +106,6 @@ public interface BaseAppDataCreator {
      */
     @NonNull
     SynchronisationData createSynchronisationData(@NonNull final String guid, final boolean inactive, @NonNull final DateTime lastModifiedTime, final int version);
-
-    /**
-     * Creates a consentDetail Object
-     *
-     * @param type                       The type of the consentDetail
-     * @param status                     the status of the consentDetail (Ex: refused/ Accepted)
-     * @param version                    Document Version of the consentDetail (default: draft )
-     * @param deviceIdentificationNumber deviceIdentificationNumber of the consent detail (default: manual)
-     * @return returns the ConsentDetail Object
-     */
-    @NonNull
-    ConsentDetail createConsentDetail(@NonNull final String type, @NonNull final String status, @NonNull final String version, final String deviceIdentificationNumber);
 
     /**
      * Creates the Setting Object

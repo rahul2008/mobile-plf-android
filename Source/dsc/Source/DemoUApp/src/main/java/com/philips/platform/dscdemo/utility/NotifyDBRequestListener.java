@@ -8,7 +8,6 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.database.OrmTypeChecking;
-import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmInsight;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 
@@ -50,23 +49,11 @@ public class NotifyDBRequestListener {
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsentDetail> ormConsents, SyncType type) {
-        if (dbRequestListener != null) {
-            dbRequestListener.onSuccess(ormConsents);
-        }
-    }
-
     public void notifySuccess(DBRequestListener dbRequestListener, OrmMoment ormMoment, SyncType type) {
         if (dbRequestListener != null) {
             List list = new ArrayList();
             list.add(ormMoment);
             dbRequestListener.onSuccess(list);
-        }
-    }
-
-    public void notifySuccess(DBRequestListener dbRequestListener, List<OrmConsentDetail> ormConsents, SyncType type) {
-        if (dbRequestListener != null) {
-            dbRequestListener.onSuccess(ormConsents);
         }
     }
 
@@ -79,12 +66,6 @@ public class NotifyDBRequestListener {
     public void notifyOrmTypeCheckingFailure(DBRequestListener dbRequestListener, OrmTypeChecking.OrmTypeException e, String msg) {
         if (dbRequestListener != null) {
             dbRequestListener.onFailure(e);
-        }
-    }
-
-    public void notifyConsentFetchSuccess(DBFetchRequestListner dbFetchRequestListner, ArrayList<OrmConsentDetail> ormConsents) {
-        if (dbFetchRequestListner != null) {
-            dbFetchRequestListner.onFetchSuccess(ormConsents);
         }
     }
 

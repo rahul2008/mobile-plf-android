@@ -1,17 +1,12 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.DSPagination;
-import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
-import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetNonSynchronizedConsentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
-import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
 import com.philips.platform.core.events.LoadMomentsByDate;
@@ -22,7 +17,6 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.settings.SettingsSegregator;
@@ -31,8 +25,6 @@ import com.philips.spy.DSPaginationSpy;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.sql.SQLException;
@@ -49,9 +41,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class FetchingMonitorTest {
 
-    private static final String TEST_SERVER_GUID = "TEST_SERVER_GUID";
-    private final String TEST_CREATOR_ID = "TEST_CREATOR_ID";
-
     private FetchingMonitor fetchingMonitor;
 
     @Mock
@@ -61,44 +50,13 @@ public class FetchingMonitorTest {
     private Eventing eventingMock;
 
     @Mock
-    private Moment momentMock;
-
-    @Captor
-    private ArgumentCaptor<Event> eventCaptor;
-
-    @Mock
-    private GetNonSynchronizedDataRequest getNonSynchronizedDataRequestMock;
-
-    @Mock
     private GetNonSynchronizedConsentsRequest getNonSynchronizedConsentsRequestMock;
-
-    @Mock
-    private GetNonSynchronizedDataResponse getNonSynchronizedDataResponseMock;
-
-
-    @Captor
-    private ArgumentCaptor<GetNonSynchronizedDataResponse> getNonSynchronizedDataResponseCaptor;
-
-    @Captor
-    private ArgumentCaptor<GetNonSynchronizedConsentsRequest> getNonSynchronizedMomentsResponseCaptor;
-
-
-    @Mock
-    private Moment ormMomentMock;
 
     @Mock
     MomentsSegregator momentsSegregatorMock;
 
     @Mock
-    ConsentsSegregator consentsSegregatorMock;
-
-    @Mock
     SettingsSegregator settingsSegregatorMock;
-
-    @Mock
-    private SynchronisationData synchronizationDataMock;
-    @Mock
-    private ConsentDetail consentDetailDetailsMock;
 
     private DateTime uGrowDateTime;
 
@@ -125,29 +83,12 @@ public class FetchingMonitorTest {
         DataServicesManager.getInstance().setAppComponent(appComponantMock);
         fetchingMonitor = new FetchingMonitor(fetching);
         fetchingMonitor.momentsSegregator = momentsSegregatorMock;
-        fetchingMonitor.consentsSegregator = consentsSegregatorMock;
         fetchingMonitor.settingsSegregator = settingsSegregatorMock;
         fetchingMonitor.insightSegregator = insightSegregatorMock;
         uGrowDateTime = new DateTime();
         mDSPagination = new DSPaginationSpy();
         fetchingMonitor.start(eventingMock);
     }
-
-/*    @Test
-    public void ShouldFetchMomentsInsightsAndBabyProfile_WhenLoadTimelineEntryRequestIsReceived() throws Exception {
-        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbFetchRequestListner));
-
-        verify(fetching).fetchMoments(dbFetchRequestListner);
-//        verify(fetching).fetchConsentDetails();
-        //      verify(fetching).fetchConsentDetails();
-        //    verify(fetching).fetchNonSynchronizedMoments();
-    }*/
-
-   /* @Test
-    public void ShouldThrowException_FetchingMoments() throws Exception {
-        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbFetchRequestListner));
-        verify(fetching).fetchMoments(dbFetchRequestListner);
-    }*/
 
     @Test
     public void fetchingMomentsLoadLastMomentRequest() throws Exception {
@@ -184,14 +125,6 @@ public class FetchingMonitorTest {
     }
 
     @Test
-    public void ShouldFetchConsents_WhenLoadConsentsRequest() throws Exception {
-
-        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
-
-        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
-    }
-
-    @Test
     public void ShouldFetchSettings_WhenLoadSettingsRequestIsCalled() throws Exception {
 
         fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbFetchRequestListner));
@@ -212,24 +145,8 @@ public class FetchingMonitorTest {
         fetchingMonitor.onEventAsync(new GetNonSynchronizedDataRequest(1));
         Map<Class, List<?>> dataToSync = new HashMap<>();
         verify(momentsSegregatorMock).putMomentsForSync(dataToSync);
-        verify(consentsSegregatorMock).putConsentForSync(dataToSync);
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
-
-    @Test
-    public void getNonSynchronizedMomentRequestTest() throws SQLException {
-        fetchingMonitor.onEventAsync(getNonSynchronizedConsentsRequestMock);
-        Map<Class, List<?>> dataToSync = new HashMap<>();
-        verify(fetching).fetchConsentDetails();
-        eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
-    }
-
-/*    @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchMoments() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchMoments(dbFetchRequestListner);
-        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbFetchRequestListner));
-        verify(fetching).fetchMoments(dbFetchRequestListner);
-    }*/
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchLastMoment() throws Exception {
@@ -279,21 +196,6 @@ public class FetchingMonitorTest {
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails_1() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchConsentDetails(dbFetchRequestListner);
-        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
-        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
-    }
-
-
-    @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchConsentDetails();
-        fetchingMonitor.onEventAsync(new GetNonSynchronizedConsentsRequest(dbRequestListener));
-        verify(fetching).fetchConsentDetails();
-    }
-
-    @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchCharacteristics() throws Exception {
         doThrow(SQLException.class).when(fetching).fetchCharacteristics(dbFetchRequestListner);
         fetchingMonitor.onEventAsync(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
@@ -305,13 +207,6 @@ public class FetchingMonitorTest {
         doThrow(SQLException.class).when(fetching).fetchSettings(dbFetchRequestListner);
         fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbFetchRequestListner));
         verify(fetching).fetchSettings(dbFetchRequestListner);
-    }
-
-    @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails_2() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchConsentDetails(dbFetchRequestListner);
-        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
-        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
     }
 
     @Test
