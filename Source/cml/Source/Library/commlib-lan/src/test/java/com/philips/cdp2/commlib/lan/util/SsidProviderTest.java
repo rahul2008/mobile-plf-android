@@ -63,28 +63,28 @@ public class SsidProviderTest {
 
     @Test
     public void whenSsidIsAvailable_thenItIsAvailable() {
-        assertThat(SSID).isEqualTo(ssidProvider.getHomeSsid());
+        assertThat(SSID).isEqualTo(ssidProvider.getCurrentSsid());
     }
 
     @Test
     public void whenWifiInfoIsNotAvailable_thenHomeSsidIsNotAvailable() {
         when(wifiManagerMock.getConnectionInfo()).thenReturn(null);
 
-        assertThat(ssidProvider.getHomeSsid()).isNull();
+        assertThat(ssidProvider.getCurrentSsid()).isNull();
     }
 
     @Test
     public void whenSupplicantStateIsNotCompleted_thenHomeSsidIsNotAvailable() {
         when(wifiInfoInfo.getSupplicantState()).thenReturn(SupplicantState.INACTIVE);
 
-        assertThat(ssidProvider.getHomeSsid()).isNull();
+        assertThat(ssidProvider.getCurrentSsid()).isNull();
     }
 
     @Test
     public void whenHomeSsidIsNull_thenHomeSsidIsNotAvailable() {
         when(wifiInfoInfo.getSSID()).thenReturn(null);
 
-        assertThat(ssidProvider.getHomeSsid()).isNull();
+        assertThat(ssidProvider.getCurrentSsid()).isNull();
     }
 
     @Test

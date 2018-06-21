@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -33,7 +33,7 @@ public class SsidProvider {
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            final String newSsid = getHomeSsid();
+            final String newSsid = getCurrentSsid();
             if (newSsid == null || !newSsid.equals(currentSsid)) {
                 notifyListeners();
             }
@@ -42,12 +42,12 @@ public class SsidProvider {
 
     public SsidProvider(final @NonNull Context context) {
         this.wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        this.currentSsid = getHomeSsid();
+        this.currentSsid = getCurrentSsid();
         context.registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Nullable
-    public String getHomeSsid() {
+    public String getCurrentSsid() {
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 
         if (wifiInfo == null) {

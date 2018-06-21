@@ -193,7 +193,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         final String ipAddress = ssdpDevice.getIpAddress();
         final String name = ssdpDevice.getFriendlyName();
         final String deviceType = ssdpDevice.getModelName();
-        final String homeSsid = ssidProvider.getHomeSsid();
+        final String homeSsid = ssidProvider.getCurrentSsid();
         Long bootId = -1L;
         final String modelNumber = ssdpDevice.getModelNumber();
 
