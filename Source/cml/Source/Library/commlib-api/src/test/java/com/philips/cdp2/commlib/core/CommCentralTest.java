@@ -7,16 +7,22 @@ package com.philips.cdp2.commlib.core;
 
 import android.content.Context;
 import android.os.Handler;
-import com.philips.cdp.dicommclient.util.DICommLog;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseFactory;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,6 +52,10 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest({CommCentral.class, NetworkNodeDatabaseFactory.class})
 public class CommCentralTest {
 
+    private TransportContext fooTransportContext;
+
+    private TransportContext barTransportContext;
+
     @Mock
     private Handler handlerMock;
 
@@ -53,13 +63,7 @@ public class CommCentralTest {
     private ApplianceFactory applianceFactoryMock;
 
     @Mock
-    private TransportContext someTransportContextMock;
-
-    @Mock
     private DiscoveryStrategy someDiscoveryStrategyMock;
-
-    @Mock
-    private TransportContext anotherTransportContextMock;
 
     @Mock
     private DiscoveryStrategy anotherDiscoveryStrategyMock;
@@ -91,14 +95,14 @@ public class CommCentralTest {
 
         HandlerProvider.enableMockedHandler(handlerMock);
 
-        when(someTransportContextMock.getDiscoveryStrategy()).thenReturn(someDiscoveryStrategyMock);
-        when(anotherTransportContextMock.getDiscoveryStrategy()).thenReturn(anotherDiscoveryStrategyMock);
+        fooTransportContext = new FooContext();
+        barTransportContext = new BarContext();
 
         setTestingContext(contextMock);
 
         PowerMockito.whenNew(ApplianceManager.class).withAnyArguments().thenReturn(applianceManagerMock);
 
-        commCentral = new CommCentral(applianceFactoryMock, runtimeConfigurationMock, someTransportContextMock, anotherTransportContextMock);
+        commCentral = new CommCentral(applianceFactoryMock, runtimeConfigurationMock, fooTransportContext, barTransportContext);
     }
 
     @After
@@ -110,7 +114,7 @@ public class CommCentralTest {
     @SuppressWarnings("unused")
     public void givenACommCentralInstance_whenASecondInstanceIsCreated_thenAnErrorMustBeThrown() {
         try {
-            new CommCentral(applianceFactoryMock, runtimeConfigurationMock, someTransportContextMock, anotherTransportContextMock);
+            new CommCentral(applianceFactoryMock, runtimeConfigurationMock, fooTransportContext, barTransportContext);
             fail();
         } catch (UnsupportedOperationException ignored) {
         }
@@ -172,5 +176,81 @@ public class CommCentralTest {
 
         verify(someDiscoveryStrategyMock).clearDiscoveredNetworkNodes();
         verify(anotherDiscoveryStrategyMock).clearDiscoveredNetworkNodes();
+    }
+
+    @Test
+    public void givenFooAndBarContextsAreProvidedToComCentral_whenFooIsRequested_thenItIsReturned() {
+
+        FooContext fooFromCentral = commCentral.getTransportContext(FooContext.class);
+
+        assertThat(fooTransportContext).isEqualTo(fooFromCentral);
+    }
+
+    @Test
+    public void givenFooAndBarContextsAreProvidedToComCentral_whenBarIsRequested_thenItIsReturned() {
+
+        BarContext barFromCentral = commCentral.getTransportContext(BarContext.class);
+
+        assertThat(barTransportContext).isEqualTo(barFromCentral);
+    }
+
+    @Test(expected = TransportUnavailableException.class)
+    public void givenFooAndBarContextsAreProvidedToComCentral_whenBazIsRequested_thenTransportUnavailableExceptionIsThrown() {
+
+        commCentral.getTransportContext(BazContext.class);
+    }
+
+    @Test(expected = TransportUnavailableException.class)
+    public void givenFooAndBarContextsAreProvidedToComCentral_whenBaseClassIsRequested_thenTransportUnavailableExceptionIsThrown() {
+
+        commCentral.getTransportContext(TransportContext.class);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private class FooContext implements TransportContext {
+
+        @Nullable
+        @Override
+        public DiscoveryStrategy getDiscoveryStrategy() {
+            return someDiscoveryStrategyMock;
+        }
+
+        @NonNull
+        @Override
+        public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private class BarContext implements TransportContext {
+
+        @Nullable
+        @Override
+        public DiscoveryStrategy getDiscoveryStrategy() {
+            return anotherDiscoveryStrategyMock;
+        }
+
+        @NonNull
+        @Override
+        public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private class BazContext implements TransportContext {
+
+        @Nullable
+        @Override
+        public DiscoveryStrategy getDiscoveryStrategy() {
+            return null;
+        }
+
+        @NonNull
+        @Override
+        public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
+            return null;
+        }
     }
 }

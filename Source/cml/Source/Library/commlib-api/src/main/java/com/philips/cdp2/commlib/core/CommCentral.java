@@ -45,6 +45,8 @@ public final class CommCentral {
     @NonNull
     private final ApplianceManager applianceManager;
 
+    private TransportContext[] tranportContexts;
+
     /**
      * Create a CommCentral. You should only ever create one CommCentral!
      *
@@ -77,6 +79,8 @@ public final class CommCentral {
         if (transportContexts.length == 0) {
             throw new IllegalArgumentException("This class needs to be constructed with at least one transport context.");
         }
+
+        this.tranportContexts = transportContexts;
 
         // Setup discovery strategies
         for (TransportContext transportContext : transportContexts) {
@@ -157,5 +161,22 @@ public final class CommCentral {
      */
     public static AppIdProvider getAppIdProvider() {
         return APP_ID_PROVIDER;
+    }
+
+    /**
+     * Returns the transport context of the correct type known to CommCentral, or an exception if no such context is present.
+     *
+     * @param clazz parameter that defines the type of TransportContext you are looking for.
+     * @return The transport context of the correct type, that was passed to CommCentral at construction time.
+     * @throws TransportUnavailableException If no transport context of the correct type is known to CommCentral.
+     */
+    public <T extends TransportContext> T getTransportContext(Class<T> clazz) throws TransportUnavailableException {
+        for (TransportContext context: tranportContexts) {
+            if (context.getClass().equals(clazz)){
+                return clazz.cast(context);
+            }
+        }
+
+        throw new TransportUnavailableException("Requested transport context is not available");
     }
 }
