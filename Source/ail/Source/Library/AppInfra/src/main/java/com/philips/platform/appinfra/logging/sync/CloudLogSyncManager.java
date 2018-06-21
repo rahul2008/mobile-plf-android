@@ -74,7 +74,6 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
         productKey = loggingConfiguration.getCLProductKey();
         isInternetAvailable = appInfra.getRestClient().isInternetReachable();
         appInfra.getRestClient().registerNetworkChangeListener(this);
-        appInfra.getConsentManager().addConsentStatusChangedListener(appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getLogging().getCloudLoggingConsentIdentifier()),this);
         forceSync();
 
     }
@@ -123,6 +122,7 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
         try {
             ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getLogging().getCloudLoggingConsentIdentifier());
             if (consentDefinition != null) {
+                appInfra.getConsentManager().addConsentStatusChangedListener(appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getLogging().getCloudLoggingConsentIdentifier()),this);
                 appInfra.getConsentManager().fetchConsentState(consentDefinition, new FetchConsentCallback() {
                     @Override
                     public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
