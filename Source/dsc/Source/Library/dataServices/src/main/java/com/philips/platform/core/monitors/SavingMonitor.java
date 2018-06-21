@@ -12,7 +12,6 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
-import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentsSaveRequest;
@@ -60,18 +59,6 @@ public class SavingMonitor extends EventMonitor {
             dbInterface.postError(new Exception("Failed to insert"), momentSaveRequest.getDbRequestListener());
         }
     }
-
-    //Consents
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final DatabaseConsentSaveRequest consentSaveRequest) throws SQLException {
-        boolean saved = dbInterface.saveConsentDetails(consentSaveRequest.getConsentDetails(), consentSaveRequest.getDbRequestListener());
-        dbDeletingInterface.deleteSyncBit(SyncType.CONSENT);
-        dbInterface.saveSyncBit(SyncType.CONSENT, true);
-        if (!saved) {
-            dbInterface.postError(new Exception("Failed to insert"), consentSaveRequest.getDbRequestListener());
-        }
-    }
-
     //Settings
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final DatabaseSettingsSaveRequest databaseSettingsSaveRequest) throws SQLException {

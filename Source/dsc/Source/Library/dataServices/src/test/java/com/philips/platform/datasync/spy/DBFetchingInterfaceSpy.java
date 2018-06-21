@@ -3,7 +3,6 @@ package com.philips.platform.datasync.spy;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.DCSync;
 import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
@@ -68,21 +67,6 @@ public class DBFetchingInterfaceSpy implements DBFetchingInterface {
 
     @Override
     public Object fetchMomentById(final int id, final DBFetchRequestListner<Moment> dbFetchRequestListner) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public void fetchConsentDetails(final DBFetchRequestListner<ConsentDetail> dbFetchRequestListner) throws SQLException {
-
-    }
-
-    @Override
-    public List<?> fetchNonSyncConsentDetails() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public List<?> fetchConsentDetails() throws SQLException {
         return null;
     }
 

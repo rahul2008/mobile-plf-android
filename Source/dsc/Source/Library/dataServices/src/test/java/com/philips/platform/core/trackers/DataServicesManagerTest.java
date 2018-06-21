@@ -9,8 +9,6 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Measurement;
@@ -26,8 +24,6 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.CreateSubjectProfileRequestEvent;
 import com.philips.platform.core.events.DataClearRequest;
-import com.philips.platform.core.events.DatabaseConsentSaveRequest;
-import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllInsights;
@@ -42,7 +38,6 @@ import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
-import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
 import com.philips.platform.core.events.LoadMomentsByDate;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -72,6 +67,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
 import com.philips.spy.DSPaginationSpy;
+import com.philips.testing.verticals.datatyes.ConsentDetailStatusType;
 import com.philips.testing.verticals.datatyes.MomentType;
 
 import org.joda.time.DateTime;
@@ -160,8 +156,6 @@ public class DataServicesManagerTest {
     private DBSavingInterface savingInterfaceMock;
     @Mock
     private DBUpdatingInterface updatingInterfaceMock;
-    @Mock
-    private ConsentDetail consentDetailMock;
     @Mock
     private UCoreAccessProvider uCoreAccessProvider;
     @Mock
@@ -272,31 +266,9 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void ShouldPostFetchConsentEvent_WhenFetchConsentIsCalled() {
-        mDataServicesManager.fetchConsentDetail(dbFetchRequestListner);
-        verify(eventingMock).post(any(LoadConsentsRequest.class));
-    }
-
-    @Test
     public void ShouldPostFetchSettingsEvent_WhenFetchSettingsIsCalled() {
         mDataServicesManager.fetchUserSettings(dbFetchRequestListner);
         verify(eventingMock).post(any(LoadSettingsRequest.class));
-    }
-
-    @Test
-    public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() {
-        mDataServicesManager.createConsentDetail(TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, ConsentDetail.DEFAULT_DOCUMENT_VERSION, "fsdfsdf");
-    }
-
-    @Test
-    public void ShouldAddConcentDetail_WhenConsentIsNull() {
-        mDataServicesManager.createConsentDetail("Phase", ConsentDetailStatusType.ACCEPTED, "2", "fsdfsdf");
-    }
-
-    @Test
-    public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() {
-        mDataServicesManager.saveConsentDetails(ArgumentMatchers.<ConsentDetail>anyList(), dbRequestListener);
-        verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
 
     @Test
@@ -313,12 +285,6 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchCharacteristicsRequest_WhenFetchCharacteristicsIsCalled() {
         mDataServicesManager.fetchUserCharacteristics(dbFetchRequestListner);
-    }
-
-    @Test
-    public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() {
-        mDataServicesManager.updateConsentDetails(ArgumentMatchers.<ConsentDetail>anyList(), dbRequestListener);
-        verify(eventingMock).post(any(DatabaseConsentUpdateRequest.class));
     }
 
     @Test
@@ -459,14 +425,6 @@ public class DataServicesManagerTest {
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
         assertThat(measurementGroupDetail).isInstanceOf(MeasurementGroupDetail.class);
         assertThat(measurementGroupDetail).isNotNull();
-    }
-
-    @Test
-    public void Should_saveUserCharacteristics_called() {
-        List list = new ArrayList();
-        list.add(consentDetailMock);
-        mDataServicesManager.saveUserCharacteristics(list, dbRequestListener);
-        verify(eventingMock).post(any(UserCharacteristicsSaveRequest.class));
     }
 
     @Test

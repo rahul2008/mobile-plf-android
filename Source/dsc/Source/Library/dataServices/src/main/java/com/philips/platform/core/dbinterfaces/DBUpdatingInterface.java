@@ -7,7 +7,6 @@
 package com.philips.platform.core.dbinterfaces;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -37,15 +36,6 @@ public interface DBUpdatingInterface {
      * @throws SQLException throws exception if DataBase operation fails
      */
     boolean updateMoments(final List<Moment> ormMoments, DBRequestListener<Moment> dbRequestListener) throws SQLException;
-
-    /**
-     * Updates the Consent Details in Data-Base
-     * @param consentDetails List of consentDetails
-     * @param dbRequestListener Callback for notifying the "updateConsent" result
-     * @return returns a boolean indicating weather the update operation was successful. success = true, fail = false
-     * @throws SQLException throws exception if DataBase operation fails
-     */
-    boolean updateConsent(final List<? extends ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException;
 
     /**
      * Notify The Propositions in case any Data-Base Operation failed

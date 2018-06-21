@@ -39,10 +39,6 @@ import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
-import com.philips.platform.datasync.consent.ConsentDataSender;
-import com.philips.platform.datasync.consent.ConsentsDataFetcher;
-import com.philips.platform.datasync.consent.ConsentsMonitor;
-import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.devicePairing.DevicePairingMonitor;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataSender;
@@ -143,10 +139,9 @@ public class BackendModule {
     @Provides
     @Singleton
     Backend providesBackend(
-            @NonNull final ConsentsMonitor consentsMonitor,
             @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor,
             @NonNull final SettingsMonitor settingsMonitor, @NonNull final InsightMonitor insightMonitor, @NonNull final PushNotificationMonitor pushNotificationMonitor, @NonNull final DevicePairingMonitor devicePairingMonitor, @NonNull final SubjectProfileMonitor subjectProfileMonitor) {
-        return new Backend(consentsMonitor, userCharacteristicsMonitor, settingsMonitor, insightMonitor, pushNotificationMonitor, devicePairingMonitor, subjectProfileMonitor);
+        return new Backend(userCharacteristicsMonitor, settingsMonitor, insightMonitor, pushNotificationMonitor, devicePairingMonitor, subjectProfileMonitor);
     }
 
     @Provides
@@ -258,11 +253,6 @@ public class BackendModule {
     @Provides
     public MomentsSegregator providesMomentsSegregater() {
         return new MomentsSegregator();
-    }
-
-    @Provides
-    public ConsentsSegregator providesConsentsSegregater() {
-        return new ConsentsSegregator();
     }
 
     @Provides

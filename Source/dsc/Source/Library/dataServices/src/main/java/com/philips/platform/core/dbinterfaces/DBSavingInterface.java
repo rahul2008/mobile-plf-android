@@ -7,7 +7,6 @@
 package com.philips.platform.core.dbinterfaces;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.Moment;
@@ -39,15 +38,6 @@ public interface DBSavingInterface {
      * @throws SQLException throws exception if DataBase operation fails
      */
     boolean saveMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException;
-
-    /**
-     * Save ConsentDetails to Data-Base
-     * @param consentDetails The List of ConsentDetails to be saved
-     * @param dbRequestListener Callback for notifying the "saveConsentDetails" result
-     * @return returns a boolean indicating weather the save operation was successful. success = true, fail = false
-     * @throws SQLException SQLException throws exception if DataBase operation fails
-     */
-    boolean saveConsentDetails(final List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException;
 
     /**
      * Notify The Propositions in case any Data-Base Operation failed

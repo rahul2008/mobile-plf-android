@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -27,8 +27,6 @@ public class SHNTemperatureMeasurementTest {
     private static final byte TIMESTAMP = 0x02;
     private static final byte TEMPTYPE = 0x04;
     private SimpleDateFormat simpleDateFormat;
-
-    // TODO decompose tests to test a unique item per test.
 
     @Before
     public void setUp() {

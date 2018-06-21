@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothProfile;
@@ -9,7 +14,10 @@ import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.statemachine.SHNDeviceState;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.SHNLogger;
+
+import java.util.Locale;
 
 import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
 
@@ -48,9 +56,14 @@ public class SHNReadyState extends SHNDeviceState {
 
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
+        SHNLogger.d(TAG, "onServiceStateChanged: " + state + " [" + shnService.getUuid() + "]");
 
         if (state == SHNService.State.Error) {
+            final String errorMsg = String.format(Locale.US, "Service [%s] state changed to error, state [%s]", shnService.getUuid(), state);
+
+            SHNLogger.e(TAG, errorMsg);
+            SHNTagger.sendTechnicalError(errorMsg);
+
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
@@ -65,7 +78,11 @@ public class SHNReadyState extends SHNDeviceState {
     @Override
     public void onStateUpdated(@NonNull SHNCentral shnCentral) {
         if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
-            SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
+            final String errorMsg = "Not ready for connection to the peripheral.";
+
+            SHNLogger.e(TAG, errorMsg);
+            SHNTagger.sendTechnicalError(errorMsg);
+
             handleGattDisconnectEvent();
         }
     }
@@ -78,7 +95,7 @@ public class SHNReadyState extends SHNDeviceState {
 
     private void handleGattDisconnectEvent() {
         BTGatt btGatt = sharedResources.getBtGatt();
-        if(btGatt != null) {
+        if (btGatt != null) {
             btGatt.close();
         }
         sharedResources.setBtGatt(null);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -99,6 +99,14 @@ public class BTDeviceTest {
     @Test
     public void whenBluetoothDeviceCreateBondIsCalledWhenBondAlreadyExistsThenReturnFalse() {
         when(bluetoothDevice.getBondState()).thenReturn(BluetoothDevice.BOND_BONDED);
+
+        verify(bluetoothDevice, never()).createBond();
+        assertEquals(btDevice.createBond(), false);
+    }
+
+    @Test
+    public void whenBluetoothDeviceCreateBondIsCalledWhenAlreadyBondingThenReturnFalse() {
+        when(bluetoothDevice.getBondState()).thenReturn(BluetoothDevice.BOND_BONDING);
 
         verify(bluetoothDevice, never()).createBond();
         assertEquals(btDevice.createBond(), false);

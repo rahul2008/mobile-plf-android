@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.bluelib.demouapp;
@@ -11,18 +11,23 @@ import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
+import com.philips.pins.shinelib.tagging.AppInfraTagger;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 import static android.content.ContentValues.TAG;
 
 public class BluelibUappAppDependencies extends UappDependencies {
 
-    //private DeviceScanner mDeviceScanner;
     private SHNCentral shnCentral;
 
-    public BluelibUappAppDependencies(final @NonNull Context context) {
+    public BluelibUappAppDependencies(final @NonNull Context context, final @NonNull AppInfraInterface appInfraInstance) {
         super(null);
+
+        SHNTagger.registerTagger(new AppInfraTagger(appInfraInstance));
+        SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
 
         SHNCentral.Builder builder = new SHNCentral.Builder(context);
         builder.showPopupIfBLEIsTurnedOff(true);
@@ -30,11 +35,8 @@ public class BluelibUappAppDependencies extends UappDependencies {
         try {
             shnCentral = builder.create();
 
-        // Create device scanner
-        //mDeviceScanner = new DeviceScanner(shnCentral, new Handler(getMainLooper()));
-        SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = new DeviceDefinitionInfoReferenceBoard();
-        shnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
-
+            SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = new DeviceDefinitionInfoReferenceBoard();
+            shnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
         } catch (SHNBluetoothHardwareUnavailableException e) {
             SHNLogger.e(TAG, "Error obtaining BlueLib instance: " + e.getMessage());
         }

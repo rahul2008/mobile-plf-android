@@ -1,7 +1,6 @@
 package com.philips.platform.dscdemo.database;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -79,23 +78,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             e.printStackTrace();
         }
         return false;
-    }
-
-    @Override
-    public boolean updateConsent(final List<? extends ConsentDetail> consents, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException {
-
-        for (ConsentDetail consentDetail : consents) {
-            try {
-                updating.updateConsentDetails(consentDetail);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                notifyDBRequestListener.notifyFailure(e, dbRequestListener);
-                return false;
-            }
-
-        }
-        notifyDBRequestListener.notifySuccess(consents, dbRequestListener, SyncType.CONSENT);
-        return true;
     }
 
     @Override

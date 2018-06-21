@@ -50,8 +50,15 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
     }
 
     public void registerFaceBookCallBack() {
+        //The below line may through exception when the proposition do not mention facebook activities in it's manifest
+        //The exception comes as a RuntimeException ,so catching it as Exception and providing log
         RLog.i(TAG, "registerFaceBookCallBack");
-        LoginManager.getInstance().registerCallback(faceBookContractor.getCallBackManager(), this);
+        try {
+            LoginManager.getInstance().registerCallback(faceBookContractor.getCallBackManager(), this);
+        }catch (Exception e){
+            RLog.i(TAG,e.getMessage());
+            RLog.i(TAG,"Facebook Activities are not present in proposition Manifest file");
+        }
     }
 
     @Override

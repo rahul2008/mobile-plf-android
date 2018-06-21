@@ -1,13 +1,9 @@
 package com.philips.platform.dscdemo.database;
 
-import android.support.annotation.NonNull;
-
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
-import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
-import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmDCSync;
 import com.philips.platform.dscdemo.database.table.OrmInsight;
 import com.philips.platform.dscdemo.database.table.OrmInsightMetaData;
@@ -28,7 +24,6 @@ import org.mockito.Mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
@@ -56,8 +51,6 @@ public class OrmDeletingTest {
     @Mock
     private Dao<OrmMeasurementGroup, Integer> measurementGroupsDaoMock;
     @Mock
-    private Dao<OrmConsentDetail, Integer> constentDetailsDaoMock;
-    @Mock
     private Dao<OrmCharacteristics, Integer> characteristicsesDaoMock;
     @Mock
     private Dao<OrmSettings, Integer> settingsDaoMock;
@@ -80,7 +73,7 @@ public class OrmDeletingTest {
         initMocks(this);
         ormDeleting = new OrmDeleting(momentDaoMock, momentDetailDaoMock, measurementDaoMock,
                 measurementDetailDaoMock, synchronisationDataDaoMock, measurementGroupDetailDaoMock,
-                measurementGroupsDaoMock, constentDetailsDaoMock, characteristicsesDaoMock,
+                measurementGroupsDaoMock, characteristicsesDaoMock,
                 settingsDaoMock, syncDaoMock, ormInsightDaoMock, ormInsightMetadataDaoMock);
         OrmInsight expiredOrmInsight = new OrmInsight();
         expiredOrmInsight.setExpirationDate(DateTime.now().minusDays(1));

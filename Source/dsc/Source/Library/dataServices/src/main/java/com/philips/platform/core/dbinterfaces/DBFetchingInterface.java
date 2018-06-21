@@ -9,7 +9,6 @@ package com.philips.platform.core.dbinterfaces;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.DCSync;
 import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
@@ -106,30 +105,6 @@ public interface DBFetchingInterface {
      * @throws SQLException throws exception if DataBase operation fails
      */
     Object fetchMomentById(final int id, DBFetchRequestListner<Moment> dbFetchRequestListner) throws SQLException;
-
-    /**
-     * Fetch ConsentDetails from Data-Base
-     *
-     * @param dbFetchRequestListner Callback for notifying the "fetchConsentDetails" result
-     * @throws SQLException throws exception if DataBase operation fails
-     */
-    void fetchConsentDetails(DBFetchRequestListner<ConsentDetail> dbFetchRequestListner) throws SQLException;
-
-    /**
-     * Fetch the Non Synchronized Consent Details
-     *
-     * @return returns list of ConsentDetails
-     * @throws SQLException throws exception if DataBase operation fails
-     */
-    List<?> fetchNonSyncConsentDetails() throws SQLException;
-
-    /**
-     * Fetch ConsentDetails from DataBase
-     *
-     * @return returns list of consentDetails
-     * @throws SQLException throws exception if DataBase operation fails
-     */
-    List<?> fetchConsentDetails() throws SQLException;
 
     /**
      * Fetch UserCharacteristics from Data-Base
