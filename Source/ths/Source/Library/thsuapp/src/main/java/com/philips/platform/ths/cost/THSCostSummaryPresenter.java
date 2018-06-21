@@ -143,7 +143,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
             mTHSCostSummaryFragment.hideCalculatingCostScreen();
             if (tHSSDKError != null && null != tHSSDKError.getSdkError()) {
-                if (null != tHSSDKError.getSdkError().getSDKErrorReason() && tHSSDKError.getSdkError().getSDKErrorReason() == SDKErrorReason.PROVIDER_OFFLINE) {
+                if (null != tHSSDKError.getSdkError().getSDKErrorReason() && tHSSDKError.getSdkError().getSDKErrorReason().equals(SDKErrorReason.PROVIDER_OFFLINE)) {
                     mTHSCostSummaryFragment.doTagging(ANALYTICS_ESTIMATED_VISIT_COST, mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_provider_offline), false);
                     showCreateVisitError(true, true, mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_provider_offline));
                 } else {
