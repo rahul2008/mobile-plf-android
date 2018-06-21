@@ -1,7 +1,6 @@
 package com.philips.platform.verticals;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -20,11 +19,6 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     @Override
     public boolean updateMoments(List<Moment> ormMoments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
-        return false;
-    }
-
-    @Override
-    public boolean updateConsent(List<? extends ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException {
         return false;
     }
 

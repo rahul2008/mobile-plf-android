@@ -31,7 +31,7 @@ import org.robolectric.annotation.Config;
  * Created by philips on 5/17/18.
  */
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class URFaceBookUtilityTest {
 
     @Mock

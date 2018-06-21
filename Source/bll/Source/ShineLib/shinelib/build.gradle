@@ -43,6 +43,14 @@ android {
 }
 
 dependencies {
+    for (dep in [':AppInfra']) {
+        if (directdependencies) {
+            api project(dep)
+        } else {
+            api("$group$dep:$platformversion$suffix") { changing = true }
+        }
+    }
+
     implementation deps.support.annotations
     implementation deps.gson
 

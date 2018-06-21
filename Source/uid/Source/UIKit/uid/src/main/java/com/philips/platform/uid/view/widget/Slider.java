@@ -40,7 +40,6 @@ public class Slider extends AppCompatSeekBar {
         applyRippleTint(context);
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private void applyRippleTint(Context themedContext) {
         ColorStateList borderColorStateID = ThemeUtils.buildColorStateList(themedContext, R.color.uid_slider_ripple_selector);
 

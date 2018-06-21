@@ -17,6 +17,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+
 import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.helper.MockedHandler;
@@ -24,6 +25,7 @@ import com.philips.pins.shinelib.helper.Utility;
 import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -53,14 +55,12 @@ import static org.powermock.api.mockito.PowerMockito.doReturn;
 public class SHNCentralTest extends RobolectricTest {
     private static final String TEST_DEVICE_MAC_ADDRESS = "DE:AD:C0:DE:01:23";
     private static final String TEST_DEVICE_TYPE = "TestDeviceType";
+
     private SHNCentral shnCentral;
+
     private MockedHandler mockedUserHandler;
     private MockedHandler mockedInternalHandler;
     private Context mockedContext;
-    private PackageManager mockedPackageManager;
-    private BluetoothManager mockedBluetoothManager;
-    private BluetoothAdapter mockedBluetoothAdapter;
-    private SharedPreferences mockedSharedPreferences;
 
     private DataMigrater mockedDataMigrater;
 
@@ -99,10 +99,10 @@ public class SHNCentralTest extends RobolectricTest {
         mockedUserHandler = new MockedHandler();
         mockedInternalHandler = new MockedHandler();
 
-        mockedPackageManager = Utility.makeThrowingMock(PackageManager.class);
-        mockedBluetoothManager = Utility.makeThrowingMock(BluetoothManager.class);
-        mockedBluetoothAdapter = Utility.makeThrowingMock(BluetoothAdapter.class);
-        mockedSharedPreferences = Utility.makeThrowingMock(SharedPreferences.class);
+        PackageManager mockedPackageManager = Utility.makeThrowingMock(PackageManager.class);
+        BluetoothManager mockedBluetoothManager = Utility.makeThrowingMock(BluetoothManager.class);
+        BluetoothAdapter mockedBluetoothAdapter = Utility.makeThrowingMock(BluetoothAdapter.class);
+        SharedPreferences mockedSharedPreferences = Utility.makeThrowingMock(SharedPreferences.class);
         mockedDataMigrater = Utility.makeThrowingMock(DataMigrater.class);
 
         doReturn("mockedContext").when(mockedContext).toString();

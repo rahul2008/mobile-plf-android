@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
  * All rights reserved.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class ProdRegRegistrationControllerTest extends TestCase {
 
     private ProdRegRegistrationController prodRegRegistrationController;

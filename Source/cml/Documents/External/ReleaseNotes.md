@@ -14,7 +14,9 @@ Version {next}
 * N/A
 
 ### Breaking Changes
-* N/A
+* \#73052 Earlier logging was enabled by default, after this change, it has been disabled. If a proposition now needs CommLib logging, it has to explicitly enable it by calling DICommLog.enableLogging. 
+
+* \#73052 initLoggingToFile method in DICommLog.java has been removed. It depending on a private method - createFileOnDevice which was using some legacy code and was marked as deprecated from some time, this method is removed too.
 
 ### Defects solved
 * N/A

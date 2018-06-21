@@ -86,7 +86,6 @@ public class PairingHandlerTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        DICommLog.disableLogging();
         PairingHandler.clear();
 
         when(applianceMock.getNetworkNode()).thenReturn(networkNodeMock);

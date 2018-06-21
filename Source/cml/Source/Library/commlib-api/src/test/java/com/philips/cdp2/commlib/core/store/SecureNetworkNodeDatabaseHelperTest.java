@@ -49,7 +49,6 @@ public class SecureNetworkNodeDatabaseHelperTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DICommLog.disableLogging();
         ContextProvider.setTestingContext(contextMock);
 
         when(appIdentityInterfaceMock.getAppVersion()).thenReturn("version");

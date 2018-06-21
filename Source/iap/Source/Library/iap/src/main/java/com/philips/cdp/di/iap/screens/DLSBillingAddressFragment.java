@@ -438,7 +438,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             if (billingAddressFields != null) {
                 dlsAddressFragment.setBillingAddressFields(billingAddressFields);
                 Utility.isBillingAddressFilled=true;
-                if(Utility.isShippingAddressFilled) {
+                if(Utility.isShippingAddressFilled || Utility.isAddressFilledFromDeliveryAddress) {
                     dlsAddressFragment.mBtnContinue.setEnabled(true);
                 }
                 else

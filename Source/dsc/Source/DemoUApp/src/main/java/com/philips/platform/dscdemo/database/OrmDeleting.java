@@ -12,15 +12,11 @@ import android.support.annotation.Nullable;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.dscdemo.consents.ConsentDetailType;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
-import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmDCSync;
 import com.philips.platform.dscdemo.database.table.OrmInsight;
 import com.philips.platform.dscdemo.database.table.OrmInsightMetaData;
@@ -71,10 +67,6 @@ public class OrmDeleting {
     private final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao;
 
     @NonNull
-    private final Dao<OrmConsentDetail, Integer> consentDetailDao;
-
-
-    @NonNull
     private final Dao<OrmCharacteristics, Integer> characteristicsDao;
 
     @NonNull
@@ -96,7 +88,6 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
                        @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao,
-                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
                        @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao,
                        Dao<OrmSettings, Integer> settingsDao,
                        Dao<OrmDCSync, Integer> syncDao,
@@ -111,7 +102,6 @@ public class OrmDeleting {
         this.measurementGroupDetailDao = measurementGroupDetailDao;
         this.measurementGroupsDao = measurementGroupsDao;
 
-        this.consentDetailDao = constentDetailsDao;
         this.characteristicsDao = characteristicsesDao;
         this.settingsDao = settingsDao;
         this.syncDao = syncDao;
@@ -125,30 +115,11 @@ public class OrmDeleting {
         measurementDao.executeRawNoArgs("DELETE FROM `ormmeasurement`");
         measurementDetailDao.executeRawNoArgs("DELETE FROM `ormmeasurementdetail`");
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
-        consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
         characteristicsDao.executeRawNoArgs("DELETE FROM `ormcharacteristics`");
         settingsDao.executeRawNoArgs("DELETE FROM `ormsettings`");
         ormInsightDao.executeRawNoArgs("DELETE FROM `orminsight`");
         ormInsightMetadataDao.executeRawNoArgs("DELETE FROM `orminsightmetaData`");
         syncDao.executeRawNoArgs("DELETE FROM `ormdcsync`"); //OrmDCSync
-
-
-        insertDefaultConsentAndSyncBit();
-    }
-
-    private void insertDefaultConsentAndSyncBit() {
-        try {
-            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
-                    ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
-                    ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
-                    ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-            syncDao.createOrUpdate(new OrmDCSync(SyncType.CONSENT.getId(), SyncType.CONSENT.getDescription(), true));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public void deleteAllMoments() throws SQLException {
@@ -197,10 +168,6 @@ public class OrmDeleting {
                 " (SELECT id FROM `ormmoment` WHERE expirationDate < ? )", currentUnixTimestamp.toString());
 
         return momentDao.executeRaw("DELETE FROM `ormmoment` WHERE expirationDate < ?", currentUnixTimestamp.toString());
-    }
-
-    public void deleteAllConsentDetails() throws  SQLException{
-        consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
     }
 
     public void ormDeleteMoment(@NonNull final OrmMoment moment) throws SQLException {
@@ -304,12 +271,6 @@ public class OrmDeleting {
         updateBuilder.where().eq("ormMeasurement_id", id);
 
         return updateBuilder.delete();
-    }
-
-
-    public void deleteConsents() throws SQLException {
-        DeleteBuilder<OrmConsentDetail, Integer> ormConsentDetailDeleteBuilder = consentDetailDao.deleteBuilder();
-        ormConsentDetailDeleteBuilder.delete();
     }
 
     public void deleteCharacteristics() throws SQLException{

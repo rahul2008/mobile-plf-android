@@ -8,18 +8,16 @@ package com.philips.pins.shinelib.bluetoothwrapper;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.BluetoothLeScanner;
-
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.shadows.ShadowApplication;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
-import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 /**
  * Shadow for {@link android.bluetooth.BluetoothAdapter}.
@@ -37,10 +35,23 @@ public class ShadowBluetoothLEAdapter {
     private boolean isOffloadedScanBatchingSupported;
     private int state;
     private BluetoothLeScanner scanner;
+    private Map<String, BluetoothDevice> devices;
 
     @Implementation
     public static BluetoothAdapter getDefaultAdapter() {
         return (BluetoothAdapter) ShadowApplication.getInstance().getBluetoothAdapter();
+    }
+
+    @Implementation
+    public BluetoothDevice getRemoteDevice(String address) {
+        return devices.get(address);
+    }
+
+    public void setRemoteDevice(String address, BluetoothDevice device) {
+        if (devices == null) {
+            devices = new HashMap<>();
+        }
+        devices.put(address, device);
     }
 
     @Implementation
@@ -68,24 +79,24 @@ public class ShadowBluetoothLEAdapter {
         this.scanner = scanner;
     }
 
-    @Implementation(minSdk = LOLLIPOP)
+    @Implementation
     public BluetoothLeScanner getBluetoothLeScanner() {
         return scanner;
     }
 
-    @Implementation(minSdk = JELLY_BEAN_MR2)
+    @Implementation
     public boolean startLeScan(BluetoothAdapter.LeScanCallback callback) {
         return startLeScan(null, callback);
     }
 
-    @Implementation(minSdk = JELLY_BEAN_MR2)
+    @Implementation
     public boolean startLeScan(UUID[] serviceUuids, BluetoothAdapter.LeScanCallback callback) {
         // Ignoring the serviceUuids param for now.
         leScanCallbacks.add(callback);
         return true;
     }
 
-    @Implementation(minSdk = JELLY_BEAN_MR2)
+    @Implementation
     public void stopLeScan(BluetoothAdapter.LeScanCallback callback) {
         leScanCallbacks.remove(callback);
     }

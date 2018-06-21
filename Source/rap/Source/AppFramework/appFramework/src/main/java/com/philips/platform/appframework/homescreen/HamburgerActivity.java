@@ -40,6 +40,9 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.logout.URLogout;
 import com.philips.platform.appframework.logout.URLogoutInterface;
 import com.philips.platform.appframework.models.HamburgerMenuItem;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentStatusChangedListener;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -49,6 +52,8 @@ import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.themesettings.ThemeSelectionActivity;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -57,7 +62,6 @@ import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.UIDHelper;
-import com.philips.platform.uid.view.widget.ActionBarTextView;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
@@ -113,7 +117,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     private static final String NAVIGATION_CONTENT_DESC_BACK = "back";
 
-
+    private ConsentStatusChangedListener clickStreamStatusChanegListener = this::onClickStreamConsentToggled;
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -139,12 +143,27 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 sharedPreferenceUtility.writePreferenceBoolean(Constants.THS_DEEP_LINK_FLOW,false);
                 presenter.onEvent(Constants.THS_DEEP_LINKING_EVENT_ID); // THS deep linking flow
             }
+            registerClickStreamStatusChanges();
         }
 
     }
 
+    private void registerClickStreamStatusChanges() {
+        AppInfraInterface appInfra = ((AppFrameworkApplication) getApplicationContext()).getAppInfra();
+        ConsentManagerInterface consentManager = appInfra.getConsentManager();
+        if (consentManager != null) {
+            ConsentDefinition clickStreamDefinition = consentManager.getConsentDefinitionForType(appInfra.getTagging().getClickStreamConsentIdentifier());
+            if (clickStreamDefinition != null) {
+                consentManager.addConsentStatusChangedListener(clickStreamDefinition, clickStreamStatusChanegListener);
+            }
+        }
+    }
 
-
+    private void onClickStreamConsentToggled(ConsentDefinition consentDefinition, ConsentError consentError, boolean status) {
+        String type = consentDefinition.getTypes().get(0);
+        String message = consentError == null ? type + "Consent changed to " + status : type + "Consent change request to " + status + "failed with error " + consentError.getError();
+        RALog.d(TAG, "onClickStreamConsentToggled: " + message);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -333,8 +352,20 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     protected void onDestroy() {
         RALog.d(TAG, " onDestroy ");
+        removeClickStreamStatusChanges();
         super.onDestroy();
         removeListeners();
+    }
+
+    private void removeClickStreamStatusChanges() {
+        AppInfraInterface appInfra = ((AppFrameworkApplication) getApplicationContext()).getAppInfra();
+        ConsentManagerInterface consentManager = appInfra.getConsentManager();
+        if (consentManager != null) {
+            ConsentDefinition clickStreamDefinition = consentManager.getConsentDefinitionForType(appInfra.getTagging().getClickStreamConsentIdentifier());
+            if (clickStreamDefinition != null) {
+                consentManager.removeConsentStatusChangedListener(clickStreamDefinition, clickStreamStatusChanegListener);
+            }
+        }
     }
 
     protected void removeListeners() {

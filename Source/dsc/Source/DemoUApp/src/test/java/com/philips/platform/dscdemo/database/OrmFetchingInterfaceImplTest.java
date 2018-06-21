@@ -19,7 +19,6 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
-import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmDCSync;
 import com.philips.platform.dscdemo.database.table.OrmInsight;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
@@ -33,8 +32,6 @@ public class OrmFetchingInterfaceImplTest {
     private Dao<OrmMoment, Integer> momentDao;
     @Mock
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
-    @Mock
-    private Dao<OrmConsentDetail, Integer> consentDetailsDao;
     @Mock
     private Dao<OrmCharacteristics, Integer> characteristicsDao;
     @Mock
@@ -60,7 +57,7 @@ public class OrmFetchingInterfaceImplTest {
     @Before
     public void setUp() {
         initMocks(this);
-        objectUnderTest = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao,
+        objectUnderTest = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,
                 characteristicsDao, settingsDao, ormDCSyncDao, ormInsightDao);
     }
 

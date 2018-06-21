@@ -68,8 +68,6 @@ public class FirmwarePortStateWaiterTest {
     public void setUp() {
         initMocks(this);
 
-        DICommLog.disableLogging();
-
         when(portMock.getPortProperties()).thenReturn(portPropertiesMock);
         when(portMock.getDICommPortName()).thenReturn(PORT_NAME);
         when(portMock.getDICommProductId()).thenReturn(PORT_PRODUCT_ID);

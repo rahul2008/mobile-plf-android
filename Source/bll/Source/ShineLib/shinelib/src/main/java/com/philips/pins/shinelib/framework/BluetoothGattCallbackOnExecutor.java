@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -132,13 +132,5 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
 
     @Override
     public void onMtuChanged(final BluetoothGatt gatt, final int mtu, final int status) {
-// TODO This callback is introduced in v21 so a version test is needed.
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                iShnBluetoothGattCallback.onMtuChanged(gatt, mtu, status);
-//            }
-//        };
-//        executor.execute(runnable);
     }
 }

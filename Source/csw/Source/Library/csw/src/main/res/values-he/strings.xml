@@ -5,8 +5,12 @@
    - consent of the copyright holder. -->
 
 <resources>
+  <string name="CATK_NO_INTERNET_CONNECTION_KEY">נראה שאתה במצב לא מקוון. בדוק את הגדרות האינטרנט שלך.</string>
+  <string name="CATK_PROBLEM_OCCURED">אפס! משהו השתבש. נסה שוב מאוחר יותר.</string>
   <string name="MYA_Visit_Website">[he]Visit our website</string>
   <string name="csw_consent_help_label">מה זה אומר?</string>
+  <string name="csw_generic_network_error">אין אפשרות להתחבר לשרת.
+בדוק את חיבור האינטרנט ונסה שוב.</string>
   <string name="csw_invalid_access_token_error_message">אירעה בעיה בהתחברות לשרת. ודא שהתאריך/שעה במכשיר שברשותך נכונים. אם הבעיה נמשכת, נסה לצאת מהמערכת ולהיכנס מחדש.</string>
   <string name="csw_offline_message">נראה שחיבור האינטרנט שלך אינו פועל. בדוק ונסה שוב</string>
   <string name="csw_offline_title">אתה במצב לא מקוון</string>
@@ -17,7 +21,7 @@
   <string name="csw_privacy_settings_desc">שלוט בפרטיות שלך. למידע נוסף, קרא את {הודעת הפרטיות}.</string>
   <string name="csw_problem_occurred_error_message">אירעה בעיה (שגיאה %1$d). אנא נסה שוב.</string>
   <string name="csw_problem_occurred_error_title">אירעה בעיה.</string>
-  <string name="csw_user_session_expired">[he]Your session is invalid, please log out and log in again</string>
+  <string name="csw_user_session_expired">ההפעלה שלך אינה תקפה. התנתק והתחבר שוב.</string>
   <string name="mya_Account_settings">הגדרות חשבון</string>
   <string name="mya_Address">כתובת</string>
   <string name="mya_Cancel">ביטול</string>

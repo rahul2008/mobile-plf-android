@@ -88,11 +88,7 @@ public class UIKitRatingBar extends RatingBar {
     }
 
     public void setProgressDrawableCustom() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setProgressDrawableTiled(getStarDrawable());
-        } else {
-            setProgressDrawable(tileify(this, getStarDrawable()));
-        }
+        setProgressDrawableTiled(getStarDrawable());
     }
 
     @Override

@@ -149,7 +149,6 @@ public class DotNavigationMatcher {
 
     public static Matcher<? super View> sameBackgroundColor(final int[] index, final int attributeColor) {
         return new BaseTypeSafteyMatcher<View>() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             protected boolean matchesSafely(final View view) {
                 if (view instanceof DotNavigationIndicator) {

@@ -5,8 +5,12 @@
    - consent of the copyright holder. -->
 
 <resources>
+  <string name="CATK_NO_INTERNET_CONNECTION_KEY">Näib, et võrguühendust ei ole. Kontrollige oma internetiseadeid.</string>
+  <string name="CATK_PROBLEM_OCCURED">Vabandage, midagi läks valesti. Palun proovige uuesti.</string>
   <string name="MYA_Visit_Website">[et]Visit our website</string>
   <string name="csw_consent_help_label">Mida see tähendab?</string>
+  <string name="csw_generic_network_error">Serveriga ei saa ühendust luua.
+Kontrollige internetiühendust ja proovige uuesti.</string>
   <string name="csw_invalid_access_token_error_message">Esines probleem serveriga ühenduse loomisel. Veenduge, et seadme kuupäev/kellaaeg oleks õigesti seadistatud. Probleemi püsimise korral logige välja ja seejärel uuesti sisse.</string>
   <string name="csw_offline_message">Tundub, et viga on teie internetiühenduses. Kontrollige ja proovige uuesti</string>
   <string name="csw_offline_title">Olete võrgust väljas</string>
@@ -17,7 +21,7 @@
   <string name="csw_privacy_settings_desc">Kontrollige privaatsusseadeid. Lisateabe saamiseks lugege {privaatsusavaldust}.</string>
   <string name="csw_problem_occurred_error_message">Esines probleem (viga %1$d). Palun proovige uuesti.</string>
   <string name="csw_problem_occurred_error_title">Esines probleem</string>
-  <string name="csw_user_session_expired">[et]Your session is invalid, please log out and log in again</string>
+  <string name="csw_user_session_expired">Teie seanss on aegunud. Logige välja ja seejärel uuesti sisse.</string>
   <string name="mya_Account_settings">Konto seaded</string>
   <string name="mya_Address">Aadress</string>
   <string name="mya_Cancel">Tühista</string>

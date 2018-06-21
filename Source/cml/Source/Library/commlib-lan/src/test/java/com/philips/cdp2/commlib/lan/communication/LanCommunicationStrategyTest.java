@@ -56,8 +56,6 @@ public class LanCommunicationStrategyTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-
-        DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
 
         lanCommunicationStrategy = new LanCommunicationStrategy(networkNodeMock, lanDeviceCacheMock, connectivityMonitor) {

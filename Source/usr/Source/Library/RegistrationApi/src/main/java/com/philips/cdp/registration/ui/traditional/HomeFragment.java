@@ -151,8 +151,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         initUI(view);
         handleOrientation(view);
         homePresenter.registerWeChatApp();
-
-        initFacebookLogIn();
         return view;
     }
 
@@ -724,6 +722,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             int drawableId = 0;
             if (provider.equals(SOCIAL_PROVIDER_FACEBOOK)) {
                 drawableId = R.drawable.uid_social_media_facebook_icon;
+                //instead initializing facebook in oncreate , do it if we get provider name as facebook
+                initFacebookLogIn();
             } else if (provider.equals(SOCIAL_PROVIDER_GOOGLEPLUS)) {
                 drawableId = R.drawable.uid_social_media_googleplus_icon;
             } else if (provider.equals(SOCIAL_PROVIDER_WECHAT)) {

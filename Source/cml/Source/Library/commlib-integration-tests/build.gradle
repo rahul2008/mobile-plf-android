@@ -73,6 +73,11 @@ android {
         abortOnError false
     }
 
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
     packagingOptions {
         exclude '**/LICENSE'
         exclude 'META-INF/*'
@@ -109,6 +114,7 @@ dependencies {
     testImplementation project(':commlib-testutils')
     testImplementation project(':bluelib')
 
+    androidTestImplementation deps.assertj
     androidTestImplementation deps.junit
     androidTestImplementation(deps.android_testrunner) {
         exclude module: 'support-annotations'

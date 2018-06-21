@@ -20,8 +20,6 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Measurement;
@@ -37,8 +35,6 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.CreateSubjectProfileRequestEvent;
 import com.philips.platform.core.events.DataClearRequest;
-import com.philips.platform.core.events.DatabaseConsentSaveRequest;
-import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllInsights;
@@ -52,7 +48,6 @@ import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
-import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
 import com.philips.platform.core.events.LoadMomentsByDate;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -104,7 +99,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.TimeZone;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -379,22 +373,6 @@ public class DataServicesManager {
 
     public void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate, DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
         mEventing.post(new LoadMomentsByDate(momentType, startDate, endDate, dsPagination, dbFetchRequestListener));
-    }
-
-    public ConsentDetail createConsentDetail(@NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, String documentVersion, final String deviceIdentificationNumber) {
-        return dataCreator.createConsentDetail(detailType, consentDetailStatusType.getDescription(), documentVersion, deviceIdentificationNumber);
-    }
-
-    public void saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
-        mEventing.post(new DatabaseConsentSaveRequest(consentDetails, dbRequestListener));
-    }
-
-    public void updateConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
-        mEventing.post(new DatabaseConsentUpdateRequest(consentDetails, dbRequestListener));
-    }
-
-    public void fetchConsentDetail(DBFetchRequestListner<ConsentDetail> dbFetchRequestListner) {
-        mEventing.post(new LoadConsentsRequest(dbFetchRequestListner));
     }
 
     public Settings createUserSettings(String locale, String unit, String timeZone) {

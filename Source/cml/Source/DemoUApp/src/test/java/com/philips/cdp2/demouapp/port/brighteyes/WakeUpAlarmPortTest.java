@@ -40,7 +40,6 @@ public class WakeUpAlarmPortTest {
     public void setUp() {
         initMocks(this);
 
-        DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
 
         wakeUpAlarmPort = new WakeUpAlarmPort(communicationStrategyMock);
