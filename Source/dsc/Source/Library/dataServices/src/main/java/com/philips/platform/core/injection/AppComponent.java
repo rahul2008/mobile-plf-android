@@ -20,11 +20,6 @@ import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
-import com.philips.platform.datasync.consent.ConsentDataSender;
-import com.philips.platform.datasync.consent.ConsentsConverter;
-import com.philips.platform.datasync.consent.ConsentsDataFetcher;
-import com.philips.platform.datasync.consent.ConsentsMonitor;
-import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.devicePairing.DevicePairingMonitor;
 import com.philips.platform.datasync.insights.InsightConverter;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
@@ -74,14 +69,6 @@ public interface AppComponent {
 
     void injectMomentsConverter(MomentsConverter momentsConverter);
 
-    void injectConsentsMonitor(ConsentsMonitor consentsMonitor);
-
-    void injectConsentsConverter(ConsentsConverter consentsConverter);
-
-    void injectConsentsDataFetcher(ConsentsDataFetcher consentsDataFetcher);
-
-    void injectConsentsSender(ConsentDataSender consentDataSender);
-
     void injectSynchronizationMonitor(SynchronisationMonitor synchronisationMonitor);
 
     void injectErrorMonitor(ErrorMonitor errorMonitor);
@@ -91,8 +78,6 @@ public interface AppComponent {
     void injectMomentsSegregator(MomentsSegregator momentsSegregator);
 
     void injectFetchingMonitor(FetchingMonitor fetchingMonitor);
-
-    void injectConsentsSegregator(ConsentsSegregator consentsSegregator);
 
     void injectUserCharacteristicsMonitor(UserCharacteristicsMonitor userCharacteristicsMonitor);
 

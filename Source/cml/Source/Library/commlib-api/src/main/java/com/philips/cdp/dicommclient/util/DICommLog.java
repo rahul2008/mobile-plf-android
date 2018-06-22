@@ -61,18 +61,9 @@ public class DICommLog {
     public static final String APPLIANCE_MANAGER = "ApplianceManager";
     public static final String UDPRECEIVER = "UdpEventReceiver";
 
-    private static boolean isLoggingEnabled = true;
+    private static boolean isLoggingEnabled = false;
 
     private static boolean isSaveToFileEnabled = false;
-
-    public static void initLoggingToFile() {
-        if (!isSaveToFileEnabled) return;
-        try {
-            createFileOnDevice(true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void log(final @NonNull Verbosity verbosity, final @NonNull String logTag, final @NonNull String logMessage) {
         switch (verbosity) {
@@ -142,23 +133,6 @@ public class DICommLog {
     }
 
     public static BufferedWriter out;
-
-    @SuppressWarnings("deprecation")
-    private static void createFileOnDevice(Boolean append) throws IOException {
-        if (!isSaveToFileEnabled) return;
-        File root = Environment.getExternalStorageDirectory();
-        if (root.canWrite() && isExternalStorageWritable()) {
-            File logDir = new File(root + "/com.philips.purair/logs");
-            if (!logDir.exists()) {
-                logDir.mkdirs();
-            }
-            File logFile = new File(logDir.getPath(), "Log.txt");
-            FileWriter logWriter = new FileWriter(logFile, append);
-            out = new BufferedWriter(logWriter);
-            Date date = new Date();
-            out.write("Logged at" + String.valueOf(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "\n"));
-        }
-    }
 
     private static boolean isExternalStorageWritable() {
         if (!isSaveToFileEnabled) return false;

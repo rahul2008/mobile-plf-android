@@ -79,8 +79,6 @@ public class DICommPortTest {
     @Before
     public void setUp() {
         initMocks(this);
-
-        DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
 
         diCommPort = new TestPort(communicationStrategyMock);

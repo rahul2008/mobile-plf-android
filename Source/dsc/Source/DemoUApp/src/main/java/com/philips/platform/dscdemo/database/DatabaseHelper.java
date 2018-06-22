@@ -12,17 +12,13 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.SyncType;
-import com.philips.platform.dscdemo.consents.ConsentDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MeasurementDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MeasurementType;
 import com.philips.platform.dscdemo.database.datatypes.MomentDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
-import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmDCSync;
 import com.philips.platform.dscdemo.database.table.OrmInsight;
 import com.philips.platform.dscdemo.database.table.OrmInsightMetaData;
@@ -71,7 +67,6 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     private Dao<OrmMeasurementGroup, Integer> measurementGroup;
     private Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails;
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
-    private Dao<OrmConsentDetail, Integer> consentDetailDao;
     private Dao<OrmSettings, Integer> settingDao;
     private Dao<OrmCharacteristics, Integer> characteristicsDao;
     private Dao<OrmDCSync, Integer> ormDCSyncDao;
@@ -109,24 +104,6 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
         insertMomentDetailsTypes();
         insertMeasurementDetailTypes();
         insertMeasurementGroupDetailType();
-        insertDefaultConsent();
-    }
-
-    private void insertDefaultConsent() {
-
-        try {
-            consentDetailDao = getConsentDetailsDao();
-            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED.getDescription(), ConsentDetail.DEFAULT_DOCUMENT_VERSION,
-                    ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED.getDescription(), ConsentDetail.DEFAULT_DOCUMENT_VERSION,
-                    ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED.getDescription(), ConsentDetail.DEFAULT_DOCUMENT_VERSION,
-                    ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-            insertDefaultDCSyncValues(SyncType.CONSENT);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void insertDefaultDCSyncValues(SyncType tableType) {
@@ -194,7 +171,6 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmMeasurementDetail.class);
         TableUtils.createTable(connectionSource, OrmMeasurementDetailType.class);
         TableUtils.createTable(connectionSource, OrmSynchronisationData.class);
-        TableUtils.createTable(connectionSource, OrmConsentDetail.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroup.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetail.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
@@ -241,7 +217,6 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmMeasurementDetail.class, true);
         TableUtils.dropTable(connectionSource, OrmMeasurementDetailType.class, true);
         TableUtils.dropTable(connectionSource, OrmSynchronisationData.class, true);
-        TableUtils.dropTable(connectionSource, OrmConsentDetail.class, true);
         TableUtils.dropTable(connectionSource, OrmSettings.class, true);
         TableUtils.dropTable(connectionSource, OrmCharacteristics.class, true);
         TableUtils.dropTable(connectionSource, OrmDCSync.class, true);
@@ -331,13 +306,6 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
             synchronisationDataDao = getDao(OrmSynchronisationData.class);
         }
         return synchronisationDataDao;
-    }
-
-    public Dao<OrmConsentDetail, Integer> getConsentDetailsDao() throws SQLException {
-        if (consentDetailDao == null) {
-            consentDetailDao = getDao(OrmConsentDetail.class);
-        }
-        return consentDetailDao;
     }
 
 

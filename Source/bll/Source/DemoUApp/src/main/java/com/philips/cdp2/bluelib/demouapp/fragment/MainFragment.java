@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -24,7 +24,8 @@ import android.view.ViewGroup;
 import com.philips.cdp2.bluelib.demouapp.R;
 import com.philips.cdp2.bluelib.demouapp.fragment.associate.AssociatedDevicesFragment;
 import com.philips.cdp2.bluelib.demouapp.fragment.connect.ConnectDevicesFragment;
-import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.cdp2.bluelib.demouapp.util.UiUtils;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 
 public class MainFragment extends Fragment {
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 1;
@@ -49,7 +50,6 @@ public class MainFragment extends Fragment {
         // Acquire Bluetooth permission
         acquirePermission();
 
-        SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
         return rootview;
     }
 
@@ -92,7 +92,7 @@ public class MainFragment extends Fragment {
         switch (requestCode) {
             case ACCESS_COARSE_LOCATION_REQUEST_CODE: {
                 if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    //TODO: finish();
+                    UiUtils.showPersistentMessage(getView(), "Location permission not granted");
                 }
             }
         }
@@ -100,8 +100,9 @@ public class MainFragment extends Fragment {
 
     private void acquirePermission() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    ACCESS_COARSE_LOCATION_REQUEST_CODE);
+            SHNTagger.sendTechnicalError("Location permission missing");
+
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION_REQUEST_CODE);
         }
     }
 }

@@ -14,8 +14,7 @@ public enum SyncType {
     INSIGHT(104, "insight"),
     MOMENT(103, "moment"),
     SETTINGS(100, "Settings"),
-    CHARACTERISTICS(101, "characteristics"),
-    CONSENT(102, "consent");
+    CHARACTERISTICS(101, "characteristics");
 
     private final int id;
     private final String description;

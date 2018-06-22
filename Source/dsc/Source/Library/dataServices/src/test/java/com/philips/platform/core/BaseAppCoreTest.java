@@ -1,6 +1,5 @@
 package com.philips.platform.core;
 
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -186,16 +185,6 @@ public class BaseAppCoreTest {
 //        assertThat(insights.getSubjectId()).isEqualTo("Test_SubjectId");
 //        assertThat(insights.getMomentId()).isEqualTo("Test_MomentId");
 //    }
-
-
-    @Test
-    public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() {
-        ConsentDetail consentDetailDetail = baseAppCoreCreatorMock.createConsentDetail("SLEEP", "Accepted", "1.0", ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-
-        assertThat(consentDetailDetail.getType()).isEqualTo("SLEEP");
-        assertThat(consentDetailDetail.getStatus()).isEqualTo("Accepted");
-        assertThat(consentDetailDetail.getVersion()).isEqualTo("1.0");
-    }
 
     @Test(expected = NullPointerException.class)
     public void ShouldCreateMeasurementGroup_WhenCreateMeasurementGroupIsCalled() {

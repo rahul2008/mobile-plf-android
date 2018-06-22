@@ -59,7 +59,6 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
         super.setUp();
 
         initMocks(this);
-        DICommLog.disableLogging();
 
         HandlerProvider.enableMockedHandler(subscriptionEventResponseHandlerMock);
 

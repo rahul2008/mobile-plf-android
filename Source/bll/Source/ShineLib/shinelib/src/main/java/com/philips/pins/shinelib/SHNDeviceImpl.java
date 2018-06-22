@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -14,7 +14,10 @@ import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
-import com.philips.pins.shinelib.statemachine.*;
+import com.philips.pins.shinelib.statemachine.SHNDeviceResources;
+import com.philips.pins.shinelib.statemachine.SHNDeviceState;
+import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
+import com.philips.pins.shinelib.statemachine.StateChangedListener;
 import com.philips.pins.shinelib.statemachine.state.SHNDisconnectedState;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -32,7 +35,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private SHNDeviceStateMachine stateMachine;
     private SHNDeviceResources sharedResources;
 
-    private StateChangedListener<SHNDeviceState> stateStateChangedListener = new StateChangedListener<SHNDeviceState>() {
+    private StateChangedListener<SHNDeviceState> stateChangedListener = new StateChangedListener<SHNDeviceState>() {
         @Override
         public void onStateChanged(SHNDeviceState oldState, SHNDeviceState newState) {
             if (oldState == null) {
@@ -62,7 +65,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator) {
         sharedResources = new SHNDeviceResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback);
         stateMachine = new SHNDeviceStateMachine(sharedResources);
-        stateMachine.addStateListener(stateStateChangedListener);
+        stateMachine.addStateListener(stateChangedListener);
 
         SHNDeviceState initialState = new SHNDisconnectedState(stateMachine);
         stateMachine.setState(initialState);

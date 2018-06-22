@@ -10,10 +10,8 @@ import android.support.annotation.NonNull;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmDCSync;
 import com.philips.platform.dscdemo.database.table.OrmMeasurement;
 import com.philips.platform.dscdemo.database.table.OrmMeasurementDetail;
@@ -47,9 +45,6 @@ public class OrmUpdating {
     private final Dao<OrmSettings, Integer> settingsDao;
 
     @NonNull
-    private final Dao<OrmConsentDetail, Integer> ormConsentDetailDao;
-
-    @NonNull
     private final Dao<OrmMeasurementGroup, Integer> measurementGroupDao;
 
     @NonNull
@@ -68,7 +63,7 @@ public class OrmUpdating {
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
                        @NonNull Dao<OrmSettings, Integer> settingsDao,
-                       @NonNull Dao<OrmConsentDetail, Integer> ormConsentDetailDao, @NonNull Dao<OrmDCSync, Integer> dcSyncDao,
+                       @NonNull Dao<OrmDCSync, Integer> dcSyncDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                        @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
                        @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails) {
@@ -77,7 +72,6 @@ public class OrmUpdating {
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
         this.settingsDao = settingsDao;
-        this.ormConsentDetailDao = ormConsentDetailDao;
         this.dcSyncDao = dcSyncDao;
         this.measurementGroupDao = measurementGroup;
         this.measurementGroupDetailsDao = measurementGroupDetails;
@@ -212,18 +206,6 @@ public class OrmUpdating {
 
     private void updateSynchronisationData(final OrmSynchronisationData synchronisationData) throws SQLException {
         synchronisationDataDao.update(synchronisationData);
-    }
-
-    public void updateConsentDetails(ConsentDetail consentDetail) throws SQLException {
-
-        UpdateBuilder<OrmConsentDetail, Integer> updateBuilder = ormConsentDetailDao.updateBuilder();
-            updateBuilder.updateColumnValue("status",consentDetail.getStatus());
-            updateBuilder.updateColumnValue("version",consentDetail.getVersion());
-            updateBuilder.updateColumnValue("deviceIdentificationNumber",consentDetail.getDeviceIdentificationNumber());
-            updateBuilder.where().eq("type", consentDetail.getType());
-
-            updateBuilder.update();
-
     }
 
     public boolean updateMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {

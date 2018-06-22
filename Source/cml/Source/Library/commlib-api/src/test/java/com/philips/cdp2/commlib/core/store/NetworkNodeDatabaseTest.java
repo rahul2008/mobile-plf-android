@@ -53,8 +53,6 @@ public class NetworkNodeDatabaseTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        DICommLog.disableLogging();
-
         networkNode.setCppId(CPP_ID);
         networkNode.setIpAddress(IP_ADDRESS);
         networkNode.setName(DEVICE_NAME);

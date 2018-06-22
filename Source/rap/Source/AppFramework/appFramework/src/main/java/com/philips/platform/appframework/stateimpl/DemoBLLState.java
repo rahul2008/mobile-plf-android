@@ -1,8 +1,6 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2017
- *  All rights are reserved. Reproduction or dissemination
- *  in whole or in part is prohibited without the prior written
- *  consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.appframework.stateimpl;
@@ -13,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
 import com.philips.cdp2.bluelib.demouapp.BluelibUappAppDependencies;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -35,8 +34,7 @@ public class DemoBLLState extends DemoBaseState {
 
     @NonNull
     protected ActivityLauncher getUiLauncher() {
-        return new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                getDLSThemeConfiguration(context.getApplicationContext()), 0, null);
+        return new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDLSThemeConfiguration(context.getApplicationContext()), 0, null);
     }
 
     @NonNull
@@ -46,7 +44,7 @@ public class DemoBLLState extends DemoBaseState {
 
     @NonNull
     protected UappDependencies getUappDependencies() {
-        return new BluelibUappAppDependencies(context);
+        return new BluelibUappAppDependencies(context, ((AppFrameworkApplication) context).getAppInfra());
     }
 
     @Override

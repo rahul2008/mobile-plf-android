@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.commlib.ble.context;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -74,7 +73,7 @@ public class BleTransportContext implements TransportContext {
         }
 
         try {
-            this.shnCentral = createCentral(runtimeConfiguration.getContext(), showPopupIfBLEIsTurnedOff);
+            this.shnCentral = createCentral(runtimeConfiguration, showPopupIfBLEIsTurnedOff);
         } catch (SHNBluetoothHardwareUnavailableException e) {
             throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
         }
@@ -118,8 +117,8 @@ public class BleTransportContext implements TransportContext {
 
     @VisibleForTesting
     @NonNull
-    SHNCentral createCentral(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
-        SHNCentral.Builder builder = new SHNCentral.Builder(context);
+    SHNCentral createCentral(RuntimeConfiguration runtimeConfiguration, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+        SHNCentral.Builder builder = new SHNCentral.Builder(runtimeConfiguration.getContext());
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 
         return builder.create();
