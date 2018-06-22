@@ -50,7 +50,12 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
      */
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
-        if (appInfra.getRestClient().isInternetReachable()) {
+        refreshUserOrGetMarketingConsent(consentType, callback, appInfra.getRestClient().isInternetReachable());
+    }
+
+    void refreshUserOrGetMarketingConsent(String consentType, FetchConsentTypeStateCallback callback, boolean isInternetAvailable) {
+
+        if (isInternetAvailable) {
             getUser().refreshUser(new RefreshUserHandler() {
                 @Override
                 public void onRefreshUserSuccess() {
@@ -65,9 +70,11 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
                 }
             });
         } else {
-            callback.onGetConsentsFailed(NO_CONNECTION_ERROR);
+            getMarketingConsentDefinition(consentType, callback);
+            RLog.d(TAG, "return marketing consent cache as internet is offline");
         }
     }
+
 
     /**
      * @param consentType given consent type
@@ -85,7 +92,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         }
     }
 
-    private void getMarketingConsentDefinition(String consentType, FetchConsentTypeStateCallback callback) {
+    void getMarketingConsentDefinition(String consentType, FetchConsentTypeStateCallback callback) {
         try {
             final boolean receiveMarketingEmail = getUser().getReceiveMarketingEmail();
             RLog.d(TAG, "getMarketingConsentDefinition : receiveMarketingEmail " + receiveMarketingEmail);
