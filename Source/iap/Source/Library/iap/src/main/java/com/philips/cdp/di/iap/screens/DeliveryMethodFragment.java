@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.adapters.DeliveryModeAdapter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -27,6 +28,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     private RecyclerView mDeliveryRecyclerView;
     private AddressController mAddressController;
     private LinearLayout mParentContainer;
+    List<DeliveryModes> mDeliveryModes;
 
     public static DeliveryMethodFragment createInstance(final Bundle args, final AnimationType animType) {
         DeliveryMethodFragment fragment = new DeliveryMethodFragment();
@@ -53,6 +55,10 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
         mDeliveryRecyclerView = view.findViewById(R.id.iap_parcel_delivery_list);
         mParentContainer = view.findViewById(R.id.delivery_method_container);
         mAddressController = new AddressController(mContext, this);
+
+        createCustomProgressBar(mParentContainer, BIG);
+        mAddressController.getDeliveryModes();
+
         return view;
     }
 
@@ -61,11 +67,9 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
         super.onActivityCreated(savedInstanceState);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mDeliveryRecyclerView.setLayoutManager(layoutManager);
-        settingDataToAdapter();
     }
 
     private void settingDataToAdapter() {
-        List<DeliveryModes> mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         if (mDeliveryModes == null) return;
         DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mDeliveryModes, this);
         mDeliveryRecyclerView.setAdapter(mDeliveryModeAdapter);
@@ -82,9 +86,8 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
 
     @Override
     public void onItemClick(int position) {
-        final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         createCustomProgressBar(mParentContainer, BIG);
-        mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
+        mAddressController.setDeliveryMode(mDeliveryModes.get(position).getCode());
     }
 
     @Override
@@ -114,7 +117,17 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
 
     @Override
     public void onGetDeliveryModes(Message msg) {
-    //do nothing
+        if ((msg.obj instanceof IAPNetworkError)) {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+        } else if ((msg.obj instanceof GetDeliveryModes)) {
+            List<DeliveryModes> deliveryModeList;
+            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            deliveryModeList = deliveryModes.getDeliveryModes();
+            mDeliveryModes = deliveryModeList;
+            CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
+            settingDataToAdapter();
+        }
+        hideProgressBar();
     }
 
     @Override
