@@ -92,7 +92,8 @@
     <string name="cml_unpair_success">Unpaired successfully</string>
     <string name="cml_unpair_failed">Unpairing failed</string>
     <string name="cml_cancel">Cancel</string>
-    <string name="cml_perform_discovery">Perform discovery</string>
+    <string name="cml_perform_lan_discovery">Perform LAN discovery</string>
+    <string name="cml_perform_ble_discovery">Perform BLE discovery</string>
     <string name="cml_filter_model_id_hint">Filter on comma separated model id(s)</string>
     <string name="cml_clear_appliances">Clear appliances</string>
 
