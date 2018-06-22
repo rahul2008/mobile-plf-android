@@ -6,23 +6,20 @@
 package com.philips.cdp2.commlib.core.appliance;
 
 import android.os.Handler;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager.ApplianceListener;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
-import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.beans.PropertyChangeListener;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +32,8 @@ import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHan
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -68,7 +63,6 @@ public class ApplianceManagerTest {
     @Mock
     private ApplianceDatabase applianceDatabaseMock;
 
-    private AvailabilityListener<Appliance> applianceMockAvailabilityListener;
     private Map<DiscoveryStrategy, Set<DiscoveryListener>> discovery = new ConcurrentHashMap<>();
     private ApplianceManager managerUnderTest;
     private PropertyChangeListener networkNodeChangeListener;
@@ -111,22 +105,6 @@ public class ApplianceManagerTest {
                 return null;
             }
         }).when(handlerMock).post(isA(Runnable.class));
-
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                applianceMockAvailabilityListener = invocation.getArgument(0);
-                return null;
-            }
-        }).when(applianceMock).addAvailabilityListener(isA(AvailabilityListener.class));
-
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                applianceMockAvailabilityListener = null;
-                return null;
-            }
-        }).when(applianceMock).removeAvailabilityListener(isA(AvailabilityListener.class));
 
         doAnswer(new Answer() {
             @Override
@@ -180,12 +158,12 @@ public class ApplianceManagerTest {
     }
 
     @Test
-    public void whenStrategyDiscoversNode_thenApplianceIsInSetOfAvailableAppliances() {
+    public void whenStrategyDiscoversNode_thenApplianceIsInSetOfAppliances() {
         managerUnderTest.addApplianceListener(applianceListenerMock);
 
         firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
 
-        assertThat(managerUnderTest.getAvailableAppliances()).contains(applianceMock);
+        assertThat(managerUnderTest.getAppliances()).contains(applianceMock);
     }
 
     @Test
@@ -208,13 +186,13 @@ public class ApplianceManagerTest {
     }
 
     @Test
-    public void whenStrategyLosesNode_thenApplianceIsNoLongerInSetOfAvailableAppliances() {
+    public void whenStrategyLosesNode_thenApplianceIsInSetOfAppliances() {
         managerUnderTest.addApplianceListener(applianceListenerMock);
 
         firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
         firstDiscoveryListener().onNetworkNodeLost(networkNodeMock);
 
-        assertThat(managerUnderTest.getAvailableAppliances()).doesNotContain(applianceMock);
+        assertThat(managerUnderTest.getAppliances()).contains(applianceMock);
     }
 
     @Test
@@ -225,17 +203,6 @@ public class ApplianceManagerTest {
         firstDiscoveryListener().onNetworkNodeLost(networkNodeMock);
 
         assertThat(managerUnderTest.findApplianceByCppId(CPPID)).isNotNull();
-    }
-
-    @Test
-    public void whenStrategyLosesNodeButApplianceIsStillAvailable_thenApplianceListenerIsCalled() {
-        managerUnderTest.addApplianceListener(applianceListenerMock);
-        when(applianceMock.isAvailable()).thenReturn(true);
-
-        firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
-        firstDiscoveryListener().onNetworkNodeLost(networkNodeMock);
-
-        verify(applianceListenerMock).onApplianceLost(applianceMock);
     }
 
     @Test
@@ -274,58 +241,13 @@ public class ApplianceManagerTest {
     }
 
     @Test
-    public void whenApplianceAvailabilityChangesToFalse_thenApplianceListenerCalled() {
-        managerUnderTest.addApplianceListener(applianceListenerMock);
-
-        firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
-        applianceMockAvailabilityListener.onAvailabilityChanged(applianceMock);
-
-        verify(applianceListenerMock).onApplianceLost(applianceMock);
-    }
-
-    @Test
-    public void whenApplianceAvailabilityChangesToFalseAndIsDiscoveredAgain_thenNoNewApplianceIsCreated() {
-
-        firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
-        applianceMockAvailabilityListener.onAvailabilityChanged(applianceMock);
-        firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
-
-        verify(applianceFactoryMock, times(1)).createApplianceForNode(networkNodeMock);
-    }
-
-    @Test
-    public void whenApplianceAvailabilityChangesToFalseAndIsDiscoveredAgain_thenNotificationsAreSent() {
-        managerUnderTest.addApplianceListener(applianceListenerMock);
-
-        firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
-        applianceMockAvailabilityListener.onAvailabilityChanged(applianceMock);
-        firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
-
-        final InOrder inOrder = inOrder(applianceListenerMock);
-        inOrder.verify(applianceListenerMock).onApplianceFound(applianceMock);
-        inOrder.verify(applianceListenerMock).onApplianceLost(applianceMock);
-        inOrder.verify(applianceListenerMock).onApplianceFound(applianceMock);
-    }
-
-    @Test
-    public void whenApplianceAvailabilityChangesToFalseAndTrueAgain_thenNotificationsAreSent() {
-        managerUnderTest.addApplianceListener(applianceListenerMock);
-
-        firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
-        applianceMockAvailabilityListener.onAvailabilityChanged(applianceMock);
-        when(applianceMock.isAvailable()).thenReturn(true);
-        applianceMockAvailabilityListener.onAvailabilityChanged(applianceMock);
-
-        final InOrder inOrder = inOrder(applianceListenerMock);
-        inOrder.verify(applianceListenerMock).onApplianceFound(applianceMock);
-        inOrder.verify(applianceListenerMock).onApplianceLost(applianceMock);
-        inOrder.verify(applianceListenerMock).onApplianceFound(applianceMock);
-    }
-
-    @Test
     public void whenCreated_thenLoadsAppliancesFromDB() {
+        when(networkNodeDatabaseMock.getAll()).thenReturn(Collections.singletonList(networkNodeMock));
 
-        verify(networkNodeDatabaseMock).getAll();
+        ApplianceManager managerUnderTest = new ApplianceManager(discovery.keySet(), applianceFactoryMock, networkNodeDatabaseMock, applianceDatabaseMock);
+
+        assertThat(managerUnderTest.getAppliances().size()).isEqualTo(1);
+        assertThat(managerUnderTest.getAppliances()).contains(applianceMock);
     }
 
     @Test
@@ -336,7 +258,7 @@ public class ApplianceManagerTest {
 
         managerUnderTest = new ApplianceManager(discovery.keySet(), applianceFactoryMock, networkNodeDatabaseMock, applianceDatabaseMock);
 
-        assertThat(managerUnderTest.getAvailableAppliances()).isNotEmpty();
+        assertThat(managerUnderTest.getAppliances()).isNotEmpty();
     }
 
     @Test

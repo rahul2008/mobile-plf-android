@@ -15,7 +15,6 @@ import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListen
 import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
 import com.philips.cdp2.commlib.core.store.NullApplianceDatabase;
-import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -69,8 +68,7 @@ public class ApplianceManager {
     private final ApplianceFactory applianceFactory;
 
     private final Set<ApplianceListener> applianceListeners = new CopyOnWriteArraySet<>();
-    private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
-    private Map<String, Appliance> allAppliances = new ConcurrentHashMap<>();
+    private Map<String, Appliance> appliances = new ConcurrentHashMap<>();
 
     @NonNull
     private final Handler handler = createHandler();
@@ -79,24 +77,6 @@ public class ApplianceManager {
     @NonNull
     private final ApplianceDatabase applianceDatabase;
 
-    private final AvailabilityListener<Appliance> applianceAvailabilityListener = new AvailabilityListener<Appliance>() {
-        @Override
-        public void onAvailabilityChanged(@NonNull Appliance appliance) {
-            final String cppId = appliance.getNetworkNode().getCppId();
-            if (appliance.isAvailable()) {
-                if (!availableAppliances.containsKey(cppId)) {
-                    availableAppliances.put(cppId, appliance);
-                    notifyApplianceFound(appliance);
-                }
-            } else {
-                final Appliance lostAppliance = availableAppliances.remove(cppId);
-
-                if (lostAppliance != null) {
-                    notifyApplianceLost(lostAppliance);
-                }
-            }
-        }
-    };
 
     private final DiscoveryListener discoveryListener = new DiscoveryListener() {
         @Override
@@ -110,10 +90,10 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeLost(NetworkNode networkNode) {
-            final Appliance appliance = availableAppliances.get(networkNode.getCppId());
+            final Appliance appliance = appliances.get(networkNode.getCppId());
 
             if (appliance != null) {
-                notifyApplianceLost(availableAppliances.remove(networkNode.getCppId()));
+                notifyApplianceLost(appliance);
             }
         }
 
@@ -121,15 +101,6 @@ public class ApplianceManager {
         public void onDiscoveryStopped() {
         }
     };
-
-    private void updateAppliance(NetworkNode networkNode) {
-        final Appliance appliance = availableAppliances.get(networkNode.getCppId());
-
-        if (appliance != null) {
-            appliance.getNetworkNode().updateWithValuesFrom(networkNode);
-            notifyApplianceUpdated(appliance);
-        }
-    }
 
     /**
      * Instantiates a new ApplianceManager.
@@ -160,19 +131,14 @@ public class ApplianceManager {
     @Nullable
     private Appliance processDiscoveredOrLoadedNetworkNode(@NonNull NetworkNode networkNode) {
         final String cppId = networkNode.getCppId();
-        if (availableAppliances.containsKey(cppId)) {
-            updateAppliance(networkNode);
-            return availableAppliances.get(cppId);
-        } else if (allAppliances.containsKey(cppId)) {
-            final Appliance appliance = allAppliances.get(cppId);
-            availableAppliances.put(cppId, appliance);
-            notifyApplianceFound(appliance);
-            return appliance;
+        if (appliances.containsKey(cppId)) {
+            final Appliance appliance = appliances.get(networkNode.getCppId());
+            appliance.getNetworkNode().updateWithValuesFrom(networkNode);
+            notifyApplianceUpdated(appliance);
+            return appliances.get(cppId);
         } else if (applianceFactory.canCreateApplianceForNode(networkNode)) {
             final Appliance appliance = applianceFactory.createApplianceForNode(networkNode);
-            appliance.addAvailabilityListener(applianceAvailabilityListener);
-            allAppliances.put(cppId, appliance);
-            availableAppliances.put(cppId, appliance);
+            appliances.put(cppId, appliance);
             notifyApplianceFound(appliance);
             return appliance;
         }
@@ -183,20 +149,34 @@ public class ApplianceManager {
      * Gets all available {@link Appliance}s.
      *
      * @return The currently available appliances
+     * @deprecated Returns the same as getAppliances. Will be removed, use getAppliances.
      */
+    @Deprecated
     @NonNull
     public Set<Appliance> getAvailableAppliances() {
-        return new CopyOnWriteArraySet<>(availableAppliances.values());
+        return new CopyOnWriteArraySet<>(appliances.values());
     }
 
     /**
      * Gets all {@link Appliance}s that this manager has found, even if no longer available.
      *
      * @return All known appliances.
+     * @deprecated Returns the same as getAppliances. Will be removed, use getAppliances.
      */
+    @Deprecated
     @NonNull
     public Set<Appliance> getAllAppliances() {
-        return new CopyOnWriteArraySet<>(allAppliances.values());
+        return new CopyOnWriteArraySet<>(appliances.values());
+    }
+
+    /**
+     * Gets all {@link Appliance}s
+     *
+     * @return All known appliances.
+     */
+    @NonNull
+    public Set<Appliance> getAppliances() {
+        return new CopyOnWriteArraySet<>(appliances.values());
     }
 
     /**
@@ -207,7 +187,7 @@ public class ApplianceManager {
      */
     @Nullable
     public Appliance findApplianceByCppId(final String cppId) {
-        return allAppliances.get(cppId);
+        return appliances.get(cppId);
     }
 
     /**
@@ -236,7 +216,6 @@ public class ApplianceManager {
         int rowsDeleted = networkNodeDatabase.delete(appliance.getNetworkNode());
         if (rowsDeleted > 0) {
             applianceDatabase.delete(appliance);
-            applianceAvailabilityListener.onAvailabilityChanged(appliance);
         }
 
         return rowsDeleted > 0;
