@@ -78,6 +78,9 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         Map<String, CachedConsentStatus> consentCachedForUser = temp.get(getCurrentLoggedInUserId());
         if (consentCachedForUser == null) {
             appInfra.getSecureStorage().removeValueForKey(CONSENT_CACHE_KEY);
+            if(getCurrentLoggedInUserId() == null){
+                throw new RuntimeException("user is not logged in");
+            }
             temp.put(getCurrentLoggedInUserId(),  new HashMap<String, CachedConsentStatus>());
             return temp;
         }

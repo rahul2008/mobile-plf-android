@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
@@ -93,6 +94,14 @@ public class ConsentCacheInteractorTest {
         thenNullConsentStatusIsReturned();
     }
 
+    @Test(expected=RuntimeException.class)
+    public void fetchConsentTypeState_WhenUserIdIsNull() throws Exception {
+        when(userMock.getHsdpUUID()).thenReturn(null);
+        givenSecureStorageReturns(getSingleConsentStatusJson(null, "active", CONSENT_TYPE_1, 10));
+        whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
+        Mockito.when(consentCacheInteractor.fetchConsentTypeState(CONSENT_TYPE_1)).thenThrow(new RuntimeException("user is not logged in"));
+    }
+
     @Test
     public void store_VerifyExpiryTime() {
         givenExpiryTimeConfiguredInAppConfigIs(1);
@@ -160,7 +169,6 @@ public class ConsentCacheInteractorTest {
     private void whenStoreConsentStateIsCalled(String consentType, ConsentStates active, int version) {
         consentCacheInteractor.storeConsentState(consentType, active, version);
     }
-
     private void whenFetchConsentStateIsCalled(String consentType) {
         returnedCachedConsent = consentCacheInteractor.fetchConsentTypeState(consentType);
     }
