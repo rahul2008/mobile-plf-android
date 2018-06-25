@@ -29,14 +29,14 @@ public class DeliveryMethodFragmentTest {
     @Mock
     Context mContext;
 
-    DeliveryMethodFragment deliveryMethodFragment;
+    DeliveryMethodFragmentMock deliveryMethodFragment;
 
     @Before
     public void setUp() {
         initMocks(this);
 
         mContext = RuntimeEnvironment.application;
-        deliveryMethodFragment = DeliveryMethodFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
+        deliveryMethodFragment = new DeliveryMethodFragmentMock();
     }
 
     @Test
@@ -51,6 +51,7 @@ public class DeliveryMethodFragmentTest {
 
     @Test
     public void onResume() throws Exception {
+        SupportFragmentTestUtil.startFragment(deliveryMethodFragment);
         onAttach();
         deliveryMethodFragment.onResume();
     }

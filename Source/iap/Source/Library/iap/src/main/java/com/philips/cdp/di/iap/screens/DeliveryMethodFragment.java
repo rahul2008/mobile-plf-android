@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.DeliveryModeAdapter;
@@ -24,10 +24,9 @@ import java.util.List;
 
 public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDeliveryModeListener, AddressController.AddressListener {
 
-    private Context mContext;
     private RecyclerView mDeliveryRecyclerView;
     private AddressController mAddressController;
-    private LinearLayout mParentContainer;
+    private RelativeLayout mParentContainer;
     List<DeliveryModes> mDeliveryModes;
 
     public static DeliveryMethodFragment createInstance(final Bundle args, final AnimationType animType) {
@@ -38,15 +37,9 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(mContext.getResources().getString(R.string.iap_delivery_method), true);
+        setTitleAndBackButtonVisibility(getContext().getResources().getString(R.string.iap_delivery_method), true);
     }
 
     @Override
@@ -54,7 +47,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
         View view = inflater.inflate(R.layout.iap_delivery_method_fragment, container, false);
         mDeliveryRecyclerView = view.findViewById(R.id.iap_parcel_delivery_list);
         mParentContainer = view.findViewById(R.id.delivery_method_container);
-        mAddressController = new AddressController(mContext, this);
+        mAddressController = new AddressController(getContext(), this);
 
         createCustomProgressBar(mParentContainer, BIG);
         mAddressController.getDeliveryModes();
@@ -134,7 +127,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     public void onSetDeliveryMode(Message msg) {
         hideProgressBar();
         if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }else {
             getFragmentManager().popBackStack();
         }
