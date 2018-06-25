@@ -57,14 +57,11 @@ public class CommCentralTest {
     @Mock
     private ApplianceFactory applianceFactoryMock;
 
-    @Mock
     private BarContext barTransportContextMock;
+    private FooContext fooTransportContextMock;
 
     @Mock
     private DiscoveryStrategy someDiscoveryStrategyMock;
-
-    @Mock
-    private FooContext fooTransportContextMock;
 
     @Mock
     private DiscoveryStrategy anotherDiscoveryStrategyMock;
@@ -97,8 +94,8 @@ public class CommCentralTest {
         DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
 
-        when(barTransportContextMock.getDiscoveryStrategy()).thenReturn(someDiscoveryStrategyMock);
-        when(fooTransportContextMock.getDiscoveryStrategy()).thenReturn(anotherDiscoveryStrategyMock);
+        barTransportContextMock = new BarContext();
+        fooTransportContextMock = new FooContext();
 
         setTestingContext(contextMock);
 
