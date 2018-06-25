@@ -183,7 +183,11 @@ public class ConsentManager implements ConsentManagerInterface {
         for (String consentType : consentDefinition.getTypes()) {
             ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
             consentTypeCallbackListeners.add(listener);
-            getHandler(consentType).fetchConsentTypeState(consentType, listener);
+            try {
+                getHandler(consentType).fetchConsentTypeState(consentType, listener);
+            }catch (Exception runtimeException){
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "fetchConsentTypeState", runtimeException.getMessage());
+            }
         }
 
         waitTillThreadsGetsCompleted(countDownLatch);
@@ -196,7 +200,11 @@ public class ConsentManager implements ConsentManagerInterface {
 
         ConsentTypeCallbackListener listener = new ConsentTypeCallbackListener(countDownLatch);
         consentTypeCallbackListeners.add(listener);
+        try{
         getHandler(type).fetchConsentTypeState(type, listener);
+        }catch (Exception runtimeException){
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "fetchConsentTypeState", runtimeException.getMessage());
+        }
 
         waitTillThreadsGetsCompleted(countDownLatch);
         postResultOnFetchConsent(getConsentDefinitionForType(type), consentTypeCallbackListeners, callback);
