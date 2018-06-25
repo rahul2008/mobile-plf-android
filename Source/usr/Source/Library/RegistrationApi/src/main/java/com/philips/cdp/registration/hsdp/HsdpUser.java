@@ -464,8 +464,15 @@ public class HsdpUser {
      * @param loginHandler login handler
      */
     private void handleSocialNetworkFailure(SocialLoginHandler loginHandler) {
+
+
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+        userRegistrationFailureInfo.setErrorCode(ErrorCodes.HSDP_SYSTEM_ERROR_403);
+        userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_Janrain_HSDP_ServerErrorMsg));
+        userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.NETWORK_ERROR);
+
         ThreadUtils.postInMainThread(mContext, () ->
-                loginHandler.onLoginFailedWithError(null));
+                loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
     }
 
     /**
