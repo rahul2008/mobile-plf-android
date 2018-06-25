@@ -15,11 +15,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
-
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
-import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
@@ -71,14 +69,10 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
     protected CommCentral getCommCentral() {
         // Setup CommCentral
         RALog.i(TAG, "Setup CommCentral ");
-        try {
-            AppFrameworkApplication appContext = ((AppFrameworkApplication) context.getApplicationContext().getApplicationContext());
-            mCommCentral = appContext.getCommCentralInstance();
-            mCommCentral.getApplianceManager().addApplianceListener(this.applianceListener);
-            RALog.i(TAG, "ConnectivityFragment getCommCentral instance - " + mCommCentral);
-        } catch (TransportUnavailableException e) {
-            RALog.d(TAG, "Bluetooth hardware unavailable");
-        }
+        AppFrameworkApplication appContext = ((AppFrameworkApplication) context.getApplicationContext().getApplicationContext());
+        mCommCentral = appContext.getCommCentralInstance();
+        mCommCentral.getApplianceManager().addApplianceListener(this.applianceListener);
+        RALog.i(TAG, "ConnectivityFragment getCommCentral instance - " + mCommCentral);
         return mCommCentral;
     }
 

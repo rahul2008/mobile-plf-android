@@ -120,6 +120,11 @@ public class ApplianceManager {
         @Override
         public void onDiscoveryStopped() {
         }
+
+        @Override
+        public void onDiscoveryFailedToStart() {
+
+        }
     };
 
     private void updateAppliance(NetworkNode networkNode) {
