@@ -17,6 +17,7 @@ import java.util.logging.LogRecord;
 public class AILCloudLogDataBuilder {
 
 
+    public static final String UUID_PREFIX = "hsdp_";
     private AppInfra appInfra;
 
     public AILCloudLogDataBuilder(AppInfra appInfra) {
@@ -54,7 +55,9 @@ public class AILCloudLogDataBuilder {
                 ailCloudLogData.appState = ailCloudLogMetaData.getAppState();
                 ailCloudLogData.appVersion = ailCloudLogMetaData.getAppVersion();
                 ailCloudLogData.appsId = ailCloudLogMetaData.getAppId();
-                ailCloudLogData.userUUID = ailCloudLogMetaData.getUserUUID();
+                if(ailCloudLogMetaData.getUserUUID()!=null){
+                    ailCloudLogData.userUUID = UUID_PREFIX +ailCloudLogMetaData.getUserUUID();
+                }
             }
         }
 

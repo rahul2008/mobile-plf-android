@@ -32,6 +32,7 @@ public class CloudLogSyncRunnable implements Runnable {
 
 
     public static final int STATUS_CODE_CREATED = 201;
+    public static final int STATUS_CODE_BAD_REQUEST = 400;
     private String prouctKey;
     private AILCloudLogDBManager ailCloudLogDBManager;
 
@@ -80,7 +81,7 @@ public class CloudLogSyncRunnable implements Runnable {
                 @Override
                 protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
 
-                    if (response.statusCode == STATUS_CODE_CREATED) {
+                    if (response.statusCode == STATUS_CODE_CREATED || response.statusCode == STATUS_CODE_BAD_REQUEST) {
                         //4. Based on status delete data from db
                         ailCloudLogDBManager.deleteLogRecords(ailCloudLogDataList);
                         Log.v("SyncTesting", "Deleted records" + ailCloudLogDataList.size());
