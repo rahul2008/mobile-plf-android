@@ -148,7 +148,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
             final Context fragmentContext = createAccountContract.getFragmentContext();
             String alreadyTxt;
             if (RegistrationHelper.getInstance().isMobileFlow()) {
-                alreadyTxt = String.format(fragmentContext.getString(R.string.USR_Janrain_EntityAlreadyExists_ErrorMsg), fragmentContext.getString(R.string.USR_DLS_Email_Phone_Label_Text));
+                alreadyTxt = String.format(fragmentContext.getString(R.string.USR_Janrain_EntityAlreadyExists_ErrorMsg), fragmentContext.getString(R.string.USR_DLS_Phonenumber_Label_Text));
                 createAccountContract.emailError(alreadyTxt);
             } else {
                 alreadyTxt = String.format(fragmentContext.getString(R.string.USR_Janrain_EntityAlreadyExists_ErrorMsg), fragmentContext.getString(R.string.USR_DLS_Email_Label_Text));
