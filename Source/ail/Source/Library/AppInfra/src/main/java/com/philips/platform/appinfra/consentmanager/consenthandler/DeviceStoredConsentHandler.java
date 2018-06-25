@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.consentmanager.consenthandler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -37,8 +38,10 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
     private void logError(SecureStorageInterface.SecureStorageError storageError, String type) {
         if (storageError.getErrorCode() != null) {
-            if (appInfra.getLogging() != null) {
-                appInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, type, storageError.getErrorCode().toString());
+            if(appInfra instanceof AppInfra){
+                if (((AppInfra) appInfra).getAppInfraLogInstance() != null) {
+                    ((AppInfra) appInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, type, storageError.getErrorCode().toString());
+                }
             }
         }
     }

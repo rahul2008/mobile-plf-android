@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Base64;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -34,9 +35,9 @@ class PinnedSignatureManager implements PublicKeyPinInterface {
     private SecureStorageInterface secureStorageInterface;
     private LoggingInterface loggingInterface;
 
-    public PinnedSignatureManager(AppInfraInterface appInfraInterface) {
-        this.secureStorageInterface = appInfraInterface.getSecureStorage();
-        this.loggingInterface = appInfraInterface.getLogging();
+    public PinnedSignatureManager(AppInfra appInfra) {
+        this.secureStorageInterface = appInfra.getSecureStorage();
+        this.loggingInterface = appInfra.getAppInfraLogInstance();
         publicKeyPinCache = new HashMap<>();
         pinMismatchLogCount = new HashMap<>();
     }

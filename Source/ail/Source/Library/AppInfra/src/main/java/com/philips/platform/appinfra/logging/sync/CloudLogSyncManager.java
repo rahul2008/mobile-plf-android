@@ -2,12 +2,15 @@ package com.philips.platform.appinfra.logging.sync;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.consentmanager.ConsentStatusChangedListener;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
+import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -26,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * Created by abhishek on 5/14/18.
  */
 
-public class CloudLogSyncManager implements Observer<Integer>, RestInterface.NetworkConnectivityChangeListener {
+public class CloudLogSyncManager implements Observer<Integer>, RestInterface.NetworkConnectivityChangeListener,ConsentStatusChangedListener {
 
     private static CloudLogSyncManager cloudLogSyncManager;
 
@@ -119,6 +122,7 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
         try {
             ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getLogging().getCloudLoggingConsentIdentifier());
             if (consentDefinition != null) {
+                appInfra.getConsentManager().addConsentStatusChangedListener(appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getLogging().getCloudLoggingConsentIdentifier()),this);
                 appInfra.getConsentManager().fetchConsentState(consentDefinition, new FetchConsentCallback() {
                     @Override
                     public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
@@ -153,6 +157,11 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
     @Override
     public void onConnectivityStateChange(boolean isConnected) {
         isInternetAvailable = isConnected;
+        forceSync();
+    }
+
+    @Override
+    public void consentStatusChanged(@NonNull ConsentDefinition consentDefinition, @Nullable ConsentError consentError, boolean requestedStatus) {
         forceSync();
     }
 }
