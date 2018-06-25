@@ -12,6 +12,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -90,6 +91,11 @@ public class TestAppInfra implements AppInfraInterface {
 
     @Override
     public ConsentManagerInterface getConsentManager() {
+        return null;
+    }
+
+    @Override
+    public DeviceStoredConsentHandler getDeviceStoredConsentHandler() {
         return null;
     }
 }
