@@ -25,8 +25,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * CommCentral is the object that holds the CommLib library together and allows you to set CommLib up.
  *
@@ -39,11 +37,12 @@ public final class CommCentral {
 
     private static final AppIdProvider APP_ID_PROVIDER = new AppIdProvider();
 
-    @NonNull
-    private final ApplianceFactory applianceFactory;
     private final Set<DiscoveryStrategy> discoveryStrategies = new CopyOnWriteArraySet<>();
     @NonNull
     private final ApplianceManager applianceManager;
+
+    @NonNull
+    private final TransportContext[] transportContexts;
 
     /**
      * Create a CommCentral. You should only ever create one CommCentral!
@@ -71,13 +70,12 @@ public final class CommCentral {
         } else {
             throw new UnsupportedOperationException("Only one instance allowed.");
         }
-        this.applianceFactory = requireNonNull(applianceFactory);
-
         // Setup transport contexts
         if (transportContexts.length == 0) {
             throw new IllegalArgumentException("This class needs to be constructed with at least one transport context.");
         }
 
+        this.transportContexts = transportContexts;
         // Setup discovery strategies
         for (TransportContext transportContext : transportContexts) {
             DiscoveryStrategy discoveryStrategy = transportContext.getDiscoveryStrategy();
@@ -95,9 +93,8 @@ public final class CommCentral {
      * Start discovery for all transports.
      *
      * @throws MissingPermissionException    thrown if additional permissions are required.
-     * @throws TransportUnavailableException thrown if underlying transports are not available.
      */
-    public void startDiscovery() throws MissingPermissionException, TransportUnavailableException {
+    public void startDiscovery() throws MissingPermissionException {
         startDiscovery(Collections.<String>emptySet());
     }
 
@@ -106,9 +103,8 @@ public final class CommCentral {
      *
      * @param modelIds set of model ids which should be filtered for.
      * @throws MissingPermissionException    thrown if additional permissions are required.
-     * @throws TransportUnavailableException thrown if underlying transports are not available.
      */
-    public void startDiscovery(@NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
+    public void startDiscovery(@NonNull Set<String> modelIds) throws MissingPermissionException {
         DICommLog.d(TAG, "Starting discovery for model ids: " + modelIds.toString());
 
         for (DiscoveryStrategy strategy : this.discoveryStrategies) {
@@ -157,5 +153,22 @@ public final class CommCentral {
      */
     public static AppIdProvider getAppIdProvider() {
         return APP_ID_PROVIDER;
+    }
+
+    /**
+     * Returns the transport context of the correct type known to CommCentral, or an exception if no such context is present.
+     *
+     * @param clazz parameter that defines the type of TransportContext you are looking for.
+     * @return The transport context of the correct type, that was passed to CommCentral at construction time.
+     * @throws TransportUnavailableException If no transport context of the correct type is known to CommCentral.
+     */
+    public <T extends TransportContext> T getTransportContext(Class<T> clazz) throws TransportUnavailableException {
+        for (TransportContext context: transportContexts) {
+            if (context.getClass().equals(clazz)){
+                return clazz.cast(context);
+            }
+        }
+
+        throw new TransportUnavailableException("Requested transport context is not available");
     }
 }
