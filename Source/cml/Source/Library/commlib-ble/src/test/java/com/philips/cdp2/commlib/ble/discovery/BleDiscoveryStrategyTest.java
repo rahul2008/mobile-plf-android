@@ -9,18 +9,19 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
-import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.utility.BleScanRecord;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,8 +62,7 @@ public class BleDiscoveryStrategyTest {
     private BleDiscoveryStrategy strategyUnderTest;
 
     @Mock
-    private
-    Handler mockHandler;
+    private Handler mockHandler;
 
     @Mock
     private Context mockContext;
@@ -75,9 +75,6 @@ public class BleDiscoveryStrategyTest {
 
     @Mock
     private SHNCentral mockCentral;
-
-    @Mock
-    private DiscoveryListener listener;
 
     @Mock
     private SHNDeviceFoundInfo mockDeviceFoundInfo;
@@ -132,15 +129,16 @@ public class BleDiscoveryStrategyTest {
                 return mockExecutors;
             }
         };
+
+        strategyUnderTest.addDiscoveryListener(mockDiscoveryListener);
     }
 
     @Test
     public void whenADeviceIsFoundANetworkNodeShouldBeDiscovered() {
-        strategyUnderTest.addDiscoveryListener(listener);
 
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
-        verify(listener).onNetworkNodeDiscovered(networkNode);
+        verify(mockDiscoveryListener).onNetworkNodeDiscovered(networkNode);
     }
 
     @Test
@@ -148,26 +146,23 @@ public class BleDiscoveryStrategyTest {
         strategyUnderTest.modelIds = new HashSet<>();
         strategyUnderTest.modelIds.add("NOT A MODEL");
 
-        strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
-        verify(listener, never()).onNetworkNodeDiscovered(networkNode);
+        verify(mockDiscoveryListener, never()).onNetworkNodeDiscovered(networkNode);
     }
 
     @Test
     public void whenDeviceDiscoveredTwice_ThenItIsReportedTwice() {
-        strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
         when(mockCache.contains(CPP_ID)).thenReturn(true);
 
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
-        verify(listener, times(2)).onNetworkNodeDiscovered(networkNode);
+        verify(mockDiscoveryListener, times(2)).onNetworkNodeDiscovered(networkNode);
     }
 
     @Test
     public void whenDeviceDiscoveredTwice_ThenItsCacheTimerMustBeReset_AndItsAvailabilitySetToTrue() {
-        strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
         when(mockCache.contains(CPP_ID)).thenReturn(true);
 
@@ -179,7 +174,6 @@ public class BleDiscoveryStrategyTest {
 
     @Test
     public void givenADeviceIsDiscovered_whenClearDiscoveredNetworkNodesIsInvoked_thenCacheShouldBeCleared() {
-        strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
         strategyUnderTest.clearDiscoveredNetworkNodes();
@@ -189,7 +183,6 @@ public class BleDiscoveryStrategyTest {
 
     @Test
     public void givenScanCanBeStarted_whenDiscoveryIsStarted_thenListenerIsNotified() throws MissingPermissionException {
-        strategyUnderTest.addDiscoveryListener(mockDiscoveryListener);
         when(mockScanner.startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), eq(DuplicatesAllowed), eq(SCAN_WINDOW_MILLIS))).thenReturn(true);
 
         strategyUnderTest.start();
@@ -200,8 +193,7 @@ public class BleDiscoveryStrategyTest {
     }
 
     @Test
-    public void givenScanNotCanBeStarted_whenDiscoveryIsStarted_thenListenerIsNotified() throws MissingPermissionException {
-        strategyUnderTest.addDiscoveryListener(mockDiscoveryListener);
+    public void givenScanCannotBeStarted_whenDiscoveryIsStarted_thenListenerIsNotified() throws MissingPermissionException {
         when(mockScanner.startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), eq(DuplicatesAllowed), eq(SCAN_WINDOW_MILLIS))).thenReturn(false);
 
         strategyUnderTest.start();
@@ -220,6 +212,7 @@ public class BleDiscoveryStrategyTest {
 
     @Test
     public void givenScanIsNotStarted_whenScanIsStopped_thenStopIsCalledOnScanner() throws MissingPermissionException {
+
         strategyUnderTest.stop();
 
         verify(mockScanner).stopScanning();
