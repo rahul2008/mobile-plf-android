@@ -13,7 +13,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 
 buildscript {
@@ -39,6 +39,12 @@ android {
         unitTests {
             includeAndroidResources = true
             returnDefaultValues = true
+        }
+        unitTests.all {
+            jvmArgs '-noverify'
+            jacoco {
+                includeNoLocationClasses = true
+            }
         }
     }
 
