@@ -3,7 +3,7 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/taskscc.gradle'
+apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -14,7 +14,7 @@ archivesBaseName = "digitalCare"
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-   
+
     repositories {
         maven { url repos.jcenter
             credentials {
@@ -91,7 +91,7 @@ android {
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
         generatedDensities = []
         testApplicationId "com.philips.cdp.digitalcare.test"
@@ -107,6 +107,9 @@ android {
         unitTests.includeAndroidResources = true
         unitTests.all {
             jvmArgs '-noverify'
+            jacoco {
+                includeNoLocationClasses = true
+            }
         }
     }
 
@@ -123,7 +126,7 @@ android {
             debuggable true
             minifyEnabled false
             shrinkResources false
-            testCoverageEnabled=true
+            testCoverageEnabled = true
         }
 
         android.libraryVariants.all { variant ->
@@ -143,7 +146,7 @@ android {
                 options.links("http://developer.android.com/reference/reference/");
                 exclude '**/BuildConfig.java'
                 exclude '**/R.java'
-                
+
                 doFirst {
                     classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
                 }
@@ -166,7 +169,7 @@ dependencies {
     testImplementation deps.junit
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
+    if (dp) {
         implementation project(':productselection')
         implementation project(':uid')
         implementation project(':uAppFwLib')
