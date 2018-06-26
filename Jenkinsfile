@@ -154,7 +154,7 @@ pipeline {
                     APK_NAME = readFile("apkname.txt").trim()
                     echo "APK_NAME = ${APK_NAME}"
 
-                    def jobBranchName = "release_platform_1802"
+                    def jobBranchName = "release_platform_1802.0.0"
                     if (BranchName =~ /develop.*/) {
                        jobBranchName = "develop"
                     }
