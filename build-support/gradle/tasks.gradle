@@ -2,7 +2,7 @@ apply plugin: 'jacoco'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 jacoco {
     apply from: buildscript.sourceFile.parent + "/versions.gradle"
-    toolVersion versions.toolVersion
+    toolVersion versions.jacocoToolVersionForRobolectricTests
 }
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 
