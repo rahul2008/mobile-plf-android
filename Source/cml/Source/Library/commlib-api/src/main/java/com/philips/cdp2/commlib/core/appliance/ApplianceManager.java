@@ -154,7 +154,7 @@ public class ApplianceManager {
     @Deprecated
     @NonNull
     public Set<Appliance> getAvailableAppliances() {
-        return new CopyOnWriteArraySet<>(appliances.values());
+        return getAppliances();
     }
 
     /**
@@ -166,7 +166,7 @@ public class ApplianceManager {
     @Deprecated
     @NonNull
     public Set<Appliance> getAllAppliances() {
-        return new CopyOnWriteArraySet<>(appliances.values());
+        return getAppliances();
     }
 
     /**

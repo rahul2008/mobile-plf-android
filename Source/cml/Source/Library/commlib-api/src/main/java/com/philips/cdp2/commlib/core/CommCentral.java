@@ -45,7 +45,7 @@ public final class CommCentral {
     @NonNull
     private final ApplianceManager applianceManager;
 
-    private TransportContext[] tranportContexts;
+    private TransportContext[] transportContexts;
 
     /**
      * Create a CommCentral. You should only ever create one CommCentral!
@@ -80,7 +80,7 @@ public final class CommCentral {
             throw new IllegalArgumentException("This class needs to be constructed with at least one transport context.");
         }
 
-        this.tranportContexts = transportContexts;
+        this.transportContexts = transportContexts;
 
         // Setup discovery strategies
         for (TransportContext transportContext : transportContexts) {
@@ -171,7 +171,7 @@ public final class CommCentral {
      * @throws TransportUnavailableException If no transport context of the correct type is known to CommCentral.
      */
     public <T extends TransportContext> T getTransportContext(Class<T> clazz) throws TransportUnavailableException {
-        for (TransportContext context: tranportContexts) {
+        for (TransportContext context: transportContexts) {
             if (context.getClass().equals(clazz)){
                 return clazz.cast(context);
             }

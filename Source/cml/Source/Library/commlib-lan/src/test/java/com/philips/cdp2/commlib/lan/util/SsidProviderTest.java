@@ -96,6 +96,15 @@ public class SsidProviderTest {
     }
 
     @Test
+    public void whenSsidHasChangedTwiceToSameValue_thenListenerIsNotifiedOnce() {
+        when(wifiInfoInfo.getSSID()).thenReturn(DIFFERENT_SSID);
+        broadcastReceiverArgumentCaptor.getValue().onReceive(mockContext, null);
+        broadcastReceiverArgumentCaptor.getValue().onReceive(mockContext, null);
+
+        verify(networkChangeListenerMock).onNetworkChanged();
+    }
+
+    @Test
     public void whenSsidHasNotChanged_thenListenerIsNotNotified() {
         broadcastReceiverArgumentCaptor.getValue().onReceive(mockContext, null);
 

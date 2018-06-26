@@ -35,6 +35,7 @@ public class SsidProvider {
         public void onReceive(Context context, Intent intent) {
             final String newSsid = getCurrentSsid();
             if (newSsid == null || !newSsid.equals(currentSsid)) {
+                currentSsid = newSsid;
                 notifyListeners();
             }
         }
