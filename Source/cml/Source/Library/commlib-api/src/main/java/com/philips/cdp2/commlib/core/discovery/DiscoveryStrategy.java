@@ -5,12 +5,10 @@
 package com.philips.cdp2.commlib.core.discovery;
 
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
-import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 
 import java.util.Set;
 
@@ -52,6 +50,10 @@ public interface DiscoveryStrategy {
          */
         void onDiscoveryStopped();
 
+        /**
+         * Called when discovery is unable to start.
+         */
+        void onDiscoveryFailedToStart();
     }
 
     /**
@@ -75,9 +77,8 @@ public interface DiscoveryStrategy {
      * To start all {@link DiscoveryStrategy}s one typically calls {@link CommCentral#startDiscovery()}.
      *
      * @throws MissingPermissionException    thrown if additional permissions are required.
-     * @throws TransportUnavailableException thrown if underlying transports are not available.
      */
-    void start() throws MissingPermissionException, TransportUnavailableException;
+    void start() throws MissingPermissionException;
 
     /**
      * Start discovery and filter for specific device types.
@@ -86,9 +87,8 @@ public interface DiscoveryStrategy {
      *
      * @param modelIds set of device types which should be filtered for.
      * @throws MissingPermissionException    thrown if additional permissions are required.
-     * @throws TransportUnavailableException thrown if underlying transports are not available.
      */
-    void start(@NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException;
+    void start(@NonNull Set<String> modelIds) throws MissingPermissionException;
 
     /**
      * Stop discovery using this {@link DiscoveryStrategy}

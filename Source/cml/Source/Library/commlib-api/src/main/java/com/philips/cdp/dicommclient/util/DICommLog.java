@@ -55,6 +55,7 @@ public class DICommLog {
     public static final String LOCALREQUEST = "LanRequest";
     public static final String REMOTEREQUEST = "RemoteRequest";
     public static final String BLEREQUEST = "BleRequest";
+    public static final String BLEDISCOVERY = "BleDiscovery";
     public static final String REQUESTQUEUE = "RequestQueue";
     public static final String LOCAL_SUBSCRIPTION = "LocalSubscription";
     public static final String REMOTE_SUBSCRIPTION = "RemoteSubscription";

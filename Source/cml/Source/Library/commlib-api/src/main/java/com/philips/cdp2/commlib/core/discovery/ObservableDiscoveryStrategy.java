@@ -6,7 +6,6 @@
 package com.philips.cdp2.commlib.core.discovery;
 
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import java.util.Set;
@@ -44,6 +43,12 @@ public abstract class ObservableDiscoveryStrategy implements DiscoveryStrategy {
     protected void notifyDiscoveryStopped() {
         for (DiscoveryListener listener : discoveryListeners) {
             listener.onDiscoveryStopped();
+        }
+    }
+
+    protected void notifyDiscoveryFailedToStart() {
+        for (DiscoveryListener listener : discoveryListeners) {
+            listener.onDiscoveryFailedToStart();
         }
     }
 }
