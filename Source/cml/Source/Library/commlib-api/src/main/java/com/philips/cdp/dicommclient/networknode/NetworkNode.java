@@ -36,7 +36,7 @@ public class NetworkNode implements Parcelable {
     public static final String KEY_DEVICE_NAME = "dev_name";
     public static final String KEY_DEVICE_TYPE = "device_type";
     public static final String KEY_ENCRYPTION_KEY = "encryption_key";
-    public static final String KEY_HOME_SSID = "home_ssid"; // Will not be persisted
+    public static final String KEY_HOME_SSID = "home_ssid";
     public static final String KEY_HTTPS = "https";
     public static final String KEY_ID = "_id";
     public static final String KEY_IP_ADDRESS = "ip_address";

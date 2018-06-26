@@ -11,6 +11,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_CPP_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NAME;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_TYPE;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ENCRYPTION_KEY;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HOME_SSID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HTTPS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
@@ -44,6 +45,7 @@ class NetworkNodeDatabaseSchema {
             + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0,"
             + KEY_PIN + " TEXT,"
             + KEY_MISMATCHED_PIN + " TEXT,"
+            + KEY_HOME_SSID + " TEXT,"
             + "PRIMARY KEY(" + KEY_ID + ")"
             + ");";
 
@@ -69,7 +71,7 @@ class NetworkNodeDatabaseSchema {
                     queries.addAll(Arrays.asList(addMismatchPinColumn()));
                     break;
                 case 7:
-                    queries.addAll(Arrays.asList(addMacAddressColumn()));
+                    queries.addAll(Arrays.asList(addMacAddressAndHomeSsidColumns()));
                 default:
                     DICommLog.e(DICommLog.DATABASE, "Table creation error");
                     break;
@@ -155,10 +157,13 @@ class NetworkNodeDatabaseSchema {
         return new String[]{"ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_MISMATCHED_PIN + " TEXT;"};
     }
 
-    private static String[] addMacAddressColumn() {
+    private static String[] addMacAddressAndHomeSsidColumns() {
         return new String[]{"ALTER TABLE " + NetworkNodeDatabaseSchema.TABLE_NETWORK_NODE + " ADD COLUMN " +
                 KEY_MAC_ADDRESS + " STRING NULL",
                 "UPDATE " + NetworkNodeDatabaseSchema.TABLE_NETWORK_NODE + " SET " +
-                        KEY_MAC_ADDRESS + " = " + KEY_CPP_ID};
+                        KEY_MAC_ADDRESS + " = " + KEY_CPP_ID,
+
+                "ALTER TABLE " + NetworkNodeDatabaseSchema.TABLE_NETWORK_NODE + " ADD COLUMN " +
+                        KEY_HOME_SSID + " STRING NULL"};
     }
 }
