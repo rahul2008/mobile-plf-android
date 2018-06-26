@@ -20,6 +20,7 @@ import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.consentmanager.ConsentManager;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
@@ -49,6 +50,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private SecureStorageInterface secureStorage;
 
     private LoggingInterface logger;
+    private DeviceStoredConsentHandler deviceStoredConsentHandler;
     private AppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
     private AppTaggingInterface appInfraTagging;
@@ -112,6 +114,11 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
     private void setAppIdentity(AppIdentityInterface identity) {
         appIdentity = identity;
+
+    }
+
+    private void setDeviceStoredConsentHandler(DeviceStoredConsentHandler deviceStoredConsentHandler) {
+        this.deviceStoredConsentHandler = deviceStoredConsentHandler;
 
     }
 
@@ -238,6 +245,11 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         return consentManager;
     }
 
+    @Override
+    public DeviceStoredConsentHandler getDeviceStoredConsentHandler() {
+        return deviceStoredConsentHandler;
+    }
+
     public void setConsentManager(ConsentManagerInterface consentMgr) {
         consentManager = consentMgr;
     }
@@ -268,6 +280,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         private AIKMInterface aikmInterface;
 
         private ConsentManagerInterface consentManager;
+        private DeviceStoredConsentHandler deviceStoredConsentHandler;
 
 
         /**
@@ -288,6 +301,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             languagePack = null;
             aikmInterface = null;
             consentManager = null;
+            deviceStoredConsentHandler=null;
         }
 
 
@@ -368,6 +382,10 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         public Builder setTimeSync(TimeInterface timeSyncSntpClient) {
             mTimeSyncInterfaceBuilder = timeSyncSntpClient;
             return this;
+        }
+
+        public void setDeviceStoredConsentHandler(DeviceStoredConsentHandler deviceStoredConsentHandler) {
+            this.deviceStoredConsentHandler = deviceStoredConsentHandler;
         }
 
         /**
@@ -478,7 +496,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             }).start();
 //            }
 
-
+            ai.setDeviceStoredConsentHandler(deviceStoredConsentHandler==null?new DeviceStoredConsentHandler(ai):deviceStoredConsentHandler);
 
             new Thread(new Runnable() {
                 @Override

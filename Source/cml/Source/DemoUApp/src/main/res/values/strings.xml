@@ -94,6 +94,9 @@
     <string name="cml_cancel">Cancel</string>
     <string name="cml_perform_lan_discovery">Perform LAN discovery</string>
     <string name="cml_perform_ble_discovery">Perform BLE discovery</string>
+    <string name="cml_perform_discovery">Perform discovery</string>
+    <string name="cml_lan_discovery_failed_to_start">LAN discovery failed to start</string>
+    <string name="cml_ble_discovery_failed_to_start">BLE discovery failed to start</string>
     <string name="cml_filter_model_id_hint">Filter on comma separated model id(s)</string>
     <string name="cml_clear_appliances">Clear appliances</string>
 
@@ -103,7 +106,7 @@
     <string name="cml_wakeup_port">Wake-up</string>
     <string name="cml_wakeup_alarm_state">Wake-up alarm (read only)</string>
     <string name="cml_pin_to_set">Enter pin to set</string>
-    <string name="base64_pin_error">Please provide a correct base64 encoded pin!</string>
+    <string name="cml_base64_pin_error">Please provide a correct base64 encoded pin!</string>
 
     <string name="cml_ble_connection_params">Connection parameters</string>
     <string name="cml_hint_slowadmin">Minimum interval for slow advertising (20~10240ms)</string>

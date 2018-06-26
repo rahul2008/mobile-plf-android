@@ -154,6 +154,9 @@ android {
                 events "started", "passed", "skipped", "failed"
                 outputs.upToDateWhen { false }
             }
+            jacoco {
+                includeNoLocationClasses = true
+            }
         }
     }
 
@@ -173,7 +176,7 @@ dependencies {
         implementation project(':pif')
         implementation project(':AppInfra')
     } else {
-        implementation (philipsdeps.mya_catk) {
+        implementation(philipsdeps.mya_catk) {
             exclude group: 'com.google.code.findbugs', module: 'jsr305'
         }
         implementation philipsdeps.AppInfra
@@ -219,9 +222,9 @@ pitest {
     outputFormats = ['XML', 'HTML']
     timestampedReports = false
     excludedClasses = [
-        '**Factory*',
-        '**_MembersInjector*',
-        'com.philips.platform.core.injection.ApplicationModuleTest',
-        'com.philips.platform.core.utils.EventingImplTest'
+            '**Factory*',
+            '**_MembersInjector*',
+            'com.philips.platform.core.injection.ApplicationModuleTest',
+            'com.philips.platform.core.utils.EventingImplTest'
     ]
 }

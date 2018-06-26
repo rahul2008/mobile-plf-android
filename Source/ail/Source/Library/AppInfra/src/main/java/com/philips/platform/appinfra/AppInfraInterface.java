@@ -6,6 +6,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -114,4 +115,11 @@ public interface AppInfraInterface extends Serializable {
      * @return the ConsentManager
      */
     ConsentManagerInterface getConsentManager();
+
+    /**
+     * Get device storage consent handler
+     * @return the DeviceStoredConsentHandler
+     * @since 2018.2.0
+     */
+    DeviceStoredConsentHandler getDeviceStoredConsentHandler();
 }

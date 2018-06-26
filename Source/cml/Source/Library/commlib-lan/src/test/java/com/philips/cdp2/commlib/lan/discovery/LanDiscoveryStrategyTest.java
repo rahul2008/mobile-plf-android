@@ -13,6 +13,7 @@ import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.util.SsidProvider;
@@ -40,6 +41,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -309,6 +311,15 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         strategyUnderTest.stop();
 
         verify(discoveryListenerMock).onDiscoveryStopped();
+    }
+
+    @Test
+    public void givenDiscoveryCanNotBeStarted_whenDiscoveryIsStarted_thenDiscoveryListenerIsNotified() throws MissingPermissionException {
+        doThrow(TransportUnavailableException.class).when(ssdpControlPointMock).start();
+        ensureConnectivityIsAvailable();
+        strategyUnderTest.start();
+
+        verify(discoveryListenerMock).onDiscoveryFailedToStart();
     }
 
     private SSDPDevice createSsdpDevice(final @NonNull String cppId, final @NonNull String modelName, final @NonNull String modelNumber) {

@@ -82,6 +82,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
                 DICommLog.d(DICommLog.DISCOVERY, "SSDP started.");
             } catch (TransportUnavailableException e) {
                 DICommLog.e(DICommLog.DISCOVERY, "Error starting SSDP: " + e.getMessage());
+                notifyDiscoveryFailedToStart();
             }
         } else {
             ssdpControlPoint.stop();
@@ -120,12 +121,12 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @Override
-    public void start() throws MissingPermissionException, TransportUnavailableException {
+    public void start() throws MissingPermissionException {
         start(Collections.<String>emptySet());
     }
 
     @Override
-    public void start(@NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
+    public void start(@NonNull Set<String> modelIds) {
         this.modelIds = modelIds;
 
         isStartRequested = true;

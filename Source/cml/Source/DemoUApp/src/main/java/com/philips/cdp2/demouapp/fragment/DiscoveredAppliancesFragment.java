@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -28,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
@@ -37,12 +39,14 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager.ApplianceListener;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.util.AppIdProvider;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
+import com.philips.cdp2.demouapp.util.UiUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,9 +67,8 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
     private CommCentral commCentral;
 
-    private DiscoveryStrategy bleDiscoveryStrategy;
-
     private DiscoveryStrategy lanDiscoveryStrategy;
+    private DiscoveryStrategy bleDiscoveryStrategy;
 
     private final AppIdProvider appIdProvider = getAppIdProvider();
 
@@ -75,7 +78,6 @@ public class DiscoveredAppliancesFragment extends Fragment {
     private final Set<String> discoveryFilterModelIds = new HashSet<>();
 
     private Switch lanDiscoverySwitch;
-
     private Switch bleDiscoverySwitch;
 
     private AppIdProvider.AppIdListener appIdListener = new AppIdProvider.AppIdListener() {
@@ -85,20 +87,83 @@ public class DiscoveredAppliancesFragment extends Fragment {
         }
     };
 
-    private void onAppliancesChanged() {
-        applianceAdapter.clear();
+    private DiscoveryListener lanDiscoveryListener = new DiscoveryListener() {
+        @Override
+        public void onDiscoveryStarted() {
 
-        final Set<Appliance> appliances = commCentral.getApplianceManager().getAvailableAppliances();
-        Collections.sort(new ArrayList<>(appliances), new Comparator<Appliance>() {
-            @Override
-            public int compare(Appliance o1, Appliance o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
-        for (Appliance appliance : appliances) {
-            appliance.getWifiPort().addPortListener(wifiPortListener);
         }
-        applianceAdapter.addAll(appliances);
+
+        @Override
+        public void onNetworkNodeDiscovered(final NetworkNode networkNode) {
+
+        }
+
+        @Override
+        public void onNetworkNodeLost(final NetworkNode networkNode) {
+
+        }
+
+        @Override
+        public void onDiscoveryStopped() {
+
+        }
+
+        @Override
+        public void onDiscoveryFailedToStart() {
+            UiUtils.showMessage(getActivity(), view, getString(R.string.cml_lan_discovery_failed_to_start));
+        }
+    };
+
+    private DiscoveryListener bleDiscoveryListener = new DiscoveryListener() {
+        @Override
+        public void onDiscoveryStarted() {
+
+        }
+
+        @Override
+        public void onNetworkNodeDiscovered(final NetworkNode networkNode) {
+
+        }
+
+        @Override
+        public void onNetworkNodeLost(final NetworkNode networkNode) {
+
+        }
+
+        @Override
+        public void onDiscoveryStopped() {
+
+        }
+
+        @Override
+        public void onDiscoveryFailedToStart() {
+            UiUtils.showMessage(getActivity(), view, getString(R.string.cml_ble_discovery_failed_to_start));
+        }
+    };
+
+    private void onAppliancesChanged() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    applianceAdapter.clear();
+
+                    final Set<Appliance> appliances = commCentral.getApplianceManager().getAvailableAppliances();
+                    Collections.sort(new ArrayList<>(appliances), new Comparator<Appliance>() {
+                        @Override
+                        public int compare(Appliance o1, Appliance o2) {
+                            return o1.getName().compareTo(o2.getName());
+                        }
+                    });
+                    for (Appliance appliance : appliances) {
+                        appliance.getWifiPort().addPortListener(wifiPortListener);
+                    }
+                    applianceAdapter.addAll(appliances);
+                }
+            });
+        }
     }
 
     private DICommPortListener<WifiPort> wifiPortListener = new DICommPortListener<WifiPort>() {
@@ -141,8 +206,11 @@ public class DiscoveredAppliancesFragment extends Fragment {
         view = inflater.inflate(R.layout.cml_fragment_discovered_appliances, container, false);
 
         commCentral = CommlibUapp.get().getDependencies().getCommCentral();
-        bleDiscoveryStrategy = commCentral.getTransportContext(BleTransportContext.class).getDiscoveryStrategy();
         lanDiscoveryStrategy = commCentral.getTransportContext(LanTransportContext.class).getDiscoveryStrategy();
+        bleDiscoveryStrategy = commCentral.getTransportContext(BleTransportContext.class).getDiscoveryStrategy();
+
+        lanDiscoveryStrategy.addDiscoveryListener(lanDiscoveryListener);
+        bleDiscoveryStrategy.addDiscoveryListener(bleDiscoveryListener);
 
         applianceAdapter = new ApplianceAdapter(getContext());
 
@@ -234,6 +302,15 @@ public class DiscoveredAppliancesFragment extends Fragment {
         updateAppId();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        commCentral.getApplianceManager().removeApplianceListener(applianceListener);
+
+        appIdProvider.removeAppIdListener(appIdListener);
+    }
+
     private void startLanDiscovery() {
         try {
             lanDiscoveryStrategy.start(discoveryFilterModelIds);
@@ -275,19 +352,11 @@ public class DiscoveredAppliancesFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-
-        commCentral.getApplianceManager().removeApplianceListener(applianceListener);
-
-        appIdProvider.removeAppIdListener(appIdListener);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         stopLanDiscovery();
-        stopBleDiscovery();
+        lanDiscoveryStrategy.removeDiscoveryListener(lanDiscoveryListener);
+        bleDiscoveryStrategy.removeDiscoveryListener(bleDiscoveryListener);
     }
 
     public static DiscoveredAppliancesFragment newInstance() {

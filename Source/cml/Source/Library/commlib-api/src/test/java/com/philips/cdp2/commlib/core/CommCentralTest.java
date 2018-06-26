@@ -9,8 +9,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
@@ -22,7 +22,6 @@ import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseFactory;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,15 +51,14 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest({CommCentral.class, NetworkNodeDatabaseFactory.class})
 public class CommCentralTest {
 
-    private TransportContext fooTransportContext;
-
-    private TransportContext barTransportContext;
-
     @Mock
     private Handler handlerMock;
 
     @Mock
     private ApplianceFactory applianceFactoryMock;
+
+    private BarContext barTransportContextMock;
+    private FooContext fooTransportContextMock;
 
     @Mock
     private DiscoveryStrategy someDiscoveryStrategyMock;
@@ -95,14 +93,14 @@ public class CommCentralTest {
 
         HandlerProvider.enableMockedHandler(handlerMock);
 
-        fooTransportContext = new FooContext();
-        barTransportContext = new BarContext();
+        barTransportContextMock = new BarContext();
+        fooTransportContextMock = new FooContext();
 
         setTestingContext(contextMock);
 
         PowerMockito.whenNew(ApplianceManager.class).withAnyArguments().thenReturn(applianceManagerMock);
 
-        commCentral = new CommCentral(applianceFactoryMock, runtimeConfigurationMock, fooTransportContext, barTransportContext);
+        commCentral = new CommCentral(applianceFactoryMock, runtimeConfigurationMock, barTransportContextMock, fooTransportContextMock);
     }
 
     @After
@@ -114,7 +112,7 @@ public class CommCentralTest {
     @SuppressWarnings("unused")
     public void givenACommCentralInstance_whenASecondInstanceIsCreated_thenAnErrorMustBeThrown() {
         try {
-            new CommCentral(applianceFactoryMock, runtimeConfigurationMock, fooTransportContext, barTransportContext);
+            new CommCentral(applianceFactoryMock, runtimeConfigurationMock, barTransportContextMock, fooTransportContextMock);
             fail();
         } catch (UnsupportedOperationException ignored) {
         }
@@ -183,7 +181,7 @@ public class CommCentralTest {
 
         FooContext fooFromCentral = commCentral.getTransportContext(FooContext.class);
 
-        assertThat(fooTransportContext).isEqualTo(fooFromCentral);
+        assertThat(fooTransportContextMock).isEqualTo(fooFromCentral);
     }
 
     @Test
@@ -191,7 +189,7 @@ public class CommCentralTest {
 
         BarContext barFromCentral = commCentral.getTransportContext(BarContext.class);
 
-        assertThat(barTransportContext).isEqualTo(barFromCentral);
+        assertThat(barTransportContextMock).isEqualTo(barFromCentral);
     }
 
     @Test(expected = TransportUnavailableException.class)

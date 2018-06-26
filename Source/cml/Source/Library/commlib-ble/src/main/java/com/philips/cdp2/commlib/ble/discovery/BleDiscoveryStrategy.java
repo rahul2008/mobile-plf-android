@@ -11,10 +11,10 @@ import android.support.v4.content.ContextCompat;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.devicecache.CacheData;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
-import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
@@ -73,16 +73,22 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         this.deviceCache = deviceCache;
         this.deviceScanner = deviceScanner;
         this.modelIds = new HashSet<>();
-        this.executor = Executors.newSingleThreadScheduledExecutor();
+        this.executor = createExecutor();
+    }
+
+    @VisibleForTesting
+    @NonNull
+    ScheduledExecutorService createExecutor() {
+        return Executors.newSingleThreadScheduledExecutor();
     }
 
     @Override
-    public void start() throws MissingPermissionException, TransportUnavailableException {
+    public void start() throws MissingPermissionException {
         start(Collections.<String>emptySet());
     }
 
     @Override
-    public void start(@NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
+    public void start(@NonNull Set<String> modelIds) throws MissingPermissionException {
         this.modelIds = modelIds;
 
         if (checkAndroidPermission(this.context, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
@@ -91,13 +97,15 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
         discoveryStoppedFuture = executor.scheduleAtFixedRate(new Runnable() {
             @Override
-            public void run() {
-                if (!deviceScanner.startScanning(BleDiscoveryStrategy.this, DuplicatesAllowed, SCAN_WINDOW_MILLIS)) {
-                    throw new TransportUnavailableException("Error starting scanning via BLE.");
+                public void run() {
+                if (deviceScanner.startScanning(BleDiscoveryStrategy.this, DuplicatesAllowed, SCAN_WINDOW_MILLIS)) {
+                    notifyDiscoveryStarted();
+                } else {
+                    DICommLog.e(DICommLog.BLEDISCOVERY, "Error starting scanning via BLE.");
+                    notifyDiscoveryFailedToStart();
                 }
-                notifyDiscoveryStarted();
             }
-        }, 0L, 30, TimeUnit.SECONDS);
+        }, 0L, 30L, TimeUnit.SECONDS);
     }
 
     @VisibleForTesting

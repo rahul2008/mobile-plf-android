@@ -15,17 +15,18 @@ ext.platformversion = baseplatformversion + "." + epochTime()
 ext.platformversionsuffix = baseplatformversion + ".+"
 
 ext.versions = [
-        sdk                  : 27,
-        target               : 27,
-        minsdk               : 23,
-        buildtools           : '27.0.3',
-        support              : '27.0.2',
-        jacoco               : '0.8.0',
-        dagger               : '2.13',
-        renderscriptTargetApi: 27,
-        toolVersion          : '0.7.4.201502262128',
-        sourceCompatibility  : 1.8,
-        targetCompatibility  : 1.8
+        sdk                                 : 27,
+        target                              : 27,
+        minsdk                              : 23,
+        buildtools                          : '27.0.3',
+        support                             : '27.0.2',
+        jacoco                              : '0.8.0',
+        dagger                              : '2.13',
+        renderscriptTargetApi               : 27,
+        jacocoToolVersionForRobolectricTests: '0.7.6.201602180812',
+        jacocoToolVersion                   : '0.7.4.201502262128',
+        sourceCompatibility                 : 1.8,
+        targetCompatibility                 : 1.8
 ]
 
 ext.builddeps = [
