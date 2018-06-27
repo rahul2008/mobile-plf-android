@@ -6,7 +6,8 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.jcenter
+        maven {
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -39,9 +40,10 @@ apply plugin: 'cdpSCM'
  */
 
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "myaApp"
 
 allprojects {
@@ -60,7 +62,7 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {url clojars}
+        maven { url clojars }
         group = 'com.philips.cdp'
     }
 }
@@ -77,7 +79,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('apk')
+                publications('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -87,7 +89,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -176,8 +179,10 @@ android {
             proguardFile file('proguard-rules.pro')
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
             AWSDK_ENABLE_CERTIFICATE_PINNING = true
-            AWSDK_PINNED_HOSTS = {"*.amwellintegration.com"}
-            AWSDK_PINNED_CERTIFICATES = {"06 B5 62 EB 37 1B 4E 9A 7B 06 DB 4C 30 07 FC E0 C8 AD BB 21"}
+            AWSDK_PINNED_HOSTS = { "*.amwellintegration.com" }
+            AWSDK_PINNED_CERTIFICATES = {
+                "06 B5 62 EB 37 1B 4E 9A 7B 06 DB 4C 30 07 FC E0 C8 AD BB 21"
+            }
         }
     }
 
@@ -245,7 +250,10 @@ android {
             jvmArgs '-noverify'
             testLogging {
                 events "started", "passed", "skipped", "failed"
-                outputs.upToDateWhen {false}
+                outputs.upToDateWhen { false }
+            }
+            jacoco {
+                includeNoLocationClasses = true
             }
         }
     }
@@ -271,7 +279,7 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
+    if (dp) {
         implementation project(':AppInfra')
         implementation project(':uid')
         implementation project(':jump')
@@ -280,13 +288,13 @@ dependencies {
         implementation project(':mya-csw')
         implementation project(':mya-demoUapp')
     } else {
-        implementation (philipsdeps.AppInfra) {
+        implementation(philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.uid) {
+        implementation(philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.jump) {
+        implementation(philipsdeps.jump) {
             exclude group: 'com.android.support'
         }
     }

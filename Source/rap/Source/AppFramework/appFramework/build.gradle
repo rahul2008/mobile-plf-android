@@ -31,7 +31,6 @@ buildscript {
     }
 
     dependencies {
-        classpath builddeps.trickyandroid
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         classpath(builddeps.cdpSCM)
@@ -187,6 +186,12 @@ android {
     testOptions {
         unitTests {
             includeAndroidResources = true
+        }
+        unitTests.all {
+            jvmArgs '-noverify'
+            jacoco {
+                includeNoLocationClasses = true
+            }
         }
     }
     applicationVariants.all { variant ->

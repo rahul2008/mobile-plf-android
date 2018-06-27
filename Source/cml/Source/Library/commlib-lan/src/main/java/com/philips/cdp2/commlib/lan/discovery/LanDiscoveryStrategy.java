@@ -9,7 +9,6 @@ import android.net.wifi.WifiInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.devicecache.CacheData;
@@ -85,6 +84,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
                 DICommLog.d(DICommLog.DISCOVERY, "SSDP started.");
             } catch (TransportUnavailableException e) {
                 DICommLog.e(DICommLog.DISCOVERY, "Error starting SSDP: " + e.getMessage());
+                notifyDiscoveryFailedToStart();
             }
         } else {
             ssdpControlPoint.stop();
@@ -123,12 +123,12 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @Override
-    public void start() throws MissingPermissionException, TransportUnavailableException {
+    public void start() throws MissingPermissionException {
         start(Collections.<String>emptySet());
     }
 
     @Override
-    public void start(@NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
+    public void start(@NonNull Set<String> modelIds) {
         this.modelIds = modelIds;
 
         isStartRequested = true;

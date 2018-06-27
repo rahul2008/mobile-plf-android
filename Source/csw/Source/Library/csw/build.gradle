@@ -80,6 +80,12 @@ android {
         unitTests {
             includeAndroidResources = true
         }
+        unitTests.all {
+            jvmArgs '-noverify'
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
     }
 }
 
