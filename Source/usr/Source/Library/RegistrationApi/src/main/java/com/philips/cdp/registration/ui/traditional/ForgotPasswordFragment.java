@@ -33,6 +33,7 @@ import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.LoginIdValidator;
@@ -45,6 +46,9 @@ import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.ValidationEditText;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -351,6 +355,10 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
             sendEmailOrSMSButton.setEnabled(false);
         } else {
             RLog.e(TAG, " not equal to Social sigin Response Error code = " + userRegistrationFailureInfo.getErrorCode());
+            RLog.e(TAG, " not equal to Social sigin Response Error code = " + userRegistrationFailureInfo.getError());
+            RLog.e(TAG, " not equal to Social sigin Response Error code = " + userRegistrationFailureInfo.getErrorDescription());
+
+
             if (userRegistrationFailureInfo.getErrorCode() == -1) return;
             forgotPasswordErrorMessage(userRegistrationFailureInfo.getErrorDescription());
             sendEmailOrSMSButton.setEnabled(false);
@@ -394,7 +402,26 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public void onErrorResponse(VolleyError error) {
         hideForgotPasswordSpinner();
-        forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.NETWOK, error.networkResponse.statusCode));
+
+        System.out.println("errornull "+ error);
+//        System.out.println("errornull"+ error.networkResponse);
+//        forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.NETWOK, error.networkResponse.statusCode));
+
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(error.getMessage());
+            final String errorCode = jsonObject.getString("errorCode");
+            hideForgotPasswordSpinner();
+            RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
+            final Integer code = Integer.parseInt(errorCode);
+            if (URNotification.INLINE_ERROR_CODE.contains(code)) {
+                forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, code));
+            } else {
+                forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, code));
+            }
+        } catch (JSONException e) {
+            RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred");
+        }
     }
 
     @Override
