@@ -2,6 +2,7 @@
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
 String cron_string = BranchName == "develop" ? "H H(20-22) * * *" : ""
+String param_string_cron = BranchName == "feature/calisto/psracron" ? "H H(20-22) * * * %choices=PSRA" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def nodes = '27.0.2 && device'
@@ -16,11 +17,11 @@ pipeline {
         }
     }
     parameters {
-        booleanParam(name: 'Nightly', defaultValue: false, description: 'Nightly build')
         choice(choices: 'Normal\nPSRA\nLeakCanary', description: 'What type of build to build?', name: 'buildType')
     }
     triggers {
         cron(cron_string)
+        parameterizedCron(param_string_cron)
     }
     environment {
         TRIGGER_BY_TIMER = 'false'
