@@ -36,7 +36,6 @@ public class NetworkNode implements Parcelable {
     public static final String KEY_DEVICE_NAME = "dev_name";
     public static final String KEY_DEVICE_TYPE = "device_type";
     public static final String KEY_ENCRYPTION_KEY = "encryption_key";
-    public static final String KEY_HOME_SSID = "home_ssid";
     public static final String KEY_HTTPS = "https";
     public static final String KEY_ID = "_id";
     public static final String KEY_IP_ADDRESS = "ip_address";
@@ -62,7 +61,7 @@ public class NetworkNode implements Parcelable {
     private long bootId;
     private String encryptionKey;
     private boolean isHttps = true;
-    private String homeSsid;
+    private String networkSsid;
     private String ipAddress;
     private String pin;
     private String mismatchedPin;
@@ -197,23 +196,23 @@ public class NetworkNode implements Parcelable {
     }
 
     /**
-     * Returns the SSID where the appliance is at home.
+     * Returns the SSID where the appliance was last discovered.
      * @return String
      */
-    public synchronized String getHomeSsid() {
-        return homeSsid;
+    public synchronized String getNetworkSsid() {
+        return networkSsid;
     }
 
     /**
-     * Allows to set the appliance's home SSID.
-     * @param homeSsid String
+     * Allows to set the appliance's network SSID.
+     * @param ssid String
      */
-    public synchronized void setHomeSsid(String homeSsid) {
-        if (homeSsid == null || homeSsid.isEmpty()) return;
+    public synchronized void setNetworkSsid(String ssid) {
+        if (ssid == null || ssid.isEmpty()) return;
 
-        final String oldHomeSsid = this.homeSsid;
-        this.homeSsid = homeSsid;
-        this.pcs.firePropertyChange(KEY_HOME_SSID, oldHomeSsid, homeSsid);
+        final String oldHomeSsid = this.networkSsid;
+        this.networkSsid = ssid;
+        this.pcs.firePropertyChange(KEY_LAST_KNOWN_NETWORK, oldHomeSsid, ssid);
     }
 
     /**
@@ -365,8 +364,8 @@ public class NetworkNode implements Parcelable {
             return;
         }
 
-        if (!Objects.equals(networkNode.getHomeSsid(), this.homeSsid)) {
-            setHomeSsid(networkNode.getHomeSsid());
+        if (!Objects.equals(networkNode.getNetworkSsid(), this.networkSsid)) {
+            setNetworkSsid(networkNode.getNetworkSsid());
         }
 
         if (!Objects.equals(networkNode.getIpAddress(), this.ipAddress)) {
@@ -409,7 +408,7 @@ public class NetworkNode implements Parcelable {
         name = in.readString();
         deviceType = in.readString();
         modelId = in.readString();
-        homeSsid = in.readString();
+        networkSsid = in.readString();
         bootId = in.readLong();
         encryptionKey = in.readString();
         pairedState = PairingState.values()[in.readInt()];
@@ -431,7 +430,7 @@ public class NetworkNode implements Parcelable {
         dest.writeString(name);
         dest.writeString(deviceType);
         dest.writeString(modelId);
-        dest.writeString(homeSsid);
+        dest.writeString(networkSsid);
         dest.writeLong(bootId);
         dest.writeString(encryptionKey);
         dest.writeInt(pairedState.ordinal());
@@ -508,7 +507,7 @@ public class NetworkNode implements Parcelable {
                 ", bootId=" + bootId +
                 ", encryptionKey='" + encryptionKey + '\'' +
                 ", isHttps=" + isHttps +
-                ", homeSsid='" + homeSsid + '\'' +
+                ", networkSsid='" + networkSsid + '\'' +
                 ", ipAddress='" + ipAddress + '\'' +
                 ", pin='" + pin + '\'' +
                 ", mismatchedPin='" + mismatchedPin + '\'' +

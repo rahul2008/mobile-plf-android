@@ -21,7 +21,6 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_CPP_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NAME;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_TYPE;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ENCRYPTION_KEY;
-import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HOME_SSID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HTTPS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
@@ -151,7 +150,6 @@ abstract public class NonSecureNetworkNodeDatabaseHelperBaseTest extends Robolec
 
         if (version >= VERSION_7) {
             data.put(KEY_MAC_ADDRESS, MAC_ADDRESS);
-            data.put(KEY_HOME_SSID, SSID);
         }
         return data;
     }

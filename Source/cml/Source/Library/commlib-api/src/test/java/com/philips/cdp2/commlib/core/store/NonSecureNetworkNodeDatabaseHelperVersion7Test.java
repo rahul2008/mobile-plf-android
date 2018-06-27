@@ -18,7 +18,6 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_CPP_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NAME;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_TYPE;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ENCRYPTION_KEY;
-import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HOME_SSID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HTTPS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
@@ -56,7 +55,6 @@ public class NonSecureNetworkNodeDatabaseHelperVersion7Test extends NonSecureNet
         add(KEY_MODEL_ID);
         add(KEY_PIN);
         add(KEY_MISMATCHED_PIN);
-        add(KEY_HOME_SSID);
         add(KEY_MAC_ADDRESS);
     }};
 
@@ -76,7 +74,6 @@ public class NonSecureNetworkNodeDatabaseHelperVersion7Test extends NonSecureNet
             + "https SMALLINT NOT NULL DEFAULT 0,"
             + "pin TEXT,"
             + "mismatched_pin TEXT,"
-            + "home_ssid TEXT,"
             + "PRIMARY KEY(_id)"
             + ");";
 
@@ -615,21 +612,6 @@ public class NonSecureNetworkNodeDatabaseHelperVersion7Test extends NonSecureNet
     }
 
     @Test
-    public void givenVersionIs6_whenStoringNetworkNode_ThenHaveDefaultSsid() {
-        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_6, VERSION_6_CREATE_QUERY);
-        ContentValues data = createContentValues(VERSION_6);
-        database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
-
-        networkNodeDatabaseHelper.onUpgrade(database, VERSION_6, VERSION_7);
-
-        Cursor cursor = getReadableDatabaseCursor();
-        String ssid = cursor.getString(cursor.getColumnIndex(KEY_HOME_SSID));
-        assertNull(ssid);
-
-        closeCursor(cursor);
-    }
-
-    @Test
     public void givenVersionIs7_whenStoringMacAddress_ThenHaveCorrectMacAddress() {
         final SQLiteDatabase database = prepareSqliteDatabase(VERSION_7, VERSION_7_CREATE_QUERY);
         ContentValues data = createContentValues(VERSION_7);
@@ -638,19 +620,6 @@ public class NonSecureNetworkNodeDatabaseHelperVersion7Test extends NonSecureNet
         Cursor cursor = getReadableDatabaseCursor();
         String macAddress = cursor.getString(cursor.getColumnIndex(KEY_MAC_ADDRESS));
         assertEquals(MAC_ADDRESS, macAddress);
-
-        closeCursor(cursor);
-    }
-
-    @Test
-    public void givenVersionIs7_whenStoringMacAddress_ThenHaveCorrectHomeSsid() {
-        final SQLiteDatabase database = prepareSqliteDatabase(VERSION_7, VERSION_7_CREATE_QUERY);
-        ContentValues data = createContentValues(VERSION_7);
-        database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
-
-        Cursor cursor = getReadableDatabaseCursor();
-        String ssid = cursor.getString(cursor.getColumnIndex(KEY_HOME_SSID));
-        assertEquals(SSID, ssid);
 
         closeCursor(cursor);
     }

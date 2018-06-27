@@ -210,7 +210,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         networkNode.setName(name);
         networkNode.setModelId(modelNumber);
         networkNode.setDeviceType(deviceType);
-        networkNode.setHomeSsid(homeSsid);
+        networkNode.setNetworkSsid(homeSsid);
 
         if (networkNode.isValid()) {
             return networkNode;

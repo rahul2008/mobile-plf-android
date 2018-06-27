@@ -9,7 +9,6 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -23,8 +22,8 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_BOOT_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_NAME;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_DEVICE_TYPE;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_ENCRYPTION_KEY;
-import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_HOME_SSID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_KNOWN_NETWORK;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.PairingState.PAIRED;
 import static junit.framework.Assert.assertEquals;
@@ -124,12 +123,12 @@ public class NetworkNodeTest extends RobolectricTest {
     public void whenUpdatingNetworkNodeWithNetworkNodeThatHasOtherSsid_ThenSsidShouldBeChanged() {
         NetworkNode originalNetworkNode = createNetworkNode();
         NetworkNode networkNodeForUpdate = createNetworkNode();
-        networkNodeForUpdate.setHomeSsid("Some other ssid");
+        networkNodeForUpdate.setNetworkSsid("Some other ssid");
         originalNetworkNode.addPropertyChangeListener(mockPropertyChangeListener);
 
         originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
 
-        verifyPropertyChangeCalled(KEY_HOME_SSID, "Some other ssid");
+        verifyPropertyChangeCalled(KEY_LAST_KNOWN_NETWORK, "Some other ssid");
     }
 
     @Test
@@ -286,7 +285,7 @@ public class NetworkNodeTest extends RobolectricTest {
         networkNode.setCppId("super unique");
         networkNode.setDeviceType("don't care");
         networkNode.setEncryptionKey("H4X0R");
-        networkNode.setHomeSsid("virus.exe");
+        networkNode.setNetworkSsid("virus.exe");
         networkNode.setIpAddress("127.0.0.1");
         networkNode.setLastPairedTime(1337L);
         networkNode.setModelId("BFG9K");

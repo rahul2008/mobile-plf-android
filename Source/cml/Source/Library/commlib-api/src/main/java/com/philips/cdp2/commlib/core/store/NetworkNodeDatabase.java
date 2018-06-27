@@ -78,7 +78,7 @@ public class NetworkNodeDatabase {
                     networkNode.setBootId(bootId);
                     networkNode.setEncryptionKey(encryptionKey);
                     networkNode.setName(name);
-                    networkNode.setHomeSsid(lastKnownNetwork);
+                    networkNode.setNetworkSsid(lastKnownNetwork);
                     networkNode.setPairedState(NetworkNode.getPairedStatusKey(pairedStatus));
                     networkNode.setLastPairedTime(lastPairedTime);
                     networkNode.setIpAddress(ipAddress);
@@ -128,7 +128,7 @@ public class NetworkNodeDatabase {
             values.put(KEY_BOOT_ID, networkNode.getBootId());
             values.put(KEY_ENCRYPTION_KEY, networkNode.getEncryptionKey());
             values.put(KEY_DEVICE_NAME, networkNode.getName());
-            values.put(KEY_LAST_KNOWN_NETWORK, networkNode.getHomeSsid());
+            values.put(KEY_LAST_KNOWN_NETWORK, networkNode.getNetworkSsid());
             values.put(KEY_IS_PAIRED, networkNode.getPairedState().ordinal());
 
             if (networkNode.getPairedState() == NetworkNode.PairingState.PAIRED) {

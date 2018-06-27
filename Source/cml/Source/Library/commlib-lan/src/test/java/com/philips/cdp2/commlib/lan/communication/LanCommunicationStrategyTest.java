@@ -359,7 +359,7 @@ public class LanCommunicationStrategyTest {
     public void whenUserIsConnectedToHomeNetwork_ThenStrategyIsAvailable() {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
-        when(networkNodeMock.getHomeSsid()).thenReturn(SSID);
+        when(networkNodeMock.getNetworkSsid()).thenReturn(SSID);
         when(ssidProviderMock.getCurrentSsid()).thenReturn(SSID);
 
         assertThat(lanCommunicationStrategy.isAvailable()).isTrue();
@@ -369,7 +369,7 @@ public class LanCommunicationStrategyTest {
     public void whenUserIsConnectedToAnotherNetwork_ThenStrategyIsNotAvailable() {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
-        when(networkNodeMock.getHomeSsid()).thenReturn(SSID);
+        when(networkNodeMock.getNetworkSsid()).thenReturn(SSID);
         when(ssidProviderMock.getCurrentSsid()).thenReturn("ssid2");
 
         assertThat(lanCommunicationStrategy.isAvailable()).isFalse();
@@ -379,7 +379,7 @@ public class LanCommunicationStrategyTest {
     public void whenUserNetworkIsUnknown_ThenStrategyIsAvailable() {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
-        when(networkNodeMock.getHomeSsid()).thenReturn(SSID);
+        when(networkNodeMock.getNetworkSsid()).thenReturn(SSID);
         when(ssidProviderMock.getCurrentSsid()).thenReturn(null);
 
         assertThat(lanCommunicationStrategy.isAvailable()).isTrue();
@@ -452,7 +452,7 @@ public class LanCommunicationStrategyTest {
 
     @Test
     public void givenUserIsConnectedToNonHomeNetwork_whenHomeNetworkBecomesAvailable_thenListenerIsNotified() {
-        when(networkNodeMock.getHomeSsid()).thenReturn(SSID);
+        when(networkNodeMock.getNetworkSsid()).thenReturn(SSID);
         when(ssidProviderMock.getCurrentSsid()).thenReturn("ssid2");
         connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
         //noinspection unchecked
