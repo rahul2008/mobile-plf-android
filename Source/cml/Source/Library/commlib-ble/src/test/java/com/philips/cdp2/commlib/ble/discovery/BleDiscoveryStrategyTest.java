@@ -122,6 +122,8 @@ public class BleDiscoveryStrategyTest {
         when(mockCache.getCacheData(MAC_ADDRESS)).thenReturn(mockCacheData);
         when(mockCacheData.getNetworkNode()).thenReturn(networkNode);
 
+        PowerMockito.when(ContextCompat.checkSelfPermission(mockContext, ACCESS_COARSE_LOCATION)).thenReturn(PERMISSION_GRANTED);
+
         strategyUnderTest = new BleDiscoveryStrategy(mockContext, mockCache, mockScanner){
             @NonNull
             @Override
@@ -143,18 +145,6 @@ public class BleDiscoveryStrategyTest {
         assertThat(capturedNode.getMacAddress()).isEqualTo(MAC_ADDRESS);
         assertThat(capturedNode.getCppId()).isEqualTo(MAC_ADDRESS);
         assertThat(capturedNode.getModelId()).isEqualTo(MODEL_ID);
-
-        PowerMockito.when(ContextCompat.checkSelfPermission(mockContext, ACCESS_COARSE_LOCATION)).thenReturn(PERMISSION_GRANTED);
-
-        strategyUnderTest = new BleDiscoveryStrategy(mockContext, mockCache, mockScanner) {
-            @NonNull
-            @Override
-            ScheduledExecutorService createExecutor() {
-                return mockExecutor;
-            }
-        };
-
-        strategyUnderTest.addDiscoveryListener(mockDiscoveryListener);
     }
 
     @Test

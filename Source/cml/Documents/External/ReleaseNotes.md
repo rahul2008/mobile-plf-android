@@ -5,7 +5,7 @@ Version {next}
 ------------
 
 ### Functionality Delivered
-* N/A
+* \#131891 CommLib is able to communicate with an appliance without discovery running all the time. When a communication strategy reports available (based on transport being on and appliance is known)then communication will also be attempted.  
 
 ### Backwards Compatibility
 * N/A
@@ -16,11 +16,8 @@ Version {next}
 ### Breaking Changes
 * \#73052 Earlier logging was enabled by default, after this change, it has been disabled. If a proposition now needs CommLib logging, it has to explicitly enable it by calling DICommLog.enableLogging. 
 * \#73052 initLoggingToFile method in DICommLog.java has been removed. It depending on a private method - createFileOnDevice which was using some legacy code and was marked as deprecated from some time, this method is removed too.
-* \#131891 Concept of communication availability has changed. A communication strategy is now available if communication has a chance of succeeding. 
-For BLE communication strategy this requires BLE ON and a mac address of the appliance. 
-For LAN communication the phone needs to be connected to the same network that the appliance was discovered on and an IP address of the appliance.
-In scenario when an appliance has moved to a different LAN network but a user app has not performed discovery, LAN communication will always be preferred and unsuccessful. TIME_OUT error will be reported. 
-To resolve this issue rerun discovering on the appliance's new network. 
+* \#131891 Concept of communication availability has changed. The availability of a appliance strategy does not rely on the appliance being discovered recently. The appliance is available if corresponding communication strategy is available. This also affects CombinedCommunicationStrategy, because it relies on concept of availability. 
+For details see design documents. 
 
 ### Defects solved
 * N/A
