@@ -5,6 +5,8 @@
 
 package com.philips.pins.shinelib.capabilities;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
@@ -41,8 +43,13 @@ public class SHNDeviceTimeAdjusterCurrentTimeService implements SHNDeviceTimeAdj
 
     private void determineTimeDeltaBetweenDeviceTimeAndHostTime(ExactTime256WithAdjustReason exactTime256WithAdjustReason) {
         long deviceTime = exactTime256WithAdjustReason.exactTime256.exactTime256Date.getTime();
-        long systemTime = System.currentTimeMillis();
+        long systemTime = getCurrentTime();
         timeDelta = systemTime - deviceTime;
+    }
+
+    @VisibleForTesting
+    protected long getCurrentTime() {
+        return System.currentTimeMillis();
     }
 
     public SHNDeviceTimeAdjusterCurrentTimeService(SHNServiceCurrentTime shnServiceCurrentTime) {
