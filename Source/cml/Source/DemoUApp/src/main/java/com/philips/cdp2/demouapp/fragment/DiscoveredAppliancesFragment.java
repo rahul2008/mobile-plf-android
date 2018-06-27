@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -29,18 +30,25 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager.ApplianceListener;
+import com.philips.cdp2.commlib.core.context.TransportContext;
+import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.util.AppIdProvider;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
+import com.philips.cdp2.demouapp.util.UiUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,27 +85,83 @@ public class DiscoveredAppliancesFragment extends Fragment {
         }
     };
 
+    private DiscoveryListener lanDiscoveryListener = new DiscoveryListener() {
+        @Override
+        public void onDiscoveryStarted() {
+
+        }
+
+        @Override
+        public void onNetworkNodeDiscovered(final NetworkNode networkNode) {
+
+        }
+
+        @Override
+        public void onNetworkNodeLost(final NetworkNode networkNode) {
+
+        }
+
+        @Override
+        public void onDiscoveryStopped() {
+
+        }
+
+        @Override
+        public void onDiscoveryFailedToStart() {
+            UiUtils.showMessage(getActivity(), view, getString(R.string.cml_lan_discovery_failed_to_start));
+        }
+    };
+
+    private DiscoveryListener bleDiscoveryListener = new DiscoveryListener() {
+        @Override
+        public void onDiscoveryStarted() {
+
+        }
+
+        @Override
+        public void onNetworkNodeDiscovered(final NetworkNode networkNode) {
+
+        }
+
+        @Override
+        public void onNetworkNodeLost(final NetworkNode networkNode) {
+
+        }
+
+        @Override
+        public void onDiscoveryStopped() {
+
+        }
+
+        @Override
+        public void onDiscoveryFailedToStart() {
+            UiUtils.showMessage(getActivity(), view, getString(R.string.cml_ble_discovery_failed_to_start));
+        }
+    };
+
     private void onAppliancesChanged() {
-        getActivity().runOnUiThread(new Runnable() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
 
-            @Override
-            public void run() {
-                applianceAdapter.clear();
+                @Override
+                public void run() {
+                    applianceAdapter.clear();
 
-                final Set<Appliance> appliances = commCentral.getApplianceManager().getAvailableAppliances();
-                Collections.sort(new ArrayList<>(appliances), new Comparator<Appliance>() {
-                    @Override
-                    public int compare(Appliance o1, Appliance o2) {
-                        return o1.getName().compareTo(o2.getName());
+                    final Set<Appliance> appliances = commCentral.getApplianceManager().getAvailableAppliances();
+                    Collections.sort(new ArrayList<>(appliances), new Comparator<Appliance>() {
+                        @Override
+                        public int compare(Appliance o1, Appliance o2) {
+                            return o1.getName().compareTo(o2.getName());
+                        }
+                    });
+                    for (Appliance appliance : appliances) {
+                        appliance.getWifiPort().addPortListener(wifiPortListener);
                     }
-                });
-                for (Appliance appliance : appliances) {
-                    appliance.getWifiPort().addPortListener(wifiPortListener);
+                    applianceAdapter.addAll(appliances);
                 }
-                applianceAdapter.addAll(appliances);
-            }
-        });
-
+            });
+        }
     }
 
     private DICommPortListener<WifiPort> wifiPortListener = new DICommPortListener<WifiPort>() {
@@ -136,10 +200,14 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.cml_fragment_discovered_appliances, container, false);
 
         commCentral = CommlibUapp.get().getDependencies().getCommCentral();
+
+        addDiscoveryListener(BleTransportContext.class, bleDiscoveryListener);
+        addDiscoveryListener(LanTransportContext.class, lanDiscoveryListener);
+
         applianceAdapter = new ApplianceAdapter(getContext());
 
         final EditText editFilterModelId = view.findViewById(R.id.editFilterModelId);
@@ -218,6 +286,38 @@ public class DiscoveredAppliancesFragment extends Fragment {
         updateAppId();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        commCentral.getApplianceManager().removeApplianceListener(applianceListener);
+
+        appIdProvider.removeAppIdListener(appIdListener);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopDiscovery();
+        removeDiscoveryListener(BleTransportContext.class, bleDiscoveryListener);
+        removeDiscoveryListener(LanTransportContext.class, lanDiscoveryListener);
+    }
+
+    public static DiscoveredAppliancesFragment newInstance() {
+        return new DiscoveredAppliancesFragment();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case ACCESS_COARSE_LOCATION_REQUEST_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    new Handler().post(this.permissionCallback);
+                }
+            }
+        }
+    }
+
     private void startDiscovery() {
         try {
             commCentral.startDiscovery(discoveryFilterModelIds);
@@ -238,33 +338,17 @@ public class DiscoveredAppliancesFragment extends Fragment {
         discoverySwitch.setChecked(false);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        commCentral.getApplianceManager().removeApplianceListener(applianceListener);
-
-        appIdProvider.removeAppIdListener(appIdListener);
+    private <T extends TransportContext> void addDiscoveryListener(@NonNull Class<T> clazz, @NonNull DiscoveryListener listener) {
+        DiscoveryStrategy discoveryStrategy = commCentral.getTransportContext(clazz).getDiscoveryStrategy();
+        if (discoveryStrategy != null) {
+            discoveryStrategy.addDiscoveryListener(listener);
+        }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopDiscovery();
-    }
-
-    public static DiscoveredAppliancesFragment newInstance() {
-        return new DiscoveredAppliancesFragment();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case ACCESS_COARSE_LOCATION_REQUEST_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    new Handler().post(this.permissionCallback);
-                }
-            }
+    private <T extends TransportContext> void removeDiscoveryListener(@NonNull final Class<T> clazz, @NonNull final DiscoveryListener listener) {
+        DiscoveryStrategy discoveryStrategy = commCentral.getTransportContext(clazz).getDiscoveryStrategy();
+        if (discoveryStrategy != null) {
+            discoveryStrategy.removeDiscoveryListener(listener);
         }
     }
 
