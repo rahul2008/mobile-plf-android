@@ -133,7 +133,7 @@
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/ths_loading_text"
-                app:uidProgressIndicatorButtonText="@string/ths_continue" />
+                app:uidProgressIndicatorButtonText="@string/ths_registration_continue" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

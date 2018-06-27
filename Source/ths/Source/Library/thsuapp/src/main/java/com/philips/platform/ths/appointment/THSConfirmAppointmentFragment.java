@@ -56,7 +56,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_confirm_appointment, container, false);
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_confirm), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_schedule_confirm_title), true);
         }
         Bundle bundle = getArguments();
         navIconToggler = new UIDNavigationIconToggler(getActivity());
@@ -69,9 +69,9 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         ok_got_it.setOnClickListener(this);
         reminderTime = (Label) view.findViewById(R.id.reminderTime);
         if (reminderTimeString.contains(THSConstants.THS_NO_REMINDER_STRING)) {
-            reminderTime.setText( getString(R.string.ths_rb_no_reminder) + " "+getString(R.string.ths_before_appointment));
+            reminderTime.setText( getString(R.string.ths_schedule_reminder_option_no_reminder) + " "+getString(R.string.ths_schedule_appointment_text));
         } else {
-            reminderTime.setText(getString(R.string.ths_set_remainder) + " " + reminderTimeString);
+            reminderTime.setText(getString(R.string.ths_schedule_confirm_reminder) + " " + reminderTimeString);
         }
         mProviderFullName = (Label) view.findViewById(R.id.details_providerNameLabel);
         mPracticeNameLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
@@ -86,7 +86,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
 
         mProviderFullName.setText(mThsProviderInfo.getProviderInfo().getFullName());
         mPracticeNameLabel.setText(mThsProviderInfo.getProviderInfo().getSpecialty().getName());
-        mEmailSentMessage.setText(getString(R.string.ths_email_sent) + " " + THSManager.getInstance().getPTHConsumer(getContext()).getConsumer().getEmail());
+        mEmailSentMessage.setText(getString(R.string.ths_schedule_confirm_email) + " " + THSManager.getInstance().getPTHConsumer(getContext()).getConsumer().getEmail());
         String appointmentDateTiem = null;
         appointmentDateTiem = new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mAppointmentDate);
         appointmentDateTiem = appointmentDateTiem + " " + getString(R.string.ths_at_text) + " " + new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(mAppointmentDate);

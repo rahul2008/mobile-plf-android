@@ -225,7 +225,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_relationship_relative_layout"
             android:layout_marginBottom="8dp"
-            android:text="@string/ths_continue" />
+            android:text="@string/ths_registration_continue" />
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ths_insurance_detail_skip_button"

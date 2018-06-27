@@ -134,7 +134,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sa_postal_code"
-        android:text="@string/ths_address_state_string" />
+        android:text="@string/ths_registration_statefield" />
 
 
     <com.philips.platform.uid.view.widget.EditText
@@ -170,6 +170,6 @@
             android:id="@+id/update_shipping_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ths_ok_continue_button_string" />
+            android:text="@string/ths_payment_continue" />
     </RelativeLayout>
 </RelativeLayout>

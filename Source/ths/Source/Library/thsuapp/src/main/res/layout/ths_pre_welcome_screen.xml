@@ -67,7 +67,7 @@
             android:id="@+id/ths_go_see_provider"
             android:layout_marginRight="@dimen/ths_fab_margin"
             android:layout_marginLeft="@dimen/ths_fab_margin"
-            android:text="@string/ths_agree_continue"
+            android:text="@string/ths_confirm_terms"
             android:layout_width="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/ths_margin_bottom_more_details"
@@ -92,7 +92,7 @@
             android:paddingRight="@dimen/ths_fab_margin"
             android:textColor="?attr/uidLoginScreenDefaultTextColor"
             android:layout_above="@id/ths_go_see_provider"
-            android:text="@string/ths_share_email_text_string"
+            android:text="@string/ths_email_share_message"
             style="@style/ths_body_text_pre_welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

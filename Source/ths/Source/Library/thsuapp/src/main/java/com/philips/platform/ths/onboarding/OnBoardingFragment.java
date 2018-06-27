@@ -10,13 +10,10 @@ import android.widget.TextView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.Other;
 import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_START;
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 
 @SuppressWarnings("serial")
@@ -44,7 +41,7 @@ public class OnBoardingFragment  extends THSBaseFragment implements View.OnClick
         btn_take_tour.setOnClickListener(this);
         ActionBarListener actionBarListener = getActionBarListener();
         if (actionBarListener != null) {
-            actionBarListener.updateActionBar(R.string.ths_welcome, false);
+            actionBarListener.updateActionBar(R.string.ths_Welcome_nav_title, false);
         }
         return view;
     }

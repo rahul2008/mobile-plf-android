@@ -19,7 +19,7 @@
         android:layout_marginStart="@dimen/ths_fab_margin"
         android:layout_marginEnd="@dimen/ths_fab_margin"
         android:enabled="false"
-        android:text="@string/ths_continue_button_text" />
+        android:text="@string/ths_registration_continue" />
 
     <ScrollView
         android:id="@+id/scroll_view_container"

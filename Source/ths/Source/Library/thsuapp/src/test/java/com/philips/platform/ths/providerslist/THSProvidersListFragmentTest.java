@@ -382,7 +382,7 @@ public class THSProvidersListFragmentTest {
         when(thsProvidersListAdapterMock.getName(thsProviderInfoMock)).thenReturn("test");
         when(textViewIsAvailable.getContext()).thenReturn(fragmentActivityMock);
         when(fragmentActivityMock.getResources()).thenReturn(resources);
-        when(resources.getString(R.string.ths_provider_available_timeslots)).thenReturn("Available time-slots");
+        when(resources.getString(R.string.ths_provider_list_timeslot)).thenReturn("Available time-slots");
         thsProvidersListAdapter = new THSProvidersListAdapter(list);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.relativeLayout, atLeastOnce()).setOnClickListener(any(View.OnClickListener.class));

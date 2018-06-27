@@ -352,7 +352,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     }
 
     public void setReminderValue(String reminderTime) {
-        reminderValue.setText(reminderTime + " " + mContext.getResources().getString(R.string.ths_before_appointment));
+        reminderValue.setText(reminderTime + " " + mContext.getResources().getString(R.string.ths_schedule_appointment_text));
     }
 
     public String getReminderValue() {

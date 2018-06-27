@@ -28,7 +28,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
@@ -285,13 +284,13 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
         alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_gps_not_enabled_message_title)
                 .setMessage(R.string.ths_gps_not_enabled_message).
-                        setPositiveButton(R.string.ths_ok, new View.OnClickListener() {
+                        setPositiveButton(R.string.ths_insurance_validation_ok, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 alertDialogFragment.dismiss();
                                 launchLocationSettings();
                             }
-                        }).setNegativeButton(R.string.ths_cancel, new View.OnClickListener() {
+                        }).setNegativeButton(R.string.ths_cost_cancel, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 alertDialogFragment.dismiss();

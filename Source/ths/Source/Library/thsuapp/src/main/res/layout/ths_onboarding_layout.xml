@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor"
-                android:text="@string/ths_onboarding_tour_service_is_provided"
+                android:text="@string/ths_confirm_branding"
                 />
 
             <ImageView
@@ -66,7 +66,7 @@
                 android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:layout_width="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:text="@string/ths_onboarding_tour_curious"
+                android:text="@string/ths_onboarding_how_it_works"
                 />
 
             <com.philips.platform.uid.view.widget.Button
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:uidComponentType="Secondary"
-                android:text="@string/ths_take_tour"
+                android:text="@string/ths_onboarding_start_tour"
                 />
 
             <com.philips.platform.uid.view.widget.Label
@@ -83,7 +83,7 @@
                 android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="@string/ths_skip"
+                android:text="@string/ths_onboarding_skip_tour"
                 android:layout_gravity="center_horizontal"
                 />
 

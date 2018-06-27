@@ -111,7 +111,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         } else {
             THSAvailableProvider thsAvailableProvider = (THSAvailableProvider) thsProviderInfos.get(position);
             thsProviderInfo = getThsProviderInfo(thsAvailableProvider);
-            holder.isAvailble.setText(holder.isAvailble.getContext().getResources().getString(R.string.ths_provider_available_timeslots));
+            holder.isAvailble.setText(holder.isAvailble.getContext().getResources().getString(R.string.ths_provider_list_timeslot));
             holder.isAvailableStatus.setVisibility(View.GONE);
             holder.notificationBadge.setVisibility(View.VISIBLE);
             holder.notificationBadge.setText("" + thsAvailableProvider.getAvailableAppointmentTimeSlots().size());

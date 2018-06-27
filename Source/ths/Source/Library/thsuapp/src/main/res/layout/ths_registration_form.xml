@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ths_detail"
                 android:layout_marginBottom="@dimen/ths_margin_bottom_more_details"
-                android:text="@string/ths_more_details" />
+                android:text="@string/ths_registration_header" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_dependant_email_address_title"
@@ -65,7 +65,7 @@
                 android:layout_below="@id/ths_dependant_email_address"
                 android:layout_marginTop="@dimen/ths_fab_margin"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
-                android:text="@string/ths_first_name" />
+                android:text="@string/ths_registration_firstname" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/ths_edit_first_name_container"
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ths_edit_first_name_container"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
-                android:text="@string/ths_last_name" />
+                android:text="@string/ths_registration_lastname" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/ths_edit_last_name_container"
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ths_edit_last_name_container"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
-                android:text="@string/ths_dob" />
+                android:text="@string/ths_registration_dob" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/ths_edit_dob_container"
@@ -136,7 +136,7 @@
                     style="@style/ths_calendar_right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/ths_dob_format"
+                    android:hint="@string/ths_insurancedetail_dobfield"
                     android:inputType="none" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ths_edit_dob_container"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
-                android:text="@string/ths_gender" />
+                android:text="@string/ths_registration_gender" />
 
             <com.philips.platform.uid.view.widget.RadioGroup
                 android:id="@+id/radio_group_single_line"
@@ -162,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ths_gender"
                     android:enabled="true"
-                    android:text="@string/ths_female" />
+                    android:text="@string/ths_registration_gender_female" />
 
                 <com.philips.platform.uid.view.widget.RadioButton
                     android:id="@+id/ths_checkbox_male"
@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ths_checkbox_female"
                     android:enabled="true"
-                    android:text="@string/ths_male" />
+                    android:text="@string/ths_registration_gender_male" />
             </com.philips.platform.uid.view.widget.RadioGroup>
 
 
@@ -181,7 +181,7 @@
                 android:layout_below="@id/radio_group_single_line"
                 android:layout_marginTop="@dimen/ths_list_space"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
-                android:text="@string/ths_location" />
+                android:text="@string/ths_registration_location" />
 
             <RelativeLayout
                 android:id="@+id/ths_edit_location_container_layout"
@@ -202,7 +202,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
-                        android:hint="@string/ths_state" />
+                        android:hint="@string/ths_registration_statefield" />
 
                 </com.philips.platform.uid.view.widget.InputValidationLayout>
             </RelativeLayout>

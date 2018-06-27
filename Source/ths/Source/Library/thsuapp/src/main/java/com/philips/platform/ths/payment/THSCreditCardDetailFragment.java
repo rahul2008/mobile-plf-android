@@ -97,7 +97,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         cvvDetail = view.findViewById(R.id.ths_payment_detail_card_cvc_help);
         cvvDetail.setOnClickListener(this);
         mBillingAddresslabel = view.findViewById(R.id.shipping_address_text_label);
-        mBillingAddresslabel.setText(R.string.ths_payment_billing_address_string);
+        mBillingAddresslabel.setText(R.string.ths_billing_title);
         mAddressOneEditText = view.findViewById(R.id.sa_shipping_address_line_one);
         mAddressTwoEditText = view.findViewById(R.id.sa_shipping_address_line_two);
         mCityEditText = view.findViewById(R.id.sa_town);
@@ -293,7 +293,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         super.onResume();
         THSTagUtils.doTrackPageWithInfo(THS_PAYMENT_METHOD, null, null);
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getString(R.string.ths_credit_card_details_fragment_name), true);
+            actionBarListener.updateActionBar(getString(R.string.ths_preferred_payment), true);
         }
 
     }
@@ -440,12 +440,12 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         };
 
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getFragmentActivity())
-                .setMessage(showLargeContent ? getFragmentActivity().getResources().getString(R.string.ths_cvv_explanation) :
-                        getFragmentActivity().getResources().getString(R.string.ths_cvv_explanation)).
+                .setMessage(showLargeContent ? getFragmentActivity().getResources().getString(R.string.ths_CVV_explanation) :
+                        getFragmentActivity().getResources().getString(R.string.ths_CVV_explanation)).
                         setPositiveButton(getResources().getString(R.string.ths_matchmaking_ok_button), this);
 
         if (isWithTitle) {
-            builder.setTitle(getFragmentActivity().getResources().getString(R.string.ths_credit_card_details_whats_this_text));
+            builder.setTitle(getFragmentActivity().getResources().getString(R.string.ths_whats_this));
 
         }
         alertDialogFragment = builder.setCancelable(false).create();

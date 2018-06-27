@@ -62,6 +62,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:enabled="false"
-        android:text="@string/ths_continue" />
+        android:text="@string/ths_registration_continue" />
 
 </RelativeLayout>

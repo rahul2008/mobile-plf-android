@@ -9,7 +9,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_waiting_room_title_label"
         android:layout_width="match_parent"
-        android:text="@string/ths_number_of_visits_scheduled"
+        android:text="@string/ths_appointment_section_header_visit_count"
         style="@style/ths_list_header"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -102,7 +102,7 @@
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        style="@style/ths_list_item"
-       android:text="@string/ths_download_report"
+       android:text="@string/ths_download_visit_report"
        />
 
 

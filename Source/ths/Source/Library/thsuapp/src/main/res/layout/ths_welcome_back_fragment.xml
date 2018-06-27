@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="24dp"
-        android:text="@string/ths_appointment_start_time"
+        android:text="@string/ths_start_appointment_header_time"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         style="@style/amwellCentralesansBoldFont"
         android:textSize="20sp"
@@ -55,7 +55,7 @@
         style="@style/ths_body_text_bold"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
-        android:text="@string/ths_appointment_visit_better"
+        android:text="@string/ths_start_appointment_message_title"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="16sp"
         android:layout_below="@id/line_separator_below_details"
@@ -68,7 +68,7 @@
         style="@style/ths_body_text"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
-        android:text="@string/ths_appointment_fill_details"
+        android:text="@string/ths_start_appointment_message"
         android:layout_below="@id/ths_visit_better"
         />
 

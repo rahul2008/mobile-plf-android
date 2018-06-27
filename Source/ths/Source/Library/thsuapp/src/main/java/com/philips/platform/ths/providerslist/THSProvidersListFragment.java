@@ -211,8 +211,8 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void showNoProviderErrorDialog() {
         alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_provider_fetch_error)
-                .setMessage(R.string.ths_provider_fetch_error_text).
-                        setPositiveButton(R.string.ths_ok, new View.OnClickListener() {
+                .setMessage(R.string.ths_no_provider).
+                        setPositiveButton(R.string.ths_insurance_validation_ok, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 alertDialogFragment.dismiss();

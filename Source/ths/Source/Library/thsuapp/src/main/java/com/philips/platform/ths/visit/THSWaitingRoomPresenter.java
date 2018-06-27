@@ -79,9 +79,9 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
             Integer patientWaitingCount = mTHSWaitingRoomFragment.mVisit.getPatientsAheadOfYou();
             if (null != patientWaitingCount && patientWaitingCount == 1) {
 
-                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " " + mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patient_waiting));
+                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " " + mTHSWaitingRoomFragment.getString(R.string.ths_patient_waiting));
             } else if (null != patientWaitingCount && patientWaitingCount > 0) {
-                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " " + mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patients_waiting));
+                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " " + mTHSWaitingRoomFragment.getString(R.string.ths_patients_waiting));
             } else if (null != patientWaitingCount && patientWaitingCount == 0) {
                 mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_your_next_in_line));
             }
@@ -136,9 +136,9 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         if (count == 0) {
             mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_your_next_in_line));
         } else if (count == 1) {
-            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " " + mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patient_waiting));
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " " + mTHSWaitingRoomFragment.getString(R.string.ths_patient_waiting));
         } else if (count > 0) {
-            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " " + mTHSWaitingRoomFragment.getString(R.string.ths_waiting_room_patients_waiting));
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " " + mTHSWaitingRoomFragment.getString(R.string.ths_patients_waiting));
         }
 
     }
@@ -232,7 +232,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSWaitingRoomFragment.getFragmentActivity())
                     .setMessage(showLargeContent ? mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.ths_visit_not_successful) : mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.ths_visit_not_successful)).
-                            setPositiveButton(mTHSWaitingRoomFragment.getString(R.string.ths_ok), new View.OnClickListener() {
+                            setPositiveButton(mTHSWaitingRoomFragment.getString(R.string.ths_insurance_validation_ok), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     mTHSWaitingRoomFragment.alertDialogFragment.dismiss();

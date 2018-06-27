@@ -170,9 +170,9 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     private void updateCost(THSVisit thsVisit) {
         if (thsVisit.getVisit().getVisitCost().isFree()) {
             mTHSCostSummaryFragment.mActualCostHeader.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_free_visit_header));
-            mTHSCostSummaryFragment.costBigLabel.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_free_visit_text));
+            mTHSCostSummaryFragment.costBigLabel.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_free));
             mTHSCostSummaryFragment.costSmallLabel.setText(null);
-            String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Full_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
+            String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_initial_Full_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
             mTHSCostSummaryFragment.mInitialVisitCostLabel.setVisibility(View.VISIBLE);
             mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
             //if (null == mTHSCostSummaryFragment.mTHSPaymentMethod || null == mTHSCostSummaryFragment.mTHSPaymentMethod.getPaymentMethod()) {
@@ -192,7 +192,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             Consumer consumer = THSManager.getInstance().getPTHConsumer(mTHSCostSummaryFragment.getContext()).getConsumer();
             if ((consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) || (null != couponCode && !couponCode.isEmpty())) {
                 mTHSCostSummaryFragment.mInitialVisitCostLabel.setVisibility(View.VISIBLE);
-                String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Partial_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
+                String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_initial_Partial_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
                 mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
             } else {
                 // if No insurance and No Coupon
@@ -282,7 +282,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
                     if (paymentMethod.isExpired()) {
                         mTHSCostSummaryFragment.mCardExpirationDate.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_not_valid_credit_card));
                     } else {
-                        mTHSCostSummaryFragment.mCardExpirationDate.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_valid_credit_card));
+                        mTHSCostSummaryFragment.mCardExpirationDate.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_credit_card_valid));
                     }
                 } else {
                     // show no payment detail

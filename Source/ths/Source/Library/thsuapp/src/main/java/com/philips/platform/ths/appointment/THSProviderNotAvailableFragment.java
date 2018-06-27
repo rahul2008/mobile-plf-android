@@ -48,7 +48,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_available_doctors_based_on_time, container, false);
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_no_availability), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_schedule_details_no_availibility_header_title), true);
         }
 
         Label imageView = (Label) view.findViewById(R.id.ths_providerlist_right_arrow_icon);

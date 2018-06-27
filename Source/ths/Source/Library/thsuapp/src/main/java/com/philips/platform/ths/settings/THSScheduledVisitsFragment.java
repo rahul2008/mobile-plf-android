@@ -25,7 +25,6 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -66,7 +65,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment implements Swipe
         super.onActivityCreated(savedInstanceState);
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_appointments),true);
+            actionBarListener.updateActionBar(getString(R.string.ths_welcome_appointments),true);
         }
         onRefresh();
     }
@@ -87,7 +86,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment implements Swipe
         stopRefreshing();
         if(null != getContext()) {
             mNumberOfAppointmentsLabel.setVisibility(View.VISIBLE);
-            String text = getString(R.string.ths_number_of_visits_scheduled, appointments.size());
+            String text = getString(R.string.ths_appointment_section_header_visit_count, appointments.size());
             mNumberOfAppointmentsLabel.setText(text);
             mThsScheduledVisitsAdapter = new THSScheduledVisitsAdapter(appointments, this);
             mRecyclerView.setAdapter(mThsScheduledVisitsAdapter);

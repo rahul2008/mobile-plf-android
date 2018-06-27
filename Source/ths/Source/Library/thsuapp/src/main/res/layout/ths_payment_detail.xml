@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 android:layout_marginTop="24dp"
-                android:text="@string/ths_credit_card_details_information"
+                android:text="@string/ths_payment_header"
                 android:textColor="?attr/uidLabelRegularNormalTextColor"
                 android:textSize="@dimen/ths_20_sp"
                 android:textStyle="bold" />
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_payment_detail_title_label"
-                android:text="@string/ths_credit_card_details_name" />
+                android:text="@string/ths_payment_namelabel" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/ths_payment_detail_card_holder_name_edittext_validation_layout"
@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:hint="@string/ths_credit_card_details_owners_name"
+                    android:hint="@string/ths_payment_namefield"
                     android:inputType="text"
                     android:maxLines="1" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -111,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:digits="0123456789"
-                        android:hint="@string/ths_credit_card_details_expiry_month"
+                        android:hint="@string/ths_payment_monthfield"
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="2" />
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:digits="0123456789"
-                        android:hint="@string/ths_credit_card_details_expiry_year"
+                        android:hint="@string/ths_payment_yearfield"
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="4" />
@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_payment_detail_expiry_error_layout"
                 android:layout_marginTop="@dimen/ths_fab_margin"
-                android:text="@string/ths_credit_card_details_cvc_code" />
+                android:text="@string/ths_payment_cvvlabel" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/ths_payment_detail_card_cvc_edittext_validation_layout"
@@ -191,7 +191,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="@string/ths_credit_card_details_000"
+                    android:hint="@string/ths_payment_cvvfield"
                     android:imeOptions="actionDone"
                     android:inputType="numberPassword"
                     android:maxLength="4" />
@@ -246,7 +246,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ths_payment_detail_card_cvc_help_image"
-                    android:text="@string/ths_credit_card_details_whats_this_text"
+                    android:text="@string/ths_whats_this"
                     android:textColor="?attr/uidHyperlinkDefaultNormalTextColor" />
             </RelativeLayout>
 
@@ -380,7 +380,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sa_postal_code"
-                android:text="@string/ths_address_state_string" />
+                android:text="@string/ths_registration_statefield" />
 
 
             <com.philips.platform.uid.view.widget.EditText
@@ -404,5 +404,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/ths_margin_bottom"
-        android:text="@string/ths_ok_continue_button_string" />
+        android:text="@string/ths_payment_continue" />
 </RelativeLayout>

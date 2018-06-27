@@ -26,7 +26,7 @@
         android:layout_marginBottom="@dimen/ths_list_space"
         android:layout_marginRight="@dimen/ths_fab_margin"
         android:enabled="true"
-        android:text="@string/ths_continue_button_text" />
+        android:text="@string/ths_registration_continue" />
 
 
     <RelativeLayout

@@ -91,9 +91,9 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
                         try {
                             ((THSCheckPharmacyConditionsFragment) thsCheckPharmacyConditonsView).hideProgressBar();
                             JustInTimeTextResources justInTimeTextResources = new JustInTimeTextResources();
-                            justInTimeTextResources.acceptTextRes = R.string.ths_location_consent_accept;
-                            justInTimeTextResources.rejectTextRes = R.string.ths_location_consent_reject;
-                            justInTimeTextResources.titleTextRes = R.string.ths_location_consent_fragment_title;
+                            justInTimeTextResources.acceptTextRes = R.string.ths_consent_accept_button_title;
+                            justInTimeTextResources.rejectTextRes = R.string.ths_consent_cancel_button_title;
+                            justInTimeTextResources.titleTextRes = R.string.ths_consent_navigation_title;
                             JustInTimeConsentDependencies.appInfra = THSManager.getInstance().getAppInfra();
                             JustInTimeConsentDependencies.consentDefinition = thsConsentDefinition;
                             JustInTimeConsentDependencies.textResources = justInTimeTextResources;

@@ -94,7 +94,7 @@
             android:layout_marginLeft="@dimen/ths_fab_margin"
             android:layout_marginRight="@dimen/ths_fab_margin"
             android:layout_marginTop="8dp"
-            android:text="@string/ths_cost_summary_enter_promotion_code"
+            android:text="@string/ths_cost_promotionlabel"
             android:textSize="@dimen/ths_body_text"
 
             />
@@ -121,7 +121,7 @@
             android:layout_marginLeft="@dimen/ths_fab_margin"
             android:layout_marginRight="@dimen/ths_fab_margin"
             android:enabled="false"
-            android:text="@string/ths_cost_summary_provider_apply"
+            android:text="@string/ths_cost_apply"
             app:uidComponentType="Secondary"
 
             />
@@ -147,7 +147,7 @@
             android:paddingLeft="@dimen/ths_fab_margin"
 
             android:paddingRight="@dimen/ths_fab_margin"
-            android:text="@string/ths_insurance"
+            android:text="@string/ths_cost_insuranceheader"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="16sp" />
 
@@ -264,7 +264,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="10dp"
                             android:lineSpacingExtra="6sp"
-                            android:text="@string/ths_not_insurance"
+                            android:text="@string/ths_cost_noInsurance"
                             android:textColor="?attr/uidContentItemPrimaryNormalTextColor">
 
                         </com.philips.platform.uid.view.widget.Label>
@@ -295,7 +295,7 @@
             android:lineSpacingExtra="6dp"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
-            android:text="@string/ths_payment_method"
+            android:text="@string/ths_preferred_payment"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="16sp" />
 
@@ -424,7 +424,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_toEndOf="@+id/ths_cost_summary_no_payment_image"
                             android:lineSpacingExtra="6sp"
-                            android:text="@string/ths_not_payment_method"
+                            android:text="@string/ths_cost_noPayment"
                             android:textColor="?attr/uidContentItemPrimaryNormalTextColor">
 
                         </com.philips.platform.uid.view.widget.Label>
@@ -437,7 +437,7 @@
                         android:layout_below="@+id/ths_cost_summary_no_payment_detail_content_imageandlabel_relativelayout"
                         android:layout_marginTop="10dp"
                         android:lineSpacingExtra="6sp"
-                        android:text="@string/ths_no_payment_method">
+                        android:text="@string/ths_cost_noPaymentMessage">
 
                     </com.philips.platform.uid.view.widget.Label>
 
@@ -458,7 +458,7 @@
                 android:layout_marginRight="@dimen/ths_fab_margin"
                 android:gravity="center_vertical"
                 android:lineSpacingExtra="6sp"
-                android:text="@string/ths_payment_method_not_required"
+                android:text="@string/ths_cost_paymentNotRequired"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="16sp"
                 android:visibility="gone">
@@ -507,7 +507,7 @@
                     android:layout_marginTop="@dimen/ths_margin_between_buttons"
                     android:background="?attr/uidContentPrimaryBackgroundColor"
                     android:enabled="false"
-                    android:text="@string/ths_ok_continue_button_string" />
+                    android:text="@string/ths_payment_continue" />
 
             </RelativeLayout>
 
@@ -528,7 +528,7 @@
                     android:layout_marginTop="@dimen/ths_margin_between_buttons"
                     android:background="?attr/uidContentPrimaryBackgroundColor"
 
-                    android:text="@string/ths_payment_method_add" />
+                    android:text="@string/ths_cost_addpayment" />
 
             </RelativeLayout>
         </FrameLayout>
