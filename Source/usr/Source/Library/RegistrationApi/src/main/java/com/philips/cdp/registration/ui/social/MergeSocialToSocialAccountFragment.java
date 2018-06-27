@@ -31,6 +31,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
@@ -133,7 +134,8 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
         mConflictProvider = bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
         mEmail = bundle.getString(RegConstants.SOCIAL_MERGE_EMAIL);
-        String conflictingProvider = "reg_" + mConflictProvider;
+        RLog.e("TAG", "Social Provider : "+mConflictProvider);
+        String conflictingProvider = "USR_" + mConflictProvider;
         int conflictSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(conflictingProvider, "string",
                 getRegistrationFragment().getParentActivity().getPackageName());
         String conflictSocialProvider = mContext.getResources().getString(conflictSocialProviderId);

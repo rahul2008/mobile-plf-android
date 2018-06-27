@@ -133,10 +133,11 @@ public enum JanrainErrorEnum {
         } else if (stringId == R.string.USR_Janrain_AuthorizationCodeExpired_ErrorMsg) {
             return String.format(context.getString(getStringId(errorCode)), context.getString(R.string.USR_UnexpectedInternalError_ErrorMsg));
         }
-
         if (stringId == RegConstants.UNKNOWN_ERROR_ID) {
             stringId = R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg;
-            return String.format(context.getString(stringId), context.getString(R.string.USR_Error_PleaseTryLater_Txt)) + "[" + errorCode + "]" + ".";
+
+            return String.format(context.getResources().getString(stringId), errorCode);
+
         }
         return context.getString(stringId);
     }
