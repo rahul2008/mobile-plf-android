@@ -482,5 +482,5 @@
   <string name="ths_initial_Partial_cover_cost">Initial visit cost : $%.2f Your insurance / promocode partly covers the cost of the visit.</string>
 
   <string name="ths_initial_Full_cover_cost_android">Initial visit cost : %1$s Your insurance / promocode covers the cost of the visit.</string>
-  <string name="ths_initial_Partial_cover_cost_android">Initial visit cost : %1$s Your insurance / promocode partly covers the cost of the visit.</string>
+  <string name="ths_cover_cost_Partial_android">Initial visit cost : %1$s Your insurance / promocode partly covers the cost of the visit.</string>
 </resources>

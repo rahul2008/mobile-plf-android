@@ -141,7 +141,7 @@
   <string name="ths_improper_format_latitude">[ja]Improperly formatted longitude and/or latitude</string>
   <string name="ths_improper_radius_format">[ja]Improperly formatted value for radius</string>
   <string name="ths_initial_Full_cover_cost_android">[ja]Initial visit cost : $%.2f Your insurance / promocode covers the cost of the visit.</string>
-  <string name="ths_initial_Partial_cover_cost_android">[ja]Initial visit cost : $%.2f Your insurance / promocode partly covers the cost of the visit.</string>
+  <string name="ths_cover_cost_Partial_android">[ja]Initial visit cost : $%.2f Your insurance / promocode partly covers the cost of the visit.</string>
   <string name="ths_initialization_failed">[ja]Initialization failed</string>
   <string name="ths_inline_error_message">[ja]Error</string>
   <string name="ths_inline_error_message_systolic_value">[ja]Please Enter values between 0 and 250</string>
