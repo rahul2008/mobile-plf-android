@@ -180,10 +180,10 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
             isAvailable.setTextColor(ContextCompat.getColor(context, com.philips.platform.uid.R.color.uid_signal_green_level_30));
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.green_available_icon, context.getTheme()));
         } else if (providerVisibility.equals(THSConstants.PROVIDER_OFFLINE)) {
-            providerAvailabilityString = context.getResources().getString(R.string.ths_provider_offline);
+            providerAvailabilityString = context.getResources().getString(R.string.ths_provider_available_for_appointment);
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.provider_offline_icon, context.getTheme()));
         } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
-            providerAvailabilityString = context.getResources().getString(R.string.ths_provider_busy);
+            providerAvailabilityString = context.getResources().getString(R.string.ths_provider_occupied);
             isAvailable.setTextColor(ContextCompat.getColor(context, com.philips.platform.uid.R.color.uid_signal_orange_level_30));
             details_isAvailableImage_text.setText(String.valueOf(provider.getWaitingRoomCount()));
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon, context.getTheme()));
@@ -247,7 +247,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
-                detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text));
+                detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text_android));
                 if (THSManager.getInstance().isMatchMakingVisit()) {
                     detailsButtonTwo.setVisibility(View.GONE);
                 }else {
@@ -261,7 +261,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
             } else {
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
-                detailsButtonOne.setText(mContext.getString(R.string.ths_see_this_doctor_now_button_text));
+                detailsButtonOne.setText(mContext.getString(R.string.ths_provider_detail_visit_now));
                 if (THSManager.getInstance().isMatchMakingVisit()) {
                     detailsButtonTwo.setVisibility(View.GONE);
                 } else {
@@ -283,7 +283,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     private void checkForUrgentCare() {
         if(null == thsProviderDetailsViewInterface.getPractice() || thsProviderDetailsViewInterface.getPractice().isShowScheduling()) {
             detailsButtonTwo.setVisibility(View.VISIBLE);
-            detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+            detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_appointment_button_title));
         }else {
             detailsButtonTwo.setVisibility(View.GONE);
         }

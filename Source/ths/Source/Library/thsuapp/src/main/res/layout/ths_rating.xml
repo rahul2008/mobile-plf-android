@@ -77,7 +77,7 @@
         android:layout_marginBottom="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:text="@string/ths_insurance_validation_ok" />
+        android:text="@string/ths_Ok_title" />
 
 
 </RelativeLayout>

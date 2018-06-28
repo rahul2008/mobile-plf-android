@@ -232,7 +232,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSWaitingRoomFragment.getFragmentActivity())
                     .setMessage(showLargeContent ? mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.ths_visit_not_successful) : mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.ths_visit_not_successful)).
-                            setPositiveButton(mTHSWaitingRoomFragment.getString(R.string.ths_insurance_validation_ok), new View.OnClickListener() {
+                            setPositiveButton(mTHSWaitingRoomFragment.getString(R.string.ths_Ok_title), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     mTHSWaitingRoomFragment.alertDialogFragment.dismiss();

@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ths_video_consults"
-            android:text="@string/ths_service_provider"
+            android:text="@string/ths_confirm_branding"
             android:textColor="?attr/uidLoginScreenDefaultTextColor"
             style="@style/ths_body_text_pre_welcome"
             android:layout_marginBottom="@dimen/ths_margin_top"

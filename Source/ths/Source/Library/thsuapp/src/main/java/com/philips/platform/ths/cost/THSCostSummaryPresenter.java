@@ -334,7 +334,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
         };
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCostSummaryFragment.getFragmentActivity())
                 .setMessage(showLargeContent ? message : message).
-                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button), alertDialogFragmentCouponListener);
+                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_Ok_title), alertDialogFragmentCouponListener);
 
         if (isWithTitle) {
             builder.setTitle(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_error));
@@ -360,7 +360,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
         };
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCostSummaryFragment.getFragmentActivity())
                 .setMessage(showLargeContent ? message : message).
-                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button), alertDialogFragmentCreateVisitListener);
+                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_Ok_title), alertDialogFragmentCreateVisitListener);
 
         if (isWithTitle) {
             builder.setTitle(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_error));

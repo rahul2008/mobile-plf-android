@@ -172,10 +172,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private void prePopulateFromConsumerData() {
 
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_edit_details), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_customer_update_title), true);
         }
 
-        mContinueButton.setText(R.string.ths_save);
+        mContinueButton.setText(R.string.ths_consumer_update_button_title);
 
         Consumer consumer = THSManager.getInstance().getThsParentConsumer(getContext()).getConsumer();
         if (consumer == null) {

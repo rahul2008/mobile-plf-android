@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:layout_width="wrap_content"
-                android:text="@string/ths_onboarding_tour_video_consults"
+                android:text="@string/ths_confirm_description"
                 />
 
             <com.philips.platform.uid.view.widget.Label

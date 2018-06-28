@@ -23,7 +23,6 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_SUMMARY;
@@ -57,7 +56,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         updateShippingAddressView(address);
         actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.ths_pharmacy_shipping_fragment_name, true);
+            actionBarListener.updateActionBar(R.string.ths_pharmacy_shipping_android, true);
         }
         return view;
     }

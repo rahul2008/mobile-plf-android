@@ -63,7 +63,7 @@
             android:id="@+id/ths_cancel_visit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ths_credit_card_charge"
+            android:text="@string/ths_visit_creditcard_charge"
             android:layout_weight="0.5"
             style="@style/ths_list_item"
             />
@@ -81,7 +81,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_visit_report"
         android:layout_width="match_parent"
-        android:text="@string/ths_visit_report"
+        android:text="@string/ths_visit_report_title"
         style="@style/ths_list_header"
         android:layout_height="wrap_content"
         android:gravity="center"

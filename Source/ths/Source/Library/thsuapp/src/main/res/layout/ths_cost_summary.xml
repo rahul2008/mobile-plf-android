@@ -147,7 +147,7 @@
             android:paddingLeft="@dimen/ths_fab_margin"
 
             android:paddingRight="@dimen/ths_fab_margin"
-            android:text="@string/ths_cost_insuranceheader"
+            android:text="@string/ths_insurance_title"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="16sp" />
 
@@ -295,7 +295,7 @@
             android:lineSpacingExtra="6dp"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
-            android:text="@string/ths_preferred_payment"
+            android:text="@string/ths_payment_title"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="16sp" />
 
@@ -507,7 +507,7 @@
                     android:layout_marginTop="@dimen/ths_margin_between_buttons"
                     android:background="?attr/uidContentPrimaryBackgroundColor"
                     android:enabled="false"
-                    android:text="@string/ths_payment_continue" />
+                    android:text="@string/ths_ok_continue" />
 
             </RelativeLayout>
 

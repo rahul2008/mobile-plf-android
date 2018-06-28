@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -60,7 +59,7 @@ public class THSPracticeFragment extends THSBaseFragment implements THSPracticeL
 
         actionBarListener = getActionBarListener();
         if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_practice_screen_title),true);
+            actionBarListener.updateActionBar(getString(R.string.ths_practices_title),true);
         }
     }
 

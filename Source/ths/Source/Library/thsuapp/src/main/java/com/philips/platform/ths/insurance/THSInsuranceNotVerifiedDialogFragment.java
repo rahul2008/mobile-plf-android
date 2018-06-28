@@ -44,7 +44,7 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
         mMessageLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_message_label);
         mMessageLabel.setText(getResources().getString(R.string.insurance_validation_failure_message));
         mPrimaryButton = (Button) view.findViewById(R.id.ths_confirmation_dialog_primary_button);
-        mPrimaryButton.setText(getResources().getString(R.string.ths_insurance_validation_ok));
+        mPrimaryButton.setText(getResources().getString(R.string.ths_Ok_title));
         mPrimaryButton.setOnClickListener(this);
         mSecondaryButtonLabel = (Button) view.findViewById(R.id.ths_confirmation_dialog_secondary_button);
         mSecondaryButtonLabel.setText(getResources().getString(R.string.ths_insurance_tryagain));

@@ -30,7 +30,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 android:layout_marginTop="@dimen/ths_margin_top_registration_detail_title"
-                android:text="@string/ths_detail" />
+                android:text="@string/ths_registration_details" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_more_detail"
@@ -136,7 +136,7 @@
                     style="@style/ths_calendar_right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/ths_insurancedetail_dobfield"
+                    android:hint="@string/ths_date_placeholder"
                     android:inputType="none" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 

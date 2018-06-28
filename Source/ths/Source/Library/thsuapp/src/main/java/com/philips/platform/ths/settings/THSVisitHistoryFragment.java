@@ -58,7 +58,7 @@ public class THSVisitHistoryFragment extends THSBaseFragment implements SwipeRef
         super.onActivityCreated(savedInstanceState);
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_visit_history_title),true);
+            actionBarListener.updateActionBar(getString(R.string.ths_welcome_history),true);
         }
         onRefresh();
     }

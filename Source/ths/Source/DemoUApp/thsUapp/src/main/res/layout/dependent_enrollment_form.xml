@@ -156,7 +156,7 @@
                     style="@style/ths_calendar_right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/ths_insurancedetail_dobfield"
+                    android:hint="@string/ths_date_placeholder"
                     android:inputType="none" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 

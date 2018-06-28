@@ -94,7 +94,7 @@
                 android:background="@android:color/transparent"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
-                android:text="@string/ths_this_services_is_provided_by"
+                android:text="@string/ths_confirm_branding"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor" />
 
             <com.philips.platform.uid.view.widget.Label

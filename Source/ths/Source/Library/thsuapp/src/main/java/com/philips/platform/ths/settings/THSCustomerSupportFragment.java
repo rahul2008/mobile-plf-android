@@ -41,7 +41,7 @@ public class THSCustomerSupportFragment extends THSBaseFragment implements View.
         super.onActivityCreated(savedInstanceState);
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_support_title),true);
+            actionBarListener.updateActionBar(getString(R.string.ths_welcome_support),true);
         }
         THSTagUtils.doTrackPageWithInfo(THS_CUSTOMER_SUPPORT,null,null);
     }

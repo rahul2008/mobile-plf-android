@@ -179,7 +179,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         thsSymptomsPresenter = new THSSymptomsPresenter(this);
         thsSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_visit_title), true);
         }
         getVisitContext();
         return view;

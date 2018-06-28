@@ -293,7 +293,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         super.onResume();
         THSTagUtils.doTrackPageWithInfo(THS_PAYMENT_METHOD, null, null);
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getString(R.string.ths_preferred_payment), true);
+            actionBarListener.updateActionBar(getString(R.string.ths_payment_title), true);
         }
 
     }
@@ -442,7 +442,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getFragmentActivity())
                 .setMessage(showLargeContent ? getFragmentActivity().getResources().getString(R.string.ths_CVV_explanation) :
                         getFragmentActivity().getResources().getString(R.string.ths_CVV_explanation)).
-                        setPositiveButton(getResources().getString(R.string.ths_matchmaking_ok_button), this);
+                        setPositiveButton(getResources().getString(R.string.ths_Ok_title), this);
 
         if (isWithTitle) {
             builder.setTitle(getFragmentActivity().getResources().getString(R.string.ths_whats_this));

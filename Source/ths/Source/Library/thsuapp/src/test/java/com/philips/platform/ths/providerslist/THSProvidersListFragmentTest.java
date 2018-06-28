@@ -351,13 +351,13 @@ public class THSProvidersListFragmentTest {
         verify(myViewHolderMock.isAvailble,atLeastOnce()).setText("Available now");
         pv = ProviderVisibility.OFFLINE;
         when(thsProviderInfoMock.getVisibility()).thenReturn(pv);
-        when(resources.getString(R.string.ths_provider_offline)).thenReturn("Schedule appointment");
+        when(resources.getString(R.string.ths_provider_available_for_appointment)).thenReturn("Schedule appointment");
         thsProvidersListAdapter = new THSProvidersListAdapter(list);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.isAvailble,atLeastOnce()).setText("Schedule appointment");
         pv = ProviderVisibility.WEB_BUSY;
         when(thsProviderInfoMock.getVisibility()).thenReturn(pv);
-        when(resources.getString(R.string.ths_provider_busy)).thenReturn("Patient waiting");
+        when(resources.getString(R.string.ths_provider_occupied)).thenReturn("Patient waiting");
         thsProvidersListAdapter = new THSProvidersListAdapter(list);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.isAvailble,atLeastOnce()).setText("Patient waiting");

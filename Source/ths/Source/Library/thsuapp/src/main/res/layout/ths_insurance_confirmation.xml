@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ths_margin_top"
-        android:text="@string/ths_insurancep_confirmation_situation"
+        android:text="@string/ths_insurance_header"
         android:textColor="?attr/uidLabelRegularNormalTextColor"
         android:textSize="@dimen/ths_body_text"/>
 
@@ -24,7 +24,7 @@
         android:layout_below="@+id/pth_insurance_confirmation_situation"
 
         android:layout_marginTop="25dp"
-        android:text="@string/ths_insurance_confirmation_chosse_situation"
+        android:text="@string/ths_insurance_optionlabel"
         android:textColor="?attr/uidLabelRegularNormalTextColor"
         android:textSize="@dimen/ths_body_text"
         fontPath="fonts/centralesansbold.ttf"/>
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="@string/ths_insurance_confirmation_radio_option_yes" />
+            android:text="@string/ths_insurance_available" />
 
 
         <com.philips.platform.uid.view.widget.RadioButton
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
 
-            android:text="@string/ths_insurance_confirmation_radio_option_no" />
+            android:text="@string/ths_insurance_noinsurance" />
     </com.philips.platform.uid.view.widget.RadioGroup>
 
     <com.philips.platform.uid.view.widget.Button

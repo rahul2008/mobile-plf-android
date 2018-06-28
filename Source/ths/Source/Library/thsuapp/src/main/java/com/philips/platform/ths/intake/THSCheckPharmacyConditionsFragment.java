@@ -284,7 +284,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
         alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_gps_not_enabled_message_title)
                 .setMessage(R.string.ths_gps_not_enabled_message).
-                        setPositiveButton(R.string.ths_insurance_validation_ok, new View.OnClickListener() {
+                        setPositiveButton(R.string.ths_Ok_title, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 alertDialogFragment.dismiss();

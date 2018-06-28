@@ -29,7 +29,7 @@
         android:layout_toStartOf="@+id/ths_practice_arrow_image"
         android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
         android:maxLines="3"
-        android:text="@string/ths_visit_history_title"
+        android:text="@string/ths_welcome_history"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         android:textSize="@dimen/ths_body_text"
         android:textStyle="bold" />
