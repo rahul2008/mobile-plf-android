@@ -140,8 +140,8 @@
   <string name="ths_ill_wait_in_line_button_text">[zh-TW]I\'ll wait in line</string>
   <string name="ths_improper_format_latitude">[zh-TW]Improperly formatted longitude and/or latitude</string>
   <string name="ths_improper_radius_format">[zh-TW]Improperly formatted value for radius</string>
-  <string name="ths_initial_Full_cover_cost">[zh-TW]Initial visit cost : $%.2f Your insurance / promocode covers the cost of the visit.</string>
-  <string name="ths_initial_Partial_cover_cost">[zh-TW]Initial visit cost : $%.2f Your insurance / promocode partly covers the cost of the visit.</string>
+  <string name="ths_initial_Full_cover_cost_android">[zh-TW]Initial visit cost : $%.2f Your insurance / promocode covers the cost of the visit.</string>
+  <string name="ths_initial_Partial_cover_cost_android">[zh-TW]Initial visit cost : $%.2f Your insurance / promocode partly covers the cost of the visit.</string>
   <string name="ths_initialization_failed">[zh-TW]Initialization failed</string>
   <string name="ths_inline_error_message">[zh-TW]Error</string>
   <string name="ths_inline_error_message_systolic_value">[zh-TW]Please Enter values between 0 and 250</string>
