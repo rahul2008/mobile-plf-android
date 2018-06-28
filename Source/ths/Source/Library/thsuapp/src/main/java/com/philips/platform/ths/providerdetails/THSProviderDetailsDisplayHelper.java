@@ -247,7 +247,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
-                detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text_android));
+                detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text));
                 if (THSManager.getInstance().isMatchMakingVisit()) {
                     detailsButtonTwo.setVisibility(View.GONE);
                 }else {

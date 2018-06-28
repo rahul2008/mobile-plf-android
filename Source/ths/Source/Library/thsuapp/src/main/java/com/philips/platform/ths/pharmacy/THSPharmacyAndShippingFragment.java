@@ -56,7 +56,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         updateShippingAddressView(address);
         actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.ths_pharmacy_shipping_android, true);
+            actionBarListener.updateActionBar(R.string.ths_pharmacy_shipping, true);
         }
         return view;
     }

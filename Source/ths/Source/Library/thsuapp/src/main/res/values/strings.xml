@@ -8,7 +8,7 @@
     <string name="ths_registration_gender">Gender</string>
     <string name="ths_registration_location">State of residence</string>
     <string name="ths_registration_firstname">First name</string>
-    <string name="ths_registration_firstnamefield">""</string>
+    <string name="ths_registration_firstnamefield" translatable="false">""</string>
     <string name="ths_registration_statefield">State</string>
     <string name="ths_registration_lastname">Last name</string>
     <string name="ths_registration_selectstate">Select State</string>
@@ -25,7 +25,6 @@
     <string name="ths_practices_header_text">Choose an area of medicine</string>
 
     <string name="ths_practices_header_message">Select the area of medicine that is relevant to the reason of the visit. For example, if you have problems with breastfeeding, please choose \'lactation specialist'.</string>
-    <string name="ths_practices_header_message_android">Select the area of medicine that is relevant to the reason of the visit. For example, if you have problems with breastfeeding, please choose \'lactation specialist'.</string>
 
     <string name="ths_providerList_title">See a provider</string>
     <string name="ths_providerList_Available_Message">See the first available provider</string>
@@ -43,9 +42,7 @@
     <string name="ths_provider_on_call">On Call</string>
     <string name="ths_symptom_enter_comment">Enter comment</string>
 
-
-    <!--<string name="ths_provider_detail_waiting">I'll wait in line</string> -->
-    <string name="ths_ill_wait_in_line_button_text_android">I\'ll wait in line</string>
+    <string name="ths_ill_wait_in_line_button_text">I\'ll wait in line</string>
 
     <string name="ths_provider_detail_visit_now">See this provider now</string>
     <string name="ths_provider_available_for_appointment">Schedule appointment</string>
@@ -91,8 +88,7 @@
     <string name="ths_Ok_title">Ok</string>
     <string name="ths_medication_adress">Medication will be sent to</string>
 
-    <!-- <string name="ths_pharmacy_shipping">Pharmacy & shipping</string> -->
-    <string name="ths_pharmacy_shipping_android">Pharmacy &amp; Shipping</string>
+    <string name="ths_pharmacy_shipping">Pharmacy &amp; Shipping</string>
 
     <string name="ths_ok_continue">Ok, continue</string>
     <string name="ths_phone_title">phone</string>
@@ -114,7 +110,6 @@
     <string name="ths_insurancedetail_subscriberlabel">Subscriber ID</string>
     <string name="ths_insurancedetail_suffixlabel">Subscriber Suffix</string>
 
-    <!-- <string name="ths_insurancedetail_primarysubscriber_iOS">I'm not the primary subscriber.</string> -->
     <string name="ths_insurancedetail_primarysubscriber">I\'m not the primary subscriber</string>
 
     <string name="ths_insurancedetail_plannotlisted">My plan is not listed. Skip this</string>
@@ -136,7 +131,6 @@
     <string name="ths_cost_noInsuranceMessage">You currently don\'t have any insurance saved.</string>
     <string name="ths_cost_noPaymentMessage">"You currently don't have any payment methods saved. Please add a payment method."</string>
 
-    <!-- <string name="ths_whats_this_iOS">What's this?</string> -->
     <string name="ths_whats_this">What\'s this?</string>
 
     <string name="ths_CVV_explanation">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
@@ -163,7 +157,6 @@
     <string name="ths_schedule_timeslot_unavailable_message">Your selected provider has no available appointments on this date. Please pick another date or choose from the list of available providers.</string>
     <string name="ths_schedule_appointment_error">Unable to schedule appointment</string>
 
-   <!-- <string name="ths_insurance_payment_iOS">Insurance & payment</string> -->
     <string name="ths_insurance_payment">Insurance &amp; payment</string>
 
     <string name="ths_waiting_header">You are waiting to see</string>
@@ -188,7 +181,6 @@
     <string name="ths_payment_header">Credit card information</string>
     <string name="ths_payment_namelabel">Name</string>
 
-    <!-- <string name="ths_payment_namefield_iOS">Enter card owner's name</string> -->
     <string name="ths_payment_namefield">Enter card owner\'s name</string>
 
 
@@ -232,7 +224,6 @@
     <string name="ths_medications_shipped">Medications will be shipped to</string>
     <string name="ths_prescription_sent">Prescriptions will be sent to</string>
 
-    <!-- <string name="ths_matchmaker_loadingMainLabel_iOS">We're finding the right provider for your visit</string> -->
     <string name="ths_matchmaker_loadingMainLabel">We\'re finding the right provider for your visit</string>
 
     <string name="ths_matchmaker_loadingSubLabel">This may take few minutes</string>
@@ -250,7 +241,6 @@
     <string name="ths_cancel_appointment_action1">Schedule new appointment</string>
     <string name="ths_cancel_appointment_action2">Go back to start</string>
 
-    <!-- <string name="ths_confirm_terms_iOS">Agree & continue</string> -->
     <string name="ths_confirm_terms">Agree &amp; continue</string>
     <string name="ths_confirm_notice_bold">a provider online,</string>
     <string name="ths_confirm_description">Video consults in just minutes, right on your smartphone</string>
@@ -261,8 +251,6 @@
     <string name="ths_confirm_branding_title">All providers are licenced and working under</string>
     <string name="ths_confirm_notice_link">AmWell terms &amp; conditions</string>
 
-
-    <!-- <string name="ths_terms_notice_title_iOS">Terms & conditions</string> -->
     <string name="ths_terms_notice_title">Terms &amp; conditions</string>
 
     <string name="ths_welcome_title">See a provider online, anytime</string>
@@ -320,7 +308,7 @@
     <string name="ths_onboarding_step3_message2">prescribe medication</string>
     <string name="ths_onboarding_step3_message3">, which can be sent to an address of your choice. </string>
     <string name="ths_onboarding_step3_message4">Save yourself a trip to the pharmacy!</string>
-    <string name="ths_onboarding_step4_message1">All online consultations are </string>
+    <string name="ths_onboarding_step4_message1">DD/MM/YYYY</string>
     <string name="ths_onboarding_step4_message2">secure</string>
     <string name="ths_onboarding_step4_message3">, and use </string>
     <string name="ths_onboarding_step4_message4">high-quality streaming.</string>
@@ -342,8 +330,6 @@
     <string name="ths_consent_privacy_text">I allow &quot;Amwell&quot; to access my location data to \'Find Pharmacies near you\'</string>
     <string name="ths_consent_description_text">When you allow access to location data, we may collect the geographic location of your mobile device. When you make use of the \'Find Pharmacies\' functionality, you are requested to share your location data with Amwell. If you use our location features, based on your location data, the pharmacies near you will be shown.</string>
     <string name="ths_provider_unauthorized">Provider is not licensed for consumer’s state</string>
-
-
 
     <!-- Android specific keys-->
 
