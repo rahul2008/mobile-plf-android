@@ -390,6 +390,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     }
 
     private boolean isInstanceofCurrentFragment() {
+        if(getFragmentManager() == null) return false;
         Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fl_reg_fragment_container);
         return (currentFragment != null && currentFragment instanceof AccountActivationFragment);
     }
