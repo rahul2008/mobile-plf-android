@@ -92,6 +92,7 @@
   <string name="ths_cost_summary_provider_logged_out">[ro]Provider is offline</string>
   <string name="ths_cost_summary_provider_offline">[ro]Your provider went offline. Please try again after some time</string>
   <string name="ths_cost_title">[ro]Cost</string>
+  <string name="ths_cover_cost_Partial_android">[ro]Initial visit cost : %1$s Your insurance / promocode partly covers the cost of the visit.</string>
   <string name="ths_credit_card_declined">[ro]Credit card declined</string>
   <string name="ths_credit_card_details_address_error_string">[ro]Please enter valid address</string>
   <string name="ths_credit_card_details_address_same_as_shipping_address">[ro]Use my shipping address as billing address</string>
@@ -140,8 +141,9 @@
   <string name="ths_ill_wait_in_line_button_text">[ro]I\'ll wait in line</string>
   <string name="ths_improper_format_latitude">[ro]Improperly formatted longitude and/or latitude</string>
   <string name="ths_improper_radius_format">[ro]Improperly formatted value for radius</string>
-  <string name="ths_initial_Full_cover_cost_android">[ro]Initial visit cost : $%.2f Your insurance / promocode covers the cost of the visit.</string>
-  <string name="ths_cover_cost_Partial_android">[ro]Initial visit cost : $%.2f Your insurance / promocode partly covers the cost of the visit.</string>
+  <string name="ths_initial_Full_cover_cost">[ro]Initial visit cost : $%.2f Your insurance / promocode covers the cost of the visit.</string>
+  <string name="ths_initial_Full_cover_cost_android">[ro]Initial visit cost : %1$s Your insurance / promocode covers the cost of the visit.</string>
+  <string name="ths_initial_Partial_cover_cost">[ro]Initial visit cost : $%.2f Your insurance / promocode partly covers the cost of the visit.</string>
   <string name="ths_initialization_failed">[ro]Initialization failed</string>
   <string name="ths_inline_error_message">[ro]Error</string>
   <string name="ths_inline_error_message_systolic_value">[ro]Please Enter values between 0 and 250</string>

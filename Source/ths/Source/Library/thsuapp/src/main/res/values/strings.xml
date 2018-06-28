@@ -92,6 +92,7 @@
   <string name="ths_cost_summary_provider_logged_out">Provider is offline</string>
   <string name="ths_cost_summary_provider_offline">Your provider went offline. Please try again after some time</string>
   <string name="ths_cost_title">Cost</string>
+  <string name="ths_cover_cost_Partial_android">Initial visit cost : %1$s Your insurance / promocode partly covers the cost of the visit.</string>
   <string name="ths_credit_card_declined">Credit card declined</string>
   <string name="ths_credit_card_details_address_error_string">Please enter valid address</string>
   <string name="ths_credit_card_details_address_same_as_shipping_address">Use my shipping address as billing address</string>
@@ -140,7 +141,9 @@
   <string name="ths_ill_wait_in_line_button_text">I\'ll wait in line</string>
   <string name="ths_improper_format_latitude">Improperly formatted longitude and/or latitude</string>
   <string name="ths_improper_radius_format">Improperly formatted value for radius</string>
-
+  <string name="ths_initial_Full_cover_cost">Initial visit cost : $%.2f Your insurance / promocode covers the cost of the visit.</string>
+  <string name="ths_initial_Full_cover_cost_android">Initial visit cost : %1$s Your insurance / promocode covers the cost of the visit.</string>
+  <string name="ths_initial_Partial_cover_cost">Initial visit cost : $%.2f Your insurance / promocode partly covers the cost of the visit.</string>
   <string name="ths_initialization_failed">Initialization failed</string>
   <string name="ths_inline_error_message">Error</string>
   <string name="ths_inline_error_message_systolic_value">Please Enter values between 0 and 250</string>
@@ -477,10 +480,4 @@
   <string name="ths_yourPharmacy_search_Header">Which pharmacy should we send prescription to?</string>
   <string name="ths_your_pharmacy">Pharmacy</string>
   <string name="ths_your_visit">Your visit</string>
-
-  <string name="ths_initial_Full_cover_cost">Initial visit cost : $%.2f Your insurance / promocode covers the cost of the visit.</string>
-  <string name="ths_initial_Partial_cover_cost">Initial visit cost : $%.2f Your insurance / promocode partly covers the cost of the visit.</string>
-
-  <string name="ths_initial_Full_cover_cost_android">Initial visit cost : %1$s Your insurance / promocode covers the cost of the visit.</string>
-  <string name="ths_cover_cost_Partial_android">Initial visit cost : %1$s Your insurance / promocode partly covers the cost of the visit.</string>
 </resources>
