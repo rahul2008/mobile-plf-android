@@ -32,12 +32,12 @@ public class ProdRegWebViewFragment extends ProdRegBaseFragment {
 
     @Override
     public int getActionbarTitleResId() {
-        return R.string.PPR_NavBar_Title;
+        return R.string.PRG_NavBar_Title;
     }
 
     @Override
     public String getActionbarTitle() {
-        return getString(R.string.PPR_NavBar_Title);
+        return getString(R.string.PRG_NavBar_Title);
     }
 
     @Override

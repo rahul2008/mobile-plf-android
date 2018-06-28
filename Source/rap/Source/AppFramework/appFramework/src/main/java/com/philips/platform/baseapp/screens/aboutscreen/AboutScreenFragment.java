@@ -69,7 +69,7 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
         termsLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                aboutScreenActionListener.loadTermsAndPrivacy(Constants.TERMS_AND_CONDITIONS,getContext().getString(R.string.reg_TermsAndConditionsText));
+                aboutScreenActionListener.loadTermsAndPrivacy(Constants.TERMS_AND_CONDITIONS,getContext().getString(R.string.USR_TermsAndConditionsText));
             }
         });
         privacyLabel = (Label) view.findViewById(R.id.uid_about_screen_privacy);

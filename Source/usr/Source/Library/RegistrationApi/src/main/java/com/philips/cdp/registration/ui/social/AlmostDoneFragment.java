@@ -121,14 +121,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         public int isEmpty(boolean emptyField) {
             if (emptyField) {
                 loginIdEditText.setErrorMessage(
-                        R.string.reg_EmptyField_ErrorMsg);
+                        R.string.USR_EmptyField_ErrorMsg);
             } else {
                 if (RegistrationHelper.getInstance().isMobileFlow()) {
                     loginIdEditText.setErrorMessage(
-                            R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
+                            R.string.USR_InvalidEmailOrPhoneNumber_ErrorMsg);
                 } else {
                     loginIdEditText.setErrorMessage(
-                            R.string.reg_InvalidEmailAdddress_ErrorMsg);
+                            R.string.USR_InvalidEmailAdddress_ErrorMsg);
                 }
             }
             isValidEmail = false;
@@ -211,7 +211,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                     if (tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1) {
                         // No link is clicked
                         if (!isChecked) {
-                            acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                            acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.USR_TermsAndConditionsAcceptanceText_Error));
                         }
                     } else {
                         acceptTermsCheck.setChecked(!isChecked);
@@ -244,7 +244,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
             RLog.d(TAG, "initUI : isMobileFlow true");
-            emailTitleLabel.setText(R.string.reg_DLS_Phonenumber_Label_Text);
+            emailTitleLabel.setText(R.string.USR_DLS_Phonenumber_Label_Text);
             emailEditText.setInputType(InputType.TYPE_CLASS_PHONE);
         }
 
@@ -273,9 +273,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         emailEditText.setVisibility(View.VISIBLE);
         emailTitleLabel.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
-        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_DLS_Almost_Done_TextField_Email_Text));
+        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Email_Text));
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_DLS_Almost_Done_TextField_Mobile_Text));
+            almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Mobile_Text));
         }
         continueButton.setEnabled(false);
 
@@ -317,7 +317,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void showMarketingOptCheck() {
         marketingOptCheck.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
-        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_DLS_Almost_Done_Marketing_OptIn_Text));
+        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.USR_DLS_Almost_Done_Marketing_OptIn_Text));
     }
 
     @Override
@@ -421,7 +421,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void showTryAgainError() {
-        errorMessage.setError(mContext.getString(R.string.reg_Janrain_HSDP_ServerErrorMsg));
+        errorMessage.setError(mContext.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));
         scrollViewAutomatically(errorMessage, rootLayout);
     }
 
@@ -443,7 +443,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void showTermsAndConditionError() {
-        acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.USR_TermsAndConditionsAcceptanceText_Error));
     }
 
     @Override
@@ -492,18 +492,24 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_SigIn_TitleTxt;
+        return R.string.USR_SigIn_TitleTxt;
     }
 
     @Override
     public void phoneNumberAlreadyInuseError() {
-        loginIdEditText.setErrorMessage(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
+        final String string = getPhoneOrEmailString(mContext.getResources().getString(R.string.USR_DLS_Phonenumber_Label_Text));
+        loginIdEditText.setErrorMessage(string);
         loginIdEditText.showError();
+    }
+
+    private String getPhoneOrEmailString(String string) {
+        return String.format(mContext.getResources().getString(R.string.USR_Janrain_EntityAlreadyExists_ErrorMsg), string);
     }
 
     @Override
     public void emailAlreadyInuseError() {
-        loginIdEditText.setErrorMessage(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+        final String string = getPhoneOrEmailString(mContext.getResources().getString(R.string.USR_DLS_Email_Label_Text));
+        loginIdEditText.setErrorMessage(string);
         loginIdEditText.showError();
     }
 
@@ -608,7 +614,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void failedToConnectToServer() {
-        errorMessage.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+        errorMessage.setError(mContext.getResources().getString(R.string.USR_Generic_Network_Error));
     }
 
     @Override

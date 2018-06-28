@@ -127,8 +127,7 @@ public class HsdpUser {
                     handler.post(() -> ThreadUtils.postInMainThread(mContext, () ->
                             logoutHandler.
                                     onLogoutFailure(ErrorCodes.NETWORK_ERROR, mContext.
-                                            getString(R.string.
-                                                    reg_JanRain_Server_Connection_Failed))));
+                                            getString(R.string.USR_Generic_Network_ErrorMsg))));
                 } else {
                     if (dhpResponse.responseCode != null &&
                             dhpResponse.responseCode.equals(SUCCESS_CODE)) {
@@ -468,7 +467,7 @@ public class HsdpUser {
 
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         userRegistrationFailureInfo.setErrorCode(ErrorCodes.HSDP_SYSTEM_ERROR_403);
-        userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_Janrain_HSDP_ServerErrorMsg));
+        userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));
         userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.NETWORK_ERROR);
 
         ThreadUtils.postInMainThread(mContext, () ->

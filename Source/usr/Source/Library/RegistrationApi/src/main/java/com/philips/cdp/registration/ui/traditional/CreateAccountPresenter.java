@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import android.content.Context;
+
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
@@ -143,10 +145,14 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
         RLog.e(TAG, "CreateAccountFragment : onRegisterFailedWithFailure" + userRegistrationFailureInfo.getErrorCode());
         createAccountContract.registrtionFail();
         if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.JANRAIN_INVALID_DATA_FOR_VALIDATION) {
+            final Context fragmentContext = createAccountContract.getFragmentContext();
+            String alreadyTxt;
             if (RegistrationHelper.getInstance().isMobileFlow()) {
-                createAccountContract.emailError(R.string.reg_CreateAccount_Using_Phone_Alreadytxt);
+                alreadyTxt = String.format(fragmentContext.getString(R.string.USR_Janrain_EntityAlreadyExists_ErrorMsg), fragmentContext.getString(R.string.USR_DLS_Phonenumber_Label_Text));
+                createAccountContract.emailError(alreadyTxt);
             } else {
-                createAccountContract.emailError(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg);
+                alreadyTxt = String.format(fragmentContext.getString(R.string.USR_Janrain_EntityAlreadyExists_ErrorMsg), fragmentContext.getString(R.string.USR_DLS_Email_Label_Text));
+                createAccountContract.emailError(alreadyTxt);
             }
 
             createAccountContract.scrollViewAutomaticallyToEmail();

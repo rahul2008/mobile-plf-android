@@ -66,12 +66,12 @@ public class CountrySelectionPresenter {
     }
 
     private Country changeCountryNameToChineseTaipei(Context context, Country country) {
-        country.setName(context.getString(R.string.reg_Country_TWGC));
+        country.setName(context.getString(R.string.USR_Country_TWGC));
         return country;
     }
 
     protected Country changeCountryNameToTaiwan(Context context, Country country) {
-        country.setName(context.getString(R.string.reg_Country_TW));
+        country.setName(context.getString(R.string.USR_Country_TW));
         return country;
     }
 }
