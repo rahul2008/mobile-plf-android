@@ -83,7 +83,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 	public void onFlowDownloadFailure() {
 		if(mResendVerificationEmail != null) {
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg));
 			userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
 			userRegistrationFailureInfo.setErrorCode(RegConstants.RESEND_MAIL_FAILED_SERVER_ERROR);
 			ThreadUtils.postInMainThread(mContext,()->

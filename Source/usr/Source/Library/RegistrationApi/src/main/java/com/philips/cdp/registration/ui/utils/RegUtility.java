@@ -8,27 +8,42 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
-import android.support.annotation.*;
-import android.support.v4.content.*;
-import android.text.*;
-import android.text.method.*;
-import android.text.style.*;
-import android.widget.*;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
+import android.widget.CheckBox;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
-import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.Country;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.platform.appinfra.abtestclient.*;
+import com.philips.cdp.registration.events.SocialProvider;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 
 public class RegUtility {
@@ -65,11 +80,11 @@ public class RegUtility {
             TextView termsAndConditionsAcceptance,
             final Activity activity, ClickableSpan termsAndConditionClickListener) {
 
-        String termsAndCondition = activity.getString(R.string.reg_TermsAndConditionsAcceptanceText);
-        String acceptTermsAndCondition = activity.getString(R.string.reg_TermsAndConditionsText);
+        String termsAndCondition = activity.getString(R.string.USR_TermsAndConditionsAcceptanceText);
+        String acceptTermsAndCondition = activity.getString(R.string.USR_TermsAndConditionsText);
         termsAndCondition = String.format(termsAndCondition, acceptTermsAndCondition);
         termsAndConditionsAcceptance.setText(termsAndCondition);
-        String terms = activity.getString(R.string.reg_TermsAndConditionsText);
+        String terms = activity.getString(R.string.USR_TermsAndConditionsText);
         setupLinkify(termsAndConditionsAcceptance, activity, termsAndConditionClickListener, termsAndCondition, terms);
     }
 
@@ -83,11 +98,11 @@ public class RegUtility {
             CheckBox termsAndConditionsAcceptance,
             final Activity activity, ClickableSpan termsAndConditionClickListener) {
 
-        String termsAndCondition = activity.getString(R.string.reg_DLS_TermsAndConditionsAcceptanceText);
-        String acceptTermsAndCondition = "\n" + activity.getString(R.string.reg_DLS_TermsAndConditionsText);
+        String termsAndCondition = activity.getString(R.string.USR_DLS_TermsAndConditionsAcceptanceText);
+        String acceptTermsAndCondition = "\n" + activity.getString(R.string.USR_DLS_TermsAndConditionsText);
         termsAndCondition = String.format(termsAndCondition, acceptTermsAndCondition);
         termsAndConditionsAcceptance.setText(termsAndCondition);
-        String terms = activity.getString(R.string.reg_DLS_TermsAndConditionsText);
+        String terms = activity.getString(R.string.USR_DLS_TermsAndConditionsText);
         setupLinkify(termsAndConditionsAcceptance, activity, termsAndConditionClickListener, termsAndCondition, terms);
     }
 
@@ -100,11 +115,11 @@ public class RegUtility {
     public static void linkifyPhilipsNews(TextView receivePhilipsNewsView,
                                           final Activity activity, ClickableSpan
                                                   receivePhilipsNewsClickListener) {
-        String receivePhilipsNews = activity.getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
-        String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        String receivePhilipsNews = activity.getString(R.string.USR_DLS_OptIn_Promotional_Message_Line1);
+        String doesThisMeanStr = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
         receivePhilipsNews = receivePhilipsNews + "\n" + doesThisMeanStr;
         receivePhilipsNewsView.setText(receivePhilipsNews);
-        String link = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        String link = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
     }
 
@@ -117,30 +132,12 @@ public class RegUtility {
     public static void linkifyPhilipsNewsMarketing(TextView receivePhilipsNewsView,
                                                    final Activity activity, ClickableSpan
                                                            receivePhilipsNewsClickListener) {
-        String receivePhilipsNews = activity.getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
-        String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        String receivePhilipsNews = activity.getString(R.string.USR_DLS_OptIn_Promotional_Message_Line1);
+        String doesThisMeanStr = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
         receivePhilipsNews = receivePhilipsNews + "\n" + doesThisMeanStr;
         receivePhilipsNewsView.setText(receivePhilipsNews);
-        String link = "\n" + activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        String link = "\n" + activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
-    }
-
-    /**
-     * @param accountSettingPhilipsNews
-     * @param activity
-     * @param accountSettingsPhilipsClickListener
-     * @since 1.0.0
-     */
-
-    public static void linkifyAccountSettingPhilips(
-            TextView accountSettingPhilipsNews, final Activity activity,
-            ClickableSpan accountSettingsPhilipsClickListener) {
-        String moreAccountSettings = activity.getString(R.string.reg_Access_More_Account_Setting_lbltxt);
-        String doesThisMeanStr = activity.getString(R.string.reg_Philips_URL_txt);
-        moreAccountSettings = String.format(moreAccountSettings, doesThisMeanStr);
-        accountSettingPhilipsNews.setText(moreAccountSettings);
-        String link = activity.getString(R.string.reg_Philips_URL_txt);
-        setupLinkify(accountSettingPhilipsNews, activity, accountSettingsPhilipsClickListener, moreAccountSettings, link);
     }
 
     /**
@@ -388,7 +385,7 @@ public class RegUtility {
     }
 
     public static void showErrorMessage(Activity parentActivity) {
-        parentActivity.runOnUiThread(() -> Toast.makeText(parentActivity, parentActivity.getResources().getString(R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg), Toast.LENGTH_SHORT).show());
+        parentActivity.runOnUiThread(() -> Toast.makeText(parentActivity, parentActivity.getResources().getString(R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg), Toast.LENGTH_SHORT).show());
     }
 
     public static void handleDynamicPermissionChange(Activity registrationActivity) {
@@ -419,7 +416,7 @@ public class RegUtility {
     }
 
     private static String getCountryKey(String mSelectedCountryCode) {
-        return "reg_Country" + "_" + mSelectedCountryCode;
+        return "Country" + "_" + mSelectedCountryCode;
     }
 
 

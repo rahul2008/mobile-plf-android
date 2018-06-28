@@ -39,7 +39,7 @@
             android:id="@+id/button_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/PPR_Continue"
+            android:text="@string/PRG_Continue"
             />
 
         <com.philips.platform.uid.view.widget.Button

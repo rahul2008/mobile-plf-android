@@ -296,7 +296,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     public void localeServiceDiscoveryFailed() {
         RLog.d(TAG, "localeServiceDiscoveryFailed : is called");
         hideProgressDialog();
-        updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
     }
 
     @Override
@@ -332,6 +332,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
+
 
     private void showSignInAccountFragment() {
         if (!getRegistrationFragment().isHomeFragment()) {
@@ -388,7 +389,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_DLS_StratScreen_Nav_Title_Txt;
+        return R.string.USR_DLS_StratScreen_Nav_Title_Txt;
     }
 
     private ClickableSpan countryClickListener = new ClickableSpan() {
@@ -648,8 +649,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void updateCountryText(String text) {
-        mCountryDisplay.setText(String.format("%s %s", getString(R.string.reg_Country_Region) + ":", text));
-        mCountryDisplay2.setText(String.format("%s %s", getString(R.string.reg_Country_Region) + ":", text));
+        mCountryDisplay.setText(String.format("%s %s", getString(R.string.USR_Country_Region) + ":", text));
+        mCountryDisplay2.setText(String.format("%s %s", getString(R.string.USR_Country_Region) + ":", text));
 
         linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
         linkifyPrivacyPolicy(mCountryDisplay2, countryClickListener);
@@ -771,8 +772,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void wechatAppNotInstalled() {
         handleBtnClickableStates(true);
-        final String formatedString = String.format(mContext.getText(R.string.reg_App_NotInstalled_AlertMessage).toString(),
-                mContext.getText(R.string.reg_wechat));
+        final String formatedString = String.format(mContext.getText(R.string.USR_App_NotInstalled_AlertMessage).toString(),
+                mContext.getText(R.string.USR_wechat));
         Toast.makeText(mContext, formatedString
                 , Toast.LENGTH_SHORT).show();
     }
@@ -780,7 +781,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void wechatAppNotSupported() {
         handleBtnClickableStates(true);
-        Toast.makeText(mContext, mContext.getText(R.string.reg_Provider_Not_Supported)
+        Toast.makeText(mContext, mContext.getText(R.string.USR_Provider_Not_Supported)
                 , Toast.LENGTH_SHORT).show();
     }
 
@@ -792,7 +793,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void wechatAuthenticationFailError() {
         hideProgressDialogWithTrackHomeAndEnableControls();
-        updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK,ErrorCodes.NETWORK_ERROR));
     }
 
     @Override
@@ -841,7 +842,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void initFailed() {
-        updateErrorNotification(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK,ErrorCodes.NETWORK_ERROR));
         hideProgressDialog();
     }
 

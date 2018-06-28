@@ -1,24 +1,32 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.res.*;
-import android.os.*;
-import android.text.*;
-import android.view.*;
-import android.widget.*;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
-import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.traditional.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.uid.view.widget.*;
+import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
+import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
+import com.philips.platform.uid.view.widget.ValidationEditText;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-import static android.view.View.*;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.*;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
 
 
 public class AddSecureEmailFragment extends RegistrationBaseFragment implements AddSecureEmailContract {
@@ -70,7 +78,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_RegCreateAccount_NavTitle;
+        return R.string.USR_DLS_URCreateAccount_NavTitle;
     }
 
 
@@ -93,7 +101,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     @Override
     public void showInvalidEmailError() {
         rl_reg_securedata_email_field_inputValidation.setErrorMessage(
-                getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
+                getString(R.string.USR_InvalidEmailAdddress_ErrorMsg));
         rl_reg_securedata_email_field_inputValidation.showError();
     }
 
@@ -123,7 +131,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void showNetworkUnavailableError() {
-        recoveryErrorTextView.setError(getResources().getString(R.string.reg_JanRain_Server_ConnectionLost_ErrorMsg));
+        recoveryErrorTextView.setError(getResources().getString(R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg));
         recoveryErrorTextView.setVisibility(VISIBLE);
     }
 

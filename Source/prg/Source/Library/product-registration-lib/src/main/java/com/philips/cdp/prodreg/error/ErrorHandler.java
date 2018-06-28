@@ -54,27 +54,27 @@ public class ErrorHandler {
 
     public ProdRegErrorMap getError(Context context, int statusCode) {
         if (statusCode == ProdRegError.INVALID_CTN.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Product_Not_Found_Title), context.getString(R.string.PPR_Product_Not_Found_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_Product_Not_Found_Title), context.getString(R.string.PRG_Product_Not_Found_ErrMsg));
         } else if (statusCode == ProdRegError.PRODUCT_ALREADY_REGISTERED.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Already_Registered_title), context.getString(R.string.PPR_Already_Registered_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_Already_Registered_title), context.getString(R.string.PRG_Already_Registered_ErrMsg));
         } else if (statusCode == ProdRegError.ACCESS_TOKEN_INVALID.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Authentication_Fail_Title), context.getString(R.string.PPR_Authentication_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_Authentication_Fail_Title), context.getString(R.string.PRG_Authentication_ErrMsg));
         } else if (statusCode == ProdRegError.INVALID_SERIALNUMBER.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Invalid_SerialNum_Title), context.getString(R.string.PPR_SerialNum_Format_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_Invalid_SerialNum_Title), context.getString(R.string.PRG_SerialNum_Format_ErrMsg));
         } else if (statusCode == ProdRegError.INVALID_DATE.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Req_Purchase_Date_Title), context.getString(R.string.PPR_Enter_Purchase_Date_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_Req_Purchase_Date_Title), context.getString(R.string.PRG_Enter_Purchase_Date_ErrMsg));
         } else if (statusCode == ProdRegError.NO_INTERNET_AVAILABLE.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_No_Internet_Title), context.getString(R.string.PPR_No_Internet_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_No_Internet_Title), context.getString(R.string.PRG_No_Internet_ErrMsg));
         } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Communication_Err_Title), context.getString(R.string.PPR_Unable_Connect_Server_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_Communication_Err_Title), context.getString(R.string.PRG_Unable_Connect_Server_ErrMsg));
         } else if (statusCode == ProdRegError.TIME_OUT.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Communication_Err_Title), context.getString(R.string.PPR_Unable_Connect_Server_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_Communication_Err_Title), context.getString(R.string.PRG_Unable_Connect_Server_ErrMsg));
         } else if (statusCode == ProdRegError.NETWORK_ERROR.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Network_Err_Title), context.getString(R.string.PPR_Network_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_Network_Err_Title), context.getString(R.string.PRG_Network_ErrMsg));
         } else if (statusCode == ProdRegError.MISSING_CTN.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Missing_Ctn_Title), context.getString(R.string.PPR_Missing_Ctn_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_Missing_Ctn_Title), context.getString(R.string.PRG_Missing_Ctn_ErrMsg));
         } else {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Unknow_ErrMsg), context.getString(R.string.PPR_Unknow_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_Unknow_ErrMsg), context.getString(R.string.PRG_Unknow_ErrMsg));
         }
     }
 }

@@ -600,8 +600,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     public View getNotificationContentView(String title, String message) {
         RLog.i(TAG,"getNotificationContentView : isCalled");
         View view = View.inflate(getContext(), R.layout.reg_notification_bg_accent, null);
-        ((TextView) view.findViewById(R.id.uid_notification_title)).setText(title);
-        ((TextView) view.findViewById(R.id.uid_notification_content)).setText(message);
+        ((TextView) view.findViewById(R.id.uid_notification_title)).setText(title+" "+message);
+//        ((TextView) view.findViewById(R.id.uid_notification_content)).setText(message);
         view.findViewById(R.id.uid_notification_title).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_icon).setVisibility(View.VISIBLE);

@@ -30,6 +30,9 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.CounterHelper;
 import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -156,7 +159,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             isEmailVerifiedError = true;
             mBundle.putBoolean("isEmailVerifiedError", isEmailVerifiedError);
             mBundle.putString("saveEmailVerifiedErrorText",
-                    mContext.getResources().getString(R.string.reg_RegEmailNotVerified_AlertPopupErrorText));
+                    mContext.getResources().getString(R.string.USR_Janrain_Error_Need_Email_Verification));
         }
     }
 
@@ -210,7 +213,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     void setDiscription() {
         mEmailId = mUser.getEmail();
-        String email = getString(R.string.reg_DLS_Verify_Email_Sent_Txt);
+        String email = getString(R.string.USR_DLS_Verify_Email_Sent_Txt);
         email = String.format(email, mEmailId);
         setupSpannableText(mTvVerifyEmail, email, mEmailId);
 
@@ -243,9 +246,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public int getTitleResourceId() {
         if (isSocialProvider) {
-            return R.string.reg_DLS_SigIn_TitleTxt;
+            return R.string.USR_DLS_SigIn_TitleTxt;
         } else {
-            return R.string.reg_DLS_URCreateAccount_NavTitle;
+            return R.string.USR_DLS_URCreateAccount_NavTitle;
         }
     }
 
@@ -298,13 +301,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void showVerifyAlertDialog() {
         if (isInstanceofCurrentFragment()) {
             RegAlertDialog.showDialog(mContext.getResources().getString(
-                    R.string.reg_DLS_Email_Verify_Alert_Title),
+                    R.string.USR_DLS_Email_Verify_Alert_Title),
                     mContext.getResources().getString(
-                            R.string.reg_DLS_Email_Verify_Alert_Body_Line1),
+                            R.string.USR_DLS_Forgot_Password_Alert_Message_Line1),
                     mContext.getResources().getString(
-                            R.string.reg_DLS_Email_Verify_Alert_Body_Line2),
+                            R.string.USR_DLS_Forgot_Password_Alert_Message_Line2),
                     mContext.getResources().getString(
-                            R.string.reg_Ok_Btn_Txt)
+                            R.string.USR_DLS_Button_Title_Ok)
                     , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
         }
     }
@@ -349,7 +352,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleRefreshUserFailed(int error) {
         RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
         if (error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED) {
-            verificationError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            verificationError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
             hideActivateSpinner();
             activateButtonEnable(true);
             mBtnResend.setEnabled(true);
@@ -390,6 +393,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     }
 
     private boolean isInstanceofCurrentFragment() {
+        if(getFragmentManager() == null) return false;
         Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fl_reg_fragment_container);
         return (currentFragment != null && currentFragment instanceof AccountActivationFragment);
     }

@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-            app:uidTextBoxValidationErrorText="@string/PPR_Invalid_SerialNum_ErrMsg">
+            app:uidTextBoxValidationErrorText="@string/PRG_Invalid_SerialNum_ErrMsg">
 
             <com.philips.platform.uid.view.widget.ValidationEditText
                 android:id="@+id/prg_registerScreen_serialNumber_validationEditText"
@@ -93,7 +93,7 @@
             android:drawablePadding="2dp"
             android:drawableStart="@drawable/questionmark"
             android:gravity="center"
-            android:text="@string/PPR_Find_Serial_Number"
+            android:text="@string/PRG_Find_Serial_Number"
             />
     </LinearLayout>
 
@@ -152,5 +152,5 @@
         android:clickable="false"
         app:uidIsIndeterminateProgressIndicator="true"
         app:uidProgressIndicatorButtonProgressText="@string/PRG_Registering_Products_Lbltxt"
-        app:uidProgressIndicatorButtonText="@string/PPR_Register_Btntxt"/>
+        app:uidProgressIndicatorButtonText="@string/PRG_Register_Btntxt"/>
 </RelativeLayout>
