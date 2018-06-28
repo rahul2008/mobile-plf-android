@@ -50,7 +50,7 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
     public static final String DS_DEMO_APP = "Test Data Services Demo";
     public static final String MYA_DEMO_APP = "Test My Account Service Demo";
     public static final String CC_DEMO_APP = "Test Consumer Care Demo";
-    public static final String DLS_DEMO_APP = "Test DLS Demo";
+//    public static final String DLS_DEMO_APP = "Test DLS Demo";
     public static final String UAPP_FRAMEWORK_DEMO = "Test uApp Demo";
     public static final String DICOMM_APP = "Test ConArtist Demo";
     public static final String BLUE_LIB_DEMO_APP = "Test ShineLib Demo";
@@ -71,7 +71,7 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
     public static final String TEST_EWS = "ews";
     public static final String TEST_DEVICE_PAIRING_EVENT = "device_pairing";
     public static final String TEST_APP_INFRA_EVENT = "AppInfra";
-    public static final String TEST_DLS_APP = "DLS";
+//    public static final String TEST_DLS_APP = "DLS";
     public static final String TEST_THS_DEMO_EVENT = "TestThsDemoEvent";
     public static final String TEST_NEURA_DEMO_EVENT = "TestNeuraDemoEvent";
     private static final String TAG = COCOListPresenter.class.getSimpleName();
@@ -168,8 +168,8 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
                 return TEST_DEVICE_PAIRING_EVENT;
             case DEMO_APP_INFRA:
                 return TEST_APP_INFRA_EVENT;
-            case DLS_DEMO_APP:
-                return TEST_DLS_APP;
+//            case DLS_DEMO_APP:
+//                return TEST_DLS_APP;
             case THS_DEMO_APP:
                 return TEST_THS_DEMO_EVENT;
             case NEURA_DEMO_APP:
