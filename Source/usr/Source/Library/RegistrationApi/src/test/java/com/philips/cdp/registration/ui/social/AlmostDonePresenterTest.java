@@ -187,7 +187,6 @@ public class AlmostDonePresenterTest {
         presenter.onLoginFailedWithError(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).phoneNumberAlreadyInuseError();
-        verify(mockContract).showLoginFailedError();
     }
 
     @Test
@@ -197,7 +196,6 @@ public class AlmostDonePresenterTest {
         presenter.onLoginFailedWithError(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).emailAlreadyInuseError();
-        verify(mockContract).showLoginFailedError();
     }
 
     @Test
