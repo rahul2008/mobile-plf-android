@@ -121,7 +121,7 @@ public enum HSDPErrorEnum {
         if (stringId == RegConstants.UNKNOWN_ERROR_ID) {
             //return context.getString(R.string.reg_Generic_Network_Error) +" "+ "["+errorCode+"]";
             stringId = R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg;
-            return String.format(context.getString(stringId), context.getString(R.string.USR_Error_PleaseTryLater_Txt)) + "[" + errorCode + "]" + ".";
+            return String.format(context.getResources().getString(stringId), errorCode);
         }
         return String.format(context.getString(getStringId(errorCode)), errorCode);
     }
