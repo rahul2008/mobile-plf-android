@@ -179,6 +179,7 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
         }
     }
 
+    
     @Override
     public void onStateComplete(BaseState baseState) {
 
