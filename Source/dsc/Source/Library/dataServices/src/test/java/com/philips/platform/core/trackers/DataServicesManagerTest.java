@@ -2,6 +2,8 @@ package com.philips.platform.core.trackers;
 
 import android.content.SharedPreferences;
 
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnGetServiceUrlListener;
 import com.philips.platform.core.BaseAppCore;
@@ -52,7 +54,6 @@ import com.philips.platform.core.events.PairDevicesRequestEvent;
 import com.philips.platform.core.events.RegisterDeviceToken;
 import com.philips.platform.core.events.UnPairDeviceRequestEvent;
 import com.philips.platform.core.events.UnRegisterDeviceToken;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
@@ -67,7 +68,6 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
 import com.philips.spy.DSPaginationSpy;
-import com.philips.testing.verticals.datatyes.ConsentDetailStatusType;
 import com.philips.testing.verticals.datatyes.MomentType;
 
 import org.joda.time.DateTime;
@@ -75,6 +75,7 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -95,6 +96,7 @@ import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInt
 import static com.philips.platform.core.utils.DataServicesConstants.BASE_URL_KEY;
 import static com.philips.platform.core.utils.DataServicesConstants.COACHING_SERVICE_URL_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -138,6 +140,10 @@ public class DataServicesManagerTest {
     private Insight insightMock;
     @Mock
     private Moment momentMock;
+    @Mock
+    private Moment supportedMoment;
+    @Mock
+    private Moment nonSupportedMoment;
     @Mock
     private MomentDetail momentDetailMock;
     @Mock
@@ -185,6 +191,10 @@ public class DataServicesManagerTest {
     @Mock
     private SharedPreferences.Editor prefsEditorMock;
 
+    private AppConfigurationInterface mConfigInterface = null;
+
+    private AppInfra mAppInfra;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -213,6 +223,9 @@ public class DataServicesManagerTest {
         mDataServicesManager.mBackendIdProvider = uCoreAccessProvider;
         mDataServicesManager.setServiceDiscoveryInterface(serviceDiscoveryInterfaceMock);
         when(requestEventMock.getEventId()).thenReturn(TEST_REFERENCE_ID);
+        mAppInfra = mock(AppInfra.class);
+        mConfigInterface = mock(AppConfigurationInterface.class);
+        when(mAppInfra.getConfigInterface()).thenReturn(mConfigInterface);
     }
 
     @Test
@@ -446,6 +459,40 @@ public class DataServicesManagerTest {
         list.add(momentMock);
         mDataServicesManager.saveMoments(list, dbRequestListener);
         verify(eventingMock).post(any(MomentsSaveRequest.class));
+    }
+
+    @Test
+    public void Should_filterUnsupportedMomentTypesWhenSaving() {
+        givenSupportedMomentTypes(new String[]{"SupportedMomentType"});
+        when(supportedMoment.getType()).thenReturn("SupportedMomentType");
+        when(nonSupportedMoment.getType()).thenReturn("OtherMomentType");
+        List list = new ArrayList();
+        list.add(supportedMoment);
+        list.add(nonSupportedMoment);
+        mDataServicesManager.saveMoments(list, dbRequestListener);
+        ArgumentCaptor<MomentsSaveRequest> argument = ArgumentCaptor.forClass(MomentsSaveRequest.class);
+        verify(eventingMock).post(argument.capture());
+        MomentsSaveRequest momentSaveRequest = argument.getValue();
+        List<Moment> moments = momentSaveRequest.getMoments();
+        assertEquals(1, moments.size());
+        assertEquals("SupportedMomentType", moments.get(0).getType());
+    }
+
+    @Test
+    public void Should_storesAllMomentsWhenSupportedMomentTypesListIsEmpty() {
+        when(supportedMoment.getType()).thenReturn("SupportedMomentType");
+        when(nonSupportedMoment.getType()).thenReturn("OtherMomentType");
+        List list = new ArrayList();
+        list.add(supportedMoment);
+        list.add(nonSupportedMoment);
+        mDataServicesManager.saveMoments(list, dbRequestListener);
+        ArgumentCaptor<MomentsSaveRequest> argument = ArgumentCaptor.forClass(MomentsSaveRequest.class);
+        verify(eventingMock).post(argument.capture());
+        MomentsSaveRequest momentSaveRequest = argument.getValue();
+        List<Moment> moments = momentSaveRequest.getMoments();
+        assertEquals(2, moments.size());
+        assertEquals("SupportedMomentType", moments.get(0).getType());
+        assertEquals("OtherMomentType", moments.get(1).getType());
     }
 
     @Test
@@ -1005,6 +1052,11 @@ public class DataServicesManagerTest {
 
     private void givenHandlerExecutesImmediately() {
         ShadowLooper.runUiThreadTasks();
+    }
+
+    private void givenSupportedMomentTypes(String[] supportedMomentTypes) {
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        mConfigInterface.setPropertyForKey("supportedMomentTypes", "dataservices", supportedMomentTypes, configError);
     }
 
     private void whenSynchronizeIsInvoked() {

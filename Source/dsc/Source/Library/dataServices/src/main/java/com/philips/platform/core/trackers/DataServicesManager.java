@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
@@ -124,9 +125,11 @@ public class DataServicesManager {
     private ArrayList<DataFetcher> mCustomFetchers;
     private ArrayList<DataSender> mCustomSenders;
     private Set<String> mSyncDataTypes;
+    private String[] supportedMomentTypes = new String[0];
 
     public String mDataServicesBaseUrl;
     public String mDataServicesCoachingServiceUrl;
+
 
     private DBChangeListener dbChangeListener;
     SynchronisationCompleteListener mSynchronisationCompleteListener;
@@ -181,6 +184,9 @@ public class DataServicesManager {
         this.mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         this.dataServiceContext = context;
         this.gdprStorage = context.getSharedPreferences(GDPR_MIGRATION_FLAG_STORAGE, Context.MODE_PRIVATE);
+
+        Object x = appInfraInterface.getConfigInterface().getPropertyForKey("supportedMomentTypes", "dataservices", new AppConfigurationInterface.AppConfigurationError());
+
         initLogger();
     }
 
@@ -348,6 +354,8 @@ public class DataServicesManager {
     }
 
     public void saveMoments(@NonNull final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
+
+
         mEventing.post(new MomentsSaveRequest(moments, dbRequestListener));
     }
 
@@ -599,7 +607,7 @@ public class DataServicesManager {
     }
 
     public void migrateGDPR(final DBRequestListener<Object> resultListener) {
-        if(isGdprMigrationDone()) {
+        if (isGdprMigrationDone()) {
             resultListener.onSuccess(Collections.emptyList());
         } else {
             deleteSyncedMoments(new DBRequestListener<Moment>() {
@@ -673,7 +681,7 @@ public class DataServicesManager {
             }
 
             @Override
-            public void onSyncFailed(final  Exception exception) {
+            public void onSyncFailed(final Exception exception) {
                 // Post on main thread
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
