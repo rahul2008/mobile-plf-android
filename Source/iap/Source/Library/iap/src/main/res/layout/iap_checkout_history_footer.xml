@@ -156,6 +156,7 @@
                 style="@style/iap_right_arrow_product_catalog"
                 android:layout_width="15dip"
                 android:layout_height="15dip"
+                android:visibility="gone"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:gravity="center_vertical"/>

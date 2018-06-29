@@ -217,11 +217,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (isVisible) {
             fm.beginTransaction()
                     .show(fragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         } else {
             fm.beginTransaction()
                     .hide(fragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
 
     }
@@ -257,10 +257,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     }
 
-    private void removeStaticFragments() {
-        removeStaticFragments(shippingFragment);
-        removeStaticFragments(billingFragment);
-    }
 
     private void createNewAddressOrUpdateIfAddressIDPresent() {
         createCustomProgressBar(mParentContainer,BIG);
