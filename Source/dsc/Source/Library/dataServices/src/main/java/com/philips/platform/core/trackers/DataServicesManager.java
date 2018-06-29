@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
 package com.philips.platform.core.trackers;
 
@@ -95,6 +95,7 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -125,7 +126,7 @@ public class DataServicesManager {
     private ArrayList<DataFetcher> mCustomFetchers;
     private ArrayList<DataSender> mCustomSenders;
     private Set<String> mSyncDataTypes;
-    private String[] supportedMomentTypes = new String[0];
+    private List<String> supportedMomentTypes = new ArrayList<>();
 
     public String mDataServicesBaseUrl;
     public String mDataServicesCoachingServiceUrl;
@@ -185,7 +186,8 @@ public class DataServicesManager {
         this.dataServiceContext = context;
         this.gdprStorage = context.getSharedPreferences(GDPR_MIGRATION_FLAG_STORAGE, Context.MODE_PRIVATE);
 
-        Object x = appInfraInterface.getConfigInterface().getPropertyForKey("supportedMomentTypes", "dataservices", new AppConfigurationInterface.AppConfigurationError());
+        String[] supportedMomentTypesArray = (String[]) appInfraInterface.getConfigInterface().getPropertyForKey("supportedMomentTypes", "dataservices", new AppConfigurationInterface.AppConfigurationError());
+        supportedMomentTypes = Arrays.asList(supportedMomentTypesArray);
 
         initLogger();
     }
@@ -354,9 +356,8 @@ public class DataServicesManager {
     }
 
     public void saveMoments(@NonNull final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
-
-
-        mEventing.post(new MomentsSaveRequest(moments, dbRequestListener));
+        List<Moment> supportedMoments = filterUnsupportedMomentTypes(moments);
+        mEventing.post(new MomentsSaveRequest(supportedMoments, dbRequestListener));
     }
 
     public void fetchMomentWithType(DBFetchRequestListner<Moment> dbFetchRequestListner, final @NonNull String... type) {
@@ -692,5 +693,18 @@ public class DataServicesManager {
             }
         });
         storeGdprMigrationFlag();
+    }
+
+    private List<Moment> filterUnsupportedMomentTypes(List<Moment> moments) {
+        List<Moment> supportedMoments = moments;
+        if (!supportedMomentTypes.isEmpty()) {
+            supportedMoments = new ArrayList<>();
+            for (Moment moment : moments) {
+                if (supportedMomentTypes.contains(moment.getType())) {
+                    supportedMoments.add(moment);
+                }
+            }
+        }
+        return supportedMoments;
     }
 }
