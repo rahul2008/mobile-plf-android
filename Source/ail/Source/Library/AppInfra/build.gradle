@@ -114,6 +114,9 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.support.annotations
     implementation deps.joda_time
+    implementation deps.firbase_core
+    implementation deps.firbase_config
+
     api deps.room_runtime,{
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'
