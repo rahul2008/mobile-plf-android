@@ -103,7 +103,7 @@ ext.robolectric = "https://mvnrepository.com/artifact/org.robolectric/shadows-co
 ext.deps = [
         adobemobilelib                : 'adobeMobileLibrary:adobeMobileLibrary:4.14.0',
         americanwell                  : 'com.americanwell:awsdk:3.2.2',
-        butterknife                   : 'com.jakewharton:butterknife:9.0.0-SNAPSHOT',
+        butterknife                   : 'com.jakewharton:butterknife:8.8.1',
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
         constraintlayout              : 'com.android.support.constraint:constraint-layout:1.0.2',
         dagger                        : [
@@ -159,8 +159,8 @@ ext.deps = [
         androidJUnitRunner            : 'android.support.test.runner.AndroidJUnitRunner',
         apache                        : 'org.apache.http.legacy:org.apache.http.legacy:1.0.0',
         assertj                       : 'com.squareup.assertj:assertj-android:1.1.1',
-        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:9.0.0-SNAPSHOT',
-        butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:9.0.0-SNAPSHOT',
+        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:8.8.1',
+        butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:8.4.0',
         cucumber                      : 'info.cukes:cucumber-android:1.2.2',
         cucumber_junit                : 'info.cukes:cucumber-junit:1.2.2',
         dexmaker_google               : 'com.google.dexmaker:dexmaker:1.2',
