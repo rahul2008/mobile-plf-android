@@ -49,47 +49,7 @@ public class LoggingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logging);
         appInfra = (AppInfra) AILDemouAppInterface.getInstance().getAppInfra();
-        cloudLoggingConsentSwitch = findViewById(R.id.cloud_logging_switch);
 
-        cloudLoggingConsentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ConsentDefinition consentDefinition = ((ConsentManager) appInfra.getConsentManager()).getConsentDefinitionForType(AppInfraLogging.CLOUD_CONSENT);
-                appInfra.getConsentManager().storeConsentState(consentDefinition, isChecked, new PostConsentCallback() {
-                    @Override
-                    public void onPostConsentFailed(ConsentError error) {
-                        Log.v("SyncTesting", "Error while saving consent");
-                    }
-
-                    @Override
-                    public void onPostConsentSuccess() {
-                        Log.v("SyncTesting", "Changed consent sucessfully");
-                    }
-                });
-            }
-        });
-        appInfra.getConsentManager().fetchConsentTypeState(AppInfraLogging.CLOUD_CONSENT, new FetchConsentCallback() {
-            @Override
-            public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
-                if (consentDefinitionStatus != null && consentDefinitionStatus.getConsentState() != null) {
-                    switch (consentDefinitionStatus.getConsentState()) {
-                        case inactive:
-                        case rejected:
-                            cloudLoggingConsentSwitch.setChecked(false);
-                            break;
-                        case active:
-                            cloudLoggingConsentSwitch.setChecked(true);
-                            break;
-                    }
-                }
-
-            }
-
-            @Override
-            public void onGetConsentFailed(ConsentError error) {
-                Log.v("LoggingActivity","Getting consent failed");
-            }
-        });
         /////////////////////////////////////
 
         //create Logger
