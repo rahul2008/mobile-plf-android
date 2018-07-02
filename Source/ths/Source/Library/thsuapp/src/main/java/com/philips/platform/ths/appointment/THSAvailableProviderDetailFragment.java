@@ -52,7 +52,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
         swipeProviderLayout.setRefreshing(false);
 
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_pick_time), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_schedule_details_header_title), true);
         }
         Bundle arguments = getArguments();
         thsProviderEntity = arguments.getParcelable(THSConstants.THS_PROVIDER_ENTITY);

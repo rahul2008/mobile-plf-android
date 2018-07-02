@@ -172,10 +172,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private void prePopulateFromConsumerData() {
 
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_edit_details), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_customer_update_title), true);
         }
 
-        mContinueButton.setText(R.string.ths_save);
+        mContinueButton.setText(R.string.ths_consumer_update_button_title);
 
         Consumer consumer = THSManager.getInstance().getThsParentConsumer(getContext()).getConsumer();
         if (consumer == null) {
@@ -232,10 +232,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private void prePopulateFromPropositionData() {
 
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_your_details), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_registration_screen), true);
         }
 
-        mContinueButton.setText(R.string.ths_continue);
+        mContinueButton.setText(R.string.ths_registration_continue);
 
         THSConsumer user = THSManager.getInstance().getThsConsumer(getContext());
 
@@ -289,7 +289,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         View radioButton = radio_group_single_line.findViewById(radioButtonID);
         int idx = radio_group_single_line.indexOfChild(radioButton);
 
-        if (id == R.id.ths_continue && mContinueButton.getText().toString().equalsIgnoreCase(getString(R.string.ths_continue))) {
+        if (id == R.id.ths_continue && mContinueButton.getText().toString().equalsIgnoreCase(getString(R.string.ths_registration_continue))) {
             if (validateUserFields()) {
 
                 mContinueButton.showProgressIndicator();

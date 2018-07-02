@@ -26,7 +26,7 @@
         android:layout_marginBottom="@dimen/ths_list_space"
         android:layout_marginRight="@dimen/ths_fab_margin"
         android:enabled="true"
-        android:text="@string/ths_continue_button_text" />
+        android:text="@string/ths_registration_continue" />
 
 
     <RelativeLayout
@@ -38,7 +38,7 @@
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_intake_medication_label"
             style="@style/ths_mobile_wizard"
-            android:text="@string/ths_vitals_medications" />
+            android:text="@string/ths_input_medicine_title" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_medication_patient_name"
@@ -63,7 +63,7 @@
             android:layout_marginTop="@dimen/ths_margin_between_buttons"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
-            android:text="@string/ths_vitals_medication_description_text"
+            android:text="@string/ths_medicines_header"
             android:textSize="@dimen/ths_body_text" />
 
         <View

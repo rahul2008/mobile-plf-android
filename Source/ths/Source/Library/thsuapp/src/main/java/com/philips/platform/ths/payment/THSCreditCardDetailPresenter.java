@@ -67,7 +67,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             thsCreditCardDetailViewInterface.showCvvDetail(true, true, false);
         } else if (componentID == R.id.uid_dialog_positive_button) {
             mTHSCreditCardDetailFragment.alertDialogFragment.dismiss();
-            THSTagUtils.tagInAppNotification("cvvHelp", mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_matchmaking_ok_button));
+            THSTagUtils.tagInAppNotification("cvvHelp", mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_Ok_title));
         } else if (componentID == R.id.ths_credit_card_details_checkbox) {
             updateAddressAsShippingAddress();
         }

@@ -390,7 +390,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsBaseFragment.getFragmentActivity())
                     .setMessage(showLargeContent ? mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text) : mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text)).
-                            setPositiveButton(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_ok_button), ((THSProviderDetailsFragment) mThsBaseFragment));
+                            setPositiveButton(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_Ok_title), ((THSProviderDetailsFragment) mThsBaseFragment));
 
             if (isWithTitle) {
                 builder.setTitle(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error));

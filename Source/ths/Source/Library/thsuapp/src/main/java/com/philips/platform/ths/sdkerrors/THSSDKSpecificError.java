@@ -55,7 +55,7 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
             errorMessage = context.getString(R.string.ths_provider_not_accepting_waiting_consumer);
             return true;
         }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.PROVIDER_NOT_LICENSED_FOR_CONSUMER_STATE)){
-            errorMessage = context.getString(R.string.ths_provider_not_licensed);
+            errorMessage = context.getString(R.string.ths_provider_unauthorized);
             return true;
         }else if(sdkErrorReason.equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_VALIDATION_ERROR)){
             errorMessage = context.getString(R.string.ths_invalid_credit_card);

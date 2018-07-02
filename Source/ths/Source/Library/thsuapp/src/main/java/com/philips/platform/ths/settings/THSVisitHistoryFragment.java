@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
@@ -59,7 +58,7 @@ public class THSVisitHistoryFragment extends THSBaseFragment implements SwipeRef
         super.onActivityCreated(savedInstanceState);
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_visit_history),true);
+            actionBarListener.updateActionBar(getString(R.string.ths_welcome_history),true);
         }
         onRefresh();
     }
@@ -68,7 +67,7 @@ public class THSVisitHistoryFragment extends THSBaseFragment implements SwipeRef
         if(getContext()!=null) {
             stopRefreshing();
             mNumberOfAppointmentsLabel.setVisibility(View.VISIBLE);
-            String text = getString(R.string.ths_number_of_visits_report, visitReports.size());
+            String text = getString(R.string.ths_number_of_report_multiple, visitReports.size());
             mNumberOfAppointmentsLabel.setText(text);
             mThsVisitHistoryAdapter = new THSVisitHistoryAdapter(visitReports, this);
             mRecyclerView.setAdapter(mThsVisitHistoryAdapter);
