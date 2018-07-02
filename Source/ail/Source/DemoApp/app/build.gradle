@@ -105,10 +105,12 @@ dependencies {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.pif
     }
-
+    implementation deps.firbase_core
+    implementation deps.firbase_config
     implementation deps.leakcanary
 }
 
 tasks.withType(Test) {
   ignoreFailures = true
 }
+apply plugin: 'com.google.gms.google-services'
