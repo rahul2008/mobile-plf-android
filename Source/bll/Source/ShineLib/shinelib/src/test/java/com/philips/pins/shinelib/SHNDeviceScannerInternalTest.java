@@ -474,11 +474,6 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         inOrder.verify(leScanCallbackProxyMock).startLeScan(any(LeScanCallback.class));
     }
 
-    @Test
-    public void whenScanningFails_ThenTagIsSentWithProperData() {
-
-    }
-
     private void startScanning() {
         isScanningStarted = shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
     }
