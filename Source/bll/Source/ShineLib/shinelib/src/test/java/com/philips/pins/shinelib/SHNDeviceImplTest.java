@@ -505,6 +505,21 @@ public class SHNDeviceImplTest {
     }
 
     @Test
+    public void whenServicesAreDiscoveredAndNoServiceAreFoundThenTagIsSentWithProperData() {
+
+        connectTillGATTConnected();
+        reset(mockedBTDevice);
+        List emptyServices = new ArrayList<>();
+        doReturn(emptyServices).when(mockedBTGatt).getServices();
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("No services found.", captor.getValue());
+    }
+
+    @Test
     public void whenServicesAreDiscoveredAndDirectlyBecomeReadyThenTheDeviceBecomesConnected() {
         connectTillGATTConnected();
         reset(mockedSHNDeviceListener);
@@ -1111,6 +1126,19 @@ public class SHNDeviceImplTest {
         btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_FAILURE);
         verify(mockedBTGatt).disconnect();
         assertEquals(SHNDevice.State.Disconnecting, shnDevice.getState());
+    }
+
+    @Test
+    public void whenInStateConnectingTheGattCallbackIndicatesServicesDiscoveredErrorThenTagIsSentWithProperData() {
+
+        connectTillGATTConnected();
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_FAILURE);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        String result = String.format("onServicedDiscovered: error discovering services, status [%s]; disconnecting.", BluetoothGatt.GATT_FAILURE);
+        assertEquals(result, captor.getValue());
     }
 
     @Test
