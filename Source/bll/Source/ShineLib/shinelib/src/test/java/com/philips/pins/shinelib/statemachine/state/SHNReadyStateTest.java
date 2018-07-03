@@ -80,6 +80,7 @@ public class SHNReadyStateTest {
 
     @Test
     public void whenCentralNotifiesNotReady_thenTagIsSentWithProperData() throws Exception {
+
         when(centralMock.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateNotReady);
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         readyState.onStateUpdated(centralMock);

@@ -238,6 +238,17 @@ public class SHNGattConnectingStateTest {
     }
 
     @Test
+    public void whenGattConnectFails_thenATagIsSentWithProperData() {
+
+        gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_FAILURE, BluetoothProfile.STATE_DISCONNECTED);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("Bluetooth GATT disconnected, not retrying to connect.", captor.getValue());
+    }
+
+    @Test
     public void givenAConnectingStateHasBeenCreatedWithAConnectTimeout_whenGattConnectFails_thenItWillTryToConnectAgain() {
         long connectTimeOut = 1000L;
         gattConnectingState = new SHNGattConnectingState(stateMachine, connectTimeOut);

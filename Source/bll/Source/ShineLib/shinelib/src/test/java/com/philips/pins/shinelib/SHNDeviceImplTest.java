@@ -849,6 +849,22 @@ public class SHNDeviceImplTest {
     }
 
     @Test
+    public void whenBondingAppSHNDeviceInStateConnectingCreateBondReturnsTrueGATTCallbackIndicatedConnectedThenTagIsSentWithProperData() {
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.APP);
+        shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
+        when(mockedBTDevice.createBond()).thenReturn(false);
+
+        shnDevice.connect();
+        reset(mockedSHNDeviceListener);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("Already bonded, bonding or bond creation failed.", captor.getValue());
+    }
+
+    @Test
     public void whenBondingSHNDeviceInStateConnectingAndStateIsBondingThenWaitingUntilBondingStartedTimerIsStopped() {
         whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
         reset(mockedSHNDeviceListener);
@@ -900,7 +916,8 @@ public class SHNDeviceImplTest {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verifyStatic(SHNTagger.class, times(1));
         SHNTagger.sendTechnicalError(captor.capture());
-        assertEquals("Bond lost; currentBondState [10], previousBondState [11]", captor.getValue());
+        final String result = String.format("Bond lost; currentBondState [%s], previousBondState [%s]", BluetoothDevice.BOND_NONE, BluetoothDevice.BOND_BONDING);
+        assertEquals(result, captor.getValue());
     }
 
     @Test
@@ -914,6 +931,19 @@ public class SHNDeviceImplTest {
         assertEquals(SHNDeviceImpl.State.Connecting, shnDevice.getState());
         verify(mockedSHNDeviceListener, never()).onStateUpdated(shnDevice);
         assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
+    }
+
+    @Test
+    public void whenBondingSHNDeviceInStateConnectingAndBondTimerExpiresThenTagIsSentWithProperData() {
+        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
+        reset(mockedSHNDeviceListener);
+
+        mockedInternalHandler.executeFirstScheduledExecution();
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("Timed out waiting until bonded; trying service discovery", captor.getValue());
     }
 
     @Test
