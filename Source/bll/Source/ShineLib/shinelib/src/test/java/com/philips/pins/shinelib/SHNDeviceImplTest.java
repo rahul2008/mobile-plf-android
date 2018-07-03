@@ -894,7 +894,7 @@ public class SHNDeviceImplTest {
     public void whenBondingSHNDeviceInStateConnectingAndBondIsNotCreatedThenTagIsSentWithProperData() {
         whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
         reset(mockedSHNDeviceListener);
-        
+
         bondStatusListener.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_NONE, BluetoothDevice.BOND_BONDING);
 
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);

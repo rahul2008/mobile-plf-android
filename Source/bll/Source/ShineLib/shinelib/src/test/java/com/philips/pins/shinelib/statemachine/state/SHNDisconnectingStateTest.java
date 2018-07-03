@@ -99,10 +99,10 @@ public class SHNDisconnectingStateTest {
 
     @Test
     public void whenStateIsChangedToNotReady_thenTagIsSentWithProperData() throws Exception {
+
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         SHNCentral centralMock = mock(SHNCentral.class);
         when(centralMock.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
-
         state.onStateUpdated(centralMock);
 
         verifyStatic(SHNTagger.class, times(1));
