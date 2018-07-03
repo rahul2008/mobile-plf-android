@@ -24,10 +24,14 @@ import com.philips.pins.shinelib.wrappers.SHNCapabilityNotificationsWrapper;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -56,10 +60,14 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyZeroInteractions;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @SuppressWarnings({"FieldCanBeLocal", "ResultOfMethodCallIgnored"})
+@PrepareForTest({SHNTagger.class})
+@RunWith(PowerMockRunner.class)
 public class SHNDeviceImplTest {
     private static final String TEST_DEVICE_TYPE = "TEST_DEVICE_TYPE";
     private static final byte[] MOCK_BYTES = new byte[]{0x42};
@@ -120,6 +128,7 @@ public class SHNDeviceImplTest {
     @Before
     public void setUp() {
         initMocks(this);
+        mockStatic(SHNTagger.class);
 
         mockedInternalHandler = new MockedHandler();
         mockedUserHandler = new MockedHandler();
@@ -595,6 +604,22 @@ public class SHNDeviceImplTest {
         verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
     }
 
+    @Test
+    public void whenInStateInitializingServicesATimeoutOccursThenTagIsSentWithProperData() {
+
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+        reset(mockedSHNDeviceListener);
+        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
+        mockedInternalHandler.executeFirstScheduledExecution();
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("connect timeout in SHNConnectingState", captor.getValue());
+    }
+
     // State Ready
     @Test
     public void whenInStateConnectedThenThereIsNoTimerRunning() {
@@ -863,6 +888,19 @@ public class SHNDeviceImplTest {
         assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());
         verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
         assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
+    }
+
+    @Test
+    public void whenBondingSHNDeviceInStateConnectingAndBondIsNotCreatedThenTagIsSentWithProperData() {
+        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
+        reset(mockedSHNDeviceListener);
+        
+        bondStatusListener.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_NONE, BluetoothDevice.BOND_BONDING);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("Bond lost; currentBondState [10], previousBondState [11]", captor.getValue());
     }
 
     @Test
