@@ -21,8 +21,6 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_INSURANCE_VALIDATION;
-import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 
 public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implements View.OnClickListener {
@@ -42,14 +40,14 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
         LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(this.getContext()));
         View view = layoutInflater.inflate(R.layout.ths_confirmation_dialog_fragment, container, false);
         mTitleLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_title_label);
-        mTitleLabel.setText(getResources().getString(R.string.ths_insurance_not_verified_confirm_title));
+        mTitleLabel.setText(getResources().getString(R.string.insurance_validation_failure_title));
         mMessageLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_message_label);
-        mMessageLabel.setText(getResources().getString(R.string.ths_insurance_not_verified_confirm_message));
+        mMessageLabel.setText(getResources().getString(R.string.insurance_validation_failure_message));
         mPrimaryButton = (Button) view.findViewById(R.id.ths_confirmation_dialog_primary_button);
-        mPrimaryButton.setText(getResources().getString(R.string.ths_ok));
+        mPrimaryButton.setText(getResources().getString(R.string.ths_Ok_title));
         mPrimaryButton.setOnClickListener(this);
         mSecondaryButtonLabel = (Button) view.findViewById(R.id.ths_confirmation_dialog_secondary_button);
-        mSecondaryButtonLabel.setText(getResources().getString(R.string.ths_insurance_not_verified_confirm_secondary_button_label_text));
+        mSecondaryButtonLabel.setText(getResources().getString(R.string.ths_insurance_tryagain));
         mSecondaryButtonLabel.setOnClickListener(this);
         return view;
     }

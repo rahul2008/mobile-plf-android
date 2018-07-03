@@ -17,7 +17,7 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/pth_intake_follow_up_label"
                 style="@style/ths_mobile_wizard"
-                android:text="@string/ths_vitals_follow_up_step_5" />
+                android:text="@string/ths_input_follwup_title" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_follow_up_patient_name"
@@ -41,7 +41,7 @@
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
                 android:layout_marginTop="@dimen/ths_margin_between_buttons"
-                android:text="@string/ths_vitals_follow_up_step_5_description_text"
+                android:text="@string/ths_followup_view_title"
                 android:textSize="@dimen/ths_body_text" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -52,7 +52,7 @@
                 android:layout_marginTop="@dimen/ths_fab_margin"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
-                android:text="@string/ths_vitals_follow_up_please_note"
+                android:text="@string/ths_followup_view_description"
                 android:textSize="@dimen/ths_body_text" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -65,7 +65,7 @@
 
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
-                android:text="@string/ths_vitals_phone_number_text" />
+                android:text="@string/ths_input_follwup_phonelabel" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/ths_intake_follow_up_phone_number_container"
@@ -82,7 +82,7 @@
                     android:id="@+id/pth_intake_follow_up_phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/ths_vitals_phone_number_text"
+                    android:hint="@string/ths_input_follwup_phonelabel"
                     android:inputType="phone" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 
@@ -105,7 +105,7 @@
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
                 android:checked="false"
-                android:text="@string/ths_vitals_notice_privacy_policy_check_box_text" />
+                android:text="@string/ths_followup_privacy" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/pth_intake_follow_up_i_agree_link_text"
@@ -133,7 +133,7 @@
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/ths_loading_text"
-                app:uidProgressIndicatorButtonText="@string/ths_continue" />
+                app:uidProgressIndicatorButtonText="@string/ths_registration_continue" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

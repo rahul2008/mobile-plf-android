@@ -51,7 +51,7 @@ public class THSAppointmentCancelledConfirmation extends THSBaseFragment impleme
         super.onActivityCreated(savedInstanceState);
         ActionBarListener actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getString(R.string.ths_appointments), true);
+            actionBarListener.updateActionBar(getString(R.string.ths_welcome_appointments), true);
         }
         navIconToggler = new UIDNavigationIconToggler(getActivity());
         navIconToggler.hideNavigationIcon();

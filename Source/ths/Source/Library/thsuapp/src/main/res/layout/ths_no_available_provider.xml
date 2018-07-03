@@ -85,7 +85,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="@dimen/ths_body_text_padding"
-        android:text="@string/ths_with"
+        android:text="@string/ths_schedule_confirm_sectionTitle"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="16sp" />
 

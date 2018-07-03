@@ -30,7 +30,7 @@
             android:lineSpacingExtra="8dp"
             android:paddingLeft="@dimen/activity_vertical_margin"
             android:paddingRight="@dimen/activity_vertical_margin"
-            android:text="@string/ths_welcome"
+            android:text="@string/ths_Welcome_nav_title"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="20sp"
             android:visibility="gone" />

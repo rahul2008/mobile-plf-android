@@ -44,7 +44,7 @@ public class THSInitFragment extends THSBaseFragment {
 
         ActionBarListener actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getString(R.string.ths_welcome), true);
+            actionBarListener.updateActionBar(getString(R.string.ths_Welcome_nav_title), true);
         }
         if(THSManager.getInstance().getThsTagging()!=null) {
             // entry to THS, start tagging
