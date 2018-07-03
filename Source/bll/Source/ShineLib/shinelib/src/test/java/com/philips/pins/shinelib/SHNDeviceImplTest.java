@@ -562,6 +562,22 @@ public class SHNDeviceImplTest {
     }
 
     @Test
+    public void whenServicesAreDiscoveredAndGotoErrorStateThenTagIsSentWithProperData() {
+
+        connectTillGATTConnected();
+        reset(mockedSHNDeviceListener);
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+        mockedServiceState = SHNService.State.Error;
+        shnDevice.onServiceStateChanged(mockedSHNService, mockedServiceState);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        String result = String.format("Service [%s] state changed to error, state [%s]",null, SHNService.State.Error);
+        assertEquals(result, captor.getValue());
+    }
+
+    @Test
     public void whenServicesAreDiscoveredAndBTGATTIndicatesDisconnectedThenStateIsDisconecting() {
         connectTillGATTServicesDiscovered();
         reset(mockedSHNDeviceListener);
