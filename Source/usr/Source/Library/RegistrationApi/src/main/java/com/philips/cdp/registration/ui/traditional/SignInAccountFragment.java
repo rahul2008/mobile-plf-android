@@ -698,10 +698,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void onErrorOfResendSMSIntent(VolleyError error) {
         JSONObject jsonObject = null;
+        hideForgotPasswordSpinner();
         try {
-            jsonObject = new JSONObject(error.getMessage());
+            final String message = error.getMessage();
+            if (message == null) {
+                mEtEmail.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.URX, RegConstants.UNKNOWN_ERROR_ID));
+                mEtEmail.showError();
+                return;
+            }
+            jsonObject = new JSONObject(message);
             final String errorCode = jsonObject.getString("errorCode");
-            hideForgotPasswordSpinner();
+
             RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
             final Integer code = Integer.parseInt(errorCode);
             if (URNotification.INLINE_ERROR_CODE.contains(code)) {
