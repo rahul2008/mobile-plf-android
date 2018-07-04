@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
-String cron_string = BranchName == "develop" ? "H H(20-22) * * *" : ""
-String param_string_cron = BranchName == "feature/calisto/psracron" ? "H/30 * * * * %buildType=PSRA" : ""
+String string_cron_tics = BranchName == "develop" ? "H H(20-21) * * * %buildType=TICS" : ""
+String string_cron_psra = BranchName == "feature/calisto/cronpsra" ? "H H(21-22) * * * %buildType=PSRA" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def nodes = '27.0.2 && device'
@@ -17,14 +17,13 @@ pipeline {
         }
     }
     parameters {
-        choice(choices: 'Normal\nPSRA\nLeakCanary', description: 'What type of build to build?', name: 'buildType')
+        choice(choices: 'Normal\nPSRA\nLeakCanary\nTICS', description: 'What type of build to build?', name: 'buildType')
     }
     triggers {
-        cron(cron_string)
-        parameterizedCron(param_string_cron)
+        parameterizedCron(string_cron_tics)
+        parameterizedCron(string_cron_psra)
     }
     environment {
-        TRIGGER_BY_TIMER = 'false'
         EPOCH_TIME = sh(script: 'date +%s', returnStdout: true).trim()
     }
     options {
@@ -52,7 +51,7 @@ pipeline {
 
         stage('Lint+Jacoco') {
             when {
-                expression { return TRIGGER_BY_TIMER=='true' }
+                expression { return params.buildType == 'TICS' }
             }
             steps {
                 BuildLint()
@@ -64,7 +63,6 @@ pipeline {
             when {
                 allOf {
                     expression { return params.buildType == 'PSRA' }
-                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
                 }
             }
             steps {
@@ -129,7 +127,7 @@ pipeline {
 
         stage('TICS') {
            when {
-               expression { return TRIGGER_BY_TIMER=='true' }
+               expression { return params.buildType == 'TICS' }
           }
             steps {
                 script {
@@ -201,17 +199,6 @@ def InitialiseBuild() {
     committerName = sh (script: "git show -s --format='%an' HEAD", returnStdout: true).trim()
     currentBuild.description = "Submitter: " + committerName + ";Node: ${env.NODE_NAME}"
     echo currentBuild.description
-
-    def causes = currentBuild.rawBuild.getCauses()
-    for(cause in causes) {
-        if (cause.class.toString().contains("TimerTriggerCause")) {
-            echo "This job was caused by job timer trigger"
-            TRIGGER_BY_TIMER = 'true'
-        } else {
-            echo "Nothing to do, not triggered by timer"
-        }
-    }
-    echo "TRIGGER_BY_TIMER : " + TRIGGER_BY_TIMER
 }
 
 def BuildAndUnitTest() {
