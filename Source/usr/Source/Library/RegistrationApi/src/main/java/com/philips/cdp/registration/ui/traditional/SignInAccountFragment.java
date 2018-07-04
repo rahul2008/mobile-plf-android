@@ -697,7 +697,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void onErrorOfResendSMSIntent(VolleyError error) {
-        JSONObject jsonObject = null;
         hideForgotPasswordSpinner();
         try {
             final String message = error.getMessage();
@@ -706,7 +705,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 mEtEmail.showError();
                 return;
             }
-            jsonObject = new JSONObject(message);
+            JSONObject jsonObject = new JSONObject(message);
             final String errorCode = jsonObject.getString("errorCode");
 
             RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());

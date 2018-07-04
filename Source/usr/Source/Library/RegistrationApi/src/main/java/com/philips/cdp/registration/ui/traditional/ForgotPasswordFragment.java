@@ -413,9 +413,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
             usr_forgotpassword_inputId_inputValidation.showError();
             return;
         }
-        JSONObject jsonObject;
         try {
-            jsonObject = new JSONObject(message);
+            JSONObject jsonObject = new JSONObject(message);
             final String errorCode = jsonObject.getString("errorCode");
             hideForgotPasswordSpinner();
             RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
