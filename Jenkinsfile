@@ -2,7 +2,7 @@
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
 String cron_string = BranchName == "develop" ? "H H(20-22) * * *" : ""
-String param_string_cron = BranchName == "feature/calisto/psracron" ? "H H(20-22) * * * %choices=PSRA" : ""
+String param_string_cron = BranchName == "feature/calisto/psracron" ? "H/30 * * * * %buildType=PSRA" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def nodes = '27.0.2 && device'
