@@ -31,6 +31,9 @@ public class CountrySelectionPresenter {
             if (country.getCode().equalsIgnoreCase("TW")) {
                 changeCountryNameToChineseTaipei(context, country);
             }
+            if (country.getCode().equalsIgnoreCase("CN")) {
+                changeCountryNameToChineseMainland(context, country);
+            }
             countryTreeSet.add(country);
         }
         countrySelectionContract.updateRecyclerView(setSelectedCountryOnTopOfList(new ArrayList<>(countryTreeSet), context));
@@ -72,6 +75,10 @@ public class CountrySelectionPresenter {
 
     protected Country changeCountryNameToTaiwan(Context context, Country country) {
         country.setName(context.getString(R.string.USR_Country_TW));
+        return country;
+    }
+    private Country changeCountryNameToChineseMainland(Context context, Country country) {
+        country.setName(context.getString(R.string.USR_Country_CN));
         return country;
     }
 }
