@@ -416,7 +416,8 @@ public class RegUtility {
     }
 
     private static String getCountryKey(String mSelectedCountryCode) {
-        return "Country" + "_" + mSelectedCountryCode;
+
+        return "USR_Country_" + mSelectedCountryCode;
     }
 
 
