@@ -185,10 +185,7 @@ public class DataServicesManager {
         this.mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         this.dataServiceContext = context;
         this.gdprStorage = context.getSharedPreferences(GDPR_MIGRATION_FLAG_STORAGE, Context.MODE_PRIVATE);
-
-        String[] supportedMomentTypesArray = (String[]) appInfraInterface.getConfigInterface().getPropertyForKey("supportedMomentTypes", "dataservices", new AppConfigurationInterface.AppConfigurationError());
-        supportedMomentTypes = Arrays.asList(supportedMomentTypesArray);
-
+        this.supportedMomentTypes = (ArrayList<String>) appInfraInterface.getConfigInterface().getPropertyForKey("supportedMomentTypes", "dataservices", new AppConfigurationInterface.AppConfigurationError());
         initLogger();
     }
 
@@ -352,7 +349,9 @@ public class DataServicesManager {
     }
 
     public void saveMoment(@NonNull final Moment moment, DBRequestListener<Moment> dbRequestListener) {
-        mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
+        if (supportedMomentTypes.isEmpty() || supportedMomentTypes.contains(moment.getType())) {
+            mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
+        }
     }
 
     public void saveMoments(@NonNull final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
