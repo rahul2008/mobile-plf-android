@@ -154,7 +154,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         super.onResume();
         THSTagUtils.doTrackPageWithInfo(THS_COST_SUMMARY,null,null);
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getString(R.string.ths_cost_summary_fragment_name), true);
+            actionBarListener.updateActionBar(getString(R.string.ths_cost_title), true);
         }
         alertDialogFragmentCreateVisit = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_COST_SUMMARY_CREATE_VISIT_ERROR);
         alertDialogFragmentCouponCode = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_COST_SUMMARY_COUPON_CODE_ERROR);

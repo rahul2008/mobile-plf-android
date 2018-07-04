@@ -59,7 +59,7 @@ public class SHNReadyState extends SHNDeviceState {
         SHNLogger.d(TAG, "onServiceStateChanged: " + state + " [" + shnService.getUuid() + "]");
 
         if (state == SHNService.State.Error) {
-            final String errorMsg = String.format(Locale.US, "Service [%s] state changed to error, state [%s]", shnService.getUuid(), state);
+            final String errorMsg = String.format(Locale.US, "Service [%s] state changed to error in SHNReadyState, moving to SHNDisconnectingState", shnService.getUuid());
 
             SHNLogger.e(TAG, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);

@@ -9,7 +9,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/wizard_button"
         style="@style/ths_mobile_wizard"
-        android:text="@string/ths_symptoms" />
+        android:text="@string/ths_input_symptom_title" />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/continue_btn"
@@ -19,7 +19,7 @@
         android:layout_marginStart="@dimen/ths_fab_margin"
         android:layout_marginEnd="@dimen/ths_fab_margin"
         android:enabled="false"
-        android:text="@string/ths_continue_button_text" />
+        android:text="@string/ths_registration_continue" />
 
     <ScrollView
         android:id="@+id/scroll_view_container"
@@ -56,7 +56,7 @@
                 android:layout_marginTop="@dimen/ths_margin_between_buttons"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
-                android:text="@string/ths_help_visit" />
+                android:text="@string/ths_symptom_description_text" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/visit_reason"

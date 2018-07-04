@@ -40,6 +40,7 @@ public class RuntimeConfiguration {
 
     @NonNull
     private Context context;
+    private boolean taggingEnabled;
 
     /**
      * Instantiates a RuntimeConfiguration.
@@ -100,5 +101,13 @@ public class RuntimeConfiguration {
     @Nullable
     public AppInfraInterface getAppInfraInterface() {
         return appInfraInterface;
+    }
+
+    public boolean isTaggingEnabled() {
+        return appInfraInterface != null && taggingEnabled;
+    }
+
+    public void setTaggingEnabled(boolean taggingEnabled) {
+        this.taggingEnabled = taggingEnabled;
     }
 }

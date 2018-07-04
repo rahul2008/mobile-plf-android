@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:gravity="center"
-            android:text="@string/ths_cancel_visit"/>
+            android:text="@string/ths_waiting_cancel"/>
 
         <View
             android:id="@+id/ths_scheduled_appintment_button_separator_below"
@@ -82,7 +82,7 @@
             android:layout_weight="0.5"
             android:textColor="?attr/uidColorLevel45"
             android:gravity="center"
-            android:text="@string/ths_start_visit"/>
+            android:text="@string/ths_appointment_start_visit"/>
 
     </LinearLayout>
 
