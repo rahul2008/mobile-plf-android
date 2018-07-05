@@ -349,7 +349,7 @@ public class DataServicesManager {
     }
 
     public void saveMoment(@NonNull final Moment moment, DBRequestListener<Moment> dbRequestListener) {
-        if (supportedMomentTypes.isEmpty() || supportedMomentTypes.contains(moment.getType())) {
+        if (isSupported(moment)) {
             mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
         }
     }
@@ -695,15 +695,16 @@ public class DataServicesManager {
     }
 
     private List<Moment> filterUnsupportedMomentTypes(List<Moment> moments) {
-        List<Moment> supportedMoments = moments;
-        if (!supportedMomentTypes.isEmpty()) {
-            supportedMoments = new ArrayList<>();
-            for (Moment moment : moments) {
-                if (supportedMomentTypes.contains(moment.getType())) {
-                    supportedMoments.add(moment);
-                }
+        List<Moment> supportedMoments = new ArrayList<>();
+        for (Moment moment : moments) {
+            if (isSupported(moment)) {
+                supportedMoments.add(moment);
             }
         }
         return supportedMoments;
+    }
+
+    private boolean isSupported(Moment moment) {
+        return supportedMomentTypes.isEmpty() || supportedMomentTypes.contains(moment.getType());
     }
 }
