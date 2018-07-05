@@ -1,5 +1,10 @@
 package com.philips.platform.datasync.moments;
 
+import android.content.Context;
+
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -11,11 +16,13 @@ import com.philips.spy.EventingSpy;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +34,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -48,6 +57,7 @@ public class MomentsDataFetcherTest {
     private static final String END_DATE_VALUE = new DateTime().toString();
     private static final String END_DATE2_VALUE = new DateTime().plusDays(1).toString();
 
+    private AppInfra mAppInfra;
     private MomentsDataFetcher fetcher;
     private UCoreMomentsHistory momentsHistory = new UCoreMomentsHistory();
     private UCoreMomentsHistory userMomentsHistory = new UCoreMomentsHistory();
@@ -57,6 +67,7 @@ public class MomentsDataFetcherTest {
     private Map<String, String> lastSyncTimeMap2;
     private EventingSpy eventingSpy = new EventingSpy();
     private RetrofitError retrofitError;
+    private AppConfigurationInterface mConfigInterface;
 
     @Mock
     private MomentsConverter converterMock;
@@ -91,7 +102,10 @@ public class MomentsDataFetcherTest {
         setOneMoment();
 
         DataServicesManager.getInstance().setAppComponent(appComponantMock);
-        fetcher = new MomentsDataFetcher(coreAdapterMock, converterMock, gsonConverterMock);
+        mAppInfra = mock(AppInfra.class);
+        mConfigInterface = mock(AppConfigurationInterface.class);
+        when(mAppInfra.getConfigInterface()).thenReturn(mConfigInterface);
+        fetcher = new MomentsDataFetcher(coreAdapterMock, converterMock, gsonConverterMock, mAppInfra);
         fetcher.eventing = eventingSpy;
         fetcher.accessProvider = accessProviderMock;
         fetcher.synchronisationManager = synchronisationManagerMock;
@@ -170,6 +184,27 @@ public class MomentsDataFetcherTest {
     }
 
     @Test
+    public void doesNotStoreMoment_whenTypeIsNotSupported() {
+        givenSupportedMomentTypes("SupportedMomentType");
+        givenBackendReturns(momentOfType("UnsupportedMomentType"));
+        whenFetchDataIsInvoked();
+        thenNoEventIsPosted();
+    }
+
+    private void givenBackendReturns(UCoreMoment... moments) {
+        UCoreMomentsHistory history = new UCoreMomentsHistory();
+        history.setUCoreMoments(Arrays.asList(moments));
+        history.setSyncurl(TEST_MOMENT_SYNC_URL);
+        when(momentsClientMock.getMomentsHistory(USER_ID, USER_ID, TEST_MOMENT_SYNC_URL)).thenReturn(history);
+    }
+
+    private UCoreMoment momentOfType(String type) {
+        UCoreMoment moment = new UCoreMoment();
+        moment.setType(type);
+        return moment;
+    }
+
+    @Test
     public void fetchData_whenRetrofitError() {
         givenRetrofitErrorFromClient();
         whenFetchDataIsInvoked();
@@ -204,6 +239,14 @@ public class MomentsDataFetcherTest {
         givenMomentsFromClient();
         whenFetchDataByDateRange();
         thenVerifyClientIsInvlokedTwice();
+    }
+
+    private void givenSupportedMomentTypes(String... momentTypes) {
+        List<String> supportedMomentTypesList = new ArrayList(Arrays.asList(momentTypes));
+        when(mConfigInterface.getPropertyForKey(anyString(), anyString(), ArgumentMatchers.<AppConfigurationInterface.AppConfigurationError>any())).thenReturn(supportedMomentTypesList);
+        when(mAppInfra.getLogging()).thenReturn(mock(LoggingInterface.class));
+        //TODO: Figure out how to inject this in constructor
+//        fetcher.loadSettings(mAppInfra);
     }
 
     private void givenRetrofitErrorFromClientWhenFetchDateByRange() {

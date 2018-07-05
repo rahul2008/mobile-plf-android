@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 
+import com.philips.platform.appinfra.AppInfraInterface;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -20,11 +22,16 @@ public class ApplicationModule {
 
     private SharedPreferences sharedPreferences;
     private Context context;
+    private AppInfraInterface appInfra;
 
-    public ApplicationModule(Context context) {
+    public ApplicationModule(Context context, AppInfraInterface appInfra) {
         sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         this.context = context;
+        this.appInfra = appInfra;
     }
+
+    @Provides
+    public AppInfraInterface provideAppInfra() { return appInfra; }
 
     @Provides
     @Singleton

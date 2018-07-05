@@ -1090,8 +1090,8 @@ public class DataServicesManagerTest {
     }
 
     private void givenSupportedMomentTypes(String... supportedMomentTypes) {
-        List<String> suppoortedMomentTypesList = new ArrayList(Arrays.asList(supportedMomentTypes));
-        when(mConfigInterface.getPropertyForKey(anyString(), anyString(), ArgumentMatchers.<AppConfigurationInterface.AppConfigurationError>any())).thenReturn(suppoortedMomentTypesList);
+        List<String> supportedMomentTypesList = new ArrayList(Arrays.asList(supportedMomentTypes));
+        when(mConfigInterface.getPropertyForKey(anyString(), anyString(), ArgumentMatchers.<AppConfigurationInterface.AppConfigurationError>any())).thenReturn(supportedMomentTypesList);
         when(mAppInfra.getLogging()).thenReturn(mock(LoggingInterface.class));
         mDataServicesManager.initializeDataServices(mock(Context.class), dataCreatorMock, userRegistrationInterface, errorHandlingInterfaceMock, mAppInfra);
     }

@@ -9,6 +9,8 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendDataRequestFailed;
@@ -18,9 +20,11 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
@@ -32,6 +36,7 @@ public class MomentsDataFetcher extends DataFetcher {
     private static final String END_DATE = "timestampEnd";
     private static final String LAST_MODIFIED_START_DATE = "lastModifiedStart";
     private static final String LAST_MODIFIED_END_DATE = "lastModifiedEnd";
+    private final ArrayList<String> supportedMomentTypes;
 
     private boolean isMomentUpdated;
 
@@ -47,15 +52,23 @@ public class MomentsDataFetcher extends DataFetcher {
     @Inject
     UCoreAccessProvider accessProvider;
 
+
     @Inject
     public MomentsDataFetcher(@NonNull final UCoreAdapter uCoreAdapter,
                               @NonNull final MomentsConverter converter,
-                              @NonNull final GsonConverter gsonConverter) {
+                              @NonNull final GsonConverter gsonConverter,
+                              @NonNull final AppInfraInterface appInfra) {
         super(uCoreAdapter);
         this.converter = converter;
         this.gsonConverter = gsonConverter;
         DataServicesManager.getInstance().getAppComponent().injectMomentsDataFetcher(this);
+        this.supportedMomentTypes = (ArrayList<String>) appInfra.getConfigInterface().getPropertyForKey("supportedMomentTypes", "dataservices", new AppConfigurationInterface.AppConfigurationError());
     }
+
+//    @Inject
+//    public void loadSettings(AppInfraInterface appInfra) {
+//        String bla = "bla";
+//    }
 
     @Override
     @CheckResult
@@ -86,8 +99,13 @@ public class MomentsDataFetcher extends DataFetcher {
             }
 
             List<Moment> moments = converter.convert(uCoreMoments);
-            if (moments != null) {
-                eventing.post(new BackendMomentListSaveRequest(moments, null));
+            if (moments == null) {
+                return null;
+            }
+
+            List<Moment> supportedMoments = filterUnsupportedMomentTypes(moments);
+            if (!supportedMoments.isEmpty()) {
+                eventing.post(new BackendMomentListSaveRequest(supportedMoments, null));
             }
             return null;
         } catch (RetrofitError ex) {
@@ -135,4 +153,19 @@ public class MomentsDataFetcher extends DataFetcher {
             isMomentUpdated = true;
         }
     }
+
+    private List<Moment> filterUnsupportedMomentTypes(List<Moment> moments) {
+        List<Moment> supportedMoments = new ArrayList<>();
+        for (Moment moment : moments) {
+            if (isSupported(moment)) {
+                supportedMoments.add(moment);
+            }
+        }
+        return supportedMoments;
+    }
+
+    private boolean isSupported(Moment moment) {
+        return supportedMomentTypes.isEmpty() || supportedMomentTypes.contains(moment.getType());
+    }
+
 }

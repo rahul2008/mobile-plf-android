@@ -217,7 +217,7 @@ public class DataServicesManager {
         BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), dataCreator, userRegistrationInterface,
                 mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
                 mCustomFetchers, mCustomSenders, errorHandlingInterface);
-        final ApplicationModule applicationModule = new ApplicationModule(context);
+        final ApplicationModule applicationModule = new ApplicationModule(context, mAppInfra);
 
         mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
         mAppComponent.injectApplication(this);
