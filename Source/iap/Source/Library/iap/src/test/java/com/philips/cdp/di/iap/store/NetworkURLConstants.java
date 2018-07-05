@@ -52,7 +52,7 @@ public class NetworkURLConstants {
 
     //Delivery mode
     public static final String SET_DELIVERY_MODE_URL = BASE_URL + "/carts/current/deliverymode?fields=FULL&lang=en_US";
-    public static final String GET_DELIVERY_MODES_URL = BASE_URL + "/carts/current/deliverymodes?fields=FULL&lang=en_US";
+    public static final String GET_DELIVERY_MODES_URL = BASE_URL + "/carts/current/deliverymodes?lang=en_US";
 
     //Payment
     public static final String SET_PAYMENT_DETAIL_URL = BASE_URL + "/carts/current/paymentdetails?fields=FULL&lang=en_US";

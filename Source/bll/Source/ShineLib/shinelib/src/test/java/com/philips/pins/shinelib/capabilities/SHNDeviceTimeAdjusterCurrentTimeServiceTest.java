@@ -30,12 +30,18 @@ public class SHNDeviceTimeAdjusterCurrentTimeServiceTest {
     private SHNServiceCurrentTime mockedSHNServiceCurrentTime;
     private SHNServiceCurrentTime.SHNServiceCurrentTimeListener shnServiceCurrentTimeListener;
     private byte[] TEST_DEVICE_TIME;
+    private long testTimeMillis = 1500000000000L; //Friday, July 14th, 2017 2:40:00AM GMT
 
     @Before
     public void setUp() {
         mockedSHNServiceCurrentTime = mock(SHNServiceCurrentTime.class);
 
-        shnDeviceTimeAdjusterCurrentTimeService = new SHNDeviceTimeAdjusterCurrentTimeService(mockedSHNServiceCurrentTime);
+        shnDeviceTimeAdjusterCurrentTimeService = new SHNDeviceTimeAdjusterCurrentTimeService(mockedSHNServiceCurrentTime) {
+            @Override
+            protected long getCurrentTime() {
+                return testTimeMillis;
+            }
+        };
 
         ArgumentCaptor<SHNServiceCurrentTime.SHNServiceCurrentTimeListener> shnServiceCurrentTimeListenerArgumentCaptor = ArgumentCaptor.forClass(SHNServiceCurrentTime.SHNServiceCurrentTimeListener.class);
         verify(mockedSHNServiceCurrentTime).setSHNServiceCurrentTimeListener(shnServiceCurrentTimeListenerArgumentCaptor.capture());
@@ -100,9 +106,10 @@ public class SHNDeviceTimeAdjusterCurrentTimeServiceTest {
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         ExactTime256WithAdjustReason exactTime256WithAdjustReason = new ExactTime256WithAdjustReason(byteBuffer);
         shnObjectResultListenerArgumentCaptor.getValue().onActionCompleted(exactTime256WithAdjustReason, SHNResult.SHNOk);
-        long currentTime = System.currentTimeMillis();
-        long diff = currentTime - shnDeviceTimeAdjusterCurrentTimeService.adjustTimestampToHostTime(exactTime256WithAdjustReason.exactTime256.exactTime256Date.getTime());
-        assertTrue(-2 < diff && diff < 2);
+
+        long diff = testTimeMillis - shnDeviceTimeAdjusterCurrentTimeService.adjustTimestampToHostTime(exactTime256WithAdjustReason.exactTime256.exactTime256Date.getTime());
+
+        assertTrue( diff == 0);
     }
 
     @Test

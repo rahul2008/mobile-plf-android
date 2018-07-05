@@ -31,7 +31,6 @@ import com.philips.platform.uid.view.widget.Label;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_CONDITION_PAGE;
 
 public class THSMedicalConditionsFragment extends THSBaseFragment implements View.OnClickListener {
@@ -78,7 +77,7 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
 
         thsMedicalConditionsPresenter = new THSMedicalConditionsPresenter(this);
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_visit_title), true);
         }
 
 

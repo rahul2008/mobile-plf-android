@@ -198,7 +198,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_Resend_SMS_title;
+        return R.string.USR_Resend_SMS_title;
     }
 
     private void updateUiStatus() {
@@ -324,7 +324,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         usrMobileverificationResendsmstimerProgress.setSecondaryProgress(
                 ((60 - timeRemaining) * 100) / 60);
         usrMobileverificationResendsmstimerProgress.setText(
-                String.format(getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
+                String.format(getResources().getString(R.string.USR_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
         disableResendButton();
     }
 
@@ -385,7 +385,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         int progress = 100;
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             usrMobileverificationResendsmstimerProgress.setSecondaryProgress(progress);
-            usrMobileverificationResendsmstimerProgress.setText(getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Title_Text));
+            usrMobileverificationResendsmstimerProgress.setText(getResources().getString(R.string.USR_DLS_ResendSMS_Progress_View_Title_Text));
             enableResendButton();
         } else {
             updateResendTime(timeLeft);
@@ -395,7 +395,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     public void viewOrHideNotificationBar() {
         if (popupWindow == null) {
             View view = getRegistrationFragment().getNotificationContentView(
-                    context.getResources().getString(R.string.reg_Resend_SMS_Success_Content)
+                    context.getResources().getString(R.string.USR_DLS_ResendSMS_NotificationBar_Title)
                     , mobileNumber);
             popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -79,7 +79,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         dodProviderFoundMessage = (Label) view.findViewById(R.id.dodProviderFound);
         mProgressBarLabel = (Label) view.findViewById(R.id.ths_match_making_ProgressBar_message_label);
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_provider_details), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_provider_detail_title), true);
         }
         mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(), this, this, this, this, view);
 

@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="@string/ths_address_shipping_address_string" />
+        android:text="@string/ths_shipping_address" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/sa_address_line_one_text"
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/shipping_address_text_label"
-        android:text="@string/ths_address_address_line_one" />
+        android:text="@string/ths_address_line1" />
 
     <com.philips.platform.uid.view.widget.InputValidationLayout
         android:id="@+id/sa_shipping_address_line_one_validation_layout"
@@ -45,7 +45,7 @@
             style="@style/UIDEditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/ths_address_enter_first_address_line"
+            android:hint="@string/ths_address_line1_placeholder"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:maxLines="1" />
@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sa_shipping_address_line_one_validation_layout"
-        android:text="@string/ths_address_address_line_two" />
+        android:text="@string/ths_address_line2" />
 
     <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/sa_shipping_address_line_two"
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/sa_address_line_two_text"
         android:layout_marginBottom="16dp"
-        android:hint="@string/ths_address_optional_string"
+        android:hint="@string/ths_optional"
         android:imeOptions="actionNext"
         android:inputType="text"
         android:maxLines="1" />
@@ -77,7 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sa_shipping_address_line_two"
-        android:text="@string/ths_address_town_city_string" />
+        android:text="@string/ths_town_city" />
 
     <com.philips.platform.uid.view.widget.InputValidationLayout
         android:id="@+id/sa_town_validation_layout"
@@ -93,7 +93,7 @@
             style="@style/UIDEditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/ths_address_enter_town_city"
+            android:hint="@string/ths_city_placeholder"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:maxLines="1" />
@@ -105,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sa_town_validation_layout"
-        android:text="@string/ths_address_postal_code_string" />
+        android:text="@string/ths_postal_code" />
 
 
     <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -134,7 +134,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sa_postal_code"
-        android:text="@string/ths_address_state_string" />
+        android:text="@string/ths_registration_statefield" />
 
 
     <com.philips.platform.uid.view.widget.EditText
@@ -145,7 +145,7 @@
         android:layout_below="@+id/sa_state_text"
         android:imeOptions="actionNext"
         android:focusable="false"
-        android:hint="@string/ths_user_enter_state"
+        android:hint="@string/ths_state_placeholder"
         android:maxLines="1" />
    <!-- <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/sa_state_spinner"
@@ -170,6 +170,6 @@
             android:id="@+id/update_shipping_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ths_ok_continue_button_string" />
+            android:text="@string/ths_ok_continue" />
     </RelativeLayout>
 </RelativeLayout>

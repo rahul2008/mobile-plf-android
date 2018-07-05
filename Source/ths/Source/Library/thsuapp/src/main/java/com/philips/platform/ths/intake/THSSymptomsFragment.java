@@ -179,7 +179,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         thsSymptomsPresenter = new THSSymptomsPresenter(this);
         thsSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_visit_title), true);
         }
         getVisitContext();
         return view;
@@ -322,7 +322,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         dialog.setCancelable(false);
         dialog.setTitle(getString(R.string.ths_intake_symptoms_add_photo));
         Button cancelDialogButton = (Button) dialog.findViewById(R.id.cancel_dialog);
-        cancelDialogButton.setText(getString(R.string.ths_cancel));
+        cancelDialogButton.setText(getString(R.string.ths_cost_cancel));
         cancelDialogButton.setOnClickListener(this);
         Button selectFromGalleryButton = (Button) dialog.findViewById(R.id.select_from_gallery);
         selectFromGalleryButton.setOnClickListener(this);

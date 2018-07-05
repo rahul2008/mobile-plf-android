@@ -211,7 +211,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                         RLog.e(TAG, "Error = " + e.getMessage());
                         forgotPasswordContract.hideForgotPasswordSpinner();
                         forgotPasswordContract.forgotPasswordErrorMessage(
-                                context.getString(R.string.reg_Janrain_HSDP_ServerErrorMsg));
+                                context.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));
 
                     }
                 }));

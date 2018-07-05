@@ -87,8 +87,8 @@ public class SSUtils {
             for (Signature signature : packageInfo.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA-256");
                 md.update(signature.toByteArray());
-                final String currentSignature = Base64.encodeToString(md.digest(), Base64.DEFAULT);
-                String SIGNATURE = "lDzCVHTBzfUEYeCh3RcMEj6PJ20=";
+                final String currentSignature = Base64.encodeToString(md.digest(), Base64.NO_WRAP);
+                String SIGNATURE = "0taVoR0bhPklqUVuJ/RF6f2Hw3Rjqoo0MqZqIzsP1Q8=";
                 if (SIGNATURE.equals(currentSignature)) {
                     return false;
                 }

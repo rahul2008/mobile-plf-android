@@ -208,7 +208,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
                 .setCancelable(false)
                 .setTitle(title)
                 .setMessage(description)
-                .setPositiveButton(R.string.PPR_OK, new View.OnClickListener() {
+                .setPositiveButton(R.string.PRG_OK, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dismissAlertOnError();
@@ -316,7 +316,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
                 .setCancelable(false)
                 .setTitle(title)
                 .setMessage(description)
-                .setPositiveButton(R.string.PPR_OK, new View.OnClickListener() {
+                .setPositiveButton(R.string.PRG_OK, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dismissAlertOnError();

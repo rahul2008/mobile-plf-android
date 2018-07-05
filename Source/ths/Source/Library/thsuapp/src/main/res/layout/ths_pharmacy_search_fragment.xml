@@ -13,7 +13,7 @@
         style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
         android:layout_margin="@dimen/ths_fab_margin"
         android:layout_height="wrap_content"
-        android:text="@string/ths_pharmacy_search_label" />
+        android:text="@string/ths_yourPharmacy_search_Header" />
 
     <com.philips.platform.uid.view.widget.SearchBox
         android:id="@+id/ths_search_pharmacy_edittext"

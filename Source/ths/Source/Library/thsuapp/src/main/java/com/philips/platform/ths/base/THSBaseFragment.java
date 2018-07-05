@@ -234,7 +234,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             }
             alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_matchmaking_error)
                     .setMessage(message).
-                            setPositiveButton(R.string.ths_matchmaking_ok_button, new View.OnClickListener() {
+                            setPositiveButton(R.string.ths_Ok_title, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     alertDialogFragment.dismiss();

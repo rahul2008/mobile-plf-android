@@ -1,6 +1,7 @@
 <resources>
 
     <string name="iap_app_name">InAppPurchase</string>
+    <string name="delete_row">Delete</string>
 
     <!-- Shopping Cart screen -->
     <string name="iap_shopping_cart">Shopping Cart</string>
@@ -320,5 +321,5 @@
     <string name="iap_select_payment_method">Select payment method</string>
     <string name="iap_number_of_products">%s Products</string>
     <string name="iap_number_of_product">%s Product</string>
-
+    <string name="iap_product_remove_address" translatable="false">Your address will be deleted forever. Are you sure?</string>
 </resources>

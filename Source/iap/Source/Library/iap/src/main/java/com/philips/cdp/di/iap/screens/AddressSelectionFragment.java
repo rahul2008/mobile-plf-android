@@ -35,6 +35,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -47,7 +48,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class AddressSelectionFragment extends InAppBaseFragment implements AddressController.AddressListener,
-        EventListener, PaymentController.PaymentListener {
+        EventListener, PaymentController.PaymentListener, AlertListener {
 
     public static final String TAG = AddressSelectionFragment.class.getName();
     private Context mContext;
@@ -242,7 +243,9 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                 HashMap<String, String> addressHashMap = updateAddress(address);
                 moveToShippingAddressFragment(addressHashMap);
             } else if (IAPConstant.ADDRESS_SELECTION_EVENT_DELETE.equals(event) && isNetworkConnected()) {
-                deleteShippingAddress();
+                Utility.showActionDialog(mContext, getString(R.string.iap_ok), getString(R.string.iap_cancel)
+                        , getString(R.string.iap_confirm_delete), getString(R.string.iap_product_remove_address), getFragmentManager(), this);
+
             }
         }
         if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_ADDRESS)) {
@@ -352,6 +355,16 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onGetUser(Message msg) {
+        // Do Nothing
+    }
+
+    @Override
+    public void onPositiveBtnClick() {
+        deleteShippingAddress();
+    }
+
+    @Override
+    public void onNegativeBtnClick() {
         // Do Nothing
     }
 }

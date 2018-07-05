@@ -74,7 +74,7 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         super.onResume();
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
+            actionBarListener.updateActionBar(getString(R.string.ths_Welcome_nav_title),true);
         }
         View view = getActivity().findViewById(R.id.uid_toolbar);
         if(view instanceof Toolbar) {

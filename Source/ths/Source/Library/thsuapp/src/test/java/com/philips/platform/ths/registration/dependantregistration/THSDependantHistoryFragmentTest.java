@@ -137,13 +137,13 @@ public class THSDependantHistoryFragmentTest {
         mTHSDependantHistoryFragment.mLaunchInput = THSConstants.THS_PRACTICES;
         mTHSDependantHistoryFragment.updateUIBasedOnLaunchInput();
         final Label viewById = mTHSDependantHistoryFragment.getView().findViewById(R.id.ths_visit_for);
-        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_visit_for)));
+        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_userlist_select_header)));
         mTHSDependantHistoryFragment.mLaunchInput = THSConstants.THS_SCHEDULED_VISITS;
         mTHSDependantHistoryFragment.updateUIBasedOnLaunchInput();
-        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_select_patient)));
+        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_userList_title)));
         mTHSDependantHistoryFragment.mLaunchInput = THSConstants.THS_VISITS_HISTORY;
         mTHSDependantHistoryFragment.updateUIBasedOnLaunchInput();
-        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_select_patient)));
+        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_userList_title)));
     }
     @Test
     public void onItemClick() throws Exception {

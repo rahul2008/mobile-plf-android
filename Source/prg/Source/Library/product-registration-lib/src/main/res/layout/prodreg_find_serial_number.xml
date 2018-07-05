@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_margintop"
-            android:text="@string/PPR_Find_Serial_Number"
+            android:text="@string/PRG_Find_Serial_Number"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/pr_title_textsize"
             />
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/fab_margin"
-            android:text="@string/PPR_find_serial_number_help_message"
+            android:text="@string/PRG_find_serial_number_help_message"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/pr_connect_title_textsize"/>
 
@@ -78,7 +78,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/pr_registration_margin_bottom"
             android:layout_marginTop="@dimen/pr_margintop"
-            android:text="@string/PPR_ok_i_found_it"
+            android:text="@string/PRG_ok_i_found_it"
             android:textAllCaps="false"/>
 
     </LinearLayout>

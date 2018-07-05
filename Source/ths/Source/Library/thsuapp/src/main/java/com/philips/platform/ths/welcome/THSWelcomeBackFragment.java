@@ -77,7 +77,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
             appointment = arguments.getParcelable(THSConstants.THS_SCHEDULE_APPOINTMENT_OBJECT);
 
             final String format = new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(date);
-            String text = getString(R.string.ths_appointment_start_time, format);
+            String text = getString(R.string.ths_start_appointment_header_time, format);
 
             mLabel.setText(text);
             mRatingBar.setRating(mProvider.getRating());
@@ -106,7 +106,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
         super.onActivityCreated(savedInstanceState);
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_welcome_back),true);
+            actionBarListener.updateActionBar(getString(R.string.ths_start_appointment_nav_title),true);
         }
     }
 
