@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">죄송합니다. 문제가 발생했습니다. 다시 시도하십시오.</string>
   <string name="MYA_Visit_Website">[ko]Visit our website</string>
   <string name="csw_consent_help_label">이는 무슨 의미입니까?</string>
-  <string name="csw_generic_network_error">서버에 연결할 수 없습니다.
-인터넷 연결을 확인하고 다시 시도하십시오.</string>
+  <string name="csw_generic_network_error">서버에 연결할 수 없습니다.\n인터넷 연결을 확인하고 다시 시도하십시오.</string>
   <string name="csw_invalid_access_token_error_message">서버 연결에 문제가 발생했습니다. 기기의 날짜/시간이 올바르게 설정되었는지 확인하십시오. 문제가 계속되면 로그아웃 후 다시 로그인하십시오.</string>
   <string name="csw_offline_message">인터넷 연결이 작동하지 않는 것으로 보입니다. 확인 후 다시 시도하십시오.</string>
   <string name="csw_offline_title">오프라인 상태입니다.</string>
@@ -31,7 +30,7 @@
   <string name="mya_Email_Validation_message">이메일 주소가 확인되지 않음</string>
   <string name="mya_Email_address">이메일 주소</string>
   <string name="mya_Gender">성별</string>
-  <string name="mya_Info">로그인 ID 또는 암호를 변경하시겠습니까? 웹 사이트로 이동해 주십시오.</string>
+  <string name="mya_Info">[ko]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">서버 연결에 문제가 발생했습니다. 기기의 날짜/시간이 올바르게 설정되었는지 확인하십시오. 문제가 계속되면 로그아웃 후 다시 로그인하십시오.</string>
   <string name="mya_Login_details">로그인 상세 정보</string>
   <string name="mya_Logout">로그아웃</string>
@@ -63,7 +62,7 @@
   <string name="mya_csw_justintime_accept">[ko]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[ko]Maybe later</string>
   <string name="mya_csw_justintime_title">[ko]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,ko]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,ko]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,ko]What do we have to offer?</string>
   <string name="mya_logout_message">애플리케이션에서 로그아웃합니다. 로그아웃한 후에도 언제든 다시 로그인할 수 있습니다.</string>
   <string name="mya_logout_title">로그아웃하시겠습니까?</string>

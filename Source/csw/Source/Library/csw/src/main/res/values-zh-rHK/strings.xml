@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">抱歉，發生錯誤。請重試。</string>
   <string name="MYA_Visit_Website">[zh-HK]Visit our website</string>
   <string name="csw_consent_help_label">這意味著什麼呢？</string>
-  <string name="csw_generic_network_error">無法連接伺服器。
-請檢查網絡連接然後重新嘗試。</string>
+  <string name="csw_generic_network_error">無法連接伺服器。\n請檢查網絡連接然後重新嘗試。</string>
   <string name="csw_invalid_access_token_error_message">連結至伺服器時出現問題。請確保您裝置的日期/時間設定正確。如問題持續，請登出並重新登入。</string>
   <string name="csw_offline_message">您的網絡連線似乎未能正常運作，請檢查並再試一次</string>
   <string name="csw_offline_title">您已經離線</string>
@@ -31,7 +30,7 @@
   <string name="mya_Email_Validation_message">電郵地址尚未確認</string>
   <string name="mya_Email_address">電郵地址</string>
   <string name="mya_Gender">性別</string>
-  <string name="mya_Info">您是否要變更您的登入 ID 或密碼？瀏覽我們的網站。</string>
+  <string name="mya_Info">[zh-HK]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">連結至伺服器時出現問題。請確保您裝置的日期/時間設定正確。如問題持續，請登出並重新登入。</string>
   <string name="mya_Login_details">登入詳細資料</string>
   <string name="mya_Logout">登出</string>
@@ -63,7 +62,7 @@
   <string name="mya_csw_justintime_accept">[zh-HK]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[zh-HK]Maybe later</string>
   <string name="mya_csw_justintime_title">[zh-HK]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,zh-HK]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,zh-HK]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,zh-HK]What do we have to offer?</string>
   <string name="mya_logout_message">您將會登出應用程式。登出後您可隨時重新登入。</string>
   <string name="mya_logout_title">您確定要登出嗎？</string>

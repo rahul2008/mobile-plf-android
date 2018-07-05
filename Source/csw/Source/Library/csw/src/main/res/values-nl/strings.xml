@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">Er is iets fout gegaan. Probeer het opnieuw.</string>
   <string name="MYA_Visit_Website">[nl]Visit our website</string>
   <string name="csw_consent_help_label">Wat betekent dit?</string>
-  <string name="csw_generic_network_error">Kan geen verbinding maken met de server.
-Controleer uw internetverbinding en probeer het opnieuw.</string>
+  <string name="csw_generic_network_error">Kan geen verbinding maken met de server.\nControleer uw internetverbinding en probeer het opnieuw.</string>
   <string name="csw_invalid_access_token_error_message">Er kan geen verbinding worden gemaakt met de server. Zorg dat u de juiste datum/tijd hebt ingesteld op uw apparaat. Als het probleem aanhoudt, probeert u zich af te melden en weer aan te melden.</string>
   <string name="csw_offline_message">Uw internetverbinding lijkt niet te werken. Controleer deze en probeer het opnieuw</string>
   <string name="csw_offline_title">U bent offline</string>
@@ -31,7 +30,7 @@ Controleer uw internetverbinding en probeer het opnieuw.</string>
   <string name="mya_Email_Validation_message">E-mailadres niet bevestigd</string>
   <string name="mya_Email_address">E-mailadres</string>
   <string name="mya_Gender">Geslacht</string>
-  <string name="mya_Info">Wilt u uw aanmeldings-ID of wachtwoord wijzigen? Ga naar onze website.</string>
+  <string name="mya_Info">[nl]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Er kan geen verbinding worden gemaakt met de server. Zorg dat u de juiste datum/tijd hebt ingesteld op uw apparaat. Als het probleem aanhoudt, probeert u zich af te melden en weer aan te melden.</string>
   <string name="mya_Login_details">Aanmeldingsgegevens</string>
   <string name="mya_Logout">Afmelden</string>
@@ -63,7 +62,7 @@ Controleer uw internetverbinding en probeer het opnieuw.</string>
   <string name="mya_csw_justintime_accept">[nl]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[nl]Maybe later</string>
   <string name="mya_csw_justintime_title">[nl]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,nl]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,nl]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,nl]What do we have to offer?</string>
   <string name="mya_logout_message">U wordt afgemeld bij de app. Nadat u zich hebt afgemeld, kunt u zich altijd weer aanmelden.</string>
   <string name="mya_logout_title">Weet u zeker dat u zich wilt afmelden?</string>
