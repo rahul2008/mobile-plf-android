@@ -74,6 +74,21 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.iap_shopping_cart_dls;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return getString(R.string.iap_shopping_cart_dls);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
@@ -115,9 +130,10 @@ public class ShoppingCartFragment extends InAppBaseFragment
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
-        setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_dls, true);
+        //setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_dls, true);
+        setActionbarTitle();
         if (isNetworkConnected()) {
-           updateCartDetails(mShoppingCartAPI);
+            updateCartDetails(mShoppingCartAPI);
         }
     }
 
@@ -207,7 +223,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
 
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    DeliveryMethodFragment.TAG);
+                    AddressSelectionFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
             Utility.showActionDialog(mContext, getString(R.string.iap_remove_product), getString(R.string.iap_cancel)
                     , getString(R.string.iap_delete_item_alert_title), getString(R.string.iap_product_remove_description), getFragmentManager(), this);

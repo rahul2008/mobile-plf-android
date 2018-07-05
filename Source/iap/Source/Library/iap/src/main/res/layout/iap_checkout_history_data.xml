@@ -30,7 +30,7 @@
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/daily_selling_product"
+                android:text="@string/iap_daily_selling_product"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"/>
 
             <com.philips.platform.uid.view.widget.Label

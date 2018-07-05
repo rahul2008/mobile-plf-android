@@ -97,7 +97,7 @@
             android:id="@+id/tv_card_type"
             style="@style/tvTitle"
             android:layout_marginTop="@dimen/iap_selection_address_layout_margin_top"
-            android:text="@string/mastercard" />
+            android:text="@string/iap_mastercard" />
 
         <TextView
             android:id="@+id/tv_card_holder_name"

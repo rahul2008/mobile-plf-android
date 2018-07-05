@@ -20,7 +20,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
-            android:text="@string/iap_option" />
+            android:text="@string/iap_options" />
 
         <RelativeLayout
             android:layout_width="match_parent"
