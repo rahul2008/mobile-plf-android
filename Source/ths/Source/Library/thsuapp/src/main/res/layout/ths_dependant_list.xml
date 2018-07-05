@@ -19,7 +19,7 @@
         android:layout_marginBottom="@dimen/ths_image_size"
         android:paddingTop="@dimen/ths_title_padding"
         android:paddingBottom="@dimen/ths_title_padding"
-        android:text="@string/ths_visit_for"
+        android:text="@string/ths_userlist_select_header"
         android:textSize="@dimen/ths_title_text" />
 
     <com.philips.platform.uid.view.widget.Label
@@ -27,7 +27,7 @@
         android:layout_marginLeft="@dimen/ths_fab_margin"
         android:layout_marginRight="@dimen/ths_fab_margin"
         android:layout_below="@id/ths_visit_for"
-        android:text="@string/ths_select_name"
+        android:text="@string/ths_userlist_select_description"
         style="@style/ths_body_text"
         android:layout_marginBottom="@dimen/ths_conditions_margin_top"
         android:layout_width="wrap_content"

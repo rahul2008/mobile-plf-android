@@ -305,7 +305,7 @@ public class AppFrameworkApplication extends Application {
 
     private CommCentral createCommCentral(final @NonNull Context context, final @NonNull AppInfraInterface appInfraInterface) {
         final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(context, appInfraInterface);
-
+        runtimeConfiguration.setTaggingEnabled(true);
         final CloudController cloudController = setupCloudController(context);
 
         final CloudTransportContext cloudTransportContext = new CloudTransportContext(runtimeConfiguration, cloudController);

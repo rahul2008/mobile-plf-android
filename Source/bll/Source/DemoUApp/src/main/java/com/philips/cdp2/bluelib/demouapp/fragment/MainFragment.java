@@ -100,8 +100,6 @@ public class MainFragment extends Fragment {
 
     private void acquirePermission() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            SHNTagger.sendTechnicalError("Location permission missing");
-
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION_REQUEST_CODE);
         }
     }

@@ -12,7 +12,7 @@
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
         android:paddingTop="@dimen/ths_margin_top_registration_detail_title"
-        android:text="@string/ths_schedule_appointment_for"
+        android:text="@string/ths_schedule_confirm_header"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="20sp" />
 
@@ -60,7 +60,7 @@
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
         android:paddingTop="3dp"
-        android:text="@string/ths_with" />
+        android:text="@string/ths_schedule_confirm_sectionTitle" />
 
     <include
         android:id="@+id/providerDetailDListLayout"
@@ -86,7 +86,7 @@
         android:layout_marginTop="16dp"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
-        android:text="@string/ths_email_sent" />
+        android:text="@string/ths_schedule_confirm_email" />
 
     <RelativeLayout
         android:id="@+id/bottomLayout"
@@ -104,7 +104,7 @@
             android:id="@+id/ok_got_it"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ths_got_it" />
+            android:text="@string/ths_schedule_confirm_finish" />
     </RelativeLayout>
 
 </RelativeLayout>

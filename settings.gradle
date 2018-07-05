@@ -107,8 +107,8 @@ project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-a
 project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
 project(':NeuraUApp').projectDir = new File('./Source/neu/Source/DemoUApp/DemoUApp')
 //demoapps to be published to artifactory
-include ':UserRegistrationApp'
-project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+//include ':UserRegistrationApp'
+//project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 //include ':telehealthApp'
 //project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
 //include ':uidApp'
@@ -122,8 +122,8 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
 //include ':launchDigitalCare'
 //project(':launchDigitalCare').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
-//include(':iapApp')
-//project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
+include(':iapApp')
+project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
 //include ':productselectionApp'
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
 //include ':product-registration-libApp'

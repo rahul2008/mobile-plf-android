@@ -140,7 +140,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
 
         ActionBarListener actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getString(R.string.ths_visit), true);
+            actionBarListener.updateActionBar(getString(R.string.ths_your_visit), true);
         }
         createCustomProgressBar(mLayoutContainer, BIG);
         mThsVisitHistoryPresenter.getVisitReportDetail(mVisitReport);

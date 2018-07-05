@@ -15,8 +15,8 @@ public class THSLocationConsentProvider {
     public final static String THS_LOCATION = "THS_location";
 
     public static ConsentDefinition getTHSConsentDefinition() {
-        int text = R.string.ths_location_consent_title;
-        int helpText = R.string.ths_location_consent_help;
+        int text = R.string.ths_consent_privacy_text;
+        int helpText = R.string.ths_consent_description_text;
         final ArrayList<String> types = new ArrayList<>();
         types.add(THS_LOCATION);
         return new ConsentDefinition(text, helpText, types, 1);

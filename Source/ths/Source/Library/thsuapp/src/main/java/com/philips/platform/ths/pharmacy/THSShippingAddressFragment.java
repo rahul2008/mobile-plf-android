@@ -68,7 +68,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         actionBarListener = getActionBarListener();
 
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.ths_shipping_address_fragment_name, true);
+            actionBarListener.updateActionBar(R.string.ths_ship_priscription, true);
         }
 
         anchorUIPicker = (Label) view.findViewById(R.id.sa_state_text);

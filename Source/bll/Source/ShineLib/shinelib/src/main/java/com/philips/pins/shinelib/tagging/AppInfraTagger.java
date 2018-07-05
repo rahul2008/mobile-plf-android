@@ -37,7 +37,7 @@ public class AppInfraTagger implements SHNTagger.Tagger {
      * @param appInfraInterface the {@link AppInfraInterface} instance to create a tagging instance from
      */
     public AppInfraTagger(final @NonNull AppInfraInterface appInfraInterface) {
-        taggingInstance = createTaggingInstance(appInfraInterface);
+         taggingInstance = createTaggingInstance(appInfraInterface);
     }
 
     @VisibleForTesting

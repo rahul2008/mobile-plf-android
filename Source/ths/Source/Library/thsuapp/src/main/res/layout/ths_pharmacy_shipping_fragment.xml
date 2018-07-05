@@ -19,6 +19,6 @@
             android:id="@+id/ths_ps_continue_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ths_continue_button_text" />
+            android:text="@string/ths_registration_continue" />
     </RelativeLayout>
 </RelativeLayout>

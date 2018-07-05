@@ -29,6 +29,7 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
 
     public DefaultCommlibUappDependencies(final @NonNull Context context, final @NonNull AppInfraInterface appInfraInterface) {
         final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(context, appInfraInterface);
+        runtimeConfiguration.setTaggingEnabled(true);
 
         final CloudController cloudController = setupCloudController(context);
 

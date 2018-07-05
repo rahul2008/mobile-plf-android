@@ -83,5 +83,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/selected_pharmacy_details"
-        android:text="@string/ths_choose_pharmacy_button_text" />
+        android:text="@string/ths_mark_as_my_pharmacy" />
 </RelativeLayout>

@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 android:layout_marginTop="24dp"
-                android:text="@string/ths_credit_card_details_information"
+                android:text="@string/ths_payment_header"
                 android:textColor="?attr/uidLabelRegularNormalTextColor"
                 android:textSize="@dimen/ths_20_sp"
                 android:textStyle="bold" />
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_payment_detail_title_label"
-                android:text="@string/ths_credit_card_details_name" />
+                android:text="@string/ths_payment_namelabel" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/ths_payment_detail_card_holder_name_edittext_validation_layout"
@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:hint="@string/ths_credit_card_details_owners_name"
+                    android:hint="@string/ths_payment_namefield"
                     android:inputType="text"
                     android:maxLines="1" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_payment_detail_card_holder_name_edittext_validation_layout"
-                android:text="@string/ths_credit_card_details_card_number" />
+                android:text="@string/ths_payment_cardnumberlabel" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/ths_payment_detail_card_number_edittext_validation_layout"
@@ -73,7 +73,7 @@
                 android:layout_below="@+id/ths_payment_detail_card_number_label"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                app:uidTextBoxValidationErrorText="@string/ths_credit_card_details_card_number_error_string">
+                app:uidTextBoxValidationErrorText="@string/ths_payment_cardnumberlabel">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
                     android:id="@+id/ths_payment_detail_card_number_edittext"
@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_payment_detail_card_number_edittext_validation_layout"
-                android:text="@string/ths_credit_card_details_expiration_date" />
+                android:text="@string/ths_payment_expirylabel" />
 
             <RelativeLayout
                 android:id="@+id/ths_payment_detail_card_expiration_date_relativelayout"
@@ -111,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:digits="0123456789"
-                        android:hint="@string/ths_credit_card_details_expiry_month"
+                        android:hint="@string/ths_payment_monthfield"
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="2" />
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:digits="0123456789"
-                        android:hint="@string/ths_credit_card_details_expiry_year"
+                        android:hint="@string/ths_payment_yearfield"
                         android:imeOptions="actionNext"
                         android:inputType="number|none"
                         android:maxLength="4" />
@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_payment_detail_expiry_error_layout"
                 android:layout_marginTop="@dimen/ths_fab_margin"
-                android:text="@string/ths_credit_card_details_cvc_code" />
+                android:text="@string/ths_payment_cvvlabel" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/ths_payment_detail_card_cvc_edittext_validation_layout"
@@ -191,7 +191,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="@string/ths_credit_card_details_000"
+                    android:hint="@string/ths_payment_cvvfield"
                     android:imeOptions="actionDone"
                     android:inputType="numberPassword"
                     android:maxLength="4" />
@@ -246,7 +246,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ths_payment_detail_card_cvc_help_image"
-                    android:text="@string/ths_credit_card_details_whats_this_text"
+                    android:text="@string/ths_whats_this"
                     android:textColor="?attr/uidHyperlinkDefaultNormalTextColor" />
             </RelativeLayout>
 
@@ -259,7 +259,7 @@
                 android:layout_below="@+id/ths_payment_detail_cvc_error_layout"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 android:layout_marginTop="@dimen/ths_fab_margin"
-                android:text="@string/ths_address_shipping_address_string" />
+                android:text="@string/ths_shipping_address" />
 
             <com.philips.platform.uid.view.widget.CheckBox
                 android:id="@+id/ths_credit_card_details_checkbox"
@@ -275,7 +275,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_credit_card_details_checkbox"
-                android:text="@string/ths_address_address_line_one" />
+                android:text="@string/ths_address_line1" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/sa_shipping_address_line_one_validation_layout"
@@ -291,7 +291,7 @@
                     style="@style/UIDEditTextBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/ths_address_enter_first_address_line"
+                    android:hint="@string/ths_address_line1_placeholder"
                     android:imeOptions="actionNext"
                     android:inputType="text"
                     android:maxLines="1" />
@@ -303,7 +303,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sa_shipping_address_line_one_validation_layout"
-                android:text="@string/ths_address_address_line_two" />
+                android:text="@string/ths_address_line2" />
 
             <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/sa_shipping_address_line_two"
@@ -312,7 +312,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sa_address_line_two_text"
                 android:layout_marginBottom="16dp"
-                android:hint="@string/ths_address_optional_string"
+                android:hint="@string/ths_optional"
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:maxLines="1" />
@@ -323,7 +323,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sa_shipping_address_line_two"
-                android:text="@string/ths_address_town_city_string" />
+                android:text="@string/ths_town_city" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/sa_town_validation_layout"
@@ -339,7 +339,7 @@
                     style="@style/UIDEditTextBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/ths_address_enter_town_city"
+                    android:hint="@string/ths_city_placeholder"
                     android:imeOptions="actionNext"
                     android:inputType="text"
                     android:maxLines="1" />
@@ -351,7 +351,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sa_town_validation_layout"
-                android:text="@string/ths_address_postal_code_string" />
+                android:text="@string/ths_postal_code" />
 
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -380,7 +380,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sa_postal_code"
-                android:text="@string/ths_address_state_string" />
+                android:text="@string/ths_registration_statefield" />
 
 
             <com.philips.platform.uid.view.widget.EditText
@@ -391,7 +391,7 @@
                 android:layout_below="@+id/sa_state_text"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
                 android:focusable="false"
-                android:hint="@string/ths_user_enter_state"
+                android:hint="@string/ths_state_placeholder"
                 android:imeOptions="actionNext"
                 android:maxLines="1" />
 
@@ -404,5 +404,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/ths_margin_bottom"
-        android:text="@string/ths_ok_continue_button_string" />
+        android:text="@string/ths_ok_continue" />
 </RelativeLayout>
