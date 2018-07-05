@@ -53,11 +53,13 @@ public class HPKPManager implements HPKPInterface {
         if (isNetworkKeyFound) {
             HPKPExpirationHelper hpkpExpirationHelper = new HPKPExpirationHelper(storedPublicKeyDetails, networkPublicKeyDetails);
 
+            networkPublicKeyDetails = networkPublicKeyDetails.concat(" " + "expiry-date=\"" + hpkpExpirationHelper.getNetworkPinsExpiryDate() + "\";");
+
             if (!isStoredKeyFound) {
-                updateStoredPublicKeyDetails(hostName, networkPublicKeyDetails.concat(" " + "expiry-date=\"" + hpkpExpirationHelper.getNetworkPinsExpiryDate() + "\";"));
+                updateStoredPublicKeyDetails(hostName, networkPublicKeyDetails);
                 hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_STORAGE);
             } else {
-                updateNetworkKeyWithStoredKey(hostName, networkPublicKeyDetails, storedPublicKeyDetails, hpkpExpirationHelper);
+                updateStoredKeyWithNetworkKey(hostName, networkPublicKeyDetails, storedPublicKeyDetails, hpkpExpirationHelper);
             }
         }
     }
@@ -79,11 +81,11 @@ public class HPKPManager implements HPKPInterface {
         return !isCertificatePinsMisMatch && !isPinnedPublicKeyExpired;
     }
 
-    private void updateNetworkKeyWithStoredKey(String hostName, String networkPublicKeyDetails, String storedPublicKeyDetails, HPKPExpirationHelper hpkpExpirationHelper) {
+    private void updateStoredKeyWithNetworkKey(String hostName, String networkPublicKeyDetails, String storedPublicKeyDetails, HPKPExpirationHelper hpkpExpirationHelper) {
         List<String> publicKeys = getPinnedPublicKeysList(networkPublicKeyDetails);
         for (String publicKey : publicKeys) {
             if (storedPublicKeyDetails.contains(publicKey)) {
-                updateExpiryOfMatchingKey(hostName, storedPublicKeyDetails, hpkpExpirationHelper);
+                updateExpiryOfMatchingKey(hostName, networkPublicKeyDetails, hpkpExpirationHelper);
                 return;
             }
         }
@@ -91,12 +93,11 @@ public class HPKPManager implements HPKPInterface {
         hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_HEADER);
     }
 
-    private void updateExpiryOfMatchingKey(String hostName, String storedPublicKeyDetails, HPKPExpirationHelper hpkpExpirationHelper) {
+    private void updateExpiryOfMatchingKey(String hostName, String publicKeyDetails, HPKPExpirationHelper hpkpExpirationHelper) {
         if (hpkpExpirationHelper.isPinnedPublicKeyExpired()) {
             hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_HEADER_EXPIRED);
         } else if (hpkpExpirationHelper.shouldExpiryBeUpdated()) {
-            String updatedStoredKeyDetails = storedPublicKeyDetails.split(EXPIRY_DATE_REGEX)[0];
-            updateStoredPublicKeyDetails(hostName, updatedStoredKeyDetails.concat(" " + "expiry-date=\"" + hpkpExpirationHelper.getNetworkPinsExpiryDate() + "\";"));
+            updateStoredPublicKeyDetails(hostName, publicKeyDetails);
         }
     }
 
