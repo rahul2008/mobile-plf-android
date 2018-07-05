@@ -162,7 +162,7 @@ public class SHNGattConnectingStateTest {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verifyStatic(SHNTagger.class, times(1));
         SHNTagger.sendTechnicalError(captor.capture());
-        assertEquals("Not ready for connection to the peripheral, assuming Bluetooth is disabled.", captor.getValue());
+        assertEquals("Not ready for connection to the peripheral, Bluetooth is not on.", captor.getValue());
     }
 
     @Test
