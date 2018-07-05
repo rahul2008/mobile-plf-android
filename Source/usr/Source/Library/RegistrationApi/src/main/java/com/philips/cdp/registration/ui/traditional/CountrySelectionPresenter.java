@@ -74,4 +74,5 @@ public class CountrySelectionPresenter {
         country.setName(context.getString(R.string.USR_Country_TW));
         return country;
     }
+
 }

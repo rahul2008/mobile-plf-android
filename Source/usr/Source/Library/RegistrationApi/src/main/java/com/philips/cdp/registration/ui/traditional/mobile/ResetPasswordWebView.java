@@ -34,7 +34,7 @@ public class ResetPasswordWebView extends Fragment {
     }
 
     private void initUI(View view) {
-        final String redirectUriKey = "redirectUri";
+        final String redirectUriKey = "redirectUriValue";
         WebView mWebView = (WebView) view.findViewById(R.id.reg_wv_reset_password_webview);
         showWebViewSpinner();
         WebSettings settings = mWebView.getSettings();

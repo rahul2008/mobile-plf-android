@@ -1,3 +1,0 @@
-Themed switches can be used as below.
-
-use "com.philips.cdp.uikit.customviews.PuiSwitch" to inflate/ or in declaring in xml.
