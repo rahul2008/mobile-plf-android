@@ -259,7 +259,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                 moveToShippingAddressFragment(addressHashMap);
             } else if (IAPConstant.ADDRESS_SELECTION_EVENT_DELETE.equals(event) && isNetworkConnected()) {
                 Utility.showActionDialog(mContext, getString(R.string.iap_ok), getString(R.string.iap_cancel)
-                        , getString(R.string.iap_confirm_delete), getString(R.string.iap_product_remove_address), getFragmentManager(), this);
+                        , getString(R.string.iap_confirm), getString(R.string.iap_product_remove_address), getFragmentManager(), this);
 
             }
         }

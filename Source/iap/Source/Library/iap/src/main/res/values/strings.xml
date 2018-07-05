@@ -289,4 +289,5 @@ FedEx(parcel postage)</string>
   <string name="iap_your_order_number_is">Your order number is:</string>
   <string name="iap_zero_results_found">0 results found for %s</string>
   <string name="iap_zero_results_message">This filters our product list. Please check that there are no typos in your filter term</string>
+  <string name="iap_product_remove_address">Your address will be deleted forever. Are you sure?</string>>
 </resources>
