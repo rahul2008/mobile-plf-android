@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -9,11 +9,11 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philips.cdp2.commlib_api.BuildConfig;
+
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * Custom log class:
@@ -62,7 +62,7 @@ public class DICommLog {
     public static final String APPLIANCE_MANAGER = "ApplianceManager";
     public static final String UDPRECEIVER = "UdpEventReceiver";
 
-    private static boolean isLoggingEnabled = false;
+    private static boolean isLoggingEnabled = BuildConfig.DEBUG;
 
     private static boolean isSaveToFileEnabled = false;
 
