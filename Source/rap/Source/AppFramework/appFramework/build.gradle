@@ -398,3 +398,4 @@ task('printArtifactoryApkPath') {
         println "Artifactory path of apk stored in apkname.txt"
     }
 }
+apply plugin: 'com.google.gms.google-services'
