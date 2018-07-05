@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">Ne pare rău, a apărut o problemă. Încearcă din nou.</string>
   <string name="MYA_Visit_Website">[ro]Visit our website</string>
   <string name="csw_consent_help_label">Ce înseamnă aceasta?</string>
-  <string name="csw_generic_network_error">Conectarea la server nu este posibilă.
-Verifică-ţi conexiunea la internet şi încearcă din nou.</string>
+  <string name="csw_generic_network_error">Conectarea la server nu este posibilă.\nVerifică-ţi conexiunea la internet şi încearcă din nou.</string>
   <string name="csw_invalid_access_token_error_message">A apărut o problemă la conectarea la server. Asigură-te că data/ora de pe dispozitiv este setată corect. Dacă problema persistă, deconectează-te şi conectează-te din nou.</string>
   <string name="csw_offline_message">Conexiunea la internet nu pare să funcţioneze. Verifică şi încearcă din nou.</string>
   <string name="csw_offline_title">Eşti offline</string>
@@ -31,7 +30,7 @@ Verifică-ţi conexiunea la internet şi încearcă din nou.</string>
   <string name="mya_Email_Validation_message">Adresa de e-mail nu este confirmată</string>
   <string name="mya_Email_address">Adresă de e-mail</string>
   <string name="mya_Gender">Sex</string>
-  <string name="mya_Info">Vrei să îţi schimbi ID-ul sau parola de conectare? Vizitează site-ul nostru web.</string>
+  <string name="mya_Info">[ro]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">A apărut o problemă la conectarea la server. Asigură-te că data/ora de pe dispozitiv este setată corect. Dacă problema persistă, deconectează-te şi conectează-te din nou.</string>
   <string name="mya_Login_details">Detalii conectare</string>
   <string name="mya_Logout">Deconectare</string>
@@ -63,7 +62,7 @@ Verifică-ţi conexiunea la internet şi încearcă din nou.</string>
   <string name="mya_csw_justintime_accept">[ro]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[ro]Maybe later</string>
   <string name="mya_csw_justintime_title">[ro]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,ro]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,ro]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,ro]What do we have to offer?</string>
   <string name="mya_logout_message">Vei fi deconectat(ă) din aplicaţie. După ce te deconectezi, te poţi reconecta oricând.</string>
   <string name="mya_logout_title">Sigur vrei să te deconectezi?</string>

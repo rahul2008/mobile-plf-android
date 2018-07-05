@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">Es tut uns leid, ein Fehler ist aufgetreten. Versuch es erneut.</string>
   <string name="MYA_Visit_Website">[de]Visit our website</string>
   <string name="csw_consent_help_label">Was bedeutet das?</string>
-  <string name="csw_generic_network_error">Verbindung zum Server nicht möglich.
-Überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.</string>
+  <string name="csw_generic_network_error">Verbindung zum Server nicht möglich.\nÜberprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.</string>
   <string name="csw_invalid_access_token_error_message">Bei der Herstellung einer Verbindung mit dem Server ist ein Problem aufgetreten. Stellen Sie sicher, dass Datum und Uhrzeit auf dem Gerät korrekt eingestellt sind. Sollte das Problem weiterhin bestehen, melden Sie sich ab und erneut wieder an.</string>
   <string name="csw_offline_message">Sie sind möglicherweise nicht mit dem Internet verbunden. Überprüfen Sie Ihre Verbindung, und versuchen Sie es erneut.</string>
   <string name="csw_offline_title">Sie sind offline.</string>
@@ -31,7 +30,7 @@
   <string name="mya_Email_Validation_message">E-Mail-Adresse nicht bestätigt</string>
   <string name="mya_Email_address">E-Mail-Adresse</string>
   <string name="mya_Gender">Geschlecht</string>
-  <string name="mya_Info">Möchten Sie Ihre Anmelde-ID oder Ihr Passwort ändern? Besuchen Sie unsere Website.</string>
+  <string name="mya_Info">[de]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Bei der Herstellung einer Verbindung mit dem Server ist ein Problem aufgetreten. Stellen Sie sicher, dass Datum und Uhrzeit auf dem Gerät korrekt eingestellt sind. Sollte das Problem weiterhin bestehen, melden Sie sich ab und erneut wieder an.</string>
   <string name="mya_Login_details">Anmeldetails</string>
   <string name="mya_Logout">Abmelden</string>
@@ -63,7 +62,7 @@
   <string name="mya_csw_justintime_accept">[de]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[de]Maybe later</string>
   <string name="mya_csw_justintime_title">[de]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,de]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,de]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,de]What do we have to offer?</string>
   <string name="mya_logout_message">Sie werden von der Anwendung abgemeldet. Nach der Abmeldung können Sie sich jederzeit wieder anmelden.</string>
   <string name="mya_logout_title">Möchten Sie sich wirklich abmelden?</string>

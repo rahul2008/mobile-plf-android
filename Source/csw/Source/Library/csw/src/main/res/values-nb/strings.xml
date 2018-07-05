@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">Beklager, noe gikk galt. Prøv på nytt.</string>
   <string name="MYA_Visit_Website">[nb]Visit our website</string>
   <string name="csw_consent_help_label">Hva betyr dette?</string>
-  <string name="csw_generic_network_error">Kan ikke koble til serveren.
-Kontroller Internett-tilkoblingen, og prøv på nytt.</string>
+  <string name="csw_generic_network_error">Kan ikke koble til serveren.\nKontroller Internett-tilkoblingen, og prøv på nytt.</string>
   <string name="csw_invalid_access_token_error_message">Det oppstod et problem under tilkobling til serveren. Pass på at dato/klokkeslett er riktig stilt inn på enheten. Hvis problemet vedvarer, må du logge deg av og på igjen.</string>
   <string name="csw_offline_message">Det ser ikke ut til at Internett-tilkoblingen din fungerer. Kontroller den og prøv på nytt</string>
   <string name="csw_offline_title">Du er frakoblet</string>
@@ -31,7 +30,7 @@ Kontroller Internett-tilkoblingen, og prøv på nytt.</string>
   <string name="mya_Email_Validation_message">E-postadressen er ikke bekreftet</string>
   <string name="mya_Email_address">E-postadresse</string>
   <string name="mya_Gender">Kjønn</string>
-  <string name="mya_Info">Vil du endre påloggings-ID eller passord? Gå til nettstedet vårt.</string>
+  <string name="mya_Info">[nb]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Det oppstod et problem under tilkobling til serveren. Pass på at dato/klokkeslett er riktig stilt inn på enheten. Hvis problemet vedvarer, må du logge deg av og på igjen.</string>
   <string name="mya_Login_details">Påloggingsdetaljer</string>
   <string name="mya_Logout">Logg av</string>
@@ -63,7 +62,7 @@ Kontroller Internett-tilkoblingen, og prøv på nytt.</string>
   <string name="mya_csw_justintime_accept">[nb]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[nb]Maybe later</string>
   <string name="mya_csw_justintime_title">[nb]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,nb]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,nb]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,nb]What do we have to offer?</string>
   <string name="mya_logout_message">Du logges av programmet. Etter avloggingen kan du selvfølgelig logge deg på igjen.</string>
   <string name="mya_logout_title">Er du sikker på at du vil logge deg av?</string>

@@ -30,7 +30,7 @@
   <string name="mya_Email_Validation_message">Endereço de e-mail não confirmado</string>
   <string name="mya_Email_address">E-mail</string>
   <string name="mya_Gender">Sexo</string>
-  <string name="mya_Info">Deseja alterar seu ID de login e sua senha? Acesse nosso site.</string>
+  <string name="mya_Info">[pt-BR]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Ocorre um problema ao conectar com o servidor. Confira se a data e a hora de seu dispositivo estão configuradas corretamente. Se o problema persistir, desconecte e conecte-se novamente.</string>
   <string name="mya_Login_details">Detalhes de login</string>
   <string name="mya_Logout">Sair</string>
@@ -62,7 +62,7 @@
   <string name="mya_csw_justintime_accept">[pt-BR]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[pt-BR]Maybe later</string>
   <string name="mya_csw_justintime_title">[pt-BR]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,pt-BR]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,pt-BR]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,pt-BR]What do we have to offer?</string>
   <string name="mya_logout_message">Você sairá do aplicativo agora. É possível conectar-se novamente depois.</string>
   <string name="mya_logout_title">Tem certeza de que deseja sair?</string>
