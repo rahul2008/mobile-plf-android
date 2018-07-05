@@ -60,7 +60,7 @@
   <string name="iap_country_error">Kirjoita kelvollinen maa</string>
   <string name="iap_country_hint">Kirjoita maa</string>
   <string name="iap_customer_help">Asiakaspalvelutiimimme auttaa sinua mielellään.</string>
-  <string name="iap_cvv_code">[fi]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[fi]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[fi]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_daily_selling_product">[fi]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@ FedEx (pakettiposti)</string>
   <string name="iap_product_detail_title"> Tuotteen tiedot</string>
   <string name="iap_product_item_quantity">Määrä:</string>
   <string name="iap_product_not_found">Yhtään tuotetta ei löytynyt hakuehdolla</string>
+  <string name="iap_product_remove_address">[fi]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[fi]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">Ei tuotteita saatavilla</string>
   <string name="iap_quantity">[fi]Quantity: %s</string>

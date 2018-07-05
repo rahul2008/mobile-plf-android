@@ -60,7 +60,7 @@
   <string name="iap_country_error">Lūdzu, ievadiet derīgu valsts nosaukumu</string>
   <string name="iap_country_hint">Ievadiet valsts nosaukumu</string>
   <string name="iap_customer_help">Mūsu klientu serviss labprāt jums palīdzēs.</string>
-  <string name="iap_cvv_code">[lv]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[lv]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[lv]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_daily_selling_product">[lv]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@ FedEx (paku piegāde)</string>
   <string name="iap_product_detail_title"> Informācija par produktu</string>
   <string name="iap_product_item_quantity">Daudzums:</string>
   <string name="iap_product_not_found">Nav atrasts neviens izstrādājums</string>
+  <string name="iap_product_remove_address">[lv]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[lv]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">Nav pieejams neviens produkts</string>
   <string name="iap_quantity">[lv]Quantity: %s</string>

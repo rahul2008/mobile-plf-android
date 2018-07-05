@@ -60,7 +60,7 @@
   <string name="iap_country_error">Lütfen geçerli bir Ülke yazın</string>
   <string name="iap_country_hint">Ülkenizi girin</string>
   <string name="iap_customer_help">Müşteri destek ekibimiz size yardım etmekten memnuniyet duyacaktır.</string>
-  <string name="iap_cvv_code">[tr]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[tr]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[tr]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_daily_selling_product">[tr]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@ FedEx (Paket Gönderi) ile gönderilecektir</string>
   <string name="iap_product_detail_title"> Ürün detayları</string>
   <string name="iap_product_item_quantity">Miktar:</string>
   <string name="iap_product_not_found">Şu sonuçlar için ürün bulamadık:</string>
+  <string name="iap_product_remove_address">[tr]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[tr]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">Ürün mevcut değil</string>
   <string name="iap_quantity">[tr]Quantity: %s</string>

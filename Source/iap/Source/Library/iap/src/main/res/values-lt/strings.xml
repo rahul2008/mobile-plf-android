@@ -60,7 +60,7 @@
   <string name="iap_country_error">Įveskite tikrą šalį</string>
   <string name="iap_country_hint">Įveskite šalį</string>
   <string name="iap_customer_help">Mūsų klientų aptarnavimo komanda džiaugiasi galėdama jums padėti.</string>
-  <string name="iap_cvv_code">[lt]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[lt]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[lt]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV / CVC</string>
   <string name="iap_daily_selling_product">[lt]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@ Sekimo numeris ##</string>
   <string name="iap_product_detail_title">Produkto Aprašymas</string>
   <string name="iap_product_item_quantity">Kiekis:</string>
   <string name="iap_product_not_found">Neradome jokių produktų pagal</string>
+  <string name="iap_product_remove_address">[lt]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[lt]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">Gaminių nėra</string>
   <string name="iap_quantity">[lt]Quantity: %s</string>

@@ -60,7 +60,7 @@
   <string name="iap_country_error">请输入有效国家/地区</string>
   <string name="iap_country_hint">输入您所在的国家/地区</string>
   <string name="iap_customer_help">我们的客户服务很高兴为您服务。</string>
-  <string name="iap_cvv_code">[zh-TW]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[zh-TW]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[zh-TW]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_daily_selling_product">[zh-TW]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@
   <string name="iap_product_detail_title"> 產品資訊</string>
   <string name="iap_product_item_quantity">数量：</string>
   <string name="iap_product_not_found">我们未找到任何商品</string>
+  <string name="iap_product_remove_address">[zh-TW]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[zh-TW]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">无可用产品</string>
   <string name="iap_quantity">[zh-TW]Quantity: %s</string>

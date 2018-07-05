@@ -60,7 +60,7 @@
   <string name="iap_country_error">โปรดป้อนประเทศที่ถูกต้อง</string>
   <string name="iap_country_hint">ป้อนประเทศของคุณ</string>
   <string name="iap_customer_help">ทีมบริการดูแลลูกค้าของเรายินดีที่จะช่วยเหลือคุณ</string>
-  <string name="iap_cvv_code">[th]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[th]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[th]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">รหัส CVV/CVC</string>
   <string name="iap_daily_selling_product">[th]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@ FedEx(พัสดุไปรษณีย์)</string>
   <string name="iap_product_detail_title"> รายละเอียดผลิตภัณฑ์</string>
   <string name="iap_product_item_quantity">ปริมาณ:</string>
   <string name="iap_product_not_found">เราไม่พบสินค้าใดๆ สำหรับ</string>
+  <string name="iap_product_remove_address">[th]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[th]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">ไม่มีผลิตภัณฑ์จำหน่าย</string>
   <string name="iap_quantity">[th]Quantity: %s</string>

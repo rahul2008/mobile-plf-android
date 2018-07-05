@@ -60,7 +60,7 @@
   <string name="iap_country_error">Правильно укажите страну</string>
   <string name="iap_country_hint">Введите страну</string>
   <string name="iap_customer_help">Команда центра поддержки всегда рада вам помочь.</string>
-  <string name="iap_cvv_code">[ru]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[ru]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[ru]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">Код CVV/CVC</string>
   <string name="iap_daily_selling_product">[ru]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@ FedEx (посылка)</string>
   <string name="iap_product_detail_title"> Сведения о приборе</string>
   <string name="iap_product_item_quantity">Количество:</string>
   <string name="iap_product_not_found">Не удалось найти результаты по запросу</string>
+  <string name="iap_product_remove_address">[ru]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[ru]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">Нет доступных продуктов</string>
   <string name="iap_quantity">[ru]Quantity: %s</string>

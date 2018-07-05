@@ -60,7 +60,7 @@
   <string name="iap_country_error">Zadajte platnú krajinu</string>
   <string name="iap_country_hint">Zadajte krajinu</string>
   <string name="iap_customer_help">Náš tím starostlivosti o zákazníkov vám rád pomôže.</string>
-  <string name="iap_cvv_code">[sk]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[sk]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[sk]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_daily_selling_product">[sk]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@ FedEx (balíková služba)</string>
   <string name="iap_product_detail_title"> Informácie o výrobku</string>
   <string name="iap_product_item_quantity">Množstvo:</string>
   <string name="iap_product_not_found">Nenašli sme žiaden výrobok pre</string>
+  <string name="iap_product_remove_address">[sk]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[sk]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">Žiadne dostupné produkty</string>
   <string name="iap_quantity">[sk]Quantity: %s</string>

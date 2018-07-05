@@ -60,7 +60,7 @@
   <string name="iap_country_error">Inserisci un Paese valido</string>
   <string name="iap_country_hint">Inserisci il Paese</string>
   <string name="iap_customer_help">Il nostro team dell\'assistenza clienti sarà lieto di aiutarti.</string>
-  <string name="iap_cvv_code">[it]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[it]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[it]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_daily_selling_product">[it]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@ FedEx (spedizione pacchi)</string>
   <string name="iap_product_detail_title"> Dettagli sul prodotto</string>
   <string name="iap_product_item_quantity">Quantità:</string>
   <string name="iap_product_not_found">Nessun prodotto trovato per</string>
+  <string name="iap_product_remove_address">[it]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[it]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">Prodotti non disponibili</string>
   <string name="iap_quantity">[it]Quantity: %s</string>

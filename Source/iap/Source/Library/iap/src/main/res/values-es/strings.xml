@@ -60,7 +60,7 @@
   <string name="iap_country_error">Introduce un país válido</string>
   <string name="iap_country_hint">Introduce el país</string>
   <string name="iap_customer_help">Nuestro equipo de atención al cliente está encantado de poder ayudarte.</string>
-  <string name="iap_cvv_code">[es]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[es]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[es]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_daily_selling_product">[es]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@ FedEx (franqueo de paquetes)</string>
   <string name="iap_product_detail_title">Detalles del producto</string>
   <string name="iap_product_item_quantity">Cantidad:</string>
   <string name="iap_product_not_found">No hemos encontrado ningún producto para</string>
+  <string name="iap_product_remove_address">[es]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[es]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">No hay productos disponibles</string>
   <string name="iap_quantity">[es]Quantity: %s</string>

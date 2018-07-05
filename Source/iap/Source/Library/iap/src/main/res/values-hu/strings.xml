@@ -60,7 +60,7 @@
   <string name="iap_country_error">Érvényes országot adjon meg</string>
   <string name="iap_country_hint">Adja meg az országot</string>
   <string name="iap_customer_help">Az ügyfélszolgálati csapatunk örömmel segít Önnek.</string>
-  <string name="iap_cvv_code">[hu]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[hu]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[hu]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_daily_selling_product">[hu]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@ FedEx (csomagszállítás) szállítja</string>
   <string name="iap_product_detail_title"> Termékadatok</string>
   <string name="iap_product_item_quantity">Mennyiség:</string>
   <string name="iap_product_not_found">Nem találtunk terméket a következőre:</string>
+  <string name="iap_product_remove_address">[hu]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[hu]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">Nincsenek elérhető termékek</string>
   <string name="iap_quantity">[hu]Quantity: %s</string>

@@ -60,7 +60,7 @@
   <string name="iap_country_error">請輸入有效的國家/地區</string>
   <string name="iap_country_hint">輸入您的國家/地區</string>
   <string name="iap_customer_help">我們的客戶服務團隊樂意為您提供協助。</string>
-  <string name="iap_cvv_code">[zh-HK]Please enter the CVV/CVC for</string>
+  <string name="iap_cvv_code">[zh-HK]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[zh-HK]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_daily_selling_product">[zh-HK]Daily Collection Miniblender</string>
@@ -200,6 +200,7 @@ FedEx(parcel postage) 運送</string>
   <string name="iap_product_detail_title"> 產品詳細資料</string>
   <string name="iap_product_item_quantity">數量：</string>
   <string name="iap_product_not_found">我們未能找到任何產品符合：</string>
+  <string name="iap_product_remove_address">[zh-HK]Your address will be deleted forever. Are you sure?</string>
   <string name="iap_product_remove_description">[zh-HK]Your product will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_products_unavailable">沒有可以使用的產品</string>
   <string name="iap_quantity">[zh-HK]Quantity: %s</string>
