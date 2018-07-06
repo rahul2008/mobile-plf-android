@@ -174,6 +174,22 @@ public class MomentsDataFetcherTest {
     }
 
     @Test
+    public void fetchDataByDateRange_dontStoreMomentsWithUnsupportedType() {
+        givenSupportedMomentTypes("SupportedMomentType");
+        givenBackendReturnsForDateRange(momentOfType("UnsupportedMomentType"), momentOfType("SupportedMomentType"));
+        whenFetchDataByDateRange();
+        thenMomentsAreStored("SupportedMomentType");
+    }
+
+    @Test
+    public void fetchDataByDateRange_storesAllMoments_whenSupportedMomentTypeListIsEmpty() {
+        givenAllMomentTypesAreSupported();
+        givenBackendReturnsForDateRange(momentOfType("UnsupportedMomentType"), momentOfType("SupportedMomentType"));
+        whenFetchDataByDateRange();
+        thenMomentsAreStored("UnsupportedMomentType", "SupportedMomentType");
+    }
+
+    @Test
     public void fetchDataByDateRange_WithNoClient() {
         givenAllMomentTypesAreSupported();
         givenNoClient();
@@ -212,6 +228,20 @@ public class MomentsDataFetcherTest {
         history.setUCoreMoments(Arrays.asList(backendMoments));
         history.setSyncurl(TEST_MOMENT_SYNC_URL);
         when(momentsClientMock.getMomentsHistory(USER_ID, USER_ID, TEST_MOMENT_SYNC_URL)).thenReturn(history);
+        List<Moment> moments = new ArrayList<>();
+        for (UCoreMoment backendMoment : backendMoments) {
+            moments.add(new TestMoment(backendMoment.getType()));
+        }
+        when(converterMock.convert(ArgumentMatchers.<UCoreMoment>anyList())).thenReturn(moments);
+    }
+
+    private void givenBackendReturnsForDateRange(UCoreMoment... backendMoments) {
+        UCoreMomentsHistory emptyHistory = new UCoreMomentsHistory();
+        emptyHistory.setUCoreMoments(new ArrayList<UCoreMoment>());
+        UCoreMomentsHistory history = new UCoreMomentsHistory();
+        history.setUCoreMoments(Arrays.asList(backendMoments));
+        history.setSyncurl(TEST_MOMENT_SYNC_URL);
+        when(momentsClientMock.fetchMomentByDateRange(anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).thenReturn(history).thenReturn(emptyHistory);
         List<Moment> moments = new ArrayList<>();
         for (UCoreMoment backendMoment : backendMoments) {
             moments.add(new TestMoment(backendMoment.getType()));
