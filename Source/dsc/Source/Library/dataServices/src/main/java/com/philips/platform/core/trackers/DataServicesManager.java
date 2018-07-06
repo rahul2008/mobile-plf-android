@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
 package com.philips.platform.core.trackers;
 
@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
@@ -94,6 +95,7 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -124,9 +126,11 @@ public class DataServicesManager {
     private ArrayList<DataFetcher> mCustomFetchers;
     private ArrayList<DataSender> mCustomSenders;
     private Set<String> mSyncDataTypes;
+    private List<String> supportedMomentTypes = new ArrayList<>();
 
     public String mDataServicesBaseUrl;
     public String mDataServicesCoachingServiceUrl;
+
 
     private DBChangeListener dbChangeListener;
     SynchronisationCompleteListener mSynchronisationCompleteListener;
@@ -181,6 +185,7 @@ public class DataServicesManager {
         this.mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         this.dataServiceContext = context;
         this.gdprStorage = context.getSharedPreferences(GDPR_MIGRATION_FLAG_STORAGE, Context.MODE_PRIVATE);
+        this.supportedMomentTypes = (ArrayList<String>) appInfraInterface.getConfigInterface().getPropertyForKey("supportedMomentTypes", "dataservices", new AppConfigurationInterface.AppConfigurationError());
         initLogger();
     }
 
@@ -212,7 +217,7 @@ public class DataServicesManager {
         BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), dataCreator, userRegistrationInterface,
                 mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
                 mCustomFetchers, mCustomSenders, errorHandlingInterface);
-        final ApplicationModule applicationModule = new ApplicationModule(context);
+        final ApplicationModule applicationModule = new ApplicationModule(context, mAppInfra);
 
         mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
         mAppComponent.injectApplication(this);
@@ -344,11 +349,14 @@ public class DataServicesManager {
     }
 
     public void saveMoment(@NonNull final Moment moment, DBRequestListener<Moment> dbRequestListener) {
-        mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
+        if (isSupported(moment)) {
+            mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
+        }
     }
 
     public void saveMoments(@NonNull final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
-        mEventing.post(new MomentsSaveRequest(moments, dbRequestListener));
+        List<Moment> supportedMoments = filterUnsupportedMomentTypes(moments);
+        mEventing.post(new MomentsSaveRequest(supportedMoments, dbRequestListener));
     }
 
     public void fetchMomentWithType(DBFetchRequestListner<Moment> dbFetchRequestListner, final @NonNull String... type) {
@@ -599,7 +607,7 @@ public class DataServicesManager {
     }
 
     public void migrateGDPR(final DBRequestListener<Object> resultListener) {
-        if(isGdprMigrationDone()) {
+        if (isGdprMigrationDone()) {
             resultListener.onSuccess(Collections.emptyList());
         } else {
             deleteSyncedMoments(new DBRequestListener<Moment>() {
@@ -673,7 +681,7 @@ public class DataServicesManager {
             }
 
             @Override
-            public void onSyncFailed(final  Exception exception) {
+            public void onSyncFailed(final Exception exception) {
                 // Post on main thread
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -684,5 +692,19 @@ public class DataServicesManager {
             }
         });
         storeGdprMigrationFlag();
+    }
+
+    private List<Moment> filterUnsupportedMomentTypes(List<Moment> moments) {
+        List<Moment> supportedMoments = new ArrayList<>();
+        for (Moment moment : moments) {
+            if (isSupported(moment)) {
+                supportedMoments.add(moment);
+            }
+        }
+        return supportedMoments;
+    }
+
+    private boolean isSupported(Moment moment) {
+        return supportedMomentTypes.isEmpty() || supportedMomentTypes.contains(moment.getType());
     }
 }

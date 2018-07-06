@@ -1,21 +1,33 @@
 package com.philips.platform.datasync.moments;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
-import com.philips.spy.EventingSpy;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +35,13 @@ import java.util.Map;
 import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -48,6 +63,7 @@ public class MomentsDataFetcherTest {
     private static final String END_DATE_VALUE = new DateTime().toString();
     private static final String END_DATE2_VALUE = new DateTime().plusDays(1).toString();
 
+    private AppInfra mAppInfra;
     private MomentsDataFetcher fetcher;
     private UCoreMomentsHistory momentsHistory = new UCoreMomentsHistory();
     private UCoreMomentsHistory userMomentsHistory = new UCoreMomentsHistory();
@@ -55,8 +71,9 @@ public class MomentsDataFetcherTest {
     private List<UCoreMoment> uCoreUserMomentList = new ArrayList<>();
     private Map<String, String> lastSyncTimeMap;
     private Map<String, String> lastSyncTimeMap2;
-    private EventingSpy eventingSpy = new EventingSpy();
-    private RetrofitError retrofitError;
+    private EventingMock eventing = new EventingMock();
+    private Exception returnValue;
+    private AppConfigurationInterface mConfigInterface;
 
     @Mock
     private MomentsConverter converterMock;
@@ -91,11 +108,199 @@ public class MomentsDataFetcherTest {
         setOneMoment();
 
         DataServicesManager.getInstance().setAppComponent(appComponantMock);
-        fetcher = new MomentsDataFetcher(coreAdapterMock, converterMock, gsonConverterMock);
-        fetcher.eventing = eventingSpy;
+        mAppInfra = mock(AppInfra.class);
+        mConfigInterface = mock(AppConfigurationInterface.class);
+        when(mAppInfra.getConfigInterface()).thenReturn(mConfigInterface);
+    }
+
+    @Test
+    public void fetchData_WithInvalidUser() {
+        givenAllMomentTypesAreSupported();
+        givenUserNotLoggedin();
+        whenFetchDataIsInvoked();
+        thenNoErrorIsReturned();
+        thenVerifyZeroInteractionsWith(coreAdapterMock);
+    }
+
+    @Test
+    public void fetchData_WithNoClient() {
+        givenAllMomentTypesAreSupported();
+        givenNoClient();
+        whenFetchDataIsInvoked();
+        thenRetrofitErrorIsReturned();
+    }
+
+    @Test
+    public void fetchData_whenuCoreMomentsIsEmpty() {
+        givenAllMomentTypesAreSupported();
+        givenBackendReturns();
+        whenFetchDataIsInvoked();
+        thenNoErrorIsReturned();
+        thenNoMomentsAreStored();
+    }
+
+    @Test
+    public void fetchData_storesReceivesMoments() {
+        givenAllMomentTypesAreSupported();
+        givenBackendReturns(momentOfType("MomentType"), momentOfType("MomentType"));
+        whenFetchDataIsInvoked();
+        thenNoErrorIsReturned();
+        thenMomentsAreStored("MomentType", "MomentType");
+    }
+
+    @Test
+    public void fetchData_doesNotStoreMoment_whenTypeIsNotSupported() {
+        givenSupportedMomentTypes("SupportedMomentType");
+        givenBackendReturns(momentOfType("UnsupportedMomentType"), momentOfType("SupportedMomentType"));
+        whenFetchDataIsInvoked();
+        thenMomentsAreStored("SupportedMomentType");
+    }
+
+    @Test
+    public void fetchData_storesMoment_whenSupportedMomentTypesListIsEmpty() {
+        givenAllMomentTypesAreSupported();
+        givenBackendReturns(momentOfType("SupportedMomentType"));
+        whenFetchDataIsInvoked();
+        thenMomentsAreStored("SupportedMomentType");
+    }
+
+    @Test
+    public void fetchData_whenRetrofitError() {
+        givenAllMomentTypesAreSupported();
+        givenRetrofitErrorFromClient();
+        whenFetchDataIsInvoked();
+        thenRetrofitErrorIsReturned();
+        thenBackendDataRequestFailedEventIsPosted();
+    }
+
+    @Test
+    public void fetchDataByDateRange_WithNoClient() {
+        givenAllMomentTypesAreSupported();
+        givenNoClient();
+        whenFetchDataByDateRange();
+    }
+
+    @Test
+    public void postPartialSynError_WhenFetchByDateRange() {
+        givenAllMomentTypesAreSupported();
+        givenPartialSuccessFromClient();
+        whenFetchDataByDateRange();
+        thenRetrofitErrorIsReturned();
+        //verify against spy class is not working from jenkins, need to debug this
+        //thenVerifyEventIsPosted("BackendMomentListSaveRequest");
+    }
+
+    @Test
+    public void postSyncError_WhenFetchByDateRange() {
+        givenAllMomentTypesAreSupported();
+        givenRetrofitErrorFromClientWhenFetchDateByRange();
+        whenFetchDataByDateRange();
+        thenRetrofitErrorIsReturned();
+        thenNoMomentsAreStored();
+    }
+
+    @Test
+    public void fetchDataByDateRange_givenSyncUrl() {
+        givenAllMomentTypesAreSupported();
+        givenMomentsFromClient();
+        whenFetchDataByDateRange();
+        thenVerifyClientIsInvokedTwice();
+    }
+
+    private void givenBackendReturns(UCoreMoment... backendMoments) {
+        UCoreMomentsHistory history = new UCoreMomentsHistory();
+        history.setUCoreMoments(Arrays.asList(backendMoments));
+        history.setSyncurl(TEST_MOMENT_SYNC_URL);
+        when(momentsClientMock.getMomentsHistory(USER_ID, USER_ID, TEST_MOMENT_SYNC_URL)).thenReturn(history);
+        List<Moment> moments = new ArrayList<>();
+        for (UCoreMoment backendMoment : backendMoments) {
+            moments.add(new TestMoment(backendMoment.getType()));
+        }
+        when(converterMock.convert(ArgumentMatchers.<UCoreMoment>anyList())).thenReturn(moments);
+    }
+
+    private void givenAllMomentTypesAreSupported() {
+        givenSupportedMomentTypes();
+    }
+
+    private void givenSupportedMomentTypes(String... momentTypes) {
+        List<String> supportedMomentTypesList = new ArrayList(Arrays.asList(momentTypes));
+        when(mConfigInterface.getPropertyForKey(anyString(), anyString(), ArgumentMatchers.<AppConfigurationInterface.AppConfigurationError>any())).thenReturn(supportedMomentTypesList);
+        when(mAppInfra.getLogging()).thenReturn(mock(LoggingInterface.class));
+        fetcher = new MomentsDataFetcher(coreAdapterMock, converterMock, gsonConverterMock, mAppInfra);
+        fetcher.eventing = eventing;
         fetcher.accessProvider = accessProviderMock;
         fetcher.synchronisationManager = synchronisationManagerMock;
         fetcher.userRegistrationInterface = userRegistrationInterfaceMock;
+    }
+
+    private void givenRetrofitErrorFromClientWhenFetchDateByRange() {
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE),
+                lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("Error")));
+    }
+
+    private void givenRetrofitErrorFromClient() {
+        when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenThrow(RetrofitError.unexpectedError("error", new RuntimeException("error")));
+    }
+
+    private void givenUserNotLoggedin() {
+        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+    }
+
+    private void givenMomentsFromClient() {
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE), lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenReturn(userMomentsHistory);
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE))).thenReturn(momentsHistory);
+    }
+
+    private void givenPartialSuccessFromClient() {
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE), lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenReturn(userMomentsHistory);
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("error")));
+    }
+
+    private void givenNoClient() {
+        when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(null);
+
+    }
+
+    private void whenFetchDataByDateRange() {
+        returnValue = fetcher.fetchDataByDateRange(START_DATE, END_DATE);
+    }
+
+    private void whenFetchDataIsInvoked() {
+        returnValue = fetcher.fetchData();
+    }
+
+    private void thenMomentsAreStored(String... expectedMoments) {
+        List<String> momentTypes = new ArrayList<>();
+        for (Moment moment : eventing.backendSavedMoments) {
+            momentTypes.add(moment.getType());
+        }
+        assertArrayEquals(expectedMoments, momentTypes.toArray());
+    }
+
+    private void thenBackendDataRequestFailedEventIsPosted() {
+        assertTrue(eventing.backendDataRequestFailed);
+    }
+
+    private void thenNoMomentsAreStored() {
+        assertTrue(eventing.backendSavedMoments.isEmpty());
+    }
+
+    private void thenVerifyClientIsInvokedTwice() {
+        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE), lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE));
+        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE));
+    }
+
+    private void thenVerifyZeroInteractionsWith(Object coreAdapterMock) {
+        verifyZeroInteractions(coreAdapterMock);
+    }
+
+    private void thenRetrofitErrorIsReturned() {
+        assertTrue(returnValue instanceof RetrofitError);
+    }
+
+    private void thenNoErrorIsReturned() {
+        assertNull(returnValue);
     }
 
     private void setOneMoment() {
@@ -138,142 +343,107 @@ public class MomentsDataFetcherTest {
         return lastSyncTimeMap2;
     }
 
-    @Test
-    public void fetchData_WithInvalidUser() {
-        givenUserNotLoggedin();
-        whenFetchDataIsInvoked();
-        thenRetrofitErrorIsNull();
-        thenVerifyZeroInteractionsWith(coreAdapterMock);
+    private UCoreMoment momentOfType(String type) {
+        UCoreMoment moment = new UCoreMoment();
+        moment.setType(type);
+        return moment;
     }
 
-    @Test
-    public void fetchData_WithNoClient() {
-        givenNoClient();
-        whenFetchDataIsInvoked();
-        thenRetrofitErrorIsReturned("Client is not initialized");
+    class TestMoment implements Moment {
+
+        private String type;
+
+        public TestMoment(String type) {
+            this.type = type;
+        }
+
+        @Override
+        public String getCreatorId() {
+            return null;
+        }
+
+        @Override
+        public String getSubjectId() {
+            return null;
+        }
+
+        @Override
+        public DateTime getExpirationDate() {
+            return null;
+        }
+
+        @Override
+        public String getType() {
+            return type;
+        }
+
+        @Override
+        public void setDateTime(@NonNull DateTime dateTime) {
+
+        }
+
+        @Override
+        public Collection<? extends MeasurementGroup> getMeasurementGroups() {
+            return null;
+        }
+
+        @Override
+        public void addMeasurementGroup(MeasurementGroup measurementGroup) {
+
+        }
+
+        @Override
+        public Collection<? extends MomentDetail> getMomentDetails() {
+            return null;
+        }
+
+        @Override
+        public void addMomentDetail(MomentDetail momentDetail) {
+
+        }
+
+        @Nullable
+        @Override
+        public SynchronisationData getSynchronisationData() {
+            return null;
+        }
+
+        @Override
+        public void setSynchronisationData(SynchronisationData synchronisationData) {
+
+        }
+
+        @Override
+        public void setSynced(boolean b) {
+
+        }
+
+        @Override
+        public void setId(int id) {
+
+        }
+
+        @NonNull
+        @Override
+        public String getAnalyticsId() {
+            return null;
+        }
+
+        @Override
+        public void setExpirationDate(DateTime expirationDate) {
+
+        }
+
+        @Override
+        public int getId() {
+            return 0;
+        }
+
+        @Override
+        public DateTime getDateTime() {
+            return null;
+        }
     }
 
-    @Test
-    public void fetchData_whenuCoreMomentsIsEmpty() {
-        givenZeroUcoreMomentsFromClient();
-        whenFetchDataIsInvoked();
-        thenRetrofitErrorIsNull();
-        thenNoEventIsPosted();
-    }
 
-    @Test
-    public void fetchData_whenuCoreMoments() {
-        givenUcoreMomentsFromClient();
-        whenFetchDataIsInvoked();
-        thenRetrofitErrorIsNull();
-        thenVerifyEventIsPosted("BackendMomentListSaveRequest");
-    }
-
-    @Test
-    public void fetchData_whenRetrofitError() {
-        givenRetrofitErrorFromClient();
-        whenFetchDataIsInvoked();
-        thenRetrofitErrorIsReturned("error");
-    }
-
-    @Test
-    public void fetchDataByDateRange_WithNoClient() {
-        givenNoClient();
-        whenFetchDataByDateRange();
-    }
-
-    @Test
-    public void postPartialSynError_WhenFetchByDateRange() {
-        givenPartialSuccessFromClient();
-        whenFetchDataByDateRange();
-        thenRetrofitErrorIsReturned("Partial Sync Completed till:");
-        //verify against spy class is not working from jenkins, need to debug this
-        //thenVerifyEventIsPosted("BackendMomentListSaveRequest");
-    }
-
-    @Test
-    public void postSyncError_WhenFetchByDateRange() {
-        givenRetrofitErrorFromClientWhenFetchDateByRange();
-        whenFetchDataByDateRange();
-        thenRetrofitErrorIsReturned("Error");
-        thenNoEventIsPosted();
-    }
-
-    @Test
-    public void fetchDataByDateRange_givenSyncUrl() {
-        givenMomentsFromClient();
-        whenFetchDataByDateRange();
-        thenVerifyClientIsInvlokedTwice();
-    }
-
-    private void givenRetrofitErrorFromClientWhenFetchDateByRange() {
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE),
-                lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("Error")));
-    }
-
-    private void givenRetrofitErrorFromClient() {
-        when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenThrow(RetrofitError.unexpectedError("error", new RuntimeException("error")));
-    }
-
-    private void givenUcoreMomentsFromClient() {
-        when(momentsClientMock.getMomentsHistory(USER_ID, USER_ID, TEST_MOMENT_SYNC_URL)).thenReturn(userMomentsHistory);
-    }
-
-    private void givenZeroUcoreMomentsFromClient() {
-        when(momentsClientMock.getMomentsHistory(USER_ID, USER_ID, TEST_MOMENT_SYNC_URL)).thenReturn(momentsHistory);
-
-    }
-
-    private void givenUserNotLoggedin() {
-        when(accessProviderMock.isLoggedIn()).thenReturn(false);
-    }
-
-    private void givenMomentsFromClient() {
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE), lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenReturn(userMomentsHistory);
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE))).thenReturn(momentsHistory);
-    }
-
-    private void givenPartialSuccessFromClient() {
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE), lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenReturn(userMomentsHistory);
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("error")));
-    }
-
-    private void givenNoClient() {
-        when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(null);
-
-    }
-
-    private void whenFetchDataByDateRange() {
-        retrofitError = fetcher.fetchDataByDateRange(START_DATE, END_DATE);
-    }
-
-    private void whenFetchDataIsInvoked() {
-        retrofitError = fetcher.fetchData();
-    }
-
-    private void thenVerifyEventIsPosted(String event) {
-        assertEquals(event, eventingSpy.postedEvent.getClass().getSimpleName());
-    }
-
-    private void thenVerifyClientIsInvlokedTwice() {
-        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE), lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE));
-        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE));
-    }
-
-    private void thenNoEventIsPosted() {
-        assertNull(eventingSpy.postedEvent);
-    }
-
-    private void thenVerifyZeroInteractionsWith(Object coreAdapterMock) {
-        verifyZeroInteractions(coreAdapterMock);
-    }
-
-    private void thenRetrofitErrorIsNull() {
-        assertNull(retrofitError);
-    }
-
-    private void thenRetrofitErrorIsReturned(String message) {
-        assertNotNull(retrofitError);
-        assertTrue(retrofitError.getCause().getMessage().contains(message));
-    }
 }
