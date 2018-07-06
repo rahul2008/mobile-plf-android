@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">Ľutujeme, došlo k chybe. Skúste to znova.</string>
   <string name="MYA_Visit_Website">[sk]Visit our website</string>
   <string name="csw_consent_help_label">Čo to znamená?</string>
-  <string name="csw_generic_network_error">Pripojenie na server nie je možné.
-Skontrolujte svoje pripojenie na internet a skúste to znova.</string>
+  <string name="csw_generic_network_error">Pripojenie na server nie je možné.\nSkontrolujte svoje pripojenie na internet a skúste to znova.</string>
   <string name="csw_invalid_access_token_error_message">Vyskytol sa problém pri pripájaní k serveru. Uistite sa, že je na vašom zariadení správne nastavený dátum/čas. Ak problém pretrváva, odhláste sa a prihláste sa znova.</string>
   <string name="csw_offline_message">Zdá sa, že vaše pripojenie k internetu nefunguje. Skontrolujte to a skúste akciu vykonať znova.</string>
   <string name="csw_offline_title">Ste offline</string>
@@ -31,7 +30,7 @@ Skontrolujte svoje pripojenie na internet a skúste to znova.</string>
   <string name="mya_Email_Validation_message">E-mailová adresa nie je potvrdená</string>
   <string name="mya_Email_address">E-mailová adresa</string>
   <string name="mya_Gender">Pohlavie</string>
-  <string name="mya_Info">Chcete si zmeniť prihlasovacie meno alebo heslo? Navštívte našu internetovú stránku.</string>
+  <string name="mya_Info">[sk]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Vyskytol sa problém pri pripájaní k serveru. Uistite sa, že je na vašom zariadení správne nastavený dátum/čas. Ak problém pretrváva, odhláste sa a prihláste sa znova.</string>
   <string name="mya_Login_details">Prihlasovacie údaje</string>
   <string name="mya_Logout">Odhlásiť sa</string>
@@ -63,7 +62,7 @@ Skontrolujte svoje pripojenie na internet a skúste to znova.</string>
   <string name="mya_csw_justintime_accept">[sk]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[sk]Maybe later</string>
   <string name="mya_csw_justintime_title">[sk]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,sk]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,sk]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,sk]What do we have to offer?</string>
   <string name="mya_logout_message">Budete odhlásení z aplikácie. Po odhlásení sa vždy môžete prihlásiť znova.</string>
   <string name="mya_logout_title">Naozaj sa chcete odhlásiť?</string>

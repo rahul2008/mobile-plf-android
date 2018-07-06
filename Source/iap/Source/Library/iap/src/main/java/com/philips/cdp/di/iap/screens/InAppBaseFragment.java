@@ -47,6 +47,13 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     protected final int MEDIUM = 1;
     protected final int BIG = 2;
 
+    public abstract boolean getBackButtonState();
+
+    public abstract int getActionbarTitleResId();
+
+    public abstract String getActionbarTitle(Context context);
+
+
     protected IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
@@ -73,7 +80,8 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     protected void setTitleAndBackButtonVisibility(int resourceId, boolean isVisible) {
         mTitle = getString(resourceId);
         if (mActionbarUpdateListener != null)
-            mActionbarUpdateListener.updateActionBar(resourceId, isVisible);
+           mActionbarUpdateListener.updateActionBar(resourceId, isVisible);
+
     }
 
 
@@ -81,6 +89,14 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         mTitle = title;
         if (mActionbarUpdateListener != null)
             mActionbarUpdateListener.updateActionBar(title, isVisible);
+    }
+
+
+    protected void setActionbarTitle() {
+        if (mActionbarUpdateListener != null) {
+            mActionbarUpdateListener.updateActionBar(getActionbarTitleResId(), getBackButtonState());
+            mActionbarUpdateListener.updateActionBar(getActionbarTitle(mContext), getBackButtonState());
+        }
     }
 
     @Override
@@ -91,6 +107,12 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
             moveToVerticalAppByClearingStack();
         }
         mContext = context;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setActionbarTitle();
     }
 
     @Override
@@ -133,16 +155,28 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         if (mActionbarUpdateListener == null || mIapListener == null)
             new RuntimeException("ActionBarListner and IAPListner cant be null");
         else {
+
             newFragment.setActionBarListener(mActionbarUpdateListener, mIapListener);
             if (getActivity() != null && !getActivity().isFinishing()) {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(getId(), newFragment, newFragmentTag);
-                transaction.addToBackStack(newFragmentTag);
+                final String simpleName = newFragment.getClass().getSimpleName();
+                transaction.add(getId(), newFragment, simpleName);
+
+                Fragment currentFrag = getActivity().getSupportFragmentManager()
+                        .findFragmentById(getId());
+
+                if (!(currentFrag instanceof InAppBaseFragment))
+                    transaction.addToBackStack(newFragmentTag);
+                else
+                    transaction.addToBackStack(simpleName);
+
                 transaction.commitAllowingStateLoss();
 
                 IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
                         + newFragmentTag + ")");
             }
+
+
         }
     }
 
