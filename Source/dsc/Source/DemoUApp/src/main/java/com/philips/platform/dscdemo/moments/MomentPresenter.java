@@ -28,6 +28,7 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.trackers.UnsupportedMomentTypeException;
 import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
@@ -125,7 +126,11 @@ class MomentPresenter {
     }
 
     void fetchLatestMoment(String type, DBFetchRequestListner<Moment> dbFetchRequestListener) {
-        mDataServices.fetchLatestMomentByType(type, dbFetchRequestListener);
+        try {
+            mDataServices.fetchLatestMomentByType(type, dbFetchRequestListener);
+        } catch (UnsupportedMomentTypeException e) {
+            Toast.makeText(mContext,"Unsupported moment type '" + type + "'", Toast.LENGTH_SHORT).show();
+        }
     }
 
     void fetchMomentByDateRange(Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) {
