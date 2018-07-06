@@ -138,7 +138,11 @@ class MomentPresenter {
     }
 
     void fetchMomentByDateRangeAndType(String momentType, Date startDate, Date endDate,DSPagination paginationModel,DBFetchRequestListner<Moment> dbFetchRequestListener){
-        mDataServices.fetchMomentsWithTypeAndTimeLine(momentType,startDate,endDate,paginationModel,dbFetchRequestListener);
+        try {
+            mDataServices.fetchMomentsWithTypeAndTimeLine(momentType,startDate,endDate,paginationModel,dbFetchRequestListener);
+        } catch (UnsupportedMomentTypeException e) {
+            Toast.makeText(mContext,"Unsupported moment type '" + momentType + "'", Toast.LENGTH_SHORT).show();
+        }
     }
 
     void resetLastSyncTimestampTo(DateTime lastSyncTimestamp) {
@@ -157,10 +161,14 @@ class MomentPresenter {
     }
 
     private void createAndSaveMoment(String type) {
-        Moment moment;
-        moment = createMoment(type, mPhase.getText().toString(),
-                mTemperature.getText().toString(), mLocation.getText().toString());
-        saveRequest(moment);
+        try {
+            Moment moment;
+            moment = createMoment(type, mPhase.getText().toString(),
+                    mTemperature.getText().toString(), mLocation.getText().toString());
+            saveRequest(moment);
+        } catch (UnsupportedMomentTypeException e) {
+            Toast.makeText(mContext,"Unsupported moment type '" + type + "'", Toast.LENGTH_SHORT).show();
+        }
     }
 
     void bindDeleteOrUpdatePopUp(final List<? extends Moment> data, final View view,
