@@ -362,15 +362,15 @@ public class DataServicesManager {
         mEventing.post(new MomentsSaveRequest(supportedMoments, dbRequestListener));
     }
 
-    public void fetchMomentWithType(DBFetchRequestListner<Moment> dbFetchRequestListner, final @NonNull String... type) {
-        if (!isSupported(type)) {
+    public void fetchMomentWithType(DBFetchRequestListner<Moment> dbFetchRequestListener, final @NonNull String... types) {
+        if (!isSupported(types)) {
             throw new UnsupportedMomentTypeException();
         }
-        mEventing.post(new LoadMomentsRequest(dbFetchRequestListner, type));
+        mEventing.post(new LoadMomentsRequest(dbFetchRequestListener, types));
     }
 
-    public void fetchMomentForMomentID(final int momentID, DBFetchRequestListner<Moment> dbFetchRequestListner) {
-        mEventing.post(new LoadMomentsRequest(momentID, dbFetchRequestListner));
+    public void fetchMomentForMomentID(final int momentID, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        mEventing.post(new LoadMomentsRequest(momentID, dbFetchRequestListener));
     }
 
     public void fetchLatestMomentByType(final @NonNull String type, DBFetchRequestListner<Moment> dbFetchRequestListener) {
@@ -380,8 +380,8 @@ public class DataServicesManager {
         mEventing.post(new LoadLatestMomentByTypeRequest(type, dbFetchRequestListener));
     }
 
-    public void fetchAllMoment(DBFetchRequestListner<Moment> dbFetchRequestListner) {
-        mEventing.post(new LoadMomentsRequest(dbFetchRequestListner));
+    public void fetchAllMoment(DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        mEventing.post(new LoadMomentsRequest(dbFetchRequestListener));
     }
 
     public void fetchMomentsWithTimeLine(Date startDate, Date endDate, DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
@@ -407,8 +407,8 @@ public class DataServicesManager {
         mEventing.post(new DatabaseSettingsUpdateRequest(settings, dbRequestListener));
     }
 
-    public void fetchUserSettings(DBFetchRequestListner<Settings> dbFetchRequestListner) {
-        mEventing.post(new LoadSettingsRequest(dbFetchRequestListner));
+    public void fetchUserSettings(DBFetchRequestListner<Settings> dbFetchRequestListener) {
+        mEventing.post(new LoadSettingsRequest(dbFetchRequestListener));
     }
 
     public Characteristics createUserCharacteristics(@NonNull final String detailType, @NonNull final String detailValue, Characteristics characteristics) {
@@ -429,12 +429,12 @@ public class DataServicesManager {
         mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
     }
 
-    public void fetchUserCharacteristics(DBFetchRequestListner<Characteristics> dbFetchRequestListner) {
-        mEventing.post(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
+    public void fetchUserCharacteristics(DBFetchRequestListner<Characteristics> dbFetchRequestListener) {
+        mEventing.post(new LoadUserCharacteristicsRequest(dbFetchRequestListener));
     }
 
-    public void fetchInsights(DBFetchRequestListner dbFetchRequestListner) {
-        mEventing.post(new FetchInsightsFromDB(dbFetchRequestListner));
+    public void fetchInsights(DBFetchRequestListner dbFetchRequestListener) {
+        mEventing.post(new FetchInsightsFromDB(dbFetchRequestListener));
     }
 
     public void deleteInsights(List<? extends Insight> insights, DBRequestListener<Insight> dbRequestListener) {
