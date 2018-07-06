@@ -138,7 +138,11 @@ class MomentPresenter {
     }
 
     void fetchMomentByDateRangeAndType(String momentType, Date startDate, Date endDate,DSPagination paginationModel,DBFetchRequestListner<Moment> dbFetchRequestListener){
-        mDataServices.fetchMomentsWithTypeAndTimeLine(momentType,startDate,endDate,paginationModel,dbFetchRequestListener);
+        try {
+            mDataServices.fetchMomentsWithTypeAndTimeLine(momentType,startDate,endDate,paginationModel,dbFetchRequestListener);
+        } catch (UnsupportedMomentTypeException e) {
+            Toast.makeText(mContext,"Unsupported moment type '" + momentType + "'", Toast.LENGTH_SHORT).show();
+        }
     }
 
     void resetLastSyncTimestampTo(DateTime lastSyncTimestamp) {
