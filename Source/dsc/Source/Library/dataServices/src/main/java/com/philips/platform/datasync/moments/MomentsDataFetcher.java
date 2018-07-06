@@ -65,11 +65,6 @@ public class MomentsDataFetcher extends DataFetcher {
         this.supportedMomentTypes = (ArrayList<String>) appInfra.getConfigInterface().getPropertyForKey("supportedMomentTypes", "dataservices", new AppConfigurationInterface.AppConfigurationError());
     }
 
-//    @Inject
-//    public void loadSettings(AppInfraInterface appInfra) {
-//        String bla = "bla";
-//    }
-
     @Override
     @CheckResult
     @Nullable
