@@ -24,6 +24,7 @@ import java.util.List;
 
 public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDeliveryModeListener, AddressController.AddressListener {
 
+    public static final String TAG = DeliveryMethodFragment.class.getName();
     private RecyclerView mDeliveryRecyclerView;
     private AddressController mAddressController;
     private RelativeLayout mParentContainer;
@@ -39,7 +40,8 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(getContext().getResources().getString(R.string.iap_delivery_method), true);
+       // setTitleAndBackButtonVisibility(getContext().getResources().getString(R.string.iap_delivery_method), true);
+        setActionbarTitle();
     }
 
     @Override
@@ -131,5 +133,20 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
         }else {
             getFragmentManager().popBackStack();
         }
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.iap_delivery_method;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return getContext().getResources().getString(R.string.iap_delivery_method);
     }
 }

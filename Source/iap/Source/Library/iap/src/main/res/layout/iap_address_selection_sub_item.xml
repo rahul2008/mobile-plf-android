@@ -49,7 +49,7 @@
             android:layout_weight="0.5"
             android:enabled="true"
             android:layout_below="@id/btn_deliver_to_this_address"
-            android:text="@string/delete_row"
+            android:text="@string/iap_delete"
             android:background="@drawable/address_button_background_border"
             android:textAllCaps="false" />
 

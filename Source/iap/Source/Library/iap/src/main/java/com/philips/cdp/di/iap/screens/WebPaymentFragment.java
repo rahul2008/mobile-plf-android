@@ -36,6 +36,21 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     private static final String PAYMENT_CANCEL_CALLBACK_URL = "http://www.philips.com/paymentCancel";
 
     @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.iap_payment;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return getString(R.string.iap_payment);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
@@ -45,7 +60,8 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.WORLD_PAY_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_payment, true);
+        //setTitleAndBackButtonVisibility(R.string.iap_payment, true);
+        setActionbarTitle();
     }
 
     public static WebPaymentFragment createInstance(Bundle args, AnimationType animType) {

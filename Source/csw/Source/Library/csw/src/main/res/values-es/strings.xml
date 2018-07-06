@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">Se ha producido un error. Inténtalo de nuevo.</string>
   <string name="MYA_Visit_Website">[es]Visit our website</string>
   <string name="csw_consent_help_label">¿Qué significa?</string>
-  <string name="csw_generic_network_error">No se puede conectar con el servidor.
-Comprueba la conexión a Internet e inténtalo de nuevo.</string>
+  <string name="csw_generic_network_error">No se puede conectar con el servidor.\nComprueba la conexión a Internet e inténtalo de nuevo.</string>
   <string name="csw_invalid_access_token_error_message">Se ha producido un problema al conectar con el servidor. Asegúrate de que la fecha y la hora del dispositivo se han configurado correctamente. Si el problema persiste, cierra sesión e inicia sesión de nuevo.</string>
   <string name="csw_offline_message">Tu conexión a Internet parece no funcionar. Compruébalo e inténtalo de nuevo.</string>
   <string name="csw_offline_title">No tienes conexión a Internet</string>
@@ -31,7 +30,7 @@ Comprueba la conexión a Internet e inténtalo de nuevo.</string>
   <string name="mya_Email_Validation_message">La dirección de correo electrónico no se ha confirmado.</string>
   <string name="mya_Email_address">Dirección de correo electrónico</string>
   <string name="mya_Gender">Sexo</string>
-  <string name="mya_Info">¿Deseas cambiar el ID de inicio de sesión o la contraseña? Visita nuestro sitio web.</string>
+  <string name="mya_Info">[es]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Se ha producido un problema al conectar con el servidor. Asegúrate de que la fecha y la hora del dispositivo se han configurado correctamente. Si el problema persiste, cierra sesión e inicia sesión de nuevo.</string>
   <string name="mya_Login_details">Datos para iniciar sesión</string>
   <string name="mya_Logout">Cerrar sesión</string>
@@ -63,7 +62,7 @@ Comprueba la conexión a Internet e inténtalo de nuevo.</string>
   <string name="mya_csw_justintime_accept">[es]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[es]Maybe later</string>
   <string name="mya_csw_justintime_title">[es]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,es]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,es]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,es]What do we have to offer?</string>
   <string name="mya_logout_message">Se cerrará la sesión en la aplicación. Después de cerrar sesión, siempre puedes iniciar sesión de nuevo.</string>
   <string name="mya_logout_title">¿Seguro que deseas cerrar la sesión?</string>

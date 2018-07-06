@@ -74,3 +74,15 @@ dependencies {
 tasks.withType(Test) {
     ignoreFailures = true
 }
+
+task copyLibDebug(type: Copy) {
+    from 'libs/ICPClientInterface.jar'
+    into "build/intermediates/bundles/debug/libs/"
+}
+task copyLibRelease(type: Copy) {
+    from 'libs/ICPClientInterface.jar'
+    into "build/intermediates/bundles/release/libs/"
+}
+
+preBuild.dependsOn(copyLibDebug)
+preBuild.dependsOn(copyLibRelease)

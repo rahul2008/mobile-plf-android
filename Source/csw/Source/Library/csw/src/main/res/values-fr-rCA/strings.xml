@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">Désolé, une erreur s’est produite. Veuillez réessayer.</string>
   <string name="MYA_Visit_Website">[fr-CA]Visit our website</string>
   <string name="csw_consent_help_label">Qu\'est-ce que cela signifie?</string>
-  <string name="csw_generic_network_error">Connexion au serveur impossible.
-Veuillez vérifier votre connexion Internet et réessayer.</string>
+  <string name="csw_generic_network_error">Connexion au serveur impossible.\nVeuillez vérifier votre connexion Internet et réessayer.</string>
   <string name="csw_invalid_access_token_error_message">Un problème de connexion au serveur est survenu. Assurez-vous que la date et l’heure sont exactes sur votre appareil. Si le problème persiste, déconnectez-vous et ouvrez une nouvelle session.</string>
   <string name="csw_offline_message">Votre connexion internet semble ne pas fonctionner. Veuillez vérifier et essayer à nouveau</string>
   <string name="csw_offline_title">Vous êtes hors ligne</string>
@@ -31,7 +30,7 @@ Veuillez vérifier votre connexion Internet et réessayer.</string>
   <string name="mya_Email_Validation_message">Adresse courriel non confirmée</string>
   <string name="mya_Email_address">Adresse de courriel</string>
   <string name="mya_Gender">Genre</string>
-  <string name="mya_Info">Voulez-vous changer votre identifiant ou votre mot de passe? Visitez notre site Web.</string>
+  <string name="mya_Info">[fr-CA]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Un problème de connexion au serveur est survenu. Assurez-vous que la date et l’heure sont exactes sur votre appareil. Si le problème persiste, déconnectez-vous et ouvrez une nouvelle session.</string>
   <string name="mya_Login_details">Détails de la connexion</string>
   <string name="mya_Logout">Fermer une session</string>
@@ -63,7 +62,7 @@ Veuillez vérifier votre connexion Internet et réessayer.</string>
   <string name="mya_csw_justintime_accept">[fr-CA]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[fr-CA]Maybe later</string>
   <string name="mya_csw_justintime_title">[fr-CA]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,fr-CA]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,fr-CA]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,fr-CA]What do we have to offer?</string>
   <string name="mya_logout_message">Vous allez être déconnecté de l’application. Après la fermeture, vous pouvez toujours ouvrir une nouvelle session.</string>
   <string name="mya_logout_title">Êtes-vous sûr de vouloir vous déconnecter?</string>
