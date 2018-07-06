@@ -67,8 +67,6 @@ public class MomentsDataFetcherTest {
     private MomentsDataFetcher fetcher;
     private UCoreMomentsHistory momentsHistory = new UCoreMomentsHistory();
     private UCoreMomentsHistory userMomentsHistory = new UCoreMomentsHistory();
-    private List<UCoreMoment> uCoreMomentList = new ArrayList<>();
-    private List<UCoreMoment> uCoreUserMomentList = new ArrayList<>();
     private Map<String, String> lastSyncTimeMap;
     private Map<String, String> lastSyncTimeMap2;
     private EventingMock eventing = new EventingMock();
@@ -104,9 +102,6 @@ public class MomentsDataFetcherTest {
         initMocks(this);
         mockAccessProvider();
         when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(momentsClientMock);
-        setTowUserMoments();
-        setOneMoment();
-
         DataServicesManager.getInstance().setAppComponent(appComponantMock);
         mAppInfra = mock(AppInfra.class);
         mConfigInterface = mock(AppConfigurationInterface.class);
@@ -197,16 +192,6 @@ public class MomentsDataFetcherTest {
     }
 
     @Test
-    public void postPartialSynError_WhenFetchByDateRange() {
-        givenAllMomentTypesAreSupported();
-        givenPartialSuccessFromClient();
-        whenFetchDataByDateRange();
-        thenRetrofitErrorIsReturned();
-        //verify against spy class is not working from jenkins, need to debug this
-        //thenVerifyEventIsPosted("BackendMomentListSaveRequest");
-    }
-
-    @Test
     public void postSyncError_WhenFetchByDateRange() {
         givenAllMomentTypesAreSupported();
         givenRetrofitErrorFromClientWhenFetchDateByRange();
@@ -218,7 +203,7 @@ public class MomentsDataFetcherTest {
     @Test
     public void fetchDataByDateRange_givenSyncUrl() {
         givenAllMomentTypesAreSupported();
-        givenMomentsFromClient();
+        givenBackendReturnsForDateRange(momentOfType("UnsupportedMomentType"), momentOfType("SupportedMomentType"));
         whenFetchDataByDateRange();
         thenVerifyClientIsInvokedTwice();
     }
@@ -277,16 +262,6 @@ public class MomentsDataFetcherTest {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
     }
 
-    private void givenMomentsFromClient() {
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE), lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenReturn(userMomentsHistory);
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE))).thenReturn(momentsHistory);
-    }
-
-    private void givenPartialSuccessFromClient() {
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE), lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenReturn(userMomentsHistory);
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("error")));
-    }
-
     private void givenNoClient() {
         when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(null);
 
@@ -294,6 +269,10 @@ public class MomentsDataFetcherTest {
 
     private void whenFetchDataByDateRange() {
         returnValue = fetcher.fetchDataByDateRange(START_DATE, END_DATE);
+    }
+
+    private void givenClientThrowsException() {
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("error")));
     }
 
     private void whenFetchDataIsInvoked() {
@@ -331,18 +310,6 @@ public class MomentsDataFetcherTest {
 
     private void thenNoErrorIsReturned() {
         assertNull(returnValue);
-    }
-
-    private void setOneMoment() {
-        momentsHistory.setUCoreMoments(uCoreMomentList);
-        momentsHistory.setSyncurl(TEST_MOMENT_SYNC_URL);
-    }
-
-    private void setTowUserMoments() {
-        uCoreUserMomentList.add(new UCoreMoment());
-        uCoreUserMomentList.add(new UCoreMoment());
-        userMomentsHistory.setUCoreMoments(uCoreUserMomentList);
-        userMomentsHistory.setSyncurl(TEST_MOMENT_SYNC_URL);
     }
 
     private void mockAccessProvider() throws UnsupportedEncodingException {
