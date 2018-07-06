@@ -129,7 +129,7 @@ class MomentPresenter {
         try {
             mDataServices.fetchLatestMomentByType(type, dbFetchRequestListener);
         } catch (UnsupportedMomentTypeException e) {
-            Toast.makeText(mContext,"Unsupported moment type " + type, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext,"Unsupported moment type '" + type + "'", Toast.LENGTH_SHORT).show();
         }
     }
 
