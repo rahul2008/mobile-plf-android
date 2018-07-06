@@ -551,7 +551,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void saveMoment_storesAllTypes_whenSupportedMomentTypesListIsEmpty() {
-        givenSupportedMomentTypes();
+        givenAllMomentTypesAreSupported();
         mDataServicesManager.mEventing = eventing;
         when(nonSupportedMoment.getType()).thenReturn("OtherMomentType");
         mDataServicesManager.saveMoment(nonSupportedMoment, dbRequestListener);
