@@ -344,7 +344,14 @@ public class DataServicesManagerTest {
     //TODO: Spoorti - revisit this
     @Test
     public void ShouldCreateMoment_WhenCreateMomentIsCalled() {
-        mDataServicesManager.createMoment("jh");
+        givenSupportedMomentTypes("SupportedMomentType");
+        mDataServicesManager.createMoment("SupportedMomentType");
+    }
+
+    @Test(expected = UnsupportedMomentTypeException.class)
+    public void createMoment_throwsException_whenMomentTypeIsUnsupported() {
+        givenSupportedMomentTypes("SupportedMomentType");
+        mDataServicesManager.createMoment("UnsupportedMomentType");
     }
 
     @Test

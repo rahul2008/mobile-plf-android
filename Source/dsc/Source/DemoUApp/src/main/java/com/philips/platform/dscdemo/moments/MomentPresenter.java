@@ -157,10 +157,14 @@ class MomentPresenter {
     }
 
     private void createAndSaveMoment(String type) {
-        Moment moment;
-        moment = createMoment(type, mPhase.getText().toString(),
-                mTemperature.getText().toString(), mLocation.getText().toString());
-        saveRequest(moment);
+        try {
+            Moment moment;
+            moment = createMoment(type, mPhase.getText().toString(),
+                    mTemperature.getText().toString(), mLocation.getText().toString());
+            saveRequest(moment);
+        } catch (UnsupportedMomentTypeException e) {
+            Toast.makeText(mContext,"Unsupported moment type '" + type + "'", Toast.LENGTH_SHORT).show();
+        }
     }
 
     void bindDeleteOrUpdatePopUp(final List<? extends Moment> data, final View view,

@@ -274,6 +274,9 @@ public class DataServicesManager {
 
     @NonNull
     public Moment createMoment(@NonNull final String type) {
+        if (!isSupported(type)) {
+            throw new UnsupportedMomentTypeException();
+        }
         return dataCreator.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type, null);
     }
 
