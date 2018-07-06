@@ -88,12 +88,12 @@ public class MomentsDataFetcher extends DataFetcher {
 
             accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
 
-            List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
-            if (uCoreMoments == null || uCoreMoments.size() <= 0) {
+            List<UCoreMoment> backendMoments = momentsHistory.getUCoreMoments();
+            if (backendMoments == null || backendMoments.size() <= 0) {
                 return null;
             }
 
-            List<Moment> moments = converter.convert(uCoreMoments);
+            List<Moment> moments = converter.convert(backendMoments);
             if (moments == null) {
                 return null;
             }
@@ -141,9 +141,9 @@ public class MomentsDataFetcher extends DataFetcher {
 
     private void updateMomentsToDB(UCoreMomentsHistory momentsHistory) {
 
-        List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
-        if (uCoreMoments != null && !uCoreMoments.isEmpty()) {
-            List<Moment> moments = converter.convert(uCoreMoments);
+        List<UCoreMoment> backendMoments = momentsHistory.getUCoreMoments();
+        if (backendMoments != null && !backendMoments.isEmpty()) {
+            List<Moment> moments = converter.convert(backendMoments);
             eventing.post(new BackendMomentListSaveRequest(moments, null));
             isMomentUpdated = true;
         }
