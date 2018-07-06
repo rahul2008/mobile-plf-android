@@ -240,7 +240,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostSaveEvent_WhenSaveIsCalled() {
-        givenSupportedMomentTypes();
+        givenAllSupportedMomentTypesAreSupported();
         mDataServicesManager.saveMoment(momentMock, dbRequestListener);
         verify(eventingMock).post(any(MomentSaveRequest.class));
     }
@@ -253,7 +253,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void fetchMomentWithType_postsEvent() {
-        givenSupportedMomentTypes();
+        givenAllSupportedMomentTypesAreSupported();
         mDataServicesManager.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
@@ -266,7 +266,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void fetchLatestMomentByType_postsEvent_whenFetchIsCalled() {
-        givenSupportedMomentTypes();
+        givenAllSupportedMomentTypesAreSupported();
         mDataServicesManager.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
         verify(eventingMock).post(any(LoadLatestMomentByTypeRequest.class));
     }
@@ -1120,6 +1120,10 @@ public class DataServicesManagerTest {
 
     private void givenHandlerExecutesImmediately() {
         ShadowLooper.runUiThreadTasks();
+    }
+
+    private void givenAllSupportedMomentTypesAreSupported() {
+        givenSupportedMomentTypes();
     }
 
     private void givenSupportedMomentTypes(String... supportedMomentTypes) {
