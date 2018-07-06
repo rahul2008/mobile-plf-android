@@ -240,6 +240,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostSaveEvent_WhenSaveIsCalled() {
+        givenSupportedMomentTypes();
         mDataServicesManager.saveMoment(momentMock, dbRequestListener);
         verify(eventingMock).post(any(MomentSaveRequest.class));
     }
@@ -251,25 +252,49 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void ShouldPostFetchEvent_WhenFetchIsCalled() {
+    public void fetchMomentWithType_postsEvent() {
+        givenSupportedMomentTypes();
         mDataServicesManager.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
 
+    @Test(expected = UnsupportedMomentTypeException.class)
+    public void fetchMomentWithhType_throwsException_whenFetchingUnsupportedMomentType() {
+        givenSupportedMomentTypes("SupportedMomentType");
+        mDataServicesManager.fetchMomentWithType(dbFetchRequestListner, "UnsupportedMomentType", "SupportedMomentType");
+    }
+
     @Test
-    public void ShouldPostFetchLatestMomentByType_WhenFetchIsCalled() {
+    public void fetchLatestMomentByType_postsEvent_whenFetchIsCalled() {
+        givenSupportedMomentTypes();
         mDataServicesManager.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
         verify(eventingMock).post(any(LoadLatestMomentByTypeRequest.class));
     }
 
+    @Test(expected = UnsupportedMomentTypeException.class)
+    public void fetchLatestMomentByType_throwsException_whenFetchingUnsupportedMomentType() {
+        givenSupportedMomentTypes("SupportedMomentType");
+        mDataServicesManager.fetchLatestMomentByType("UnsupportedMomentType", dbFetchRequestListner);
+    }
+
     @Test
-    public void ShouldPostFetchMomentByDateType_WhenFetchIsCalled() throws Exception {
+    public void fetchMomentsWithTypeAndTimeLine_postsEvent_whenFetchIsCalled() throws Exception {
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
         mDataServicesManager.fetchMomentsWithTypeAndTimeLine(MomentType.TEMPERATURE, startDate, endDate, createPagination(), dbFetchRequestListner);
         verify(eventingMock).post(any(LoadMomentsByDate.class));
+    }
+
+    @Test(expected = UnsupportedMomentTypeException.class)
+    public void fetchMomentsWithTypeAndTimeLine_throwsException_whenFetchingUnsupportedMomentType() throws Exception {
+        givenSupportedMomentTypes("SupportedMomentType");
+        String myFormat = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        Date startDate = sdf.parse("10/11/17");
+        Date endDate = sdf.parse("10/23/17");
+        mDataServicesManager.fetchMomentsWithTypeAndTimeLine("UnsupportedMomentType", startDate, endDate, createPagination(), dbFetchRequestListner);
     }
 
     @Test
@@ -523,6 +548,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void saveMoment_storesAllTypes_whenSupportedMomentTypesListIsEmpty() {
+        givenSupportedMomentTypes();
         mDataServicesManager.mEventing = eventing;
         when(nonSupportedMoment.getType()).thenReturn("OtherMomentType");
         mDataServicesManager.saveMoment(nonSupportedMoment, dbRequestListener);

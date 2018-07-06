@@ -349,7 +349,7 @@ public class DataServicesManager {
     }
 
     public void saveMoment(@NonNull final Moment moment, DBRequestListener<Moment> dbRequestListener) {
-        if (isSupported(moment)) {
+        if (isSupported(moment.getType())) {
             mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
         }
     }
@@ -360,6 +360,9 @@ public class DataServicesManager {
     }
 
     public void fetchMomentWithType(DBFetchRequestListner<Moment> dbFetchRequestListner, final @NonNull String... type) {
+        if (!isSupported(type)) {
+            throw new UnsupportedMomentTypeException();
+        }
         mEventing.post(new LoadMomentsRequest(dbFetchRequestListner, type));
     }
 
@@ -368,6 +371,9 @@ public class DataServicesManager {
     }
 
     public void fetchLatestMomentByType(final @NonNull String type, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        if (!isSupported(type)) {
+            throw new UnsupportedMomentTypeException();
+        }
         mEventing.post(new LoadLatestMomentByTypeRequest(type, dbFetchRequestListener));
     }
 
@@ -380,6 +386,9 @@ public class DataServicesManager {
     }
 
     public void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate, DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        if (!isSupported(momentType)) {
+            throw new UnsupportedMomentTypeException();
+        }
         mEventing.post(new LoadMomentsByDate(momentType, startDate, endDate, dsPagination, dbFetchRequestListener));
     }
 
@@ -697,14 +706,19 @@ public class DataServicesManager {
     private List<Moment> filterUnsupportedMomentTypes(List<Moment> moments) {
         List<Moment> supportedMoments = new ArrayList<>();
         for (Moment moment : moments) {
-            if (isSupported(moment)) {
+            if (isSupported(moment.getType())) {
                 supportedMoments.add(moment);
             }
         }
         return supportedMoments;
     }
 
-    private boolean isSupported(Moment moment) {
-        return supportedMomentTypes.isEmpty() || supportedMomentTypes.contains(moment.getType());
+    private boolean isSupported(String... types) {
+        for (String type : types) {
+            if (!supportedMomentTypes.isEmpty() && !supportedMomentTypes.contains(type)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
