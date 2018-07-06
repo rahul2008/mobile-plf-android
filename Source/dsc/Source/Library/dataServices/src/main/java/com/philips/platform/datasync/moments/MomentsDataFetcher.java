@@ -140,7 +140,6 @@ public class MomentsDataFetcher extends DataFetcher {
     }
 
     private void updateMomentsToDB(UCoreMomentsHistory momentsHistory) {
-
         List<UCoreMoment> backendMoments = momentsHistory.getUCoreMoments();
         if (backendMoments != null && !backendMoments.isEmpty()) {
             List<Moment> moments = converter.convert(backendMoments);
