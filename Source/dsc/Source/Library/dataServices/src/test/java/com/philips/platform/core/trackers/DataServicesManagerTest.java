@@ -62,7 +62,6 @@ import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
-import com.philips.platform.core.utils.DataServicesLogger;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
@@ -74,14 +73,11 @@ import com.philips.platform.verticals.VerticalUserRegistrationInterface;
 import com.philips.spy.DSPaginationSpy;
 import com.philips.testing.verticals.datatyes.MomentType;
 
-import junit.framework.Assert;
-
 import org.joda.time.DateTime;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -240,7 +236,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostSaveEvent_WhenSaveIsCalled() {
-        givenAllSupportedMomentTypesAreSupported();
+        givenAllMomentTypesAreSupported();
         mDataServicesManager.saveMoment(momentMock, dbRequestListener);
         verify(eventingMock).post(any(MomentSaveRequest.class));
     }
@@ -253,7 +249,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void fetchMomentWithType_postsEvent() {
-        givenAllSupportedMomentTypesAreSupported();
+        givenAllMomentTypesAreSupported();
         mDataServicesManager.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
@@ -266,7 +262,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void fetchLatestMomentByType_postsEvent_whenFetchIsCalled() {
-        givenAllSupportedMomentTypesAreSupported();
+        givenAllMomentTypesAreSupported();
         mDataServicesManager.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
         verify(eventingMock).post(any(LoadLatestMomentByTypeRequest.class));
     }
@@ -1122,7 +1118,7 @@ public class DataServicesManagerTest {
         ShadowLooper.runUiThreadTasks();
     }
 
-    private void givenAllSupportedMomentTypesAreSupported() {
+    private void givenAllMomentTypesAreSupported() {
         givenSupportedMomentTypes();
     }
 
