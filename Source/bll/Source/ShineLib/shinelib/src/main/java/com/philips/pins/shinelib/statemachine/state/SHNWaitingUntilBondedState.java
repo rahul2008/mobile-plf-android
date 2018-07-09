@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothDevice;
@@ -8,7 +13,10 @@ import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.SHNLogger;
+
+import java.util.Locale;
 
 public class SHNWaitingUntilBondedState extends SHNConnectingState implements SHNCentral.SHNBondStatusListener {
 
@@ -20,7 +28,11 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
     private Timer bondingTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
-            SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
+            final String errorMsg = "Timed out waiting until bonded; trying service discovery";
+
+            SHNLogger.w(TAG, errorMsg);
+            SHNTagger.sendTechnicalError(errorMsg);
+
             stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
         }
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
@@ -37,7 +49,11 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
 
         if (sharedResources.getShnBondInitiator() == SHNDeviceImpl.SHNBondInitiator.APP) {
             if (!sharedResources.getBtDevice().createBond()) {
-                SHNLogger.w(TAG, "Failed to start bond creation procedure");
+                final String errorMsg = "Already bonded, bonding or bond creation failed.";
+
+                SHNLogger.w(TAG, errorMsg);
+                SHNTagger.sendTechnicalError(errorMsg);
+
                 stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
             }
         }
@@ -66,6 +82,11 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
                     }
                 }, BT_STACK_HOLD_OFF_TIME_AFTER_BONDED_IN_MS);
             } else if (bondState == BluetoothDevice.BOND_NONE) {
+                final String errorMsg = String.format(Locale.US, "Bond lost; currentBondState [%d], previousBondState [%d]", bondState, previousBondState);
+
+                SHNLogger.w(TAG, errorMsg);
+                SHNTagger.sendTechnicalError(errorMsg);
+
                 sharedResources.notifyFailureToListener(SHNResult.SHNErrorBondLost);
                 stateMachine.setState(new SHNDisconnectingState(stateMachine));
             }
@@ -73,8 +94,6 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
     }
 
     private static String bondStateToString(int bondState) {
-        return (bondState == BluetoothDevice.BOND_NONE) ? "None" :
-                (bondState == BluetoothDevice.BOND_BONDING) ? "Bonding" :
-                        (bondState == BluetoothDevice.BOND_BONDED) ? "Bonded" : "Unknown";
+        return (bondState == BluetoothDevice.BOND_NONE) ? "None" : (bondState == BluetoothDevice.BOND_BONDING) ? "Bonding" : (bondState == BluetoothDevice.BOND_BONDED) ? "Bonded" : "Unknown";
     }
 }

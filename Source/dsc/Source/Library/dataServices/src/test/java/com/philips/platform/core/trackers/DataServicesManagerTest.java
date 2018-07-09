@@ -1,7 +1,12 @@
 package com.philips.platform.core.trackers;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnGetServiceUrlListener;
 import com.philips.platform.core.BaseAppCore;
@@ -9,8 +14,6 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Measurement;
@@ -26,8 +29,6 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.CreateSubjectProfileRequestEvent;
 import com.philips.platform.core.events.DataClearRequest;
-import com.philips.platform.core.events.DatabaseConsentSaveRequest;
-import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllInsights;
@@ -42,7 +43,6 @@ import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
-import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
 import com.philips.platform.core.events.LoadMomentsByDate;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -57,7 +57,6 @@ import com.philips.platform.core.events.PairDevicesRequestEvent;
 import com.philips.platform.core.events.RegisterDeviceToken;
 import com.philips.platform.core.events.UnPairDeviceRequestEvent;
 import com.philips.platform.core.events.UnRegisterDeviceToken;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
@@ -91,6 +90,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -99,6 +99,9 @@ import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInt
 import static com.philips.platform.core.utils.DataServicesConstants.BASE_URL_KEY;
 import static com.philips.platform.core.utils.DataServicesConstants.COACHING_SERVICE_URL_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -143,6 +146,10 @@ public class DataServicesManagerTest {
     @Mock
     private Moment momentMock;
     @Mock
+    private Moment supportedMoment;
+    @Mock
+    private Moment nonSupportedMoment;
+    @Mock
     private MomentDetail momentDetailMock;
     @Mock
     private MeasurementGroup measurementGroupMock;
@@ -160,8 +167,6 @@ public class DataServicesManagerTest {
     private DBSavingInterface savingInterfaceMock;
     @Mock
     private DBUpdatingInterface updatingInterfaceMock;
-    @Mock
-    private ConsentDetail consentDetailMock;
     @Mock
     private UCoreAccessProvider uCoreAccessProvider;
     @Mock
@@ -191,6 +196,11 @@ public class DataServicesManagerTest {
     @Mock
     private SharedPreferences.Editor prefsEditorMock;
 
+    private AppConfigurationInterface mConfigInterface = null;
+
+    private AppInfra mAppInfra;
+    private EventingMock eventing = new EventingMock();
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -219,10 +229,14 @@ public class DataServicesManagerTest {
         mDataServicesManager.mBackendIdProvider = uCoreAccessProvider;
         mDataServicesManager.setServiceDiscoveryInterface(serviceDiscoveryInterfaceMock);
         when(requestEventMock.getEventId()).thenReturn(TEST_REFERENCE_ID);
+        mAppInfra = mock(AppInfra.class);
+        mConfigInterface = mock(AppConfigurationInterface.class);
+        when(mAppInfra.getConfigInterface()).thenReturn(mConfigInterface);
     }
 
     @Test
     public void ShouldPostSaveEvent_WhenSaveIsCalled() {
+        givenAllMomentTypesAreSupported();
         mDataServicesManager.saveMoment(momentMock, dbRequestListener);
         verify(eventingMock).post(any(MomentSaveRequest.class));
     }
@@ -234,25 +248,49 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void ShouldPostFetchEvent_WhenFetchIsCalled() {
+    public void fetchMomentWithType_postsEvent() {
+        givenAllMomentTypesAreSupported();
         mDataServicesManager.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
 
+    @Test(expected = UnsupportedMomentTypeException.class)
+    public void fetchMomentWithhType_throwsException_whenFetchingUnsupportedMomentType() {
+        givenSupportedMomentTypes("SupportedMomentType");
+        mDataServicesManager.fetchMomentWithType(dbFetchRequestListner, "UnsupportedMomentType", "SupportedMomentType");
+    }
+
     @Test
-    public void ShouldPostFetchLatestMomentByType_WhenFetchIsCalled() {
+    public void fetchLatestMomentByType_postsEvent_whenFetchIsCalled() {
+        givenAllMomentTypesAreSupported();
         mDataServicesManager.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
         verify(eventingMock).post(any(LoadLatestMomentByTypeRequest.class));
     }
 
+    @Test(expected = UnsupportedMomentTypeException.class)
+    public void fetchLatestMomentByType_throwsException_whenFetchingUnsupportedMomentType() {
+        givenSupportedMomentTypes("SupportedMomentType");
+        mDataServicesManager.fetchLatestMomentByType("UnsupportedMomentType", dbFetchRequestListner);
+    }
+
     @Test
-    public void ShouldPostFetchMomentByDateType_WhenFetchIsCalled() throws Exception {
+    public void fetchMomentsWithTypeAndTimeLine_postsEvent_whenFetchIsCalled() throws Exception {
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
         mDataServicesManager.fetchMomentsWithTypeAndTimeLine(MomentType.TEMPERATURE, startDate, endDate, createPagination(), dbFetchRequestListner);
         verify(eventingMock).post(any(LoadMomentsByDate.class));
+    }
+
+    @Test(expected = UnsupportedMomentTypeException.class)
+    public void fetchMomentsWithTypeAndTimeLine_throwsException_whenFetchingUnsupportedMomentType() throws Exception {
+        givenSupportedMomentTypes("SupportedMomentType");
+        String myFormat = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        Date startDate = sdf.parse("10/11/17");
+        Date endDate = sdf.parse("10/23/17");
+        mDataServicesManager.fetchMomentsWithTypeAndTimeLine("UnsupportedMomentType", startDate, endDate, createPagination(), dbFetchRequestListner);
     }
 
     @Test
@@ -272,31 +310,9 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void ShouldPostFetchConsentEvent_WhenFetchConsentIsCalled() {
-        mDataServicesManager.fetchConsentDetail(dbFetchRequestListner);
-        verify(eventingMock).post(any(LoadConsentsRequest.class));
-    }
-
-    @Test
     public void ShouldPostFetchSettingsEvent_WhenFetchSettingsIsCalled() {
         mDataServicesManager.fetchUserSettings(dbFetchRequestListner);
         verify(eventingMock).post(any(LoadSettingsRequest.class));
-    }
-
-    @Test
-    public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() {
-        mDataServicesManager.createConsentDetail(TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, ConsentDetail.DEFAULT_DOCUMENT_VERSION, "fsdfsdf");
-    }
-
-    @Test
-    public void ShouldAddConcentDetail_WhenConsentIsNull() {
-        mDataServicesManager.createConsentDetail("Phase", ConsentDetailStatusType.ACCEPTED, "2", "fsdfsdf");
-    }
-
-    @Test
-    public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() {
-        mDataServicesManager.saveConsentDetails(ArgumentMatchers.<ConsentDetail>anyList(), dbRequestListener);
-        verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
 
     @Test
@@ -316,12 +332,6 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() {
-        mDataServicesManager.updateConsentDetails(ArgumentMatchers.<ConsentDetail>anyList(), dbRequestListener);
-        verify(eventingMock).post(any(DatabaseConsentUpdateRequest.class));
-    }
-
-    @Test
     public void ShouldPostdeleteAllMomentEvent_WhendeleteAllMomentIsCalled() {
         mDataServicesManager.deleteAllMoments(dbRequestListener);
         verify(eventingMock).post(any(DeleteAllMomentsRequest.class));
@@ -330,7 +340,14 @@ public class DataServicesManagerTest {
     //TODO: Spoorti - revisit this
     @Test
     public void ShouldCreateMoment_WhenCreateMomentIsCalled() {
-        mDataServicesManager.createMoment("jh");
+        givenSupportedMomentTypes("SupportedMomentType");
+        mDataServicesManager.createMoment("SupportedMomentType");
+    }
+
+    @Test(expected = UnsupportedMomentTypeException.class)
+    public void createMoment_throwsException_whenMomentTypeIsUnsupported() {
+        givenSupportedMomentTypes("SupportedMomentType");
+        mDataServicesManager.createMoment("UnsupportedMomentType");
     }
 
     @Test
@@ -462,14 +479,6 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void Should_saveUserCharacteristics_called() {
-        List list = new ArrayList();
-        list.add(consentDetailMock);
-        mDataServicesManager.saveUserCharacteristics(list, dbRequestListener);
-        verify(eventingMock).post(any(UserCharacteristicsSaveRequest.class));
-    }
-
-    @Test
     public void Should_unRegisterDBChangeListener_called() {
         mDataServicesManager.unRegisterDBChangeListener();
         DBChangeListener dbChangeListener = DataServicesManager.getInstance().getDbChangeListener();
@@ -488,6 +497,66 @@ public class DataServicesManagerTest {
         list.add(momentMock);
         mDataServicesManager.saveMoments(list, dbRequestListener);
         verify(eventingMock).post(any(MomentsSaveRequest.class));
+    }
+
+    @Test
+    public void saveMoments_doesNotStoreUnsupportedMomentTypes() {
+        mDataServicesManager.mEventing = eventing;
+        givenSupportedMomentTypes("SupportedMomentType");
+        when(supportedMoment.getType()).thenReturn("SupportedMomentType");
+        when(nonSupportedMoment.getType()).thenReturn("OtherMomentType");
+        List list = new ArrayList();
+        list.add(supportedMoment);
+        list.add(nonSupportedMoment);
+        mDataServicesManager.saveMoments(list, dbRequestListener);
+        List<Moment> moments = ((MomentsSaveRequest) eventing.postedEvent).getMoments();
+        assertEquals(1, moments.size());
+        assertEquals("SupportedMomentType", moments.get(0).getType());
+    }
+
+    @Test
+    public void saveMoments_storesAllTypes_whenSupportedMomentTypesListIsEmpty() {
+        mDataServicesManager.mEventing = eventing;
+        givenSupportedMomentTypes();
+        when(supportedMoment.getType()).thenReturn("SupportedMomentType");
+        when(nonSupportedMoment.getType()).thenReturn("OtherMomentType");
+        List momentList = new ArrayList();
+        momentList.add(supportedMoment);
+        momentList.add(nonSupportedMoment);
+        mDataServicesManager.saveMoments(momentList, dbRequestListener);
+        List<Moment> moments = ((MomentsSaveRequest) eventing.postedEvent).getMoments();
+        assertEquals(2, moments.size());
+        assertEquals("SupportedMomentType", moments.get(0).getType());
+        assertEquals("OtherMomentType", moments.get(1).getType());
+    }
+
+    @Test
+    public void saveMoment_doesNotStoreUnsupportedMomentTypes() {
+        mDataServicesManager.mEventing = eventing;
+        givenSupportedMomentTypes("SupportedMomentType");
+        when(nonSupportedMoment.getType()).thenReturn("OtherMomentType");
+        mDataServicesManager.saveMoment(nonSupportedMoment, dbRequestListener);
+        assertNull(eventing.postedEvent);
+    }
+
+    @Test
+    public void saveMoment_storesSupportedMomentTypes() {
+        mDataServicesManager.mEventing = eventing;
+        givenSupportedMomentTypes("SupportedMomentType");
+        when(supportedMoment.getType()).thenReturn("SupportedMomentType");
+        mDataServicesManager.saveMoment(supportedMoment, dbRequestListener);
+        MomentSaveRequest momentSaveRequest = (MomentSaveRequest) eventing.postedEvent;
+        assertSame(momentSaveRequest.getMoment(), supportedMoment);
+    }
+
+    @Test
+    public void saveMoment_storesAllTypes_whenSupportedMomentTypesListIsEmpty() {
+        givenAllMomentTypesAreSupported();
+        mDataServicesManager.mEventing = eventing;
+        when(nonSupportedMoment.getType()).thenReturn("OtherMomentType");
+        mDataServicesManager.saveMoment(nonSupportedMoment, dbRequestListener);
+        MomentSaveRequest momentSaveRequest = (MomentSaveRequest) eventing.postedEvent;
+        assertSame(nonSupportedMoment, momentSaveRequest.getMoment());
     }
 
     @Test
@@ -1049,6 +1118,17 @@ public class DataServicesManagerTest {
         ShadowLooper.runUiThreadTasks();
     }
 
+    private void givenAllMomentTypesAreSupported() {
+        givenSupportedMomentTypes();
+    }
+
+    private void givenSupportedMomentTypes(String... supportedMomentTypes) {
+        List<String> supportedMomentTypesList = new ArrayList(Arrays.asList(supportedMomentTypes));
+        when(mConfigInterface.getPropertyForKey(anyString(), anyString(), ArgumentMatchers.<AppConfigurationInterface.AppConfigurationError>any())).thenReturn(supportedMomentTypesList);
+        when(mAppInfra.getLogging()).thenReturn(mock(LoggingInterface.class));
+        mDataServicesManager.initializeDataServices(mock(Context.class), dataCreatorMock, userRegistrationInterface, errorHandlingInterfaceMock, mAppInfra);
+    }
+
     private void whenSynchronizeIsInvoked() {
         mDataServicesManager.synchronize();
     }
@@ -1098,6 +1178,41 @@ public class DataServicesManagerTest {
         mDSPagination.setPageNumber(1);
         mDSPagination.setOrderBy("timestamp");
         return mDSPagination;
+    }
+
+    class EventingMock implements Eventing {
+
+        public Event postedEvent;
+
+        @Override
+        public void post(@NonNull Event event) {
+            this.postedEvent = event;
+        }
+
+        @Override
+        public void postSticky(@NonNull Event event) {
+
+        }
+
+        @Override
+        public void register(@NonNull Object subscriber) {
+
+        }
+
+        @Override
+        public void unregister(@NonNull Object subscriber) {
+
+        }
+
+        @Override
+        public boolean isRegistered(@NonNull Object subscriber) {
+            return false;
+        }
+
+        @Override
+        public void removeSticky(@NonNull Event event) {
+
+        }
     }
 }
 

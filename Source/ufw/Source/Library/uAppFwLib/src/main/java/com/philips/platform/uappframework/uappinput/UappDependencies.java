@@ -1,12 +1,17 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.uappframework.uappinput;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.io.Serializable;
 
-
 /**
  * This class needs to be extended for defining the input Type prerequisites for launching micro app.
+ *
  * @since 1.0.0
  */
 public class UappDependencies implements Serializable {
@@ -19,16 +24,17 @@ public class UappDependencies implements Serializable {
 
     /**
      * Constructor for UappDependencies.
+     *
      * @param appInfra Requires appInfraInterface object
      * @since 1.0.0
      */
-    public UappDependencies(AppInfraInterface appInfra)
-    {
+    public UappDependencies(AppInfraInterface appInfra) {
         this.mAppInfraInterface = appInfra;
     }
 
     /**
      * To retrieve AppInfra Interface object.
+     *
      * @return AppInfraInterface Object
      * @since 1.0.0
      */

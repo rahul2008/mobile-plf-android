@@ -57,7 +57,6 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
 
         initMocks(this);
         HandlerProvider.enableMockedHandler(subscriptionEventResponseHandler);
-        DICommLog.disableLogging();
 
         when(networkNodeMock.getIpAddress()).thenReturn(APPLIANCE_IP);
         when(networkNodeMock.getCppId()).thenReturn(APPLIANCE_CPPID);

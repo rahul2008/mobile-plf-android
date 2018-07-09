@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
 package com.philips.platform.core.trackers;
 
@@ -14,14 +14,13 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Measurement;
@@ -37,8 +36,6 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.CreateSubjectProfileRequestEvent;
 import com.philips.platform.core.events.DataClearRequest;
-import com.philips.platform.core.events.DatabaseConsentSaveRequest;
-import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllInsights;
@@ -52,7 +49,6 @@ import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
-import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
 import com.philips.platform.core.events.LoadMomentsByDate;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -99,12 +95,12 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.TimeZone;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -130,9 +126,11 @@ public class DataServicesManager {
     private ArrayList<DataFetcher> mCustomFetchers;
     private ArrayList<DataSender> mCustomSenders;
     private Set<String> mSyncDataTypes;
+    private List<String> supportedMomentTypes = new ArrayList<>();
 
     public String mDataServicesBaseUrl;
     public String mDataServicesCoachingServiceUrl;
+
 
     private DBChangeListener dbChangeListener;
     SynchronisationCompleteListener mSynchronisationCompleteListener;
@@ -187,6 +185,7 @@ public class DataServicesManager {
         this.mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         this.dataServiceContext = context;
         this.gdprStorage = context.getSharedPreferences(GDPR_MIGRATION_FLAG_STORAGE, Context.MODE_PRIVATE);
+        this.supportedMomentTypes = (ArrayList<String>) appInfraInterface.getConfigInterface().getPropertyForKey("supportedMomentTypes", "dataservices", new AppConfigurationInterface.AppConfigurationError());
         initLogger();
     }
 
@@ -218,7 +217,7 @@ public class DataServicesManager {
         BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), dataCreator, userRegistrationInterface,
                 mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
                 mCustomFetchers, mCustomSenders, errorHandlingInterface);
-        final ApplicationModule applicationModule = new ApplicationModule(context);
+        final ApplicationModule applicationModule = new ApplicationModule(context, mAppInfra);
 
         mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
         mAppComponent.injectApplication(this);
@@ -275,6 +274,9 @@ public class DataServicesManager {
 
     @NonNull
     public Moment createMoment(@NonNull final String type) {
+        if (!isSupported(type)) {
+            throw new UnsupportedMomentTypeException();
+        }
         return dataCreator.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type, null);
     }
 
@@ -350,27 +352,36 @@ public class DataServicesManager {
     }
 
     public void saveMoment(@NonNull final Moment moment, DBRequestListener<Moment> dbRequestListener) {
-        mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
+        if (isSupported(moment.getType())) {
+            mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
+        }
     }
 
     public void saveMoments(@NonNull final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
-        mEventing.post(new MomentsSaveRequest(moments, dbRequestListener));
+        List<Moment> supportedMoments = filterUnsupportedMomentTypes(moments);
+        mEventing.post(new MomentsSaveRequest(supportedMoments, dbRequestListener));
     }
 
-    public void fetchMomentWithType(DBFetchRequestListner<Moment> dbFetchRequestListner, final @NonNull String... type) {
-        mEventing.post(new LoadMomentsRequest(dbFetchRequestListner, type));
+    public void fetchMomentWithType(DBFetchRequestListner<Moment> dbFetchRequestListener, final @NonNull String... types) {
+        if (!isSupported(types)) {
+            throw new UnsupportedMomentTypeException();
+        }
+        mEventing.post(new LoadMomentsRequest(dbFetchRequestListener, types));
     }
 
-    public void fetchMomentForMomentID(final int momentID, DBFetchRequestListner<Moment> dbFetchRequestListner) {
-        mEventing.post(new LoadMomentsRequest(momentID, dbFetchRequestListner));
+    public void fetchMomentForMomentID(final int momentID, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        mEventing.post(new LoadMomentsRequest(momentID, dbFetchRequestListener));
     }
 
     public void fetchLatestMomentByType(final @NonNull String type, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        if (!isSupported(type)) {
+            throw new UnsupportedMomentTypeException();
+        }
         mEventing.post(new LoadLatestMomentByTypeRequest(type, dbFetchRequestListener));
     }
 
-    public void fetchAllMoment(DBFetchRequestListner<Moment> dbFetchRequestListner) {
-        mEventing.post(new LoadMomentsRequest(dbFetchRequestListner));
+    public void fetchAllMoment(DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        mEventing.post(new LoadMomentsRequest(dbFetchRequestListener));
     }
 
     public void fetchMomentsWithTimeLine(Date startDate, Date endDate, DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
@@ -378,23 +389,10 @@ public class DataServicesManager {
     }
 
     public void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate, DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        if (!isSupported(momentType)) {
+            throw new UnsupportedMomentTypeException();
+        }
         mEventing.post(new LoadMomentsByDate(momentType, startDate, endDate, dsPagination, dbFetchRequestListener));
-    }
-
-    public ConsentDetail createConsentDetail(@NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, String documentVersion, final String deviceIdentificationNumber) {
-        return dataCreator.createConsentDetail(detailType, consentDetailStatusType.getDescription(), documentVersion, deviceIdentificationNumber);
-    }
-
-    public void saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
-        mEventing.post(new DatabaseConsentSaveRequest(consentDetails, dbRequestListener));
-    }
-
-    public void updateConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
-        mEventing.post(new DatabaseConsentUpdateRequest(consentDetails, dbRequestListener));
-    }
-
-    public void fetchConsentDetail(DBFetchRequestListner<ConsentDetail> dbFetchRequestListner) {
-        mEventing.post(new LoadConsentsRequest(dbFetchRequestListner));
     }
 
     public Settings createUserSettings(String locale, String unit, String timeZone) {
@@ -409,8 +407,8 @@ public class DataServicesManager {
         mEventing.post(new DatabaseSettingsUpdateRequest(settings, dbRequestListener));
     }
 
-    public void fetchUserSettings(DBFetchRequestListner<Settings> dbFetchRequestListner) {
-        mEventing.post(new LoadSettingsRequest(dbFetchRequestListner));
+    public void fetchUserSettings(DBFetchRequestListner<Settings> dbFetchRequestListener) {
+        mEventing.post(new LoadSettingsRequest(dbFetchRequestListener));
     }
 
     public Characteristics createUserCharacteristics(@NonNull final String detailType, @NonNull final String detailValue, Characteristics characteristics) {
@@ -431,12 +429,12 @@ public class DataServicesManager {
         mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
     }
 
-    public void fetchUserCharacteristics(DBFetchRequestListner<Characteristics> dbFetchRequestListner) {
-        mEventing.post(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
+    public void fetchUserCharacteristics(DBFetchRequestListner<Characteristics> dbFetchRequestListener) {
+        mEventing.post(new LoadUserCharacteristicsRequest(dbFetchRequestListener));
     }
 
-    public void fetchInsights(DBFetchRequestListner dbFetchRequestListner) {
-        mEventing.post(new FetchInsightsFromDB(dbFetchRequestListner));
+    public void fetchInsights(DBFetchRequestListner dbFetchRequestListener) {
+        mEventing.post(new FetchInsightsFromDB(dbFetchRequestListener));
     }
 
     public void deleteInsights(List<? extends Insight> insights, DBRequestListener<Insight> dbRequestListener) {
@@ -621,7 +619,7 @@ public class DataServicesManager {
     }
 
     public void migrateGDPR(final DBRequestListener<Object> resultListener) {
-        if(isGdprMigrationDone()) {
+        if (isGdprMigrationDone()) {
             resultListener.onSuccess(Collections.emptyList());
         } else {
             deleteSyncedMoments(new DBRequestListener<Moment>() {
@@ -695,7 +693,7 @@ public class DataServicesManager {
             }
 
             @Override
-            public void onSyncFailed(final  Exception exception) {
+            public void onSyncFailed(final Exception exception) {
                 // Post on main thread
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -706,5 +704,24 @@ public class DataServicesManager {
             }
         });
         storeGdprMigrationFlag();
+    }
+
+    private List<Moment> filterUnsupportedMomentTypes(List<Moment> moments) {
+        List<Moment> supportedMoments = new ArrayList<>();
+        for (Moment moment : moments) {
+            if (isSupported(moment.getType())) {
+                supportedMoments.add(moment);
+            }
+        }
+        return supportedMoments;
+    }
+
+    private boolean isSupported(String... types) {
+        for (String type : types) {
+            if (!supportedMomentTypes.isEmpty() && !supportedMomentTypes.contains(type)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

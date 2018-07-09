@@ -111,7 +111,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         setUpAnimations();
         actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.ths_pharmacy_list_fragment_name, true);
+            actionBarListener.updateActionBar(R.string.ths_your_pharmacy, true);
         }
         return view;
     }
@@ -551,7 +551,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public boolean handleBackEvent() {
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.ths_pharmacy_list_fragment_name, true);
+            actionBarListener.updateActionBar(R.string.ths_your_pharmacy, true);
         }
         if (pharmacy_segment_control_one.isSelected()) {
             if (null != pharmacyRetailList && pharmacyRetailList.size() > 0) {

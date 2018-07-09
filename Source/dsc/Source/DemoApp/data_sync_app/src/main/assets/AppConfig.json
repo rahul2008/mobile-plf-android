@@ -144,5 +144,6 @@
   },
   "dataservices": {
     "appname": "OneBackend"
+    "supportedMomentTypes": ["Temperature"]
   }
 }

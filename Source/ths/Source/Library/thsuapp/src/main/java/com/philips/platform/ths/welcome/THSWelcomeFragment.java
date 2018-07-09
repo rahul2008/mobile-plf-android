@@ -16,15 +16,12 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 
 
-import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.Other;
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME;
 
 @SuppressWarnings("serial")
@@ -69,7 +66,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
 
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
+            actionBarListener.updateActionBar(getString(R.string.ths_Welcome_nav_title),true);
         }
         THSTagUtils.doTrackPageWithInfo(THS_WELCOME,null,null);
         return view;

@@ -197,7 +197,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
      * Register cloud handler for cloud logging consent.
      */
     public void registerCloudHandler() {
-        DeviceStoredConsentHandler deviceStoredConsentHandler = new DeviceStoredConsentHandler(mAppInfra);
+        DeviceStoredConsentHandler deviceStoredConsentHandler = mAppInfra.getDeviceStoredConsentHandler();
         if (loggingConfiguration != null && loggingConfiguration.isCloudLogEnabled()) {
             CloudLogSyncManager.getInstance(mAppInfra, loggingConfiguration);
         }

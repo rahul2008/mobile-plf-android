@@ -51,8 +51,6 @@ public class RuntimeConfigurationTest {
     public void setUp() {
         initMocks(this);
 
-        DICommLog.disableLogging();
-
         when(appInfraInterfaceMock.getAppIdentity()).thenReturn(appIdentityMock);
         when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
         when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationError.class))).thenReturn(logConfig);
@@ -99,6 +97,29 @@ public class RuntimeConfigurationTest {
     @Test
     public void givenAnInstance_whenGetContext_thenReturnTheContext() {
         assertThat(runtimeConfiguration.getContext()).isEqualTo(contextMock);
+    }
+
+    @Test
+    public void givenAppInfraInterfaceIsNull_thenTaggingIsDisabled() {
+        RuntimeConfiguration configuration = new RuntimeConfiguration(contextMock, null);
+
+        assertThat(configuration.isTaggingEnabled()).isFalse();
+    }
+
+    @Test
+    public void givenAppInfraInterfaceIsNotNull_whenRuntimeConfigurationDoesNotHaveTaggingSet_thenTaggingIsDisabled() {
+
+        runtimeConfiguration.setTaggingEnabled(false);
+
+        assertThat(runtimeConfiguration.isTaggingEnabled()).isFalse();
+    }
+
+    @Test
+    public void givenAppInfraInterfaceIsNotNull_whenRuntimeConfigurationHasTaggingSet_thenTaggingIsEnabled() {
+
+        runtimeConfiguration.setTaggingEnabled(true);
+
+        assertThat(runtimeConfiguration.isTaggingEnabled()).isTrue();
     }
 
 }

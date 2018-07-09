@@ -10,10 +10,13 @@ package com.philips.spy;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;

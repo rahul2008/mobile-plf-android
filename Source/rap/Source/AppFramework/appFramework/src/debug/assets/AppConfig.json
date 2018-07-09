@@ -65,7 +65,7 @@
       "logLevel": "Info",
       "fileLogEnabled": false,
       "consoleLogEnabled": true,
-      "cloudLogEnabled":true,
+      "cloudLogEnabled":false,
       "cloudBatchLimit":5,
       "componentLevelLogEnabled": true,
       "componentIds": [
@@ -88,7 +88,7 @@
       "fileSizeInBytes": 50000,
       "logLevel": "Error",
       "fileLogEnabled": false,
-      "cloudLogEnabled":true,
+      "cloudLogEnabled":false,
       "cloudBatchLimit":5,
       "consoleLogEnabled": true,
       "componentLevelLogEnabled": false,
@@ -125,5 +125,10 @@
   },
   "css":{
     "ConsentCacheTTLInMinutes" : 3
+  },
+  "dataservices": {
+    "supportedMomentTypes": [
+      "Temperature"
+    ]
   }
 }

@@ -86,8 +86,6 @@ public class SSDPControlPointTest {
     public void setUp() {
         initMocks(this);
 
-        DICommLog.disableLogging();
-
         ContextProvider.setTestingContext(contextMock);
         when(contextMock.getApplicationContext()).thenReturn(contextMock);
         when(contextMock.getSystemService(Context.WIFI_SERVICE)).thenReturn(wifiManagerMock);

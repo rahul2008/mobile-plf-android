@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/team_member_icon"
                     android:paddingLeft="@dimen/pr_b_value_sm"
-                    android:text="@string/PPR_registered"
+                    android:text="@string/PRG_registered"
                     android:textSize="@dimen/pr_connect_title_textsize" />
 
             </RelativeLayout>
@@ -116,7 +116,7 @@
             android:layout_marginLeft="@dimen/fab_margin"
             android:layout_marginRight="@dimen/fab_margin"
             android:layout_marginTop="@dimen/fab_margin"
-            android:text="@string/PPR_Extended_Warranty_Lbltxt"
+            android:text="@string/PRG_Extended_Warranty_Lbltxt"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/pr_connect_title_textsize" />
 
@@ -142,7 +142,7 @@
             android:layout_marginLeft="@dimen/fab_margin"
             android:layout_marginRight="@dimen/fab_margin"
             android:layout_marginTop="@dimen/fab_margin"
-            android:text="@string/PPR_Continue"
+            android:text="@string/PRG_Continue"
             android:textAllCaps="false" />
 
     </LinearLayout>

@@ -30,7 +30,7 @@
   <string name="mya_Email_Validation_message">E-postadress ej bekräftad</string>
   <string name="mya_Email_address">E-postadress</string>
   <string name="mya_Gender">Kön</string>
-  <string name="mya_Info">Vill du ändra ditt inloggnings-ID eller lösenord? Besök vår webbplats.</string>
+  <string name="mya_Info">[sv]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Det uppstod ett problem vid anslutning till servern. Se till att datum/tid på enheten är korrekt inställda. Om problemet kvarstår loggar du ut och sedan in igen.</string>
   <string name="mya_Login_details">Inloggningsuppgifter</string>
   <string name="mya_Logout">Logga ut</string>
@@ -62,7 +62,7 @@
   <string name="mya_csw_justintime_accept">[sv]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[sv]Maybe later</string>
   <string name="mya_csw_justintime_title">[sv]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,sv]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,sv]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,sv]What do we have to offer?</string>
   <string name="mya_logout_message">Du loggas ut från programmet. När du har loggat ut kan du alltid logga in igen.</string>
   <string name="mya_logout_title">Är du säker på att du vill logga ut?</string>

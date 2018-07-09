@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -20,9 +21,8 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
-import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
+import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.DataMigrater;
@@ -62,13 +62,17 @@ public class SHNCentral {
         /**
          * {@code SHNCentral} is in an error state
          */
-        SHNCentralStateError, /**
+        SHNCentralStateError,
+
+        /**
          * {@code SHNCentral} is not yet ready to communicate with peripherals (for instance when bluetooth is disabled)
          */
-        SHNCentralStateNotReady, /**
+        SHNCentralStateNotReady,
+
+        /**
          * {@code SHNCentral} is ready to communicate with peripherals
          */
-        SHNCentralStateReady
+        SHNCentralStateReady;
     }
 
     /**
@@ -101,17 +105,18 @@ public class SHNCentral {
 
     private static final String TAG = "SHNCentral";
 
-    @NonNull
-    private final BleUtilities bleUtilities;
+    private BTAdapter btAdapter;
+
     private final Handler userHandler;
     private final Context applicationContext;
     private SHNUserConfiguration shnUserConfiguration;
     private SHNDeviceScanner shnDeviceScanner;
-    private boolean isBluetoothAdapterEnabled;
     private int bluetoothAdapterState;
 
     @VisibleForTesting
     BroadcastReceiver bondStateChangedReceiver;
+
+    private Map<String, SHNDevice> createdDevices = new HashMap<>();
 
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -125,11 +130,9 @@ public class SHNCentral {
                     case BluetoothAdapter.STATE_OFF:
                     case BluetoothAdapter.STATE_TURNING_OFF:
                     case BluetoothAdapter.STATE_TURNING_ON:
-                        isBluetoothAdapterEnabled = false;
                         setState(State.SHNCentralStateNotReady);
                         break;
                     case BluetoothAdapter.STATE_ON:
-                        isBluetoothAdapterEnabled = true;
                         setState(State.SHNCentralStateReady);
                         break;
                 }
@@ -138,16 +141,15 @@ public class SHNCentral {
     };
 
     private final Set<SHNCentralListener> shnCentralListeners;
+
     private Map<Integer, WeakReference<SHNCentralListener>> shnCentralInternalListeners;
     private SHNDeviceScannerInternal shnDeviceScannerInternal;
     private SHNDeviceAssociation shnDeviceAssociation;
     private State shnCentralState = State.SHNCentralStateNotReady;
-    private BTAdapter btAdapter;
     private Handler internalHandler;
     private SHNDeviceDefinitions shnDeviceDefinitions;
     private PersistentStorageFactory persistentStorageFactory;
     private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners;
-
     private SharedPreferencesProvider defaultSharedPreferencesProvider = new SharedPreferencesProvider() {
         @NonNull
         @Override
@@ -162,19 +164,6 @@ public class SHNCentral {
         }
     };
 
-    /**
-     * Old constructor of {@code SHNCentral}. Do not use.
-     *
-     * @param handler the user handler to post callbacks on
-     * @param context the Android context
-     * @throws SHNBluetoothHardwareUnavailableException the exception thrown when no Bluetooth hardware is available
-     * @deprecated Use the {@link SHNCentral.Builder} instead.
-     */
-    @Deprecated
-    public SHNCentral(Handler handler, final Context context) throws SHNBluetoothHardwareUnavailableException {
-        this(handler, context, false, null, false);
-    }
-
     @SuppressLint("UseSparseArrays")
     SHNCentral(final @Nullable Handler handler, final @NonNull Context context, final boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
         shnCentralListeners = new CopyOnWriteArraySet<>();
@@ -183,9 +172,7 @@ public class SHNCentral {
 
         applicationContext = context.getApplicationContext();
 
-        bleUtilities = new BleUtilities(applicationContext);
-
-        if (!bleUtilities.isBleFeatureAvailable()) {
+        if (!isBleFeatureAvailable()) {
             throw new SHNBluetoothHardwareUnavailableException();
         }
 
@@ -215,10 +202,10 @@ public class SHNCentral {
             try {
                 initFuture.get();
             } catch (InterruptedException e) {
-                SHNLogger.e(TAG, e.getMessage(), e);
+                SHNLogger.e(TAG, e.toString(), e);
                 throw new InternalError("Caught unexpected InterruptedException");
             } catch (ExecutionException e) {
-                SHNLogger.e(TAG, e.getMessage(), e);
+                SHNLogger.e(TAG, e.toString(), e);
                 throw new InternalError("Caught unexpected ExecutionException");
             }
         } else {
@@ -227,24 +214,24 @@ public class SHNCentral {
     }
 
     /**
-     * Get the {@link BleUtilities}, used to scan for device
+     * Get the {@link BTAdapter}, used to scan for device
      *
      * @return BLE utilities
      */
     @NonNull
-    BleUtilities getBleUtilities() {
-        return bleUtilities;
+    BTAdapter getBtAdapter() {
+        return btAdapter;
     }
 
     private void initializeSHNCentral(boolean showPopupIfBLEIsTurnedOff, final @Nullable SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
         persistentStorageFactory = setUpPersistentStorageFactory(applicationContext, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
 
         // Check that the adapter is enabled.
-        isBluetoothAdapterEnabled = bleUtilities.isBluetoothAdapterEnabled();
-        if (isBluetoothAdapterEnabled) {
+        btAdapter = new BTAdapter(internalHandler);
+        if (isBluetoothAdapterEnabled()) {
             shnCentralState = State.SHNCentralStateReady;
         } else if (showPopupIfBLEIsTurnedOff) {
-            bleUtilities.startEnableBluetoothActivity();
+            startEnableBluetoothActivity();
         }
 
         // Register a broadcast receiver listening for BluetoothAdapter state changes
@@ -259,8 +246,6 @@ public class SHNCentral {
         shnDeviceScanner = new SHNDeviceScanner(shnDeviceScannerInternal, internalHandler, userHandler);
 
         SHNDeviceWrapper.setHandlers(internalHandler, userHandler);
-
-        btAdapter = new BTAdapter(applicationContext, internalHandler);
 
         shnUserConfiguration = createUserConfiguration();
     }
@@ -295,6 +280,23 @@ public class SHNCentral {
         return new DataMigrater();
     }
 
+    /**
+     * Check if the current phone supports BLE
+     *
+     * @return BLE support
+     */
+    public boolean isBleFeatureAvailable() {
+        return applicationContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
+    }
+
+    /**
+     * Request BLE to be turned on
+     */
+    public void startEnableBluetoothActivity() {
+        Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        applicationContext.startActivity(intent);
+    }
     /**
      * Register a {@link SHNBondStatusListener} for device with specific address.
      *
@@ -525,7 +527,7 @@ public class SHNCentral {
      * @return true if bluetooth adapter is enabled
      */
     public boolean isBluetoothAdapterEnabled() {
-        return isBluetoothAdapterEnabled;
+        return btAdapter.isEnabled();
     }
 
     /**
@@ -630,8 +632,6 @@ public class SHNCentral {
         return btAdapter.getRemoteDevice(address);
     }
 
-    private Map<String, SHNDevice> createdDevices = new HashMap<>();
-
     public SHNDevice createSHNDeviceForAddressAndDefinition(@NonNull String deviceAddress, @NonNull SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         final String key = deviceAddress + shnDeviceDefinitionInfo.getDeviceTypeName();
         SHNDevice shnDevice = createdDevices.get(key);
@@ -645,7 +645,7 @@ public class SHNCentral {
         return shnDevice;
     }
 
-    /* package */ void removeDeviceFromDeviceCache(SHNDevice shnDeviceToRemove) {
+    void removeDeviceFromDeviceCache(SHNDevice shnDeviceToRemove) {
         String key = shnDeviceToRemove.getAddress() + shnDeviceToRemove.getDeviceTypeName();
         createdDevices.remove(key);
     }
@@ -653,6 +653,7 @@ public class SHNCentral {
     /**
      * The {@code SHNCentral.Builder} is used to build a {@code SHNCentral} object.
      */
+    @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
     public static class Builder {
         private Handler handler;
         private final Context context;

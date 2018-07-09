@@ -7,7 +7,6 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.DCSync;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -17,9 +16,6 @@ import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
-import com.philips.platform.core.events.ConsentBackendSaveRequest;
-import com.philips.platform.core.events.ConsentBackendSaveResponse;
-import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.FetchInsightsResponse;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
@@ -140,35 +136,6 @@ public class UpdatingMonitor extends EventMonitor {
         DBChangeListener mDbChangeListener = DataServicesManager.getInstance().getDbChangeListener();
         if (mDbChangeListener != null) {
             mDbChangeListener.dBChangeFailed(e);
-        }
-    }
-
-    //Consents
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final DatabaseConsentUpdateRequest consentUpdateRequest) {
-        consentUpdateRequest.getConsentDetails();
-        try {
-
-            final DBRequestListener<ConsentDetail> dbRequestListener = consentUpdateRequest.getDbRequestListener();
-            if (dbUpdatingInterface.updateConsent(consentUpdateRequest.getConsentDetails(), dbRequestListener)) {
-                dbUpdatingInterface.updateSyncBit(SyncType.CONSENT.getId(), false);
-                eventing.post(new ConsentBackendSaveRequest((new ArrayList<>(consentUpdateRequest.getConsentDetails())), ConsentBackendSaveRequest.RequestType.SAVE));
-            }
-
-        } catch (SQLException e) {
-            //Debug Log
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final ConsentBackendSaveResponse consentBackendSaveResponse) {
-        try {
-            if (dbFetchingInterface.isSynced(SyncType.CONSENT.getId())) {
-                dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
-                notifyDBChangeSuccess(SyncType.CONSENT);
-            }
-        } catch (SQLException e) {
-            notifyDBFailure(e);
         }
     }
 

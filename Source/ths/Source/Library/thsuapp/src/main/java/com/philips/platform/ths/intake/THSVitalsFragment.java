@@ -83,7 +83,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
 
         mThsVitalsPresenter = new THSVitalsPresenter(this, this);
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_visit_title), true);
         }
         getVitals();
 

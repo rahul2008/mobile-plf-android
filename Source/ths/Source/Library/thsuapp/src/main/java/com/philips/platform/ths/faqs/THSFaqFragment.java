@@ -39,7 +39,7 @@ public class THSFaqFragment extends THSBaseFragment {
 
         ActionBarListener actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getString(R.string.ths_how_it_works), true);
+            actionBarListener.updateActionBar(getString(R.string.ths_welcome_training), true);
         }
         THSTagUtils.doTrackPageWithInfo(THS_HOW_IT_WORKS,null,null);
         return view;

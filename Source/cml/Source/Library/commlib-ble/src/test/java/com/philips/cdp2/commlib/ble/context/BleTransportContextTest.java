@@ -18,8 +18,11 @@ import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.SHNLogger.LoggerImplementation;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,12 +42,18 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-@PrepareForTest({SHNLogger.class})
+@PrepareForTest({SHNLogger.class, SHNTagger.class})
 @RunWith(PowerMockRunner.class)
 public class BleTransportContextTest {
 
     @Mock
     private Context contextMock;
+
+    @Mock
+    private AppInfraInterface appInfraInterfaceMock;
+
+    @Mock
+    private AppTaggingInterface appTaggingInterfaceMock;
 
     @Mock
     private SHNCentral shnCentralMock;
@@ -71,8 +80,11 @@ public class BleTransportContextTest {
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(SHNLogger.class);
+        mockStatic(SHNTagger.class);
 
         when(runtimeConfigurationMock.getContext()).thenReturn(contextMock);
+        when(runtimeConfigurationMock.getAppInfraInterface()).thenReturn(appInfraInterfaceMock);
+        when(appInfraInterfaceMock.getTagging()).thenReturn(appTaggingInterfaceMock);
         when(shnCentralMock.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateReady);
     }
 
@@ -96,12 +108,33 @@ public class BleTransportContextTest {
         SHNLogger.registerLogger(any(LoggerImplementation.class));
     }
 
+    @Test
+    public void givenTaggingIsEnabledInRuntimeConfiguration_whenBleTransportContextIsConstructed_thenATaggerIsRegisteredOnBluelib() {
+        when(runtimeConfigurationMock.isTaggingEnabled()).thenReturn(true);
+
+        constructBleTransportContext();
+
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.registerTagger(any(SHNTagger.Tagger.class));
+    }
+
+    @Test
+    public void givenTaggingIsDisabledInRuntimeConfiguration_whenBleTransportContextIsConstructed_thenNoTaggerIsRegisteredOnBluelib() {
+        when(runtimeConfigurationMock.isTaggingEnabled()).thenReturn(false);
+
+        constructBleTransportContext();
+
+        verifyStatic(SHNTagger.class, never());
+        SHNTagger.registerTagger(any(SHNTagger.Tagger.class));
+    }
+
+
     @Test(expected = TransportUnavailableException.class)
     public void givenBluetoothHardwareIsUnavailable_whenBleTransportContextIsConstructed_thenThrowAnException() {
         new BleTransportContext(runtimeConfigurationMock) {
             @NonNull
             @Override
-            SHNCentral createCentral(final Context context, final boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+            SHNCentral createCentral(final RuntimeConfiguration runtimeConfiguration, final boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
                 throw new SHNBluetoothHardwareUnavailableException();
             }
         };
@@ -127,7 +160,7 @@ public class BleTransportContextTest {
 
             @NonNull
             @Override
-            SHNCentral createCentral(final Context context, final boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+            SHNCentral createCentral(final RuntimeConfiguration runtimeConfiguration, final boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
                 return shnCentralMock;
             }
 

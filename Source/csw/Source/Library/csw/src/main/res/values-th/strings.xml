@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">ขออภัย เกิดข้อผิดพลาดบางประการ โปรดลองอีกครั้ง</string>
   <string name="MYA_Visit_Website">[th]Visit our website</string>
   <string name="csw_consent_help_label">หมายความว่าอย่างไร</string>
-  <string name="csw_generic_network_error">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ 
-โปรดตรวจสอบการเชื่อมต่ออินเตอร์เน็ตของคุณ และลองอีกครั้ง </string>
+  <string name="csw_generic_network_error">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ \nโปรดตรวจสอบการเชื่อมต่ออินเตอร์เน็ตของคุณ และลองอีกครั้ง </string>
   <string name="csw_invalid_access_token_error_message">มีปัญหาในการเชื่อมต่อกับเซิร์ฟเวอร์ ตรวจสอบให้แน่ใจว่าตั้งวัน/เวลาบนอุปกรณ์ของคุณถูกต้องแล้ว หากปัญหายังคงอยู่ โปรดล็อกเอาท์และล็อกอิน</string>
   <string name="csw_offline_message">ดูเหมือนว่าการเชื่อมต่ออินเตอร์เน็ตของคุณไม่ทำงาน โปรดตรวจสอบและลองอีกครั้ง</string>
   <string name="csw_offline_title">คุณอยู่ในสถานะออฟไลน์</string>
@@ -31,7 +30,7 @@
   <string name="mya_Email_Validation_message">อีเมล์แอดเดรสไม่ได้รับการยืนยัน</string>
   <string name="mya_Email_address">อีเมล์แอดเดรส</string>
   <string name="mya_Gender">เพศ</string>
-  <string name="mya_Info">คุณต้องการเปลี่ยน ID ล็อกอินหรือรหัสผ่านหรือไม่ เข้าชมเว็บไซต์ของเรา</string>
+  <string name="mya_Info">[th]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">มีปัญหาในการเชื่อมต่อกับเซิร์ฟเวอร์ ตรวจสอบให้แน่ใจว่าตั้งวัน/เวลาบนอุปกรณ์ของคุณถูกต้องแล้ว หากปัญหายังคงอยู่ โปรดล็อกเอาท์และล็อกอิน</string>
   <string name="mya_Login_details">รายละเอียดการล็อกอิน</string>
   <string name="mya_Logout">ล็อกเอาต์</string>
@@ -63,7 +62,7 @@
   <string name="mya_csw_justintime_accept">[th]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[th]Maybe later</string>
   <string name="mya_csw_justintime_title">[th]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,th]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,th]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,th]What do we have to offer?</string>
   <string name="mya_logout_message">คุณจะออกจากแอปพลิเคชัน หลังจากคุณล็อกเอาท์แล้ว คุณสามารถล็อกอินใหม่ได้เสมอ</string>
   <string name="mya_logout_title">คุณแน่ใจว่าต้องการออกจากระบบหรือไม่</string>

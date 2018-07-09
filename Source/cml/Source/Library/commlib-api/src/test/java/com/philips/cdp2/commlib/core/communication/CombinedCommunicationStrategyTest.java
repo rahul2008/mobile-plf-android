@@ -57,7 +57,6 @@ public class CombinedCommunicationStrategyTest {
 
     @SuppressWarnings("unchecked")
     private CommunicationStrategy createCommunicationStrategy(boolean available) {
-        DICommLog.disableLogging();
         CommunicationStrategy strategy = mock(CommunicationStrategy.class);
         when(strategy.isAvailable()).thenReturn(available);
         doAnswer(new Answer() {

@@ -14,7 +14,8 @@ Version {next}
 * N/A
 
 ### Breaking Changes
-* N/A
+* \#73052 Earlier logging was enabled by default, after this change, it has been disabled. If a proposition now needs CommLib logging, it has to explicitly enable it by calling DICommLog.enableLogging. 
+* \#73052 initLoggingToFile method in DICommLog.java has been removed. It depending on a private method - createFileOnDevice which was using some legacy code and was marked as deprecated from some time, this method is removed too.
 
 ### Defects solved
 * N/A
@@ -29,7 +30,7 @@ Version 1802
 ------------
 
 ### Functionality Delivered
-* N/A
+* \#131404 CommCentral is updated to provide available transport contexts via `getTransportContext`. 
 
 ### Backwards Compatibility
 * \#127781 Properties' definitions for NetworkNode moved from NetworkNodeDatabaseHelper to NetworkNode class
@@ -42,12 +43,15 @@ Version 1802
 * \#72961 DiscoveryStrategy now only takes one argument as filter for `start` method.
 * The TransportContext interface does not extend the Availability interface anymore
 * \#127781 CommCentral requires runtime configuration to enable secure nodes storage. Secure storage requires AppInfraInterface provided via RuntimeConfiguration.
+* \#131404 Discovery listener interface is updated to include `onDiscoveryFailedToStart`. The callback indicates that discovery was not able to start.
+TransportUnavailableException is not thrown by `start` call of a discovery strategy. 
 
 ### Defects solved
 * \#72961 - Changed filtering of discovered devices to be in line with iOS version of library: filter only passed to startDiscovery() call.
 * \#121886 - Firmware update always starts from 0. Brought behaviour inline with iOS
 * \#127781 - CommLib persists NetworkNodes in secure manner. The feature is backwards compatible: existing stored nodes are migrated to secure DB.
 * \#134047 - Database migration for secure and unsecure databases now all use incremental version numbers.
+* \#131404 - Caller is notified if discovery was not able to start via discovery listener.  
 
 ### Residual anomalies
 * N/A

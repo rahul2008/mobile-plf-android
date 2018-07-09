@@ -129,6 +129,21 @@ public class ProductCatalogFragment extends InAppBaseFragment
     }
 
     @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.iap_product_catalog;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return getString(R.string.iap_product_catalog);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
@@ -210,7 +225,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
 
-        setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
+       // setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
+        setActionbarTitle();
         if (!ControllerFactory.getInstance().isPlanB()) {
             setCartIconVisibility(true);
             mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);

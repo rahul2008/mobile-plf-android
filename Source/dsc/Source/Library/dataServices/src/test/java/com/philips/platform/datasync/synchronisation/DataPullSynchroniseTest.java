@@ -3,7 +3,6 @@ package com.philips.platform.datasync.synchronisation;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
-import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataFetcher;
@@ -60,9 +59,6 @@ public class DataPullSynchroniseTest {
     private MomentsDataFetcher momentsDataFetcherMock;
 
     @Mock
-    private ConsentsDataFetcher consentsDataFetcherMock;
-
-    @Mock
     private UserCharacteristicsFetcher userCharacteristicsFetcherMock;
 
     @Mock
@@ -93,7 +89,6 @@ public class DataPullSynchroniseTest {
         DataServicesManager.getInstance().configureSyncDataType(set);
 
         synchronise.momentsDataFetcher = momentsDataFetcherMock;
-        synchronise.consentsDataFetcher = consentsDataFetcherMock;
         synchronise.insightDataFetcher = insightDataFetcherMock;
         synchronise.userCharacteristicsFetcher = userCharacteristicsFetcherMock;
         synchronise.settingsDataFetcher = settingsDataFetcherMock;

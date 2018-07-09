@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">אפס! משהו השתבש. נסה שוב מאוחר יותר.</string>
   <string name="MYA_Visit_Website">[he]Visit our website</string>
   <string name="csw_consent_help_label">מה זה אומר?</string>
-  <string name="csw_generic_network_error">אין אפשרות להתחבר לשרת.
-בדוק את חיבור האינטרנט ונסה שוב.</string>
+  <string name="csw_generic_network_error">אין אפשרות להתחבר לשרת.\nבדוק את חיבור האינטרנט ונסה שוב.</string>
   <string name="csw_invalid_access_token_error_message">אירעה בעיה בהתחברות לשרת. ודא שהתאריך/שעה במכשיר שברשותך נכונים. אם הבעיה נמשכת, נסה לצאת מהמערכת ולהיכנס מחדש.</string>
   <string name="csw_offline_message">נראה שחיבור האינטרנט שלך אינו פועל. בדוק ונסה שוב</string>
   <string name="csw_offline_title">אתה במצב לא מקוון</string>
@@ -31,7 +30,7 @@
   <string name="mya_Email_Validation_message">כתובת הדוא\"ל לא אושרה</string>
   <string name="mya_Email_address">כתובת דוא\"ל</string>
   <string name="mya_Gender">מין</string>
-  <string name="mya_Info">האם ברצונך לשנות את מזהה הכניסה או את הסיסמה שלך? בקר באתר האינטרנט שלנו.</string>
+  <string name="mya_Info">[he]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">אירעה בעיה בהתחברות לשרת. ודא שהתאריך/שעה במכשיר שברשותך נכונים. אם הבעיה נמשכת, נסה לצאת מהמערכת ולהיכנס מחדש.</string>
   <string name="mya_Login_details">פרטי כניסה</string>
   <string name="mya_Logout">התנתק</string>
@@ -63,7 +62,7 @@
   <string name="mya_csw_justintime_accept">[he]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[he]Maybe later</string>
   <string name="mya_csw_justintime_title">[he]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,he]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,he]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,he]What do we have to offer?</string>
   <string name="mya_logout_message">כעת תנותק מהאפליקציה. לאחר היציאה, תמיד תוכל להיכנס מחדש.</string>
   <string name="mya_logout_title">אתה בטוח שברצונך לצאת מהמערכת?</string>

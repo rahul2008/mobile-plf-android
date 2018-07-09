@@ -11,7 +11,7 @@ import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 import android.support.annotation.NonNull;
 
-import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
+import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
 public class LeScanCallbackProxy extends ScanCallback {
 
     @NonNull
-    private final BleUtilities bleUtilities;
+    private final BTAdapter btAdapter;
 
     public interface LeScanCallback {
         void onScanResult(BluetoothDevice device, int rssi, ScanRecord scanRecord);
@@ -33,18 +33,18 @@ public class LeScanCallbackProxy extends ScanCallback {
 
     private LeScanCallback leScanCallback;
 
-    public LeScanCallbackProxy(final @NonNull BleUtilities bleUtilities) {
-        this.bleUtilities = bleUtilities;
+    public LeScanCallbackProxy(final @NonNull BTAdapter btAdapter) {
+        this.btAdapter = btAdapter;
     }
 
     public synchronized void startLeScan(@NonNull LeScanCallback leScanCallback) {
         this.leScanCallback = leScanCallback;
-        bleUtilities.startLeScan(this);
+        btAdapter.startLeScan(this);
     }
 
     public synchronized void stopLeScan(@NonNull LeScanCallback leScanCallback) {
         if (leScanCallback == this.leScanCallback) {
-            bleUtilities.stopLeScan(this);
+            btAdapter.stopLeScan(this);
             this.leScanCallback = null;
         }
     }

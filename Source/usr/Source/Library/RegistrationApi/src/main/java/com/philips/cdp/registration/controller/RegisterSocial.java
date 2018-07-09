@@ -147,7 +147,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
         if (mSocialProviderLoginHandler != null) {
             RLog.d(TAG, "onFlowDownloadFailure : mSocialProviderLoginHandler is not null");
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(RegConstants.JANRAIN_FLOW_DOWNLOAD_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->

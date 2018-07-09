@@ -135,7 +135,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtPassword.requestFocus();
         mEtPassword.setValidator(password -> password.length() > 0);
-        mEtPassword.setErrorMessage(getString(R.string.reg_EmptyField_ErrorMsg));
+        mEtPassword.setErrorMessage(getString(R.string.USR_EmptyField_ErrorMsg));
 
 
         trackActionStatus(AppTagingConstants.SEND_DATA,
@@ -210,7 +210,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_SigIn_TitleTxt;
+        return R.string.USR_SigIn_TitleTxt;
     }
 
     @Override
@@ -248,7 +248,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     @Override
     public void mergePasswordFailure() {
         hideMergeSpinner();
-        mEtPassword.setErrorMessage(getString(R.string.reg_Merge_validate_password_mismatch_errortxt));
+        mEtPassword.setErrorMessage(getString(R.string.USR_Janrain_Invalid_Credentials));
         mEtPassword.showError();
     }
 

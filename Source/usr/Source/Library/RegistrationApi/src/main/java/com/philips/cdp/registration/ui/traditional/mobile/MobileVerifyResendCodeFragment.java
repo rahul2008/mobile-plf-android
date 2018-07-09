@@ -158,9 +158,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!user.getMobile().equals(s.toString())) {
                     resendSMSButton.setText(getActivity().getResources().getString(
-                            R.string.reg_Update_MobileNumber_Button_Text));
+                            R.string.USR_Update_MobileNumber_Button_Text));
                     resendSMSButton.setProgressText(getActivity().getResources().getString(
-                            R.string.reg_Update_MobileNumber_Button_Text));
+                            R.string.USR_Update_MobileNumber_Button_Text));
                     if (FieldsValidator.isValidMobileNumber(s.toString())) {
                         enableUpdateButton();
                         usrMobileverificationResendInputValidation.hideError();
@@ -170,9 +170,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
                     }
                 } else {
                     resendSMSButton.setText(getActivity().getResources().getString(
-                            R.string.reg_Resend_SMS_title));
+                            R.string.USR_Resend_SMS_title));
                     resendSMSButton.setProgressText(getActivity().getResources().getString(
-                            R.string.reg_Resend_SMS_title));
+                            R.string.USR_Resend_SMS_title));
                     usrMobileverificationResendInputValidation.hideError();
                     enableResendButton();
                 }
@@ -213,7 +213,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_Resend_SMS_title;
+        return R.string.USR_Resend_SMS_title;
     }
 
     private void updateUiStatus() {
@@ -281,7 +281,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
                         FieldsValidator.getMobileNumber(phoneNumberEditText.getText().toString()));
             } else {
                 errorMessage.setError(getActivity().getResources().getString(
-                        R.string.reg_InvalidPhoneNumber_ErrorMsg));
+                        R.string.USR_InvalidPhoneNumber_ErrorMsg));
             }
         }
     }
@@ -303,9 +303,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void enableResendButton() {
         resendSMSButton.setText(getActivity().getResources().getString(
-                R.string.reg_Resend_SMS_title));
+                R.string.USR_Resend_SMS_title));
         resendSMSButton.setProgressText(getActivity().getResources().getString(
-                R.string.reg_Resend_SMS_title));
+                R.string.USR_Resend_SMS_title));
         if (networkUtility.isNetworkAvailable())
             resendSMSButton.setEnabled(true);
     }
@@ -313,9 +313,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void enableUpdateButton() {
         resendSMSButton.setText(getActivity().getResources().getString(
-                R.string.reg_Update_MobileNumber_Button_Text));
+                R.string.USR_Update_MobileNumber_Button_Text));
         resendSMSButton.setProgressText(getActivity().getResources().getString(
-                R.string.reg_Update_MobileNumber_Button_Text));
+                R.string.USR_Update_MobileNumber_Button_Text));
         resendSMSButton.setEnabled(true);
 
     }
@@ -326,7 +326,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             usrMobileverificationResendsmstimerProgress.setSecondaryProgress(
                     ((60 - timeRemaining) * 100) / 60);
             usrMobileverificationResendsmstimerProgress.setText(
-                    String.format(getString(R.string.reg_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
+                    String.format(getString(R.string.USR_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
             disableResendButton();
         }
     }
@@ -430,7 +430,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         int progress = 100;
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             usrMobileverificationResendsmstimerProgress.setSecondaryProgress(progress);
-            usrMobileverificationResendsmstimerProgress.setText(getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Title_Text));
+            usrMobileverificationResendsmstimerProgress.setText(getResources().getString(R.string.USR_DLS_ResendSMS_Progress_View_Title_Text));
             enableResendButton();
         } else {
             updateResendTime(timeLeft);
@@ -440,7 +440,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     public void viewOrHideNotificationBar() {
         if (popupWindow == null) {
             View view = getRegistrationFragment().getNotificationContentView(
-                    context.getResources().getString(R.string.reg_Resend_SMS_Success_Content),
+                    context.getResources().getString(R.string.USR_DLS_ResendSMS_NotificationBar_Title),
                     user.getMobile());
             RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess mobile" + user.getMobile());
             popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,

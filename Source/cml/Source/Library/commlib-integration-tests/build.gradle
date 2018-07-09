@@ -114,6 +114,7 @@ dependencies {
     testImplementation project(':commlib-testutils')
     testImplementation project(':bluelib')
 
+    androidTestImplementation deps.assertj
     androidTestImplementation deps.junit
     androidTestImplementation(deps.android_testrunner) {
         exclude module: 'support-annotations'

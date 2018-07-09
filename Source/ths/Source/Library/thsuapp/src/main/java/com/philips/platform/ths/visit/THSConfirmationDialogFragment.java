@@ -63,9 +63,9 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
         mSecondaryButtonButton = (Button) view.findViewById(R.id.ths_confirmation_dialog_secondary_button);
         mSecondaryButtonButton.setOnClickListener(this);
         if(null!=getDialogFragmentType()&&getDialogFragmentType().equals(APPOINTMENT_DIALOG_TYPE)){
-            mTitleLabel.setText(getString(R.string.ths_appointment_confirm_cancel_visit));
-            mPrimaryButton.setText(getString(R.string.ths_appointment_yes_cancel_appointment));
-            mSecondaryButtonButton.setText(getString(R.string.ths_appointment_no_cancel_appointment));
+            mTitleLabel.setText(getString(R.string.ths_appointment_cancelTitle));
+            mPrimaryButton.setText(getString(R.string.ths_appointment_cancelYes));
+            mSecondaryButtonButton.setText(getString(R.string.ths_appointment_cancelNo));
             Appointment appointment = ( (THSScheduledVisitsPresenter)mPresenter).getAppointment();
             final Long scheduledStartTime = appointment.getSchedule().getScheduledStartTime();
             final Date dateScheduled = new Date(scheduledStartTime);

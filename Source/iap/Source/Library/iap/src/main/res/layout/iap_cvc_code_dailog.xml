@@ -60,7 +60,7 @@
                 android:freezesText="true"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:hint="@string/iap_cvv_code_hint"
+                android:hint="0"
                 android:inputType="numberPassword"
                 android:maxLength="4"
                 android:maxLines="1" />

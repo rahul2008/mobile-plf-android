@@ -119,12 +119,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public int getActionbarTitleResId() {
-        return R.string.PPR_NavBar_Title;
+        return R.string.PRG_NavBar_Title;
     }
 
     @Override
     public String getActionbarTitle() {
-        return getString(R.string.PPR_NavBar_Title);
+        return getString(R.string.PRG_NavBar_Title);
     }
 
     @Override
@@ -292,10 +292,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         hideProgressDialog();
         if (field_serial.length()==0 ) {
             serial_input_field.showError();
-            serial_input_field.setErrorMessage(getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
+            serial_input_field.setErrorMessage(getString(R.string.PRG_Please_Enter_SerialNum_Txtfldtxt));
         } else if (field_serial.length() != 0) {
             serial_input_field.showError();
-            serial_input_field.setErrorMessage(getString(R.string.PPR_Invalid_SerialNum_ErrMsg));
+            serial_input_field.setErrorMessage(getString(R.string.PRG_Invalid_SerialNum_ErrMsg));
         } else {
             serial_input_field.hideError();
         }
@@ -624,7 +624,7 @@ String imageURL;
 
     @Override
     public void showLoadingDialog() {
-        showProdRegLoadingDialog(getString(R.string.PPR_Looking_For_Products_Lbltxt),"prg_dialog");
+        showProdRegLoadingDialog(getString(R.string.PRG_Looking_For_Products_Lbltxt),"prg_dialog");
     }
 
     @Override
@@ -659,7 +659,7 @@ String imageURL;
     private void hideProgressDialog() {
         buttonClickable(true);
         if (isVisible())
-            registerButton.setText(getResources().getString(R.string.PPR_Register_Btntxt));
+            registerButton.setText(getResources().getString(R.string.PRG_Register_Btntxt));
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }

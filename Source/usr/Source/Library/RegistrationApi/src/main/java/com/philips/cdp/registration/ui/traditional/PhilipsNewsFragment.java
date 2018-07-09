@@ -49,7 +49,7 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment {
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_Philips_News_Title;
+        return R.string.USR_DLS_PhilipsNews_NavigationBar_Title;
     }
 
     @Override

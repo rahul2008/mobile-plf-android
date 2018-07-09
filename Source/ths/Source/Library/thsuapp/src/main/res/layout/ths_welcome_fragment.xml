@@ -72,7 +72,7 @@
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
                 android:layout_marginTop="@dimen/ths_image_size"
-                android:text="@string/ths_see_doctor"
+                android:text="@string/ths_welcome_provider"
                 app:uidComponentType="Secondary" />
 
             <ImageView
@@ -94,7 +94,7 @@
                 android:background="@android:color/transparent"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
-                android:text="@string/ths_this_services_is_provided_by"
+                android:text="@string/ths_confirm_branding"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -108,7 +108,7 @@
                 android:maxLines="2"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
-                android:text="@string/ths_quick_visit"
+                android:text="@string/ths_welcome_description"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor" />
 
             <com.philips.platform.uid.view.widget.Label

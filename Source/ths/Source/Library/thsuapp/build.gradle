@@ -65,7 +65,6 @@ allprojects {
     }
 }
 
-
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
@@ -131,6 +130,9 @@ android {
                 events "started", "passed", "skipped", "failed"
                 outputs.upToDateWhen { false }
             }
+            jacoco {
+                includeNoLocationClasses = true
+            }
         }
     }
 
@@ -165,10 +167,10 @@ dependencies {
         implementation project(':csw')
         implementation project(':catk')
     } else {
-        implementation (philipsdeps.AppInfra) {
+        implementation(philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.registrationApi) {
+        implementation(philipsdeps.registrationApi) {
             exclude group: 'com.android.support'
         }
 

@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.screens;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,7 +40,23 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
+        //setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
+        setActionbarTitle();
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.iap_my_orders;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return getString(R.string.iap_my_orders);
     }
 
     @Override

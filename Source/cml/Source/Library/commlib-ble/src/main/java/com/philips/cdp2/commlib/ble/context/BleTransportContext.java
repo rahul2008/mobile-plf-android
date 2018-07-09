@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.commlib.ble.context;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -22,6 +21,8 @@ import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
+import com.philips.pins.shinelib.tagging.AppInfraTagger;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.concurrent.Executors;
@@ -73,8 +74,12 @@ public class BleTransportContext implements TransportContext {
             SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
         }
 
+        if(runtimeConfiguration.isTaggingEnabled()) {
+            SHNTagger.registerTagger(new AppInfraTagger(runtimeConfiguration.getAppInfraInterface()));
+        }
+
         try {
-            this.shnCentral = createCentral(runtimeConfiguration.getContext(), showPopupIfBLEIsTurnedOff);
+            this.shnCentral = createCentral(runtimeConfiguration, showPopupIfBLEIsTurnedOff);
         } catch (SHNBluetoothHardwareUnavailableException e) {
             throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
         }
@@ -118,8 +123,8 @@ public class BleTransportContext implements TransportContext {
 
     @VisibleForTesting
     @NonNull
-    SHNCentral createCentral(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
-        SHNCentral.Builder builder = new SHNCentral.Builder(context);
+    SHNCentral createCentral(RuntimeConfiguration runtimeConfiguration, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+        SHNCentral.Builder builder = new SHNCentral.Builder(runtimeConfiguration.getContext());
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 
         return builder.create();

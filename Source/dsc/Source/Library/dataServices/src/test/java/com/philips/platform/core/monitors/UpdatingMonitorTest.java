@@ -2,7 +2,6 @@ package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -12,8 +11,6 @@ import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
-import com.philips.platform.core.events.ConsentBackendSaveResponse;
-import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.FetchInsightsResponse;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
@@ -70,13 +67,9 @@ public class UpdatingMonitorTest {
     @Mock
     private DBRequestListener<Insight> insightDBRequestListener;
     @Mock
-    private DBRequestListener<ConsentDetail> consentDetailDBRequestListener;
-    @Mock
     private DBRequestListener<Characteristics> characteristicsDBRequestListener;
     @Mock
     private Moment momentMock;
-    @Mock
-    private ConsentDetail consentDetailMock;
     @Mock
     private Settings settingsMock;
     @Mock
@@ -187,30 +180,6 @@ public class UpdatingMonitorTest {
         //noinspection unchecked
         verify(momentsSegregatorMock).processCreatedMoment(eq(Collections.singletonList(moment1)), (DBRequestListener<Moment>) isNotNull());
     }
-
-    @Test
-    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenConsentBackendSaveResponsePassed() throws Exception {
-        updatingMonitor.onEventBackGround(new ConsentBackendSaveResponse(null, 500, consentDetailDBRequestListener));
-        verify(dbFetchingInterface).isSynced(SyncType.CONSENT.getId());
-    }
-
-    @Test
-    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenConsentBackendSaveResponsePassedAndIsSyncTypeIsConsent() throws Exception {
-        when(dbFetchingInterface.isSynced(SyncType.CONSENT.getId())).thenReturn(true);
-        final ConsentBackendSaveResponse consentBackendSaveResponse = new ConsentBackendSaveResponse(null, 500, consentDetailDBRequestListener);
-        updatingMonitor.onEventBackGround(consentBackendSaveResponse);
-        verify(dbUpdatingInterface).updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
-    }
-
-    @Test
-    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenConsentBackendSaveResponseFailed() throws Exception {
-        when(dbFetchingInterface.isSynced(SyncType.CONSENT.getId())).thenReturn(true);
-        final ConsentBackendSaveResponse consentBackendSaveResponse = new ConsentBackendSaveResponse(null, 500, consentDetailDBRequestListener);
-        doThrow(SQLException.class).when(dbUpdatingInterface).updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
-        updatingMonitor.onEventBackGround(consentBackendSaveResponse);
-        verify(dbUpdatingInterface).updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
-    }
-
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassedWithNullMoments() {
         updatingMonitor.onEventBackGround(new MomentDataSenderCreatedRequest(new ArrayList<Moment>(), dbRequestListener));
@@ -241,26 +210,6 @@ public class UpdatingMonitorTest {
         doThrow(SQLException.class).when(dbUpdatingInterface).updateMoments(list, dbRequestListener);
         updatingMonitor.onEventBackGround(new MomentsUpdateRequest(list, dbRequestListener));
         verify(dbUpdatingInterface).updateMoments(list, dbRequestListener);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void test_DatabaseConsentUpdateRequest() throws Exception {
-        List list = new ArrayList();
-        list.add(consentDetailMock);
-        when(dbUpdatingInterface.updateConsent(list, null)).thenReturn(true);
-        updatingMonitor.onEventBackGround(new DatabaseConsentUpdateRequest(list, null));
-        verify(dbUpdatingInterface).updateConsent(list, null);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_updateConsent() throws Exception {
-        List list = new ArrayList();
-        list.add(momentMock);
-        doThrow(SQLException.class).when(dbUpdatingInterface).updateConsent(list, consentDetailDBRequestListener);
-        updatingMonitor.onEventBackGround(new DatabaseConsentUpdateRequest(list, consentDetailDBRequestListener));
-        verify(dbUpdatingInterface).updateConsent(list, consentDetailDBRequestListener);
     }
 
     @Test

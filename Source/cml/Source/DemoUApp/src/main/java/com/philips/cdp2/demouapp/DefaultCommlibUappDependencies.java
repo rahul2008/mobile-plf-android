@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -7,7 +7,6 @@ package com.philips.cdp2.demouapp;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
@@ -28,8 +27,9 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
         return commCentral;
     }
 
-    public DefaultCommlibUappDependencies(final @NonNull Context context, final @Nullable AppInfraInterface appInfraInterface) {
+    public DefaultCommlibUappDependencies(final @NonNull Context context, final @NonNull AppInfraInterface appInfraInterface) {
         final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(context, appInfraInterface);
+        runtimeConfiguration.setTaggingEnabled(true);
 
         final CloudController cloudController = setupCloudController(context);
 

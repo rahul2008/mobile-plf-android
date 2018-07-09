@@ -14,7 +14,6 @@ import com.americanwell.sdk.entity.insurance.HealthPlan;
 import com.americanwell.sdk.entity.insurance.Relationship;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -96,7 +95,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
                     subscription.setSubscriberSuffix(suffix);
                 }
                 if (null == relationship) {
-                    mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.ths_insurance_fill_insurance_detail));
+                    mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.ths_insurancedetail_header));
                 } else {
                     subscription.setRelationship(relationship);
                     if (!relationship.isPrimarySubscriber()) {

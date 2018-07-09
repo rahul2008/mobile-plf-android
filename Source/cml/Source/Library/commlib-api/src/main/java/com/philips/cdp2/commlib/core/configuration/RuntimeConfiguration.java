@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -40,6 +40,7 @@ public class RuntimeConfiguration {
 
     @NonNull
     private Context context;
+    private boolean taggingEnabled;
 
     /**
      * Instantiates a RuntimeConfiguration.
@@ -100,5 +101,13 @@ public class RuntimeConfiguration {
     @Nullable
     public AppInfraInterface getAppInfraInterface() {
         return appInfraInterface;
+    }
+
+    public boolean isTaggingEnabled() {
+        return appInfraInterface != null && taggingEnabled;
+    }
+
+    public void setTaggingEnabled(boolean taggingEnabled) {
+        this.taggingEnabled = taggingEnabled;
     }
 }

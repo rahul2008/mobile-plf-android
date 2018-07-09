@@ -10,7 +10,7 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 
-import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
+import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class LeScanCallbackProxyTest {
     private LeScanCallbackProxy.LeScanCallback mockedLeScanCallback;
 
     @Mock
-    private BleUtilities mockedBleUtilities;
+    private BTAdapter mockedBTAdapter;
 
     @Mock
     private ScanResult mockedScanResult;
@@ -50,7 +50,7 @@ public class LeScanCallbackProxyTest {
     public void setUp() {
         initMocks(this);
 
-        leScanCallbackProxy = new LeScanCallbackProxy(mockedBleUtilities);
+        leScanCallbackProxy = new LeScanCallbackProxy(mockedBTAdapter);
 
         doReturn(mockedBluetoothDevice).when(mockedScanResult).getDevice();
         doReturn(mockedScanRecord).when(mockedScanResult).getScanRecord();
@@ -60,20 +60,20 @@ public class LeScanCallbackProxyTest {
     @Test
     public void whenStartLeScanIsCalledThenTheScannerIsStarted() {
         leScanCallbackProxy.startLeScan(mockedLeScanCallback);
-        verify(mockedBleUtilities).startLeScan(any(ScanCallback.class));
+        verify(mockedBTAdapter).startLeScan(any(ScanCallback.class));
     }
 
     @Test
     public void whenStopLeScanIsCalledAndTheScannerIsScanningThenTheScannerIsStopped() {
         whenStartLeScanIsCalledThenTheScannerIsStarted();
         leScanCallbackProxy.stopLeScan(mockedLeScanCallback);
-        verify(mockedBleUtilities).stopLeScan(any(ScanCallback.class));
+        verify(mockedBTAdapter).stopLeScan(any(ScanCallback.class));
     }
 
     @Test
     public void whenStopLeScanIsCalledAndTheScannerIsNotScanningThenTheScannerIsNotStopped2() {
         leScanCallbackProxy.stopLeScan(mockedLeScanCallback);
-        verify(mockedBleUtilities, never()).stopLeScan(any(ScanCallback.class));
+        verify(mockedBTAdapter, never()).stopLeScan(any(ScanCallback.class));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class LeScanCallbackProxyTest {
         whenStartLeScanIsCalledThenTheScannerIsStarted();
         LeScanCallbackProxy.LeScanCallback otherLeScanCallback = mock(LeScanCallbackProxy.LeScanCallback.class);
         leScanCallbackProxy.stopLeScan(otherLeScanCallback);
-        verify(mockedBleUtilities, never()).stopLeScan(any(ScanCallback.class));
+        verify(mockedBTAdapter, never()).stopLeScan(any(ScanCallback.class));
     }
 
     @Test

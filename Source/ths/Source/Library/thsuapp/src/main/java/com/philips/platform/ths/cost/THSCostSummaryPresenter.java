@@ -143,7 +143,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
             mTHSCostSummaryFragment.hideCalculatingCostScreen();
             if (tHSSDKError != null && null != tHSSDKError.getSdkError()) {
-                if (null != tHSSDKError.getSdkError().getSDKErrorReason() && tHSSDKError.getSdkError().getSDKErrorReason() == SDKErrorReason.PROVIDER_OFFLINE) {
+                if (null != tHSSDKError.getSdkError().getSDKErrorReason() && tHSSDKError.getSdkError().getSDKErrorReason().equals(SDKErrorReason.PROVIDER_OFFLINE)) {
                     mTHSCostSummaryFragment.doTagging(ANALYTICS_ESTIMATED_VISIT_COST, mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_provider_offline), false);
                     showCreateVisitError(true, true, mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_provider_offline));
                 } else {
@@ -170,9 +170,9 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     private void updateCost(THSVisit thsVisit) {
         if (thsVisit.getVisit().getVisitCost().isFree()) {
             mTHSCostSummaryFragment.mActualCostHeader.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_free_visit_header));
-            mTHSCostSummaryFragment.costBigLabel.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_free_visit_text));
+            mTHSCostSummaryFragment.costBigLabel.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_free));
             mTHSCostSummaryFragment.costSmallLabel.setText(null);
-            String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Full_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
+            String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_initial_Full_cover_cost_android), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
             mTHSCostSummaryFragment.mInitialVisitCostLabel.setVisibility(View.VISIBLE);
             mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
             //if (null == mTHSCostSummaryFragment.mTHSPaymentMethod || null == mTHSCostSummaryFragment.mTHSPaymentMethod.getPaymentMethod()) {
@@ -192,7 +192,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             Consumer consumer = THSManager.getInstance().getPTHConsumer(mTHSCostSummaryFragment.getContext()).getConsumer();
             if ((consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) || (null != couponCode && !couponCode.isEmpty())) {
                 mTHSCostSummaryFragment.mInitialVisitCostLabel.setVisibility(View.VISIBLE);
-                String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Partial_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
+                String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cover_cost_Partial_android), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
                 mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
             } else {
                 // if No insurance and No Coupon
@@ -282,7 +282,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
                     if (paymentMethod.isExpired()) {
                         mTHSCostSummaryFragment.mCardExpirationDate.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_not_valid_credit_card));
                     } else {
-                        mTHSCostSummaryFragment.mCardExpirationDate.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_valid_credit_card));
+                        mTHSCostSummaryFragment.mCardExpirationDate.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_credit_card_valid));
                     }
                 } else {
                     // show no payment detail
@@ -334,7 +334,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
         };
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCostSummaryFragment.getFragmentActivity())
                 .setMessage(showLargeContent ? message : message).
-                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button), alertDialogFragmentCouponListener);
+                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_Ok_title), alertDialogFragmentCouponListener);
 
         if (isWithTitle) {
             builder.setTitle(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_error));
@@ -360,7 +360,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
         };
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCostSummaryFragment.getFragmentActivity())
                 .setMessage(showLargeContent ? message : message).
-                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button), alertDialogFragmentCreateVisitListener);
+                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_Ok_title), alertDialogFragmentCreateVisitListener);
 
         if (isWithTitle) {
             builder.setTitle(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_error));

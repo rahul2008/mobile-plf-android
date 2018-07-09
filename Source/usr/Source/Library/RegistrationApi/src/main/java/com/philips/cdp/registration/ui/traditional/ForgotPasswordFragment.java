@@ -33,11 +33,13 @@ import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.LoginIdValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -45,6 +47,9 @@ import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.ValidationEditText;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -89,8 +94,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
-    private final int BAD_RESPONSE_CODE = 7004;
-
     private Context context;
 
     @Inject
@@ -122,9 +125,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         @Override
         public int isEmpty(boolean emptyField) {
             if (emptyField) {
-                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
+                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.USR_EmptyField_ErrorMsg);
             } else {
-                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
+                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.USR_InvalidEmailAdddress_ErrorMsg);
             }
             disableSendButton();
             return 0;
@@ -173,8 +176,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     private void initUI() {
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            usr_forgotpassword_email_label.setText(R.string.reg_CreateAccount_Email_PhoneNumber);
-            usr_forgotpassword_input_label.setText(R.string.reg_DLS_Forgot_Password_Body_With_Phone_No);
+            usr_forgotpassword_email_label.setText(R.string.USR_DLS_Email_Phone_Label_Text);
+            usr_forgotpassword_input_label.setText(R.string.USR_DLS_Forgot_Password_Body_With_Phone_No);
         }
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         userIdEditText.requestFocus();
@@ -312,7 +315,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                 final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                         .setDialogType(DialogConstants.TYPE_DIALOG)
                         .setDialogLayout(R.layout.reg_forgot_password_alert)
-                        .setPositiveButton(getString(R.string.reg_DLS_Forgot_Password_Alert_Button_Title), v -> {
+                        .setPositiveButton(getString(R.string.USR_DLS_Forgot_Password_Alert_Button_Title), v -> {
                             trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
                             alertDialogFragment.dismiss();
                             alertDialogFragment = null;
@@ -320,7 +323,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                         })
                         .setDimLayer(DialogConstants.DIM_STRONG)
                         .setCancelable(false);
-                builder.setTitle(getString(R.string.reg_ForgotPwdEmailResendMsg_Title));
+                builder.setTitle(getString(R.string.USR_DLS_Forgot_Password_Alert_Title));
                 alertDialogFragment = builder.create();
                 alertDialogFragment.show(getFragmentManager(), null);
             }
@@ -343,12 +346,20 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 //            return;
 //        }
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
-            forgotPasswordErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
+            //forgotPasswordErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
+            if (RegistrationHelper.getInstance().isMobileFlow())
+                forgotPasswordErrorMessage(getString(R.string.USR_DLS_Forgot_Password_Body_With_Phone_No));
+            else
+                forgotPasswordErrorMessage(getString(R.string.USR_DLS_Forgot_Password_Body_Without_Phone_No));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR);
             RLog.e(TAG, "equal to SOCIAL_SIGIN_IN_ONLY_CODE Error code = " + userRegistrationFailureInfo.getErrorCode());
             sendEmailOrSMSButton.setEnabled(false);
         } else {
             RLog.e(TAG, " not equal to Social sigin Response Error code = " + userRegistrationFailureInfo.getErrorCode());
+            RLog.e(TAG, " not equal to Social sigin Response Error code = " + userRegistrationFailureInfo.getError());
+            RLog.e(TAG, " not equal to Social sigin Response Error code = " + userRegistrationFailureInfo.getErrorDescription());
+
+
             if (userRegistrationFailureInfo.getErrorCode() == -1) return;
             forgotPasswordErrorMessage(userRegistrationFailureInfo.getErrorDescription());
             sendEmailOrSMSButton.setEnabled(false);
@@ -370,7 +381,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_DLS_SigIn_TitleTxt;
+        return R.string.USR_DLS_SigIn_TitleTxt;
     }
 
     @Override
@@ -392,7 +403,30 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public void onErrorResponse(VolleyError error) {
         hideForgotPasswordSpinner();
-        forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.NETWOK, error.networkResponse.statusCode));
+
+//        System.out.println("errornull "+ error);
+//        System.out.println("errornull"+ error.networkResponse);
+//        forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.NETWOK, error.networkResponse.statusCode));
+        final String message = error.getMessage();
+        if (message == null) {
+            usr_forgotpassword_inputId_inputValidation.setErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, RegConstants.UNKNOWN_ERROR_ID));
+            usr_forgotpassword_inputId_inputValidation.showError();
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(message);
+            final String errorCode = jsonObject.getString("errorCode");
+            hideForgotPasswordSpinner();
+            RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
+            final Integer code = Integer.parseInt(errorCode);
+            if (URNotification.INLINE_ERROR_CODE.contains(code)) {
+                forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, code));
+            } else {
+                forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, code));
+            }
+        } catch (JSONException e) {
+            RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred");
+        }
     }
 
     @Override

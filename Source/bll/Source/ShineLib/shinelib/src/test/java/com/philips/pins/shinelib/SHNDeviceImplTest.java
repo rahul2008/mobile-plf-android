@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -19,6 +19,7 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.wrappers.SHNCapabilityNotificationsWrapper;
 
 import org.junit.Before;
@@ -58,10 +59,11 @@ import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.verifyZeroInteractions;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@SuppressWarnings({"FieldCanBeLocal", "ResultOfMethodCallIgnored"})
 public class SHNDeviceImplTest {
-    public static final String TEST_DEVICE_TYPE = "TEST_DEVICE_TYPE";
-    public static final byte[] MOCK_BYTES = new byte[]{0x42};
-    public static final UUID MOCK_UUID = UUID.randomUUID();
+    private static final String TEST_DEVICE_TYPE = "TEST_DEVICE_TYPE";
+    private static final byte[] MOCK_BYTES = new byte[]{0x42};
+    private static final UUID MOCK_UUID = UUID.randomUUID();
     private SHNDeviceImpl shnDevice;
 
     @Mock
@@ -100,6 +102,9 @@ public class SHNDeviceImplTest {
     @Mock
     private BluetoothDevice mockedBluetoothDevice;
 
+    @Mock
+    private SHNTagger mockedTagger;
+
     private MockedHandler mockedInternalHandler;
     private MockedHandler mockedUserHandler;
     private BTGatt.BTGattCallback btGattCallback;
@@ -108,8 +113,9 @@ public class SHNDeviceImplTest {
     private List<BluetoothGattService> discoveredServices;
     private List<BluetoothGattCharacteristic> discoveredCharacteristics;
     private SHNService.State mockedServiceState;
-    public static final String ADDRESS_STRING = "DE:AD:CO:DE:12:34";
-    public static final String NAME_STRING = "TestDevice";
+
+    private static final String ADDRESS_STRING = "DE:AD:CO:DE:12:34";
+    private static final String NAME_STRING = "TestDevice";
 
     @Before
     public void setUp() {
@@ -443,8 +449,7 @@ public class SHNDeviceImplTest {
         StateRecorder recorder = new StateRecorder();
         doAnswer(recorder).when(mockedSHNDeviceListener).onStateUpdated(isA(SHNDevice.class));
 
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
-                BluetoothGatt.STATE_DISCONNECTED);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
 
         verify(mockedBTGatt, never()).disconnect();
         verify(mockedBTGatt).close();
@@ -539,8 +544,7 @@ public class SHNDeviceImplTest {
         StateRecorder recorder = new StateRecorder();
         doAnswer(recorder).when(mockedSHNDeviceListener).onStateUpdated(isA(SHNDevice.class));
 
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
-                BluetoothGatt.STATE_DISCONNECTED);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
 
         verify(mockedBTGatt, never()).disconnect();
         verify(mockedBTGatt).close();
@@ -624,8 +628,7 @@ public class SHNDeviceImplTest {
         StateRecorder recorder = new StateRecorder();
         doAnswer(recorder).when(mockedSHNDeviceListener).onStateUpdated(isA(SHNDevice.class));
 
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
-                BluetoothGatt.STATE_DISCONNECTED);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
 
         verify(mockedBTGatt, never()).disconnect();
         verify(mockedBTGatt).close();
@@ -653,8 +656,7 @@ public class SHNDeviceImplTest {
         getDeviceInConnectedState();
         shnDevice.disconnect();
 
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
-                BluetoothGatt.STATE_DISCONNECTED);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
 
         assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
         verify(mockedSHNService).disconnectFromBLELayer();
@@ -883,8 +885,7 @@ public class SHNDeviceImplTest {
         StateRecorder recorder = new StateRecorder();
         doAnswer(recorder).when(mockedSHNDeviceListener).onStateUpdated(isA(SHNDevice.class));
 
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
-                BluetoothGatt.STATE_DISCONNECTED);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
 
         verify(mockedBTGatt, never()).disconnect();
         verify(mockedBTGatt).close();
@@ -902,8 +903,7 @@ public class SHNDeviceImplTest {
         bondStatusListener.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDING, BluetoothDevice.BOND_NONE);
         bondStatusListener.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_NONE, BluetoothDevice.BOND_BONDING);
 
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
-                BluetoothGatt.STATE_DISCONNECTED);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
 
         verify(mockedBTGatt).disconnect();
         assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
@@ -941,40 +941,32 @@ public class SHNDeviceImplTest {
     public void whenInStateConnectedOnCharacteristicReadWithDataThenTheServiceIsCalled() {
         getDeviceInConnectedState();
 
-        btGattCallback.onCharacteristicReadWithData(mockedBTGatt, mockedBluetoothGattCharacteristic,
-                BluetoothGatt.GATT_SUCCESS, new byte[]{'d', 'a', 't', 'a'});
-        verify(mockedSHNService).onCharacteristicReadWithData(isA(BTGatt.class), isA(BluetoothGattCharacteristic.class),
-                anyInt(), isA(byte[].class));
+        btGattCallback.onCharacteristicReadWithData(mockedBTGatt, mockedBluetoothGattCharacteristic, BluetoothGatt.GATT_SUCCESS, new byte[]{'d', 'a', 't', 'a'});
+        verify(mockedSHNService).onCharacteristicReadWithData(isA(BTGatt.class), isA(BluetoothGattCharacteristic.class), anyInt(), isA(byte[].class));
     }
 
     @Test
     public void whenInStateConnectedOnCharacteristicWriteThenTheServiceIsCalled() {
         getDeviceInConnectedState();
 
-        btGattCallback.onCharacteristicWrite(mockedBTGatt, mockedBluetoothGattCharacteristic,
-                BluetoothGatt.GATT_SUCCESS);
-        verify(mockedSHNService).onCharacteristicWrite(isA(BTGatt.class), isA(BluetoothGattCharacteristic.class),
-                anyInt());
+        btGattCallback.onCharacteristicWrite(mockedBTGatt, mockedBluetoothGattCharacteristic, BluetoothGatt.GATT_SUCCESS);
+        verify(mockedSHNService).onCharacteristicWrite(isA(BTGatt.class), isA(BluetoothGattCharacteristic.class), anyInt());
     }
 
     @Test
     public void whenInStateConnectedOnCharacteristicChangedWithDataThenTheServiceIsCalled() {
         getDeviceInConnectedState();
 
-        btGattCallback.onCharacteristicChangedWithData(mockedBTGatt, mockedBluetoothGattCharacteristic,
-                new byte[]{'d', 'a', 't', 'a'});
-        verify(mockedSHNService).onCharacteristicChangedWithData(isA(BTGatt.class),
-                isA(BluetoothGattCharacteristic.class), isA(byte[].class));
+        btGattCallback.onCharacteristicChangedWithData(mockedBTGatt, mockedBluetoothGattCharacteristic, new byte[]{'d', 'a', 't', 'a'});
+        verify(mockedSHNService).onCharacteristicChangedWithData(isA(BTGatt.class), isA(BluetoothGattCharacteristic.class), isA(byte[].class));
     }
 
     @Test
     public void whenInStateConnectedOnDescriptorReadWithDataThenTheServiceIsCalled() {
         getDeviceInConnectedState();
 
-        btGattCallback.onDescriptorReadWithData(mockedBTGatt, mockedBluetoothGattDescriptor, BluetoothGatt.GATT_SUCCESS,
-                new byte[]{'d', 'a', 't', 'a'});
-        verify(mockedSHNService).onDescriptorReadWithData(isA(BTGatt.class), isA(BluetoothGattDescriptor.class),
-                anyInt(), isA(byte[].class));
+        btGattCallback.onDescriptorReadWithData(mockedBTGatt, mockedBluetoothGattDescriptor, BluetoothGatt.GATT_SUCCESS, new byte[]{'d', 'a', 't', 'a'});
+        verify(mockedSHNService).onDescriptorReadWithData(isA(BTGatt.class), isA(BluetoothGattDescriptor.class), anyInt(), isA(byte[].class));
     }
 
     @Test
@@ -1003,44 +995,37 @@ public class SHNDeviceImplTest {
 
     @Test
     public void whenRegisteringACapabilityThenGetSupportedCapabilityTypesReturnsThatTypeAndTheDeprecatedType() {
-        SHNCapabilityNotifications mockedSHNCapabilityNotifications =
-                Utility.makeThrowingMock(SHNCapabilityNotifications.class);
+        SHNCapabilityNotifications mockedSHNCapabilityNotifications = Utility.makeThrowingMock(SHNCapabilityNotifications.class);
         shnDevice.registerCapability(mockedSHNCapabilityNotifications, SHNCapabilityType.NOTIFICATIONS);
         assertEquals(2, shnDevice.getSupportedCapabilityTypes().size());
 
         assertTrue(shnDevice.getSupportedCapabilityTypes().contains(SHNCapabilityType.NOTIFICATIONS));
         assertNotNull(shnDevice.getCapabilityForType(SHNCapabilityType.NOTIFICATIONS));
-        assertTrue(shnDevice.getCapabilityForType(
-                SHNCapabilityType.NOTIFICATIONS) instanceof SHNCapabilityNotificationsWrapper);
+        assertTrue(shnDevice.getCapabilityForType(SHNCapabilityType.NOTIFICATIONS) instanceof SHNCapabilityNotificationsWrapper);
 
         assertTrue(shnDevice.getSupportedCapabilityTypes().contains(SHNCapabilityType.Notifications));
         assertNotNull(shnDevice.getCapabilityForType(SHNCapabilityType.Notifications));
-        assertTrue(shnDevice.getCapabilityForType(
-                SHNCapabilityType.Notifications) instanceof SHNCapabilityNotificationsWrapper);
+        assertTrue(shnDevice.getCapabilityForType(SHNCapabilityType.Notifications) instanceof SHNCapabilityNotificationsWrapper);
     }
 
     @Test
     public void whenRegisteringADeprecatedCapabilityThenGetSupportedCapabilityTypesReturnsThatTypeAndTheDeprecatedType() {
-        SHNCapabilityNotifications mockedSHNCapabilityNotifications =
-                Utility.makeThrowingMock(SHNCapabilityNotifications.class);
+        SHNCapabilityNotifications mockedSHNCapabilityNotifications = Utility.makeThrowingMock(SHNCapabilityNotifications.class);
         shnDevice.registerCapability(mockedSHNCapabilityNotifications, SHNCapabilityType.Notifications);
         assertEquals(2, shnDevice.getSupportedCapabilityTypes().size());
 
         assertTrue(shnDevice.getSupportedCapabilityTypes().contains(SHNCapabilityType.NOTIFICATIONS));
         assertNotNull(shnDevice.getCapabilityForType(SHNCapabilityType.NOTIFICATIONS));
-        assertTrue(shnDevice.getCapabilityForType(
-                SHNCapabilityType.NOTIFICATIONS) instanceof SHNCapabilityNotificationsWrapper);
+        assertTrue(shnDevice.getCapabilityForType(SHNCapabilityType.NOTIFICATIONS) instanceof SHNCapabilityNotificationsWrapper);
 
         assertTrue(shnDevice.getSupportedCapabilityTypes().contains(SHNCapabilityType.Notifications));
         assertNotNull(shnDevice.getCapabilityForType(SHNCapabilityType.Notifications));
-        assertTrue(shnDevice.getCapabilityForType(
-                SHNCapabilityType.Notifications) instanceof SHNCapabilityNotificationsWrapper);
+        assertTrue(shnDevice.getCapabilityForType(SHNCapabilityType.Notifications) instanceof SHNCapabilityNotificationsWrapper);
     }
 
     @Test
     public void whenRegisteringACapabilityMoreThanOnceThenAnExceptionIsThrown() {
-        SHNCapabilityNotifications mockedSHNCapabilityNotifications =
-                Utility.makeThrowingMock(SHNCapabilityNotifications.class);
+        SHNCapabilityNotifications mockedSHNCapabilityNotifications = Utility.makeThrowingMock(SHNCapabilityNotifications.class);
         shnDevice.registerCapability(mockedSHNCapabilityNotifications, SHNCapabilityType.NOTIFICATIONS);
         boolean exceptionCaught = false;
         try {
@@ -1071,8 +1056,7 @@ public class SHNDeviceImplTest {
         getDeviceInConnectedState();
         assertEquals(SHNDevice.State.Connected, shnDevice.getState());
 
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS,
-                BluetoothGatt.STATE_DISCONNECTED);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
 
         verify(mockedBTGatt).close();
     }
@@ -1212,8 +1196,7 @@ public class SHNDeviceImplTest {
     @Test
     public void whenDeviceHasDiscoveryListenerItCalls_onServiceDiscovered() throws Exception {
         connectTillGATTServicesDiscovered();
-        verify(mockedDiscoveryListener, times(discoveredServices.size())).onServiceDiscovered(
-                mockedBluetoothGattService.getUuid(), mockedSHNService);
+        verify(mockedDiscoveryListener, times(discoveredServices.size())).onServiceDiscovered(mockedBluetoothGattService.getUuid(), mockedSHNService);
     }
 
     @Test
@@ -1282,7 +1265,8 @@ public class SHNDeviceImplTest {
         @Override
         public Void answer(final InvocationOnMock invocation) throws Throwable {
             Integer oldCount = statesReported.get(shnDevice.getState());
-            if (oldCount == null) oldCount = 0;
+            if (oldCount == null)
+                oldCount = 0;
             statesReported.put(shnDevice.getState(), oldCount + 1);
             return null;
         }

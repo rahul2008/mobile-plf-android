@@ -89,6 +89,12 @@ android {
     testOptions {
         unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
+        unitTests.all {
+            jvmArgs '-noverify'
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
     }
 
     /** Proguard on library reference: https://developer.android.com/studio/projects/android-library.html#Considerations

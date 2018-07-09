@@ -31,6 +31,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
@@ -133,7 +134,8 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
         mConflictProvider = bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
         mEmail = bundle.getString(RegConstants.SOCIAL_MERGE_EMAIL);
-        String conflictingProvider = "reg_" + mConflictProvider;
+        RLog.e("TAG", "Social Provider : "+mConflictProvider);
+        String conflictingProvider = "USR_" + mConflictProvider;
         int conflictSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(conflictingProvider, "string",
                 getRegistrationFragment().getParentActivity().getPackageName());
         String conflictSocialProvider = mContext.getResources().getString(conflictSocialProviderId);
@@ -151,14 +153,14 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogLayout(R.layout.social_merge_dialog)
-                .setNegativeButton(mContext.getString(R.string.reg_Social_Merge_Cancel_btntxt), v -> alertDialogFragment.dismiss())
-                .setPositiveButton(mContext.getString(R.string.reg_DLS_Merge_Accounts_Logout_Dialog__Button_Title), v -> {
+                .setNegativeButton(mContext.getString(R.string.USR_Social_Merge_Cancel_btntxt), v -> alertDialogFragment.dismiss())
+                .setPositiveButton(mContext.getString(R.string.USR_DLS_Merge_Accounts_Logout_Dialog__Button_Title), v -> {
                     alertDialogFragment.dismiss();
                     performAction();
                 })
                 .setDimLayer(DialogConstants.DIM_STRONG)
                 .setCancelable(false);
-        builder.setTitle(mContext.getString(R.string.reg_DLS_Merge_Accounts_Logout_Dialog_Title));
+        builder.setTitle(mContext.getString(R.string.USR_DLS_Merge_Accounts_Logout_Dialog_Title));
         alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), null);
 
@@ -235,7 +237,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_SigIn_TitleTxt;
+        return R.string.USR_SigIn_TitleTxt;
     }
 
     private void completeRegistration() {

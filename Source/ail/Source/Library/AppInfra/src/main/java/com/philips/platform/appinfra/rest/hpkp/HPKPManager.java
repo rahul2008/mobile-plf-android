@@ -4,7 +4,7 @@ package com.philips.platform.appinfra.rest.hpkp;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfra;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.philips.platform.appinfra.rest.hpkp.HPKPExpirationHelper.EXPIRY_DATE_REGEX;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_NETWORK;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_STORAGE;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_CERTIFICATE_EXPIRED;
@@ -30,9 +29,9 @@ public class HPKPManager implements HPKPInterface {
     private HPKPLoggingHelper hpkpLoggingHelper;
     private HPKPStorageHelper hpkpStorageHelper;
 
-    public HPKPManager(AppInfraInterface appInfraInterface) {
-        this.hpkpStorageHelper = new HPKPStorageHelper(appInfraInterface.getSecureStorage());
-        this.hpkpLoggingHelper = new HPKPLoggingHelper(appInfraInterface.getLogging());
+    public HPKPManager(AppInfra appInfra) {
+        this.hpkpStorageHelper = new HPKPStorageHelper(appInfra.getSecureStorage());
+        this.hpkpLoggingHelper = new HPKPLoggingHelper(appInfra.getAppInfraLogInstance());
     }
 
     @Override

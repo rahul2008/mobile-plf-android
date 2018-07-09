@@ -1,7 +1,6 @@
 package com.philips.platform.verticals;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -24,12 +23,6 @@ public class VerticalDBSavingInterface implements DBSavingInterface {
     public boolean saveMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         return false;
     }
-
-    @Override
-    public boolean saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException {
-        return false;
-    }
-
 
     @Override
     public void postError(Exception e, DBRequestListener dbRequestListener) {
