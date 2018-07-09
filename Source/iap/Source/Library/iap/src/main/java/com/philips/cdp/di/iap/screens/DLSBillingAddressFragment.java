@@ -204,20 +204,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         });
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_checkout;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_checkout);
-    }
 
     @Override
     public void onAttach(Context context) {

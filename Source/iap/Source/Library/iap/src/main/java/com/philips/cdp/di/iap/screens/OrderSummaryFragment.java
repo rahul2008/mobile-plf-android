@@ -82,20 +82,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
         return fragment;
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_order_details;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_order_details);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -162,8 +148,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
-        //setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
-        setActionbarTitle();
+        setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
         if (isNetworkConnected()) {
             updateCartOnResume();
         }

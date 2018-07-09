@@ -142,20 +142,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         return fragment;
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_product_detail_title;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_product_detail_title);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -336,8 +322,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
         }
         makeAssetRequest();
-       // setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
-        setActionbarTitle();
+       setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
     }
 
     private Drawable countArrow;

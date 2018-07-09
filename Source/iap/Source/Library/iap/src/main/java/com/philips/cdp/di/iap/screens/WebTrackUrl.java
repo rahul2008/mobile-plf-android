@@ -29,18 +29,4 @@ public class WebTrackUrl extends WebFragment {
         return fragment;
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return false;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return 0;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return null;
-    }
 }
