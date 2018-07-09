@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_NETWORK;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_STORAGE;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_CERTIFICATE_EXPIRED;
-import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_HEADER_EXPIRED;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_CERTIFICATE_EXPIRED;
 import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_HEADER;
@@ -84,20 +83,14 @@ public class HPKPManager implements HPKPInterface {
         List<String> publicKeys = getPinnedPublicKeysList(networkPublicKeyDetails);
         for (String publicKey : publicKeys) {
             if (storedPublicKeyDetails.contains(publicKey)) {
-                updateExpiryOfMatchingKey(hostName, networkPublicKeyDetails, hpkpExpirationHelper);
+                if (hpkpExpirationHelper.shouldExpiryBeUpdated()) {
+                    updateStoredPublicKeyDetails(hostName, networkPublicKeyDetails);
+                }
                 return;
             }
         }
         updateStoredPublicKeyDetails(hostName, networkPublicKeyDetails);
         hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_MISMATCH_HEADER);
-    }
-
-    private void updateExpiryOfMatchingKey(String hostName, String publicKeyDetails, HPKPExpirationHelper hpkpExpirationHelper) {
-        if (hpkpExpirationHelper.isPinnedPublicKeyExpired()) {
-            hpkpLoggingHelper.logError(hostName, LOG_MESSAGE_PUBLIC_KEY_PIN_HEADER_EXPIRED);
-        } else if (hpkpExpirationHelper.shouldExpiryBeUpdated()) {
-            updateStoredPublicKeyDetails(hostName, publicKeyDetails);
-        }
     }
 
     private void logError(String hostName, boolean isCertificatePinsMisMatch, boolean isPinnedPublicKeyExpired) {
