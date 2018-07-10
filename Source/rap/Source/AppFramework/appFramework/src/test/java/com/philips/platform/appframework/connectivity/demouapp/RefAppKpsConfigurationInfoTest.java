@@ -78,6 +78,6 @@ public class RefAppKpsConfigurationInfoTest {
 
     @Test
     public void getDevicePortUrl() {
-        assertEquals("https://www.uat.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx", refAppKpsConfigurationInfo.getDevicePortUrl());
+        assertEquals("https://tst.dp.dc1.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx", refAppKpsConfigurationInfo.getDevicePortUrl());
     }
 }

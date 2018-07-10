@@ -20,7 +20,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
-            android:text="@string/iap_option" />
+            android:text="@string/iap_options" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -156,6 +156,7 @@
                 style="@style/iap_right_arrow_product_catalog"
                 android:layout_width="15dip"
                 android:layout_height="15dip"
+                android:visibility="gone"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:gravity="center_vertical"/>

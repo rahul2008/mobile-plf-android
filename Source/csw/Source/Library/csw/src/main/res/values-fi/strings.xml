@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">Tuntematon virhe. Yritä uudelleen.</string>
   <string name="MYA_Visit_Website">[fi]Visit our website</string>
   <string name="csw_consent_help_label">Mitä tämä tarkoittaa?</string>
-  <string name="csw_generic_network_error">Yhteyttä palvelimeen ei voi muodostaa.
-Tarkista verkkoyhteys ja yritä uudelleen. </string>
+  <string name="csw_generic_network_error">Yhteyttä palvelimeen ei voi muodostaa.\nTarkista verkkoyhteys ja yritä uudelleen. </string>
   <string name="csw_invalid_access_token_error_message">Virhe yhdistettäessä palvelimeen. Tarkista laitteen päivämäärä ja kellonaika. Jos ongelma toistuu, kirjaudu uudelleen.</string>
   <string name="csw_offline_message">Tarkista verkkoyhteys ja yritä uudelleen.</string>
   <string name="csw_offline_title">Olet offline-tilassa</string>
@@ -31,7 +30,7 @@ Tarkista verkkoyhteys ja yritä uudelleen. </string>
   <string name="mya_Email_Validation_message">Sähköpostiosoitetta ei vahvistettu</string>
   <string name="mya_Email_address">Sähköpostiosoite</string>
   <string name="mya_Gender">Sukupuoli</string>
-  <string name="mya_Info">Haluatko vaihtaa kirjautumistunnuksen tai salasanan? Siirry sivustoomme.</string>
+  <string name="mya_Info">[fi]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Virhe yhdistettäessä palvelimeen. Tarkista laitteen päivämäärä ja kellonaika. Jos ongelma toistuu, kirjaudu uudelleen.</string>
   <string name="mya_Login_details">Kirjautumistiedot</string>
   <string name="mya_Logout">Kirjaudu ulos</string>
@@ -63,7 +62,7 @@ Tarkista verkkoyhteys ja yritä uudelleen. </string>
   <string name="mya_csw_justintime_accept">[fi]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[fi]Maybe later</string>
   <string name="mya_csw_justintime_title">[fi]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,fi]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,fi]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,fi]What do we have to offer?</string>
   <string name="mya_logout_message">Sinut kirjataan ulos sovelluksesta. Voit kirjautua sisään uudelleen.</string>
   <string name="mya_logout_title">Haluatko varmasti kirjautua ulos?</string>

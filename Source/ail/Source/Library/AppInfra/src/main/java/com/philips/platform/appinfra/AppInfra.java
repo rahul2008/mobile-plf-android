@@ -63,6 +63,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private ABTestClientInterface mAbtesting;
     private AppUpdateInterface mAppupdateInterface;
     private ConsentManagerInterface consentManager;
+    private RxBus rxBus = null;
 
 
     /**
@@ -534,5 +535,11 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                 AppInfraLogEventID.AI_APPINFRA, "AppInfra initialized " + appInfraLogStatement.toString());
     }
 
+    public RxBus getRxBus() {
+        if (rxBus == null) {
+            rxBus = new RxBus();
+        }
 
+        return rxBus;
+    }
 }

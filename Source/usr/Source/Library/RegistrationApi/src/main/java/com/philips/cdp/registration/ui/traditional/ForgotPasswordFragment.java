@@ -39,6 +39,7 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.LoginIdValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -403,13 +404,17 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     public void onErrorResponse(VolleyError error) {
         hideForgotPasswordSpinner();
 
-        System.out.println("errornull "+ error);
+//        System.out.println("errornull "+ error);
 //        System.out.println("errornull"+ error.networkResponse);
 //        forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.NETWOK, error.networkResponse.statusCode));
-
-        JSONObject jsonObject = null;
+        final String message = error.getMessage();
+        if (message == null) {
+            usr_forgotpassword_inputId_inputValidation.setErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, RegConstants.UNKNOWN_ERROR_ID));
+            usr_forgotpassword_inputId_inputValidation.showError();
+            return;
+        }
         try {
-            jsonObject = new JSONObject(error.getMessage());
+            JSONObject jsonObject = new JSONObject(message);
             final String errorCode = jsonObject.getString("errorCode");
             hideForgotPasswordSpinner();
             RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());

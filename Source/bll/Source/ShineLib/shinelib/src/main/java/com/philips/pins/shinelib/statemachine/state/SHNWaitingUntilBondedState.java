@@ -82,7 +82,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
                     }
                 }, BT_STACK_HOLD_OFF_TIME_AFTER_BONDED_IN_MS);
             } else if (bondState == BluetoothDevice.BOND_NONE) {
-                final String errorMsg = String.format(Locale.US, "Bond lost; bondState [%d], previousBondState [%d]", bondState, previousBondState);
+                final String errorMsg = String.format(Locale.US, "Bond lost; currentBondState [%d], previousBondState [%d]", bondState, previousBondState);
 
                 SHNLogger.w(TAG, errorMsg);
                 SHNTagger.sendTechnicalError(errorMsg);

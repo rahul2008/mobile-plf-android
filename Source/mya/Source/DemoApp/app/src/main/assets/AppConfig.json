@@ -143,6 +143,9 @@
     "propositionName": "OneBackendProp"
   },
   "dataservices": {
-    "appname": "OneBackend"
+    "appname": "OneBackend",
+    "supportedMomentTypes": [
+      "Temperature"
+    ]
   }
 }

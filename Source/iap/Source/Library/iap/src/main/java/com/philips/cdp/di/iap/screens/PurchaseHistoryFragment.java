@@ -63,7 +63,8 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_HISTORY_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
+       // setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
+        setActionbarTitle();
     }
 
     @Override
@@ -89,6 +90,21 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         }
 
         return rootView;
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return false;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.iap_my_orders;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return getString(R.string.iap_my_orders);
     }
 
     @Override

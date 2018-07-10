@@ -4,7 +4,8 @@
     android:layout_width="@dimen/iap_match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/iap_parcel_delivery_list"

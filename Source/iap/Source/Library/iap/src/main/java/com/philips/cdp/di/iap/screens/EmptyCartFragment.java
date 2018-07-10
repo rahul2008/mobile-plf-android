@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.screens;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -47,7 +48,8 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
+       // setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
+        setActionbarTitle();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
     }
 
@@ -69,6 +71,21 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
         }
     }
 
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.iap_shopping_cart;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return getString(R.string.iap_shopping_cart);
+    }
 
     @Override
     public boolean handleBackEvent() {
