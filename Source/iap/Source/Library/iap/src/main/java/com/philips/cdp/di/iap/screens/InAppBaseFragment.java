@@ -153,11 +153,12 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
                 Fragment currentFrag = getActivity().getSupportFragmentManager()
                         .findFragmentById(getId());
 
-                if (!(currentFrag instanceof InAppBaseFragment))
+               /* if (!(currentFrag instanceof InAppBaseFragment))
                     transaction.addToBackStack(newFragmentTag);
                 else
-                    transaction.addToBackStack(simpleName);
+                    transaction.addToBackStack(simpleName);*/
 
+                transaction.addToBackStack(newFragmentTag);
                 transaction.commitAllowingStateLoss();
 
                 IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
