@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.appconfiguration;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -18,6 +19,7 @@ import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryDownloadEvent;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONArray;
@@ -48,6 +50,7 @@ import java.util.Set;
 public class AppConfigurationManager implements AppConfigurationInterface {
 
     private static final long serialVersionUID = 7173449930783456564L;
+    public static final String APP_CONFIG_CHANGE_ACTION = "com.philips.platform.APP_CONFIG_CHANGE";
     private final AppInfra mAppInfra;
     private final Context mContext;
     private transient JSONObject dynamicConfigJsonCache;
@@ -70,6 +73,25 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         mAppInfra = appInfra;
         mContext = appInfra.getAppInfraContext();
         VolleyLog.DEBUG = false;
+        appInfra.getRxBus().toObservable()
+                .subscribe(object -> {
+                    if(object instanceof ServiceDiscoveryDownloadEvent){
+                        //Log.d("SyncTesting", "Received service discovery download event");
+                        refreshCloudConfig(new OnRefreshListener() {
+                            @Override
+                            public void onError(AppConfigurationError.AppConfigErrorEnum error, String message) {
+                                //Log.d("SyncTesting", "Inside on error of app config download. Error:"+message);
+                            }
+
+                            @Override
+                            public void onSuccess(REFRESH_RESULT result) {
+                                if (result == REFRESH_RESULT.REFRESHED_FROM_SERVER) {
+                                    //Log.d("SyncTesting", "Configurations updated from server");
+                                }
+                            }
+                        });
+                    }
+                });
     }
 
     protected JSONObject getMasterConfigFromApp() {
@@ -112,12 +134,12 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         mSecureStorageInterface = mAppInfra.getSecureStorage();
         final String jsonString = mSecureStorageInterface.fetchValueForKey(APPCONFIG_SECURE_STORAGE_KEY_NEW, secureStorageError);
         if (null != jsonString) {
-            logAppConfiguration(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG "+jsonString);
+            logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG " + jsonString);
             try {
                 mJsonObject = new JSONObject(jsonString);
                 mJsonObject = makeKeyUppercase(mJsonObject); // converting all Group and child key Uppercase
             } catch (Exception e) {
-                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,"AppConfiguration exception "+
+                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION, "AppConfiguration exception " +
                         e.getMessage());
             }
         }
@@ -140,7 +162,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 try {
                     cloudConfigJsonObj = new JSONObject(savedCloudConfigJson);
                 } catch (Exception e) {
-                    logAppConfiguration(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APP_CONFIGUARTION, "AppConfiguration exception "+
+                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION, "AppConfiguration exception " +
                             e.getMessage());
                 }
             }
@@ -159,7 +181,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         } else {
             try {
                 object = getKey(key, group, configError, getDynamicConfigJsonCache());  // Level 1 search in dynamic config
-                logAppConfiguration(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APP_CONFIGUARTION, "Search in Dynamic Config");
+                logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "Search in Dynamic Config");
                 if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey || // dynamic config does not exist
                         configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.GroupNotExists || // Group in dynamic config does not exist
                         configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.KeyNotExists) {   // key in dynamic config does not exist
@@ -171,7 +193,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         configError.setErrorCode(null);// reset error code to null
                         object = getKey(key, group, configError, getStaticConfigJsonCache()); // Level 3 search in static config
                         if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in cloud config
-                            logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION,"uAppConfig Group:" + group + "   Key:" + key + "  found in static config");
+                            logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAppConfig Group:" + group + "   Key:" + key + "  found in static config");
                         }
                     } else {
                         if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in cloud config
@@ -180,11 +202,11 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     }
                 } else {
                     if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in dynamic config
-                        logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION,"uAppConfig Group:" + group + "   Key:" + key + "  found in dynamic config");
+                        logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAppConfig Group:" + group + "   Key:" + key + "  found in dynamic config");
                     }
                 }
             } catch (Exception e) {
-                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception"+e.getMessage());
+                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception" + e.getMessage());
             }
         }
         return object;
@@ -202,7 +224,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             if (null == getDynamicConfigJsonCache()) {
                 dynamicConfigJsonCache = new JSONObject();
             }
-            logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION,"set Property For Key");
+            logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION, "set Property For Key");
             key = key.toUpperCase();
             group = group.toUpperCase();
             try {
@@ -210,14 +232,14 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 JSONObject cocoJSONobject;
                 if (!isCocoPresent) { // if request coco  does not exist
                     // configError.setErrorCode(ConfigError.ConfigErrorEnum.GroupNotExists);
-                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,"request coco  does not exist");
+                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION, "request coco  does not exist");
                     cocoJSONobject = new JSONObject();
                     dynamicConfigJsonCache.put(group, cocoJSONobject);
                 } else {
                     cocoJSONobject = dynamicConfigJsonCache.optJSONObject(group);
                 }
                 if (null == cocoJSONobject) { // invalid Coco JSON
-                    logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION,"invalid Coco JSON");
+                    logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION, "invalid Coco JSON");
                     configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.FatalError);
                 } else {
                     // boolean isKeyPresent = cocoJSONobject.has(key);
@@ -263,7 +285,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     }
                 }
             } catch (Exception e) {
-                logAppConfiguration(LoggingInterface.LogLevel.ERROR,  AppInfraLogEventID.AI_APP_CONFIGUARTION,"AppConfiguration exception"+
+                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION, "AppConfiguration exception" +
                         e.getMessage());
                 setOperation = false;
             }
@@ -283,9 +305,9 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         } else {
             try {
                 object = getKey(key, group, configError, getStaticConfigJsonCache());
-                logAppConfiguration(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_APP_CONFIGUARTION,"get Default Property For Key");
+                logAppConfiguration(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Default Property For Key");
             } catch (Exception e) {
-                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception "+e.getMessage());
+                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception " + e.getMessage());
             }
         }
         return object;
@@ -325,7 +347,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                                 try {
                                     object = jsonToMap(cocoJSONobject.opt(key));
                                 } catch (JSONException e) {
-                                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception "+e.getMessage());
+                                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception " + e.getMessage());
                                 }
                             }
                         }
@@ -384,28 +406,28 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     @Override
     public void refreshCloudConfig(final OnRefreshListener onRefreshListener) {
-	    downloadConfigFromCloud(onRefreshListener);
+        downloadConfigFromCloud(onRefreshListener);
     }
 
-	@Override
-	public void resetConfig() {
-		dynamicConfigJsonCache = null;
-		cloudConfigJsonCache = null;
+    @Override
+    public void resetConfig() {
+        dynamicConfigJsonCache = null;
+        cloudConfigJsonCache = null;
         mSecureStorageInterface = mAppInfra.getSecureStorage();
         mSecureStorageInterface.removeValueForKey(APPCONFIG_SECURE_STORAGE_KEY_NEW);
-		clearCloudConfigFile();
-	}
+        clearCloudConfigFile();
+    }
 
 
-	private void downloadConfigFromCloud(final OnRefreshListener onRefreshListener) {
+    private void downloadConfigFromCloud(final OnRefreshListener onRefreshListener) {
         final AppConfigurationError mAppConfigError = new AppConfigurationError();
         final String cloudServiceId = (String) getPropertyForKey("appconfig.cloudServiceId", "APPINFRA", mAppConfigError);
-        if(cloudServiceId != null) {
+        if (cloudServiceId != null) {
             final ServiceDiscoveryInterface serviceDiscoveryInterface = mAppInfra.getServiceDiscovery();
             serviceDiscoveryInterface.getServiceUrlWithCountryPreference(cloudServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                 @Override
                 public void onSuccess(URL url) {
-                    logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION,"Successfully refresh CloudConfig");
+                    logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION, "Successfully refresh CloudConfig");
                     mSharedPreferences = getCloudConfigSharedPreferences();
                     if (null != mSharedPreferences && mSharedPreferences.contains(CLOUD_APP_CONFIG_URL)) {
                         final String savedURL = mSharedPreferences.getString(CLOUD_APP_CONFIG_URL, null);
@@ -422,13 +444,13 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
                 @Override
                 public void onError(ERRORVALUES error, String message) {
-                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,"Error in refresh CloudConfig");
+                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION, "Error in refresh CloudConfig");
                     onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.ServerError, error.toString());
                 }
             });
         } else {
             logAppConfiguration(LoggingInterface.LogLevel.ERROR,
-                    AppInfraLogEventID.AI_APP_CONFIGUARTION,"appconfig.cloudServiceId is missing in appconfig");
+                    AppInfraLogEventID.AI_APP_CONFIGUARTION, "appconfig.cloudServiceId is missing in appconfig");
         }
 
     }
@@ -438,14 +460,14 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    logAppConfiguration(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APP_CONFIGUARTION, "fetchCloudConfig "+response.toString());
+                    logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "fetchCloudConfig " + response.toString());
                     saveCloudConfig(response, url);
                     onRefreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.REFRESHED_FROM_SERVER);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,"Error infetchCloudConfig"+error.toString());
+                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION, "Error infetchCloudConfig" + error.toString());
                     onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.ServerError, error.toString());
                 }
             }, null, null, null);
@@ -457,9 +479,9 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     private void saveCloudConfig(JSONObject cloudConfig, String url) {
-        logAppConfiguration(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APP_CONFIGUARTION, "save CloudConfig");
+        logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "save CloudConfig");
         cloudConfig = makeKeyUppercase(cloudConfig); // converting all Group and child key to Uppercase
-        logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION,"uAPP_CONFIG Cloud config " + cloudConfig);
+        logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG Cloud config " + cloudConfig);
         mSharedPreferences = getCloudConfigSharedPreferences();
         mPrefEditor = mSharedPreferences.edit();
         mPrefEditor.putString(CLOUD_APP_CONFIG_JSON, cloudConfig.toString());
@@ -468,7 +490,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     void clearCloudConfigFile() {
-        logAppConfiguration(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APP_CONFIGUARTION, "clear CloudConfig File");
+        logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION, "clear CloudConfig File");
         mSharedPreferences = getCloudConfigSharedPreferences();
         mPrefEditor = mSharedPreferences.edit();
         mPrefEditor.clear();
@@ -487,20 +509,20 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         mSecureStorageInterface = mAppInfra.getSecureStorage();
         final String jsonString = mSecureStorageInterface.fetchValueForKey(APPCONFIG_SECURE_STORAGE_KEY, mSecureStorageError);
         if (mSecureStorageError.getErrorCode() != SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey && null != jsonString || null != dynamicConfigJsonCache) {
-            logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION,"uAPP_CONFIG Migration starts for old dyanmic data > " + jsonString);
+            logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG Migration starts for old dyanmic data > " + jsonString);
             //dynamicConfigJsonCache =  null;// reset cache
             try {
                 if (null != jsonString) {
                     oldDynamicConfigJson = new JSONObject(jsonString);
-                    logAppConfiguration(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG Migration starts for old dyanmic data > " + jsonString);
+                    logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG Migration starts for old dyanmic data > " + jsonString);
                 } else if (null != dynamicConfigJsonCache) {
                     oldDynamicConfigJson = dynamicConfigJsonCache;
-                    logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION,"uAPP_CONFIG Migration starts for old dyanmic data > " + dynamicConfigJsonCache);
+                    logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG Migration starts for old dyanmic data > " + dynamicConfigJsonCache);
                 }
                 dynamicConfigJsonCache = null;
                 oldDynamicConfigJson = makeKeyUppercase(oldDynamicConfigJson); // converting all Group and child key Uppercase
             } catch (JSONException e) {
-                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,"Something went wrong "+e.getMessage());
+                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION, "Something went wrong " + e.getMessage());
             }
             if (oldDynamicConfigJson != null) {
                 final Iterator<String> iteratorGroup = oldDynamicConfigJson.keys();
@@ -523,16 +545,16 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
                     } catch (Exception e) {
                         // Something went wrong!
-                        logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,"Something went wrong in Migrate data"+e.getMessage());
+                        logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION, "Something went wrong in Migrate data" + e.getMessage());
                     }
                 }
             }
             mSecureStorageInterface.removeValueForKey(APPCONFIG_SECURE_STORAGE_KEY);
             final String migratedDynamicData = mSecureStorageInterface.fetchValueForKey(APPCONFIG_SECURE_STORAGE_KEY_NEW, mSecureStorageError);
-            logAppConfiguration(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APP_CONFIGUARTION ,"uAPP_CONFIG Dynamic data  > " + migratedDynamicData);
-            logAppConfiguration(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG Migration completes for  > " + jsonString);
+            logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG Dynamic data  > " + migratedDynamicData);
+            logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG Migration completes for  > " + jsonString);
         } else {
-            logAppConfiguration(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG Migration not required");
+            logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG Migration not required");
             //Log.v("uAPP_CONFIG","Migration not required" );
         }
 
