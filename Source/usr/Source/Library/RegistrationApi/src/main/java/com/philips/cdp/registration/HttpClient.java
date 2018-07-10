@@ -10,15 +10,26 @@
 package com.philips.cdp.registration;
 
 import android.support.v4.util.Pair;
-import android.util.Log;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.security.SecureRandom;
-import java.security.cert.*;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.List;
 
-import javax.net.ssl.*;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * @{code HttpClient} class wraps the GET and POST REST Calls to webservice by exposing simple APIs
@@ -60,12 +71,7 @@ public class HttpClient {
             connection.setRequestMethod(REQUEST_METHOD_POST);
             final javax.net.ssl.SSLSocketFactory sf = createSslSocketFactory();
             connection.setSSLSocketFactory(sf);
-            connection.setHostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
+
             outputStream = connection.getOutputStream();
             DataOutputStream wr = new DataOutputStream(outputStream);
             wr.writeBytes(getPostString(nameValuePairs));
@@ -151,13 +157,6 @@ public class HttpClient {
             connection.setRequestMethod(REQUEST_METHOD_GET);
             javax.net.ssl.SSLSocketFactory sf = createSslSocketFactory();
             connection.setSSLSocketFactory(sf);
-            connection.setHostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
-
 
             int responseCode = connection.getResponseCode();
             bufferedReader = getBufferedReader(inputResponse, responseCode,
