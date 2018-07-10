@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:paddingRight="@dimen/border16_margin_left_right"
     android:paddingLeft="@dimen/border16_margin_left_right"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_billing_address"

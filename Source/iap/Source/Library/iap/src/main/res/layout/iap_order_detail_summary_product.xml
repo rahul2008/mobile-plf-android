@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_product_quantity_name"

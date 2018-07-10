@@ -124,7 +124,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return mQuantityStatus;
     }
 
-    private void showProductDetails(final int selectedItem) {
+    private void showProductDetails(int selectedItem) {
         mSelectedItemPosition = selectedItem;
         setTheProductDataForDisplayingInProductDetailPage(selectedItem);
     }
@@ -135,7 +135,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private void setTheProductDataForDisplayingInProductDetailPage(int position) {
         shoppingCartDataForProductDetailPage = mData.get(position);
-        EventHelper.getInstance().notifyEventOccurred(IAPConstant.PRODUCT_DETAIL_FRAGMENT);
+        EventHelper.getInstance().notifyEventOccurred(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER);
     }
 
     @Override
