@@ -17,12 +17,10 @@ import com.philips.pins.shinelib.framework.LeScanCallbackProxy;
 import com.philips.pins.shinelib.framework.LeScanCallbackProxy.LeScanCallback;
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
-import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.BleScanRecord;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InOrder;
@@ -30,8 +28,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -59,11 +55,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-@PrepareForTest({SHNTagger.class})
-@RunWith(PowerMockRunner.class)
 public class SHNDeviceScannerInternalTest extends RobolectricTest {
 
     private static final long STOP_SCANNING_AFTER_10_SECONDS = 10_000L;
@@ -112,7 +104,6 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        mockStatic(SHNTagger.class);
 
         mockedHandler = new MockedHandler();
 
@@ -331,22 +322,6 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         leScanCallbackCaptor.getValue().onScanResult(mockedBluetoothDevice, 0, mockedScanRecord);
 
         verify(mockedSHNDeviceScannerListener, never()).deviceFound(any(SHNDeviceScanner.class), any(SHNDeviceFoundInfo.class));
-    }
-
-    @Test
-    public void whenScanningFailureOccurs_ThenTagIsSentWithProperData() {
-
-        resultForUseAdvertisedDataMatcher = false;
-        startScanning();
-        verify(leScanCallbackProxyMock).startLeScan(leScanCallbackCaptor.capture());
-        int randomFailureCode = -666;
-        leScanCallbackCaptor.getValue().onScanFailed(-666);
-
-        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        verifyStatic(SHNTagger.class, times(1));
-        SHNTagger.sendTechnicalError(captor.capture());
-        final String result = String.format("Error starting scanning, errorCode: %s", randomFailureCode);
-        assertEquals(result, captor.getValue());
     }
 
     @Test
