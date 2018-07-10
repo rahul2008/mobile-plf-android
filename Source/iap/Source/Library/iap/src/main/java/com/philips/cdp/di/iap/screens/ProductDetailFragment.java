@@ -175,7 +175,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mQuantityAndDelete = rootView.findViewById(R.id.iap_productDetailsScreen_quantity_delete_btn_ll);
         mProductDiscountedPrice = rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
         mProductStockInfo = rootView.findViewById(R.id.iap_productDetailsScreen_outOfStock_label);
-        mDeleteProduct = rootView.findViewById(delete_btn);
+        mDeleteProduct = rootView.findViewById(R.id.delete_btn);
         if(getContext()!=null) {
             mDeleteProduct.setTextColor(ContextCompat.getColor(getContext(), R.color.uid_signal_red_level_45));
         }
