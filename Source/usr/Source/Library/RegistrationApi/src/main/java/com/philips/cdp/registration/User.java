@@ -98,6 +98,7 @@ public class User {
     private String CONSUMER_PRIMARY_ADDRESS = "primaryAddress";
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
+    private String LAST_MODIFIED_DATE_TIME_OF_MARKETING_CONSENT = "timestamp";
 
     /**
      * Constructor
@@ -442,6 +443,7 @@ public class User {
             }
 
 
+            diUserProfile.setLastModifiedDateTimeOfMarketingConsent(captureRecord.getString(LAST_MODIFIED_DATE_TIME_OF_MARKETING_CONSENT));
             diUserProfile.setEmail(captureRecord.getString(USER_EMAIL));
             diUserProfile.setGivenName(captureRecord.getString(USER_GIVEN_NAME));
             diUserProfile.setFamilyName(captureRecord.getString(USER_FAMILY_NAME));
@@ -912,6 +914,15 @@ public class User {
         return diUserProfile.getReceiveMarketingEmail();
     }
 
+    public String getLastModifiedDateTimeOfMarketingEmailConsent(){
+
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        RLog.d(TAG, "getReceiveMarketingEmail diUserProfile : " + diUserProfile.getReceiveMarketingEmail());
+        return diUserProfile.getLastModifiedDateTimeOfMarketingConsent();
+    }
 
     /**
      * Get Date of birth

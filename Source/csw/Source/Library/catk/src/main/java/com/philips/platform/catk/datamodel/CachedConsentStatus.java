@@ -5,14 +5,17 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import org.joda.time.DateTime;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class CachedConsentStatus extends ConsentStatus {
     private DateTime expires;
+    private final Date lastModifiedTimeStamp;
 
-    public CachedConsentStatus(ConsentStates consentState, int version, DateTime expires) {
-        super(consentState, version);
+    public CachedConsentStatus(ConsentStates consentState, int version, DateTime expires, Date lastModifiedTimeStamp) {
+        super(consentState, version, lastModifiedTimeStamp);
         this.expires = expires;
+        this.lastModifiedTimeStamp = lastModifiedTimeStamp;
     }
 
 

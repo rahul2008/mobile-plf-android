@@ -64,7 +64,7 @@ public class ConditionShouldLaunchNeuraTest {
         when(contextMock.getApplicationContext()).thenReturn(appFrameworkApplication);
         assertTrue(conditionShouldLaunchNeura.isSatisfied(contextMock));
         verify(neuraConsentProvider).fetchConsentHandler(fetchConsentTypeStateCallback);
-        ConsentStatus consentStatus = new ConsentStatus(ConsentStates.active, BuildConfig.VERSION_CODE);
+        ConsentStatus consentStatus = new ConsentStatus(ConsentStates.active, BuildConfig.VERSION_CODE, lastModifiedTimeStamp);
         conditionShouldLaunchNeura.onGetConsentsSuccess(consentStatus);
         assertFalse(conditionShouldLaunchNeura.isShouldLaunchNeura());
         conditionShouldLaunchNeura.onGetConsentsFailed(null);

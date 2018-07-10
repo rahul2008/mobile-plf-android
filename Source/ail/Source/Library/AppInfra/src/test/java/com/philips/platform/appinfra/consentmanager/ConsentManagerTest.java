@@ -360,7 +360,7 @@ public class ConsentManagerTest {
     }
 
     private void givenHandlerReturns(ConsentHandlerInterfaceSpy handler, ConsentStates status, int version) {
-        handler.returns = new ConsentStatus(status, version);
+        handler.returns = new ConsentStatus(status, version, lastModifiedTimeStamp);
     }
 
     private void givenHandlerReturnsError(ConsentHandlerInterfaceSpy handler, ConsentError error) {

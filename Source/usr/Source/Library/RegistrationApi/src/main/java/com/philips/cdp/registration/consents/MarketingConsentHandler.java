@@ -9,12 +9,19 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
 
@@ -93,13 +100,16 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
     }
 
     void getMarketingConsentDefinition(String consentType, FetchConsentTypeStateCallback callback) {
+
         try {
-            final boolean receiveMarketingEmail = getUser().getReceiveMarketingEmail();
-            RLog.d(TAG, "getMarketingConsentDefinition : receiveMarketingEmail " + receiveMarketingEmail);
+            final boolean isReceiveMarketingEmail = getUser().getReceiveMarketingEmail();
+            String lastModifiedDateTimeOfMarketingEmailConsent = getUser().getLastModifiedDateTimeOfMarketingEmailConsent();
+
+            RLog.d(TAG, "getMarketingConsentDefinition : receiveMarketingEmail " + isReceiveMarketingEmail);
             if (consentType.equals(URConsentProvider.USR_MARKETING_CONSENT)) {
                 RLog.d(TAG, "getMarketingConsentDefinition : onGetConsentsSuccess");
-                //Keeping version 0 as Janrain is not providing but it should be janrain consent version
-                callback.onGetConsentsSuccess(new ConsentStatus(toStatus(receiveMarketingEmail), 0));
+                //Keeping version 0 as Janrain is not providing but it should be janrain consent
+                callback.onGetConsentsSuccess(new ConsentStatus(toStatus(isReceiveMarketingEmail), 0, getUTCTimestamp(lastModifiedDateTimeOfMarketingEmailConsent)));
                 return;
             }
             RLog.e(TAG, "getMarketingConsentDefinition : onGetConsentsFailed");
@@ -134,5 +144,18 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
             RLog.d("MarketingUpdateCallback", "onUpdateFailedWithError : Error updating Marketing Consent ");
             callback.onPostConsentFailed(new ConsentError("Error updating Marketing Consent", i));
         }
+    }
+
+
+    private Date getUTCTimestamp(String utcTimeStamp) {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
+        dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+        try {
+            return dateFormat.parse(utcTimeStamp);
+        } catch (ParseException e) {
+            RLog.d(TAG, e.getMessage());
+        }
+
+        return null;
     }
 }

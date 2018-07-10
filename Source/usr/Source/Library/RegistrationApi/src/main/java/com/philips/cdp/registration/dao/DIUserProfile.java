@@ -49,6 +49,8 @@ public class DIUserProfile implements Serializable {
     /* Is receive marketing email */
     private boolean isReceiveMarketingEmail;
 
+    private String lastModifiedDateTimeOfMarketingConsent;
+
     /* Hsdp UUID */
     private String hsdpUUID;
 
@@ -369,4 +371,11 @@ public class DIUserProfile implements Serializable {
     }
 
 
+    public String getLastModifiedDateTimeOfMarketingConsent() {
+        return lastModifiedDateTimeOfMarketingConsent;
+    }
+
+    public void setLastModifiedDateTimeOfMarketingConsent(String lastModifiedDateTimeOfMarketingConsent) {
+        this.lastModifiedDateTimeOfMarketingConsent = lastModifiedDateTimeOfMarketingConsent;
+    }
 }

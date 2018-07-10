@@ -23,6 +23,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,9 +59,9 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     }
 
     @Override
-    public void storeConsentState(String consentType, ConsentStates status, int version) {
+    public void storeConsentState(String consentType, ConsentStates status, int version, Date lastModifiedTimeStamp) {
         inMemoryCache = getMapFromSecureStorage();
-        inMemoryCache.get(getCurrentLoggedInUserId()).put(consentType, new CachedConsentStatus(status, version, (new DateTime(DateTimeZone.UTC)).plusMinutes(getConfiguredExpiryTime())));
+        inMemoryCache.get(getCurrentLoggedInUserId()).put(consentType, new CachedConsentStatus(status, version, (new DateTime(DateTimeZone.UTC)).plusMinutes(getConfiguredExpiryTime()), lastModifiedTimeStamp));
         writeMapToSecureStorage(inMemoryCache);
     }
 

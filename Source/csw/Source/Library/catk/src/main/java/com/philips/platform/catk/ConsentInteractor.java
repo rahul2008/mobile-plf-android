@@ -47,7 +47,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
         CachedConsentStatus consentStatus = consentCacheInteractor.fetchConsentTypeState(consentType);
         if(consentStatus != null && (consentStatus.getExpires().isAfterNow() || !isInternetAvailable())) {
-            callback.onGetConsentsSuccess(new ConsentStatus(consentStatus.getConsentState(), consentStatus.getVersion()));
+            callback.onGetConsentsSuccess(new ConsentStatus(consentStatus.getConsentState(), consentStatus.getVersion(), consentStatus.getLastModifiedTimeStamp()));
         }else {
             fetchConsentFromBackendAndUpdateCache(consentType, callback);
         }
@@ -92,8 +92,8 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         public void onResponseSuccessConsent(List<ConsentDTO> responseData) {
             if (responseData != null && !responseData.isEmpty()) {
                 ConsentDTO consentDTO = responseData.get(0);
-                consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion());
-                callback.onGetConsentsSuccess(new ConsentStatus(consentDTO.getStatus(), consentDTO.getVersion()));
+                consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion(),consentDTO.getTimestamp().toDate());
+                callback.onGetConsentsSuccess(new ConsentStatus(consentDTO.getStatus(), consentDTO.getVersion(), consentDTO.getTimestamp().toDate()));
             } else {
                 callback.onGetConsentsSuccess(null);
             }
@@ -121,7 +121,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         @Override
         public void onSuccess() {
             CatkLogger.d(" Create ConsentDTO: ", "Success");
-            consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion());
+            consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion(),consentDTO.getTimestamp().toDate() );
             callback.onPostConsentSuccess();
         }
 

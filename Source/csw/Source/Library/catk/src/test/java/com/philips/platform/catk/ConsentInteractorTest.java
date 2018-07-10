@@ -86,8 +86,8 @@ public class ConsentInteractorTest {
 
     private static final String MOMENT_CONSENT = "moment";
     private static final String TEST_CONSENT = "TEST";
-    private static final CachedConsentStatus VALID_CACHED_REJECTED_STATUS = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime().plusHours(1));
-    private static final CachedConsentStatus CACHED_REJECTED_STATUS_EXPIRED = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime());
+    private static final CachedConsentStatus VALID_CACHED_REJECTED_STATUS = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime().plusHours(1), lastModifiedTimeStamp);
+    private static final CachedConsentStatus CACHED_REJECTED_STATUS_EXPIRED = new CachedConsentStatus(ConsentStates.rejected, 1, new DateTime(), lastModifiedTimeStamp);
     private ConsentInteractor interactor;
     String versionMismatchErrorResponse = "{\"incidentID\":\"8bbaa45f-18db-4285-844f-68e72165eec6\",\"errorCode\":1252,\"description\":\"Cannot store lower version on top of higher version\"}";
     String someErrorResponse = "{\"incidentID\":\"8bbaa45f-18db-4285-844f-68e72165eec6\",\"errorCode\":100,\"description\":\"Cannot store lower version on top of higher version\"}";
@@ -290,7 +290,7 @@ public class ConsentInteractorTest {
     }
 
     private void thenConsentCacheStoreIsCalledFor(String expectedConsentType) {
-        verify(consentCacheInteractorMock).storeConsentState(expectedConsentType, ConsentStates.active, 1);
+        verify(consentCacheInteractorMock).storeConsentState(expectedConsentType, ConsentStates.active, 1, );
     }
 
     private void thenConsentCacheFetchIsCalledFor(String consentType) {
@@ -298,7 +298,7 @@ public class ConsentInteractorTest {
     }
 
     private void thenConsentCacheStoreIsNotCalled() {
-        verify(consentCacheInteractorMock, never()).storeConsentState(MOMENT_CONSENT, ConsentStates.active, 1);
+        verify(consentCacheInteractorMock, never()).storeConsentState(MOMENT_CONSENT, ConsentStates.active, 1, );
     }
 
     private void andCatkResponseFailsWithError(ConsentNetworkError error) {

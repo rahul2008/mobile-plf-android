@@ -1,14 +1,17 @@
 package com.philips.platform.pif.chi.datamodel;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class ConsentStatus {
     private ConsentStates consentState;
     private int version;
+    private final Date lastModifiedTimeStamp;
 
-    public ConsentStatus(ConsentStates consentState, int version) {
+    public ConsentStatus(ConsentStates consentState, int version, Date lastModifiedTimeStamp) {
         this.consentState = consentState;
         this.version = version;
+        this.lastModifiedTimeStamp = lastModifiedTimeStamp;
     }
 
     public ConsentStates getConsentState() {
@@ -39,4 +42,7 @@ public class ConsentStatus {
 
     }
 
+    public Date getLastModifiedTimeStamp() {
+        return lastModifiedTimeStamp;
+    }
 }

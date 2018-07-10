@@ -50,7 +50,7 @@ public class ConsentCacheInteractorTest {
 
     private String CONSENT_TYPE_1 = "consentType1";
     private String CONSENT_TYPE_3 = "consentType3";
-    private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, NOW.plusMinutes(10));
+    private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, NOW.plusMinutes(10), lastModifiedTimeStamp);
     private String consentStatusJsonForTwoTypes = "{\"userId\":{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1}}}";
     private ConsentCacheInteractor consentCacheInteractor;
     private CachedConsentStatus returnedCachedConsent;
@@ -167,7 +167,7 @@ public class ConsentCacheInteractorTest {
     }
 
     private void whenStoreConsentStateIsCalled(String consentType, ConsentStates active, int version) {
-        consentCacheInteractor.storeConsentState(consentType, active, version);
+        consentCacheInteractor.storeConsentState(consentType, active, version, );
     }
     private void whenFetchConsentStateIsCalled(String consentType) {
         returnedCachedConsent = consentCacheInteractor.fetchConsentTypeState(consentType);
