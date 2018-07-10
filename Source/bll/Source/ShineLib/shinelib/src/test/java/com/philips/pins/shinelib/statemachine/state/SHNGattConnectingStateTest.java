@@ -13,6 +13,7 @@ import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.statemachine.SHNDeviceResources;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +30,7 @@ import java.security.InvalidParameterException;
 import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
 import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -41,9 +43,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SHNGattConnectingState.class, Timer.class})
+@PrepareForTest({SHNGattConnectingState.class, Timer.class, SHNTagger.class})
 public class SHNGattConnectingStateTest {
 
     private SHNGattConnectingState gattConnectingState;
@@ -91,6 +95,7 @@ public class SHNGattConnectingStateTest {
         initMocks(this);
 
         PowerMockito.mockStatic(Timer.class);
+        mockStatic(SHNTagger.class);
         PowerMockito.when(Timer.createTimer(timerRunnableCaptor.capture(), timeoutTimeCaptor.capture())).thenReturn(timerMock);
 
         doReturn(mockedContext).when(mockedSHNCentral).getApplicationContext();
@@ -149,6 +154,18 @@ public class SHNGattConnectingStateTest {
     }
 
     @Test
+    public void givenBluetoothIsTurnedOff_whenOnEnterIsCalled_thenTagIsSentWithProperData() {
+        when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
+
+        gattConnectingState.onEnter();
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("Not ready for connection to the peripheral, Bluetooth is not on.", captor.getValue());
+    }
+
+    @Test
     public void givenTheDeviceHasJustBeenDisconnected_whenOnEnterIsCalled_thenItWillPostponeTheConnectCall() {
         long justNow = System.currentTimeMillis();
         doReturn(justNow).when(sharedResources).getLastDisconnectedTimeMillis();
@@ -192,6 +209,18 @@ public class SHNGattConnectingStateTest {
     }
 
     @Test
+    public void whenGattConnectSucceedsWithAStatusThatIsNotSuccess_thenATagIsSentWithProperData() {
+
+        gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_READ_NOT_PERMITTED, BluetoothProfile.STATE_CONNECTED);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        String result = String.format("Bluetooth GATT connect failure, status [%s]", BluetoothGatt.GATT_READ_NOT_PERMITTED);
+        assertEquals(result, captor.getValue());
+    }
+
+    @Test
     public void givenABondInitiatorHasBeenSet_whenGattConnectSucceeds_thenItWillSwitchToTheWaitingUntilBondedState() {
         doReturn(SHNDeviceImpl.SHNBondInitiator.APP).when(sharedResources).getShnBondInitiator();
 
@@ -206,6 +235,17 @@ public class SHNGattConnectingStateTest {
 
         verify(stateMachine).setState(any(SHNDisconnectingState.class));
         verify(sharedResources).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+    }
+
+    @Test
+    public void whenGattConnectFails_thenATagIsSentWithProperData() {
+
+        gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_FAILURE, BluetoothProfile.STATE_DISCONNECTED);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("Bluetooth GATT disconnected, not retrying to connect.", captor.getValue());
     }
 
     @Test

@@ -24,10 +24,14 @@ import com.philips.pins.shinelib.wrappers.SHNCapabilityNotificationsWrapper;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -56,10 +60,14 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyZeroInteractions;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @SuppressWarnings({"FieldCanBeLocal", "ResultOfMethodCallIgnored"})
+@PrepareForTest({SHNTagger.class})
+@RunWith(PowerMockRunner.class)
 public class SHNDeviceImplTest {
     private static final String TEST_DEVICE_TYPE = "TEST_DEVICE_TYPE";
     private static final byte[] MOCK_BYTES = new byte[]{0x42};
@@ -120,6 +128,7 @@ public class SHNDeviceImplTest {
     @Before
     public void setUp() {
         initMocks(this);
+        mockStatic(SHNTagger.class);
 
         mockedInternalHandler = new MockedHandler();
         mockedUserHandler = new MockedHandler();
@@ -496,6 +505,21 @@ public class SHNDeviceImplTest {
     }
 
     @Test
+    public void whenServicesAreDiscoveredAndNoServiceAreFoundThenTagIsSentWithProperData() {
+
+        connectTillGATTConnected();
+        reset(mockedBTDevice);
+        List emptyServices = new ArrayList<>();
+        doReturn(emptyServices).when(mockedBTGatt).getServices();
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("No services found.", captor.getValue());
+    }
+
+    @Test
     public void whenServicesAreDiscoveredAndDirectlyBecomeReadyThenTheDeviceBecomesConnected() {
         connectTillGATTConnected();
         reset(mockedSHNDeviceListener);
@@ -535,6 +559,22 @@ public class SHNDeviceImplTest {
         verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
         verify(mockedSHNDeviceListener, never()).onFailedToConnect(any(SHNDevice.class), any(SHNResult.class));
         verify(mockedBTGatt).disconnect();
+    }
+
+    @Test
+    public void whenServicesAreDiscoveredAndGotoErrorStateThenTagIsSentWithProperData() {
+
+        connectTillGATTConnected();
+        reset(mockedSHNDeviceListener);
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+        mockedServiceState = SHNService.State.Error;
+        shnDevice.onServiceStateChanged(mockedSHNService, mockedServiceState);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        String result = String.format("Service [%s] state changed to error, state [%s]",null, SHNService.State.Error);
+        assertEquals(result, captor.getValue());
     }
 
     @Test
@@ -593,6 +633,22 @@ public class SHNDeviceImplTest {
         verify(mockedBTGatt).disconnect();
         verify(mockedBTGatt, never()).close();
         verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
+    }
+
+    @Test
+    public void whenInStateInitializingServicesATimeoutOccursThenTagIsSentWithProperData() {
+
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+        reset(mockedSHNDeviceListener);
+        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
+        mockedInternalHandler.executeFirstScheduledExecution();
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("connect timeout in SHNConnectingState", captor.getValue());
     }
 
     // State Ready
@@ -824,6 +880,22 @@ public class SHNDeviceImplTest {
     }
 
     @Test
+    public void whenBondingAppSHNDeviceInStateConnectingCreateBondReturnsTrueGATTCallbackIndicatedConnectedThenTagIsSentWithProperData() {
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.APP);
+        shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
+        when(mockedBTDevice.createBond()).thenReturn(false);
+
+        shnDevice.connect();
+        reset(mockedSHNDeviceListener);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("Already bonded, bonding or bond creation failed.", captor.getValue());
+    }
+
+    @Test
     public void whenBondingSHNDeviceInStateConnectingAndStateIsBondingThenWaitingUntilBondingStartedTimerIsStopped() {
         whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
         reset(mockedSHNDeviceListener);
@@ -866,6 +938,20 @@ public class SHNDeviceImplTest {
     }
 
     @Test
+    public void whenBondingSHNDeviceInStateConnectingAndBondIsNotCreatedThenTagIsSentWithProperData() {
+        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
+        reset(mockedSHNDeviceListener);
+
+        bondStatusListener.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_NONE, BluetoothDevice.BOND_BONDING);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        final String result = String.format("Bond lost; currentBondState [%s], previousBondState [%s]", BluetoothDevice.BOND_NONE, BluetoothDevice.BOND_BONDING);
+        assertEquals(result, captor.getValue());
+    }
+
+    @Test
     public void whenBondingSHNDeviceInStateConnectingAndBondTimerExpiresThenServicesAreDiscovered() {
         whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
         reset(mockedSHNDeviceListener);
@@ -876,6 +962,19 @@ public class SHNDeviceImplTest {
         assertEquals(SHNDeviceImpl.State.Connecting, shnDevice.getState());
         verify(mockedSHNDeviceListener, never()).onStateUpdated(shnDevice);
         assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
+    }
+
+    @Test
+    public void whenBondingSHNDeviceInStateConnectingAndBondTimerExpiresThenTagIsSentWithProperData() {
+        whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
+        reset(mockedSHNDeviceListener);
+
+        mockedInternalHandler.executeFirstScheduledExecution();
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("Timed out waiting until bonded; trying service discovery", captor.getValue());
     }
 
     @Test
@@ -1043,6 +1142,19 @@ public class SHNDeviceImplTest {
         btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_FAILURE);
         verify(mockedBTGatt).disconnect();
         assertEquals(SHNDevice.State.Disconnecting, shnDevice.getState());
+    }
+
+    @Test
+    public void whenInStateConnectingTheGattCallbackIndicatesServicesDiscoveredErrorThenTagIsSentWithProperData() {
+
+        connectTillGATTConnected();
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_FAILURE);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        String result = String.format("onServicedDiscovered: error discovering services, status [%s]; disconnecting.", BluetoothGatt.GATT_FAILURE);
+        assertEquals(result, captor.getValue());
     }
 
     @Test
