@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">Vabandage, midagi läks valesti. Palun proovige uuesti.</string>
   <string name="MYA_Visit_Website">[et]Visit our website</string>
   <string name="csw_consent_help_label">Mida see tähendab?</string>
-  <string name="csw_generic_network_error">Serveriga ei saa ühendust luua.
-Kontrollige internetiühendust ja proovige uuesti.</string>
+  <string name="csw_generic_network_error">Serveriga ei saa ühendust luua.\nKontrollige internetiühendust ja proovige uuesti.</string>
   <string name="csw_invalid_access_token_error_message">Esines probleem serveriga ühenduse loomisel. Veenduge, et seadme kuupäev/kellaaeg oleks õigesti seadistatud. Probleemi püsimise korral logige välja ja seejärel uuesti sisse.</string>
   <string name="csw_offline_message">Tundub, et viga on teie internetiühenduses. Kontrollige ja proovige uuesti</string>
   <string name="csw_offline_title">Olete võrgust väljas</string>
@@ -31,7 +30,7 @@ Kontrollige internetiühendust ja proovige uuesti.</string>
   <string name="mya_Email_Validation_message">E-posti aadress kinnitamata</string>
   <string name="mya_Email_address">E-posti aadress</string>
   <string name="mya_Gender">Sugu</string>
-  <string name="mya_Info">Kas soovite oma kasutajanime või parooli muuta? Külastage meie veebisaiti.</string>
+  <string name="mya_Info">[et]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Esines probleem serveriga ühenduse loomisel. Veenduge, et seadme kuupäev/kellaaeg oleks õigesti seadistatud. Probleemi püsimise korral logige välja ja seejärel uuesti sisse.</string>
   <string name="mya_Login_details">Sisselogimise andmed</string>
   <string name="mya_Logout">Logi välja</string>
@@ -63,7 +62,7 @@ Kontrollige internetiühendust ja proovige uuesti.</string>
   <string name="mya_csw_justintime_accept">[et]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[et]Maybe later</string>
   <string name="mya_csw_justintime_title">[et]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,et]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,et]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,et]What do we have to offer?</string>
   <string name="mya_logout_message">Teid logitakse rakendusest välja. Pärast väljalogimist saate alati uuesti sisse logida.</string>
   <string name="mya_logout_title">Kas olete kindel, et soovite välja logida?</string>

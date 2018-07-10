@@ -53,7 +53,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
         tvCheckOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps),"2"));
 
         tvSelectHeader= view.findViewById(R.id.tv_select_header);
-        tvSelectHeader.setText(getContext().getString(R.string.iap_select_payment_method));
+        tvSelectHeader.setText(getContext().getString(R.string.iap_checkout_payment_method));
 
         mParentLayout = view.findViewById(R.id.payment_container);
         Bundle bundle = getArguments();
@@ -79,6 +79,21 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     }
 
     @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.iap_payment;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return getString(R.string.iap_payment);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
@@ -88,7 +103,8 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_payment, true);
+        //setTitleAndBackButtonVisibility(R.string.iap_payment, true);
+        setActionbarTitle();
     }
 
     @Override

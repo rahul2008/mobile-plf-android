@@ -143,6 +143,21 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.iap_product_detail_title;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return getString(R.string.iap_product_detail_title);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
@@ -321,7 +336,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
         }
         makeAssetRequest();
-        setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
+       // setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
+        setActionbarTitle();
     }
 
     private Drawable countArrow;

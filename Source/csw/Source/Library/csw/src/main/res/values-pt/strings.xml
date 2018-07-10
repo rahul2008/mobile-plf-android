@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">Lamentamos, mas ocorreu um erro. Tente novamente.</string>
   <string name="MYA_Visit_Website">[pt]Visit our website</string>
   <string name="csw_consent_help_label">O que significa isto?</string>
-  <string name="csw_generic_network_error">Não é possível ligar ao servidor.
-Verifique a sua ligação à Internet e tente novamente.</string>
+  <string name="csw_generic_network_error">Não é possível ligar ao servidor.\nVerifique a sua ligação à Internet e tente novamente.</string>
   <string name="csw_invalid_access_token_error_message">Ocorreu um problema ao ligar ao servidor. Certifique-se de que a data/hora no dispositivo está correta. Se o problema persistir, termine a sessão e inicie-a novamente.</string>
   <string name="csw_offline_message">A sua ligação à Internet parece não estar a funcionar. Verifique e tente novamente</string>
   <string name="csw_offline_title">Está offline</string>
@@ -31,7 +30,7 @@ Verifique a sua ligação à Internet e tente novamente.</string>
   <string name="mya_Email_Validation_message">Endereço de email não confirmado</string>
   <string name="mya_Email_address">Endereço de correio electrónico</string>
   <string name="mya_Gender">Género</string>
-  <string name="mya_Info">Pretende alterar o seu ID ou palavra-passe de início de sessão? Visite o nosso website.</string>
+  <string name="mya_Info">[pt]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">Ocorreu um problema ao ligar ao servidor. Certifique-se de que a data/hora no dispositivo está correta. Se o problema persistir, termine a sessão e inicie-a novamente.</string>
   <string name="mya_Login_details">Detalhes de início de sessão</string>
   <string name="mya_Logout">Terminar sessão</string>
@@ -63,7 +62,7 @@ Verifique a sua ligação à Internet e tente novamente.</string>
   <string name="mya_csw_justintime_accept">[pt]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[pt]Maybe later</string>
   <string name="mya_csw_justintime_title">[pt]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,pt]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,pt]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,pt]What do we have to offer?</string>
   <string name="mya_logout_message">Irá terminar a sessão na aplicação. Depois de terminar a sessão, pode sempre voltar a iniciar a sessão.</string>
   <string name="mya_logout_title">Tem a certeza que deseja terminar a sessão?</string>

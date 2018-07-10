@@ -3,6 +3,8 @@ package com.philips.platform.core.injection;
 import android.content.Context;
 import android.os.Handler;
 
+import com.philips.platform.appinfra.AppInfraInterface;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -19,29 +21,31 @@ public class ApplicationModuleTest {
     @Mock
     private Context mockContext;
 
+    @Mock
+    private AppInfraInterface appInfra;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        module = new ApplicationModule(mockContext);
+        module = new ApplicationModule(mockContext, appInfra);
     }
 
     @Test
-    public void ShouldReturnContextWhenAsked() throws Exception {
-        //module = new ApplicationModule(RuntimeEnvironment.application);
+    public void ShouldReturnContextWhenAsked() {
         assertThat(module.providesContext()).isNotNull();
         assertThat(module.providesContext()).isInstanceOf(Context.class);
     }
 
 
     @Test
-    public void ShouldReturnHandler_WhenProvideHandlerIsCalled() throws Exception {
+    public void ShouldReturnHandler_WhenProvideHandlerIsCalled() {
         final Handler handler = module.providesHandler();
         assertThat(handler).isNotNull();
         assertThat(handler).isInstanceOf(Handler.class);
     }
 
     @Test
-    public void ShouldReturnSharedPreferences_WhenProvidesSharedPreferencesIsCalled() throws Exception {
+    public void ShouldReturnSharedPreferences_WhenProvidesSharedPreferencesIsCalled() {
         module.provideSharedPreferences();
     }
 }

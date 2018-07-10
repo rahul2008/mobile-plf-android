@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">抱歉，發生問題，請稍後再試。</string>
   <string name="MYA_Visit_Website">[zh-TW]Visit our website</string>
   <string name="csw_consent_help_label">這意指甚麼？</string>
-  <string name="csw_generic_network_error">無法連接至伺服器。
-請檢查網際網路連線並再試一次。</string>
+  <string name="csw_generic_network_error">無法連接至伺服器。\n請檢查網際網路連線並再試一次。</string>
   <string name="csw_invalid_access_token_error_message">連接到伺服器時發生問題。請確認您裝置上的日期/時間設定正確無誤。如果問題持續發生，請先登出後再登入試試看。</string>
   <string name="csw_offline_message">您的網際網路連線似乎未正常運作。請檢查並再試一次</string>
   <string name="csw_offline_title">您已離線</string>
@@ -31,7 +30,7 @@
   <string name="mya_Email_Validation_message">電子郵件地址未確認</string>
   <string name="mya_Email_address">電子郵件地址</string>
   <string name="mya_Gender">性別</string>
-  <string name="mya_Info">是否要變更登入 ID 或密碼？請造訪我們的網站。</string>
+  <string name="mya_Info">[zh-TW]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">連接到伺服器時發生問題。請確認您裝置上的日期/時間設定正確無誤。如果問題持續發生，請先登出後再登入試試看。</string>
   <string name="mya_Login_details">登入詳情</string>
   <string name="mya_Logout">登出</string>
@@ -63,7 +62,7 @@
   <string name="mya_csw_justintime_accept">[zh-TW]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[zh-TW]Maybe later</string>
   <string name="mya_csw_justintime_title">[zh-TW]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,zh-TW]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,zh-TW]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,zh-TW]What do we have to offer?</string>
   <string name="mya_logout_message">您即將登出應用程式。登出後，隨時都能再次登入。</string>
   <string name="mya_logout_title">確定要登出？</string>

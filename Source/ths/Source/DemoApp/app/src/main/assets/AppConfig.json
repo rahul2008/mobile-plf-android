@@ -45,6 +45,7 @@
   },
   "dataservices": {
     "appname": "OneBackend"
+    "supportedMomentTypes": ["Temperature"]
   },
   "appinfra": {
     "appidentity.micrositeId" : "77000",

@@ -83,6 +83,21 @@ public class OrderSummaryFragment extends InAppBaseFragment
     }
 
     @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.iap_order_details;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return getString(R.string.iap_order_details);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
@@ -147,7 +162,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
-        setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
+        //setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
+        setActionbarTitle();
         if (isNetworkConnected()) {
             updateCartOnResume();
         }
@@ -244,7 +260,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             showProductCatalogFragment(ShoppingCartFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    AddressSelectionFragment.TAG);
+                    DeliveryMethodFragment.TAG);
         }
     }
 

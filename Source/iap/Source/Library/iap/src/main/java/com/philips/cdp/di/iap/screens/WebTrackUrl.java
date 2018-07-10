@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.screens;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -26,5 +27,20 @@ public class WebTrackUrl extends WebFragment {
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return false;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return 0;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return null;
     }
 }

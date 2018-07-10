@@ -9,8 +9,7 @@
   <string name="CATK_PROBLEM_OCCURED">Sorry, something went wrong. Please try again.</string>
   <string name="MYA_Visit_Website">[en-GB]Visit our website</string>
   <string name="csw_consent_help_label">What does this mean?</string>
-  <string name="csw_generic_network_error">Cannot connect to server.
-Please check your internet connection and try again.</string>
+  <string name="csw_generic_network_error">Cannot connect to server.\nPlease check your internet connection and try again.</string>
   <string name="csw_invalid_access_token_error_message">There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please log out and log in again.</string>
   <string name="csw_offline_message">Your internet connection does not seem to be working. Please check and try again</string>
   <string name="csw_offline_title">You are offline</string>
@@ -31,7 +30,7 @@ Please check your internet connection and try again.</string>
   <string name="mya_Email_Validation_message">Email address not confirmed</string>
   <string name="mya_Email_address">E-mail address</string>
   <string name="mya_Gender">Gender</string>
-  <string name="mya_Info">Do you want to change your login ID or password? Visit our website.</string>
+  <string name="mya_Info">[en-GB]Do you want to change your login ID or password?</string>
   <string name="mya_Invalid_Access_Token_Error_Message">There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please log out and log in again.</string>
   <string name="mya_Login_details">Login details</string>
   <string name="mya_Logout">Log out</string>
@@ -63,7 +62,7 @@ Please check your internet connection and try again.</string>
   <string name="mya_csw_justintime_accept">[en-GB]OK, count me in</string>
   <string name="mya_csw_justintime_reject">[en-GB]Maybe later</string>
   <string name="mya_csw_justintime_title">[en-GB]Be the first to know</string>
-  <string name="mya_csw_justintime_user_benefits_description">[NT,en-GB]Special offers, promotions and first hand information about new product releases. Tailored for you!\\n\\nJoin 140.000 of your peers now!</string>
+  <string name="mya_csw_justintime_user_benefits_description">[NT,en-GB]Special offers, promotions and first hand information about new product releases. Tailored for you!\n\nJoin 140.000 of your peers now!</string>
   <string name="mya_csw_justintime_user_benefits_title">[NT,en-GB]What do we have to offer?</string>
   <string name="mya_logout_message">You will be logged out of the application. After you log out, you can always log in again.</string>
   <string name="mya_logout_title">Are you sure you want to log out?</string>

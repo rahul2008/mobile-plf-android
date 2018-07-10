@@ -186,6 +186,21 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     }
 
     @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.iap_checkout;
+    }
+
+    @Override
+    public String getActionbarTitle(Context context) {
+        return getString(R.string.iap_checkout);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
@@ -200,7 +215,8 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
+        //setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
+        setActionbarTitle();
 
     }
 
@@ -217,11 +233,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (isVisible) {
             fm.beginTransaction()
                     .show(fragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         } else {
             fm.beginTransaction()
                     .hide(fragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
 
     }
@@ -257,10 +273,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     }
 
-    private void removeStaticFragments() {
-        removeStaticFragments(shippingFragment);
-        removeStaticFragments(billingFragment);
-    }
 
     private void createNewAddressOrUpdateIfAddressIDPresent() {
         createCustomProgressBar(mParentContainer,BIG);
