@@ -9,13 +9,11 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 
 import org.json.JSONArray;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static junit.framework.Assert.assertNotNull;
 
 
 public class LoginTraditionalTest extends RegistrationApiInstrumentationBase {
@@ -51,31 +49,25 @@ public class LoginTraditionalTest extends RegistrationApiInstrumentationBase {
         synchronized(this){//synchronized block
         }
     }
-@Test
-    public void testLoginTradional()
-    {
-        assertNotNull(loginTraditional);
- //       loginTraditional.onFailure(null);
-//        loginTraditional.loginTraditionally("sample@sample.com","sample");
-    }
-    @Test
-    public void testUpdateUIBasedOnConsentStatus(){
-        Method method = null;
-        String email="email@email.com" ;
-        String password="1234455";
-        try {
-            method =LoginTraditional.class.getDeclaredMethod("loginTraditionally",String.class,String.class);;
-            method.setAccessible(true);
-            method.invoke(loginTraditional,email,password);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
 
-    }
+//    @Test
+//    public void testUpdateUIBasedOnConsentStatus(){
+//        Method method = null;
+//        String email="email@email.com" ;
+//        String password="1234455";
+//        try {
+//            method =LoginTraditional.class.getDeclaredMethod("loginTraditionally",String.class,String.class);;
+//            method.setAccessible(true);
+//            method.invoke(loginTraditional,email,password);
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
     public void testGetErrorMessage(){
         JSONArray jsonArray = new JSONArray();
         jsonArray.put("sample");
