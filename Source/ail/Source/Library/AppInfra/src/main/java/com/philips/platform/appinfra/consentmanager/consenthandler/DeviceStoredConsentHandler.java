@@ -38,13 +38,14 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     private static final String DEVICESTORE_ERROR_UPDATE = "Error updating device stored consent";
     private final AppInfraInterface appInfra;
     private HashMap<String, ConsentStatus> consentStatusMemoryCache = new HashMap<>();
+
     public DeviceStoredConsentHandler(final AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
 
     private void logError(SecureStorageInterface.SecureStorageError storageError, String type) {
         if (storageError.getErrorCode() != null) {
-            if(appInfra instanceof AppInfra){
+            if (appInfra instanceof AppInfra) {
                 if (((AppInfra) appInfra).getAppInfraLogInstance() != null) {
                     ((AppInfra) appInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, type, storageError.getErrorCode().toString());
                 }
@@ -59,8 +60,8 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     }
 
     @VisibleForTesting
-    long getUTCTime() {
-        return appInfra.getTime().getUTCTime().getTime();
+    Date getUTCTime() {
+        return appInfra.getTime().getUTCTime();
     }
 
     private String join(List<String> stringList, String delimiter) {
@@ -90,12 +91,12 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
             SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
             String consentInfo = appInfra.getSecureStorage().fetchValueForKey(getStoredKey(consentType), storageError);
-            Date timestamp = getTimestamp(String.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_TIMESTAMP)));
 
             if (consentInfo == null || storageError.getErrorCode() != null || consentInfo.toUpperCase().startsWith("FALSE")) {
                 logError(storageError, consentType);
-                consentStatus = new ConsentStatus(ConsentStates.inactive, 0, timestamp);
+                consentStatus = new ConsentStatus(ConsentStates.inactive, 0, getUTCTime());
             } else {
+                Date timestamp = getTimestamp(String.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_TIMESTAMP)));
                 consentStatus = new ConsentStatus(ConsentStates.active,
                         Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)), timestamp);
             }
@@ -115,7 +116,6 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         String storedValue = join(storeValues, DEVICESTORE_VALUE_DELIMITER);
         SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
         boolean storeStatus = appInfra.getSecureStorage().storeValueForKey(getStoredKey(consentType), storedValue, storageError);
-        Date lastModifiedTimeStamp = appInfra.getTime().getUTCTime();
 
         if (!storeStatus) {
             logError(storageError, consentType);
@@ -123,15 +123,15 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
             return;
         }
         if (status) {
-            consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.active, version,lastModifiedTimeStamp ));
+            consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.active, version, getUTCTime()));
         } else {
-            consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.rejected, version, lastModifiedTimeStamp));
+            consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.rejected, version, getUTCTime()));
         }
         callback.onPostConsentSuccess();
     }
 
     private Date getTimestamp(String timestamp) {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
         dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
         try {
             return dateFormat.parse(timestamp);
