@@ -23,10 +23,8 @@ import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -37,7 +35,7 @@ import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInResultHandler,
+public class RegisterSocial extends BaseHSDPLogin implements SocialProviderLoginHandler, Jump.SignInResultHandler,
         Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
 
     private String TAG = RegisterSocial.class.getSimpleName();
@@ -49,6 +47,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
 
     public RegisterSocial(SocialProviderLoginHandler socialProviderLoginHandler,
                           Context context, UpdateUserRecordHandler updateUserRecordHandler) {
+        super(context);
         mSocialProviderLoginHandler = socialProviderLoginHandler;
         mContext = context;
         mUpdateUserRecordHandler = updateUserRecordHandler;
@@ -62,33 +61,8 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
 
         if (RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
             RLog.d(TAG, "onSuccess : if : is called");
-            HsdpUser hsdpUser = new HsdpUser(mContext);
-            String emailOrMobile;
-            if (FieldsValidator.isValidEmail(user.getEmail())) {
-                emailOrMobile = user.getEmail();
-                RLog.d(TAG, "onSuccess : if : if : is valid email");
-            } else {
-                emailOrMobile = user.getMobile();
-                RLog.d(TAG, "onSuccess : if : else : is not valid email");
-            }
-            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
-
-                @Override
-                public void onLoginSuccess() {
-                    ThreadUtils.postInMainThread(mContext, () ->
-                            mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess());
-
-                    RLog.d(TAG, "onSuccess : if : SocialLoginHandler : onLoginSuccess : is called");
-                }
-
-                @Override
-                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                    AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                    ThreadUtils.postInMainThread(mContext, () ->
-                            mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-                    RLog.d(TAG, "onSuccess : if : SocialLoginHandler : onLoginFailedWithError : is called");
-                }
-            });
+            String emailOrMobile = getUserEmailOrMobile(user);
+            hsdpLogin(user.getAccessToken(), emailOrMobile, mSocialProviderLoginHandler);
         } else {
             ThreadUtils.postInMainThread(mContext, () ->
                     mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess());
@@ -96,6 +70,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
             RLog.d(TAG, "onSuccess : else : is called");
         }
     }
+
 
     public void onCode(String code) {
         RLog.d(TAG, "onCode : is called");
@@ -267,28 +242,32 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
 
         if (RegistrationConfiguration.getInstance().isHsdpFlow() && isEmailVerified) {
             RLog.d(TAG, "handleOnLoginSuccess : is hsdpflow  and email verified");
-            HsdpUser hsdpUser = new HsdpUser(mContext);
             try {
-                hsdpUser.login(captured.getString("email"), captured.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
-
-                    @Override
-                    public void onLoginSuccess() {
-                        ThreadUtils.postInMainThread(mContext, () ->
-                                mSocialProviderLoginHandler.onLoginSuccess());
-                    }
-
-                    @Override
-                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                        ThreadUtils.postInMainThread(mContext, () ->
-                                mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-                    }
-                });
+                hsdpLogin(captured.getAccessToken(), captured.getString("email"), mSocialProviderLoginHandler);
+//            HsdpUser hsdpUser = new HsdpUser(mContext);
+//
+//                hsdpUser.login(captured.getString("email"), captured.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
+//
+//                    @Override
+//                    public void onLoginSuccess() {
+//                        ThreadUtils.postInMainThread(mContext, () ->
+//                                mSocialProviderLoginHandler.onLoginSuccess());
+//                    }
+//
+//                    @Override
+//                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//                        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+//                        ThreadUtils.postInMainThread(mContext, () ->
+//                                mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+//                    }
+//                });
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-        } else {
+        } else
+
+        {
             RLog.d(TAG, "handleOnLoginSuccess : either of isHsdpflow or isEmailVerified is false");
             ThreadUtils.postInMainThread(mContext, () ->
                     mSocialProviderLoginHandler.onLoginSuccess());

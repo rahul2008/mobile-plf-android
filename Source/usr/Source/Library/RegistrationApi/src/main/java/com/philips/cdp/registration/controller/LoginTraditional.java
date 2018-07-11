@@ -19,18 +19,14 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
-public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
+public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
 
 
     private Context mContext;
@@ -43,15 +39,19 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
     private String mPassword;
 
+    private User mUser;
+
     private final static String TAG = LoginTraditional.class.getSimpleName();
 
     public LoginTraditional(TraditionalLoginHandler traditionalLoginHandler, Context context,
                             UpdateUserRecordHandler updateUserRecordHandler, String email, String password) {
+        super(context);
         mTraditionalLoginHandler = traditionalLoginHandler;
         mContext = context;
         mUpdateUserRecordHandler = updateUserRecordHandler;
         mEmail = email;
         mPassword = password;
+        mUser = new User(mContext);
     }
 
 
@@ -86,43 +86,15 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     public void onSuccess() {
         RLog.d(TAG, "onSuccess : is called");
         Jump.saveToDisk(mContext);
-        final User user = new User(mContext);
+
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
-            String emailorMobile = getUserEmailOrMobile(user);
-            hsdpLogin(user, emailorMobile);
+        if (RegistrationConfiguration.getInstance().isHsdpFlow() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
+            loginIntoHsdp();
         } else {
             ThreadUtils.postInMainThread(mContext, () -> mTraditionalLoginHandler.onLoginSuccess());
         }
     }
 
-    private String getUserEmailOrMobile(User user) {
-        String emailorMobile;
-        if (FieldsValidator.isValidEmail(user.getEmail())) {
-            emailorMobile = user.getEmail();
-        } else {
-            emailorMobile = user.getMobile();
-        }
-        return emailorMobile;
-    }
-
-    private void hsdpLogin(User user, String emailorMobile) {
-        HsdpUser hsdpUser = new HsdpUser(mContext);
-        hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
-
-            @Override
-            public void onLoginSuccess() {
-                ThreadUtils.postInMainThread(mContext, () ->
-                        mTraditionalLoginHandler.onLoginSuccess());
-            }
-
-            @Override
-            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                ThreadUtils.postInMainThread(mContext, () -> mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-            }
-        });
-    }
 
     @Override
     public void onCode(String code) {
@@ -167,33 +139,36 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     }
 
     public void loginIntoHsdp() {
-        RLog.d(TAG, "loginIntoHsdp : is called");
-        final User user = new User(mContext);
-        HsdpUser hsdpUser = new HsdpUser(mContext);
-        HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-        if (hsdpUserRecord == null) {
-            String emailOrMobile;
-            if (RegistrationHelper.getInstance().isMobileFlow()) {
-                emailOrMobile = user.getMobile();
-            } else {
-                emailOrMobile = user.getEmail();
-            }
-            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
-                @Override
-                public void onLoginSuccess() {
-                    ThreadUtils.postInMainThread(mContext, () ->
-                            mTraditionalLoginHandler.onLoginSuccess());
-                    RLog.d(TAG, "loginIntoHsdp : SocialLoginHandler : onLoginSuccess is called");
-                }
+        String emailorMobile = getUserEmailOrMobile(mUser);
+        hsdpLogin(mUser, emailorMobile, mTraditionalLoginHandler);
 
-                @Override
-                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                    ThreadUtils.postInMainThread(mContext, () ->
-                            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-                    RLog.d(TAG, "loginIntoHsdp : SocialLoginHandler : onLoginFailedWithError is called");
-                }
-            });
-        }
+//        RLog.d(TAG, "loginIntoHsdp : is called");
+//        final User mUser = new User(mContext);
+//        HsdpUser hsdpUser = new HsdpUser(mContext);
+//        HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
+//        if (hsdpUserRecord == null) {
+//            String emailOrMobile;
+//            if (RegistrationHelper.getInstance().isMobileFlow()) {
+//                emailOrMobile = mUser.getMobile();
+//            } else {
+//                emailOrMobile = mUser.getEmail();
+//            }
+//            hsdpUser.login(emailOrMobile, mUser.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
+//                @Override
+//                public void onLoginSuccess() {
+//                    ThreadUtils.postInMainThread(mContext, () ->
+//                            mTraditionalLoginHandler.onLoginSuccess());
+//                    RLog.d(TAG, "loginIntoHsdp : SocialLoginHandler : onLoginSuccess is called");
+//                }
+//
+//                @Override
+//                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+//                    ThreadUtils.postInMainThread(mContext, () ->
+//                            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+//                    RLog.d(TAG, "loginIntoHsdp : SocialLoginHandler : onLoginFailedWithError is called");
+//                }
+//            });
+//        }
     }
 }

@@ -23,20 +23,17 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONObject;
 
-public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
+public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
 
     private Context mContext;
 
@@ -50,6 +47,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
     public LoginSocialProvider(SocialProviderLoginHandler socialLoginHandler, Context context,
                                UpdateUserRecordHandler updateUserRecordHandler) {
+        super(context);
         mSocialLoginHandler = socialLoginHandler;
         mContext = context;
         mUpdateUserRecordHandler = updateUserRecordHandler;
@@ -63,30 +61,33 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
         mUpdateUserRecordHandler.updateUserRecordLogin();
         if (RegistrationConfiguration.getInstance().isHsdpFlow() &&
                 (user.isEmailVerified() || user.isMobileVerified())) {
-            HsdpUser hsdpUser = new HsdpUser(mContext);
 
-            String emailorMobile;
-            if (FieldsValidator.isValidEmail(user.getEmail())) {
-                emailorMobile = user.getEmail();
-            } else {
-                emailorMobile = user.getMobile();
-            }
-            hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
-                    new SocialLoginHandler() {
-
-                        @Override
-                        public void onLoginSuccess() {
-                            ThreadUtils.postInMainThread(mContext, () ->
-                                    mSocialLoginHandler.onLoginSuccess());
-                        }
-
-                        @Override
-                        public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                            ThreadUtils.postInMainThread(mContext, () ->
-                                    mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-                        }
-                    });
+            String emailorMobile = getUserEmailOrMobile(user);
+            hsdpLogin(user.getAccessToken(), emailorMobile, mSocialLoginHandler);
+//            HsdpUser hsdpUser = new HsdpUser(mContext);
+//
+//            String emailorMobile;
+//            if (FieldsValidator.isValidEmail(user.getEmail())) {
+//                emailorMobile = user.getEmail();
+//            } else {
+//                emailorMobile = user.getMobile();
+//            }
+//            hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
+//                    new SocialLoginHandler() {
+//
+//                        @Override
+//                        public void onLoginSuccess() {
+//                            ThreadUtils.postInMainThread(mContext, () ->
+//                                    mSocialLoginHandler.onLoginSuccess());
+//                        }
+//
+//                        @Override
+//                        public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//                            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+//                            ThreadUtils.postInMainThread(mContext, () ->
+//                                    mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+//                        }
+//                    });
 
         } else {
             ThreadUtils.postInMainThread(mContext, () ->
@@ -129,7 +130,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
                             existingIdpNameLocalized, finalEmailId));
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-            RLog.e(TAG, "onFailure : userRegistrationFailureInfo.setErrorCode = "+error.captureApiError.code);
+            RLog.e(TAG, "onFailure : userRegistrationFailureInfo.setErrorCode = " + error.captureApiError.code);
         } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isTwoStepRegFlowError()) {
 
@@ -140,7 +141,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
                             socialRegistrationToken));
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-            RLog.e(TAG, "onFailure : userRegistrationFailureInfo.setErrorCode = "+error.captureApiError.code);
+            RLog.e(TAG, "onFailure : userRegistrationFailureInfo.setErrorCode = " + error.captureApiError.code);
         } else if (error.reason == SignInError.FailureReason.AUTHENTICATION_CANCELLED_BY_USER) {
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER);
             ThreadUtils.postInMainThread(mContext, () ->

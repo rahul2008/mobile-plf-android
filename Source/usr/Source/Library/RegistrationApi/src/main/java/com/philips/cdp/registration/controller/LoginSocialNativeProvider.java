@@ -21,20 +21,17 @@ import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONObject;
 
-public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler,
+public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.SignInResultHandler, Jump.SignInCodeHandler,
         JumpFlowDownloadStatusListener {
     private final static String TAG = LoginSocialNativeProvider.class.getSimpleName();
     private Context mContext;
@@ -42,6 +39,7 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
     public LoginSocialNativeProvider(SocialProviderLoginHandler socialLoginHandler, Context context,
                                      UpdateUserRecordHandler updateUserRecordHandler) {
+        super(context);
         mSocialLoginHandler = socialLoginHandler;
         mContext = context;
         mUpdateUserRecordHandler = updateUserRecordHandler;
@@ -55,26 +53,29 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
         mUpdateUserRecordHandler.updateUserRecordLogin();
         if (RegistrationConfiguration.getInstance().isHsdpFlow() &&
                 (user.isEmailVerified() || user.isMobileVerified())) {
-            HsdpUser hsdpUser = new HsdpUser(mContext);
-            String emailorMobile;
-            if (FieldsValidator.isValidEmail(user.getEmail())) {
-                emailorMobile = user.getEmail();
-            } else {
-                emailorMobile = user.getMobile();
-            }
-            hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
-                    new SocialLoginHandler() {
+            String emailorMobile = getUserEmailOrMobile(user);
+            hsdpLogin(user.getAccessToken(),emailorMobile,mSocialLoginHandler);
 
-                        @Override
-                        public void onLoginSuccess() {
-                            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginSuccess());
-                        }
-
-                        @Override
-                        public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-                        }
-                    });
+//            HsdpUser hsdpUser = new HsdpUser(mContext);
+//            String emailorMobile;
+//            if (FieldsValidator.isValidEmail(user.getEmail())) {
+//                emailorMobile = user.getEmail();
+//            } else {
+//                emailorMobile = user.getMobile();
+//            }
+//            hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
+//                    new SocialLoginHandler() {
+//
+//                        @Override
+//                        public void onLoginSuccess() {
+//                            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginSuccess());
+//                        }
+//
+//                        @Override
+//                        public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//                            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+//                        }
+//                    });
 
         } else {
             ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginSuccess());
