@@ -54,6 +54,7 @@ public class HsdpUser {
 
     private final LoggingInterface loggingInterface;
     private String TAG = HsdpUser.class.getSimpleName();
+    private DhpAuthenticationResponse dhpAuthenticationResponse = null;
 
     @Inject
     HSDPConfiguration hsdpConfiguration;
@@ -68,6 +69,16 @@ public class HsdpUser {
     private final String HSDP_RECORD_FILE = "hsdpRecord";
 
     private DhpResponse dhpResponse = null;
+
+
+    /**
+     * User file write listener interface
+     */
+    private interface UserFileWriteListener {
+        void onFileWriteSuccess();
+
+        void onFileWriteFailure();
+    }
 
     /**
      * Class constructor
@@ -171,8 +182,6 @@ public class HsdpUser {
         }
     }
 
-
-    private DhpAuthenticationResponse dhpAuthenticationResponse = null;
 
     /**
      * Refresh token
@@ -355,8 +364,8 @@ public class HsdpUser {
     }
 
 
-    public void socialLogin(final String email, final String accessToken,
-                            final String refreshSecret, final SocialLoginHandler loginHandler) {
+    public void login(final String email, final String accessToken,
+                      final String refreshSecret, final SocialLoginHandler loginHandler) {
 
         if (networkUtility.isNetworkAvailable()) {
             final Handler handler = new Handler(Looper.getMainLooper());
@@ -463,8 +472,6 @@ public class HsdpUser {
      * @param loginHandler login handler
      */
     private void handleSocialNetworkFailure(SocialLoginHandler loginHandler) {
-
-
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         userRegistrationFailureInfo.setErrorCode(ErrorCodes.HSDP_SYSTEM_ERROR_403);
         userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));
@@ -472,15 +479,6 @@ public class HsdpUser {
 
         ThreadUtils.postInMainThread(mContext, () ->
                 loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-    }
-
-    /**
-     * User file write listener interface
-     */
-    private interface UserFileWriteListener {
-        void onFileWriteSuccess();
-
-        void onFileWriteFailure();
     }
 
     /**

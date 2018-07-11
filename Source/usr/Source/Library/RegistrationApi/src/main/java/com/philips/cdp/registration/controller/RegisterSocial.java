@@ -71,7 +71,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
                 emailOrMobile = user.getMobile();
                 RLog.d(TAG, "onSuccess : if : else : is not valid email");
             }
-            hsdpUser.socialLogin(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
+            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {
@@ -269,7 +269,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
             RLog.d(TAG, "handleOnLoginSuccess : is hsdpflow  and email verified");
             HsdpUser hsdpUser = new HsdpUser(mContext);
             try {
-                hsdpUser.socialLogin(captured.getString("email"), captured.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
+                hsdpUser.login(captured.getString("email"), captured.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
 
                     @Override
                     public void onLoginSuccess() {
