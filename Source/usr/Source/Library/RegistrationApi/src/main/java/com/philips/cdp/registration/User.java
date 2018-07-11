@@ -818,8 +818,10 @@ public class User {
                             .notifyOnLogoutSuccessWithInvalidAccessToken();
                 } else {
                     RLog.e(TAG, "onLogoutFailure logout INVALID_ACCESS_TOKEN_CODE and INVALID_REFRESH_TOKEN_CODE:" + responseCode);
-                    ThreadUtils.postInMainThread(mContext, () ->
-                            logoutHandler.onLogoutFailure(responseCode, message));
+                    if (logoutHandler != null) {
+                        ThreadUtils.postInMainThread(mContext, () ->
+                                logoutHandler.onLogoutFailure(responseCode, message));
+                    }
                     RegistrationHelper.getInstance().getUserRegistrationListener()
                             .notifyOnUserLogoutFailure();
                 }
