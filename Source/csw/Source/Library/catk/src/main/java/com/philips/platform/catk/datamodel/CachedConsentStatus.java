@@ -10,14 +10,11 @@ import java.util.Objects;
 
 public class CachedConsentStatus extends ConsentStatus {
     private DateTime expires;
-    private final Date lastModifiedTimeStamp;
 
-    public CachedConsentStatus(ConsentStates consentState, int version, DateTime expires, Date lastModifiedTimeStamp) {
-        super(consentState, version, lastModifiedTimeStamp);
+    public CachedConsentStatus(ConsentStates consentState, int version, Date timestamp, DateTime expires) {
+        super(consentState, version, timestamp);
         this.expires = expires;
-        this.lastModifiedTimeStamp = lastModifiedTimeStamp;
     }
-
 
     public DateTime getExpires() {
         return expires;
@@ -25,7 +22,6 @@ public class CachedConsentStatus extends ConsentStatus {
 
     @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
         if (!(o instanceof CachedConsentStatus)) return false;
 

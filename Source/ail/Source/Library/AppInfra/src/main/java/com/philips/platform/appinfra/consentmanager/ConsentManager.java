@@ -224,7 +224,7 @@ public class ConsentManager implements ConsentManagerInterface {
 
                     ConsentStatus consentStatus = consentCallbackListener.consentStatus;
                     if (consentStatus == null) {
-                        consentStatus = new ConsentStatus(ConsentStates.inactive, 0, consentStatus.getLastModifiedTimeStamp());
+                        consentStatus = new ConsentStatus(ConsentStates.inactive, 0, consentStatus.getTimestamp());
                     }
 
                     if (consentCallbackListener.consentError != null) {

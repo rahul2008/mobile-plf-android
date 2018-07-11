@@ -59,9 +59,11 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     }
 
     @Override
-    public void storeConsentState(String consentType, ConsentStates status, int version, Date lastModifiedTimeStamp) {
+    public void storeConsentState(String consentType, ConsentStates status, int version, Date timestamp) {
         inMemoryCache = getMapFromSecureStorage();
-        inMemoryCache.get(getCurrentLoggedInUserId()).put(consentType, new CachedConsentStatus(status, version, (new DateTime(DateTimeZone.UTC)).plusMinutes(getConfiguredExpiryTime()), lastModifiedTimeStamp));
+        inMemoryCache.get(getCurrentLoggedInUserId()).put(consentType,
+                new CachedConsentStatus(status, version, timestamp,
+                        (new DateTime(DateTimeZone.UTC)).plusMinutes(getConfiguredExpiryTime())));
         writeMapToSecureStorage(inMemoryCache);
     }
 
@@ -73,21 +75,22 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
 
     private Map<String, Map<String, CachedConsentStatus>> getMapFromSecureStorage() {
         String serializedCache = appInfra.getSecureStorage().fetchValueForKey(CONSENT_CACHE_KEY, getSecureStorageError());
-        Type listType = new TypeToken<Map<String, Map<String, CachedConsentStatus>>>() { }.getType();
+        Type listType = new TypeToken<Map<String, Map<String, CachedConsentStatus>>>() {
+        }.getType();
         Map<String, Map<String, CachedConsentStatus>> temp = objGson.fromJson(serializedCache, listType);
         temp = temp == null ? new HashMap<String, Map<String, CachedConsentStatus>>() : temp;
         Map<String, CachedConsentStatus> consentCachedForUser = temp.get(getCurrentLoggedInUserId());
         if (consentCachedForUser == null) {
             appInfra.getSecureStorage().removeValueForKey(CONSENT_CACHE_KEY);
             throwRuntimeExceptionIfUserIdIsNull();
-            temp.put(getCurrentLoggedInUserId(),  new HashMap<String, CachedConsentStatus>());
+            temp.put(getCurrentLoggedInUserId(), new HashMap<String, CachedConsentStatus>());
             return temp;
         }
         return temp;
     }
 
     private void throwRuntimeExceptionIfUserIdIsNull() {
-        if(getCurrentLoggedInUserId() == null){
+        if (getCurrentLoggedInUserId() == null) {
             throw new RuntimeException("user is not logged in");
         }
     }

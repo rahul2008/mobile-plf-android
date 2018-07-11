@@ -46,9 +46,9 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
         CachedConsentStatus consentStatus = consentCacheInteractor.fetchConsentTypeState(consentType);
-        if(consentStatus != null && (consentStatus.getExpires().isAfterNow() || !isInternetAvailable())) {
-            callback.onGetConsentsSuccess(new ConsentStatus(consentStatus.getConsentState(), consentStatus.getVersion(), consentStatus.getLastModifiedTimeStamp()));
-        }else {
+        if (consentStatus != null && (consentStatus.getExpires().isAfterNow() || !isInternetAvailable())) {
+            callback.onGetConsentsSuccess(new ConsentStatus(consentStatus.getConsentState(), consentStatus.getVersion(), consentStatus.getTimestamp()));
+        } else {
             fetchConsentFromBackendAndUpdateCache(consentType, callback);
         }
     }
@@ -92,7 +92,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         public void onResponseSuccessConsent(List<ConsentDTO> responseData) {
             if (responseData != null && !responseData.isEmpty()) {
                 ConsentDTO consentDTO = responseData.get(0);
-                consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion(),consentDTO.getTimestamp().toDate());
+                consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion(), consentDTO.getTimestamp().toDate());
                 callback.onGetConsentsSuccess(new ConsentStatus(consentDTO.getStatus(), consentDTO.getVersion(), consentDTO.getTimestamp().toDate()));
             } else {
                 callback.onGetConsentsSuccess(null);
@@ -107,7 +107,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
     }
 
     static class CreateConsentResponseListener implements CreateConsentListener {
-        public static final int VERSION_MISMATCH_ERROR_FROM_BACKEND = 1252;
+        static final int VERSION_MISMATCH_ERROR_FROM_BACKEND = 1252;
         private final PostConsentTypeCallback callback;
         private final ConsentCacheInteractor consentCacheInteractor;
         private final ConsentDTO consentDTO;
@@ -121,14 +121,14 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         @Override
         public void onSuccess() {
             CatkLogger.d(" Create ConsentDTO: ", "Success");
-            consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion(),consentDTO.getTimestamp().toDate() );
+            consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion(), consentDTO.getTimestamp().toDate());
             callback.onPostConsentSuccess();
         }
 
         @Override
         public void onFailure(ConsentNetworkError error) {
             CatkLogger.d(" Create ConsentDTO: ", "Failed : " + error.getCatkErrorCode());
-            if(error.getServerError() != null && error.getServerError().getErrorCode() == VERSION_MISMATCH_ERROR_FROM_BACKEND){
+            if (error.getServerError() != null && error.getServerError().getErrorCode() == VERSION_MISMATCH_ERROR_FROM_BACKEND) {
                 consentCacheInteractor.clearCache(consentDTO.getType());
             }
             callback.onPostConsentFailed(new ConsentError(error.getMessage(), error.getCatkErrorCode()));

@@ -43,7 +43,7 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
             status = ConsentStates.active;
         else if (privacyStatus.equals(AppTaggingInterface.PrivacyStatus.OPTOUT))
             status = ConsentStates.rejected;
-        return new ConsentStatus(status, version,lastModifiedTimeStamp);
+        return new ConsentStatus(status, version, lastModifiedTimeStamp);
     }
 
     @VisibleForTesting
@@ -56,13 +56,13 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
         assertEquals(consentType, CLICKSTREAM_CONSENT_TYPE);
 
-        String valueForKey = appInfraInterface.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_VERSION, getSecureStorageError());
+        String valueForKey = getValueForKey(CLICKSTREAM_CONSENT_VERSION);
         int version = valueForKey == null ? 0 : Integer.valueOf(valueForKey);
 
-        String valueForTimestamp = appInfraInterface.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP, getSecureStorageError());
+        String valueForTimestamp = getValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP);
         AppTaggingInterface.PrivacyStatus privacyStatus = appInfraInterface.getTagging().getPrivacyConsent();
 
-        callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version, getUTCTimestamp(valueForTimestamp)));
+        callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version, getTimestamp(valueForTimestamp)));
     }
 
     @Override
@@ -70,21 +70,27 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
         assertEquals(consentType, CLICKSTREAM_CONSENT_TYPE);
 
         appInfraInterface.getTagging().setPrivacyConsent(getPrivacyStatus(status));
-        appInfraInterface.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(version), getSecureStorageError());
-        appInfraInterface.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP, String.valueOf(appInfraInterface.getTime().getUTCTime()), getSecureStorageError());
+        storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(version));
+        storeValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP, String.valueOf(appInfraInterface.getTime().getUTCTime().getTime()));
         callback.onPostConsentSuccess();
     }
 
-    private Date getUTCTimestamp(String utcTimeStamp) {
+    private Date getTimestamp(String timestamp) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
         dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
         try {
-            return dateFormat.parse(utcTimeStamp);
+            return dateFormat.parse(timestamp);
         } catch (ParseException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
-
         return null;
     }
 
+    private String getValueForKey(String key) {
+        return appInfraInterface.getSecureStorage().fetchValueForKey(key, getSecureStorageError());
+    }
+
+    private void storeValueForKey(String key, String value) {
+        appInfraInterface.getSecureStorage().storeValueForKey(key, String.valueOf(value), getSecureStorageError());
+    }
 }

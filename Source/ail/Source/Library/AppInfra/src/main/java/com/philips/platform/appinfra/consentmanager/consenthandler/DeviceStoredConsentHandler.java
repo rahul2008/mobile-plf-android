@@ -15,8 +15,6 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import org.joda.time.DateTime;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,13 +90,14 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
             SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
             String consentInfo = appInfra.getSecureStorage().fetchValueForKey(getStoredKey(consentType), storageError);
-            Date lastModifiedTimeStamp = getUTCTimestamp(String.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_TIMESTAMP)));
+            Date timestamp = getTimestamp(String.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_TIMESTAMP)));
 
             if (consentInfo == null || storageError.getErrorCode() != null || consentInfo.toUpperCase().startsWith("FALSE")) {
                 logError(storageError, consentType);
-                consentStatus = new ConsentStatus(ConsentStates.inactive, 0, lastModifiedTimeStamp);
+                consentStatus = new ConsentStatus(ConsentStates.inactive, 0, timestamp);
             } else {
-                consentStatus = new ConsentStatus(ConsentStates.active, Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)), lastModifiedTimeStamp);
+                consentStatus = new ConsentStatus(ConsentStates.active,
+                        Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)), timestamp);
             }
             consentStatusMemoryCache.put(consentType, consentStatus);
             callback.onGetConsentsSuccess(consentStatus);
@@ -131,15 +130,14 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         callback.onPostConsentSuccess();
     }
 
-    private Date getUTCTimestamp(String utcTimeStamp) {
+    private Date getTimestamp(String timestamp) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
         dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
         try {
-            return dateFormat.parse(utcTimeStamp);
+            return dateFormat.parse(timestamp);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }

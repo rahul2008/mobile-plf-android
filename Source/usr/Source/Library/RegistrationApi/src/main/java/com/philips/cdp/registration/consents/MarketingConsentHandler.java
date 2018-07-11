@@ -109,7 +109,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
             if (consentType.equals(URConsentProvider.USR_MARKETING_CONSENT)) {
                 RLog.d(TAG, "getMarketingConsentDefinition : onGetConsentsSuccess");
                 //Keeping version 0 as Janrain is not providing but it should be janrain consent
-                callback.onGetConsentsSuccess(new ConsentStatus(toStatus(isReceiveMarketingEmail), 0, getUTCTimestamp(lastModifiedDateTimeOfMarketingEmailConsent)));
+                callback.onGetConsentsSuccess(new ConsentStatus(toStatus(isReceiveMarketingEmail), 0, getTimestamp(lastModifiedDateTimeOfMarketingEmailConsent)));
                 return;
             }
             RLog.e(TAG, "getMarketingConsentDefinition : onGetConsentsFailed");
@@ -147,15 +147,14 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
     }
 
 
-    private Date getUTCTimestamp(String utcTimeStamp) {
+    private Date getTimestamp(String timestamp) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
         dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
         try {
-            return dateFormat.parse(utcTimeStamp);
+            return dateFormat.parse(timestamp);
         } catch (ParseException e) {
             RLog.d(TAG, e.getMessage());
         }
-
         return null;
     }
 }

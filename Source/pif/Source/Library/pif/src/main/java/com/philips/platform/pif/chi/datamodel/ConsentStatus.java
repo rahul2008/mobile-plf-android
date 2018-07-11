@@ -6,12 +6,12 @@ import java.util.Objects;
 public class ConsentStatus {
     private ConsentStates consentState;
     private int version;
-    private final Date lastModifiedTimeStamp;
+    private Date timestamp;
 
-    public ConsentStatus(ConsentStates consentState, int version, Date lastModifiedTimeStamp) {
+    public ConsentStatus(ConsentStates consentState, int version, Date timestamp) {
         this.consentState = consentState;
         this.version = version;
-        this.lastModifiedTimeStamp = lastModifiedTimeStamp;
+        this.timestamp = timestamp;
     }
 
     public ConsentStates getConsentState() {
@@ -22,6 +22,9 @@ public class ConsentStatus {
         return version;
     }
 
+    public Date getTimestamp() {
+        return timestamp;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -39,10 +42,5 @@ public class ConsentStatus {
     @Override
     public int hashCode() {
         return Objects.hash(consentState, version);
-
-    }
-
-    public Date getLastModifiedTimeStamp() {
-        return lastModifiedTimeStamp;
     }
 }
