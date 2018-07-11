@@ -62,7 +62,7 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
             } else {
                 emailorMobile = user.getMobile();
             }
-            hsdpUser.socialLogin(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
+            hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
                     new SocialLoginHandler() {
 
                         @Override
