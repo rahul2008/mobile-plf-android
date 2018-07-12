@@ -78,20 +78,6 @@ public class PaymentSelectionFragment extends InAppBaseFragment
         mPaymentMethodsRecyclerView.setLayoutManager(layoutManager);
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_payment;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_payment);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -103,8 +89,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
-        //setTitleAndBackButtonVisibility(R.string.iap_payment, true);
-        setActionbarTitle();
+        setTitleAndBackButtonVisibility(R.string.iap_payment, true);
     }
 
     @Override

@@ -185,20 +185,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), stepNumber));
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_checkout;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_checkout);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -215,9 +201,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     @Override
     public void onResume() {
         super.onResume();
-        //setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
-        setActionbarTitle();
-
+        setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
     }
 
     public static DLSAddressFragment createInstance(Bundle args, AnimationType animType) {

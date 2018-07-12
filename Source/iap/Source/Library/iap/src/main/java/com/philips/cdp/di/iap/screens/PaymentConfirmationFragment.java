@@ -72,20 +72,6 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         }
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_confirmation;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_confirmation);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -97,8 +83,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
-        //setTitleAndBackButtonVisibility(R.string.iap_confirmation, true);
-        setActionbarTitle();
+        setTitleAndBackButtonVisibility(R.string.iap_confirmation, true);
     }
 
     @Override

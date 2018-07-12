@@ -38,20 +38,6 @@ public class WebFragmentTest {
         final Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.WEB_PAY_URL, "http://google.com");
         webFragment = new WebFragment() {
-            @Override
-            public boolean getBackButtonState() {
-                return false;
-            }
-
-            @Override
-            public int getActionbarTitleResId() {
-                return 0;
-            }
-
-            @Override
-            public String getActionbarTitle(Context context) {
-                return "payment";
-            }
 
             @Override
             protected String getWebUrl() {

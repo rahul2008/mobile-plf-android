@@ -91,8 +91,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     @Override
     public void onResume() {
         super.onResume();
-       // setTitleAndBackButtonVisibility(R.string.iap_order_details, true);
-        setActionbarTitle();
+        setTitleAndBackButtonVisibility(R.string.iap_order_details, true);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_DETAIL_PAGE_NAME);
     }
 
@@ -161,20 +160,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         tvOpeningTimings.setText(mOpeningHoursWeekdays + "\n" + mOpeningHoursSaturday);
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_order_details;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_order_details);
-    }
 
     @Override
     public void onAttach(Context context) {

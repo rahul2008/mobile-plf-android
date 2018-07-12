@@ -47,11 +47,6 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     protected final int MEDIUM = 1;
     protected final int BIG = 2;
 
-    public abstract boolean getBackButtonState();
-
-    public abstract int getActionbarTitleResId();
-
-    public abstract String getActionbarTitle(Context context);
 
 
     protected IAPCartListener mProductCountListener = new IAPCartListener() {
@@ -92,12 +87,6 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     }
 
 
-    protected void setActionbarTitle() {
-        if (mActionbarUpdateListener != null) {
-            mActionbarUpdateListener.updateActionBar(getActionbarTitleResId(), getBackButtonState());
-            mActionbarUpdateListener.updateActionBar(getActionbarTitle(mContext), getBackButtonState());
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -112,7 +101,6 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     @Override
     public void onResume() {
         super.onResume();
-        setActionbarTitle();
     }
 
     @Override
@@ -165,11 +153,12 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
                 Fragment currentFrag = getActivity().getSupportFragmentManager()
                         .findFragmentById(getId());
 
-                if (!(currentFrag instanceof InAppBaseFragment))
+               /* if (!(currentFrag instanceof InAppBaseFragment))
                     transaction.addToBackStack(newFragmentTag);
                 else
-                    transaction.addToBackStack(simpleName);
+                    transaction.addToBackStack(simpleName);*/
 
+                transaction.addToBackStack(newFragmentTag);
                 transaction.commitAllowingStateLoss();
 
                 IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("

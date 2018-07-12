@@ -68,20 +68,6 @@ public class CancelOrderFragment extends InAppBaseFragment {
         return rootView;
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_cancel_your_order;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_cancel_your_order);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -92,8 +78,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-       // setTitleAndBackButtonVisibility(R.string.iap_cancel_your_order, true);
-        setActionbarTitle();
+        setTitleAndBackButtonVisibility(R.string.iap_cancel_your_order, true);
     }
 
     @Override
