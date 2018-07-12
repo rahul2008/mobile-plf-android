@@ -375,7 +375,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
 
-    public AppStateConfiguration getConfiguration() {
+    private AppStateConfiguration getConfiguration() {
         if (appState.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue()))
             return AppStateConfiguration.STAGING;
         else if (appState.equalsIgnoreCase(AppStateConfiguration.DEVELOPMENT.getValue()))
