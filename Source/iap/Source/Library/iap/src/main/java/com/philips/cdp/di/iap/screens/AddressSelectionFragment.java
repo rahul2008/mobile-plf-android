@@ -92,20 +92,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         return view;
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_checkout;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return  getString(R.string.iap_checkout);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -124,8 +110,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
-        //setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
-        setActionbarTitle();
+        setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
+
         if (isNetworkConnected()) {
             getAddresses();
         }

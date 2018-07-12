@@ -40,8 +40,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     @Override
     public void onResume() {
         super.onResume();
-       // setTitleAndBackButtonVisibility(getContext().getResources().getString(R.string.iap_delivery_method), true);
-        setActionbarTitle();
+        setTitleAndBackButtonVisibility(getContext().getResources().getString(R.string.iap_delivery_method), true);
     }
 
     @Override
@@ -135,18 +134,4 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
         }
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_delivery_method;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getContext().getResources().getString(R.string.iap_delivery_method);
-    }
 }
