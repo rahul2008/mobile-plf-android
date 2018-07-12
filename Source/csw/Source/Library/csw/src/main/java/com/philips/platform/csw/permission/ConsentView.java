@@ -10,6 +10,8 @@ package com.philips.platform.csw.permission;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 
+import java.util.Date;
+
 import static com.philips.platform.pif.chi.datamodel.ConsentStates.active;
 import static com.philips.platform.pif.chi.datamodel.ConsentVersionStates.AppVersionIsLower;
 
@@ -19,6 +21,8 @@ public class ConsentView {
     private boolean isLoading = true;
     private boolean isError = false;
     private boolean isOnline = true;
+
+    private Date timeStamp;
 
     private ConsentDefinitionStatus consentDefinitionStatus;
     private boolean isEnabled;
@@ -49,6 +53,7 @@ public class ConsentView {
         this.isError = false;
         this.isOnline = true;
         this.isEnabled = (consentDefinitionStatus == null) || (!consentDefinitionStatus.getConsentVersionState().equals(AppVersionIsLower));
+        this.timeStamp = consentDefinitionStatus.getTimestamp();
         return this;
     }
 
@@ -117,5 +122,9 @@ public class ConsentView {
         result = 31 * result + (isEnabled ? 1 : 0);
         result = 31 * result + consentDefinitionStatus.hashCode();
         return result;
+    }
+
+    public Date getTimeStamp() {
+        return timeStamp;
     }
 }
