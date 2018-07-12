@@ -218,6 +218,7 @@ public class PushNotificationManager {
             });
         }else{
             PNLog.d(TAG,"No component registered for deregistering component with backend");
+            deregisterTokenListener.onError();
         }
 
     }

@@ -81,5 +81,10 @@
   },
   "css":{
     "ConsentCacheTTLInMinutes" : 3
+  },
+  "dataservices": {
+    "supportedMomentTypes": [
+      "Temperature"
+    ]
   }
 }

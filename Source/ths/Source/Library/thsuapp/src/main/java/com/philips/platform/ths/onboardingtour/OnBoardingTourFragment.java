@@ -16,7 +16,6 @@ import android.widget.ImageView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
@@ -63,7 +62,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
         View view = inflater.inflate(R.layout.ths_on_boarding_tour_fragment, container, false);
         ActionBarListener actionBarListener = getActionBarListener();
         if (actionBarListener != null) {
-            actionBarListener.updateActionBar(R.string.ths_welcome, false);
+            actionBarListener.updateActionBar(R.string.ths_Welcome_nav_title, false);
         }
 
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);

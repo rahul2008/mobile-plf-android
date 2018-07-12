@@ -24,6 +24,7 @@ import java.util.List;
 
 public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDeliveryModeListener, AddressController.AddressListener {
 
+    public static final String TAG = DeliveryMethodFragment.class.getName();
     private RecyclerView mDeliveryRecyclerView;
     private AddressController mAddressController;
     private RelativeLayout mParentContainer;
@@ -132,4 +133,5 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
             getFragmentManager().popBackStack();
         }
     }
+
 }

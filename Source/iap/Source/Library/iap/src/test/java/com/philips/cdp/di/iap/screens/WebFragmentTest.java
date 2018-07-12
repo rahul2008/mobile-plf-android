@@ -38,6 +38,7 @@ public class WebFragmentTest {
         final Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.WEB_PAY_URL, "http://google.com");
         webFragment = new WebFragment() {
+
             @Override
             protected String getWebUrl() {
                 return "http://google.com";

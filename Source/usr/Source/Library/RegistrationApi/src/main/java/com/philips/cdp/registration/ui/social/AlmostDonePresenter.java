@@ -138,16 +138,11 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
             } else {
                 almostDoneContract.emailAlreadyInuseError();
             }
-            almostDoneContract.showLoginFailedError();
-        }
-
-        if(userRegistrationFailureInfo.getErrorCode() == RegConstants.HSDP_ADMINISTRATION_ERROR){
+        } else if (userRegistrationFailureInfo.getErrorCode() == RegConstants.HSDP_ADMINISTRATION_ERROR) {
             almostDoneContract.showTryAgainError();
-            return;
+        } else {
+            almostDoneContract.showAnyOtherErrors(userRegistrationFailureInfo.getErrorDescription());
         }
-
-        almostDoneContract.showAnyOtherErrors(userRegistrationFailureInfo.getErrorDescription());
-
     }
 
     @Override

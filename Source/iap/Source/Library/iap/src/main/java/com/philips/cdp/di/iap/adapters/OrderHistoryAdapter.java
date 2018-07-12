@@ -51,7 +51,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         orderHistoryHolder.mTime.setText(Utility.getFormattedDate(order.getPlaced()));
         String orderStatus = order.getStatusDisplay();
         orderHistoryHolder.mOrderState.setText(String.format(mContext.getString(R.string.iap_order_state), orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1)));
-        orderHistoryHolder.mOrderNumber.setText(String.format(mContext.getResources().getString(R.string.iap_order_number_with_colon), order.getCode()));
+        orderHistoryHolder.mOrderNumber.setText(String.format(mContext.getResources().getString(R.string.iap_order_number_msg), order.getCode()));
 
         for (ProductData data : mProductDetails) {
             if (data.getOrderCode() != null && data.getOrderCode().equals(order.getCode())) {

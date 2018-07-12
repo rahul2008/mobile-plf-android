@@ -1,11 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:reglib="http://reg.lib/schema"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:background="?attr/uidContentPrimaryBackgroundColor"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:reglib="http://reg.lib/schema"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:id="@+id/sv_root_layout"
@@ -18,22 +18,22 @@
             android:id="@+id/ll_reg_root_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/reg_dimen_24dp"
+            android:layout_marginBottom="@dimen/reg_dimen_16dp"
             android:layout_marginLeft="@dimen/reg_dimen_16dp"
             android:layout_marginRight="@dimen/reg_dimen_16dp"
-            android:layout_marginBottom="@dimen/reg_dimen_16dp">
+            android:layout_marginTop="@dimen/reg_dimen_24dp"
+            android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/reg_secure_data_title_txt"
+                fontPath="fonts/centralesansbold.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_DLS_AddRecovery_Title_Text"
-                fontPath="fonts/centralesansbold.ttf"
+                android:text="@string/USR_DLS_AddRecovery_Title_Text"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:textSize="@dimen/reg_text_size_20"/>
+                android:textSize="@dimen/reg_text_size_20" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_reg_philips_news"
@@ -41,19 +41,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_DLS_AddRecovery_Description_Text"
+                android:text="@string/USR_DLS_AddRecovery_Description_Text"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                android:textSize="@dimen/reg_text_size_16"/>
+                android:textSize="@dimen/reg_text_size_16" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/rl_reg_securedata_email_field_label"
                 fontPath="fonts/centralesansbook.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/reg_DLS_AddRecovery_EnterEmail_Text"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
+                android:text="@string/USR_DLS_AddRecovery_EnterEmail_Text"
                 android:textColor="?attr/uidLabelRegularNormalTextColor"
-                android:textSize="@dimen/reg_text_size_16"/>
+                android:textSize="@dimen/reg_text_size_16" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/rl_reg_securedata_email_field_inputValidation"
@@ -61,15 +61,16 @@
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="inline_error_message">
+
                 <com.philips.platform.uid.view.widget.ValidationEditText
                     android:id="@+id/rl_reg_securedata_email_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                     android:layout_marginBottom="@dimen/reg_dimen_24dp"
+                    android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    app:uidInputTextWithClearButton="true"/>
+                    app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
+                    app:uidInputTextWithClearButton="true" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 
             <com.philips.platform.uid.view.widget.ProgressBarButton
@@ -79,16 +80,16 @@
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:enabled="true"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonProgressText="@string/reg_DLS_AddRecovery_AddRecovery_Button_Title"
-                app:uidProgressIndicatorButtonText="@string/reg_DLS_AddRecovery_AddRecovery_Button_Title"/>
+                app:uidProgressIndicatorButtonProgressText="@string/USR_DLS_AddRecovery_AddRecovery_Button_Title"
+                app:uidProgressIndicatorButtonText="@string/USR_DLS_AddRecovery_AddRecovery_Button_Title" />
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/btn_reg_secure_data_email_later"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_12dp"
-                android:text="@string/reg_SecureData_Maybe_Later"
-                app:uidComponentType="Secondary"/>
+                android:text="@string/USR_DLS_AddRecovery_MaybeLater_Button_Title"
+                app:uidComponentType="Secondary" />
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/reg_error_msg"
@@ -96,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_reg_activate_acct"
                 android:layout_marginTop="@dimen/reg_dimen_16dp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>

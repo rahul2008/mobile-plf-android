@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import android.content.Context;
+
 /**
  * Created by philips on 22/06/17.
  */
@@ -7,6 +9,8 @@ package com.philips.cdp.registration.ui.traditional;
 public interface CreateAccountContract {
     void handleUiState();
     void updateUiStatus();
+
+    Context getFragmentContext();
 
     void launchMarketingAccountFragment();
 
@@ -16,7 +20,7 @@ public interface CreateAccountContract {
 
     void completeRegistration();
 
-    void emailError(int errorDescID);
+    void emailError(String errorDescID);
 
     void setErrorCode(int errorDescID);
 

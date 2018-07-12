@@ -8,7 +8,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/wizard_button"
         style="@style/ths_mobile_wizard"
-        android:text="@string/ths_conditions" />
+        android:text="@string/ths_input_medical_condition_title" />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/conditions_skip"
@@ -69,7 +69,7 @@
                 android:textSize="@dimen/ths_body_text"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
-                android:text="@string/ths_medical_conditions" />
+                android:text="@string/ths_medicalCondition_view_title" />
 
             <LinearLayout
                 android:id="@+id/checkbox_container"

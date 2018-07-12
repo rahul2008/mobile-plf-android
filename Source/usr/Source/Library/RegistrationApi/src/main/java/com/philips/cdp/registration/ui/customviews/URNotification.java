@@ -38,6 +38,7 @@ public class URNotification {
         INLINE_ERROR_CODE.add(30);
         INLINE_ERROR_CODE.add(40);
         INLINE_ERROR_CODE.add(200);
+        INLINE_ERROR_CODE.add(3200);
 
     }
 
@@ -70,8 +71,8 @@ public class URNotification {
     public void hideNotification() {
         switch (mNotificationType) {
             case NOTIFICATION_BAR:
-                if(notificationBarView!=null)
-                notificationBarView.hidePopup();
+                if (notificationBarView != null)
+                    notificationBarView.hidePopup();
         }
     }
 

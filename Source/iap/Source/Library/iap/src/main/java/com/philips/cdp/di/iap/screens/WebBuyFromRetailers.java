@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -40,7 +41,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
 
     @Override
     public void onResume() {
-        super.onResume();
+       super.onResume();
         String title = getArguments().getString(IAPConstant.IAP_STORE_NAME);
         setTitleAndBackButtonVisibility(title, true);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_WEB_PAGE);
@@ -92,6 +93,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
 
         mWebView.loadUrl(mUrl);
     }
+
 
     @Override
     public boolean handleBackEvent() {

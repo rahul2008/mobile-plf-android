@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.screens;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -68,6 +69,7 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART);
         }
     }
+
 
 
     @Override

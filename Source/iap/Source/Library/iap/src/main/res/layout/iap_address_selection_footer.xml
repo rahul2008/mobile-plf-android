@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:paddingLeft="@dimen/border16_margin_left_right"
     android:paddingRight="@dimen/border16_margin_left_right"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/arrow"

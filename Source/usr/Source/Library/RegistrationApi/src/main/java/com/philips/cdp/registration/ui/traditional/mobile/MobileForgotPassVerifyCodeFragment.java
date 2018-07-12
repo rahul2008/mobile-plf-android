@@ -142,7 +142,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     }
 
     private void setDescription() {
-        String normalText = getString(R.string.reg_DLS_VerifySMS_Description_Text);
+        String normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
         SpannableString str = new SpannableString(String.format(normalText, mobileNumber));
         str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length() - 2, str.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -221,7 +221,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_SigIn_TitleTxt;
+        return R.string.USR_SigIn_TitleTxt;
     }
 
     private void updateUiStatus() {
@@ -382,7 +382,8 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         RLog.i(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
-            if(new NetworkUtility(getActivityContext()).isInternetAvailable()) {
+
+            if(new NetworkUtility(getActivityContext()).isNetworkAvailable()) {
                 verifyClicked();
             }
         }

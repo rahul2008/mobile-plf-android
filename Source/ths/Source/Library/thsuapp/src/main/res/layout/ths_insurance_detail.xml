@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="@dimen/ths_margin_top"
-            android:text="@string/ths_insurance_detail_label_text"
+            android:text="@string/ths_insurancedetail_header"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             android:textSize="@dimen/ths_title_text" />
 
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_label"
             android:layout_marginTop="@dimen/ths_margin_top_large"
-            android:text="@string/ths_insurance_detail_provider_text"
+            android:text="@string/ths_insurancedetail_providerlabel"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             android:textSize="@dimen/ths_body_text" />
 
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/insurance_provider_list_layout"
             android:layout_marginTop="20dp"
-            android:text="@string/ths_insurance_detail_subscriber_id_text"
+            android:text="@string/ths_insurancedetail_subscriberlabel"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             android:textSize="@dimen/ths_body_text" />
 
@@ -104,7 +104,7 @@
             android:layout_below="@+id/ths_insurance_detail_suffix_edit_text"
             android:layout_marginTop="@dimen/ths_margin_top"
             android:checked="false"
-            android:text="@string/ths_insurance_detail_not_primary_sub_text" />
+            android:text="@string/ths_insurancedetail_primarysubscriber" />
 
         <RelativeLayout
             android:id="@+id/ths_insurance_detail_relationship_relative_layout"
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:focusable="false"
-                    android:hint="@string/ths_insurance_detail_choose_relation_text"
+                    android:hint="@string/ths_insurancedetail_relationship"
                     android:inputType="text"
                     android:maxLines="1"
                     android:textColor="?attr/uidLabelRegularNormalTextColor" />
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_insurance_detail_provider_relation_label"
 
-                android:text="@string/ths_insurance_detail_first_name_text" />
+                android:text="@string/ths_registration_firstname" />
 
             <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/ths_insurance_detail_provider_relation_firstname_edittext"
@@ -173,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_insurance_detail_provider_relation_firstname_edittext"
-                android:text="@string/ths_insurance_detail_last_name_text" />
+                android:text="@string/ths_last_name_validation" />
 
             <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/ths_insurance_detail_provider_relation_lastname_edittext"
@@ -225,7 +225,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_relationship_relative_layout"
             android:layout_marginBottom="8dp"
-            android:text="@string/ths_continue" />
+            android:text="@string/ths_registration_continue" />
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ths_insurance_detail_skip_button"
@@ -233,7 +233,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_continue_button"
             android:layout_marginBottom="@dimen/ths_margin_bottom"
-            android:text="@string/ths_insurance_detail_plan_not_listed_text"
+            android:text="@string/ths_insurancedetail_plannotlisted"
             app:uidComponentType="Secondary" />
 
     </RelativeLayout>

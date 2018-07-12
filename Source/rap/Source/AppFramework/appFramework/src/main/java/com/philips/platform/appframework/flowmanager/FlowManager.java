@@ -15,7 +15,6 @@ import com.philips.platform.appframework.stateimpl.DemoCMLState;
 import com.philips.platform.appframework.stateimpl.DemoDCCState;
 import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appframework.stateimpl.DemoDevicePairingState;
-import com.philips.platform.appframework.stateimpl.DemoDlsState;
 import com.philips.platform.appframework.stateimpl.DemoIAPState;
 import com.philips.platform.appframework.stateimpl.DemoNeuraState;
 import com.philips.platform.appframework.stateimpl.DemoPRGState;
@@ -54,7 +53,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TESTBLUELIB, new DemoBLLState());
         uiStateMap.put(AppStates.EWS, new EWSFragmentState());
         uiStateMap.put(AppStates.TEST_DEVICE_PAIRING, new DemoDevicePairingState());
-        uiStateMap.put(AppStates.TESTDLS, new DemoDlsState());
+//        uiStateMap.put(AppStates.TESTDLS, new DemoDlsState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICESDEMO, new DemoThsState());
         uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());

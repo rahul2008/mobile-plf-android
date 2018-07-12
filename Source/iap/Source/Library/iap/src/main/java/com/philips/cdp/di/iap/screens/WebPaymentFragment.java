@@ -35,6 +35,7 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     private static final String PAYMENT_FAILURE_CALLBACK_URL = "http://www.philips.com/paymentFailure";
     private static final String PAYMENT_CANCEL_CALLBACK_URL = "http://www.philips.com/paymentCancel";
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -106,13 +106,13 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
 
     @Override
     public void onChanged(final @Nullable Integer currentLogCount) {
-        Log.v("SyncTesting", "Inside cloud log db change:: count::" + currentLogCount);
+        //Log.d("SyncTesting", "Inside cloud log db change:: count::" + currentLogCount);
         if (checkWhetherToSyncCloudLog()) {
             if (currentLogCount != null && currentLogCount >= loggingConfiguration.getBatchLimit()) {
                 checkForConsentAndSync();
             }
         } else {
-            Log.v("SyncTesting", "Sync disabled");
+            //Log.d("SyncTesting", "Sync disabled");
             threadPoolExecutor.getQueue().clear();
         }
 
@@ -129,14 +129,14 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
                         if (ConsentStates.active.equals(consentDefinitionStatus.getConsentState())) {
                             threadPoolExecutor.execute(new CloudLogSyncRunnable(appInfra, sharedKey, secretKey, productKey));
                         } else {
-                            Log.v("SyncTesting", "Sync disabled");
+                            //Log.d("SyncTesting", "Sync disabled");
                             threadPoolExecutor.getQueue().clear();
                         }
                     }
 
                     @Override
                     public void onGetConsentFailed(ConsentError error) {
-                        Log.v("SyncTesting", "Failed to get consent status");
+                        //Log.d("SyncTesting", "Failed to get consent status");
                     }
                 });
             }
@@ -146,7 +146,7 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
     }
 
     private void forceSync() {
-        Log.v("SyncTesting", "Inside force sync");
+        //Log.d("SyncTesting", "Inside force sync");
         if (checkWhetherToSyncCloudLog()) {
             checkForConsentAndSync();
         }

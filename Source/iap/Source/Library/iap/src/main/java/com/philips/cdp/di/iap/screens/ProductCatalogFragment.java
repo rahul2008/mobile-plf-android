@@ -128,6 +128,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         }
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -111,27 +111,11 @@ public class OrderSummaryFragmentTest {
         orderSummaryFragment.setArguments(bundle);
 
 
-        Mockito.when(viewMock.findViewById(R.id.tv_checkOutSteps)).thenReturn(tvCheckOutMock);
-        orderSummaryFragment.initializeViews(viewMock);
+      /*  Mockito.when(viewMock.findViewById(R.id.tv_checkOutSteps)).thenReturn(tvCheckOutMock);
+        orderSummaryFragment.initializeViews(viewMock);*/
 
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void shouldTrackAndSetTitleOfPage_WhenOnResumeIscalled() throws Exception {
-        orderSummaryFragment.onResume();
-
-    }
-
-    @Test
-    public void sholudDismissProgressBar_WhenOnStopIsCalled() throws Exception {
-    orderSummaryFragment.onStop();
-    }
-
-    @Test
-    public void sholudUnRegisterAllEvents_WhenOnDestroyViewIsCalled() throws Exception {
-        orderSummaryFragment.onDestroyView();
-
-    }
 
 
     @Test

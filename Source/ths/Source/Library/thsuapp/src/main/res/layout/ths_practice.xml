@@ -16,7 +16,7 @@
         android:paddingEnd="@dimen/ths_fab_margin"
         android:layout_marginTop="@dimen/ths_image_size"
         android:layout_marginBottom="@dimen/ths_image_size"
-        android:text="@string/ths_choose_area_of_medicine_title"
+        android:text="@string/ths_practices_header_text"
         android:textSize="@dimen/ths_title_text" />
 
     <com.philips.platform.uid.view.widget.Label

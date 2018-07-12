@@ -45,6 +45,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         return fragment;
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

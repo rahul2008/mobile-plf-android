@@ -10,7 +10,6 @@ import android.content.Context;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
@@ -28,9 +27,6 @@ import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
-
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -97,7 +93,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
                     mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION,var1.getMessage(),false);//
                     AmwellLog.e("onInitializationFailure",var1.toString());
                     if(var1.getMessage().equalsIgnoreCase(THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE)){
-                        errorMesage=mThsInitFragment.getFragmentActivity().getString(R.string.ths_service_available_only_in_us);
+                        errorMesage=mThsInitFragment.getFragmentActivity().getString(R.string.ths_user_outside_US_message);
                     }
                 }
                 mThsInitFragment.showError(errorMesage,true, false);

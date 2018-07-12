@@ -636,16 +636,14 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + getResources().getString(
-                com.philips.cdp.registration.R.string.reg_Philips_URL_txt)));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.philips.com"));
         activity.startActivity(browserIntent);
     }
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onTermsAndConditionClick");
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + getResources().getString(
-                com.philips.cdp.registration.R.string.reg_Philips_URL_txt)));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.philips.com"));
         activity.startActivity(browserIntent);
     }
 
@@ -710,17 +708,17 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
         String valueForEmailVerification = "sample";
-        String optInTitleText = getResources().getString(R.string.reg_DLS_OptIn_Navigation_Bar_Title);
-        String optInQuessionaryText = getResources().getString(R.string.reg_DLS_OptIn_Header_Label);
-        String optInDetailDescription = getResources().getString(R.string.reg_DLS_Optin_Body_Line1);
-        String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String optInTitleBarText = getResources().getString(R.string.reg_DLS_OptIn_Navigation_Bar_Title);
+        String optInTitleText = getResources().getString(R.string.USR_DLS_OptIn_Navigation_Bar_Title);
+        String optInQuessionaryText = getResources().getString(R.string.USR_DLS_OptIn_Header_Label);
+        String optInDetailDescription = getResources().getString(R.string.USR_DLS_Optin_Body_Line1);
+        //String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
+        String optInTitleBarText = getResources().getString(R.string.USR_DLS_OptIn_Navigation_Bar_Title);
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
         registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
         registrationContentConfiguration.setOptInTitleText(optInTitleText);
         registrationContentConfiguration.setOptInQuessionaryText(optInQuessionaryText);
         registrationContentConfiguration.setOptInDetailDescription(optInDetailDescription);
-        registrationContentConfiguration.setOptInBannerText(optInBannerText);
+//        registrationContentConfiguration.setOptInBannerText(optInBannerText);
         registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
         registrationContentConfiguration.enableLastName(true);
         registrationContentConfiguration.enableContinueWithouAccount(true);

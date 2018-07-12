@@ -1,7 +1,6 @@
 package com.philips.platform.appinfra.logging;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -50,7 +49,7 @@ public class CloudLogHandler extends Handler {
     @Override
     public void publish(final LogRecord logRecord) {
         //To avoid looping of logs check if logs are coming from AppInfra
-        if (checkIfComponentIdIsAppInfra(logRecord)) {
+        if (checkIfComponentIdIsAppInfra(logRecord) || isRestrictedLogLevel(logRecord)) {
             return;
         }
         cloudLogProcessor.postTask(new Runnable() {
@@ -65,8 +64,19 @@ public class CloudLogHandler extends Handler {
         });
     }
 
+    private boolean isRestrictedLogLevel(LogRecord logRecord) {
+        String logLevel=null;
+        if (logRecord.getLevel() != null) {
+            logLevel = LoggingUtils.getAILLogLevel(logRecord.getLevel().toString());
+        }
+        if (logLevel != null && (logLevel.equalsIgnoreCase("VERBOSE") || logLevel.equalsIgnoreCase("DEBUG"))) {
+            return true;
+        }
+        return false;
+    }
+
     private boolean checkIfComponentIdIsAppInfra(LogRecord logRecord) {
-        if (logRecord !=null && logRecord.getParameters() != null){
+        if (logRecord != null && logRecord.getParameters() != null) {
             List<Object> parameters = Arrays.asList(logRecord.getParameters());
             if (parameters != null && parameters.get(AppInfraLogging.COMPONENT_ID_INDEX) != null && parameters.get(AppInfraLogging.COMPONENT_ID_INDEX).toString().equalsIgnoreCase(appInfra.getComponentId())) {
                 return true;

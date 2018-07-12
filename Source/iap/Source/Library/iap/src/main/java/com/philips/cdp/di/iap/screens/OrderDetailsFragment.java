@@ -160,6 +160,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         tvOpeningTimings.setText(mOpeningHoursWeekdays + "\n" + mOpeningHoursSaturday);
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -242,7 +243,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         for (ProductData data : productList) {
             totalQuantity += data.getQuantity();
         }
-        mTvQuantity.setText(String.format(mContext.getString(R.string.no_of_products), totalQuantity + ""));
+        mTvQuantity.setText(String.format(mContext.getString(R.string.iap_no_of_products), totalQuantity + ""));
 
         setProductSummary(productList);
     }
@@ -326,12 +327,12 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         String orderStatus = detail.getStatusDisplay();
         String statusString = orderStatus.substring(0, 1).toLowerCase() + orderStatus.substring(1);
 
-        mOrderState.setText(String.format(mContext.getString(R.string.order_state_msg), statusString));
+        mOrderState.setText(String.format(mContext.getString(R.string.iap_order_state), statusString));
 
         int stateImageID = getDrawableIDFromOrderState(statusString);
         //Need to be done once all resources are there .
         // mIvOrderState.setImageResource(stateImageID);
-        mOrderNumber.setText(String.format(mContext.getString(R.string.order_number_msg), detail.getCode()));
+        mOrderNumber.setText(String.format(mContext.getString(R.string.iap_order_number_msg), detail.getCode()));
 
         mTvQuantity.setText(" (" + mOrderDetail.getDeliveryItemsQuantity() + " item)");
         if (detail.getDeliveryOrderGroups() != null) {
@@ -346,7 +347,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             tvPriceTotal.setText(detail.getTotalPriceWithTax().getFormattedValue());
         }
         if (detail.getDeliveryMode() != null && detail.getDeliveryCost() != null) {
-            tvDeliveryMode.setText(String.format(getResources().getString(R.string.iap_delivery_via_what), detail.getDeliveryMode().getCode().toLowerCase()));
+            tvDeliveryMode.setText(String.format(getResources().getString(R.string.iap_delivery_ups_parcel), detail.getDeliveryMode().getCode().toLowerCase()));
             tvDeliveryModePrice.setText(detail.getDeliveryCost().getFormattedValue());
         }
 

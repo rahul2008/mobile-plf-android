@@ -35,12 +35,12 @@ public class THSAppointmentAndVisitHistoryList extends THSBaseFragment implement
         mRelativeLayoutAppointments = (RelativeLayout) view.findViewById(R.id.appointments);
         mRelativeLayoutVisitHostory = (RelativeLayout) view.findViewById(R.id.visit_history);
         mAppointmentLabel = (Label) view.findViewById(R.id.pth_practice_name);
-        mAppointmentLabel.setText(getString(R.string.ths_upcoming_appointments));
+        mAppointmentLabel.setText(getString(R.string.ths_appointments_choice));
         mRelativeLayoutVisitHostory.setOnClickListener(this);
         mRelativeLayoutAppointments.setOnClickListener(this);
 
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_appointments), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_welcome_appointments), true);
         }
         THSTagUtils.doTrackPageWithInfo(THS_APPOINTMENT_AND_VISIT_LIST,null,null);
         return view;

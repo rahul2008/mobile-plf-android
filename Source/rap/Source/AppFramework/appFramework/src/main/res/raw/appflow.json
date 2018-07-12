@@ -466,15 +466,15 @@
               }
             ]
           },
-          {
-            "eventId": "DLS",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "DLS"
-              }
-            ]
-          },
+//          {
+//            "eventId": "DLS",
+//            "nextStates": [
+//              {
+//                "condition": [],
+//                "nextState": "DLS"
+//              }
+//            ]
+//          },
           {
             "eventId": "TestConsumerCareEvent",
             "nextStates": [

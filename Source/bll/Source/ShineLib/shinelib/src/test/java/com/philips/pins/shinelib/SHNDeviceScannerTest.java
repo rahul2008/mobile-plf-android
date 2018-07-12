@@ -9,25 +9,41 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
+@PrepareForTest({SHNTagger.class})
+@RunWith(PowerMockRunner.class)
 public class SHNDeviceScannerTest {
 
     private static final long SCAN_TIMEOUT_MS = 30_000L;
@@ -52,6 +68,8 @@ public class SHNDeviceScannerTest {
     @Before
     public void setUp() {
         initMocks(this);
+        mockStatic(SHNTagger.class);
+
         mockedUserHandler = new MockedHandler();
         mockedInternalHandler = new MockedHandler();
         mockedUserHandler.enableImmediateExecuteOnPost(false);
@@ -151,6 +169,21 @@ public class SHNDeviceScannerTest {
         mockedInternalHandler.executeFirstPostedExecution();
         assertEquals(0, mockedInternalHandler.getPostedExecutionCount());
         verify(mockedSHNDeviceScannerInternal).stopScanning(SHNInternalScanRequestMock);
+    }
+
+    @Test
+    public void whenAnInterruptedExceptionOccursDuringScanning_thenTagIsSentWithProperData() throws Exception {
+
+        FutureTask<Boolean> mockTask = mock(FutureTask.class);
+        SHNDeviceScanner spySHNDeviceScanner = spy(shnDeviceScanner);
+        doReturn(mockTask).when(spySHNDeviceScanner).startScanningWithFuture(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
+        doThrow(new InterruptedException()).when(mockTask).get(anyLong(), any(TimeUnit.class));
+        spySHNDeviceScanner.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, SCAN_TIMEOUT_MS);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verifyStatic(SHNTagger.class, times(1));
+        SHNTagger.sendTechnicalError(captor.capture());
+        assertEquals("Error while starting scanning: java.lang.InterruptedException", captor.getValue());
     }
 
     private class TestSHNDeviceScanner extends SHNDeviceScanner {

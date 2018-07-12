@@ -20,6 +20,8 @@ import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
+import com.philips.pins.shinelib.tagging.AppInfraTagger;
+import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.concurrent.Executors;
@@ -69,6 +71,10 @@ public class BleTransportContext implements TransportContext {
     public BleTransportContext(@NonNull final RuntimeConfiguration runtimeConfiguration, boolean showPopupIfBLEIsTurnedOff) {
         if (runtimeConfiguration.isLogEnabled()) {
             SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
+        }
+
+        if(runtimeConfiguration.isTaggingEnabled()) {
+            SHNTagger.registerTagger(new AppInfraTagger(runtimeConfiguration.getAppInfraInterface()));
         }
 
         try {

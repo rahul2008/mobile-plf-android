@@ -8,18 +8,12 @@ package com.philips.cdp.prodreg.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp.prodreg.constants.AnalyticsConstants;
-import com.philips.cdp.prodreg.constants.ProdRegConstants;
-import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.ProdRegProcessController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
-import com.philips.cdp.prodreg.tagging.ProdRegTagging;
-import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 
 import java.util.List;
@@ -37,12 +31,12 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     @Override
     public int getActionbarTitleResId() {
-        return R.string.PPR_NavBar_Title;
+        return R.string.PRG_NavBar_Title;
     }
 
     @Override
     public String getActionbarTitle() {
-        return getString(R.string.PPR_NavBar_Title);
+        return getString(R.string.PRG_NavBar_Title);
     }
 
     @Override

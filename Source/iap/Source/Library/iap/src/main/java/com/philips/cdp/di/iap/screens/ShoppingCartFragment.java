@@ -73,6 +73,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         return fragment;
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -117,7 +118,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_dls, true);
         if (isNetworkConnected()) {
-           updateCartDetails(mShoppingCartAPI);
+            updateCartDetails(mShoppingCartAPI);
         }
     }
 

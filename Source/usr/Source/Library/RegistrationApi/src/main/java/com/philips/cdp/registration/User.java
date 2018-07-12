@@ -786,7 +786,7 @@ public class User {
         } else {
             RLog.e(TAG, "refreshUser failed because of network issue");
             ThreadUtils.postInMainThread(mContext, () ->
-                    handler.onRefreshUserFailed(ErrorCodes.UNKNOWN_ERROR));
+                    handler.onRefreshUserFailed(ErrorCodes.NETWORK_ERROR));
         }
     }
 
@@ -818,8 +818,10 @@ public class User {
                             .notifyOnLogoutSuccessWithInvalidAccessToken();
                 } else {
                     RLog.e(TAG, "onLogoutFailure logout INVALID_ACCESS_TOKEN_CODE and INVALID_REFRESH_TOKEN_CODE:" + responseCode);
-                    ThreadUtils.postInMainThread(mContext, () ->
-                            logoutHandler.onLogoutFailure(responseCode, message));
+                    if (logoutHandler != null) {
+                        ThreadUtils.postInMainThread(mContext, () ->
+                                logoutHandler.onLogoutFailure(responseCode, message));
+                    }
                     RegistrationHelper.getInstance().getUserRegistrationListener()
                             .notifyOnUserLogoutFailure();
                 }

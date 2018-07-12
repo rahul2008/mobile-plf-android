@@ -68,6 +68,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
         return rootView;
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

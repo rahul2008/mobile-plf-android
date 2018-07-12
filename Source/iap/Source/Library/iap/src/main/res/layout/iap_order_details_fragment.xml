@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
 
     <LinearLayout
@@ -48,7 +49,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/iap_margin_4dp"
                 android:layout_toEndOf="@+id/iv_order_state"
-                android:text="@string/order_state_msg"
+                android:text="@string/iap_order_state"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/title" />
 
@@ -63,7 +64,7 @@
             android:layout_marginLeft="@dimen/border16_margin_left_right"
             android:layout_marginRight="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border12_margin"
-            android:text="@string/order_number_msg"
+            android:text="@string/iap_order_number_msg"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/iap_product_ctn_12" />
 
@@ -100,7 +101,7 @@
             android:layout_marginRight="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border24_margin"
             android:enabled="false"
-            android:text="@string/call_us"
+            android:text="@string/iap_call_us"
             app:uidComponentType="Primary" />
 
 
@@ -118,7 +119,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right"
-            android:text="@string/no_of_products" />
+            android:text="@string/iap_no_of_products" />
 
 
         <LinearLayout
@@ -135,7 +136,7 @@
             android:paddingBottom="@dimen/border16_margin_left_right"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingTop="@dimen/border16_margin_left_right"
-            android:text="@string/your_details"
+            android:text="@string/iap_your_details"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/title" />
 

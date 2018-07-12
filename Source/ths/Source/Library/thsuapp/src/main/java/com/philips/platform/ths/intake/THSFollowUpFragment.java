@@ -49,7 +49,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
         actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(R.string.ths_prepare_your_visit, true);
+            actionBarListener.updateActionBar(R.string.ths_prepare_visit_title, true);
         }
         mTHSFollowUpPresenter = new THSFollowUpPresenter(this, this);
         mPhoneNumberEditText = (EditText) view.findViewById(R.id.pth_intake_follow_up_phone_number);

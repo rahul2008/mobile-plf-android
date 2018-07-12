@@ -185,6 +185,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), stepNumber));
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -201,7 +202,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
-
     }
 
     public static DLSAddressFragment createInstance(Bundle args, AnimationType animType) {
@@ -217,11 +217,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (isVisible) {
             fm.beginTransaction()
                     .show(fragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         } else {
             fm.beginTransaction()
                     .hide(fragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
 
     }
@@ -257,10 +257,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     }
 
-    private void removeStaticFragments() {
-        removeStaticFragments(shippingFragment);
-        removeStaticFragments(billingFragment);
-    }
 
     private void createNewAddressOrUpdateIfAddressIDPresent() {
         createCustomProgressBar(mParentContainer,BIG);

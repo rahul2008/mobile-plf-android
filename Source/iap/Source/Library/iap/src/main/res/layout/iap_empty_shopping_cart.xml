@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:layout_marginBottom="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/extra_option"
@@ -46,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="@string/nothing_in_cart"
+                android:text="@string/iap_nothing_in_cart"
                 android:textSize="@dimen/iap_text_size_16sp" />
         </LinearLayout>
 

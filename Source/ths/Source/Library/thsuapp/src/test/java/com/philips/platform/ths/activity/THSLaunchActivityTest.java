@@ -123,16 +123,16 @@ public class THSLaunchActivityTest {
     @Test
     public void setTitle1() throws Exception {
         startActivity(intent);
-        mThsLaunchActivity.setTitle(R.string.ths_welcome);
+        mThsLaunchActivity.setTitle(R.string.ths_Welcome_nav_title);
         final CharSequence title = mThsLaunchActivity.getTitle();
-        assert title == mThsLaunchActivity.getString(R.string.ths_welcome);
+        assert title == mThsLaunchActivity.getString(R.string.ths_Welcome_nav_title);
     }
 
     @Test
     public void updateActionBar() throws Exception {
         startActivity(intent);
         mThsLaunchActivity.toolbar = toolbarMock;
-        mThsLaunchActivity.updateActionBar(R.string.ths_welcome,true);
+        mThsLaunchActivity.updateActionBar(R.string.ths_Welcome_nav_title,true);
         verify(toolbarMock).setNavigationIcon(any(Drawable.class));
     }
 
@@ -140,7 +140,7 @@ public class THSLaunchActivityTest {
     public void updateActionBar1() throws Exception {
         startActivity(intent);
         mThsLaunchActivity.toolbar = toolbarMock;
-        mThsLaunchActivity.updateActionBar(mThsLaunchActivity.getString(R.string.ths_welcome),false);
+        mThsLaunchActivity.updateActionBar(mThsLaunchActivity.getString(R.string.ths_Welcome_nav_title),false);
         verify(toolbarMock).setNavigationIcon(null);
     }
 

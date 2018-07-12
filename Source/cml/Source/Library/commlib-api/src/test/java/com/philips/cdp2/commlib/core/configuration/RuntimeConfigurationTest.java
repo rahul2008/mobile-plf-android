@@ -99,4 +99,27 @@ public class RuntimeConfigurationTest {
         assertThat(runtimeConfiguration.getContext()).isEqualTo(contextMock);
     }
 
+    @Test
+    public void givenAppInfraInterfaceIsNull_thenTaggingIsDisabled() {
+        RuntimeConfiguration configuration = new RuntimeConfiguration(contextMock, null);
+
+        assertThat(configuration.isTaggingEnabled()).isFalse();
+    }
+
+    @Test
+    public void givenAppInfraInterfaceIsNotNull_whenRuntimeConfigurationDoesNotHaveTaggingSet_thenTaggingIsDisabled() {
+
+        runtimeConfiguration.setTaggingEnabled(false);
+
+        assertThat(runtimeConfiguration.isTaggingEnabled()).isFalse();
+    }
+
+    @Test
+    public void givenAppInfraInterfaceIsNotNull_whenRuntimeConfigurationHasTaggingSet_thenTaggingIsEnabled() {
+
+        runtimeConfiguration.setTaggingEnabled(true);
+
+        assertThat(runtimeConfiguration.isTaggingEnabled()).isTrue();
+    }
+
 }

@@ -82,6 +82,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         return fragment;
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -95,6 +96,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER), this);
 
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
         mParentLayout = rootView.findViewById(R.id.parent_layout);
@@ -128,7 +130,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             }
         }
 
-        mRecyclerView = rootView.findViewById(R.id.shopping_cart_recycler_view);
+        mRecyclerView = rootView.findViewById(R.id.order_summary_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mPayNowBtn = rootView.findViewById(R.id.pay_now_btn);
@@ -179,6 +181,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_UPDATE_PRODUCT_COUNT), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER), this);
     }
 
     @Override
@@ -238,13 +241,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
         hideProgressBar();
        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mPayNowBtn.setEnabled(!Boolean.valueOf(event));
-        } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
+        } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER))) {
             startProductDetailFragment();
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
             showProductCatalogFragment(ShoppingCartFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    AddressSelectionFragment.TAG);
+                    DeliveryMethodFragment.TAG);
         }
     }
 
@@ -385,7 +388,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     }
 
     @Override
-    public void onSetDeliveryMode(Message msg) {
+        public void onSetDeliveryMode(Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             updateCartOnResume();
         } else {

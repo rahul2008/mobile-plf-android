@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.screens;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
     }
+
 
     @Override
     public boolean handleBackEvent() {

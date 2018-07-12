@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ConsentManager implements ConsentManagerInterface {
 
-    protected long timeout = 100;
+    protected long timeout = 60;
     private final AppInfra mAppInfra;
     private Map<String, ConsentHandlerInterface> consentHandlerMapping = new HashMap<>();
     private Map<String, ConsentDefinition> consentDefinitionMapping = new HashMap<>();

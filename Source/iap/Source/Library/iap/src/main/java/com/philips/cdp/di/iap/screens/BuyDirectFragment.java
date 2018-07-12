@@ -47,6 +47,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         return fragment;
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

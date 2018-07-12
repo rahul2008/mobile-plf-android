@@ -133,7 +133,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     private void setDescription() {
         String userId = user.getMobile();
-        String normalText = getString(R.string.reg_DLS_VerifySMS_Description_Text);
+        String normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
         SpannableString str = new SpannableString(String.format(normalText, userId));
         str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length() - 2, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         regVerifyMobileDesc1.setText(str);
@@ -183,7 +183,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_DLS_URCreateAccount_NavTitle;
+        return R.string.USR_DLS_URCreateAccount_NavTitle;
     }
 
     private void updateUiStatus() {

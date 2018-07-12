@@ -72,6 +72,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         }
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

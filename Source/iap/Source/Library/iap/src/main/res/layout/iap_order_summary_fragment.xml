@@ -35,7 +35,7 @@
                 android:visibility="invisible"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/shopping_cart_recycler_view"
+                android:id="@+id/order_summary_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:listSelector="@android:color/transparent" />
