@@ -71,7 +71,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             } else {
                 emailorMobile = user.getMobile();
             }
-            hsdpUser.socialLogin(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
+            hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
                     new SocialLoginHandler() {
 
                         @Override

@@ -64,7 +64,7 @@ public class CloudLogRequestBodyBuilder {
             LogMetaDataModel logMetaDataModel=new LogMetaDataModel();
             logMetaDataModel.setAppstate(ailCloudLogData.appState);
             logMetaDataModel.setDescription(ailCloudLogData.logDescription);
-            Log.v("SyncTesting","Log::"+ailCloudLogData.logDescription);
+            //Log.d("SyncTesting","Log::"+ailCloudLogData.logDescription);
             logMetaDataModel.setDetails(getValue(ailCloudLogData.details));
             logMetaDataModel.setDevicetype(Build.MANUFACTURER + " " + Build.MODEL);
             logMetaDataModel.setHomecountry(getValue(ailCloudLogData.homecountry));
@@ -91,7 +91,7 @@ public class CloudLogRequestBodyBuilder {
         try {
             return new JSONObject(jsonString);
         } catch (JSONException e) {
-            Log.v("SyncTesting", "Exception while creating JSON object from json string");
+            //Log.d("SyncTesting", "Exception while creating JSON object from json string");
             return null;
         }
     }
