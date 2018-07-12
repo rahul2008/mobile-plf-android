@@ -26,7 +26,7 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
-public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
+public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResultHandler, JumpFlowDownloadStatusListener {
 
 
     private Context mContext;
@@ -96,10 +96,10 @@ public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResult
     }
 
 
-    @Override
-    public void onCode(String code) {
-        RLog.d(TAG, "onCode : is called");
-    }
+//    @Override
+//    public void onCode(String code) {
+//        RLog.d(TAG, "onCode : is called");
+//    }
 
     @Override
     public void onFailure(SignInError error) {

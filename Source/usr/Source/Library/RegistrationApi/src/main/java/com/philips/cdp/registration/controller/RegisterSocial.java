@@ -36,7 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RegisterSocial extends BaseHSDPLogin implements SocialProviderLoginHandler, Jump.SignInResultHandler,
-        Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
+        JumpFlowDownloadStatusListener {
 
     private String TAG = RegisterSocial.class.getSimpleName();
     private SocialProviderLoginHandler mSocialProviderLoginHandler;
@@ -72,9 +72,9 @@ public class RegisterSocial extends BaseHSDPLogin implements SocialProviderLogin
     }
 
 
-    public void onCode(String code) {
-        RLog.d(TAG, "onCode : is called");
-    }
+//    public void onCode(String code) {
+//        RLog.d(TAG, "onCode : is called");
+//    }
 
     public void onFailure(SignInError error) {
         RLog.d(TAG, "onFailure : is called");

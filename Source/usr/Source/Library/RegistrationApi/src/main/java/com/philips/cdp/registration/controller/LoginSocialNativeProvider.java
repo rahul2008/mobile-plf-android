@@ -31,7 +31,7 @@ import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONObject;
 
-public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.SignInResultHandler, Jump.SignInCodeHandler,
+public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.SignInResultHandler,
         JumpFlowDownloadStatusListener {
     private final static String TAG = LoginSocialNativeProvider.class.getSimpleName();
     private Context mContext;
@@ -83,11 +83,6 @@ public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.Sig
 
     }
 
-
-    @Override
-    public void onCode(String code) {
-        RLog.d(TAG,"onCode : is called");
-    }
 
     @Override
     public void onFailure(SignInError error) {
