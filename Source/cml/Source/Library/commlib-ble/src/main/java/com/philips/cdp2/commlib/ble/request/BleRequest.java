@@ -215,6 +215,11 @@ public abstract class BleRequest implements Runnable {
             return;
         }
 
+        if (bleDevice.getAddress() == null) {
+            onError(Error.NOT_AVAILABLE, "Communication is not available");
+            return;
+        }
+
         bleDevice.registerSHNDeviceListener(bleDeviceListener);
         if (bleDevice.getState() == Connected) {
             onConnected();

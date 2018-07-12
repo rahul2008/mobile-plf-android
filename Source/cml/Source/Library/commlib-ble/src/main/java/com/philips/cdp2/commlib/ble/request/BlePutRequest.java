@@ -46,6 +46,11 @@ public class BlePutRequest extends BleRequest {
 
     @Override
     protected void execute(@NonNull final CapabilityDiComm capability) {
+        if (dataMap == null) {
+            responseHandler.onError(Error.INVALID_PARAMETER, "Request data is null.");
+            return;
+        }
+
         if (dataMap.isEmpty()) {
             responseHandler.onError(Error.NO_REQUEST_DATA, "Request data is empty.");
             return;

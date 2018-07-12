@@ -14,6 +14,7 @@ import com.google.gson.JsonParser;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.pins.shinelib.ResultListener;
@@ -100,6 +101,9 @@ public class BleCommunicationStrategyTestSteps {
     private NetworkNode mockNetworkNode;
 
     @Mock
+    private SHNDevice mockDevice;
+
+    @Mock
     CapabilityDiComm capability;
 
     @Captor
@@ -141,6 +145,9 @@ public class BleCommunicationStrategyTestSteps {
 
     @Given("^the BLE communication strategy is initialized with id '(.*?)'$")
     public void theBLECommunicationStrategyIsInitializedWithId(String deviceId) {
+        when(mockNetworkNode.getCppId()).thenReturn(deviceId);
+        when(mockNetworkNode.getMacAddress()).thenReturn(deviceId);
+
         mStrategy = new BleCommunicationStrategy(shnCentralMock, mockNetworkNode, callbackHandlerMock) {
 
             @Override
@@ -163,22 +170,21 @@ public class BleCommunicationStrategyTestSteps {
 
     @Then("^the BLE communication strategy becomes unavailable$")
     public void theBLECommunicationStrategyBecomesUnavailable() {
-        mDeviceCache.clear();
+        when(mockDevice.getAddress()).thenReturn(null);
     }
 
     @Given("^a mock device is found with id '(.*?)'$")
     public void a_mock_device_is_found_with_id(final String deviceId) {
         final SHNDeviceFoundInfo info = mock(SHNDeviceFoundInfo.class);
-        final SHNDevice device = mock(SHNDevice.class);
         mRawDataListeners.put(deviceId, new CopyOnWriteArraySet<ResultListener<SHNDataRaw>>());
         writtenBytes.put(deviceId, 0);
 
         resetCapability(deviceId);
 
-        when(info.getShnDevice()).thenReturn(device);
-        when(device.getAddress()).thenReturn(deviceId);
-        when(device.getCapabilityForType(DI_COMM)).thenReturn(capability);
-        when(device.getState()).thenReturn(Disconnected);
+        when(info.getShnDevice()).thenReturn(mockDevice);
+        when(mockDevice.getAddress()).thenReturn(deviceId);
+        when(mockDevice.getCapabilityForType(DI_COMM)).thenReturn(capability);
+        when(mockDevice.getState()).thenReturn(Disconnected);
 
         doAnswer(new Answer() {
             @Override
@@ -187,31 +193,36 @@ public class BleCommunicationStrategyTestSteps {
                 deviceListenerMap.put(deviceId, listener);
                 return null;
             }
-        }).when(device).registerSHNDeviceListener(any(SHNDevice.SHNDeviceListener.class));
+        }).when(mockDevice).registerSHNDeviceListener(any(SHNDevice.SHNDeviceListener.class));
 
         doAnswer(new Answer() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
-                when(device.getState()).thenReturn(Connected);
+                when(mockDevice.getState()).thenReturn(Connected);
                 if (deviceListenerMap.containsKey(deviceId)) {
-                    deviceListenerMap.get(deviceId).onStateUpdated(device);
+                    deviceListenerMap.get(deviceId).onStateUpdated(mockDevice);
                 }
                 return null;
             }
-        }).when(device).connect(30000L);
+        }).when(mockDevice).connect(30000L);
 
         doAnswer(new Answer() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
-                when(device.getState()).thenReturn(Disconnected);
+                when(mockDevice.getState()).thenReturn(Disconnected);
                 if (deviceListenerMap.containsKey(deviceId)) {
-                    deviceListenerMap.get(deviceId).onStateUpdated(device);
+                    deviceListenerMap.get(deviceId).onStateUpdated(mockDevice);
                 }
                 return null;
             }
-        }).when(device).disconnect();
+        }).when(mockDevice).disconnect();
 
         when(mockNetworkNode.getCppId()).thenReturn(deviceId);
+        when(mockNetworkNode.getMacAddress()).thenReturn(deviceId);
+
+        when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(true);
+        when(shnCentralMock.isValidMacAddress(deviceId)).thenReturn(true);
+        when(shnCentralMock.createSHNDeviceForAddressAndDefinition(eq(mockNetworkNode.getMacAddress()), (ReferenceNodeDeviceDefinitionInfo)any())).thenReturn(mockDevice);
 
         mDeviceCache.add(mockNetworkNode, new DeviceCache.ExpirationCallback() {
             @Override
