@@ -84,6 +84,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_confirmation, true);
+        setCartIconVisibility(false);
     }
 
     @Override

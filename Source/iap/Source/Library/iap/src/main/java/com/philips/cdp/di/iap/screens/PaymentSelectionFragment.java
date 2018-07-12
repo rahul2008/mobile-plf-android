@@ -90,6 +90,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_payment, true);
+        setCartIconVisibility(false);
     }
 
     @Override

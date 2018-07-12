@@ -47,6 +47,7 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.WORLD_PAY_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_payment, true);
+        setCartIconVisibility(false);
     }
 
     public static WebPaymentFragment createInstance(Bundle args, AnimationType animType) {

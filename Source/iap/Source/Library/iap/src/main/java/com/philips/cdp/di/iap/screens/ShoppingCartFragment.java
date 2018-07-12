@@ -117,6 +117,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_dls, true);
+        setCartIconVisibility(false);
         if (isNetworkConnected()) {
             updateCartDetails(mShoppingCartAPI);
         }

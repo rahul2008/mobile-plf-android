@@ -12,7 +12,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -160,6 +162,18 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         EventHelper.getInstance().registerEventNotification(IAPConstant.IAP_DELETE_PRODUCT, this);
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         initializeViews(rootView);
+
+        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                Fragment currentBackStackFragment =getActivity().getSupportFragmentManager().findFragmentByTag(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL);
+                if(currentBackStackFragment instanceof ProductCatalogFragment){
+                    //Add Code
+                    setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
+                }
+            }
+        });
+
         return rootView;
     }
 

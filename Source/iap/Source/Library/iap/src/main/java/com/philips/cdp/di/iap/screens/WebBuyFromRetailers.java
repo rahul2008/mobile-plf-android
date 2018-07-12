@@ -44,6 +44,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
        super.onResume();
         String title = getArguments().getString(IAPConstant.IAP_STORE_NAME);
         setTitleAndBackButtonVisibility(title, true);
+        setCartIconVisibility(false);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_WEB_PAGE);
         mWebView.onResume();
     }

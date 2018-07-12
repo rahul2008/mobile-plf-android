@@ -202,6 +202,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
+        setCartIconVisibility(false);
     }
 
     public static DLSAddressFragment createInstance(Bundle args, AnimationType animType) {

@@ -93,6 +93,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_order_details, true);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_DETAIL_PAGE_NAME);
+        setCartIconVisibility(false);
     }
 
     @Override

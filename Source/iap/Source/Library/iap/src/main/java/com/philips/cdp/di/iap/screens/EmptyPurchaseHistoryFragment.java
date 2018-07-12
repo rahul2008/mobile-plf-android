@@ -41,6 +41,7 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
+        setCartIconVisibility(false);
     }
 
 

@@ -41,6 +41,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(getContext().getResources().getString(R.string.iap_delivery_method), true);
+        setCartIconVisibility(false);
     }
 
     @Override
