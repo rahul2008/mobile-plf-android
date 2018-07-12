@@ -21,7 +21,10 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
+import org.joda.time.DateTimeZone;
+
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.inject.Inject;
 
@@ -93,7 +96,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
             if (responseData != null && !responseData.isEmpty()) {
                 ConsentDTO consentDTO = responseData.get(0);
                 consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion(), consentDTO.getTimestamp().toDate());
-                callback.onGetConsentsSuccess(new ConsentStatus(consentDTO.getStatus(), consentDTO.getVersion(), consentDTO.getTimestamp().toDate()));
+                callback.onGetConsentsSuccess(new ConsentStatus(consentDTO.getStatus(), consentDTO.getVersion(), consentDTO.getTimestamp().toDateTime(DateTimeZone.UTC).toDate()));
             } else {
                 callback.onGetConsentsSuccess(null);
             }
