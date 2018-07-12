@@ -136,6 +136,8 @@ Daha fazla bilgi için lütfen Philips Gizlilik bildirimini ve Philips Tanımlam
   <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[tr]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[tr]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[tr]I allow Philips to use my data for Research and Analytics purposes</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream">[tr]I allow Philips to use my data for device tagging clickstream</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream_Help_Text">[tr]The actual content of the device tagging clickstream consent help text here</string>
   <string name="RA_Menu_title_Demo">[tr]Test Demo Apps</string>
   <string name="RA_NO_Order_History">Sipariş Geçmişi Kullanılamıyor</string>
   <string name="RA_Neura_Allow_Button">[tr]Allow</string>
