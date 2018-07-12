@@ -25,6 +25,7 @@ import static com.philips.platform.appinfra.rest.hpkp.HPKPLoggingHelper.LOG_MESS
 public class HPKPManager implements HPKPInterface {
 
     private static final String PUBLIC_KEY_REGEX = "pin-sha256=\"(.+?)\";";
+    private Pattern publicKeyPattern = Pattern.compile(PUBLIC_KEY_REGEX);
     private HPKPLoggingHelper hpkpLoggingHelper;
     private HPKPStorageHelper hpkpStorageHelper;
 
@@ -119,8 +120,7 @@ public class HPKPManager implements HPKPInterface {
     }
 
     private List<String> getPinnedPublicKeysList(String publicKeyDetails) {
-        Pattern pattern = Pattern.compile(PUBLIC_KEY_REGEX);
-        Matcher matcher = pattern.matcher(publicKeyDetails);
+        Matcher matcher = publicKeyPattern.matcher(publicKeyDetails);
         List<String> pinnedKeysList = new ArrayList<>();
         while (matcher.find()) {
             pinnedKeysList.add(matcher.group(1));
