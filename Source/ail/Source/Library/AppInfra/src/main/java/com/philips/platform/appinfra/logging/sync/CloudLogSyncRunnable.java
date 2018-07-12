@@ -54,7 +54,7 @@ public class CloudLogSyncRunnable implements Runnable {
         //1. Fetch oldest data from DB
         final List<AILCloudLogData> ailCloudLogDataList = ailCloudLogDBManager.getNewAILCloudLogRecords();
         if (ailCloudLogDataList != null && ailCloudLogDataList.size() > 0) {
-            Log.v("SyncTesting", "About to sync records" + ailCloudLogDataList.size());
+            //Log.d("SyncTesting", "About to sync records" + ailCloudLogDataList.size());
             //2. Build rest api call template
 
             //3. Make rest api call
@@ -63,7 +63,7 @@ public class CloudLogSyncRunnable implements Runnable {
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, "appinfra.cloudLogging", ServiceIDUrlFormatting.SERVICEPREFERENCE.BYCOUNTRY, null, jsonBody, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.v("SyncTesting", "Inside onResponse");
+                    //Log.d("SyncTesting", "Inside onResponse");
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -72,7 +72,7 @@ public class CloudLogSyncRunnable implements Runnable {
                         @Override
                         public void run() {
                             ailCloudLogDBManager.updateAILCloudLogList(ailCloudLogDataList, AILCloudLogDBManager.DBLogState.ERROR);
-                            Log.v("SyncTesting", "Inside onErrorResponse" + error.getMessage());
+                            //Log.d("SyncTesting", "Inside onErrorResponse" + error.getMessage());
                         }
                     }).start();
 
@@ -84,7 +84,7 @@ public class CloudLogSyncRunnable implements Runnable {
                     if (response.statusCode == STATUS_CODE_CREATED || response.statusCode == STATUS_CODE_BAD_REQUEST) {
                         //4. Based on status delete data from db
                         ailCloudLogDBManager.deleteLogRecords(ailCloudLogDataList);
-                        Log.v("SyncTesting", "Deleted records" + ailCloudLogDataList.size());
+                        //Log.d("SyncTesting", "Deleted records" + ailCloudLogDataList.size());
                         return Response.success(new JSONObject(),
                                 HttpHeaderParser.parseCacheHeaders(response));
 

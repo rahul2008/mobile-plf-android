@@ -78,7 +78,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
         if (SHNCentralStateReady.equals(sharedResources.getShnCentral().getShnCentralState())) {
             sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
         } else {
-            final String errorMsg = "Not ready for connection to the peripheral, assuming Bluetooth is disabled.";
+            final String errorMsg = "Not ready for connection to the peripheral, Bluetooth is not on.";
 
             SHNLogger.e(TAG, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
