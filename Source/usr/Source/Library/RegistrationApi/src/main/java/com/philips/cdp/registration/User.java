@@ -99,6 +99,8 @@ public class User {
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
+    private UserLoginState userLoginState;
+
     /**
      * Constructor
      *
@@ -532,6 +534,23 @@ public class User {
     }
 
     /**
+     * {@code getUserSignInState} method checks a user is logged in state
+     *
+     * @return boolean
+     * @since 1.0.1
+     */
+
+
+    public UserLoginState getUserLoginState() {
+        return userLoginState;
+    }
+
+    private void setUserLoginState(UserLoginState userLoginState) {
+        this.userLoginState = userLoginState;
+    }
+
+
+    /**
      * {@code isUserSignIn} method checks if a user is logged in
      *
      * @return boolean
@@ -550,38 +569,66 @@ public class User {
         boolean isAcceptTerms = RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired();
         RLog.d(TAG, "isUserSignIn isEmailVerificationRequired : " + isEmailVerificationRequired + "and isHsdpFlow : " + isHsdpFlow + "and isAcceptTerms : " + isAcceptTerms);
         boolean signedIn = true;
-        if (isEmailVerificationRequired) {
-            signedIn = !capturedRecord.isNull(USER_EMAIL_VERIFIED) ||
-                    !capturedRecord.isNull(USER_MOBILE_VERIFIED);
-            RLog.i(TAG, "isUserSignIn SignIn status" + signedIn);
-        }
-        if (isHsdpFlow) {
-            if (!isEmailVerificationRequired) {
-                throw new RuntimeException("Please set emailVerificationRequired field as true");
-            }
-            HsdpUser hsdpUser = new HsdpUser(mContext);
-            signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
-            RLog.i(TAG, "isUserSignIn SignIn status: " + signedIn);
-            RLog.i(TAG, "isUserSignIn HsdpUser isHsdpUserSignedIn status: " + hsdpUser.isHsdpUserSignedIn());
+        signedIn = isEmailVerificationSignIn(capturedRecord, isEmailVerificationRequired, signedIn);
+        signedIn = isHSDPUserSignedIn(isEmailVerificationRequired, isHsdpFlow, signedIn);
+        signedIn = isSignedInOnRegistrationClientIdPresent(capturedRecord, signedIn);
+        signedIn = isSignedInOnAcceptedTermsAndConditions(isAcceptTerms, signedIn);
+        setUserLoginState(UserLoginState.USER_LOGGED_IN);
+        return signedIn;
+    }
 
-        }
+    private boolean isSignedInOnRegistrationClientIdPresent(CaptureRecord capturedRecord, boolean signedIn) {
         if (RegistrationConfiguration.getInstance().getRegistrationClientId(RegUtility.
                 getConfiguration(
                         RegistrationConfiguration.getInstance().getRegistrationEnvironment())) != null) {
             signedIn = signedIn && capturedRecord.getAccessToken() != null;
-            RLog.i(TAG, "isUserSignIn SignIn  with capturedRecord.getAccessToken status" + signedIn);
-
+            RLog.i(TAG, "isSignedInOnRegistrationClientIdPresent SignIn  with capturedRecord.getAccessToken status" + signedIn);
         }
+        return signedIn;
+    }
 
+    private boolean isSignedInOnAcceptedTermsAndConditions(boolean isAcceptTerms, boolean signedIn) {
         if (isAcceptTerms) {
             RLog.i(TAG, "isUserSignIn isAcceptTerms : " + signedIn);
 
             if (!isTermsAndConditionAccepted()) {
                 signedIn = false;
-                RLog.d(TAG, "isUserSignIn isTermsAndConditionAccepted clear data on SignIn :" + false);
-
-                //          clearData();
+                setUserLoginState(UserLoginState.PENDING_TERM_CONDITION);
+                RLog.d(TAG, "isSignedInOnAcceptedTermsAndConditions isTermsAndConditionAccepted clear data on SignIn :" + false);
             }
+        }
+        return signedIn;
+    }
+
+    private boolean isHSDPUserSignedIn(boolean isEmailVerificationRequired, boolean isHsdpFlow, boolean signedIn) {
+        if (isHsdpFlow) {
+            if (!isEmailVerificationRequired) {
+                setUserLoginState(UserLoginState.PENDING_VERIFICATION);
+                throw new RuntimeException("Please set emailVerificationRequired field as true");
+            }
+            HsdpUser hsdpUser = new HsdpUser(mContext);
+            final boolean hsdpUserSignedIn = hsdpUser.isHsdpUserSignedIn();
+            signedIn = hsdpUserSignedIn;
+//            if (!hsdpUserSignedIn) {
+//                setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
+//            } else {
+//                signedIn = signedIn && hsdpUserSignedIn;
+//            }
+            RLog.i(TAG, "isHSDPUserSignedIn SignIn status: " + signedIn);
+
+        } else {
+            setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
+        }
+        return signedIn;
+    }
+
+    private boolean isEmailVerificationSignIn(CaptureRecord capturedRecord, boolean isEmailVerificationRequired, boolean signedIn) {
+        if (isEmailVerificationRequired) {
+            signedIn = !capturedRecord.isNull(USER_EMAIL_VERIFIED) ||
+                    !capturedRecord.isNull(USER_MOBILE_VERIFIED);
+            RLog.i(TAG, "isUserSignIn SignIn status" + signedIn);
+        } else {
+            setUserLoginState(UserLoginState.PENDING_VERIFICATION);
         }
         return signedIn;
     }
@@ -1088,5 +1135,6 @@ public class User {
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(
                 userRegistrationListener);
     }
+
 
 }
