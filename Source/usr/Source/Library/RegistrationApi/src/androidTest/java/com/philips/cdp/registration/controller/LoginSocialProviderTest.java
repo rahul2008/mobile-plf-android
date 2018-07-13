@@ -77,7 +77,7 @@ public class LoginSocialProviderTest extends RegistrationApiInstrumentationBase 
 
         assertNotNull(mLoginSocialProvider);
 //        mLoginSocialProvider.onSuccess();
-        mLoginSocialProvider.onCode("sample");
+//        mLoginSocialProvider.onCode("sample");
         mLoginSocialProvider.onFlowDownloadFailure();
     }
 }
