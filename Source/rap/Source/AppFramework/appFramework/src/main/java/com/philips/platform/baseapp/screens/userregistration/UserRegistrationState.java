@@ -18,6 +18,7 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
@@ -307,9 +308,12 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         urLaunchInput.enableAddtoBackStack(true);
         RegistrationContentConfiguration contentConfiguration = new RegistrationContentConfiguration();
         contentConfiguration.enableContinueWithouAccount(true);
+       // contentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        urLaunchInput.setUIFlow(UIFlow.FLOW_B);
+
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }
