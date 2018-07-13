@@ -166,7 +166,7 @@ public class THSVisitHistoryPresenterTest {
     @Test
     public void onFailure() throws Exception {
         mThsVisitHistoryPresenter.onFailure(throwableMock);
-        verify(thsVisitHistoryFragmentMock).showError(anyString(), anyBoolean(), anyBoolean());
+        verify(thsVisitHistoryFragmentMock).showError(null, true, false);
     }
 
     @Test
