@@ -32,8 +32,6 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoStateException
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
@@ -43,9 +41,6 @@ import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
-import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -226,8 +221,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void onUserRegistrationComplete(Activity activity) {
 
-        updateTaggingBasedOnClickStreamConsent();
-
         if (null != activity && getUserObject(activity).isUserSignIn()) {
             setUrCompleted();
             getApplicationContext().determineChinaFlow();
@@ -259,24 +252,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             getFragmentActivity().finish();
             baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
         }
-    }
-
-    private void updateTaggingBasedOnClickStreamConsent() {
-        getApplicationContext().getAppInfra().getConsentManager().fetchConsentTypeState(getApplicationContext().getAppInfra().getTagging().getClickStreamConsentIdentifier(), new FetchConsentCallback() {
-            @Override
-            public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
-                if (consentDefinitionStatus.getConsentState().equals(ConsentStates.active)) {
-                    getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-                } else {
-                    getApplicationContext().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
-                }
-            }
-
-            @Override
-            public void onGetConsentFailed(ConsentError error) {
-                RALog.e("Consent Network Error", error.getError());
-            }
-        });
     }
 
     @Override
