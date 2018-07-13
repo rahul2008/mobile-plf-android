@@ -73,9 +73,9 @@ dependencies {
     def suffix = objcdp.getVersionSuffix()
 
     if (findProject(':commlib-testutils')) {
-        testApi project(':commlib-testutils')
+        testImplementation project(':commlib-testutils')
     } else {
-        testApi("$group:commlib-testutils:$platformversion$suffix") { changing = true }
+        testImplementation("$group:commlib-testutils:$platformversion$suffix") { changing = true }
     }
 
     for (dep in [':AppInfra', ':securedblibrary']) {

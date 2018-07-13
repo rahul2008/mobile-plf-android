@@ -53,6 +53,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     private static final long serialVersionUID = -2933379998466934303L;
     public static final String AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION = "ail.servicediscovery.homecountryChanged";
+    public static final String SD_DATA_CHANGE_ACTION = "com.philips.platform.appinfra.SERVICE_DISCOVERY_DATA_CHANGE";
     public static final String AIL_HOME_COUNTRY = "ail.servicediscovery.homeCountry";
     private static final String COUNTRY = "country";
     private static final String COUNTRY_SOURCE = "country_source";

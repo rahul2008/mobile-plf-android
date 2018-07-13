@@ -120,6 +120,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.support.appcompatv7
     implementation deps.play_services_gcm
+    implementation deps.firebase_core
+
 
     def dp = project.ext.has('useprojectdependencies')
 

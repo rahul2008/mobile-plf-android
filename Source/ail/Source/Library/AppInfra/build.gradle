@@ -39,6 +39,10 @@ android {
     signingConfigs {
         release
     }
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
+    }
 
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -91,10 +95,7 @@ android {
         }
     }
 
-    compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
-    }
+
 }
 
 dependencies {
@@ -114,9 +115,7 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.support.annotations
     implementation deps.joda_time
-    implementation deps.firbase_core
-    implementation deps.firbase_config
-
+    implementation deps.rxjava2
     api deps.room_runtime,{
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'

@@ -2,6 +2,7 @@ package com.philips.platform.baseapp.screens.myaccount;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -167,7 +168,10 @@ public class MyAccountState extends BaseState{
                         RALog.d(TAG,"onLogoutClicked: onLogoutResultFailure started");
                         String title = actContext.getString(R.string.MYA_Offline_title);
                         String Message = actContext.getString(R.string.MYA_Offline_message);
-                        new DialogView(title, Message).showDialog(getFragmentActivity());
+                        Fragment fragmentById = ((HamburgerActivity) actContext).getSupportFragmentManager().findFragmentById(R.id.frame_container);
+                        if(fragmentById != null && fragmentById.isVisible()) {
+                            new DialogView(title, Message).showDialog(getFragmentActivity());
+                        }
                         myaLogoutListener.onLogOutFailure();
                         ((HamburgerActivity) actContext).hideProgressBar();
                         RALog.d(TAG,"onLogoutClicked: onLogoutResultFailure completed");
@@ -179,7 +183,10 @@ public class MyAccountState extends BaseState{
                         RALog.d(TAG,"onLogoutClicked: onNetworkError started");
                         String title = actContext.getString(R.string.MYA_Offline_title);
                         String Message = actContext.getString(R.string.MYA_Offline_message);
-                        new DialogView(title, Message).showDialog(getFragmentActivity());
+                        Fragment fragmentById = ((HamburgerActivity) actContext).getSupportFragmentManager().findFragmentById(R.id.frame_container);
+                        if(fragmentById != null && fragmentById.isVisible()) {
+                            new DialogView(title, Message).showDialog(getFragmentActivity());
+                        }
                         myaLogoutListener.onLogOutFailure();
                         ((HamburgerActivity) actContext).hideProgressBar();
                         RALog.d(TAG,"onLogoutClicked: onNetworkError completed");

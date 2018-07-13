@@ -67,6 +67,6 @@ class CommlibUappKpsConfigurationInfo extends KpsConfigurationInfo {
 
     @Override
     public String getDevicePortUrl() {
-        return "https://www.uat.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";
+        return "https://tst.dp.dc1.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";
     }
 }

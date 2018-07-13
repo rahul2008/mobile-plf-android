@@ -80,8 +80,8 @@
 //    }
 //
 //    @Test(expected = NullPointerException.class)
-//    public void socialLogin() throws Exception {
-//        hsdpUser.socialLogin("email","token","refresh_token",loginHandlerMock);
+//    public void login() throws Exception {
+//        hsdpUser.login("email","token","refresh_token",loginHandlerMock);
 //    }
 //
 //    @Test(expected = NullPointerException.class)

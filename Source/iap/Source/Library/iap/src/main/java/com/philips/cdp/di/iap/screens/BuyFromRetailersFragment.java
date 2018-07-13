@@ -45,20 +45,6 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         return fragment;
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_select_retailer;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_select_retailer);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -89,8 +75,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
-        //setTitleAndBackButtonVisibility(R.string.iap_select_retailer, true);
-        setActionbarTitle();
+        setTitleAndBackButtonVisibility(R.string.iap_select_retailer, true);
         if (mStoreEntity != null) {
             BuyFromRetailersAdapter mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this);
             mRecyclerView.setAdapter(mAdapter);
