@@ -20,6 +20,8 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.utility.BleScanRecord;
+import java.util.ArrayList;
+import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +43,9 @@ import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed;
+import static java.util.Collections.unmodifiableCollection;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -241,5 +245,21 @@ public class BleDiscoveryStrategyTest {
         strategyUnderTest.stop();
 
         verify(scheduledFuture).cancel(true);
+    }
+
+    @Test
+    public void whenDeviceCacheIsCleared_thenAllNetworkNodesInCacheWillBeLost() {
+        CacheData mockCacheData = mock(CacheData.class);
+        NetworkNode mockNetworkNode = mock(NetworkNode.class);
+        when(mockCacheData.getNetworkNode()).thenReturn(mockNetworkNode);
+        ArrayList<CacheData> deviceCaches = new ArrayList<>();
+        deviceCaches.add(mockCacheData);
+        Collection<CacheData> fakeCollection = unmodifiableCollection(deviceCaches);
+
+        when(mockCache.clear()).thenReturn(fakeCollection);
+
+        strategyUnderTest.clearDiscoveredNetworkNodes();
+
+        verify(mockDiscoveryListener).onNetworkNodeLost(mockNetworkNode);
     }
 }

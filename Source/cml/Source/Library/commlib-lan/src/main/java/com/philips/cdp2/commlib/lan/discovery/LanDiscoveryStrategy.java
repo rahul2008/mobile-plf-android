@@ -23,6 +23,7 @@ import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -141,7 +142,11 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     @Override
     public void clearDiscoveredNetworkNodes() {
-        deviceCache.clear();
+        Collection<CacheData> items = deviceCache.clear();
+
+        for (CacheData item : items) {
+            notifyNetworkNodeLost(item.getNetworkNode());
+        }
     }
 
     @VisibleForTesting

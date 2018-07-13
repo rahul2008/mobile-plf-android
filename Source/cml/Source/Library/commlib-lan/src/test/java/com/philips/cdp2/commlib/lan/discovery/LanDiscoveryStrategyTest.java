@@ -8,7 +8,7 @@ package com.philips.cdp2.commlib.lan.discovery;
 import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
-import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.devicecache.CacheData;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
@@ -19,6 +19,8 @@ import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.util.SsidProvider;
 import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
+import java.util.ArrayList;
+import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -34,14 +36,17 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static java.util.Collections.unmodifiableCollection;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -320,6 +325,29 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         strategyUnderTest.start();
 
         verify(discoveryListenerMock).onDiscoveryFailedToStart();
+    }
+
+    @Test
+    public void whenClearingDiscoveredNetworkNodes_thenDeviceCacheShouldBeCleared() {
+        strategyUnderTest.clearDiscoveredNetworkNodes();
+
+        verify(deviceCacheMock).clear();
+    }
+
+    @Test
+    public void whenDeviceCacheIsCleared_thenAllNetworkNodesInCacheWillBeLost() {
+        CacheData mockCacheData = mock(CacheData.class);
+        NetworkNode mockNetworkNode = mock(NetworkNode.class);
+        when(mockCacheData.getNetworkNode()).thenReturn(mockNetworkNode);
+        ArrayList<CacheData> deviceCaches = new ArrayList<>();
+        deviceCaches.add(mockCacheData);
+        Collection<CacheData> fakeCollection = unmodifiableCollection(deviceCaches);
+
+        when(deviceCacheMock.clear()).thenReturn(fakeCollection);
+
+        strategyUnderTest.clearDiscoveredNetworkNodes();
+
+        verify(discoveryListenerMock).onNetworkNodeLost(mockNetworkNode);
     }
 
     private SSDPDevice createSsdpDevice(final @NonNull String cppId, final @NonNull String modelName, final @NonNull String modelNumber) {
