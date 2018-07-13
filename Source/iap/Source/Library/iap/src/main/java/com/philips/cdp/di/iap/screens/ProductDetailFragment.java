@@ -163,17 +163,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         initializeViews(rootView);
 
-        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                Fragment currentBackStackFragment =getActivity().getSupportFragmentManager().findFragmentByTag(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL);
-                if(currentBackStackFragment instanceof ProductCatalogFragment){
-                    //Add Code
-                    setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
-                }
-            }
-        });
-
         return rootView;
     }
 
@@ -449,7 +438,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
             bundle.putString(IAPConstant.IAP_BUY_URL, storeEntities.get(0).getBuyURL());
             bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
-            addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), WebBuyFromRetailers.TAG);
+            addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), WebBuyFromRetailers.TAG,true);
         } else {
 
             bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST));
@@ -459,7 +448,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
             } else {
                 addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE),
-                        BuyFromRetailersFragment.TAG);
+                        BuyFromRetailersFragment.TAG,true);
             }
         }
     }
@@ -757,13 +746,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
         } else if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
             hideProgressBar();
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
+            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG,true);
         }
     }
 
     private void startShoppingCartFragment() {
         mAddToCart.hideProgressIndicator();
-        addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG);
+        addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG,true);
     }
 
     @Override
@@ -819,7 +808,12 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             } else {
                 getFragmentManager().popBackStack();
             }
-        }
+         }
+      /*  if(Utility.isProductDetailsFromOrderSummarry){
+            Utility.isProductDetailsFromOrderSummarry=false;
+            addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG,false);
+        }*/
+
         return super.handleBackEvent();
     }
 

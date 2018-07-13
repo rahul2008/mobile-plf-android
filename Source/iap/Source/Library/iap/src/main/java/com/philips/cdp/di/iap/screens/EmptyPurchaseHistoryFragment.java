@@ -62,7 +62,7 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
         if (v.getId() == R.id.btn_continue_shopping) {
             if (!isNetworkConnected()) return;
             addFragment(ProductCatalogFragment.createInstance(new Bundle(),
-                    AnimationType.NONE), ProductCatalogFragment.TAG);
+                    AnimationType.NONE), ProductCatalogFragment.TAG,true);
 
         }
     }

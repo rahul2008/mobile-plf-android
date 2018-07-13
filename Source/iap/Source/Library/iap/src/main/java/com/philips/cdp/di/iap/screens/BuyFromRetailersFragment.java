@@ -89,7 +89,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.IAP_BUY_URL, uuidWithSupplierLink(buyURL));
         bundle.putString(IAPConstant.IAP_STORE_NAME, name);
-        addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), null);
+        addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), null,true);
     }
 
     private String uuidWithSupplierLink(String buyURL) {

@@ -61,7 +61,7 @@
   <string name="iap_country_hint">Enter your country</string>
   <string name="iap_customer_help">Our customer care team is pleased to help you.</string>
   <string name="iap_cvv_code">Please enter the CVV/CVC </string>
-  <string name="iap_cvv_code_hint_description">The 3-digit number can be found on the back of your card.</string>
+  <string name="iap_cvv_code_hint_description">This 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_daily_selling_product">Daily Collection Miniblender</string>
   <string name="iap_delete">Delete</string>

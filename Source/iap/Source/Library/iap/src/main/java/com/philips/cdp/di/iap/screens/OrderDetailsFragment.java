@@ -234,7 +234,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                     bundle.putString(IAPConstant.PRODUCT_OVERVIEW, product.getMarketingTextHeader());
 //                    bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
 //                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getmStockLevel());
-                    addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
+                    addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
                 }
             });
         }
@@ -312,7 +312,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                     bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
                     bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
                     bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
-                    addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG);
+                    addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG,true);
                 }
             }
         }

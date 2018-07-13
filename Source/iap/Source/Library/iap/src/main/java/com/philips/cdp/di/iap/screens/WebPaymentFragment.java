@@ -86,7 +86,7 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     }
 
     private void launchConfirmationScreen(Bundle bundle) {
-        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
+        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null,true);
     }
 
     @Override

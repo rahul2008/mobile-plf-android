@@ -47,6 +47,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.di.iap.utils.Utility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -234,6 +235,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public boolean handleBackEvent() {
+       // addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE), DLSAddressFragment.TAG,true);
         return false;
     }
 
@@ -248,7 +250,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             showProductCatalogFragment(ShoppingCartFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    DeliveryMethodFragment.TAG);
+                    DeliveryMethodFragment.TAG,true);
         }
     }
 
@@ -259,7 +261,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
         bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
-        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
+        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
     }
 
     @Override
@@ -274,13 +276,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
-                        DLSAddressFragment.TAG);
+                        DLSAddressFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                 mAddresses = shippingAddresses.getAddresses();
                 bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
                 addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
-                        AddressSelectionFragment.TAG);
+                        AddressSelectionFragment.TAG,true);
             }
         }
     }
@@ -445,7 +447,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             MakePaymentData mMakePaymentData = (MakePaymentData) msg.obj;
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEB_PAY_URL, mMakePaymentData.getWorldpayUrl());
-            addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null,true);
         } else if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
@@ -495,7 +497,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.ORDER_NUMBER, details.getCode());
         bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, Boolean.TRUE);
-        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
+        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null,true);
     }
 
     private void checkForOutOfStock(final IAPNetworkError iapNetworkError, Message msg) {

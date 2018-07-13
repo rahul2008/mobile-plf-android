@@ -123,7 +123,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
             bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, value);
             //Load shipping address from SetDelivery Address with check boxed
             addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
-                    DLSAddressFragment.TAG);
+                    DLSAddressFragment.TAG,true);
 //            addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE),
 //                    BillingAddressFragment.TAG);
         }
@@ -150,7 +150,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
         } else {
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());
-            addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
+            addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG,true);
         }
     }
 }
