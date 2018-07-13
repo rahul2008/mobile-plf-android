@@ -116,6 +116,9 @@ dependencies {
     implementation deps.support.annotations
     implementation deps.joda_time
     implementation deps.rxjava2
+    implementation deps.firebase_core
+    implementation deps.firebase_config
+
     api deps.room_runtime,{
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'

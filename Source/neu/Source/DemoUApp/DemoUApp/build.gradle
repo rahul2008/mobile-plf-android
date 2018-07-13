@@ -148,11 +148,16 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.calligraphy
     implementation deps.support.design
-    implementation deps.firbase_messaging
+
+    implementation (deps.firbase_messaging) {
+        exclude group: 'com.google.firebase', module: 'firebase-iid'
+    }
+
     implementation (deps.theneura) {
         exclude group: 'com.google.android.gms'
     }
     implementation deps.play_services_awareness
+    implementation deps.firebase_iid
 
     def dp = project.ext.has('useprojectdependencies')
 
