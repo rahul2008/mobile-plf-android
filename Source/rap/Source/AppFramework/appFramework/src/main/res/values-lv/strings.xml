@@ -136,6 +136,8 @@ Lai iegūtu papildinformāciju, lūdzu, izlasiet Philips paziņojumu par konfide
   <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[lv]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[lv]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[lv]I allow Philips to use my data for Research and Analytics purposes</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream">[lv]I allow Philips to use my data for device tagging clickstream</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream_Help_Text">[lv]The actual content of the device tagging clickstream consent help text here</string>
   <string name="RA_Menu_title_Demo">[lv]Test Demo Apps</string>
   <string name="RA_NO_Order_History">Pasūtījumu vēsture nav pieejama</string>
   <string name="RA_Neura_Allow_Button">[lv]Allow</string>

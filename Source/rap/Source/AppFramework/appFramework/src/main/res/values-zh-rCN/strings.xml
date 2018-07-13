@@ -136,6 +136,8 @@ Please sign in.</string>
   <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[zh-CN]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[zh-CN]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[zh-CN]I allow Philips to use my data for Research and Analytics purposes</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream">[zh-CN]I allow Philips to use my data for device tagging clickstream</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream_Help_Text">[zh-CN]The actual content of the device tagging clickstream consent help text here</string>
   <string name="RA_Menu_title_Demo">[zh-CN]Test Demo Apps</string>
   <string name="RA_NO_Order_History">订单历史记录不可用</string>
   <string name="RA_Neura_Allow_Button">[zh-CN]Allow</string>
