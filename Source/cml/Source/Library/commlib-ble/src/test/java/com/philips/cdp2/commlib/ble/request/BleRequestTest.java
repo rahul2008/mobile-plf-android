@@ -63,6 +63,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class BleRequestTest {
     private static final String PORT_NAME = "PoliticallyCorrectPiet";
     private static final int PRODUCT_ID = 1337;
+    private static final String MOCK_BLUETOOTH_DEVICE_ADDRESS = "11:22:33:44:55:66";
 
     private BleRequest request;
 
@@ -106,6 +107,7 @@ public class BleRequestTest {
         initMocks(this);
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
+        when(mockDevice.getAddress()).thenReturn(MOCK_BLUETOOTH_DEVICE_ADDRESS);
 
         doAnswer(new Answer() {
             @Override
