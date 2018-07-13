@@ -48,7 +48,7 @@ public class THSVisitHistoryPresenterTest {
     private THSVisitHistoryPresenter mThsVisitHistoryPresenter;
 
     @Mock
-    private THSVisitHistoryFragment thsVisitHistoryFragmentMock;
+    private THSVisitHistoryFragmentMock thsVisitHistoryFragmentMock;
 
     @Mock
     private Context contextMock;

@@ -347,4 +347,8 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             inputMethodManager.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), 0);
         }
     }
+
+    public String getStringFromResource(int resource){
+        return getContext().getString(resource);
+    }
 }

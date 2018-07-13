@@ -240,8 +240,4 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
         startActivity(browserIntent);
         THSTagUtils.doTrackPageWithInfo(THS_HIPPA,null,null);
     }
-
-    String getStringFromResource(int resource){
-        return getContext().getString(resource);
-    }
 }
