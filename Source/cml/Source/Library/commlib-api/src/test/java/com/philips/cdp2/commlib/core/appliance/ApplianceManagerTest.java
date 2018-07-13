@@ -29,6 +29,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
+import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
@@ -313,5 +314,22 @@ public class ApplianceManagerTest {
         networkNodeChangeListener.propertyChange(null);
 
         verify(networkNodeDatabaseMock).save(networkNodeMock);
+    }
+
+    @Test
+    public void whenApplianceIsFound_thenItShouldBeAddedToAvailableAppliances() {
+
+        firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
+
+        assertEquals(1, managerUnderTest.getAvailableAppliances().size());
+    }
+
+    @Test
+    public void givenThatAnApplianceIsAlreadyFound_whenApplianceIsLost_thenItShouldBeRemovedFromAvailableAppliances() {
+        firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
+
+        firstDiscoveryListener().onNetworkNodeLost(networkNodeMock);
+
+        assertEquals(0, managerUnderTest.getAvailableAppliances().size());
     }
 }

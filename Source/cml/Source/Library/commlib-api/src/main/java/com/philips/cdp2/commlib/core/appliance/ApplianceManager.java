@@ -70,6 +70,9 @@ public class ApplianceManager {
     private final Set<ApplianceListener> applianceListeners = new CopyOnWriteArraySet<>();
     private Map<String, Appliance> appliances = new ConcurrentHashMap<>();
 
+    @Deprecated
+    private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
+
     @NonNull
     private final Handler handler = createHandler();
     @NonNull
@@ -90,10 +93,10 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeLost(NetworkNode networkNode) {
-            final Appliance appliance = appliances.get(networkNode.getCppId());
+            final Appliance appliance = availableAppliances.get(networkNode.getCppId());
 
             if (appliance != null) {
-                notifyApplianceLost(appliance);
+                notifyApplianceLost(availableAppliances.remove(networkNode.getCppId()));
             }
         }
 
@@ -133,17 +136,30 @@ public class ApplianceManager {
         loadAllAddedAppliancesFromDatabase();
     }
 
+    private void updateAppliance(NetworkNode networkNode) {
+        final Appliance appliance = availableAppliances.get(networkNode.getCppId());
+
+        if (appliance != null) {
+            appliance.getNetworkNode().updateWithValuesFrom(networkNode);
+            notifyApplianceUpdated(appliance);
+        }
+    }
+
     @Nullable
     private Appliance processDiscoveredOrLoadedNetworkNode(@NonNull NetworkNode networkNode) {
         final String cppId = networkNode.getCppId();
-        if (appliances.containsKey(cppId)) {
-            final Appliance appliance = appliances.get(networkNode.getCppId());
-            appliance.getNetworkNode().updateWithValuesFrom(networkNode);
-            notifyApplianceUpdated(appliance);
-            return appliances.get(cppId);
+        if (availableAppliances.containsKey(cppId)) {
+            updateAppliance(networkNode);
+            return availableAppliances.get(cppId);
+        } else if (appliances.containsKey(cppId)) {
+            final Appliance appliance = appliances.get(cppId);
+            availableAppliances.put(cppId, appliance);
+            notifyApplianceFound(appliance);
+            return appliance;
         } else if (applianceFactory.canCreateApplianceForNode(networkNode)) {
             final Appliance appliance = applianceFactory.createApplianceForNode(networkNode);
             appliances.put(cppId, appliance);
+            availableAppliances.put(cppId, appliance);
             notifyApplianceFound(appliance);
             return appliance;
         }
@@ -159,7 +175,7 @@ public class ApplianceManager {
     @Deprecated
     @NonNull
     public Set<Appliance> getAvailableAppliances() {
-        return getAppliances();
+        return new CopyOnWriteArraySet<>(availableAppliances.values());
     }
 
     /**
