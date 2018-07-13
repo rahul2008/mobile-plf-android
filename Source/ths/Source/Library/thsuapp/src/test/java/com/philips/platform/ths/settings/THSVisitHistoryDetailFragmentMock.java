@@ -8,7 +8,7 @@ package com.philips.platform.ths.settings;
 public class THSVisitHistoryDetailFragmentMock extends THSVisitHistoryDetailFragment{
 
     @Override
-    String getStringFromResource(int resource){
+    public String getStringFromResource(int resource){
         return "ddd";
     }
 }
