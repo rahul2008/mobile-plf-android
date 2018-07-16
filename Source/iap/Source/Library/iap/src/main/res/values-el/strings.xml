@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[el]Select payment method</string>
   <string name="iap_checkout_steps">[el]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[el]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[el]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Διεκδίκηση κουπονιού</string>
   <string name="iap_confirm">[el]Confirm</string>
   <string name="iap_confirmation">Επιβεβαίωση</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Επικοινωνήστε με την Εξυπηρέτηση Καταναλωτών</string>
   <string name="iap_contact_consumer_care_for_support">Για περισσότερη βοήθεια επικοινωνήστε με την Εξυπηρέτηση Καταναλωτών της Philips.</string>
   <string name="iap_contact_customer_care">[el]Contact customer care</string>
+  <string name="iap_contact_details">[el]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[el]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Συνέχεια</string>
   <string name="iap_continue_shopping">Συνέχιση αγορών</string>
@@ -186,6 +188,7 @@ FedEx (υπηρεσία αποστολής δεμάτων)</string>
   <string name="iap_payment_pending_not_confirmed">Αν η πληρωμή δεν επιβεβαιωθεί εντός ## ωρών, θα σας ενημερώσουμε μέσω email σχετικά με τις ενέργειες στις οποίες θα πρέπει να προβείτε.</string>
   <string name="iap_payment_session_expired">Η περίοδος πληρωμής έληξε</string>
   <string name="iap_pending">[el]Pending</string>
+  <string name="iap_personal_details">[el]Personal details</string>
   <string name="iap_phone">Τηλέφ</string>
   <string name="iap_phone_error">Εισαγάγετε έγκυρο αριθμό τηλεφώνου</string>
   <string name="iap_phone_hint">Εισαγωγή αριθμού τηλεφώνου</string>

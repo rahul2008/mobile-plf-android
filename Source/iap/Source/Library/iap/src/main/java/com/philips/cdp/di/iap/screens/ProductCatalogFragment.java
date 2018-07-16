@@ -84,15 +84,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
         return fragment;
     }
 
-   public ProductCatalogFragment(){
-       Log.e("ProductCatalogFragment","ProductCatalogFragment");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-      //  setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
-    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {

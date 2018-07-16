@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[hu]Select payment method</string>
   <string name="iap_checkout_steps">[hu]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[hu]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[hu]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Kupon igénylése</string>
   <string name="iap_confirm">[hu]Confirm</string>
   <string name="iap_confirmation">Jóváhagyás</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Kapcsolatfelvétel a vevőszolgálattal</string>
   <string name="iap_contact_consumer_care_for_support">További támogatás érdekében vegye fel a kapcsolatot a Philips vevőszolgálattal.</string>
   <string name="iap_contact_customer_care">[hu]Contact customer care</string>
+  <string name="iap_contact_details">[hu]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[hu]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Folytatás</string>
   <string name="iap_continue_shopping">Vásárlás folytatása</string>
@@ -186,6 +188,7 @@ FedEx (csomagszállítás) szállítja</string>
   <string name="iap_payment_pending_not_confirmed">Amennyiben ## órán belül nem erősítik meg fizetését, e-mailben informáljuk arról, hogy mi a teendő.</string>
   <string name="iap_payment_session_expired">A fizetési időkorlát lejárt</string>
   <string name="iap_pending">[hu]Pending</string>
+  <string name="iap_personal_details">[hu]Personal details</string>
   <string name="iap_phone">Telefon</string>
   <string name="iap_phone_error">Adjon meg érvényes telefonszámot</string>
   <string name="iap_phone_hint">Adja meg a telefonszámot</string>

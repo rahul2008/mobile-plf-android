@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[fr-CA]Select payment method</string>
   <string name="iap_checkout_steps">[fr-CA]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[fr-CA]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[fr-CA]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Bon de réclamation</string>
   <string name="iap_confirm">[fr-CA]Confirm</string>
   <string name="iap_confirmation">Confirmation</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Contacter le service à la clientèle</string>
   <string name="iap_contact_consumer_care_for_support">Veuillez contacter le service à la clientèle Philips pour plus d’assistance.</string>
   <string name="iap_contact_customer_care">[fr-CA]Contact customer care</string>
+  <string name="iap_contact_details">[fr-CA]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[fr-CA]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Continuer</string>
   <string name="iap_continue_shopping">Continuer à magasiner</string>
@@ -186,6 +188,7 @@ FedEx (colis postal)</string>
   <string name="iap_payment_pending_not_confirmed">Si le paiement n’est pas confirmé d’ici ##heures, nous vous informerons par courriel de ce que vous devrez faire par la suite.</string>
   <string name="iap_payment_session_expired">Votre session de paiement a expiré</string>
   <string name="iap_pending">[fr-CA]Pending</string>
+  <string name="iap_personal_details">[fr-CA]Personal details</string>
   <string name="iap_phone">Téléphone</string>
   <string name="iap_phone_error">Veuillez entrer un numéro de téléphone valide</string>
   <string name="iap_phone_hint">Entrez votre numéro de téléphone</string>

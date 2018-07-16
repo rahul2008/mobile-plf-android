@@ -278,12 +278,14 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         hideProgressBar();
         if (msg.obj instanceof ContactsResponse) {
             ContactsResponse contactsResponse = (ContactsResponse) msg.obj;
-            mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
-            mOpeningHoursWeekdays = contactsResponse.getData().getPhone().get(0).getOpeningHoursWeekdays();
-            mOpeningHoursSaturday = contactsResponse.getData().getPhone().get(0).getOpeningHoursSaturday();
+            if(contactsResponse.getData()!=null) {
+                mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
+                mOpeningHoursWeekdays = contactsResponse.getData().getPhone().get(0).getOpeningHoursWeekdays();
+                mOpeningHoursSaturday = contactsResponse.getData().getPhone().get(0).getOpeningHoursSaturday();
 
-            setCallTimings();
-            btncall.setEnabled(true);
+                setCallTimings();
+                btncall.setEnabled(true);
+            }
         }
     }
 

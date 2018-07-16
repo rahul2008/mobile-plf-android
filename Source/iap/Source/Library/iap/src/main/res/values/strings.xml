@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">Select payment method</string>
   <string name="iap_checkout_steps">Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Claim voucher</string>
   <string name="iap_confirm">Confirm</string>
   <string name="iap_confirmation">Confirmation</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Contact Consumer Care</string>
   <string name="iap_contact_consumer_care_for_support">Please contact Philips Consumer care for further support.</string>
   <string name="iap_contact_customer_care">Contact customer care</string>
+  <string name="iap_contact_details">Contact details</string>
   <string name="iap_contact_philips_consumer_care">Please contact Philips Consumer Care</string>
   <string name="iap_continue">Continue</string>
   <string name="iap_continue_shopping">Continue shopping</string>
@@ -61,7 +63,7 @@
   <string name="iap_country_hint">Enter your country</string>
   <string name="iap_customer_help">Our customer care team is pleased to help you.</string>
   <string name="iap_cvv_code">Please enter the CVV/CVC </string>
-  <string name="iap_cvv_code_hint_description">This 3-digit number can be found on the back of your card.</string>
+  <string name="iap_cvv_code_hint_description">The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_daily_selling_product">Daily Collection Miniblender</string>
   <string name="iap_delete">Delete</string>
@@ -186,6 +188,7 @@ FedEx(parcel postage)</string>
   <string name="iap_payment_pending_not_confirmed">If the payment is not confirmed within  ##hours we will inform you by e-mail what to do next.</string>
   <string name="iap_payment_session_expired">Your payment session is expired</string>
   <string name="iap_pending">Pending</string>
+  <string name="iap_personal_details">Personal details</string>
   <string name="iap_phone">Phone</string>
   <string name="iap_phone_error">Please enter a valid phone number</string>
   <string name="iap_phone_hint">Enter phone number</string>

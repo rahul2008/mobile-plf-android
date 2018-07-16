@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[et]Select payment method</string>
   <string name="iap_checkout_steps">[et]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[et]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[et]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Hangi kupong</string>
   <string name="iap_confirm">[et]Confirm</string>
   <string name="iap_confirmation">Kinnitus</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Võtke ühendust klienditeenindusega</string>
   <string name="iap_contact_consumer_care_for_support">Täiendava tugiteenuse kasutamiseks võtke ühendust Philipsi klienditeenindusega.</string>
   <string name="iap_contact_customer_care">[et]Contact customer care</string>
+  <string name="iap_contact_details">[et]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[et]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Jätka</string>
   <string name="iap_continue_shopping">Jätka ostmist</string>
@@ -186,6 +188,7 @@ FedEx (pakipost)</string>
   <string name="iap_payment_pending_not_confirmed">Kui makset ei kinnitata ## tunni jooksul, anname teile e-kirja teel teada, mida peaksite edasi tegema.</string>
   <string name="iap_payment_session_expired">Teie makse sooritamise seanss aegus</string>
   <string name="iap_pending">[et]Pending</string>
+  <string name="iap_personal_details">[et]Personal details</string>
   <string name="iap_phone">Telefon</string>
   <string name="iap_phone_error">Sisestage kehtiv telefoninumber</string>
   <string name="iap_phone_hint">Sisestage telefoninumber</string>

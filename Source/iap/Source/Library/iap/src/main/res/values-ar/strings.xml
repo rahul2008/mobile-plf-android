@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[ar]Select payment method</string>
   <string name="iap_checkout_steps">[ar]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[ar]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[ar]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">المطالبة بالقسيمة</string>
   <string name="iap_confirm">[ar]Confirm</string>
   <string name="iap_confirmation">تأكيد</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">الاتصال بمركز خدمة المستهلك</string>
   <string name="iap_contact_consumer_care_for_support">يُرجى الاتصال بمركز خدمة المستهلك التابع لشركة Philips لمزيد من الدعم.</string>
   <string name="iap_contact_customer_care">[ar]Contact customer care</string>
+  <string name="iap_contact_details">[ar]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[ar]Please contact Philips Consumer Care</string>
   <string name="iap_continue">متابعة</string>
   <string name="iap_continue_shopping">متابعة التسوق</string>
@@ -186,6 +188,7 @@ FedEx(تخليص الطرود البريدية)</string>
   <string name="iap_payment_pending_not_confirmed">إذا لم يتم تأكيد عملية الدفع في غضون ## من الساعات، فسنرسل بريدًا إلكترونيًا لإعلامك بما يجب القيام به لاحقًا.</string>
   <string name="iap_payment_session_expired">انتهت صلاحية جلسة الدفع الخاصة بك</string>
   <string name="iap_pending">[ar]Pending</string>
+  <string name="iap_personal_details">[ar]Personal details</string>
   <string name="iap_phone">الهاتف</string>
   <string name="iap_phone_error">يُرجى إدخال رقم هاتف صالح</string>
   <string name="iap_phone_hint">إدخال رقم الهاتف</string>

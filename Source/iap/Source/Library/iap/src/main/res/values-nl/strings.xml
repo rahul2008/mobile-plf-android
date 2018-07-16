@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[nl]Select payment method</string>
   <string name="iap_checkout_steps">[nl]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[nl]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[nl]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Voucher verzilveren</string>
   <string name="iap_confirm">[nl]Confirm</string>
   <string name="iap_confirmation">Bevestiging</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Contact opnemen met Consumer Care</string>
   <string name="iap_contact_consumer_care_for_support">Neem contact op met Consumer Care van Philips voor verdere ondersteuning.</string>
   <string name="iap_contact_customer_care">[nl]Contact customer care</string>
+  <string name="iap_contact_details">[nl]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[nl]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Doorgaan</string>
   <string name="iap_continue_shopping">Verder winkelen</string>
@@ -186,6 +188,7 @@ FedEx (pakketkosten)</string>
   <string name="iap_payment_pending_not_confirmed">Indien de betaling niet wordt bevestigd binnen ##uur, zullen wij u per e-mail informeren over wat u moet doen.</string>
   <string name="iap_payment_session_expired">Uw betaalsessie is verlopen</string>
   <string name="iap_pending">[nl]Pending</string>
+  <string name="iap_personal_details">[nl]Personal details</string>
   <string name="iap_phone">Telefoon</string>
   <string name="iap_phone_error">Voer een geldig telefoonnummer in</string>
   <string name="iap_phone_hint">Voer uw telefoonnummer in</string>

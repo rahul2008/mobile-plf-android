@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[lt]Select payment method</string>
   <string name="iap_checkout_steps">[lt]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[lt]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[lt]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Prašyti kupono</string>
   <string name="iap_confirm">[lt]Confirm</string>
   <string name="iap_confirmation">Patvirtinimas</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Susisiekti su klientų priežiūros tarnyba</string>
   <string name="iap_contact_consumer_care_for_support">Susisiekite su „Philips“ klientų priežiūros tarnyba dėl tolesnės pagalbos.</string>
   <string name="iap_contact_customer_care">[lt]Contact customer care</string>
+  <string name="iap_contact_details">[lt]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[lt]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Tęsti</string>
   <string name="iap_continue_shopping">Tęsti apsipirkimą</string>
@@ -186,6 +188,7 @@ Sekimo numeris ##</string>
   <string name="iap_payment_pending_not_confirmed">Jei apmokėjimo nepatvirtinsime per  ##valandas, informuosime el. paštu dėl tolesnių veiksmų.</string>
   <string name="iap_payment_session_expired">Jūsų apmokėjimui skirtas laikas baigėsi</string>
   <string name="iap_pending">[lt]Pending</string>
+  <string name="iap_personal_details">[lt]Personal details</string>
   <string name="iap_phone">Telefonas</string>
   <string name="iap_phone_error">Įveskite galiojantį telefono numerį</string>
   <string name="iap_phone_hint">Įveskite telefono numerį</string>

@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[he]Select payment method</string>
   <string name="iap_checkout_steps">[he]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[he]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[he]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">ממש שובר</string>
   <string name="iap_confirm">[he]Confirm</string>
   <string name="iap_confirmation">אישור</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">פנה לשירות לקוחות</string>
   <string name="iap_contact_consumer_care_for_support">לתמיכה נוספת, פנה אל שירות הלקוחות של פיליפס.</string>
   <string name="iap_contact_customer_care">[he]Contact customer care</string>
+  <string name="iap_contact_details">[he]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[he]Please contact Philips Consumer Care</string>
   <string name="iap_continue">המשך</string>
   <string name="iap_continue_shopping">המשך בקנייה</string>
@@ -186,6 +188,7 @@
   <string name="iap_payment_pending_not_confirmed">אם התשלום לא יאושר בתוך ## שעות, נודיע לך באמצעות דוא\"ל מה לעשות הלאה.</string>
   <string name="iap_payment_session_expired">פג תוקף הפעלת התשלום שלך</string>
   <string name="iap_pending">[he]Pending</string>
+  <string name="iap_personal_details">[he]Personal details</string>
   <string name="iap_phone">טלפון</string>
   <string name="iap_phone_error">הזן מספר טלפון חוקי</string>
   <string name="iap_phone_hint">‏הזן מספר טלפון</string>

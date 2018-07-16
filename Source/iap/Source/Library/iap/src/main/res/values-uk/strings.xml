@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[uk]Select payment method</string>
   <string name="iap_checkout_steps">[uk]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[uk]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[uk]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Запит на ваучер</string>
   <string name="iap_confirm">[uk]Confirm</string>
   <string name="iap_confirmation">Підтвердження</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Звернутися до Центру обслуговування клієнтів</string>
   <string name="iap_contact_consumer_care_for_support">Для отримання подальшої підтримки зверніться до Центру обслуговування клієнтів Philips.</string>
   <string name="iap_contact_customer_care">[uk]Contact customer care</string>
+  <string name="iap_contact_details">[uk]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[uk]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Продовжити</string>
   <string name="iap_continue_shopping">Продовжити покупки</string>
@@ -186,6 +188,7 @@ FedEx (вартість доставки посилки)</string>
   <string name="iap_payment_pending_not_confirmed">Якщо оплату не буде підтверджено протягом ## годин, ми повідомимо Вам про подальші дії електронною поштою.</string>
   <string name="iap_payment_session_expired">Сеанс оплати закінчився</string>
   <string name="iap_pending">[uk]Pending</string>
+  <string name="iap_personal_details">[uk]Personal details</string>
   <string name="iap_phone">Телефон</string>
   <string name="iap_phone_error">Введіть дійсний номер телефону</string>
   <string name="iap_phone_hint">Введіть номер телефону</string>

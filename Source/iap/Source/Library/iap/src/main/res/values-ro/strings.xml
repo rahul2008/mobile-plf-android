@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[ro]Select payment method</string>
   <string name="iap_checkout_steps">[ro]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[ro]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[ro]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Revendică voucherul</string>
   <string name="iap_confirm">[ro]Confirm</string>
   <string name="iap_confirmation">Confirmare</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Contactează centrul de asistenţă pentru clienţi</string>
   <string name="iap_contact_consumer_care_for_support">Pentru asistenţă suplimentară, contactează Centrul Philips de asistenţă pentru clienţi.</string>
   <string name="iap_contact_customer_care">[ro]Contact customer care</string>
+  <string name="iap_contact_details">[ro]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[ro]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Continuă</string>
   <string name="iap_continue_shopping">Continuă cumpărăturile</string>
@@ -186,6 +188,7 @@ FedEx (pachet poştal)</string>
   <string name="iap_payment_pending_not_confirmed">Dacă plata nu este confirmată în ## ore, te vom informa prin e-mail ce poţi face în continuare.</string>
   <string name="iap_payment_session_expired">Sesiunea de plată a expirat</string>
   <string name="iap_pending">[ro]Pending</string>
+  <string name="iap_personal_details">[ro]Personal details</string>
   <string name="iap_phone">Telefon</string>
   <string name="iap_phone_error">Introdu un număr de telefon valid</string>
   <string name="iap_phone_hint">Introdu numărul de telefon</string>

@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[da]Select payment method</string>
   <string name="iap_checkout_steps">[da]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[da]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[da]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Få kupon</string>
   <string name="iap_confirm">[da]Confirm</string>
   <string name="iap_confirmation">Bekræftelse</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Kontakt kundeservice</string>
   <string name="iap_contact_consumer_care_for_support">Kontakt Philips\' kundeservice for at få yderligere support.</string>
   <string name="iap_contact_customer_care">[da]Contact customer care</string>
+  <string name="iap_contact_details">[da]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[da]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Fortsæt</string>
   <string name="iap_continue_shopping">Fortsæt med at handle</string>
@@ -186,6 +188,7 @@ FedEx (pakkepost)</string>
   <string name="iap_payment_pending_not_confirmed">Hvis betalingen ikke bliver bekræftet inden for ## timer, vil vi informere dig via e-mail om, hvad du så skal gøre.</string>
   <string name="iap_payment_session_expired">Din betalingssession er udløbet</string>
   <string name="iap_pending">[da]Pending</string>
+  <string name="iap_personal_details">[da]Personal details</string>
   <string name="iap_phone">Telefon</string>
   <string name="iap_phone_error">Indtast et gyldigt telefonnummer</string>
   <string name="iap_phone_hint">Indtast telefonnummer</string>

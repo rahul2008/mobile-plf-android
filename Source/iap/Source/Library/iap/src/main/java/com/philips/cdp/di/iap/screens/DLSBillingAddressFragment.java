@@ -111,7 +111,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
         mLlAddressLineTwoBilling = rootView.findViewById(R.id.ll_billing_address_line_two);
         inputValidatorAddressLineTwoBilling = new InputValidator(Validator.ADDRESS_PATTERN);
-
+        mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
 
         mLlTownBilling = rootView.findViewById(R.id.ll_billing_town);
         inputValidatorTownBilling = new InputValidator(Validator.TOWN_PATTERN);
@@ -158,6 +158,8 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mEtSalutationBilling.setKeyListener(null);
         mEtStateBilling.setKeyListener(null);
 
+        mEtFirstNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
+        mEtLastNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
 
         mEtEmailBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmailBilling.setEnabled(false);

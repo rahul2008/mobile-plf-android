@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,14 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                hideProgressBar();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgressBar();
+                    }
+                }, 11000);
+
             }
 
             @Override
@@ -93,6 +101,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
         });
 
         mWebView.loadUrl(mUrl);
+
     }
 
 

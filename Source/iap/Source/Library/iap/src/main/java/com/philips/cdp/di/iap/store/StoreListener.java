@@ -34,6 +34,12 @@ public interface StoreListener {
 
     String getJanRainEmail();
 
+    String getDisplayName() ;
+
+    String getGivenName() ;
+
+    String getFamilyName();
+
     //OAuth
     String getOauthUrl();
 

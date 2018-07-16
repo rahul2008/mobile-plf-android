@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[es]Select payment method</string>
   <string name="iap_checkout_steps">[es]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[es]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[es]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Solicitar cupón</string>
   <string name="iap_confirm">[es]Confirm</string>
   <string name="iap_confirmation">Confirmación</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Contacto con el servicio de atención al cliente</string>
   <string name="iap_contact_consumer_care_for_support">Ponte en contacto con el servicio de atención al cliente de Philips para obtener asistencia adicional.</string>
   <string name="iap_contact_customer_care">[es]Contact customer care</string>
+  <string name="iap_contact_details">[es]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[es]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Continuar</string>
   <string name="iap_continue_shopping">Seguir comprando</string>
@@ -186,6 +188,7 @@ FedEx (franqueo de paquetes)</string>
   <string name="iap_payment_pending_not_confirmed">Si el pago no se confirma en un plazo de ## horas, te informaremos por correo electrónico sobre qué hacer a continuación.</string>
   <string name="iap_payment_session_expired">Tu sesión de pago ha caducado</string>
   <string name="iap_pending">[es]Pending</string>
+  <string name="iap_personal_details">[es]Personal details</string>
   <string name="iap_phone">Teléfono</string>
   <string name="iap_phone_error">Introduce un número de teléfono válido</string>
   <string name="iap_phone_hint">Introduce tu número de teléfono.</string>

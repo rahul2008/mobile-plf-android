@@ -118,6 +118,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
         mLlAddressLineTwo = rootView.findViewById(R.id.ll_address_line_two);
         inputValidatorAddressLineTwo = new InputValidator(Validator.ADDRESS_PATTERN);
+        mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
 
 
 
@@ -167,6 +168,9 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         mEtSalutation.setKeyListener(null);
         mEtState.setKeyListener(null);
+
+        mEtFirstName.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
+        mEtLastName.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
 
         mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);
@@ -518,11 +522,11 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
                 mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
                 mLlAddressLineOne.setErrorMessage(R.string.iap_address_error);
                 mLlAddressLineOne.showError();
-            } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
+            } /*else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
                 mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
                 mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
                 mLlAddressLineTwo.showError();
-            }
+            }*/
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                     getString(R.string.iap_ok), getString(R.string.iap_server_error),
                     error.getMessage());
