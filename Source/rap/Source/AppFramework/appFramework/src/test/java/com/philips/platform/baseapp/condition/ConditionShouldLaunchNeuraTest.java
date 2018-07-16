@@ -21,6 +21,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Date;
+
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -64,7 +66,7 @@ public class ConditionShouldLaunchNeuraTest {
         when(contextMock.getApplicationContext()).thenReturn(appFrameworkApplication);
         assertTrue(conditionShouldLaunchNeura.isSatisfied(contextMock));
         verify(neuraConsentProvider).fetchConsentHandler(fetchConsentTypeStateCallback);
-        ConsentStatus consentStatus = new ConsentStatus(ConsentStates.active, BuildConfig.VERSION_CODE, lastModifiedTimeStamp);
+        ConsentStatus consentStatus = new ConsentStatus(ConsentStates.active, BuildConfig.VERSION_CODE, new Date());
         conditionShouldLaunchNeura.onGetConsentsSuccess(consentStatus);
         assertFalse(conditionShouldLaunchNeura.isShouldLaunchNeura());
         conditionShouldLaunchNeura.onGetConsentsFailed(null);
