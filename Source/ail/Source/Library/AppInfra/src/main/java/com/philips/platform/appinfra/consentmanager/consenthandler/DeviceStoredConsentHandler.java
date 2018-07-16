@@ -15,6 +15,9 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -96,7 +99,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
                 logError(storageError, consentType);
                 consentStatus = new ConsentStatus(ConsentStates.inactive, 0, getUTCTime());
             } else {
-                Date timestamp = getTimestamp(String.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_TIMESTAMP)));
+                Date timestamp = new DateTime((String.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_TIMESTAMP))), DateTimeZone.UTC).toDate();
                 consentStatus = new ConsentStatus(ConsentStates.active,
                         Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)), timestamp);
             }
@@ -128,16 +131,5 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
             consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.rejected, version, getUTCTime()));
         }
         callback.onPostConsentSuccess();
-    }
-
-    private Date getTimestamp(String timestamp) {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
-        dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
-        try {
-            return dateFormat.parse(timestamp);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

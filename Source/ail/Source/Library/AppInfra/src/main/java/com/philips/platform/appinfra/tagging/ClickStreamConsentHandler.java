@@ -13,6 +13,9 @@ import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,10 +62,10 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
         String valueForKey = getValueForKey(CLICKSTREAM_CONSENT_VERSION);
         int version = valueForKey == null ? 0 : Integer.valueOf(valueForKey);
 
-        String valueForTimestamp = getValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP);
         AppTaggingInterface.PrivacyStatus privacyStatus = appInfraInterface.getTagging().getPrivacyConsent();
 
-        callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version, getTimestamp(valueForTimestamp)));
+        callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version,
+                new DateTime(getValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP), DateTimeZone.UTC).toDate()));
     }
 
     @Override
@@ -71,19 +74,8 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
         appInfraInterface.getTagging().setPrivacyConsent(getPrivacyStatus(status));
         storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(version));
-        storeValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP, String.valueOf(appInfraInterface.getTime().getUTCTime().getTime()));
+        storeValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP, String.valueOf(appInfraInterface.getTime().getUTCTime()));
         callback.onPostConsentSuccess();
-    }
-
-    private Date getTimestamp(String timestamp) {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
-        dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
-        try {
-            return dateFormat.parse(timestamp);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private String getValueForKey(String key) {

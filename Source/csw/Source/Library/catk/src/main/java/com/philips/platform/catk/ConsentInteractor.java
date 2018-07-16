@@ -24,8 +24,6 @@ import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import org.joda.time.DateTimeZone;
 
 import java.util.List;
-import java.util.TimeZone;
-
 import javax.inject.Inject;
 
 public class ConsentInteractor implements ConsentHandlerInterface {
