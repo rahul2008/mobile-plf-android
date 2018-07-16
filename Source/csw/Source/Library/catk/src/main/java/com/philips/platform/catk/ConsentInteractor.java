@@ -21,6 +21,7 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.util.List;
@@ -71,7 +72,8 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
     private ConsentDTO createConsents(String consentType, ConsentStates status, int version) {
         String locale = consentsClient.getAppInfra().getInternationalization().getBCP47UILocale();
-        return new ConsentDTO(locale, status, consentType, version);
+        DateTime timestamp = new DateTime(consentsClient.getAppInfra().getTime().getUTCTime());
+        return new ConsentDTO(locale, status, consentType, version, timestamp);
     }
 
     private void fetchConsentFromBackendAndUpdateCache(String consentType, FetchConsentTypeStateCallback callback) {
