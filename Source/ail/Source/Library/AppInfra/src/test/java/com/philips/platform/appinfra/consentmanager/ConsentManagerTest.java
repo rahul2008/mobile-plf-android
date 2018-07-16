@@ -25,6 +25,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -360,7 +361,7 @@ public class ConsentManagerTest {
     }
 
     private void givenHandlerReturns(ConsentHandlerInterfaceSpy handler, ConsentStates status, int version) {
-        handler.returns = new ConsentStatus(status, version, lastModifiedTimeStamp);
+        handler.returns = new ConsentStatus(status, version, new Date());
     }
 
     private void givenHandlerReturnsError(ConsentHandlerInterfaceSpy handler, ConsentError error) {

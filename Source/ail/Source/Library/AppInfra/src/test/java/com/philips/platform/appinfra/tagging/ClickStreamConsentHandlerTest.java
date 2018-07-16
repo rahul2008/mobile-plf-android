@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
@@ -32,6 +33,8 @@ public class ClickStreamConsentHandlerTest {
     @Mock
     AppTaggingInterface appTaggingInterface;
     @Mock
+    TimeInterface timeInterface;
+    @Mock
     SecureStorageInterface.SecureStorageError secureStorageError;
     private TestClickStreamConsentHandler clickStreamConsentHandler;
     private String correctType = "AIL_ClickStream";
@@ -42,6 +45,7 @@ public class ClickStreamConsentHandlerTest {
         clickStreamConsentHandler = new TestClickStreamConsentHandler(appInfra);
         when(appInfra.getSecureStorage()).thenReturn(storageInterface);
         when(appInfra.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfra.getTime()).thenReturn(timeInterface);
         when(storageInterface.storeValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, "1", secureStorageError)).thenReturn(true);
         when(storageInterface.fetchValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, secureStorageError)).thenReturn(TEST_VERSION);
     }
