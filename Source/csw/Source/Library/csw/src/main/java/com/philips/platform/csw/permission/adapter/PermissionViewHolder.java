@@ -34,7 +34,6 @@ public class PermissionViewHolder extends BasePermissionViewHolder {
     private SilenceableSwitch toggle;
     private Label label;
     private Label help;
-    private Label timeStamp;
     @Nullable
     private PermissionContract.Presenter presenter;
     @NonNull
@@ -48,7 +47,6 @@ public class PermissionViewHolder extends BasePermissionViewHolder {
         this.toggle = itemView.findViewById(R.id.toggleicon);
         this.label = itemView.findViewById(R.id.consentText);
         this.help = itemView.findViewById(R.id.consentHelp);
-        this.timeStamp = itemView.findViewById(R.id.tv_timeStamp);
         this.presenter = presenter;
         this.helpClickListener = helpClickListener;
         this.help.setPaintFlags(this.help.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -59,7 +57,6 @@ public class PermissionViewHolder extends BasePermissionViewHolder {
 
     void setDefinition(final ConsentView consentView) {
         // Update UI here
-        timeStamp.setText(consentView.getTimeStamp().toString());
         label.setText(consentView.getConsentText());
         toggle.animate().alpha(consentView.isError() ? 0.5f : 1.0f).start();
         toggle.setEnabled(consentView.isEnabled());
