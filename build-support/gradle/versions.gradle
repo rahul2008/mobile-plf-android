@@ -170,8 +170,6 @@ ext.deps = [
         espresso_contrib              : 'com.android.support.test.espresso:espresso-contrib:3.0.2',
         espresso_core                 : 'com.android.support.test.espresso:espresso-core:3.0.2',
         espresso_web                  : 'com.android.support.test.espresso:espresso-web:3.0.2',
-        frankiesardo_value            : 'com.github.frankiesardo:android-auto-value:0.1',
-        frankiesardo_value_processor  : 'com.github.frankiesardo:android-auto-value-processor:0.1',
         immutables                    : 'org.immutables:value:2.6.1',
         jackson_annotations           : 'com.fasterxml.jackson.core:jackson-annotations:2.9.5',
         jackson_core                  : 'com.fasterxml.jackson.core:jackson-core:2.9.5',
