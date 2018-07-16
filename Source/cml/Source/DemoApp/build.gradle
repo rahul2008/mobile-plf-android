@@ -66,6 +66,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
+        multiDexEnabled true
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
 
@@ -84,6 +85,11 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
     }
 }
 
