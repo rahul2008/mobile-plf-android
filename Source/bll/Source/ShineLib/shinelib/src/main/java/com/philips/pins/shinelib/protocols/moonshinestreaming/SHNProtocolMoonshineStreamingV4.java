@@ -25,11 +25,13 @@ group initialization
         Service -> Service : onCharacteristicRead
     end
     Service -> Protocol : onReadProtocolInformation
-    Protocol -> Service : sendData(startMsg,sn=0)
-    Service -> RxChar : writeCharacteristic(dataChunk,sn=0)
-    RxChar --> Service : onCharacteristicWrite
-    RxAckChar -> Service : onCharacteristicChanged(sn=0)
-    Service -> Protocol : onReceiveAck(sn=0)
+    loop until onReceiveAck(sn=0) is received or max attempts done
+        Protocol -> Service : sendData(startMsg,sn=0)
+        Service -> RxChar : writeCharacteristic(dataChunk,sn=0)
+        RxChar --> Service : onCharacteristicWrite
+        RxAckChar -> Service : onCharacteristicChanged(sn=0)
+        Service --> Protocol : onReceiveAck(sn=0)
+    end
     Protocol -> Service : upperlayerReady
     note right: This call is needed to allow the service to transition to the Ready state.
     Protocol -> PUser : onProtocolAvailable
@@ -56,6 +58,7 @@ group send 7 dataChunks window=3
     Service -> RxChar : writeCharacteristic(dataChunk,sn=3)
     RxChar --> Service : onCharacteristicWrite
     RxAckChar -> Service : onCharacteristicChanged(sn=3)
+    note left: timeout: resend chunk1,2 and 3\nAck(1) resend chunk 2 and 3\nAck(2) resend chunk 3
     Service -> Protocol : onReceiveAck(sn=3)
     Protocol -> Service : sendData(dataChunk,sn=4)
     Service -> RxChar : writeCharacteristic(dataChunk,sn=4)
@@ -91,6 +94,14 @@ group receive 5 dataChunks window=2
     TxChar -> Service : onCharacteristicChanged(dataChunk,sn=2)
     Service -> Protocol : onReceiveData(dataChunk,sn=2)
     Protocol -> PUser : onDataReceived(dataChunk)
+    ...
+    Protocol --> Service : sendAck(sn=2)
+    TxChar -> Service : onCharacteristicChanged(dataChunk,sn=1)
+    Service -> Protocol : onReceiveData(dataChunk,sn=1)
+    note left: Discarded because it is already sent
+    TxChar -> Service : onCharacteristicChanged(dataChunk,sn=2)
+    Service -> Protocol : onReceiveData(dataChunk,sn=2)
+    note left: Discarded because it is already sent
     ...
     Protocol -> Service : sendAck(sn=2)
     Service -> TxAckChar : writeCharacteristic(sn=2)
@@ -148,15 +159,16 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStreaming, SHNServiceMoonshineStreaming.SHNServiceMoonshineStreamingListener {
-
-    private static final String TAG = SHNProtocolMoonshineStreamingV1.class.getSimpleName();
+public class SHNProtocolMoonshineStreamingV4 implements SHNProtocolMoonshineStreaming, SHNServiceMoonshineStreaming.SHNServiceMoonshineStreamingListener {
+    private static final boolean ENABLE_DEBUG_LOGGING = false;
+    private static final String TAG = "SHNProtocolMoonshineStreamingV4";
 
     public static final int DEFAULT_TX_WINDOW_SIZE = 12;
-    public static final int PROTOCOL_VERSION = 1;
-    public static final long RECEIVE_ACK_TIMEOUT = 10000L;
+    public static final int PROTOCOL_VERSION = 4;
+    public static final long RECEIVE_ACK_TIMEOUT = 5000L;
     public static final long RECEIVE_NEXT_MSG_TIMEOUT = 30L;
     public static final int MAX_PAYLOAD_SIZE = 19;
+    public static final int MAX_TX_RETRIES = 3;
 
     private final SHNServiceByteStreaming shnServiceByteStreaming;
     private final Handler internalHandler;
@@ -164,9 +176,10 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     private SHNProtocolMoonshineStreamingState state = SHNProtocolMoonshineStreamingState.Initializing;
     private SHNProtocolByteStreamingVersionSwitcher.SHNProtocolMoonshineStreamingSubstate substate = SHNProtocolByteStreamingVersionSwitcher.SHNProtocolMoonshineStreamingSubstate.Idle;
 
-    public static final int MAX_SEQUENCE_NR = 32;
-    public static final int HEADER_TYPE_MASK = 0xE0;
-    public static final int HEADER_SEQNR_MASK = 0x1F;
+    public static final int MAX_SEQUENCE_NR = 0x40; // Actually the max seqnumber used is one lower than this constant. Modulus calculation is used.
+    public static final int HEADER_TYPE_MASK = 0xC0;
+    public static final int HEADER_SEQNR_MASK = 0x3F;
+    public static final int HEADER_PACKET_TYPE_START = 0x40;
 
     private int txWindowSize;
     private int txLastGenSequenceNr = -1;
@@ -176,46 +189,50 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     private int rxNextExpectedSequenceNr = 0;
     private int rxLastReceivedSequenceNr = -1;
     private int rxLastAckedSequenceNr = -1;
-    private Queue<byte[]> packetQueue;
+    private Queue<byte[]> toBeSendPacketQueue;
+    private Queue<byte[]> waitForAckPacketQueue;
     private Runnable txAckTimer;
     private Runnable rxAckTimer;
+    private int txResendWithoutProgressCount;
 
-    public SHNProtocolMoonshineStreamingV1(SHNServiceByteStreaming shnServiceByteStreaming, Handler internalHandler) {
-        SHNLogger.i(TAG, "create instance");
+    public SHNProtocolMoonshineStreamingV4(SHNServiceByteStreaming shnServiceByteStreaming, Handler internalHandler) {
+        DebugLog("create instance");
         this.shnServiceByteStreaming = shnServiceByteStreaming;
         this.internalHandler = internalHandler;
-        packetQueue = new LinkedList<>();
+        toBeSendPacketQueue = new LinkedList<>();
+        waitForAckPacketQueue = new LinkedList<>();
+        setInitialState();
     }
 
     public SHNProtocolMoonshineStreamingListener getShnProtocolMoonshineStreamingListener() {
-        SHNLogger.i(TAG, "getShnProtocolMoonshineStreamingListener");
+        DebugLog("getShnProtocolMoonshineStreamingListener");
         return shnProtocolMoonshineStreamingListener;
     }
 
     public SHNProtocolMoonshineStreamingState getState() {
-        SHNLogger.i(TAG, "getState");
+        DebugLog("getState");
         return state;
     }
 
     public int getTxWindowSize() {
-        SHNLogger.i(TAG, "getTxWindowSize");
+        DebugLog("getTxWindowSize");
         return txWindowSize;
     }
 
     public int getRxWindowSize() {
-        SHNLogger.i(TAG, "getRxWindowSize");
+        DebugLog("getRxWindowSize");
         return rxWindowSize;
     }
 
     @Override
     public void setShnProtocolMoonshineStreamingListener(SHNProtocolMoonshineStreamingListener shnProtocolMoonshineStreamingListener) {
-        SHNLogger.i(TAG, "setShnProtocolMoonshineStreamingListener");
+        DebugLog("setShnProtocolMoonshineStreamingListener");
         this.shnProtocolMoonshineStreamingListener = shnProtocolMoonshineStreamingListener;
     }
 
     @Override
     public void sendData(byte[] data, MoonshineStreamIdentifier streamIdentifier) {
-        SHNLogger.i(TAG, "sendData");
+        DebugLog("sendData");
         int start = 0;
         int length = data.length;
         while (length > 0) {
@@ -242,7 +259,7 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     }
 
     private void setInitialState() {
-        SHNLogger.i(TAG, "setInitialState");
+        DebugLog("setInitialState");
         state = SHNProtocolMoonshineStreamingState.Initializing;
         substate = SHNProtocolByteStreamingVersionSwitcher.SHNProtocolMoonshineStreamingSubstate.Idle;
         stopRxAckTimer();
@@ -251,11 +268,12 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
         txLastGenSequenceNr = -1;
         txLastSendSequenceNr = -1;
         txLastAckedSequenceNr = -1;
+        txResendWithoutProgressCount = MAX_TX_RETRIES;
         rxWindowSize = 0;
         rxNextExpectedSequenceNr = 0;
         rxLastReceivedSequenceNr = -1;
         rxLastAckedSequenceNr = -1;
-        packetQueue.clear();
+        toBeSendPacketQueue.clear();
     }
 
     private int calcPacketsInRxWindow() {
@@ -282,7 +300,12 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     }
 
     private void updateTxSlidingWindowAndSubstate(int acknowledgeSequenceNr) {
-        txLastAckedSequenceNr = acknowledgeSequenceNr;
+        while (txLastAckedSequenceNr != acknowledgeSequenceNr) {
+            txResendWithoutProgressCount = MAX_TX_RETRIES;
+            waitForAckPacketQueue.remove();
+            txLastAckedSequenceNr++;
+            txLastAckedSequenceNr %= MAX_SEQUENCE_NR;
+        }
         updateTxSubstate();
     }
 
@@ -291,7 +314,7 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
             substate = SHNProtocolByteStreamingVersionSwitcher.SHNProtocolMoonshineStreamingSubstate.Idle;
             stopTxAckTimer();
         } else {
-            int packetsInWindow = (txLastSendSequenceNr - txLastAckedSequenceNr) % MAX_SEQUENCE_NR;
+            int packetsInWindow = ((txLastSendSequenceNr - txLastAckedSequenceNr) + MAX_SEQUENCE_NR) % MAX_SEQUENCE_NR;
             if (packetsInWindow == txWindowSize) {
                 substate = SHNProtocolByteStreamingVersionSwitcher.SHNProtocolMoonshineStreamingSubstate.SendWindowFull;
             } else {
@@ -302,28 +325,54 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     }
 
     private void queueTxPacketAndSend(byte[] packet) {
-        SHNLogger.i(TAG, "queueTxPacketAndSend: " + " [" + Utilities.byteToString(packet) + "]");
-        packetQueue.add(packet);
+        DebugLog("queueTxPacketAndSend: " + " [" + Utilities.byteToString(packet) + "]");
+        toBeSendPacketQueue.add(packet);
         sendQueuedTxPacketsInWindow();
     }
 
     private void sendQueuedTxPacketsInWindow() {
-        while (substate != SHNProtocolByteStreamingVersionSwitcher.SHNProtocolMoonshineStreamingSubstate.SendWindowFull && !packetQueue.isEmpty()) {
-            byte[] nextTxPacket = packetQueue.remove();
-            shnServiceByteStreaming.sendData(nextTxPacket);
+        while (substate != SHNProtocolByteStreamingVersionSwitcher.SHNProtocolMoonshineStreamingSubstate.SendWindowFull && !toBeSendPacketQueue.isEmpty()) {
+            byte[] nextTxPacket = toBeSendPacketQueue.remove();
+            waitForAckPacketQueue.add(nextTxPacket);
+            sendDataToService(nextTxPacket);
             txLastSendSequenceNr = (nextTxPacket[0] & HEADER_SEQNR_MASK);
             updateTxSubstate();
         }
     }
 
+    private void sendDataToService(byte[] txPacket) {
+        DebugLog("sending: " + Utilities.byteToString(txPacket));
+        shnServiceByteStreaming.sendData(txPacket);
+    }
+
+    private void resendWaitingForAckPackets() {
+        if (--txResendWithoutProgressCount > 0) {
+            DebugLog("Resending " + waitForAckPacketQueue.size() + " packets in the wating for Ack queue");
+            Queue<byte[]> tmpResendQueue = new LinkedList<>();
+
+            tmpResendQueue.addAll(waitForAckPacketQueue);
+            while (!tmpResendQueue.isEmpty()) {
+                byte[] nextTxPacket = tmpResendQueue.remove();
+                sendDataToService(nextTxPacket);
+            }
+        } else {
+            SHNLogger.e(TAG, "Retries exceeded: going to error state");
+            state = SHNProtocolMoonshineStreamingState.Error;
+        }
+    }
+
     private void sendStartMessage() {
-        SHNLogger.i(TAG, "sendStartMessage");
+        SHNLogger.d(TAG, "sendStartMessage");
         byte[] packet = createPacket(SHNProtocolByteStreamingVersionSwitcher.PacketType.START, null, 0, 0);
         queueTxPacketAndSend(packet);
         state = SHNProtocolMoonshineStreamingState.WaitingForHandshakeAck;
     }
 
     private byte[] createPacket(SHNProtocolByteStreamingVersionSwitcher.PacketType packetType, byte[] data, int start, int packetSize) {
+        return createPacket(packetType, data, start, packetSize, MoonshineStreamIdentifier.STREAM_1);
+    }
+
+    private byte[] createPacket(SHNProtocolByteStreamingVersionSwitcher.PacketType packetType, byte[] data, int start, int packetSize, MoonshineStreamIdentifier stream) {
         byte[] packet;
         if (data != null) {
             packet = new byte[packetSize + 1];
@@ -333,12 +382,12 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
         } else {
             packet = new byte[1];
         }
-        packet[0] = (byte) (((packetType == SHNProtocolByteStreamingVersionSwitcher.PacketType.START) ? 0x20 : 0) + generateNextTxSequenceNr());
+        packet[0] = (byte) (((packetType == SHNProtocolByteStreamingVersionSwitcher.PacketType.START) ? HEADER_PACKET_TYPE_START : stream.getHeaderValue()) + generateNextTxSequenceNr());
         return packet;
     }
 
     private void restartTxAckTimer() {
-        SHNLogger.i(TAG, "restartTxAckTimer");
+        DebugLog("restartTxAckTimer");
         stopTxAckTimer();
         txAckTimer = new Runnable() {
             @Override
@@ -350,7 +399,7 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     }
 
     private void stopTxAckTimer() {
-        SHNLogger.i(TAG, "stopTxAckTimer");
+        DebugLog("stopTxAckTimer");
         if (txAckTimer != null) {
             internalHandler.removeCallbacks(txAckTimer);
             txAckTimer = null;
@@ -358,13 +407,14 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     }
 
     private void handleTxAckTimeout() {
-        SHNLogger.i(TAG, "handleTxAckTimeout");
-        state = SHNProtocolMoonshineStreamingState.Error;
+        SHNLogger.d(TAG, "handleTxAckTimeout");
+        resendWaitingForAckPackets();
+        restartTxAckTimer();
     }
 
     private void restartRxAckTimer() {
         stopRxAckTimer();
-        SHNLogger.i(TAG, "restartRxAckTimer");
+        DebugLog("restartRxAckTimer");
         rxAckTimer = new Runnable() {
             @Override
             public void run() {
@@ -375,7 +425,7 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     }
 
     private void stopRxAckTimer() {
-        SHNLogger.i(TAG, "stopRxAckTimer");
+        DebugLog("stopRxAckTimer");
         if (rxAckTimer != null) {
             internalHandler.removeCallbacks(rxAckTimer);
             rxAckTimer = null;
@@ -383,13 +433,13 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     }
 
     private void handleRxAckTimeout() {
-        SHNLogger.i(TAG, "handleRxAckTimeout");
+        DebugLog("handleRxAckTimeout");
         ackAllRxPackets();
     }
 
     private void ackAllRxPackets() {
         byte[] data = {(byte) rxLastReceivedSequenceNr};
-        SHNLogger.i(TAG, "ackAllRxPackets: " + Utilities.byteToString(data));
+        DebugLog("ackAllRxPackets: " + Utilities.byteToString(data));
         shnServiceByteStreaming.sendAck(data);
         rxLastAckedSequenceNr = rxLastReceivedSequenceNr;
     }
@@ -397,7 +447,7 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     // implements SHNServiceMoonshineStreaming.SHNServiceMoonshineStreamingListener
     @Override
     public void onReadProtocolInformation(byte[] data) {
-        SHNLogger.i(TAG, "onReadProtocolInformation");
+        SHNLogger.d(TAG, "onReadProtocolInformation");
         SHNProtocolByteStreamingVersionSwitcher.SHNProtocolInformation shnProtocolInformation = SHNProtocolByteStreamingVersionSwitcher.SHNProtocolInformation.createFromData(data);
         if (shnProtocolInformation == null || shnProtocolInformation.protocolVersion == PROTOCOL_VERSION) {
             if (shnProtocolInformation != null) {
@@ -415,7 +465,7 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
 
     @Override
     public void onReceiveData(byte[] data) {
-        SHNLogger.i(TAG, "onReceiveData: " + Utilities.byteToString(data));
+        DebugLog("onReceiveData: " + Utilities.byteToString(data));
         if (state == SHNProtocolMoonshineStreamingState.Ready && data != null && data.length > 0) {
             int packetSeqNr = data[0] & HEADER_SEQNR_MASK;
             if (packetSeqNr == rxNextExpectedSequenceNr) {
@@ -434,6 +484,7 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
                 }
             } else {
                 SHNLogger.e(TAG, "packet dropped seqNr mismatch. actual: " + packetSeqNr + " expected: " + rxNextExpectedSequenceNr);
+                restartRxAckTimer();
             }
         } else {
             SHNLogger.e(TAG, "packet dropped state: " + state + " data: " + Utilities.byteToString(data));
@@ -442,7 +493,11 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
 
     @Override
     public void onReceiveAck(byte[] data) {
-        SHNLogger.i(TAG, "onReceiveAck");
+        DebugLog("onReceiveAck: " + Utilities.byteToString(data));
+        if (SHNProtocolMoonshineStreamingState.WaitingForHandshakeAck == state && data != null && data.length == 1 && data[0] != HEADER_PACKET_TYPE_START) {
+            return;
+        }
+
         if ((state == SHNProtocolMoonshineStreamingState.Ready || state == SHNProtocolMoonshineStreamingState.WaitingForHandshakeAck) && data != null && data.length == 1) {
             int acknowledgeSequenceNr = data[0] & HEADER_SEQNR_MASK;
             if (isTxSeqNrInsideWindow(acknowledgeSequenceNr)) {
@@ -460,16 +515,22 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
 
     @Override
     public void onServiceAvailable() {
-        SHNLogger.i(TAG, "onServiceAvailable");
+        SHNLogger.d(TAG, "onServiceAvailable");
         state = SHNProtocolMoonshineStreamingState.AcquiringConfiguration;
     }
 
     @Override
     public void onServiceUnavailable() {
-        SHNLogger.i(TAG, "onServiceUnavailable");
+        SHNLogger.d(TAG, "onServiceUnavailable");
         setInitialState();
         if (shnProtocolMoonshineStreamingListener != null) {
             shnProtocolMoonshineStreamingListener.onProtocolUnavailable();
+        }
+    }
+
+    private void DebugLog(String log) {
+        if (ENABLE_DEBUG_LOGGING) {
+            SHNLogger.i(TAG, log);
         }
     }
 }

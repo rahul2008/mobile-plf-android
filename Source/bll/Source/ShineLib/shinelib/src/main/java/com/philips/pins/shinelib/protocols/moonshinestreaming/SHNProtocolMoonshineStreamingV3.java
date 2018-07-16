@@ -231,7 +231,7 @@ public class SHNProtocolMoonshineStreamingV3 implements SHNProtocolMoonshineStre
     }
 
     @Override
-    public void sendData(byte[] data) {
+    public void sendData(byte[] data, MoonshineStreamIdentifier streamIdentifier) {
         DebugLog("sendData");
         int start = 0;
         int length = data.length;
@@ -470,7 +470,7 @@ public class SHNProtocolMoonshineStreamingV3 implements SHNProtocolMoonshineStre
                 rxNextExpectedSequenceNr %= MAX_SEQUENCE_NR;
 
                 if (shnProtocolMoonshineStreamingListener != null && data.length > 1) {
-                    shnProtocolMoonshineStreamingListener.onDataReceived(Arrays.copyOfRange(data, 1, data.length));
+                    shnProtocolMoonshineStreamingListener.onDataReceived(Arrays.copyOfRange(data, 1, data.length), MoonshineStreamIdentifier.STREAM_1);
                 }
                 if (calcPacketsInRxWindow() == rxWindowSize) {
                     stopRxAckTimer();

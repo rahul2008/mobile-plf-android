@@ -71,10 +71,10 @@ public class SHNProtocolByteStreamingVersionSwitcher implements SHNProtocolMoons
     }
 
     @Override
-    public void sendData(byte[] bytes) {
+    public void sendData(byte[] bytes, MoonshineStreamIdentifier streamIdentifier) {
         DebugLog("sendData");
         if (shnProtocolMoonshineStreaming != null) {
-            shnProtocolMoonshineStreaming.sendData(bytes);
+            shnProtocolMoonshineStreaming.sendData(bytes, streamIdentifier);
         }
     }
 
