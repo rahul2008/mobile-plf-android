@@ -27,19 +27,22 @@ public class ErrorMessageCreatorTest {
     @Test
     public void givenCreatorExists_andErrorCode1_whenGetMessageBasedOnErrorCode_thenShouldReturnString() {
         String result = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(context, 1);
-        assertEquals("There was a problem (error 1). Please try again.", result);
+        assertEquals("Cannot connect to server.\n" +
+"Please check your internet connection and try again.", result);
     }
 
     @Test
     public void givenCreatorExists_andErrorCode2_whenGetMessageBasedOnErrorCode_thenShouldReturnString() {
         String result = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(context, 2);
-        assertEquals("There was a problem (error 2). Please try again.", result);
+        assertEquals("Cannot connect to server.\n" +
+"Please check your internet connection and try again.", result);
     }
 
     @Test
     public void givenCreatorExists_andErrorCode3_whenGetMessageBasedOnErrorCode_thenShouldReturnString() {
         String result = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(context, 3);
-        assertEquals("There was a problem (error 3). Please try again.", result);
+        assertEquals("Cannot connect to server.\n" +
+"Please check your internet connection and try again.", result);
     }
 
     @Test
@@ -51,6 +54,7 @@ public class ErrorMessageCreatorTest {
     @Test
     public void givenCreatorExists_andErrorCode5_whenGetMessageBasedOnErrorCode_thenShouldReturnString() {
         String result = ErrorMessageCreator.getMessageErrorBasedOnErrorCode(context, 5);
-        assertEquals("There was a problem (error 5). Please try again.", result);
+        assertEquals("Cannot connect to server.\n" +
+"Please check your internet connection and try again.", result);
     }
 }
