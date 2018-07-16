@@ -40,24 +40,9 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        //setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
-        setActionbarTitle();
+        setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_my_orders;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_my_orders);
-    }
 
     @Override
     public boolean handleBackEvent() {

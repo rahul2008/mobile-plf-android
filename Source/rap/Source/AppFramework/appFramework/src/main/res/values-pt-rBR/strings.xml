@@ -136,6 +136,8 @@ Para obter mais informações, leia a Declaração de privacidade da Philips e
   <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[pt-BR]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[pt-BR]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[pt-BR]I allow Philips to use my data for Research and Analytics purposes</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream">[pt-BR]I allow Philips to use my data for device tagging clickstream</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream_Help_Text">[pt-BR]The actual content of the device tagging clickstream consent help text here</string>
   <string name="RA_Menu_title_Demo">[pt-BR]Test Demo Apps</string>
   <string name="RA_NO_Order_History">Histórico de pedidos indisponível</string>
   <string name="RA_Neura_Allow_Button">[pt-BR]Allow</string>

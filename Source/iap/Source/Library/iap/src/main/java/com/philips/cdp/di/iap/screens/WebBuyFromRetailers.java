@@ -42,9 +42,8 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
     @Override
     public void onResume() {
        super.onResume();
-       // String title = getArguments().getString(IAPConstant.IAP_STORE_NAME);
-        //setTitleAndBackButtonVisibility(title, true);
-        setActionbarTitle();
+        String title = getArguments().getString(IAPConstant.IAP_STORE_NAME);
+        setTitleAndBackButtonVisibility(title, true);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_WEB_PAGE);
         mWebView.onResume();
     }
@@ -95,22 +94,6 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
         mWebView.loadUrl(mUrl);
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-
-        return 0;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        String title = getArguments().getString(IAPConstant.IAP_STORE_NAME);
-        return title;
-    }
 
     @Override
     public boolean handleBackEvent() {

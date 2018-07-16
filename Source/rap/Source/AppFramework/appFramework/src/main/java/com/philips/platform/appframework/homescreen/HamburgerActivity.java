@@ -47,7 +47,7 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
+import com.philips.platform.baseapp.screens.utility.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;

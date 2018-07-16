@@ -24,6 +24,7 @@ public class HsdpUserRecord implements Serializable {
     private static final long serialVersionUID = 6128016096756071380L;
 
 
+
     public String getLoginId() {
         return loginId;
     }
@@ -44,14 +45,13 @@ public class HsdpUserRecord implements Serializable {
         return refreshSecret;
     }
 
-    public class AccessCredential implements Serializable {
+    public class AccessCredential implements Serializable{
 
         private String refreshToken;
         private String accessToken;
         private int expiresIn;
 
         private static final long serialVersionUID = 2128016096756071380L;
-
         public String getRefreshToken() {
             return refreshToken;
         }
@@ -75,16 +75,9 @@ public class HsdpUserRecord implements Serializable {
         public void setExpiresIn(int expiresIn) {
             this.expiresIn = expiresIn;
         }
-
-        @Override
-        public String toString() {
-            return "refreshToken " + refreshToken
-                    + "accessToken " + accessToken
-                    + "expiresIn" + expiresIn;
-        }
     }
 
-    class Profile implements Serializable {
+    class Profile implements Serializable{
         private String givenName;
         private String middleName;
         private String gender;
@@ -224,7 +217,6 @@ public class HsdpUserRecord implements Serializable {
         class PrimaryAddress implements Serializable {
 
             private static final long serialVersionUID = 3128016096756071380L;
-
             public String getCountry() {
                 return country;
             }
@@ -243,7 +235,7 @@ public class HsdpUserRecord implements Serializable {
         //DhpUserIdentity.Photo
         private ArrayList<Photo> photos;
 
-        public class Photo implements Serializable {
+        public class Photo implements Serializable{
             private static final long serialVersionUID = 4128016096756071380L;
             private String type;
             private String value;
@@ -268,23 +260,6 @@ public class HsdpUserRecord implements Serializable {
             public void setValue(String value) {
                 this.value = value;
             }
-        }
-
-        @Override
-        public String toString() {
-            return "givenName + " + givenName
-                    + "middleName" + middleName
-                    + "gender" + gender
-                    + "birthday" + birthday
-                    + "preferredLanguage" + preferredLanguage
-                    + "preferredLanguage" + receiveMarketingEmail
-                    + "currentLocation " + currentLocation
-                    + "displaName" + displayName
-                    + "familyName" + familyName
-                    + "locale" + locale
-                    + "timeZone" + timeZone
-                    + "height" + height
-                    + "weight" + weight;
         }
     }
 
@@ -340,7 +315,7 @@ public class HsdpUserRecord implements Serializable {
         }
         mProfile.setPhotos(photos);
 
-        accessCredential = new AccessCredential();
+        accessCredential =  new AccessCredential();
         String refreshToken = MapUtils.extract(rawResponse, "exchange.accessCredential.refreshToken");
         accessCredential.setRefreshToken(refreshToken);
 
@@ -348,12 +323,11 @@ public class HsdpUserRecord implements Serializable {
         accessCredential.setAccessToken(accessToken);
 
         String expiresInString = MapUtils.extract(rawResponse, "exchange.accessCredential.expiresIn");
-        Integer expiresIn = Integer.parseInt(String.valueOf(expiresInString));
+        Integer expiresIn = Integer.parseInt(String.valueOf(expiresInString)) ;
         accessCredential.setExpiresIn(expiresIn.intValue());
 
         return this;
     }
-
     public String getUserUUID() {
         return userUUID;
     }
@@ -364,17 +338,6 @@ public class HsdpUserRecord implements Serializable {
 
     public AccessCredential getAccessCredential() {
         return accessCredential;
-    }
-
-    @Override
-    public String toString() {
-        return "HSDP User Record : Profile = " + mProfile.toString()
-                + "loginId" + loginId
-                + "userUUID" + userUUID
-                + "userIsActive" + userIsActive
-                + "accessCredential " + accessCredential.toString()
-                + "refreshSecret" + refreshSecret;
-
     }
 }
 

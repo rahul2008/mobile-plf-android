@@ -65,7 +65,7 @@
       "logLevel": "Info",
       "fileLogEnabled": false,
       "consoleLogEnabled": true,
-      "cloudLogEnabled":false,
+      "cloudLogEnabled":true,
       "cloudBatchLimit":5,
       "componentLevelLogEnabled": true,
       "componentIds": [
@@ -88,7 +88,7 @@
       "fileSizeInBytes": 50000,
       "logLevel": "Error",
       "fileLogEnabled": false,
-      "cloudLogEnabled":false,
+      "cloudLogEnabled":true,
       "cloudBatchLimit":5,
       "consoleLogEnabled": true,
       "componentLevelLogEnabled": false,
