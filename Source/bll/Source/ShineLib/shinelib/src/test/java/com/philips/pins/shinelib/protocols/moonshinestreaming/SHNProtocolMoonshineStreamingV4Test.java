@@ -688,12 +688,28 @@ public class SHNProtocolMoonshineStreamingV4Test {
         getProtocolToReadyStateWithTestWindowsSize();
         reset(mockedShnServiceMoonshineStreaming);
 
-        shnProtocolMoonshineStreamingV4.sendData(TWO_BYTES_TEST_DATA, MoonshineStreamIdentifier.STREAM_1);
+        shnProtocolMoonshineStreamingV4.sendData(TWO_BYTES_TEST_DATA, MoonshineStreamIdentifier.STREAM_0);
         ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
         verify(mockedShnServiceMoonshineStreaming).sendData(argumentCaptor.capture());
         assertEquals(3, argumentCaptor.getValue().length);
-        assertEquals((byte) 0x81, argumentCaptor.getValue()[0]);     // SeqNr + Stream 0
+        assertEquals((byte) 0x01, argumentCaptor.getValue()[0]);     // SeqNr + Stream 0
         assertEquals(TWO_BYTES_TEST_DATA[0], argumentCaptor.getValue()[1]);    // byte[0]
         assertEquals(TWO_BYTES_TEST_DATA[1], argumentCaptor.getValue()[2]);    // byte[1]
     }
+
+    @Test
+    public void whenSendingData_AndStream2IsSelected_thenPacketsAreSentOnStream2() {
+        getProtocolToReadyStateWithTestWindowsSize();
+        reset(mockedShnServiceMoonshineStreaming);
+
+        shnProtocolMoonshineStreamingV4.sendData(TWO_BYTES_TEST_DATA, MoonshineStreamIdentifier.STREAM_2);
+        ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
+        verify(mockedShnServiceMoonshineStreaming).sendData(argumentCaptor.capture());
+        assertEquals(3, argumentCaptor.getValue().length);
+        assertEquals((byte) 0xC1, argumentCaptor.getValue()[0]);     // SeqNr + Stream 2
+        assertEquals(TWO_BYTES_TEST_DATA[0], argumentCaptor.getValue()[1]);    // byte[0]
+        assertEquals(TWO_BYTES_TEST_DATA[1], argumentCaptor.getValue()[2]);    // byte[1]
+    }
+
+    // TODO: write tests for receiving data on different streams
 }

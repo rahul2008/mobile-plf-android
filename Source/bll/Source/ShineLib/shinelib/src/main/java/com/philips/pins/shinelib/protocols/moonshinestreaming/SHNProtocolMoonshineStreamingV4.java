@@ -240,7 +240,7 @@ public class SHNProtocolMoonshineStreamingV4 implements SHNProtocolMoonshineStre
             if (packetSize > MAX_PAYLOAD_SIZE) {
                 packetSize = MAX_PAYLOAD_SIZE;
             }
-            byte[] packet = createPacket(SHNProtocolByteStreamingVersionSwitcher.PacketType.DATA, data, start, packetSize);
+            byte[] packet = createPacket(SHNProtocolByteStreamingVersionSwitcher.PacketType.DATA, data, start, packetSize, streamIdentifier);
             queueTxPacketAndSend(packet);
             start += packetSize;
             length -= packetSize;
@@ -363,13 +363,9 @@ public class SHNProtocolMoonshineStreamingV4 implements SHNProtocolMoonshineStre
 
     private void sendStartMessage() {
         SHNLogger.d(TAG, "sendStartMessage");
-        byte[] packet = createPacket(SHNProtocolByteStreamingVersionSwitcher.PacketType.START, null, 0, 0);
+        byte[] packet = createPacket(SHNProtocolByteStreamingVersionSwitcher.PacketType.START, null, 0, 0, MoonshineStreamIdentifier.STREAM_1);
         queueTxPacketAndSend(packet);
         state = SHNProtocolMoonshineStreamingState.WaitingForHandshakeAck;
-    }
-
-    private byte[] createPacket(SHNProtocolByteStreamingVersionSwitcher.PacketType packetType, byte[] data, int start, int packetSize) {
-        return createPacket(packetType, data, start, packetSize, MoonshineStreamIdentifier.STREAM_1);
     }
 
     private byte[] createPacket(SHNProtocolByteStreamingVersionSwitcher.PacketType packetType, byte[] data, int start, int packetSize, MoonshineStreamIdentifier stream) {
