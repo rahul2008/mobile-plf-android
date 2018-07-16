@@ -183,7 +183,7 @@ dependencies {
 
     testImplementation deps.junit
     testImplementation deps.mockito
-    testImplementation deps.robolectric
+    testImplementation deps.robolectric_3_8
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
