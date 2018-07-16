@@ -191,7 +191,7 @@ dependencies {
     testImplementation deps.mockito
     testImplementation deps.robolectric_utils
     testImplementation deps.robolectric_junit2
-    testImplementation deps.robolectric_3_8
+    testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
     implementation deps.multidex
     androidTestImplementation deps.android_testrunner
