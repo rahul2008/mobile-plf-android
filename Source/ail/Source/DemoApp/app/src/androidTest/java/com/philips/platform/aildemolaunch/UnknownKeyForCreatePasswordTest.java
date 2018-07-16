@@ -35,14 +35,14 @@ import static org.hamcrest.Matchers.not;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UnknownKeyForCreatePasswordTest {
+public class UnknownKeyForCreatePasswordTest extends SecureStorageBaseTest {
 
     @Rule
     public ActivityTestRule<AppInfraLaunchActivity> mActivityTestRule = new ActivityTestRule<>(AppInfraLaunchActivity.class);
 
     @Test
     public void unknownKeyForCreatePasswordTest() {
-
+        setUp();
         DataInteraction linearLayout = onData(anything())
                 .inAdapterView(allOf(withId(R.id.listViewAppInfraComponents),
                         childAtPosition(

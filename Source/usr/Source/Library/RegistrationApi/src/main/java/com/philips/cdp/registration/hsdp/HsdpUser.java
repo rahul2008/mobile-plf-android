@@ -11,6 +11,7 @@ package com.philips.cdp.registration.hsdp;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcel;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
@@ -42,6 +43,11 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+
+import android.os.Parcelable;
+import android.util.Base64;
+import android.util.Log;
+
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -220,8 +226,6 @@ public class HsdpUser {
                 } else if (null != dhpAuthenticationResponse.responseCode &&
                         dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
                     if (null != getHsdpUserRecord() && null != getHsdpUserRecord().getAccessCredential()) {
-                        getHsdpUserRecord().getAccessCredential().setExpiresIn(
-                                dhpAuthenticationResponse.expiresIn);
                         getHsdpUserRecord().getAccessCredential().setRefreshToken
                                 (dhpAuthenticationResponse.refreshToken);
                         getHsdpUserRecord().getAccessCredential().setAccessToken
@@ -297,61 +301,109 @@ public class HsdpUser {
      * @param userFileWriteListener user file write listener
      */
     private void saveToDisk(UserFileWriteListener userFileWriteListener) {
-        String objectPlainString = SecureStorage.objectToString(getHsdpUserRecord());
+        RLog.d("HsdpTesting","Saving Hsdp record to secure storage");
+        Parcel parcel= Parcel.obtain();
+        getHsdpUserRecord().writeToParcel(parcel,0);
+        String parcelString= Base64.encodeToString(parcel.marshall(),Base64.DEFAULT);
         try {
             mContext.deleteFile(HSDP_RECORD_FILE);
-            Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,
-                    new String(objectPlainString), new SecureStorageInterface.SecureStorageError());
+            Jump.getSecureStorageInterface().storeValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD,
+                    new String(parcelString), new SecureStorageInterface.SecureStorageError());
             userFileWriteListener.onFileWriteSuccess();
         } catch (Exception e) {
             userFileWriteListener.onFileWriteFailure();
+        }finally {
+            parcel.recycle();
         }
     }
 
     /**
      * Get hsdp user record
      *
-     * @return HsdpUserRecord object
-     * {@link HsdpUserRecord}
+     * @return HsdpUserRecordV2 object
+     * {@link HsdpUserRecordV2}
      */
-    public HsdpUserRecord getHsdpUserRecord() {
-        if (null != HsdpUserInstance.getInstance().getHsdpUserRecord()) {
-            RLog.d(TAG, "getHsdpUserRecord = " + HsdpUserInstance.getInstance().getHsdpUserRecord());
-            return HsdpUserInstance.getInstance().getHsdpUserRecord();
+    public HsdpUserRecordV2 getHsdpUserRecord() {
+        if (null != HsdpUserInstance.getInstance().getHsdpUserRecordV2()) {
+            RLog.d(TAG, "getHsdpUserRecordV2 = " + HsdpUserInstance.getInstance().getHsdpUserRecordV2());
+            return HsdpUserInstance.getInstance().getHsdpUserRecordV2();
         }
-
-        try {
-            File file = mContext.getFileStreamPath(HSDP_RECORD_FILE);
-            if (file != null && file.exists()) {
-                final FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
-                final ObjectInputStream ois = new ObjectInputStream(fis);
-                byte[] enctText = (byte[]) ois.readObject();
-                byte[] decrtext = SecureStorage.decrypt(enctText);
-                mContext.deleteFile(HSDP_RECORD_FILE);
-                Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,
-                        new String(decrtext), new SecureStorageInterface.SecureStorageError());
-                ois.close();
-                fis.close();
+        //Check if HsdpRecord v2 is present in secure storage or not.
+        RLog.d("HsdpTesting","Checking if hsdp record v2 is present in SS or not?");
+        if(Jump.getSecureStorageInterface().doesStorageKeyExist(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD)){
+            RLog.d("HsdpTesting","Hsdp record v2 present");
+            String hsdpRecord=Jump.getSecureStorageInterface().fetchValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD,
+                    new SecureStorageInterface.SecureStorageError());
+            if(hsdpRecord!=null){
+                byte[] hsdpRecordByteArray=Base64.decode(hsdpRecord,Base64.DEFAULT);
+                RLog.d("HsdpTesting","Unmarshalling hsdp record v2");
+                Parcel parcel=Parcel.obtain();
+                parcel.unmarshall(hsdpRecordByteArray,0,hsdpRecordByteArray.length);
+                parcel.setDataPosition(0);
+                RLog.d("HsdpTesting","Stting hsdp record v2");
+                HsdpUserInstance.getInstance().setHsdpUserRecordV2(HsdpUserRecordV2.CREATOR.createFromParcel(parcel));
+                parcel.recycle();
             }
-        } catch (Exception e) {
-            RLog.e(TAG, "getHsdpUserRecord Exception occurred " + e.getMessage());
-        }
-
-        String hsdpRecord = Jump.getSecureStorageInterface().fetchValueForKey(HSDP_RECORD_FILE,
-                new SecureStorageInterface.SecureStorageError());
-        RLog.d(TAG, "getHsdpUserRecord hsdpRecord = " + hsdpRecord + " Not keeping in secure storage");
-        if (hsdpRecord != null) {
-            Object obj = SecureStorage.stringToObject(hsdpRecord);
-            if (obj instanceof HsdpUserRecord) {
-                final HsdpUserRecord hsdpUserRecord = (HsdpUserRecord) obj;
-                HsdpUserInstance.getInstance().setHsdpUserRecord(hsdpUserRecord);
-                if (loggingInterface != null && hsdpUserRecord != null) {
-                    loggingInterface.setHSDPUserUUID(hsdpUserRecord.getUserUUID());
+        }else{
+            //Need to migrate data from v1 to v2
+            RLog.d("HsdpTesting","Checking if hsdp record v1 is present in SS or not?");
+            try {
+                File file = mContext.getFileStreamPath(HSDP_RECORD_FILE);
+                if (file != null && file.exists()) {
+                    final FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
+                    final ObjectInputStream ois = new ObjectInputStream(fis);
+                    byte[] enctText = (byte[]) ois.readObject();
+                    byte[] decrtext = SecureStorage.decrypt(enctText);
+                    mContext.deleteFile(HSDP_RECORD_FILE);
+                    Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,
+                            new String(decrtext), new SecureStorageInterface.SecureStorageError());
+                    ois.close();
+                    fis.close();
                 }
-                sendEncryptedUUIDToAnalytics(hsdpUserRecord);
+            } catch (Exception e) {
+                RLog.e(TAG, "getHsdpUserRecord Exception occurred " + e.getMessage());
+            }
+
+            String hsdpRecord = Jump.getSecureStorageInterface().fetchValueForKey(HSDP_RECORD_FILE,
+                    new SecureStorageInterface.SecureStorageError());
+            RLog.d(TAG, "getHsdpUserRecordV2 hsdpRecord = " + hsdpRecord + " Not keeping in secure storage");
+            if (hsdpRecord != null) {
+                RLog.d("HsdpTesting","Migrating hsdp record v1 to v2");
+                Object obj = SecureStorage.stringToObject(hsdpRecord);
+                if (obj instanceof HsdpUserRecord) {
+                    final HsdpUserRecord hsdpUserRecord = (HsdpUserRecord) obj;
+                    HsdpUserRecordV2 hsdpUserRecordV2=new HsdpUserRecordV2();
+                    hsdpUserRecordV2.setRefreshSecret(hsdpUserRecord.getRefreshSecret());
+                    hsdpUserRecordV2.setUserUUID(hsdpUserRecord.getUserUUID());
+                    HsdpUserRecordV2.AccessCredential accessCredential=hsdpUserRecordV2.new AccessCredential();
+                    accessCredential.setRefreshToken(hsdpUserRecord.getAccessCredential().getRefreshToken());
+                    accessCredential.setAccessToken(hsdpUserRecord.getAccessCredential().getAccessToken());
+                    hsdpUserRecordV2.setAccessCredential(accessCredential);
+                    HsdpUserInstance.getInstance().setHsdpUserRecordV2(hsdpUserRecordV2);
+                    if (loggingInterface != null) {
+                        loggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
+                    }
+                    sendEncryptedUUIDToAnalytics(hsdpUserRecordV2);
+                    saveToDisk(new UserFileWriteListener() {
+                        @Override
+                        public void onFileWriteSuccess() {
+                            RLog.d("HsdpTesting","Deleting v1 record");
+                            Jump.getSecureStorageInterface().removeValueForKey(HSDP_RECORD_FILE);
+                        }
+
+                        @Override
+                        public void onFileWriteFailure() {
+                            RLog.d("HsdpTesting","Error while saving hsdp record to SS");
+                        }
+                    });
+                }
+            }else{
+                RLog.d("HsdpTesting","Hsdp record not available");
             }
         }
-        return HsdpUserInstance.getInstance().getHsdpUserRecord();
+
+
+        return HsdpUserInstance.getInstance().getHsdpUserRecordV2();
     }
 
     /**
@@ -360,7 +412,8 @@ public class HsdpUser {
     public void deleteFromDisk() {
         mContext.deleteFile(HSDP_RECORD_FILE);
         Jump.getSecureStorageInterface().removeValueForKey(HSDP_RECORD_FILE);
-        HsdpUserInstance.getInstance().setHsdpUserRecord(null);
+        Jump.getSecureStorageInterface().removeValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD);
+        HsdpUserInstance.getInstance().setHsdpUserRecordV2(null);
     }
 
 
@@ -386,22 +439,22 @@ public class HsdpUser {
                         final Map<String, Object> rawResponse = dhpAuthenticationResponse1.
                                 rawResponse;
 
-                        final HsdpUserRecord hsdpUserRecord = new HsdpUserRecord();
-                        hsdpUserRecord.parseHsdpUserInfo(rawResponse);
-                        hsdpUserRecord.setRefreshSecret(refreshSecret);
-                        HsdpUserInstance.getInstance().setHsdpUserRecord(hsdpUserRecord);
+                        final HsdpUserRecordV2 hsdpUserRecordV2 = new HsdpUserRecordV2();
+                        hsdpUserRecordV2.parseHsdpUserInfo(rawResponse);
+                        hsdpUserRecordV2.setRefreshSecret(refreshSecret);
+                        HsdpUserInstance.getInstance().setHsdpUserRecordV2(hsdpUserRecordV2);
                         saveToDisk(new UserFileWriteListener() {
                             @Override
                             public void onFileWriteSuccess() {
-                                if (loggingInterface != null && hsdpUserRecord != null) {
-                                    loggingInterface.setHSDPUserUUID(hsdpUserRecord.getUserUUID());
+                                if (loggingInterface != null && hsdpUserRecordV2 != null) {
+                                    loggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
                                 }
                                 handler.post(() -> {
                                     RLog.d(RLog.HSDP, "Social onHsdpLoginSuccess : response :"
                                             + rawResponse.toString());
                                     HsdpUser hsdpUser = new HsdpUser(mContext);
                                     if (hsdpUser.getHsdpUserRecord() != null) {
-                                        sendEncryptedUUIDToAnalytics(hsdpUserRecord);
+                                        sendEncryptedUUIDToAnalytics(hsdpUserRecordV2);
                                     }
                                     ThreadUtils.postInMainThread(mContext, loginHandler::onLoginSuccess);
                                 });
@@ -437,10 +490,10 @@ public class HsdpUser {
 
     }
 
-    private void sendEncryptedUUIDToAnalytics(HsdpUserRecord hsdpUserRecord) {
+    private void sendEncryptedUUIDToAnalytics(HsdpUserRecordV2 hsdpUserRecordV2) {
         if (RegistrationConfiguration.getInstance().isHsdpUuidShouldUpload()) {
             Encryption encryption = new Encryption();
-            final String userUID = encryption.encrypt(hsdpUserRecord.getUserUUID());
+            final String userUID = encryption.encrypt(hsdpUserRecordV2.getUserUUID());
             if (null != userUID) {
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,
                         "evar2", userUID);
@@ -487,16 +540,16 @@ public class HsdpUser {
      * @return true if hsdp user signed in else false
      */
     public boolean isHsdpUserSignedIn() {
-        HsdpUserRecord hsdpUserRecord = getHsdpUserRecord();
+        HsdpUserRecordV2 hsdpUserRecordV2 = getHsdpUserRecord();
 
-        final boolean isSignedIn = hsdpUserRecord != null && ((hsdpUserRecord.getAccessCredential() != null &&
-                hsdpUserRecord.getAccessCredential().getRefreshToken() != null)
-                || hsdpUserRecord.getRefreshSecret() != null) &&
-                hsdpUserRecord.getUserUUID() != null
+        final boolean isSignedIn = hsdpUserRecordV2 != null && ((hsdpUserRecordV2.getAccessCredential() != null &&
+                hsdpUserRecordV2.getAccessCredential().getRefreshToken() != null)
+                || hsdpUserRecordV2.getRefreshSecret() != null) &&
+                hsdpUserRecordV2.getUserUUID() != null
                 && (getHsdpUserRecord().getAccessCredential() != null &&
                 getHsdpUserRecord().getAccessCredential().getAccessToken() != null);
         RLog.i(TAG, "isHsdpUserSignedIn : " + isSignedIn);
-        RLog.i(TAG, "HsdpUserRecord : " + (hsdpUserRecord != null ? hsdpUserRecord.toString() : null));
+        RLog.i(TAG, "HsdpUserRecordV2 : " + (hsdpUserRecordV2 != null ? hsdpUserRecordV2.toString() : null));
         return isSignedIn;
     }
 }

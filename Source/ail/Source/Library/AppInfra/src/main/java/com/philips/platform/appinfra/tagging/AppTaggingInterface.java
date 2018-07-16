@@ -243,7 +243,7 @@ public interface AppTaggingInterface extends Serializable {
 	 * ClickStreamConsentHandler is used for storing/fetching Tagging Consents in Adobe
 	 *
 	 * @return This method returns the Click Stream Consent Handler
-	 * @since 2018.1.0
+	 * @since 1801.0
 	 */
 	ConsentHandlerInterface getClickStreamConsentHandler();
 
@@ -253,7 +253,7 @@ public interface AppTaggingInterface extends Serializable {
 	 * If no such key is found then the app will crash.
 	 *
 	 * @return This method returns the Click Stream Consent Identifier
-	 * @since 2018.1.0
+	 * @since 1801.0
 	 */
 	String getClickStreamConsentIdentifier();
 
@@ -261,7 +261,7 @@ public interface AppTaggingInterface extends Serializable {
 	 * Register ClickStreamHandler.
 	 *
 	 * @param consentManager ConsentManager
-	 * @since 2018.1.0
+	 * @since 1801.0
 	 */
 	void registerClickStreamHandler(ConsentManagerInterface consentManager);
 

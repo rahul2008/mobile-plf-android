@@ -94,6 +94,11 @@ public class SecureStorageV1 implements SecureStorageInterface {
     }
 
     @Override
+    public boolean storeValueForKey(String userKey, byte[] valueToBeEncrypted, SecureStorageError secureStorageError) {
+        return false;
+    }
+
+    @Override
     public String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
         String decryptedString;
         try {
@@ -122,6 +127,11 @@ public class SecureStorageV1 implements SecureStorageInterface {
         }
         return decryptedString;
 
+    }
+
+    @Override
+    public byte[] fetchByteArrayForKey(String userKey, SecureStorageError secureStorageError) {
+        return new byte[0];
     }
 
     @Override

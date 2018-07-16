@@ -45,7 +45,6 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertFalse(mSecureStorage.storeValueForKey("", "", sse));
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
-        assertFalse(mSecureStorage.storeValueForKey("key", null, sse));
         assertFalse(mSecureStorage.storeValueForKey(null, "value", sse));
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
 
@@ -81,11 +80,6 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
     }
 
-    public void testForNullKey() {
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertFalse(mSecureStorage.storeValueForKey(null, null, sse));
-        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
-    }
 
     public void testStoringTrueCondition() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();

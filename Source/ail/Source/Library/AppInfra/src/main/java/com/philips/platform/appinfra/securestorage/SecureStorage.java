@@ -54,6 +54,11 @@ public class SecureStorage implements SecureStorageInterface {
         return latestSecureStorage.storeValueForKey(userKey, valueToBeEncrypted, secureStorageError);
     }
 
+    @Override
+    public boolean storeValueForKey(String userKey, byte[] valueToBeEncrypted, SecureStorageError secureStorageError) {
+        return latestSecureStorage.storeValueForKey(userKey,valueToBeEncrypted,secureStorageError);
+    }
+
 
     @Override
     public String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
@@ -66,6 +71,11 @@ public class SecureStorage implements SecureStorageInterface {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
             return null;
         }
+    }
+
+    @Override
+    public byte[] fetchByteArrayForKey(String userKey, SecureStorageError secureStorageError) {
+        return latestSecureStorage.fetchByteArrayForKey(userKey,secureStorageError);
     }
 
     private void log(LoggingInterface.LogLevel logLevel, String eventId, String message) {

@@ -46,14 +46,14 @@ import static org.hamcrest.Matchers.not;
  */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class NewSSEncyrptDecryptBulkDataTest {
+public class NewSSEncyrptDecryptBulkDataTest extends SecureStorageBaseTest{
 
     @Rule
     public ActivityTestRule<AppInfraLaunchActivity> mActivityTestRule = new ActivityTestRule<>(AppInfraLaunchActivity.class);
 
     @Test
     public void newSSEncyrptDecryptBulkDataTest() {
-
+        setUp();
         DataInteraction linearLayout = onData(anything())
                 .inAdapterView(allOf(withId(R.id.listViewAppInfraComponents),
                         childAtPosition(

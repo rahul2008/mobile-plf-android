@@ -434,11 +434,11 @@ public class User {
             }
             DIUserProfile diUserProfile = new DIUserProfile();
             HsdpUser hsdpUser = new HsdpUser(mContext);
-            HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-            if (hsdpUserRecord != null) {
-                diUserProfile.setHsdpUUID(hsdpUserRecord.getUserUUID());
-                diUserProfile.setHsdpAccessToken(hsdpUserRecord.getAccessCredential().getAccessToken());
-                RLog.d(TAG, "DIUserProfile getUserInstance HsdpUserRecord = " + hsdpUserRecord.toString());
+            HsdpUserRecordV2 hsdpUserRecordV2 = hsdpUser.getHsdpUserRecord();
+            if (hsdpUserRecordV2 != null) {
+                diUserProfile.setHsdpUUID(hsdpUserRecordV2.getUserUUID());
+                diUserProfile.setHsdpAccessToken(hsdpUserRecordV2.getAccessCredential().getAccessToken());
+                RLog.d(TAG, "DIUserProfile getUserInstance HsdpUserRecordV2 = " + hsdpUserRecordV2.toString());
             }
 
 
