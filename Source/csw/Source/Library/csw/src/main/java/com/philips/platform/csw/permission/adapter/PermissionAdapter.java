@@ -127,14 +127,14 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     public void onCreateConsentSuccess(final int position, boolean status) {
         if (position != NOT_FOUND) {
             ConsentView consentView = items.get(position - 1);
-            consentView.storeConsentDefnitionStatus(getConsentDefinitionStatus(consentView.getDefinition(), status,consentView.getTimeStamp()));
+            consentView.storeConsentDefnitionStatus(getConsentDefinitionStatus(consentView.getDefinition(), status, consentView.getTimestamp()));
             notifyItemChanged(position);
         }
     }
 
-    private ConsentDefinitionStatus getConsentDefinitionStatus(ConsentDefinition definition, boolean status, Date timeStamp) {
+    private ConsentDefinitionStatus getConsentDefinitionStatus(ConsentDefinition definition, boolean status, Date timestamp) {
         ConsentStates consentStatus = status ? ConsentStates.active : ConsentStates.rejected;
-        return new ConsentDefinitionStatus(consentStatus, ConsentVersionStates.InSync, definition,timeStamp);
+        return new ConsentDefinitionStatus(consentStatus, ConsentVersionStates.InSync, definition, timestamp);
     }
 
     @NonNull

@@ -22,8 +22,6 @@ public class ConsentView {
     private boolean isError = false;
     private boolean isOnline = true;
 
-    private Date timeStamp;
-
     private ConsentDefinitionStatus consentDefinitionStatus;
     private boolean isEnabled;
 
@@ -53,7 +51,6 @@ public class ConsentView {
         this.isError = false;
         this.isOnline = true;
         this.isEnabled = (consentDefinitionStatus == null) || (!consentDefinitionStatus.getConsentVersionState().equals(AppVersionIsLower));
-        this.timeStamp = consentDefinitionStatus.getTimestamp();
         return this;
     }
 
@@ -98,6 +95,10 @@ public class ConsentView {
         return isLoading;
     }
 
+    public Date getTimestamp(){
+        return consentDefinitionStatus.getTimestamp();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -122,9 +123,5 @@ public class ConsentView {
         result = 31 * result + (isEnabled ? 1 : 0);
         result = 31 * result + consentDefinitionStatus.hashCode();
         return result;
-    }
-
-    public Date getTimeStamp() {
-        return timeStamp;
     }
 }
