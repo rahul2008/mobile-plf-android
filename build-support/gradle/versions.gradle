@@ -181,7 +181,7 @@ ext.deps = [
         mockito                       : 'org.mockito:mockito-core:2.8.9',  // MAKE VERY SURE YOU UPGRADE TO A VERSION THAT IS COMPATIBLE WITH LATEST POWERMOCK: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
         mockito_android               : 'org.mockito:mockito-android:2.7.22',
         mockito_old                   : 'org.mockito:mockito-core:1.9.5',  // Don't remove this, needed as dexmaker for android test only compatible with mockito < 2.x
-        multidex                      : 'com.android.support:multidex:1.0.1',
+        multidex                      : 'com.android.support:multidex:1.0.3',
         opengl                        : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',
         openid_appauth                : 'net.openid:appauth:0.7.0',
         play_services_gcm             : 'com.google.android.gms:play-services-gcm:15.0.1',
