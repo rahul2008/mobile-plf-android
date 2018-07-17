@@ -6,6 +6,7 @@ import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
+import com.philips.pins.shinelib.protocols.moonshinestreaming.MoonshineStreamIdentifier;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 
 import java.util.Set;
@@ -20,7 +21,7 @@ public class StreamingCapability implements CapabilityDiComm {
 
     private SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener listener = new SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener() {
         @Override
-        public void onDataReceived(byte[] data) {
+        public void onDataReceived(byte[] data, MoonshineStreamIdentifier streamIdentifier) {
             for (ResultListener<SHNDataRaw> listener : mDataRawResultListeners) {
                 listener.onActionCompleted(new SHNDataRaw(data), SHNResult.SHNOk);
             }
@@ -44,7 +45,7 @@ public class StreamingCapability implements CapabilityDiComm {
 
     @Override
     public void writeData(byte[] data) {
-        shnProtocolMoonshineStreaming.sendData(data);
+        shnProtocolMoonshineStreaming.sendData(data, MoonshineStreamIdentifier.STREAM_1);
     }
 
     @Override
