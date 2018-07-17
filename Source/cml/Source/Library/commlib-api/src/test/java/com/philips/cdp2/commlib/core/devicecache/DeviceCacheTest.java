@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.Collection;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import static junit.framework.Assert.assertTrue;
@@ -24,9 +25,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class DeviceCacheTest {
 
     private DeviceCache deviceCache;
-
-    @Mock
-    private ScheduledExecutorService scheduledExecutorServiceMock;
 
     @Mock
     private NetworkNode networkNodeMock;
@@ -47,7 +45,7 @@ public class DeviceCacheTest {
     public void setUp() {
         initMocks(this);
 
-        deviceCache = new DeviceCache(scheduledExecutorServiceMock);
+        deviceCache = new DeviceCache();
 
         when(networkNodeMock.getCppId()).thenReturn("my-cpp-id");
         when(secondNetworkNodeMock.getCppId()).thenReturn("my-cpp-id-other");

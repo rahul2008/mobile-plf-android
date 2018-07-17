@@ -73,7 +73,7 @@ public class SecureNetworkNodeDatabaseHelperTest {
     }
 
     @Test
-    public void whenDatabaseIsUpdated_thenMacAddressIsAdded() {
+    public void whenDatabaseIsUpgraded_thenMacAddressIsAdded() {
         subject.onUpgrade(sqLiteDatabaseMock, null, 6, 7);
 
         verify(sqLiteDatabaseMock, atLeastOnce()).execSQL(anyString());

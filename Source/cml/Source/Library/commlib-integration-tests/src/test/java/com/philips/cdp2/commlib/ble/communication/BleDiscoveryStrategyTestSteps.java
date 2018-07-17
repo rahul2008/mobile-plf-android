@@ -109,7 +109,7 @@ public class BleDiscoveryStrategyTestSteps {
 
         final Context mockContext = mock(Context.class);
 
-        deviceCache = new DeviceCache(Executors.newSingleThreadScheduledExecutor());
+        deviceCache = new DeviceCache();
 
         bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, deviceCache, deviceScanner) {
             @Override

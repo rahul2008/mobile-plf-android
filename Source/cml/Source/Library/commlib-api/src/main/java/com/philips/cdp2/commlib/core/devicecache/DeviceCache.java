@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import static java.util.Collections.unmodifiableCollection;
@@ -39,8 +40,8 @@ public class DeviceCache {
 
     private final Set<DeviceCacheListener> deviceCacheListeners = new CopyOnWriteArraySet<>();
 
-    public DeviceCache(@NonNull final ScheduledExecutorService executor) {
-        this.executor = executor;
+    public DeviceCache() {
+        this.executor = Executors.newSingleThreadScheduledExecutor();
     }
 
     /**

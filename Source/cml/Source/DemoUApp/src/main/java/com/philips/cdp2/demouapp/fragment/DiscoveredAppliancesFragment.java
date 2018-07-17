@@ -316,13 +316,6 @@ public class DiscoveredAppliancesFragment extends Fragment {
             lanDiscoveryStrategy.start(discoveryFilterModelIds);
         } catch (MissingPermissionException e) {
             Log.e(TAG, "Error starting discovery: " + e.getMessage());
-
-            acquirePermission(new Runnable() {
-                @Override
-                public void run() {
-                    startLanDiscovery();
-                }
-            });
         }
     }
 

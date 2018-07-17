@@ -98,7 +98,7 @@ public class EWSModule {
     }
 
     private DeviceCache createLanCache() {
-        return new DeviceCache(Executors.newSingleThreadScheduledExecutor());
+        return new DeviceCache();
     }
 
     private NetworkNode createFakeNetworkNodeForHotSpot() {

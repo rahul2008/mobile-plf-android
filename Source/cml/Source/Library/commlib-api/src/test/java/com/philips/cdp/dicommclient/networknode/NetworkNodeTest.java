@@ -256,7 +256,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void givenNetworkNodeIsSerialized_whenItIsDEsirialized_thenNodeIsTheSame() {
+    public void givenNetworkNodeIsSerialized_whenItIsDeserialized_thenNodeIsTheSame() {
         NetworkNode networkNode = createNetworkNode();
 
         Parcel parcel = Parcel.obtain();

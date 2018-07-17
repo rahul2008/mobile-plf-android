@@ -125,7 +125,7 @@ public class BleCommunicationStrategyTestSteps {
 
         mRawDataListeners = new ConcurrentHashMap<>();
         writtenBytes = new ConcurrentHashMap<>();
-        mDeviceCache = new DeviceCache(Executors.newSingleThreadScheduledExecutor());
+        mDeviceCache = new DeviceCache();
         mRequestQueue = new ArrayDeque<>();
         mGson = new GsonBuilder().serializeNulls().create();
         deviceListenerMap = new ConcurrentHashMap<>();

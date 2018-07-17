@@ -117,7 +117,7 @@ public class BleTransportContext implements TransportContext {
     @NonNull
     @VisibleForTesting
     DeviceCache createDeviceCache() {
-        return new DeviceCache(Executors.newSingleThreadScheduledExecutor());
+        return new DeviceCache();
     }
 
     @VisibleForTesting

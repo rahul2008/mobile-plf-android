@@ -56,7 +56,7 @@ public class LanTransportContext implements TransportContext {
     public LanTransportContext(@NonNull final RuntimeConfiguration runtimeConfiguration) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(runtimeConfiguration.getContext(), TYPE_WIFI);
         this.ssidProvider = new SsidProvider(runtimeConfiguration.getContext());
-        this.deviceCache = new DeviceCache(Executors.newSingleThreadScheduledExecutor());
+        this.deviceCache = new DeviceCache();
         this.discoveryStrategy = createLanDiscoveryStrategy();
     }
 
