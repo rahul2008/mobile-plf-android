@@ -62,7 +62,7 @@ public interface LoggingInterface extends Serializable {
     /**
      *
      * @return This method returns the Cloud Logging consent identifier
-     * @since 2018.2.0
+     * @since 1802.0
      */
     String getCloudLoggingConsentIdentifier();
 

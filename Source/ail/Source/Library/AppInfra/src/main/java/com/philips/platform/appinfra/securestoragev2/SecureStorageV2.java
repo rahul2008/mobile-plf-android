@@ -2,11 +2,11 @@ package com.philips.platform.appinfra.securestoragev2;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -30,7 +30,7 @@ public class SecureStorageV2 implements SecureStorageInterface {
     private SSFileCache ssFileCache;
     public static final String RSA_WRAPPED_AES_KEY_MAIN = "rsa_wrapped_aes_encrypted_key";
 
-    public static final String VERSION="v2";
+    public static final String VERSION = "v2";
 
     public SecureStorageV2(AppInfra bAppInfra) {
         mAppInfra = bAppInfra;
@@ -62,6 +62,11 @@ public class SecureStorageV2 implements SecureStorageInterface {
 
     @Override
     public boolean storeValueForKey(String userKey, String valueToBeEncrypted, SecureStorageError secureStorageError) {
+        return storeValueForKey(userKey, valueToBeEncrypted.getBytes(), secureStorageError);
+    }
+
+    @Override
+    public boolean storeValueForKey(String userKey, byte[] valueToBeEncrypted, SecureStorageError secureStorageError) {
         boolean returnResult;
         try {
             writeLock.lock();
@@ -74,15 +79,16 @@ public class SecureStorageV2 implements SecureStorageInterface {
             }
             try {
                 Key secretKey = ssKeyProvider.getSecureKey(RSA_WRAPPED_AES_KEY_MAIN);
-                String encryptedString = ssEncoderDecoder.encodeDecodeData(Cipher.ENCRYPT_MODE, secretKey, valueToBeEncrypted);
-                returnResult = ssFileCache.putEncryptedString(userKey, encryptedString);// save encrypted value in data file
+                byte[] encryptedByteArray = ssEncoderDecoder.encodeDecodeData(Cipher.ENCRYPT_MODE, secretKey, valueToBeEncrypted);
+                String encodedEncryptedString = Base64.encodeToString(encryptedByteArray, Base64.DEFAULT);
+                returnResult = ssFileCache.putEncryptedString(userKey, encodedEncryptedString);// save encrypted value in data file
                 if (!returnResult) { // if encrypted data is not saved then set error code accordingly
                     secureStorageError.setErrorCode(SecureStorageError.secureStorageError.StoreError);
                 }
-                encryptedString = returnResult ? encryptedString : null; // if save of encryption data fails return null
+                encryptedByteArray = returnResult ? encryptedByteArray : null; // if save of encryption data fails return null
                 final boolean isDebuggable = (0 != (mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
                 if (isDebuggable) {
-                    log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Encrypted Data" + encryptedString);
+                    log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Encrypted Data" + encryptedByteArray);
                 }
             } catch (SSKeyProviderException exception) {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.AccessKeyFailure);
@@ -106,7 +112,16 @@ public class SecureStorageV2 implements SecureStorageInterface {
 
     @Override
     public String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
-        String decryptedString;
+        byte[] decryptedByteArray = fetchByteArrayForKey(userKey, secureStorageError);
+        if (decryptedByteArray == null) {
+            return null;
+        }
+        return new String(decryptedByteArray);
+    }
+
+    @Override
+    public byte[] fetchByteArrayForKey(String userKey, SecureStorageError secureStorageError) {
+        byte[] decryptedByteArray = null;
         try {
             readLock.lock();
             if (null == userKey || userKey.isEmpty()) {
@@ -114,28 +129,30 @@ public class SecureStorageV2 implements SecureStorageInterface {
                 return null;
             }
             final String encryptedString = ssFileCache.getEncryptedString(userKey);
+            byte[] cipherMessage = getDecode(encryptedString);
             final Key secretKey = ssKeyProvider.getSecureKey(RSA_WRAPPED_AES_KEY_MAIN);//ssEncoderDecoder.getKey(ACCESS_KEY, SECURE_STORAGE_FILE_NAME, secureStorageError);
             if (null == encryptedString || null == secretKey) {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
                 return null; // if user entered key is not present
             }
-            decryptedString = ssEncoderDecoder.encodeDecodeData(Cipher.DECRYPT_MODE, secretKey, encryptedString);
+            decryptedByteArray = ssEncoderDecoder.encodeDecodeData(Cipher.DECRYPT_MODE, secretKey, cipherMessage);
         } catch (SSKeyProviderException exception) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.AccessKeyFailure);
             log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, exception.getMessage());
-            decryptedString = null;
         } catch (SSEncodeDecodeException exception) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
-            decryptedString = null;
             log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, exception.getMessage());
         } catch (Exception e) {
             log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in SecureStorage");
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
-            decryptedString = null; // if exception is thrown at:  decryptedString = new String(decText);
         } finally {
             readLock.unlock();
         }
-        return decryptedString;
+        return decryptedByteArray;
+    }
+
+    protected byte[] getDecode(String encryptedString) {
+        return Base64.decode(encryptedString, Base64.DEFAULT);
     }
 
     @Override
@@ -343,8 +360,8 @@ public class SecureStorageV2 implements SecureStorageInterface {
     }
 
     private void log(LoggingInterface.LogLevel logLevel, String eventId, String message) {
-        if(mAppInfra !=null && mAppInfra.getAppInfraLogInstance()!=null) {
-            mAppInfra.getAppInfraLogInstance().log(logLevel,eventId,message);
+        if (mAppInfra != null && mAppInfra.getAppInfraLogInstance() != null) {
+            mAppInfra.getAppInfraLogInstance().log(logLevel, eventId, message);
         }
     }
 

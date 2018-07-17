@@ -29,7 +29,6 @@ import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListen
 import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -47,8 +46,6 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSta
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
@@ -161,25 +158,7 @@ public class AppFrameworkApplication extends Application {
         initializeCC();
         initializeTHS();
         registerNeuraHandler();
-        cloudLoggingSetTrue();
-
     }
-
-    private void cloudLoggingSetTrue() {
-        ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getLogging().getCloudLoggingConsentIdentifier());
-        appInfra.getConsentManager().storeConsentState(consentDefinition, true, new PostConsentCallback() {
-            @Override
-            public void onPostConsentFailed(ConsentError error) {
-                RALog.d(LOG,"Cloud consent RAP failed");
-            }
-
-            @Override
-            public void onPostConsentSuccess() {
-                RALog.d(LOG,"Cloud consent RAP success");
-            }
-        });
-    }
-
     private void initializePrivacySettings() {
         privacySettingsState = new PrivacySettingsState();
         privacySettingsState.init(this);
