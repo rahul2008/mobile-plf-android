@@ -138,7 +138,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     }
     private  void upDateUi(boolean  isChecked){
         Bundle bundle = getArguments();
-        updateCheckoutStepNumber("1"); // for default
+        updateCheckoutStepNumber("2"); // for default
         if (null != bundle && bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION)) {
             if (bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
                 updateCheckoutStepNumber("2");
@@ -152,7 +152,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         }
 
         if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            updateCheckoutStepNumber("1");
+            updateCheckoutStepNumber("2");
             checkBox.setVisibility(View.GONE);
             HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
             ((DLSShippingAddressFragment) shippingFragment).updateFields(mAddressFieldsHashmap);
@@ -433,12 +433,12 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     public void onSetDeliveryAddress(Message msg) {
         Toast.makeText(mContext, "onSetDeliveryAddress", Toast.LENGTH_SHORT).show();
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            /*Bundle bundle = getArguments();
+            Bundle bundle = getArguments();
             DeliveryModes deliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
             if (deliveryMode == null)
                 mAddressController.getDeliveryModes();
-            else*/
-                mPaymentController.getPaymentDetails();
+            else
+            mPaymentController.getPaymentDetails();
         } else {
             hideProgressBar();
             IAPLog.d(IAPLog.LOG, msg.getData().toString());

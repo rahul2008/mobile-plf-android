@@ -66,13 +66,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideProgressBar();
-                    }
-                }, 11000);
+                hideProgressBar();
 
             }
 
