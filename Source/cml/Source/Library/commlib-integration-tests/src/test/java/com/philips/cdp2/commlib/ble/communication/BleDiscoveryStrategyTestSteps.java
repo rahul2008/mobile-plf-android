@@ -13,6 +13,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.DatabaseFetcher;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
@@ -20,6 +21,7 @@ import com.philips.cdp2.commlib.core.devicecache.CacheData;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
@@ -48,6 +50,7 @@ import java.util.concurrent.TimeUnit;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
+import static com.philips.cdp2.commlib.core.CommCentral.*;
 import static com.philips.cdp2.commlib.core.util.ContextProvider.setTestingContext;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -63,10 +66,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleDiscoveryStrategyTestSteps {
     private static final long TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = TimeUnit.SECONDS.toMillis(10);
+
     private CommCentral commCentral;
 
     @Mock
     private SHNDeviceScanner deviceScanner;
+
+    @Mock
+    private NetworkNodeDatabase mockNetworkNodeDatabase;
 
     @Mock
     private BleTransportContext bleTransportContext;
@@ -154,7 +161,7 @@ public class BleDiscoveryStrategyTestSteps {
         };
         setTestingContext(contextMock);
 
-        commCentral = new CommCentral(testApplianceFactory, mockRuntimeConfiguration, bleTransportContext);
+        commCentral = new CommCentral(testApplianceFactory, mockRuntimeConfiguration, null, new NetworkNodeDatabaseFetchTester(), bleTransportContext);
     }
 
     private static String createCppId() {
@@ -305,4 +312,12 @@ public class BleDiscoveryStrategyTestSteps {
     public void theListOfDiscoveredAppliancesIsCleared() {
         commCentral.clearDiscoveredAppliances();
     }
+
+    private class NetworkNodeDatabaseFetchTester implements DatabaseFetcher {
+        @Override
+        public NetworkNodeDatabase getNetworkNodeDatabase(@NonNull RuntimeConfiguration runtimeConfiguration) {
+            return mockNetworkNodeDatabase;
+        }
+    }
 }
+

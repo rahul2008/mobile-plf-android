@@ -77,6 +77,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleCommunicationStrategyTestSteps {
     private static final long TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = TimeUnit.SECONDS.toMillis(10);
+    private static final String DEVICE_MAC_ADDRESS = "11:22:33:44:55:66";
 
     private class QueuedRequest {
         BleRequest request;
@@ -230,6 +231,38 @@ public class BleCommunicationStrategyTestSteps {
                 // Ignored
             }
         }, SCAN_WINDOW_MILLIS);
+    }
+
+    @Given("^BLE is on$")
+    public void ble_is_on() {
+        mStrategy = new BleCommunicationStrategy(shnCentralMock, mockNetworkNode, callbackHandlerMock) {
+
+            @Override
+            protected void dispatchRequest(final BleRequest request) {
+                mRequestQueue.peekLast().request = request;
+                super.dispatchRequest(request);
+            }
+        };
+
+        when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(true);
+        when(shnCentralMock.isValidMacAddress(DEVICE_MAC_ADDRESS)).thenReturn(true);
+        when(mockNetworkNode.getMacAddress()).thenReturn(DEVICE_MAC_ADDRESS);
+    }
+
+    @Given("^BLE is off$")
+    public void ble_is_off() {
+        mStrategy = new BleCommunicationStrategy(shnCentralMock, mockNetworkNode, callbackHandlerMock) {
+
+            @Override
+            protected void dispatchRequest(final BleRequest request) {
+                mRequestQueue.peekLast().request = request;
+                super.dispatchRequest(request);
+            }
+        };
+
+        when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(false);
+        when(shnCentralMock.isValidMacAddress(DEVICE_MAC_ADDRESS)).thenReturn(true);
+        when(mockNetworkNode.getMacAddress()).thenReturn(DEVICE_MAC_ADDRESS);
     }
 
     private void resetCapability(final String deviceId) {
