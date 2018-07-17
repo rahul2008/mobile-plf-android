@@ -24,12 +24,12 @@ import android.widget.TextView;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
-import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.Arrays;
@@ -39,9 +39,9 @@ import java.util.List;
  * This fragment if for internal testing of dynamic configuration change of User registration
  */
 
-public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implements BackEventListener{
+public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implements BackEventListener {
     public static final String TAG = DebugTestFragment.class.getSimpleName();
-//    private List<String> list;
+    //    private List<String> list;
     private TextView configurationTextView;
     private Spinner spinner;
     private Context context;
@@ -68,7 +68,7 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
     }
 
     @NonNull
-    protected List<String> getList(String configurationType[]) {
+    protected List<AppIdentityInterface.AppState> getList(AppIdentityInterface.AppState configurationType[]) {
         return Arrays.asList(configurationType);
     }
 
@@ -77,12 +77,12 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
     }
 
     protected void setUpView(final View view) {
-        String configurationType[] =
+        AppIdentityInterface.AppState configurationType[] =
                 {
 
-                        AppStateConfiguration.DEVELOPMENT.getValue().toUpperCase(),
-                        AppStateConfiguration.STAGING.getValue().toUpperCase(),
-                        AppStateConfiguration.TEST.getValue().toUpperCase()
+                        AppIdentityInterface.AppState.DEVELOPMENT,
+                        AppIdentityInterface.AppState.STAGING,
+                        AppIdentityInterface.AppState.TEST
                 };
 
         context = getActivity();
@@ -95,7 +95,7 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
     }
 
     @NonNull
-    protected AdapterView.OnItemSelectedListener getSpinnerListener(final List<String> list) {
+    protected AdapterView.OnItemSelectedListener getSpinnerListener(final List<AppIdentityInterface.AppState> list) {
         return new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -128,12 +128,12 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
     protected void settingState(AdapterView<?> adapter, int position) {
         final String configuration = adapter.getItemAtPosition(position).toString();
         getUserRegistration().getUserObject(context).logout(null);
-        if (configuration.equalsIgnoreCase(AppStateConfiguration.DEVELOPMENT.getValue())) {
-            setState(AppStateConfiguration.DEVELOPMENT.getValue());
-        } else if (configuration.equalsIgnoreCase(AppStateConfiguration.TEST.getValue())) {
-            setState(AppStateConfiguration.TEST.getValue());
-        } else if (configuration.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue())) {
-            setState(AppStateConfiguration.STAGING.getValue());
+        if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.DEVELOPMENT.toString())) {
+            setState(AppIdentityInterface.AppState.DEVELOPMENT);
+        } else if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.TEST.toString())) {
+            setState(AppIdentityInterface.AppState.TEST);
+        } else if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.toString())) {
+            setState(AppIdentityInterface.AppState.STAGING);
         }
         getConfigurationTextView().setText(configuration);
     }
@@ -146,18 +146,18 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
         return new UserRegistrationSettingsState();
     }
 
-    protected void setSpinnerSelection(int position, String configurationType[]) {
+    protected void setSpinnerSelection(int position, AppIdentityInterface.AppState configurationType[]) {
         if (position >= 0) {
             getSpinner().setSelection(position);
 
-            getConfigurationTextView().setText(configurationType[position]);
+            getConfigurationTextView().setText(configurationType[position].toString());
         } else {
-            getConfigurationTextView().setText(configurationType[0]);
+            getConfigurationTextView().setText(configurationType[0].toString());
         }
     }
 
-    protected void setSpinnerAdaptor(String configurationType[]) {
-        ArrayAdapter<String> configType = getArrayAdapter(configurationType);
+    protected void setSpinnerAdaptor(AppIdentityInterface.AppState configurationType[]) {
+        ArrayAdapter<AppIdentityInterface.AppState> configType = getArrayAdapter(configurationType);
         getSpinner().setAdapter(configType);
     }
 
@@ -166,8 +166,8 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
     }
 
     @NonNull
-    protected ArrayAdapter<String> getArrayAdapter(String[] configurationType) {
-        ArrayAdapter<String> configType = new ArrayAdapter<>(context,
+    protected ArrayAdapter<AppIdentityInterface.AppState> getArrayAdapter(AppIdentityInterface.AppState[] configurationType) {
+        ArrayAdapter<AppIdentityInterface.AppState> configType = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, configurationType);
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         return configType;
@@ -178,7 +178,7 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
     }
 
-    protected void setState(final String state) {
+    protected void setState(final AppIdentityInterface.AppState state) {
         String APPIDENTITY_APP_STATE = "appidentity.appState";
 
         AppInfraInterface appInfra = getApplicationContext().getAppInfra();

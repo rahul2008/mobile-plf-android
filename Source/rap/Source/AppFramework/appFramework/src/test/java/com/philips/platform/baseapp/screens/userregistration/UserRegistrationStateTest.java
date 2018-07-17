@@ -19,11 +19,11 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
 import com.philips.platform.baseapp.screens.webview.WebViewState;
 import com.philips.platform.baseapp.screens.webview.WebViewActivity;
-import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -94,7 +94,7 @@ public class UserRegistrationStateTest {
 
     @Test
     public void testStageConfig() {
-        userRegState.setConfiguration(AppStateConfiguration.STAGING);
+        userRegState.setConfiguration(AppIdentityInterface.AppState.STAGING);
         userRegState.init(application);
         AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
@@ -107,7 +107,7 @@ public class UserRegistrationStateTest {
 
     @Test
     public void testDevConfig() {
-        userRegState.setConfiguration(AppStateConfiguration.DEVELOPMENT);
+        userRegState.setConfiguration(AppIdentityInterface.AppState.DEVELOPMENT);
         userRegState.init(application);
         AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
@@ -121,7 +121,7 @@ public class UserRegistrationStateTest {
 
     @Test
     public void testTestConfig() {
-        userRegState.setConfiguration(AppStateConfiguration.TEST);
+        userRegState.setConfiguration(AppIdentityInterface.AppState.TEST);
         userRegState.init(application);
         AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
@@ -159,7 +159,7 @@ public class UserRegistrationStateTest {
 
     class UserRegistrationStateMock extends UserRegistrationState {
 
-        private AppStateConfiguration configuration;
+        private AppIdentityInterface.AppState configuration;
 
         /**
          * AppFlowState constructor
@@ -171,12 +171,7 @@ public class UserRegistrationStateTest {
 
         }
 
-        @Override
-        public AppStateConfiguration getConfiguration() {
-            return configuration;
-        }
-
-        public void setConfiguration(AppStateConfiguration configuration) {
+        public void setConfiguration(AppIdentityInterface.AppState configuration) {
             this.configuration = configuration;
         }
 
