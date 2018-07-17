@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Přidat nový způsob platby</string>
   <string name="iap_add_to_cart">Přidat do vozíku</string>
   <string name="iap_address">Adresa</string>
-  <string name="iap_address_error">Zadejte platnou adresu</string>
+  <string name="iap_address_error">[cs]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Řádek adresy 1</string>
   <string name="iap_address_line_one_hint">Zadejte řádek adresy 1</string>
   <string name="iap_address_line_two">Řádek adresy 2</string>
@@ -65,6 +65,7 @@
   <string name="iap_cvv_code">[cs]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[cs]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">Kód CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[cs]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[cs]Daily Collection Miniblender</string>
   <string name="iap_delete">Odstranění</string>
   <string name="iap_delete_address">Odstranění dodací adresy</string>

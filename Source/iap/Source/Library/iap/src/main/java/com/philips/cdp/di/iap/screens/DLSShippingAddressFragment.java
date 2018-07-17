@@ -522,11 +522,11 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
                 mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
                 mLlAddressLineOne.setErrorMessage(R.string.iap_address_error);
                 mLlAddressLineOne.showError();
-            } /*else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
+            } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
                 mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
                 mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
                 mLlAddressLineTwo.showError();
-            }*/
+            }
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                     getString(R.string.iap_ok), getString(R.string.iap_server_error),
                     error.getMessage());

@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Tilføj en ny betalingsmetode</string>
   <string name="iap_add_to_cart">Tilføj til indkøbskurv</string>
   <string name="iap_address">Adresse</string>
-  <string name="iap_address_error">Indtast en gyldig adresse</string>
+  <string name="iap_address_error">[da]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Adresselinje 1</string>
   <string name="iap_address_line_one_hint">Indtast adresselinje 1</string>
   <string name="iap_address_line_two">Adresselinje 2</string>
@@ -65,6 +65,7 @@
   <string name="iap_cvv_code">[da]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[da]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[da]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[da]Daily Collection Miniblender</string>
   <string name="iap_delete">Slet</string>
   <string name="iap_delete_address">Sletter leveringsadresse</string>

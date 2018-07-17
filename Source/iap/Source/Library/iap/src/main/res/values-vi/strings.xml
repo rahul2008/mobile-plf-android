@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Thêm phương thức thanh toán mới</string>
   <string name="iap_add_to_cart">Thêm vào giỏ hàng</string>
   <string name="iap_address">Địa chỉ</string>
-  <string name="iap_address_error">Vui lòng nhập địa chỉ hợp lệ</string>
+  <string name="iap_address_error">[vi]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Địa chỉ 1</string>
   <string name="iap_address_line_one_hint">Nhập địa chỉ 1</string>
   <string name="iap_address_line_two">Địa chỉ 2</string>
@@ -65,6 +65,7 @@
   <string name="iap_cvv_code">[vi]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[vi]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[vi]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[vi]Daily Collection Miniblender</string>
   <string name="iap_delete">Xóa</string>
   <string name="iap_delete_address">Xóa địa chỉ gửi hàng</string>

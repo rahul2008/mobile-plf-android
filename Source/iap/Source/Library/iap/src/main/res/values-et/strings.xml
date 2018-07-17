@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Lisa uus makseviis</string>
   <string name="iap_add_to_cart">Lisa ostukorvi</string>
   <string name="iap_address">Aadress</string>
-  <string name="iap_address_error">Sisestage õige aadress</string>
+  <string name="iap_address_error">[et]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Aadressi rida 1</string>
   <string name="iap_address_line_one_hint">Sisestage aadressi rida 1</string>
   <string name="iap_address_line_two">Aadressi rida 2</string>
@@ -65,6 +65,7 @@
   <string name="iap_cvv_code">[et]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[et]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[et]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[et]Daily Collection Miniblender</string>
   <string name="iap_delete">Kustuta</string>
   <string name="iap_delete_address">Kohaletoimetamise aadressi kustutamine</string>

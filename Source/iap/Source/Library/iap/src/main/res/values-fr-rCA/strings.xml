@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Ajouter une nouvelle méthode de paiement</string>
   <string name="iap_add_to_cart">Ajouter au panier</string>
   <string name="iap_address">Adresse</string>
-  <string name="iap_address_error">Veuillez entrer une adresse valide</string>
+  <string name="iap_address_error">[fr-CA]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Adresse 1</string>
   <string name="iap_address_line_one_hint">Entrer votre adresse 1</string>
   <string name="iap_address_line_two">Adresse 2</string>
@@ -65,6 +65,7 @@
   <string name="iap_cvv_code">[fr-CA]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[fr-CA]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[fr-CA]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[fr-CA]Daily Collection Miniblender</string>
   <string name="iap_delete">Supprimer</string>
   <string name="iap_delete_address">Suppression de l’adresse de livraison</string>

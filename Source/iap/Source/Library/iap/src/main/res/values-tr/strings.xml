@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Yeni ödeme yöntemi ekle</string>
   <string name="iap_add_to_cart">Sepete ekle</string>
   <string name="iap_address">Adres</string>
-  <string name="iap_address_error">Lütfen geçerli bir adres yazın</string>
+  <string name="iap_address_error">[tr]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Adres satırı 1</string>
   <string name="iap_address_line_one_hint">Adres satırı 1\'i doldurun</string>
   <string name="iap_address_line_two">Adres satırı 2</string>
@@ -65,6 +65,7 @@
   <string name="iap_cvv_code">[tr]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[tr]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[tr]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[tr]Daily Collection Miniblender</string>
   <string name="iap_delete">Silme</string>
   <string name="iap_delete_address">Teslimat Adresi Silme</string>

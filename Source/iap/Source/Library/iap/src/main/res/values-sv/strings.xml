@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Lägg till en ny betalningsmetod</string>
   <string name="iap_add_to_cart">Lägg i kundvagnen</string>
   <string name="iap_address">Adress</string>
-  <string name="iap_address_error">Ange en giltig adress</string>
+  <string name="iap_address_error">[sv]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Adressrad 1</string>
   <string name="iap_address_line_one_hint">Ange adressrad 1</string>
   <string name="iap_address_line_two">Adressrad 2</string>
@@ -65,6 +65,7 @@
   <string name="iap_cvv_code">[sv]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[sv]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[sv]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[sv]Daily Collection Miniblender</string>
   <string name="iap_delete">Radera</string>
   <string name="iap_delete_address">Tar bort leveransadress</string>

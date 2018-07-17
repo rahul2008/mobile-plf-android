@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Добавить новый способ оплаты</string>
   <string name="iap_add_to_cart">Добавить в корзину</string>
   <string name="iap_address">Адрес</string>
-  <string name="iap_address_error">Правильно укажите адрес</string>
+  <string name="iap_address_error">[ru]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Адресная строка 1</string>
   <string name="iap_address_line_one_hint">Заполните адресную строку 1</string>
   <string name="iap_address_line_two">Адресная строка 2</string>
@@ -65,6 +65,7 @@
   <string name="iap_cvv_code">[ru]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[ru]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">Код CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[ru]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[ru]Daily Collection Miniblender</string>
   <string name="iap_delete">Удалить</string>
   <string name="iap_delete_address">Удаление адреса доставки</string>

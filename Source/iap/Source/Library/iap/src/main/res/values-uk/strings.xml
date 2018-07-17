@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Додати новий спосіб оплати</string>
   <string name="iap_add_to_cart">Додати до кошика</string>
   <string name="iap_address">Адреса</string>
-  <string name="iap_address_error">Введіть дійсну адресу</string>
+  <string name="iap_address_error">[uk]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Поле для адреси 1</string>
   <string name="iap_address_line_one_hint">Заповніть поле для адреси 1</string>
   <string name="iap_address_line_two">Поле для адреси 2</string>
@@ -65,6 +65,7 @@
   <string name="iap_cvv_code">[uk]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[uk]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[uk]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[uk]Daily Collection Miniblender</string>
   <string name="iap_delete">Видалити</string>
   <string name="iap_delete_address">Видалення адреси доставки</string>

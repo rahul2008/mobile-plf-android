@@ -47,7 +47,6 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -235,7 +234,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public boolean handleBackEvent() {
-       // addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE), DLSAddressFragment.TAG,true);
         return false;
     }
 

@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">הוסף אמצעי תשלום חדש</string>
   <string name="iap_add_to_cart">הוסף לעגלה</string>
   <string name="iap_address">כתובת</string>
-  <string name="iap_address_error">הזן כתובת תקפה</string>
+  <string name="iap_address_error">[he]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">שורת כתובת 1</string>
   <string name="iap_address_line_one_hint">הזן שורת כתובת 1</string>
   <string name="iap_address_line_two">שורת כתובת 2</string>
@@ -65,6 +65,7 @@
   <string name="iap_cvv_code">[he]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[he]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[he]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[he]Daily Collection Miniblender</string>
   <string name="iap_delete">מחק</string>
   <string name="iap_delete_address">מוחק כתובת למשלוח</string>
