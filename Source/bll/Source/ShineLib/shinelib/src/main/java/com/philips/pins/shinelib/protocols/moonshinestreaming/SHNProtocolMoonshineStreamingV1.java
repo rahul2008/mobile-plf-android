@@ -398,7 +398,7 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     @Override
     public void onReadProtocolInformation(byte[] data) {
         SHNLogger.i(TAG, "onReadProtocolInformation");
-        SHNProtocolByteStreamingVersionSwitcher.SHNProtocolInformation shnProtocolInformation = SHNProtocolByteStreamingVersionSwitcher.SHNProtocolInformation.createFromData(data);
+        SHNProtocolInformation shnProtocolInformation = SHNProtocolInformation.createFromData(data);
         if (shnProtocolInformation == null || shnProtocolInformation.protocolVersion == PROTOCOL_VERSION) {
             if (shnProtocolInformation != null) {
                 txWindowSize = shnProtocolInformation.txWindowSize;
