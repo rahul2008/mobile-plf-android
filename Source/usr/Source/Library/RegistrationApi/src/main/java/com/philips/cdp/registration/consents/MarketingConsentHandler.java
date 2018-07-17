@@ -147,13 +147,15 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
     }
 
 
-    private Date getTimestamp(String timestamp) {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
-        dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
-        try {
-            return dateFormat.parse(timestamp);
-        } catch (ParseException e) {
-            RLog.d(TAG, e.getMessage());
+    protected Date getTimestamp(String timestamp) {
+        if (timestamp != null) {
+            final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
+            dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+            try {
+                return dateFormat.parse(timestamp);
+            } catch (ParseException e) {
+                RLog.d(TAG, e.getMessage());
+            }
         }
         return null;
     }
