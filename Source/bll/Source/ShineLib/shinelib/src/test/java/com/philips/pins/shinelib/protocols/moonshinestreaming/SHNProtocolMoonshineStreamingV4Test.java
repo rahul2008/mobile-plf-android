@@ -505,7 +505,7 @@ public class SHNProtocolMoonshineStreamingV4Test {
         getProtocolToReadyStateWithTestWindowsSize();
         reset(mockedShnServiceMoonshineStreaming);
 
-        shnProtocolMoonshineStreamingV4.onReceiveData(new byte[]{0x00, 0x00});
+        shnProtocolMoonshineStreamingV4.onReceiveData(new byte[]{0x40, 0x00});
         verify(mockedShnProtocolMoonshineStreamingListener).onDataReceived(any(byte[].class), eq(MoonshineStreamIdentifier.STREAM_1));
     }
 
@@ -627,7 +627,7 @@ public class SHNProtocolMoonshineStreamingV4Test {
         mockedHandler.executeFirstScheduledExecution(); // There should be one packet that needs a confirm.
 
         reset(mockedShnProtocolMoonshineStreamingListener);
-        shnProtocolMoonshineStreamingV4.onReceiveData(new byte[]{(byte) (1 & SHNProtocolMoonshineStreamingV4.HEADER_SEQNR_MASK), (byte) 0x01}); // receive packet with SeqNo = 1;
+        shnProtocolMoonshineStreamingV4.onReceiveData(new byte[]{(byte) ((1 & SHNProtocolMoonshineStreamingV4.HEADER_SEQNR_MASK) + MoonshineStreamIdentifier.STREAM_1.getHeaderValue()), (byte) 0x01}); // receive packet with SeqNo = 1;
         ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
         verify(mockedShnProtocolMoonshineStreamingListener).onDataReceived(argumentCaptor.capture(), eq(MoonshineStreamIdentifier.STREAM_1));
         assertEquals(1 & SHNProtocolMoonshineStreamingV4.HEADER_SEQNR_MASK, argumentCaptor.getValue()[0]);
@@ -711,5 +711,23 @@ public class SHNProtocolMoonshineStreamingV4Test {
         assertEquals(TWO_BYTES_TEST_DATA[1], argumentCaptor.getValue()[2]);    // byte[1]
     }
 
-    // TODO: write tests for receiving data on different streams
+    // Receiving data on different streams
+    @Test
+    public void whenOnReceiveDataWithStream0ThenOnDataReceivedIsCalledWithStream0() {
+        getProtocolToReadyStateWithTestWindowsSize();
+        reset(mockedShnServiceMoonshineStreaming);
+
+        shnProtocolMoonshineStreamingV4.onReceiveData(new byte[]{0x00, 0x00});
+        verify(mockedShnProtocolMoonshineStreamingListener).onDataReceived(any(byte[].class), eq(MoonshineStreamIdentifier.STREAM_0));
+    }
+
+    @Test
+    public void whenOnReceiveDataWithStream2ThenOnDataReceivedIsCalledWithStream2() {
+        getProtocolToReadyStateWithTestWindowsSize();
+        reset(mockedShnServiceMoonshineStreaming);
+
+        shnProtocolMoonshineStreamingV4.onReceiveData(new byte[]{(byte)0xC0, 0x00});
+        verify(mockedShnProtocolMoonshineStreamingListener).onDataReceived(any(byte[].class), eq(MoonshineStreamIdentifier.STREAM_2));
+    }
+
 }

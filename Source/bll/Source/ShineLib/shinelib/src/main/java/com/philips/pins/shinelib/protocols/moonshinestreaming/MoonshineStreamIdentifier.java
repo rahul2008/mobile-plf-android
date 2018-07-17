@@ -15,4 +15,12 @@ public enum MoonshineStreamIdentifier {
         return this.headerValue;
     }
 
+    public static MoonshineStreamIdentifier fromHeaderValue(byte headerValue) {
+        for(MoonshineStreamIdentifier identifier : values()) {
+            if (identifier.getHeaderValue() == headerValue) {
+                return identifier;
+            }
+        }
+        return STREAM_1;
+    }
 }

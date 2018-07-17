@@ -180,6 +180,7 @@ public class SHNProtocolMoonshineStreamingV4 implements SHNProtocolMoonshineStre
     public static final int HEADER_TYPE_MASK = 0xC0;
     public static final int HEADER_SEQNR_MASK = 0x3F;
     public static final int HEADER_PACKET_TYPE_START = 0x40;
+    public static final int HEADER_STREAM_MASK = 0xC0;
 
     private int txWindowSize;
     private int txLastGenSequenceNr = -1;
@@ -464,13 +465,14 @@ public class SHNProtocolMoonshineStreamingV4 implements SHNProtocolMoonshineStre
         DebugLog("onReceiveData: " + Utilities.byteToString(data));
         if (state == SHNProtocolMoonshineStreamingState.Ready && data != null && data.length > 0) {
             int packetSeqNr = data[0] & HEADER_SEQNR_MASK;
+            byte streamNr = (byte)(data[0] & HEADER_STREAM_MASK);
             if (packetSeqNr == rxNextExpectedSequenceNr) {
                 rxLastReceivedSequenceNr = packetSeqNr;
                 rxNextExpectedSequenceNr++;
                 rxNextExpectedSequenceNr %= MAX_SEQUENCE_NR;
 
                 if (shnProtocolMoonshineStreamingListener != null && data.length > 1) {
-                    shnProtocolMoonshineStreamingListener.onDataReceived(Arrays.copyOfRange(data, 1, data.length), MoonshineStreamIdentifier.STREAM_1);
+                    shnProtocolMoonshineStreamingListener.onDataReceived(Arrays.copyOfRange(data, 1, data.length), MoonshineStreamIdentifier.fromHeaderValue(streamNr));
                 }
                 if (calcPacketsInRxWindow() == rxWindowSize) {
                     stopRxAckTimer();
