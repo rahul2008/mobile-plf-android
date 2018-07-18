@@ -75,27 +75,34 @@ public class SHNProtocolByteStreamingVersionSwitcher implements SHNProtocolMoons
         SHNLogger.d(TAG, "onReadProtocolInformation");
         SHNProtocolInformation shnProtocolInformation = SHNProtocolInformation.createFromData(configurationData);
 
-        if (shnProtocolInformation == null || shnProtocolInformation.protocolVersion == PROTOCOL_VERSION_V3) {
-            SHNLogger.d(TAG, "onReadProtocolInformation using protocol version: " + PROTOCOL_VERSION_V3);
-            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV3(shnServiceByteStreaming, internalHandler);
-            shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(shnProtocolMoonshineStreamingListener);
-            shnProtocolMoonshineStreaming.onServiceAvailable();
-            shnProtocolMoonshineStreaming.onReadProtocolInformation(configurationData);
-        } else if (shnProtocolInformation == null || shnProtocolInformation.protocolVersion == PROTOCOL_VERSION_V2) {
-            SHNLogger.d(TAG, "onReadProtocolInformation using protocol version: " + PROTOCOL_VERSION_V2);
-            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV2(shnServiceByteStreaming, internalHandler);
-            shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(shnProtocolMoonshineStreamingListener);
-            shnProtocolMoonshineStreaming.onServiceAvailable();
-            shnProtocolMoonshineStreaming.onReadProtocolInformation(configurationData);
-        } else if (shnProtocolInformation.protocolVersion == PROTOCOL_VERSION_V1) {
-            SHNLogger.d(TAG, "onReadProtocolInformation using protocol version: " + PROTOCOL_VERSION_V1);
-            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV1(shnServiceByteStreaming, internalHandler);
-            shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(shnProtocolMoonshineStreamingListener);
-            shnProtocolMoonshineStreaming.onServiceAvailable();
-            shnProtocolMoonshineStreaming.onReadProtocolInformation(configurationData);
-        } else {
+        if (shnProtocolInformation == null) {
             state = SHNProtocolMoonshineStreamingState.Error;
+            return;
         }
+
+        SHNLogger.d(TAG, "onReadProtocolInformation using protocol version: " + shnProtocolInformation.protocolVersion);
+        switch (shnProtocolInformation.protocolVersion) {
+            case SHNProtocolMoonshineStreamingV1.PROTOCOL_VERSION:
+                shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV1(shnServiceByteStreaming, internalHandler);
+                break;
+            case SHNProtocolMoonshineStreamingV2.PROTOCOL_VERSION:
+                shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV2(shnServiceByteStreaming, internalHandler);
+                break;
+            case SHNProtocolMoonshineStreamingV3.PROTOCOL_VERSION:
+                shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV3(shnServiceByteStreaming, internalHandler);
+                break;
+            case SHNProtocolMoonshineStreamingV4.PROTOCOL_VERSION:
+                shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV4(shnServiceByteStreaming, internalHandler);
+                break;
+            default:
+                SHNLogger.d(TAG, "Unsupported protocol version, going into error state");
+                state = SHNProtocolMoonshineStreamingState.Error;
+                return;
+        }
+
+        shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(shnProtocolMoonshineStreamingListener);
+        shnProtocolMoonshineStreaming.onServiceAvailable();
+        shnProtocolMoonshineStreaming.onReadProtocolInformation(configurationData);
     }
 
     @Override
@@ -134,5 +141,9 @@ public class SHNProtocolByteStreamingVersionSwitcher implements SHNProtocolMoons
         if (ENABLE_DEBUG_LOGGING) {
             SHNLogger.i(TAG, log);
         }
+    }
+
+    SHNProtocolMoonshineStreamingState getState() {
+        return state;
     }
 }
