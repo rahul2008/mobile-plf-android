@@ -12,6 +12,7 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
+import com.philips.pins.shinelib.datatypes.StreamIdentifier;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommRequest;
 
@@ -70,6 +71,6 @@ public class BlePutRequest extends BleRequest {
             return;
         }
 
-        capability.writeData(putPropsMessage.toData());
+        capability.writeData(putPropsMessage.toData(), StreamIdentifier.STREAM_1);
     }
 }

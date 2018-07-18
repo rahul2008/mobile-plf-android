@@ -5,7 +5,8 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.SHNDataRaw;
+import com.philips.pins.shinelib.datatypes.SHNStreamData;
+import com.philips.pins.shinelib.datatypes.StreamIdentifier;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.MoonshineStreamIdentifier;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 
@@ -17,13 +18,13 @@ public class StreamingCapability implements CapabilityDiComm {
     private static String TAG = "StreamingCapability";
 
     private SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming;
-    private Set<ResultListener<SHNDataRaw>> mDataRawResultListeners = new CopyOnWriteArraySet<>();
+    private Set<ResultListener<SHNStreamData>> mDataRawResultListeners = new CopyOnWriteArraySet<>();
 
     private SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener listener = new SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener() {
         @Override
         public void onDataReceived(byte[] data, MoonshineStreamIdentifier streamIdentifier) {
-            for (ResultListener<SHNDataRaw> listener : mDataRawResultListeners) {
-                listener.onActionCompleted(new SHNDataRaw(data), SHNResult.SHNOk);
+            for (ResultListener<SHNStreamData> listener : mDataRawResultListeners) {
+                listener.onActionCompleted(new SHNStreamData(data, StreamIdentifier.fromValue(streamIdentifier.getValue())), SHNResult.SHNOk);
             }
         }
 
@@ -44,17 +45,17 @@ public class StreamingCapability implements CapabilityDiComm {
     }
 
     @Override
-    public void writeData(byte[] data) {
-        shnProtocolMoonshineStreaming.sendData(data, MoonshineStreamIdentifier.STREAM_1);
+    public void writeData(byte[] data, StreamIdentifier streamIdentifier) {
+        shnProtocolMoonshineStreaming.sendData(data, MoonshineStreamIdentifier.fromValue(streamIdentifier.getValue()));
     }
 
     @Override
-    public void addDataListener(ResultListener<SHNDataRaw> dataListener) {
+    public void addDataListener(ResultListener<SHNStreamData> dataListener) {
         mDataRawResultListeners.add(dataListener);
     }
 
     @Override
-    public void removeDataListener(@NonNull ResultListener<SHNDataRaw> dataListener) {
+    public void removeDataListener(@NonNull ResultListener<SHNStreamData> dataListener) {
         mDataRawResultListeners.remove(dataListener);
     }
 }

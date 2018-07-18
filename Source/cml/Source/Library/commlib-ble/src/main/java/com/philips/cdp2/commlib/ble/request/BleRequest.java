@@ -21,7 +21,7 @@ import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.SHNDataRaw;
+import com.philips.pins.shinelib.datatypes.SHNStreamData;
 import com.philips.pins.shinelib.dicommsupport.DiCommByteStreamReader;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
@@ -127,9 +127,9 @@ public abstract class BleRequest implements Runnable {
     @VisibleForTesting
     DiCommByteStreamReader diCommByteStreamReader = new DiCommByteStreamReader(dicommMessageListener);
 
-    private final ResultListener<SHNDataRaw> resultListener = new ResultListener<SHNDataRaw>() {
+    private final ResultListener<SHNStreamData> resultListener = new ResultListener<SHNStreamData>() {
         @Override
-        public void onActionCompleted(SHNDataRaw shnDataRaw, @NonNull SHNResult shnResult) {
+        public void onActionCompleted(SHNStreamData shnDataRaw, @NonNull SHNResult shnResult) {
             if (stateIs(EXECUTING)) {
                 if (shnResult == SHNOk) {
                     diCommByteStreamReader.onBytes(shnDataRaw.getRawData());

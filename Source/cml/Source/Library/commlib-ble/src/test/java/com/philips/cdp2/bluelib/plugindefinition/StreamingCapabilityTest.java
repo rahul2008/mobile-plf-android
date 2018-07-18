@@ -1,8 +1,8 @@
 package com.philips.cdp2.bluelib.plugindefinition;
 
 import com.philips.pins.shinelib.ResultListener;
-import com.philips.pins.shinelib.SHNResult;
-import com.philips.pins.shinelib.datatypes.SHNDataRaw;
+import com.philips.pins.shinelib.datatypes.SHNStreamData;
+import com.philips.pins.shinelib.datatypes.StreamIdentifier;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.MoonshineStreamIdentifier;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 import org.junit.Before;
@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import static com.philips.pins.shinelib.SHNResult.SHNErrorServiceUnavailable;
 import static com.philips.pins.shinelib.SHNResult.SHNOk;
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -26,7 +25,7 @@ public class StreamingCapabilityTest {
     private SHNProtocolMoonshineStreaming mockMoonshineStreaming;
 
     @Mock
-    private ResultListener<SHNDataRaw> mockResultListener;
+    private ResultListener<SHNStreamData> mockResultListener;
 
     private ArgumentCaptor<byte[]> dataCaptor;
     private ArgumentCaptor<SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener> listenerCaptor;
@@ -51,7 +50,7 @@ public class StreamingCapabilityTest {
     @Test
     public void whenWritingData_thenItShouldSendDataOnMoonshineStreamingProtocol() {
         byte[] testData = new byte[]{0x00, 0x00};
-        subject.writeData(testData);
+        subject.writeData(testData, StreamIdentifier.STREAM_1);
 
         verify(mockMoonshineStreaming).sendData(eq(testData), eq(MoonshineStreamIdentifier.STREAM_1));
     }
@@ -63,7 +62,7 @@ public class StreamingCapabilityTest {
         byte[] testData = new byte[]{(byte)0x21, (byte)0x43};
         listenerCaptor.getValue().onDataReceived(testData, MoonshineStreamIdentifier.STREAM_1);
 
-        ArgumentCaptor<SHNDataRaw> dataRawArgumentCaptor = ArgumentCaptor.forClass(SHNDataRaw.class);
+        ArgumentCaptor<SHNStreamData> dataRawArgumentCaptor = ArgumentCaptor.forClass(SHNStreamData.class);
         verify(mockResultListener).onActionCompleted(dataRawArgumentCaptor.capture(), eq(SHNOk));
         assertEquals(testData[0], dataRawArgumentCaptor.getValue().getRawData()[0]);
         assertEquals(testData[1], dataRawArgumentCaptor.getValue().getRawData()[1]);

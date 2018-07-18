@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.pins.shinelib.ResultListener;
@@ -19,13 +18,13 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDevice.SHNDeviceListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.SHNDataRaw;
+import com.philips.pins.shinelib.datatypes.SHNStreamData;
+import com.philips.pins.shinelib.datatypes.StreamIdentifier;
 import com.philips.pins.shinelib.dicommsupport.DiCommByteStreamReader;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
 import com.philips.pins.shinelib.dicommsupport.MessageType;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -103,7 +102,7 @@ public class BleRequestTest {
     private ArgumentCaptor<Runnable> runnableCaptor;
 
     @Captor
-    private ArgumentCaptor<ResultListener<SHNDataRaw>> dataListenerCaptor;
+    private ArgumentCaptor<ResultListener<SHNStreamData>> dataListenerCaptor;
 
     private int executeCounter;
 
@@ -323,7 +322,7 @@ public class BleRequestTest {
     @Test
     public void givenRequestIsRunning_whenAChunkOfDataIsReceived_thenItWillBePassedToTheByteStreamReader() throws Exception {
         byte[] rawData = "This is Test Data!".getBytes();
-        final SHNDataRaw data = new SHNDataRaw(rawData);
+        final SHNStreamData data = new SHNStreamData(rawData, StreamIdentifier.STREAM_1);
 
         doAnswer(new Answer() {
             @Override
