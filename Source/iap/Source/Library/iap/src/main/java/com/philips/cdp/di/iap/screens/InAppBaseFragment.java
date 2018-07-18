@@ -152,7 +152,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
                     transaction.replace(getId(), newFragment, simpleName);
                     transaction.addToBackStack(newFragmentTag);
                 }else {
-                    transaction.replace(getId(), newFragment, simpleName);
+                    transaction.add(getId(), newFragment, simpleName);
                     //transaction.addToBackStack(null);
                 }
 
