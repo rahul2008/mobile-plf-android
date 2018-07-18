@@ -34,7 +34,7 @@ import org.mockito.Mock;
 
 import java.util.List;
 
-import static com.philips.pins.shinelib.SHNCentral.isValidMacAddress;
+import static com.philips.pins.shinelib.utility.Utilities.isValidMacAddress;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
