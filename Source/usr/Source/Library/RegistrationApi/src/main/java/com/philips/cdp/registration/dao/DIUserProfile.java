@@ -49,7 +49,7 @@ public class DIUserProfile implements Serializable {
     /* Is receive marketing email */
     private boolean isReceiveMarketingEmail;
 
-    private String lastModifiedDateTimeOfMarketingConsent;
+    private String consentTimestamp;
 
     /* Hsdp UUID */
     private String hsdpUUID;
@@ -62,6 +62,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * Get Birth date
+     *
      * @return Date
      */
     public Date getDateOfBirth() {
@@ -69,7 +70,8 @@ public class DIUserProfile implements Serializable {
     }
 
     /**
-     *  Set date of birth
+     * Set date of birth
+     *
      * @param dateOfBirth Date of birth
      */
     public void setDateOfBirth(Date dateOfBirth) {
@@ -77,7 +79,6 @@ public class DIUserProfile implements Serializable {
     }
 
     /**
-     *
      * @return Get
      */
     public Gender getGender() {
@@ -98,7 +99,6 @@ public class DIUserProfile implements Serializable {
      * get email
      *
      * @return email address
-     *
      * @since 1.0.0
      */
     public String getEmail() {
@@ -115,11 +115,10 @@ public class DIUserProfile implements Serializable {
     }
 
 
-
     /**
      * get mobile
-     * @return mobile address
      *
+     * @return mobile address
      * @since 1.0.0
      */
     public String getMobile() {
@@ -128,9 +127,9 @@ public class DIUserProfile implements Serializable {
 
     /**
      * set mobile
-     * @param mobile email address
      *
-     *               @since 1.0.0
+     * @param mobile email address
+     * @since 1.0.0
      */
     public void setMobile(String mobile) {
         this.mobile = mobile;
@@ -140,7 +139,6 @@ public class DIUserProfile implements Serializable {
      * get password
      *
      * @return password
-     *
      * @since 1.0.0
      */
     public String getPassword() {
@@ -151,8 +149,7 @@ public class DIUserProfile implements Serializable {
      * set password
      *
      * @param password password
-     *
-     *                 @since 1.0.0
+     * @since 1.0.0
      */
     public void setPassword(String password) {
         this.password = password;
@@ -171,8 +168,7 @@ public class DIUserProfile implements Serializable {
      * Set given name
      *
      * @param givenName given name
-     *
-     *                  @since 1.0.0
+     * @since 1.0.0
      */
     public void setGivenName(String givenName) {
         this.givenName = givenName;
@@ -182,7 +178,6 @@ public class DIUserProfile implements Serializable {
      * Validation  result older than age limit
      *
      * @return true if user is older than age limit else false
-     *
      * @since 1.0.0
      */
     public boolean getOlderThanAgeLimit() {
@@ -193,8 +188,7 @@ public class DIUserProfile implements Serializable {
      * Validate older than age limit
      *
      * @param isOlderThanAgeLimit to validate the age limit
-     *
-     *                            @since 1.0.0
+     * @since 1.0.0
      */
     public void setOlderThanAgeLimit(boolean isOlderThanAgeLimit) {
         this.isOlderThanAgeLimit = isOlderThanAgeLimit;
@@ -204,7 +198,6 @@ public class DIUserProfile implements Serializable {
      * get receive market email
      *
      * @return true if marketing email available else false
-     *
      * @since 1.0.0
      */
     public boolean getReceiveMarketingEmail() {
@@ -215,8 +208,7 @@ public class DIUserProfile implements Serializable {
      * set receive market email
      *
      * @param isReceiveMarketingEmail receive market email
-     *
-     *                                @since 1.0.0
+     * @since 1.0.0
      */
     public void setReceiveMarketingEmail(boolean isReceiveMarketingEmail) {
         this.isReceiveMarketingEmail = isReceiveMarketingEmail;
@@ -226,7 +218,6 @@ public class DIUserProfile implements Serializable {
      * get display name
      *
      * @return display name
-     *
      * @since 1.0.0
      */
     public String getDisplayName() {
@@ -237,8 +228,7 @@ public class DIUserProfile implements Serializable {
      * set display name
      *
      * @param displayName display name
-     *
-     *                    @since 1.0.0
+     * @since 1.0.0
      */
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
@@ -248,7 +238,6 @@ public class DIUserProfile implements Serializable {
      * get famil name
      *
      * @return family name
-     *
      * @since 1.0.0
      */
     public String getFamilyName() {
@@ -259,8 +248,7 @@ public class DIUserProfile implements Serializable {
      * set family name
      *
      * @param familyName family name
-     *
-     *                   @since 1.0.0
+     * @since 1.0.0
      */
     public void setFamilyName(String familyName) {
         this.familyName = familyName;
@@ -270,7 +258,6 @@ public class DIUserProfile implements Serializable {
      * get janrain uuid
      *
      * @return janrainUUID - String janrainUUID
-     *
      * @since 1.0.0
      */
     public String getJanrainUUID() {
@@ -281,8 +268,7 @@ public class DIUserProfile implements Serializable {
      * set janrain uuid
      *
      * @param janrainUUID - String janrainUUID
-     *
-     *                    @since 1.0.0
+     * @since 1.0.0
      */
     public void setJanrainUUID(String janrainUUID) {
         this.janrainUUID = janrainUUID;
@@ -292,7 +278,6 @@ public class DIUserProfile implements Serializable {
      * get hsdp uuid
      *
      * @return hsdpUUID - String hsdpUUID
-     *
      * @since 1.0.0
      */
     public String getHsdpUUID() {
@@ -303,7 +288,7 @@ public class DIUserProfile implements Serializable {
      * set hsdp uuid
      *
      * @param hsdpUUID - String hsdpUUID
-     *                 @since 1.0.0
+     * @since 1.0.0
      */
     public void setHsdpUUID(String hsdpUUID) {
         this.hsdpUUID = hsdpUUID;
@@ -323,7 +308,7 @@ public class DIUserProfile implements Serializable {
      * Set hsdp access token
      *
      * @param hsdpAccessToken - String hsdpAccessToken
-     *                        @since 1.0.0
+     * @since 1.0.0
      */
     public void setHsdpAccessToken(String hsdpAccessToken) {
         this.hsdpAccessToken = hsdpAccessToken;
@@ -343,7 +328,7 @@ public class DIUserProfile implements Serializable {
      * {@code setLanguageCode} method to set language code
      *
      * @param languageCode - String languageCode
-     *                     @since 1.0.0
+     * @since 1.0.0
      */
     public void setLanguageCode(String languageCode) {
         this.languageCode = languageCode;
@@ -363,7 +348,6 @@ public class DIUserProfile implements Serializable {
      * {@code setCountryCode} method to set country code
      *
      * @param countryCode - String countryCode
-     *
      * @since 1.0.0
      */
     public void setCountryCode(String countryCode) {
@@ -371,11 +355,11 @@ public class DIUserProfile implements Serializable {
     }
 
 
-    public String getLastModifiedDateTimeOfMarketingConsent() {
-        return lastModifiedDateTimeOfMarketingConsent;
+    public String getConsentTimestamp() {
+        return consentTimestamp;
     }
 
-    public void setLastModifiedDateTimeOfMarketingConsent(String lastModifiedDateTimeOfMarketingConsent) {
-        this.lastModifiedDateTimeOfMarketingConsent = lastModifiedDateTimeOfMarketingConsent;
+    public void setConsentTimestamp(String consentTimestamp) {
+        this.consentTimestamp = consentTimestamp;
     }
 }

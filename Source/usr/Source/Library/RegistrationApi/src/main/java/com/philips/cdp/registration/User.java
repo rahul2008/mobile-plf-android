@@ -98,7 +98,10 @@ public class User {
     private String CONSUMER_PRIMARY_ADDRESS = "primaryAddress";
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
-    private String LAST_MODIFIED_DATE_TIME_OF_MARKETING_CONSENT = "timestamp";
+
+    private String MARKETING_OPT_IN = "marketingOptIn";
+
+    private String MARKETING_CONSENT_TIME_STAMP = "timestamp";
 
     /**
      * Constructor
@@ -442,14 +445,15 @@ public class User {
                 RLog.d(TAG, "DIUserProfile getUserInstance HsdpUserRecordV2 = " + hsdpUserRecordV2.toString());
             }
 
-
-            diUserProfile.setLastModifiedDateTimeOfMarketingConsent(captureRecord.getString(LAST_MODIFIED_DATE_TIME_OF_MARKETING_CONSENT));
             diUserProfile.setEmail(captureRecord.getString(USER_EMAIL));
             diUserProfile.setGivenName(captureRecord.getString(USER_GIVEN_NAME));
             diUserProfile.setFamilyName(captureRecord.getString(USER_FAMILY_NAME));
             diUserProfile.setDisplayName(captureRecord.getString(USER_DISPLAY_NAME));
             diUserProfile
                     .setReceiveMarketingEmail(captureRecord.getBoolean(USER_RECEIVE_MARKETING_EMAIL));
+            JSONObject marketingOptIn = captureRecord.getJSONObject(MARKETING_OPT_IN);
+            diUserProfile.setConsentTimestamp(marketingOptIn.getString(MARKETING_CONSENT_TIME_STAMP));
+
             diUserProfile.setJanrainUUID(captureRecord.getString(USER_JANRAIN_UUID));
             JSONObject userAddress = new JSONObject(captureRecord.getString(CONSUMER_PRIMARY_ADDRESS));
             diUserProfile.setCountryCode(userAddress.getString(CONSUMER_COUNTRY));
@@ -916,14 +920,14 @@ public class User {
         return diUserProfile.getReceiveMarketingEmail();
     }
 
-    public String getLastModifiedDateTimeOfMarketingEmailConsent(){
+    public String getLastModifiedDateTimeOfMarketingEmailConsent() {
 
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
             return null;
         }
         RLog.d(TAG, "getReceiveMarketingEmail diUserProfile : " + diUserProfile.getReceiveMarketingEmail());
-        return diUserProfile.getLastModifiedDateTimeOfMarketingConsent();
+        return diUserProfile.getConsentTimestamp();
     }
 
     /**
