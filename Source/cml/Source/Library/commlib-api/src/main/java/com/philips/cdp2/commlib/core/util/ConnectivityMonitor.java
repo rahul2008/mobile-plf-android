@@ -147,6 +147,7 @@ public class ConnectivityMonitor implements Availability<ConnectivityMonitor> {
                 } else {
                     ConnectivityManager.setProcessDefaultNetwork(null);
                 }
+                latch.countDown();
             }
         };
         connectivityManager.registerNetworkCallback(builder.build(), networkCallback);

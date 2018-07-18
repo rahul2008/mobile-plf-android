@@ -70,14 +70,14 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     private final SHNCentral.SHNCentralListener centralListener = new SHNCentral.SHNCentralListener() {
         @Override
         public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-            handleAvailabilityChange();
+            updateAvailabilityAndNotify();
         }
     };
 
     private PropertyChangeListener networkNodePropertyChangeListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            handleAvailabilityChange();
+            updateAvailabilityAndNotify();
         }
     };
 
@@ -241,7 +241,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
         return bleDevice;
     }
 
-    private void handleAvailabilityChange() {
+    private void updateAvailabilityAndNotify() {
         boolean newAvailability = isAvailable();
 
         if (newAvailability != isAvailable) {
