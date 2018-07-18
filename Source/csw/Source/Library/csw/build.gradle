@@ -95,7 +95,6 @@ dependencies {
     annotationProcessor deps.butterknife
     implementation deps.dagger.dagger
     implementation deps.dagger.androidsupport
-    annotationProcessor deps.dagger.androidprocessor
     annotationProcessor deps.dagger.compiler
     implementation deps.butterknife
     implementation deps.calligraphy

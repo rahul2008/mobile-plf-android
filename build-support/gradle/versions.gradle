@@ -107,7 +107,6 @@ ext.deps = [
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
         constraintlayout              : 'com.android.support.constraint:constraint-layout:1.0.2',
         dagger                        : [
-                androidprocessor: "com.google.dagger:dagger-android-processor:${ext.versions.dagger}",
                 androidsupport  : "com.google.dagger:dagger-android-support:${ext.versions.dagger}",
                 compiler        : "com.google.dagger:dagger-compiler:${ext.versions.dagger}",
                 dagger          : "com.google.dagger:dagger:${ext.versions.dagger}"

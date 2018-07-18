@@ -33,6 +33,9 @@ public class IAPConstant {
 
     //Fragment
     public static final String PRODUCT_DETAIL_FRAGMENT = "PRODUCT_DETAIL_FRAGMENT ";
+    public static final String PRODUCT_DETAIL_FRAGMENT_FROM_ORDER = "PRODUCT_DETAIL_FRAGMENT_FROM_ORDER ";
+
+
 
     //Application constants
     public static final Boolean BUTTON_STATE_CHANGED = false;

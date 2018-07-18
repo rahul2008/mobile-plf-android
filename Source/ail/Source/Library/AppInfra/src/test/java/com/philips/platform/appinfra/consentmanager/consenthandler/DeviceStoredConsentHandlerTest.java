@@ -54,7 +54,6 @@ public class DeviceStoredConsentHandlerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(appInfra.getSecureStorage()).thenReturn(storageInterface);
-        when(appInfra.getLogging()).thenReturn(loggingInterface);
         when(appInfra.getInternationalization()).thenReturn(internationalizationInterface);
         handler = new TestDeviceStoredConsentHandler(appInfra);
     }

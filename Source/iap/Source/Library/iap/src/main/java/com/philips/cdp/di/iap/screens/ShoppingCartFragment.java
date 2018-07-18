@@ -73,20 +73,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
         return fragment;
     }
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_shopping_cart_dls;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_shopping_cart_dls);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -130,8 +116,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
-        //setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_dls, true);
-        setActionbarTitle();
+        setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_dls, true);
         if (isNetworkConnected()) {
             updateCartDetails(mShoppingCartAPI);
         }

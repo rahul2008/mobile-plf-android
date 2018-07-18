@@ -111,8 +111,8 @@ public class OrderSummaryFragmentTest {
         orderSummaryFragment.setArguments(bundle);
 
 
-        Mockito.when(viewMock.findViewById(R.id.tv_checkOutSteps)).thenReturn(tvCheckOutMock);
-        orderSummaryFragment.initializeViews(viewMock);
+      /*  Mockito.when(viewMock.findViewById(R.id.tv_checkOutSteps)).thenReturn(tvCheckOutMock);
+        orderSummaryFragment.initializeViews(viewMock);*/
 
     }
 

@@ -18,4 +18,6 @@ public class CatkConsentTypes {
     public static final String TYPE_RESEARCH = "research";
 
     public static final String TYPE_ANALYTICS = "analytics";
+
+    public static final String TYPE_DEVICE_TAGGING_CLICKSTREAM = "devicetaggingclickstream";
 }

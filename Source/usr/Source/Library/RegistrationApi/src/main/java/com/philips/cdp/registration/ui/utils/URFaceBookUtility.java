@@ -92,8 +92,11 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
             RLog.i(TAG, response.getError().getErrorMessage());
         } else {
             try {
-                if (response.getJSONObject() != null) {
+                if (response.getJSONObject() != null && response.getJSONObject().has(EMAIL)) {
                     faceBookContractor.onFaceBookEmailReceived(response.getJSONObject().get(EMAIL).toString());
+                }
+                else{
+                    faceBookContractor.onFaceBookEmailReceived(null);
                 }
             } catch (JSONException e) {
                 RLog.i(TAG, e.getMessage());

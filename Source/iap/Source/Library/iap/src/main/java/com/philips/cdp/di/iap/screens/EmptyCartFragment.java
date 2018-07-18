@@ -48,8 +48,7 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
-       // setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
-        setActionbarTitle();
+        setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
     }
 
@@ -72,20 +71,6 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
     }
 
 
-    @Override
-    public boolean getBackButtonState() {
-        return true;
-    }
-
-    @Override
-    public int getActionbarTitleResId() {
-        return R.string.iap_shopping_cart;
-    }
-
-    @Override
-    public String getActionbarTitle(Context context) {
-        return getString(R.string.iap_shopping_cart);
-    }
 
     @Override
     public boolean handleBackEvent() {
