@@ -38,8 +38,8 @@ public class DeviceStoredConsentHandlerTest {
     @Mock
     AppInfraInterface appInfra;
     private DeviceStoredConsentHandler handler;
-    private String storedValueHighVersion = "true" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER +"2018-05-25T15:40:51.0000Z";
-    private String storedValueFalseVersion = "false" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2018-05-25T15:40:51.0000Z";
+    private String storedValueHighVersion = "true" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER +"2018-05-18 07:30:27.119 +0000";
+    private String storedValueFalseVersion = "false" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2018-07-08 10:19:27.156 +0000";
     @Mock
     private SecureStorageInterface storageInterface;
 

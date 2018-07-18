@@ -17,6 +17,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -45,7 +47,6 @@ public class ClickStreamConsentHandlerTest {
         clickStreamConsentHandler = new TestClickStreamConsentHandler(appInfra);
         when(appInfra.getSecureStorage()).thenReturn(storageInterface);
         when(appInfra.getTagging()).thenReturn(appTaggingInterface);
-        when(appInfra.getTime()).thenReturn(timeInterface);
         when(storageInterface.storeValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, "1", secureStorageError)).thenReturn(true);
         when(storageInterface.fetchValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, secureStorageError)).thenReturn(TEST_VERSION);
     }
@@ -100,5 +101,9 @@ public class ClickStreamConsentHandlerTest {
             return secureStorageError;
         }
 
+        @Override
+        Date getUTCTime(){
+           return new Date();
+        }
     }
 }
