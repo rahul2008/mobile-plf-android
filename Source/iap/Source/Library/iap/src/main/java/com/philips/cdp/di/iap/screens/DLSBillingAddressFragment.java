@@ -111,7 +111,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
         mLlAddressLineTwoBilling = rootView.findViewById(R.id.ll_billing_address_line_two);
         inputValidatorAddressLineTwoBilling = new InputValidator(Validator.ADDRESS_PATTERN);
-        mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
+       // mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
 
         mLlTownBilling = rootView.findViewById(R.id.ll_billing_town);
         inputValidatorTownBilling = new InputValidator(Validator.TOWN_PATTERN);
@@ -173,7 +173,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mEtFirstNameBilling.addTextChangedListener(new IAPTextWatcher(mEtFirstNameBilling));
         mEtLastNameBilling.addTextChangedListener(new IAPTextWatcher(mEtLastNameBilling));
         mEtAddressLineOneBilling.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOneBilling));
-        mEtAddressLineTwoBilling.addTextChangedListener(new IAPTextWatcher(mEtAddressLineTwoBilling));
+        mEtAddressLineTwoBilling.addTextChangedListener(new IAPTextWatcherAddress(mEtAddressLineTwoBilling));
         mEtTownBilling.addTextChangedListener(new IAPTextWatcher(mEtTownBilling));
         mEtPostalCodeBilling.addTextChangedListener(new IAPTextWatcher(mEtPostalCodeBilling));
         mEtCountryBilling.addTextChangedListener(new IAPTextWatcher(mEtCountryBilling));
@@ -327,6 +327,36 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         }
     }
 
+    private class IAPTextWatcherAddress implements TextWatcher {
+        private EditText mEditText;
+
+        public IAPTextWatcherAddress(EditText editText) {
+            mEditText = editText;
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Do Nothing
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (mEditText .getText().toString().trim().length() !=0) {
+                mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
+                validate(mEditText, false);
+            }
+            else {
+                mLlAddressLineTwoBilling.hideError();
+            }
+
+        }
+
+        public synchronized void afterTextChanged(Editable text) {
+            if (mEditText .getText().toString().trim().length() ==0) {
+                mLlAddressLineTwoBilling.setValidator(null);
+            }
+        }
+
+    }
+
 
     private boolean validatePhoneNumber(EditText editText, String country, String number) {
         try {
@@ -402,6 +432,13 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             if (!result) {
                 mLlAddressLineOneBilling.setErrorMessage(R.string.iap_address_error);
                 mLlAddressLineOneBilling.showError();
+            }
+        }
+        if (editText.getId() == R.id.et_billing_address_line_two && !hasFocus) {
+            result = inputValidatorAddressLineTwoBilling.isValidAddress(mEtAddressLineTwoBilling.getText().toString());
+            if (!result) {
+                mLlAddressLineTwoBilling.setErrorMessage(R.string.iap_address_error);
+                mLlAddressLineTwoBilling.showError();
             }
         }
         if ((editText.getId() == R.id.et_billing_salutation || editText.getId() == R.id.et_billing_state) && !hasFocus) {
