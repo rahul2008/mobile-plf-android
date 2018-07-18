@@ -307,7 +307,7 @@ public class BleCommunicationStrategyTest {
     @Test
     public void givenBleIsOnAndMacAddressIsNotAvailable_whenStrategyIsCreated_thenItIsNotAvailable() {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        when(centralMock.isValidMacAddress(MAC_ADDRESS)).thenReturn(false);
+        when(isValidMacAddress(MAC_ADDRESS)).thenReturn(false);
 
         CommunicationStrategy strategy = new BleCommunicationStrategy(centralMock, networkNodeMock, callbackHandlerMock, 2000, executorMock);
 
