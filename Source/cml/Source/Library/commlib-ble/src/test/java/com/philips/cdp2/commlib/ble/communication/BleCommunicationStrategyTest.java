@@ -19,11 +19,15 @@ import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.cdp2.commlib.util.VerboseExecutor;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.utility.Utilities;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -48,7 +52,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Utilities.class})
 public class BleCommunicationStrategyTest {
 
     private static final String PORT_NAME = "thePort";
@@ -104,6 +111,7 @@ public class BleCommunicationStrategyTest {
         ArgumentCaptor<PropertyChangeListener> propertyChangeListenerArgumentCaptor = ArgumentCaptor.forClass(PropertyChangeListener.class);
 
         initMocks(this);
+        mockStatic(Utilities.class);
         disableLogging();
 
         when(networkNodeMock.getMacAddress()).thenReturn(MAC_ADDRESS);
