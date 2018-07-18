@@ -213,7 +213,8 @@ public class ConsentManager implements ConsentManagerInterface {
                     return;
                 }
 
-                timestampList.add(consentStatus.getTimestamp());
+                if (consentStatus.getTimestamp() != null)
+                    timestampList.add(consentStatus.getTimestamp());
                 ConsentStates consentTypeState = toConsentStatus(consentDefinition, consentStatus);
                 if (consentDefinitionState == null || consentTypeState.compareTo(consentDefinitionState) > 0) {
                     consentDefinitionState = consentTypeState;
@@ -228,8 +229,10 @@ public class ConsentManager implements ConsentManagerInterface {
 
     }
 
-    private Date getLatestTimestamp(List<Date> timestampList) {
-        return Collections.max(timestampList);
+    protected Date getLatestTimestamp(List<Date> timestampList) {
+        if (timestampList != null && timestampList.size() > 0)
+            return Collections.max(timestampList);
+        return null;
     }
 
     private ConsentStates toConsentStatus(ConsentDefinition consentDefinition, ConsentStatus consentStatus) {

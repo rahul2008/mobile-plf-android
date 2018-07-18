@@ -149,8 +149,8 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
 
     protected Date getTimestamp(String timestamp) {
         if (timestamp != null) {
-            final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
-            dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+            final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.ENGLISH);
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             try {
                 return dateFormat.parse(timestamp);
             } catch (ParseException e) {

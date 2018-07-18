@@ -14,6 +14,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentVersionStates;
 
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +24,7 @@ import org.mockito.MockitoAnnotations;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -51,6 +53,8 @@ public class ConsentManagerTest {
     private ConsentError returnedError;
     private boolean isPostConsentCallbackInvoked;
     private List<ConsentDefinitionStatus> returnedConsentsStatus;
+    private List<Date> givenTimestampList;
+    private Date latestTimestamp;
 
     @Mock
     private AppInfra appInfra;
@@ -346,6 +350,27 @@ public class ConsentManagerTest {
         ConsentStatusChangedListener consentStatusChangedListener = mock(ConsentStatusChangedListener.class);
         consentManager.removeConsentStatusChangedListener(consentDefinition, consentStatusChangedListener);
         verify(consentManager.consentStatusChangeMapper).unRegisterConsentStatusUpdate(consentDefinition,consentStatusChangedListener);
+    }
+
+    @Test
+    public void getLatestTimestamp_ShouldReturnLatestTimestamp(){
+        givenTimestampList();
+        whenGetLatestTimestampIsInvoked();
+        thenVerifyLatestTimestampIsReturned();
+    }
+
+    private void thenVerifyLatestTimestampIsReturned() {
+        assertEquals((new DateTime("2018-07-18T11:11:11.000Z").toDate()), latestTimestamp);
+    }
+
+    private void whenGetLatestTimestampIsInvoked() {
+        latestTimestamp = consentManager.getLatestTimestamp(givenTimestampList);
+    }
+
+    private void givenTimestampList() {
+        givenTimestampList = new ArrayList<>();
+        givenTimestampList.add(new DateTime("2018-06-08T11:11:11.000Z").toDate());
+        givenTimestampList.add(new DateTime("2018-07-18T11:11:11.000Z").toDate());
     }
 
     private void givenFetchConsentDoesNotReturnForHandler(ConsentHandlerInterfaceSpy handler) {
