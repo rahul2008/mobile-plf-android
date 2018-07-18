@@ -150,7 +150,7 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
         if (position >= 0) {
             getSpinner().setSelection(position);
 
-            getConfigurationTextView().setText(configurationType[position].toString());
+            getConfigurationTextView().setText(configurationType[position].name());
         } else {
             getConfigurationTextView().setText(configurationType[0].toString());
         }
