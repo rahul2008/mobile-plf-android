@@ -26,7 +26,7 @@ public class CatkInitializer implements CatkInterface {
         try {
             consentManagerInterface.registerHandler(Arrays.asList(CatkConsentTypes.TYPE_MOMENT,
                     CatkConsentTypes.TYPE_COACHING, CatkConsentTypes.TYPE_BINARY,
-                    CatkConsentTypes.TYPE_RESEARCH, CatkConsentTypes.TYPE_ANALYTICS),
+                    CatkConsentTypes.TYPE_RESEARCH, CatkConsentTypes.TYPE_ANALYTICS, CatkConsentTypes.TYPE_DEVICE_TAGGING_CLICKSTREAM),
                     new ConsentInteractor(ConsentsClient.getInstance()));
         } catch (RuntimeException exception) {
             CatkLogger.d("RuntimeException", exception.getMessage());

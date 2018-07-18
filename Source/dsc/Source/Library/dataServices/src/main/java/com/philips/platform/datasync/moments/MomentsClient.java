@@ -6,6 +6,8 @@
 
 package com.philips.platform.datasync.moments;
 
+import java.util.List;
+
 import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
@@ -21,7 +23,8 @@ interface MomentsClient {
     @GET("/api/users/{userId}/moments/_history")
     UCoreMomentsHistory getMomentsHistory(@Header("performerId") String performerId,
                                           @Path("userId") String userId,
-                                          @Query(value = "_since", encodeValue = false) String timestamp
+                                          @Query(value = "_since", encodeValue = false) String timestamp,
+                                          @Query(value = "type", encodeValue = false) List<String> types
     );
 
     @GET("/api/users/{userId}/moments/_query")

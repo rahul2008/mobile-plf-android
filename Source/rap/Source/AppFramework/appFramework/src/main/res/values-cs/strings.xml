@@ -136,6 +136,8 @@ Více informací naleznete v Oznámení o ochraně osobních údajů společno
   <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[cs]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[cs]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[cs]I allow Philips to use my data for Research and Analytics purposes</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream">[cs]I allow Philips to use my data for device tagging clickstream</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream_Help_Text">[cs]The actual content of the device tagging clickstream consent help text here</string>
   <string name="RA_Menu_title_Demo">[cs]Test Demo Apps</string>
   <string name="RA_NO_Order_History">Historie objednávek není k dispozici</string>
   <string name="RA_Neura_Allow_Button">[cs]Allow</string>

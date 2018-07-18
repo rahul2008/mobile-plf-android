@@ -136,6 +136,8 @@ Philips ще ви даде възможност да оттеглите съгл
   <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[bg]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[bg]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[bg]I allow Philips to use my data for Research and Analytics purposes</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream">[bg]I allow Philips to use my data for device tagging clickstream</string>
+  <string name="RA_MYA_Device_Tagging_Clickstream_Help_Text">[bg]The actual content of the device tagging clickstream consent help text here</string>
   <string name="RA_Menu_title_Demo">[bg]Test Demo Apps</string>
   <string name="RA_NO_Order_History">Не е налична хронология на поръчките</string>
   <string name="RA_Neura_Allow_Button">[bg]Allow</string>

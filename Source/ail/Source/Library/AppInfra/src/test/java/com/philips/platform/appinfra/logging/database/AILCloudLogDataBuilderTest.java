@@ -53,7 +53,7 @@ public class AILCloudLogDataBuilderTest extends TestCase {
         assertEquals(ailCloudLogData.appState, "app_state");
         assertEquals(ailCloudLogData.locale, "locale");
         assertEquals(ailCloudLogData.homecountry, "en");
-        assertEquals(ailCloudLogData.userUUID, "uuid");
+        assertEquals(ailCloudLogData.userUUID, "hsdp_uuid");
     }
 
     private Object getMap() {

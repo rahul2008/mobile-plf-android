@@ -35,14 +35,14 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class OldSecureStorageStoreDataTest {
+public class OldSecureStorageStoreDataTest extends SecureStorageBaseTest{
 
     @Rule
     public ActivityTestRule<AppInfraLaunchActivity> mActivityTestRule = new ActivityTestRule<>(AppInfraLaunchActivity.class);
 
     @Test
     public void oldSecureStorageStoreDataTest() {
-
+        setUp();
         DataInteraction linearLayout = onData(anything())
                 .inAdapterView(allOf(withId(R.id.listViewAppInfraComponents),
                         childAtPosition(

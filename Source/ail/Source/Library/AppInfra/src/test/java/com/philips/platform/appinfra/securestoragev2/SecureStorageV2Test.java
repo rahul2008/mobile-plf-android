@@ -36,6 +36,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -120,12 +121,7 @@ public class SecureStorageV2Test {
         assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey,sse.getErrorCode());
     }
 
-    @Test
-    public void testForNullKey() {
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertFalse(mSecureStorage.storeValueForKey(null, null, sse));
-        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey,sse.getErrorCode());
-    }
+
 
 
 
@@ -147,8 +143,8 @@ public class SecureStorageV2Test {
     public void testStoreValueForKey_Should_Return_True() throws Exception{
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(String.class))).thenReturn("asbjds");
-        when(ssFileCache.putEncryptedString(any(String.class),any(String.class))).thenReturn(true);
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenReturn("value1".getBytes());
+        when(ssFileCache.putEncryptedString(any(String.class),anyObject())).thenReturn(true);
         assertTrue (mSecureStorage.storeValueForKey("key1","value1",sse));
 
     }
@@ -165,7 +161,7 @@ public class SecureStorageV2Test {
     public void testStoreValueForKey_EncodeDecode_Exception() throws Exception{
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(String.class))).thenThrow(new SSEncodeDecodeException(""));
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new SSEncodeDecodeException(""));
         assertFalse(mSecureStorage.storeValueForKey("key1","value1",sse));
 
     }
@@ -174,7 +170,7 @@ public class SecureStorageV2Test {
     public void testStoreValueForKey_Exception() throws Exception{
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(String.class))).thenThrow(new IllegalArgumentException(""));
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new IllegalArgumentException(""));
         assertFalse(mSecureStorage.storeValueForKey("key1","value1",sse));
 
     }
@@ -199,7 +195,7 @@ public class SecureStorageV2Test {
     public void testFetchValueForKey_Positive_Scenario() throws Exception{
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(String.class))).thenReturn("value");
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenReturn("value".getBytes());
         when(ssFileCache.getEncryptedString(any(String.class))).thenReturn("ashdjsjas");
         assertEquals("value",mSecureStorage.fetchValueForKey("key1",sse));
     }
@@ -217,7 +213,7 @@ public class SecureStorageV2Test {
     public void testFetchValueForKey_EncodeDecode_Exception() throws Exception{
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(String.class))).thenThrow(new SSEncodeDecodeException(""));
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new SSEncodeDecodeException(""));
         when(ssFileCache.getEncryptedString(any(String.class))).thenReturn("ashdjsjas");
         assertNull(mSecureStorage.fetchValueForKey("key1",sse));
 
@@ -227,7 +223,7 @@ public class SecureStorageV2Test {
     public void testFetchValueForKey_Exception() throws Exception{
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(String.class))).thenThrow(new IllegalArgumentException(""));
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new IllegalArgumentException(""));
         when(ssFileCache.getEncryptedString(any(String.class))).thenReturn("ashdjsjas");
         assertNull(mSecureStorage.fetchValueForKey("key1",sse));
 
@@ -464,6 +460,11 @@ public class SecureStorageV2Test {
         @Override
         protected HandlerThread getWorkerThread() {
             return handlerThread;
+        }
+
+        @Override
+        protected byte[] getDecode(String encryptedString) {
+            return "value".getBytes();
         }
     }
 }
