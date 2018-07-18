@@ -10,8 +10,7 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.lan.communication.GetKeyRequest;
-
+import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,10 +34,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @RunWith(PowerMockRunner.class)
 public class GetKeyRequestTest {
     @Mock
-    NetworkNode networkNodeMock;
+    private NetworkNode networkNodeMock;
 
     @Mock
-    ResponseHandler responseHandlerMock;
+    private ResponseHandler responseHandlerMock;
+
+    @Mock
+    private ConnectivityMonitor connectivityMonitorMock;
 
     @Mock
     private SSLContext sslContextMock;
@@ -52,7 +54,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenExecuting_ThenKeyWillReturnInResponse() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, sslContextMock, null) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, connectivityMonitorMock, sslContextMock, null) {
             @Override
             Response doExecute() {
                 return new Response("{'key':'test key'}", null, mResponseHandler);
@@ -66,7 +68,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenExecutingWithIncorrectJson_ThenResponseWithError() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, sslContextMock, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, connectivityMonitorMock, sslContextMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("This is not json", null, mResponseHandler);
@@ -81,7 +83,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenExecutingWithJsonThatDoesntContainKey_ThenResponseWithError() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, sslContextMock, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, connectivityMonitorMock, sslContextMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("{'bas':'peter'}", null, mResponseHandler);
@@ -96,7 +98,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenExecutingWithJsonThatContainEmptyKey_ThenResponseWithError() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, sslContextMock, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, connectivityMonitorMock, sslContextMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("{'key':''}", null, mResponseHandler);
@@ -111,7 +113,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenRequestFailed_andResponseMessageIsNull_thenErrorIsReported() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, sslContextMock, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, connectivityMonitorMock, sslContextMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
@@ -126,7 +128,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenRequestFailed_andResponseMessageIsNotNull_thenErrorIsReportedWithThatResponseMessage() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, sslContextMock, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, connectivityMonitorMock, sslContextMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("tha message", Error.REQUEST_FAILED, mResponseHandler);
@@ -141,7 +143,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenLoggingImplicitly_thenDontForwardToLogger() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, sslContextMock, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, connectivityMonitorMock, sslContextMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("don't care", null, mResponseHandler);
@@ -157,7 +159,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenLoggingExplicitly_thenDontForwardToLogger() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, sslContextMock, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, connectivityMonitorMock, sslContextMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("don't care", null, mResponseHandler);

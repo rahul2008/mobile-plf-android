@@ -99,7 +99,7 @@ public class CombinedCommunicationStrategy extends ObservableCommunicationStrate
         for (CommunicationStrategy c : communicationStrategies) {
             c.addAvailabilityListener(new AvailabilityListener<CommunicationStrategy>() {
                 @Override
-                public void onAvailabilityChanged(@NonNull CommunicationStrategy object) {
+                public void onAvailabilityChanged(@NonNull CommunicationStrategy strategy) {
                     CommunicationStrategy newStrategy = firstAvailableStrategy();
                     if (newStrategy != lastPreferredStrategy) {
                         DICommLog.v(TAG, "Switched to strategy " + (newStrategy != null ? newStrategy.toString() : "null"));
@@ -223,7 +223,6 @@ public class CombinedCommunicationStrategy extends ObservableCommunicationStrate
     private CommunicationStrategy firstAvailableStrategy() {
         for (CommunicationStrategy strategy : communicationStrategies) {
             if (strategy.isAvailable()) {
-
                 return strategy;
             }
         }

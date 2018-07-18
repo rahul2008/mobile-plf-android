@@ -7,26 +7,33 @@ package com.philips.cdp2.commlib.lan.communication;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.RequestQueue;
-import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
-import com.philips.cdp2.commlib.lan.LanDeviceCache;
-
+import com.philips.cdp2.commlib.lan.util.SsidProvider;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRESS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
 import static junit.framework.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -35,6 +42,8 @@ public class LanCommunicationStrategyTest {
     private static final String PORT_NAME = "test";
     private static final int PRODUCT_ID = 1;
     private static final int SUBSCRIPTION_TTL = 10;
+    public static final String IP_ADDRESS = "192.168.1.1";
+    public static final String SSID = "ssid";
 
     @Mock
     private Handler handlerMock;
@@ -43,28 +52,58 @@ public class LanCommunicationStrategyTest {
     private NetworkNode networkNodeMock;
 
     @Mock
-    private LanDeviceCache lanDeviceCacheMock;
-
-    @Mock
     private RequestQueue requestQueueMock;
 
     @Mock
-    private ConnectivityMonitor connectivityMonitor;
+    private ConnectivityMonitor connectivityMonitorMock;
+
+    @Mock
+    private SsidProvider ssidProviderMock;
+
+    @Mock
+    private PropertyChangeEvent propertyChangeEventMock;
+
+    @Mock
+    private Availability.AvailabilityListener<CommunicationStrategy> availabilityListenerMock;
 
     private LanCommunicationStrategy lanCommunicationStrategy;
+
+    private Availability.AvailabilityListener<ConnectivityMonitor> connectivityMonitorAvailabilityListener;
+
+    private PropertyChangeListener propertyChangeListener;
+
+    private SsidProvider.NetworkChangeListener networkChangeListener;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         HandlerProvider.enableMockedHandler(handlerMock);
 
-        lanCommunicationStrategy = new LanCommunicationStrategy(networkNodeMock, lanDeviceCacheMock, connectivityMonitor) {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
+
+        lanCommunicationStrategy = new LanCommunicationStrategy(networkNodeMock, connectivityMonitorMock, ssidProviderMock) {
             @Override
             @NonNull
             RequestQueue createRequestQueue() {
                 return requestQueueMock;
             }
         };
+
+        lanCommunicationStrategy.addAvailabilityListener(availabilityListenerMock);
+        reset(availabilityListenerMock);
+
+        ArgumentCaptor<Availability.AvailabilityListener<ConnectivityMonitor>> captor = ArgumentCaptor.forClass(Availability.AvailabilityListener.class);
+        verify(connectivityMonitorMock).addAvailabilityListener(captor.capture());
+        connectivityMonitorAvailabilityListener = captor.getValue();
+
+        ArgumentCaptor<PropertyChangeListener> propertyChangeListenerArgumentCaptor = ArgumentCaptor.forClass(PropertyChangeListener.class);
+        verify(networkNodeMock).addPropertyChangeListener(propertyChangeListenerArgumentCaptor.capture());
+        propertyChangeListener = propertyChangeListenerArgumentCaptor.getValue();
+
+        ArgumentCaptor<SsidProvider.NetworkChangeListener> networkChangeListenerArgumentCaptor = ArgumentCaptor.forClass(SsidProvider.NetworkChangeListener.class);
+        verify(ssidProviderMock).addNetworkChangeListener(networkChangeListenerArgumentCaptor.capture());
+        networkChangeListener = networkChangeListenerArgumentCaptor.getValue();
     }
 
     @Test
@@ -290,6 +329,154 @@ public class LanCommunicationStrategyTest {
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             fail();
         }
+    }
+
+    @Test
+    public void whenWifiIsOnAndIpAddressIsNotAvailable_ThenStrategyIsNotAvailable() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        when(networkNodeMock.getIpAddress()).thenReturn(null);
+
+        assertThat(lanCommunicationStrategy.isAvailable()).isFalse();
+    }
+
+    @Test
+    public void whenWifiIsOnAndIpAddressIsAvailable_ThenStrategyIsAvailable() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
+
+        assertThat(lanCommunicationStrategy.isAvailable());
+    }
+
+    @Test
+    public void whenWifiIsOffAndIpAddressIsAvailable_ThenStrategyIsNotAvailable() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(false);
+        when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
+
+        assertThat(lanCommunicationStrategy.isAvailable()).isFalse();
+    }
+
+    @Test
+    public void whenUserIsConnectedToHomeNetwork_ThenStrategyIsAvailable() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
+        when(networkNodeMock.getNetworkSsid()).thenReturn(SSID);
+        when(ssidProviderMock.getCurrentSsid()).thenReturn(SSID);
+
+        assertThat(lanCommunicationStrategy.isAvailable()).isTrue();
+    }
+
+    @Test
+    public void whenUserIsConnectedToAnotherNetwork_ThenStrategyIsNotAvailable() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
+        when(networkNodeMock.getNetworkSsid()).thenReturn(SSID);
+        when(ssidProviderMock.getCurrentSsid()).thenReturn("ssid2");
+
+        assertThat(lanCommunicationStrategy.isAvailable()).isFalse();
+    }
+
+    @Test
+    public void whenUserNetworkIsUnknown_ThenStrategyIsAvailable() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
+        when(networkNodeMock.getNetworkSsid()).thenReturn(SSID);
+        when(ssidProviderMock.getCurrentSsid()).thenReturn(null);
+
+        assertThat(lanCommunicationStrategy.isAvailable()).isTrue();
+    }
+
+    @Test
+    public void givenCommunicationIsAvailable_whenWifiIsSwitchedOff_thenListenerIsNotifiedAboutChange() {
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+
+        when(connectivityMonitorMock.isAvailable()).thenReturn(false);
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+
+        verify(availabilityListenerMock).onAvailabilityChanged(lanCommunicationStrategy);
+    }
+
+    @Test
+    public void givenCommunicationIsAvailable_whenWifiIsChanged_thenListenerIsNotifiedAboutChange() {
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+
+        when(ssidProviderMock.getCurrentSsid()).thenReturn("ssid2");
+        networkChangeListener.onNetworkChanged();
+
+        verify(availabilityListenerMock).onAvailabilityChanged(lanCommunicationStrategy);
+    }
+
+    @Test
+    public void givenWifiIsOffAndNetworkNodeHasNoIpAddress_whenWifiIsTurnedOn_thenListenerIsNotNotified() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(false);
+        when(networkNodeMock.getIpAddress()).thenReturn(null);
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+        //noinspection unchecked
+        reset(availabilityListenerMock);
+
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+
+        verifyZeroInteractions(availabilityListenerMock);
+    }
+
+    @Test
+    public void givenWifiIsOffAndNetworkNodeHasMac_whenWifiIsTurnedOn_thenListenerIsNotified() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(false);
+        when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+        //noinspection unchecked
+        reset(availabilityListenerMock);
+
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+
+        verify(availabilityListenerMock).onAvailabilityChanged(lanCommunicationStrategy);
+        assertThat(lanCommunicationStrategy.isAvailable()).isTrue();
+    }
+
+    @Test
+    public void givenWifiIsOnAndNetworkNodeHasNoIpAddress_whenIpBecomesKnown_thenListenerIsNotified() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        when(networkNodeMock.getIpAddress()).thenReturn(null);
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+        //noinspection unchecked
+        reset(availabilityListenerMock);
+
+        when(networkNodeMock.getIpAddress()).thenReturn(IP_ADDRESS);
+        when(propertyChangeEventMock.getPropertyName()).thenReturn(KEY_IP_ADDRESS);
+        propertyChangeListener.propertyChange(propertyChangeEventMock);
+
+        verify(availabilityListenerMock).onAvailabilityChanged(lanCommunicationStrategy);
+        assertThat(lanCommunicationStrategy.isAvailable()).isTrue();
+    }
+
+    @Test
+    public void givenUserIsConnectedToNonHomeNetwork_whenHomeNetworkBecomesAvailable_thenListenerIsNotified() {
+        when(networkNodeMock.getNetworkSsid()).thenReturn(SSID);
+        when(ssidProviderMock.getCurrentSsid()).thenReturn("ssid2");
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+        //noinspection unchecked
+        reset(availabilityListenerMock);
+
+        when(ssidProviderMock.getCurrentSsid()).thenReturn(SSID);
+        networkChangeListener.onNetworkChanged();
+
+        verify(availabilityListenerMock).onAvailabilityChanged(lanCommunicationStrategy);
+        assertThat(lanCommunicationStrategy.isAvailable()).isTrue();
+    }
+
+    @Test
+    public void givenWifiIsOnAndNetworkNodeHasNoIpAddress_whenOtherNetworkNodePropertyChanges_thenListenerIsNotNotified() {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        when(networkNodeMock.getIpAddress()).thenReturn(null);
+        connectivityMonitorAvailabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+        //noinspection unchecked
+        reset(availabilityListenerMock);
+
+        when(propertyChangeEventMock.getPropertyName()).thenReturn(KEY_IS_PAIRED);
+        propertyChangeListener.propertyChange(propertyChangeEventMock);
+
+        verifyZeroInteractions(availabilityListenerMock);
     }
 
     private void setupForHttpsWithKeyPresent() {

@@ -11,8 +11,6 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.ble.BleCacheData;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
@@ -63,17 +61,11 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleRequestTest {
-    private static final String CPP_ID = "Sinterklaas";
     private static final String PORT_NAME = "PoliticallyCorrectPiet";
     private static final int PRODUCT_ID = 1337;
+    private static final String MOCK_BLUETOOTH_DEVICE_ADDRESS = "11:22:33:44:55:66";
 
     private BleRequest request;
-
-    @Mock
-    private BleDeviceCache mockDeviceCache;
-
-    @Mock
-    private BleCacheData mockCacheData;
 
     @Mock
     private ResponseHandler responseHandlerMock;
@@ -115,9 +107,7 @@ public class BleRequestTest {
         initMocks(this);
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
-
-        when(mockDeviceCache.getCacheData(anyString())).thenReturn(mockCacheData);
-        when(mockCacheData.getDevice()).thenReturn(mockDevice);
+        when(mockDevice.getAddress()).thenReturn(MOCK_BLUETOOTH_DEVICE_ADDRESS);
 
         doAnswer(new Answer() {
             @Override
@@ -140,7 +130,7 @@ public class BleRequestTest {
 
         doNothing().when(mockCapability).addDataListener(dataListenerCaptor.capture());
 
-        request = new BleRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true)) {
+        request = new BleRequest(mockDevice, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true)) {
             @Override
             protected void execute(final CapabilityDiComm capability) {
                 executeCounter++;
@@ -201,7 +191,7 @@ public class BleRequestTest {
 
     @Test
     public void doesntCallDisconnectWhenStayingConnected() {
-        request = new BleGetRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(false));
+        request = new BleGetRequest(mockDevice, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(false));
         request.inProgressLatch = mockInProgressLatch;
 
         request.run();
