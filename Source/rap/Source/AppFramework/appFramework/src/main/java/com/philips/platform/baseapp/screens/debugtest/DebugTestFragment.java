@@ -128,11 +128,11 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
     protected void settingState(AdapterView<?> adapter, int position) {
         final String configuration = adapter.getItemAtPosition(position).toString();
         getUserRegistration().getUserObject(context).logout(null);
-        if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.DEVELOPMENT.toString())) {
+        if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.DEVELOPMENT.name())) {
             setState(AppIdentityInterface.AppState.DEVELOPMENT);
-        } else if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.TEST.toString())) {
+        } else if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.TEST.name())) {
             setState(AppIdentityInterface.AppState.TEST);
-        } else if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.toString())) {
+        } else if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.name())) {
             setState(AppIdentityInterface.AppState.STAGING);
         }
         getConfigurationTextView().setText(configuration);
@@ -187,7 +187,7 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
                 AppConfigurationInterface.AppConfigurationError();
 
         appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
-                AppInfra, state, configError);
+                AppInfra, state.name(), configError);
     }
 
     protected AppFrameworkApplication getApplicationContext() {

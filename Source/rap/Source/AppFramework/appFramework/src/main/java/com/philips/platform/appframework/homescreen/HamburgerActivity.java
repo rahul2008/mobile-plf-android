@@ -278,8 +278,8 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         } else {
             AppIdentityInterface.AppState appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
             avatarName.setText(user.getGivenName());
-            if(!appState.toString().equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.toString()))
-            envInfo.setText(appState.toString());
+            if(!appState.name().equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.name()))
+            envInfo.setText(appState.name());
 
         }
     }
