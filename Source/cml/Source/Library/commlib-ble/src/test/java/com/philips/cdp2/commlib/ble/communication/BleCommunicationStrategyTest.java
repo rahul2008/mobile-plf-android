@@ -149,7 +149,7 @@ public class BleCommunicationStrategyTest {
     }
 
     @Test
-    public void givenCommunicationIsNotAvaiable_whenGetPropertiesIsCalled_thenAnErrorIsReported() throws Exception {
+    public void givenCommunicationIsNotAvailable_whenGetPropertiesIsCalled_thenAnErrorIsReported() throws Exception {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(false);
         shnCentralListener.onStateUpdated(centralMock);
 
@@ -173,7 +173,7 @@ public class BleCommunicationStrategyTest {
     }
 
     @Test
-    public void givenCommunicationIsNotAvaiable_whenPutPropertiesIsCalled_thenAnErrorIsReported() throws Exception {
+    public void givenCommunicationIsNotAvailable_whenPutPropertiesIsCalled_thenAnErrorIsReported() throws Exception {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(false);
         shnCentralListener.onStateUpdated(centralMock);
 

@@ -155,7 +155,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     public void whenADeviceIsLostViaSSDP_thenTheNetworkNodeShouldBeLost() {
         try {
             strategyUnderTest.start();
-        } catch (MissingPermissionException ignored) {
+        }  catch (MissingPermissionException ignored) {
             fail();
         }
 

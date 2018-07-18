@@ -16,6 +16,7 @@ import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -34,7 +35,8 @@ public class SsidProvider {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String newSsid = getCurrentSsid();
-            if (newSsid == null || !newSsid.equals(currentSsid)) {
+
+            if (!Objects.equals(newSsid, currentSsid)) {
                 currentSsid = newSsid;
                 notifyListeners();
             }

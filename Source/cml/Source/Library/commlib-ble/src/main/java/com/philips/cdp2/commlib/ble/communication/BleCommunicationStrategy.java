@@ -7,7 +7,9 @@ package com.philips.cdp2.commlib.ble.communication;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -39,7 +41,7 @@ import static com.philips.cdp2.commlib.core.util.GsonProvider.EMPTY_JSON_OBJECT_
  */
 public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
-    private static final long DEFAULT_SUBSCRIPTION_POLLING_INTERVAL = 2000;
+    private static final long DEFAULT_SUBSCRIPTION_POLLING_INTERVAL = 2000L;
 
     private static final long CONNECTION_TIMEOUT = 30000L;
 
@@ -124,20 +126,18 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
         if (isAvailable()) {
-            final BleRequest request = new BleGetRequest(getBleDevice(), portName, productId, responseHandler, callbackHandler, disconnectAfterRequest);
-            dispatchRequest(request);
+            dispatchRequest(new BleGetRequest(getBleDevice(), portName, productId, responseHandler, callbackHandler, disconnectAfterRequest));
         } else {
-            responseHandler.onError(Error.CANNOT_CONNECT, "Communication is not available");
+            responseHandler.onError(Error.CANNOT_CONNECT, "Communication is not possible");
         }
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         if (isAvailable()) {
-            final BleRequest request = new BlePutRequest(getBleDevice(), portName, productId, dataMap, responseHandler, callbackHandler, disconnectAfterRequest);
-            dispatchRequest(request);
+            dispatchRequest(new BlePutRequest(getBleDevice(), portName, productId, dataMap, responseHandler, callbackHandler, disconnectAfterRequest));
         } else {
-            responseHandler.onError(Error.CANNOT_CONNECT, "Communication is not available");
+            responseHandler.onError(Error.CANNOT_CONNECT, "Communication is not possible");
         }
     }
 
@@ -205,7 +205,9 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     public void enableCommunication() {
         if (isAvailable()) {
             SHNDevice device = getBleDevice();
-            device.connect(CONNECTION_TIMEOUT);
+            if(device != null) {
+                device.connect(CONNECTION_TIMEOUT);
+            }
         }
         disconnectAfterRequest.set(false);
     }
@@ -220,7 +222,9 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
         if (isAvailable() && requestExecutor.isIdle()) {
             SHNDevice device = getBleDevice();
-            device.disconnect();
+            if (device != null) {
+                device.disconnect();
+            }
         }
     }
 
@@ -229,6 +233,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
         requestExecutor.execute(new VerboseRunnable(request));
     }
 
+    @Nullable
     private SHNDevice getBleDevice() {
         if (bleDevice == null) {
             bleDevice = central.createSHNDeviceForAddressAndDefinition(networkNode.getMacAddress(), new ReferenceNodeDeviceDefinitionInfo());

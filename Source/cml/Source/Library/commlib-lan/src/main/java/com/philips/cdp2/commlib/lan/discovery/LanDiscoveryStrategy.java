@@ -122,7 +122,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @Override
-    public void start() {
+    public void start() throws MissingPermissionException{
         start(Collections.<String>emptySet());
     }
 
