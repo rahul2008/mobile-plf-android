@@ -21,6 +21,11 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -50,10 +55,21 @@ public class ConsentCacheInteractorTest {
 
     private String CONSENT_TYPE_1 = "consentType1";
     private String CONSENT_TYPE_3 = "consentType3";
-    private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, NOW.plusMinutes(10));
-    private String consentStatusJsonForTwoTypes = "{\"userId\":{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1}}}";
+    private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, getDate(), NOW.plusMinutes(10));
+    private String consentStatusJsonForTwoTypes = "{\"userId\":{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1,\"timestamp\":\"Dec 31, 1998 12:00:00 AM\"},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1, \"timestamp\":\"Dec 31, 1998 12:00:00 AM\"}}}";
     private ConsentCacheInteractor consentCacheInteractor;
     private CachedConsentStatus returnedCachedConsent;
+
+    private static Date getDate(){
+        String sDate1="10/07/2018";
+        Date date1 = null;
+        try {
+            date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date1;
+    }
 
     @Before
     public void setUp() {
@@ -167,7 +183,14 @@ public class ConsentCacheInteractorTest {
     }
 
     private void whenStoreConsentStateIsCalled(String consentType, ConsentStates active, int version) {
-        consentCacheInteractor.storeConsentState(consentType, active, version);
+        String sDate1="31/12/1998";
+        Date date1 = null;
+        try {
+            date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        consentCacheInteractor.storeConsentState(consentType, active, version, date1);
     }
     private void whenFetchConsentStateIsCalled(String consentType) {
         returnedCachedConsent = consentCacheInteractor.fetchConsentTypeState(consentType);
@@ -212,7 +235,9 @@ public class ConsentCacheInteractorTest {
     }
 
     private String getSingleConsentStatusJson(final String userId, final String status, final String consentType, int expiryMinutes){
-        return "{\"" + userId + "\":{\"" + consentType + "\":{\"consentState\":\"" + status + "\",\"version\":1,\"expires\":\"" + (NOW.plusMinutes(expiryMinutes)).toString() + "\"}}}";
+       // return "{\"" + userId + "\":{\"" + consentType + "\":{\"consentState\":\"" + status + "\",\"version\":1,\"expires\":\"" + (NOW.plusMinutes(expiryMinutes)).toString() + "\"}}}";
+
+        return "{\"" + userId+ "\":{\"" +consentType + "\":{\"expires\":\"" +(NOW.plusMinutes(expiryMinutes)).toString() +"\",\"consentState\":\"" +status+"\",\"version\":1,\"timestamp\":\"Dec 31, 1998 12:00:00 AM\"}}}";
     }
 
 }
