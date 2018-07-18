@@ -29,6 +29,7 @@ import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListen
 import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -200,8 +201,8 @@ public class AppFrameworkApplication extends Application {
         return appInfra;
     }
 
-    public String getAppState() {
-        return getAppInfra().getAppIdentity().getAppState().toString();
+    public AppIdentityInterface.AppState getAppState() {
+        return getAppInfra().getAppIdentity().getAppState();
     }
 
     public IAPState getIap() {
