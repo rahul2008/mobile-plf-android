@@ -531,17 +531,6 @@ public class SHNCentral {
     }
 
     /**
-     * Validate a String Bluetooth address, such as "00:43:A8:23:10:F0"
-     * <p>Alphabetic characters must be uppercase to be valid.
-     *
-     * @param address Bluetooth address as string
-     * @return true if the address is valid, false otherwise
-     */
-    public boolean isValidMacAddress(String address) {
-        return BluetoothAdapter.checkBluetoothAddress(address);
-    }
-
-    /**
      * Get the current BlueLib version. For release version returns the version. For any other version returns short SHA1 hash and SNAPSHOT tag.
      *
      * @return string representation of the BlueLib version

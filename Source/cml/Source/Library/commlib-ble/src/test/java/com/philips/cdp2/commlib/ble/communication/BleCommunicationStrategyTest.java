@@ -19,6 +19,7 @@ import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.cdp2.commlib.util.VerboseExecutor;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -34,6 +35,7 @@ import java.util.Map;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MAC_ADDRESS;
 import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
+import static com.philips.pins.shinelib.utility.Utilities.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -107,7 +109,7 @@ public class BleCommunicationStrategyTest {
         when(networkNodeMock.getMacAddress()).thenReturn(MAC_ADDRESS);
         when(centralMock.createSHNDeviceForAddressAndDefinition(eq(MAC_ADDRESS), any(ReferenceNodeDeviceDefinitionInfo.class))).thenReturn(deviceMock);
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        when(centralMock.isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
+        when(isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
 
         strategy = new BleCommunicationStrategy(centralMock, networkNodeMock, callbackHandlerMock, 2000, executorMock) {
             @NonNull
@@ -324,7 +326,7 @@ public class BleCommunicationStrategyTest {
     @Test
     public void givenBleIsOffAndMacAddressIsAvailable_whenStrategyIsCreated_thenItIsNotAvailable() {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(false);
-        when(centralMock.isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
+        when(isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
 
         CommunicationStrategy strategy = new BleCommunicationStrategy(centralMock, networkNodeMock, callbackHandlerMock, 2000, executorMock);
 
@@ -372,12 +374,12 @@ public class BleCommunicationStrategyTest {
     @Test
     public void givenBleIsOnAndNetworkNodeHasNoMac_whenMacBecomesKnown_thenListenerIsNotified() {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        when(centralMock.isValidMacAddress(MAC_ADDRESS)).thenReturn(false);
+        when(isValidMacAddress(MAC_ADDRESS)).thenReturn(false);
         shnCentralListener.onStateUpdated(centralMock);
         //noinspection unchecked
         reset(availabilityListenerMock);
 
-        when(centralMock.isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
+        when(isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
         when(propertyChangeEventMock.getPropertyName()).thenReturn(KEY_MAC_ADDRESS);
         propertyChangeListener.propertyChange(propertyChangeEventMock);
 
