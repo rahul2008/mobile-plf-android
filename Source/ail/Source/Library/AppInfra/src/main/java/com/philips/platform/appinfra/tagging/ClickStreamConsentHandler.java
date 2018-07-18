@@ -15,6 +15,8 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,8 +66,13 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
         AppTaggingInterface.PrivacyStatus privacyStatus = appInfraInterface.getTagging().getPrivacyConsent();
 
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS Z");
+        if(getValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP) == null){
+            callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version, null));//since 1970
+            return;
+        }
         callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version,
-                new DateTime(getValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP), DateTimeZone.UTC).toDate()));
+                formatter.parseDateTime(getValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP)).toDateTime(DateTimeZone.UTC).toDate()));
     }
 
     @Override
@@ -74,8 +81,16 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
         appInfraInterface.getTagging().setPrivacyConsent(getPrivacyStatus(status));
         storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(version));
-        storeValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP, String.valueOf(appInfraInterface.getTime().getUTCTime()));
+
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        storeValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP, String.valueOf(dateFormat.format(getUTCTime())));
         callback.onPostConsentSuccess();
+    }
+
+    @VisibleForTesting
+    Date getUTCTime() {
+        return appInfraInterface.getTime().getUTCTime();
     }
 
     private String getValueForKey(String key) {
