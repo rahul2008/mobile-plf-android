@@ -117,7 +117,9 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void init(Context context) {
         this.applicationContext = context;
-        initHSDP(((AppFrameworkApplication) context.getApplicationContext()).getAppState());
+
+        //Post HSDP initialization on background thread.
+        new Thread(() -> initHSDP(((AppFrameworkApplication) context.getApplicationContext()).getAppState())).start();
 
         initializeUserRegistrationLibrary();
     }
