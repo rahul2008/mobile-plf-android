@@ -377,7 +377,7 @@ public class BleCommunicationStrategyTestSteps {
     @Then("^no write occurred to mock device with id '(.*?)'$")
     public void noWriteOccurredToMockDeviceWithIdP(String deviceId) {
 
-        verify(capability, times(0)).writeData((byte[]) any());
+        verify(capability, times(0)).writeData(any(), any());
         resetCapability(deviceId);
     }
 
@@ -541,7 +541,7 @@ public class BleCommunicationStrategyTestSteps {
     private byte[] getWrittenBytesForDevice(String deviceId) {
         ArgumentCaptor<byte[]> argCaptor = ArgumentCaptor.forClass(byte[].class);
 
-        verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(argCaptor.capture());
+        verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(argCaptor.capture(), any());
 
         byte[] bytes = argCaptor.getValue();
         writtenBytes.put(deviceId, writtenBytes.get(deviceId) + bytes.length);
