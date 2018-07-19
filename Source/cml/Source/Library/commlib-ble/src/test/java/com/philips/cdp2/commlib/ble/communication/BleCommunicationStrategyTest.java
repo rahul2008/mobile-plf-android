@@ -312,7 +312,7 @@ public class BleCommunicationStrategyTest {
     @Test
     public void givenBleIsOnAndMacAddressIsNotAvailable_whenStrategyIsCreated_thenItIsNotAvailable() {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        when(isValidMacAddress(MAC_ADDRESS)).thenReturn(false);
+        when(centralMock.isValidMacAddress(MAC_ADDRESS)).thenReturn(false);
 
         CommunicationStrategy strategy = new BleCommunicationStrategy(centralMock, networkNodeMock, callbackHandlerMock, 2000, executorMock);
 
@@ -331,7 +331,7 @@ public class BleCommunicationStrategyTest {
     @Test
     public void givenBleIsOffAndMacAddressIsAvailable_whenStrategyIsCreated_thenItIsNotAvailable() {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(false);
-        when(isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
+        when(centralMock.isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
 
         CommunicationStrategy strategy = new BleCommunicationStrategy(centralMock, networkNodeMock, callbackHandlerMock, 2000, executorMock);
 
@@ -379,12 +379,12 @@ public class BleCommunicationStrategyTest {
     @Test
     public void givenBleIsOnAndNetworkNodeHasNoMac_whenMacBecomesKnown_thenListenerIsNotified() {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        when(isValidMacAddress(MAC_ADDRESS)).thenReturn(false);
+        when(centralMock.isValidMacAddress(MAC_ADDRESS)).thenReturn(false);
         shnCentralListener.onStateUpdated(centralMock);
         //noinspection unchecked
         reset(availabilityListenerMock);
 
-        when(isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
+        when(centralMock.isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
         when(propertyChangeEventMock.getPropertyName()).thenReturn(KEY_MAC_ADDRESS);
         propertyChangeListener.propertyChange(propertyChangeEventMock);
 
