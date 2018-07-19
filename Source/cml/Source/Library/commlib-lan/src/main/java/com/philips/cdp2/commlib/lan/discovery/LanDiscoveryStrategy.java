@@ -4,27 +4,26 @@
  */
 package com.philips.cdp2.commlib.lan.discovery;
 
-import android.net.wifi.SupplicantState;
-import android.net.wifi.WifiInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.devicecache.CacheData;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.lan.LanDeviceCache;
-import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
+import com.philips.cdp2.commlib.lan.util.SsidProvider;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -39,10 +38,10 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private final SSDPControlPoint ssdpControlPoint;
 
     @NonNull
-    private final LanDeviceCache deviceCache;
+    private final DeviceCache deviceCache;
 
     @NonNull
-    private final WifiNetworkProvider wifiNetworkProvider;
+    private final SsidProvider ssidProvider;
 
     @NonNull
     private Set<String> modelIds;
@@ -104,9 +103,9 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         }
     };
 
-    public LanDiscoveryStrategy(final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor, @NonNull WifiNetworkProvider wifiNetworkProvider) {
+    public LanDiscoveryStrategy(final @NonNull DeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor, final @NonNull SsidProvider ssidProvider) {
         this.deviceCache = requireNonNull(deviceCache);
-        this.wifiNetworkProvider = requireNonNull(wifiNetworkProvider);
+        this.ssidProvider = requireNonNull(ssidProvider);
         this.ssdpControlPoint = createSsdpControlPoint();
         this.modelIds = Collections.emptySet();
 
@@ -123,7 +122,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @Override
-    public void start() throws MissingPermissionException {
+    public void start() throws MissingPermissionException{
         start(Collections.<String>emptySet());
     }
 
@@ -143,7 +142,11 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     @Override
     public void clearDiscoveredNetworkNodes() {
-        deviceCache.clear();
+        Collection<CacheData> items = deviceCache.clear();
+
+        for (CacheData item : items) {
+            notifyNetworkNodeLost(item.getNetworkNode());
+        }
     }
 
     @VisibleForTesting
@@ -160,7 +163,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         final CacheData cacheData = deviceCache.getCacheData(networkNode.getCppId());
         if (cacheData == null) {
             DICommLog.d(DICommLog.DISCOVERY, "Discovered device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
-            deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORK_NODE_TTL_MILLIS);
+            deviceCache.add(networkNode, expirationCallback, NETWORK_NODE_TTL_MILLIS);
         } else {
             DICommLog.d(DICommLog.DISCOVERY, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
             cacheData.resetTimer();
@@ -196,7 +199,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         final String ipAddress = ssdpDevice.getIpAddress();
         final String name = ssdpDevice.getFriendlyName();
         final String deviceType = ssdpDevice.getModelName();
-        final String homeSsid = getHomeSsid();
+        final String homeSsid = ssidProvider.getCurrentSsid();
         Long bootId = -1L;
         final String modelNumber = ssdpDevice.getModelNumber();
 
@@ -212,22 +215,10 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         networkNode.setName(name);
         networkNode.setModelId(modelNumber);
         networkNode.setDeviceType(deviceType);
-        networkNode.setHomeSsid(homeSsid);
+        networkNode.setNetworkSsid(homeSsid);
 
         if (networkNode.isValid()) {
             return networkNode;
-        }
-        return null;
-    }
-
-    @Nullable
-    private String getHomeSsid() {
-        WifiInfo wifiInfo = wifiNetworkProvider.getWifiInfo();
-
-        if (wifiInfo == null) {
-            return null;
-        } else if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
-            return wifiInfo.getSSID();
         }
         return null;
     }

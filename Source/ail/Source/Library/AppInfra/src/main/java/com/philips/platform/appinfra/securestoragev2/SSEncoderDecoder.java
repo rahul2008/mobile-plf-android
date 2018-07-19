@@ -1,35 +1,18 @@
 package com.philips.platform.appinfra.securestoragev2;
 
 
-import android.util.Base64;
-
 import java.nio.ByteBuffer;
 import java.security.GeneralSecurityException;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.GCMParameterSpec;
 
 public class SSEncoderDecoder {
 
     private static final String AES_ENCRYPTION_ALGORITHM = "AES/GCM/NoPadding";
 
-    protected String encodeDecodeData(int mode, Key secretKey, String value) throws SSEncodeDecodeException {
-        if (mode == Cipher.ENCRYPT_MODE) {
-            byte[] cipherMessage = encodeDecodeData(mode, secretKey, value.getBytes());
-            String encodedEncryptedString = Base64.encodeToString(cipherMessage, Base64.DEFAULT);
-            return encodedEncryptedString;
-        } else if (mode == Cipher.DECRYPT_MODE) {
-            byte[] cipherMessage = Base64.decode(value, Base64.DEFAULT);
-            byte[] plainText = encodeDecodeData(mode, secretKey, cipherMessage);
-            return new String(plainText);
-        } else {
-            return null;
-        }
-    }
 
     protected byte[] encodeDecodeData(int mode, Key secretKey, byte[] value) throws SSEncodeDecodeException {
 
@@ -66,9 +49,9 @@ public class SSEncoderDecoder {
                 return null;
             }
         } catch (GeneralSecurityException exception) {
-            throw new SSEncodeDecodeException("Error while encoding/decoding data"+ exception.getMessage());
+            throw new SSEncodeDecodeException("Error while encoding/decoding data" + exception.getMessage());
         } catch (Exception exception) {
-            throw new SSEncodeDecodeException("Error while encoding/decoding data"+exception.getMessage());
+            throw new SSEncodeDecodeException("Error while encoding/decoding data" + exception.getMessage());
         }
     }
 

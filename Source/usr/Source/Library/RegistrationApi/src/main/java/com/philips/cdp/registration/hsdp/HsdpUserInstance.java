@@ -5,15 +5,15 @@ class HsdpUserInstance {
 
     private static HsdpUserInstance hsdpUserInstance = new HsdpUserInstance( );
 
-     HsdpUserRecord getHsdpUserRecord() {
-         return hsdpUserRecord;
+     HsdpUserRecordV2 getHsdpUserRecordV2() {
+         return hsdpUserRecordV2;
      }
 
-     void setHsdpUserRecord(HsdpUserRecord hsdpUserRecord) {
-         this.hsdpUserRecord = hsdpUserRecord;
+     void setHsdpUserRecordV2(HsdpUserRecordV2 hsdpUserRecordV2) {
+         this.hsdpUserRecordV2 = hsdpUserRecordV2;
      }
 
-     private  HsdpUserRecord hsdpUserRecord;
+     private HsdpUserRecordV2 hsdpUserRecordV2;
 
     /* A private Constructor prevents any other
      * class from instantiating.

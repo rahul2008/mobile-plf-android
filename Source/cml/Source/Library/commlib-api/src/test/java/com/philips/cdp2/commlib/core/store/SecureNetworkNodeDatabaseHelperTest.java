@@ -12,11 +12,17 @@ import com.philips.platform.securedblibrary.SqlLiteInitializer;
 import net.sqlcipher.database.SQLiteDatabase;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import java.sql.SQLException;
+import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -68,6 +74,17 @@ public class SecureNetworkNodeDatabaseHelperTest {
                 return sqLiteDatabaseMock;
             }
         };
+    }
+
+    @Test
+    public void whenDatabaseIsUpgraded_thenMacAddressIsAdded() {
+        subject.onUpgrade(sqLiteDatabaseMock, null, 6, 7);
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(sqLiteDatabaseMock, atLeastOnce()).execSQL(captor.capture());
+        assertEquals(captor.getAllValues().size(), 2);
+        assertTrue(captor.getAllValues().get(0).contains("ALTER TABLE network_node ADD COLUMN mac_address STRING NULL"));
+        assertTrue(captor.getAllValues().get(1).contains("UPDATE network_node SET mac_address = cppid"));
     }
 
     @Test

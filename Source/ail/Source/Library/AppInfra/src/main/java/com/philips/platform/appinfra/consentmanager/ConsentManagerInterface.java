@@ -17,7 +17,7 @@ public interface ConsentManagerInterface {
      *
      * @param consentType             type of the consent
      * @param consentHandlerInterface Handler which handles the implementation for the given consent type
-     * @since 2018.1.0
+     * @since 1801.0
      */
     void registerHandler(List<String> consentType, ConsentHandlerInterface consentHandlerInterface);
 
@@ -25,7 +25,7 @@ public interface ConsentManagerInterface {
      * Deregister consent type from the handler
      *
      * @param consentType the type that should be removed from the handler
-     * @since 2018.1.0
+     * @since 1801.0
      */
     void deregisterHandler(List<String> consentType);
 
@@ -33,7 +33,7 @@ public interface ConsentManagerInterface {
      * Register Consent Definition to the type
      *
      * @param consentDefinitions given list of consent definitions
-     * @since 2018.1.0
+     * @since 1801.0
      */
     void registerConsentDefinitions(List<ConsentDefinition> consentDefinitions);
 
@@ -42,7 +42,7 @@ public interface ConsentManagerInterface {
      *
      * @param consentDefinition Consent Definition for which the status has to be fetched
      * @param callback          The callback that should be invoked after fetch
-     * @since 2018.1.0
+     * @since 1801.0
      */
     void fetchConsentState(ConsentDefinition consentDefinition, final FetchConsentCallback callback);
 
@@ -51,7 +51,7 @@ public interface ConsentManagerInterface {
      *
      * @param consentDefinitions Consent Definition for which the status has to be fetched
      * @param callback           The callback that should be invoked after fetch
-     * @since 2018.1.0
+     * @since 1801.0
      */
     void fetchConsentStates(List<ConsentDefinition> consentDefinitions, final FetchConsentsCallback callback);
 
@@ -61,7 +61,7 @@ public interface ConsentManagerInterface {
      * @param consentDefinition Consent Definition for which the status has to be stored
      * @param status            Consent status i.e, active, rejected or Inactive
      * @param callback          The callback that should be invoked after store
-     * @since 2018.1.0
+     * @since 1801.0
      */
     void storeConsentState(final ConsentDefinition consentDefinition, boolean status, PostConsentCallback callback);
 
@@ -70,7 +70,7 @@ public interface ConsentManagerInterface {
      *
      * @param type
      * @param callback
-     * @since 2018.1.0
+     * @since 1801.0
      */
     void fetchConsentTypeState(String type, FetchConsentCallback callback);
 
@@ -78,7 +78,7 @@ public interface ConsentManagerInterface {
      * Get consent definition for consent type
      *
      * @param consentType
-     * @since 2018.2.0
+     * @since 1802.0
      */
     ConsentDefinition getConsentDefinitionForType(String consentType);
 
@@ -86,7 +86,7 @@ public interface ConsentManagerInterface {
      * Register for conset status changes for a given {@link ConsentDefinition}
      * @param consentDefinition {@link ConsentDefinition} to be observed for the changes.
      * @param listener {@link ConsentStatusChangedListener} provides the callback for respective store call.
-     * @since 2018.3.0
+     * @since 1803.0
      */
     default void addConsentStatusChangedListener(ConsentDefinition consentDefinition, ConsentStatusChangedListener listener) {
     }
@@ -96,7 +96,7 @@ public interface ConsentManagerInterface {
      *
      * @param consentDefinition {@link ConsentDefinition} for which no further callbacks are required.
      * @param consentStatusChangedListener {@link ConsentStatusChangedListener} to be unregistered.
-     * @since 2018.3.0
+     * @since 1803.0
      */
     default void removeConsentStatusChangedListener(ConsentDefinition consentDefinition, ConsentStatusChangedListener consentStatusChangedListener) {
     }

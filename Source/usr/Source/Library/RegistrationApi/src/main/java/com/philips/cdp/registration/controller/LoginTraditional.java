@@ -23,7 +23,7 @@ import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.hsdp.HsdpUserRecord;
+import com.philips.cdp.registration.hsdp.HsdpUserRecordV2;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -170,8 +170,8 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         RLog.d(TAG, "loginIntoHsdp : is called");
         final User user = new User(mContext);
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-        if (hsdpUserRecord == null) {
+        HsdpUserRecordV2 hsdpUserRecordV2 = hsdpUser.getHsdpUserRecord();
+        if (hsdpUserRecordV2 == null) {
             String emailOrMobile;
             if (RegistrationHelper.getInstance().isMobileFlow()) {
                 emailOrMobile = user.getMobile();

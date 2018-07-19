@@ -8,7 +8,6 @@ package com.philips.cdp2.commlib.lan.communication;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.Request;
@@ -18,22 +17,21 @@ import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
-import com.philips.cdp2.commlib.core.devicecache.CacheData;
-import com.philips.cdp2.commlib.core.devicecache.DeviceCache.DeviceCacheListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
 import com.philips.cdp2.commlib.lan.subscription.LocalSubscriptionHandler;
 import com.philips.cdp2.commlib.lan.subscription.UdpEventReceiver;
+import com.philips.cdp2.commlib.lan.util.SsidProvider;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.X509TrustManager;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.X509TrustManager;
 
 import static java.util.Objects.requireNonNull;
 
@@ -50,7 +48,13 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     private final DISecurity diSecurity;
 
     @NonNull
+    private SsidProvider ssidProvider;
+
+    @NonNull
     private final NetworkNode networkNode;
+
+    @NonNull
+    private final ConnectivityMonitor connectivityMonitor;
 
     @NonNull
     private final LocalSubscriptionHandler localSubscriptionHandler;
@@ -60,9 +64,8 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
 
     private boolean isKeyExchangeOngoing;
     private boolean isAvailable;
-    private boolean isConnected;
-    private boolean isCached;
 
+    @NonNull
     private final EncryptionDecryptionFailedListener encryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
 
         @Override
@@ -76,42 +79,37 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
         }
     };
 
+    @NonNull
     private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
 
         @Override
         public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
-            isConnected = connectivityMonitor.isAvailable();
             handleAvailabilityChanged();
         }
     };
 
-    private final DeviceCacheListener<CacheData> deviceCacheListener = new DeviceCacheListener<CacheData>() {
+    private final SsidProvider.NetworkChangeListener networkChangeListener = new SsidProvider.NetworkChangeListener() {
         @Override
-        public void onAdded(CacheData cacheData) {
-            if (networkNode.getCppId().equals(cacheData.getNetworkNode().getCppId())) {
-                isCached = true;
-                handleAvailabilityChanged();
-            }
-        }
-
-        @Override
-        public void onRemoved(CacheData cacheData) {
-            if (networkNode.getCppId().equals(cacheData.getNetworkNode().getCppId())) {
-                isCached = false;
-                handleAvailabilityChanged();
-            }
+        public void onNetworkChanged() {
+            handleAvailabilityChanged();
         }
     };
 
-    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor) {
+    @NonNull
+    private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            handleAvailabilityChanged();
+        }
+    };
+
+    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull ConnectivityMonitor connectivityMonitor, final @NonNull SsidProvider ssidProvider) {
         this.networkNode = requireNonNull(networkNode);
-        requireNonNull(deviceCache);
-        requireNonNull(connectivityMonitor);
+        this.connectivityMonitor = requireNonNull(connectivityMonitor);
+        this.ssidProvider = requireNonNull(ssidProvider);
 
         this.diSecurity = new DISecurity(networkNode);
-        localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
-
-        this.isCached = deviceCache.contains(networkNode.getCppId());
+        this.localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
 
         if (networkNode.isHttps()) {
             try {
@@ -121,11 +119,14 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
             }
         }
 
-        requestQueue = createRequestQueue();
+        this.connectivityMonitor.addAvailabilityListener(availabilityListener);
+        this.networkNode.addPropertyChangeListener(propertyChangeListener);
+        this.ssidProvider.addNetworkChangeListener(networkChangeListener);
+        this.requestQueue = createRequestQueue();
 
-        deviceCache.addDeviceCacheListener(deviceCacheListener, networkNode.getCppId());
-        connectivityMonitor.addAvailabilityListener(availabilityListener);
         this.diSecurity.setEncryptionDecryptionFailedListener(encryptionDecryptionFailedListener);
+
+        isAvailable = isAvailable();
     }
 
     @VisibleForTesting
@@ -137,28 +138,28 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     @Override
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.GET, null, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.GET, null, responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.PUT, dataMap, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.PUT, dataMap, responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
     @Override
     public void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.POST, dataMap, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.POST, dataMap, responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
     @Override
     public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.DELETE, null, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.DELETE, null, responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
@@ -166,20 +167,24 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
         localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
     @Override
     public void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.DELETE, getUnsubscriptionData(), responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, connectivityMonitor, sslContext, portName, productId, LanRequestType.DELETE, getUnsubscriptionData(), responseHandler, diSecurity);
         requestQueue.addRequest(request);
     }
 
     @Override
     public boolean isAvailable() {
-        return isAvailable;
+        return networkNode.getIpAddress() != null && connectivityMonitor.isAvailable() && isOnSameNetwork();
+    }
+
+    private boolean isOnSameNetwork() {
+        return ssidProvider.getCurrentSsid() == null || ssidProvider.getCurrentSsid().equals(networkNode.getNetworkSsid());
     }
 
     @VisibleForTesting
@@ -217,7 +222,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
             }
         };
 
-        final Request request = networkNode.isHttps() ? new GetKeyRequest(networkNode, sslContext, responseHandler) : new ExchangeKeyRequest(networkNode, responseHandler);
+        final Request request = networkNode.isHttps() ? new GetKeyRequest(networkNode, connectivityMonitor, sslContext, responseHandler) : new ExchangeKeyRequest(networkNode, connectivityMonitor, responseHandler);
 
         isKeyExchangeOngoing = true;
         requestQueue.addRequestInFrontOfQueue(request);
@@ -240,16 +245,15 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     }
 
     private synchronized void handleAvailabilityChanged() {
-        boolean currentlyAvailable = isAvailable;
+        DICommLog.d("LanCommunicationStrategy", String.format(Locale.US, "NetworkNode: [%s] : isAvailable: [%s]", networkNode.getName(), isAvailable()));
 
-        isAvailable = isCached && isConnected;
-        if (isAvailable != currentlyAvailable) {
+        boolean newIsAvailable = isAvailable();
+        if (newIsAvailable != isAvailable) {
+            isAvailable = newIsAvailable;
             notifyAvailabilityChanged();
         }
 
-        DICommLog.d("LanCommunicationStrategy", String.format(Locale.US, "NetworkNode: [%s] - currentlyAvailable: [%s], isAvailable: [%s], isCached: [%s], isConnected: [%s]", networkNode.getName(), currentlyAvailable, isAvailable, isCached, isConnected));
-
-        if (isAvailable) {
+        if (isAvailable()) {
             localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
         } else {
             localSubscriptionHandler.disableSubscription();

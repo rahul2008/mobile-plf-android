@@ -15,7 +15,7 @@ public interface HPKPInterface {
      *
      * @param hostName hostname of a URL which would be used as key to store the public key in secure storage
      * @param publicKeyDetails  Public key details of a particular hostname received in response header
-     * @since 2018.2.0
+     * @since 1802.0
      */
     void updatePinnedPublicKey(String hostName, String publicKeyDetails);
 

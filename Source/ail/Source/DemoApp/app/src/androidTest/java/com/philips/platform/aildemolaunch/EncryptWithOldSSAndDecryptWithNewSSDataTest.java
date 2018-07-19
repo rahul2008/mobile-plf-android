@@ -34,7 +34,7 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class EncryptWithOldSSAndDecryptWithNewSSDataTest {
+public class EncryptWithOldSSAndDecryptWithNewSSDataTest extends SecureStorageBaseTest{
 
     @Rule
     public ActivityTestRule<AppInfraLaunchActivity> mActivityTestRule = new ActivityTestRule<>(AppInfraLaunchActivity.class);
@@ -44,7 +44,7 @@ public class EncryptWithOldSSAndDecryptWithNewSSDataTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-
+        setUp();
         DataInteraction linearLayout = onData(anything())
                 .inAdapterView(allOf(withId(R.id.listViewAppInfraComponents),
                         childAtPosition(

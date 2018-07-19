@@ -21,6 +21,7 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 
 import java.io.UnsupportedEncodingException;
@@ -65,8 +66,6 @@ public class MomentsDataFetcherTest {
 
     private AppInfra mAppInfra;
     private MomentsDataFetcher fetcher;
-    private UCoreMomentsHistory momentsHistory = new UCoreMomentsHistory();
-    private UCoreMomentsHistory userMomentsHistory = new UCoreMomentsHistory();
     private Map<String, String> lastSyncTimeMap;
     private Map<String, String> lastSyncTimeMap2;
     private EventingMock eventing = new EventingMock();
@@ -136,27 +135,12 @@ public class MomentsDataFetcherTest {
 
     @Test
     public void fetchData_storesReceivesMoments() {
-        givenAllMomentTypesAreSupported();
-        givenBackendReturns(momentOfType("MomentType"), momentOfType("MomentType"));
+        givenSupportedMomentTypes("MomentType1", "MomentType2");
+        givenBackendReturns(momentOfType("MomentType1"), momentOfType("MomentType2"));
         whenFetchDataIsInvoked();
         thenNoErrorIsReturned();
-        thenMomentsAreStored("MomentType", "MomentType");
-    }
-
-    @Test
-    public void fetchData_doesNotStoreMoment_whenTypeIsNotSupported() {
-        givenSupportedMomentTypes("SupportedMomentType");
-        givenBackendReturns(momentOfType("UnsupportedMomentType"), momentOfType("SupportedMomentType"));
-        whenFetchDataIsInvoked();
-        thenMomentsAreStored("SupportedMomentType");
-    }
-
-    @Test
-    public void fetchData_storesMoment_whenSupportedMomentTypesListIsEmpty() {
-        givenAllMomentTypesAreSupported();
-        givenBackendReturns(momentOfType("SupportedMomentType"));
-        whenFetchDataIsInvoked();
-        thenMomentsAreStored("SupportedMomentType");
+        thenMomentsAreFetchedFromBackend("MomentType1", "MomentType2");
+        thenMomentsAreStored("MomentType1", "MomentType2");
     }
 
     @Test
@@ -212,7 +196,7 @@ public class MomentsDataFetcherTest {
         UCoreMomentsHistory history = new UCoreMomentsHistory();
         history.setUCoreMoments(Arrays.asList(backendMoments));
         history.setSyncurl(TEST_MOMENT_SYNC_URL);
-        when(momentsClientMock.getMomentsHistory(USER_ID, USER_ID, TEST_MOMENT_SYNC_URL)).thenReturn(history);
+        when(momentsClientMock.getMomentsHistory(anyString(), anyString(), anyString(), ArgumentMatchers.<String>anyList())).thenReturn(history);
         givenConverterReturns(backendMoments);
     }
 
@@ -271,10 +255,6 @@ public class MomentsDataFetcherTest {
         returnValue = fetcher.fetchDataByDateRange(START_DATE, END_DATE);
     }
 
-    private void givenClientThrowsException() {
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("error")));
-    }
-
     private void whenFetchDataIsInvoked() {
         returnValue = fetcher.fetchData();
     }
@@ -310,6 +290,10 @@ public class MomentsDataFetcherTest {
 
     private void thenNoErrorIsReturned() {
         assertNull(returnValue);
+    }
+
+    private void thenMomentsAreFetchedFromBackend(String... momentTypes) {
+        verify(momentsClientMock).getMomentsHistory(USER_ID, USER_ID, TEST_MOMENT_SYNC_URL, Arrays.asList(momentTypes));
     }
 
     private void mockAccessProvider() throws UnsupportedEncodingException {

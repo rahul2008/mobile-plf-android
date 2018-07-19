@@ -19,6 +19,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Date;
+
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -36,16 +38,13 @@ public class DeviceStoredConsentHandlerTest {
     @Mock
     AppInfraInterface appInfra;
     private DeviceStoredConsentHandler handler;
-    private String storedValueHighVersion = "true" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2";
-    private String storedValueFalseVersion = "false" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2";
+    private String storedValueHighVersion = "true" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER +"2018-05-18 07:30:27.119 +0000";
+    private String storedValueFalseVersion = "false" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2018-07-08 10:19:27.156 +0000";
     @Mock
     private SecureStorageInterface storageInterface;
 
     @Mock
     private SecureStorageInterface.SecureStorageError secureStorageError;
-
-    @Mock
-    private LoggingInterface loggingInterface;
 
     @Mock
     private InternationalizationInterface internationalizationInterface;
@@ -54,7 +53,6 @@ public class DeviceStoredConsentHandlerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(appInfra.getSecureStorage()).thenReturn(storageInterface);
-        when(appInfra.getLogging()).thenReturn(loggingInterface);
         when(appInfra.getInternationalization()).thenReturn(internationalizationInterface);
         handler = new TestDeviceStoredConsentHandler(appInfra);
     }
@@ -135,8 +133,8 @@ public class DeviceStoredConsentHandlerTest {
         }
 
         @Override
-        long getUTCTime() {
-            return System.currentTimeMillis();
+        Date getUTCTime() {
+            return new Date();
         }
     }
 
