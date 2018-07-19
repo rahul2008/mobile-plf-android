@@ -33,6 +33,7 @@ import com.adobe.mobile.Config;
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
@@ -383,21 +384,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             HsdpUser hsdpUser = new HsdpUser(mContext);
             if (RegistrationConfiguration.getInstance().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
                 showLogoutSpinner();
-                mUser.logout(new LogoutHandler() {
-                    @Override
-                    public void onLogoutSuccess() {
-                        hideLogoutSpinner();
-                        Toast.makeText(mContext, "Logout success", Toast.LENGTH_LONG).show();
-                        LlcoppaItems.setVisibility(GONE);
-
-                    }
-
-                    @Override
-                    public void onLogoutFailure(int responseCode, String message) {
-                        hideLogoutSpinner();
-                        Toast.makeText(mContext, "Code " + responseCode + "Message" + message, Toast.LENGTH_LONG).show();
-                    }
-                });
+                hsdpLogout();
             } else {
                 mUser.logout(null);
                 LlcoppaItems.setVisibility(GONE);
@@ -405,30 +392,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
 
         } else if (i == R.id.btn_marketing_opt_in) {
-            RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-            urLaunchInput = new URLaunchInput();
-            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
-            urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-            urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-            urLaunchInput.setUIFlow(UIFlow.FLOW_B);
-            urLaunchInput.setUserRegistrationUIEventListener(this);
-
-            urInterface.launch(activityLauncher, urLaunchInput);
-            final UIFlow uiFlow = RegUtility.getUiFlow();
-
-            switch (uiFlow) {
-
-                case FLOW_A:
-                    Toast.makeText(mContext, "UI Flow Type A", Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                    break;
-                case FLOW_B:
-                    Toast.makeText(mContext, "UI Flow Type B", Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                    break;
-                default:
-                    break;
-            }
+            marketingOptIn(activityLauncher, urInterface);
 
         } else if (i == R.id.btn_registration_without_account) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
@@ -479,13 +443,13 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             } else {
                 Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
             }
-       } else if (i == R.id.updateCoppaConsentStatus) {
+        } else if (i == R.id.updateCoppaConsentStatus) {
 
 
             if (mUser.isUserSignIn()) {
 
-              coppaExtension=  new CoppaExtension(mContext);
-              coppaExtension.buildConfiguration();
+                coppaExtension = new CoppaExtension(mContext);
+                coppaExtension.buildConfiguration();
 
                 coppaExtension.updateCoppaConsentStatus(true, new CoppaConsentUpdateCallback() {
                     @Override
@@ -495,7 +459,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
                     @Override
                     public void onFailure(int message) {
-                        Toast.makeText(mContext, "updateCoppaConsentStatus failure"+message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "updateCoppaConsentStatus failure" + message, Toast.LENGTH_LONG).show();
                     }
                 });
             } else {
@@ -505,7 +469,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
             if (mUser.isUserSignIn()) {
 
-                coppaExtension=  new CoppaExtension(mContext);
+                coppaExtension = new CoppaExtension(mContext);
                 coppaExtension.buildConfiguration();
 
                 coppaExtension.updateCoppaConsentConfirmationStatus(true, new CoppaConsentUpdateCallback() {
@@ -516,14 +480,60 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
                     @Override
                     public void onFailure(int message) {
-                        Toast.makeText(mContext, "updateCoppaConsentConfirmationStatus failure"+message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "updateCoppaConsentConfirmationStatus failure" + message, Toast.LENGTH_LONG).show();
                     }
                 });
-            }else {
-                Toast.makeText(mContext,  " User not Signed in", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
             }
 
         }
+    }
+
+    private void marketingOptIn(ActivityLauncher activityLauncher, URInterface urInterface) {
+        URLaunchInput urLaunchInput;
+        RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
+        urLaunchInput = new URLaunchInput();
+        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
+        urLaunchInput.setUIFlow(UIFlow.FLOW_B);
+        urLaunchInput.setUserRegistrationUIEventListener(this);
+
+        urInterface.launch(activityLauncher, urLaunchInput);
+        final UIFlow uiFlow = RegUtility.getUiFlow();
+
+        switch (uiFlow) {
+
+            case FLOW_A:
+                Toast.makeText(mContext, "UI Flow Type A", Toast.LENGTH_LONG).show();
+                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                break;
+            case FLOW_B:
+                Toast.makeText(mContext, "UI Flow Type B", Toast.LENGTH_LONG).show();
+                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void hsdpLogout() {
+        mUser.logout(new LogoutHandler() {
+            @Override
+            public void onLogoutSuccess() {
+                hideLogoutSpinner();
+                Toast.makeText(mContext, "Logout success", Toast.LENGTH_LONG).show();
+                LlcoppaItems.setVisibility(GONE);
+
+            }
+
+            @Override
+            public void onLogoutFailure(int responseCode, String message) {
+                hideLogoutSpinner();
+                Toast.makeText(mContext, "Code " + responseCode + "Message" + message, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void handleGender() {
@@ -601,8 +611,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     }
 
     private void handleRefreshAccessToken() {
-
-
         if (mUser.isUserSignIn()) {
             mUser.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
@@ -631,6 +639,13 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
         Toast.makeText(this, "User is logged in ", Toast.LENGTH_SHORT).show();
         activity.finish();
+
+        final UserLoginState userLoginState = mUser.getUserLoginState();
+        if (userLoginState.name().equals(UserLoginState.PENDING_HSDP_LOGIN)) {
+            //make HSDP login call
+            mUser.makeHsdpLogin();
+        }
+
     }
 
     @Override

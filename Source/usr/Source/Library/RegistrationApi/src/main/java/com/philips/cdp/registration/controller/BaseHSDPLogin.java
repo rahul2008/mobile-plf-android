@@ -33,9 +33,9 @@ public class BaseHSDPLogin {
         return emailorMobile;
     }
 
-    public void hsdpLogin(User user, String emailorMobile, TraditionalLoginHandler mTraditionalLoginHandler) {
+    public void hsdpLogin(String accessToken, String emailorMobile, TraditionalLoginHandler mTraditionalLoginHandler) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
+        hsdpUser.login(emailorMobile, accessToken, Jump.getRefreshSecret(), new SocialLoginHandler() {
 
             @Override
             public void onLoginSuccess() {

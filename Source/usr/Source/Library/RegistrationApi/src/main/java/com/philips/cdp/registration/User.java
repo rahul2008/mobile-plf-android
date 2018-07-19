@@ -101,6 +101,9 @@ public class User {
 
     private UserLoginState userLoginState;
 
+    private TraditionalLoginHandler mTraditionalLoginHandler;
+    private SocialProviderLoginHandler mSocialProviderLoginHandler;
+
     /**
      * Constructor
      *
@@ -127,6 +130,8 @@ public class User {
                                       final TraditionalLoginHandler traditionalLoginHandler) {
         if (traditionalLoginHandler == null && emailAddress == null && password == null) {
             throw new RuntimeException("Email , Password , TraditionalLoginHandler can't be null");
+        } else {
+            mTraditionalLoginHandler = traditionalLoginHandler;
         }
         new Thread(() -> {
             LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
@@ -179,6 +184,7 @@ public class User {
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
                                              final SocialProviderLoginHandler socialLoginHandler,
                                              final String mergeToken) {
+        mSocialProviderLoginHandler = socialLoginHandler;
         new Thread(() -> {
             if (providerName != null && activity != null) {
                 LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
@@ -549,6 +555,17 @@ public class User {
         this.userLoginState = userLoginState;
     }
 
+    public void makeHsdpLogin() {
+        HsdpUser hsdpUser = new HsdpUser(mContext);
+        if (RegistrationConfiguration.getInstance().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
+            BaseHSDPLogin baseHSDPLogin = new BaseHSDPLogin(mContext);
+            if (mTraditionalLoginHandler != null) {
+                baseHSDPLogin.hsdpLogin(getAccessToken(), getEmail(), mTraditionalLoginHandler);
+            } else {
+                baseHSDPLogin.hsdpLogin(getAccessToken(), getEmail(), mSocialProviderLoginHandler);
+            }
+        }
+    }
 
     /**
      * {@code isUserSignIn} method checks if a user is logged in

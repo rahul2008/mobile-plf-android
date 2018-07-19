@@ -140,7 +140,7 @@ public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResult
 
     public void loginIntoHsdp() {
         String emailorMobile = getUserEmailOrMobile(mUser);
-        hsdpLogin(mUser, emailorMobile, mTraditionalLoginHandler);
+        hsdpLogin(mUser.getAccessToken(), emailorMobile, mTraditionalLoginHandler);
 
 //        RLog.d(TAG, "loginIntoHsdp : is called");
 //        final User mUser = new User(mContext);
