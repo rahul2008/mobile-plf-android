@@ -6,6 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.HttpResponse;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.hpkp.HPKPInterface;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -34,12 +35,12 @@ import javax.net.ssl.X509TrustManager;
 public class AppInfraHurlStack extends HurlStack {
 
     private static final String SSL_RESPONSE_PUBLIC_KEY = "Public-Key-Pins";
-    private PublicKeyPinInterface pinInterface;
+    private HPKPInterface pinInterface;
     private LoggingInterface appInfraLogging;
 
     private static final ThreadLocal<HttpsURLConnection> localURLConnection = new ThreadLocal<>();
 
-    public AppInfraHurlStack(PublicKeyPinInterface pinInterface, UrlRewriter urlRewriter, LoggingInterface logging) {
+    public AppInfraHurlStack(HPKPInterface pinInterface, UrlRewriter urlRewriter, LoggingInterface logging) {
         super(urlRewriter);
         this.pinInterface = pinInterface;
         this.appInfraLogging = logging;

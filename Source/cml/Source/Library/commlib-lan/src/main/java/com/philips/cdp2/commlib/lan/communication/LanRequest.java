@@ -6,9 +6,7 @@
 package com.philips.cdp2.commlib.lan.communication;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.net.Network;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -21,12 +19,19 @@ import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.DICommLog.Verbosity;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
-import com.philips.cdp2.commlib.core.util.ContextProvider;
+import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.core.util.GsonProvider;
-import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 
-import javax.net.ssl.*;
-import java.io.*;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.SSLSession;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
@@ -35,7 +40,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.LOCALREQUEST;
-import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.*;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.DEBUG;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.INFO;
 
 public class LanRequest extends Request {
 
@@ -49,6 +56,8 @@ public class LanRequest extends Request {
 
     @NonNull
     private final NetworkNode networkNode;
+    @NonNull
+    private ConnectivityMonitor connectivityMonitor;
     @Nullable
     private final SSLContext sslContext;
     private final LanRequestType requestType;
@@ -62,10 +71,11 @@ public class LanRequest extends Request {
         }
     };
 
-    LanRequest(final @NonNull NetworkNode networkNode, @Nullable SSLContext sslContext, String portName, int productId, LanRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler, DISecurity diSecurity) {
+    LanRequest(final @NonNull NetworkNode networkNode, @NonNull ConnectivityMonitor connectivityMonitor, @Nullable SSLContext sslContext, String portName, int productId, LanRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler, DISecurity diSecurity) {
         super(dataMap, responseHandler);
 
         this.networkNode = networkNode;
+        this.connectivityMonitor = connectivityMonitor;
         this.sslContext = sslContext;
         this.requestType = requestType;
         this.diSecurity = diSecurity;
@@ -216,7 +226,7 @@ public class LanRequest extends Request {
     HttpURLConnection createConnection(final @NonNull URL url, final @NonNull String requestMethod) throws IOException, TransportUnavailableException {
         HttpURLConnection conn;
 
-        final Network network = getWifiNetwork();
+        final Network network = connectivityMonitor.getNetwork();
 
         if (network == null) {
             throw new TransportUnavailableException("Network unavailable.");
@@ -236,15 +246,6 @@ public class LanRequest extends Request {
         conn.setReadTimeout(CONNECTION_TIMEOUT);
 
         return conn;
-    }
-
-    private Network getWifiNetwork() {
-        final Context context = ContextProvider.get();
-
-        if (context == null) {
-            throw new IllegalStateException("Context is null.");
-        }
-        return WifiNetworkProvider.get(context).getNetwork();
     }
 
     /**

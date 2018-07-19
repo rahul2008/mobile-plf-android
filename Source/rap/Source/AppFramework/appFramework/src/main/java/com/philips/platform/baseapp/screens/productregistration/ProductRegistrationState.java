@@ -19,14 +19,13 @@ import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.base.UIStateData;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.CTNUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
-import com.philips.platform.appframework.homescreen.HamburgerActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,7 +90,8 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
         PRDependencies prodRegDependencies = new PRDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
 
         UappSettings uappSettings = new UappSettings(applicationContext);
-        new PRInterface().init(prodRegDependencies, uappSettings);
+        PRInterface prInterface = new PRInterface();
+        prInterface.init(prodRegDependencies, uappSettings);
     }
 
     @Override
@@ -132,13 +132,6 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
         new PRInterface().launch(fragmentLauncher,prodRegLaunchInput);
     }
 
-    /**
-     * Data Model for CoCo is defined here to have minimal import files.
-     */
-    public class ProductRegistrationData extends UIStateData {
-
-
-    }
 
 
 }

@@ -13,7 +13,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.Collection;
-import java.util.concurrent.ScheduledExecutorService;
 
 import static junit.framework.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,10 +22,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DeviceCacheTest {
 
-    private DeviceCache<CacheData> deviceCache;
-
-    @Mock
-    private ScheduledExecutorService scheduledExecutorServiceMock;
+    private DeviceCache deviceCache;
 
     @Mock
     private NetworkNode networkNodeMock;
@@ -41,13 +37,13 @@ public class DeviceCacheTest {
     private CacheData secondCacheDataMock;
 
     @Mock
-    private DeviceCacheListener<CacheData> listener;
+    private DeviceCacheListener listener;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         initMocks(this);
 
-        deviceCache = new DeviceCache<>(scheduledExecutorServiceMock);
+        deviceCache = new DeviceCache();
 
         when(networkNodeMock.getCppId()).thenReturn("my-cpp-id");
         when(secondNetworkNodeMock.getCppId()).thenReturn("my-cpp-id-other");
@@ -60,7 +56,7 @@ public class DeviceCacheTest {
     }
 
     @Test
-    public void whenAddingADevice_ThenCacheShouldContainData() throws Exception {
+    public void whenAddingADevice_ThenCacheShouldContainData() {
         deviceCache.add(cacheDataMock);
 
         assertTrue(deviceCache.contains("my-cpp-id"));
@@ -74,7 +70,7 @@ public class DeviceCacheTest {
     }
 
     @Test
-    public void whenAddingADeviceTwice_ThenTheTimerShouldReset() throws Exception {
+    public void whenAddingADeviceTwice_ThenTheTimerShouldReset() {
         deviceCache.add(cacheDataMock);
         deviceCache.add(cacheDataMock);
 

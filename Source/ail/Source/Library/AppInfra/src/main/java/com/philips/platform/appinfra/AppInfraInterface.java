@@ -119,7 +119,7 @@ public interface AppInfraInterface extends Serializable {
     /**
      * Get device storage consent handler
      * @return the DeviceStoredConsentHandler
-     * @since 2018.2.0
+     * @since 1802.0
      */
     DeviceStoredConsentHandler getDeviceStoredConsentHandler();
 }

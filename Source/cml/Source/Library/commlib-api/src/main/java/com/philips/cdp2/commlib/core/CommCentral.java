@@ -42,7 +42,7 @@ public final class CommCentral {
     private final ApplianceManager applianceManager;
 
     @NonNull
-    private final TransportContext[] transportContexts;
+    private TransportContext[] transportContexts;
 
     /**
      * Create a CommCentral. You should only ever create one CommCentral!
@@ -61,31 +61,31 @@ public final class CommCentral {
      *
      * @param applianceFactory     The ApplianceFactory used to create {@link Appliance}s.
      * @param runtimeConfiguration Way to provide {@link RuntimeConfiguration} for CommLib
+     * @param applianceDatabase    Way to provide {@link ApplianceDatabase} for CommLib
      * @param transportContexts    TransportContexts that will be used by the {@link Appliance}s and
      *                             provide {@link DiscoveryStrategy}s. You will need at least one!
      */
     public CommCentral(@NonNull ApplianceFactory applianceFactory, @NonNull RuntimeConfiguration runtimeConfiguration, @Nullable ApplianceDatabase applianceDatabase, @NonNull final TransportContext... transportContexts) {
-        if (instanceWeakReference.get() == null) {
-            instanceWeakReference = new WeakReference<>(this);
-        } else {
-            throw new UnsupportedOperationException("Only one instance allowed.");
-        }
-        // Setup transport contexts
-        if (transportContexts.length == 0) {
-            throw new IllegalArgumentException("This class needs to be constructed with at least one transport context.");
-        }
-
-        this.transportContexts = transportContexts;
-        // Setup discovery strategies
-        for (TransportContext transportContext : transportContexts) {
-            DiscoveryStrategy discoveryStrategy = transportContext.getDiscoveryStrategy();
-            if (discoveryStrategy != null) {
-                discoveryStrategies.add(discoveryStrategy);
-            }
-        }
-
-        // Setup ApplianceManager
+        initialiseStrategies(transportContexts);
         NetworkNodeDatabase database = NetworkNodeDatabaseFactory.create(runtimeConfiguration);
+        // Setup ApplianceManager
+        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory, database, applianceDatabase);
+    }
+
+    /**
+     * Create a CommCentral. You should only ever create one CommCentral!
+     *
+     * @param applianceFactory     The ApplianceFactory used to create {@link Appliance}s.
+     * @param runtimeConfiguration Way to provide {@link RuntimeConfiguration} for CommLib
+     * @param applianceDatabase    Way to provide {@link ApplianceDatabase} for CommLib
+     * @param databaseFetcher      Way to provide {@link NetworkNodeDatabase} for CommLib
+     * @param transportContexts    TransportContexts that will be used by the {@link Appliance}s and
+     *                             provide {@link DiscoveryStrategy}s. You will need at least one!
+     */
+    public CommCentral(@NonNull ApplianceFactory applianceFactory, @NonNull RuntimeConfiguration runtimeConfiguration, @Nullable ApplianceDatabase applianceDatabase, @Nullable DatabaseFetcher databaseFetcher, @NonNull final TransportContext... transportContexts) {
+        initialiseStrategies(transportContexts);
+        NetworkNodeDatabase database = databaseFetcher == null ? new NetworkNodeDatabaseFetcher().getNetworkNodeDatabase(runtimeConfiguration) : databaseFetcher.getNetworkNodeDatabase(runtimeConfiguration);
+        // Setup ApplianceManager
         this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory, database, applianceDatabase);
     }
 
@@ -170,5 +170,33 @@ public final class CommCentral {
         }
 
         throw new TransportUnavailableException("Requested transport context is not available");
+    }
+
+    private void initialiseStrategies(@NonNull final TransportContext... transportContexts) {
+        if (instanceWeakReference.get() == null) {
+            instanceWeakReference = new WeakReference<>(this);
+        } else {
+            throw new UnsupportedOperationException("Only one instance allowed.");
+        }
+        // Setup transport contexts
+        if (transportContexts.length == 0) {
+            throw new IllegalArgumentException("This class needs to be constructed with at least one transport context.");
+        }
+
+        this.transportContexts = transportContexts;
+        // Setup discovery strategies
+        for (TransportContext transportContext : transportContexts) {
+            DiscoveryStrategy discoveryStrategy = transportContext.getDiscoveryStrategy();
+            if (discoveryStrategy != null) {
+                discoveryStrategies.add(discoveryStrategy);
+            }
+        }
+    }
+
+    private class NetworkNodeDatabaseFetcher implements DatabaseFetcher {
+        @Override
+        public NetworkNodeDatabase getNetworkNodeDatabase(@NonNull RuntimeConfiguration runtimeConfiguration) {
+            return NetworkNodeDatabaseFactory.create(runtimeConfiguration);
+        }
     }
 }

@@ -10,6 +10,8 @@ package com.philips.platform.csw.permission;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 
+import java.util.Date;
+
 import static com.philips.platform.pif.chi.datamodel.ConsentStates.active;
 import static com.philips.platform.pif.chi.datamodel.ConsentVersionStates.AppVersionIsLower;
 
@@ -91,6 +93,10 @@ public class ConsentView {
 
     public boolean isLoading() {
         return isLoading;
+    }
+
+    public Date getTimestamp(){
+        return consentDefinitionStatus.getTimestamp();
     }
 
     @Override

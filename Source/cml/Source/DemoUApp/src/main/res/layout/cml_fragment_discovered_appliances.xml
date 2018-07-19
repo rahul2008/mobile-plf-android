@@ -31,11 +31,18 @@
     </FrameLayout>
 
     <Switch
-        android:id="@+id/cml_sw_startstop_discovery"
+        android:id="@+id/cml_sw_startstop_lan_discovery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="@string/cml_perform_discovery" />
+        android:text="@string/cml_perform_lan_discovery" />
+
+    <Switch
+        android:id="@+id/cml_sw_startstop_ble_discovery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/cml_perform_ble_discovery" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/editFilterModelIdWrapper"

@@ -5,11 +5,14 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.utility.AIUtility;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+
+import java.util.Date;
 
 import static com.philips.platform.appinfra.tagging.AppTagging.CLICKSTREAM_CONSENT_TYPE;
 import static junit.framework.Assert.assertEquals;
@@ -18,7 +21,8 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
     @VisibleForTesting
     static final String CLICKSTREAM_CONSENT_VERSION = CLICKSTREAM_CONSENT_TYPE + "_Version";
-    AppInfraInterface appInfraInterface;
+    private static final String CLICKSTREAM_CONSENT_TIMESTAMP = CLICKSTREAM_CONSENT_TYPE + "_Timestamp";
+    private AppInfraInterface appInfraInterface;
 
     ClickStreamConsentHandler(AppInfraInterface appInfraInterface) {
         this.appInfraInterface = appInfraInterface;
@@ -28,13 +32,13 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
         return status ? AppTaggingInterface.PrivacyStatus.OPTIN : AppTaggingInterface.PrivacyStatus.OPTOUT;
     }
 
-    private ConsentStatus getConsentStatus(AppTaggingInterface.PrivacyStatus privacyStatus, int version) {
+    private ConsentStatus getConsentStatus(AppTaggingInterface.PrivacyStatus privacyStatus, int version, Date lastModifiedTimeStamp) {
         ConsentStates status = ConsentStates.inactive;
         if (privacyStatus.equals(AppTaggingInterface.PrivacyStatus.OPTIN))
             status = ConsentStates.active;
         else if (privacyStatus.equals(AppTaggingInterface.PrivacyStatus.OPTOUT))
             status = ConsentStates.rejected;
-        return new ConsentStatus(status, version);
+        return new ConsentStatus(status, version, lastModifiedTimeStamp);
     }
 
     @VisibleForTesting
@@ -47,11 +51,19 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
         assertEquals(consentType, CLICKSTREAM_CONSENT_TYPE);
 
-        String valueForKey = appInfraInterface.getSecureStorage().fetchValueForKey(CLICKSTREAM_CONSENT_VERSION, getSecureStorageError());
-        int version = valueForKey == null? 0: Integer.valueOf(valueForKey);
+        String valueForKey = getValueForKey(CLICKSTREAM_CONSENT_VERSION);
+        int version = valueForKey == null ? 0 : Integer.valueOf(valueForKey);
+
         AppTaggingInterface.PrivacyStatus privacyStatus = appInfraInterface.getTagging().getPrivacyConsent();
 
-        callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version));
+        Date timestamp;
+        String timestampValue = getValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP);
+        if (timestampValue == null) {
+            timestamp = new Date(0);
+        } else {
+            timestamp = AIUtility.convertStringToDate(timestampValue, "yyyy-MM-dd HH:mm:ss.SSS Z");
+        }
+        callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version, timestamp));
     }
 
     @Override
@@ -59,8 +71,21 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
         assertEquals(consentType, CLICKSTREAM_CONSENT_TYPE);
 
         appInfraInterface.getTagging().setPrivacyConsent(getPrivacyStatus(status));
-        appInfraInterface.getSecureStorage().storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(version), getSecureStorageError());
-
+        storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(version));
+        storeValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP, AIUtility.convertDateToString(getUTCTime()));
         callback.onPostConsentSuccess();
+    }
+
+    @VisibleForTesting
+    Date getUTCTime() {
+        return appInfraInterface.getTime().getUTCTime();
+    }
+
+    private String getValueForKey(String key) {
+        return appInfraInterface.getSecureStorage().fetchValueForKey(key, getSecureStorageError());
+    }
+
+    private void storeValueForKey(String key, String value) {
+        appInfraInterface.getSecureStorage().storeValueForKey(key, value, getSecureStorageError());
     }
 }

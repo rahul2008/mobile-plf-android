@@ -9,8 +9,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.lan.communication.ExchangeKeyRequest;
-
+import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,10 +27,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @RunWith(PowerMockRunner.class)
 public class ExchangeKeyRequestTest {
     @Mock
-    NetworkNode networkNodeMock;
+    private NetworkNode networkNodeMock;
 
     @Mock
-    ResponseHandler responseHandlerMock;
+    private ConnectivityMonitor connectivityMonitorMock;
+
+    @Mock
+    private ResponseHandler responseHandlerMock;
 
     @Before
     public void setUp() throws Exception {
@@ -42,7 +44,7 @@ public class ExchangeKeyRequestTest {
 
     @Test
     public void whenLoggingImplicitly_thenDontForwardToLogger() {
-        ExchangeKeyRequest exchangeKeyRequest = new ExchangeKeyRequest(networkNodeMock, responseHandlerMock) {
+        ExchangeKeyRequest exchangeKeyRequest = new ExchangeKeyRequest(networkNodeMock, connectivityMonitorMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("don't care", null, mResponseHandler);
@@ -58,7 +60,7 @@ public class ExchangeKeyRequestTest {
 
     @Test
     public void whenLoggingExplicitly_thenDontForwardToLogger() {
-        ExchangeKeyRequest exchangeKeyRequest = new ExchangeKeyRequest(networkNodeMock, responseHandlerMock) {
+        ExchangeKeyRequest exchangeKeyRequest = new ExchangeKeyRequest(networkNodeMock, connectivityMonitorMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("don't care", null, mResponseHandler);

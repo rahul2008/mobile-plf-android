@@ -11,28 +11,30 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.dicommclient.util.DICommLog;
 
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
-public abstract class ConnectivityMonitor implements Availability<ConnectivityMonitor> {
+public class ConnectivityMonitor implements Availability<ConnectivityMonitor> {
 
-    protected ConnectivityManager connectivityManager;
-
-    private Set<AvailabilityListener<ConnectivityMonitor>> availabilityListeners = new CopyOnWriteArraySet<>();
+    private static final int WIFI_NETWORK_TIMEOUT_SECONDS = 3;
 
     @Nullable
-    public NetworkInfo getActiveNetworkInfo() {
-        return activeNetworkInfo;
-    }
+    private ConnectivityManager connectivityManager;
+    private int[] networkTypes;
+
+    private Set<AvailabilityListener<ConnectivityMonitor>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private NetworkInfo activeNetworkInfo;
     private boolean isConnected;
@@ -59,32 +61,6 @@ public abstract class ConnectivityMonitor implements Availability<ConnectivityMo
     };
 
     /**
-     * Create a connectivity monitor that notifies network changes based on network capabilities.
-     *
-     * @param context             the context
-     * @param networkCapabilities the networkCapabilities (see {@link android.net.NetworkCapabilities})
-     * @return the connectivity monitor
-     */
-    public static ConnectivityMonitor forNetworkCapabilities(final @NonNull Context context, final int... networkCapabilities) {
-        if (networkCapabilities.length == 0) {
-            throw new IllegalArgumentException("At least one capability must be provided.");
-        }
-
-        return new ConnectivityMonitor(context) {
-            @Override
-            protected boolean determineIfConnected() {
-                Network network = getActiveNetwork();
-                for (int capability : networkCapabilities) {
-                    if (connectivityManager.getNetworkCapabilities(network).hasCapability(capability)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        };
-    }
-
-    /**
      * Create a connectivity monitor that notifies network changes based on network types.
      *
      * @param context      the context
@@ -96,59 +72,36 @@ public abstract class ConnectivityMonitor implements Availability<ConnectivityMo
             throw new IllegalArgumentException("At least one network type must be provided.");
         }
 
-        return new ConnectivityMonitor(context) {
-            @Override
-            protected boolean determineIfConnected() {
-                final NetworkInfo activeNetworkInfo = getActiveNetworkInfo();
-                if (activeNetworkInfo == null) {
-                    return false;
-                }
+        return new ConnectivityMonitor(context, networkTypes);
+    }
 
-                for (int networkType : networkTypes) {
-                    if (activeNetworkInfo.getType() == networkType && activeNetworkInfo.isConnected()) {
-                        return true;
-                    }
-                }
-                return false;
+    private ConnectivityMonitor(final @NonNull Context context, final int... networkTypes) {
+        this.connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager != null) {
+            this.networkTypes = networkTypes;
+            this.activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            this.isConnected = determineIfConnected();
+            context.registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+    }
+
+    private boolean determineIfConnected() {
+        if (activeNetworkInfo == null) {
+            return false;
+        }
+
+        for (int networkType : networkTypes) {
+            if (activeNetworkInfo.getType() == networkType && activeNetworkInfo.isConnected()) {
+                return true;
             }
-        };
-    }
-
-    @VisibleForTesting
-    ConnectivityMonitor(final @NonNull Context context) {
-        connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        context.registerReceiver(connectivityReceiver, createFilter());
-    }
-
-    abstract protected boolean determineIfConnected();
-
-    public boolean isConnected() {
-        return isConnected;
+        }
+        return false;
     }
 
     @Override
     public boolean isAvailable() {
         return isConnected;
-    }
-
-    @VisibleForTesting
-    IntentFilter createFilter() {
-        return new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-    }
-
-    @Nullable
-    protected Network getActiveNetwork() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return connectivityManager.getActiveNetwork();
-        }
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-
-        for (Network network : connectivityManager.getAllNetworks()) {
-            if (connectivityManager.getNetworkInfo(network).equals(activeNetworkInfo)) {
-                return network;
-            }
-        }
-        return null;
     }
 
     @Override
@@ -160,6 +113,54 @@ public abstract class ConnectivityMonitor implements Availability<ConnectivityMo
     @Override
     public void removeAvailabilityListener(@NonNull AvailabilityListener<ConnectivityMonitor> listener) {
         availabilityListeners.remove(listener);
+    }
+
+    @Nullable
+    public final Network getNetwork() {
+        if (connectivityManager == null) {
+            return null;
+        }
+        final AtomicReference<Network> result = new AtomicReference<>(null);
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        NetworkRequest.Builder builder = new NetworkRequest.Builder();
+        builder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+
+        ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(Network network) {
+                final NetworkInfo networkInfo = connectivityManager.getNetworkInfo(network);
+
+                if (networkInfo.isConnected()) {
+                    DICommLog.i(DICommLog.WIFI, "Wifi network available.");
+                    result.set(network);
+                }
+                latch.countDown();
+            }
+
+            @Override
+            public void onLost(Network network) {
+                DICommLog.i(DICommLog.WIFI, "Wifi network lost.");
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    connectivityManager.bindProcessToNetwork(null);
+                } else {
+                    ConnectivityManager.setProcessDefaultNetwork(null);
+                }
+                latch.countDown();
+            }
+        };
+        connectivityManager.registerNetworkCallback(builder.build(), networkCallback);
+
+        try {
+            DICommLog.i(DICommLog.WIFI, "Waiting max 3 seconds for Wifi network to become available.");
+            latch.await(WIFI_NETWORK_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            DICommLog.e(DICommLog.WIFI, "Interrupted while waiting for Wifi network to become available.");
+        } finally {
+            connectivityManager.unregisterNetworkCallback(networkCallback);
+        }
+        return result.get();
     }
 
     private void notifyConnectivityListeners() {

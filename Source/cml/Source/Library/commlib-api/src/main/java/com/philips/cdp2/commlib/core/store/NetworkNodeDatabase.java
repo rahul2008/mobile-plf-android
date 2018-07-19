@@ -25,6 +25,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRES
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_KNOWN_NETWORK;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MAC_ADDRESS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
 
@@ -59,6 +60,7 @@ public class NetworkNodeDatabase {
 
                 do {
                     String cppId = cursor.getString(cursor.getColumnIndex(KEY_CPP_ID));
+                    String macAddress = cursor.getString(cursor.getColumnIndex(KEY_MAC_ADDRESS));
                     long bootId = cursor.getLong(cursor.getColumnIndex(KEY_BOOT_ID));
                     String encryptionKey = cursor.getString(cursor.getColumnIndex(KEY_ENCRYPTION_KEY));
                     String name = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_NAME));
@@ -72,10 +74,11 @@ public class NetworkNodeDatabase {
 
                     NetworkNode networkNode = new NetworkNode();
                     networkNode.setCppId(cppId);
+                    networkNode.setMacAddress(macAddress);
                     networkNode.setBootId(bootId);
                     networkNode.setEncryptionKey(encryptionKey);
                     networkNode.setName(name);
-                    networkNode.setHomeSsid(lastKnownNetwork);
+                    networkNode.setNetworkSsid(lastKnownNetwork);
                     networkNode.setPairedState(NetworkNode.getPairedStatusKey(pairedStatus));
                     networkNode.setLastPairedTime(lastPairedTime);
                     networkNode.setIpAddress(ipAddress);
@@ -121,10 +124,11 @@ public class NetworkNodeDatabase {
         try {
             ContentValues values = new ContentValues();
             values.put(KEY_CPP_ID, networkNode.getCppId());
+            values.put(KEY_MAC_ADDRESS, networkNode.getMacAddress());
             values.put(KEY_BOOT_ID, networkNode.getBootId());
             values.put(KEY_ENCRYPTION_KEY, networkNode.getEncryptionKey());
             values.put(KEY_DEVICE_NAME, networkNode.getName());
-            values.put(KEY_LAST_KNOWN_NETWORK, networkNode.getHomeSsid());
+            values.put(KEY_LAST_KNOWN_NETWORK, networkNode.getNetworkSsid());
             values.put(KEY_IS_PAIRED, networkNode.getPairedState().ordinal());
 
             if (networkNode.getPairedState() == NetworkNode.PairingState.PAIRED) {
