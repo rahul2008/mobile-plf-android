@@ -16,7 +16,6 @@ import android.util.Log;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
-import com.philips.cdp2.commlib.BuildConfig;
 import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
@@ -107,7 +106,7 @@ public class Steps {
     @Given("^The environment is logged$")
     public void environmentIsLogged() {
         scenario.write("---- Logging environment ----");
-        scenario.write("CommLib version: " + BuildConfig.LIBRARY_VERSION);
+        scenario.write("CommLib version: " + com.philips.cdp2.commlib.BuildConfig.LIBRARY_VERSION);
         scenario.write("BlueLib version: " + com.philips.pins.shinelib.BuildConfig.LIBRARY_VERSION);
         scenario.write("Phone mfg: " + Build.MANUFACTURER);
         scenario.write("Phone brand: " + Build.BRAND);
