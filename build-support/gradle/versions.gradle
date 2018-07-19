@@ -177,7 +177,6 @@ ext.deps = [
         junit                         : 'junit:junit:4.12',
         junit_runners                 : 'com.nitorcreations:junit-runners:1.3',
         libphonenumber                : 'com.googlecode.libphonenumber:libphonenumber:8.9.9',
-        maven_ant                     : 'org.apache.maven:maven-ant-tasks:2.1.3',
         mockito                       : 'org.mockito:mockito-core:2.8.9',  // MAKE VERY SURE YOU UPGRADE TO A VERSION THAT IS COMPATIBLE WITH LATEST POWERMOCK: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
         mockito_android               : 'org.mockito:mockito-android:2.7.22',
         mockito_old                   : 'org.mockito:mockito-core:1.9.5',  // Don't remove this, needed as dexmaker for android test only compatible with mockito < 2.x
