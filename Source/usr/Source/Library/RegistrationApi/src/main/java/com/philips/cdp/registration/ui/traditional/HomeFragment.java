@@ -323,6 +323,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         RLog.d(TAG, "launchCreateAccountFragment : is called");
         trackPage(AppTaggingPages.CREATE_ACCOUNT);
         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+            trackCreateAccount();
             showCreateAccountFragment();
             return;
         }
