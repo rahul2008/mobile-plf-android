@@ -24,7 +24,6 @@ import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.cdp2.commlib.util.VerboseExecutor;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
-import com.philips.pins.shinelib.utility.Utilities;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -34,7 +33,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp2.commlib.core.util.GsonProvider.EMPTY_JSON_OBJECT_STRING;
-import static com.philips.pins.shinelib.utility.Utilities.*;
 
 /**
  * The type BleCommunicationStrategy.
@@ -197,7 +195,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return central.isBluetoothAdapterEnabled() && isValidMacAddress(networkNode.getMacAddress());
+        return central.isBluetoothAdapterEnabled() && central.isValidMacAddress(networkNode.getMacAddress());
     }
 
     /**
