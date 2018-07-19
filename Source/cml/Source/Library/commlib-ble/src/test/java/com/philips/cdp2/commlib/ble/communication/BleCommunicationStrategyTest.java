@@ -54,8 +54,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Utilities.class})
 public class BleCommunicationStrategyTest {
 
     private static final String PORT_NAME = "thePort";
@@ -111,13 +109,12 @@ public class BleCommunicationStrategyTest {
         ArgumentCaptor<PropertyChangeListener> propertyChangeListenerArgumentCaptor = ArgumentCaptor.forClass(PropertyChangeListener.class);
 
         initMocks(this);
-        mockStatic(Utilities.class);
         disableLogging();
 
         when(networkNodeMock.getMacAddress()).thenReturn(MAC_ADDRESS);
         when(centralMock.createSHNDeviceForAddressAndDefinition(eq(MAC_ADDRESS), any(ReferenceNodeDeviceDefinitionInfo.class))).thenReturn(deviceMock);
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        when(isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
+        when(centralMock.isValidMacAddress(MAC_ADDRESS)).thenReturn(true);
 
         strategy = new BleCommunicationStrategy(centralMock, networkNodeMock, callbackHandlerMock, 2000, executorMock) {
             @NonNull
