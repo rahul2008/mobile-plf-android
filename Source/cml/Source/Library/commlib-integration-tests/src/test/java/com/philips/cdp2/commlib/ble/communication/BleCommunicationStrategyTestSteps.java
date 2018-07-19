@@ -24,8 +24,9 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.SHNDataRaw;
+import com.philips.pins.shinelib.datatypes.SHNStreamData;
 
+import com.philips.pins.shinelib.datatypes.StreamIdentifier;
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -92,7 +93,7 @@ public class BleCommunicationStrategyTestSteps {
     private DeviceCache mDeviceCache;
     private BleCommunicationStrategy mStrategy;
 
-    private Map<String, Set<ResultListener<SHNDataRaw>>> mRawDataListeners;
+    private Map<String, Set<ResultListener<SHNStreamData>>> mRawDataListeners;
     private Deque<QueuedRequest> mRequestQueue;
     private Gson mGson;
     private Map<String, Integer> writtenBytes;
@@ -179,7 +180,7 @@ public class BleCommunicationStrategyTestSteps {
     @Given("^a mock device is found with id '(.*?)'$")
     public void a_mock_device_is_found_with_id(final String deviceId) {
         final SHNDeviceFoundInfo info = mock(SHNDeviceFoundInfo.class);
-        mRawDataListeners.put(deviceId, new CopyOnWriteArraySet<ResultListener<SHNDataRaw>>());
+        mRawDataListeners.put(deviceId, new CopyOnWriteArraySet<ResultListener<SHNStreamData>>());
         writtenBytes.put(deviceId, 0);
 
         resetCapability(deviceId);
@@ -273,7 +274,7 @@ public class BleCommunicationStrategyTestSteps {
         doAnswer(new Answer() {
             @Override
             public Void answer(InvocationOnMock invocation) {
-                mRawDataListeners.get(deviceId).add((ResultListener<SHNDataRaw>) invocation.getArguments()[0]);
+                mRawDataListeners.get(deviceId).add((ResultListener<SHNStreamData>) invocation.getArguments()[0]);
                 return null;
             }
         }).when(capability).addDataListener(any(ResultListener.class));
@@ -301,7 +302,7 @@ public class BleCommunicationStrategyTestSteps {
 
     @When("^the mock device with id '(.*?)' receives data$")
     public void mock_device_receives_data(final String id, final String data) {
-        final Set<ResultListener<SHNDataRaw>> listeners = Collections.unmodifiableSet(mRawDataListeners.get(id));
+        final Set<ResultListener<SHNStreamData>> listeners = Collections.unmodifiableSet(mRawDataListeners.get(id));
 
         if (listeners == null) {
             fail("Mock device '" + id + "' was not yet created");
@@ -309,8 +310,8 @@ public class BleCommunicationStrategyTestSteps {
 
         final byte[] dataBytes = DatatypeConverter.parseHexBinary(data);
 
-        for (ResultListener<SHNDataRaw> listener : listeners) {
-            listener.onActionCompleted(new SHNDataRaw(dataBytes), SHNResult.SHNOk);
+        for (ResultListener<SHNStreamData> listener : listeners) {
+            listener.onActionCompleted(new SHNStreamData(dataBytes, StreamIdentifier.STREAM_1), SHNResult.SHNOk);
         }
     }
 
