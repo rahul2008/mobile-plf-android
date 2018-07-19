@@ -104,6 +104,7 @@ public class BleRequestTest {
     public void setUp() throws Exception {
         executeCounter = 0;
         initMocks(this);
+        DICommLog.disableLogging();
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
         when(mockDevice.getAddress()).thenReturn(MOCK_BLUETOOTH_DEVICE_ADDRESS);

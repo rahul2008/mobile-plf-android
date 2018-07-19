@@ -14,6 +14,7 @@ import com.google.gson.JsonParser;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
@@ -56,7 +57,6 @@ import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.SCAN_W
 import static com.philips.pins.shinelib.SHNCapabilityType.DI_COMM;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
-import static com.philips.pins.shinelib.utility.Utilities.*;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -124,6 +124,7 @@ public class BleCommunicationStrategyTestSteps {
     public void setup() {
         initMocks(this);
 
+        DICommLog.disableLogging();
         mRawDataListeners = new ConcurrentHashMap<>();
         writtenBytes = new ConcurrentHashMap<>();
         mDeviceCache = new DeviceCache();
@@ -223,7 +224,7 @@ public class BleCommunicationStrategyTestSteps {
         when(mockNetworkNode.getMacAddress()).thenReturn(deviceId);
 
         when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        when(isValidMacAddress(deviceId)).thenReturn(true);
+        when(shnCentralMock.isValidMacAddress(deviceId)).thenReturn(true);
         when(shnCentralMock.createSHNDeviceForAddressAndDefinition(eq(mockNetworkNode.getMacAddress()), (ReferenceNodeDeviceDefinitionInfo)any())).thenReturn(mockDevice);
 
         mDeviceCache.add(mockNetworkNode, new DeviceCache.ExpirationCallback() {
@@ -246,7 +247,7 @@ public class BleCommunicationStrategyTestSteps {
         };
 
         when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        when(isValidMacAddress(DEVICE_MAC_ADDRESS)).thenReturn(true);
+        when(shnCentralMock.isValidMacAddress(DEVICE_MAC_ADDRESS)).thenReturn(true);
         when(mockNetworkNode.getMacAddress()).thenReturn(DEVICE_MAC_ADDRESS);
     }
 
@@ -262,7 +263,7 @@ public class BleCommunicationStrategyTestSteps {
         };
 
         when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(false);
-        when(isValidMacAddress(DEVICE_MAC_ADDRESS)).thenReturn(true);
+        when(shnCentralMock.isValidMacAddress(DEVICE_MAC_ADDRESS)).thenReturn(true);
         when(mockNetworkNode.getMacAddress()).thenReturn(DEVICE_MAC_ADDRESS);
     }
 
