@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column37</string>
   <string name="USR_Account_Merge_Merge_btntxt">Koppla</string>
   <string name="USR_Account_Setting_Titletxt">Kontoinställningar</string>
   <string name="USR_Action_ConsumerCare_Txt">Kundtjänst</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Har du glömt lösenordet?</string>
   <string name="USR_Gender_TitleTxt">Kön</string>
   <string name="USR_Generic_Network_Error">Oj, något gick fel. Försök igen senare.</string>
-  <string name="USR_Generic_Network_ErrorMsg">Det går inte att ansluta till servern. Kontrollera din internetanslutning och försök igen. [%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Det går inte att ansluta till servern. Kontrollera din internetanslutning och försök igen. </string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Signaturen upphörde på grund av tidsfel. Kontrollera enhetens tidsinställningar.</string>
   <string name="USR_InValid_PwdErrorMsg">Lösenordet uppfyller inte nedanstående kriterier för lösenord.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Ogiltig e-postadress. Kontrollera.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">För att bekräfta att det verkligen är du, logga in med %s igen.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Avbryt</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Nästan klar!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Jag godkänner appens %s</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Godkänn våra Villkor</string>
   <string name="USR_TermsAndConditionsText">Villkor</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Kontot finns redan.</string>

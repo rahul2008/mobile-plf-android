@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column25</string>
   <string name="USR_Account_Merge_Merge_btntxt">통합</string>
   <string name="USR_Account_Setting_Titletxt">계정 설정</string>
   <string name="USR_Action_ConsumerCare_Txt">고객 지원</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">암호를 잊으셨습니까?</string>
   <string name="USR_Gender_TitleTxt">성별</string>
   <string name="USR_Generic_Network_Error">문제가 발생했습니다. 나중에 다시 시도하십시오.</string>
-  <string name="USR_Generic_Network_ErrorMsg">서버에 연결할 수 없습니다.\n인터넷 연결을 확인하고 다시 시도하십시오.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">서버에 연결할 수 없습니다.\n인터넷 연결을 확인하고 다시 시도하십시오.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">시간 오류로 인해 서명이 만료되었습니다. 장치 시간 설정을 확인하십시오.</string>
   <string name="USR_InValid_PwdErrorMsg">해당 암호는 아래의 암호 지침을 따르지 않았습니다.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">잘못된 이메일 주소입니다. 확인해 주십시오.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">사용자 본인 확인을 위해 %s(으)로 한 번 더 로그인해 주십시오.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">취소</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">거의 다 되었습니다.</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">앱의 %s에 동의</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">이용 약관에 동의하십시오.</string>
   <string name="USR_TermsAndConditionsText">이용 약관</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">계정이 이미 존재합니다.</string>

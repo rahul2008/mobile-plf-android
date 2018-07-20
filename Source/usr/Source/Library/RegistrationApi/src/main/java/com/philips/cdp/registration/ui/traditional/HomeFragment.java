@@ -351,7 +351,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void callSocialProvider(String providerName) {
-        trackMultipleActionsLogin(providerName);
         homePresenter.trackSocialProviderPage();
         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             handleBtnClickableStates(false);
@@ -612,7 +611,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @OnClick(R2.id.usr_startScreen_Login_Button)
     void myPhilipsButtonClick() {
         if (mRegError.isShown()) hideNotificationBarView();// mRegError.hideError();
-        trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
         launchSignInFragment();
     }
 
