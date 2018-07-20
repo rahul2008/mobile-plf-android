@@ -166,7 +166,7 @@ public class Utility {
 
         if (addresses.getRegion() != null) {
             fields.setRegionName(addresses.getRegion().getIsocodeShort());
-            CartModelContainer.getInstance().setRegionIsoCode(addresses.getRegion().getIsocodeShort());
+         //   CartModelContainer.getInstance().setRegionIsoCode(addresses.getRegion().getIsocodeShort());
         }
         return fields;
     }

@@ -177,6 +177,10 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        unregisterEventNotification();
+    }
+
+     private void unregisterEventNotification(){
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
@@ -184,7 +188,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_UPDATE_PRODUCT_COUNT), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER), this);
     }
-
     @Override
     public void onClick(final View v) {
 
@@ -196,6 +199,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 placeOrder(null);
             }
         } else if (v.getId() == R.id.cancel_btn) {
+            unregisterEventNotification();
             doOnCancelOrder();
         }
     }
