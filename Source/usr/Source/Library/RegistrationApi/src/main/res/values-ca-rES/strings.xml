@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">|Column40|</string>
   <string name="USR_Account_Merge_Merge_btntxt">|Knytt sammen|</string>
   <string name="USR_Account_Setting_Titletxt">|Налаштування облікового запису|</string>
   <string name="USR_Action_ConsumerCare_Txt">|Central de Atendimento ao Cliente|</string>
@@ -151,7 +150,7 @@
   <string name="USR_DLS_SwitchToLogin_Txt">|Overschakelen naar aanmelden|</string>
   <string name="USR_DLS_TermsAndConditionsAcceptanceText">|Βεβαίως, αποδέχομαι την ενότητα %s της εφαρμογής|</string>
   <string name="USR_DLS_TermsAndConditionsAcceptanceText_Error">|Akzeptieren Sie die allgemeinen Geschäftsbedingungen|</string>
-  <string name="USR_DLS_TermsAndConditionsText">|%s התנאים והתניות של האפליקציה|</string>
+  <string name="USR_DLS_TermsAndConditionsText">|התנאים והתניות של האפליקציה|</string>
   <string name="USR_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">|Se connecter maintenant|</string>
   <string name="USR_DLS_Traditional_Merge_Description">|Θέλετε να συγχωνεύσετε τους λογαριασμούς σας;|</string>
   <string name="USR_DLS_Traditional_Merge_ForgotPassword">|Esqueceu-se da palavra-passe|</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">|Vous avez oublié votre mot de passe ?|</string>
   <string name="USR_Gender_TitleTxt">|Geschlecht|</string>
   <string name="USR_Generic_Network_Error">|Oups ! Une erreur s\'est produite. Veuillez réessayer ultérieurement.|</string>
-  <string name="USR_Generic_Network_ErrorMsg">|Не удалось подключиться к серверу.\nПроверьте подключение к сети Интернет и повторите попытку.[%d]|</string>
+  <string name="USR_Generic_Network_ErrorMsg">|Не удалось подключиться к серверу.\nПроверьте подключение к сети Интернет и повторите попытку.|</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">|Срок действия подписи истек из-за сбоя времени. Проверьте настройки времени на своем устройстве.|</string>
   <string name="USR_InValid_PwdErrorMsg">|A palavra-passe não segue as directivas relativas às palavras-passe apresentadas abaixo.|</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">|Недопустимый адрес электронной почты. Проверьте введенные данные.|</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">|Annak érdekében, hogy ellenőrizzük az Ön személyazonosságát, kérjük, jelentkezzen be még egyszer a(z) %s használatával.|</string>
   <string name="USR_Social_Merge_Cancel_btntxt">|Скасувати|</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">|Vous avez presque terminé !|</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">|Vyjadrujem súhlas s týmto dokumentom aplikácie: %s|</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">|Akzeptieren Sie die allgemeinen Geschäftsbedingungen|</string>
   <string name="USR_TermsAndConditionsText">|Allg. Nutzungsbedingungen|</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">|Учетная запись уже существует.|</string>

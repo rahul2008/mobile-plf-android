@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column26</string>
   <string name="USR_Account_Merge_Merge_btntxt">Sujungti</string>
   <string name="USR_Account_Setting_Titletxt">Paskyros nustatymai</string>
   <string name="USR_Action_ConsumerCare_Txt">Klientų aptarnavimo centras</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Pamiršote slaptažodį?</string>
   <string name="USR_Gender_TitleTxt">Lytis</string>
   <string name="USR_Generic_Network_Error">Oi! Įvyko klaida. Bandykite dar kartą vėliau</string>
-  <string name="USR_Generic_Network_ErrorMsg">Negalima prisijungti prie serverio.\nPatikrinkite interneto ryšį ir bandykite dar kartą.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Negalima prisijungti prie serverio.\nPatikrinkite interneto ryšį ir bandykite dar kartą.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Pasirašyti skirtas laikas baigėsi dėl laiko klaidos. Patikrinkite savo prietaiso laiko nustatymus.</string>
   <string name="USR_InValid_PwdErrorMsg">Slaptažodis neatitinka žemiau pateiktų slaptažodžio nurodymų.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Neteisingas el. pašto adresas. Patikrinkite.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Norėdami įsitikinti, kad tai tikrai jūs, prašome dar kartą prisijungti naudojant „%s“.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Atšaukti</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Jau beveik baigėte!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Sutinku su programos %s</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Sutikite su sąlygomis ir taisyklėmis</string>
   <string name="USR_TermsAndConditionsText">Nuostatos ir sąlygos</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Tokia paskyra jau yra.</string>

@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column38</string>
   <string name="USR_Account_Merge_Merge_btntxt">รวม</string>
   <string name="USR_Account_Setting_Titletxt">การตั้งค่าบัญชี</string>
   <string name="USR_Action_ConsumerCare_Txt">ฝ่ายดูแลลูกค้า</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">ลืมรหัสผ่านใช่หรือไม่</string>
   <string name="USR_Gender_TitleTxt">เพศ</string>
   <string name="USR_Generic_Network_Error">ขออภัย! เกิดข้อผิดพลาดบางประการ โปรดลองอีกครั้งในภายหลัง</string>
-  <string name="USR_Generic_Network_ErrorMsg">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ \nโปรดตรวจสอบการเชื่อมต่ออินเตอร์เน็ตของคุณ และลองอีกครั้ง [%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ \nโปรดตรวจสอบการเชื่อมต่ออินเตอร์เน็ตของคุณ และลองอีกครั้ง </string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">ลายเซ็นหมดอายุเนื่องจากเวลาที่ผิดพลาด โปรดตรวจสอบเวลาการติดตั้งอุปกรณ์ของคุณ</string>
   <string name="USR_InValid_PwdErrorMsg">รหัสผ่านไม่ได้เป็นไปตามแนวทางรหัสผ่านด้านล่าง</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">อีเมล์แอดเดรสไม่ถูกต้อง โปรดตรวจสอบ</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">เพื่อให้แน่ใจว่านี่คือคุณตัวจริง โปรดล็อกอินด้วย %s อีกครั้ง</string>
   <string name="USR_Social_Merge_Cancel_btntxt">ยกเลิก</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">เกือบจะเสร็จแล้ว!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">ฉันยอมรับ %s ของแอปพลิเคชัน</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">โปรดยอมรับข้อกำหนดและเงื่อนไข</string>
   <string name="USR_TermsAndConditionsText">ข้อกำหนดและเงื่อนไข</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">มีการใช้บัญชีนี้อยู่แล้ว</string>
@@ -234,7 +232,7 @@
   <string name="USR_URX_SMS_Already_Verified">ได้รับการยืนยันบัญชีเรียบร้อย \nล็อกอินเพื่อดำเนินการต่อ</string>
   <string name="USR_URX_SMS_InternalServerError">ไม่สามารถส่ง SMS ได้ \n%s</string>
   <string name="USR_URX_SMS_Invalid_PhoneNumber">พวกเราไม่สามารถส่ง SMS ไปยังหมายเลขโทรศัพท์นี้ได้</string>
-  <string name="USR_URX_SMS_Limit_Reached">ถึงขีดจำกัด SMS สำหรับหมายเลขโทรศัพท์นี้แล้ว \nโปรดลองอีกครั้งในภายหลัง</string>
+  <string name="USR_URX_SMS_Limit_Reached">ถึงขีดจำกัด SMS สำหรับหมายเลขโทรศัพท์นี้แล้ว</string>
   <string name="USR_URX_SMS_NoInformation_Available">เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ %s</string>
   <string name="USR_URX_SMS_Not_Sent">ไม่สามารถส่ง SMS ได้ %s</string>
   <string name="USR_URX_SMS_UnSupported_Country_ForSMS">%s\nไม่รองรับรหัสประเทศ</string>

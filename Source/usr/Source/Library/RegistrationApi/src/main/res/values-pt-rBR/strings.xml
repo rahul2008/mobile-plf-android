@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column32</string>
   <string name="USR_Account_Merge_Merge_btntxt">Mesclar</string>
   <string name="USR_Account_Setting_Titletxt">Configurações da conta</string>
   <string name="USR_Action_ConsumerCare_Txt">Central de Atendimento ao Cliente</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Esqueceu a senha?</string>
   <string name="USR_Gender_TitleTxt">Sexo</string>
   <string name="USR_Generic_Network_Error">Ocorreu um problema. Tente novamente mais tarde</string>
-  <string name="USR_Generic_Network_ErrorMsg">Não é possível se conectar ao servidor. Verifique sua conexão com a Internet e tente novamente.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Não é possível se conectar ao servidor. Verifique sua conexão com a Internet e tente novamente.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">A assinatura expirou por erro de tempo. Verifique as configurações de tempo do seu dispositivo.</string>
   <string name="USR_InValid_PwdErrorMsg">A senha não está de acordo com as diretrizes de senha abaixo.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">E-mail inválido. Verifique.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Para ter certeza de que realmente é você, faça o login com %s mais uma vez.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Cancelar</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Está quase acabando!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Aceito os termos e condições</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">do aplicativo</string>
   <string name="USR_TermsAndConditionsText">Termos e condições</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Conta já existe.</string>

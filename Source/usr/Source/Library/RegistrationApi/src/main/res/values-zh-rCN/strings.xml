@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column42</string>
   <string name="USR_Account_Merge_Merge_btntxt">合并</string>
   <string name="USR_Account_Setting_Titletxt">帐户设置</string>
   <string name="USR_Action_ConsumerCare_Txt">客户服务</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">忘记了密码？</string>
   <string name="USR_Gender_TitleTxt">性别</string>
   <string name="USR_Generic_Network_Error">啊呀！出错了。请稍后重试</string>
-  <string name="USR_Generic_Network_ErrorMsg">无法连接到服务器。\n请检查您的网络连接，然后重试。[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">无法连接到服务器。\n请检查您的网络连接，然后重试。</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">签名由于时间错误而过期。请检查您的设备的时间设置。</string>
   <string name="USR_InValid_PwdErrorMsg">此密码不符合以下密码指南。</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">电子邮件地址无效。请检查。</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">为确保真的是您，请再次使用 %s 登录。</string>
   <string name="USR_Social_Merge_Cancel_btntxt">取消</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">差不多完成了！</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">我接受此应用程序的 %s</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">请接受条款和条件</string>
   <string name="USR_TermsAndConditionsText">条款与条件</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">帐户已存在。</string>
