@@ -76,6 +76,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_select_retailer, true);
+        setCartIconVisibility(false);
         if (mStoreEntity != null) {
             BuyFromRetailersAdapter mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this);
             mRecyclerView.setAdapter(mAdapter);
@@ -88,7 +89,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.IAP_BUY_URL, uuidWithSupplierLink(buyURL));
         bundle.putString(IAPConstant.IAP_STORE_NAME, name);
-        addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), null);
+        addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), null,true);
     }
 
     private String uuidWithSupplierLink(String buyURL) {
