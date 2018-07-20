@@ -130,9 +130,7 @@ dependencies {
 
     implementation deps.javax_annotation
 
-    implementation deps.apache
-    implementation deps.okhttp
-    implementation deps.okhttp_apache
+
     implementation deps.okhttp3
     implementation deps.okhttp_apache3
     implementation deps.squareup_okio
@@ -147,7 +145,6 @@ dependencies {
     implementation deps.multidex
     implementation deps.openid_appauth
     implementation deps.rxjava2
-    implementation deps.squareup_picasso
 
     testImplementation deps.junit
     testImplementation deps.mockito
