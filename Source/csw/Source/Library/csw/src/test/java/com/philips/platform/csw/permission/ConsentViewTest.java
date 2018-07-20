@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
+import java.util.Date;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -16,13 +17,14 @@ import static org.junit.Assert.assertTrue;
 public class ConsentViewTest {
 
     private String TYPE_MOMENT = "moment";
+    private Date NOW = new Date();
 
     @Before
     public void setUp() throws Exception {
         consentDefinition = new ConsentDefinition(0, 0, Collections.singletonList(TYPE_MOMENT), 1);
-        rejectedConsentDefinitionStatus = new ConsentDefinitionStatus(ConsentStates.rejected, ConsentVersionStates.InSync, consentDefinition);
-        activeConsentDefinitionStatus = new ConsentDefinitionStatus(ConsentStates.active, ConsentVersionStates.InSync, consentDefinition);
-        oldVersionConsentDefinitionStatus = new ConsentDefinitionStatus(ConsentStates.active, ConsentVersionStates.AppVersionIsLower, consentDefinition);
+        rejectedConsentDefinitionStatus = new ConsentDefinitionStatus(ConsentStates.rejected, ConsentVersionStates.InSync, consentDefinition, NOW);
+        activeConsentDefinitionStatus = new ConsentDefinitionStatus(ConsentStates.active, ConsentVersionStates.InSync, consentDefinition, NOW);
+        oldVersionConsentDefinitionStatus = new ConsentDefinitionStatus(ConsentStates.active, ConsentVersionStates.AppVersionIsLower, consentDefinition, NOW);
         consentView = new ConsentView(consentDefinition);
     }
 
@@ -76,7 +78,7 @@ public class ConsentViewTest {
     }
 
     private void whenConsentIsVersion(ConsentVersionStates version) {
-        consentView.storeConsentDefnitionStatus(new ConsentDefinitionStatus(ConsentStates.active, version, consentDefinition));
+        consentView.storeConsentDefnitionStatus(new ConsentDefinitionStatus(ConsentStates.active, version, consentDefinition, NOW));
     }
 
     private void whenConsentIsAccepted() {

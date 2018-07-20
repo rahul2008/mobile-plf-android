@@ -9,9 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.devicecache.CacheData;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.ble.BleCacheData;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -30,7 +30,6 @@ import java.util.concurrent.TimeUnit;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed;
 
 public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
@@ -41,7 +40,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
      * <p>
      * See also: <a href="https://www.beaconzone.co.uk/ibeaconadvertisinginterval">iBeacon Advertising Interval</a>
      */
-    public static final long SCAN_WINDOW_MILLIS = 60000L;
+    public static final long SCAN_WINDOW_MILLIS = 60_000L;
 
     /**
      * This is a worldwide constant, see: https://www.bluetooth.com/specifications/assigned-numbers/company-identifiers
@@ -49,7 +48,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     public static final int MANUFACTURER_PREAMBLE = 477; // 0x01DD
 
     private final Context context;
-    private final BleDeviceCache bleDeviceCache;
+    private final DeviceCache deviceCache;
     private final SHNDeviceScanner deviceScanner;
     private ScheduledExecutorService executor;
     private ScheduledFuture discoveryStoppedFuture;
@@ -60,23 +59,18 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private ExpirationCallback expirationCallback = new ExpirationCallback() {
         @Override
         public void onCacheExpired(NetworkNode networkNode) {
-            final BleCacheData cacheData = bleDeviceCache.getCacheData(networkNode.getCppId());
+            final CacheData cacheData = deviceCache.getCacheData(networkNode.getCppId());
             if (cacheData == null) {
                 return;
             }
 
-            if (cacheData.getDevice().getState() == Disconnected) {
-                cacheData.setAvailable(false);
-                notifyNetworkNodeLost(networkNode);
-            } else {
-                cacheData.resetTimer();
-            }
+            notifyNetworkNodeLost(networkNode);
         }
     };
 
-    public BleDiscoveryStrategy(@NonNull Context context, @NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner) {
+    public BleDiscoveryStrategy(@NonNull Context context, @NonNull DeviceCache deviceCache, @NonNull SHNDeviceScanner deviceScanner) {
         this.context = context;
-        this.bleDeviceCache = bleDeviceCache;
+        this.deviceCache = deviceCache;
         this.deviceScanner = deviceScanner;
         this.modelIds = new HashSet<>();
         this.executor = createExecutor();
@@ -111,7 +105,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
                     notifyDiscoveryFailedToStart();
                 }
             }
-        }, 0L, 30, TimeUnit.SECONDS);
+        }, 0L, 30L, TimeUnit.SECONDS);
     }
 
     @VisibleForTesting
@@ -130,9 +124,9 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
     @Override
     public synchronized void clearDiscoveredNetworkNodes() {
-        Collection<BleCacheData> items = bleDeviceCache.clear();
+        Collection<CacheData> items = deviceCache.clear();
 
-        for (BleCacheData item : items) {
+        for (CacheData item : items) {
             notifyNetworkNodeLost(item.getNetworkNode());
         }
     }
@@ -143,6 +137,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
         networkNode.setBootId(-1L);
         networkNode.setCppId(device.getAddress()); // Cloud identifier; hijacked MAC address for now
+        networkNode.setMacAddress(device.getAddress());
         networkNode.setName(device.getName()); // Friendly name, e.g. 'Vacuum cleaner'
         networkNode.setDeviceType(device.getDeviceTypeName()); // Model name, e.g. 'Polaris'
 
@@ -166,12 +161,11 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             return;
         }
 
-        if (bleDeviceCache.contains(networkNode.getCppId())) {
-            BleCacheData cacheData = bleDeviceCache.getCacheData(networkNode.getCppId());
+        if (deviceCache.contains(networkNode.getCppId())) {
+            CacheData cacheData = deviceCache.getCacheData(networkNode.getCppId());
             cacheData.resetTimer();
-            cacheData.setAvailable(true);
         } else {
-            bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice(), networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
+            deviceCache.add(networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
         }
         notifyNetworkNodeDiscovered(networkNode);
     }

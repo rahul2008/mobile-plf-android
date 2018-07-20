@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Dodaj nową metodę płatności</string>
   <string name="iap_add_to_cart">Dodaj do koszyka</string>
   <string name="iap_address">Adres</string>
-  <string name="iap_address_error">Wprowadź prawidłowy adres</string>
+  <string name="iap_address_error">[pl]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">1. wiersz adresu</string>
   <string name="iap_address_line_one_hint">Wprowadź 1. wiersz adresu</string>
   <string name="iap_address_line_two">2. wiersz adresu</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[pl]Select payment method</string>
   <string name="iap_checkout_steps">[pl]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[pl]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[pl]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Odbierz kupon</string>
   <string name="iap_confirm">[pl]Confirm</string>
   <string name="iap_confirmation">Potwierdzenie</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Skontaktuj się z obsługą klienta</string>
   <string name="iap_contact_consumer_care_for_support">Skontaktuj się z obsługą klienta firmy Philips, aby uzyskać dalszą pomoc.</string>
   <string name="iap_contact_customer_care">[pl]Contact customer care</string>
+  <string name="iap_contact_details">[pl]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[pl]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Kontynuuj</string>
   <string name="iap_continue_shopping">Kontynuuj zakupy</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[pl]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[pl]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[pl]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[pl]Daily Collection Miniblender</string>
   <string name="iap_delete">Usuń</string>
   <string name="iap_delete_address">Usuwanie adresu dostawy</string>
@@ -186,6 +189,7 @@ FedEx (opłata za paczkę)</string>
   <string name="iap_payment_pending_not_confirmed">Jeżeli płatność nie zostanie potwierdzona w ciągu ## godz., otrzymasz wiadomość e-mail z instrukcjami dotyczącymi dalszego postępowania.</string>
   <string name="iap_payment_session_expired">Sesja płatności wygasła</string>
   <string name="iap_pending">[pl]Pending</string>
+  <string name="iap_personal_details">[pl]Personal details</string>
   <string name="iap_phone">Telefon</string>
   <string name="iap_phone_error">Wprowadź prawidłowy numer telefonu</string>
   <string name="iap_phone_hint">Wprowadź numer telefonu</string>

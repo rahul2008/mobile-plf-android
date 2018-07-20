@@ -55,7 +55,7 @@ public class DataMigration {
         HsdpUserRecord hsdpUserRecord = null;
         DIUserProfile diUserProfile = null;
         if (object instanceof HsdpUserRecord) {
-            RLog.d(TAG, "readDataAndDeleteFile : Instance of HsdpUserRecord");
+            RLog.d(TAG, "readDataAndDeleteFile : Instance of HsdpUserRecordV2");
             hsdpUserRecord = (HsdpUserRecord) object;
             plainText = SecureStorage.objectToString(hsdpUserRecord);
         }

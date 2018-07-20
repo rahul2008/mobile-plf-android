@@ -27,7 +27,18 @@ public interface SecureStorageInterface extends Serializable {
     boolean storeValueForKey(String userKey, String valueToBeEncrypted, SecureStorageError secureStorageError);
 
     /**
-     * Fetch value for key .
+     * Store value for key. Use this API when you would like to save byte[] in secure storage.
+     *
+     * @param userKey            the user key
+     * @param valueToBeEncrypted the value to be encrypted
+     * @param secureStorageError the secure storage error
+     * @return denote store operation success or failure
+     * @since 1803.0
+     */
+    boolean storeValueForKey(String userKey, byte[] valueToBeEncrypted, SecureStorageError secureStorageError);
+
+    /**
+     * Fetch value for key. Returns
      *
      * @param userKey            the user key
      * @param secureStorageError the secure storage error code if any
@@ -35,6 +46,16 @@ public interface SecureStorageInterface extends Serializable {
      * @since 1.0.0
      */
     String fetchValueForKey(String userKey, SecureStorageError secureStorageError);
+
+    /**
+     * Get value for key. This method return
+     *
+     * @param userKey            the user key
+     * @param secureStorageError the secure storage error code if any
+     * @return the string, decrypted value
+     * @since 1803.0
+     */
+    byte[] fetchByteArrayForKey(String userKey, SecureStorageError secureStorageError);
 
     /**
      * Remove value for given key .
@@ -65,7 +86,7 @@ public interface SecureStorageInterface extends Serializable {
      * If you want to save a data for a key its better to check if key is already present otherwise it will override already present data for that key.
      * @param key
      * @return
-     * @since 2018.2.0
+     * @since 1802.0
      */
     boolean doesStorageKeyExist(String key);
 
@@ -73,7 +94,7 @@ public interface SecureStorageInterface extends Serializable {
      * After creating encryption key using createKey you can check whether key is already present for passed key using this method.
      * @param key user key
      * @return boolean
-     * @since 2018.2.0
+     * @since 1802.0
      */
     boolean doesEncryptionKeyExist(String key);
 
@@ -113,7 +134,7 @@ public interface SecureStorageInterface extends Serializable {
      *
      * @param dataToBeEncrypted Plain Byte array
      * @return Encrypted Byte array
-     * @since 2018.1.0
+     * @since 1801.0
      */
     void encryptBulkData(byte[] dataToBeEncrypted,DataEncryptionListener dataEncryptionListener);
 
@@ -132,7 +153,7 @@ public interface SecureStorageInterface extends Serializable {
      *
      * @param dataToBeDecrypted Encrypted Byte array
      * @return Decrypted/Plain Byte array
-     * @since 2018.1.0
+     * @since 1801.0
      */
     void decryptBulkData(byte[] dataToBeDecrypted,DataDecryptionListener dataDecryptionListener);
 
@@ -140,14 +161,14 @@ public interface SecureStorageInterface extends Serializable {
      *  Validates whether our release apk is tampered or not
      * @return true if code is tampered
      * @default returns false on debug build
-     * @since 2018.2.0
+     * @since 1802.0
      */
     boolean isCodeTampered();
 
     /**
      *  Validates whether application is launched on real time device or on emulator
      * @return true if application is launched on emulator
-     * @since 2018.2.0
+     * @since 1802.0
      */
     boolean isEmulator();
 

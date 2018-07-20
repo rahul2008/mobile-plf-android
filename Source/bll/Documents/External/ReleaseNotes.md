@@ -1,25 +1,6 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
-Version {next}
-------------
-
-### Functionality Delivered
-* `isBleFeatureAvailable` and `startEnableBluetoothActivity` methods are added to SHNCentral. 
-
-### Backwards Compatibility
-
-### Features not covered
-
-### Breaking Changes
-
-### Defects solved
-
-### Residual anomalies
-
-### Risks and mitigations
-
-
 Version 1802
 ------------
 
@@ -31,16 +12,20 @@ Added an implementation `AppInfraTagger` based on `AppTaggingInterface`, which u
 * \#132978 Deprecated constructor `SHNCentral(Handler, Context)` has been removed.
 
 ### Features not covered
+N/A
 
 ### Breaking Changes
+N/A
 
 ### Defects solved
 * \#121732 SHNDevice listeners now get connection failure notifications and state updates when Bluetooth is turned off. 
 * \#75769  SHNBatteryService gives updates for all battery ranges including 100
 
 ### Residual anomalies
+N/A
 
 ### Risks and mitigations
+N/A
 
 
 Version 1801

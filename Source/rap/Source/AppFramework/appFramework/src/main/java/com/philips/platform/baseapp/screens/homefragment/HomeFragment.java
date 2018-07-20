@@ -115,8 +115,8 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
         boolean isUrLoginSuccess = getPreferences().getBoolean(Constants.UR_LOGIN_COMPLETED, false);
         if(isUrLoginSuccess) {
             setUrCompleted();
-            createDialog();
         }
+        createDialog();
     }
 
     @Override
@@ -134,19 +134,26 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
             boolean isScreenLockDisabled = !isScreenLockEnabled();
             boolean isDeviceRooted = isDeviceRooted();
 
-            if(getDoNotShowValue(JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED)) {
+            if (getDoNotShowValue(JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED)) {
                 return false;
             }
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.af_custom_dialog_security);
             dialog.setTitle(getActivity().getString(R.string.RA_SECURITY_SECURE_YOUR_DATA));
-            TextView dialogDescTextView = (TextView)dialog.findViewById(R.id.textDesc);
-            final CheckBox checkBox = (CheckBox) dialog.findViewById(R.id.checkBox);
-            Button btnActivateScreen = (Button) dialog.findViewById(R.id.btnActivateScreen);
-            Button btnNoThanks = (Button) dialog.findViewById(R.id.btnNoThanks);
+            TextView dialogDescTextView = dialog.findViewById(R.id.textDesc);
+            final CheckBox checkBox = dialog.findViewById(R.id.checkBox);
+            Button btnActivateScreen = dialog.findViewById(R.id.btnActivateScreen);
+            Button btnNoThanks = dialog.findViewById(R.id.btnNoThanks);
             checkBox.setText(getActivity().getString(R.string.RA_SECURITY_DONT_SHOW_MESSAGE));
 
-            if(isScreenLockDisabled && isDeviceRooted &&
+            if (isCodeTampered()) {
+                dialogDescTextView.setText(getActivity().getString(R.string.RA_Code_Tampered));
+                activateScreenLockListener(btnActivateScreen, dialog);
+                btnActivateScreen.setVisibility(View.VISIBLE);
+                checkBoxListener(checkBox, JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED);
+                noThanksClickListener(btnNoThanks, dialog);
+                dialog.show();
+            } else if (isScreenLockDisabled && isDeviceRooted &&
                     !getDoNotShowValue(JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED)) {
                 dialogDescTextView.setText(getActivity().getString(R.string.RA_SECURITY_PASSCODE_AND_JAILBREAK_VIOLATION));
                 activateScreenLockListener(btnActivateScreen, dialog);
@@ -154,15 +161,13 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
                 checkBoxListener(checkBox, JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED);
                 noThanksClickListener(btnNoThanks, dialog);
                 dialog.show();
-            }
-            else if(isDeviceRooted && !getDoNotShowValue(JAIL_BROKEN_ENABLED)) {
+            } else if (isDeviceRooted && !getDoNotShowValue(JAIL_BROKEN_ENABLED)) {
                 dialogDescTextView.setText(getActivity().getString(R.string.RA_SECURITY_JAILBREAK_VIOLATION));
                 btnActivateScreen.setVisibility(View.GONE);
                 checkBoxListener(checkBox, JAIL_BROKEN_ENABLED);
                 noThanksClickListener(btnNoThanks, dialog);
                 dialog.show();
-            }
-            else if(isScreenLockDisabled && !getDoNotShowValue(SCREEN_LOCK_DISABLED)) {
+            } else if (isScreenLockDisabled && !getDoNotShowValue(SCREEN_LOCK_DISABLED)) {
                 dialogDescTextView.setText(getActivity().getString(R.string.RA_SECURITY_SCREEN_LOCK));
                 btnActivateScreen.setVisibility(View.VISIBLE);
                 activateScreenLockListener(btnActivateScreen, dialog);
@@ -224,7 +229,7 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
     protected void setDoNotShowValue(String key, Boolean value) {
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.putBoolean(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     protected boolean getDoNotShowValue(String key) {
@@ -239,6 +244,10 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
         // Making is false because only after login only this dialog has to be shown.
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.putBoolean(Constants.UR_LOGIN_COMPLETED, false);
-        editor.commit();
+        editor.apply();
+    }
+
+    public boolean isCodeTampered() {
+        return getApplicationContext().getAppInfra().getSecureStorage().isCodeTampered();
     }
 }
