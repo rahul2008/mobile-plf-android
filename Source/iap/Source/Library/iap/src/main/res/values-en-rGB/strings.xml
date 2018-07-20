@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Add a new payment method</string>
   <string name="iap_add_to_cart">Add to cart</string>
   <string name="iap_address">Address</string>
-  <string name="iap_address_error">Please enter a valid address</string>
+  <string name="iap_address_error">Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Address line 1</string>
   <string name="iap_address_line_one_hint">Enter address line 1</string>
   <string name="iap_address_line_two">Address line 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">Select payment method</string>
   <string name="iap_checkout_steps">Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Claim voucher</string>
   <string name="iap_confirm">Confirm</string>
   <string name="iap_confirmation">Confirmation</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Contact Consumer Care</string>
   <string name="iap_contact_consumer_care_for_support">Please contact Philips Consumer care for further support.</string>
   <string name="iap_contact_customer_care">Contact customer care</string>
+  <string name="iap_contact_details">Contact details</string>
   <string name="iap_contact_philips_consumer_care">Please contact Philips Consumer Care</string>
   <string name="iap_continue">Continue</string>
   <string name="iap_continue_shopping">Continue shopping</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">Daily Collection Miniblender</string>
   <string name="iap_delete">Delete</string>
   <string name="iap_delete_address">Deleting Shipping Address</string>
@@ -186,6 +189,7 @@ FedEx(parcel postage)</string>
   <string name="iap_payment_pending_not_confirmed">If the payment is not confirmed within  ##hours we will inform you by e-mail what to do next.</string>
   <string name="iap_payment_session_expired">Your payment session is expired</string>
   <string name="iap_pending">Pending</string>
+  <string name="iap_personal_details">Personal details</string>
   <string name="iap_phone">Phone</string>
   <string name="iap_phone_error">Please enter a valid phone number</string>
   <string name="iap_phone_hint">Enter phone number</string>

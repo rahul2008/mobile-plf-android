@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Pridėti naują mokėjimo būdą</string>
   <string name="iap_add_to_cart">Įdėti į krepšelį</string>
   <string name="iap_address">Adresas</string>
-  <string name="iap_address_error">Įveskite tikrą adresą</string>
+  <string name="iap_address_error">[lt]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">1 adreso eilutė</string>
   <string name="iap_address_line_one_hint">Įveskite 1 adreso eilutę</string>
   <string name="iap_address_line_two">2 adreso eilutė</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[lt]Select payment method</string>
   <string name="iap_checkout_steps">[lt]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[lt]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[lt]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Prašyti kupono</string>
   <string name="iap_confirm">[lt]Confirm</string>
   <string name="iap_confirmation">Patvirtinimas</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Susisiekti su klientų priežiūros tarnyba</string>
   <string name="iap_contact_consumer_care_for_support">Susisiekite su „Philips“ klientų priežiūros tarnyba dėl tolesnės pagalbos.</string>
   <string name="iap_contact_customer_care">[lt]Contact customer care</string>
+  <string name="iap_contact_details">[lt]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[lt]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Tęsti</string>
   <string name="iap_continue_shopping">Tęsti apsipirkimą</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[lt]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[lt]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV / CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[lt]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[lt]Daily Collection Miniblender</string>
   <string name="iap_delete">Trinti</string>
   <string name="iap_delete_address">Ištrinamas pristatymo adresas</string>
@@ -186,6 +189,7 @@ Sekimo numeris ##</string>
   <string name="iap_payment_pending_not_confirmed">Jei apmokėjimo nepatvirtinsime per  ##valandas, informuosime el. paštu dėl tolesnių veiksmų.</string>
   <string name="iap_payment_session_expired">Jūsų apmokėjimui skirtas laikas baigėsi</string>
   <string name="iap_pending">[lt]Pending</string>
+  <string name="iap_personal_details">[lt]Personal details</string>
   <string name="iap_phone">Telefonas</string>
   <string name="iap_phone_error">Įveskite galiojantį telefono numerį</string>
   <string name="iap_phone_hint">Įveskite telefono numerį</string>

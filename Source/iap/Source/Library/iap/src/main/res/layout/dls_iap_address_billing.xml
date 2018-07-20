@@ -21,7 +21,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/border24_margin"
-        android:text="Personal details" />
+        android:text="@string/iap_personal_details"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+        style="@style/iapCentralesansMediumFont"
+        android:textStyle="bold"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -123,7 +127,11 @@
         <com.philips.platform.uid.view.widget.Label
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Contact details" />
+            android:text="@string/iap_contact_details"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            style="@style/iapCentralesansMediumFont"
+            android:textStyle="bold"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -191,7 +199,10 @@
         <com.philips.platform.uid.view.widget.Label
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Address" />
+            android:text="@string/iap_address"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            style="@style/iapCentralesansMediumFont"
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -6,6 +6,8 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.session.RequestListener;
+
 public abstract class AbstractStore implements StoreListener {
 
     protected boolean mStoreInitialized;
@@ -43,6 +45,7 @@ public abstract class AbstractStore implements StoreListener {
         return null;
     }
 
+
     @Override
     public String getOauthUrl() {
         return null;
@@ -53,10 +56,6 @@ public abstract class AbstractStore implements StoreListener {
         return null;
     }
 
-    @Override
-    public String getJanRainEmail() {
-        return null;
-    }
 
     @Override
     public IAPUser getUser() {
@@ -158,6 +157,26 @@ public abstract class AbstractStore implements StoreListener {
     @Override
     public boolean isStoreInitialized() {
         return mStoreInitialized;
+    }
+
+    @Override
+    public String getJanRainEmail() {
+        return null;
+    }
+
+    @Override
+    public String getDisplayName() {
+        return null;
+    }
+
+    @Override
+    public String getGivenName() {
+        return null;
+    }
+
+    @Override
+    public String getFamilyName() {
+        return null;
     }
 
     @Override

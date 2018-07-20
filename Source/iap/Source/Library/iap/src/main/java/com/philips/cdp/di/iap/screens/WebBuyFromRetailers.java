@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
        super.onResume();
         String title = getArguments().getString(IAPConstant.IAP_STORE_NAME);
         setTitleAndBackButtonVisibility(title, true);
+        setCartIconVisibility(false);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_WEB_PAGE);
         mWebView.onResume();
     }
@@ -65,6 +67,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 hideProgressBar();
+
             }
 
             @Override
@@ -92,6 +95,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
         });
 
         mWebView.loadUrl(mUrl);
+
     }
 
 
