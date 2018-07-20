@@ -34,6 +34,6 @@ public class SHNStreamDataTest {
     public void itShouldReturnRawDataTypeWhenRequestingDataType() {
         SHNStreamData subject = new SHNStreamData(null, StreamIdentifier.STREAM_0);
 
-        assertEquals(SHNDataType.Raw, subject.getSHNDataType());
+        assertEquals(SHNDataType.StreamData, subject.getSHNDataType());
     }
 }

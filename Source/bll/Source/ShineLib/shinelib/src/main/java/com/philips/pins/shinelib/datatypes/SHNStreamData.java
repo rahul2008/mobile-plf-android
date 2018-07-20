@@ -12,4 +12,9 @@ public class SHNStreamData extends SHNDataRaw {
     public StreamIdentifier getStreamIdentifier() {
         return streamIdentifier;
     }
+
+    @Override
+    public SHNDataType getSHNDataType() {
+        return SHNDataType.StreamData;
+    }
 }
