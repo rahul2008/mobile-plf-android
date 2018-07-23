@@ -109,7 +109,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             } else {
                 hideProgressBar();
                 addFragment(
-                        DLSAddressFragment.createInstance(new Bundle(), AnimationType.NONE), DLSAddressFragment.TAG);
+                        DLSAddressFragment.createInstance(new Bundle(), AnimationType.NONE), DLSAddressFragment.TAG,true);
             }
         }
     }
@@ -171,7 +171,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         } else {
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, mPaymentMethod);
-            addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
+            addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG,true);
         }
     }
 

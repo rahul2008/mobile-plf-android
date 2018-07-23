@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Jaunas maksājuma metodes pievienošana</string>
   <string name="iap_add_to_cart">Pievienot grozam</string>
   <string name="iap_address">Adrese</string>
-  <string name="iap_address_error">Lūdzu, ievadiet derīgu adresi</string>
+  <string name="iap_address_error">[lv]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Adreses 1. rinda</string>
   <string name="iap_address_line_one_hint">Ievadiet adreses 1. rindu</string>
   <string name="iap_address_line_two">Adreses 2. rinda</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[lv]Select payment method</string>
   <string name="iap_checkout_steps">[lv]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[lv]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[lv]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Pieteikt kuponu</string>
   <string name="iap_confirm">[lv]Confirm</string>
   <string name="iap_confirmation">Apstiprinājums</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Sazinieties ar klientu servisu</string>
   <string name="iap_contact_consumer_care_for_support">Turpmāka atbalsta saņemšanai, lūdzu, sazinieties ar Philips klientu servisu.</string>
   <string name="iap_contact_customer_care">[lv]Contact customer care</string>
+  <string name="iap_contact_details">[lv]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[lv]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Turpināt</string>
   <string name="iap_continue_shopping">Turpināt iepirkšanos</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[lv]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[lv]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[lv]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[lv]Daily Collection Miniblender</string>
   <string name="iap_delete">Dzēst</string>
   <string name="iap_delete_address">Piegādes adreses dzēšana</string>
@@ -186,6 +189,7 @@ FedEx (paku piegāde)</string>
   <string name="iap_payment_pending_not_confirmed">Ja maksājums netiks apstiprināts ##stundu laikā, mēs nosūtīsim jums e-pasta ziņojumu ar informāciju, kā rīkoties.</string>
   <string name="iap_payment_session_expired">Jūsu maksājuma sesija ir beigusies</string>
   <string name="iap_pending">[lv]Pending</string>
+  <string name="iap_personal_details">[lv]Personal details</string>
   <string name="iap_phone">Tālrunis</string>
   <string name="iap_phone_error">Lūdzu, ievadiet derīgu tālruņa numuru</string>
   <string name="iap_phone_hint">Ievadiet tālruņa numuru</string>

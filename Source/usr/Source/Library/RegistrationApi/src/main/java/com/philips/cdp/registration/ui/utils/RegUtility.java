@@ -80,7 +80,7 @@ public class RegUtility {
             TextView termsAndConditionsAcceptance,
             final Activity activity, ClickableSpan termsAndConditionClickListener) {
 
-        String termsAndCondition = activity.getString(R.string.USR_TermsAndConditionsAcceptanceText);
+        String termsAndCondition = activity.getString(R.string.USR_DLS_TermsAndConditionsAcceptanceText);
         String acceptTermsAndCondition = activity.getString(R.string.USR_TermsAndConditionsText);
         termsAndCondition = String.format(termsAndCondition, acceptTermsAndCondition);
         termsAndConditionsAcceptance.setText(termsAndCondition);

@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Lägg till en ny betalningsmetod</string>
   <string name="iap_add_to_cart">Lägg i kundvagnen</string>
   <string name="iap_address">Adress</string>
-  <string name="iap_address_error">Ange en giltig adress</string>
+  <string name="iap_address_error">[sv]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Adressrad 1</string>
   <string name="iap_address_line_one_hint">Ange adressrad 1</string>
   <string name="iap_address_line_two">Adressrad 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[sv]Select payment method</string>
   <string name="iap_checkout_steps">[sv]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[sv]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[sv]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Använd kupong</string>
   <string name="iap_confirm">[sv]Confirm</string>
   <string name="iap_confirmation">Bekräftelse</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Kontakta kundtjänst</string>
   <string name="iap_contact_consumer_care_for_support">Om du behöver mer hjälp ber vi dig kontakta Philips kundtjänst.</string>
   <string name="iap_contact_customer_care">[sv]Contact customer care</string>
+  <string name="iap_contact_details">[sv]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[sv]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Fortsätt</string>
   <string name="iap_continue_shopping">Fortsätt handla</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[sv]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[sv]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[sv]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[sv]Daily Collection Miniblender</string>
   <string name="iap_delete">Radera</string>
   <string name="iap_delete_address">Tar bort leveransadress</string>
@@ -186,6 +189,7 @@ FedEx(fraktkostnad för paket)</string>
   <string name="iap_payment_pending_not_confirmed">Om betalningen inte är bekräftad inom  ##timmar informerar vi dig via e-post vad du ska göra härnäst.</string>
   <string name="iap_payment_session_expired">Betalningssessionen har gått ut</string>
   <string name="iap_pending">[sv]Pending</string>
+  <string name="iap_personal_details">[sv]Personal details</string>
   <string name="iap_phone">Telefon</string>
   <string name="iap_phone_error">Ange ett giltigt telefonnummer</string>
   <string name="iap_phone_hint">Ange telefonnummer</string>

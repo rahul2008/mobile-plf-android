@@ -53,6 +53,7 @@ public abstract class WebFragment extends InAppBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        setCartIconVisibility(false);
         mWebView.onResume();
     }
 

@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column41</string>
   <string name="USR_Account_Merge_Merge_btntxt">Hợp nhất</string>
   <string name="USR_Account_Setting_Titletxt">Thiết đặt tài khoản</string>
   <string name="USR_Action_ConsumerCare_Txt">Chăm sóc khách hàng</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Quên mật khẩu?</string>
   <string name="USR_Gender_TitleTxt">Giới tính</string>
   <string name="USR_Generic_Network_Error">Rất tiếc, có gì đó không ổn. Vui lòng thử lại sau</string>
-  <string name="USR_Generic_Network_ErrorMsg">Không thể kết nối với máy chủ.\nVui lòng kiểm tra kết nối internet của bạn và thử lại.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Không thể kết nối với máy chủ.\nVui lòng kiểm tra kết nối internet của bạn và thử lại.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Chữ ký đã hết hạn do lỗi thời gian. Vui lòng kiểm tra các cài đặt thời gian trên thiết bị của bạn.</string>
   <string name="USR_InValid_PwdErrorMsg">Mật khẩu không tuân theo các hướng dẫn mật khẩu dưới đây.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Địa chỉ email không hợp lệ. Vui lòng kiểm tra.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Để đảm bảo, vui lòng đăng nhập bằng %s một lần nữa.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Hủy</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Gần xong rồi!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Tôi chấp nhận %s của ứng dụng</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Vui lòng chấp nhận Điều khoản và điều kiện</string>
   <string name="USR_TermsAndConditionsText">Điều khoản và điều kiện</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Tài khoản đã tồn tại.</string>

@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column18</string>
   <string name="USR_Account_Merge_Merge_btntxt">Fusionner</string>
   <string name="USR_Account_Setting_Titletxt">Paramètres du compte</string>
   <string name="USR_Action_ConsumerCare_Txt">Service Consommateurs</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Vous avez oublié votre mot de passe ?</string>
   <string name="USR_Gender_TitleTxt">Sexe</string>
   <string name="USR_Generic_Network_Error">Oups ! Une erreur s\'est produite. Veuillez réessayer ultérieurement.</string>
-  <string name="USR_Generic_Network_ErrorMsg">Connexion au serveur impossible.\nVérifiez votre connexion Internet et réessayez.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Connexion au serveur impossible.\nVérifiez votre connexion Internet et réessayez.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Signature expirée en raison d\'une erreur d\'heure. Vérifiez les réglages d\'heure de votre appareil.</string>
   <string name="USR_InValid_PwdErrorMsg">Le mot de passe ne respecte pas les directives indiquées ci-dessous.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Adresse e-mail non valide. Veuillez vérifier.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Pour prouver votre identité, connectez-vous de nouveau via %s.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Annuler</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Vous avez presque terminé !</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">J\'accepte les %s de l\'application</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Veuillez accepter les Conditions générales</string>
   <string name="USR_TermsAndConditionsText">Conditions générales</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Le compte existe déjà.</string>

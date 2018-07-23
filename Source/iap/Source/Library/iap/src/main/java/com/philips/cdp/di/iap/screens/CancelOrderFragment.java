@@ -79,6 +79,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_cancel_your_order, true);
+        setCartIconVisibility(false);
     }
 
     @Override

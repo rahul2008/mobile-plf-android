@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column22</string>
   <string name="USR_Account_Merge_Merge_btntxt">Egyesítés</string>
   <string name="USR_Account_Setting_Titletxt">Fiókbeállítások</string>
   <string name="USR_Action_ConsumerCare_Txt">Vevőszolgálat</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Elfelejtette a jelszót?</string>
   <string name="USR_Gender_TitleTxt">Nem</string>
   <string name="USR_Generic_Network_Error">Hoppá! Valami nem sikerült. Próbálja meg később</string>
-  <string name="USR_Generic_Network_ErrorMsg">Nem tud csatlakozni a szerverhez.\nKérjük, ellenőrizze az internetkapcsolatot, és próbálja meg újra.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Nem tud csatlakozni a szerverhez.\nKérjük, ellenőrizze az internetkapcsolatot, és próbálja meg újra.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Idővel kapcsolatos hiba miatt lejárt az aláírás érvényessége. Kérjük, ellenőrizze készüléke időbeállításait.</string>
   <string name="USR_InValid_PwdErrorMsg">A jelszó nem követi a jelszavakra vonatkozó alábbi irányelveket.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Érvénytelen e-mail cím. Kérjük, ellenőrizze.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Annak érdekében, hogy ellenőrizzük az Ön személyazonosságát, kérjük, jelentkezzen be még egyszer a(z) %s használatával.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Mégse</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Majdnem készen van!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Elfogadom: alkalmazás %s</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Kérjük, fogadja el a használati feltételeket</string>
   <string name="USR_TermsAndConditionsText">Felhasználási feltételek</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">A fiók már létezik.</string>

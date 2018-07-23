@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Legg til ny betalingsmetode</string>
   <string name="iap_add_to_cart">Legg til handlevognen</string>
   <string name="iap_address">Adresse</string>
-  <string name="iap_address_error">Angi en gyldig adresse</string>
+  <string name="iap_address_error">[nb]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Adresselinje 1</string>
   <string name="iap_address_line_one_hint">Angi adresselinje 1</string>
   <string name="iap_address_line_two">Adresselinje 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[nb]Select payment method</string>
   <string name="iap_checkout_steps">[nb]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[nb]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[nb]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Gjør krav på kupong</string>
   <string name="iap_confirm">[nb]Confirm</string>
   <string name="iap_confirmation">Bekreftelse</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Kontakt forbrukerstøtten</string>
   <string name="iap_contact_consumer_care_for_support">Kontakt Philips\' forbrukerstøtte hvis du vil ha ytterligere hjelp.</string>
   <string name="iap_contact_customer_care">[nb]Contact customer care</string>
+  <string name="iap_contact_details">[nb]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[nb]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Fortsett</string>
   <string name="iap_continue_shopping">Fortsett å handle</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[nb]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[nb]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[nb]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[nb]Daily Collection Miniblender</string>
   <string name="iap_delete">Slett</string>
   <string name="iap_delete_address">Sletter leveringsadressen</string>
@@ -186,6 +189,7 @@ FedEx (pakkesendinger)</string>
   <string name="iap_payment_pending_not_confirmed">Hvis betalingen ikke er bekreftet innen  ##timer, vil vi informere deg på e-post om hva du må foreta deg.</string>
   <string name="iap_payment_session_expired">Betalingsøkten er utløpt</string>
   <string name="iap_pending">[nb]Pending</string>
+  <string name="iap_personal_details">[nb]Personal details</string>
   <string name="iap_phone">Telefon</string>
   <string name="iap_phone_error">Angi et gyldig telefonnummer</string>
   <string name="iap_phone_hint">Angi telefonnummer</string>

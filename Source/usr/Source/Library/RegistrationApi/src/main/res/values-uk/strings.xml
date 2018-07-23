@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column40</string>
   <string name="USR_Account_Merge_Merge_btntxt">Об’єднати</string>
   <string name="USR_Account_Setting_Titletxt">Налаштування облікового запису</string>
   <string name="USR_Action_ConsumerCare_Txt">Обслуговування клієнтів</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Забули пароль?</string>
   <string name="USR_Gender_TitleTxt">Стать</string>
   <string name="USR_Generic_Network_Error">Ой! Виникла помилка. Спробуйте пізніше</string>
-  <string name="USR_Generic_Network_ErrorMsg">Неможливо під’єднатися до сервера.\nПеревірте з’єднання з Інтернетом і спробуйте ще раз.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Неможливо під’єднатися до сервера.\nПеревірте з’єднання з Інтернетом і спробуйте ще раз.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Термін дії підпису вийшов через помилку часу. Перевірте налаштування часу на пристрої.</string>
   <string name="USR_InValid_PwdErrorMsg">Скинути пароль</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Недійсна адреса електронної пошти. Перевірте.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Щоб перевірити, чи це справді Ви, ввійдіть у систему за допомогою %s ще раз.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Скасувати</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Майже готово!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Я приймаю %s додатка</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Прийміть Умови використання</string>
   <string name="USR_TermsAndConditionsText">Умови та положення</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Обліковий запис уже існує.</string>

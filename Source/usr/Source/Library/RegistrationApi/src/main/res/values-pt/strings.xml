@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column31</string>
   <string name="USR_Account_Merge_Merge_btntxt">Ligar</string>
   <string name="USR_Account_Setting_Titletxt">Definições da conta</string>
   <string name="USR_Action_ConsumerCare_Txt">Apoio ao cliente</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Esqueceu-se da palavra-passe?</string>
   <string name="USR_Gender_TitleTxt">Género</string>
   <string name="USR_Generic_Network_Error">Ups! Ocorreu um erro. Tente novamente mais tarde</string>
-  <string name="USR_Generic_Network_ErrorMsg">Não é possível ligar ao servidor.\nVerifique a sua ligação à Internet e tente novamente.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Não é possível ligar ao servidor.\nVerifique a sua ligação à Internet e tente novamente.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">A assinatura expirou devido a um erro de hora. Verifique as definições de hora do dispositivo.</string>
   <string name="USR_InValid_PwdErrorMsg">A palavra-passe não segue as directivas relativas às palavras-passe apresentadas abaixo.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Endereço de correio electrónico inválido. Verifique.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Para assegurar que a conta é mesmo sua, inicie sessão com %s novamente.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Cancelar</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Está quase a terminar!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Aceito os %s da aplicação</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Aceite os Termos e condições</string>
   <string name="USR_TermsAndConditionsText">Termos e condições</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">A conta já existe.</string>

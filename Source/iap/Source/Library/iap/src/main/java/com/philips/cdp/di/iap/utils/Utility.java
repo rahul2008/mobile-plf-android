@@ -103,8 +103,8 @@ public class Utility {
         appendAddressWithNewLineIfNotNull(sb, line1);
         appendAddressWithNewLineIfNotNull(sb, line2);
         appendAddressWithNewLineIfNotNull(sb, address.getTown());
-        appendAddressWithNewLineIfNotNull(sb, address.getRegionName());
-        appendAddressWithNewLineIfNotNull(sb, address.getPostalCode());
+        appendAddressWithNewLineIfNotNull(sb, address.getRegionName()+" "+address.getPostalCode());
+        appendAddressWithNewLineIfNotNull(sb, address.getCountry());
         return sb.toString();
     }
 
@@ -150,6 +150,10 @@ public class Utility {
             fields.setCountryIsocode(addresses.getCountry().getIsocode());
         }
 
+        if (isNotNullNorEmpty(addresses.getCountry().getName())) {
+            fields.setCountry(addresses.getCountry().getName());
+        }
+
         if (isNotNullNorEmpty(addresses.getEmail())) {
             fields.setEmail(addresses.getEmail());
         } else {
@@ -162,7 +166,7 @@ public class Utility {
 
         if (addresses.getRegion() != null) {
             fields.setRegionName(addresses.getRegion().getIsocodeShort());
-            CartModelContainer.getInstance().setRegionIsoCode(addresses.getRegion().getIsocodeShort());
+         //   CartModelContainer.getInstance().setRegionIsoCode(addresses.getRegion().getIsocodeShort());
         }
         return fields;
     }
@@ -207,6 +211,9 @@ public class Utility {
             fields.setCountryIsocode(address.getCountry().getIsocode());
         }
 
+        if (isNotNullNorEmpty(address.getCountry().getName())) {
+            fields.setCountry(address.getCountry().getName());
+        }
 
         if (isNotNullNorEmpty(address.getPhone1())) {
             fields.setPhone1(address.getPhone1());

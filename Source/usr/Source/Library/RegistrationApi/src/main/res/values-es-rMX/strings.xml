@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column15</string>
   <string name="USR_Account_Merge_Merge_btntxt">Fusionar</string>
   <string name="USR_Account_Setting_Titletxt">Configuración de cuenta</string>
   <string name="USR_Action_ConsumerCare_Txt">Atención al cliente</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">¿Olvidaste tu contraseña?</string>
   <string name="USR_Gender_TitleTxt">Sexo</string>
   <string name="USR_Generic_Network_Error">Lo sentimos, se produjo un error. Inténtelo de nuevo más tarde</string>
-  <string name="USR_Generic_Network_ErrorMsg">No se puede conectar al servidor.\nComprueba la conexión a Internet e inténtalo de nuevo.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">No se puede conectar al servidor.\nComprueba la conexión a Internet e inténtalo de nuevo.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">La firma caducó debido a un error de hora. Comprueba la configuración de hora del dispositivo.</string>
   <string name="USR_InValid_PwdErrorMsg">La contraseña no sigue las siguientes pautas.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Dirección de correo electrónico no válida. Verifíquela.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Para asegurarnos, inicia sesión con %s una vez más.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Cancelar</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Ya casi has terminado.</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Acepto los %s de la aplicación</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Acepta los Términos y condiciones</string>
   <string name="USR_TermsAndConditionsText">Cláusulas y condiciones</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">La cuenta ya existe.</string>

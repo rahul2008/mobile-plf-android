@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column39</string>
   <string name="USR_Account_Merge_Merge_btntxt">Birleştir</string>
   <string name="USR_Account_Setting_Titletxt">Hesap ayarları</string>
   <string name="USR_Action_ConsumerCare_Txt">Müşteri Desteği</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Parolanızı mı unuttunuz?</string>
   <string name="USR_Gender_TitleTxt">Cinsiyet</string>
   <string name="USR_Generic_Network_Error">Bir sorun oluştu. Lütfen daha sonra tekrar deneyin</string>
-  <string name="USR_Generic_Network_ErrorMsg">Sunucuya bağlanılamıyor.\nLütfen internet bağlantınızı kontrol edin ve tekrar deneyin.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Sunucuya bağlanılamıyor.\nLütfen internet bağlantınızı kontrol edin ve tekrar deneyin.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Zaman hatası nedeniyle imzanın süresi doldu. Lütfen cihazınızın zaman ayarlarını kontrol edin.</string>
   <string name="USR_InValid_PwdErrorMsg">Parola, aşağıdaki parola yönergelerine uygun değildir.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Geçersiz e-posta adresi. Lütfen kontrol edin.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Kimliğinizi doğrulamak için lütfen %s ile bir kez daha oturum açın.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">İptal</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Neredeyse bitti!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Uygulamaya ilişkin şunları kabul ediyorum: %s</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Lütfen Şartlar ve Koşulları kabul edin</string>
   <string name="USR_TermsAndConditionsText">Şartlar ve Koşullar</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Hesap zaten mevcut.</string>
