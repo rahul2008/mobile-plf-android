@@ -5,10 +5,13 @@
 
 package com.philips.cdp.dicommclient.security;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
@@ -17,6 +20,7 @@ import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@RunWith(AndroidJUnit4.class)
 public class DISecurityTest {
 
     private final static String KEY = "173B7E0A9A54CB3E96A70237F6974940";

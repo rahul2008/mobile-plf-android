@@ -17,13 +17,14 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 26 // Needed to prevent Java 8 compile error: https://developer.android.com/studio/write/java8-support
+        minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         applicationId "com.philips.cdp2.commlib.devicetest"
         versionCode 1
         versionName "0.0.1"
 
         testInstrumentationRunner "com.philips.cdp2.commlib.devicetest.runner.CucumberRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
 
@@ -36,30 +37,28 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
     lintOptions {
         abortOnError false
     }
 
-    compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
-    }
-
-    packagingOptions {
-        exclude '**/LICENSE'
-        exclude 'META-INF/*'
-        exclude 'META-INF/**/*'
-        exclude '**/*.TXT'
-        exclude '**/*.xml'
-        pickFirst '**/*.properties'
-        pickFirst '**/ErrorMessages*.txt'
-    }
+//    packagingOptions {
+//        exclude '**/LICENSE'
+//        exclude 'META-INF/*'
+//        exclude 'META-INF/**/*'
+//        exclude '**/*.TXT'
+//        exclude '**/*.xml'
+//        pickFirst '**/*.properties'
+//        pickFirst '**/ErrorMessages*.txt'
+//    }
 }
 
 dependencies {
     compileOnly deps.support.annotations
-
-    implementation deps.multidex
 
     implementation project(':commlib')
     implementation project(':AppInfra')
@@ -82,50 +81,13 @@ dependencies {
     testImplementation deps.cucumber_junit
 
     androidTestImplementation project(':bluelib')
-    androidTestImplementation project(':commlib-testutils')
-    androidTestImplementation deps.mockito
+    androidTestImplementation deps.mockito_android
     androidTestImplementation deps.assertj
-    androidTestImplementation deps.junit
-    androidTestImplementation(deps.android_testrunner) {
-        exclude module: 'support-annotations'
-    }
     androidTestImplementation(deps.android_testrunner) {
         exclude module: 'support-annotations'
     }
     androidTestImplementation deps.cucumber
     androidTestImplementation deps.cucumber_junit
-    androidTestImplementation deps.dexmaker_google
 
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 }
-
-//project.gradle.buildFinished { buildResult ->
-//    project.gradle.getStartParameter().taskRequests.get(0).args.each { String argument ->
-//        //If the gradle arguments contains 'assembleDebugAndroidTest' for this project, then pre-install APK with permissions.
-//        if (argument == ":$project.name:assembleDebugAndroidTest") {
-//            println("Installing build app with right permissions..")
-//
-//            def absolutePath = file('.')
-//            def stdout = new ByteArrayOutputStream()
-//
-//            exec {
-//                def rootDir = project.rootDir
-//                def localProperties = new File(rootDir, "local.properties")
-//                if (localProperties.exists()) {
-//                    Properties properties = new Properties()
-//                    localProperties.withInputStream { instr ->
-//                        properties.load(instr)
-//                    }
-//
-//                    def sdkDir = properties.getProperty('sdk.dir')
-//                    def packageName = "com.philips.cdp2.commlib.devicetest"
-//                    def apk_name = "commlib-integration-tests-debug"
-//
-//                    commandLine "$absolutePath/install_with_permissions.sh", sdkDir, packageName, apk_name
-//                }
-//            }
-//
-//            print stdout
-//        }
-//    }
-//}
