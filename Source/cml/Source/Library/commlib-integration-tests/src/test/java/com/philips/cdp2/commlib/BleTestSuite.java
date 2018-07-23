@@ -17,6 +17,7 @@ import cucumber.api.junit.Cucumber;
                 "json:../build/cucumber-reports/report.json",
                 "html:../build/cucumber-reports/html"
         },
+        glue = {"com.philips.cdp2.commlib"},
         features = "src/androidTest/assets/features",
         strict = true,
         tags = {"@automated", "@android", "~@not_android", "~@target"}
