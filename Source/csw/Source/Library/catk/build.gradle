@@ -143,7 +143,6 @@ dependencies {
     testImplementation deps.mockito
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
-    testImplementation deps.maven_ant
     testImplementation(deps.robolectric) {
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
