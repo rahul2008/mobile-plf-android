@@ -14,7 +14,7 @@ import cucumber.api.junit.Cucumber;
 @CucumberOptions(
         plugin = {"pretty"},
         format = {
-                "json:../build/cucumber-reports/reportcucumber.json",
+                "json:../build/cucumber-reports/report.json",
                 "html:../build/cucumber-reports/html"
         },
         features = "src/androidTest/assets/features",
