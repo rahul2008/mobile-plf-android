@@ -1,8 +1,8 @@
 package com.philips.cdp2.bluelib.plugindefinition;
 
 import com.philips.pins.shinelib.ResultListener;
-import com.philips.pins.shinelib.datatypes.SHNStreamData;
-import com.philips.pins.shinelib.datatypes.StreamIdentifier;
+import com.philips.pins.shinelib.datatypes.StreamData;
+import com.philips.pins.shinelib.capabilities.StreamIdentifier;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.MoonshineStreamIdentifier;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 import org.junit.Before;
@@ -25,7 +25,7 @@ public class StreamingCapabilityTest {
     private SHNProtocolMoonshineStreaming mockMoonshineStreaming;
 
     @Mock
-    private ResultListener<SHNStreamData> mockResultListener;
+    private ResultListener<StreamData> mockResultListener;
 
     private ArgumentCaptor<byte[]> dataCaptor;
     private ArgumentCaptor<SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener> listenerCaptor;
@@ -62,7 +62,7 @@ public class StreamingCapabilityTest {
         byte[] testData = new byte[]{(byte)0x21, (byte)0x43};
         listenerCaptor.getValue().onDataReceived(testData, MoonshineStreamIdentifier.STREAM_1);
 
-        ArgumentCaptor<SHNStreamData> dataRawArgumentCaptor = ArgumentCaptor.forClass(SHNStreamData.class);
+        ArgumentCaptor<StreamData> dataRawArgumentCaptor = ArgumentCaptor.forClass(StreamData.class);
         verify(mockResultListener).onActionCompleted(dataRawArgumentCaptor.capture(), eq(SHNOk));
         assertEquals(testData[0], dataRawArgumentCaptor.getValue().getRawData()[0]);
         assertEquals(testData[1], dataRawArgumentCaptor.getValue().getRawData()[1]);

@@ -1,5 +1,9 @@
-package com.philips.pins.shinelib.datatypes;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
+package com.philips.pins.shinelib.capabilities;
 
 public enum StreamIdentifier {
     UNKNOWN(-1),

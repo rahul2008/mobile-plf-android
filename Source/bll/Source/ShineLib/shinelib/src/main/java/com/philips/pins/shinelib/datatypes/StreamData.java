@@ -1,10 +1,17 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.datatypes;
 
-public class SHNStreamData extends SHNDataRaw {
+import com.philips.pins.shinelib.capabilities.StreamIdentifier;
+
+public class StreamData extends SHNDataRaw {
 
     private StreamIdentifier streamIdentifier;
 
-    public SHNStreamData(byte[] rawData, StreamIdentifier streamIdentifier) {
+    public StreamData(byte[] rawData, StreamIdentifier streamIdentifier) {
         super(rawData);
         this.streamIdentifier = streamIdentifier;
     }

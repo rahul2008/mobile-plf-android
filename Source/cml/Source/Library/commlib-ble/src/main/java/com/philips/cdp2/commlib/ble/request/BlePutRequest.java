@@ -12,7 +12,7 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.StreamIdentifier;
+import com.philips.pins.shinelib.capabilities.StreamIdentifier;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommRequest;
 

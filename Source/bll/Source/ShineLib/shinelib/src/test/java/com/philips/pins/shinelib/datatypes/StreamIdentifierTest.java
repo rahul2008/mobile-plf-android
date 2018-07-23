@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib.datatypes;
 
+import com.philips.pins.shinelib.capabilities.StreamIdentifier;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

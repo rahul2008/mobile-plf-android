@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -17,8 +17,8 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDevice.SHNDeviceListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.SHNStreamData;
-import com.philips.pins.shinelib.datatypes.StreamIdentifier;
+import com.philips.pins.shinelib.datatypes.StreamData;
+import com.philips.pins.shinelib.capabilities.StreamIdentifier;
 import com.philips.pins.shinelib.dicommsupport.DiCommByteStreamReader;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
@@ -95,7 +95,7 @@ public class BleRequestTest {
     private ArgumentCaptor<Runnable> runnableCaptor;
 
     @Captor
-    private ArgumentCaptor<ResultListener<SHNStreamData>> dataListenerCaptor;
+    private ArgumentCaptor<ResultListener<StreamData>> dataListenerCaptor;
 
     private int executeCounter;
 
@@ -314,7 +314,7 @@ public class BleRequestTest {
     @Test
     public void givenRequestIsRunning_whenAChunkOfDataIsReceived_thenItWillBePassedToTheByteStreamReader() throws Exception {
         byte[] rawData = "This is Test Data!".getBytes();
-        final SHNStreamData data = new SHNStreamData(rawData, StreamIdentifier.STREAM_1);
+        final StreamData data = new StreamData(rawData, StreamIdentifier.STREAM_1);
 
         doAnswer(new Answer() {
             @Override

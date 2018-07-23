@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -9,8 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapability;
-import com.philips.pins.shinelib.datatypes.SHNStreamData;
-import com.philips.pins.shinelib.datatypes.StreamIdentifier;
+import com.philips.pins.shinelib.datatypes.StreamData;
 
 /**
  * Capability to be used by CommLib to enable DiComm communication.
@@ -28,12 +27,12 @@ public interface CapabilityDiComm extends SHNCapability {
      *
      * @param dataRawResultListener to receive callback data
      */
-    void addDataListener(@NonNull ResultListener<SHNStreamData> dataRawResultListener);
+    void addDataListener(@NonNull ResultListener<StreamData> dataRawResultListener);
 
     /**
      * Remove a callback for data received from the peripheral
      *
      * @param dataRawResultListener to be removed
      */
-    void removeDataListener(@NonNull ResultListener<SHNStreamData> dataRawResultListener);
+    void removeDataListener(@NonNull ResultListener<StreamData> dataRawResultListener);
 }
