@@ -17,15 +17,14 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        multiDexEnabled true
-        minSdkVersion versions.minsdk
+        minSdkVersion 26 // Needed to prevent Java 8 compile error: https://developer.android.com/studio/write/java8-support
         targetSdkVersion versions.target
-
         applicationId "com.philips.cdp2.commlib.devicetest"
         versionCode 1
         versionName "0.0.1"
 
         testInstrumentationRunner "com.philips.cdp2.commlib.devicetest.runner.CucumberRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
