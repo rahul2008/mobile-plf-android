@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
+import com.philips.pins.shinelib.capabilities.StreamIdentifier;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommRequest;
 
@@ -39,6 +40,6 @@ public class BleGetRequest extends BleRequest {
     @Override
     protected void execute(@NonNull final CapabilityDiComm capability) {
         DiCommMessage getPropsMessage = new DiCommRequest().getPropsRequestDataWithProduct(productId, portName);
-        capability.writeData(getPropsMessage.toData());
+        capability.writeData(getPropsMessage.toData(), StreamIdentifier.STREAM_1);
     }
 }
