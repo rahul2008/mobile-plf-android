@@ -285,7 +285,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             }
         }
         if (!getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
-            if (CartModelContainer.getInstance().getAddressId() != null) {
+            if (CartModelContainer.getInstance().getAddressId() != null &&  CartModelContainer.getInstance().getAddressFromDelivery()!=null  ) {
                 if (CartModelContainer.getInstance().isAddessStateVisible() && CartModelContainer.getInstance().getRegionIsoCode() != null) {
                     updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
                 }
@@ -299,7 +299,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                     mAddressController.updateAddress(updateAddressPayload);
                     mBtnContinue.setEnabled(false);
                 }
-
+                CartModelContainer.getInstance().setAddressIdFromDelivery(null);
             } else {
                 CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
                 mAddressController.createAddress(shippingAddressFields);

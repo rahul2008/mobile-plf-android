@@ -39,6 +39,7 @@ public class CartModelContainer {
 
     private AppInfraInterface appInfraInstance;
     private boolean addessStateVisible;
+    private String mAddressIdFromDelivery;
 
     private CartModelContainer() {
         mPRXSummaryObjects = new HashMap<>();
@@ -53,6 +54,15 @@ public class CartModelContainer {
             }
         }
         return container;
+    }
+
+    public String getAddressFromDelivery() {
+        return mAddressIdFromDelivery;
+    }
+
+    public String setAddressIdFromDelivery(String mAddressId) {
+        this.mAddressIdFromDelivery = mAddressId;
+        return mAddressIdFromDelivery;
     }
 
     public String getAddressId() {
