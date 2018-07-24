@@ -17,8 +17,7 @@ import cucumber.api.junit.Cucumber;
                 "json:../build/cucumber-reports/report.json",
                 "html:../build/cucumber-reports/html"
         },
-        glue = {"com.philips.cdp2.commlib"},
-        features = "src/androidTest/assets/features/availability.feature",
+        features = "src/androidTest/assets/features",
         tags = {"@automated", "@android", "~@not_android", "~@target"}
 )
 public class BleTestSuite {
