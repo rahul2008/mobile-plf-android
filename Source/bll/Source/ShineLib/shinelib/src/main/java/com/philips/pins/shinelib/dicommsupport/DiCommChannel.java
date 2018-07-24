@@ -13,6 +13,7 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminat
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 import com.philips.pins.shinelib.framework.Timer;
+import com.philips.pins.shinelib.protocols.moonshinestreaming.MoonshineStreamIdentifier;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -71,14 +72,14 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
 
     // implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingLister
     @Override
-    public void onDataReceived(byte[] data) {
+    public void onDataReceived(byte[] data, MoonshineStreamIdentifier streamIdentifier) {
         mDiCommByteStreamReader.onBytes(data);
     }
 
     private void executeNextRequest() {
         if (pendingRequests.size() > 0) {
             DiCommMessage diCommMessage = pendingRequests.get(0).getRequestMessage();
-            shnProtocolMoonshineStreaming.sendData(diCommMessage.toData());
+            shnProtocolMoonshineStreaming.sendData(diCommMessage.toData(), MoonshineStreamIdentifier.STREAM_1);
             requestTimer.restart();
         } else {
             requestTimer.stop();

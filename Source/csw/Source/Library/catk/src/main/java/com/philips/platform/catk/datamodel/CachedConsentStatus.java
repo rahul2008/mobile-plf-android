@@ -5,16 +5,16 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import org.joda.time.DateTime;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class CachedConsentStatus extends ConsentStatus {
     private DateTime expires;
 
-    public CachedConsentStatus(ConsentStates consentState, int version, DateTime expires) {
-        super(consentState, version);
+    public CachedConsentStatus(ConsentStates consentState, int version, Date timestamp, DateTime expires) {
+        super(consentState, version, timestamp);
         this.expires = expires;
     }
-
 
     public DateTime getExpires() {
         return expires;
@@ -22,7 +22,6 @@ public class CachedConsentStatus extends ConsentStatus {
 
     @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
         if (!(o instanceof CachedConsentStatus)) return false;
 

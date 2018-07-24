@@ -7,12 +7,11 @@ package com.philips.cdp2.commlib.ble.context;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNCentral;
@@ -62,7 +61,7 @@ public class BleTransportContextTest {
     private RuntimeConfiguration runtimeConfigurationMock;
 
     @Mock
-    private BleDeviceCache bleDeviceCacheMock;
+    private DeviceCache deviceCacheMock;
 
     @Mock
     private CommunicationStrategy communicationStrategyMock;
@@ -154,8 +153,8 @@ public class BleTransportContextTest {
         bleTransportContext = new BleTransportContext(runtimeConfigurationMock) {
             @NonNull
             @Override
-            BleDeviceCache createBleDeviceCache() {
-                return bleDeviceCacheMock;
+            DeviceCache createDeviceCache() {
+                return deviceCacheMock;
             }
 
             @NonNull

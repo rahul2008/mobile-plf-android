@@ -8,8 +8,9 @@ import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 
+import com.philips.pins.shinelib.datatypes.StreamData;
+import com.philips.pins.shinelib.capabilities.StreamIdentifier;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -25,16 +26,16 @@ public class CapabilityDiCommWrapperTest extends SHNCapabilityWrapperTestBase {
 
     public static final SHNResult EXPECTED_RESULT = SHNResult.SHNOk;
     public static final byte[] READ_RAW = new byte[]{0x42};
-    public static final SHNDataRaw READ_VALUE = new SHNDataRaw(READ_RAW);
+    public static final StreamData READ_VALUE = new StreamData(READ_RAW, StreamIdentifier.STREAM_1);
 
     @Mock
     private CapabilityDiComm capabilityMock;
 
     @Mock
-    private ResultListener<SHNDataRaw> rawResultListener;
+    private ResultListener<StreamData> rawResultListener;
 
     @Mock
-    private ResultListener<SHNDataRaw> rawResultListener2;
+    private ResultListener<StreamData> rawResultListener2;
 
     @Mock
     private SHNResultListener resultListener;
@@ -43,7 +44,7 @@ public class CapabilityDiCommWrapperTest extends SHNCapabilityWrapperTestBase {
     private ArgumentCaptor<SHNResultListener> resultListenerArgumentCaptor;
 
     @Captor
-    private ArgumentCaptor<ResultListener<SHNDataRaw>> rawResultListenerCaptor;
+    private ArgumentCaptor<ResultListener<StreamData>> rawResultListenerCaptor;
 
     private CapabilityDiCommWrapper capabilityWrapper;
 
@@ -55,10 +56,10 @@ public class CapabilityDiCommWrapperTest extends SHNCapabilityWrapperTestBase {
 
     @Test
     public void shouldReceiveCallWriteDataOnInternalThread_whenWriteDataIsCalledOnWrapper() {
-        capabilityWrapper.writeData(READ_RAW);
+        capabilityWrapper.writeData(READ_RAW, StreamIdentifier.STREAM_1);
         captureInternalHandlerRunnable().run();
 
-        verify(capabilityMock).writeData(eq(READ_RAW));
+        verify(capabilityMock).writeData(eq(READ_RAW), eq(StreamIdentifier.STREAM_1));
     }
 
     @Test
@@ -71,7 +72,7 @@ public class CapabilityDiCommWrapperTest extends SHNCapabilityWrapperTestBase {
     @Test
     public void shouldReceiveCorrectResultOnUserThread_whenDataResultReturnOnInternalThread() {
         shouldAddListener_whenAddListenerIsCalledOnWrapper();
-        ResultListener<SHNDataRaw> internalResultListener = rawResultListenerCaptor.getValue();
+        ResultListener<StreamData> internalResultListener = rawResultListenerCaptor.getValue();
 
         internalResultListener.onActionCompleted(READ_VALUE, EXPECTED_RESULT);
         captureUserHandlerRunnable().run();
@@ -86,7 +87,7 @@ public class CapabilityDiCommWrapperTest extends SHNCapabilityWrapperTestBase {
 
         verify(capabilityMock).addDataListener(rawResultListenerCaptor.capture());
 
-        ResultListener<SHNDataRaw> internalResultListener = rawResultListenerCaptor.getValue();
+        ResultListener<StreamData> internalResultListener = rawResultListenerCaptor.getValue();
 
         internalResultListener.onActionCompleted(READ_VALUE, EXPECTED_RESULT);
         captureUserHandlerRunnable().run();
@@ -99,7 +100,7 @@ public class CapabilityDiCommWrapperTest extends SHNCapabilityWrapperTestBase {
     public void shouldNotNotifyListener_whenTheListenerIsRemoved() {
         shouldAddListener_whenAddListenerIsCalledOnWrapper();
         capabilityWrapper.removeDataListener(rawResultListener);
-        ResultListener<SHNDataRaw> internalResultListener = rawResultListenerCaptor.getValue();
+        ResultListener<StreamData> internalResultListener = rawResultListenerCaptor.getValue();
 
         internalResultListener.onActionCompleted(READ_VALUE, EXPECTED_RESULT);
         captureUserHandlerRunnable().run();
@@ -115,7 +116,7 @@ public class CapabilityDiCommWrapperTest extends SHNCapabilityWrapperTestBase {
         verify(capabilityMock).addDataListener(rawResultListenerCaptor.capture());
         capabilityWrapper.removeDataListener(rawResultListener);
 
-        ResultListener<SHNDataRaw> internalResultListener = rawResultListenerCaptor.getValue();
+        ResultListener<StreamData> internalResultListener = rawResultListenerCaptor.getValue();
 
         internalResultListener.onActionCompleted(READ_VALUE, EXPECTED_RESULT);
         captureUserHandlerRunnable().run();

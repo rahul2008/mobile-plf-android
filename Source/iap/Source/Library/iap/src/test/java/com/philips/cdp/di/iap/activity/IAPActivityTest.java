@@ -222,10 +222,9 @@ public class IAPActivityTest {
         activity.onRestoreInstanceState(null, null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldCalled_onDestroy() {
         destroyActivity(intent);
-        activity.onDestroy();
     }
 
     private void pauseActivity(Intent intent) {

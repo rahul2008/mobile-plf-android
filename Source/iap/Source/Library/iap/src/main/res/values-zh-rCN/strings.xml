@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">添加新的付款方式</string>
   <string name="iap_add_to_cart">添加至购物车</string>
   <string name="iap_address">地址</string>
-  <string name="iap_address_error">请输入有效地址</string>
+  <string name="iap_address_error">[zh-CN]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">地址栏 1</string>
   <string name="iap_address_line_one_hint">输入地址栏 1</string>
   <string name="iap_address_line_two">地址栏 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[zh-CN]Select payment method</string>
   <string name="iap_checkout_steps">[zh-CN]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[zh-CN]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[zh-CN]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">领取折扣券</string>
   <string name="iap_confirm">[zh-CN]Confirm</string>
   <string name="iap_confirmation">确认</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">联系客户服务</string>
   <string name="iap_contact_consumer_care_for_support">请联系飞利浦客户服务以获得更多支持。</string>
   <string name="iap_contact_customer_care">[zh-CN]Contact customer care</string>
+  <string name="iap_contact_details">[zh-CN]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[zh-CN]Please contact Philips Consumer Care</string>
   <string name="iap_continue">继续</string>
   <string name="iap_continue_shopping">继续购物</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[zh-CN]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[zh-CN]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[zh-CN]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[zh-CN]Daily Collection Miniblender</string>
   <string name="iap_delete">删除</string>
   <string name="iap_delete_address">删除发货地址</string>
@@ -186,6 +189,7 @@
   <string name="iap_payment_pending_not_confirmed">如果付款未在 ## 小时内确认，我们将发送电子邮件通知您之后的操作。</string>
   <string name="iap_payment_session_expired">您的付款会话已过期</string>
   <string name="iap_pending">[zh-CN]Pending</string>
+  <string name="iap_personal_details">[zh-CN]Personal details</string>
   <string name="iap_phone">电话</string>
   <string name="iap_phone_error">请输入有效电话号码</string>
   <string name="iap_phone_hint">输入电话号码</string>

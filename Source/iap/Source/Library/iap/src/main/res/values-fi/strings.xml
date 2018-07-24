@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Lisää uusi maksutapa</string>
   <string name="iap_add_to_cart">Lisää ostoskoriin</string>
   <string name="iap_address">Osoite</string>
-  <string name="iap_address_error">Kirjoita kelvollinen osoite</string>
+  <string name="iap_address_error">[fi]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Osoiterivi 1</string>
   <string name="iap_address_line_one_hint">Kirjoita osoiterivi 1</string>
   <string name="iap_address_line_two">Osoiterivi 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[fi]Select payment method</string>
   <string name="iap_checkout_steps">[fi]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[fi]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[fi]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Pyydä etuseteli</string>
   <string name="iap_confirm">[fi]Confirm</string>
   <string name="iap_confirmation">Vahvistus</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Ota yhteyttä asiakaspalveluun</string>
   <string name="iap_contact_consumer_care_for_support">Lisätietoja saat ottamalla yhteyttä Philipsin asiakaspalveluun.</string>
   <string name="iap_contact_customer_care">[fi]Contact customer care</string>
+  <string name="iap_contact_details">[fi]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[fi]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Jatka</string>
   <string name="iap_continue_shopping">Jatka ostoksia</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[fi]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[fi]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[fi]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[fi]Daily Collection Miniblender</string>
   <string name="iap_delete">Tietojen poistaminen</string>
   <string name="iap_delete_address">Poistetaan toimitusosoite</string>
@@ -186,6 +189,7 @@ FedEx (pakettiposti)</string>
   <string name="iap_payment_pending_not_confirmed">Jos maksua ei vahvisteta ## tunnin kuluessa, lähetämme sinulle toimintaohjeet sähköpostitse.</string>
   <string name="iap_payment_session_expired">Maksuun varattu aika on umpeutunut</string>
   <string name="iap_pending">[fi]Pending</string>
+  <string name="iap_personal_details">[fi]Personal details</string>
   <string name="iap_phone">Puhelin</string>
   <string name="iap_phone_error">Anna kelvollinen puhelinnumero</string>
   <string name="iap_phone_hint">Anna puhelinnumero</string>

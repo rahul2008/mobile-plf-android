@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">เพิ่มวิธีการชำระเงินใหม่</string>
   <string name="iap_add_to_cart">เพิ่มไปยังตะกร้า</string>
   <string name="iap_address">ที่อยู่</string>
-  <string name="iap_address_error">โปรดป้อนที่อยู่ที่ถูกต้อง</string>
+  <string name="iap_address_error">[th]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">ที่อยู่บรรทัดที่ 1</string>
   <string name="iap_address_line_one_hint">ป้อนที่อยู่บรรทัดที่ 1</string>
   <string name="iap_address_line_two">ที่อยู่บรรทัดที่ 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[th]Select payment method</string>
   <string name="iap_checkout_steps">[th]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[th]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[th]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">รับบัตรกำนัล</string>
   <string name="iap_confirm">[th]Confirm</string>
   <string name="iap_confirmation">การยืนยัน</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">ฝ่ายติดต่อดูแลผู้บริโภค</string>
   <string name="iap_contact_consumer_care_for_support">โปรดติดต่อศูนย์ดูแลลูกค้าของ Philips เพื่อการสนับสนุนเพิ่มเติม</string>
   <string name="iap_contact_customer_care">[th]Contact customer care</string>
+  <string name="iap_contact_details">[th]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[th]Please contact Philips Consumer Care</string>
   <string name="iap_continue">ดำเนินการต่อ</string>
   <string name="iap_continue_shopping">เลือกซื้อสินค้าต่อ</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[th]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[th]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">รหัส CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[th]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[th]Daily Collection Miniblender</string>
   <string name="iap_delete">ลบ</string>
   <string name="iap_delete_address">ลบที่อยู่จัดส่งสินค้า</string>
@@ -186,6 +189,7 @@ FedEx(พัสดุไปรษณีย์)</string>
   <string name="iap_payment_pending_not_confirmed">หากการชำระเงินไม่ได้รับการยืนยันภายใน  ##ชั่วโมง เราจะแจ้งให้ทราบผ่านอีเมล์ในสิ่งที่คุณควรทำต่อไป</string>
   <string name="iap_payment_session_expired">เซสชันการชำระเงินของคุณหมดเวลา</string>
   <string name="iap_pending">[th]Pending</string>
+  <string name="iap_personal_details">[th]Personal details</string>
   <string name="iap_phone">โทรศัพท์</string>
   <string name="iap_phone_error">โปรดป้อนหมายเลขโทรศัพท์ที่ถูกต้อง</string>
   <string name="iap_phone_hint">ป้อนหมายเลขโทรศัพท์</string>

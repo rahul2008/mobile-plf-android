@@ -137,7 +137,6 @@ dependencies {
     annotationProcessor deps.butterknife
     annotationProcessor deps.immutables
     annotationProcessor deps.dagger.compiler
-    annotationProcessor deps.frankiesardo_value_processor
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -150,7 +149,6 @@ dependencies {
     implementation deps.rxjava2
     implementation deps.support.appcompatv7
 
-    testImplementation deps.frankiesardo_value
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.robolectric
@@ -160,7 +158,6 @@ dependencies {
     // Android JUnit Runner
     androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.dexmaker_google
-    androidTestImplementation deps.frankiesardo_value
     androidTestImplementation deps.junit
     androidTestImplementation deps.mockito_android
 

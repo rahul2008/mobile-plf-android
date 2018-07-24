@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Добавяне на нов начин на плащане</string>
   <string name="iap_add_to_cart">Добавяне към количката</string>
   <string name="iap_address">Адрес</string>
-  <string name="iap_address_error">Въведете валиден адрес</string>
+  <string name="iap_address_error">[bg]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Адрес - ред 1</string>
   <string name="iap_address_line_one_hint">Въведете ред 1 на адрес</string>
   <string name="iap_address_line_two">Адрес – ред 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[bg]Select payment method</string>
   <string name="iap_checkout_steps">[bg]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[bg]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[bg]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Получаване на ваучер</string>
   <string name="iap_confirm">[bg]Confirm</string>
   <string name="iap_confirmation">Потвърждение</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Свържете се с отдела за поддръжка на клиенти</string>
   <string name="iap_contact_consumer_care_for_support">За допълнителна помощ се свържете с отдела за помощ на клиенти на Philips.</string>
   <string name="iap_contact_customer_care">[bg]Contact customer care</string>
+  <string name="iap_contact_details">[bg]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[bg]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Продължи</string>
   <string name="iap_continue_shopping">Продължете пазаруването</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[bg]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[bg]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[bg]This 3-digit number can be found on the back of your card.</string>
   <string name="iap_daily_selling_product">[bg]Daily Collection Miniblender</string>
   <string name="iap_delete">Изтрий</string>
   <string name="iap_delete_address">Изтриване на адреса за доставка</string>
@@ -186,6 +189,7 @@ FedEx (колетна поща)</string>
   <string name="iap_payment_pending_not_confirmed">Ако плащането ви не е потвърдено в рамките на ##часа, ще ви информираме по имейл какво да направите по-нататък.</string>
   <string name="iap_payment_session_expired">Сесията на плащане изтече</string>
   <string name="iap_pending">[bg]Pending</string>
+  <string name="iap_personal_details">[bg]Personal details</string>
   <string name="iap_phone">Телефон</string>
   <string name="iap_phone_error">Въведете валиден телефонен номер</string>
   <string name="iap_phone_hint">Въведете телефонен номер</string>

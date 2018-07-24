@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column16</string>
   <string name="USR_Account_Merge_Merge_btntxt">Seo kontod</string>
   <string name="USR_Account_Setting_Titletxt">Konto seaded</string>
   <string name="USR_Action_ConsumerCare_Txt">Klienditeenindus</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Unustasite salasõna?</string>
   <string name="USR_Gender_TitleTxt">Sugu</string>
   <string name="USR_Generic_Network_Error">Ups! Midagi läks valesti. Palun proovige hiljem uuesti</string>
-  <string name="USR_Generic_Network_ErrorMsg">Serveriga ei saa ühendust luua.\nKontrollige internetiühendust ja proovige uuesti.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Serveriga ei saa ühendust luua.\nKontrollige internetiühendust ja proovige uuesti.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Allkiri ajavea tõttu aegunud. Kontrollige oma seadme kellaaja seadeid.</string>
   <string name="USR_InValid_PwdErrorMsg">Salasõna ei vasta alltoodud salasõna loomise juhistele.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Vale e-posti aadress. Palun kontrollige.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Veendumaks, et see olete tõesti teie, logige veel korra kontoga %s sisse.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Tühista</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Peaaegu valmis!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Nõustun rakenduse jaotisega %s</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Palun kinnitage tingimused</string>
   <string name="USR_TermsAndConditionsText">Kasutustingimused</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Konto juba olemas.</string>

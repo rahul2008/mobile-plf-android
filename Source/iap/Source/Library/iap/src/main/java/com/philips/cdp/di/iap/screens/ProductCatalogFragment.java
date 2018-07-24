@@ -244,7 +244,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
                 bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, list);
             }
-            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
+            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
         }
     }
 

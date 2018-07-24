@@ -92,6 +92,8 @@
     <string name="cml_unpair_success">Unpaired successfully</string>
     <string name="cml_unpair_failed">Unpairing failed</string>
     <string name="cml_cancel">Cancel</string>
+    <string name="cml_perform_lan_discovery">Perform LAN discovery</string>
+    <string name="cml_perform_ble_discovery">Perform BLE discovery</string>
     <string name="cml_perform_discovery">Perform discovery</string>
     <string name="cml_lan_discovery_failed_to_start">LAN discovery failed to start</string>
     <string name="cml_ble_discovery_failed_to_start">BLE discovery failed to start</string>

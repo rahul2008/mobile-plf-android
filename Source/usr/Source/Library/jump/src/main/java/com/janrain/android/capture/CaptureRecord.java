@@ -41,7 +41,6 @@ import com.janrain.android.Jump;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
-import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -49,11 +48,6 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -124,47 +118,7 @@ public class CaptureRecord extends JSONObject {
      */
     public static CaptureRecord loadFromDisk(Context applicationContext) {
         String fileContents = null;
-        FileInputStream fis = null;
-        try {
 
-            File file = applicationContext.getFileStreamPath(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
-            if (file != null && file.exists()) {
-                LogUtils.logd("isUserSign captureRecord file.exists()");
-                fis = applicationContext.openFileInput(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                byte[] enctText = (byte[]) ois.readObject();
-                byte[] decrtext = SecureStorage.decrypt(enctText);
-                fileContents = new String(decrtext);
-                fis = null;
-                applicationContext.deleteFile(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
-                Jump.getSecureStorageInterface().storeValueForKey(JR_CAPTURE_SIGNED_IN_USER_FILENAME,
-                        fileContents, new SecureStorageInterface.SecureStorageError());
-
-                return inflateCaptureRecord(fileContents);
-            }
-        } catch (FileNotFoundException | NullPointerException ignore) {
-            LogUtils.loge("isUserSign FileNotFoundException");
-
-        } catch (JSONException ignore) {
-            LogUtils.loge("isUserSign JSONException");
-
-            throwDebugException(new RuntimeException("Bad CaptureRecord file contents:\n" + fileContents,
-                    ignore));
-        } catch (IOException | ClassNotFoundException e) {
-            LogUtils.loge("isUserSign IOException");
-
-            e.printStackTrace();
-        } finally {
-            if (fis != null) try {
-                LogUtils.loge("isUserSign fis");
-
-                fis.close();
-            } catch (IOException e) {
-                LogUtils.loge("isUserSign IOException2");
-
-                throwDebugException(new RuntimeException(e));
-            }
-        }
         try {
             fileContents = Jump.getSecureStorageInterface().fetchValueForKey(
                     JR_CAPTURE_SIGNED_IN_USER_FILENAME, new SecureStorageInterface.SecureStorageError());

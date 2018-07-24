@@ -21,10 +21,7 @@ public class AppTagingConstantsTest  extends RegistrationApiInstrumentationBase 
     public void testSenData() throws Exception {
         assertEquals("sendData", appTagingConstants.SEND_DATA);
     }
-    @Test
-    public void testRegidtrationChannel() throws Exception {
-        assertEquals("registrationChannel", appTagingConstants.REGISTRATION_CHANNEL);
-    }
+
     @Test
     public void testSpecialEvents() throws Exception {
         assertEquals("specialEvents", appTagingConstants.SPECIAL_EVENTS);

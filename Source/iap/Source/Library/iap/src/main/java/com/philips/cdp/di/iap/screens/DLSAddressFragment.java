@@ -88,6 +88,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
         shippingFragment = getFragmentByID(R.id.fragment_shipping_address);
 
+
         billingFragment = getFragmentByID(R.id.fragment_billing_address);
 
         setFragmentVisibility(billingFragment, false);
@@ -137,7 +138,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     }
     private  void upDateUi(boolean  isChecked){
         Bundle bundle = getArguments();
-        updateCheckoutStepNumber("1"); // for default
+        updateCheckoutStepNumber("2"); // for default
         if (null != bundle && bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION)) {
             if (bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
                 updateCheckoutStepNumber("2");
@@ -151,7 +152,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         }
 
         if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            updateCheckoutStepNumber("1");
+            updateCheckoutStepNumber("2");
             checkBox.setVisibility(View.GONE);
             HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
             ((DLSShippingAddressFragment) shippingFragment).updateFields(mAddressFieldsHashmap);
@@ -202,6 +203,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
+        setCartIconVisibility(false);
     }
 
     public static DLSAddressFragment createInstance(Bundle args, AnimationType animType) {
@@ -290,7 +292,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
                 if (billingFragment.isVisible() && billingAddressFields!=null) {
                     CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
-                    addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG);
+                    addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG,false);
                     mBtnContinue.setEnabled(true);
                 } else {
                     updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
@@ -312,7 +314,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
         hideProgressBar();
         addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE),
-                OrderSummaryFragment.TAG);
+                OrderSummaryFragment.TAG,false);
     }
 
     private void saveShippingAddressToBackend() {
@@ -431,12 +433,12 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     public void onSetDeliveryAddress(Message msg) {
         Toast.makeText(mContext, "onSetDeliveryAddress", Toast.LENGTH_SHORT).show();
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            /*Bundle bundle = getArguments();
+            Bundle bundle = getArguments();
             DeliveryModes deliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
             if (deliveryMode == null)
                 mAddressController.getDeliveryModes();
-            else*/
-                mPaymentController.getPaymentDetails();
+            else
+            mPaymentController.getPaymentDetails();
         } else {
             hideProgressBar();
             IAPLog.d(IAPLog.LOG, msg.getData().toString());
@@ -506,7 +508,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
-                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG);
+                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG,true);
         }
     }
 

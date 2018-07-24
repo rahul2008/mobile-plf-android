@@ -12,4 +12,9 @@ public class THSVisitHistoryFragmentMock extends THSVisitHistoryFragment {
     public void createCustomProgressBar(ViewGroup group, int size) {
 
     }
+
+    @Override
+    public String getStringFromResource(int resource){
+        return "ddd";
+    }
 }

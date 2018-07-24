@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column10</string>
   <string name="USR_Account_Merge_Merge_btntxt">Verknüpfen</string>
   <string name="USR_Account_Setting_Titletxt">Kontoeinstellungen</string>
   <string name="USR_Action_ConsumerCare_Txt">Consumer Care</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Passwort vergessen?</string>
   <string name="USR_Gender_TitleTxt">Geschlecht</string>
   <string name="USR_Generic_Network_Error">Hoppla! Ein Fehler ist aufgetreten. Versuchen Sie es später erneut.</string>
-  <string name="USR_Generic_Network_ErrorMsg">Verbindung zum Server nicht möglich.\nÜberprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Verbindung zum Server nicht möglich.\nÜberprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Signatur aufgrund eines Zeitfehlers abgelaufen. Bitte Zeiteinstellungen des Geräts überprüfen.</string>
   <string name="USR_InValid_PwdErrorMsg">Das Passwort entspricht nicht den folgenden Richtlinien.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Ungültige E-Mail-Adresse. Bitte überprüfen Sie sie.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Um sicherzustellen, dass Sie der Inhaber des Kontos sind, melden Sie sich bitte erneut mit %s an.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Abbrechen</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Fast fertig!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Ich akzeptiere die %s der App</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Akzeptieren Sie die allgemeinen Geschäftsbedingungen</string>
   <string name="USR_TermsAndConditionsText">Allg. Nutzungsbedingungen</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Konto ist bereits vorhanden.</string>

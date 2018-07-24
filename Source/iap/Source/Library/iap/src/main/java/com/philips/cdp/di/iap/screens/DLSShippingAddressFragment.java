@@ -118,6 +118,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
         mLlAddressLineTwo = rootView.findViewById(R.id.ll_address_line_two);
         inputValidatorAddressLineTwo = new InputValidator(Validator.ADDRESS_PATTERN);
+       // mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
 
 
 
@@ -168,6 +169,9 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         mEtSalutation.setKeyListener(null);
         mEtState.setKeyListener(null);
 
+        mEtFirstName.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
+        mEtLastName.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+
         mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);
 
@@ -179,7 +183,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
         mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
-        mEtAddressLineTwo.addTextChangedListener(new IAPTextWatcher(mEtAddressLineTwo));
+        mEtAddressLineTwo.addTextChangedListener(new IAPTextWatcherAddress(mEtAddressLineTwo));
         mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
         mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
@@ -265,6 +269,38 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         }
 
     }
+
+    private class IAPTextWatcherAddress implements TextWatcher {
+        private EditText mEditText;
+
+        public IAPTextWatcherAddress(EditText editText) {
+            mEditText = editText;
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Do Nothing
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (mEditText .getText().toString().trim().length() !=0) {
+                mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
+                validateShippingAddress(mEditText, false);
+            }
+            else {
+                mLlAddressLineTwo.hideError();
+            }
+
+        }
+
+        public synchronized void afterTextChanged(Editable text) {
+            if (mEditText .getText().toString().trim().length() ==0) {
+                mLlAddressLineTwo.setValidator(null);
+            }
+        }
+
+    }
+
+
 
     private class IAPTextWatcherPhone implements TextWatcher {
         private EditText mEditText;
@@ -380,6 +416,13 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
             if (!result) {
                 mLlAddressLineOne.setErrorMessage(R.string.iap_address_error);
                 mLlAddressLineOne.showError();
+            }
+        }
+        if (editText.getId() == R.id.et_address_line_two && !hasFocus) {
+            result = inputValidatorAddressLineTwo.isValidAddress(mEtAddressLineTwo.getText().toString());
+            if (!result) {
+                mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
+                mLlAddressLineTwo.showError();
             }
         }
         if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus) {

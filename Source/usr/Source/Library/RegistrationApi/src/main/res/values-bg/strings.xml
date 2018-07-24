@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column7</string>
   <string name="USR_Account_Merge_Merge_btntxt">Сливане</string>
   <string name="USR_Account_Setting_Titletxt">Настройки на акаунта</string>
   <string name="USR_Action_ConsumerCare_Txt">Обслужване клиент</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Забравена парола?</string>
   <string name="USR_Gender_TitleTxt">Пол</string>
   <string name="USR_Generic_Network_Error">Опа! Нещо се обърка. Опитайте отново по-късно</string>
-  <string name="USR_Generic_Network_ErrorMsg">Неуспешно свързване със сървъра.\nМоля, проверете интернет връзката си и опитайте отново.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Неуспешно свързване със сървъра.\nМоля, проверете интернет връзката си и опитайте отново.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Подписът е изтекъл поради времева грешка. Моля, проверете настройките за време на устройството.</string>
   <string name="USR_InValid_PwdErrorMsg">Паролата не отговаря на насоките за парола по-долу.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Невалиден имейл адрес. Моля, проверете.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">За да се уверим, че това наистина сте вие, влезте с %s още веднъж.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Отказ</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Почти готово!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Приемам %s на приложението</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Приемете правилата и условията</string>
   <string name="USR_TermsAndConditionsText">Правила и условия</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Акаунтът вече съществува.</string>

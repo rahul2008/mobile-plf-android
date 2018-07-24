@@ -18,6 +18,7 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
@@ -32,8 +33,8 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoStateException
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -89,7 +90,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private static final String HSDP_CONFIGURATION_SHARED = "HSDPConfiguration.Shared";
     protected static final String CHINA_CODE = "CN";
     protected static final String DEFAULT = "default";
-    private String appState;
     private URInterface urInterface;
 
     /**
@@ -118,13 +118,14 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void init(Context context) {
         this.applicationContext = context;
-        appState = ((AppFrameworkApplication) context.getApplicationContext()).getAppState();
-        initHSDP(getConfiguration());
+
+        //Post HSDP initialization on background thread.
+        new Thread(() -> initHSDP(((AppFrameworkApplication) context.getApplicationContext()).getAppState())).start();
 
         initializeUserRegistrationLibrary();
     }
 
-    private void initHSDP(AppStateConfiguration configuration) {
+    private void initHSDP(AppIdentityInterface.AppState configuration) {
         AppInfraInterface appInfra = getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
 
@@ -282,9 +283,12 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         urLaunchInput.enableAddtoBackStack(true);
         RegistrationContentConfiguration contentConfiguration = new RegistrationContentConfiguration();
         contentConfiguration.enableContinueWithouAccount(true);
+       // contentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+       // urLaunchInput.setUIFlow(UIFlow.FLOW_B);
+
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }
@@ -347,18 +351,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     public String getVersion() {
         return RegistrationHelper.getRegistrationApiVersion();
-    }
-
-
-     AppStateConfiguration getConfiguration() {
-        if (appState.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue()))
-            return AppStateConfiguration.STAGING;
-        else if (appState.equalsIgnoreCase(AppStateConfiguration.DEVELOPMENT.getValue()))
-            return AppStateConfiguration.DEVELOPMENT;
-        else if (appState.equalsIgnoreCase(AppStateConfiguration.TEST.getValue()))
-            return AppStateConfiguration.TEST;
-
-        return AppStateConfiguration.STAGING;
     }
 
     protected AppFrameworkApplication getApplicationContext() {

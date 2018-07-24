@@ -17,6 +17,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRES
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_KNOWN_NETWORK;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MAC_ADDRESS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MISMATCHED_PIN;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_NAME;
@@ -24,12 +25,13 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_PIN;
 
 class NetworkNodeDatabaseSchema {
 
-    static final int DB_VERSION = 6;
+    static final int DB_VERSION = 7;
     static final String TABLE_NETWORK_NODE = "network_node";
 
     static final String CREATE_NETWORK_NODE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NETWORK_NODE + "("
             + KEY_ID + " INTEGER NOT NULL UNIQUE,"
             + KEY_CPP_ID + " TEXT UNIQUE,"
+            + KEY_MAC_ADDRESS + " TEXT,"
             + KEY_BOOT_ID + " NUMERIC,"
             + KEY_ENCRYPTION_KEY + " TEXT,"
             + KEY_DEVICE_NAME + " TEXT,"
@@ -66,6 +68,8 @@ class NetworkNodeDatabaseSchema {
                 case 6:
                     queries.addAll(Arrays.asList(addMismatchPinColumn()));
                     break;
+                case 7:
+                    queries.addAll(Arrays.asList(addMacAddressAndHomeSsidColumns()));
                 default:
                     DICommLog.e(DICommLog.DATABASE, "Table creation error");
                     break;
@@ -150,4 +154,12 @@ class NetworkNodeDatabaseSchema {
     private static String[] addMismatchPinColumn() {
         return new String[]{"ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_MISMATCHED_PIN + " TEXT;"};
     }
+
+    private static String[] addMacAddressAndHomeSsidColumns() {
+        return new String[]{"ALTER TABLE " + NetworkNodeDatabaseSchema.TABLE_NETWORK_NODE + " ADD COLUMN " +
+                KEY_MAC_ADDRESS + " STRING NULL",
+                "UPDATE " + NetworkNodeDatabaseSchema.TABLE_NETWORK_NODE + " SET " +
+                        KEY_MAC_ADDRESS + " = " + KEY_CPP_ID};
+    }
+
 }
