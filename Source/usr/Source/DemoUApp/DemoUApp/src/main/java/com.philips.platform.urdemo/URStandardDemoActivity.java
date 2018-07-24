@@ -74,6 +74,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
 
     private final String HSDP_UUID_SHOULD_UPLOAD = "hsdpUUIDUpload";
+    private final String HSDP_LAZY_LOADING_STATUS = "hsdpLazyLoading";
     private Context mContext;
     private ProgressDialog mProgressDialog;
     private String restoredText;
@@ -113,7 +114,13 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             mBtnHsdpRefreshAccessToken.setVisibility(GONE);
         }
 
-        com.philips.platform.uid.view.widget.Switch mCountrySelectionSwitch = findViewById(R.id.county_selection_switch);
+        Switch mHSDPLazyLoadingSwitch = findViewById(R.id.hsdp_lazy_loading_switch);
+        mHSDPLazyLoadingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                updateHsdpLazyLoadingStatus(b);
+            }
+        });
         mUser = new User(mContext);
         mUser.registerUserRegistrationListener(this);
         Button mBtnRefresh = findViewById(R.id.btn_refresh_user);
@@ -278,6 +285,12 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         } else {
             mBtnHsdpRefreshAccessToken.setVisibility(GONE);
         }
+    }
+
+    private void updateHsdpLazyLoadingStatus(boolean b) {
+        RLog.d("updateHsdpLazyLoadingStatus", " Going to set :" + b);
+        final AppInfraInterface appInfraInterface = URDemouAppInterface.appInfra;
+        appInfraInterface.getConfigInterface().setPropertyForKey(HSDP_LAZY_LOADING_STATUS, "UserRegistration", String.valueOf(b), configError);
     }
 
 
