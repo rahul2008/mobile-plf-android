@@ -14,7 +14,6 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
-import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -22,6 +21,8 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
@@ -29,7 +30,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONException;
@@ -59,7 +59,7 @@ public class RegisterSocial extends BaseHSDPLogin implements SocialProviderLogin
         User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordRegister();
 
-        if (RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
+        if (!RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus() && RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
             RLog.d(TAG, "onSuccess : if : is called");
             String emailOrMobile = getUserEmailOrMobile(user);
             hsdpLogin(user.getAccessToken(), emailOrMobile, mSocialProviderLoginHandler);
@@ -122,9 +122,9 @@ public class RegisterSocial extends BaseHSDPLogin implements SocialProviderLogin
         if (mSocialProviderLoginHandler != null) {
             RLog.d(TAG, "onFlowDownloadFailure : mSocialProviderLoginHandler is not null");
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));
+            userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, ErrorCodes.JANRAIN_FLOW_DOWNLOAD_ERROR));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
-            userRegistrationFailureInfo.setErrorCode(RegConstants.JANRAIN_FLOW_DOWNLOAD_ERROR);
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.JANRAIN_FLOW_DOWNLOAD_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->
                     mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
@@ -240,7 +240,7 @@ public class RegisterSocial extends BaseHSDPLogin implements SocialProviderLogin
         }
         RLog.d(TAG, "handleOnLoginSuccess : is isEmailVerified" + isEmailVerified);
 
-        if (RegistrationConfiguration.getInstance().isHsdpFlow() && isEmailVerified) {
+        if (!RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus() && RegistrationConfiguration.getInstance().isHsdpFlow() && isEmailVerified) {
             RLog.d(TAG, "handleOnLoginSuccess : is hsdpflow  and email verified");
             try {
                 hsdpLogin(captured.getAccessToken(), captured.getString("email"), mSocialProviderLoginHandler);

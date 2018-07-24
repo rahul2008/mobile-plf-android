@@ -221,6 +221,20 @@ public class RegistrationConfiguration {
         return false;
     }
 
+    /**
+     * Status of HSDP UUID uploading
+     *
+     * @return boolean
+     */
+    public boolean isHsdpLazyLoadingStatus() {
+        Object obj = appConfiguration.getHSDPLazyLoadingStatus();
+        if (obj != null) {
+            RLog.i("RegistrationConfiguration", "isHsdpLazyLoadingStatus : " + Boolean.parseBoolean((String) obj));
+            return Boolean.parseBoolean((String) obj);
+        }
+        RLog.i("RegistrationConfiguration", "isHsdpLazyLoadingStatus : false");
+        return false;
+    }
 
     /**
      * Get minimium age for country

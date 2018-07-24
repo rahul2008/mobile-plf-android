@@ -56,6 +56,10 @@ public enum JanrainErrorEnum {
     JANRAIN_UNEXPECTED_INTERNAL_ERROR(ErrorCodes.JANRAIN_UNEXPECTED_INTERNAL_ERROR, R.string.USR_UnexpectedInternalError_ErrorMsg),
     JANRAIN_API_CALL_LIMIT_REACHED(ErrorCodes.JANRAIN_API_CALL_LIMIT_REACHED, R.string.USR_Janrain_LimitError_ErrorMsg),
     TRADITIONAL_LOGIN_FAILED_SERVER_ERROR(ErrorCodes.TRADITIONAL_LOGIN_FAILED_SERVER_ERROR, R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg),
+    FORGOT_PASSWORD_FAILED_SERVER_ERROR(ErrorCodes.FORGOT_PASSWORD_FAILED_SERVER_ERROR, R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg),
+    SOCIAL_LOGIN_FAILED_SERVER_ERROR(ErrorCodes.SOCIAL_LOGIN_FAILED_SERVER_ERROR, R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg),
+    RESEND_MAIL_FAILED_SERVER_ERROR(ErrorCodes.RESEND_MAIL_FAILED_SERVER_ERROR, R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg),
+    JANRAIN_FLOW_DOWNLOAD_ERROR(ErrorCodes.JANRAIN_FLOW_DOWNLOAD_ERROR, R.string.USR_Janrain_HSDP_ServerErrorMsg),
     JANRAIN_ERROR_ON_FLOW(ErrorCodes.JANRAIN_ERROR_ON_FLOW, R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg);
 
     int errorCode;
@@ -126,7 +130,7 @@ public enum JanrainErrorEnum {
 
         if (stringId == R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg) {
             return String.format(context.getResources().getString(stringId), errorCode);
-            } else if (stringId == R.string.USR_Janrain_Invalid_Credentials_ErrorMsg) {
+        } else if (stringId == R.string.USR_Janrain_Invalid_Credentials_ErrorMsg) {
             return context.getString(R.string.USR_Janrain_Invalid_Credentials);
         } else if (stringId == R.string.USR_Janrain_EntityAlreadyExists_ErrorMsg) {
             return String.format(context.getString(getStringId(errorCode)), context.getString(R.string.USR_DLS_Email_Phone_Label_Text));

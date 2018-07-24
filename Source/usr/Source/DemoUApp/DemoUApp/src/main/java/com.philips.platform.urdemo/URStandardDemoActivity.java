@@ -640,10 +640,14 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         Toast.makeText(this, "User is logged in ", Toast.LENGTH_SHORT).show();
         activity.finish();
 
+
         final UserLoginState userLoginState = mUser.getUserLoginState();
-        if (userLoginState.name().equals(UserLoginState.PENDING_HSDP_LOGIN)) {
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete :UserLoginState :" + mUser.getUserLoginState());
+        if (userLoginState == UserLoginState.PENDING_HSDP_LOGIN) {
+            RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete : making  HSDP call");
+            Toast.makeText(this, "onUserRegistrationComplete :" + userLoginState.name(), Toast.LENGTH_SHORT).show();
             //make HSDP login call
-            mUser.makeHsdpLogin();
+            mUser.authorizeHSDP();
         }
 
     }
@@ -676,6 +680,18 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     public void onUserLogoutSuccessWithInvalidAccessToken() {
         RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onUserLogoutSuccessWithInvalidAccessToken");
         showToast("onUserLogoutSuccessWithInvalidAccessToken ");
+    }
+
+    @Override
+    public void onHSDPLoginSuccess() {
+        RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onHSDPLoginSuccess");
+        showToast("HSDP LoginSuccess ");
+    }
+
+    @Override
+    public void onHSDPLoginFailure(int errorCode) {
+        RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onHSDPLoginFailure");
+        showToast("HSDPLogin Failure with error code : " + errorCode);
     }
 
 

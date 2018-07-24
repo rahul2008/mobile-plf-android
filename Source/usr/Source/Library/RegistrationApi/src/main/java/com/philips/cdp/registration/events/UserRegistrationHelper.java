@@ -131,4 +131,32 @@ public class UserRegistrationHelper {
             }
         }
     }
+
+    /**
+     * {@code notifyOnLogoutSuccessWithInvalidAccessToken} method to notify on logout success with invalid access token
+     */
+    public synchronized void notifyOnHSDPLoginSuccess() {
+        RLog.d(TAG, "notifyOnHSDPLoginSuccess");
+        synchronized (userRegistrationListeners) {
+            for (UserRegistrationListener eventListener : userRegistrationListeners) {
+                if (eventListener != null) {
+                    eventListener.onHSDPLoginSuccess();
+                }
+            }
+        }
+    }
+
+    /**
+     * {@code notifyOnLogoutSuccessWithInvalidAccessToken} method to notify on logout success with invalid access token
+     */
+    public synchronized void notifyOnHSDPLoginFailure(int errorCode) {
+        RLog.d(TAG, "notifyOnHSDPLoginFailure");
+        synchronized (userRegistrationListeners) {
+            for (UserRegistrationListener eventListener : userRegistrationListeners) {
+                if (eventListener != null) {
+                    eventListener.onHSDPLoginFailure(errorCode);
+                }
+            }
+        }
+    }
 }

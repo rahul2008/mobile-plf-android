@@ -21,7 +21,8 @@
       "HR","HU","IT","JP","KR","LT","LV","NL","NO","PL","BR","PT","RO","RU","UA","SI","SK","SE","TH",
       "TR","VN","CN","TW"],
     "fallbackHomeCountry":"US",
-    "hsdpUUIDUpload": "false"
+    "hsdpUUIDUpload": "false",
+    "hsdpLazyLoading":"false"
   },
   "appinfra": {
     "appidentity.micrositeId" : "77000",

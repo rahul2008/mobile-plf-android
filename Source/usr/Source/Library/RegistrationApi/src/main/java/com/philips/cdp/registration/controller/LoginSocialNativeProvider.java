@@ -15,18 +15,19 @@ import android.content.Context;
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
-import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONObject;
@@ -37,6 +38,7 @@ public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.Sig
     private Context mContext;
     private SocialProviderLoginHandler mSocialLoginHandler;
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
+
     public LoginSocialNativeProvider(SocialProviderLoginHandler socialLoginHandler, Context context,
                                      UpdateUserRecordHandler updateUserRecordHandler) {
         super(context);
@@ -47,14 +49,15 @@ public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.Sig
 
     @Override
     public void onSuccess() {
-        RLog.d(TAG,"onSuccess : is called");
+        RLog.d(TAG, "onSuccess : is called");
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (RegistrationConfiguration.getInstance().isHsdpFlow() &&
+        if (!RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus() && RegistrationConfiguration.getInstance().isHsdpFlow() &&
                 (user.isEmailVerified() || user.isMobileVerified())) {
             String emailorMobile = getUserEmailOrMobile(user);
-            hsdpLogin(user.getAccessToken(),emailorMobile,mSocialLoginHandler);
+            RLog.d(TAG, "onSuccess : from LoginSocialNativeProvider is called");
+            hsdpLogin(user.getAccessToken(), emailorMobile, mSocialLoginHandler);
 
 //            HsdpUser hsdpUser = new HsdpUser(mContext);
 //            String emailorMobile;
@@ -86,11 +89,11 @@ public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.Sig
 
     @Override
     public void onFailure(SignInError error) {
-        RLog.d(TAG,"onFailure : is called");
+        RLog.d(TAG, "onFailure : is called");
         if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isMergeFlowError()) {
 
-            RLog.d(TAG,"onFailure : isMergeFlowError");
+            RLog.d(TAG, "onFailure : isMergeFlowError");
             String emailId = null;
             if (null != error.auth_info) {
                 JRDictionary profile = error.auth_info.getAsDictionary("profile");
@@ -112,14 +115,14 @@ public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.Sig
 
         } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isTwoStepRegFlowError()) {
-            RLog.d(TAG,"onFailure : isTwoStepRegFlowError");
+            RLog.d(TAG, "onFailure : isTwoStepRegFlowError");
             JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
             String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
             ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord,
                     socialRegistrationToken));
 
         } else {
-            RLog.d(TAG,"onFailure : else is called");
+            RLog.d(TAG, "onFailure : else is called");
 //            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
 //            userRegistrationFailureInfo.setErrorDescription();
 //            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
@@ -146,23 +149,23 @@ public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.Sig
         mAccessToken = accessToken;
         mTokenSecret = tokenSecret;
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
-            RLog.d(TAG,"loginSocial : not isJumpInitializated");
+            RLog.d(TAG, "loginSocial : not isJumpInitializated");
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
         } else {
             Jump.startTokenAuthForNativeProvider(mActivity,
                     mProviderName, mAccessToken, mTokenSecret, this, mMergeToken);
-            RLog.d(TAG,"loginSocial : true isJumpInitializated");
+            RLog.d(TAG, "loginSocial : true isJumpInitializated");
             return;
         }
         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
-            RLog.d(TAG,"loginSocial : not isRegInitializationInProgress");
+            RLog.d(TAG, "loginSocial : not isRegInitializationInProgress");
         }
     }
 
     @Override
     public void onFlowDownloadSuccess() {
-        RLog.d(TAG,"onFlowDownloadSuccess : is called");
+        RLog.d(TAG, "onFlowDownloadSuccess : is called");
         Jump.startTokenAuthForNativeProvider(mActivity,
                 mProviderName, mAccessToken, mTokenSecret, this, mMergeToken);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
@@ -170,13 +173,13 @@ public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.Sig
 
     @Override
     public void onFlowDownloadFailure() {
-        RLog.d(TAG,"onFlowDownloadFailure : is called");
+        RLog.d(TAG, "onFlowDownloadFailure : is called");
         if (mSocialLoginHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg));
+            userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, ErrorCodes.SOCIAL_LOGIN_FAILED_SERVER_ERROR));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
-            userRegistrationFailureInfo.setErrorCode(RegConstants.SOCIAL_LOGIN_FAILED_SERVER_ERROR);
-            ThreadUtils.postInMainThread(mContext,()->
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.SOCIAL_LOGIN_FAILED_SERVER_ERROR);
+            ThreadUtils.postInMainThread(mContext, () ->
                     mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();

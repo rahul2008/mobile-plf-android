@@ -21,6 +21,7 @@ import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.controller.*;
 import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.hsdp.*;
 import com.philips.cdp.registration.listener.*;
@@ -99,9 +100,10 @@ public class User {
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
-    private UserLoginState userLoginState;
+    private UserLoginState userLoginState = UserLoginState.PENDING_HSDP_LOGIN;
 
     private TraditionalLoginHandler mTraditionalLoginHandler;
+
     private SocialProviderLoginHandler mSocialProviderLoginHandler;
 
     /**
@@ -128,6 +130,7 @@ public class User {
      */
     public void loginUsingTraditional(final String emailAddress, final String password,
                                       final TraditionalLoginHandler traditionalLoginHandler) {
+        RLog.d(TAG, "loginUsingTraditional called");
         if (traditionalLoginHandler == null && emailAddress == null && password == null) {
             throw new RuntimeException("Email , Password , TraditionalLoginHandler can't be null");
         } else {
@@ -184,6 +187,7 @@ public class User {
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
                                              final SocialProviderLoginHandler socialLoginHandler,
                                              final String mergeToken) {
+        RLog.d(TAG, "loginUserUsingSocialProvider called");
         mSocialProviderLoginHandler = socialLoginHandler;
         new Thread(() -> {
             if (providerName != null && activity != null) {
@@ -211,7 +215,7 @@ public class User {
      * @param accessToken        - accessToken from social provider
      */
     public void startTokenAuthForNativeProvider(final Activity activity, final String providerName, final SocialProviderLoginHandler socialLoginHandler, final String mergeToken, final String accessToken) {
-
+        RLog.d(TAG, "startTokenAuthForNativeProvider called");
         new Thread(() -> {
             if (providerName != null && activity != null) {
                 LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
@@ -251,6 +255,7 @@ public class User {
                                                    final SocialProviderLoginHandler
                                                            socialLoginHandler,
                                                    final String mergeToken) {
+        RLog.d(TAG, "loginUserUsingSocialNativeProvider called");
         new Thread(() -> {
             if (providerName != null && activity != null) {
                 LoginSocialNativeProvider loginSocialResultHandler = new LoginSocialNativeProvider(
@@ -287,6 +292,7 @@ public class User {
                                                final boolean olderThanAgeLimit,
                                                final boolean isReceiveMarketingEmail,
                                                final TraditionalRegistrationHandler traditionalRegisterHandler) {
+        RLog.d(TAG, "registerUserInfoForTraditional called");
         new Thread(() -> {
             RegisterTraditional registerTraditional = new RegisterTraditional(traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
             ABCD.getInstance().setmP(password);
@@ -370,6 +376,7 @@ public class User {
 
     private void mergeTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
                                          final TraditionalLoginHandler traditionalLoginHandler) {
+        RLog.d(TAG, "mergeTraditionalAccount");
         if (emailAddress != null && password != null) {
             LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
                     traditionalLoginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
@@ -416,6 +423,7 @@ public class User {
     public void registerUserInfoForSocial(final String givenName, final String displayName, final String familyName,
                                           final String userEmail, final boolean olderThanAgeLimit, final boolean isReceiveMarketingEmail,
                                           final SocialProviderLoginHandler socialProviderLoginHandler, final String socialRegistrationToken) {
+        RLog.d(TAG, "registerUserInfoForSocial called");
         new Thread(() -> {
             if (socialProviderLoginHandler != null) {
                 RLog.d(TAG, "registerUserInfoForSocial ");
@@ -555,15 +563,38 @@ public class User {
         this.userLoginState = userLoginState;
     }
 
-    public void makeHsdpLogin() {
+    public void authorizeHSDP() {
+        RLog.d(TAG, "authorizeHSDP: proposition called this public api");
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        if (RegistrationConfiguration.getInstance().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
+        boolean hsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
+
+        if (!hsdpFlow && null == hsdpUser.getHsdpUserRecord()) {
+            RLog.d(TAG, "authorizeHSDP: not HSDP flow and HSDP configuration not done");
+            UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_99);
+        } else if (!isUserSignInJanrain()) {
+            RLog.d(TAG, "authorizeHSDP: Janrain user not signed-in");
+            UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_98);
+        } else if (isUserSignInJanrain() && !isUserSignIn()) {
+            RLog.d(TAG, "authorizeHSDP: Janrain user signed-in not an HSDP So making HSDP call");
+            hsdpLogin(hsdpUser, hsdpFlow);
+        }
+
+    }
+
+    private void hsdpLogin(HsdpUser hsdpUser, boolean hsdpFlow) {
+        if (RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus() && hsdpFlow && null != hsdpUser.getHsdpUserRecord()) {
             BaseHSDPLogin baseHSDPLogin = new BaseHSDPLogin(mContext);
             if (mTraditionalLoginHandler != null) {
+                RLog.d(TAG, "authorizeHSDP: with mTraditionalLoginHandler ");
                 baseHSDPLogin.hsdpLogin(getAccessToken(), getEmail(), mTraditionalLoginHandler);
             } else {
+                RLog.d(TAG, "authorizeHSDP:with mSocialProviderLoginHandler");
                 baseHSDPLogin.hsdpLogin(getAccessToken(), getEmail(), mSocialProviderLoginHandler);
             }
+        } else {
+            RLog.d(TAG, "authorizeHSDP:  hsdpUser :" + hsdpFlow + " and hsdpUser.getHsdpUserRecord() is " +
+                    "null");
+            throw new RuntimeException("Please configured HSDP configuration before making authorizeHSDP api call");
         }
     }
 
@@ -586,11 +617,28 @@ public class User {
         boolean isAcceptTerms = RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired();
         RLog.d(TAG, "isUserSignIn isEmailVerificationRequired : " + isEmailVerificationRequired + "and isHsdpFlow : " + isHsdpFlow + "and isAcceptTerms : " + isAcceptTerms);
         boolean signedIn = true;
-        signedIn = isEmailVerificationSignIn(capturedRecord, isEmailVerificationRequired, signedIn);
-        signedIn = isHSDPUserSignedIn(isEmailVerificationRequired, isHsdpFlow, signedIn);
         signedIn = isSignedInOnRegistrationClientIdPresent(capturedRecord, signedIn);
+        signedIn = isEmailVerificationSignIn(capturedRecord, isEmailVerificationRequired, signedIn);
         signedIn = isSignedInOnAcceptedTermsAndConditions(isAcceptTerms, signedIn);
-        setUserLoginState(UserLoginState.USER_LOGGED_IN);
+        signedIn = isHSDPUserSignedIn(isEmailVerificationRequired, isHsdpFlow, signedIn);
+        return signedIn;
+    }
+
+    public boolean isUserSignInJanrain() {
+        CaptureRecord capturedRecord = Jump.getSignedInUser();
+        if (capturedRecord == null) {
+            capturedRecord = CaptureRecord.loadFromDisk(mContext);
+            RLog.d(TAG, "isUserSignIn captureRecord is NULL");
+            if (capturedRecord == null) return false;
+        }
+
+        boolean isEmailVerificationRequired = RegistrationConfiguration.getInstance().isEmailVerificationRequired();
+        boolean isAcceptTerms = RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired();
+        RLog.d(TAG, "isUserSignIn isEmailVerificationRequired : " + isEmailVerificationRequired + "and isAcceptTerms : " + isAcceptTerms);
+        boolean signedIn = true;
+        signedIn = isSignedInOnRegistrationClientIdPresent(capturedRecord, signedIn);
+        signedIn = isEmailVerificationSignIn(capturedRecord, isEmailVerificationRequired, signedIn);
+        signedIn = isSignedInOnAcceptedTermsAndConditions(isAcceptTerms, signedIn);
         return signedIn;
     }
 
@@ -625,15 +673,14 @@ public class User {
             }
             HsdpUser hsdpUser = new HsdpUser(mContext);
             final boolean hsdpUserSignedIn = hsdpUser.isHsdpUserSignedIn();
+            if (!hsdpUserSignedIn) {
+                setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
+            }
             signedIn = hsdpUserSignedIn;
-//            if (!hsdpUserSignedIn) {
-//                setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
-//            } else {
-//                signedIn = signedIn && hsdpUserSignedIn;
-//            }
-            RLog.i(TAG, "isHSDPUserSignedIn SignIn status: " + signedIn);
+            RLog.i(TAG, "isHSDPUserSignedIn SignIn status if isHsdpFlow: " + signedIn);
 
         } else {
+            RLog.i(TAG, "isHSDPUserSignedIn SignIn status: " + signedIn);
             setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
         }
         return signedIn;

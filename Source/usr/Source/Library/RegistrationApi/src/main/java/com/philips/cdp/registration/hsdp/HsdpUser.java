@@ -12,6 +12,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcel;
+import android.util.Base64;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
@@ -43,11 +44,6 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-
-import android.os.Parcelable;
-import android.util.Base64;
-import android.util.Log;
-
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -527,7 +523,7 @@ public class HsdpUser {
     private void handleSocialNetworkFailure(SocialLoginHandler loginHandler) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         userRegistrationFailureInfo.setErrorCode(ErrorCodes.HSDP_SYSTEM_ERROR_403);
-        userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));
+        userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.HSDP, ErrorCodes.HSDP_SYSTEM_ERROR_403));
         userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.NETWORK_ERROR);
 
         ThreadUtils.postInMainThread(mContext, () ->

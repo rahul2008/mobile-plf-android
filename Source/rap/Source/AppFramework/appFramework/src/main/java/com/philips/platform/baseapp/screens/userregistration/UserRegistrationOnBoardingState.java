@@ -19,4 +19,13 @@ public class UserRegistrationOnBoardingState extends UserRegistrationState {
         super(AppStates.ON_BOARDING_REGISTRATION);
     }
 
+    @Override
+    public void onHSDPLoginSuccess() {
+
+    }
+
+    @Override
+    public void onHSDPLoginFailure() {
+
+    }
 }
