@@ -29,6 +29,8 @@ public class RegistrationContentConfiguration implements Serializable {
 
     private String optInActionBarText;
 
+    private int showMarketImage;
+
     public String getValueForRegistrationDescription() {
         return valueForRegistrationDescription;
     }
@@ -119,6 +121,15 @@ public class RegistrationContentConfiguration implements Serializable {
     public void enableContinueWithouAccount(boolean hideHomeScreenContinueWithouAccount) {
         RLog.i(TAG, "enableContinueWithouAccount :" + hideHomeScreenContinueWithouAccount);
         this.enableContinueWithouAccount = hideHomeScreenContinueWithouAccount;
+    }
+
+    public int getEnableMarketImage() {
+        return showMarketImage;
+    }
+
+    public void enableMarketImage(int imageId) {
+        RLog.i(TAG, "enableImageId :" + imageId);
+        this.showMarketImage = imageId;
     }
 
 }

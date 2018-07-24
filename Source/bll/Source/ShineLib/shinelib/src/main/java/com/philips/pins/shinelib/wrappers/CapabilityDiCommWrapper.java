@@ -11,13 +11,13 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.SHNDataRaw;
-
+import com.philips.pins.shinelib.datatypes.StreamData;
+import com.philips.pins.shinelib.capabilities.StreamIdentifier;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 
-public class CapabilityDiCommWrapper implements CapabilityDiComm, ResultListener<SHNDataRaw> {
+public class CapabilityDiCommWrapper implements CapabilityDiComm, ResultListener<StreamData> {
 
     @NonNull
     private final CapabilityDiComm wrappedShnCapability;
@@ -28,7 +28,7 @@ public class CapabilityDiCommWrapper implements CapabilityDiComm, ResultListener
     @NonNull
     private final Handler internalHandler;
 
-    private Set<ResultListener<SHNDataRaw>> dataRawResultListenersSet;
+    private Set<ResultListener<StreamData>> streamDataResultListenersSet;
 
     public CapabilityDiCommWrapper(@NonNull CapabilityDiComm shnCapability, @NonNull Handler internalHandler, @NonNull Handler userHandler) {
         this.wrappedShnCapability = shnCapability;
@@ -36,35 +36,35 @@ public class CapabilityDiCommWrapper implements CapabilityDiComm, ResultListener
         this.internalHandler = internalHandler;
 
         wrappedShnCapability.addDataListener(this);
-        dataRawResultListenersSet = new CopyOnWriteArraySet<>();
+        streamDataResultListenersSet = new CopyOnWriteArraySet<>();
     }
 
     @Override
-    public void writeData(@NonNull final byte[] data) {
+    public void writeData(@NonNull final byte[] data, final StreamIdentifier streamIdentifier) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.writeData(data);
+                wrappedShnCapability.writeData(data, streamIdentifier);
             }
         });
     }
 
     @Override
-    public void addDataListener(@NonNull final ResultListener<SHNDataRaw> dataRawResultListener) {
-        dataRawResultListenersSet.add(dataRawResultListener);
+    public void addDataListener(@NonNull final ResultListener<StreamData> dataRawResultListener) {
+        streamDataResultListenersSet.add(dataRawResultListener);
     }
 
     @Override
-    public void removeDataListener(@NonNull ResultListener<SHNDataRaw> dataRawResultListener) {
-        dataRawResultListenersSet.remove(dataRawResultListener);
+    public void removeDataListener(@NonNull ResultListener<StreamData> dataRawResultListener) {
+        streamDataResultListenersSet.remove(dataRawResultListener);
     }
 
     @Override
-    public void onActionCompleted(final SHNDataRaw value, @NonNull final SHNResult result) {
+    public void onActionCompleted(final StreamData value, @NonNull final SHNResult result) {
         userHandler.post(new Runnable() {
             @Override
             public void run() {
-                for (ResultListener<SHNDataRaw> dataRawResultListener : dataRawResultListenersSet) {
+                for (ResultListener<StreamData> dataRawResultListener : streamDataResultListenersSet) {
                     dataRawResultListener.onActionCompleted(value, result);
                 }
             }

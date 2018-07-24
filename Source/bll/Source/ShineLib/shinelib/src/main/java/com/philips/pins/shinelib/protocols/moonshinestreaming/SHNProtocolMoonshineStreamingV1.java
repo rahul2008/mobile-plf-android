@@ -214,7 +214,7 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     }
 
     @Override
-    public void sendData(byte[] data) {
+    public void sendData(byte[] data, MoonshineStreamIdentifier streamIdentifier) {
         SHNLogger.i(TAG, "sendData");
         int start = 0;
         int length = data.length;
@@ -398,7 +398,7 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
     @Override
     public void onReadProtocolInformation(byte[] data) {
         SHNLogger.i(TAG, "onReadProtocolInformation");
-        SHNProtocolByteStreamingVersionSwitcher.SHNProtocolInformation shnProtocolInformation = SHNProtocolByteStreamingVersionSwitcher.SHNProtocolInformation.createFromData(data);
+        SHNProtocolInformation shnProtocolInformation = SHNProtocolInformation.createFromData(data);
         if (shnProtocolInformation == null || shnProtocolInformation.protocolVersion == PROTOCOL_VERSION) {
             if (shnProtocolInformation != null) {
                 txWindowSize = shnProtocolInformation.txWindowSize;
@@ -424,7 +424,7 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
                 rxNextExpectedSequenceNr %= MAX_SEQUENCE_NR;
 
                 if (shnProtocolMoonshineStreamingListener != null && data.length > 1) {
-                    shnProtocolMoonshineStreamingListener.onDataReceived(Arrays.copyOfRange(data, 1, data.length));
+                    shnProtocolMoonshineStreamingListener.onDataReceived(Arrays.copyOfRange(data, 1, data.length), MoonshineStreamIdentifier.STREAM_1);
                 }
                 if (calcPacketsInRxWindow() == rxWindowSize) {
                     stopRxAckTimer();
