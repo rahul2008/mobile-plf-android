@@ -25,7 +25,8 @@ public class UserRegistrationOnBoardingState extends UserRegistrationState {
     }
 
     @Override
-    public void onHSDPLoginFailure() {
+    public void onHSDPLoginFailure(int errorCode) {
 
     }
+
 }
