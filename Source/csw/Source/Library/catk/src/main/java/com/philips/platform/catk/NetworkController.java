@@ -10,7 +10,6 @@ package com.philips.platform.catk;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.RefreshTokenListener;
@@ -25,12 +24,16 @@ public class NetworkController implements AuthErrorListener {
     @Inject
     RestInterface restInterface;
 
+    RefreshTokenHandler refreshTokenHandler;
+
+
     NetworkController() {
         init();
     }
 
     void init() {
         ConsentsClient.getInstance().getCatkComponent().inject(this);
+        refreshTokenHandler = new RefreshTokenHandler(ConsentsClient.getInstance().getCatkComponent().getUser());
     }
 
     void sendConsentRequest(final NetworkAbstractModel model) {
@@ -44,7 +47,6 @@ public class NetworkController implements AuthErrorListener {
             if (restInterface != null) {
                 restInterface.getRequestQueue().add(consentRequest);
             } else {
-                // Need to markErrorAndGetPrevious handle
                 Log.e("Rest client", "Couldn't initialise REST Client");
             }
         }
@@ -55,9 +57,22 @@ public class NetworkController implements AuthErrorListener {
     }
 
     @Override
-    public void onAuthError(NetworkAbstractModel model, VolleyError error) {
-        performRefreshToken(model, error);
+    public void onAuthError(final NetworkAbstractModel model, final VolleyError error) {
+        refreshTokenHandler.refreshToken(new RefreshTokenListener() {
+            @Override
+            public void onRefreshSuccess() {
+                sendConsentRequest(model);
+            }
+
+            @Override
+            public void onRefreshFailed(int errCode) {
+                if (model != null) {
+                    model.onResponseError(new ConsentNetworkError(error));
+                }
+            }
+        });
     }
+
 
     public static Map<String, String> requestHeader() {
         Map<String, String> header = new HashMap<>();
@@ -74,40 +89,4 @@ public class NetworkController implements AuthErrorListener {
         headers.put("authorization", "bearer " + ConsentsClient.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
     }
 
-    private void performRefreshToken(final NetworkAbstractModel triedModel, final VolleyError error) {
-        refreshAccessToken(new RefreshTokenListener() {
-            @Override
-            public void onRefreshSuccess() {
-                NetworkAbstractModel model = triedModel;
-                sendConsentRequest(model);
-            }
-
-            @Override
-            public void onRefreshFailed(int errCode) {
-                NetworkAbstractModel model = triedModel;
-                if (model != null) {
-                    model.onResponseError(new ConsentNetworkError(error));
-                }
-            }
-        });
-    }
-
-    private void refreshAccessToken(final RefreshTokenListener refreshTokenListener) {
-        ConsentsClient.getInstance().getCatkComponent().getUser().refreshLoginSession(new RefreshLoginSessionHandler() {
-            @Override
-            public void onRefreshLoginSessionSuccess() {
-                refreshTokenListener.onRefreshSuccess();
-            }
-
-            @Override
-            public void onRefreshLoginSessionFailedWithError(int errCode) {
-                refreshTokenListener.onRefreshFailed(errCode);
-            }
-
-            @Override
-            public void onRefreshLoginSessionInProgress(String s) {
-                // Need to handle
-            }
-        });
-    }
 }
