@@ -203,47 +203,7 @@ def BuildAndUnitTest() {
         set -e
         chmod -R 755 .
         ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
-            :AppInfra:cC \
-            :AppInfra:testReleaseUnitTest \
-            :uAppFwLib:testReleaseUnitTest \
-            :securedblibrary:cC \
-            :registrationApi:cC \
-            :registrationApi:testReleaseUnitTest \
-            :jump:cC \
-            :jump:testReleaseUnitTest \
-            :hsdp:cC \
-            :hsdp:testReleaseUnitTest \
-            :productselection:cC \
-            :telehealth:testReleaseUnitTest \
-            :bluelib:generateJavadoc \
-            :bluelib:testReleaseUnitTest \
-            :product-registration-lib:testReleaseUnitTest \
-            :iap:testReleaseUnitTest \
-            :digitalCareUApp:cC \
-            :digitalCareUApp:testRelease \
-            :digitalCare:cC \
-            :digitalCare:testRelease \
-            :commlib-api:generateJavadocPublicApi \
-            :commlib-ble:generateJavadocPublicApi \
-            :commlib-lan:generateJavadocPublicApi \
-            :commlib-cloud:generateJavadocPublicApi \
-            :commlib:testReleaseUnitTest \
-            :commlib-testutils:testReleaseUnitTest \
             :commlib-integration-tests:testReleaseUnitTest \
-            :commlib-ble:testReleaseUnitTest \
-            :commlib-lan:testReleaseUnitTest \
-            :commlib-cloud:testReleaseUnitTest \
-            :commlib-api:testReleaseUnitTest \
-            :mya:cC \
-            :mya:testRelease \
-            :catk:testReleaseUnitTest \
-            :csw:testReleaseUnitTest \
-            :pif:testReleaseUnitTest \
-            :dataServices:testReleaseUnitTest \
-            :dataServicesUApp:testReleaseUnitTest \
-            :devicepairingUApp:testReleaseUnitTest \
-            :ews-android:testReleaseUnitTest \
-            :referenceApp:testReleaseUnitTest
     '''
 
     archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/release/*.apk'
