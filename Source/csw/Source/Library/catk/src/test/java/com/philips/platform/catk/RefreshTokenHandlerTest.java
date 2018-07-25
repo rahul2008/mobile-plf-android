@@ -67,7 +67,7 @@ public class RefreshTokenHandlerTest {
     }
 
     @Test
-    public void shouldCallOnRefreshSuccessWhenStateIsRefreshSuccessfull() throws Exception {
+    public void shouldCallOnRefreshSuccessTwiceWhenrefreshTokenCallesTwice() throws Exception {
         refreshTokenHandler.refreshToken(mockRefreshTokenListener);
 
         //Post another request
@@ -82,7 +82,7 @@ public class RefreshTokenHandlerTest {
     }
 
     @Test
-    public void shouldNeverRefreshLoginSessionWhenStateIsInProgress() throws Exception {
+    public void shouldCallonRefreshFailedTwiceWhenRefreshTokenIsCalledTwiceAndSetStateToNone() throws Exception {
 
         refreshTokenHandler.refreshToken(mockRefreshTokenListener);
 
@@ -97,15 +97,28 @@ public class RefreshTokenHandlerTest {
     }
 
     @Test
-    public void onRefreshLoginSessionSuccess() throws Exception {
+    public void shouldCallOnRefreshSuccessWhenStateIsRefreshSuccessfull() throws Exception {
+
+        refreshTokenHandler.refreshState.set(STATE_TOKEN_REFRESH_SUCCESSFUL);
+        refreshTokenHandler.refreshToken(mockRefreshTokenListener);
+        Mockito.verify(mockRefreshTokenListener).onRefreshSuccess();
     }
 
     @Test
     public void onRefreshLoginSessionFailedWithError() throws Exception {
+
+        refreshTokenHandler.refreshState.set(STATE_TOKEN_REFRESH_FAILED);
+        refreshTokenHandler.refreshToken(mockRefreshTokenListener);
+        Mockito.verify(mockRefreshTokenListener).onRefreshFailed(0);
     }
 
     @Test
-    public void onRefreshLoginSessionInProgress() throws Exception {
+    public void onRefreshLoginSessionFailedWithDefault() throws Exception {
+
+        refreshTokenHandler.refreshState.set(100);
+        refreshTokenHandler.refreshToken(mockRefreshTokenListener);
+        Mockito.verify(mockRefreshTokenListener).onRefreshFailed(0);
     }
+
 
 }
