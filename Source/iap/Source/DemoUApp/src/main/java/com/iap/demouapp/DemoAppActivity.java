@@ -608,6 +608,16 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    @Override
+    public void onHSDPLoginSuccess() {
+
+    }
+
+    @Override
+    public void onHSDPLoginFailure(int errorCode) {
+
+    }
+
     void showScreenSizeInDp() {
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
