@@ -15,6 +15,8 @@ public class UIDActivity extends AppCompatActivity {
     private static final String TAG = UIDActivity.class.getSimpleName();
     private Resources uidResources;
 
+    private static boolean isLanguagePackNeeded = true;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         if (getThemeIDFromManifest() == 0) {
@@ -26,21 +28,26 @@ public class UIDActivity extends AppCompatActivity {
 
     @Override
     public Resources getResources() {
-        if (uidResources == null) {
-            uidResources = new UIDResources(super.getResources());
+        if (isLanguagePackNeeded) {
+            if (uidResources == null) {
+                uidResources = new UIDResources(super.getResources());
+            }
+            return uidResources;
         }
-        return uidResources;
+        return super.getResources();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        getDelegate().onConfigurationChanged(newConfig);
-        if (uidResources != null) {
-            // The real (and thus managed) resources object was already updated
-            // by ResourcesManager, so pull the current metrics from there.
-            final DisplayMetrics newMetrics = super.getResources().getDisplayMetrics();
-            uidResources.updateConfiguration(newConfig, newMetrics);
+        if(isLanguagePackNeeded){
+            getDelegate().onConfigurationChanged(newConfig);
+            if (uidResources != null) {
+                // The real (and thus managed) resources object was already updated
+                // by ResourcesManager, so pull the current metrics from there.
+                final DisplayMetrics newMetrics = super.getResources().getDisplayMetrics();
+                uidResources.updateConfiguration(newConfig, newMetrics);
+            }
         }
     }
 
@@ -53,5 +60,9 @@ public class UIDActivity extends AppCompatActivity {
             UIDLog.e(TAG, "Unable to find activity info for " + e.getMessage());
         }
         return themeID;
+    }
+
+    public static void setLanguagePackNeeded(boolean languagePackNeeded) {
+        isLanguagePackNeeded = languagePackNeeded;
     }
 }
