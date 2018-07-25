@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column43</string>
   <string name="USR_Account_Merge_Merge_btntxt">合併</string>
   <string name="USR_Account_Setting_Titletxt">帳戶設定</string>
   <string name="USR_Action_ConsumerCare_Txt">客戶服務</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">忘記密碼？</string>
   <string name="USR_Gender_TitleTxt">性別</string>
   <string name="USR_Generic_Network_Error">糟糕！發生錯誤，請稍後再試</string>
-  <string name="USR_Generic_Network_ErrorMsg">無法連接伺服器。\n請檢查網絡連接然後重新嘗試。[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">無法連接伺服器。\n請檢查網絡連接然後重新嘗試。</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">由於時間錯誤，簽名已過期。請檢查您裝置的時間設定。</string>
   <string name="USR_InValid_PwdErrorMsg">密碼並不符合以下的密碼指引。</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">電郵地址無效。請檢查。</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">為驗證您的身份，請再次使用  登入。</string>
   <string name="USR_Social_Merge_Cancel_btntxt">取消</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">快完成了！</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">我接受應用程式的</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">請接受條款及細則</string>
   <string name="USR_TermsAndConditionsText">條款與條件</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">帳戶經已存在。</string>

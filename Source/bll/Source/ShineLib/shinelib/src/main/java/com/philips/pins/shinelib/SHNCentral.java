@@ -21,8 +21,8 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
+import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.DataMigrater;
@@ -528,6 +528,17 @@ public class SHNCentral {
      */
     public boolean isBluetoothAdapterEnabled() {
         return btAdapter.isEnabled();
+    }
+
+    /**
+     * Validate a String Bluetooth address, such as "00:43:A8:23:10:F0"
+     * <p>Alphabetic characters must be uppercase to be valid.
+     *
+     * @param address Bluetooth address as string
+     * @return true if the address is valid, false otherwise
+     */
+    public boolean isValidMacAddress(String address) {
+        return BluetoothAdapter.checkBluetoothAddress(address);
     }
 
     /**

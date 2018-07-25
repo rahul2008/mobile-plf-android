@@ -93,6 +93,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_order_details, true);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_DETAIL_PAGE_NAME);
+        setCartIconVisibility(false);
     }
 
     @Override
@@ -233,7 +234,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                     bundle.putString(IAPConstant.PRODUCT_OVERVIEW, product.getMarketingTextHeader());
 //                    bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
 //                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getmStockLevel());
-                    addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
+                    addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
                 }
             });
         }
@@ -277,12 +278,14 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         hideProgressBar();
         if (msg.obj instanceof ContactsResponse) {
             ContactsResponse contactsResponse = (ContactsResponse) msg.obj;
-            mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
-            mOpeningHoursWeekdays = contactsResponse.getData().getPhone().get(0).getOpeningHoursWeekdays();
-            mOpeningHoursSaturday = contactsResponse.getData().getPhone().get(0).getOpeningHoursSaturday();
+            if(contactsResponse.getData()!=null) {
+                mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
+                mOpeningHoursWeekdays = contactsResponse.getData().getPhone().get(0).getOpeningHoursWeekdays();
+                mOpeningHoursSaturday = contactsResponse.getData().getPhone().get(0).getOpeningHoursSaturday();
 
-            setCallTimings();
-            btncall.setEnabled(true);
+                setCallTimings();
+                btncall.setEnabled(true);
+            }
         }
     }
 
@@ -311,7 +314,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                     bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
                     bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
                     bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
-                    addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG);
+                    addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG,true);
                 }
             }
         }

@@ -3,6 +3,8 @@ package com.philips.platform.catk;
 import com.philips.platform.catk.datamodel.CachedConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
+import java.util.Date;
+
 /**
  * This interface is for getting and storing consents from cache.
  * The consent cache will be a read only cache.
@@ -28,9 +30,10 @@ interface ConsentCacheInterface {
      * @param consentType consent type whose status must be cached
      * @param status
      * @param version
+     * @param lastModifiedTimeStamp
      * @since 18.2.0
      */
-    void storeConsentState(final String consentType, ConsentStates status, int version);
+    void storeConsentState(final String consentType, ConsentStates status, int version, Date lastModifiedTimeStamp);
 
     /**
      * Clear cache

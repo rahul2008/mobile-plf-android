@@ -26,6 +26,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IP_ADDRES
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_KNOWN_NETWORK;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_LAST_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MAC_ADDRESS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MISMATCHED_PIN;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MODEL_NAME;
@@ -40,6 +41,7 @@ abstract public class NonSecureNetworkNodeDatabaseHelperBaseTest extends Robolec
     static final int VERSION_4 = 4;
     static final int VERSION_5 = 5;
     static final int VERSION_6 = 6;
+    static final int VERSION_7 = 7;
 
     static final String CPP_ID = "ccp";
     static final long BOOT_ID = 1337L;
@@ -56,6 +58,8 @@ abstract public class NonSecureNetworkNodeDatabaseHelperBaseTest extends Robolec
     static final String PIN = "pin";
     static final String TYPE = "type";
     static final String MISMATCHED_PIN = "mismatched pin";
+    static final String MAC_ADDRESS = "00:11:22:33:44:55";
+    static final String SSID = "ssid";
 
     NonSecureNetworkNodeDatabaseHelper networkNodeDatabaseHelper;
 
@@ -144,6 +148,9 @@ abstract public class NonSecureNetworkNodeDatabaseHelperBaseTest extends Robolec
             data.put(KEY_MISMATCHED_PIN, MISMATCHED_PIN);
         }
 
+        if (version >= VERSION_7) {
+            data.put(KEY_MAC_ADDRESS, MAC_ADDRESS);
+        }
         return data;
     }
 }

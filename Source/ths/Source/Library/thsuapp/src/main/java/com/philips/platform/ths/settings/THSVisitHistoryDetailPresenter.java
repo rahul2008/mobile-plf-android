@@ -93,7 +93,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
     @Override
     public void onFailure(Throwable throwable) {
         if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
-            mThsVisitHistoryDetailFragment.showError(mThsVisitHistoryDetailFragment.getString(R.string.ths_se_server_error_toast_message));
+            mThsVisitHistoryDetailFragment.showError(mThsVisitHistoryDetailFragment.getStringFromResource(R.string.ths_se_server_error_toast_message));
         }
     }
 
@@ -117,7 +117,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
                 public void onFailure(Throwable throwable) {
                     if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
                         mThsVisitHistoryDetailFragment.hideProgressBar();
-                        mThsVisitHistoryDetailFragment.showError(mThsVisitHistoryDetailFragment.getString(R.string.ths_se_server_error_toast_message));
+                        mThsVisitHistoryDetailFragment.showError(mThsVisitHistoryDetailFragment.getStringFromResource(R.string.ths_se_server_error_toast_message));
                     }
                 }
             });

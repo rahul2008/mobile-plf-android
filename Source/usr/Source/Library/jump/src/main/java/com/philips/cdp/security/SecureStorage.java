@@ -39,44 +39,6 @@ public class SecureStorage {
 
     private static byte[] secretKey;
 
-     //meant to migrate unencrypted data to encrypted one
-    public static void migrateUserData(Context context ,final String pFileName ) {
-
-        try {
-            //Read from file
-            final FileInputStream fis = context.openFileInput(pFileName);
-            final ObjectInputStream ois = new ObjectInputStream(fis);
-            final Object object = ois.readObject();
-            byte[] plainBytes = null;
-            if (object instanceof byte[]) {
-                plainBytes = (byte[]) object;
-            }
-            context.deleteFile(pFileName);
-            fis.close();
-            ois.close();
-            Jump.getSecureStorageInterface().storeValueForKey(pFileName,new String(plainBytes),
-                    new SecureStorageInterface.SecureStorageError());
-        } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    public static String objectToString(Serializable obj) {
-        try {
-            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            final ObjectOutputStream oos = new ObjectOutputStream(
-                    new Base64OutputStream(baos, Base64.NO_PADDING
-                            | Base64.NO_WRAP));
-            oos.writeObject(obj);
-            oos.close();
-            return baos.toString("UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 
     public static Object stringToObject(String str) {
@@ -91,27 +53,6 @@ public class SecureStorage {
     }
 
 
-    public static byte[] decrypt(byte[] encByte) {
-        //storeSecretKey();
-        secretKey = SKey.generateSecretKey();
-        try {
-            final Key key = (Key) new SecretKeySpec(secretKey, AES);
-            final Cipher cipher = Cipher.getInstance(AES);
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            return cipher.doFinal(encByte);
 
-        } catch (NoSuchAlgorithmException | InvalidKeyException |
-                NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static void generateSecretKey() {
-        if (secretKey == null) {
-            //storeSecretKey();
-            secretKey = SKey.generateSecretKey();
-        }
-    }
 
 }

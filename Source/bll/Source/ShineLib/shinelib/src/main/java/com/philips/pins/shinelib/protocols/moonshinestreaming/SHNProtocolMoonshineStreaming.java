@@ -10,7 +10,7 @@ import com.philips.pins.shinelib.services.SHNServiceByteStreaming;
 
 public interface SHNProtocolMoonshineStreaming extends SHNServiceByteStreaming.SHNServiceMoonshineStreamingListener {
     interface SHNProtocolMoonshineStreamingListener {
-        void onDataReceived(byte[] data);
+        void onDataReceived(byte[] data, MoonshineStreamIdentifier streamIdentifier);
 
         void onProtocolAvailable();
 
@@ -19,7 +19,7 @@ public interface SHNProtocolMoonshineStreaming extends SHNServiceByteStreaming.S
 
     void setShnProtocolMoonshineStreamingListener(SHNProtocolMoonshineStreamingListener shnProtocolMoonshineStreamingListener);
 
-    void sendData(byte[] bytes);
+    void sendData(byte[] bytes, MoonshineStreamIdentifier streamIdentifier);
 
     void transitionToError(SHNResult shnResult);
 

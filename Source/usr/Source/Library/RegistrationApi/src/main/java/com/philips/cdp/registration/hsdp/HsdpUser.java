@@ -12,6 +12,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcel;
+import android.util.Base64;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
@@ -39,14 +40,6 @@ import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-
-import android.os.Parcelable;
-import android.util.Base64;
-import android.util.Log;
 
 import java.util.Map;
 
@@ -345,24 +338,6 @@ public class HsdpUser {
                 parcel.recycle();
             }
         }else{
-            //Need to migrate data from v1 to v2
-            RLog.d("HsdpTesting","Checking if hsdp record v1 is present in SS or not?");
-            try {
-                File file = mContext.getFileStreamPath(HSDP_RECORD_FILE);
-                if (file != null && file.exists()) {
-                    final FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
-                    final ObjectInputStream ois = new ObjectInputStream(fis);
-                    byte[] enctText = (byte[]) ois.readObject();
-                    byte[] decrtext = SecureStorage.decrypt(enctText);
-                    mContext.deleteFile(HSDP_RECORD_FILE);
-                    Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,
-                            new String(decrtext), new SecureStorageInterface.SecureStorageError());
-                    ois.close();
-                    fis.close();
-                }
-            } catch (Exception e) {
-                RLog.e(TAG, "getHsdpUserRecord Exception occurred " + e.getMessage());
-            }
 
             String hsdpRecord = Jump.getSecureStorageInterface().fetchValueForKey(HSDP_RECORD_FILE,
                     new SecureStorageInterface.SecureStorageError());

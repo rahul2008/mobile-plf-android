@@ -202,7 +202,6 @@ dependencies {
         exclude module: 'support-v4'
     }
     testImplementation deps.robolectric_shadows
-    testImplementation deps.maven_ant
     testImplementation deps.opengl
 
 }

@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column21</string>
   <string name="USR_Account_Merge_Merge_btntxt">Spoji</string>
   <string name="USR_Account_Setting_Titletxt">Postavke računa</string>
   <string name="USR_Action_ConsumerCare_Txt">Služba za potrošače</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Zaboravili ste lozinku?</string>
   <string name="USR_Gender_TitleTxt">Spol</string>
   <string name="USR_Generic_Network_Error">Ups! Došlo je do pogreške. Pokušajte ponovo poslije</string>
-  <string name="USR_Generic_Network_ErrorMsg">Ne može se uspostaviti veza s poslužiteljem.\nProvjerite internetsku vezu i pokušajte ponovo.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Ne može se uspostaviti veza s poslužiteljem.\nProvjerite internetsku vezu i pokušajte ponovo.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Potpis je istekao uslijed vremenske pogreške. Provjerite postavke vremena na uređaju.</string>
   <string name="USR_InValid_PwdErrorMsg">Lozinka ne poštuje smjernice za lozinke istaknute u nastavku.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Adresa e-pošte nije valjana. Provjerite je.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Kako biste potvrdili da se uistinu radi o vama, još se jednom prijavite na %s.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Odustani</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Još malo i gotovi ste!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Prihvaćam %s za aplikaciju</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Prihvatite odredbe i uvjete</string>
   <string name="USR_TermsAndConditionsText">Odredbe i uvjeti</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Račun već postoji.</string>

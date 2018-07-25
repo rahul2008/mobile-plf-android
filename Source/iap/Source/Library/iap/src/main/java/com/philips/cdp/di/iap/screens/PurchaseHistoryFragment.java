@@ -64,6 +64,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_HISTORY_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
+        setCartIconVisibility(false);
     }
 
     @Override
@@ -129,7 +130,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
                     if (orderData.getOrders() == null || orderData.getOrders().size() == 0) {
                         hideProgressBar();
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
-                                InAppBaseFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
+                                InAppBaseFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG,true);
                     } else {
                         for (Orders order : orderData.getOrders())
                             mOrders.add(order);
@@ -203,7 +204,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
                 }
             }
             if (bundle.getParcelable(IAPConstant.ORDER_DETAIL) != null)
-                addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), OrderDetailsFragment.TAG);
+                addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), OrderDetailsFragment.TAG,true);
         }
     }
 

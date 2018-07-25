@@ -7,6 +7,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.utility.AIUtility;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -16,6 +17,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -32,13 +34,14 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     private static final String DEVICESTORE_ERROR_UPDATE = "Error updating device stored consent";
     private final AppInfraInterface appInfra;
     private HashMap<String, ConsentStatus> consentStatusMemoryCache = new HashMap<>();
+
     public DeviceStoredConsentHandler(final AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
 
     private void logError(SecureStorageInterface.SecureStorageError storageError, String type) {
         if (storageError.getErrorCode() != null) {
-            if(appInfra instanceof AppInfra){
+            if (appInfra instanceof AppInfra) {
                 if (((AppInfra) appInfra).getAppInfraLogInstance() != null) {
                     ((AppInfra) appInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, type, storageError.getErrorCode().toString());
                 }
@@ -53,8 +56,8 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
     }
 
     @VisibleForTesting
-    long getUTCTime() {
-        return appInfra.getTime().getUTCTime().getTime();
+    Date getUTCTime() {
+        return appInfra.getTime().getUTCTime();
     }
 
     private String join(List<String> stringList, String delimiter) {
@@ -87,9 +90,17 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
             if (consentInfo == null || storageError.getErrorCode() != null || consentInfo.toUpperCase().startsWith("FALSE")) {
                 logError(storageError, consentType);
-                consentStatus = new ConsentStatus(ConsentStates.inactive, 0);
+                consentStatus = new ConsentStatus(ConsentStates.inactive, 0, new Date(0));
             } else {
-                consentStatus = new ConsentStatus(ConsentStates.active, Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)));
+                Date timestamp;
+                String storedTimestamp = String.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_TIMESTAMP));
+                if (storedTimestamp == null) {
+                    timestamp = new Date(0);
+                } else {
+                    timestamp = AIUtility.convertStringToDate(storedTimestamp, "yyyy-MM-dd HH:mm:ss.SSS Z");
+                }
+                consentStatus = new ConsentStatus(ConsentStates.active,
+                        Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)), timestamp);
             }
             consentStatusMemoryCache.put(consentType, consentStatus);
             callback.onGetConsentsSuccess(consentStatus);
@@ -102,7 +113,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         storeValues.add(LIST_POS_STATUS, String.valueOf(status));
         storeValues.add(LIST_POS_VERSION, String.valueOf(version));
         storeValues.add(LIST_POS_LOCALE, appInfra.getInternationalization().getBCP47UILocale());
-        storeValues.add(LIST_POS_TIMESTAMP, String.valueOf(getUTCTime()));
+        storeValues.add(LIST_POS_TIMESTAMP, AIUtility.convertDateToString(getUTCTime()));
 
         String storedValue = join(storeValues, DEVICESTORE_VALUE_DELIMITER);
         SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
@@ -114,11 +125,10 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
             return;
         }
         if (status) {
-            consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.active, version));
+            consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.active, version, getUTCTime()));
         } else {
-            consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.rejected, version));
+            consentStatusMemoryCache.put(consentType, new ConsentStatus(ConsentStates.rejected, version, getUTCTime()));
         }
         callback.onPostConsentSuccess();
     }
-
 }

@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column36</string>
   <string name="USR_Account_Merge_Merge_btntxt">Združi</string>
   <string name="USR_Account_Setting_Titletxt">Nastavitve računa</string>
   <string name="USR_Action_ConsumerCare_Txt">Pomoč uporabnikom</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Ste pozabili geslo?</string>
   <string name="USR_Gender_TitleTxt">Spol</string>
   <string name="USR_Generic_Network_Error">Opa! Nekaj je bilo narobe. Poskusite znova pozneje.</string>
-  <string name="USR_Generic_Network_ErrorMsg">Povezave s strežnikom ni mogoče vzpostaviti.\nPreverite internetno povezavo in poskusite znova.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Povezave s strežnikom ni mogoče vzpostaviti.\nPreverite internetno povezavo in poskusite znova.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Podpis je potekel zaradi časovne napake. Preverite nastavitve časa na svoji napravi.</string>
   <string name="USR_InValid_PwdErrorMsg">Geslo ni v skladu s spodnjimi smernicami za gesla.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Neveljaven e-poštni naslov. Preverite.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Da potrdite svojo identiteto, se še enkrat prijavite v %s.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Prekliči</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Skoraj ste že končali.</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Sprejmem %s aplikacije</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Sprejmite pogoje in določila</string>
   <string name="USR_TermsAndConditionsText">Pogoji in določila</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Račun že obstaja.</string>

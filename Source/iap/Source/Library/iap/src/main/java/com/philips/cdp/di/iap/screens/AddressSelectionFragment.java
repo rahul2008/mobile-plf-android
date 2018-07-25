@@ -111,6 +111,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
+        setCartIconVisibility(false);
 
         if (isNetworkConnected()) {
             getAddresses();
@@ -219,7 +220,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
 
             addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
-                    DLSAddressFragment.TAG);
+                    DLSAddressFragment.TAG,true);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {
@@ -231,7 +232,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
-            addFragment(PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG);
+            addFragment(PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG,true);
         }
     }
 
@@ -255,7 +256,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             if (mDeliveryMode != null)
                 args.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
             addFragment(DLSAddressFragment.createInstance(args, AnimationType.NONE),
-                    DLSAddressFragment.TAG);
+                    DLSAddressFragment.TAG,true);
         } else if (event.equalsIgnoreCase(IAPConstant.DELIVER_TO_THIS_ADDRESS)) {
 
             createCustomProgressBar(mLinearLayout, BIG);
@@ -316,7 +317,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         if (mDeliveryMode != null)
             extras.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
         addFragment(DLSAddressFragment.createInstance(extras, AnimationType.NONE),
-                DLSAddressFragment.TAG);
+                DLSAddressFragment.TAG,true);
     }
 
     private Addresses retrieveSelectedAddress() {

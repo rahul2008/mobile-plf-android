@@ -133,6 +133,11 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 	}
 
 	@Override
+	public void releaseSavePoint(Savepoint savePoint) throws SQLException {
+
+	}
+
+	@Override
 	public int executeStatement(String statementStr, int resultFlags) throws SQLException {
 		return AndroidCompiledStatement.execSql(db, statementStr, statementStr, NO_STRING_ARGS);
 	}

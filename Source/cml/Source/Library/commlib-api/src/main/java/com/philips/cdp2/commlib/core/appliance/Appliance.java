@@ -215,7 +215,7 @@ public abstract class Appliance implements Availability<Appliance> {
                 "   eui64: " + getNetworkNode().getCppId() +
                 "   bootId: " + getNetworkNode().getBootId() +
                 "   paired: " + getNetworkNode().getPairedState() +
-                "   homeSsid: " + getNetworkNode().getHomeSsid();
+                "   networkSsid: " + getNetworkNode().getNetworkSsid();
     }
 
     @Override

@@ -431,6 +431,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         urLaunchInput.setUserRegistrationUIEventListener(this);
         urLaunchInput.enableAddtoBackStack(true);
         RegistrationContentConfiguration contentConfiguration = new RegistrationContentConfiguration();
+        contentConfiguration.enableLastName(true);
         contentConfiguration.enableContinueWithouAccount(true);
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);

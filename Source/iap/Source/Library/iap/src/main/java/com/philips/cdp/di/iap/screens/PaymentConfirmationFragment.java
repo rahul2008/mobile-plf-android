@@ -84,6 +84,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_confirmation, true);
+        setCartIconVisibility(false);
     }
 
     @Override
@@ -140,7 +141,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         if (fragment == null) {
             getFragmentManager().popBackStack(ShoppingCartFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             addFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    ProductCatalogFragment.TAG);
+                    ProductCatalogFragment.TAG,true);
         } else {
             getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
         }

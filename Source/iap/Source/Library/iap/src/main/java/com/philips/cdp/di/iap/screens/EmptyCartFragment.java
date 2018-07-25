@@ -50,6 +50,7 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
+        setCartIconVisibility(false);
     }
 
     @Override

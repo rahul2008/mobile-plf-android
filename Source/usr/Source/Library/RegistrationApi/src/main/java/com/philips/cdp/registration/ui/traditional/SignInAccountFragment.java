@@ -228,6 +228,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mBtnSignInAccount.showProgressIndicator();
             signIn();
         }
+
         RLog.i(TAG, "onClick :Dismissing Alert Dialog ");
         if (alertDialogFragment != null) {
             alertDialogFragment.dismiss();
@@ -462,7 +463,21 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogLayout(R.layout.forgot_password_dialog)
-                .setPositiveButton(mContext.getResources().getString(R.string.USR_DLS_Forgot_Password_Alert_Button_Title), this)
+                .setPositiveButton(mContext.getResources().getString(R.string.USR_DLS_Forgot_Password_Alert_Button_Title), new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialogFragment.dismiss();
+                        RLog.i(TAG, "onClick :dismiss ");
+
+                        boolean email = emailOrMobileValidator(loginValidationEditText.getText().toString());
+                        boolean password = passwordValidationEditText.getText().toString().length()>0;
+
+                        if(email && password){
+                            enableAll();
+                        }
+
+                    }
+                })
                 .setTitle(mContext.getResources().getString(R.string.USR_DLS_Forgot_Password_Alert_Title))
                 .setCancelable(false);
         alertDialogFragment = builder.create();

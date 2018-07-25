@@ -14,7 +14,6 @@ import android.os.LocaleList;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.datamigration.DataMigration;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
@@ -22,7 +21,6 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -115,7 +113,7 @@ public class RegistrationHelper {
 
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
-        generateKeyAndMigrateData(context);
+     //   generateKeyAndMigrateData(context);
         refreshNTPOffset();
         final Runnable runnable = new Runnable() {
 
@@ -151,11 +149,6 @@ public class RegistrationHelper {
         Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
     }
 
-    private void generateKeyAndMigrateData(final Context context) {
-        RLog.i(TAG, "generateKeyAndMigrateData");
-        SecureStorage.generateSecretKey();
-        new DataMigration(context).checkFileEncryptionStatus();
-    }
 
     private void refreshNTPOffset() {
         RLog.i(TAG, "refreshNTPOffset");

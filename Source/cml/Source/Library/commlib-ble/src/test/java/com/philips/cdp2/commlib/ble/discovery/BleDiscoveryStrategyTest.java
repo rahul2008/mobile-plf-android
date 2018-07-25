@@ -9,11 +9,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.ble.BleCacheData;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.core.devicecache.CacheData;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.pins.shinelib.SHNCentral;
@@ -21,7 +20,8 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.utility.BleScanRecord;
-
+import java.util.ArrayList;
+import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,8 +40,12 @@ import java.util.concurrent.TimeUnit;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.support.v4.content.PermissionChecker.PERMISSION_DENIED;
 import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
+import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed;
+import static java.util.Collections.unmodifiableCollection;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -56,6 +60,9 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest({ContextCompat.class})
 public class BleDiscoveryStrategyTest {
 
+    private static final String MAC_ADDRESS = "ADDR";
+    private static final String MODEL_ID = "NK1234";
+
     private static final String CPP_ID = "ADDR";
     private static final long SCAN_WINDOW_MILLIS = 60000L;
 
@@ -68,7 +75,7 @@ public class BleDiscoveryStrategyTest {
     private Context mockContext;
 
     @Mock
-    private BleDeviceCache mockCache;
+    private DeviceCache mockCache;
 
     @Mock
     private SHNDeviceScanner mockScanner;
@@ -86,13 +93,13 @@ public class BleDiscoveryStrategyTest {
     private SHNDevice mockDevice;
 
     @Mock
-    private BleCacheData mockCacheData;
+    private CacheData mockCacheData;
 
     @Mock
     private DiscoveryStrategy.DiscoveryListener mockDiscoveryListener;
 
     @Mock
-    private ScheduledExecutorService mockExecutors;
+    private ScheduledExecutorService mockExecutor;
 
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
@@ -108,16 +115,15 @@ public class BleDiscoveryStrategyTest {
         enableMockedHandler(mockHandler);
 
         networkNode = new NetworkNode();
+        networkNode.setCppId(MAC_ADDRESS);
         networkNode.setCppId(CPP_ID);
 
         when(mockCentral.getShnDeviceScanner()).thenReturn(mockScanner);
-
         when(mockDeviceFoundInfo.getShnDevice()).thenReturn(mockDevice);
-        when(mockDevice.getAddress()).thenReturn(CPP_ID);
-
+        when(mockDevice.getAddress()).thenReturn(MAC_ADDRESS);
         when(mockDeviceFoundInfo.getBleScanRecord()).thenReturn(mockBleScanRecord);
-
-        when(mockCache.getCacheData(CPP_ID)).thenReturn(mockCacheData);
+        when(mockBleScanRecord.getManufacturerSpecificData(MANUFACTURER_PREAMBLE)).thenReturn(MODEL_ID.getBytes());
+        when(mockCache.getCacheData(MAC_ADDRESS)).thenReturn(mockCacheData);
         when(mockCacheData.getNetworkNode()).thenReturn(networkNode);
 
         PowerMockito.when(ContextCompat.checkSelfPermission(mockContext, ACCESS_COARSE_LOCATION)).thenReturn(PERMISSION_GRANTED);
@@ -126,11 +132,23 @@ public class BleDiscoveryStrategyTest {
             @NonNull
             @Override
             ScheduledExecutorService createExecutor() {
-                return mockExecutors;
+                return mockExecutor;
             }
         };
-
         strategyUnderTest.addDiscoveryListener(mockDiscoveryListener);
+    }
+
+    @Test
+    public void whenADeviceIsFound_thenTheNetworkNodeIsFilledWithTheProperValues() throws Exception {
+
+        strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
+
+        ArgumentCaptor<NetworkNode> captor = ArgumentCaptor.forClass(NetworkNode.class);
+        verify(mockDiscoveryListener).onNetworkNodeDiscovered(captor.capture());
+        NetworkNode capturedNode = captor.getValue();
+        assertThat(capturedNode.getMacAddress()).isEqualTo(MAC_ADDRESS);
+        assertThat(capturedNode.getCppId()).isEqualTo(MAC_ADDRESS);
+        assertThat(capturedNode.getModelId()).isEqualTo(MODEL_ID);
     }
 
     @Test
@@ -154,7 +172,7 @@ public class BleDiscoveryStrategyTest {
     @Test
     public void whenDeviceDiscoveredTwice_ThenItIsReportedTwice() {
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
-        when(mockCache.contains(CPP_ID)).thenReturn(true);
+        when(mockCache.contains(MAC_ADDRESS)).thenReturn(true);
 
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
@@ -164,12 +182,11 @@ public class BleDiscoveryStrategyTest {
     @Test
     public void whenDeviceDiscoveredTwice_ThenItsCacheTimerMustBeReset_AndItsAvailabilitySetToTrue() {
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
-        when(mockCache.contains(CPP_ID)).thenReturn(true);
+        when(mockCache.contains(MAC_ADDRESS)).thenReturn(true);
 
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
         verify(mockCacheData).resetTimer();
-        verify(mockCacheData).setAvailable(true);
     }
 
     @Test
@@ -186,7 +203,7 @@ public class BleDiscoveryStrategyTest {
         when(mockScanner.startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), eq(DuplicatesAllowed), eq(SCAN_WINDOW_MILLIS))).thenReturn(true);
 
         strategyUnderTest.start();
-        verify(mockExecutors).scheduleAtFixedRate(runnableCaptor.capture(), eq(0L), eq(30L), eq(TimeUnit.SECONDS));
+        verify(mockExecutor).scheduleAtFixedRate(runnableCaptor.capture(), eq(0L), eq(30L), eq(TimeUnit.SECONDS));
         runnableCaptor.getValue().run();
 
         verify(mockDiscoveryListener).onDiscoveryStarted();
@@ -197,7 +214,7 @@ public class BleDiscoveryStrategyTest {
         when(mockScanner.startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), eq(DuplicatesAllowed), eq(SCAN_WINDOW_MILLIS))).thenReturn(false);
 
         strategyUnderTest.start();
-        verify(mockExecutors).scheduleAtFixedRate(runnableCaptor.capture(), eq(0L), eq(30L), eq(TimeUnit.SECONDS));
+        verify(mockExecutor).scheduleAtFixedRate(runnableCaptor.capture(), eq(0L), eq(30L), eq(TimeUnit.SECONDS));
         runnableCaptor.getValue().run();
 
         verify(mockDiscoveryListener).onDiscoveryFailedToStart();
@@ -222,11 +239,27 @@ public class BleDiscoveryStrategyTest {
     public void givenScanIsStarted_whenScanIsStopped_then() throws MissingPermissionException {
         when(mockScanner.startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), eq(DuplicatesAllowed), eq(SCAN_WINDOW_MILLIS))).thenReturn(true);
         ScheduledFuture scheduledFuture = mock(ScheduledFuture.class);
-        when(mockExecutors.scheduleAtFixedRate(any(Runnable.class), eq(0L), eq(30L), eq(TimeUnit.SECONDS))).thenReturn(scheduledFuture);
+        when(mockExecutor.scheduleAtFixedRate(any(Runnable.class), eq(0L), eq(30L), eq(TimeUnit.SECONDS))).thenReturn(scheduledFuture);
         strategyUnderTest.start();
 
         strategyUnderTest.stop();
 
         verify(scheduledFuture).cancel(true);
+    }
+
+    @Test
+    public void whenDeviceCacheIsCleared_thenAllNetworkNodesInCacheWillBeLost() {
+        CacheData mockCacheData = mock(CacheData.class);
+        NetworkNode mockNetworkNode = mock(NetworkNode.class);
+        when(mockCacheData.getNetworkNode()).thenReturn(mockNetworkNode);
+        ArrayList<CacheData> deviceCaches = new ArrayList<>();
+        deviceCaches.add(mockCacheData);
+        Collection<CacheData> fakeCollection = unmodifiableCollection(deviceCaches);
+
+        when(mockCache.clear()).thenReturn(fakeCollection);
+
+        strategyUnderTest.clearDiscoveredNetworkNodes();
+
+        verify(mockDiscoveryListener).onNetworkNodeLost(mockNetworkNode);
     }
 }

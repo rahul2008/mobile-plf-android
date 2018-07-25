@@ -40,6 +40,11 @@ class SecureNetworkNodeDatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper<Ne
 
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+        final String[] upgradeQuery = NetworkNodeDatabaseSchema.getUpgradeQuery(oldVersion, newVersion);
+
+        for (String query : upgradeQuery) {
+            database.execSQL(query);
+        }
     }
 
     @Override
