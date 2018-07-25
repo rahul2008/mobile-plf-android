@@ -1,12 +1,11 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.security;
 
 import android.support.annotation.Nullable;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
@@ -99,8 +98,7 @@ public class DISecurity {
 
             DICommLog.i(DICommLog.SECURITY, "Decrypted data: " + decryptData);
         } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-            DICommLog.e(DICommLog.SECURITY, "Failed to decrypt data.");
+            DICommLog.e(DICommLog.SECURITY, "Failed to decrypt data." + e.getMessage());
         }
 
         if (decryptData == null) {
