@@ -16,7 +16,10 @@ public abstract class BaseTroubleShootingFragment extends BaseFragment {
 
     @Override
     public void setToolbarTitle() {
-        ((EWSActionBarListener) getContext()).updateActionBar(R.string.ews_support_title, true);
+        EWSActionBarListener actionBarListener = ((EWSActionBarListener) getContext());
+        if (actionBarListener != null) {
+            actionBarListener.updateActionBar(R.string.ews_support_title, true);
+        }
     }
 
     @Override
