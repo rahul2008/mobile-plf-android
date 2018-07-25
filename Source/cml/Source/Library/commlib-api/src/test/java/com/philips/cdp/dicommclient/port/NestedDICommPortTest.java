@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.cdp.dicommclient.port;
 
 import android.os.Handler;
