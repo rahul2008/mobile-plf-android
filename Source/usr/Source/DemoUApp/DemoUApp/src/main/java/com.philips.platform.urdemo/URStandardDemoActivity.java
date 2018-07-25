@@ -114,13 +114,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             mBtnHsdpRefreshAccessToken.setVisibility(GONE);
         }
 
-        Switch mHSDPLazyLoadingSwitch = findViewById(R.id.hsdp_lazy_loading_switch);
-        mHSDPLazyLoadingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateHsdpLazyLoadingStatus(b);
-            }
-        });
         mUser = new User(mContext);
         mUser.registerUserRegistrationListener(this);
         Button mBtnRefresh = findViewById(R.id.btn_refresh_user);
@@ -184,6 +177,13 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
         });
 
+        Switch mHSDPLazyLoadingSwitch = findViewById(R.id.hsdp_lazy_loading_switch);
+        mHSDPLazyLoadingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                updateHsdpLazyLoadingStatus(b);
+            }
+        });
 
         Button fethContent = findViewById(R.id.fetchConcent);
         fethContent.setOnClickListener(this);
@@ -289,6 +289,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     private void updateHsdpLazyLoadingStatus(boolean b) {
         RLog.d("updateHsdpLazyLoadingStatus", " Going to set :" + b);
+        mCheckBox.setChecked(true);
         final AppInfraInterface appInfraInterface = URDemouAppInterface.appInfra;
         appInfraInterface.getConfigInterface().setPropertyForKey(HSDP_LAZY_LOADING_STATUS, "UserRegistration", String.valueOf(b), configError);
     }
