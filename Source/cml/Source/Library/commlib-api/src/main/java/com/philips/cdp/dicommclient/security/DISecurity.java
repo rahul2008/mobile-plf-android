@@ -55,8 +55,7 @@ public class DISecurity {
             encryptedBase64Str = ByteUtil.encodeToBase64(encrypDatas);
             DICommLog.i(DICommLog.SECURITY, "Encrypted data: " + encryptedBase64Str);
         } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-            DICommLog.i(DICommLog.SECURITY, "Failed to encrypt data with key - " + "Error: " + e.getMessage());
+            DICommLog.e(DICommLog.SECURITY, "Failed to encrypt data. " + "Error: " + e.getMessage());
         }
         return encryptedBase64Str;
     }
@@ -98,7 +97,7 @@ public class DISecurity {
 
             DICommLog.i(DICommLog.SECURITY, "Decrypted data: " + decryptData);
         } catch (GeneralSecurityException e) {
-            DICommLog.e(DICommLog.SECURITY, "Failed to decrypt data." + e.getMessage());
+            DICommLog.e(DICommLog.SECURITY, "Failed to decrypt data. " + "Error: " + e.getMessage());
         }
 
         if (decryptData == null) {
