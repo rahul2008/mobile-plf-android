@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<resources>
+<resources tools:ignore="ExtraTranslation" xmlns:tools="http://schemas.android.com/tools">
 <string name="BA_AppFramework">AppFramework </string>
 <string name="RA_You_are_not_LoggedIn">به سیستم وارد نشده‌اید. لطفاً به تنظیمات و ورود به سیستم بروید</string>
 <string name="RA_OK">تایید</string>
