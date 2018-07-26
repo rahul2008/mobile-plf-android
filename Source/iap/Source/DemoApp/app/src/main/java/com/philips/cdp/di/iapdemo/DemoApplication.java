@@ -44,7 +44,6 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         // HSDPConfiguration();
         initRegistration(Configuration.PRODUCTION);
-        UIDActivity.setLanguagePackNeeded(false);
         RLog.enableLogging();
     }
 
