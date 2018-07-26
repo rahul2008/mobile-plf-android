@@ -19,7 +19,6 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
@@ -108,7 +107,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
     private void hsdpLogin(User user, String emailorMobile) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
+        hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(), new TraditionalLoginHandler() {
 
             @Override
             public void onLoginSuccess() {
@@ -178,7 +177,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             } else {
                 emailOrMobile = user.getEmail();
             }
-            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
+            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new TraditionalLoginHandler() {
                 @Override
                 public void onLoginSuccess() {
                     ThreadUtils.postInMainThread(mContext, () ->

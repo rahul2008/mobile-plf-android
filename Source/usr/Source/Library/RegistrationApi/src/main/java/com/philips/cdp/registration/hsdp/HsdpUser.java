@@ -28,7 +28,7 @@ import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
+import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -393,7 +393,7 @@ public class HsdpUser {
 
 
     public void login(final String email, final String accessToken,
-                      final String refreshSecret, final SocialLoginHandler loginHandler) {
+                      final String refreshSecret, final TraditionalLoginHandler loginHandler) {
 
         if (networkUtility.isNetworkAvailable()) {
             final Handler handler = new Handler(Looper.getMainLooper());
@@ -484,7 +484,7 @@ public class HsdpUser {
      * @param errorCode    error code
      * @param description  string
      */
-    private void handleSocialConnectionFailed(SocialLoginHandler loginHandler,
+    private void handleSocialConnectionFailed(TraditionalLoginHandler loginHandler,
                                               int errorCode, String description, String errorTagging) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         userRegistrationFailureInfo.setErrorCode(errorCode);
@@ -499,7 +499,7 @@ public class HsdpUser {
      *
      * @param loginHandler login handler
      */
-    private void handleSocialNetworkFailure(SocialLoginHandler loginHandler) {
+    private void handleSocialNetworkFailure(TraditionalLoginHandler loginHandler) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         userRegistrationFailureInfo.setErrorCode(ErrorCodes.HSDP_SYSTEM_ERROR_403);
         userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));

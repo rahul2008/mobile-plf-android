@@ -21,8 +21,8 @@ import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -63,7 +63,7 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
                 emailorMobile = user.getMobile();
             }
             hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
-                    new SocialLoginHandler() {
+                    new TraditionalLoginHandler() {
 
                         @Override
                         public void onLoginSuccess() {

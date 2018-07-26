@@ -23,8 +23,8 @@ import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -71,7 +71,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
                 emailOrMobile = user.getMobile();
                 RLog.d(TAG, "onSuccess : if : else : is not valid email");
             }
-            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
+            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new TraditionalLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {
@@ -269,7 +269,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
             RLog.d(TAG, "handleOnLoginSuccess : is hsdpflow  and email verified");
             HsdpUser hsdpUser = new HsdpUser(mContext);
             try {
-                hsdpUser.login(captured.getString("email"), captured.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
+                hsdpUser.login(captured.getString("email"), captured.getAccessToken(), Jump.getRefreshSecret(), new TraditionalLoginHandler() {
 
                     @Override
                     public void onLoginSuccess() {
