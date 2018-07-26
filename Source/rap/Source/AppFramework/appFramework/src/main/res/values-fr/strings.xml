@@ -4,7 +4,7 @@
    - in whole or in part is prohibited without the prior written
    - consent of the copyright holder. -->
 
-<resources tools:ignore="ExtraTranslation" xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="BA_Add_Edit_Temp">Ajouter ou modifier la température </string>
   <string name="BA_AppFramework">AppFramework </string>
   <string name="BA_HSDP_login_not_available">Connexion HSDP indisponible</string>
