@@ -22,7 +22,6 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
-import com.philips.platform.uid.utils.UIDActivity;
 import com.squareup.leakcanary.LeakCanary;
 
 public class DemoApplication extends Application implements ActivityLifecycleCallbacks {
@@ -43,7 +42,7 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
         LeakCanary.install(this);
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         // HSDPConfiguration();
-        initRegistration(Configuration.PRODUCTION);
+        initRegistration(Configuration.STAGING);
         RLog.enableLogging();
     }
 
