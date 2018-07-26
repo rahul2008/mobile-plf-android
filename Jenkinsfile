@@ -199,6 +199,7 @@ def InitialiseBuild() {
 }
 
 def BuildAndUnitTest() {
+    echo '9999IntegrationTests: Starting'
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
@@ -207,6 +208,7 @@ def BuildAndUnitTest() {
     '''
 
     archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/release/*.apk'
+    echo '9999IntegrationTests: Ending'
 }
 
 def BuildLint() {
