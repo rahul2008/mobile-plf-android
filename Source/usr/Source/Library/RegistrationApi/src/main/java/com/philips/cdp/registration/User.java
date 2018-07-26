@@ -126,13 +126,13 @@ public class User {
      * @since 1.0.0
      */
     public void loginUsingTraditional(final String emailAddress, final String password,
-                                      final TraditionalLoginHandler traditionalLoginHandler) {
+                                      final SocialProviderLoginHandler traditionalLoginHandler) {
         if (traditionalLoginHandler == null && emailAddress == null && password == null) {
             throw new RuntimeException("Email , Password , TraditionalLoginHandler can't be null");
         }
         new Thread(() -> {
             LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
-                    new TraditionalLoginHandler() {
+                    new SocialProviderLoginHandler() {
                         @Override
                         public void onLoginSuccess() {
                             DIUserProfile diUserProfile = getUserInstance();
@@ -161,6 +161,26 @@ public class User {
                             RLog.e(TAG, "loginUsingTraditional onLoginFailedWithError" + userRegistrationFailureInfo.getErrorDescription());
                             ThreadUtils.postInMainThread(mContext, () -> traditionalLoginHandler.
                                     onLoginFailedWithError(userRegistrationFailureInfo));
+                        }
+
+                        @Override
+                        public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+
+                        }
+
+                        @Override
+                        public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+
+                        }
+
+                        @Override
+                        public void onContinueSocialProviderLoginSuccess() {
+
+                        }
+
+                        @Override
+                        public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
                         }
                     }, mContext, mUpdateUserRecordHandler, emailAddress,
                     password);
@@ -365,7 +385,7 @@ public class User {
     }
 
     private void mergeTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
-                                         final TraditionalLoginHandler traditionalLoginHandler) {
+                                         final SocialProviderLoginHandler traditionalLoginHandler) {
         if (emailAddress != null && password != null) {
             LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
                     traditionalLoginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
@@ -392,7 +412,7 @@ public class User {
      * @since 1.0.0
      */
     public void mergeToTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
-                                          final TraditionalLoginHandler traditionalLoginHandler) {
+                                          final SocialProviderLoginHandler traditionalLoginHandler) {
         mergeTraditionalAccount(emailAddress, password, mergeToken, traditionalLoginHandler);
     }
 

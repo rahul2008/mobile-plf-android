@@ -24,7 +24,6 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -72,7 +71,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
                 emailorMobile = user.getMobile();
             }
             hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
-                    new TraditionalLoginHandler() {
+                    new SocialProviderLoginHandler() {
 
                         @Override
                         public void onLoginSuccess() {
@@ -85,6 +84,26 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
                             AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
                             ThreadUtils.postInMainThread(mContext, () ->
                                     mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                        }
+
+                        @Override
+                        public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+                            //Nope
+                        }
+
+                        @Override
+                        public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+                            //Nope
+                        }
+
+                        @Override
+                        public void onContinueSocialProviderLoginSuccess() {
+                            //Nope
+                        }
+
+                        @Override
+                        public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
                         }
                     });
 

@@ -19,7 +19,7 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecordV2;
@@ -29,12 +29,14 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
+import org.json.JSONObject;
+
 public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
 
 
     private Context mContext;
 
-    private TraditionalLoginHandler mTraditionalLoginHandler;
+    private SocialProviderLoginHandler mTraditionalLoginHandler;
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
@@ -44,7 +46,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
     private final static String TAG = LoginTraditional.class.getSimpleName();
 
-    public LoginTraditional(TraditionalLoginHandler traditionalLoginHandler, Context context,
+    public LoginTraditional(SocialProviderLoginHandler traditionalLoginHandler, Context context,
                             UpdateUserRecordHandler updateUserRecordHandler, String email, String password) {
         mTraditionalLoginHandler = traditionalLoginHandler;
         mContext = context;
@@ -107,7 +109,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
     private void hsdpLogin(User user, String emailorMobile) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(), new TraditionalLoginHandler() {
+        hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialProviderLoginHandler() {
 
             @Override
             public void onLoginSuccess() {
@@ -119,6 +121,29 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                 AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
                 ThreadUtils.postInMainThread(mContext, () -> mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+            }
+
+            @Override
+            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+                //nope
+            }
+
+            @Override
+            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+                //nope
+
+            }
+
+            @Override
+            public void onContinueSocialProviderLoginSuccess() {
+                //nope
+
+            }
+
+            @Override
+            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                //nope
+
             }
         });
     }
@@ -177,7 +202,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             } else {
                 emailOrMobile = user.getEmail();
             }
-            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new TraditionalLoginHandler() {
+            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialProviderLoginHandler() {
                 @Override
                 public void onLoginSuccess() {
                     ThreadUtils.postInMainThread(mContext, () ->
@@ -191,6 +216,26 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
                     ThreadUtils.postInMainThread(mContext, () ->
                             mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
                     RLog.d(TAG, "loginIntoHsdp : SocialLoginHandler : onLoginFailedWithError is called");
+                }
+
+                @Override
+                public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+                    //nope
+                }
+
+                @Override
+                public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+                    //nope
+                }
+
+                @Override
+                public void onContinueSocialProviderLoginSuccess() {
+                    //nope
+                }
+
+                @Override
+                public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                    //nope
                 }
             });
         }

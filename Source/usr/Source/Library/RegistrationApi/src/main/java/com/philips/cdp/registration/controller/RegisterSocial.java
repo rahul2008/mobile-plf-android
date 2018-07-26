@@ -24,7 +24,6 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -71,7 +70,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
                 emailOrMobile = user.getMobile();
                 RLog.d(TAG, "onSuccess : if : else : is not valid email");
             }
-            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new TraditionalLoginHandler() {
+            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialProviderLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {
@@ -87,6 +86,26 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
                     ThreadUtils.postInMainThread(mContext, () ->
                             mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
                     RLog.d(TAG, "onSuccess : if : SocialLoginHandler : onLoginFailedWithError : is called");
+                }
+
+                @Override
+                public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+                    //Nope
+                }
+
+                @Override
+                public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+                    //Nope
+                }
+
+                @Override
+                public void onContinueSocialProviderLoginSuccess() {
+                    //Nope
+                }
+
+                @Override
+                public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                    //Nope
                 }
             });
         } else {
@@ -269,7 +288,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
             RLog.d(TAG, "handleOnLoginSuccess : is hsdpflow  and email verified");
             HsdpUser hsdpUser = new HsdpUser(mContext);
             try {
-                hsdpUser.login(captured.getString("email"), captured.getAccessToken(), Jump.getRefreshSecret(), new TraditionalLoginHandler() {
+                hsdpUser.login(captured.getString("email"), captured.getAccessToken(), Jump.getRefreshSecret(), new SocialProviderLoginHandler() {
 
                     @Override
                     public void onLoginSuccess() {
@@ -282,6 +301,26 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
                         AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
                         ThreadUtils.postInMainThread(mContext, () ->
                                 mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                    }
+
+                    @Override
+                    public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+                        //Nope
+                    }
+
+                    @Override
+                    public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+                        //Nope
+                    }
+
+                    @Override
+                    public void onContinueSocialProviderLoginSuccess() {
+                        //Nope
+                    }
+
+                    @Override
+                    public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                        //Nope
                     }
                 });
             } catch (JSONException e) {
