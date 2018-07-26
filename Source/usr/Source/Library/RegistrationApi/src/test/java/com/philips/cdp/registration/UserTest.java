@@ -42,7 +42,7 @@ public class UserTest extends TestCase {
     Context contextMock;
 
     @Mock
-    TraditionalLoginHandler traditionalLoginHandlerMock;
+    SocialProviderLoginHandler traditionalLoginHandlerMock;
 
 
     @Mock
