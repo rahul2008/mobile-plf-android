@@ -64,7 +64,7 @@ pipeline {
                 }
             }
             steps {
-                
+                    echo 'referenceApp:assemblePsraRelease'
             }
         }
 
@@ -76,7 +76,7 @@ pipeline {
                 }
             }
             steps {
-                
+                    echo 'referenceApp:assembleLeakCanary'
             }
         }
 
