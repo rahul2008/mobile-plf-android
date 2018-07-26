@@ -49,6 +49,16 @@ public class UserRegistrationSettingsState extends UserRegistrationState {
         }
     }
 
+    @Override
+    public void onHSDPLoginSuccess() {
+
+    }
+
+    @Override
+    public void onHSDPLoginFailure(int errorCode) {
+
+    }
+
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) getFragmentActivity().getApplication();
     }

@@ -102,7 +102,7 @@ public class User {
 
     private UserLoginState userLoginState = UserLoginState.PENDING_HSDP_LOGIN;
 
-    private TraditionalLoginHandler mTraditionalLoginHandler;
+    private static TraditionalLoginHandler mTraditionalLoginHandler;
 
     private SocialProviderLoginHandler mSocialProviderLoginHandler;
 
@@ -585,14 +585,19 @@ public class User {
     }
 
     private void hsdpLogin(HsdpUser hsdpUser, boolean hsdpFlow) {
-        if (RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus() && hsdpFlow && null != hsdpUser.getHsdpUserRecord()) {
+        RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = " + hsdpFlow + " " + RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus());
+
+        if (RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus() && hsdpFlow) {
+            RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = " + hsdpFlow);
             BaseHSDPLogin baseHSDPLogin = new BaseHSDPLogin(mContext);
             if (mTraditionalLoginHandler != null) {
                 RLog.d(TAG, "authorizeHSDP: with mTraditionalLoginHandler ");
                 baseHSDPLogin.hsdpLogin(getAccessToken(), getEmail(), mTraditionalLoginHandler);
-            } else {
+            } else if (mSocialProviderLoginHandler != null) {
                 RLog.d(TAG, "authorizeHSDP:with mSocialProviderLoginHandler");
                 baseHSDPLogin.hsdpLogin(getAccessToken(), getEmail(), mSocialProviderLoginHandler);
+            } else {
+
             }
         } else {
             RLog.d(TAG, "authorizeHSDP:  hsdpUser :" + hsdpFlow + " and hsdpUser.getHsdpUserRecord() is " +

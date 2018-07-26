@@ -136,6 +136,16 @@ public class DSLaunchActivity extends AppCompatActivity
     }
 
     @Override
+    public void onHSDPLoginSuccess() {
+
+    }
+
+    @Override
+    public void onHSDPLoginFailure(int errorCode) {
+
+    }
+
+    @Override
     public void onUserRegistrationComplete(final Activity activity) {
         startSynchronizeAfterDelay();
         showFragment();
