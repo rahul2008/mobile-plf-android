@@ -27,7 +27,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
     private Context mContext;
 
     public static CancelOrderFragment createInstance
-            (Bundle args, AnimationType animType) {
+            (Bundle args, InAppBaseFragment.AnimationType animType) {
         CancelOrderFragment fragment = new CancelOrderFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

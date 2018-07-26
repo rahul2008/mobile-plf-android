@@ -38,7 +38,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     private static final String CHANNEL_ADVISOR = "wheretobuy";
     private static final String CHANNEL_SIGHT = "channelsight";
 
-    public static BuyFromRetailersFragment createInstance(Bundle args, AnimationType animType) {
+    public static BuyFromRetailersFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         BuyFromRetailersFragment fragment = new BuyFromRetailersFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
