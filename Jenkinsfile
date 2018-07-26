@@ -153,8 +153,8 @@ def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
-        ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
-            :commlib-integration-tests:testReleaseUnitTest \
+        ./gradlew --refresh-dependencies --full-stacktrace assembleDebug \
+            :commlib-integration-tests:testDebugUnitTest \
     '''
     echo '9999IntegrationTests: Before Archiving'
     //archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/release/*.apk'
