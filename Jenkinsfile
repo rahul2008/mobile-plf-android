@@ -206,7 +206,7 @@ def BuildAndUnitTest() {
         ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
             :commlib-integration-tests:testReleaseUnitTest \
     '''
-
+    echo '9999IntegrationTests: Before Archiving'
     archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/release/*.apk'
     echo '9999IntegrationTests: Ending'
 }
