@@ -64,10 +64,7 @@ pipeline {
                 }
             }
             steps {
-                sh '''#!/bin/bash -l
-                    chmod -R 775 .
-                    ./gradlew referenceApp:assemblePsraRelease
-                '''
+                
             }
         }
 
@@ -79,11 +76,7 @@ pipeline {
                 }
             }
             steps {
-                sh '''#!/bin/bash -l
-                    chmod -R 775 .
-                    ./gradlew referenceApp:assembleLeakCanary
-                '''
-                DeployingLeakCanaryArtifacts()
+                
             }
         }
 
