@@ -17,7 +17,7 @@ import cucumber.api.junit.Cucumber;
                 "json:../build/cucumber-reports/report.json",
                 "html:../build/cucumber-reports/html"
         },
-        features = "src/androidTest/assets/features",
+        features = "../commlib-integration-tests/src/androidTest/assets/features",
         tags = {"@automated", "@android", "~@not_android", "~@target"}
 )
 public class BleTestSuite {
