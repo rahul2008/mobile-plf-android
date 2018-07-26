@@ -292,7 +292,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
                 if (billingFragment.isVisible() && billingAddressFields!=null) {
                     CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
-                    addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG,false);
+                    addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG,true);
                     mBtnContinue.setEnabled(true);
                 } else {
                     updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
@@ -314,7 +314,8 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
         hideProgressBar();
         addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE),
-                OrderSummaryFragment.TAG,false);
+                OrderSummaryFragment.TAG,true
+        );
     }
 
     private void saveShippingAddressToBackend() {
@@ -375,17 +376,14 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     @Override
     public void onGetRegions(Message msg) {
-        Toast.makeText(mContext, "onGetRegions", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onGetUser(Message msg) {
-        Toast.makeText(mContext, "onGetUser", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCreateAddress(Message msg) {
-        Toast.makeText(mContext, "onCreateAddress", Toast.LENGTH_SHORT).show();
         if (msg.obj instanceof Addresses) {
             Addresses mAddresses = (Addresses) msg.obj;
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
@@ -400,7 +398,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     @Override
     public void onGetAddress(Message msg) {
-        Toast.makeText(mContext, "onGetAddress", Toast.LENGTH_SHORT).show();
         hideProgressBar();
         if (msg.what == RequestCode.UPDATE_ADDRESS) {
             if (msg.obj instanceof IAPNetworkError) {
@@ -431,7 +428,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     @Override
     public void onSetDeliveryAddress(Message msg) {
-        Toast.makeText(mContext, "onSetDeliveryAddress", Toast.LENGTH_SHORT).show();
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             Bundle bundle = getArguments();
             DeliveryModes deliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
@@ -448,13 +444,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     @Override
     public void onGetDeliveryModes(Message msg) {
-        Toast.makeText(mContext, "onGetDeliveryModes", Toast.LENGTH_SHORT).show();
         handleDeliveryMode(msg, mAddressController);
     }
 
     @Override
     public void onSetDeliveryMode(Message msg) {
-        Toast.makeText(mContext, "onSetDeliveryMode", Toast.LENGTH_SHORT).show();
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             if (CartModelContainer.getInstance().getBillingAddress() == null)
                 mPaymentController.getPaymentDetails();

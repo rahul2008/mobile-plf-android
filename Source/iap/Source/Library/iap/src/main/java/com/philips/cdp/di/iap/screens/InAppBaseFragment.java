@@ -173,6 +173,14 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         }
     }
 
+
+    public void showAddressFragment(String fragmentTag) {
+           getFragmentManager().popBackStack(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            addFragment(AddressSelectionFragment.createInstance(new Bundle(),
+                    AnimationType.NONE), AddressSelectionFragment.TAG,true);
+    }
+
+
     public boolean moveToPreviousFragment() {
         return getFragmentManager().popBackStackImmediate();
     }

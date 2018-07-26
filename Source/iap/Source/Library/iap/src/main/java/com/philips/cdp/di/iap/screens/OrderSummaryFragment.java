@@ -238,7 +238,9 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public boolean handleBackEvent() {
-        return false;
+        unregisterEventNotification();
+        showAddressFragment(AddressSelectionFragment.TAG);
+        return true;
     }
 
     @Override
@@ -518,4 +520,5 @@ public class OrderSummaryFragment extends InAppBaseFragment
     public void onGetCartUpdate() {
         hideProgressBar();
     }
+
 }
