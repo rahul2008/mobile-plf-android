@@ -273,15 +273,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         } else {
             RLog.i(TAG,"handleUseRLoginStateFragments : launchHomeFragment");
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
-            trackMultipleActionsRegistration();
             replaceWithHomeFragment();
         }
-    }
-
-    private static void trackMultipleActionsRegistration() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_USER_REGISTRATION);
-        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
     private void launchMyAccountFragment() {

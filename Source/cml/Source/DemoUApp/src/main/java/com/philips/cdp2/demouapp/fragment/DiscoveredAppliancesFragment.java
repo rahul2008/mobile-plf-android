@@ -29,7 +29,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
@@ -39,7 +38,6 @@ import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager.ApplianceListener;
-import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -69,6 +67,9 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
     private CommCentral commCentral;
 
+    private DiscoveryStrategy lanDiscoveryStrategy;
+    private DiscoveryStrategy bleDiscoveryStrategy;
+
     private final AppIdProvider appIdProvider = getAppIdProvider();
 
     private View view;
@@ -76,7 +77,8 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
     private final Set<String> discoveryFilterModelIds = new HashSet<>();
 
-    private Switch discoverySwitch;
+    private Switch lanDiscoverySwitch;
+    private Switch bleDiscoverySwitch;
 
     private AppIdProvider.AppIdListener appIdListener = new AppIdProvider.AppIdListener() {
         @Override
@@ -204,9 +206,11 @@ public class DiscoveredAppliancesFragment extends Fragment {
         view = inflater.inflate(R.layout.cml_fragment_discovered_appliances, container, false);
 
         commCentral = CommlibUapp.get().getDependencies().getCommCentral();
+        lanDiscoveryStrategy = commCentral.getTransportContext(LanTransportContext.class).getDiscoveryStrategy();
+        bleDiscoveryStrategy = commCentral.getTransportContext(BleTransportContext.class).getDiscoveryStrategy();
 
-        addDiscoveryListener(BleTransportContext.class, bleDiscoveryListener);
-        addDiscoveryListener(LanTransportContext.class, lanDiscoveryListener);
+        lanDiscoveryStrategy.addDiscoveryListener(lanDiscoveryListener);
+        bleDiscoveryStrategy.addDiscoveryListener(bleDiscoveryListener);
 
         applianceAdapter = new ApplianceAdapter(getContext());
 
@@ -228,14 +232,26 @@ public class DiscoveredAppliancesFragment extends Fragment {
             }
         });
 
-        discoverySwitch = view.findViewById(R.id.cml_sw_startstop_discovery);
-        discoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        lanDiscoverySwitch = view.findViewById(R.id.cml_sw_startstop_lan_discovery);
+        lanDiscoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    startDiscovery();
+                    startLanDiscovery();
                 } else {
-                    stopDiscovery();
+                    stopLanDiscovery();
+                }
+            }
+        });
+
+        bleDiscoverySwitch = view.findViewById(R.id.cml_sw_startstop_ble_discovery);
+        bleDiscoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    startBleDiscovery();
+                } else {
+                    stopBleDiscovery();
                 }
             }
         });
@@ -295,12 +311,45 @@ public class DiscoveredAppliancesFragment extends Fragment {
         appIdProvider.removeAppIdListener(appIdListener);
     }
 
+    private void startLanDiscovery() {
+        try {
+            lanDiscoveryStrategy.start(discoveryFilterModelIds);
+        } catch (MissingPermissionException e) {
+            Log.e(TAG, "Error starting discovery: " + e.getMessage());
+        }
+    }
+
+    private void stopLanDiscovery() {
+        lanDiscoveryStrategy.stop();
+        lanDiscoverySwitch.setChecked(false);
+    }
+
+    private void startBleDiscovery() {
+        try {
+            bleDiscoveryStrategy.start(discoveryFilterModelIds);
+        } catch (MissingPermissionException e) {
+            Log.e(TAG, "Error starting discovery: " + e.getMessage());
+
+            acquirePermission(new Runnable() {
+                @Override
+                public void run() {
+                    startBleDiscovery();
+                }
+            });
+        }
+    }
+
+    private void stopBleDiscovery() {
+        bleDiscoveryStrategy.stop();
+        bleDiscoverySwitch.setChecked(false);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stopDiscovery();
-        removeDiscoveryListener(BleTransportContext.class, bleDiscoveryListener);
-        removeDiscoveryListener(LanTransportContext.class, lanDiscoveryListener);
+        stopLanDiscovery();
+        lanDiscoveryStrategy.removeDiscoveryListener(lanDiscoveryListener);
+        bleDiscoveryStrategy.removeDiscoveryListener(bleDiscoveryListener);
     }
 
     public static DiscoveredAppliancesFragment newInstance() {
@@ -315,40 +364,6 @@ public class DiscoveredAppliancesFragment extends Fragment {
                     new Handler().post(this.permissionCallback);
                 }
             }
-        }
-    }
-
-    private void startDiscovery() {
-        try {
-            commCentral.startDiscovery(discoveryFilterModelIds);
-        } catch (MissingPermissionException e) {
-            Log.e(TAG, "Error starting discovery: " + e.getMessage());
-
-            acquirePermission(new Runnable() {
-                @Override
-                public void run() {
-                    startDiscovery();
-                }
-            });
-        }
-    }
-
-    private void stopDiscovery() {
-        commCentral.stopDiscovery();
-        discoverySwitch.setChecked(false);
-    }
-
-    private <T extends TransportContext> void addDiscoveryListener(@NonNull Class<T> clazz, @NonNull DiscoveryListener listener) {
-        DiscoveryStrategy discoveryStrategy = commCentral.getTransportContext(clazz).getDiscoveryStrategy();
-        if (discoveryStrategy != null) {
-            discoveryStrategy.addDiscoveryListener(listener);
-        }
-    }
-
-    private <T extends TransportContext> void removeDiscoveryListener(@NonNull final Class<T> clazz, @NonNull final DiscoveryListener listener) {
-        DiscoveryStrategy discoveryStrategy = commCentral.getTransportContext(clazz).getDiscoveryStrategy();
-        if (discoveryStrategy != null) {
-            discoveryStrategy.removeDiscoveryListener(listener);
         }
     }
 

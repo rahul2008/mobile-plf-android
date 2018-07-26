@@ -8,6 +8,7 @@ package com.philips.platform.catk;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.appinfra.utility.AIUtility;
 import com.philips.platform.catk.datamodel.CachedConsentStatus;
 import com.philips.platform.catk.datamodel.ConsentDTO;
 import com.philips.platform.catk.error.ConsentNetworkError;
@@ -24,7 +25,9 @@ import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import java.util.Date;
 import java.util.List;
+
 import javax.inject.Inject;
 
 public class ConsentInteractor implements ConsentHandlerInterface {
@@ -72,7 +75,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
     private ConsentDTO createConsents(String consentType, ConsentStates status, int version) {
         String locale = consentsClient.getAppInfra().getInternationalization().getBCP47UILocale();
-        DateTime timestamp = new DateTime(consentsClient.getAppInfra().getTime().getUTCTime());
+        DateTime timestamp = new DateTime(consentsClient.getAppInfra().getTime().getUTCTime(), DateTimeZone.UTC);
         return new ConsentDTO(locale, status, consentType, version, timestamp);
     }
 
@@ -95,12 +98,12 @@ public class ConsentInteractor implements ConsentHandlerInterface {
         public void onResponseSuccessConsent(List<ConsentDTO> responseData) {
             if (responseData != null && !responseData.isEmpty()) {
                 ConsentDTO consentDTO = responseData.get(0);
-                consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion(), consentDTO.getTimestamp().toDate());
-                callback.onGetConsentsSuccess(new ConsentStatus(consentDTO.getStatus(), consentDTO.getVersion(), consentDTO.getTimestamp().toDateTime(DateTimeZone.UTC).toDate()));
+                Date timestamp = consentDTO.getTimestamp().toDateTime(DateTimeZone.UTC).toDate();
+                consentCacheInteractor.storeConsentState(consentDTO.getType(), consentDTO.getStatus(), consentDTO.getVersion(), timestamp);
+                callback.onGetConsentsSuccess(new ConsentStatus(consentDTO.getStatus(), consentDTO.getVersion(), timestamp));
             } else {
-                callback.onGetConsentsSuccess(null);
+                callback.onGetConsentsSuccess(new ConsentStatus(ConsentStates.inactive, 0, new Date(0)));
             }
-
         }
 
         @Override

@@ -37,30 +37,6 @@ public class SHNProtocolByteStreamingVersionSwitcher implements SHNProtocolMoons
         DATA, START
     }
 
-    /* package */ static class SHNProtocolInformation {
-        public static final int PROTOCOL_VERSION_OFFSET = 0;
-        public static final int TX_WINDOW_SIZE_OFFSET = 1;
-        public static final int RX_WINDOW_SIZE_OFFSET = 2;
-        public final int protocolVersion;
-        public final int txWindowSize;
-        public final int rxWindowSize;
-
-        private SHNProtocolInformation(int protocolVersion, int txWindowSize, int rxWindowSize) {
-            this.protocolVersion = protocolVersion;
-            this.txWindowSize = txWindowSize;
-            this.rxWindowSize = rxWindowSize;
-        }
-
-        public static SHNProtocolInformation createFromData(byte[] data) {
-            SHNProtocolInformation shnProtocolInformation = null;
-            if (data != null && data.length == 3) {
-                shnProtocolInformation = new SHNProtocolInformation(
-                        data[PROTOCOL_VERSION_OFFSET], data[TX_WINDOW_SIZE_OFFSET], data[RX_WINDOW_SIZE_OFFSET]);
-            }
-            return shnProtocolInformation;
-        }
-    }
-
     @Override
     public void setShnProtocolMoonshineStreamingListener(SHNProtocolMoonshineStreamingListener shnProtocolMoonshineStreamingListener) {
         DebugLog("setShnProtocolMoonshineStreamingListener");
@@ -71,10 +47,10 @@ public class SHNProtocolByteStreamingVersionSwitcher implements SHNProtocolMoons
     }
 
     @Override
-    public void sendData(byte[] bytes) {
+    public void sendData(byte[] bytes, MoonshineStreamIdentifier streamIdentifier) {
         DebugLog("sendData");
         if (shnProtocolMoonshineStreaming != null) {
-            shnProtocolMoonshineStreaming.sendData(bytes);
+            shnProtocolMoonshineStreaming.sendData(bytes, streamIdentifier);
         }
     }
 
@@ -99,27 +75,34 @@ public class SHNProtocolByteStreamingVersionSwitcher implements SHNProtocolMoons
         SHNLogger.d(TAG, "onReadProtocolInformation");
         SHNProtocolInformation shnProtocolInformation = SHNProtocolInformation.createFromData(configurationData);
 
-        if (shnProtocolInformation == null || shnProtocolInformation.protocolVersion == PROTOCOL_VERSION_V3) {
-            SHNLogger.d(TAG, "onReadProtocolInformation using protocol version: " + PROTOCOL_VERSION_V3);
-            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV3(shnServiceByteStreaming, internalHandler);
-            shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(shnProtocolMoonshineStreamingListener);
-            shnProtocolMoonshineStreaming.onServiceAvailable();
-            shnProtocolMoonshineStreaming.onReadProtocolInformation(configurationData);
-        } else if (shnProtocolInformation == null || shnProtocolInformation.protocolVersion == PROTOCOL_VERSION_V2) {
-            SHNLogger.d(TAG, "onReadProtocolInformation using protocol version: " + PROTOCOL_VERSION_V2);
-            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV2(shnServiceByteStreaming, internalHandler);
-            shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(shnProtocolMoonshineStreamingListener);
-            shnProtocolMoonshineStreaming.onServiceAvailable();
-            shnProtocolMoonshineStreaming.onReadProtocolInformation(configurationData);
-        } else if (shnProtocolInformation.protocolVersion == PROTOCOL_VERSION_V1) {
-            SHNLogger.d(TAG, "onReadProtocolInformation using protocol version: " + PROTOCOL_VERSION_V1);
-            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV1(shnServiceByteStreaming, internalHandler);
-            shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(shnProtocolMoonshineStreamingListener);
-            shnProtocolMoonshineStreaming.onServiceAvailable();
-            shnProtocolMoonshineStreaming.onReadProtocolInformation(configurationData);
-        } else {
+        if (shnProtocolInformation == null) {
             state = SHNProtocolMoonshineStreamingState.Error;
+            return;
         }
+
+        SHNLogger.d(TAG, "onReadProtocolInformation using protocol version: " + shnProtocolInformation.protocolVersion);
+        switch (shnProtocolInformation.protocolVersion) {
+            case SHNProtocolMoonshineStreamingV1.PROTOCOL_VERSION:
+                shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV1(shnServiceByteStreaming, internalHandler);
+                break;
+            case SHNProtocolMoonshineStreamingV2.PROTOCOL_VERSION:
+                shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV2(shnServiceByteStreaming, internalHandler);
+                break;
+            case SHNProtocolMoonshineStreamingV3.PROTOCOL_VERSION:
+                shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV3(shnServiceByteStreaming, internalHandler);
+                break;
+            case SHNProtocolMoonshineStreamingV4.PROTOCOL_VERSION:
+                shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV4(shnServiceByteStreaming, internalHandler);
+                break;
+            default:
+                SHNLogger.d(TAG, "Unsupported protocol version, going into error state");
+                state = SHNProtocolMoonshineStreamingState.Error;
+                return;
+        }
+
+        shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(shnProtocolMoonshineStreamingListener);
+        shnProtocolMoonshineStreaming.onServiceAvailable();
+        shnProtocolMoonshineStreaming.onReadProtocolInformation(configurationData);
     }
 
     @Override
@@ -158,5 +141,9 @@ public class SHNProtocolByteStreamingVersionSwitcher implements SHNProtocolMoons
         if (ENABLE_DEBUG_LOGGING) {
             SHNLogger.i(TAG, log);
         }
+    }
+
+    SHNProtocolMoonshineStreamingState getState() {
+        return state;
     }
 }

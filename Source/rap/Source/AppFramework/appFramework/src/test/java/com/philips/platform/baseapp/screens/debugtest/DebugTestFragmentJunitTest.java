@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 
 import junit.framework.TestCase;
 
@@ -58,17 +58,17 @@ public class DebugTestFragmentJunitTest extends TestCase {
 
     @Test
     public void setupView() throws Exception{
-        String appState = AppStateConfiguration.DEVELOPMENT.getValue();
+        AppIdentityInterface.AppState appState = AppIdentityInterface.AppState.DEVELOPMENT;
         when(appFrameworkApplication.getAppState()).thenReturn(appState);
 
-        String configurationType[] =
+        AppIdentityInterface.AppState configurationType[] =
                 {
-                        AppStateConfiguration.STAGING.getValue(),
-                        AppStateConfiguration.TEST.getValue(),
-                        AppStateConfiguration.DEVELOPMENT.getValue()
+                        AppIdentityInterface.AppState.STAGING,
+                        AppIdentityInterface.AppState.TEST,
+                        AppIdentityInterface.AppState.DEVELOPMENT
                 };
         textView = mock(TextView.class);
-        List<String> list = Arrays.asList(configurationType);
+        List<AppIdentityInterface.AppState> list = Arrays.asList(configurationType);
         when(debugFragment.getList(configurationType)).thenReturn(list);
         view = mock(View.class);
         debugFragment.setUpView(view);
@@ -81,7 +81,7 @@ public class DebugTestFragmentJunitTest extends TestCase {
     public void valideState() throws Exception{
         String APPIDENTITY_APP_STATE = "appidentity.appState";
         String appInfraValue = "appinfra";
-        String appState = AppStateConfiguration.DEVELOPMENT.getValue();
+        AppIdentityInterface.AppState appState = AppIdentityInterface.AppState.DEVELOPMENT;
         when(appFrameworkApplication.getAppState()).thenReturn(appState);
 
         when(appFrameworkApplication.getAppInfra()).thenReturn(appInfra);

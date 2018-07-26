@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column6</string>
   <string name="USR_Account_Merge_Merge_btntxt">الدمج</string>
   <string name="USR_Account_Setting_Titletxt">إعدادات الحساب</string>
   <string name="USR_Action_ConsumerCare_Txt">مركز خدمة العملاء</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">هل نسيت كلمة المرور؟</string>
   <string name="USR_Gender_TitleTxt">الجنس</string>
   <string name="USR_Generic_Network_Error">عذرًا! حدث خطأ ما. يرجى إعادة المحاولة لاحقًا</string>
-  <string name="USR_Generic_Network_ErrorMsg">يتعذّر الاتصال بالخادم.\nيُرجى التحقق من اتصال الإنترنت لديك وإعادة المحاولة.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">يتعذّر الاتصال بالخادم.\nيُرجى التحقق من اتصال الإنترنت لديك وإعادة المحاولة.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">انتهت صلاحية التوقيع بسبب خطأ في الوقت. يرجى التحقق من إعدادات الوقت في جهازك.</string>
   <string name="USR_InValid_PwdErrorMsg">لا تتوافق كلمة المرور مع إرشادات كلمة المرور أدناه.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">عنوان البريد الإلكتروني غير صالح. يرجى التحقق.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">للتأكد من صحة هويتك، يرجى تسجيل الدخول بواسطة %s مرة أخرى.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">إلغاء</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">أوشكت على الانتهاء!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">أوافق على %s التطبيق</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">يرجى الموافقة على الشروط والأحكام</string>
   <string name="USR_TermsAndConditionsText">الأحكام والشروط</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">الحساب موجود مسبقًا.</string>

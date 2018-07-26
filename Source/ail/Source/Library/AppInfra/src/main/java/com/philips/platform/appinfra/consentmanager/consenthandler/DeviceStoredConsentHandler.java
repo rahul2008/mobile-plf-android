@@ -7,7 +7,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
+import com.philips.platform.appinfra.utility.AIUtility;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -15,18 +15,11 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
@@ -97,9 +90,15 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
 
             if (consentInfo == null || storageError.getErrorCode() != null || consentInfo.toUpperCase().startsWith("FALSE")) {
                 logError(storageError, consentType);
-                consentStatus = new ConsentStatus(ConsentStates.inactive, 0, getUTCTime());
+                consentStatus = new ConsentStatus(ConsentStates.inactive, 0, new Date(0));
             } else {
-                Date timestamp = new DateTime((String.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_TIMESTAMP))), DateTimeZone.UTC).toDate();
+                Date timestamp;
+                String storedTimestamp = String.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_TIMESTAMP));
+                if (storedTimestamp == null) {
+                    timestamp = new Date(0);
+                } else {
+                    timestamp = AIUtility.convertStringToDate(storedTimestamp, "yyyy-MM-dd HH:mm:ss.SSS Z");
+                }
                 consentStatus = new ConsentStatus(ConsentStates.active,
                         Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)), timestamp);
             }
@@ -114,7 +113,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         storeValues.add(LIST_POS_STATUS, String.valueOf(status));
         storeValues.add(LIST_POS_VERSION, String.valueOf(version));
         storeValues.add(LIST_POS_LOCALE, appInfra.getInternationalization().getBCP47UILocale());
-        storeValues.add(LIST_POS_TIMESTAMP, String.valueOf(getUTCTime()));
+        storeValues.add(LIST_POS_TIMESTAMP, AIUtility.convertDateToString(getUTCTime()));
 
         String storedValue = join(storeValues, DEVICESTORE_VALUE_DELIMITER);
         SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();

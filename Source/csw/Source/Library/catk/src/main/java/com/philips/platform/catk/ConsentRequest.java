@@ -81,7 +81,6 @@ class ConsentRequest extends Request<JsonArray> {
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             ParseError error = new ParseError(e);
-            authErrorListener.onAuthError(this.getModel(), error);
             return Response.error(error);
         }
     }

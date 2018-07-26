@@ -5,22 +5,14 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
+import com.philips.platform.appinfra.utility.AIUtility;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import static com.philips.platform.appinfra.tagging.AppTagging.CLICKSTREAM_CONSENT_TYPE;
 import static junit.framework.Assert.assertEquals;
@@ -29,8 +21,8 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
     @VisibleForTesting
     static final String CLICKSTREAM_CONSENT_VERSION = CLICKSTREAM_CONSENT_TYPE + "_Version";
-    static final String CLICKSTREAM_CONSENT_TIMESTAMP = CLICKSTREAM_CONSENT_TYPE + "_Timestamp";
-    AppInfraInterface appInfraInterface;
+    private static final String CLICKSTREAM_CONSENT_TIMESTAMP = CLICKSTREAM_CONSENT_TYPE + "_Timestamp";
+    private AppInfraInterface appInfraInterface;
 
     ClickStreamConsentHandler(AppInfraInterface appInfraInterface) {
         this.appInfraInterface = appInfraInterface;
@@ -64,8 +56,14 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
         AppTaggingInterface.PrivacyStatus privacyStatus = appInfraInterface.getTagging().getPrivacyConsent();
 
-        callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version,
-                new DateTime(getValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP), DateTimeZone.UTC).toDate()));
+        Date timestamp;
+        String timestampValue = getValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP);
+        if (timestampValue == null) {
+            timestamp = new Date(0);
+        } else {
+            timestamp = AIUtility.convertStringToDate(timestampValue, "yyyy-MM-dd HH:mm:ss.SSS Z");
+        }
+        callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version, timestamp));
     }
 
     @Override
@@ -74,8 +72,13 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
         appInfraInterface.getTagging().setPrivacyConsent(getPrivacyStatus(status));
         storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(version));
-        storeValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP, String.valueOf(appInfraInterface.getTime().getUTCTime()));
+        storeValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP, AIUtility.convertDateToString(getUTCTime()));
         callback.onPostConsentSuccess();
+    }
+
+    @VisibleForTesting
+    Date getUTCTime() {
+        return appInfraInterface.getTime().getUTCTime();
     }
 
     private String getValueForKey(String key) {
@@ -83,6 +86,6 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
     }
 
     private void storeValueForKey(String key, String value) {
-        appInfraInterface.getSecureStorage().storeValueForKey(key, String.valueOf(value), getSecureStorageError());
+        appInfraInterface.getSecureStorage().storeValueForKey(key, value, getSecureStorageError());
     }
 }

@@ -48,7 +48,7 @@ public class THSVisitHistoryPresenterTest {
     private THSVisitHistoryPresenter mThsVisitHistoryPresenter;
 
     @Mock
-    private THSVisitHistoryFragment thsVisitHistoryFragmentMock;
+    private THSVisitHistoryFragmentMock thsVisitHistoryFragmentMock;
 
     @Mock
     private Context contextMock;
@@ -163,10 +163,10 @@ public class THSVisitHistoryPresenterTest {
 
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void onFailure() throws Exception {
         mThsVisitHistoryPresenter.onFailure(throwableMock);
-        verify(thsVisitHistoryFragmentMock).showError(anyString(), anyBoolean(), false);
+        verify(thsVisitHistoryFragmentMock).showError(null, true, false);
     }
 
     @Test

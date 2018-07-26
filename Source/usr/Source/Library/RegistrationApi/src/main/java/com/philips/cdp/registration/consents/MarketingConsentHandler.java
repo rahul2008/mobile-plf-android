@@ -10,6 +10,7 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
+import com.philips.platform.appinfra.utility.AIUtility;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -146,17 +147,10 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
         }
     }
 
-
     protected Date getTimestamp(String timestamp) {
         if (timestamp != null) {
-            final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.ENGLISH);
-            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-            try {
-                return dateFormat.parse(timestamp);
-            } catch (ParseException e) {
-                RLog.d(TAG, e.getMessage());
-            }
+            return AIUtility.convertStringToDate(timestamp, "yyyy-MM-dd HH:mm:ss Z");
         }
-        return null;
+        return new Date(0);
     }
 }

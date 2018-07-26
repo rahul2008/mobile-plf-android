@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column12</string>
   <string name="USR_Account_Merge_Merge_btntxt">Merge</string>
   <string name="USR_Account_Setting_Titletxt">Account settings</string>
   <string name="USR_Action_ConsumerCare_Txt">Consumer Care</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Forgotten password?</string>
   <string name="USR_Gender_TitleTxt">Gender</string>
   <string name="USR_Generic_Network_Error">Oops! Something went wrong. Please try again later</string>
-  <string name="USR_Generic_Network_ErrorMsg">Cannot connect to server.\nPlease check your internet connection and try again.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Cannot connect to server.\nPlease check your internet connection and try again.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Signature expired due to time error. Please check your device time settings.</string>
   <string name="USR_InValid_PwdErrorMsg">The password does not follow the password guidelines below.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Invalid email address. Please check.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">To make sure it is really you, please log in with %s once more.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Cancel</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Almost done!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">I accept the app\'s %s</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Please accept the Terms and Conditions</string>
   <string name="USR_TermsAndConditionsText">Terms and Conditions</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Account already exists.</string>

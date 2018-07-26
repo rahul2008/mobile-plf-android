@@ -36,7 +36,10 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((EWSActionBarListener) getContext()).closeButton(false);
+        EWSActionBarListener actionBarListener = ((EWSActionBarListener) getContext());
+        if (actionBarListener != null) {
+            actionBarListener.closeButton(false);
+        }
     }
 
     @Nullable

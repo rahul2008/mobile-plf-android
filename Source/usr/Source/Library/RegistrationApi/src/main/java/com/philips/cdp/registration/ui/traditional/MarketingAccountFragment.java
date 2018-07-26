@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -111,6 +112,10 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             } else {
                 defalutBannerText(view);
             }
+
+            if (getRegistrationFragment().getContentConfiguration().getEnableMarketImage() != 0) {
+                updateMarketingImage(view, getRegistrationFragment().getContentConfiguration().getEnableMarketImage());
+            }
         } else {
             defalutBannerText(view);
             RLog.i(TAG, "setContentConfig : getContentConfiguration : is null");
@@ -131,6 +136,14 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         if (text != null && text.length() > 0) {
             marketBeTheFirstTextView.setText(text);
         }
+    }
+
+    private void updateMarketingImage(View view, int text) {
+        ImageView productImage = (ImageView) view.findViewById(R.id.prg_welcomeScreem_product_image);
+        productImage.setVisibility(View.VISIBLE);
+        productImage.setImageDrawable(getResources().getDrawable(text, getActivity().getTheme()));
+        productImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        productImage.requestLayout();
     }
 
     @Override

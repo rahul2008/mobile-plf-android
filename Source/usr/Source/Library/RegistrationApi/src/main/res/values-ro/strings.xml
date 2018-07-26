@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column33</string>
   <string name="USR_Account_Merge_Merge_btntxt">Fuzionare</string>
   <string name="USR_Account_Setting_Titletxt">Setările contului</string>
   <string name="USR_Action_ConsumerCare_Txt">Asistenţă clienţi</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Ai uitat parola?</string>
   <string name="USR_Gender_TitleTxt">Sex</string>
   <string name="USR_Generic_Network_Error">Ups! A apărut o problemă. Încearcă din nou mai târziu.</string>
-  <string name="USR_Generic_Network_ErrorMsg">Conectarea la server nu este posibilă.\nVerifică-ţi conexiunea la internet şi încearcă din nou.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Conectarea la server nu este posibilă.\nVerifică-ţi conexiunea la internet şi încearcă din nou.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Semnătură expirată din cauza unei erori temporale. Verifică setările de oră ale dispozitivului.</string>
   <string name="USR_InValid_PwdErrorMsg">Parola nu corespunde indicaţiilor pentru parolă de mai jos.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Adresă de e-mail nevalidă. Te rugăm să verifici.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Pentru a ne asigura de identitatea ta, te rugăm să te conectezi cu %s încă o dată.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Anulare</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Aproape gata!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Sunt de acord cu %s aplicaţiei</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Te rugăm să accepţi termenii şi condiţiile</string>
   <string name="USR_TermsAndConditionsText">Termenii și condițiile</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Contul există deja.</string>

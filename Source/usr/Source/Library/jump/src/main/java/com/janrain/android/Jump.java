@@ -59,7 +59,6 @@ import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
 import com.philips.AppNameToEnglish;
-import com.philips.cdp.security.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import net.openid.appauth.AppAuthConfiguration;
@@ -979,47 +978,7 @@ public class Jump {
 
 
     private static void loadRefreshSecretFromDiskInternal(Context context) {
-
-        FileInputStream fis = null;
-        ObjectInputStream ois = null;
-        try {
-            fis = context.openFileInput(Capture.JR_REFRESH_SECRET);
-            ois = new ObjectInputStream(fis);
-            byte[] encryptedText = (byte[])ois.readObject();
-            byte[] decrtext = SecureStorage.decrypt(encryptedText);
-            //  state.refreshSecret = (String) ois.readObject();
-            state.refreshSecret = new String(decrtext);
-            context.deleteFile(Capture.JR_REFRESH_SECRET);
-            mSecureStorageInterface.storeValueForKey(Capture.JR_REFRESH_SECRET,
-                    state.refreshSecret ,new SecureStorageInterface.SecureStorageError());
-
-        }catch(NullPointerException e){
-            throwDebugException(e);
-        } catch (ClassCastException e) {
-            throwDebugException(e);
-        } catch (FileNotFoundException ignore) {
-        } catch (StreamCorruptedException e) {
-            throwDebugException(new RuntimeException(e));
-        } catch (IOException e) {
-            throwDebugException(new RuntimeException(e));
-        } catch (ClassNotFoundException e) {
-            throwDebugException(new RuntimeException(e));
-        }catch (Exception e){
-            throwDebugException(new RuntimeException(e));
-        }
-        finally {
-            try {
-                if (fis != null) fis.close();
-            } catch (IOException ignore) {
-            }
-
-            try {
-                if (ois != null) ois.close();
-            } catch (IOException ignore) {
-            }
-        }
         state.refreshSecret = mSecureStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET, new SecureStorageInterface.SecureStorageError());
-
     }
 
     private static void loadFlow() {

@@ -14,6 +14,7 @@ public final class NetworkNodeDatabaseFactory {
     private NetworkNodeDatabaseFactory() {
     }
 
+    @NonNull
     public static NetworkNodeDatabase create(final @Nullable RuntimeConfiguration runtimeConfiguration) {
         DatabaseHelper dbHelper = createNetworkNodeDBHelper(runtimeConfiguration);
 
