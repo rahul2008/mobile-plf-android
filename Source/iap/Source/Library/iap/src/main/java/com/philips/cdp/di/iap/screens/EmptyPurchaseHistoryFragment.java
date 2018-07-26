@@ -22,7 +22,7 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
     private Button mContinueShoppingBtn;
 
     public static EmptyPurchaseHistoryFragment createInstance
-            (Bundle args, InAppBaseFragment.AnimationType animType) {
+            (Bundle args, AnimationType animType) {
         EmptyPurchaseHistoryFragment fragment = new EmptyPurchaseHistoryFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

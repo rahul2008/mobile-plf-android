@@ -174,7 +174,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     }
 
     public static OrderDetailsFragment createInstance
-            (Bundle args, InAppBaseFragment.AnimationType animType) {
+            (Bundle args, AnimationType animType) {
         OrderDetailsFragment fragment = new OrderDetailsFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
