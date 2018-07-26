@@ -45,9 +45,9 @@ public class PersistApplianceFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (manager.storeAppliance(currentAppliance)) {
-                    showMessage(getActivity(), activityRoot, getString(cml_persist_success));
+                    showMessage(activityRoot, getString(cml_persist_success));
                 } else {
-                    showIndefiniteMessage(getActivity(), activityRoot, getString(cml_persist_failed));
+                    showIndefiniteMessage(activityRoot, getString(cml_persist_failed));
                 }
             }
         });
@@ -56,9 +56,9 @@ public class PersistApplianceFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (manager.forgetStoredAppliance(currentAppliance)) {
-                    showMessage(getActivity(), activityRoot, getString(cml_forget_success));
+                    showMessage(activityRoot, getString(cml_forget_success));
                 } else {
-                    showIndefiniteMessage(getActivity(), activityRoot, getString(cml_forget_failed));
+                    showIndefiniteMessage(activityRoot, getString(cml_forget_failed));
                 }
             }
         });

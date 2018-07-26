@@ -7,13 +7,13 @@ package com.philips.cdp2.demouapp.fragment.port;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.request.Error;
@@ -42,7 +42,7 @@ public class PairingPortFragment extends Fragment {
 
             Activity activity = getActivity();
             if (activity != null) {
-                showMessage(getActivity(), rootview, getString(cml_pair_success));
+                showMessage(rootview, getString(cml_pair_success));
             }
         }
 
@@ -52,7 +52,7 @@ public class PairingPortFragment extends Fragment {
 
             Activity activity = getActivity();
             if (activity != null) {
-                showIndefiniteMessage(getActivity(), rootview, getString(cml_pair_failed));
+                showIndefiniteMessage(rootview, getString(cml_pair_failed));
             }
         }
     };
@@ -64,7 +64,7 @@ public class PairingPortFragment extends Fragment {
 
             Activity activity = getActivity();
             if (activity != null) {
-                showMessage(getActivity(), rootview, getString(cml_unpair_success));
+                showMessage(rootview, getString(cml_unpair_success));
             }
         }
 
@@ -74,7 +74,7 @@ public class PairingPortFragment extends Fragment {
 
             Activity activity = getActivity();
             if (activity != null) {
-                showIndefiniteMessage(getActivity(), rootview, getString(cml_unpair_failed));
+                showIndefiniteMessage(rootview, getString(cml_unpair_failed));
             }
         }
     };
@@ -106,7 +106,7 @@ public class PairingPortFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.cml_fragment_port_pairing, container, false);
 
         final String cppId = getArguments().getString(APPLIANCE_KEY);
