@@ -130,7 +130,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
                     if (orderData.getOrders() == null || orderData.getOrders().size() == 0) {
                         hideProgressBar();
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
-                                AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG,true);
+                                InAppBaseFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG,true);
                     } else {
                         for (Orders order : orderData.getOrders())
                             mOrders.add(order);
@@ -209,7 +209,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     }
 
     public static PurchaseHistoryFragment createInstance
-            (Bundle args, AnimationType animType) {
+            (Bundle args, InAppBaseFragment.AnimationType animType) {
         PurchaseHistoryFragment fragment = new PurchaseHistoryFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

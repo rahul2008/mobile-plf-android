@@ -49,7 +49,6 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
-import com.philips.platform.uid.utils.UIDActivity;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -116,7 +115,6 @@ public class AppFrameworkApplication extends Application {
      * @param callback
      */
     public void initialize(AppInitializationCallback.AppStatesInitializationCallback callback) {
-        UIDActivity.setLanguagePackNeeded(false);
         RALog.d(LOG, "UR state begin::");
         initUserRegistrationState();
         RALog.d(LOG, "UR state end::");

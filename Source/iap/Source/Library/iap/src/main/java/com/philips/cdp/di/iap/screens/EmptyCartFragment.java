@@ -26,7 +26,7 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
     private Button mContinueShopping;
     public static final String TAG = EmptyCartFragment.class.getName();
 
-    public static EmptyCartFragment createInstance(Bundle args, AnimationType animType) {
+    public static EmptyCartFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         EmptyCartFragment fragment = new EmptyCartFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

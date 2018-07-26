@@ -76,7 +76,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private ImageView mClearIconView;
     private AppCompatAutoCompleteTextView mSearchTextView;
 
-    public static ProductCatalogFragment createInstance(Bundle args, AnimationType animType) {
+    public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
