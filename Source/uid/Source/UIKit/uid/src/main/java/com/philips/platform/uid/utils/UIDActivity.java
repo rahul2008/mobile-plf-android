@@ -15,7 +15,7 @@ public class UIDActivity extends AppCompatActivity {
     private static final String TAG = UIDActivity.class.getSimpleName();
     private Resources uidResources;
 
-    private static boolean isLanguagePackNeeded = true;
+    private boolean isLanguagePackNeeded = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class UIDActivity extends AppCompatActivity {
         return themeID;
     }
 
-    public static void setLanguagePackNeeded(boolean languagePackNeeded) {
+    public void setLanguagePackNeeded(boolean languagePackNeeded) {
         isLanguagePackNeeded = languagePackNeeded;
     }
 }
