@@ -76,9 +76,6 @@ public class EWSUapp implements UappInterface {
         }
 
         if (uiLauncher instanceof FragmentLauncher) {
-            if (!(((FragmentLauncher) uiLauncher).getFragmentActivity() instanceof EWSActionBarListener)) {
-                throw new UnsupportedOperationException(ERROR_MSG_INVALID_IMPLEMENTATION);
-            }
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
         } else if (uiLauncher instanceof ActivityLauncher) {
             dependencyHelper.setThemeConfiguration(((ActivityLauncher) uiLauncher).getDlsThemeConfiguration());
