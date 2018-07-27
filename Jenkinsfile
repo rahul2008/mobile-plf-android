@@ -112,11 +112,11 @@ pipeline {
                 }
             }
             steps {
-                sh """#!/bin/bash -le
+                sh '''#!/bin/bash -le
                     apkname=`xargs < apkname.txt`
                     PSRA_APK_NAME=${apkname/.apk/._PSRA.apk}
                     curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT ${PSRA_APK_NAME} -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
-                """
+                '''
             }
         }
 
