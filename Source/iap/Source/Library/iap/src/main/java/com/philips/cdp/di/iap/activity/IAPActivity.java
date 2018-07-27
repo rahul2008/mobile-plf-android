@@ -55,6 +55,10 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
     private String mTitle;
     private ProgressDialog mProgressDialog = null;
 
+    public IAPActivity(){
+        setLanguagePackNeeded(false);
+    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));

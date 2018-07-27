@@ -246,7 +246,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
-                        DLSAddressFragment.TAG,true);
+                        AddressSelectionFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                 mAddresses = shippingAddresses.getAddresses();

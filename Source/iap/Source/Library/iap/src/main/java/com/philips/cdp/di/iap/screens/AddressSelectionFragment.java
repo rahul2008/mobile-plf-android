@@ -262,6 +262,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             createCustomProgressBar(mLinearLayout, BIG);
             mAddressController.setDeliveryAddress(retrieveSelectedAddress().getId());
             CartModelContainer.getInstance().setAddressId(retrieveSelectedAddress().getId());
+            CartModelContainer.getInstance().setAddressIdFromDelivery(retrieveSelectedAddress().getId());
 
 
         }
