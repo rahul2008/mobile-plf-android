@@ -65,7 +65,7 @@
   <string name="iap_cvv_code">[de]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[de]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
-  <string name="iap_cvvpopup_3digit_info">[de]This 3-digit number can be found on the back of your card.</string>
+  <string name="iap_cvvpopup_3digit_info">[de]The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
   <string name="iap_daily_selling_product">[de]Daily Collection Miniblender</string>
   <string name="iap_delete">Löschen</string>
   <string name="iap_delete_address">Lieferadresse löschen</string>
