@@ -234,16 +234,6 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
     }
 
     @Override
-    public void onHSDPLoginSuccess() {
-
-    }
-
-    @Override
-    public void onHSDPLoginFailure(int errorCode) {
-
-    }
-
-    @Override
     public void onUserRegistrationComplete(Activity activity) {
         launchAmwell();
     }

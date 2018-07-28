@@ -44,6 +44,7 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -71,7 +72,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class URStandardDemoActivity extends UIDActivity implements OnClickListener,
-        UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
+        UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler, HSDPAuthenticationListener {
 
     private final String HSDP_UUID_SHOULD_UPLOAD = "hsdpUUIDUpload";
     private final String HSDP_LAZY_LOADING_STATUS = "hsdpLazyLoading";
@@ -86,6 +87,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     private User mUser;
     private Button mBtnRegistrationWithAccountSettings;
     private CoppaExtension coppaExtension;
+    private Switch mHSDPLazyLoadingSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus;
+    private boolean hsdpLazyLoadingBoolean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,8 +132,13 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         mLlConfiguration = findViewById(R.id.ll_configuartion);
         LlcoppaItems = findViewById(R.id.CoppaItems);
         mRadioGroup = findViewById(R.id.myRadioGroup);
+        mHSDPLazyLoadingSwitch = findViewById(R.id.hsdp_lazy_loading_switch);
+        hsdpUuidUpload = findViewById(R.id.switch_hsdp_uuid_upload);
+        consentConfirmationStatus = findViewById(R.id.updateCoppaConsentConfirmationStatus);
+        updateCoppaConsentStatus = findViewById(R.id.updateCoppaConsentStatus);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         restoredText = prefs.getString("reg_environment", null);
+        hsdpLazyLoadingBoolean = prefs.getBoolean("hsdpLazyLoadingText", false);
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
         if (restoredText != null) {
 
@@ -177,7 +185,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
         });
 
-        Switch mHSDPLazyLoadingSwitch = findViewById(R.id.hsdp_lazy_loading_switch);
+
         mHSDPLazyLoadingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -188,7 +196,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         Button fethContent = findViewById(R.id.fetchConcent);
         fethContent.setOnClickListener(this);
 
-        Switch consentConfirmationStatus = findViewById(R.id.updateCoppaConsentConfirmationStatus);
+
         consentConfirmationStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -196,7 +204,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
         });
 
-        final Switch updateCoppaConsentStatus = findViewById(R.id.updateCoppaConsentStatus);
+
         updateCoppaConsentStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -210,7 +218,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             mCheckBox.setChecked(true);
         }
         updateHSDPUuidSwitch(false);
-        Switch hsdpUuidUpload = findViewById(R.id.switch_hsdp_uuid_upload);
+
         hsdpUuidUpload.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -268,7 +276,12 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     String restoredText = prefs.getString("reg_hsdp_environment", null);
                     RLog.d("Restored teest", "" + restoredText);
 
+                    if (mHSDPLazyLoadingSwitch.isChecked()) {
+                        editor.putBoolean("hsdpLazyLoadingText", true).commit();
+                        mHSDPLazyLoadingSwitch.setChecked(true);
+                    }
                 }
+
 
             }
         });
@@ -289,7 +302,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     private void updateHsdpLazyLoadingStatus(boolean b) {
         RLog.d("updateHsdpLazyLoadingStatus", " Going to set :" + b);
-        mCheckBox.setChecked(true);
         final AppInfraInterface appInfraInterface = URDemouAppInterface.appInfra;
         appInfraInterface.getConfigInterface().setPropertyForKey(HSDP_LAZY_LOADING_STATUS, "UserRegistration", String.valueOf(b), configError);
     }
@@ -317,6 +329,11 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
+        registerationWithAccountSettingButtonEnableOnUserSignedIn();
+
+    }
+
+    private void registerationWithAccountSettingButtonEnableOnUserSignedIn() {
         if (mUser.isUserSignIn())
             mBtnRegistrationWithAccountSettings.setEnabled(true);
         else
@@ -661,7 +678,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete : making  HSDP call");
             Toast.makeText(this, "onUserRegistrationComplete :" + userLoginState.name(), Toast.LENGTH_SHORT).show();
             //make HSDP login call
-            mUser.authorizeHSDP();
+            mUser.authorizeHSDP(this);
         }
 
     }
@@ -703,8 +720,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     }
 
     @Override
-    public void onHSDPLoginFailure(int errorCode) {
-        RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onHSDPLoginFailure");
+    public void onHSDPLoginFailure(int errorCode, String msg) {
+        RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onHSDPLoginFailure with " + msg);
         showToast("HSDPLogin Failure with error code : " + errorCode);
     }
 

@@ -11,8 +11,6 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
@@ -43,7 +41,7 @@ public class UserTest extends TestCase {
     Context contextMock;
 
     @Mock
-    TraditionalLoginHandler traditionalLoginHandlerMock;
+    SocialProviderLoginHandler traditionalLoginHandlerMock;
 
 
     @Mock

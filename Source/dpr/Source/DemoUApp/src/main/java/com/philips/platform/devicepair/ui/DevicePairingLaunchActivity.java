@@ -141,16 +141,6 @@ public class DevicePairingLaunchActivity extends AppCompatActivity implements Us
     }
 
     @Override
-    public void onHSDPLoginSuccess() {
-
-    }
-
-    @Override
-    public void onHSDPLoginFailure(int errorCode) {
-
-    }
-
-    @Override
     public void onUserRegistrationComplete(Activity activity) {
         runOnUiThread(new Runnable() {
             public void run() {

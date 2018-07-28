@@ -12,7 +12,6 @@ import android.support.multidex.MultiDex;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 

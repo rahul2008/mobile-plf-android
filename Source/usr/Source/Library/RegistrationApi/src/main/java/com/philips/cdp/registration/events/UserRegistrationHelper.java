@@ -9,6 +9,7 @@
 
 package com.philips.cdp.registration.events;
 
+import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 
@@ -26,12 +27,15 @@ public class UserRegistrationHelper {
 
     /* User registration listeners */
     private final CopyOnWriteArrayList<UserRegistrationListener> userRegistrationListeners;
+    /* User registration listeners */
+    private final CopyOnWriteArrayList<HSDPAuthenticationListener> hsdpAuthenticationListeners;
 
     /**
      * Class constructor
      */
     private UserRegistrationHelper() {
-        userRegistrationListeners = new CopyOnWriteArrayList<UserRegistrationListener>();
+        userRegistrationListeners = new CopyOnWriteArrayList<>();
+        hsdpAuthenticationListeners = new CopyOnWriteArrayList<>();
     }
 
     /**
@@ -138,7 +142,7 @@ public class UserRegistrationHelper {
     public synchronized void notifyOnHSDPLoginSuccess() {
         RLog.d(TAG, "notifyOnHSDPLoginSuccess");
         synchronized (userRegistrationListeners) {
-            for (UserRegistrationListener eventListener : userRegistrationListeners) {
+            for (HSDPAuthenticationListener eventListener : hsdpAuthenticationListeners) {
                 if (eventListener != null) {
                     eventListener.onHSDPLoginSuccess();
                 }
@@ -149,12 +153,12 @@ public class UserRegistrationHelper {
     /**
      * {@code notifyOnLogoutSuccessWithInvalidAccessToken} method to notify on logout success with invalid access token
      */
-    public synchronized void notifyOnHSDPLoginFailure(int errorCode) {
+    public synchronized void notifyOnHSDPLoginFailure(int errorCode, String errorMsg) {
         RLog.d(TAG, "notifyOnHSDPLoginFailure");
         synchronized (userRegistrationListeners) {
-            for (UserRegistrationListener eventListener : userRegistrationListeners) {
+            for (HSDPAuthenticationListener eventListener : hsdpAuthenticationListeners) {
                 if (eventListener != null) {
-                    eventListener.onHSDPLoginFailure(errorCode);
+                    eventListener.onHSDPLoginFailure(errorCode, errorMsg);
                 }
             }
         }

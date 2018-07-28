@@ -17,6 +17,7 @@ import android.util.Base64;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.app.tagging.Encryption;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
@@ -26,9 +27,10 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
+import com.philips.cdp.registration.events.UserRegistrationHelper;
+import com.philips.cdp.registration.handlers.LoginHandler;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -41,9 +43,6 @@ import com.philips.dhpclient.response.DhpResponse;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -297,10 +296,10 @@ public class HsdpUser {
      * @param userFileWriteListener user file write listener
      */
     private void saveToDisk(UserFileWriteListener userFileWriteListener) {
-        RLog.d("HsdpTesting","Saving Hsdp record to secure storage");
-        Parcel parcel= Parcel.obtain();
-        getHsdpUserRecord().writeToParcel(parcel,0);
-        String parcelString= Base64.encodeToString(parcel.marshall(),Base64.DEFAULT);
+        RLog.d("HsdpTesting", "Saving Hsdp record to secure storage");
+        Parcel parcel = Parcel.obtain();
+        getHsdpUserRecord().writeToParcel(parcel, 0);
+        String parcelString = Base64.encodeToString(parcel.marshall(), Base64.DEFAULT);
         try {
             mContext.deleteFile(HSDP_RECORD_FILE);
             Jump.getSecureStorageInterface().storeValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD,
@@ -308,7 +307,7 @@ public class HsdpUser {
             userFileWriteListener.onFileWriteSuccess();
         } catch (Exception e) {
             userFileWriteListener.onFileWriteFailure();
-        }finally {
+        } finally {
             parcel.recycle();
         }
     }
@@ -325,35 +324,35 @@ public class HsdpUser {
             return HsdpUserInstance.getInstance().getHsdpUserRecordV2();
         }
         //Check if HsdpRecord v2 is present in secure storage or not.
-        RLog.d("HsdpTesting","Checking if hsdp record v2 is present in SS or not?");
-        if(Jump.getSecureStorageInterface().doesStorageKeyExist(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD)){
-            RLog.d("HsdpTesting","Hsdp record v2 present");
-            String hsdpRecord=Jump.getSecureStorageInterface().fetchValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD,
+        RLog.d("HsdpTesting", "Checking if hsdp record v2 is present in SS or not?");
+        if (Jump.getSecureStorageInterface().doesStorageKeyExist(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD)) {
+            RLog.d("HsdpTesting", "Hsdp record v2 present");
+            String hsdpRecord = Jump.getSecureStorageInterface().fetchValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD,
                     new SecureStorageInterface.SecureStorageError());
-            if(hsdpRecord!=null){
-                byte[] hsdpRecordByteArray=Base64.decode(hsdpRecord,Base64.DEFAULT);
-                RLog.d("HsdpTesting","Unmarshalling hsdp record v2");
-                Parcel parcel=Parcel.obtain();
-                parcel.unmarshall(hsdpRecordByteArray,0,hsdpRecordByteArray.length);
+            if (hsdpRecord != null) {
+                byte[] hsdpRecordByteArray = Base64.decode(hsdpRecord, Base64.DEFAULT);
+                RLog.d("HsdpTesting", "Unmarshalling hsdp record v2");
+                Parcel parcel = Parcel.obtain();
+                parcel.unmarshall(hsdpRecordByteArray, 0, hsdpRecordByteArray.length);
                 parcel.setDataPosition(0);
-                RLog.d("HsdpTesting","Stting hsdp record v2");
+                RLog.d("HsdpTesting", "Stting hsdp record v2");
                 HsdpUserInstance.getInstance().setHsdpUserRecordV2(HsdpUserRecordV2.CREATOR.createFromParcel(parcel));
                 parcel.recycle();
             }
-        }else{
+        } else {
 
             String hsdpRecord = Jump.getSecureStorageInterface().fetchValueForKey(HSDP_RECORD_FILE,
                     new SecureStorageInterface.SecureStorageError());
             RLog.d(TAG, "getHsdpUserRecordV2 hsdpRecord = " + hsdpRecord + " Not keeping in secure storage");
             if (hsdpRecord != null) {
-                RLog.d("HsdpTesting","Migrating hsdp record v1 to v2");
+                RLog.d("HsdpTesting", "Migrating hsdp record v1 to v2");
                 Object obj = SecureStorage.stringToObject(hsdpRecord);
                 if (obj instanceof HsdpUserRecord) {
                     final HsdpUserRecord hsdpUserRecord = (HsdpUserRecord) obj;
-                    HsdpUserRecordV2 hsdpUserRecordV2=new HsdpUserRecordV2();
+                    HsdpUserRecordV2 hsdpUserRecordV2 = new HsdpUserRecordV2();
                     hsdpUserRecordV2.setRefreshSecret(hsdpUserRecord.getRefreshSecret());
                     hsdpUserRecordV2.setUserUUID(hsdpUserRecord.getUserUUID());
-                    HsdpUserRecordV2.AccessCredential accessCredential=hsdpUserRecordV2.new AccessCredential();
+                    HsdpUserRecordV2.AccessCredential accessCredential = hsdpUserRecordV2.new AccessCredential();
                     accessCredential.setRefreshToken(hsdpUserRecord.getAccessCredential().getRefreshToken());
                     accessCredential.setAccessToken(hsdpUserRecord.getAccessCredential().getAccessToken());
                     hsdpUserRecordV2.setAccessCredential(accessCredential);
@@ -365,18 +364,18 @@ public class HsdpUser {
                     saveToDisk(new UserFileWriteListener() {
                         @Override
                         public void onFileWriteSuccess() {
-                            RLog.d("HsdpTesting","Deleting v1 record");
+                            RLog.d("HsdpTesting", "Deleting v1 record");
                             Jump.getSecureStorageInterface().removeValueForKey(HSDP_RECORD_FILE);
                         }
 
                         @Override
                         public void onFileWriteFailure() {
-                            RLog.d("HsdpTesting","Error while saving hsdp record to SS");
+                            RLog.d("HsdpTesting", "Error while saving hsdp record to SS");
                         }
                     });
                 }
-            }else{
-                RLog.d("HsdpTesting","Hsdp record not available");
+            } else {
+                RLog.d("HsdpTesting", "Hsdp record not available");
             }
         }
 
@@ -396,7 +395,7 @@ public class HsdpUser {
 
 
     public void login(final String email, final String accessToken,
-                      final String refreshSecret, final SocialLoginHandler loginHandler) {
+                      final String refreshSecret, final LoginHandler loginHandler) {
 
         if (networkUtility.isNetworkAvailable()) {
             final Handler handler = new Handler(Looper.getMainLooper());
@@ -435,6 +434,7 @@ public class HsdpUser {
                                         sendEncryptedUUIDToAnalytics(hsdpUserRecordV2);
                                     }
                                     ThreadUtils.postInMainThread(mContext, loginHandler::onLoginSuccess);
+                                    UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
                                 });
                             }
 
@@ -446,15 +446,12 @@ public class HsdpUser {
                         });
 
                     } else {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                RLog.d(RLog.HSDP, "Social onHsdpLoginFailure :  responseCode : "
-                                        + dhpAuthenticationResponse1.responseCode +
-                                        " message : " + dhpAuthenticationResponse1.message);
-                                handleSocialConnectionFailed(loginHandler, Integer.parseInt(
-                                        dhpAuthenticationResponse1.responseCode), new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(dhpAuthenticationResponse1.responseCode)), dhpAuthenticationResponse1.message);
-                            }
+                        handler.post(() -> {
+                            RLog.d(RLog.HSDP, "Social onHsdpLoginFailure :  responseCode : "
+                                    + dhpAuthenticationResponse1.responseCode +
+                                    " message : " + dhpAuthenticationResponse1.message);
+                            handleSocialConnectionFailed(loginHandler, Integer.parseInt(
+                                    dhpAuthenticationResponse1.responseCode), new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(dhpAuthenticationResponse1.responseCode)), dhpAuthenticationResponse1.message);
                         });
                     }
                 } catch (Exception e) {
@@ -487,12 +484,14 @@ public class HsdpUser {
      * @param errorCode    error code
      * @param description  string
      */
-    private void handleSocialConnectionFailed(SocialLoginHandler loginHandler,
+    private void handleSocialConnectionFailed(LoginHandler loginHandler,
                                               int errorCode, String description, String errorTagging) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         userRegistrationFailureInfo.setErrorCode(errorCode);
         userRegistrationFailureInfo.setErrorDescription(description);
         userRegistrationFailureInfo.setErrorTagging(errorTagging);
+        AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+        UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
         ThreadUtils.postInMainThread(mContext, () ->
                 loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
     }
@@ -502,12 +501,13 @@ public class HsdpUser {
      *
      * @param loginHandler login handler
      */
-    private void handleSocialNetworkFailure(SocialLoginHandler loginHandler) {
+    private void handleSocialNetworkFailure(LoginHandler loginHandler) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         userRegistrationFailureInfo.setErrorCode(ErrorCodes.HSDP_SYSTEM_ERROR_403);
         userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.HSDP, ErrorCodes.HSDP_SYSTEM_ERROR_403));
         userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.NETWORK_ERROR);
-
+        AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+        UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
         ThreadUtils.postInMainThread(mContext, () ->
                 loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
     }

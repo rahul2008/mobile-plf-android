@@ -84,7 +84,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                     HsdpUserRecordV2 hsdpUserRecordV2 = hsdpUser.getHsdpUserRecord();
                     if (hsdpUserRecordV2 == null) {
                         RLog.d(TAG, "refreshUpdateUser : hsdpUserRecordV2 is NULL  ");
-                        LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
+                        LoginTraditional loginTraditional = new LoginTraditional(new LoginHandler() {
                             @Override
                             public void onLoginSuccess() {
                                 RLog.d(TAG, "refreshUpdateUser : onLoginSuccess  ");
@@ -95,6 +95,26 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                                 RLog.e(TAG, "refreshUpdateUser : onLoginFailedWithError  ");
                                 handler.onRefreshUserFailed(RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED);
+                            }
+
+                            @Override
+                            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+                                //Nope
+                            }
+
+                            @Override
+                            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+                                //Nope
+                            }
+
+                            @Override
+                            public void onContinueSocialProviderLoginSuccess() {
+                                //Nope
+                            }
+
+                            @Override
+                            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                                //Nope
                             }
                         }, mContext, mUpdateUserRecordHandler, null, null);
                         loginTraditional.loginIntoHsdp();

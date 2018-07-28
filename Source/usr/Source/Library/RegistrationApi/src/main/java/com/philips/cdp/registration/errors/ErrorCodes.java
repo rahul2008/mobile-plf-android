@@ -213,8 +213,11 @@ public class ErrorCodes {
 
     public static final int AUTHENTICATION_CANCELLED_BY_USER = 7010;
 
-    public static final int JANRAIN_FLOW_DOWNLOAD_ERROR = 2000;
+    public static final int HSDP_SYSTEM_ERROR_7011 = 7011;
 
-    public static final int HSDP_SYSTEM_ERROR_99 = 99;
-    public static final int HSDP_SYSTEM_ERROR_98 = 98;
+    public static final int HSDP_SYSTEM_ERROR_7012 = 7012;
+
+    public static final int HSDP_SYSTEM_ERROR_7013 = 7013;
+
+    public static final int JANRAIN_FLOW_DOWNLOAD_ERROR = 2000;
 }

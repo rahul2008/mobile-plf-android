@@ -10,7 +10,7 @@ import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworkStateListener;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.LoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -28,7 +28,7 @@ import javax.inject.Inject;
 
 import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
 
-public class AlmostDonePresenter implements NetworkStateListener, SocialProviderLoginHandler, UpdateUserDetailsHandler {
+public class AlmostDonePresenter implements NetworkStateListener, LoginHandler, UpdateUserDetailsHandler {
 
 
     @Inject

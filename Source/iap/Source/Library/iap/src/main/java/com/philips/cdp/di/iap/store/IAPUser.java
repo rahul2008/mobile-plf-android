@@ -117,14 +117,4 @@ public class IAPUser implements UserRegistrationListener {
     public void onUserLogoutSuccessWithInvalidAccessToken() {
         //NOP
     }
-
-    @Override
-    public void onHSDPLoginSuccess() {
-
-    }
-
-    @Override
-    public void onHSDPLoginFailure(int errorCode) {
-
-    }
 }

@@ -13,7 +13,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.LoginHandler;
 import com.philips.cdp.registration.ui.traditional.mobile.FaceBookContractor;
 
 import org.json.JSONException;
@@ -113,9 +113,9 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
         graphRequest.executeAsync();
     }
 
-    public void startAccessTokenAuthForFacebook(User user, Activity activity, SocialProviderLoginHandler socialProviderLoginHandler, String accessToken, String mergeToken) {
+    public void startAccessTokenAuthForFacebook(User user, Activity activity, LoginHandler loginHandler, String accessToken, String mergeToken) {
         user.startTokenAuthForNativeProvider(activity,
-                RegConstants.SOCIAL_PROVIDER_FACEBOOK, socialProviderLoginHandler, mergeToken, accessToken);
+                RegConstants.SOCIAL_PROVIDER_FACEBOOK, loginHandler, mergeToken, accessToken);
     }
 
     public void startFaceBookLogIn() {
