@@ -113,7 +113,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if(stockAvailable){
             productHolder.mProductOutOfStock.setVisibility(View.GONE);
         }else {
-            productHolder.mProductOutOfStock.setText(mContext.getString(R.string.iap_out_of_stock));
+           // productHolder.mProductOutOfStock.setText(mContext.getString(R.string.iap_out_of_stock));
             productHolder.mProductOutOfStock.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
         }
 

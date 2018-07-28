@@ -33,24 +33,30 @@ public class UiKitActivity extends AppCompatActivity {
     private TextView titleText;
 
     private Resources uikitResources;
+    private boolean isLanguagePackNeeded = true;
 
     @Override
     public Resources getResources() {
-        if (uikitResources == null) {
-            uikitResources = new UikitResources(super.getResources());
+        if (isLanguagePackNeeded) {
+            if (uikitResources == null) {
+                uikitResources = new UikitResources(super.getResources());
+            }
+            return uikitResources;
         }
-        return uikitResources;
+        return super.getResources();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        getDelegate().onConfigurationChanged(newConfig);
-        if (uikitResources != null) {
-            // The real (and thus managed) resources object was already updated
-            // by ResourcesManager, so pull the current metrics from there.
-            final DisplayMetrics newMetrics = super.getResources().getDisplayMetrics();
-            uikitResources.updateConfiguration(newConfig, newMetrics);
+        if(isLanguagePackNeeded) {
+            getDelegate().onConfigurationChanged(newConfig);
+            if (uikitResources != null) {
+                // The real (and thus managed) resources object was already updated
+                // by ResourcesManager, so pull the current metrics from there.
+                final DisplayMetrics newMetrics = super.getResources().getDisplayMetrics();
+                uikitResources.updateConfiguration(newConfig, newMetrics);
+            }
         }
     }
 
@@ -156,5 +162,9 @@ public class UiKitActivity extends AppCompatActivity {
             exception.printStackTrace();
         }
         return title;
+    }
+
+    public void setLanguagePackNeeded(boolean languagePackNeeded) {
+        isLanguagePackNeeded = languagePackNeeded;
     }
 }

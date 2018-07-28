@@ -1,18 +1,27 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.security;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-public class DISecurityTest extends MockitoTestCase {
+@RunWith(AndroidJUnit4.class)
+public class DISecurityTest {
 
     private final static String KEY = "173B7E0A9A54CB3E96A70237F6974940";
     private final static String DATA = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
@@ -22,9 +31,10 @@ public class DISecurityTest extends MockitoTestCase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
+        initMocks(this);
     }
 
+    @Test
     public void testEncryptionDecryption() {
         DISecurity security = new DISecurity(networkNodeMock);
 
@@ -36,6 +46,7 @@ public class DISecurityTest extends MockitoTestCase {
         assertEquals(DATA, decryptedData);
     }
 
+    @Test
     public void testDecryptNullData() {
         DISecurity security = new DISecurity(networkNodeMock);
 
@@ -46,6 +57,7 @@ public class DISecurityTest extends MockitoTestCase {
         assertNull(decryptedData);
     }
 
+    @Test
     public void testDataEncryptionWithRandomBytes() {
         DISecurity security = new DISecurity(networkNodeMock);
 
@@ -57,6 +69,7 @@ public class DISecurityTest extends MockitoTestCase {
         assertFalse(encryptedData1 != null && encryptedData1.equals(encryptedData2));
     }
 
+    @Test
     public void testEncryptDataNullNetworkNodeObject() {
         DISecurity security = new DISecurity(null);
         String encryptedData = security.encryptData(DATA);
@@ -64,6 +77,7 @@ public class DISecurityTest extends MockitoTestCase {
         assertNull(encryptedData);
     }
 
+    @Test
     public void testEncryptDataNullkey() {
         DISecurity security = new DISecurity(networkNodeMock);
         String encryptedData = security.encryptData(DATA);
@@ -71,6 +85,7 @@ public class DISecurityTest extends MockitoTestCase {
         assertNull(encryptedData);
     }
 
+    @Test
     public void testEncryptDataEmptykey() {
         DISecurity security = new DISecurity(networkNodeMock);
 
@@ -80,6 +95,7 @@ public class DISecurityTest extends MockitoTestCase {
         assertNull(encryptedData);
     }
 
+    @Test
     public void testDecryptEmptyData() {
         DISecurity security = new DISecurity(networkNodeMock);
 
@@ -90,6 +106,7 @@ public class DISecurityTest extends MockitoTestCase {
         assertNull(decryptData);
     }
 
+    @Test
     public void testDecryptWithNullKey() {
         DISecurity security = new DISecurity(networkNodeMock);
 
@@ -104,6 +121,7 @@ public class DISecurityTest extends MockitoTestCase {
         assertNull(decryptData);
     }
 
+    @Test
     public void testDecryptWithEmptyKey() {
         DISecurity security = new DISecurity(networkNodeMock);
 
@@ -118,6 +136,7 @@ public class DISecurityTest extends MockitoTestCase {
         assertNull(decryptData);
     }
 
+    @Test
     public void testDecryptWithNullNetworkNodeObject() {
         DISecurity security = new DISecurity(null);
         String decryptData = security.decryptData("hello");

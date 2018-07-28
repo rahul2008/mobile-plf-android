@@ -360,7 +360,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         if (detail.getDeliveryAddress() != null) {
             mDeliveryName.setText(detail.getDeliveryAddress().getFirstName() + " " + detail.getDeliveryAddress().getLastName());
-           // mDeliveryAddress.setText(Utility.formatAddress(detail.getDeliveryAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
+            // mDeliveryAddress.setText(Utility.formatAddress(detail.getDeliveryAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
 
             AddressFields selectedAddress = Utility.prepareOrderAddressFields(detail.getDeliveryAddress());
             mDeliveryAddress.setText(Utility.getAddressToDisplay(selectedAddress));
@@ -369,7 +369,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         if (detail.getPaymentInfo() != null) {
             if (detail.getPaymentInfo().getBillingAddress() != null) {
                 mBillingName.setText(detail.getPaymentInfo().getBillingAddress().getFirstName() + " " + detail.getPaymentInfo().getBillingAddress().getLastName());
-             //   mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
+                //   mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
 
                 AddressFields selectedAddress = Utility.prepareOrderAddressFields(detail.getPaymentInfo().getBillingAddress());
                 mBillingAddress.setText(Utility.getAddressToDisplay(selectedAddress));
