@@ -22,7 +22,7 @@
       "TR","VN","CN","TW"],
     "fallbackHomeCountry":"US",
     "hsdpUUIDUpload": "false",
-    "delayHsdpLogin":"true"
+    "delayHsdpLogin":"false"
   },
   "appinfra": {
     "appidentity.micrositeId" : "77000",
