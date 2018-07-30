@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -73,6 +74,47 @@ public class WifiPortTest {
         assertEquals("TEST_TRAVEL_SSID", properties.getTravelSsid());
         assertEquals("TEST_TRAVEL_PASSWORD", properties.getTravelPassword());
 //        assertEquals("TEST_SSID", properties.getProtection());
+        assertEquals(true, properties.isDhcp());
+    }
+
+    @Test
+    public void testWifiPortPropertiesSetters() {
+        WifiPortProperties properties = new WifiPortProperties();
+
+        assertNull(properties.getCppid());
+        assertNull(properties.getSsid());
+        assertNull(properties.getGateway());
+        assertNull(properties.getIpaddress());
+        assertNull(properties.getMacaddress());
+        assertNull(properties.getNetmask());
+        assertNull(properties.getPassword());
+        assertNull(properties.getTravelSsid());
+        assertNull(properties.getTravelPassword());
+        assertNull(properties.getProtection());
+        assertFalse(properties.isDhcp());
+
+        properties.setCppid("TEST_SET_CPPID");
+        properties.setSsid("TEST_SET_SSID");
+        properties.setGateway("TEST_SET_GATEWAY");
+        properties.setIpaddress("TEST_SET_IP");
+        properties.setMacaddress("TEST_SET_MAC");
+        properties.setNetmask("TEST_SET_SUBNET");
+        properties.setPassword("TEST_SET_PASSWORD");
+        properties.setTravelSsid("TEST_SET_TRAVEL_SSID");
+        properties.setTravelPassword("TEST_SET_TRAVEL_PASSWORD");
+        properties.setProtection("TEST_SET_PROTECTION");
+        properties.setDhcp(true);
+
+        assertEquals("TEST_SET_CPPID", properties.getCppid());
+        assertEquals("TEST_SET_SSID", properties.getSsid());
+        assertEquals("TEST_SET_GATEWAY", properties.getGateway());
+        assertEquals("TEST_SET_IP", properties.getIpaddress());
+        assertEquals("TEST_SET_MAC", properties.getMacaddress());
+        assertEquals("TEST_SET_SUBNET", properties.getNetmask());
+        assertEquals("TEST_SET_PASSWORD", properties.getPassword());
+        assertEquals("TEST_SET_TRAVEL_SSID", properties.getTravelSsid());
+        assertEquals("TEST_SET_TRAVEL_PASSWORD", properties.getTravelPassword());
+        assertEquals("TEST_SET_PROTECTION", properties.getProtection());
         assertEquals(true, properties.isDhcp());
     }
 
