@@ -741,7 +741,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onHSDPLoginFailure(int errorCode, String msg) {
         RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onHSDPLoginFailure with " + msg);
-        showToast("HSDPLogin Failure with error code : " + errorCode);
+        showToast("HSDPLogin Failure with error code : " + errorCode + " and reason :" + msg);
     }
 
 

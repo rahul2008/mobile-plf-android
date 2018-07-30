@@ -590,6 +590,9 @@ public class User {
         } else if (isUserSignInJanrain() && !isUserSignIn()) {
             RLog.d(TAG, "authorizeHSDP: Janrain user signed-in not an HSDP So making HSDP call");
             hsdpLogin(hsdpFlow, hsdpAuthenticationListener);
+        }else {
+            RLog.d(TAG, "authorizeHSDP: not HSDP flow and HSDP configuration not done");
+            UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7013, "Already HSDP logged in.");
         }
 
     }
