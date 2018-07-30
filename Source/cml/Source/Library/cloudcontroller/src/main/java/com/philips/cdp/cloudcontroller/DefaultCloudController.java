@@ -496,7 +496,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             mDownloadData.executeCommand();
         } catch (Exception | Error e) {
             notifyDownloadDataListener(Errors.GENERAL_ERROR, null);
-            Log.e(TAG, e.getMessage());
+            Log.d(TAG, e.getMessage());
         }
     }
 
@@ -751,7 +751,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
                 }
             }
         } catch (IOException e) {
-            Log.e(LogConstants.CLOUD_CONTROLLER, "Error reading certificate file: " + e.getMessage());
+            Log.d(LogConstants.CLOUD_CONTROLLER, "Error reading certificate file: " + e.getMessage());
         }
         return gs.getNumberOfCertificates() > 0;
     }
@@ -843,7 +843,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
                     }
                 } catch (IOException e) {
                     mAppUpdateListener.onAppUpdateDownloadFailed();
-                    Log.e(TAG, "Error while downloading file: " + e.getMessage());
+                    Log.d(TAG, "Error while downloading file: " + e.getMessage());
                 }
             }
         } else {
@@ -862,7 +862,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             mByteOffset = 0;
         } catch (FileNotFoundException e) {
             mAppUpdateListener.onAppUpdateDownloadFailed();
-            Log.e(TAG, e.getMessage());
+            Log.d(TAG, e.getMessage());
             mFileOutputStream = null;
         }
     }
@@ -874,7 +874,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
                 mFileOutputStream = null;
             }
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            Log.d(TAG, e.getMessage());
         }
     }
 
@@ -926,7 +926,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
      *
      * @throws IllegalStateException when you call this method before signon was done
      */
-    public void setNewLocale(String countryCode, String languageCode) {
+    public final void setNewLocale(String countryCode, String languageCode) {
         if (mSignOn == null) {
             throw new IllegalStateException("SignOn failed to initialize, so cannot set locale");
         }
