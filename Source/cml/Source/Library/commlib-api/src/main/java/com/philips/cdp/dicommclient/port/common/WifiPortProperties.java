@@ -24,6 +24,8 @@ public class WifiPortProperties implements PortProperties {
     private boolean dhcp;
     private String macaddress;
     private String cppid;
+    private String travelssid;
+    private String travelpassword;
 
     /**
      * Gets WiFi AP ssid.
@@ -185,5 +187,41 @@ public class WifiPortProperties implements PortProperties {
      */
     public void setCppid(String cppid) {
         this.cppid = cppid;
+    }
+
+    /**
+     * Gets the {@link Appliance} travelssid.
+     *
+     * @return the travelssid
+     */
+    public String getTravelSsid() {
+        return travelssid;
+    }
+
+    /**
+     * Sets the {@link Appliance} travelssid.
+     *
+     * @param travelssid the travelssid
+     */
+    public void setTravelSsid(String travelssid) {
+        this.travelssid = travelssid;
+    }
+
+    /**
+     * Gets the {@link Appliance} travelpassword.
+     *
+     * @return the travelpassword
+     */
+    public String getTravelPassword() {
+        return travelpassword;
+    }
+
+    /**
+     * Sets the {@link Appliance} travelpassword.
+     *
+     * @param travelpassword the travelpassword
+     */
+    public void setTravelPassword(String travelpassword) {
+        this.travelpassword = travelpassword;
     }
 }

@@ -25,7 +25,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class WifiPortTest {
 
-    private final static String TEST_DATA = "{\"ssid\":\"TEST_SSID\",\"password\":\"TEST_PASSWORD\",\"ipaddress\":\"TEST_IP\",\"dhcp\":true,\"netmask\":\"TEST_SUBNET\",\"gateway\":\"TEST_GATEWAY\"}";
+    private final static String TEST_DATA = "{\"ssid\":\"TEST_SSID\",\"password\":\"TEST_PASSWORD\",\"ipaddress\":\"TEST_IP\",\"dhcp\":true,\"netmask\":\"TEST_SUBNET\",\"gateway\":\"TEST_GATEWAY\",\"travelssid\":\"TRAVEL_SSID\",\"travelpassword\":\"TRAVEL_PASSWORD\"}";
 
     @Mock
     private Handler handlerMock;
@@ -70,6 +70,8 @@ public class WifiPortTest {
 //        assertEquals("TEST_SSID", properties.getMacaddress());
         assertEquals("TEST_SUBNET", properties.getNetmask());
         assertEquals("TEST_PASSWORD", properties.getPassword());
+        assertEquals("TRAVEL_SSID", properties.getTravelSsid());
+        assertEquals("TRAVEL_PASSWORD", properties.getTravelPassword());
 //        assertEquals("TEST_SSID", properties.getProtection());
         assertEquals(true, properties.isDhcp());
     }
