@@ -34,7 +34,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class EWSUapp implements UappInterface {
 
     public static final String ERROR_MSG_INVALID_CALL = "Please call \"init\" method, before calling launching ews with valid params";
-    public static final String ERROR_MSG_INVALID_IMPLEMENTATION = "Please implement EWSActionBarListener in Activity";
     public static final String SCREEN_ORIENTATION = "screen.orientation";
     public static final String PRODUCT_NAME = "productName";
     private static final String TAG = "EWSInterface";

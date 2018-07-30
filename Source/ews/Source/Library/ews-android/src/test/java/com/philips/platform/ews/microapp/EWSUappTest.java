@@ -93,7 +93,6 @@ public class EWSUappTest {
 
     }
 
-
     @Test
     public void itShouldLaunchEWSActivityIfLauncherConfigurationIsValid() throws Exception {
         initEWS();
