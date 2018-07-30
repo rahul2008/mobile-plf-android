@@ -79,7 +79,7 @@ public class BaseHSDPLogin {
         });
     }
 
-    public void hsdpLogin(String accessToken, String emailOrMobile, LoginHandler socialProviderLoginHandler) {
+    public void hsdpLogin(String accessToken, String emailOrMobile, LoginHandler loginHandler) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         RLog.d(TAG, "hsdpLogin : with SocialProviderLoginHandler");
         hsdpUser.login(emailOrMobile, accessToken, Jump.getRefreshSecret(), new LoginHandler() {
@@ -87,7 +87,7 @@ public class BaseHSDPLogin {
 
             @Override
             public void onLoginSuccess() {
-                socialProviderLoginHandler.onLoginSuccess();
+                loginHandler.onLoginSuccess();
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
                 RLog.d(TAG, "onSuccess : if : SocialLoginHandler : onLoginSuccess : is called");
             }
@@ -96,7 +96,7 @@ public class BaseHSDPLogin {
             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                 AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
                 if (RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus())
-                    socialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                    loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 RLog.d(TAG, "onLoginFailedWithError : if : SocialLoginHandler : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());
             }
