@@ -1225,4 +1225,28 @@ public class User {
                 userRegistrationListener);
     }
 
+    /**
+     * register User Registration Listener
+     *
+     * @param hsdpAuthenticationListener instance of UserRegistrationListener
+     * @since 1.0.0
+     */
+    public void registerHSDPAuthenticationListener(HSDPAuthenticationListener hsdpAuthenticationListener) {
+        RLog.d(TAG, "registerUserRegistrationListener");
+        RegistrationHelper.getInstance().registerHSDPAuthenticationListener(hsdpAuthenticationListener);
+    }
+
+    /**
+     * remove  User Registration Listener
+     *
+     * @param hsdpAuthenticationListener instance of UserRegistrationListener which is  previously registered.
+     * @since 1.0.0
+     */
+    public void unRegisterHSDPAuthenticationListener(HSDPAuthenticationListener
+                                                             hsdpAuthenticationListener) {
+        RLog.d(TAG, "unRegisterUserRegistrationListener");
+        RegistrationHelper.getInstance().unRegisterHSDPAuthenticationListener(
+                hsdpAuthenticationListener);
+    }
+
 }

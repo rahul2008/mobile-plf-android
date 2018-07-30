@@ -122,6 +122,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
         mUser = new User(mContext);
         mUser.registerUserRegistrationListener(this);
+        mUser.registerHSDPAuthenticationListener(this);
         Button mBtnRefresh = findViewById(R.id.btn_refresh_user);
         mBtnRefresh.setOnClickListener(this);
 
@@ -365,6 +366,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     protected void onDestroy() {
         mUser.unRegisterUserRegistrationListener(this);
+        mUser.unRegisterHSDPAuthenticationListener(this);
         super.onDestroy();
 
     }
