@@ -190,7 +190,7 @@ public class WifiPortProperties implements PortProperties {
     }
 
     /**
-     * Gets the {@link Appliance} travelssid.
+     * Gets the travelssid.
      *
      * @return the travelssid
      */
@@ -199,7 +199,7 @@ public class WifiPortProperties implements PortProperties {
     }
 
     /**
-     * Sets the {@link Appliance} travelssid.
+     * Sets the travelssid.
      *
      * @param travelssid the travelssid
      */
@@ -208,7 +208,7 @@ public class WifiPortProperties implements PortProperties {
     }
 
     /**
-     * Gets the {@link Appliance} travelpassword.
+     * Gets the travelpassword.
      *
      * @return the travelpassword
      */
@@ -217,7 +217,7 @@ public class WifiPortProperties implements PortProperties {
     }
 
     /**
-     * Sets the {@link Appliance} travelpassword.
+     * Sets the travelpassword.
      *
      * @param travelpassword the travelpassword
      */
