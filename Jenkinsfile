@@ -95,6 +95,10 @@ pipeline {
                 sh '''#!/bin/bash -l
                     set -e
                     ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
+                    ./gradlew referenceApp:dependencies > ./dependency_log.txt
+                    apkname=`xargs < apkname.txt`
+                    dependencyname=${apkname/.apk/.gradledependencies}
+                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependencyname}" -T ./dependency_log.txt
                 '''
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
                 DeployingConnectedTestsLogs()
@@ -108,17 +112,11 @@ pipeline {
                 }
             }
             steps {
-                script {
-                    APK_NAME = readFile("apkname.txt").trim()
-                    echo "APK_NAME = ${APK_NAME}"
-                    APK_INFO = APK_NAME.split("referenceApp-")
-                    APK_PATH = APK_INFO[0]
-                    PSRA_APK_NAME = APK_INFO[0] + "referenceApp-" + APK_INFO[1].replace(".apk", "_PSRA.apk")
-                    echo "PSRA_APK_NAME: ${PSRA_APK_NAME}"
-                    sh """#!/bin/bash -le
-                        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $PSRA_APK_NAME -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
-                    """
-                }
+                sh '''#!/bin/bash -le
+                    apkname=`xargs < apkname.txt`
+                    PSRA_APK_NAME=${apkname/.apk/._PSRA.apk}
+                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT ${PSRA_APK_NAME} -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
+                '''
             }
         }
 
@@ -129,7 +127,7 @@ pipeline {
             steps {
                 script {
                     echo "Running TICS..."
-                    sh """#!/bin/bash -le 
+                    sh """#!/bin/bash -le
                         ./gradlew clean jacocoTestReport
                         /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
                         /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity

@@ -47,6 +47,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.di.iap.utils.Utility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -101,6 +102,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
         mParentLayout = rootView.findViewById(R.id.parent_layout);
         initializeViews(rootView);
+        Utility.isDelvieryFirstTimeUser=true;
         return rootView;
     }
 
@@ -238,7 +240,9 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public boolean handleBackEvent() {
-        return false;
+        unregisterEventNotification();
+        showAddressFragment(AddressSelectionFragment.TAG);
+        return true;
     }
 
     @Override
@@ -518,4 +522,5 @@ public class OrderSummaryFragment extends InAppBaseFragment
     public void onGetCartUpdate() {
         hideProgressBar();
     }
+
 }

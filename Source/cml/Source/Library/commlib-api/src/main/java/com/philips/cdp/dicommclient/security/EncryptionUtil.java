@@ -1,23 +1,24 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.security;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
 public class EncryptionUtil {
 
+    private static final String TRANSFORMATION = "AES/CBC/PKCS7Padding";
+
     public static byte[] aesEncryptData(String data, String keyStr) throws GeneralSecurityException {
-        Cipher c = Cipher.getInstance("AES/CBC/PKCS7Padding");
+        Cipher c = Cipher.getInstance(TRANSFORMATION);
         byte[] longKey = new BigInteger(keyStr, 16).toByteArray();
         byte[] key;
         if (longKey[0] == 0) {
@@ -36,7 +37,7 @@ public class EncryptionUtil {
     }
 
     public static byte[] aesDecryptData(byte[] data, String keyStr) throws GeneralSecurityException {
-        Cipher c = Cipher.getInstance("AES/CBC/PKCS7Padding");
+        Cipher c = Cipher.getInstance(TRANSFORMATION);
         byte[] longKey = new BigInteger(keyStr, 16).toByteArray();
         byte[] key;
         if (longKey[0] == 0) {
@@ -60,7 +61,7 @@ public class EncryptionUtil {
         return ByteUtil.bytesToCapitalizedHex(g.modPow(r, p).toByteArray());
     }
 
-    public static String generateSecretKey(String hellmanKey, String randomValue) {
+    private static String generateSecretKey(String hellmanKey, String randomValue) {
         BigInteger p = new BigInteger(ByteUtil.PVALUE, 16);
         BigInteger g = new BigInteger(hellmanKey, 16);
         BigInteger r = new BigInteger(randomValue);
@@ -73,8 +74,7 @@ public class EncryptionUtil {
         byte[] bytesEncKey = ByteUtil.hexToBytes(skeyEnc);
         byte[] bytesDecKey = aesDecryptData(bytesEncKey, secKey);
 
-        String key = ByteUtil.bytesToCapitalizedHex(bytesDecKey);
-        return key;
+        return ByteUtil.bytesToCapitalizedHex(bytesDecKey);
     }
 
     public static String getEvenNumberSecretKey(String secKey) {

@@ -64,7 +64,10 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((EWSActionBarListener) getContext()).closeButton(true);
+        EWSActionBarListener actionBarListener = ((EWSActionBarListener) getContext());
+        if (actionBarListener != null) {
+            actionBarListener.closeButton(true);
+        }
     }
 
     @Override
@@ -126,7 +129,10 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     }
 
     public void setToolbarTitle() {
-        ((EWSActionBarListener) getContext()).updateActionBar(R.string.ews_title, true);
+        EWSActionBarListener actionBarListener = ((EWSActionBarListener) getContext());
+        if (actionBarListener != null) {
+            actionBarListener.updateActionBar(R.string.ews_title, true);
+        }
     }
 
     protected abstract void callTrackPageName();
