@@ -45,6 +45,8 @@ android {
     }
 }
 
+artifactoryPublish.skip = true
+
 dependencies {
     compileOnly deps.support.annotations
 
