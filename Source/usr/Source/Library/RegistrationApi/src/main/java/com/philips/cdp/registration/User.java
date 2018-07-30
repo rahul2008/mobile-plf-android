@@ -273,7 +273,7 @@ public class User {
         new Thread(() -> {
             if (providerName != null && activity != null) {
                 LoginSocialNativeProvider loginSocialResultHandler = new LoginSocialNativeProvider(
-                        loginHandler, mContext, mUpdateUserRecordHandler, null);
+                        loginHandler, mContext, mUpdateUserRecordHandler);
                 RLog.d(TAG, "loginUserUsingSocialNativeProvider with providename = " + providerName + " and activity is not null");
                 loginSocialResultHandler.loginSocial(activity, providerName, accessToken,
                         tokenSecret, mergeToken);

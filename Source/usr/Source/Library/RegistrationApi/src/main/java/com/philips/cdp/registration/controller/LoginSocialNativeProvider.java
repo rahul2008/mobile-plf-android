@@ -25,7 +25,6 @@ import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.LoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -39,15 +38,13 @@ public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.Sig
     private Context mContext;
     private LoginHandler mLoginHandler;
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
-    private HSDPAuthenticationListener mHsdpAuthenticationListener;
 
     public LoginSocialNativeProvider(LoginHandler loginHandler, Context context,
-                                     UpdateUserRecordHandler updateUserRecordHandler, HSDPAuthenticationListener hsdpAuthenticationListener) {
+                                     UpdateUserRecordHandler updateUserRecordHandler) {
         super(context);
         mLoginHandler = loginHandler;
         mContext = context;
         mUpdateUserRecordHandler = updateUserRecordHandler;
-        mHsdpAuthenticationListener = hsdpAuthenticationListener;
     }
 
     @Override

@@ -676,7 +676,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete :UserLoginState :" + mUser.getUserLoginState());
         if (userLoginState == UserLoginState.PENDING_HSDP_LOGIN) {
             RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete : making  HSDP call");
-            Toast.makeText(this, "onUserRegistrationComplete :" + userLoginState.name(), Toast.LENGTH_SHORT).show();
             //make HSDP login call
             mUser.authorizeHSDP(this);
         }
