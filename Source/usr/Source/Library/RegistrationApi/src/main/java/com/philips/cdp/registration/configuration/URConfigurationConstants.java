@@ -22,6 +22,6 @@ public class URConfigurationConstants {
     public static final String HSDP_CONFIGURATION_BASE_URL = "HSDPConfiguration.BaseURL";
     public static final String SHOW_COUNTRY_SELECTION = "ShowCountrySelection";
     public static final String HSDP_UUID_UPLOAD_IN_ANALYTICS = "hsdpUUIDUpload";
-    public static final String HSDP_LAZY_LOADING_ENABLED = "hsdpLazyLoading";
+    public static final String HSDP_LAZY_LOADING_ENABLED = "delayHsdpLogin";
 
 }

@@ -587,9 +587,6 @@ public class User {
         } else if (!isUserSignInJanrain()) {
             RLog.d(TAG, "authorizeHSDP: Janrain user not signed-in");
             UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7012, "First SignedIn in Janrain");
-        } else if (isUserSignIn()) {
-            RLog.d(TAG, "authorizeHSDP: already Signed-In in HSDP");
-            UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7013, "User is already Singed-In in HSDP System");
         } else if (isUserSignInJanrain() && !isUserSignIn()) {
             RLog.d(TAG, "authorizeHSDP: Janrain user signed-in not an HSDP So making HSDP call");
             hsdpLogin(hsdpFlow, hsdpAuthenticationListener);
@@ -639,6 +636,7 @@ public class User {
         signedIn = isEmailVerificationSignIn(capturedRecord, isEmailVerificationRequired, signedIn);
         signedIn = isSignedInOnAcceptedTermsAndConditions(isAcceptTerms, signedIn);
         signedIn = isHSDPUserSignedIn(isEmailVerificationRequired, isHsdpFlow, signedIn);
+
         return signedIn;
     }
 

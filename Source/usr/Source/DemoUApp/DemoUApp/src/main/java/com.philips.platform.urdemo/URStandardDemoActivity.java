@@ -87,7 +87,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     private User mUser;
     private Button mBtnRegistrationWithAccountSettings;
     private CoppaExtension coppaExtension;
-    private Switch mHSDPLazyLoadingSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus, authoriseHSDP;
+    private Switch mHSDPLazyLoadingSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus;
     private boolean hsdpLazyLoadingBoolean;
 
     @Override
@@ -103,6 +103,9 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
         Button mBtnRegistrationMarketingOptIn = findViewById(R.id.btn_marketing_opt_in);
         mBtnRegistrationMarketingOptIn.setOnClickListener(this);
+
+        Button mBtnRegistrationWithHsdp = findViewById(R.id.btn_registration_with_hsdp);
+        mBtnRegistrationWithHsdp.setOnClickListener(this);
 
         Button mBtnRegistrationWithOutAccountSettings = findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
@@ -136,7 +139,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         hsdpUuidUpload = findViewById(R.id.switch_hsdp_uuid_upload);
         consentConfirmationStatus = findViewById(R.id.updateCoppaConsentConfirmationStatus);
         updateCoppaConsentStatus = findViewById(R.id.updateCoppaConsentStatus);
-        authoriseHSDP = findViewById(R.id.authoriseHSDP);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         restoredText = prefs.getString("reg_environment", null);
         hsdpLazyLoadingBoolean = prefs.getBoolean("hsdpLazyLoadingText", false);
@@ -210,14 +212,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 updateCoppaConsentStatus(b);
-            }
-
-        });
-
-        authoriseHSDP.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateAuthoriseHSDP(b);
             }
 
         });
@@ -309,10 +303,10 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         }
     }
 
-    private void updateAuthoriseHSDP(boolean b) {
+    private void updateAuthoriseHSDP() {
         final UserLoginState userLoginState = mUser.getUserLoginState();
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : updateAuthoriseHSDP :UserLoginState :" + mUser.getUserLoginState());
-        if (b && mUser.isUserSignIn() && userLoginState == UserLoginState.PENDING_HSDP_LOGIN) {
+        if (userLoginState == UserLoginState.PENDING_HSDP_LOGIN) {
             RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : updateAuthoriseHSDP : making  HSDP call");
             //make HSDP login call
             mUser.authorizeHSDP(this);
@@ -349,7 +343,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        authoriseHSDP.setChecked(false);
         registerationWithAccountSettingButtonEnableOnUserSignedIn();
 
     }
@@ -447,14 +440,15 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             marketingOptIn(activityLauncher, urInterface);
 
         } else if (i == R.id.btn_registration_without_account) {
-            RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-            urLaunchInput = new URLaunchInput();
-            urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
-            urLaunchInput.setUserRegistrationUIEventListener(this);
-            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
-            urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-            urInterface.launch(activityLauncher, urLaunchInput);
+            launchRegisteration(activityLauncher, urInterface);
 
+        } else if (i == R.id.btn_registration_with_hsdp) {
+            UserLoginState userLoginState = mUser.getUserLoginState();
+            if (userLoginState == UserLoginState.PENDING_HSDP_LOGIN) {
+                RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : updateAuthoriseHSDP(true)");
+                updateAuthoriseHSDP();
+            } else
+                RLog.d(RLog.ONCLICK, "RegistrationSampleActivity :HSDP button Clicked with userLoginState  without user signedin:" + userLoginState);
         } else if (i == R.id.btn_refresh_user) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Refresh User ");
             handleRefreshAccessToken();
@@ -540,6 +534,17 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
 
         }
+    }
+
+    private void launchRegisteration(ActivityLauncher activityLauncher, URInterface urInterface) {
+        URLaunchInput urLaunchInput;
+        RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
+        urLaunchInput = new URLaunchInput();
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
+        urLaunchInput.setUserRegistrationUIEventListener(this);
+        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
+        urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
+        urInterface.launch(activityLauncher, urLaunchInput);
     }
 
     private void marketingOptIn(ActivityLauncher activityLauncher, URInterface urInterface) {
@@ -689,7 +694,9 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
-        Toast.makeText(this, "User is logged in ", Toast.LENGTH_SHORT).show();
+        final UserLoginState userLoginState = mUser.getUserLoginState();
+        Toast.makeText(this, "User is logged in and User State : " + userLoginState, Toast.LENGTH_SHORT).show();
+
         activity.finish();
     }
 

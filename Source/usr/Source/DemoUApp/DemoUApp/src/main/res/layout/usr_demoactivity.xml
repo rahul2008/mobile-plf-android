@@ -50,6 +50,13 @@
                     android:text="Registration" />
 
                 <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/btn_registration_with_hsdp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Registration with hsDP" />
+
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/btn_refresh_token"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -197,13 +204,6 @@
 
 
             </LinearLayout>
-
-            <com.philips.platform.uid.view.widget.Switch
-                android:id="@+id/authoriseHSDP"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:text="Authorise HSDP Login" />
 
             <LinearLayout
                 android:layout_width="match_parent"
