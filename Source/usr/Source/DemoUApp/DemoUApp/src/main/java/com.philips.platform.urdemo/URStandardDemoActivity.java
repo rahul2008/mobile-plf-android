@@ -75,7 +75,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler, HSDPAuthenticationListener {
 
     private final String HSDP_UUID_SHOULD_UPLOAD = "hsdpUUIDUpload";
-    private final String HSDP_LAZY_LOADING_STATUS = "hsdpLazyLoading";
+    private final String HSDP_DELAY_LOGIN_STATUS = "delayHsdpLogin";
     private Context mContext;
     private ProgressDialog mProgressDialog;
     private String restoredText;
@@ -87,7 +87,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     private User mUser;
     private Button mBtnRegistrationWithAccountSettings;
     private CoppaExtension coppaExtension;
-    private Switch mHSDPLazyLoadingSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus;
+    private Switch mHSDPLazyLoadingSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus, authoriseHSDP;
     private boolean hsdpLazyLoadingBoolean;
 
     @Override
@@ -136,6 +136,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         hsdpUuidUpload = findViewById(R.id.switch_hsdp_uuid_upload);
         consentConfirmationStatus = findViewById(R.id.updateCoppaConsentConfirmationStatus);
         updateCoppaConsentStatus = findViewById(R.id.updateCoppaConsentStatus);
+        authoriseHSDP = findViewById(R.id.authoriseHSDP);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         restoredText = prefs.getString("reg_environment", null);
         hsdpLazyLoadingBoolean = prefs.getBoolean("hsdpLazyLoadingText", false);
@@ -209,6 +210,14 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 updateCoppaConsentStatus(b);
+            }
+
+        });
+
+        authoriseHSDP.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                updateAuthoriseHSDP(b);
             }
 
         });
@@ -300,10 +309,21 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         }
     }
 
+    private void updateAuthoriseHSDP(boolean b) {
+        final UserLoginState userLoginState = mUser.getUserLoginState();
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : updateAuthoriseHSDP :UserLoginState :" + mUser.getUserLoginState());
+        if (b && mUser.isUserSignIn() && userLoginState == UserLoginState.PENDING_HSDP_LOGIN) {
+            RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : updateAuthoriseHSDP : making  HSDP call");
+            //make HSDP login call
+            mUser.authorizeHSDP(this);
+
+        }
+    }
+
     private void updateHsdpLazyLoadingStatus(boolean b) {
         RLog.d("updateHsdpLazyLoadingStatus", " Going to set :" + b);
         final AppInfraInterface appInfraInterface = URDemouAppInterface.appInfra;
-        appInfraInterface.getConfigInterface().setPropertyForKey(HSDP_LAZY_LOADING_STATUS, "UserRegistration", String.valueOf(b), configError);
+        appInfraInterface.getConfigInterface().setPropertyForKey(HSDP_DELAY_LOGIN_STATUS, "UserRegistration", String.valueOf(b), configError);
     }
 
 
@@ -329,6 +349,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
+        authoriseHSDP.setChecked(false);
         registerationWithAccountSettingButtonEnableOnUserSignedIn();
 
     }
@@ -670,16 +691,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
         Toast.makeText(this, "User is logged in ", Toast.LENGTH_SHORT).show();
         activity.finish();
-
-
-        final UserLoginState userLoginState = mUser.getUserLoginState();
-        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete :UserLoginState :" + mUser.getUserLoginState());
-        if (userLoginState == UserLoginState.PENDING_HSDP_LOGIN) {
-            RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete : making  HSDP call");
-            //make HSDP login call
-            mUser.authorizeHSDP(this);
-        }
-
     }
 
     @Override

@@ -198,6 +198,13 @@
 
             </LinearLayout>
 
+            <com.philips.platform.uid.view.widget.Switch
+                android:id="@+id/authoriseHSDP"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Authorise HSDP Login" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
