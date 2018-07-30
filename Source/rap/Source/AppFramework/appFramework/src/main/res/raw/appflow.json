@@ -385,6 +385,15 @@
             ]
           },
           {
+            "eventId": "MyOptinEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_optin"
+              }
+            ]
+          },
+          {
             "eventId": "MyDetailsEvent",
             "nextStates": [
               {
