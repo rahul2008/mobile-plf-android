@@ -90,8 +90,10 @@ public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResult
 
         mUpdateUserRecordHandler.updateUserRecordLogin();
         if (!RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus() && RegistrationConfiguration.getInstance().isHsdpFlow() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
+            RLog.d(TAG, "onSuccess if isHsdpLazyLoadingStatus is not true");
             loginIntoHsdp();
         } else {
+            RLog.d(TAG, "onSuccess if isHsdpLazyLoadingStatus is not false");
             ThreadUtils.postInMainThread(mContext, () -> mLoginHandler.onLoginSuccess());
         }
     }
@@ -140,6 +142,7 @@ public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResult
     }
 
     public void loginIntoHsdp() {
+        RLog.d(TAG, "loginIntoHsdp : is called");
         String emailorMobile = getUserEmailOrMobile(mUser);
         hsdpLogin(mUser.getAccessToken(), emailorMobile, mLoginHandler);
 

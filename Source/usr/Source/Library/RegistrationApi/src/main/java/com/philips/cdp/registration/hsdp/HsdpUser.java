@@ -397,6 +397,7 @@ public class HsdpUser {
     public void login(final String email, final String accessToken,
                       final String refreshSecret, final LoginHandler loginHandler) {
 
+        RLog.d(TAG, "HSDP login");
         if (networkUtility.isNetworkAvailable()) {
             final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
