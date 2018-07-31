@@ -1,11 +1,11 @@
 package com.philips.cdp.registration.controller;
 
 
-
 import android.content.Context;
 
 import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.handlers.LoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 
 import org.json.JSONArray;
@@ -27,7 +27,7 @@ public class RegisterSocialTest extends RegistrationApiInstrumentationBase {
     public void setUp() throws Exception {
            super.setUp();
         mContext = getInstrumentation().getTargetContext();
-        SocialProviderLoginHandler socialProviderLoginHandler = new SocialProviderLoginHandler() {
+        LoginHandler socialProviderLoginHandler = new LoginHandler() {
             @Override
             public void onLoginSuccess() {
 

@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.handlers.LoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 
 import java.lang.reflect.InvocationTargetException;
@@ -22,7 +24,7 @@ public class LoginTraditionalTest extends RegistrationApiInstrumentationBase {
     public void setUp() throws Exception {
         context =  getInstrumentation()
                 .getTargetContext();
-        TraditionalLoginHandler traditionalLoginHandler = new TraditionalLoginHandler() {
+        LoginHandler traditionalLoginHandler = new LoginHandler() {
             @Override
             public void onLoginSuccess() {
 
@@ -30,6 +32,26 @@ public class LoginTraditionalTest extends RegistrationApiInstrumentationBase {
 
             @Override
             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+            }
+
+            @Override
+            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+
+            }
+
+            @Override
+            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+
+            }
+
+            @Override
+            public void onContinueSocialProviderLoginSuccess() {
+
+            }
+
+            @Override
+            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
             }
         };
