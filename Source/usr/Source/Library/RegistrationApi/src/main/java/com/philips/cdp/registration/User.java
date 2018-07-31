@@ -21,6 +21,8 @@ import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.controller.*;
 import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.hsdp.*;
@@ -100,7 +102,7 @@ public class User {
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
-    private UserLoginState userLoginState = UserLoginState.PENDING_HSDP_LOGIN;
+    private UserLoginState userLoginState = UserLoginState.USER_NOT_LOGGED_IN;
 
     private String MARKETING_OPT_IN = "marketingOptIn";
 
@@ -580,19 +582,23 @@ public class User {
         RLog.d(TAG, "authorizeHSDP: proposition called this public api");
         HsdpUser hsdpUser = new HsdpUser(mContext);
         boolean hsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
-
-        if (!hsdpFlow) {
-            RLog.d(TAG, "authorizeHSDP: not HSDP flow and HSDP configuration not done");
-            UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7011, "HSDP Configuration is not set");
-        } else if (!isUserSignInJanrain()) {
-            RLog.d(TAG, "authorizeHSDP: Janrain user not signed-in");
-            UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7012, "First SignedIn in Janrain");
-        } else if (isUserSignInJanrain() && !isUserSignIn()) {
-            RLog.d(TAG, "authorizeHSDP: Janrain user signed-in not an HSDP So making HSDP call");
-            hsdpLogin(hsdpFlow, hsdpAuthenticationListener);
-        }else {
-            RLog.d(TAG, "authorizeHSDP: not HSDP flow and HSDP configuration not done");
-            UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7013, "Already HSDP logged in.");
+        if (networkUtility.isNetworkAvailable()) {
+            if (!hsdpFlow) {
+                RLog.d(TAG, "authorizeHSDP: not HSDP flow and HSDP configuration not done");
+                UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7011, "HSDP Configuration is not set");
+            } else if (!isUserSignInJanrain()) {
+                RLog.d(TAG, "authorizeHSDP: Janrain user not signed-in");
+                UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7012, "First SignedIn in Janrain");
+            } else if (isUserSignInJanrain() && !isUserSignIn()) {
+                RLog.d(TAG, "authorizeHSDP: Janrain user signed-in not an HSDP So making HSDP call");
+                hsdpLogin(hsdpFlow, hsdpAuthenticationListener);
+            } else {
+                RLog.d(TAG, "authorizeHSDP: not HSDP flow and HSDP configuration not done");
+                UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7013, "Already HSDP logged in.");
+            }
+        } else {
+            RLog.d(TAG, "authorizeHSDP: Network not available");
+            UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.NO_NETWORK, new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         }
 
     }
