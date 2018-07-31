@@ -10,8 +10,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "commlib-integration-tests"
-
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -45,17 +43,9 @@ android {
     lintOptions {
         abortOnError false
     }
-
-//    packagingOptions {
-//        exclude '**/LICENSE'
-//        exclude 'META-INF/*'
-//        exclude 'META-INF/**/*'
-//        exclude '**/*.TXT'
-//        exclude '**/*.xml'
-//        pickFirst '**/*.properties'
-//        pickFirst '**/ErrorMessages*.txt'
-//    }
 }
+
+artifactoryPublish.skip = true
 
 dependencies {
     compileOnly deps.support.annotations
