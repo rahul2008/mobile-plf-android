@@ -20,7 +20,9 @@ Version {next}
 For details see design documents. 
 
 ### Defects solved
-* N/A
+* \#142583 Overridden Method called inside the constructor of DefaultCloudController was made final to prevent overriding and mitigate security threats.
+* \#142595 System Information Leak was mitigated. Log.e was replaced by Log.d in DefaultCloudController and Proguard(.pro) was updated to strip Log.d statements on release time. 
+* \#142808 Removed the code to write logs to the file. 
 
 ### Residual anomalies
 * N/A
