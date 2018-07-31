@@ -97,7 +97,11 @@ public class ThemeSettingsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        EWSActionBarListener actionBarListener = ((EWSActionBarListener) getActivity());
+        EWSActionBarListener actionBarListener = null;
+        try {
+            actionBarListener = ((EWSActionBarListener) getContext());
+        } catch (ClassCastException e) {}
+
         if (actionBarListener != null) {
             actionBarListener.updateActionBar("EWS Theme", true);
         }
