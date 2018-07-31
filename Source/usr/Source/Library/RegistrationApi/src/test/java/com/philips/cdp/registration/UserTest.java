@@ -7,6 +7,7 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.ConsumerArray;
 import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
+import com.philips.cdp.registration.handlers.LoginHandler;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -41,11 +42,8 @@ public class UserTest extends TestCase {
     Context contextMock;
 
     @Mock
-    SocialProviderLoginHandler traditionalLoginHandlerMock;
+    LoginHandler loginHandlerMock;
 
-
-    @Mock
-    SocialProviderLoginHandler socialProviderLoginHandlerMock;
 
     @Mock
     Activity activityMock;
@@ -68,17 +66,17 @@ public class UserTest extends TestCase {
 
     @Test
     public void loginUsingTraditional() throws Exception {
-        user.loginUsingTraditional("email", "password", traditionalLoginHandlerMock);
+        user.loginUsingTraditional("email", "password", loginHandlerMock);
     }
 
     @Test
     public void loginUserUsingSocialProvider() throws Exception {
-        user.loginUserUsingSocialProvider(activityMock, "PROVIDER_NAME", socialProviderLoginHandlerMock, "MERGE_TOKEN");
+        user.loginUserUsingSocialProvider(activityMock, "PROVIDER_NAME", loginHandlerMock, "MERGE_TOKEN");
     }
 
     @Test
     public void loginUserUsingSocialNativeProvider() throws Exception {
-        user.loginUserUsingSocialNativeProvider(activityMock, "PROVIDER_NAME", "ACCESS_TOKEN", "", socialProviderLoginHandlerMock, "MERGE_TOKEN");
+        user.loginUserUsingSocialNativeProvider(activityMock, "PROVIDER_NAME", "ACCESS_TOKEN", "", loginHandlerMock, "MERGE_TOKEN");
     }
 
     @Mock
@@ -120,7 +118,7 @@ public class UserTest extends TestCase {
 
     @Test
     public void registerUserInfoForSocial() throws Exception {
-        user.registerUserInfoForSocial("given_name", "display_name", "family_name", "user_email", true, true, socialProviderLoginHandlerMock, "social_registration_token");
+        user.registerUserInfoForSocial("given_name", "display_name", "family_name", "user_email", true, true, loginHandlerMock, "social_registration_token");
     }
 
     @Test

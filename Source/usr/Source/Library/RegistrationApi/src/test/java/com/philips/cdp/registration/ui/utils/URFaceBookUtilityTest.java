@@ -13,6 +13,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.handlers.LoginHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.mobile.FaceBookContractor;
@@ -110,7 +111,7 @@ public class URFaceBookUtilityTest {
     Activity activityMock;
 
     @Mock
-    SocialProviderLoginHandler socialProviderLoginHandlerMock;
+    LoginHandler socialProviderLoginHandlerMock;
 
     @Test
     public void shouldStartAccessTokenAuthForFacebook() throws Exception {
