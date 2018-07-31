@@ -218,8 +218,7 @@ public class FaqListFragment extends DigitalCareBaseFragment {
         RichTexts richTexts = supportData.getRichTexts();
         List<RichText> richText = richTexts.getRichText();
         if (richText != null && richText.size() == 0) {
-            new AlertDialog.Builder(mContext, R.style.alertDialogStyle)
-                    .setTitle(null)
+            new AlertDialog.Builder(mContext)
                     .setMessage(mContext.getResources().getString(R.string.NO_SUPPORT_KEY))
                     .setPositiveButton(android.R.string.yes,
                             new DialogInterface.OnClickListener() {
