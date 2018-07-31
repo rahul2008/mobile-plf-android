@@ -55,6 +55,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:text="Registration with HSDP" />
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/btn_registration_with_hsdp_status"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Check HSDP Status" />
 
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/btn_refresh_token"

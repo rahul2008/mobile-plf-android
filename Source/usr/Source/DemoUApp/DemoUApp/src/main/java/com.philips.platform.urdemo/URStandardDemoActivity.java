@@ -107,6 +107,9 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         Button mBtnRegistrationWithHsdp = findViewById(R.id.btn_registration_with_hsdp);
         mBtnRegistrationWithHsdp.setOnClickListener(this);
 
+        Button mBtnRegistrationWithHsdpStatus = findViewById(R.id.btn_registration_with_hsdp_status);
+        mBtnRegistrationWithHsdpStatus.setOnClickListener(this);
+
         Button mBtnRegistrationWithOutAccountSettings = findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
 
@@ -451,6 +454,13 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 updateAuthoriseHSDP();
             } else
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity :HSDP button Clicked with userLoginState  without user signedin:" + userLoginState);
+        } else if (i == R.id.btn_registration_with_hsdp_status) {
+            if (mUser.isUserSignIn()) {
+                UserLoginState userLoginState = mUser.getUserLoginState();
+                Toast.makeText(this, "HSDP User State : " + userLoginState, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Please do Sign In first", Toast.LENGTH_SHORT).show();
+            }
         } else if (i == R.id.btn_refresh_user) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Refresh User ");
             handleRefreshAccessToken();
@@ -696,9 +706,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
-        final UserLoginState userLoginState = mUser.getUserLoginState();
-        Toast.makeText(this, "User is logged in and User State : " + userLoginState, Toast.LENGTH_SHORT).show();
-
         activity.finish();
     }
 
