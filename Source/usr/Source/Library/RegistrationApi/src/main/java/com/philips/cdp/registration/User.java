@@ -703,7 +703,7 @@ public class User {
             }
             signedIn = hsdpUserSignedIn;
             RLog.i(TAG, "isHSDPUserSignedIn SignIn status if isHsdpFlow: " + signedIn);
-
+            setUserLoginState(UserLoginState.USER_LOGGED_IN);
         } else {
             RLog.i(TAG, "isHSDPUserSignedIn SignIn status: " + hsdpUserSignedIn);
             setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
