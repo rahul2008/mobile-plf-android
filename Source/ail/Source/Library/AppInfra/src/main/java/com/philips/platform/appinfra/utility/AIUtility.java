@@ -4,6 +4,7 @@ import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,8 +19,12 @@ public class AIUtility {
      * @param strDate string that has to be converted to date
      * @return Date Converted date
      */
-    public static Date convertStringToDate(String strDate, String pattern) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern(pattern);
+    public static Date convertStringToDate(String strDate) {
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendOptional(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSSZ").getParser())
+                .appendOptional(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss Z").getParser())
+                .appendOptional(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS Z").getParser())
+                .toFormatter();
         return formatter.parseDateTime(strDate).toDate();
     }
 

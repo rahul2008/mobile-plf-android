@@ -30,8 +30,7 @@ public class AIUtilityTest {
     }
 
     private void whenConvertStringToDateIsInvoked() {
-        String pattern = "yyyy-MM-dd HH:mm:ss.SSS Z";
-        convertedDate = AIUtility.convertStringToDate(strDate, pattern);
+        convertedDate = AIUtility.convertStringToDate(strDate);
     }
 
     private void thenVerifyDateIsConvertedToString() {
