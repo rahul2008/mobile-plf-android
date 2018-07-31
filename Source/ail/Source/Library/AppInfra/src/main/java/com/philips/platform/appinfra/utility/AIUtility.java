@@ -19,13 +19,18 @@ public class AIUtility {
      * @param strDate string that has to be converted to date
      * @return Date Converted date
      */
-    public static Date convertStringToDate(String strDate) {
-        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                .appendOptional(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSSZ").getParser())
-                .appendOptional(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss Z").getParser())
-                .appendOptional(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS Z").getParser())
-                .toFormatter();
-        return formatter.parseDateTime(strDate).toDate();
+    public static Date convertStringToDate(String strDate, String... patterns) {
+        DateTimeFormatterBuilder dateTimeFormatterBuilder = new DateTimeFormatterBuilder();
+        if (patterns.length == 0) {
+            patterns = new String[3];
+            patterns[0] = "yyyy-MM-dd HH:mm:ss.SSSZ";
+            patterns[1] = "yyyy-MM-dd HH:mm:ss Z";
+            patterns[2] = "yyyy-MM-dd HH:mm:ss.SSSZ";
+        }
+        for (String pattern : patterns) {
+            dateTimeFormatterBuilder.appendOptional(DateTimeFormat.forPattern(pattern).getParser());
+        }
+        return dateTimeFormatterBuilder.toFormatter().parseDateTime(strDate).toDate();
     }
 
     /**

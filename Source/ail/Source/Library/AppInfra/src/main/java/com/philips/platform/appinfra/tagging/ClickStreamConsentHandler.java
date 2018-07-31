@@ -61,7 +61,7 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
         if (timestampValue == null) {
             timestamp = new Date(0);
         } else {
-            timestamp = AIUtility.convertStringToDate(timestampValue);
+            timestamp = AIUtility.convertStringToDate(timestampValue, "yyyy-MM-dd HH:mm:ss.SSS Z");
         }
         callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version, timestamp));
     }
