@@ -32,7 +32,6 @@ import com.philips.cdp.prodreg.error.ProdRegErrorMap;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
-import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
@@ -169,7 +168,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnTouchListener(onClickPurchaseDate());
-        ProdRegTagging.getInstance().trackPage("RegistrationScreen", "trackPage", "RegistrationScreen");
+        ProdRegTagging.getInstance().trackPage(AnalyticsConstants.REGISTRATION_SCREEN);
         findSerialTextView = (Label)view.findViewById(R.id.prg_registerScreen_findSerialNumber_Label);
         makeTextViewHyperlink(findSerialTextView);
         serial_input_field = (InputValidationLayout) view.findViewById(R.id.prg_registerScreen_serialNumber_validationLayout);
@@ -213,9 +212,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         final FragmentActivity activity = getActivity();
         prodRegRegistrationController = new ProdRegRegistrationController(this, activity);
         if (savedInstanceState == null) {
-            final ProdRegCache prodRegCache = new ProdRegCache();
-            new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_SCAN_COUNT, 1);
-            ProdRegTagging.getInstance().trackAction("ProdRegProcessPopUpEvent", "noOfScannedProducts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_SCAN_COUNT)));
             showLoadingDialog();
         } else {
             prodRegRegistrationController.setLaunchedRegistration(savedInstanceState.getBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, false));
@@ -327,9 +323,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             date_input_field.hideError();
         }
 
-        final ProdRegCache prodRegCache = new ProdRegCache();
-        new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_DATE_COUNT, 1);
-        ProdRegTagging.getInstance().trackAction("PurchaseDateRequiredEvent", "specialEvents", "purchaseDateRequired");
+        ProdRegTagging.getInstance().trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.PURCHASE_DATE_REQUIRED);
     }
 
     /**

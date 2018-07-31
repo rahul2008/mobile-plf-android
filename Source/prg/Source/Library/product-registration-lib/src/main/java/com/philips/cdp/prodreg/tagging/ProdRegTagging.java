@@ -38,11 +38,9 @@ public class ProdRegTagging {
         return aiAppTaggingInterface;
     }
 
-    public void trackPage(String pageName, String key, String value) {
+    public void trackPage(String pageName) {
         try {
-            final Map<String, String> commonGoalsMap = new HashMap<>();
-            commonGoalsMap.put(key, value);
-            getAiAppTaggingInterface().trackPageWithInfo(pageName, commonGoalsMap);
+            getAiAppTaggingInterface().trackPageWithInfo(pageName, null);
         } catch (IllegalArgumentException e) {
 
         }

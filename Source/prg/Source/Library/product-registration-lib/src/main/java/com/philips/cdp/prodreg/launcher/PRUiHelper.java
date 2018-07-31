@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
+import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
@@ -104,7 +105,7 @@ public class PRUiHelper {
      * @param prLaunchInput   product registration configuration.
      */
     private void invokeProductRegistrationAsActivity(final ActivityLauncher activityLauncher, final PRLaunchInput prLaunchInput) {
-        ProdRegTagging.getInstance().trackAction("ProdRegStartEvent", "specialEvents", "startProductRegistration");
+        ProdRegTagging.getInstance().trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_PRODUCT_REGISTRATION);
         Intent intent = new Intent(context, ProdRegBaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, prLaunchInput.getProducts());
@@ -132,7 +133,7 @@ public class PRUiHelper {
             arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
             arguments.putInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, PRLaunchInput.getBackgroundImageResourceId());
             arguments.putBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, PRLaunchInput.isAppLaunchFlow());
-            ProdRegTagging.getInstance().trackAction("ProdRegStartEvent", "specialEvents", "startProductRegistration");
+            ProdRegTagging.getInstance().trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_PRODUCT_REGISTRATION);
             final User user = new User(fragmentLauncher.getFragmentActivity());
             if (PRLaunchInput.isAppLaunchFlow()) {
                 ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
