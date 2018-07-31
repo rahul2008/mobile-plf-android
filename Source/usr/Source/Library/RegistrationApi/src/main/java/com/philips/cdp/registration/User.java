@@ -598,9 +598,9 @@ public class User {
     }
 
     private void hsdpLogin(boolean hsdpFlow, HSDPAuthenticationListener hsdpAuthenticationListener) {
-        RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = " + hsdpFlow + " " + RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus());
+        RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = " + hsdpFlow + " " + RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled());
 
-        if (RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus() && hsdpFlow) {
+        if (RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled() && hsdpFlow) {
             RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = " + hsdpFlow);
             BaseHSDPLogin baseHSDPLogin = new BaseHSDPLogin(mContext);
             if (hsdpAuthenticationListener != null) {

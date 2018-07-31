@@ -226,13 +226,13 @@ public class RegistrationConfiguration {
      *
      * @return boolean
      */
-    public boolean isHsdpLazyLoadingStatus() {
-        Object obj = appConfiguration.getHSDPLazyLoadingStatus();
+    public boolean isDelayHsdpLoginEnabled() {
+        Object obj = appConfiguration.getDelayedHsdpLoginStatus();
         if (obj != null) {
-            RLog.i("RegistrationConfiguration", "isHsdpLazyLoadingStatus : " + Boolean.parseBoolean((String) obj));
+            RLog.i("RegistrationConfiguration", "isDelayHsdpLoginEnabled : " + Boolean.parseBoolean((String) obj));
             return Boolean.parseBoolean((String) obj);
         }
-        RLog.i("RegistrationConfiguration", "isHsdpLazyLoadingStatus : false");
+        RLog.i("RegistrationConfiguration", "isDelayHsdpLoginEnabled : false");
         return false;
     }
 

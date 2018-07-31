@@ -59,7 +59,7 @@ public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInRes
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (!RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus() && RegistrationConfiguration.getInstance().isHsdpFlow() &&
+        if (!RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled() && RegistrationConfiguration.getInstance().isHsdpFlow() &&
                 (user.isEmailVerified() || user.isMobileVerified())) {
 
             String emailorMobile = getUserEmailOrMobile(user);

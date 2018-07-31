@@ -19,7 +19,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_EMAIL_VERIFICATION_REQUIRED;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_MINIMUM_AGE_LIMIT;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_LAZY_LOADING_ENABLED;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_DELAYED_LOGIN_ENABLED;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_UUID_UPLOAD_IN_ANALYTICS;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.PIL_CONFIGURATION_CAMPAIGN_ID;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SHOW_COUNTRY_SELECTION;
@@ -143,8 +143,8 @@ public class AppConfiguration extends BaseConfiguration {
     }
 
 
-    public Object getHSDPLazyLoadingStatus() {
-        return appInfraWrapper.getURProperty(HSDP_LAZY_LOADING_ENABLED);
+    public Object getDelayedHsdpLoginStatus() {
+        return appInfraWrapper.getURProperty(HSDP_DELAYED_LOGIN_ENABLED);
     }
 
 }

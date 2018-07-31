@@ -118,7 +118,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                             }
                         }, mContext, mUpdateUserRecordHandler, null, null);
 
-                        if (!RegistrationConfiguration.getInstance().isHsdpLazyLoadingStatus() && RegistrationConfiguration.getInstance().isHsdpFlow()) {
+                        if (!RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled() && RegistrationConfiguration.getInstance().isHsdpFlow()) {
                             RLog.d(TAG, "onSuccess if isHsdpLazyLoadingStatus is not true");
                             loginTraditional.loginIntoHsdp();
                         }else{
