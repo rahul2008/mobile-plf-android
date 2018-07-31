@@ -85,6 +85,10 @@ public class DICommLog {
         return isLoggingEnabled;
     }
 
+    public static void disableLogging() {
+        isLoggingEnabled = false;
+    }
+
     public static void d(String tag, String message) {
         if (isLoggingEnabled) {
             Log.d(tag, message);
