@@ -580,7 +580,6 @@ public class User {
 
     public void authorizeHSDP(HSDPAuthenticationListener hsdpAuthenticationListener) {
         RLog.d(TAG, "authorizeHSDP: proposition called this public api");
-        HsdpUser hsdpUser = new HsdpUser(mContext);
         boolean hsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
         if (networkUtility.isNetworkAvailable()) {
             if (!hsdpFlow) {
