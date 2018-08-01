@@ -149,7 +149,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
 
     protected Date getTimestamp(String timestamp) {
         if (timestamp != null) {
-            return AIUtility.convertStringToDate(timestamp, "yyyy-MM-dd HH:mm:ss Z");
+            return AIUtility.convertStringToDate(timestamp,"yyyy-MM-dd HH:mm:ss.SSSZ","yyyy-MM-dd HH:mm:ss Z"); // "2018-07-30 06:29:05.717+0000" ,  "2018-07-30 06:29:05 +0000"
         }
         return new Date(0);
     }
