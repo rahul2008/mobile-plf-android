@@ -1,5 +1,7 @@
 package com.philips.platform.appinfra.utility;
 
+import android.support.annotation.NonNull;
+
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import org.joda.time.format.DateTimeFormat;
@@ -19,14 +21,9 @@ public class AIUtility {
      * @param strDate string that has to be converted to date
      * @return Date Converted date
      */
-    public static Date convertStringToDate(String strDate, String... patterns) {
+    public static Date convertStringToDate( @NonNull String strDate, @NonNull String... patterns) {
         DateTimeFormatterBuilder dateTimeFormatterBuilder = new DateTimeFormatterBuilder();
-        if (patterns.length == 0) {
-            patterns = new String[3];
-            patterns[0] = "yyyy-MM-dd HH:mm:ss.SSSZ";
-            patterns[1] = "yyyy-MM-dd HH:mm:ss Z";
-            patterns[2] = "yyyy-MM-dd HH:mm:ss.SSSZ";
-        }
+        if(patterns.length == 0) throw new RuntimeException("pass at least one date time format pattern");
         for (String pattern : patterns) {
             dateTimeFormatterBuilder.appendOptional(DateTimeFormat.forPattern(pattern).getParser());
         }

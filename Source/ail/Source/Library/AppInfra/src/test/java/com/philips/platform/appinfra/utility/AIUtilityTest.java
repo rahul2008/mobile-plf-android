@@ -22,11 +22,16 @@ public class AIUtilityTest {
     private String strDateToString1 = "2018-07-30 06:29:05.717 +0000"; // Taken hardcode value as converting date to string we convert to same format
     private String strDateToString2 = "2018-07-30 06:29:05.000 +0000";
 
-    private Date date1 = AIUtility.convertStringToDate(strDate1);
-    private Date date2 = AIUtility.convertStringToDate(strDate2);
+    String pattern1 = "yyyy-MM-dd HH:mm:ss.SSSZ";
+    String pattern2 = "yyyy-MM-dd HH:mm:ss Z";
+
+    private Date date1 = AIUtility.convertStringToDate(strDate1,pattern1,pattern2);
+    private Date date2 = AIUtility.convertStringToDate(strDate2,pattern2);
     private Date convertedDate;
     private String convertedString1;
     private String convertedString2;
+
+
 
     @Test
     public void convertDateToStringTestForStringDate1() {
@@ -63,7 +68,12 @@ public class AIUtilityTest {
     }
 
     private void whenConvertStringToDateIsInvoked(String date) {
-        convertedDate = AIUtility.convertStringToDate(date);
+        convertedDate = AIUtility.convertStringToDate(date,pattern1,pattern2);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldThroughRunTimeExceptionWhenPatternIsNotPassed() throws Exception {
+        AIUtility.convertStringToDate(strDate1);
     }
 
     private void thenVerifyDateIsConvertedToString1() {
@@ -71,8 +81,8 @@ public class AIUtilityTest {
     }
 
     private void whenConvertDateToStringIsInvoked1() {
-        AIUtility.convertStringToDate(strDate1);
-        convertedString1 = AIUtility.convertDateToString(AIUtility.convertStringToDate(strDate1));
+        AIUtility.convertStringToDate(strDate1,pattern1);
+        convertedString1 = AIUtility.convertDateToString(AIUtility.convertStringToDate(strDate1,pattern1,pattern2));
     }
 
 
@@ -81,8 +91,8 @@ public class AIUtilityTest {
     }
 
     private void whenConvertDateToStringIsInvoked2() {
-        AIUtility.convertStringToDate(strDate2);
-        convertedString2 = AIUtility.convertDateToString(AIUtility.convertStringToDate(strDate2));
+        AIUtility.convertStringToDate(strDate2,pattern2);
+        convertedString2 = AIUtility.convertDateToString(AIUtility.convertStringToDate(strDate2,pattern1,pattern2));
     }
 
 
