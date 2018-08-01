@@ -18,6 +18,8 @@ import com.philips.cdp.registration.R;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.support.v4.app.ActivityCompat.requestPermissions;
+
 /**
  * Created by philips on 5/21/18.
  */
@@ -67,16 +69,17 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
 
         Object[] pdus = (Object[]) data.get("pdus");
 
-        for (Object object: pdus) {
+        for (Object object : pdus) {
 
             SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) object);
             String sender = smsMessage.getDisplayOriginatingAddress();
-            RLog.i(TAG, "Sender Number" + sender);
+            RLog.i(TAG, "Sender Number" + sender+"Validation number "+context.getString(R.string.otp_sender));
             //Check the sender to filter messages which we require to read
+
             if (sender.equals(context.getString(R.string.otp_sender))) {
 
                 String messageBody = smsMessage.getMessageBody();
-
+                RLog.i(TAG, "Sender Message" + messageBody);
                 getOTPFromMessage(messageBody);
             }
         }
@@ -110,15 +113,21 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
             // You may display a non-blocking explanation here, read more in the documentation:
             // https://developer.android.com/training/permissions/requesting.html
         }
-        ActivityCompat.requestPermissions(mReceiveAndRegisterOTPListener.getActivityContext(), new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
+
+          requestPermissions(mReceiveAndRegisterOTPListener.getActivityContext(), new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
     }
 
     public void registerReceiver() {
+        RLog.d(TAG, "registerReceiver");
         mReceiveAndRegisterOTPListener.getActivityContext().registerReceiver(mReceiveAndRegisterOTPListener.getSMSBroadCastReceiver(), intentFilter);
     }
 
     public void unRegisterReceiver() {
-        mReceiveAndRegisterOTPListener.getActivityContext().unregisterReceiver(mReceiveAndRegisterOTPListener.getSMSBroadCastReceiver());
+        try {
+            mReceiveAndRegisterOTPListener.getActivityContext().unregisterReceiver(mReceiveAndRegisterOTPListener.getSMSBroadCastReceiver());
+        } catch (Exception e){
+            RLog.i(TAG, " ReceiveAndRegisterOTPListener is not set");
+        }
     }
 
 }
