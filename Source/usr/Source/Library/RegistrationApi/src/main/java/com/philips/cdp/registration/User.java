@@ -167,22 +167,22 @@ public class User {
 
                         @Override
                         public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-
+                            //Nope
                         }
 
                         @Override
                         public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-
+                            //Nope
                         }
 
                         @Override
                         public void onContinueSocialProviderLoginSuccess() {
-
+                            //Nope
                         }
 
                         @Override
                         public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
+                            //Nope
                         }
                     }, mContext, mUpdateUserRecordHandler, emailAddress, password);
             loginTraditionalResultHandler.loginTraditionally(emailAddress, password);

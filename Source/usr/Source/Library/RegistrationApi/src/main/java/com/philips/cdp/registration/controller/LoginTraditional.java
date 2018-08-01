@@ -98,12 +98,6 @@ public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResult
         }
     }
 
-
-//    @Override
-//    public void onCode(String code) {
-//        RLog.d(TAG, "onCode : is called");
-//    }
-
     @Override
     public void onFailure(SignInError error) {
         RLog.d(TAG, "onFailure : is called");

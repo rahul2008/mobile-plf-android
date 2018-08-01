@@ -58,28 +58,6 @@ public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.Sig
             String emailorMobile = getUserEmailOrMobile(user);
             RLog.d(TAG, "onSuccess : from LoginSocialNativeProvider is called");
             hsdpLogin(user.getAccessToken(), emailorMobile, mLoginHandler);
-
-//            HsdpUser hsdpUser = new HsdpUser(mContext);
-//            String emailorMobile;
-//            if (FieldsValidator.isValidEmail(user.getEmail())) {
-//                emailorMobile = user.getEmail();
-//            } else {
-//                emailorMobile = user.getMobile();
-//            }
-//            hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
-//                    new SocialLoginHandler() {
-//
-//                        @Override
-//                        public void onLoginSuccess() {
-//                            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginSuccess());
-//                        }
-//
-//                        @Override
-//                        public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-//                            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-//                        }
-//                    });
-
         } else {
             ThreadUtils.postInMainThread(mContext, () -> mLoginHandler.onLoginSuccess());
         }
