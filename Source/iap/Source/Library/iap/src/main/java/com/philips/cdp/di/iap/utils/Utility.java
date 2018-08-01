@@ -255,7 +255,9 @@ public class Utility {
             }
         });
         alertDialogFragment = builder.setCancelable(false).create();
-        alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
+        if(!alertDialogFragment.isVisible()) {
+            alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
+        }
     }
 
     static void dismissAlertFragmentDialog(AlertDialogFragment alertDialogFragment, FragmentManager fragmentManager) {
