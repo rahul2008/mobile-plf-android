@@ -20,7 +20,6 @@ import org.json.JSONObject;
 public class BaseHSDPLogin {
     private static final String TAG = BaseHSDPLogin.class.getSimpleName();
     private Context mContext;
-    private HsdpUser hsdpUser;
 
     public BaseHSDPLogin(Context mContext) {
         this.mContext = mContext;
@@ -38,7 +37,7 @@ public class BaseHSDPLogin {
     }
 
     public void hsdpLogin(String accessToken, String emailOrMobile, HSDPAuthenticationListener hsdpAuthenticationListener) {
-        hsdpUser = new HsdpUser(mContext);
+        HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.login(emailOrMobile, accessToken, Jump.getRefreshSecret(), new LoginHandler() {
 
 
@@ -82,7 +81,7 @@ public class BaseHSDPLogin {
     }
 
     void hsdpLogin(String accessToken, String emailOrMobile, LoginHandler loginHandler) {
-        hsdpUser = new HsdpUser(mContext);
+        HsdpUser hsdpUser = new HsdpUser(mContext);
         RLog.d(TAG, "hsdpLogin : with LoginHandler");
         hsdpUser.login(emailOrMobile, accessToken, Jump.getRefreshSecret(), new LoginHandler() {
 
