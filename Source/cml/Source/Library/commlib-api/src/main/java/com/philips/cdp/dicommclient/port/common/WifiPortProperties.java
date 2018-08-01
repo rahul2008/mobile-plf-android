@@ -64,6 +64,17 @@ public class WifiPortProperties implements PortProperties {
     }
 
     /**
+     * Sets the WiFi AP ssid and WiFi password
+     *
+     * @param ssid the ssid
+     * @param password the password
+     */
+    public void setSsidAndPassword(String ssid, String password) {
+        this.ssid = ssid;
+        this.password = password;
+    }
+
+    /**
      * Gets protection.
      *
      * @return the protection
@@ -222,6 +233,17 @@ public class WifiPortProperties implements PortProperties {
      * @param travelpassword the travelpassword
      */
     public void setTravelPassword(String travelpassword) {
+        this.travelpassword = travelpassword;
+    }
+
+    /**
+     * Sets the travelssid and travelpassword
+     *
+     * @param travelssid the travelssid
+     * @param travelpassword the travelpassword
+     */
+    public void setTravelSsidAndTravelPassword(String travelssid, String travelpassword) {
+        this.travelssid = travelssid;
         this.travelpassword = travelpassword;
     }
 }

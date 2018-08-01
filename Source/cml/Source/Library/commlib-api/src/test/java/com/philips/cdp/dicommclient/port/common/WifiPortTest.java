@@ -116,6 +116,19 @@ public class WifiPortTest {
         assertEquals("TEST_SET_TRAVEL_PASSWORD", properties.getTravelPassword());
         assertEquals("TEST_SET_PROTECTION", properties.getProtection());
         assertEquals(true, properties.isDhcp());
+
+        properties.setSsidAndPassword(null, null);
+        assertNull(properties.getSsid());
+        assertNull(properties.getPassword());
+        properties.setTravelSsidAndTravelPassword(null, null);
+        assertNull(properties.getTravelSsid());
+        assertNull(properties.getTravelPassword());
+        properties.setSsidAndPassword("TEST_SET_SSID", "TEST_SET_PASSWORD");
+        assertEquals("TEST_SET_SSID", properties.getSsid());
+        assertEquals("TEST_SET_PASSWORD", properties.getPassword());
+        properties.setTravelSsidAndTravelPassword("TEST_SET_TRAVEL_SSID", "TEST_SET_TRAVEL_PASSWORD");
+        assertEquals("TEST_SET_TRAVEL_SSID", properties.getTravelSsid());
+        assertEquals("TEST_SET_TRAVEL_PASSWORD", properties.getTravelPassword());
     }
 
     private WifiPortProperties parseWifiPortData(String parseData) {
