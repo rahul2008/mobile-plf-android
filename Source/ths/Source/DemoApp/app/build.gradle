@@ -158,9 +158,6 @@ android {
     }
 
     buildTypes {
-        def BOOLEAN = "bool"
-        def TRUE = "true"
-        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
         def AWSDK_ENABLE_CERTIFICATE_PINNING = "awsdk_enable_certificate_pinning"
         def AWSDK_PINNED_HOSTS = "awsdk_pinned_hosts"
         def AWSDK_PINNED_CERTIFICATES = "awsdk_pinned_certificates"
@@ -168,7 +165,6 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
         release {
             signingConfig signingConfigs.release
