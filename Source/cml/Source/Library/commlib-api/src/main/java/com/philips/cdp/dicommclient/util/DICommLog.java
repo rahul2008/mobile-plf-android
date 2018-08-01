@@ -5,15 +5,12 @@
 
 package com.philips.cdp.dicommclient.util;
 
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.cdp2.commlib_api.BuildConfig;
 
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Custom log class:
@@ -64,8 +61,6 @@ public class DICommLog {
 
     private static boolean isLoggingEnabled = BuildConfig.DEBUG;
 
-    private static boolean isSaveToFileEnabled = false;
-
     public static void log(final @NonNull Verbosity verbosity, final @NonNull String logTag, final @NonNull String logMessage) {
         switch (verbosity) {
             case VERBOSE:
@@ -86,81 +81,43 @@ public class DICommLog {
         }
     }
 
-    public static void enableLogging() {
-        isLoggingEnabled = true;
+    public static boolean isLoggingEnabled() {
+        return isLoggingEnabled;
     }
 
     public static void disableLogging() {
         isLoggingEnabled = false;
     }
 
-    public static boolean isLoggingEnabled() {
-        return isLoggingEnabled;
-    }
-
     public static void d(String tag, String message) {
         if (isLoggingEnabled) {
             Log.d(tag, message);
-            writeToFile(tag + " : " + message);
         }
     }
 
 	public static void e(String tag, String message) {
 		if (isLoggingEnabled) {
 			Log.e(tag, message);
-			writeToFile(tag + " : "+message);
 		}
 	}
 
 	public static void i(String tag, String message) {
 		if (isLoggingEnabled) {
 			Log.i(tag, message);
-			writeToFile(tag + " : "+message);
 		}
 	}
 
     public static void v(String tag, String message) {
         if (isLoggingEnabled) {
             Log.v(tag, message);
-            writeToFile(tag + " : " + message);
         }
     }
 
     public static void w(String tag, String message) {
         if (isLoggingEnabled) {
             Log.w(tag, message);
-            writeToFile(tag + " : " + message);
         }
     }
 
     public static BufferedWriter out;
-
-    private static boolean isExternalStorageWritable() {
-        if (!isSaveToFileEnabled) return false;
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    private static void writeToFile(String message) {
-        if (!isSaveToFileEnabled) return;
-        File root = Environment.getExternalStorageDirectory();
-        if (!root.canWrite() || !isExternalStorageWritable()) return;
-        try {
-            out.write(message + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void finishLoggingToFile() {
-        if (!isSaveToFileEnabled) return;
-        try {
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

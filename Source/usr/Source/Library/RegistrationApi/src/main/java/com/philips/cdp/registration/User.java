@@ -948,8 +948,9 @@ public class User {
                         || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
                     clearData();
                     RLog.e(TAG, "onLogoutFailure logout Hsdp failed with clearData if responseCode :" + responseCode);
-
-                    ThreadUtils.postInMainThread(mContext, logoutHandler::onLogoutSuccess);
+                    if (logoutHandler != null) {
+                        ThreadUtils.postInMainThread(mContext, logoutHandler::onLogoutSuccess);
+                    }
                     RegistrationHelper.getInstance().getUserRegistrationListener()
                             .notifyOnLogoutSuccessWithInvalidAccessToken();
                 } else {

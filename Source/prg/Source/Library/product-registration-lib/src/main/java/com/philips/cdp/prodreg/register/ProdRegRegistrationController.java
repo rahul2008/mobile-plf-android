@@ -156,7 +156,7 @@ public class ProdRegRegistrationController {
         final boolean validDate = validatePurchaseDate(purchaseDate);
         final boolean validSerialNumber = isValidSerialNumber(serialNumber);
         if (!isApiCallingProgress && validDate && validSerialNumber) {
-            registerControllerCallBacks.tagEvents("RegistrationEvent", "specialEvents", "extendWarrantyOption");
+            registerControllerCallBacks.tagEvents("RegistrationEvent", AnalyticsConstants.SPECIAL_EVENTS, "extendWarrantyOption");
            // registerControllerCallBacks.showLoadingDialog();
             registerControllerCallBacks.logEvents(TAG, "Registering product with product details as CTN::" + getRegisteredProduct().getCtn());
             if (getRegisteredProduct().getRegistrationState() != RegistrationState.REGISTERED)
@@ -164,9 +164,6 @@ public class ProdRegRegistrationController {
             getRegisteredProduct().setSerialNumber(serialNumber);
             ProdRegHelper prodRegHelper = getProdRegHelper();
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
-            final ProdRegCache prodRegCache = getProdRegCache();
-            prodRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_START_COUNT, 1);
-            registerControllerCallBacks.tagEvents("RegistrationEvent", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)));
             prodRegHelper.getSignedInUserWithProducts(fragmentActivity).registerProduct(getRegisteredProduct());
         }
     }
@@ -201,9 +198,6 @@ public class ProdRegRegistrationController {
                     ProdRegRegistrationController.this.registeredProduct = registeredProduct;
                     registerControllerCallBacks.buttonClickable(true);
                     registerControllerCallBacks.dismissLoadingDialog();
-                    final ProdRegCache prodRegCache = getProdRegCache();
-                    prodRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
-                    registerControllerCallBacks.tagEvents("RegistrationSuccessEvent", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)));
                     updateRegisteredProductsList(registeredProduct);
                     registerControllerCallBacks.tagEvents("ProdRegSuccessEvent", "productModel", registeredProduct.getCtn());
                     registerControllerCallBacks.showSuccessLayout();
