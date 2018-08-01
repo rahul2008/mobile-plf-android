@@ -145,7 +145,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         updateCoppaConsentStatus = findViewById(R.id.updateCoppaConsentStatus);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         restoredText = prefs.getString("reg_environment", null);
-        hsdpLazyLoadingBoolean = prefs.getBoolean("hsdpLazyLoadingText", false);
+        //hsdpLazyLoadingBoolean = prefs.getBoolean("hsdpLazyLoadingText", false);
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
         if (restoredText != null) {
 
@@ -272,7 +272,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
                     editor.putString("reg_environment", restoredText);
                     if (mCheckBox.isChecked()) {
-                        editor.putString("reg_hsdp_environment", restoredText).commit();
+                        editor.putString("reg_hsdp_environment", restoredText).apply();
                         mBtnHsdpRefreshAccessToken.setVisibility(VISIBLE);
                     } else {
                         editor.remove("reg_hsdp_environment").commit();
@@ -283,12 +283,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     String restoredText = prefs.getString("reg_hsdp_environment", null);
                     RLog.d("Restored teest", "" + restoredText);
 
-                    if (mHSDPLazyLoadingSwitch.isChecked()) {
-                        editor.putBoolean("hsdpLazyLoadingText", true).commit();
-                        mHSDPLazyLoadingSwitch.setChecked(true);
-                    }
                 }
-
 
             }
         });
@@ -455,12 +450,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             } else
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity :HSDP button Clicked with userLoginState  without user signedin:" + userLoginState);
         } else if (i == R.id.btn_registration_with_hsdp_status) {
-            if (mUser.isUserSignIn()) {
                 UserLoginState userLoginState = mUser.getUserLoginState();
                 Toast.makeText(this, "HSDP User State : " + userLoginState, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Please do Sign In first", Toast.LENGTH_SHORT).show();
-            }
         } else if (i == R.id.btn_refresh_user) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Refresh User ");
             handleRefreshAccessToken();

@@ -664,6 +664,8 @@ public class User {
         signedIn = isSignedInOnRegistrationClientIdPresent(capturedRecord, signedIn);
         signedIn = isEmailVerificationSignIn(capturedRecord, isEmailVerificationRequired, signedIn);
         signedIn = isSignedInOnAcceptedTermsAndConditions(isAcceptTerms, signedIn);
+//        if (signedIn && !RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled())
+//            setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
         return signedIn;
     }
 
@@ -701,12 +703,13 @@ public class User {
             if (!hsdpUserSignedIn) {
                 setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
             }
+//            else{
+//                setUserLoginState(UserLoginState.USER_LOGGED_IN);
+//            }
             signedIn = hsdpUserSignedIn;
             RLog.i(TAG, "isHSDPUserSignedIn SignIn status if isHsdpFlow: " + signedIn);
-            setUserLoginState(UserLoginState.USER_LOGGED_IN);
         } else {
             RLog.i(TAG, "isHSDPUserSignedIn SignIn status: " + hsdpUserSignedIn);
-            setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
         }
         return signedIn;
     }
@@ -1199,6 +1202,7 @@ public class User {
 
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
+        setUserLoginState(UserLoginState.USER_NOT_LOGGED_IN);
         hsdpUser.deleteFromDisk();
         if (loggingInterface != null) {
             loggingInterface.setHSDPUserUUID(null);
