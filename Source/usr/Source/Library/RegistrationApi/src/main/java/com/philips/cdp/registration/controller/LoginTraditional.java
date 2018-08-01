@@ -89,7 +89,7 @@ public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResult
         Jump.saveToDisk(mContext);
 
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (!RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled() && RegistrationConfiguration.getInstance().isHsdpFlow() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
+        if (!RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled() && RegistrationConfiguration.getInstance().isHsdpFlow() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
             RLog.d(TAG, "onSuccess if isHsdpLazyLoadingStatus is not true");
             loginIntoHsdp();
         } else {

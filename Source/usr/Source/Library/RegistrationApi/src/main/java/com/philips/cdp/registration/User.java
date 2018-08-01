@@ -54,8 +54,6 @@ public class User {
     @Inject
     NetworkUtility networkUtility;
 
-    private boolean mEmailVerified;
-
     private Context mContext;
 
     private JSONObject mConsumerInterestObject;
@@ -91,8 +89,6 @@ public class User {
     private String CONSUMER_TOPIC_VALUE = "topicValue";
 
     private String CONSUMER_INTERESTS = "consumerInterests";
-
-    private String LOG_TAG = "User Registration";
 
     private String CONSUMER_COUNTRY = "country";
 
@@ -605,9 +601,9 @@ public class User {
     }
 
     private void hsdpLogin(boolean hsdpFlow, HSDPAuthenticationListener hsdpAuthenticationListener) {
-        RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = " + hsdpFlow + " " + RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled());
+        RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = " + hsdpFlow + " " + RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled());
 
-        if (RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled() && hsdpFlow) {
+        if (RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled() && hsdpFlow) {
             RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = " + hsdpFlow);
             BaseHSDPLogin baseHSDPLogin = new BaseHSDPLogin(mContext);
             if (hsdpAuthenticationListener != null) {
@@ -665,7 +661,7 @@ public class User {
         signedIn = isSignedInOnRegistrationClientIdPresent(capturedRecord, signedIn);
         signedIn = isEmailVerificationSignIn(capturedRecord, isEmailVerificationRequired, signedIn);
         signedIn = isSignedInOnAcceptedTermsAndConditions(isAcceptTerms, signedIn);
-        if (!RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled())
+        if (!RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled())
             RLog.d(TAG, "isUserSignIn captureRecord is NULL");
         setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
         return signedIn;

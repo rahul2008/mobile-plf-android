@@ -75,7 +75,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler, HSDPAuthenticationListener {
 
     private final String HSDP_UUID_SHOULD_UPLOAD = "hsdpUUIDUpload";
-    private final String HSDP_DELAY_LOGIN_STATUS = "delayHsdpLogin";
+    private final String HSDP_SKIP_HSDP_LOGIN = "skipHSDPLogin";
     private Context mContext;
     private ProgressDialog mProgressDialog;
     private String restoredText;
@@ -88,7 +88,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     private Button mBtnRegistrationWithAccountSettings;
     private CoppaExtension coppaExtension;
     private Switch mHSDPLazyLoadingSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus;
-    private boolean hsdpLazyLoadingBoolean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +144,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         updateCoppaConsentStatus = findViewById(R.id.updateCoppaConsentStatus);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         restoredText = prefs.getString("reg_environment", null);
-        //hsdpLazyLoadingBoolean = prefs.getBoolean("hsdpLazyLoadingText", false);
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
         if (restoredText != null) {
 
@@ -316,7 +314,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     private void updateHsdpLazyLoadingStatus(boolean b) {
         RLog.d("updateHsdpLazyLoadingStatus", " Going to set :" + b);
         final AppInfraInterface appInfraInterface = URDemouAppInterface.appInfra;
-        appInfraInterface.getConfigInterface().setPropertyForKey(HSDP_DELAY_LOGIN_STATUS, "UserRegistration", String.valueOf(b), configError);
+        appInfraInterface.getConfigInterface().setPropertyForKey(HSDP_SKIP_HSDP_LOGIN, "UserRegistration", String.valueOf(b), configError);
     }
 
 
@@ -698,7 +696,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
         activity.finish();
-        showToast("HSDP Lazy Loading status : " + RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled());
+        showToast("HSDP Lazy Loading status : " + RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled());
     }
 
     @Override

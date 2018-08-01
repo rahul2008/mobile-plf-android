@@ -45,7 +45,7 @@ public class BaseHSDPLogin {
 
             @Override
             public void onLoginSuccess() {
-                if (RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled())
+                if (RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled())
                     hsdpAuthenticationListener.onHSDPLoginSuccess();
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
                 mUser.setUserLoginState(UserLoginState.USER_LOGGED_IN);
@@ -55,7 +55,7 @@ public class BaseHSDPLogin {
             @Override
             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                 AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                if (RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled())
+                if (RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled())
                     hsdpAuthenticationListener.onHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 mUser.setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
@@ -101,7 +101,7 @@ public class BaseHSDPLogin {
             @Override
             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                 AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                if (RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled())
+                if (RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled())
                     loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 mUser.setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
