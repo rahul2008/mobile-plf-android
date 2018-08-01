@@ -8,13 +8,6 @@ import static org.junit.Assert.*;
 
 public class AIUtilityTest {
 
-    private String strDate = "1970-01-01 00:00:00.000 +0000";
-
-    //  "2018-07-30 06:29:05.717+0000"
-
-    // "2018-04-04 08:39:30 +0000"
-
-
     private String strDate1 = "2018-07-30 06:29:05.717+0000";
     private String strDate2 = "2018-07-30 06:29:05 +0000";
 
@@ -25,12 +18,11 @@ public class AIUtilityTest {
     String pattern1 = "yyyy-MM-dd HH:mm:ss.SSSZ";
     String pattern2 = "yyyy-MM-dd HH:mm:ss Z";
 
-    private Date date1 = AIUtility.convertStringToDate(strDate1,pattern1,pattern2);
-    private Date date2 = AIUtility.convertStringToDate(strDate2,pattern2);
+    private Date date1 = AIUtility.convertStringToDate(strDate1, pattern1, pattern2);
+    private Date date2 = AIUtility.convertStringToDate(strDate2, pattern2);
     private Date convertedDate;
     private String convertedString1;
     private String convertedString2;
-
 
 
     @Test
@@ -68,7 +60,7 @@ public class AIUtilityTest {
     }
 
     private void whenConvertStringToDateIsInvoked(String date) {
-        convertedDate = AIUtility.convertStringToDate(date,pattern1,pattern2);
+        convertedDate = AIUtility.convertStringToDate(date, pattern1, pattern2);
     }
 
     @Test(expected = RuntimeException.class)
@@ -81,8 +73,8 @@ public class AIUtilityTest {
     }
 
     private void whenConvertDateToStringIsInvoked1() {
-        AIUtility.convertStringToDate(strDate1,pattern1);
-        convertedString1 = AIUtility.convertDateToString(AIUtility.convertStringToDate(strDate1,pattern1,pattern2));
+        AIUtility.convertStringToDate(strDate1, pattern1);
+        convertedString1 = AIUtility.convertDateToString(AIUtility.convertStringToDate(strDate1, pattern1, pattern2));
     }
 
 
@@ -91,10 +83,9 @@ public class AIUtilityTest {
     }
 
     private void whenConvertDateToStringIsInvoked2() {
-        AIUtility.convertStringToDate(strDate2,pattern2);
-        convertedString2 = AIUtility.convertDateToString(AIUtility.convertStringToDate(strDate2,pattern1,pattern2));
+        AIUtility.convertStringToDate(strDate2, pattern2);
+        convertedString2 = AIUtility.convertDateToString(AIUtility.convertStringToDate(strDate2, pattern1, pattern2));
     }
-
 
 
 }
