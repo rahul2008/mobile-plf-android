@@ -574,7 +574,7 @@ public class User {
         return userLoginState;
     }
 
-    private void setUserLoginState(UserLoginState userLoginState) {
+    public void setUserLoginState(UserLoginState userLoginState) {
         this.userLoginState = userLoginState;
     }
 
@@ -585,9 +585,11 @@ public class User {
         if (networkUtility.isNetworkAvailable()) {
             if (!hsdpFlow) {
                 RLog.d(TAG, "authorizeHSDP: not HSDP flow and HSDP configuration not done");
+                setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7011, "HSDP Configuration is not set");
             } else if (!isUserSignInJanrain()) {
                 RLog.d(TAG, "authorizeHSDP: Janrain user not signed-in");
+                setUserLoginState(UserLoginState.USER_NOT_LOGGED_IN);
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7012, "First SignedIn in Janrain");
             } else if (isUserSignInJanrain() && !isUserSignIn()) {
                 RLog.d(TAG, "authorizeHSDP: Janrain user signed-in not an HSDP So making HSDP call");
@@ -664,8 +666,9 @@ public class User {
         signedIn = isSignedInOnRegistrationClientIdPresent(capturedRecord, signedIn);
         signedIn = isEmailVerificationSignIn(capturedRecord, isEmailVerificationRequired, signedIn);
         signedIn = isSignedInOnAcceptedTermsAndConditions(isAcceptTerms, signedIn);
-//        if (signedIn && !RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled())
-//            setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
+        if (!RegistrationConfiguration.getInstance().isDelayHsdpLoginEnabled())
+            RLog.d(TAG, "isUserSignIn captureRecord is NULL");
+        setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
         return signedIn;
     }
 
@@ -700,12 +703,11 @@ public class User {
                 setUserLoginState(UserLoginState.PENDING_VERIFICATION);
                 throw new RuntimeException("Please set emailVerificationRequired field as true");
             }
-            if (!hsdpUserSignedIn) {
+            if (hsdpUserSignedIn) {
+                setUserLoginState(UserLoginState.USER_LOGGED_IN);
+            } else {
                 setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
             }
-//            else{
-//                setUserLoginState(UserLoginState.USER_LOGGED_IN);
-//            }
             signedIn = hsdpUserSignedIn;
             RLog.i(TAG, "isHSDPUserSignedIn SignIn status if isHsdpFlow: " + signedIn);
         } else {
