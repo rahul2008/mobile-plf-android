@@ -17,7 +17,6 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
 import org.json.JSONObject;
-import org.junit.Test;
 
 
 public class ContinueSocialProviderLoginTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
@@ -79,15 +78,6 @@ public class ContinueSocialProviderLoginTest extends ActivityInstrumentationTest
 
 
     }
-    @Test
-    public void test_onSuccess(){
-       /* RegisterSocial continuesocialLogin = Mockito.mock(RegisterSocial.class);
-        UpdateUserRecordHandler updateUserRecordHandler = Mockito.mock(UpdateUserRecordHandler.class);
-        continueSocialProviderLogin.onSuccess();
 
-        Mockito.verify(continueSocialProviderLogin,Mockito.atLeast(1)).onSuccess();*/
-        // Mockito.verify(updateUserRecordHandler,Mockito.atLeast(1)).updateUserRecordRegister();
-
-    }
 
 }
