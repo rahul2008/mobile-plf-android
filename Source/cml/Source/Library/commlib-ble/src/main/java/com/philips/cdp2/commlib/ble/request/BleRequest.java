@@ -310,8 +310,8 @@ public abstract class BleRequest implements Runnable {
                     responseHandler.onError(error, errorMessage);
                 }
             });
-            finishRequest();
         }
+        finishRequest();
     }
 
     private void onSuccess(final String data) {

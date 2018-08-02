@@ -387,15 +387,35 @@ public class BleRequestTest {
     @Test
     public void givenRequestIsRunning_whenASuccessfulDICommMessageIsReceived_thenRequestReportsSuccess() throws InterruptedException {
         String validJsonString = "{\"A valid key\" : \"A valid value\"}";
+        DiCommMessage message = createSuccessfulResponseFromJson(validJsonString);
+
+        simulateRunWithDiCommMessage(message);
+
+        verify(responseHandlerMock).onSuccess(validJsonString);
+    }
+
+    @Test
+    public void givenRequestIsCompleted_whenTimeoutOccurs_thenRequestFinishes() throws InterruptedException {
+        String validJsonString = "{\"A valid key\" : \"A valid value\"}";
+        DiCommMessage message = createSuccessfulResponseFromJson(validJsonString);
+
+        simulateRunWithDiCommMessage(message);
+
+        ArgumentCaptor<TimerTask> timerTaskCaptor = ArgumentCaptor.forClass(TimerTask.class);
+        verify(timerMock).schedule(timerTaskCaptor.capture(), anyLong());
+        timerTaskCaptor.getValue().run();
+
+        verify(mockInProgressLatch).countDown();
+    }
+
+    @NonNull
+    private DiCommMessage createSuccessfulResponseFromJson(String validJsonString) {
         byte[] payload = ("\0" + validJsonString + "\0").getBytes();
 
         DiCommMessage message = mock(DiCommMessage.class);
         when(message.getMessageType()).thenReturn(MessageType.GenericResponse);
         when(message.getPayload()).thenReturn(payload);
-
-        simulateRunWithDiCommMessage(message);
-
-        verify(responseHandlerMock).onSuccess(validJsonString);
+        return message;
     }
 
     private void simulateRunWithDiCommMessage(final DiCommMessage message) throws InterruptedException {
