@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/iap_cvv_code_hint_description"
+                android:text="@string/iap_cvvpopup_3digit_info"
                 android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:textSize="@dimen/iap_text_size_16sp" />
 
@@ -60,7 +60,7 @@
                 android:freezesText="true"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:hint="0"
+                android:hint="000"
                 android:inputType="numberPassword"
                 android:maxLength="4"
                 android:maxLines="1" />
