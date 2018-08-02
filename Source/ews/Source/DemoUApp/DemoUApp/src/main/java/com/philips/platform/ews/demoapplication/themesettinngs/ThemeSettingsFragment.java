@@ -18,17 +18,15 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-
 import com.philips.platform.ews.demoapplication.EWSDemoUActivity;
 import com.philips.platform.ews.demoapplication.R;
-import com.philips.platform.ews.microapp.EWSActionBarListener;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.UIDHelper;
-
 import java.util.List;
 
 public class ThemeSettingsFragment extends Fragment {
@@ -97,9 +95,9 @@ public class ThemeSettingsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        EWSActionBarListener actionBarListener = null;
+        ActionBarListener actionBarListener = null;
         try {
-            actionBarListener = ((EWSActionBarListener) getContext());
+            actionBarListener = ((ActionBarListener) getContext());
         } catch (ClassCastException e) {}
 
         if (actionBarListener != null) {
