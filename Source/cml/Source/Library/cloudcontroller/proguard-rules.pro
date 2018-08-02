@@ -247,6 +247,7 @@
 }
 
 -assumenosideeffects class android.util.Log {
+    public static *** e(...);
     public static *** d(...);
 }
 

@@ -496,7 +496,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             mDownloadData.executeCommand();
         } catch (Exception | Error e) {
             notifyDownloadDataListener(Errors.GENERAL_ERROR, null);
-            Log.d(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
     }
 
@@ -751,7 +751,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
                 }
             }
         } catch (IOException e) {
-            Log.d(LogConstants.CLOUD_CONTROLLER, "Error reading certificate file: " + e.getMessage());
+            Log.e(LogConstants.CLOUD_CONTROLLER, "Error reading certificate file: " + e.getMessage());
         }
         return gs.getNumberOfCertificates() > 0;
     }
@@ -843,7 +843,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
                     }
                 } catch (IOException e) {
                     mAppUpdateListener.onAppUpdateDownloadFailed();
-                    Log.d(TAG, "Error while downloading file: " + e.getMessage());
+                    Log.e(TAG, "Error while downloading file: " + e.getMessage());
                 }
             }
         } else {
@@ -862,7 +862,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             mByteOffset = 0;
         } catch (FileNotFoundException e) {
             mAppUpdateListener.onAppUpdateDownloadFailed();
-            Log.d(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage());
             mFileOutputStream = null;
         }
     }
@@ -874,7 +874,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
                 mFileOutputStream = null;
             }
         } catch (Exception e) {
-            Log.d(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
     }
 
