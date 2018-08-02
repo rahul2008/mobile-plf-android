@@ -192,8 +192,7 @@ public class RestClientActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-//                    mRestInterface.getRequestQueue().add(finalMStringRequest);
-                    Volley.newRequestQueue(RestClientActivity.this).add(finalMStringRequest);
+                    mRestInterface.getRequestQueue().add(finalMStringRequest);
                 }
             }).start();
 

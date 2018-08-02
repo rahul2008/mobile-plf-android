@@ -148,7 +148,7 @@ public class RestManager implements RestInterface {
             }
         }
 
-        return cacheSize!=null?cacheSize.intValue():DiskBasedCache.DEFAULT_DISK_USAGE_BYTES;
+        return cacheSize != null ? cacheSize : DiskBasedCache.DEFAULT_DISK_USAGE_BYTES;
     }
 
     private class ServiceIDResolver implements HurlStack.UrlRewriter {
