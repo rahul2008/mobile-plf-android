@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
@@ -56,12 +57,12 @@ public class QuickTestConnectionTest {
 
         reset(deviceMock);
 
-        when(deviceMock.getState()).thenReturn(SHNDevice.State.Disconnected);
+        when(deviceMock.getState()).thenReturn(Disconnected);
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 SHNDevice.SHNDeviceListener listener = (SHNDevice.SHNDeviceListener) invocation.getArguments()[0];
-                listener.onStateUpdated(deviceMock);
+                listener.onStateUpdated(deviceMock, Disconnected);
                 return null;
             }
         }).when(deviceMock).registerSHNDeviceListener(any(SHNDevice.SHNDeviceListener.class));
@@ -130,10 +131,9 @@ public class QuickTestConnectionTest {
     private void simulateStateChange(SHNDevice.SHNDeviceListener deviceListener, SHNDevice.State newState, boolean waitForHandler) {
         reset(internalHandlerMock);
         when(deviceMock.getState()).thenReturn(newState);
-        deviceListener.onStateUpdated(deviceMock);
+        deviceListener.onStateUpdated(deviceMock, newState);
 
-        if (waitForHandler)
-            captureHandlerRunnable().run();
+        if (waitForHandler) captureHandlerRunnable().run();
     }
 
     @Test
@@ -162,7 +162,7 @@ public class QuickTestConnectionTest {
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
 
-        simulateStateChange(deviceListener, SHNDevice.State.Disconnected, true);
+        simulateStateChange(deviceListener, Disconnected, true);
 
         verify(listenerMock).onFailure();
     }

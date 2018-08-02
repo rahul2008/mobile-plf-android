@@ -231,10 +231,10 @@ public abstract class BleRequest implements Runnable {
     @VisibleForTesting
     SHNDevice.SHNDeviceListener bleDeviceListener = new SHNDevice.SHNDeviceListener() {
         @Override
-        public void onStateUpdated(final SHNDevice shnDevice) {
-            if (shnDevice.getState() == Connected) {
+        public void onStateUpdated(@NonNull SHNDevice shnDevice, @NonNull SHNDevice.State state) {
+            if (state == Connected) {
                 onConnected();
-            } else if (shnDevice.getState() == Disconnected) {
+            } else if (state == Disconnected) {
                 if (stateIs(COMPLETED)) {
                     completeRequest();
                 } else {
