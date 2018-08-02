@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
