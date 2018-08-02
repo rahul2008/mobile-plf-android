@@ -145,13 +145,13 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
     protected Date getTimestamp(String timestamp) {
         timestamp = getDesiredFormat(timestamp);
         if (timestamp != null) {
-            return AIUtility.convertStringToDate(timestamp, "yyyy-MM-dd HH:mm:ss.SSSZ", "yyyy-MM-dd HH:mm:ss Z", "yyyy-MM-dd HH:mm:ss.SSS Z"); // "2018-07-30 06:29:05.717+0000" ,  "2018-07-30 06:29:05 +0000",2018-07-27 08:56:12.493 +0000
+            return AIUtility.convertStringToDate(timestamp, "yyyy-MM-dd HH:mm:ss Z", "yyyy-MM-dd HH:mm:ss"); // "2018-07-30 06:29:05.717+0000" ,  "2018-07-30 06:29:05 +0000",2018-07-27 08:56:12.493 +0000
         }
         return new Date(0);
     }
 
     protected String getDesiredFormat(String janrainTimestamp){
-        int endIndexForDateTime = 19;
+        int endIndexForDateTime = 19; // last index of millisecond ex - "2018-07-30 06:29:05.717+0000"
         String timeZone = "";
         int indexOfPlus = -1;
         String dateTime = janrainTimestamp.substring(0, endIndexForDateTime);
@@ -160,7 +160,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
             indexOfPlus = janrainTimestamp.indexOf("+");
             timeZone = janrainTimestamp.substring(indexOfPlus, janrainTimestamp.length());
         }
-        return dateTime + " " + timeZone;
+        return (dateTime + " " + timeZone).trim();
     }
 
 }
