@@ -143,9 +143,9 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
     }
 
     protected Date getTimestamp(String timestamp) {
-        timestamp = getDesiredFormat(timestamp);
         if (timestamp != null) {
-            return AIUtility.convertStringToDate(timestamp, "yyyy-MM-dd HH:mm:ss Z", "yyyy-MM-dd HH:mm:ss"); // "2018-07-30 06:29:05.717+0000" ,  "2018-07-30 06:29:05 +0000",2018-07-27 08:56:12.493 +0000
+            String formattedTimeStamp = getDesiredFormat(timestamp);
+            return AIUtility.convertStringToDate(formattedTimeStamp, "yyyy-MM-dd HH:mm:ss Z", "yyyy-MM-dd HH:mm:ss"); // "2018-07-30 06:29:05.717+0000" ,  "2018-07-30 06:29:05 +0000",2018-07-27 08:56:12.493 +0000
         }
         return new Date(0);
     }
