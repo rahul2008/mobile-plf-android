@@ -21,7 +21,6 @@ import com.philips.cdp.registration.hsdp.HsdpUserRecordV2;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONObject;
 
@@ -52,7 +51,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
         }
 
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated() && !UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-            RLog.d(TAG, "refreshAndUpdateUser : not isJumpInitializated and not isRegInitializationInProgress");
+            RLog.d(TAG, "refreshAndUpdateUser : not isJumpInitializated and RegInitialization Not In Progress");
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
             return;
@@ -94,7 +93,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                             @Override
                             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                                 RLog.e(TAG, "refreshUpdateUser : onLoginFailedWithError  ");
-                                handler.onRefreshUserFailed(RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED);
+                                handler.onRefreshUserFailed(userRegistrationFailureInfo.getErrorCode());
                             }
                         }, mContext, mUpdateUserRecordHandler, null, null);
                         loginTraditional.loginIntoHsdp();

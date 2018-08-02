@@ -9,12 +9,15 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -70,6 +73,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SEND_D
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SPECIAL_EVENTS;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESS_USER_REGISTRATION;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.USER_ERROR;
+import static com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver.SMS_PERMISSION_CODE;
 
 public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener {
@@ -241,6 +245,12 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                 verificationCodeValidationEditText.getText().toString());
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        registerSMSReceiver();
+        RLog.i(TAG, "onViewCreated : getParentFragment().requestPermissions(");
+    }
 
     @Override
     public void onPause() {
@@ -253,7 +263,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         user.refreshUser(this);
         super.onResume();
         EventBus.getDefault().register(this);
-        registerSMSReceiver();
+//        registerSMSReceiver();
     }
 
     @Subscribe
@@ -302,7 +312,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void netWorkStateOfflineUiHandle() {
         hideProgressSpinner();
         //errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
-       // updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
+        // updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         smsNotReceived.setEnabled(false);
         disableVerifyButton();
     }
@@ -383,10 +393,12 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void registerSMSReceiver() {
-        if (mSMSBroadCastReceiver.isSmsPermissionGranted()) {
-            mobileVerifyCodePresenter.registerSMSReceiver();
-        } else {
-            mSMSBroadCastReceiver.requestReadAndSendSmsPermission();
+        RLog.i(TAG, "registerSMSReceiver : " + mSMSBroadCastReceiver.isSmsPermissionGranted());
+        mobileVerifyCodePresenter.registerSMSReceiver();
+        if (!mSMSBroadCastReceiver.isSmsPermissionGranted()) {
+            RLog.i(TAG, "registerSMSReceiver : isSmsPermissionGranted");
+            requestPermissionSMS();
+
         }
     }
 
@@ -400,17 +412,16 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         RLog.i(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
-            if(new NetworkUtility(getActivityContext()).isInternetAvailable()) {
-                verifyClicked();
-            }
+            verifyClicked();
         }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        unRegisterSMSReceiver();
-        ;
+        if (mSMSBroadCastReceiver.isSmsPermissionGranted()) {
+            unRegisterSMSReceiver();
+        }
     }
 
     @Override
@@ -426,8 +437,10 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        RLog.d(TAG, "registerSMSReceiver : requestCode : " + requestCode + "permissions[] :" + permissions + "grantResults :" + grantResults);
         switch (requestCode) {
-            case SMSBroadCastReceiver.SMS_PERMISSION_CODE: {
+            case SMS_PERMISSION_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     registerSMSReceiver();
@@ -440,5 +453,10 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void notificationInlineMsg(String msg) {
         errorMessage.setError(msg);
+    }
+
+    void requestPermissionSMS() {
+        requestPermissions(new String[]{Manifest.permission.READ_SMS},
+                SMS_PERMISSION_CODE);
     }
 }
