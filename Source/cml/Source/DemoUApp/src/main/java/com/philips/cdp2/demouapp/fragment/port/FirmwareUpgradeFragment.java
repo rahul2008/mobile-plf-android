@@ -285,6 +285,10 @@ public class FirmwareUpgradeFragment extends Fragment {
                     return view;
                 }
             };
+
+            if (fwImageAdapter.getCount() > 0) {
+                selectFirmwareImage(0);
+            }
         }
     }
 
@@ -292,15 +296,19 @@ public class FirmwareUpgradeFragment extends Fragment {
         SelectorDialog dialog = SelectorDialog.newInstance(R.string.cml_choose_firmware_image, fwImageAdapter, new SelectorDialog.OnDialogSelectorListener() {
             @Override
             public void onSelectedOption(int index) {
-                selectedFirmwareIndex = index;
-                File firmwareImage = fwImageAdapter.getItem(selectedFirmwareIndex);
-                if (firmwareImage != null) {
-                    firmwareImageNameTextView.setText(firmwareImage.getName());
-                }
+                selectFirmwareImage(index);
             }
         });
 
         dialog.show(getActivity().getSupportFragmentManager(), null);
+    }
+
+    private void selectFirmwareImage(int index) {
+        selectedFirmwareIndex = index;
+        File firmwareImage = fwImageAdapter.getItem(selectedFirmwareIndex);
+        if (firmwareImage != null) {
+            firmwareImageNameTextView.setText(firmwareImage.getName());
+        }
     }
 
     private void uploadSelectedFirmware() {
