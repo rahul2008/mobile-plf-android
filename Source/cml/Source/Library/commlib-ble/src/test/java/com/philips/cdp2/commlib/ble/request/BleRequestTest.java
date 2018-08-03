@@ -392,20 +392,6 @@ public class BleRequestTest {
         verify(responseHandlerMock).onSuccess(validJsonString);
     }
 
-    @Test
-    public void givenRequestIsCompleted_whenTimeoutOccurs_thenRequestFinishes() throws InterruptedException {
-        String validJsonString = "{\"A valid key\" : \"A valid value\"}";
-        DiCommMessage message = createSuccessfulResponseFromJson(validJsonString);
-
-        simulateRunWithDiCommMessage(message);
-
-        ArgumentCaptor<TimerTask> timerTaskCaptor = ArgumentCaptor.forClass(TimerTask.class);
-        verify(timerMock).schedule(timerTaskCaptor.capture(), anyLong());
-        timerTaskCaptor.getValue().run();
-
-        verify(mockInProgressLatch).countDown();
-    }
-
     @NonNull
     private DiCommMessage createSuccessfulResponseFromJson(String validJsonString) {
         byte[] payload = ("\0" + validJsonString + "\0").getBytes();
