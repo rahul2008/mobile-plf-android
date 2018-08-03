@@ -2,9 +2,8 @@ package com.philips.platform.ews.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
 import com.philips.platform.ews.R;
-import com.philips.platform.ews.microapp.EWSActionBarListener;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public abstract class BaseTroubleShootingFragment extends BaseFragment {
 
@@ -16,7 +15,7 @@ public abstract class BaseTroubleShootingFragment extends BaseFragment {
 
     @Override
     public void setToolbarTitle() {
-        EWSActionBarListener actionBarListener = ((EWSActionBarListener) getContext());
+        ActionBarListener actionBarListener = ((ActionBarListener) getContext());
         if (actionBarListener != null) {
             actionBarListener.updateActionBar(R.string.ews_support_title, true);
         }

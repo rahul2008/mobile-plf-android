@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left|center_vertical"
-        android:text="@string/iap_billing_address" />
+        android:text="@string/iap_billing_address"
+        android:textStyle="bold"/>
 
     <!--Personal Detail Linear Layout-->
     <com.philips.platform.uid.view.widget.Label

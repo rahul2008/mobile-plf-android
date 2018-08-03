@@ -57,6 +57,10 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
     public abstract int getContainerId();
 
+    public AbstractAppFrameworkBaseActivity(){
+        setLanguagePackNeeded(false);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initUIKIT();

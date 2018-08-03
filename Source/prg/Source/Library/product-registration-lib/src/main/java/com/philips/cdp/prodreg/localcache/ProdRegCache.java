@@ -12,8 +12,6 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 public class ProdRegCache {
 
-    private String TAG = ProdRegCache.class.getSimpleName();
-
     public boolean storeStringData(String key, String value) {
         SecureStorageInterface ssInterface = getAppInfraSecureStorageInterface();
         SecureStorageInterface.SecureStorageError ssError = getSecureStorageError();

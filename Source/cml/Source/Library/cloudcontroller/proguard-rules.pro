@@ -246,4 +246,13 @@
 
 }
 
+-assumenosideeffects class android.util.Log {
+    public static *** e(...);
+    public static *** d(...);
+    public static *** i(...);
+    public static *** v(...);
+    public static *** w(...);
+    public static *** wtf(...);
+}
+
 # ICP Proguard rules ---- END -----

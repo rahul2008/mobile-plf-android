@@ -50,6 +50,10 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
+        if (!consentsClient.getCatkComponent().getUser().isUserSignIn()) {
+            callback.onGetConsentsFailed((new ConsentError("User not logged in", ConsentError.CONSENT_ERROR_USER_NOT_LOGGED_IN)));
+            return;
+        }
         CachedConsentStatus consentStatus = consentCacheInteractor.fetchConsentTypeState(consentType);
         if (consentStatus != null && (consentStatus.getExpires().isAfterNow() || !isInternetAvailable())) {
             callback.onGetConsentsSuccess(new ConsentStatus(consentStatus.getConsentState(), consentStatus.getVersion(), consentStatus.getTimestamp()));

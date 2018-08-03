@@ -9,7 +9,6 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 import com.philips.platform.appinfra.utility.AIUtility;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
@@ -18,11 +17,7 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
 
@@ -149,8 +144,23 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
 
     protected Date getTimestamp(String timestamp) {
         if (timestamp != null) {
-            return AIUtility.convertStringToDate(timestamp, "yyyy-MM-dd HH:mm:ss Z");
+            String formattedTimeStamp = getDesiredFormat(timestamp);
+            return AIUtility.convertStringToDate(formattedTimeStamp, "yyyy-MM-dd HH:mm:ss Z", "yyyy-MM-dd HH:mm:ss"); // "2018-07-30 06:29:05.717+0000" ,  "2018-07-30 06:29:05 +0000",2018-07-27 08:56:12.493 +0000
         }
         return new Date(0);
     }
+
+    protected String getDesiredFormat(String janrainTimestamp){
+        int endIndexForDateTime = 19; // last index of millisecond ex - "2018-07-30 06:29:05.717+0000"
+        String timeZone = "";
+        int indexOfPlus = -1;
+        String dateTime = janrainTimestamp.substring(0, endIndexForDateTime);
+
+        if (janrainTimestamp.contains("+")) {
+            indexOfPlus = janrainTimestamp.indexOf("+");
+            timeZone = janrainTimestamp.substring(indexOfPlus, janrainTimestamp.length());
+        }
+        return (dateTime + " " + timeZone).trim();
+    }
+
 }

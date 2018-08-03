@@ -37,6 +37,7 @@ public class Utility {
     public static boolean isShippingAddressFilled=false;
     public static boolean isBillingAddressFilled=false;
     public static boolean isAddressFilledFromDeliveryAddress=false;
+    public static boolean isDelvieryFirstTimeUser=false;
 
     public static void hideKeypad(Activity pContext) {
         if(pContext == null){
@@ -254,7 +255,9 @@ public class Utility {
             }
         });
         alertDialogFragment = builder.setCancelable(false).create();
-        alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
+        if(!alertDialogFragment.isVisible()) {
+            alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
+        }
     }
 
     static void dismissAlertFragmentDialog(AlertDialogFragment alertDialogFragment, FragmentManager fragmentManager) {

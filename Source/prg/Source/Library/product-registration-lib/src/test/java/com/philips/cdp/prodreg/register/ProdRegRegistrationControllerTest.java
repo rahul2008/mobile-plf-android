@@ -127,12 +127,11 @@ public class ProdRegRegistrationControllerTest extends TestCase {
     @Test
     @SuppressWarnings("deprecation")
     public void testRegisterEvent() {
-        when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)).thenReturn(0);
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         when(prodRegHelperMock.getSignedInUserWithProducts(fragmentActivity)).thenReturn(userWithProductsMock);
         prodRegRegistrationController.init(bundle);
         prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
-        verify(registerControllerCallBacksMock).tagEvents("RegistrationEvent", "specialEvents", "extendWarrantyOption");
+        verify(registerControllerCallBacksMock).tagEvents("RegistrationEvent", AnalyticsConstants.SPECIAL_EVENTS, "extendWarrantyOption");
 //        verify(registerControllerCallBacksMock).showLoadingDialog();
         verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Registering product with product details as CTN::" + registeredProductMock.getCtn());
         verify(userWithProductsMock).registerProduct(registeredProductMock);
@@ -141,7 +140,6 @@ public class ProdRegRegistrationControllerTest extends TestCase {
     @Test
     @SuppressWarnings("deprecation")
     public void testGetProdRegListener() {
-        when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
         ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);

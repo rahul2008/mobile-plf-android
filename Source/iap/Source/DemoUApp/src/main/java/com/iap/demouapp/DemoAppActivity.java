@@ -549,7 +549,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-        Toast.makeText(this, "Fetched product list done", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Fetched product list done", Toast.LENGTH_SHORT).show();
         mShoppingCart.setOnClickListener(this);
 //        mEtCTN.setText(productList.get(1));
 //        ArrayList<String> arrayList = new ArrayList<>();
