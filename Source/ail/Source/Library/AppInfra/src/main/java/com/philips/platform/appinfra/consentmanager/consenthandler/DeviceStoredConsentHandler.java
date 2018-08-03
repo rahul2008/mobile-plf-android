@@ -88,7 +88,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
             SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
             String consentInfo = appInfra.getSecureStorage().fetchValueForKey(getStoredKey(consentType), storageError);
 
-            if (consentInfo == null || storageError.getErrorCode() != null || consentInfo.toUpperCase().startsWith("FALSE")) {
+            if (consentInfo == null || storageError.getErrorCode() != null) {
                 logError(storageError, consentType);
                 consentStatus = new ConsentStatus(ConsentStates.inactive, 0, new Date(0));
             } else {
@@ -99,7 +99,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
                 } else {
                     timestamp = AIUtility.convertStringToDate(storedTimestamp, "yyyy-MM-dd HH:mm:ss.SSS Z");
                 }
-                consentStatus = new ConsentStatus(ConsentStates.active,
+                consentStatus = new ConsentStatus(consentInfo.toUpperCase().startsWith("FALSE") ? ConsentStates.rejected : ConsentStates.active,
                         Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)), timestamp);
             }
             consentStatusMemoryCache.put(consentType, consentStatus);
