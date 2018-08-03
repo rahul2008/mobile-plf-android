@@ -58,6 +58,7 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             else
                 mSyncViewHolder.mMomentID.setText(R.string.fetching_text);
 
+            mSyncViewHolder.mMomentType.setText(moment.getType());
             mSyncViewHolder.mPhase.setText(helper.getTime(moment));
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mSyncViewHolder.mLocation.setText(helper.getNotes(moment));
@@ -90,6 +91,7 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private class MomentViewHolder extends RecyclerView.ViewHolder {
         TextView mMomentID;
+        TextView mMomentType;
         TextView mTemperature;
         TextView mPhase;
         TextView mLocation;
@@ -101,6 +103,7 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         MomentViewHolder(final View itemView) {
             super(itemView);
             mMomentID = itemView.findViewById(R.id.moment_id);
+            mMomentType = itemView.findViewById(R.id.moment_type);
             mTemperature = itemView.findViewById(R.id.time_line_data);
             mExpirationDate = itemView.findViewById(R.id.expiration_date_detail);
             mPhase = itemView.findViewById(R.id.phasedata);
