@@ -536,9 +536,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
     private String addressWithNewLineIfNull( String code) {
         if (!TextUtils.isEmpty(code)) {
-            if (code != null) {
                 return code.replaceAll(",null", " ");
-            }
         }
         return null;
     }
