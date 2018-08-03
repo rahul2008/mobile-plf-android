@@ -13,6 +13,7 @@ import com.j256.ormlite.android.AndroidConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.philips.platform.dscdemo.BuildConfig;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
+import com.philips.platform.dscdemo.database.table.OrmMomentType;
 import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.securedblibrary.SqlLiteInitializer;
 
@@ -28,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -83,6 +85,21 @@ public class DatabaseHelperTest {
         thenTableContentsAre(OrmSettings.class, "[[\"1\",\"en_US\",\"metric\"]]");
         whenMigratingToVersion(2,3);
         thenTableContentsAre(OrmSettings.class, "[[\"1\",\"en_US\",\"metric\",null]]");
+    }
+
+    @Test
+    public void migrateToV5_MomentTypesAreExtended() {
+        givenDatabaseContents("dataservicesDbV2.db");
+        givenMomentTypes(Arrays.asList(new MomentType(-1, "UNKNOWN"), new MomentType(20, "TREATMENT")));
+        thenTableContentsAre(OrmMomentType.class, "[[\"-1\",\"UNKNOWN\"],[\"20\",\"TREATMENT\"]]");
+        whenMigratingToVersion(4, 5);
+        thenTableContentsAre(OrmMomentType.class, "[[\"-1\",\"UNKNOWN\"],[\"20\",\"TREATMENT\"],[\"21\",\"USER_INFO\"],[\"22\",\"PHOTO\"],[\"23\",\"NOTE\"],[\"24\",\"Temperature\"],[\"25\",\"sleepSession\"],[\"26\",\"Note\"],[\"27\",\"SleepSession\"]]");
+    }
+
+    private void givenMomentTypes(List<MomentType> momentTypes) {
+        for (MomentType momentType : momentTypes) {
+            sqlLiteTestDb.getWritableDatabase().execSQL("INSERT INTO `" + OrmMomentType.class.getSimpleName() + "` (id, description) VALUES(?,?)", new Object[] { momentType.id, momentType.description });
+        }
     }
 
     private void givenUserSettings(final String locale, final String unitSystem) {
@@ -199,4 +216,13 @@ public class DatabaseHelperTest {
     private DatabaseHelper databaseHelper;
     private ContextStub context;
     private AppInfraStub appInfra;
+
+    private class MomentType {
+        public final int id;
+        public final String description;
+        public MomentType(int id, String description) {
+            this.id = id;
+            this.description = description;
+        }
+    }
 }

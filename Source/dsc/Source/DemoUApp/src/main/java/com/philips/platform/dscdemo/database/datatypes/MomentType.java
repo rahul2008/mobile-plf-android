@@ -74,6 +74,7 @@ public class MomentType {
         }
     }
 
+    // IMPORTANT: if you extend this list, you also need to bump the DATABASE_VERSION in DatabaseHelper
     public static List<String> getMomentTypes() {
         List<String> momentTypes = new ArrayList<>();
         momentTypes.add(UNKNOWN);
@@ -83,8 +84,8 @@ public class MomentType {
         momentTypes.add(NOTE);
         momentTypes.add(TEMPERATURE);
         momentTypes.add(SLEEP_SESSION);
-        momentTypes.add(NOTE_ALT);
-        momentTypes.add(SLEEP_SESSION_ALT);
+        momentTypes.add(NOTE_ALT); // Since DATABASE_VERSION 5
+        momentTypes.add(SLEEP_SESSION_ALT); // Since DATABASE_VERSION 5
         return momentTypes;
     }
 }
