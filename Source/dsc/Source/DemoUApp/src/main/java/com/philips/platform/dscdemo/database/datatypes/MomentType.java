@@ -17,6 +17,8 @@ public class MomentType {
     public static final String NOTE = "NOTE";
     public static final String TEMPERATURE = "Temperature";
     public static final String SLEEP_SESSION = "sleepSession";
+    public static final String NOTE_ALT = "Note";
+    public static final String SLEEP_SESSION_ALT = "SleepSession";
 
 
     public static int getIDFromDescription(String description) {
@@ -38,6 +40,10 @@ public class MomentType {
                 return 24;
             case SLEEP_SESSION:
                 return 25;
+            case NOTE_ALT:
+                return 26;
+            case SLEEP_SESSION_ALT:
+                return 27;
             default:
                 return -1;
         }
@@ -59,6 +65,10 @@ public class MomentType {
                 return TEMPERATURE;
             case 25:
                 return SLEEP_SESSION;
+            case 26:
+                return NOTE_ALT;
+            case 27:
+                return SLEEP_SESSION_ALT;
             default:
                 return UNKNOWN;
         }
@@ -73,6 +83,8 @@ public class MomentType {
         momentTypes.add(NOTE);
         momentTypes.add(TEMPERATURE);
         momentTypes.add(SLEEP_SESSION);
+        momentTypes.add(NOTE_ALT);
+        momentTypes.add(SLEEP_SESSION_ALT);
         return momentTypes;
     }
 }
