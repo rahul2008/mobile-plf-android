@@ -1,5 +1,5 @@
-[submodule "Source/cml/Source/Library/commlib-integration-tests/src/androidTest/assets/features"]
-	path = Source/cml/Source/Library/commlib-integration-tests/src/androidTest/assets/features
+[submodule "Source/cml/Source/Library/commlib-integration-tests/src/test/assets/features"]
+	path = Source/cml/Source/Library/commlib-integration-tests/src/test/assets/features
 	url = ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/cml-other-commlib-bdd
 [submodule "Source/usr/Documents/Internal/Localization"]
 	path = Source/usr/Documents/Internal/Localization
