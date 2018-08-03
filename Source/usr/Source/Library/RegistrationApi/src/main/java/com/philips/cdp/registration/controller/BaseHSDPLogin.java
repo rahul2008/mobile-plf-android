@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -48,7 +47,6 @@ public class BaseHSDPLogin {
                 if (RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled())
                     hsdpAuthenticationListener.onHSDPLoginSuccess();
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
-                mUser.setUserLoginState(UserLoginState.USER_LOGGED_IN);
                 RLog.d(TAG, "onSuccess : if : HSDPAuthenticationListener : onLoginSuccess : is called with :" + mUser.getUserLoginState());
             }
 
@@ -58,7 +56,6 @@ public class BaseHSDPLogin {
                 if (RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled())
                     hsdpAuthenticationListener.onHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
-                mUser.setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
                 RLog.d(TAG, "onLoginFailedWithError : if : HSDPAuthenticationListener : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());
             }
 
@@ -94,7 +91,6 @@ public class BaseHSDPLogin {
             public void onLoginSuccess() {
                 loginHandler.onLoginSuccess();
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
-                mUser.setUserLoginState(UserLoginState.USER_LOGGED_IN);
                 RLog.d(TAG, "onSuccess : if : LoginHandler : onLoginSuccess : is called with :" + mUser.getUserLoginState());
             }
 
@@ -104,7 +100,6 @@ public class BaseHSDPLogin {
                 if (RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled())
                     loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
-                mUser.setUserLoginState(UserLoginState.PENDING_HSDP_LOGIN);
                 RLog.d(TAG, "onLoginFailedWithError : if : LoginHandler : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());
             }
 

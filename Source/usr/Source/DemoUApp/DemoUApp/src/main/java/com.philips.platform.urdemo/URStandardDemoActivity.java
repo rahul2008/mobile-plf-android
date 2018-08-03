@@ -144,6 +144,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         updateCoppaConsentStatus = findViewById(R.id.updateCoppaConsentStatus);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         restoredText = prefs.getString("reg_environment", null);
+        mHSDPLazyLoadingSwitch.setChecked(prefs.getBoolean("reg_delay_hsdp_configuration", false));
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
         if (restoredText != null) {
 
@@ -277,11 +278,17 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                         mBtnHsdpRefreshAccessToken.setVisibility(GONE);
                     }
 
+                    if (mHSDPLazyLoadingSwitch.isChecked()) {
+                        editor.putBoolean("reg_delay_hsdp_configuration", true).apply();
+                    } else {
+                        editor.remove("reg_delay_hsdp_configuration").apply();
+                    }
+                    updateHsdpLazyLoadingStatus(mHSDPLazyLoadingSwitch.isChecked());
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                     String restoredText = prefs.getString("reg_hsdp_environment", null);
                     RLog.d("Restored teest", "" + restoredText);
-
                 }
+
 
             }
         });
@@ -445,8 +452,10 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             if (userLoginState == UserLoginState.PENDING_HSDP_LOGIN) {
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : updateAuthoriseHSDP(true)");
                 updateAuthoriseHSDP();
-            } else
+            } else {
+                showToast(userLoginState.name());
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity :HSDP button Clicked with userLoginState  without user signedin:" + userLoginState);
+            }
         } else if (i == R.id.btn_registration_with_hsdp_status) {
             UserLoginState userLoginState = mUser.getUserLoginState();
             Toast.makeText(this, "HSDP User State : " + userLoginState, Toast.LENGTH_SHORT).show();
