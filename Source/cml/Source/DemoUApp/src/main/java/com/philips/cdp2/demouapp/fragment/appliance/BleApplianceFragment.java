@@ -91,7 +91,7 @@ public class BleApplianceFragment extends Fragment {
 
         @Override
         public void onPortError(BleParamsPort port, Error error, @Nullable String errorData) {
-            showIndefiniteMessage(getActivity(), rootView, error.getErrorMessage());
+            showIndefiniteMessage(rootView, error.getErrorMessage());
         }
     };
 

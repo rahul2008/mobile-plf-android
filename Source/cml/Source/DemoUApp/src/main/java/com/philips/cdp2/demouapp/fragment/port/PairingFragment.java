@@ -75,7 +75,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showMessage(getActivity(), rootview, getString(cml_pair_success));
+                    showMessage(rootview, getString(cml_pair_success));
                 }
             }
 
@@ -85,7 +85,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pair_failed));
+                    showIndefiniteMessage(rootview, getString(cml_pair_failed));
                 }
             }
         }, getCloudController());
@@ -108,7 +108,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showMessage(getActivity(), rootview, getString(cml_unpair_success));
+                    showMessage(rootview, getString(cml_unpair_success));
                 }
             }
 
@@ -118,7 +118,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pair_failed));
+                    showIndefiniteMessage(rootview, getString(cml_pair_failed));
                 }
             }
         }, getCloudController());
