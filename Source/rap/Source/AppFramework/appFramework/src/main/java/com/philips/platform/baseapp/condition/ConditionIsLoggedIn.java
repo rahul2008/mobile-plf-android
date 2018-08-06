@@ -9,6 +9,7 @@ package com.philips.platform.baseapp.condition;
 import android.content.Context;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -30,6 +31,6 @@ public class ConditionIsLoggedIn extends BaseCondition {
     protected boolean isUserSignIn(Context context) {
 
         RALog.d(TAG," isUserSignIn called");
-        return new User(context).isUserSignIn();
+        return new User(context).getUserLoginState() == UserLoginState.USER_LOGGED_IN;
     }
 }

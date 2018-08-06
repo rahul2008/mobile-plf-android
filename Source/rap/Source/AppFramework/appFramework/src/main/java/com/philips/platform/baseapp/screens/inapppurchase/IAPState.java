@@ -14,6 +14,7 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -162,7 +163,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
 
     public void setListener() {
-        if (getApplicationContext().getUserRegistrationState().getUserObject(getApplicationContext()).isUserSignIn()) {
+        if (getApplicationContext().getUserRegistrationState().getUserObject(getApplicationContext()).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
             RALog.d(TAG, "Setting Listener");
             ((AbstractAppFrameworkBaseActivity) activityContext).showProgressBar();
             getApplicationContext().getIap().getIapInterface().getCompleteProductList(this);

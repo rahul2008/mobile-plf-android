@@ -637,8 +637,10 @@ public class User {
      *
      * @return boolean
      * @since 1.0.0
+     * Its deprecated, request to please use getUserLoginState to get the User login state instead of isUserSignIn() api
      */
 
+    @Deprecated
     public boolean isUserSignIn() {
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {

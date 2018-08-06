@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
@@ -31,6 +31,7 @@ import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -148,7 +149,7 @@ public class UserWithProducts {
      * @param registeredProductsListener - callback listener to get list of products
      */
     public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
-        if (getUser().isUserSignIn()) {
+        if (getUser().getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
             setRequestType(FETCH_REGISTERED_PRODUCTS);
             this.registeredProductsListener = registeredProductsListener;
             final RemoteRegisteredProducts remoteRegisteredProducts = new RemoteRegisteredProducts();
@@ -177,7 +178,7 @@ public class UserWithProducts {
     @NonNull
     protected RequestManager getRequestManager(final Context context) {
         AppInfraInterface appInfra = PRUiHelper.getInstance().getAppInfraInstance();
-        PRXDependencies prxDependencies = new PRXDependencies(context , appInfra,ProdRegConstants.PRG_SUFFIX); // use existing appinfra instance
+        PRXDependencies prxDependencies = new PRXDependencies(context, appInfra, ProdRegConstants.PRG_SUFFIX); // use existing appinfra instance
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(prxDependencies); // pass prxdependency
 
@@ -186,7 +187,7 @@ public class UserWithProducts {
 
     protected boolean isUserSignedIn(final Context context) {
         User mUser = getUser();
-        return mUser.isUserSignIn() && (mUser.isEmailVerified() || mUser.isMobileVerified());
+        return mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN && (mUser.isEmailVerified() || mUser.isMobileVerified());
     }
 
     @NonNull
@@ -281,8 +282,8 @@ public class UserWithProducts {
 
     @NonNull
     protected RegistrationRequest getRegistrationRequest(final Context context, final RegisteredProduct registeredProduct) {
-        RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), ProdRegConstants.REGISTRATIONREQUEST_SERVICE_ID,registeredProduct.getSector(),
-        registeredProduct.getCatalog());
+        RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), ProdRegConstants.REGISTRATIONREQUEST_SERVICE_ID, registeredProduct.getSector(),
+                registeredProduct.getCatalog());
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
         registrationRequest.setRegistrationChannel(getUserProduct().getRegistrationChannel());

@@ -183,7 +183,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         mBtnCoppa.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mUser.isUserSignIn()) {
+                if (mUser.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
                     Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
                 } else {
                     LlcoppaItems.setVisibility(VISIBLE);
@@ -352,7 +352,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     }
 
     private void registerationWithAccountSettingButtonEnableOnUserSignedIn() {
-        if (mUser.isUserSignIn())
+        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN)
             mBtnRegistrationWithAccountSettings.setEnabled(true);
         else
             mBtnRegistrationWithAccountSettings.setEnabled(false);
@@ -376,7 +376,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     private void updateCoppaConsentStatus(boolean b) {
 
-        if (mUser.isUserSignIn()) {
+        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
 
             coppaExtension = new CoppaExtension(mContext);
             coppaExtension.buildConfiguration();
@@ -399,7 +399,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     private void updateConfirmationStatus(boolean b) {
 
-        if (mUser.isUserSignIn()) {
+        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
 
             coppaExtension = new CoppaExtension(mContext);
             coppaExtension.buildConfiguration();
@@ -466,7 +466,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         } else if (i == R.id.btn_refresh_token) {
             if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
                 User user = new User(mContext);
-                if (!user.isUserSignIn()) {
+                if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
                     Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
                 } else {
                     mProgressDialog.setMessage("Refreshing...");
@@ -478,20 +478,20 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         } else if (i == R.id.btn_update_gender) {
 
             User user1 = new User(mContext);
-            if (!user1.isUserSignIn()) {
+            if (user1.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
                 Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
             } else {
                 handleGender();
             }
         } else if (i == R.id.btn_update_date_of_birth) {
             User user = new User(mContext);
-            if (!user.isUserSignIn()) {
+            if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
                 Toast.makeText(this, "Please login before updating user", Toast.LENGTH_LONG).show();
             } else {
                 handleDoBUpdate(user.getDateOfBirth());
             }
         } else if (i == R.id.fetchConcent) {
-            if (mUser.isUserSignIn()) {
+            if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                 coppaExtension = new CoppaExtension(mContext);
                 Consent c = coppaExtension.getConsent();
                 Toast.makeText(mContext, "Confirmation State " + c.getConfirmationGiven() +
@@ -502,7 +502,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         } else if (i == R.id.updateCoppaConsentStatus) {
 
 
-            if (mUser.isUserSignIn()) {
+            if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
 
                 coppaExtension = new CoppaExtension(mContext);
                 coppaExtension.buildConfiguration();
@@ -523,7 +523,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
         } else if (i == R.id.updateCoppaConsentConfirmationStatus) {
 
-            if (mUser.isUserSignIn()) {
+            if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
 
                 coppaExtension = new CoppaExtension(mContext);
                 coppaExtension.buildConfiguration();
@@ -678,7 +678,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     }
 
     private void handleRefreshAccessToken() {
-        if (mUser.isUserSignIn()) {
+        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
             mUser.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
                 public void onRefreshLoginSessionSuccess() {

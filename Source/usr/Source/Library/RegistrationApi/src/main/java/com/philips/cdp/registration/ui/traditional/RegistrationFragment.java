@@ -25,9 +25,9 @@ import android.widget.TextView;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.events.CounterHelper;
@@ -52,9 +52,6 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -253,7 +250,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private void handleUseRLoginStateFragments() {
         User mUser = new User(getParentActivity().getApplicationContext());
-        boolean isUserSignIn = mUser.isUserSignIn();
+        boolean isUserSignIn = mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN;
         boolean isEmailVerified = (mUser.isEmailVerified() || mUser.isMobileVerified());
         boolean isEmailVerificationRequired = RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
