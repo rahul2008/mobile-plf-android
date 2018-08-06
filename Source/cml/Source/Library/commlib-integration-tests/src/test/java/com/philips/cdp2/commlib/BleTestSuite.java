@@ -12,8 +12,7 @@ import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = {"json:target/report.json",
-                "html:target/html"},
+        plugin = {"json:cucumber.json"},
         features = "src/test/assets/features",
         strict = true,
         tags = {"@automated", "@android", "~@not_android", "~@target"}
