@@ -34,10 +34,10 @@ import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment implements URNotification.URNotificationInterface {
 
-    private URNotification notification;
-
-    private Context mContext;
     private URNotification.URNotificationInterface notificationInterface;
+
+    protected RegistrationBaseFragment() {
+    }
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -72,7 +72,6 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
 
     }
 
