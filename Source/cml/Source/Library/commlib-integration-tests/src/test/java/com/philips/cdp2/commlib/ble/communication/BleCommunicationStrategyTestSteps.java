@@ -24,9 +24,8 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.StreamData;
-
 import com.philips.pins.shinelib.capabilities.StreamIdentifier;
+import com.philips.pins.shinelib.datatypes.StreamData;
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -34,12 +33,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-
 import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.Collections;
@@ -53,6 +46,11 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.SCAN_WINDOW_MILLIS;
 import static com.philips.pins.shinelib.SHNCapabilityType.DI_COMM;
