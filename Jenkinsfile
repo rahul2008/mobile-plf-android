@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
 #!/usr/bin/env groovy
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
