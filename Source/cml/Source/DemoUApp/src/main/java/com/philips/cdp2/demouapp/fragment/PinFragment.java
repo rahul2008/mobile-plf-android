@@ -76,7 +76,7 @@ public class PinFragment extends Fragment {
                 try {
                     acceptPinFor(currentAppliance, newPin);
                 } catch (IllegalArgumentException e) {
-                    UiUtils.showMessage(getActivity(), rootview, getString(R.string.cml_base64_pin_error));
+                    UiUtils.showMessage(rootview, getString(R.string.cml_base64_pin_error));
                 }
             } else {
                 DICommLog.d(TAG, "Unknown view clicked");

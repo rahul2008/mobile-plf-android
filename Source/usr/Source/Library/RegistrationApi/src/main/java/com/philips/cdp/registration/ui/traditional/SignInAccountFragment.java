@@ -224,13 +224,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (id == R.id.usr_loginScreen_login_button) {
             RLog.i(TAG, "onClick :usr_loginScreen_login_button ");
             hideValidations();
-            disableAll();
+            uiEnableState(false);
             mBtnSignInAccount.showProgressIndicator();
             signIn();
         }
 
         RLog.i(TAG, "onClick :Dismissing Alert Dialog ");
         if (alertDialogFragment != null) {
+            uiEnableState(true);
             alertDialogFragment.dismiss();
         } else {
             final AlertDialogFragment alertDialog = (AlertDialogFragment) getFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG);
@@ -378,8 +379,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void signIn() {
         ((RegistrationFragment) getParentFragment()).hideKeyBoard();
         mRegError.hideError();
-        mEtEmail.clearFocus();
-        mEtPassword.clearFocus();
+
         if (mUser != null) {
             showSignInSpinner();
 
@@ -396,7 +396,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
-            enableAll();
+            uiEnableState(true);
         }
     }
 
@@ -442,7 +442,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
         hideSignInSpinner();
         mBtnSignInAccount.hideProgressIndicator();
-        enableAll();
+        uiEnableState(true);
         RLog.e(TAG, "handleLogInFailed Error Code :" + userRegistrationFailureInfo.getErrorCode());
 //        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, userRegistrationFailureInfo.getErrorCode()), userRegistrationFailureInfo.getErrorCode());
         if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
@@ -491,14 +491,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                     public void onClick(View v) {
                         alertDialogFragment.dismiss();
                         RLog.i(TAG, "onClick :dismiss ");
-
-                        boolean email = emailOrMobileValidator(loginValidationEditText.getText().toString());
-                        boolean password = passwordValidationEditText.getText().toString().length()>0;
-
-                        if(email && password){
-                            enableAll();
+                        uiEnableState(true);
+                        if(networkUtility.isNetworkAvailable()) {
+                            observeLoginButton();
                         }
-
                     }
                 })
                 .setTitle(mContext.getResources().getString(R.string.USR_DLS_Forgot_Password_Alert_Title))
@@ -526,6 +522,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                     AppTagingConstants.USER_ERROR, AppTagingConstants.ALREADY_SIGN_IN_SOCIAL);
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR);
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
+            uiEnableState(true);
             return;
         }
 
@@ -534,10 +531,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
 //            mEtEmail.showError();
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
+            uiEnableState(true);
             return;
         }
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
-        enableAll();
+        uiEnableState(true);
     }
 
     private void showSignInSpinner() {
@@ -567,9 +565,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 return;
             }
             showForgotPasswordSpinner();
-            mEtEmail.clearFocus();
-            mEtPassword.clearFocus();
-            mBtnSignInAccount.setEnabled(false);
+            uiEnableState(false);
             if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
                 mUser.forgotPassword(loginValidationEditText.getText().toString(), this);
             } else {
@@ -595,7 +591,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.d(RLog.NETWORK_STATE, "SignInAccountFragment : onNetWorkStateReceived state :" + isOnline);
         handleUiState();
-        mBtnSignInAccount.setEnabled(isOnline);
+        uiEnableState(isOnline);
+        observeLoginButton();
     }
 
 
@@ -649,7 +646,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         hideSignInSpinner();
         mRegError.hideError();
         mBtnSignInAccount.hideProgressIndicator();
-        enableAll();
+        uiEnableState(true);
 
         boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
         boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber(mUser.getMobile());
@@ -711,7 +708,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleResend() {
-        mBtnSignInAccount.setEnabled(false);
+        uiEnableState(false);
         if (registrationSettingsURL.isMobileFlow()) {
             serviceDiscovery();
         }
@@ -783,23 +780,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         });
     }
 
-    private void enableAll() {
+    private void uiEnableState(boolean state) {
         if (networkUtility.isNetworkAvailable()) {
-            mBtnSignInAccount.setEnabled(true);
+            mBtnSignInAccount.setEnabled(state);
+            resetPasswordLabel.setEnabled(state);
+        } else {
+            mBtnSignInAccount.setEnabled(false);
+            resetPasswordLabel.setEnabled(false);
         }
-//        else {
-//            if (isAdded())
-//                mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-//        }
-        loginValidationEditText.setEnabled(true);
-        passwordValidationEditText.setEnabled(true);
-        resetPasswordLabel.setEnabled(true);
-    }
-
-    private void disableAll() {
-        loginValidationEditText.setEnabled(false);
-        passwordValidationEditText.setEnabled(false);
-        resetPasswordLabel.setEnabled(false);
+        loginValidationEditText.setEnabled(state);
+        passwordValidationEditText.setEnabled(state);
     }
 
     @NonNull
@@ -874,6 +864,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void notificationInlineMsg(String msg) {
         mRegError.setError(msg);
+        uiEnableState(true);
+        if (networkUtility.isNetworkAvailable()) {
+            observeLoginButton();
+        }
     }
-
 }

@@ -101,6 +101,17 @@ public class DeviceStoredConsentHandlerTest {
     }
 
     @Test
+    public void verifyRejectedStatus() {
+        when(storageInterface.fetchValueForKey(anyString(), eq(secureStorageError))).thenReturn(storedValueFalseVersion);
+        handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
+            @Override
+            public void onGetConsentsSuccess(ConsentStatus consent) {
+                assertTrue(consent.getConsentState() == ConsentStates.rejected);
+            }
+        });
+    }
+
+    @Test
     public void verifyPostSuccess() {
         PostConsentTypeCallback mockCallback = mock(PostConsentTypeCallback.class);
         when(storageInterface.storeValueForKey(anyString(), anyString(), eq(secureStorageError))).thenReturn(true).thenReturn(true);
