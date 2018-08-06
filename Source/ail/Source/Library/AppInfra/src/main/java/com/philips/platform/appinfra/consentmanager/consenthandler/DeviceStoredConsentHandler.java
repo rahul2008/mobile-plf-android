@@ -99,7 +99,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
                 } else {
                     timestamp = AIUtility.convertStringToDate(storedTimestamp, "yyyy-MM-dd HH:mm:ss.SSS Z");
                 }
-                consentStatus = new ConsentStatus(consentInfo.toUpperCase().startsWith("FALSE") ? ConsentStates.rejected : ConsentStates.active,
+                consentStatus = new ConsentStatus(consentInfo.startsWith(String.valueOf(false)) ? ConsentStates.rejected : ConsentStates.active,
                         Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)), timestamp);
             }
             consentStatusMemoryCache.put(consentType, consentStatus);
