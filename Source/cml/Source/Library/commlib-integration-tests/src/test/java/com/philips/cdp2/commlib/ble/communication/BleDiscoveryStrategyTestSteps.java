@@ -131,8 +131,7 @@ public class BleDiscoveryStrategyTestSteps {
                 return null;
             }
         });
-
-
+        
         when(mockMainThreadHandler.post(mockMainThreadRunnableCaptor.capture())).thenAnswer(new Answer<Void>() {
             @Override
             public Void answer(final InvocationOnMock invocation) throws Throwable {
