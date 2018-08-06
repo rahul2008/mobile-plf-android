@@ -159,7 +159,7 @@ public class UserTest extends TestCase {
 
     @Test
     public void isUserSignIn() {
-        user.isUserSignIn();
+        user.getUserLoginState();
     }
 
     @Test

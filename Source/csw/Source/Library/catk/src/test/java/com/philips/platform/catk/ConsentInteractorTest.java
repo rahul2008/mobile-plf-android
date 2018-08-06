@@ -11,6 +11,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
@@ -39,10 +40,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -270,7 +268,7 @@ public class ConsentInteractorTest {
     }
 
     private void givenUserIsLoggedIn(boolean loggedIn) {
-        when(mockUser.isUserSignIn()).thenReturn(loggedIn);
+        when(mockUser.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
         when(mockCatkComponent.getUser()).thenReturn(mockUser);
         when(mockCatk.getCatkComponent()).thenReturn(mockCatkComponent);
     }

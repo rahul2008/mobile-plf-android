@@ -99,7 +99,7 @@ public class LocalRegisteredProductsTest extends TestCase {
     @Test
     public void testGetRegisteredProducts() {
         User userMock = mock(User.class);
-        when(userMock.isUserSignIn()).thenReturn(true);
+        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
         final RegisteredProduct[] registeredProducts = {new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null)};
 
         localRegisteredProducts = new LocalRegisteredProducts(userMock) {
@@ -123,7 +123,7 @@ public class LocalRegisteredProductsTest extends TestCase {
     @Test
     public void testGettingUniqueRegisteredProducts() {
         User userMock = mock(User.class);
-        when(userMock.isUserSignIn()).thenReturn(true);
+        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
         final RegisteredProduct[] registeredProducts = {new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null)};
 
         localRegisteredProducts = new LocalRegisteredProducts(userMock) {
@@ -145,7 +145,7 @@ public class LocalRegisteredProductsTest extends TestCase {
     public void testRemoveProductFromCache() {
         User userMock = mock(User.class);
         RegisteredProduct registeredProductMock = new RegisteredProduct("ctn", null, null);
-        when(userMock.isUserSignIn()).thenReturn(true);
+        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
         final ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
         localRegisteredProducts = new LocalRegisteredProducts(userMock) {
             @Override
