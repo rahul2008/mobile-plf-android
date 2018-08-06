@@ -25,7 +25,6 @@ import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
-import com.philips.cdp.registration.errors.NotificationMessage;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -320,36 +319,32 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     public void updateErrorNotification(String errorMessage, int errorCode) {
         RLog.e(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
-        getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
+        getRegistrationFragment().updateErrorNotification(errorMessage, errorCode);
     }
+
 
     public void updateErrorNotification(String errorMessage) {
         RLog.e(TAG, "errorMessage = " + errorMessage);
-        getNotification().showNotification(new NotificationMessage(errorMessage));
+        getRegistrationFragment().updateErrorNotification(errorMessage);
 
+    }
 
+    public URNotification getNotification() {
+        return getRegistrationFragment().getNotification();
     }
 
     public void showNotificationBarOnNetworkNotAvailable() {
 
-        new Handler().postDelayed(() -> {
-            getNotification().showNotification(
-                    new NotificationMessage(mContext.getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.USR_Network_ErrorMsg)));
-        }, 100);
+        getRegistrationFragment().showNotificationBarOnNetworkNotAvailable();
     }
 
     public void hideNotificationBarView() {
-        if (notification != null)
-            notification.hideNotification();
+        getRegistrationFragment().hideNotificationBarView();
     }
 
     public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment) {
         notificationInterface = baseFragment;
     }
 
-    public URNotification getNotification() {
-        if (notification == null)
-            notification = new URNotification(getRegistrationFragment().getParentActivity(), this);
-        return notification;
-    }
+
 }
