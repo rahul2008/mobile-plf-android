@@ -134,6 +134,18 @@ public class HybrisStore extends AbstractStore {
         return mIAPUser.getJanRainEmail();
     }
 
+    public String getDisplayName() {
+        return mIAPUser.getDisplayName();
+    }
+
+    public String getGivenName() {
+        return mIAPUser.getGivenName();
+    }
+
+    public String getFamilyName() {
+        return mIAPUser.getFamilyName();
+    }
+
     //Locale
     @Override
     public String getCountry() {
@@ -229,7 +241,7 @@ public class HybrisStore extends AbstractStore {
 
         //Delivery mode
         mDeliveryModeUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODE).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-        mGetDeliveryModesUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODES).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
+        mGetDeliveryModesUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODES).concat(LANG) + mStoreConfig.getLocale();
 
         //Payment
         mGetPaymentDetailsUrl = mBaseURl.concat(SUFFIX_PAYMENT_DETAILS).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();

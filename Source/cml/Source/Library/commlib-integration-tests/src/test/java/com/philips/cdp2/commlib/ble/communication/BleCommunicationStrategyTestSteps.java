@@ -14,6 +14,7 @@ import com.google.gson.JsonParser;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
@@ -23,8 +24,8 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.SHNDataRaw;
-
+import com.philips.pins.shinelib.capabilities.StreamIdentifier;
+import com.philips.pins.shinelib.datatypes.StreamData;
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -32,12 +33,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-
 import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.Collections;
@@ -51,12 +46,16 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.SCAN_WINDOW_MILLIS;
 import static com.philips.pins.shinelib.SHNCapabilityType.DI_COMM;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
-import static com.philips.pins.shinelib.utility.Utilities.*;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -92,7 +91,7 @@ public class BleCommunicationStrategyTestSteps {
     private DeviceCache mDeviceCache;
     private BleCommunicationStrategy mStrategy;
 
-    private Map<String, Set<ResultListener<SHNDataRaw>>> mRawDataListeners;
+    private Map<String, Set<ResultListener<StreamData>>> mRawDataListeners;
     private Deque<QueuedRequest> mRequestQueue;
     private Gson mGson;
     private Map<String, Integer> writtenBytes;
@@ -124,6 +123,7 @@ public class BleCommunicationStrategyTestSteps {
     public void setup() {
         initMocks(this);
 
+        DICommLog.disableLogging();
         mRawDataListeners = new ConcurrentHashMap<>();
         writtenBytes = new ConcurrentHashMap<>();
         mDeviceCache = new DeviceCache();
@@ -178,7 +178,7 @@ public class BleCommunicationStrategyTestSteps {
     @Given("^a mock device is found with id '(.*?)'$")
     public void a_mock_device_is_found_with_id(final String deviceId) {
         final SHNDeviceFoundInfo info = mock(SHNDeviceFoundInfo.class);
-        mRawDataListeners.put(deviceId, new CopyOnWriteArraySet<ResultListener<SHNDataRaw>>());
+        mRawDataListeners.put(deviceId, new CopyOnWriteArraySet<ResultListener<StreamData>>());
         writtenBytes.put(deviceId, 0);
 
         resetCapability(deviceId);
@@ -200,9 +200,8 @@ public class BleCommunicationStrategyTestSteps {
         doAnswer(new Answer() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
-                when(mockDevice.getState()).thenReturn(Connected);
                 if (deviceListenerMap.containsKey(deviceId)) {
-                    deviceListenerMap.get(deviceId).onStateUpdated(mockDevice);
+                    deviceListenerMap.get(deviceId).onStateUpdated(mockDevice, Connected);
                 }
                 return null;
             }
@@ -211,9 +210,8 @@ public class BleCommunicationStrategyTestSteps {
         doAnswer(new Answer() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
-                when(mockDevice.getState()).thenReturn(Disconnected);
                 if (deviceListenerMap.containsKey(deviceId)) {
-                    deviceListenerMap.get(deviceId).onStateUpdated(mockDevice);
+                    deviceListenerMap.get(deviceId).onStateUpdated(mockDevice, Disconnected);
                 }
                 return null;
             }
@@ -223,7 +221,7 @@ public class BleCommunicationStrategyTestSteps {
         when(mockNetworkNode.getMacAddress()).thenReturn(deviceId);
 
         when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        when(isValidMacAddress(deviceId)).thenReturn(true);
+        when(shnCentralMock.isValidMacAddress(deviceId)).thenReturn(true);
         when(shnCentralMock.createSHNDeviceForAddressAndDefinition(eq(mockNetworkNode.getMacAddress()), (ReferenceNodeDeviceDefinitionInfo)any())).thenReturn(mockDevice);
 
         mDeviceCache.add(mockNetworkNode, new DeviceCache.ExpirationCallback() {
@@ -246,7 +244,7 @@ public class BleCommunicationStrategyTestSteps {
         };
 
         when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        when(isValidMacAddress(DEVICE_MAC_ADDRESS)).thenReturn(true);
+        when(shnCentralMock.isValidMacAddress(DEVICE_MAC_ADDRESS)).thenReturn(true);
         when(mockNetworkNode.getMacAddress()).thenReturn(DEVICE_MAC_ADDRESS);
     }
 
@@ -262,7 +260,7 @@ public class BleCommunicationStrategyTestSteps {
         };
 
         when(shnCentralMock.isBluetoothAdapterEnabled()).thenReturn(false);
-        when(isValidMacAddress(DEVICE_MAC_ADDRESS)).thenReturn(true);
+        when(shnCentralMock.isValidMacAddress(DEVICE_MAC_ADDRESS)).thenReturn(true);
         when(mockNetworkNode.getMacAddress()).thenReturn(DEVICE_MAC_ADDRESS);
     }
 
@@ -272,7 +270,7 @@ public class BleCommunicationStrategyTestSteps {
         doAnswer(new Answer() {
             @Override
             public Void answer(InvocationOnMock invocation) {
-                mRawDataListeners.get(deviceId).add((ResultListener<SHNDataRaw>) invocation.getArguments()[0]);
+                mRawDataListeners.get(deviceId).add((ResultListener<StreamData>) invocation.getArguments()[0]);
                 return null;
             }
         }).when(capability).addDataListener(any(ResultListener.class));
@@ -300,7 +298,7 @@ public class BleCommunicationStrategyTestSteps {
 
     @When("^the mock device with id '(.*?)' receives data$")
     public void mock_device_receives_data(final String id, final String data) {
-        final Set<ResultListener<SHNDataRaw>> listeners = Collections.unmodifiableSet(mRawDataListeners.get(id));
+        final Set<ResultListener<StreamData>> listeners = Collections.unmodifiableSet(mRawDataListeners.get(id));
 
         if (listeners == null) {
             fail("Mock device '" + id + "' was not yet created");
@@ -308,8 +306,8 @@ public class BleCommunicationStrategyTestSteps {
 
         final byte[] dataBytes = DatatypeConverter.parseHexBinary(data);
 
-        for (ResultListener<SHNDataRaw> listener : listeners) {
-            listener.onActionCompleted(new SHNDataRaw(dataBytes), SHNResult.SHNOk);
+        for (ResultListener<StreamData> listener : listeners) {
+            listener.onActionCompleted(new StreamData(dataBytes, StreamIdentifier.STREAM_1), SHNResult.SHNOk);
         }
     }
 
@@ -377,7 +375,7 @@ public class BleCommunicationStrategyTestSteps {
     @Then("^no write occurred to mock device with id '(.*?)'$")
     public void noWriteOccurredToMockDeviceWithIdP(String deviceId) {
 
-        verify(capability, times(0)).writeData((byte[]) any());
+        verify(capability, times(0)).writeData(any(), any());
         resetCapability(deviceId);
     }
 
@@ -541,7 +539,7 @@ public class BleCommunicationStrategyTestSteps {
     private byte[] getWrittenBytesForDevice(String deviceId) {
         ArgumentCaptor<byte[]> argCaptor = ArgumentCaptor.forClass(byte[].class);
 
-        verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(argCaptor.capture());
+        verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(argCaptor.capture(), any());
 
         byte[] bytes = argCaptor.getValue();
         writtenBytes.put(deviceId, writtenBytes.get(deviceId) + bytes.length);

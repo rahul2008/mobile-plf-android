@@ -91,11 +91,6 @@ public class ProdRegUtil {
         return calendar.getTimeInMillis();
     }
 
-    public void storeProdRegTaggingMeasuresCount(final ProdRegCache prodRegCache, final String key, final int count) {
-        final int intData = prodRegCache.getIntData(key);
-        prodRegCache.storeStringData(key, String.valueOf(intData + count));
-    }
-
     public String getValidatedString(final int value) {
         final String valueString;
         if (value < 10) {

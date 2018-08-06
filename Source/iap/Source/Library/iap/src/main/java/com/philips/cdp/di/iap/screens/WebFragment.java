@@ -21,6 +21,7 @@ import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
 public abstract class WebFragment extends InAppBaseFragment {
@@ -37,7 +38,7 @@ public abstract class WebFragment extends InAppBaseFragment {
         mWebView = (WebView) viewGroup.findViewById(R.id.wv_payment);
         mWebView.setWebViewClient(new IAPWebViewClient());
         mWebView.getSettings().setJavaScriptEnabled(false);
-
+        Utility.isDelvieryFirstTimeUser=false;
         createCustomProgressBar(mParentContainer,BIG);
 
         mUrl = getWebUrl();
@@ -53,6 +54,7 @@ public abstract class WebFragment extends InAppBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        setCartIconVisibility(false);
         mWebView.onResume();
     }
 
@@ -106,7 +108,7 @@ public abstract class WebFragment extends InAppBaseFragment {
             hideProgressBar();
         }
 
-        @TargetApi(android.os.Build.VERSION_CODES.M)
+        @TargetApi(Build.VERSION_CODES.M)
         @Override
         public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
             // Redirect to deprecated method, so you can use it in all SDK versions

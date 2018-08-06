@@ -428,8 +428,7 @@ public class SHNDeviceAssociationTest {
         mockedInternalHandler.executeFirstPostedExecution();
 
         verify(shnDevice).registerSHNDeviceListener(deviceListenerCaptor.capture());
-        when(shnDevice.getState()).thenReturn(SHNDevice.State.Disconnecting);
-        deviceListenerCaptor.getValue().onStateUpdated(shnDevice);
+        deviceListenerCaptor.getValue().onStateUpdated(shnDevice, SHNDevice.State.Disconnecting);
         mockedInternalHandler.executeFirstPostedExecution();
 
         verify(persistentStorageCleanerMock).clearDeviceData(shnDevice);

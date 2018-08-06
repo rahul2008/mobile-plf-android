@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
 import com.philips.cdp2.bluelib.demouapp.R;
 import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SHNDevice.State;
 import com.philips.pins.shinelib.SHNResult;
 
 public class DeviceConnectionFragment extends Fragment {
@@ -29,7 +30,7 @@ public class DeviceConnectionFragment extends Fragment {
     private SHNDevice.SHNDeviceListener mDeviceListener = new SHNDevice.SHNDeviceListener() {
 
         @Override
-        public void onStateUpdated(SHNDevice device) {
+        public void onStateUpdated(SHNDevice device, State state) {
             showState();
         }
 

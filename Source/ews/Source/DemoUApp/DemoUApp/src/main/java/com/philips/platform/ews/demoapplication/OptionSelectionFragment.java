@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
@@ -22,7 +21,6 @@ import com.philips.platform.ews.configuration.ContentConfiguration;
 import com.philips.platform.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.platform.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.platform.ews.demoapplication.microapp.UAppDependencyHelper;
-import com.philips.platform.ews.microapp.EWSActionBarListener;
 import com.philips.platform.ews.microapp.EWSDependencies;
 import com.philips.platform.ews.microapp.EWSUapp;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -30,7 +28,6 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +61,14 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
-        ((EWSActionBarListener) getActivity()).updateActionBar(getString(R.string.app_name), true);
+        ActionBarListener actionBarListener = null;
+        try {
+            actionBarListener = ((ActionBarListener) getContext());
+        } catch (ClassCastException e) {}
+
+        if (actionBarListener != null) {
+            actionBarListener.updateActionBar(getString(R.string.app_name), true);
+        }
     }
 
     @Override

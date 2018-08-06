@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -17,13 +17,13 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDevice.SHNDeviceListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.SHNDataRaw;
+import com.philips.pins.shinelib.datatypes.StreamData;
+import com.philips.pins.shinelib.capabilities.StreamIdentifier;
 import com.philips.pins.shinelib.dicommsupport.DiCommByteStreamReader;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
 import com.philips.pins.shinelib.dicommsupport.MessageType;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -95,7 +95,7 @@ public class BleRequestTest {
     private ArgumentCaptor<Runnable> runnableCaptor;
 
     @Captor
-    private ArgumentCaptor<ResultListener<SHNDataRaw>> dataListenerCaptor;
+    private ArgumentCaptor<ResultListener<StreamData>> dataListenerCaptor;
 
     private int executeCounter;
 
@@ -105,6 +105,7 @@ public class BleRequestTest {
     public void setUp() throws Exception {
         executeCounter = 0;
         initMocks(this);
+        DICommLog.disableLogging();
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
         when(mockDevice.getAddress()).thenReturn(MOCK_BLUETOOTH_DEVICE_ADDRESS);
@@ -215,8 +216,7 @@ public class BleRequestTest {
             @Override
             public Void answer(final InvocationOnMock invocation) {
                 request.processDiCommResponse(mockDicommResponse);
-                when(mockDevice.getState()).thenReturn(Disconnected);
-                stateListener.onStateUpdated(mockDevice);
+                stateListener.onStateUpdated(mockDevice, Disconnected);
                 return null;
             }
         }).when(mockInProgressLatch).await();
@@ -231,8 +231,7 @@ public class BleRequestTest {
         doAnswer(new Answer() {
             @Override
             public Void answer(final InvocationOnMock invocation) {
-                when(mockDevice.getState()).thenReturn(Disconnected);
-                stateListener.onStateUpdated(mockDevice);
+                stateListener.onStateUpdated(mockDevice, Disconnected);
                 return null;
             }
         }).when(mockInProgressLatch).await();
@@ -250,8 +249,8 @@ public class BleRequestTest {
             @Override
             public Void answer(final InvocationOnMock invocation) {
                 when(mockDevice.getState()).thenReturn(Connected);
-                stateListener.onStateUpdated(mockDevice);
-                stateListener.onStateUpdated(mockDevice);
+                stateListener.onStateUpdated(mockDevice, Connected);
+                stateListener.onStateUpdated(mockDevice, Connected);
                 return null;
             }
         }).when(mockInProgressLatch).await();
@@ -313,7 +312,7 @@ public class BleRequestTest {
     @Test
     public void givenRequestIsRunning_whenAChunkOfDataIsReceived_thenItWillBePassedToTheByteStreamReader() throws Exception {
         byte[] rawData = "This is Test Data!".getBytes();
-        final SHNDataRaw data = new SHNDataRaw(rawData);
+        final StreamData data = new StreamData(rawData, StreamIdentifier.STREAM_1);
 
         doAnswer(new Answer() {
             @Override
@@ -386,15 +385,21 @@ public class BleRequestTest {
     @Test
     public void givenRequestIsRunning_whenASuccessfulDICommMessageIsReceived_thenRequestReportsSuccess() throws InterruptedException {
         String validJsonString = "{\"A valid key\" : \"A valid value\"}";
+        DiCommMessage message = createSuccessfulResponseFromJson(validJsonString);
+
+        simulateRunWithDiCommMessage(message);
+
+        verify(responseHandlerMock).onSuccess(validJsonString);
+    }
+
+    @NonNull
+    private DiCommMessage createSuccessfulResponseFromJson(String validJsonString) {
         byte[] payload = ("\0" + validJsonString + "\0").getBytes();
 
         DiCommMessage message = mock(DiCommMessage.class);
         when(message.getMessageType()).thenReturn(MessageType.GenericResponse);
         when(message.getPayload()).thenReturn(payload);
-
-        simulateRunWithDiCommMessage(message);
-
-        verify(responseHandlerMock).onSuccess(validJsonString);
+        return message;
     }
 
     private void simulateRunWithDiCommMessage(final DiCommMessage message) throws InterruptedException {

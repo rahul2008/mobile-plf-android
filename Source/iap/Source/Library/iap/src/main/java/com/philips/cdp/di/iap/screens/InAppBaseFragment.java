@@ -139,7 +139,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     }*/
 
     public void addFragment(InAppBaseFragment newFragment,
-                            String newFragmentTag) {
+                            String newFragmentTag,boolean isReplaceWithBackStack) {
         if (mActionbarUpdateListener == null || mIapListener == null)
             new RuntimeException("ActionBarListner and IAPListner cant be null");
         else {
@@ -148,17 +148,14 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
             if (getActivity() != null && !getActivity().isFinishing()) {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 final String simpleName = newFragment.getClass().getSimpleName();
-                transaction.add(getId(), newFragment, simpleName);
-
-                Fragment currentFrag = getActivity().getSupportFragmentManager()
-                        .findFragmentById(getId());
-
-               /* if (!(currentFrag instanceof InAppBaseFragment))
+                if(isReplaceWithBackStack) {
+                    transaction.replace(getId(), newFragment, simpleName);
                     transaction.addToBackStack(newFragmentTag);
-                else
-                    transaction.addToBackStack(simpleName);*/
+                }else {
+                    transaction.replace(getId(), newFragment, simpleName);
+                    //transaction.addToBackStack(null);
+                }
 
-                transaction.addToBackStack(newFragmentTag);
                 transaction.commitAllowingStateLoss();
 
                 IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
@@ -176,6 +173,14 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         }
     }
 
+
+    public void showAddressFragment(String fragmentTag) {
+           getFragmentManager().popBackStack(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            addFragment(AddressSelectionFragment.createInstance(new Bundle(),
+                    AnimationType.NONE), AddressSelectionFragment.TAG,true);
+    }
+
+
     public boolean moveToPreviousFragment() {
         return getFragmentManager().popBackStackImmediate();
     }
@@ -185,7 +190,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         if (fragment == null) {
             getFragmentManager().popBackStack(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             addFragment(ProductCatalogFragment.createInstance(new Bundle(),
-                    AnimationType.NONE), ProductCatalogFragment.TAG);
+                    AnimationType.NONE), ProductCatalogFragment.TAG,true);
         } else {
             getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
         }

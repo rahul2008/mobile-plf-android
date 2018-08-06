@@ -50,6 +50,7 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
+        setCartIconVisibility(false);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
             //Track continue shopping action
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
                     IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
-
+            showFragment(EmptyCartFragment.TAG);
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART);
         }
     }
@@ -78,9 +79,10 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
         if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
         } else {
-            getFragmentManager().popBackStack();
+            //getFragmentManager().popBackStack();
+            showProductCatalogFragment(EmptyCartFragment.TAG);
         }
-        return false;
+        return true;
     }
 
     @Override

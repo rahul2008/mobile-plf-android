@@ -156,6 +156,7 @@ For more information, please read the Philips Privacy notice and the Philips Coo
 Receive 10% discount in the Philips.
 Receive free product accessories</string>
   <string name="RA_PR_Email_Text">An email with extended warranty contract  has been sent out to your email address</string>
+  <string name="RA_DebugScreen_Title">Debug and Test</string>
   <string name="RA_PR_Extentende_Warranty">Your warranty period has been extended until next year</string>
   <string name="RA_Philips_Shop_Menu_Title">Philips Shop</string>
   <string name="RA_Privacy_Notice">Privacy Notice</string>
@@ -231,4 +232,7 @@ Receive free product accessories</string>
   <string name="label_sleep_time_format">%d mins</string>
   <string name="label_sleep_tips">How can I improve my sleep score?</string>
   <string name="mya_config_tab">Configuration tab</string>
+  <string name="RA_Code_Tampered">Code has been Tampered</string>
+
+
 </resources>

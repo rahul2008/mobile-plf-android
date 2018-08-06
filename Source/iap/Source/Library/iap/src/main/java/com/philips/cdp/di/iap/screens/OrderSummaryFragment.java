@@ -47,6 +47,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.di.iap.utils.Utility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -101,6 +102,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
         mParentLayout = rootView.findViewById(R.id.parent_layout);
         initializeViews(rootView);
+        Utility.isDelvieryFirstTimeUser=true;
         return rootView;
     }
 
@@ -150,6 +152,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
+        setCartIconVisibility(false);
         if (isNetworkConnected()) {
             updateCartOnResume();
         }
@@ -176,6 +179,10 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        unregisterEventNotification();
+    }
+
+     private void unregisterEventNotification(){
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
@@ -183,7 +190,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_UPDATE_PRODUCT_COUNT), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER), this);
     }
-
     @Override
     public void onClick(final View v) {
 
@@ -195,6 +201,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 placeOrder(null);
             }
         } else if (v.getId() == R.id.cancel_btn) {
+            unregisterEventNotification();
             doOnCancelOrder();
         }
     }
@@ -233,7 +240,9 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public boolean handleBackEvent() {
-        return false;
+        unregisterEventNotification();
+        showAddressFragment(AddressSelectionFragment.TAG);
+        return true;
     }
 
     @Override
@@ -247,7 +256,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             showProductCatalogFragment(ShoppingCartFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    DeliveryMethodFragment.TAG);
+                    DeliveryMethodFragment.TAG,true);
         }
     }
 
@@ -258,7 +267,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
         bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
-        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
+        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
     }
 
     @Override
@@ -273,13 +282,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
-                        DLSAddressFragment.TAG);
+                        DLSAddressFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                 mAddresses = shippingAddresses.getAddresses();
                 bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
                 addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
-                        AddressSelectionFragment.TAG);
+                        AddressSelectionFragment.TAG,true);
             }
         }
     }
@@ -444,7 +453,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             MakePaymentData mMakePaymentData = (MakePaymentData) msg.obj;
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEB_PAY_URL, mMakePaymentData.getWorldpayUrl());
-            addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null,true);
         } else if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
@@ -494,7 +503,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.ORDER_NUMBER, details.getCode());
         bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, Boolean.TRUE);
-        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
+        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null,true);
     }
 
     private void checkForOutOfStock(final IAPNetworkError iapNetworkError, Message msg) {
@@ -513,4 +522,5 @@ public class OrderSummaryFragment extends InAppBaseFragment
     public void onGetCartUpdate() {
         hideProgressBar();
     }
+
 }

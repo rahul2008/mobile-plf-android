@@ -9,6 +9,7 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -60,6 +62,7 @@ import io.reactivex.functions.Consumer;
 
 import static com.janrain.android.Jump.getRedirectUri;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
+import static com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver.SMS_PERMISSION_CODE;
 
 public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment implements
         MobileForgotPassVerifyCodeContract, OnUpdateListener {
@@ -141,6 +144,13 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+          registerSMSReceiver();
+        RLog.i(TAG, "onViewCreated : getParentFragment().requestPermissions(");
+  }
+
     private void setDescription() {
         String normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
         SpannableString str = new SpannableString(String.format(normalText, mobileNumber));
@@ -179,7 +189,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        registerSMSReceiver();
     }
 
     @Subscribe
@@ -351,8 +360,10 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        RLog.d(TAG, "registerSMSReceiver : requestCode : " + requestCode + "permissions[] :" + permissions + "grantResults :" + grantResults);
         switch (requestCode) {
-            case SMSBroadCastReceiver.SMS_PERMISSION_CODE: {
+            case SMS_PERMISSION_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     registerSMSReceiver();
@@ -365,10 +376,11 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void registerSMSReceiver() {
-        if (mSMSBroadCastReceiver.isSmsPermissionGranted()) {
-            mobileVerifyCodePresenter.registerSMSReceiver();
-        } else {
-            mSMSBroadCastReceiver.requestReadAndSendSmsPermission();
+        RLog.i(TAG, "registerSMSReceiver : " + mSMSBroadCastReceiver.isSmsPermissionGranted());
+        mobileVerifyCodePresenter.registerSMSReceiver();
+        if (!mSMSBroadCastReceiver.isSmsPermissionGranted()) {
+            RLog.i(TAG, "registerSMSReceiver : isSmsPermissionGranted");
+            requestPermissionSMS();
         }
     }
 
@@ -382,21 +394,26 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         RLog.i(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
-
-            if(new NetworkUtility(getActivityContext()).isNetworkAvailable()) {
                 verifyClicked();
-            }
         }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        unRegisterSMSReceiver();
+        if (mSMSBroadCastReceiver.isSmsPermissionGranted()) {
+            unRegisterSMSReceiver();
+        }
     }
 
     @Override
     public void notificationInlineMsg(String msg) {
         errorMessage.setError(msg);
     }
+
+    void requestPermissionSMS() {
+        requestPermissions(new String[]{Manifest.permission.READ_SMS},
+                SMS_PERMISSION_CODE);
+    }
+
 }

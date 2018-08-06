@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Dodaj novi način plaćanja</string>
   <string name="iap_add_to_cart">Dodaj u košaricu</string>
   <string name="iap_address">Adresa</string>
-  <string name="iap_address_error">Unesite valjanu adresu</string>
+  <string name="iap_address_error">[hr]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Adresa 1</string>
   <string name="iap_address_line_one_hint">Unesite adresu 1</string>
   <string name="iap_address_line_two">Adresa 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[hr]Select payment method</string>
   <string name="iap_checkout_steps">[hr]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[hr]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[hr]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Zatraži vaučer</string>
   <string name="iap_confirm">[hr]Confirm</string>
   <string name="iap_confirmation">Potvrda</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Kontaktirajte službu za korisničku podršku</string>
   <string name="iap_contact_consumer_care_for_support">Za dodatnu podršku obratite se korisničkoj službi tvrtke Philips.</string>
   <string name="iap_contact_customer_care">[hr]Contact customer care</string>
+  <string name="iap_contact_details">[hr]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[hr]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Nastavi</string>
   <string name="iap_continue_shopping">Nastavi kupnju</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[hr]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[hr]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[hr]The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
   <string name="iap_daily_selling_product">[hr]Daily Collection Miniblender</string>
   <string name="iap_delete">Izbriši</string>
   <string name="iap_delete_address">Brisanje adrese za isporuku</string>
@@ -186,6 +189,7 @@ FedEx (dostavljačka služba)</string>
   <string name="iap_payment_pending_not_confirmed">Ako se plaćanje ne potvrdi unutar ## h, poslat ćemo vam poruku e-pošte s uputama za nastavak.</string>
   <string name="iap_payment_session_expired">Sesija za plaćanje je istekla</string>
   <string name="iap_pending">[hr]Pending</string>
+  <string name="iap_personal_details">[hr]Personal details</string>
   <string name="iap_phone">Telefon</string>
   <string name="iap_phone_error">Unesite valjani telefonski broj</string>
   <string name="iap_phone_hint">Unesite telefonski broj</string>

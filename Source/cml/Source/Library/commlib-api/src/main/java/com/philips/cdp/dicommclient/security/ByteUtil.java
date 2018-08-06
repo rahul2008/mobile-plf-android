@@ -78,7 +78,7 @@ public class ByteUtil {
         return String.valueOf(new SecureRandom().nextInt(MAX - MIN) + 1 + MIN);
     }
 
-    private static byte[] getRandomByteArray(int size) {
+    static byte[] getRandomByteArray(int size) {
         byte[] result = new byte[size];
 
         new SecureRandom().nextBytes(result);

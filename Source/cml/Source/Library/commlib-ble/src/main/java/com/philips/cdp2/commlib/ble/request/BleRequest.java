@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -19,7 +19,7 @@ import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.datatypes.SHNDataRaw;
+import com.philips.pins.shinelib.datatypes.StreamData;
 import com.philips.pins.shinelib.dicommsupport.DiCommByteStreamReader;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
@@ -127,9 +127,9 @@ public abstract class BleRequest implements Runnable {
     @VisibleForTesting
     DiCommByteStreamReader diCommByteStreamReader = new DiCommByteStreamReader(dicommMessageListener);
 
-    private final ResultListener<SHNDataRaw> resultListener = new ResultListener<SHNDataRaw>() {
+    private final ResultListener<StreamData> resultListener = new ResultListener<StreamData>() {
         @Override
-        public void onActionCompleted(SHNDataRaw shnDataRaw, @NonNull SHNResult shnResult) {
+        public void onActionCompleted(StreamData shnDataRaw, @NonNull SHNResult shnResult) {
             if (stateIs(EXECUTING)) {
                 if (shnResult == SHNOk) {
                     diCommByteStreamReader.onBytes(shnDataRaw.getRawData());
@@ -231,10 +231,10 @@ public abstract class BleRequest implements Runnable {
     @VisibleForTesting
     SHNDevice.SHNDeviceListener bleDeviceListener = new SHNDevice.SHNDeviceListener() {
         @Override
-        public void onStateUpdated(final SHNDevice shnDevice) {
-            if (shnDevice.getState() == Connected) {
+        public void onStateUpdated(@NonNull SHNDevice shnDevice, @NonNull SHNDevice.State state) {
+            if (state == Connected) {
                 onConnected();
-            } else if (shnDevice.getState() == Disconnected) {
+            } else if (state == Disconnected) {
                 if (stateIs(COMPLETED)) {
                     completeRequest();
                 } else {

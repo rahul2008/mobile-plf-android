@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,6 +22,7 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.InputValidator;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -118,6 +120,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
         mLlAddressLineTwo = rootView.findViewById(R.id.ll_address_line_two);
         inputValidatorAddressLineTwo = new InputValidator(Validator.ADDRESS_PATTERN);
+       // mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
 
 
 
@@ -168,6 +171,9 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         mEtSalutation.setKeyListener(null);
         mEtState.setKeyListener(null);
 
+        mEtFirstName.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
+        mEtLastName.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+
         mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);
 
@@ -179,7 +185,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
         mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
-        mEtAddressLineTwo.addTextChangedListener(new IAPTextWatcher(mEtAddressLineTwo));
+        mEtAddressLineTwo.addTextChangedListener(new IAPTextWatcherAddress(mEtAddressLineTwo));
         mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
         mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
@@ -265,6 +271,38 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         }
 
     }
+
+    private class IAPTextWatcherAddress implements TextWatcher {
+        private EditText mEditText;
+
+        public IAPTextWatcherAddress(EditText editText) {
+            mEditText = editText;
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Do Nothing
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (mEditText .getText().toString().trim().length() !=0) {
+                mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
+                validateShippingAddress(mEditText, false);
+            }
+            else {
+                mLlAddressLineTwo.hideError();
+            }
+
+        }
+
+        public synchronized void afterTextChanged(Editable text) {
+            if (mEditText .getText().toString().trim().length() ==0) {
+                mLlAddressLineTwo.setValidator(null);
+            }
+        }
+
+    }
+
+
 
     private class IAPTextWatcherPhone implements TextWatcher {
         private EditText mEditText;
@@ -382,6 +420,13 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
                 mLlAddressLineOne.showError();
             }
         }
+        if (editText.getId() == R.id.et_address_line_two && !hasFocus) {
+            result = inputValidatorAddressLineTwo.isValidAddress(mEtAddressLineTwo.getText().toString());
+            if (!result) {
+                mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
+                mLlAddressLineTwo.showError();
+            }
+        }
         if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus) {
             checkFields();
         }
@@ -437,17 +482,17 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     }
 
     protected AddressFields setAddressFields(AddressFields shippingAddressFields) {
-        shippingAddressFields.setFirstName(mEtFirstName.getText().toString());
-        shippingAddressFields.setLastName(mEtLastName.getText().toString());
-        shippingAddressFields.setTitleCode(mEtSalutation.getText().toString());
-        shippingAddressFields.setCountryIsocode(mEtCountry.getText().toString());
-        shippingAddressFields.setLine1(mEtAddressLineOne.getText().toString());
-        shippingAddressFields.setLine2(mEtAddressLineTwo.getText().toString());
+        shippingAddressFields.setFirstName(mEtFirstName.getText().toString().trim());
+        shippingAddressFields.setLastName(mEtLastName.getText().toString().trim());
+        shippingAddressFields.setTitleCode(mEtSalutation.getText().toString().trim());
+        shippingAddressFields.setCountryIsocode(mEtCountry.getText().toString().trim());
+        shippingAddressFields.setLine1(mEtAddressLineOne.getText().toString().trim());
+        shippingAddressFields.setLine2(mEtAddressLineTwo.getText().toString().trim());
         shippingAddressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
-        shippingAddressFields.setTown(mEtTown.getText().toString());
+        shippingAddressFields.setTown(mEtTown.getText().toString().trim());
         shippingAddressFields.setPhone1(mEtPhone1.getText().toString().replaceAll(" ", ""));
         shippingAddressFields.setPhone2(mEtPhone1.getText().toString().replaceAll(" ", ""));
-        shippingAddressFields.setEmail(mEtEmail.getText().toString());
+        shippingAddressFields.setEmail(mEtEmail.getText().toString().trim());
 
 
         if (mlLState.getVisibility() == View.VISIBLE) {
@@ -469,8 +514,8 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
         mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutation.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
-        mEtAddressLineOne.setText(mAddressFieldsHashmap.get(ModelConstants.LINE_1));
-        mEtAddressLineTwo.setText(mAddressFieldsHashmap.get(ModelConstants.LINE_2));
+        mEtAddressLineOne.setText(addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
+        mEtAddressLineTwo.setText(addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_2)));
         mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
@@ -488,6 +533,14 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
             mlLState.setVisibility(View.GONE);
         }
     }
+
+    private String addressWithNewLineIfNull( String code) {
+        if (!TextUtils.isEmpty(code)) {
+                return code.replaceAll(",null", " ");
+        }
+        return null;
+    }
+
 
     public void handleError(Message msg) {
         IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;

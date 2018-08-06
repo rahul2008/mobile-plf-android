@@ -93,33 +93,12 @@ public class EWSUappTest {
 
     }
 
-
     @Test
     public void itShouldLaunchEWSActivityIfLauncherConfigurationIsValid() throws Exception {
         initEWS();
         subject.launch(activityLauncherMock, new EWSLauncherInput());
         verify(contextMock).startActivity(isA(Intent.class));
     }
-
-
-    @Test
-    public void itShouldLaunchEWSAsFragmentIfLauncherConfigurationIsNotValid() throws Exception {
-        thrownException.expect(UnsupportedOperationException.class);
-        thrownException.expectMessage(EWSUapp.ERROR_MSG_INVALID_IMPLEMENTATION);
-        initEWS();
-        subject.launch(fragmentLauncherMock, new EWSLauncherInput());
-        verify(subject).launchAsFragment(any(FragmentLauncher.class), any(UappLaunchInput.class));
-    }
-
-    @Test
-    public void itShouldThrowAnErrorIfLauncherConfigurationIsNotValid() throws Exception {
-        initEWS();
-        thrownException.expect(UnsupportedOperationException.class);
-        thrownException.expectMessage(EWSUapp.ERROR_MSG_INVALID_IMPLEMENTATION);
-
-        subject.launch(fragmentLauncherMock, new EWSLauncherInput());
-    }
-
 
     private void initEWS() {
         when(ewsDependenciesMock.getAppInfra()).thenReturn(appInfraInterfaceMock);

@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column17</string>
   <string name="USR_Account_Merge_Merge_btntxt">Yhdistä</string>
   <string name="USR_Account_Setting_Titletxt">Tilin asetukset</string>
   <string name="USR_Action_ConsumerCare_Txt">Asiakaspalvelu</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Oletko unohtanut salasanan?</string>
   <string name="USR_Gender_TitleTxt">Sukupuoli</string>
   <string name="USR_Generic_Network_Error">Voi ei, jokin meni pieleen. Yritä myöhemmin uudelleen.</string>
-  <string name="USR_Generic_Network_ErrorMsg">Yhteyttä palvelimeen ei voi muodostaa.\nTarkista verkkoyhteys ja yritä uudelleen. [%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Yhteyttä palvelimeen ei voi muodostaa.\nTarkista verkkoyhteys ja yritä uudelleen.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Allekirjoitus vanheni aikavirheen takia. Tarkista laitteen aika-asetukset.</string>
   <string name="USR_InValid_PwdErrorMsg">Salasana ei ole ohjeiden mukainen.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Virheellinen sähköpostiosoite. Tarkista osoite.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Varmista henkilöllisyytesi kirjautumalla %s-tililläsi vielä kerran.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Peruuta</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Melkein valmista!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Hyväksyn sovelluksen %s</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Hyväksy Käyttöehdot</string>
   <string name="USR_TermsAndConditionsText">Käyttöehdot</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Tili on jo käytössä.</string>

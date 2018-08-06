@@ -1,6 +1,32 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
+Version 1803
+------------
+### Functionality Delivered
+N/A
+
+### Backwards Compatibility
+N/A
+
+### Features not covered
+N/A
+
+### Breaking Changes
+* `SHNDeviceListener.onStateUpdate()` now includes a state parameter, to allow pass-by-value. When fixing
+ your code, we recommend you take this new parameter's value instead of calling `getState()` method on
+ the `SHNDevice`.
+
+### Defects solved
+N/A
+
+### Residual anomalies
+N/A
+
+### Risks and mitigations
+N/A
+
+
 Version 1802
 ------------
 

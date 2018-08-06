@@ -6,6 +6,7 @@ import com.philips.pins.shinelib.SHNMapResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.helper.MockedHandler;
+import com.philips.pins.shinelib.protocols.moonshinestreaming.MoonshineStreamIdentifier;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 
 import org.junit.Before;
@@ -206,7 +207,7 @@ public class DiCommChannelTest {
     public void whenSendPropertiesIsCalledWhileUnavailableThenErrorIsReported() throws Exception {
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
-        verify(shnProtocolMoonshineStreamingMock, never()).sendData(any(byte[].class));
+        verify(shnProtocolMoonshineStreamingMock, never()).sendData(any(byte[].class), any(MoonshineStreamIdentifier.class));
         verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
     }
 
@@ -216,7 +217,7 @@ public class DiCommChannelTest {
 
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
-        verify(shnProtocolMoonshineStreamingMock).sendData((byte[]) any());
+        verify(shnProtocolMoonshineStreamingMock).sendData((byte[]) any(), eq(MoonshineStreamIdentifier.STREAM_1));
     }
 
     @Test
@@ -234,7 +235,7 @@ public class DiCommChannelTest {
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
-        verify(shnProtocolMoonshineStreamingMock, times(1)).sendData((byte[]) any());
+        verify(shnProtocolMoonshineStreamingMock, times(1)).sendData((byte[]) any(), eq(MoonshineStreamIdentifier.STREAM_1));
     }
 
     @Test
@@ -244,7 +245,7 @@ public class DiCommChannelTest {
 
         byte[] data = {(byte) 0xFE, (byte) 0xFF};
 
-        diCommChannel.onDataReceived(data);
+        diCommChannel.onDataReceived(data, MoonshineStreamIdentifier.STREAM_1);
 
         verify(resultListenerMock, never()).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), any(SHNResult.class));
     }
@@ -257,8 +258,8 @@ public class DiCommChannelTest {
         byte[] data = {(byte) 0xFE, (byte) 0xFF};
         byte[] data2 = {MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 3, firstDataByte, secondDataByte, endByte};
 
-        diCommChannel.onDataReceived(data);
-        diCommChannel.onDataReceived(data2);
+        diCommChannel.onDataReceived(data, MoonshineStreamIdentifier.STREAM_1);
+        diCommChannel.onDataReceived(data2, MoonshineStreamIdentifier.STREAM_1);
 
         verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), any(SHNResult.class));
     }
@@ -270,9 +271,9 @@ public class DiCommChannelTest {
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock2);
 
         reset(shnProtocolMoonshineStreamingMock);
-        diCommChannel.onDataReceived(validMessageData);
+        diCommChannel.onDataReceived(validMessageData, MoonshineStreamIdentifier.STREAM_1);
 
-        verify(shnProtocolMoonshineStreamingMock).sendData((byte[]) any());
+        verify(shnProtocolMoonshineStreamingMock).sendData((byte[])any(), eq(MoonshineStreamIdentifier.STREAM_1));
     }
 
     @Test
@@ -281,8 +282,8 @@ public class DiCommChannelTest {
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock2);
 
-        diCommChannel.onDataReceived(validMessageData);
-        diCommChannel.onDataReceived(validMessageData);
+        diCommChannel.onDataReceived(validMessageData, MoonshineStreamIdentifier.STREAM_1);
+        diCommChannel.onDataReceived(validMessageData, MoonshineStreamIdentifier.STREAM_1);
 
         verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), any(SHNResult.class));
         verify(resultListenerMock2).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), any(SHNResult.class));
@@ -294,7 +295,7 @@ public class DiCommChannelTest {
         diCommChannel.onProtocolAvailable();
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
-        diCommChannel.onDataReceived(validMessageData);
+        diCommChannel.onDataReceived(validMessageData, MoonshineStreamIdentifier.STREAM_1);
 
         verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
     }
@@ -305,8 +306,8 @@ public class DiCommChannelTest {
         diCommChannel.onProtocolAvailable();
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
-        diCommChannel.onDataReceived(validMessageData);
-        diCommChannel.onDataReceived(validMessageData);
+        diCommChannel.onDataReceived(validMessageData, MoonshineStreamIdentifier.STREAM_1);
+        diCommChannel.onDataReceived(validMessageData, MoonshineStreamIdentifier.STREAM_1);
 
         verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
     }
@@ -316,7 +317,7 @@ public class DiCommChannelTest {
     public void whenReloadPropertiesIsCalledWhileUnavailableThenErrorIsReported() throws Exception {
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
 
-        verify(shnProtocolMoonshineStreamingMock, never()).sendData(any(byte[].class));
+        verify(shnProtocolMoonshineStreamingMock, never()).sendData(any(byte[].class), eq(MoonshineStreamIdentifier.STREAM_1));
         verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
     }
 
@@ -327,7 +328,7 @@ public class DiCommChannelTest {
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
 
         verify(diCommRequestMock).getPropsRequestDataWithProduct(PRODUCT_NAME, PORT_NAME);
-        verify(shnProtocolMoonshineStreamingMock).sendData((byte[]) any());
+        verify(shnProtocolMoonshineStreamingMock).sendData((byte[]) any(), eq(MoonshineStreamIdentifier.STREAM_1));
     }
 
     @Test
@@ -337,7 +338,7 @@ public class DiCommChannelTest {
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
 
-        verify(shnProtocolMoonshineStreamingMock, times(1)).sendData((byte[]) any());
+        verify(shnProtocolMoonshineStreamingMock, times(1)).sendData((byte[]) any(), eq(MoonshineStreamIdentifier.STREAM_1));
     }
 
     @Test
@@ -347,7 +348,7 @@ public class DiCommChannelTest {
 
         byte[] data = {(byte) 0xFE, (byte) 0xFF};
 
-        diCommChannel.onDataReceived(data);
+        diCommChannel.onDataReceived(data, MoonshineStreamIdentifier.STREAM_1);
 
         verify(resultListenerMock, never()).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), (SHNResult) any());
     }
@@ -360,8 +361,8 @@ public class DiCommChannelTest {
         byte[] data = {(byte) 0xFE, (byte) 0xFF};
         byte[] data2 = {MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 4, firstDataByte, secondDataByte, thirdByte, endByte};
 
-        diCommChannel.onDataReceived(data);
-        diCommChannel.onDataReceived(data2);
+        diCommChannel.onDataReceived(data, MoonshineStreamIdentifier.STREAM_1);
+        diCommChannel.onDataReceived(data2, MoonshineStreamIdentifier.STREAM_1);
 
         verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), (SHNResult) any());
     }
@@ -373,9 +374,9 @@ public class DiCommChannelTest {
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
 
         reset(shnProtocolMoonshineStreamingMock);
-        diCommChannel.onDataReceived(validMessageData);
+        diCommChannel.onDataReceived(validMessageData, MoonshineStreamIdentifier.STREAM_1);
 
-        verify(shnProtocolMoonshineStreamingMock).sendData((byte[]) any());
+        verify(shnProtocolMoonshineStreamingMock).sendData((byte[]) any(), eq(MoonshineStreamIdentifier.STREAM_1));
         assertEquals(1, mockedHandler.getScheduledExecutionCount());
     }
 
@@ -385,8 +386,8 @@ public class DiCommChannelTest {
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock2);
 
-        diCommChannel.onDataReceived(validMessageData);
-        diCommChannel.onDataReceived(validMessageData);
+        diCommChannel.onDataReceived(validMessageData, MoonshineStreamIdentifier.STREAM_1);
+        diCommChannel.onDataReceived(validMessageData, MoonshineStreamIdentifier.STREAM_1);
 
         verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), (SHNResult) any());
         verify(resultListenerMock2).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), (SHNResult) any());
@@ -399,7 +400,7 @@ public class DiCommChannelTest {
         diCommChannel.onProtocolAvailable();
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
 
-        diCommChannel.onDataReceived(validMessageData);
+        diCommChannel.onDataReceived(validMessageData, MoonshineStreamIdentifier.STREAM_1);
 
         verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
         assertEquals(0, mockedHandler.getScheduledExecutionCount());
@@ -444,7 +445,7 @@ public class DiCommChannelTest {
         when(diCommResponseMock.getStatus()).thenReturn(statusCode);
         byte[] data = {(byte) 0xFE, (byte) 0xFF, MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 0};
 
-        diCommChannel.onDataReceived(data);
+        diCommChannel.onDataReceived(data, MoonshineStreamIdentifier.STREAM_1);
     }
 
     @Test
@@ -505,14 +506,14 @@ public class DiCommChannelTest {
 
         when(diCommResponseMock.getStatus()).thenReturn(StatusCode.NoError);
         byte[] data = {(byte) 0xFE, (byte) 0xFF, MessageType.GenericResponse.getDiCommMessageTypeCode()};
-        diCommChannel.onDataReceived(data);
+        diCommChannel.onDataReceived(data, MoonshineStreamIdentifier.STREAM_1);
 
         diCommChannel.onProtocolUnavailable();
         reset(resultListenerMock);
         diCommChannel.onProtocolAvailable();
 
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
-        diCommChannel.onDataReceived(validMessageData);
+        diCommChannel.onDataReceived(validMessageData, MoonshineStreamIdentifier.STREAM_1);
 
         verify(resultListenerMock).onActionCompleted(ArgumentMatchers.<String, Object>anyMap(), eq(SHNResult.SHNOk));
     }

@@ -218,9 +218,9 @@ public class AddressSelectionFragmentTest {
         addrssAddressSelectionFragment.onGetPaymentDetails(mockMessage);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldUnregisterEvents_WhenOnDestroyIsCalled() throws Exception {
         addrssAddressSelectionFragment.onDestroy();
-        verify(addrssAddressSelectionFragment).unregisterEvents();
+        addrssAddressSelectionFragment.unregisterEvents();
     }
 }

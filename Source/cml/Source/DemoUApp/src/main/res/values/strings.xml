@@ -46,6 +46,7 @@
     <string name="cml_uploading_firmware_image">Uploading firmware image to device</string>
     <string name="cml_appliance_name">Appliance name</string>
     <string name="cml_device_port">Device Port</string>
+    <string name="cml_wifi_port">Wifi Port</string>
     <string name="cml_firmware_upgrade_port">Firmware Upgrade Port</string>
     <string name="cml_n_a">N/A</string>
     <string name="cml_dismiss_indefinite_message">OK</string>
@@ -107,6 +108,17 @@
     <string name="cml_wakeup_alarm_state">Wake-up alarm (read only)</string>
     <string name="cml_pin_to_set">Enter pin to set</string>
     <string name="cml_base64_pin_error">Please provide a correct base64 encoded pin!</string>
+
+    <string name="cml_ssid">SSID</string>
+    <string name="cml_password">Password</string>
+    <string name="cml_protection">Protection</string>
+    <string name="cml_ipaddress">IP Address</string>
+    <string name="cml_netmask">Netmask</string>
+    <string name="cml_gateway">Gateway</string>
+    <string name="cml_macaddress">Mac Address</string>
+    <string name="cml_cppid">CPP ID</string>
+    <string name="cml_travelssid">Travel SSID</string>
+    <string name="cml_travelpassword">Travel Password</string>
 
     <string name="cml_ble_connection_params">Connection parameters</string>
     <string name="cml_hint_slowadmin">Minimum interval for slow advertising (20~10240ms)</string>

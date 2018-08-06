@@ -44,7 +44,7 @@ class AppIdentityManagerHelper {
     }
 
     boolean isValidAppVersion(String appVersion) {
-        return appVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?");
+        return appVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?([_(-].*)?");
     }
 
     String getAppVersion() {

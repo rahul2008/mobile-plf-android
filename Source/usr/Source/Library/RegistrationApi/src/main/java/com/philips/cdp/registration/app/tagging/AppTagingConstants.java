@@ -40,8 +40,6 @@ public class AppTagingConstants {
 
     public static final String SEND_DATA = "sendData";
 
-    public static final String REGISTRATION_CHANNEL = "registrationChannel";
-
     public static final String SPECIAL_EVENTS = "specialEvents";
 
     public static final String STATUS_NOTIFICATION = "statusNotification";
@@ -49,8 +47,6 @@ public class AppTagingConstants {
     public static final String MY_PHILIPS = "myphilips";
 
     public static final String START_USER_REGISTRATION = "startUserRegistration";
-
-    public static final String LOGIN_CHANNEL = "loginChannel";
 
     public static final String SUCCESS_USER_CREATION = "successUserCreation";
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -111,7 +112,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
         mLlAddressLineTwoBilling = rootView.findViewById(R.id.ll_billing_address_line_two);
         inputValidatorAddressLineTwoBilling = new InputValidator(Validator.ADDRESS_PATTERN);
-
+       // mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
 
         mLlTownBilling = rootView.findViewById(R.id.ll_billing_town);
         inputValidatorTownBilling = new InputValidator(Validator.TOWN_PATTERN);
@@ -158,6 +159,8 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mEtSalutationBilling.setKeyListener(null);
         mEtStateBilling.setKeyListener(null);
 
+        mEtFirstNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
+        mEtLastNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
 
         mEtEmailBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmailBilling.setEnabled(false);
@@ -171,7 +174,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mEtFirstNameBilling.addTextChangedListener(new IAPTextWatcher(mEtFirstNameBilling));
         mEtLastNameBilling.addTextChangedListener(new IAPTextWatcher(mEtLastNameBilling));
         mEtAddressLineOneBilling.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOneBilling));
-        mEtAddressLineTwoBilling.addTextChangedListener(new IAPTextWatcher(mEtAddressLineTwoBilling));
+        mEtAddressLineTwoBilling.addTextChangedListener(new IAPTextWatcherAddress(mEtAddressLineTwoBilling));
         mEtTownBilling.addTextChangedListener(new IAPTextWatcher(mEtTownBilling));
         mEtPostalCodeBilling.addTextChangedListener(new IAPTextWatcher(mEtPostalCodeBilling));
         mEtCountryBilling.addTextChangedListener(new IAPTextWatcher(mEtCountryBilling));
@@ -247,8 +250,8 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mEtFirstNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
         mEtLastNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutationBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
-        mEtAddressLineOneBilling.setText(mAddressFieldsHashmap.get(ModelConstants.LINE_1));
-        mEtAddressLineTwoBilling.setText(mAddressFieldsHashmap.get(ModelConstants.LINE_2));
+        mEtAddressLineOneBilling.setText(addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
+        mEtAddressLineTwoBilling.setText(addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_2)));
         mEtTownBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCodeBilling.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountryBilling.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
@@ -323,6 +326,36 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 isInAfterTextChanged = false;
             }
         }
+    }
+
+    private class IAPTextWatcherAddress implements TextWatcher {
+        private EditText mEditText;
+
+        public IAPTextWatcherAddress(EditText editText) {
+            mEditText = editText;
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Do Nothing
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (mEditText .getText().toString().trim().length() !=0) {
+                mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
+                validate(mEditText, false);
+            }
+            else {
+                mLlAddressLineTwoBilling.hideError();
+            }
+
+        }
+
+        public synchronized void afterTextChanged(Editable text) {
+            if (mEditText .getText().toString().trim().length() ==0) {
+                mLlAddressLineTwoBilling.setValidator(null);
+            }
+        }
+
     }
 
 
@@ -402,6 +435,13 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 mLlAddressLineOneBilling.showError();
             }
         }
+        if (editText.getId() == R.id.et_billing_address_line_two && !hasFocus) {
+            result = inputValidatorAddressLineTwoBilling.isValidAddress(mEtAddressLineTwoBilling.getText().toString());
+            if (!result) {
+                mLlAddressLineTwoBilling.setErrorMessage(R.string.iap_address_error);
+                mLlAddressLineTwoBilling.showError();
+            }
+        }
         if ((editText.getId() == R.id.et_billing_salutation || editText.getId() == R.id.et_billing_state) && !hasFocus) {
             checkBillingAddressFields();
         }
@@ -459,17 +499,17 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     }
 
     protected AddressFields setBillingAddressFields(AddressFields billingAddressFields) {
-        billingAddressFields.setFirstName(mEtFirstNameBilling.getText().toString());
-        billingAddressFields.setLastName(mEtLastNameBilling.getText().toString());
-        billingAddressFields.setTitleCode(mEtSalutationBilling.getText().toString());
-        billingAddressFields.setCountryIsocode(mEtCountryBilling.getText().toString());
-        billingAddressFields.setLine1(mEtAddressLineOneBilling.getText().toString());
-        billingAddressFields.setLine2(mEtAddressLineTwoBilling.getText().toString());
+        billingAddressFields.setFirstName(mEtFirstNameBilling.getText().toString().trim());
+        billingAddressFields.setLastName(mEtLastNameBilling.getText().toString().trim());
+        billingAddressFields.setTitleCode(mEtSalutationBilling.getText().toString().trim());
+        billingAddressFields.setCountryIsocode(mEtCountryBilling.getText().toString().trim());
+        billingAddressFields.setLine1(mEtAddressLineOneBilling.getText().toString().trim());
+        billingAddressFields.setLine2(mEtAddressLineTwoBilling.getText().toString().trim());
         billingAddressFields.setPostalCode(mEtPostalCodeBilling.getText().toString().replaceAll(" ", ""));
-        billingAddressFields.setTown(mEtTownBilling.getText().toString());
+        billingAddressFields.setTown(mEtTownBilling.getText().toString().trim());
         billingAddressFields.setPhone1(mEtPhone1Billing.getText().toString().replaceAll(" ", ""));
         billingAddressFields.setPhone2(mEtPhone1Billing.getText().toString().replaceAll(" ", ""));
-        billingAddressFields.setEmail(mEtEmailBilling.getText().toString());
+        billingAddressFields.setEmail(mEtEmailBilling.getText().toString().trim());
 
 
         if (mlLStateBilling.getVisibility() == View.VISIBLE) {
@@ -575,8 +615,8 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             mEtFirstNameBilling.setText(billingAddressFields.getFirstName());
             mEtLastNameBilling.setText(billingAddressFields.getLastName());
             mEtSalutationBilling.setText(billingAddressFields.getTitleCode());
-            mEtAddressLineOneBilling.setText(billingAddressFields.getLine1());
-            mEtAddressLineTwoBilling.setText(billingAddressFields.getLine2());
+            mEtAddressLineOneBilling.setText(addressWithNewLineIfNull(billingAddressFields.getLine1()));
+            mEtAddressLineTwoBilling.setText(addressWithNewLineIfNull(billingAddressFields.getLine2()));
             mEtTownBilling.setText(billingAddressFields.getTown());
             mEtPostalCodeBilling.setText(billingAddressFields.getPostalCode());
             mEtCountryBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
@@ -592,5 +632,12 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             mIgnoreTextChangeListener = false;
             mEtPhone1Billing.setText(billingAddressFields.getPhone1());
         }
+    }
+
+    private String addressWithNewLineIfNull( String code) {
+        if (!TextUtils.isEmpty(code)) {
+                return code.replaceAll(",null", " ");
+        }
+        return null;
     }
 }

@@ -18,6 +18,7 @@ import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
 import com.philips.cdp2.bluelib.demouapp.R;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SHNDevice.State;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.utility.SHNLogger;
@@ -33,8 +34,8 @@ public class DeviceInformationFragment extends Fragment {
     private SHNDevice.SHNDeviceListener mDeviceListener = new SHNDevice.SHNDeviceListener() {
 
         @Override
-        public void onStateUpdated(SHNDevice device) {
-            switch (device.getState()) {
+        public void onStateUpdated(SHNDevice device, State state) {
+            switch (state) {
                 case Connected:
                     showDeviceInformation();
                     break;

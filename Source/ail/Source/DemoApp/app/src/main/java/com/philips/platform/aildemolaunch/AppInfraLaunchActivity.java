@@ -75,7 +75,7 @@ public class AppInfraLaunchActivity extends AppCompatActivity {
                     }
                 });
             }
-        },1000);
+        },2000);
 
 
     }

@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">新增付款方式</string>
   <string name="iap_add_to_cart">加入至購物車</string>
   <string name="iap_address">地址</string>
-  <string name="iap_address_error">請輸入有效的地址</string>
+  <string name="iap_address_error">[zh-HK]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">地址行 1</string>
   <string name="iap_address_line_one_hint">輸入地址行 1</string>
   <string name="iap_address_line_two">地址行 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[zh-HK]Select payment method</string>
   <string name="iap_checkout_steps">[zh-HK]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[zh-HK]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[zh-HK]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">領取優惠碼</string>
   <string name="iap_confirm">[zh-HK]Confirm</string>
   <string name="iap_confirmation">確認</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">聯絡客戶服務</string>
   <string name="iap_contact_consumer_care_for_support">請聯絡 Philips 客戶服務以獲得進一步支援。</string>
   <string name="iap_contact_customer_care">[zh-HK]Contact customer care</string>
+  <string name="iap_contact_details">[zh-HK]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[zh-HK]Please contact Philips Consumer Care</string>
   <string name="iap_continue">繼續</string>
   <string name="iap_continue_shopping">繼續購物</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[zh-HK]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[zh-HK]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[zh-HK]The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
   <string name="iap_daily_selling_product">[zh-HK]Daily Collection Miniblender</string>
   <string name="iap_delete">刪除</string>
   <string name="iap_delete_address">刪除送貨地址</string>
@@ -186,6 +189,7 @@ FedEx(parcel postage) 運送</string>
   <string name="iap_payment_pending_not_confirmed">如果付款在 ## 小時內仍未能確認，我們會以電郵通知您接下來的解決方法。</string>
   <string name="iap_payment_session_expired">您的付款時限已過</string>
   <string name="iap_pending">[zh-HK]Pending</string>
+  <string name="iap_personal_details">[zh-HK]Personal details</string>
   <string name="iap_phone">電話</string>
   <string name="iap_phone_error">請輸入有效的電話號碼</string>
   <string name="iap_phone_hint">輸入電話號碼</string>

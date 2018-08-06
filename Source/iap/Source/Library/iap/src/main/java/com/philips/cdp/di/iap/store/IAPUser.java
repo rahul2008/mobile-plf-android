@@ -41,6 +41,18 @@ public class IAPUser implements UserRegistrationListener {
         return mJanRainUser.getEmail();
     }
 
+    public String getDisplayName() {
+        return mJanRainUser.getUserInstance().getDisplayName();
+    }
+
+    public String getGivenName() {
+        return mJanRainUser.getUserInstance().getGivenName();
+    }
+
+    public String getFamilyName() {
+        return mJanRainUser.getUserInstance().getFamilyName();
+    }
+
     public void refreshLoginSession() {
         mTokenRefreshSuccessful = false;
         mLockReleaseRequested = false;

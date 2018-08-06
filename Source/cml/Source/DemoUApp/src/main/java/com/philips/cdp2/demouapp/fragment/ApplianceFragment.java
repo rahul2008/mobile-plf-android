@@ -30,6 +30,7 @@ import com.philips.cdp2.demouapp.fragment.port.PairingFragment;
 import com.philips.cdp2.demouapp.fragment.port.PairingPortFragment;
 import com.philips.cdp2.demouapp.fragment.port.TimePortFragment;
 import com.philips.cdp2.demouapp.fragment.port.WakeUpAlarmPortFragment;
+import com.philips.cdp2.demouapp.fragment.port.WifiPortFragment;
 
 import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 
@@ -61,6 +62,7 @@ public class ApplianceFragment extends Fragment {
         if (currentAppliance instanceof AirPurifier) {
             addFragment(ApplianceFragmentFactory.newInstance(PairingFragment.class, currentAppliance));
             addFragment(ApplianceFragmentFactory.newInstance(AirPortFragment.class, currentAppliance));
+            addFragment(ApplianceFragmentFactory.newInstance(WifiPortFragment.class, currentAppliance));
         }
 
         if (currentAppliance instanceof ReferenceAppliance) {
@@ -69,6 +71,7 @@ public class ApplianceFragment extends Fragment {
                 addFragment(ApplianceFragmentFactory.newInstance(PairingFragment.class, currentAppliance));
                 addFragment(ApplianceFragmentFactory.newInstance(PairingPortFragment.class, currentAppliance));
                 addFragment(ApplianceFragmentFactory.newInstance(PinFragment.class, currentAppliance));
+                addFragment(ApplianceFragmentFactory.newInstance(WifiPortFragment.class, currentAppliance));
             }
 
             addFragment(ApplianceFragmentFactory.newInstance(TimePortFragment.class, currentAppliance));
@@ -83,6 +86,7 @@ public class ApplianceFragment extends Fragment {
         if (currentAppliance instanceof BrightEyesAppliance) {
             addFragment(ApplianceFragmentFactory.newInstance(WakeUpAlarmPortFragment.class, currentAppliance));
             addFragment(ApplianceFragmentFactory.newInstance(PinFragment.class, currentAppliance));
+            addFragment(ApplianceFragmentFactory.newInstance(WifiPortFragment.class, currentAppliance));
         }
 
         if(currentAppliance instanceof PolarisAppliance) {

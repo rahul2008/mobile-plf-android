@@ -27,6 +27,7 @@ import com.philips.platform.ews.microapp.EWSActionBarListener;
 import com.philips.platform.ews.microapp.EWSLauncherInput;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.tagging.Page;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -64,7 +65,14 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((EWSActionBarListener) getContext()).closeButton(true);
+        EWSActionBarListener actionBarListener = null;
+        try {
+            actionBarListener = ((EWSActionBarListener) getContext());
+        } catch (ClassCastException e) {}
+
+        if (actionBarListener != null) {
+            actionBarListener.closeButton(true);
+        }
     }
 
     @Override
@@ -126,7 +134,14 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     }
 
     public void setToolbarTitle() {
-        ((EWSActionBarListener) getContext()).updateActionBar(R.string.ews_title, true);
+        ActionBarListener actionBarListener = null;
+        try {
+            actionBarListener = ((ActionBarListener) getContext());
+        } catch (ClassCastException e) {}
+
+        if (actionBarListener != null) {
+            actionBarListener.updateActionBar(R.string.ews_title, true);
+        }
     }
 
     protected abstract void callTrackPageName();
