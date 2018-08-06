@@ -114,7 +114,7 @@ public class LocalRegisteredProductsTest extends TestCase {
             }
         };
         when(prodRegCache.getStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY)).thenReturn("");
-        assertFalse(localRegisteredProducts.getRegisteredProducts().size() == 3);
+        assertTrue(localRegisteredProducts.getRegisteredProducts().size() == 3);
 //        when(userMock.isUserSignIn()).thenReturn(false);
         when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_NOT_LOGGED_IN);
         assertTrue(localRegisteredProducts.getRegisteredProducts().size() == 0);
