@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.errors.NotificationMessage;
-import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.List;
 public class URNotification {
 
     private final Activity mActivity;
+    private NotificationType mNotificationType = NotificationType.NOTIFICATION_BAR;
     private NotificationBarView notificationBarView;
     private URNotificationInterface notificationInterface;
 
@@ -46,18 +46,17 @@ public class URNotification {
 
         this.mActivity = mActivity;
         this.notificationInterface = notificationInterface;
-        notificationBarView = new NotificationBarView(mActivity);
     }
 
     public void showNotification(NotificationMessage notificationMessage) {
 
-//        if (INLINE_ERROR_CODE.contains(notificationMessage.getErrorCode()))
-//            mNotificationType = NotificationType.INLINE;
-//
-//        if (mNotificationType == NotificationType.NOTIFICATION_BAR)
-//            notificationBarView = new NotificationBarView(mActivity);
-        RLog.d("Hide", "showNotification : "+notificationBarView);
-        switch (notificationMessage.getNotificationType()) {
+        if (INLINE_ERROR_CODE.contains(notificationMessage.getErrorCode()))
+            mNotificationType = NotificationType.INLINE;
+
+        if (mNotificationType == NotificationType.NOTIFICATION_BAR)
+            notificationBarView = new NotificationBarView(mActivity);
+
+        switch (mNotificationType) {
 
             case INLINE:
                 notificationInterface.notificationInlineMsg(notificationMessage.getMessage());
@@ -70,13 +69,11 @@ public class URNotification {
     }
 
     public void hideNotification() {
-//        switch (mNotificationType) {
-//            case NOTIFICATION_BAR:
-                if (notificationBarView != null) {
-                    RLog.d("Hide", "hideNotification : "+notificationBarView);
+        switch (mNotificationType) {
+            case NOTIFICATION_BAR:
+                if (notificationBarView != null)
                     notificationBarView.hidePopup();
-                }
-//        }
+        }
     }
 
 

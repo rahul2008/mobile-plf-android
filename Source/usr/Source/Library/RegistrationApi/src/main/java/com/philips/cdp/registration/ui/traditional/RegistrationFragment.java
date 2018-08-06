@@ -37,7 +37,6 @@ import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.customviews.NotificationType;
 import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
@@ -621,12 +620,12 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     public void updateErrorNotification(String errorMessage, int errorCode) {
         RLog.e(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
-        getNotification().showNotification(new NotificationMessage(NotificationType.NOTIFICATION_BAR, errorMessage, errorCode));
+        getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
     }
 
     public void updateErrorNotification(String errorMessage) {
         RLog.e(TAG, "errorMessage = " + errorMessage);
-        getNotification().showNotification(new NotificationMessage(NotificationType.INLINE, errorMessage));
+        getNotification().showNotification(new NotificationMessage(errorMessage));
 
 
     }
@@ -642,7 +641,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
         new Handler().postDelayed(() -> {
             getNotification().showNotification(
-                    new NotificationMessage(NotificationType.NOTIFICATION_BAR, getContext().getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), getContext().getResources().getString(R.string.USR_Network_ErrorMsg)));
+                    new NotificationMessage(getContext().getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), getContext().getResources().getString(R.string.USR_Network_ErrorMsg)));
         }, 100);
     }
 

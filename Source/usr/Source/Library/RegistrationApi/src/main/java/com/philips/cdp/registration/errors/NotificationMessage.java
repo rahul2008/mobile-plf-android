@@ -1,21 +1,10 @@
 package com.philips.cdp.registration.errors;
 
-import com.philips.cdp.registration.ui.customviews.NotificationType;
-
 public class NotificationMessage {
 
     private String message;
-    private String title;
+    private String title ;
     private int errorCode;
-    private NotificationType notificationType;
-
-    public NotificationType getNotificationType() {
-        return notificationType;
-    }
-
-    public void setNotificationType(NotificationType notificationType) {
-        this.notificationType = notificationType;
-    }
 
     public String getMessage() {
         return message;
@@ -25,21 +14,18 @@ public class NotificationMessage {
         this.message = message;
     }
 
-    public NotificationMessage(NotificationType notificationType, String message, int errorCode) {
-        this.notificationType = notificationType;
+    public NotificationMessage(String message, int errorCode) {
         this.message = message;
         this.errorCode = errorCode;
     }
 
-    public NotificationMessage(NotificationType notificationType, String message, String title) {
-        this.notificationType = notificationType;
+    public NotificationMessage(String message, String title) {
         this.message = message;
         this.title = title;
     }
 
 
-    public NotificationMessage(NotificationType notificationType, String message) {
-        this.notificationType = notificationType;
+    public NotificationMessage(String message) {
         this.message = message;
     }
 
