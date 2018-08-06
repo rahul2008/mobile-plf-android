@@ -270,7 +270,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         final File[] files = externalFilesDir.listFiles(upgradeFilesFilter);
 
         if (files == null) {
-            showIndefiniteMessage(getActivity(), rootView, getString(cml_no_firmware_directory_found));
+            showIndefiniteMessage(rootView, getString(cml_no_firmware_directory_found));
         } else {
             fwImageAdapter = new ArrayAdapter<File>(getActivity(), android.R.layout.simple_spinner_dropdown_item, files) {
                 @NonNull
@@ -285,6 +285,10 @@ public class FirmwareUpgradeFragment extends Fragment {
                     return view;
                 }
             };
+
+            if (fwImageAdapter.getCount() > 0) {
+                selectFirmwareImage(0);
+            }
         }
     }
 
@@ -292,26 +296,30 @@ public class FirmwareUpgradeFragment extends Fragment {
         SelectorDialog dialog = SelectorDialog.newInstance(R.string.cml_choose_firmware_image, fwImageAdapter, new SelectorDialog.OnDialogSelectorListener() {
             @Override
             public void onSelectedOption(int index) {
-                selectedFirmwareIndex = index;
-                File firmwareImage = fwImageAdapter.getItem(selectedFirmwareIndex);
-                if (firmwareImage != null) {
-                    firmwareImageNameTextView.setText(firmwareImage.getName());
-                }
+                selectFirmwareImage(index);
             }
         });
 
         dialog.show(getActivity().getSupportFragmentManager(), null);
     }
 
+    private void selectFirmwareImage(int index) {
+        selectedFirmwareIndex = index;
+        File firmwareImage = fwImageAdapter.getItem(selectedFirmwareIndex);
+        if (firmwareImage != null) {
+            firmwareImageNameTextView.setText(firmwareImage.getName());
+        }
+    }
+
     private void uploadSelectedFirmware() {
         if (selectedFirmwareIndex == ListView.INVALID_POSITION) {
-            showIndefiniteMessage(getActivity(), rootView, getString(R.string.cml_select_a_firmware_image));
+            showIndefiniteMessage(rootView, getString(R.string.cml_select_a_firmware_image));
         } else {
             File firmwareFile = fwImageAdapter.getItem(selectedFirmwareIndex);
             final byte[] firmwareBytes;
 
             if (firmwareFile == null) {
-                showMessage(getActivity(), rootView, getString(R.string.cml_select_a_firmware_image));
+                showMessage(rootView, getString(R.string.cml_select_a_firmware_image));
             } else {
                 firmwareBytes = fileToBytes(firmwareFile);
 
@@ -321,7 +329,7 @@ public class FirmwareUpgradeFragment extends Fragment {
                 try {
                     firmwarePort.pushLocalFirmware(firmwareBytes, getTimeoutInMillisFromUi());
                 } catch (IllegalStateException ex) {
-                    showMessage(getActivity(), rootView, getString(R.string.cml_firmware_update_already_in_progress));
+                    showMessage(rootView, getString(R.string.cml_firmware_update_already_in_progress));
                 }
             }
         }

@@ -167,12 +167,14 @@ public class GdprFeatureFragment extends DSBaseFragment
         DataServicesManager.getInstance().migrateGDPR(new DBRequestListener<Object>() {
             @Override
             public void onSuccess(List<?> data) {
+                if(isVisible())
                 Toast.makeText(getContext(), "GDPR migration completed", Toast.LENGTH_LONG).show();
                 updateMigrationFlagView();
             }
 
             @Override
             public void onFailure(Exception exception) {
+                if(isVisible())
                 Toast.makeText(getContext(), "GDPR migration failed", Toast.LENGTH_LONG).show();
             }
         });

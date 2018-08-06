@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.commlib.lan.discovery;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
@@ -19,8 +20,6 @@ import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.util.SsidProvider;
 import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
-import java.util.ArrayList;
-import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -30,17 +29,19 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
 import static java.util.Collections.unmodifiableCollection;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeastOnce;
@@ -73,6 +74,9 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     @Captor
     private ArgumentCaptor<NetworkNode> networkNodeCaptor;
 
+    @Mock
+    private Handler mockHandler;
+
     private LanDiscoveryStrategy strategyUnderTest;
 
     private AvailabilityListener<ConnectivityMonitor> availabilityListener;
@@ -80,6 +84,17 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     @Before
     public void setUp() {
         initMocks(this);
+
+        doAnswer(new Answer<Boolean>() {
+            @Override
+            public Boolean answer(InvocationOnMock invocation) throws Throwable {
+                Runnable runnable = (Runnable) invocation.getArguments()[0];
+                runnable.run();
+                return true;
+            }
+        }).when(mockHandler).post(any(Runnable.class));
+
+        enableMockedHandler(mockHandler);
 
         doAnswer(new Answer() {
             @Override

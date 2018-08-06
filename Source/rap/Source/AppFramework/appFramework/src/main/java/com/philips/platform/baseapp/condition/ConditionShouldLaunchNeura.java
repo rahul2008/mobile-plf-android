@@ -55,7 +55,7 @@ public class ConditionShouldLaunchNeura extends BaseCondition implements FetchCo
 
     @Override
     public void onGetConsentsSuccess(ConsentStatus consentStatus) {
-        if (consentStatus != null && consentStatus.getConsentState() == ConsentStates.active) {
+        if (consentStatus != null && (consentStatus.getConsentState() == ConsentStates.active || consentStatus.getConsentState() == ConsentStates.rejected)) {
             shouldLaunchNeura = false;
         }
     }

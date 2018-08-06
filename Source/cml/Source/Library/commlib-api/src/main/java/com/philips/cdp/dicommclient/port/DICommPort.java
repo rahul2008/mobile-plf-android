@@ -359,8 +359,8 @@ public abstract class DICommPort<T extends PortProperties> {
                     setIsApplyingChanges(false);
                 }
                 handleResponse(data);
-                requestCompleted();
                 DICommLog.i(LOG_TAG, "putProperties - success");
+                requestCompleted();
             }
 
             public void onError(Error error, String errorData) {
@@ -368,8 +368,8 @@ public abstract class DICommPort<T extends PortProperties> {
                     setIsApplyingChanges(false);
                 }
                 notifyPortListenersOnError(error, errorData);
-                requestCompleted();
                 DICommLog.e(LOG_TAG, "putProperties - error");
+                requestCompleted();
             }
         });
     }
@@ -381,16 +381,16 @@ public abstract class DICommPort<T extends PortProperties> {
             @Override
             public void onSuccess(String data) {
                 handleResponse(data);
-                requestCompleted();
                 DICommLog.i(LOG_TAG, "getProperties - success");
+                requestCompleted();
             }
 
             @Override
             public void onError(Error error, String errorData) {
                 mGetPropertiesRequested = false;
                 notifyPortListenersOnError(error, errorData);
-                requestCompleted();
                 DICommLog.e(LOG_TAG, "getProperties - error");
+                requestCompleted();
             }
         });
     }
@@ -403,16 +403,16 @@ public abstract class DICommPort<T extends PortProperties> {
             public void onSuccess(String data) {
                 mSubscribeRequested = false;
                 handleResponse(data);
-                requestCompleted();
                 DICommLog.i(LOG_TAG, "subscribe - success");
+                requestCompleted();
             }
 
             @Override
             public void onError(Error error, String errorData) {
                 mSubscribeRequested = false;
                 notifyPortListenersOnError(error, errorData);
-                requestCompleted();
                 DICommLog.e(LOG_TAG, "subscribe - error");
+                requestCompleted();
             }
         });
     }
@@ -425,16 +425,16 @@ public abstract class DICommPort<T extends PortProperties> {
             public void onSuccess(String data) {
                 mUnsubscribeRequested = false;
                 handleResponse(data);
-                requestCompleted();
                 DICommLog.i(LOG_TAG, "unsubscribe - success");
+                requestCompleted();
             }
 
             @Override
             public void onError(Error error, String errorData) {
                 mUnsubscribeRequested = false;
                 notifyPortListenersOnError(error, errorData);
-                requestCompleted();
                 DICommLog.e(LOG_TAG, "unsubscribe - error");
+                requestCompleted();
             }
         });
     }
