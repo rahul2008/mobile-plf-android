@@ -202,9 +202,8 @@ public class BleCommunicationStrategyTestSteps {
         doAnswer(new Answer() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
-                when(mockDevice.getState()).thenReturn(Connected);
                 if (deviceListenerMap.containsKey(deviceId)) {
-                    deviceListenerMap.get(deviceId).onStateUpdated(mockDevice);
+                    deviceListenerMap.get(deviceId).onStateUpdated(mockDevice, Connected);
                 }
                 return null;
             }
@@ -213,9 +212,8 @@ public class BleCommunicationStrategyTestSteps {
         doAnswer(new Answer() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
-                when(mockDevice.getState()).thenReturn(Disconnected);
                 if (deviceListenerMap.containsKey(deviceId)) {
-                    deviceListenerMap.get(deviceId).onStateUpdated(mockDevice);
+                    deviceListenerMap.get(deviceId).onStateUpdated(mockDevice, Disconnected);
                 }
                 return null;
             }
