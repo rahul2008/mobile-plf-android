@@ -67,7 +67,7 @@ public class SHNDeviceResources {
 
     public void notifyStateToListener() {
         if (shnDeviceListener != null) {
-            shnDeviceListener.onStateUpdated(shnDevice);
+            shnDeviceListener.onStateUpdated(shnDevice, shnDevice.getState());
         }
     }
 

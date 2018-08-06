@@ -23,11 +23,16 @@ import org.mockito.Mock;
 
 import java.util.UUID;
 
+import static com.philips.pins.shinelib.SHNDevice.State.Connected;
+import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
+import static com.philips.pins.shinelib.SHNDevice.State.Disconnecting;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SHNDeviceWrapperTest {
@@ -180,10 +185,10 @@ public class SHNDeviceWrapperTest {
         whenCreatedThenDeviceListenerIsAttached();
 
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock);
-        shnDeviceListenerArgumentCaptor.getValue().onStateUpdated(shnDeviceMock);
+        shnDeviceListenerArgumentCaptor.getValue().onStateUpdated(shnDeviceMock, Connected);
 
         verify(userHandlerMock).post(runnableCaptor.capture());
-        verify(shnDeviceListenerMock, never()).onStateUpdated(any(SHNDevice.class));
+        verify(shnDeviceListenerMock, never()).onStateUpdated(any(SHNDevice.class), eq(Connected));
     }
 
     @Test
@@ -198,7 +203,7 @@ public class SHNDeviceWrapperTest {
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock2);
         shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock3);
 
-        shnDeviceListenerArgumentCaptor.getValue().onStateUpdated(shnDeviceMock);
+        shnDeviceListenerArgumentCaptor.getValue().onStateUpdated(shnDeviceMock, Connected);
 
         verify(userHandlerMock, times(3)).post(runnableCaptor.capture());
     }
@@ -209,7 +214,7 @@ public class SHNDeviceWrapperTest {
 
         runnableCaptor.getValue().run();
 
-        verify(shnDeviceListenerMock).onStateUpdated(shnDeviceWrapper);
+        verify(shnDeviceListenerMock).onStateUpdated(shnDeviceWrapper, Connected);
     }
 
     @Test
@@ -367,5 +372,18 @@ public class SHNDeviceWrapperTest {
         verify(internalHandlerMock).post(runnableCaptor.capture());
         runnableCaptor.getValue().run();
         verify(shnDeviceMock).readRSSI();
+    }
+
+    @Test
+    public void givenShnDeviceIsInStateDisconnected_whenStateUpdateIsReportedForDisconnecting_thenListenerIsInformedOfDisconnecting() throws Exception {
+        whenCreatedThenDeviceListenerIsAttached();
+        when(shnDeviceMock.getState()).thenReturn(Disconnected);
+        shnDeviceWrapper.registerSHNDeviceListener(shnDeviceListenerMock);
+
+        shnDeviceListenerArgumentCaptor.getValue().onStateUpdated(shnDeviceMock, Disconnecting);
+        verify(userHandlerMock).post(runnableCaptor.capture());
+        runnableCaptor.getValue().run();
+
+        verify(shnDeviceListenerMock).onStateUpdated(shnDeviceWrapper, Disconnecting);
     }
 }

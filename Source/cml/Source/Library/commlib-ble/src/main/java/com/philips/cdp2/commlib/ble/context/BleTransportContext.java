@@ -5,6 +5,8 @@
 
 package com.philips.cdp2.commlib.ble.context;
 
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -22,9 +24,8 @@ import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.tagging.AppInfraTagger;
 import com.philips.pins.shinelib.tagging.SHNTagger;
+import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
 import com.philips.pins.shinelib.utility.SHNLogger;
-
-import java.util.concurrent.Executors;
 
 import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 
@@ -124,6 +125,12 @@ public class BleTransportContext implements TransportContext {
     @NonNull
     SHNCentral createCentral(RuntimeConfiguration runtimeConfiguration, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
         SHNCentral.Builder builder = new SHNCentral.Builder(runtimeConfiguration.getContext());
+
+        HandlerThread thread = new HandlerThread("CommLibThreadForBlueLib");
+        thread.setUncaughtExceptionHandler(new LoggingExceptionHandler());
+        thread.start();
+        builder.setHandler(new Handler(thread.getLooper()));
+
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 
         return builder.create();

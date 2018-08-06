@@ -162,12 +162,7 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
 //    }
 
     private void handleNavigation() {
-        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
-        if (fragment != null) {
-            moveToVerticalAppByClearingStack();
-        } else {
             showProductCatalogFragment(WebPaymentFragment.TAG);
-        }
     }
 
     @Override

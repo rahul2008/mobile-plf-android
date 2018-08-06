@@ -34,7 +34,7 @@ public class SHNDeviceWrapper implements SHNDevice {
 
     private final SHNDevice.SHNDeviceListener shnDeviceListener = new SHNDeviceListener() {
         @Override
-        public void onStateUpdated(@NonNull SHNDevice shnDevice) {
+        public void onStateUpdated(@NonNull SHNDevice shnDevice, @NonNull final State state) {
             if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice) {
                 throw new IllegalArgumentException();
             }
@@ -44,7 +44,7 @@ public class SHNDeviceWrapper implements SHNDevice {
                     userHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            shnDeviceListener.onStateUpdated(SHNDeviceWrapper.this);
+                            shnDeviceListener.onStateUpdated(SHNDeviceWrapper.this, state);
                         }
                     });
                 }
