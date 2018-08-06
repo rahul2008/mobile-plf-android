@@ -70,6 +70,12 @@ public class BleDiscoveryStrategyTestSteps {
     private CommCentral commCentral;
 
     @Mock
+    private Handler mockMainThreadHandler;
+
+    @Captor
+    private ArgumentCaptor<Runnable> mockMainThreadRunnableCaptor;
+
+    @Mock
     private SHNDeviceScanner deviceScanner;
 
     @Mock
@@ -104,7 +110,6 @@ public class BleDiscoveryStrategyTestSteps {
     public void setup() throws SHNBluetoothHardwareUnavailableException {
         initMocks(this);
 
-        Handler mockMainThreadHandler = mock(Handler.class);
         HandlerProvider.enableMockedHandler(mockMainThreadHandler);
 
         final Context mockContext = mock(Context.class);
@@ -123,6 +128,15 @@ public class BleDiscoveryStrategyTestSteps {
             @Override
             public Void answer(final InvocationOnMock invocation) throws Throwable {
                 runnableCaptor.getValue().run();
+                return null;
+            }
+        });
+
+
+        when(mockMainThreadHandler.post(mockMainThreadRunnableCaptor.capture())).thenAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) throws Throwable {
+                mockMainThreadRunnableCaptor.getValue().run();
                 return null;
             }
         });
