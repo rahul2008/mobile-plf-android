@@ -5,13 +5,18 @@
 
 package com.philips.cdp2.commlib.core.discovery;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public abstract class ObservableDiscoveryStrategy implements DiscoveryStrategy {
+
+    private final Handler responseHandler = HandlerProvider.createHandler();
+
     private final Set<DiscoveryListener> discoveryListeners = new CopyOnWriteArraySet<>();
 
     public void addDiscoveryListener(@NonNull DiscoveryListener discoveryListener) {
@@ -23,32 +28,57 @@ public abstract class ObservableDiscoveryStrategy implements DiscoveryStrategy {
     }
 
     protected void notifyDiscoveryStarted() {
-        for (DiscoveryListener listener : discoveryListeners) {
-            listener.onDiscoveryStarted();
+        for (final DiscoveryListener listener : discoveryListeners) {
+            responseHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onDiscoveryStarted();
+                }
+            });
         }
     }
 
-    protected void notifyNetworkNodeDiscovered(@NonNull NetworkNode networkNode) {
-        for (DiscoveryListener listener : discoveryListeners) {
-            listener.onNetworkNodeDiscovered(networkNode);
+    protected void notifyNetworkNodeDiscovered(@NonNull final NetworkNode networkNode) {
+        for (final DiscoveryListener listener : discoveryListeners) {
+            responseHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onNetworkNodeDiscovered(networkNode);
+                }
+            });
         }
     }
 
-    protected void notifyNetworkNodeLost(@NonNull NetworkNode networkNode) {
-        for (DiscoveryListener listener : discoveryListeners) {
-            listener.onNetworkNodeLost(networkNode);
+    protected void notifyNetworkNodeLost(@NonNull final NetworkNode networkNode) {
+        for (final DiscoveryListener listener : discoveryListeners) {
+            responseHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onNetworkNodeLost(networkNode);
+                }
+            });
         }
     }
 
     protected void notifyDiscoveryStopped() {
-        for (DiscoveryListener listener : discoveryListeners) {
-            listener.onDiscoveryStopped();
+        for (final DiscoveryListener listener : discoveryListeners) {
+            responseHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onDiscoveryStopped();
+                }
+            });
         }
     }
 
     protected void notifyDiscoveryFailedToStart() {
-        for (DiscoveryListener listener : discoveryListeners) {
-            listener.onDiscoveryFailedToStart();
+        for (final DiscoveryListener listener : discoveryListeners) {
+            responseHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onDiscoveryFailedToStart();
+                }
+            });
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -24,6 +24,8 @@ public class WifiPortProperties implements PortProperties {
     private boolean dhcp;
     private String macaddress;
     private String cppid;
+    private String travelssid;
+    private String travelpassword;
 
     /**
      * Gets WiFi AP ssid.
@@ -58,6 +60,17 @@ public class WifiPortProperties implements PortProperties {
      * @param password the password
      */
     public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * Sets the WiFi AP ssid and WiFi password
+     *
+     * @param ssid the ssid
+     * @param password the password
+     */
+    public void setSsidAndPassword(String ssid, String password) {
+        this.ssid = ssid;
         this.password = password;
     }
 
@@ -185,5 +198,52 @@ public class WifiPortProperties implements PortProperties {
      */
     public void setCppid(String cppid) {
         this.cppid = cppid;
+    }
+
+    /**
+     * Gets the travelssid.
+     *
+     * @return the travelssid
+     */
+    public String getTravelSsid() {
+        return travelssid;
+    }
+
+    /**
+     * Sets the travelssid.
+     *
+     * @param travelssid the travelssid
+     */
+    public void setTravelSsid(String travelssid) {
+        this.travelssid = travelssid;
+    }
+
+    /**
+     * Gets the travelpassword.
+     *
+     * @return the travelpassword
+     */
+    public String getTravelPassword() {
+        return travelpassword;
+    }
+
+    /**
+     * Sets the travelpassword.
+     *
+     * @param travelpassword the travelpassword
+     */
+    public void setTravelPassword(String travelpassword) {
+        this.travelpassword = travelpassword;
+    }
+
+    /**
+     * Sets the travelssid and travelpassword
+     *
+     * @param travelssid the travelssid
+     * @param travelpassword the travelpassword
+     */
+    public void setTravelSsidAndTravelPassword(String travelssid, String travelpassword) {
+        this.travelssid = travelssid;
+        this.travelpassword = travelpassword;
     }
 }

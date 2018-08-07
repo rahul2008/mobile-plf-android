@@ -87,6 +87,7 @@ public class CommCentralTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        DICommLog.disableLogging();
 
         mockStatic(NetworkNodeDatabaseFactory.class);
         when(NetworkNodeDatabaseFactory.create(runtimeConfigurationMock)).thenReturn(NetworkNodeDatabaseMock);

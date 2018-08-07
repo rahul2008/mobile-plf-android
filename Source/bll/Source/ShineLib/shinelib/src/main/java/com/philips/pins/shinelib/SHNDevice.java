@@ -162,18 +162,14 @@ public interface SHNDevice {
         /**
          * Indicates that the peripheral state changed.
          * <p/>
-         * Please note that when the user receives this callback and retrieves the state via the
-         * {@link #getState()} method, the state may already have changed again and a second
-         * {@link #onStateUpdated(SHNDevice)} is already queued. This can happen for example when
-         * disconnecting and the device state changes rapidly from {@link State#Connected} to
-         * {@link State#Disconnecting} to {@link State#Disconnected}. In this case there are two state changes
-         * resulting in to calls to {@link #onStateUpdated(SHNDevice)}, but at the time the first
-         * callback is processed by the listener, the device state may have already changed state to
-         * {@link State#Disconnected}.
+         * Note that the SHNDevice itself might already be in a different state,
+         * because it changed in the meantime. This fact makes it dangerous to use {@link #getState()}
+         * instead of the passed state value.
          *
          * @param shnDevice instance that has changed state
+         * @param state state to which the device has changed
          */
-        void onStateUpdated(SHNDevice shnDevice);
+        void onStateUpdated(@NonNull SHNDevice shnDevice, @NonNull State state);
 
         /**
          * Indicates that the initiated connection was not successful.
@@ -181,7 +177,7 @@ public interface SHNDevice {
          * @param shnDevice instance that has changed state
          * @param result    reason for the connection to fail
          */
-        void onFailedToConnect(SHNDevice shnDevice, SHNResult result);
+        void onFailedToConnect(@NonNull SHNDevice shnDevice, @NonNull SHNResult result);
 
         /**
          * The rssi from the peripheral

@@ -15,35 +15,24 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
+        multiDexEnabled true
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
-        applicationId "com.philips.cdp2.commlib.devicetest"
-        versionCode 1
-        versionName "0.0.1"
 
         testInstrumentationRunner "com.philips.cdp2.commlib.devicetest.runner.CucumberRunner"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
-    }
-
-    buildTypes {
-        debug {
-        }
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
     }
 
     lintOptions {
         abortOnError false
     }
 }
+
+artifactoryPublish.skip = true
 
 dependencies {
     compileOnly deps.support.annotations
@@ -58,24 +47,14 @@ dependencies {
     implementation project(':cloudcontroller-api')
     implementation deps.gson
 
-    testImplementation project(':bluelib')
-    testImplementation project(':commlib-testutils')
     testImplementation deps.junit
     testImplementation deps.support.annotations
     testImplementation deps.mockito
     testImplementation deps.powermock_junit
-    testImplementation deps.powermock_api_mockito
     testImplementation deps.cucumber
     testImplementation deps.cucumber_junit
-
-    androidTestImplementation project(':bluelib')
-    androidTestImplementation deps.mockito_android
-    androidTestImplementation deps.assertj
-    androidTestImplementation(deps.android_testrunner) {
-        exclude module: 'support-annotations'
-    }
-    androidTestImplementation deps.cucumber
-    androidTestImplementation deps.cucumber_junit
+    testImplementation project(':commlib-testutils')
+    testImplementation project(':bluelib')
 
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 }

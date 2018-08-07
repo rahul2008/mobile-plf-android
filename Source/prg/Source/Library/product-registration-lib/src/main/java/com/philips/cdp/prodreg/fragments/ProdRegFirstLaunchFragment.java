@@ -19,10 +19,8 @@ import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
-import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
-import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
 import com.philips.platform.uid.view.widget.Button;
@@ -73,8 +71,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 getString(R.string.prod_reg_benefits_conf_message));
         registerButton.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());
-        ProdRegTagging.getInstance().trackPage("ProductRegistrationOfferScreen", "trackPage",
-                "ProductRegistrationOfferScreen");
+        ProdRegTagging.getInstance().trackPage(AnalyticsConstants.PRODUCT_REGISTRATION_OFFER_SCREEN);
         return view;
     }
 
@@ -117,10 +114,6 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 if (user.isUserSignIn()) {
                     final ProdRegRegistrationFragment processFragment = new ProdRegRegistrationFragment();
                     processFragment.setArguments(dependencies);
-                    ProdRegTagging.getInstance().trackAction("ProductRegistrationEvent", "specialEvents", "productregistrationOptin");
-                    final ProdRegCache prodRegCache = new ProdRegCache();
-                    new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT, 1);
-                    ProdRegTagging.getInstance().trackAction("ProductRegistrationEvent", "noOfExtendedWarrantyOptIns", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT)));
                     registerButton.setClickable(false);
                     showFragment(processFragment);
                 } else {
