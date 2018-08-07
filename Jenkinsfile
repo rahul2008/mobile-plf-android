@@ -39,8 +39,10 @@ pipeline {
 
         stage('Build+test') {
             when {
-                not { expression { return params.buildType == 'PSRA' }}
-                not { expression { return params.buildType == 'HPFortify' }}
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                }
             }
             steps {
                 timeout(time: 1, unit: 'HOURS') {
@@ -50,6 +52,12 @@ pipeline {
         }
 
         stage('Publish tests') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                }
+            }
             steps {
                 PublishUnitTestsresults()
             }
