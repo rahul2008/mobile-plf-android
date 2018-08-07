@@ -77,7 +77,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @BindView(R2.id.usr_activation_activation_error)
     XRegError mEMailVerifiedError;
 
-    @BindView(R2.id.usr_activation_root_layout)
+    @BindView(R2.id.usr_reg_root_layout)
     LinearLayout usr_activation_root_layout;
 
     AccountActivationPresenter accountActivationPresenter;
