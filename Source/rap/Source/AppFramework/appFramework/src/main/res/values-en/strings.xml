@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<resources tools:ignore="ExtraTranslation, MissingTranslation" xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="BA_AppFramework">AppFramework </string>
     <string name="RA_You_are_not_LoggedIn">You are not Logged In. Please go to Settings and Log In</string>
     <string name="RA_OK">OK</string>
