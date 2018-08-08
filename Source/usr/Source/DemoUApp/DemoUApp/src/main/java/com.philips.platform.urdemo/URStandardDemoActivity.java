@@ -458,7 +458,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
         } else if (i == R.id.btn_registration_with_hsdp_status) {
             UserLoginState userLoginState = mUser.getUserLoginState();
-            Toast.makeText(this, "HSDP User State : " + userLoginState, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "User Login State : " + userLoginState, Toast.LENGTH_SHORT).show();
         } else if (i == R.id.btn_refresh_user) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Refresh User ");
             handleRefreshAccessToken();
@@ -705,7 +705,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
         activity.finish();
-        showToast("HSDP Lazy Loading status : " + RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled());
+        showToast("HSDP Skip login status : " + RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled());
     }
 
     @Override
@@ -741,7 +741,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onHSDPLoginSuccess() {
         RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onHSDPLoginSuccess");
-        showToast("HSDP LoginSuccess ");
+        showToast("HSDP Login Success ");
     }
 
     @Override
