@@ -133,7 +133,7 @@
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
-#-dontpreverify
+-dontpreverify
 -keepattributes *Annotation*
 -keepattributes Signature
 
