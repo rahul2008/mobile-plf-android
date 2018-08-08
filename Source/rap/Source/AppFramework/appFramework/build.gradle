@@ -357,6 +357,8 @@ dependencies {
         implementation philipsdeps.NeuraUApp
         implementation project(':pushnotification')
         implementation project(':themesettings')
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.AppInfraUApp
     }
     implementation deps.butterknife
     annotationProcessor deps.butterknife_compiler
