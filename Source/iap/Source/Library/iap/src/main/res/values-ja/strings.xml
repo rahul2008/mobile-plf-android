@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">新しい支払方法を追加する</string>
   <string name="iap_add_to_cart">カートに追加</string>
   <string name="iap_address">住所</string>
-  <string name="iap_address_error">有効な住所を入力してください</string>
+  <string name="iap_address_error">[ja]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">住所 1</string>
   <string name="iap_address_line_one_hint">住所 1 を入力</string>
   <string name="iap_address_line_two">住所 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[ja]Select payment method</string>
   <string name="iap_checkout_steps">[ja]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[ja]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[ja]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">バウチャーを請求</string>
   <string name="iap_confirm">[ja]Confirm</string>
   <string name="iap_confirmation">確認</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">お客様サポートに問い合わせ</string>
   <string name="iap_contact_consumer_care_for_support">サポートが必要な場合は、フィリップスお客様サポートにお問い合わせください。</string>
   <string name="iap_contact_customer_care">[ja]Contact customer care</string>
+  <string name="iap_contact_details">[ja]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[ja]Please contact Philips Consumer Care</string>
   <string name="iap_continue">続行</string>
   <string name="iap_continue_shopping">買い物を続ける</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[ja]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[ja]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[ja]The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
   <string name="iap_daily_selling_product">[ja]Daily Collection Miniblender</string>
   <string name="iap_delete">削除</string>
   <string name="iap_delete_address">配送先住所を削除中</string>
@@ -186,6 +189,7 @@ FedEx（小包郵便）</string>
   <string name="iap_payment_pending_not_confirmed">支払いが ## 時間以内に確認されなかった場合、次に必要な処理についてメールでお知らせいたします。</string>
   <string name="iap_payment_session_expired">支払いセッションが期限切れになりました</string>
   <string name="iap_pending">[ja]Pending</string>
+  <string name="iap_personal_details">[ja]Personal details</string>
   <string name="iap_phone">電話</string>
   <string name="iap_phone_error">有効な電話番号を入力してください。</string>
   <string name="iap_phone_hint">電話番号を入力</string>

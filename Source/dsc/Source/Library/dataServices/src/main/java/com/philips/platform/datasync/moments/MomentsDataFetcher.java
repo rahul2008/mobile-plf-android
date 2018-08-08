@@ -21,6 +21,8 @@ import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +86,7 @@ public class MomentsDataFetcher extends DataFetcher {
             }
 
             UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
-                    accessProvider.getUserId(), momentsLastSyncUrl);
+                    accessProvider.getUserId(), momentsLastSyncUrl, supportedMomentTypes);
 
             accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
 
@@ -98,10 +100,7 @@ public class MomentsDataFetcher extends DataFetcher {
                 return null;
             }
 
-            List<Moment> supportedMoments = filterUnsupportedMomentTypes(moments);
-            if (!supportedMoments.isEmpty()) {
-                eventing.post(new BackendMomentListSaveRequest(supportedMoments, null));
-            }
+            eventing.post(new BackendMomentListSaveRequest(moments, null));
             return null;
         } catch (RetrofitError ex) {
             eventing.post(new BackendDataRequestFailed(ex));

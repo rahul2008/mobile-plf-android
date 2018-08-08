@@ -37,6 +37,7 @@ public class Utility {
     public static boolean isShippingAddressFilled=false;
     public static boolean isBillingAddressFilled=false;
     public static boolean isAddressFilledFromDeliveryAddress=false;
+    public static boolean isDelvieryFirstTimeUser=false;
 
     public static void hideKeypad(Activity pContext) {
         if(pContext == null){
@@ -103,8 +104,8 @@ public class Utility {
         appendAddressWithNewLineIfNotNull(sb, line1);
         appendAddressWithNewLineIfNotNull(sb, line2);
         appendAddressWithNewLineIfNotNull(sb, address.getTown());
-        appendAddressWithNewLineIfNotNull(sb, address.getRegionName());
-        appendAddressWithNewLineIfNotNull(sb, address.getPostalCode());
+        appendAddressWithNewLineIfNotNull(sb, address.getRegionName()+" "+address.getPostalCode());
+        appendAddressWithNewLineIfNotNull(sb, address.getCountry());
         return sb.toString();
     }
 
@@ -150,6 +151,10 @@ public class Utility {
             fields.setCountryIsocode(addresses.getCountry().getIsocode());
         }
 
+        if (isNotNullNorEmpty(addresses.getCountry().getName())) {
+            fields.setCountry(addresses.getCountry().getName());
+        }
+
         if (isNotNullNorEmpty(addresses.getEmail())) {
             fields.setEmail(addresses.getEmail());
         } else {
@@ -162,7 +167,7 @@ public class Utility {
 
         if (addresses.getRegion() != null) {
             fields.setRegionName(addresses.getRegion().getIsocodeShort());
-            CartModelContainer.getInstance().setRegionIsoCode(addresses.getRegion().getIsocodeShort());
+         //   CartModelContainer.getInstance().setRegionIsoCode(addresses.getRegion().getIsocodeShort());
         }
         return fields;
     }
@@ -207,6 +212,9 @@ public class Utility {
             fields.setCountryIsocode(address.getCountry().getIsocode());
         }
 
+        if (isNotNullNorEmpty(address.getCountry().getName())) {
+            fields.setCountry(address.getCountry().getName());
+        }
 
         if (isNotNullNorEmpty(address.getPhone1())) {
             fields.setPhone1(address.getPhone1());
@@ -247,7 +255,9 @@ public class Utility {
             }
         });
         alertDialogFragment = builder.setCancelable(false).create();
-        alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
+        if(!alertDialogFragment.isVisible()) {
+            alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
+        }
     }
 
     static void dismissAlertFragmentDialog(AlertDialogFragment alertDialogFragment, FragmentManager fragmentManager) {

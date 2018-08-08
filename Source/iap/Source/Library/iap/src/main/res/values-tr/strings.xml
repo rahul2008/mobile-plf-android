@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Yeni ödeme yöntemi ekle</string>
   <string name="iap_add_to_cart">Sepete ekle</string>
   <string name="iap_address">Adres</string>
-  <string name="iap_address_error">Lütfen geçerli bir adres yazın</string>
+  <string name="iap_address_error">[tr]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Adres satırı 1</string>
   <string name="iap_address_line_one_hint">Adres satırı 1\'i doldurun</string>
   <string name="iap_address_line_two">Adres satırı 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[tr]Select payment method</string>
   <string name="iap_checkout_steps">[tr]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[tr]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[tr]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Kupon talep et</string>
   <string name="iap_confirm">[tr]Confirm</string>
   <string name="iap_confirmation">Onay</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Müşteri Desteği ile iletişime geçin</string>
   <string name="iap_contact_consumer_care_for_support">Daha fazla destek için lütfen Philips Müşteri Desteği ile iletişime geçin.</string>
   <string name="iap_contact_customer_care">[tr]Contact customer care</string>
+  <string name="iap_contact_details">[tr]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[tr]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Devam et</string>
   <string name="iap_continue_shopping">Alışverişe devam et</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[tr]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[tr]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[tr]The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
   <string name="iap_daily_selling_product">[tr]Daily Collection Miniblender</string>
   <string name="iap_delete">Silme</string>
   <string name="iap_delete_address">Teslimat Adresi Silme</string>
@@ -186,6 +189,7 @@ FedEx (Paket Gönderi) ile gönderilecektir</string>
   <string name="iap_payment_pending_not_confirmed">Ödemeniz ## saat içinde onaylanmazsa bir sonraki adım için e-posta yoluyla bilgilendirileceksiniz.</string>
   <string name="iap_payment_session_expired">Ödeme süresi doldu</string>
   <string name="iap_pending">[tr]Pending</string>
+  <string name="iap_personal_details">[tr]Personal details</string>
   <string name="iap_phone">Telefon</string>
   <string name="iap_phone_error">Lütfen geçerli bir telefon numarası girin</string>
   <string name="iap_phone_hint">Telefon numarasını girin</string>

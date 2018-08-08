@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column11</string>
   <string name="USR_Account_Merge_Merge_btntxt">Συγχώνευση</string>
   <string name="USR_Account_Setting_Titletxt">Ρυθμίσεις λογαριασμού</string>
   <string name="USR_Action_ConsumerCare_Txt">Εξυπηρέτηση</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Ξεχάσατε τον κωδικό πρόσβασης;</string>
   <string name="USR_Gender_TitleTxt">Φύλο</string>
   <string name="USR_Generic_Network_Error">Δυστυχώς, κάτι πήγε στραβά. Δοκιμάστε ξανά αργότερα.</string>
-  <string name="USR_Generic_Network_ErrorMsg">Αδύνατη η σύνδεση με τον διακομιστή.\nΕλέγξτε τη σύνδεση στο internet και δοκιμάστε πάλι.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Αδύνατη η σύνδεση με τον διακομιστή.\nΕλέγξτε τη σύνδεση στο internet και δοκιμάστε πάλι.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Η υπογραφή έληξε λόγω χρονικού σφάλματος. Ελέγξτε τις ρυθμίσεις ώρας της συσκευής σας.</string>
   <string name="USR_InValid_PwdErrorMsg">Ο κωδικός πρόσβασης δεν ακολουθεί τις παρακάτω οδηγίες.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Μη έγκυρη διεύθυνση email. Ελέγξτε.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Για να βεβαιωθούμε ότι είστε όντως εσείς, συνδεθείτε ξανά μέσω του %s.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Ακύρωση</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Σχεδόν τελειώσατε!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Αποδέχομαι τους %s της εφαρμογής</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Αποδεχτείτε τους Όρους και τις προϋποθέσεις</string>
   <string name="USR_TermsAndConditionsText">Όροι και προϋποθέσεις</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Ο λογαριασμός υπάρχει ήδη.</string>

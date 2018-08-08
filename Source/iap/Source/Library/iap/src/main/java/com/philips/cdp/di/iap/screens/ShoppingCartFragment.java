@@ -117,6 +117,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_dls, true);
+        setCartIconVisibility(false);
         if (isNetworkConnected()) {
             updateCartDetails(mShoppingCartAPI);
         }
@@ -189,7 +190,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onEventReceived(final String event) {
         hideProgressBar();
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
+            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG,true);
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.valueOf(event));
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
@@ -208,7 +209,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
 
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    AddressSelectionFragment.TAG);
+                    AddressSelectionFragment.TAG,true);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
             Utility.showActionDialog(mContext, getString(R.string.iap_remove_product), getString(R.string.iap_cancel)
                     , getString(R.string.iap_delete_item_alert_title), getString(R.string.iap_product_remove_description), getFragmentManager(), this);
@@ -230,7 +231,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
         bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());
         bundle.putSerializable(IAPConstant.SHOPPING_CART_CODE, shoppingCartData);
-        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
+        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
     }
 
     @Override
@@ -245,13 +246,13 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
-                        DLSAddressFragment.TAG);
+                        AddressSelectionFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                 mAddresses = shippingAddresses.getAddresses();
                 bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
                 addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
-                        AddressSelectionFragment.TAG);
+                        AddressSelectionFragment.TAG,true);
             }
         }
     }

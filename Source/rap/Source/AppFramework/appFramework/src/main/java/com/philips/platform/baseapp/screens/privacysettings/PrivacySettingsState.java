@@ -137,6 +137,13 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
                 1,
                 R.string.RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text
         ));
+        definitions.add(new ConsentDefinition(
+                R.string.RA_MYA_Device_Tagging_Clickstream,
+                R.string.RA_MYA_Device_Tagging_Clickstream_Help_Text,
+                Arrays.asList(CatkConsentTypes.TYPE_DEVICE_TAGGING_CLICKSTREAM),
+                1,
+                R.string.RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text
+        ));
         return definitions;
     }
 

@@ -9,12 +9,15 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.utility.AIUtility;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+
+import java.util.Date;
 
 import static com.philips.platform.pif.chi.ConsentError.CONSENT_ERROR_UNKNOWN;
 
@@ -93,13 +96,16 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
     }
 
     void getMarketingConsentDefinition(String consentType, FetchConsentTypeStateCallback callback) {
+
         try {
-            final boolean receiveMarketingEmail = getUser().getReceiveMarketingEmail();
-            RLog.d(TAG, "getMarketingConsentDefinition : receiveMarketingEmail " + receiveMarketingEmail);
+            final boolean isReceiveMarketingEmail = getUser().getReceiveMarketingEmail();
+            String lastModifiedDateTimeOfMarketingEmailConsent = getUser().getLastModifiedDateTimeOfMarketingEmailConsent();
+
+            RLog.d(TAG, "getMarketingConsentDefinition : receiveMarketingEmail " + isReceiveMarketingEmail);
             if (consentType.equals(URConsentProvider.USR_MARKETING_CONSENT)) {
                 RLog.d(TAG, "getMarketingConsentDefinition : onGetConsentsSuccess");
-                //Keeping version 0 as Janrain is not providing but it should be janrain consent version
-                callback.onGetConsentsSuccess(new ConsentStatus(toStatus(receiveMarketingEmail), 0));
+                //Keeping version 0 as Janrain is not providing but it should be janrain consent
+                callback.onGetConsentsSuccess(new ConsentStatus(toStatus(isReceiveMarketingEmail), 0, getTimestamp(lastModifiedDateTimeOfMarketingEmailConsent)));
                 return;
             }
             RLog.e(TAG, "getMarketingConsentDefinition : onGetConsentsFailed");
@@ -135,4 +141,26 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
             callback.onPostConsentFailed(new ConsentError("Error updating Marketing Consent", i));
         }
     }
+
+    protected Date getTimestamp(String timestamp) {
+        if (timestamp != null) {
+            String formattedTimeStamp = getDesiredFormat(timestamp);
+            return AIUtility.convertStringToDate(formattedTimeStamp, "yyyy-MM-dd HH:mm:ss Z", "yyyy-MM-dd HH:mm:ss"); // "2018-07-30 06:29:05.717+0000" ,  "2018-07-30 06:29:05 +0000",2018-07-27 08:56:12.493 +0000
+        }
+        return new Date(0);
+    }
+
+    protected String getDesiredFormat(String janrainTimestamp){
+        int endIndexForDateTime = 19; // last index of millisecond ex - "2018-07-30 06:29:05.717+0000"
+        String timeZone = "";
+        int indexOfPlus = -1;
+        String dateTime = janrainTimestamp.substring(0, endIndexForDateTime);
+
+        if (janrainTimestamp.contains("+")) {
+            indexOfPlus = janrainTimestamp.indexOf("+");
+            timeZone = janrainTimestamp.substring(indexOfPlus, janrainTimestamp.length());
+        }
+        return (dateTime + " " + timeZone).trim();
+    }
+
 }

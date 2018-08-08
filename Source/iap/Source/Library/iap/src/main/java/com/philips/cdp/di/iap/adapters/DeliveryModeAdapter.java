@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -56,8 +57,9 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
         } else {
             holder.deliveryModePrice.setText("0.0");
         }
+
+       // bindToggleButton(holder, holder.deliveryRadioBtnToggle);
         setToggleStatus(holder.deliveryRadioBtnToggle, position, holder.deliveryConfirmBtn);
-        bindToggleButton(holder, holder.deliveryRadioBtnToggle);
 
         holder.deliveryConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +105,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
         private TextView deliveryModePrice;
         private Button deliveryConfirmBtn;
         private RadioButton deliveryRadioBtnToggle;
+        private LinearLayout iap_delivery_mode_select;
 
 
         public DeliverySelectionHolder(View view) {
@@ -112,7 +115,8 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
             deliveryModePrice = (TextView) view.findViewById(R.id.iap_delivery_parcel_amount);
             deliveryConfirmBtn = (Button) view.findViewById(R.id.iap_delivery_confirm_btn);
             deliveryRadioBtnToggle = (RadioButton) view.findViewById(R.id.iap_ups_parcel_radio_btn);
-            view.setOnClickListener(this);
+            iap_delivery_mode_select=(LinearLayout) view.findViewById(R.id.iap_delivery_mode_select);
+            iap_delivery_mode_select.setOnClickListener(this);
           //  deliveryConfirmBtn.setOnClickListener(mConfirmBtnClick);
         }
 

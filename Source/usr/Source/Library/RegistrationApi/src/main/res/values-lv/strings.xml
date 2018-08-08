@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column27</string>
   <string name="USR_Account_Merge_Merge_btntxt">Sapludināt</string>
   <string name="USR_Account_Setting_Titletxt">Konta iestatījumi</string>
   <string name="USR_Action_ConsumerCare_Txt">Klientu apkalpošana</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Vai aizmirsāt paroli?</string>
   <string name="USR_Gender_TitleTxt">Dzimums</string>
   <string name="USR_Generic_Network_Error">Radās neparedzēta kļūda. Lūdzu, vēlāk mēģiniet vēlreiz</string>
-  <string name="USR_Generic_Network_ErrorMsg">Neizdodas savienoties ar serveri.\nLūdzu, pārbaudiet savu interneta savienojumu un mēģiniet vēlreiz.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Neizdodas savienoties ar serveri.\nLūdzu, pārbaudiet savu interneta savienojumu un mēģiniet vēlreiz.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Paraksta derīgums beidzies laika kļūdas dēļ. Lūdzu, pārbaudiet savas ierīces laika iestatījumus.</string>
   <string name="USR_InValid_PwdErrorMsg">Parole neatbilst tālāk esošajām paroles vadlīnijām.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Epasta adrese nav derīga. Lūdzu, pārbaudiet.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Lai apliecinātu, ka tas esat jūs, lūdzu, vēlreiz piesakieties ar %s.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Atcelt</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Gandrīz pabeigts!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Es piekrītu lietotnes %s</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Lūdzu, piekrītiet noteikumiem un nosacījumiem</string>
   <string name="USR_TermsAndConditionsText">Noteikumi un nosacījumi</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Konts jau eksistē.</string>

@@ -5,22 +5,21 @@
 
 package com.philips.cdp2.commlib.lan.discovery;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
-import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.devicecache.CacheData;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.lan.LanDeviceCache;
-import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
+import com.philips.cdp2.commlib.lan.util.SsidProvider;
 import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -30,12 +29,16 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
+import static java.util.Collections.unmodifiableCollection;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,6 +47,7 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -56,19 +60,22 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     private SSDPControlPoint ssdpControlPointMock;
 
     @Mock
-    private LanDeviceCache deviceCacheMock;
+    private DeviceCache deviceCacheMock;
 
     @Mock
     private ConnectivityMonitor connectivityMonitorMock;
 
     @Mock
-    private WifiNetworkProvider wifiNetworkProviderMock;
+    private SsidProvider ssidProviderMock;
 
     @Mock
     private DiscoveryListener discoveryListenerMock;
 
     @Captor
     private ArgumentCaptor<NetworkNode> networkNodeCaptor;
+
+    @Mock
+    private Handler mockHandler;
 
     private LanDiscoveryStrategy strategyUnderTest;
 
@@ -78,6 +85,17 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     public void setUp() {
         initMocks(this);
 
+        doAnswer(new Answer<Boolean>() {
+            @Override
+            public Boolean answer(InvocationOnMock invocation) throws Throwable {
+                Runnable runnable = (Runnable) invocation.getArguments()[0];
+                runnable.run();
+                return true;
+            }
+        }).when(mockHandler).post(any(Runnable.class));
+
+        enableMockedHandler(mockHandler);
+
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -86,7 +104,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
             }
         }).when(connectivityMonitorMock).addAvailabilityListener(ArgumentMatchers.<AvailabilityListener<ConnectivityMonitor>>any());
 
-        strategyUnderTest = new LanDiscoveryStrategy(deviceCacheMock, connectivityMonitorMock, wifiNetworkProviderMock) {
+        strategyUnderTest = new LanDiscoveryStrategy(deviceCacheMock, connectivityMonitorMock, ssidProviderMock) {
             @Override
             SSDPControlPoint createSsdpControlPoint() {
                 return ssdpControlPointMock;
@@ -152,7 +170,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     public void whenADeviceIsLostViaSSDP_thenTheNetworkNodeShouldBeLost() {
         try {
             strategyUnderTest.start();
-        } catch (MissingPermissionException ignored) {
+        }  catch (MissingPermissionException ignored) {
             fail();
         }
 
@@ -174,7 +192,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
                 ref.set((ExpirationCallback) invocation.getArgument(1));
                 return null;
             }
-        }).when(deviceCacheMock).addNetworkNode(any(NetworkNode.class), any(ExpirationCallback.class), anyLong());
+        }).when(deviceCacheMock).add(any(NetworkNode.class), any(ExpirationCallback.class), anyLong());
 
         try {
             strategyUnderTest.start();
@@ -322,6 +340,29 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         strategyUnderTest.start();
 
         verify(discoveryListenerMock).onDiscoveryFailedToStart();
+    }
+
+    @Test
+    public void whenClearingDiscoveredNetworkNodes_thenDeviceCacheShouldBeCleared() {
+        strategyUnderTest.clearDiscoveredNetworkNodes();
+
+        verify(deviceCacheMock).clear();
+    }
+
+    @Test
+    public void whenDeviceCacheIsCleared_thenAllNetworkNodesInCacheWillBeLost() {
+        CacheData mockCacheData = mock(CacheData.class);
+        NetworkNode mockNetworkNode = mock(NetworkNode.class);
+        when(mockCacheData.getNetworkNode()).thenReturn(mockNetworkNode);
+        ArrayList<CacheData> deviceCaches = new ArrayList<>();
+        deviceCaches.add(mockCacheData);
+        Collection<CacheData> fakeCollection = unmodifiableCollection(deviceCaches);
+
+        when(deviceCacheMock.clear()).thenReturn(fakeCollection);
+
+        strategyUnderTest.clearDiscoveredNetworkNodes();
+
+        verify(discoveryListenerMock).onNetworkNodeLost(mockNetworkNode);
     }
 
     private SSDPDevice createSsdpDevice(final @NonNull String cppId, final @NonNull String modelName, final @NonNull String modelNumber) {

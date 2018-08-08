@@ -31,6 +31,7 @@ import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.platform.uid.view.widget.UIPicker;
 
@@ -52,6 +53,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int mSelectedItemPosition = -1;
     private int mQuantityStatus;
     private int mNewCount;
+    FooterShoppingCartViewHolder shoppingCartFooter;
 
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
@@ -190,7 +192,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
         } else {
             //Footer Layout
-            FooterShoppingCartViewHolder shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
+            shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
             ShoppingCartData data;
 
             if (mData.get(0) != null) {
@@ -245,6 +247,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
                 }
+            }
+            if(Utility.isDelvieryFirstTimeUser){
+                setDelvieryVisibility(true);
+            }else {
+                setDelvieryVisibility(false);
             }
         }
 
@@ -319,6 +326,18 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public boolean isFreeDelivery() {
         return mIsFreeDelivery;
+    }
+
+    public void setDelvieryVisibility(boolean visibility){
+        if (visibility) {
+            shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
+            shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
+            shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
+        }
     }
 
     @Override

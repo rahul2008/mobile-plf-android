@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column35</string>
   <string name="USR_Account_Merge_Merge_btntxt">Zlúčiť</string>
   <string name="USR_Account_Setting_Titletxt">Nastavenia konta</string>
   <string name="USR_Action_ConsumerCare_Txt">Starostlivosť o zákazníkov</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">Zabudli ste heslo?</string>
   <string name="USR_Gender_TitleTxt">Pohlavie</string>
   <string name="USR_Generic_Network_Error">Ľutujeme! Došlo k chybe. Skúste to znova neskôr.</string>
-  <string name="USR_Generic_Network_ErrorMsg">Pripojenie na server nie je možné.\nSkontrolujte svoje pripojenie na internet a skúste to znova.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">Pripojenie na server nie je možné.\nSkontrolujte svoje pripojenie na internet a skúste to znova.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">Platnosť podpisu vypršala kvôli časovej chybe. Skontrolujte časové nastavenia vášho zariadenia.</string>
   <string name="USR_InValid_PwdErrorMsg">Heslo nie je v súlade s nižšie uvedenými pokynmi pre heslá.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">Neplatná e-mailová adresa. Skontrolujte ju.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">Na overenie, či ste to naozaj vy, sa ešte raz prihláste cez %s.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">Zrušiť</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">Takmer hotovo!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">Vyjadrujem súhlas s týmto dokumentom aplikácie: %s</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">Vyjadrite súhlas so všeobecnými podmienkami</string>
   <string name="USR_TermsAndConditionsText">Všeobecné podmienky</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">Účet už existuje.</string>

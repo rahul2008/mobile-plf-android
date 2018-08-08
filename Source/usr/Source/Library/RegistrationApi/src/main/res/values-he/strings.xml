@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column20</string>
   <string name="USR_Account_Merge_Merge_btntxt">מזג</string>
   <string name="USR_Account_Setting_Titletxt">הגדרות חשבון</string>
   <string name="USR_Action_ConsumerCare_Txt">צור קשר עם פיליפס</string>
@@ -149,9 +148,9 @@
   <string name="USR_DLS_StratView_Detail_Txt">הגדר את החשבון או התחבר כדי להפיק את המרב מהמוצר המחובר שברשותך</string>
   <string name="USR_DLS_StratView_Title_Txt">בואו נתחיל</string>
   <string name="USR_DLS_SwitchToLogin_Txt">עבור להתחברות</string>
-  <string name="USR_DLS_TermsAndConditionsAcceptanceText">ברור, אני מקבל את</string>
+  <string name="USR_DLS_TermsAndConditionsAcceptanceText">ברור, אני מקבל את %s</string>
   <string name="USR_DLS_TermsAndConditionsAcceptanceText_Error">אשר את התנאים והתניות</string>
-  <string name="USR_DLS_TermsAndConditionsText">%s התנאים והתניות של האפליקציה</string>
+  <string name="USR_DLS_TermsAndConditionsText">התנאים והתניות של האפליקציה</string>
   <string name="USR_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt">התחבר עכשיו</string>
   <string name="USR_DLS_Traditional_Merge_Description">האם ברצונך למזג את החשבונות?</string>
   <string name="USR_DLS_Traditional_Merge_ForgotPassword">שכחתי סיסמה</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">שכחת את סיסמתך?</string>
   <string name="USR_Gender_TitleTxt">מין</string>
   <string name="USR_Generic_Network_Error">אופס! משהו השתבש. נסה שוב מאוחר יותר</string>
-  <string name="USR_Generic_Network_ErrorMsg">אין אפשרות להתחבר לשרת.\nבדוק את חיבור האינטרנט ונסה שוב.[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">אין אפשרות להתחבר לשרת.\nבדוק את חיבור האינטרנט ונסה שוב.</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">תוקף החתימה עומד לפוג בשל שגיאת זמן. בדוק את הגדרות הזמן במכשיר.</string>
   <string name="USR_InValid_PwdErrorMsg">הסיסמה אינה עומדת בהנחיות לגבי יצירת סיסמה שלהלן.</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">כתובת דוא\"ל לא חוקית. אנא בדוק.</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">כדי לוודא שאכן מדובר בך, התחבר באמצעות %s פעם נוספת.</string>
   <string name="USR_Social_Merge_Cancel_btntxt">ביטול</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">כמעט סיימת!</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">אני מאשר את ה%s של היישום</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">אשר את התנאים והתניות</string>
   <string name="USR_TermsAndConditionsText">תנאים והתניות</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">החשבון קיים כבר.</string>

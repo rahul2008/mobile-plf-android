@@ -49,27 +49,6 @@ public class SSEncoderDecoderTest {
     }
 
 
-    @Test
-    public void testEncodeDecodeData_String_Encryption_Mode() throws GeneralSecurityException, SSEncodeDecodeException {
-        byte[] encrptedBytes=new String("dcba").getBytes();
-        PowerMockito.when(cipher.doFinal(any(byte[].class))).thenReturn(encrptedBytes);
-        PowerMockito.when(Base64.encodeToString(any(byte[].class),anyInt())).thenReturn("dcba");
-        assertEquals("dcba",new SSEncoderDecoder().encodeDecodeData(Cipher.ENCRYPT_MODE,secretKey,"abcd"));
-    }
-
-    @Test(expected = SSEncodeDecodeException.class)
-    public void testEncodeDecodeData_String_Encryption_Mode_Exception_Case() throws GeneralSecurityException, SSEncodeDecodeException {
-        PowerMockito.when(cipher.doFinal(any(byte[].class))).thenThrow(new IllegalArgumentException());
-        PowerMockito.when(Base64.encodeToString(any(byte[].class),anyInt())).thenReturn("dcba");
-        assertEquals("dcba",new SSEncoderDecoder().encodeDecodeData(Cipher.ENCRYPT_MODE,secretKey,"abcd"));
-    }
-
-    @Test(expected = SSEncodeDecodeException.class)
-    public void testEncodeDecodeData_String_Encryption_Mode_GSE_Exception_Case() throws GeneralSecurityException, SSEncodeDecodeException {
-        PowerMockito.when(cipher.doFinal(any(byte[].class))).thenThrow(new IllegalBlockSizeException());
-        PowerMockito.when(Base64.encodeToString(any(byte[].class),anyInt())).thenReturn("dcba");
-        assertEquals("dcba",new SSEncoderDecoder().encodeDecodeData(Cipher.ENCRYPT_MODE,secretKey,"abcd"));
-    }
 
     //TODO:Need to refactor code to add version info in decodeBytes
 //    @Test

@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.*;
+import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.imagehandler.*;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -62,7 +63,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_register_success, container, false);
-        ProdRegTagging.getInstance().trackPage("ProductRegistrationSuccessScreen", "trackPage", "ProductRegistrationSuccessScreen");
+        ProdRegTagging.getInstance().trackPage(AnalyticsConstants.PRODUCT_REGISTRATION_SUCCESS_SCREEN);
         Button button = (Button) view.findViewById(R.id.continueButton);
         imageBackground = (ImageView) view.findViewById(R.id.success_background_image);
         prSuccessConfigurableTextView = (TextView) view.findViewById(R.id.prg_success_configurable_textView);
@@ -98,7 +99,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
                 if (!registeredProduct.getEmail()) {
                     prSuccessConfigurableTextView.setVisibility(View.GONE);
                 }
-                ProdRegTagging.getInstance().trackAction("ProdRegSuccessEvent", "productModel", registeredProduct.getCtn());
+                ProdRegTagging.getInstance().trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.PRODUCT_MODEL, registeredProduct.getCtn());
 
                 ProdRegUtil prodRegUtil = new ProdRegUtil();
                 String warntyPeriod = prodRegUtil.getDisplayDate(arguments.getString(ProdRegConstants.PROD_REG_WARRANTY));

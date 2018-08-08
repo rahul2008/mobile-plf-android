@@ -1,11 +1,36 @@
 CommLib for Android - Release Notes
 ===================================
 
+
 Version {next}
 ------------
 
 ### Functionality Delivered
+
+### Backwards Compatibility
 * N/A
+
+### Features not covered
+* N/A
+
+### Breaking Changes
+* N/A
+
+### Defects solved
+* \#123749 Discovery callback are now posted to main thread
+
+### Residual anomalies
+* N/A
+
+### Risks and mitigations
+* N/A
+
+
+Version 1803
+------------
+
+### Functionality Delivered
+* \#131891 CommLib is able to communicate with an appliance without discovery running all the time. When a communication strategy reports available (based on transport being on and appliance is known)then communication will also be attempted.  
 
 ### Backwards Compatibility
 * N/A
@@ -16,9 +41,14 @@ Version {next}
 ### Breaking Changes
 * \#73052 Earlier logging was enabled by default, after this change, it has been disabled. If a proposition now needs CommLib logging, it has to explicitly enable it by calling DICommLog.enableLogging. 
 * \#73052 initLoggingToFile method in DICommLog.java has been removed. It depending on a private method - createFileOnDevice which was using some legacy code and was marked as deprecated from some time, this method is removed too.
+* \#131891 Concept of communication availability has changed. The availability of a appliance strategy does not rely on the appliance being discovered recently. The appliance is available if corresponding communication strategy is available. This also affects CombinedCommunicationStrategy, because it relies on concept of availability. 
+For details see design documents. 
 
 ### Defects solved
-* N/A
+* \#143016 - Fixed f/w upgrade getting stuck in connection state corner case.
+* \#142583 Overridden Method called inside the constructor of DefaultCloudController was made final to prevent overriding and mitigate security threats.
+* \#142595 System Information Leak was mitigated. Log.e was replaced by Log.d in DefaultCloudController and Proguard(.pro) was updated to strip Log.d statements on release time. 
+* \#142808 Removed the code to write logs to the file. 
 
 ### Residual anomalies
 * N/A

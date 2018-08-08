@@ -5,7 +5,6 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="Column1">Column24</string>
   <string name="USR_Account_Merge_Merge_btntxt">マージ</string>
   <string name="USR_Account_Setting_Titletxt">アカウント設定</string>
   <string name="USR_Action_ConsumerCare_Txt">家電製品</string>
@@ -176,7 +175,7 @@
   <string name="USR_Forgot_Password_Title">パスワードをお忘れの場合</string>
   <string name="USR_Gender_TitleTxt">性別</string>
   <string name="USR_Generic_Network_Error">問題が発生しました。しばらくしてから再試行してください</string>
-  <string name="USR_Generic_Network_ErrorMsg">サーバーに接続できません。\nインターネット接続を確認してから再試行してください。[%d]</string>
+  <string name="USR_Generic_Network_ErrorMsg">サーバーに接続できません。\nインターネット接続を確認してから再試行してください。</string>
   <string name="USR_HSDP_Signature_Expired_TimeErrorMsg">タイムエラーのためシグネチャーが期限切れになりました。デバイスの時刻設定を確認してください。</string>
   <string name="USR_InValid_PwdErrorMsg">パスワードが以下の条件に合っていません。</string>
   <string name="USR_InvalidEmailAdddress_ErrorMsg">メールアドレスが無効です。確認してください。</string>
@@ -219,7 +218,6 @@
   <string name="USR_Social_Merge_Accounts_lbltxt">お客様ご自身であることを確認するために、もう一度 %s でログインしてください。</string>
   <string name="USR_Social_Merge_Cancel_btntxt">キャンセル</string>
   <string name="USR_Social_SignIn_AlmostDone_lbltxt">もう少しで完了です</string>
-  <string name="USR_TermsAndConditionsAcceptanceText">アプリの %s に同意する</string>
   <string name="USR_TermsAndConditionsAcceptanceText_Error">アプリの利用規約に同意する</string>
   <string name="USR_TermsAndConditionsText">利用規約</string>
   <string name="USR_Title_AccountAlreadyExists_Txt">アカウントは既に存在します。</string>

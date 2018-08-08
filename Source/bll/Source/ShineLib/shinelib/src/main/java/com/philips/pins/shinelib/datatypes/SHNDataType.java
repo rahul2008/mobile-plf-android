@@ -75,5 +75,6 @@ public enum SHNDataType {
     EnergyIntakeMoonshine,
     ExtendedWeight,
     LuxValueMoonshine,
-    IrLightMoonshine
+    IrLightMoonshine,
+    StreamData
 }

@@ -41,14 +41,14 @@ import com.philips.platform.appframework.logout.URLogout;
 import com.philips.platform.appframework.logout.URLogoutInterface;
 import com.philips.platform.appframework.models.HamburgerMenuItem;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentStatusChangedListener;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
-import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
+import com.philips.platform.baseapp.screens.utility.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
@@ -276,10 +276,10 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         if (!user.isUserSignIn()) {
             avatarName.setText(getString(R.string.RA_DLSS_avatar_default_text));
         } else {
-            String appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
+            AppIdentityInterface.AppState appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
             avatarName.setText(user.getGivenName());
-            if(!appState.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue()))
-            envInfo.setText(appState);
+            if(!appState.name().equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.name()))
+            envInfo.setText(appState.name());
 
         }
     }

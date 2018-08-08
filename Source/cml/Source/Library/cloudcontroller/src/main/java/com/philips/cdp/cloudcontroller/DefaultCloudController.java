@@ -926,7 +926,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
      *
      * @throws IllegalStateException when you call this method before signon was done
      */
-    public void setNewLocale(String countryCode, String languageCode) {
+    public final void setNewLocale(String countryCode, String languageCode) {
         if (mSignOn == null) {
             throw new IllegalStateException("SignOn failed to initialize, so cannot set locale");
         }

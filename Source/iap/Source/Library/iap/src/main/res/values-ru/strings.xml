@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Добавить новый способ оплаты</string>
   <string name="iap_add_to_cart">Добавить в корзину</string>
   <string name="iap_address">Адрес</string>
-  <string name="iap_address_error">Правильно укажите адрес</string>
+  <string name="iap_address_error">[ru]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Адресная строка 1</string>
   <string name="iap_address_line_one_hint">Заполните адресную строку 1</string>
   <string name="iap_address_line_two">Адресная строка 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[ru]Select payment method</string>
   <string name="iap_checkout_steps">[ru]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[ru]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[ru]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Получить ваучер</string>
   <string name="iap_confirm">[ru]Confirm</string>
   <string name="iap_confirmation">Подтверждение</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Обратиться в центр поддержки потребителей</string>
   <string name="iap_contact_consumer_care_for_support">Обратитесь в центр поддержки потребителей Philips для получения дополнительной информации.</string>
   <string name="iap_contact_customer_care">[ru]Contact customer care</string>
+  <string name="iap_contact_details">[ru]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[ru]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Продолжить</string>
   <string name="iap_continue_shopping">Продолжить покупки</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[ru]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[ru]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">Код CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[ru]The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
   <string name="iap_daily_selling_product">[ru]Daily Collection Miniblender</string>
   <string name="iap_delete">Удалить</string>
   <string name="iap_delete_address">Удаление адреса доставки</string>
@@ -186,6 +189,7 @@ FedEx (посылка)</string>
   <string name="iap_payment_pending_not_confirmed">Если оплата не будет подтверждена в течение ## ч, вы получите электронное письмо с инструкциями о дальнейших действиях.</string>
   <string name="iap_payment_session_expired">Время сеанса оплаты истекло</string>
   <string name="iap_pending">[ru]Pending</string>
+  <string name="iap_personal_details">[ru]Personal details</string>
   <string name="iap_phone">Телефон</string>
   <string name="iap_phone_error">Укажите действительный номер телефона</string>
   <string name="iap_phone_hint">Введите номер телефона</string>

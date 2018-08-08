@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
 
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -27,10 +28,9 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.OverlayDialogFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
-import com.philips.platform.ews.demoapplication.microapp.UAppActionBarListener;
+import com.philips.platform.ews.microapp.EWSActionBarListener;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.themesettings.ThemeHelper;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -43,7 +43,7 @@ import java.util.ArrayList;
 /**
  * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
-public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener, UAppActionBarListener {
+public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity implements EWSActionBarListener {
     private static final String TAG = AbstractAppFrameworkBaseActivity.class.getName();
 
     public AbstractUIBasePresenter presenter;
@@ -58,10 +58,18 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
     public abstract int getContainerId();
 
+    public AbstractAppFrameworkBaseActivity(){
+        setLanguagePackNeeded(false);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initUIKIT();
         initTheme();
+        if(BuildConfig.BUILD_TYPE=="psraRelease"){
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                    WindowManager.LayoutParams.FLAG_SECURE);
+        }
         super.onCreate(savedInstanceState);
         RALog.d(TAG,"App initalization status:"+AppFrameworkApplication.isAppDataInitialized());
         if(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized()){
@@ -206,9 +214,6 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
         super.onResume();
         RALog.d(TAG, " onResume called");
-        if(getWindow() != null) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        }
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             startCollectingLifecycleData();
             startPushNotificationFlow();
@@ -236,9 +241,6 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     protected void onPause() {
         super.onPause();
         RALog.d(TAG, " onPause called");
-        if(getWindow() != null) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-        }
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
             AppFrameworkTagging.getInstance().getTagging().trackActionWithInfo("sendData", "appStatus", "Background");

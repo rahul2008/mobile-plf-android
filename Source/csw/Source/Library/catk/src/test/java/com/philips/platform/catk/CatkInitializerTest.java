@@ -76,7 +76,7 @@ public class CatkInitializerTest {
     public void givenValidInputs_whenInitCatk_thenShouldRegisterConsentHandlerWithParams() {
         initializer.initCatk(inputs);
 
-        List<String> expected = Arrays.asList("moment", "coaching", "binary", "research", "analytics");
+        List<String> expected = Arrays.asList("moment", "coaching", "binary", "research", "analytics", "devicetaggingclickstream");
         verify(consentManagerMock).registerHandler(eq(expected), (ConsentHandlerInterface) any());
     }
 

@@ -12,9 +12,14 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -41,9 +46,10 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
 
     @Override
     public void onResume() {
-       super.onResume();
+        super.onResume();
         String title = getArguments().getString(IAPConstant.IAP_STORE_NAME);
         setTitleAndBackButtonVisibility(title, true);
+        setCartIconVisibility(false);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_WEB_PAGE);
         mWebView.onResume();
     }
@@ -58,13 +64,17 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
     void initializeWebView(View group) {
         mWebView = (WebView) group.findViewById(R.id.wv_payment);
         mWebView.getSettings().setJavaScriptEnabled(true);
-
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.getSettings().setAppCacheEnabled(true);
+        mWebView.getSettings().setLoadsImagesAutomatically(true);
+        mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 hideProgressBar();
+
             }
 
             @Override
@@ -89,11 +99,43 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
                     return false;
                 }
             }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view,handler,error);
+                handler.proceed(); // Ignore SSL certificate errors
+            }
+
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                hideProgressBar();
+            }
+
+            @TargetApi(Build.VERSION_CODES.M)
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
+                // Redirect to deprecated method, so you can use it in all SDK versions
+                if (rerr != null && shouldHandleError(rerr.getErrorCode())) {
+                    if (isVisible()) {
+                        onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
+                    }
+                }
+            }
         });
 
         mWebView.loadUrl(mUrl);
-    }
 
+
+
+
+    }
+    private boolean shouldHandleError(final int errorCode) {
+        return (errorCode == WebViewClient.ERROR_CONNECT
+                || errorCode == WebViewClient.ERROR_BAD_URL
+                || errorCode == WebViewClient.ERROR_TIMEOUT
+                || errorCode == WebViewClient.ERROR_HOST_LOOKUP);
+    }
 
     @Override
     public boolean handleBackEvent() {

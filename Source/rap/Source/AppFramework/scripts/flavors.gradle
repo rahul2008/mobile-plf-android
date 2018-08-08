@@ -3,14 +3,10 @@ android {
 
 
     buildTypes {
-        def BOOLEAN = "bool"
-        def TRUE = "true"
-        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
         debug {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
 
         leakCanary {
@@ -18,7 +14,6 @@ android {
             shrinkResources false
             debuggable true
             signingConfig signingConfigs.debug
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
             matchingFallbacks = ['debug', 'release']
         }
         release {
@@ -26,7 +21,6 @@ android {
             shrinkResources true
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
 
         }
         psraRelease {
@@ -35,7 +29,6 @@ android {
             debuggable false
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
             matchingFallbacks = ['release']
         }
     }

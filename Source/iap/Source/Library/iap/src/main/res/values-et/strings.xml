@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">Lisa uus makseviis</string>
   <string name="iap_add_to_cart">Lisa ostukorvi</string>
   <string name="iap_address">Aadress</string>
-  <string name="iap_address_error">Sisestage õige aadress</string>
+  <string name="iap_address_error">[et]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">Aadressi rida 1</string>
   <string name="iap_address_line_one_hint">Sisestage aadressi rida 1</string>
   <string name="iap_address_line_two">Aadressi rida 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[et]Select payment method</string>
   <string name="iap_checkout_steps">[et]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[et]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[et]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">Hangi kupong</string>
   <string name="iap_confirm">[et]Confirm</string>
   <string name="iap_confirmation">Kinnitus</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">Võtke ühendust klienditeenindusega</string>
   <string name="iap_contact_consumer_care_for_support">Täiendava tugiteenuse kasutamiseks võtke ühendust Philipsi klienditeenindusega.</string>
   <string name="iap_contact_customer_care">[et]Contact customer care</string>
+  <string name="iap_contact_details">[et]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[et]Please contact Philips Consumer Care</string>
   <string name="iap_continue">Jätka</string>
   <string name="iap_continue_shopping">Jätka ostmist</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[et]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[et]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[et]The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
   <string name="iap_daily_selling_product">[et]Daily Collection Miniblender</string>
   <string name="iap_delete">Kustuta</string>
   <string name="iap_delete_address">Kohaletoimetamise aadressi kustutamine</string>
@@ -186,6 +189,7 @@ FedEx (pakipost)</string>
   <string name="iap_payment_pending_not_confirmed">Kui makset ei kinnitata ## tunni jooksul, anname teile e-kirja teel teada, mida peaksite edasi tegema.</string>
   <string name="iap_payment_session_expired">Teie makse sooritamise seanss aegus</string>
   <string name="iap_pending">[et]Pending</string>
+  <string name="iap_personal_details">[et]Personal details</string>
   <string name="iap_phone">Telefon</string>
   <string name="iap_phone_error">Sisestage kehtiv telefoninumber</string>
   <string name="iap_phone_hint">Sisestage telefoninumber</string>

@@ -32,6 +32,11 @@ public class ThemeSelectionActivity extends UIDActivity{
     private Toolbar toolbar;
     ThemeSettingsFragment fragment;
     protected SharedPreferences defaultSharedPreferences;
+
+    public ThemeSelectionActivity (){
+        setLanguagePackNeeded(false);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper helper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(this), this);

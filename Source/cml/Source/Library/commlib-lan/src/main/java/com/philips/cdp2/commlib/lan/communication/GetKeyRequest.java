@@ -8,7 +8,6 @@ package com.philips.cdp2.commlib.lan.communication;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -17,11 +16,11 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.core.util.GsonProvider;
 
-import java.util.HashMap;
-
 import javax.net.ssl.SSLContext;
+import java.util.HashMap;
 
 public class GetKeyRequest extends LanRequest {
 
@@ -29,8 +28,8 @@ public class GetKeyRequest extends LanRequest {
     private static final String SECURITY_PORTNAME = "security";
     private static final int SECURITY_PRODUCTID = 0;
 
-    public GetKeyRequest(final @NonNull NetworkNode networkNode, @Nullable SSLContext sslContext, ResponseHandler responseHandler) {
-        super(networkNode, sslContext, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.GET, new HashMap<String, Object>(), responseHandler, null);
+    public GetKeyRequest(final @NonNull NetworkNode networkNode, final @NonNull ConnectivityMonitor connectivityMonitor, final @Nullable SSLContext sslContext, final @NonNull ResponseHandler responseHandler) {
+        super(networkNode, connectivityMonitor, sslContext, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.GET, new HashMap<String, Object>(), responseHandler, null);
     }
 
     @Override

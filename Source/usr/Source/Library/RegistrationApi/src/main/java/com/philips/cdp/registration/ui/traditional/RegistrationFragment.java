@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,15 +28,16 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.errors.NotificationMessage;
 import com.philips.cdp.registration.events.CounterHelper;
 import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
@@ -53,13 +55,10 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.inject.Inject;
 
 
-public class RegistrationFragment extends Fragment implements NetworkStateListener, BackEventListener, CounterListener {
+public class RegistrationFragment extends Fragment implements NetworkStateListener, BackEventListener, CounterListener, URNotification.URNotificationInterface {
 
     @Inject
     NetworkUtility networkUtility;
@@ -86,6 +85,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     private boolean isCounterRunning;
 
     private static final String TAG = RegistrationFragment.class.getSimpleName();
+    private URNotification notification;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -264,24 +264,17 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
             if (RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode)) {
                 launchMarketingAccountFragment();
-                RLog.i(TAG,"handleUseRLoginStateFragments : launchMarketingAccountFragment");
+                RLog.i(TAG, "handleUseRLoginStateFragments : launchMarketingAccountFragment");
             } else {
                 launchMyAccountFragment();
-                RLog.i(TAG,"handleUseRLoginStateFragments : launchMyAccountFragment");
+                RLog.i(TAG, "handleUseRLoginStateFragments : launchMyAccountFragment");
             }
 
         } else {
-            RLog.i(TAG,"handleUseRLoginStateFragments : launchHomeFragment");
+            RLog.i(TAG, "handleUseRLoginStateFragments : launchHomeFragment");
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
-            trackMultipleActionsRegistration();
             replaceWithHomeFragment();
         }
-    }
-
-    private static void trackMultipleActionsRegistration() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_USER_REGISTRATION);
-        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
     private void launchMyAccountFragment() {
@@ -347,7 +340,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     public void navigateToHome() {
 
-        RLog.i(TAG,"navigateToHome : is called");
+        RLog.i(TAG, "navigateToHome : is called");
 
         FragmentManager fragmentManager = getChildFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
@@ -363,7 +356,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     public void replaceFragment(Fragment fragment, String fragmentTag) {
 
-        RLog.i(TAG,"replaceFragment : is called");
+        RLog.i(TAG, "replaceFragment : is called");
 
         try {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -395,7 +388,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     public void addAlmostDoneFragment(JSONObject preFilledRecord, String provider,
                                       String registrationToken) {
 
-        RLog.i(TAG,"addAlmostDoneFragment : is called");
+        RLog.i(TAG, "addAlmostDoneFragment : is called");
 
         AlmostDoneFragment socialAlmostDoneFragment = new AlmostDoneFragment();
         Bundle socialAlmostDoneFragmentBundle = new Bundle();
@@ -410,19 +403,19 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     public void addAlmostDoneFragmentforTermsAcceptance() {
-        RLog.i(TAG,"addAlmostDoneFragmentforTermsAcceptance : is called");
+        RLog.i(TAG, "addAlmostDoneFragmentforTermsAcceptance : is called");
         AlmostDoneFragment almostDoneFragment = new AlmostDoneFragment();
         addFragment(almostDoneFragment);
     }
 
     public void addPhilipsNewsFragment() {
-        RLog.i(TAG,"addPhilipsNewsFragment : is called");
+        RLog.i(TAG, "addPhilipsNewsFragment : is called");
         PhilipsNewsFragment philipsNewsFragment = new PhilipsNewsFragment();
         addFragment(philipsNewsFragment);
     }
 
     public void addMergeAccountFragment(String registrationToken, String provider, String emailId) {
-        RLog.i(TAG,"addMergeAccountFragment : is called");
+        RLog.i(TAG, "addMergeAccountFragment : is called");
         MergeAccountFragment mergeAccountFragment = new MergeAccountFragment();
         Bundle mergeFragmentBundle = new Bundle();
         mergeFragmentBundle.putString(RegConstants.SOCIAL_PROVIDER, provider);
@@ -433,7 +426,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     public void addMergeSocialAccountFragment(Bundle bundle) {
-        RLog.i(TAG,"addMergeSocialAccountFragment : is called");
+        RLog.i(TAG, "addMergeSocialAccountFragment : is called");
         MergeSocialToSocialAccountFragment mergeAccountFragment
                 = new MergeSocialToSocialAccountFragment();
         mergeAccountFragment.setArguments(bundle);
@@ -442,7 +435,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
 
     public void launchAccountActivationFragmentForLogin() {
-        RLog.i(TAG,"launchAccountActivationFragmentFoRLogin : is called");
+        RLog.i(TAG, "launchAccountActivationFragmentFoRLogin : is called");
         Bundle bundle = new Bundle();
         bundle.putBoolean(RegConstants.IS_SOCIAL_PROVIDER, true);
         trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
@@ -453,13 +446,13 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
 
     public void addResetPasswordFragment() {
-        RLog.i(TAG,"addResetPasswordFragment : is called");
+        RLog.i(TAG, "addResetPasswordFragment : is called");
         ForgotPasswordFragment resetPasswordFragment = new ForgotPasswordFragment();
         addFragment(resetPasswordFragment);
     }
 
     public void hideKeyBoard() {
-        RLog.i(TAG,"hideKeyBoard : is called");
+        RLog.i(TAG, "hideKeyBoard : is called");
         if (getParentActivity() != null) {
             InputMethodManager imm = (InputMethodManager) getParentActivity()
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -471,7 +464,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     public void showKeyBoard() {
-        RLog.i(TAG,"showKeyBoard : is called");
+        RLog.i(TAG, "showKeyBoard : is called");
         if (getParentActivity() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager)
                     getParentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -481,6 +474,12 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
+        RLog.i(TAG, "onNetWorkStateReceived : is called" + isOnline);
+        if (isOnline) {
+            hideNotificationBarView();
+        } else {
+            showNotificationBarOnNetworkNotAvailable();
+        }
         if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             UserRegistrationInitializer.getInstance().resetInitializationState();
         }
@@ -578,6 +577,10 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         }
     }
 
+    @Override
+    public void notificationInlineMsg(String msg) {
+//        notificationInterface = baseFragment;
+    }
 
 
     public class MyCountDownTimer extends CountDownTimer {
@@ -598,9 +601,9 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     public View getNotificationContentView(String title, String message) {
-        RLog.i(TAG,"getNotificationContentView : isCalled");
+        RLog.i(TAG, "getNotificationContentView : isCalled");
         View view = View.inflate(getContext(), R.layout.reg_notification_bg_accent, null);
-        ((TextView) view.findViewById(R.id.uid_notification_title)).setText(title+" "+message);
+        ((TextView) view.findViewById(R.id.uid_notification_title)).setText(title + " " + message);
 //        ((TextView) view.findViewById(R.id.uid_notification_content)).setText(message);
         view.findViewById(R.id.uid_notification_title).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
@@ -612,6 +615,39 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             }
         });
         return view;
+    }
+
+
+    public void updateErrorNotification(String errorMessage, int errorCode) {
+        RLog.e(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
+        getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
+    }
+
+    public void updateErrorNotification(String errorMessage) {
+        RLog.e(TAG, "errorMessage = " + errorMessage);
+        getNotification().showNotification(new NotificationMessage(errorMessage));
+
+
+    }
+
+    public URNotification getNotification() {
+        if (notification == null) {
+            return notification = new URNotification(this.getParentActivity(), this);
+        }
+        return notification;
+    }
+
+    public void showNotificationBarOnNetworkNotAvailable() {
+
+        new Handler().postDelayed(() -> {
+            getNotification().showNotification(
+                    new NotificationMessage(getContext().getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), getContext().getResources().getString(R.string.USR_Network_ErrorMsg)));
+        }, 100);
+    }
+
+    public void hideNotificationBarView() {
+        if (getNotification() != null)
+            getNotification().hideNotification();
     }
 
 }

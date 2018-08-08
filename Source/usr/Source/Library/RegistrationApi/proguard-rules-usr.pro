@@ -3,10 +3,7 @@
 -dontwarn com.fasterxml.jackson.databind.ext.Java7SupportImpl
 -keep class com.philips.cdp.registration.BuildConfig {*;}
 -keep class com.philips.cdp.registration.User {*;}
--keep class com.philips.cdp.registration.hsdp.HsdpUserRecord$* {*;}
--keepattributes InnerClasses,EnclosingMethod
-
-
+-keep class com.philips.cdp.registration.hsdp.HsdpUserRecord {*;}
 -keep class com.philips.cdp.registration.errormapping.CheckLocale {*;}
 -keep class com.philips.cdp.registration.dao.** {*;}
 -keep class com.philips.cdp.registration.ui.utils.** {*;}

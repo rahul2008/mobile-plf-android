@@ -66,7 +66,7 @@ public class QuickTestConnection {
             private boolean skippedFirstStateUpdate;
 
             @Override
-            public void onStateUpdated(final SHNDevice shnDevice) {
+            public void onStateUpdated(final SHNDevice shnDevice, @NonNull final SHNDevice.State state) {
 
                 if (!skippedFirstStateUpdate) {
                     skippedFirstStateUpdate = true;
@@ -76,7 +76,7 @@ public class QuickTestConnection {
                 internalHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if (SHNDevice.State.Connected == shnDevice.getState()) {
+                        if (SHNDevice.State.Connected == state) {
                             stop();
                             listener.onSuccess();
                         } else if (SHNDevice.State.Disconnected == shnDevice.getState()) {

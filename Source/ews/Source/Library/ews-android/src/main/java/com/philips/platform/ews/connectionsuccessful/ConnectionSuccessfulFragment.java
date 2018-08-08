@@ -33,7 +33,14 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((EWSActionBarListener) getContext()).closeButton(false);
+        EWSActionBarListener actionBarListener = null;
+        try {
+            actionBarListener = ((EWSActionBarListener) getContext());
+        } catch (ClassCastException e) {}
+
+        if (actionBarListener != null) {
+            actionBarListener.closeButton(false);
+        }
     }
 
     @SuppressWarnings("ConstantConditions")

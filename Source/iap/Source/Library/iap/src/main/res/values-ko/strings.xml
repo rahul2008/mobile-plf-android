@@ -13,7 +13,7 @@
   <string name="iap_add_payment_method">새 결제 방법 추가</string>
   <string name="iap_add_to_cart">장바구니에 추가</string>
   <string name="iap_address">주소</string>
-  <string name="iap_address_error">유효한 주소를 입력하십시오.</string>
+  <string name="iap_address_error">[ko]Address must have characters with a mix of letters (A-Z, a-z), digits (0-9), symbols (\",\" ,\"-\", “.”)</string>
   <string name="iap_address_line_one">주소란 1</string>
   <string name="iap_address_line_one_hint">주소란 1 입력</string>
   <string name="iap_address_line_two">주소란 2</string>
@@ -44,6 +44,7 @@
   <string name="iap_checkout_payment_method">[ko]Select payment method</string>
   <string name="iap_checkout_steps">[ko]Steps %s of 3: Address</string>
   <string name="iap_checkout_steps_overview">[ko]Steps %s of 3: Overview</string>
+  <string name="iap_checkoutsummary_steps_overview">[ko]Step 3 of 3: Overview</string>
   <string name="iap_claim_voucher">상품권 받기</string>
   <string name="iap_confirm">[ko]Confirm</string>
   <string name="iap_confirmation">확인</string>
@@ -51,6 +52,7 @@
   <string name="iap_contact_consumer_care">고객 상담실 문의</string>
   <string name="iap_contact_consumer_care_for_support">지원이 추가로 필요하신 경우 필립스 고객 상담실에 문의하십시오.</string>
   <string name="iap_contact_customer_care">[ko]Contact customer care</string>
+  <string name="iap_contact_details">[ko]Contact details</string>
   <string name="iap_contact_philips_consumer_care">[ko]Please contact Philips Consumer Care</string>
   <string name="iap_continue">계속</string>
   <string name="iap_continue_shopping">계속 쇼핑</string>
@@ -63,6 +65,7 @@
   <string name="iap_cvv_code">[ko]Please enter the CVV/CVC </string>
   <string name="iap_cvv_code_hint_description">[ko]The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
+  <string name="iap_cvvpopup_3digit_info">[ko]The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
   <string name="iap_daily_selling_product">[ko]Daily Collection Miniblender</string>
   <string name="iap_delete">삭제</string>
   <string name="iap_delete_address">배송 주소 삭제 중</string>
@@ -186,6 +189,7 @@ FedEx(소포 운송)로 배송됩니다.</string>
   <string name="iap_payment_pending_not_confirmed">결제가 ##시간 내에 확인되지 않으면 이메일을 통해 다음 단계를 안내합니다.</string>
   <string name="iap_payment_session_expired">결제 세션이 만료되었습니다.</string>
   <string name="iap_pending">[ko]Pending</string>
+  <string name="iap_personal_details">[ko]Personal details</string>
   <string name="iap_phone">휴대폰</string>
   <string name="iap_phone_error">유효한 전화 번호를 입력하십시오.</string>
   <string name="iap_phone_hint">전화 번호 입력</string>

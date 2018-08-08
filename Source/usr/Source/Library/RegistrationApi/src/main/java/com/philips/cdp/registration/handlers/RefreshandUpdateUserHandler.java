@@ -17,11 +17,10 @@ import com.philips.cdp.registration.controller.LoginTraditional;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.hsdp.HsdpUserRecord;
+import com.philips.cdp.registration.hsdp.HsdpUserRecordV2;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONObject;
 
@@ -52,7 +51,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
         }
 
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated() && !UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-            RLog.d(TAG, "refreshAndUpdateUser : not isJumpInitializated and not isRegInitializationInProgress");
+            RLog.d(TAG, "refreshAndUpdateUser : not isJumpInitializated and RegInitialization Not In Progress");
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
             return;
@@ -81,9 +80,9 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
                 if ((user.isEmailVerified() || user.isMobileVerified())) {
                     HsdpUser hsdpUser = new HsdpUser(mContext);
-                    HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-                    if (hsdpUserRecord == null) {
-                        RLog.d(TAG, "refreshUpdateUser : hsdpUserRecord is NULL  ");
+                    HsdpUserRecordV2 hsdpUserRecordV2 = hsdpUser.getHsdpUserRecord();
+                    if (hsdpUserRecordV2 == null) {
+                        RLog.d(TAG, "refreshUpdateUser : hsdpUserRecordV2 is NULL  ");
                         LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
                             @Override
                             public void onLoginSuccess() {
@@ -94,12 +93,12 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                             @Override
                             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                                 RLog.e(TAG, "refreshUpdateUser : onLoginFailedWithError  ");
-                                handler.onRefreshUserFailed(RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED);
+                                handler.onRefreshUserFailed(userRegistrationFailureInfo.getErrorCode());
                             }
                         }, mContext, mUpdateUserRecordHandler, null, null);
                         loginTraditional.loginIntoHsdp();
                     } else {
-                        RLog.d(TAG, "refreshUpdateUser : hsdpUserRecord is not NULL  ");
+                        RLog.d(TAG, "refreshUpdateUser : hsdpUserRecordV2 is not NULL  ");
                         handler.onRefreshUserSuccess();
                     }
                 } else {
