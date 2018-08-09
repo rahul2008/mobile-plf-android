@@ -73,13 +73,16 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
 
             SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) object);
             String sender = smsMessage.getDisplayOriginatingAddress();
-            RLog.i(TAG, "Sender Number" + sender+"Validation number "+context.getString(R.string.otp_sender));
+            RLog.d(TAG, "Sender Number" + sender + " getOriginatingAddress " + smsMessage.getOriginatingAddress());
+            RLog.d(TAG, "Sender Number" + sender + " getServiceCenterAddress " + smsMessage.getServiceCenterAddress());
+
+            RLog.d(TAG, "Sender Number" + sender + "Validation number starts with" + context.getString(R.string.otp_sender));
             //Check the sender to filter messages which we require to read
 
-            if (sender.equals(context.getString(R.string.otp_sender))) {
+            if (sender.startsWith(context.getString(R.string.otp_sender))) {
 
                 String messageBody = smsMessage.getMessageBody();
-                RLog.i(TAG, "Sender Message" + messageBody);
+                RLog.d(TAG, "Sender Message" + messageBody);
                 getOTPFromMessage(messageBody);
             }
         }
@@ -114,7 +117,7 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
             // https://developer.android.com/training/permissions/requesting.html
         }
 
-          requestPermissions(mReceiveAndRegisterOTPListener.getActivityContext(), new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
+        requestPermissions(mReceiveAndRegisterOTPListener.getActivityContext(), new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
     }
 
     public void registerReceiver() {
@@ -125,7 +128,7 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
     public void unRegisterReceiver() {
         try {
             mReceiveAndRegisterOTPListener.getActivityContext().unregisterReceiver(mReceiveAndRegisterOTPListener.getSMSBroadCastReceiver());
-        } catch (Exception e){
+        } catch (Exception e) {
             RLog.i(TAG, " ReceiveAndRegisterOTPListener is not set");
         }
     }
