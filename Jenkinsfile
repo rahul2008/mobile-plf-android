@@ -12,7 +12,7 @@ if (BranchName == "develop") {
 pipeline {
     agent {
         node {
-            label 'nodes'
+            label nodes
         }
     }
     parameters {
