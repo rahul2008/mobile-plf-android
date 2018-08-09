@@ -14,21 +14,11 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
-import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
-import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
-import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
-import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.dscdemo.utility.SyncScheduler;
-import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 
 
 public class MarketingOptin extends BaseState implements UserRegistrationUIEventListener {
@@ -43,12 +33,14 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-
+        
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-        urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
+        if (getAppInfra().getServiceDiscovery().getHomeCountry().equalsIgnoreCase("IN")) {
+            urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
+        }
         urLaunchInput.setUIFlow(UIFlow.FLOW_B);
         urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setUserRegistrationUIEventListener(this);
@@ -66,6 +58,9 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
     public void init(Context context) {
         this.context = context;
 
+    }
+    protected AppInfraInterface getAppInfra() {
+        return ((AppFrameworkApplication) context).getAppInfra();
     }
 
     @Override
