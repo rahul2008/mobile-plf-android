@@ -475,7 +475,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onSendForgotPasswordSuccess() {
-        handleSendForgotSuccess();
+        if(isVisible()) {
+            handleSendForgotSuccess();
+        }
     }
 
     private void handleSendForgotSuccess() {
