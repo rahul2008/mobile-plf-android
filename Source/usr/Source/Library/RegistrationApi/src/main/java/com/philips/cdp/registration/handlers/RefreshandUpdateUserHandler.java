@@ -116,9 +116,9 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                                 //Nope
                             }
                         }, mContext, mUpdateUserRecordHandler, null, null);
-                        RLog.d(TAG, "refreshUpdateUser onSuccess isSkippedHsdpLoginEnabled :" + RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled());
+                        RLog.d(TAG, "refreshUpdateUser onSuccess isHSDPSkipLoginConfigurationAvailable :" + RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable());
                         RLog.d(TAG, "refreshUpdateUser onSuccess isHsdpFlow" + RegistrationConfiguration.getInstance().isHsdpFlow());
-                        if (!RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled() && RegistrationConfiguration.getInstance().isHsdpFlow()) {
+                        if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow()) {
                             RLog.d(TAG, "onSuccess if isHsdpLazyLoadingStatus is not true");
                             loginTraditional.loginIntoHsdp();
                         } else {

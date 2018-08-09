@@ -53,7 +53,7 @@ public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.Sig
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (!RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled() && RegistrationConfiguration.getInstance().isHsdpFlow() &&
+        if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow() &&
                 (user.isEmailVerified() || user.isMobileVerified())) {
             String emailorMobile = getUserEmailOrMobile(user);
             RLog.d(TAG, "onSuccess : from LoginSocialNativeProvider is called");

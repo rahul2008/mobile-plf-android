@@ -59,7 +59,7 @@ public class RegisterSocial extends BaseHSDPLogin implements LoginHandler, Jump.
         User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordRegister();
 
-        if (!RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled() && RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
+        if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
             RLog.d(TAG, "onSuccess : if : is called");
             String emailOrMobile = getUserEmailOrMobile(user);
             hsdpLogin(user.getAccessToken(), emailOrMobile, mLoginHandler);
@@ -239,7 +239,7 @@ public class RegisterSocial extends BaseHSDPLogin implements LoginHandler, Jump.
         }
         RLog.d(TAG, "handleOnLoginSuccess : is isEmailVerified" + isEmailVerified);
 
-        if (!RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled() && RegistrationConfiguration.getInstance().isHsdpFlow() && isEmailVerified) {
+        if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow() && isEmailVerified) {
             RLog.d(TAG, "handleOnLoginSuccess : is hsdpflow  and email verified");
             try {
                 hsdpLogin(captured.getAccessToken(), captured.getString("email"), mLoginHandler);

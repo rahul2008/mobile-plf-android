@@ -226,13 +226,13 @@ public class RegistrationConfiguration {
      *
      * @return boolean
      */
-    public boolean isSkippedHsdpLoginEnabled() {
+    public boolean isHSDPSkipLoginConfigurationAvailable() {
         Object obj = appConfiguration.getDelayedHsdpLoginStatus();
         if (obj != null) {
-            RLog.i("RegistrationConfiguration", "isSkippedHsdpLoginEnabled : " + Boolean.parseBoolean((String) obj));
+            RLog.i("RegistrationConfiguration", "isHSDPSkipLoginConfigurationAvailable : " + Boolean.parseBoolean((String) obj));
             return Boolean.parseBoolean((String) obj);
         }
-        RLog.i("RegistrationConfiguration", "isSkippedHsdpLoginEnabled : false");
+        RLog.i("RegistrationConfiguration", "isHSDPSkipLoginConfigurationAvailable : false");
         return false;
     }
 

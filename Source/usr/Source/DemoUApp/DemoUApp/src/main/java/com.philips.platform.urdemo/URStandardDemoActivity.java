@@ -691,7 +691,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
         activity.finish();
-        showToast("HSDP Skip login status : " + RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled());
+        showToast("HSDP Skip login status : " + RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable());
     }
 
     @Override

@@ -44,7 +44,7 @@ public class BaseHSDPLogin {
 
             @Override
             public void onLoginSuccess() {
-                if (RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled())
+                if (RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable())
                     hsdpAuthenticationListener.onHSDPLoginSuccess();
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
                 RLog.d(TAG, "onSuccess : if : HSDPAuthenticationListener : onLoginSuccess : is called with :" + mUser.getUserLoginState());
@@ -53,7 +53,7 @@ public class BaseHSDPLogin {
             @Override
             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                 AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                if (RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled())
+                if (RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable())
                     hsdpAuthenticationListener.onHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 RLog.d(TAG, "onLoginFailedWithError : if : HSDPAuthenticationListener : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());
@@ -97,7 +97,7 @@ public class BaseHSDPLogin {
             @Override
             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                 AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                if (RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled())
+                if (RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable())
                     loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 RLog.d(TAG, "onLoginFailedWithError : if : LoginHandler : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());

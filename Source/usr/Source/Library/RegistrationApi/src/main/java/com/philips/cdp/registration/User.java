@@ -567,16 +567,20 @@ public class User {
     public UserLoginState getUserLoginState() {
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {
-            capturedRecord = CaptureRecord.loadFromDisk(mContext);
             RLog.i(TAG, "getUserLoginState captureRecord is NULL");
-            if (capturedRecord == null) return UserLoginState.USER_NOT_LOGGED_IN;
+            capturedRecord = CaptureRecord.loadFromDisk(mContext);
+            if (capturedRecord == null) {
+                RLog.i(TAG, "getUserLoginState captureRecord from disk is NULL");
+                return UserLoginState.USER_NOT_LOGGED_IN;
+            }
+        }
+
+        if (capturedRecord.getAccessToken() == null) {
+            RLog.i(TAG, "getUserLoginState captureRecord.getAccessToken is NULL");
+            return UserLoginState.USER_NOT_LOGGED_IN;
         }
 
         boolean isHsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
-        if (!isSignedInOnRegistrationClientIdPresent(capturedRecord)) {
-            RLog.i(TAG, "getUserLoginState USER_NOT_LOGGED_IN");
-            return UserLoginState.USER_NOT_LOGGED_IN;
-        }
         if (!isAccountVerificationSignIn(capturedRecord)) {
             RLog.i(TAG, "getUserLoginState PENDING_VERIFICATION");
             return UserLoginState.PENDING_VERIFICATION;
@@ -596,28 +600,33 @@ public class User {
 
     public void authorizeHSDP(HSDPAuthenticationListener hsdpAuthenticationListener) {
         final boolean hsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
-
-        if (!hsdpFlow) {
-            RLog.d(TAG, "authorizeHSDP: not HSDP flow and HSDP configuration not done");
-            UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7011, "Please set the HSDP Configuration first");
-        }
-
         RLog.d(TAG, "authorizeHSDP: proposition called this public api");
         if (networkUtility.isNetworkAvailable()) {
+
+            if (getUserLoginState() == UserLoginState.USER_NOT_LOGGED_IN) {
+                UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7012, "Janrain Login not success");
+            }
             RLog.d(TAG, "authorizeHSDP: Janrain user signed-in not an HSDP So making HSDP call");
-            hsdpLogin(hsdpFlow, hsdpAuthenticationListener);
+            if (hsdpFlow)
+                hsdpLogin(hsdpAuthenticationListener);
+            else {
+                RLog.d(TAG, "authorizeHSDP:  hsdpUser :" + hsdpFlow + " and hsdpUser.getHsdpUserRecord() is " +
+                        "null");
+                throw new RuntimeException("Please configured HSDP configuration before making authorizeHSDP api call");
+            }
         } else {
             RLog.d(TAG, "authorizeHSDP: Network not available");
             UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.NO_NETWORK, new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         }
 
+
     }
 
-    private void hsdpLogin(boolean hsdpFlow, HSDPAuthenticationListener hsdpAuthenticationListener) {
-        RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = " + hsdpFlow + " " + RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled());
+    private void hsdpLogin(HSDPAuthenticationListener hsdpAuthenticationListener) {
+        RLog.d(TAG, "authorizeHSDP:hsdpLogin: " + RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable());
 
-        if (RegistrationConfiguration.getInstance().isSkippedHsdpLoginEnabled() && hsdpFlow) {
-            RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = " + hsdpFlow);
+        if (RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable()) {
+            RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = ");
             BaseHSDPLogin baseHSDPLogin = new BaseHSDPLogin(mContext);
             if (hsdpAuthenticationListener != null) {
                 RLog.d(TAG, "authorizeHSDP: with mTraditionalLoginHandler ");
@@ -625,10 +634,6 @@ public class User {
             } else {
                 throw new RuntimeException("Please provide HSDPAuthentiationListner");
             }
-        } else {
-            RLog.d(TAG, "authorizeHSDP:  hsdpUser :" + hsdpFlow + " and hsdpUser.getHsdpUserRecord() is " +
-                    "null");
-            throw new RuntimeException("Please configured HSDP configuration before making authorizeHSDP api call");
         }
     }
 
@@ -642,33 +647,7 @@ public class User {
 
     @Deprecated
     public boolean isUserSignIn() {
-        CaptureRecord capturedRecord = Jump.getSignedInUser();
-        if (capturedRecord == null) {
-            capturedRecord = CaptureRecord.loadFromDisk(mContext);
-            RLog.d(TAG, "isUserSignIn captureRecord is NULL");
-            if (capturedRecord == null) return false;
-        }
-
-        boolean isEmailVerificationRequired = RegistrationConfiguration.getInstance().isEmailVerificationRequired();
-        boolean isAcceptTerms = RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired();
-        RLog.d(TAG, "isUserSignIn isEmailVerificationRequired : " + isEmailVerificationRequired + "and isAcceptTerms : " + isAcceptTerms);
-        boolean signedIn;
-        isSignedInOnRegistrationClientIdPresent(capturedRecord);
-        isAccountVerificationSignIn(capturedRecord);
-        signedIn = isSignedInOnAcceptedTermsAndConditions();
-        isHSDPUserSignedIn();
-        return signedIn;
-    }
-
-    private boolean isSignedInOnRegistrationClientIdPresent(CaptureRecord captureRecord) {
-        if (RegistrationConfiguration.getInstance().getRegistrationClientId(RegUtility.getConfiguration(
-                RegistrationConfiguration.getInstance().getRegistrationEnvironment())) != null) {
-            if (captureRecord.getAccessToken() != null) {
-                RLog.i(TAG, "isSignedInOnRegistrationClientIdPresent SignIn  with capturedRecord.getAccessToken status");
-                return true;
-            }
-        }
-        return false;
+        return (getUserLoginState() == UserLoginState.USER_LOGGED_IN);
     }
 
     private boolean isSignedInOnAcceptedTermsAndConditions() {
@@ -1185,7 +1164,6 @@ public class User {
 
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        // setUserLoginState(UserLoginState.USER_NOT_LOGGED_IN);
         hsdpUser.deleteFromDisk();
         if (loggingInterface != null) {
             loggingInterface.setHSDPUserUUID(null);
