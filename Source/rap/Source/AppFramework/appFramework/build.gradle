@@ -314,6 +314,24 @@ dependencies {
         implementation project(':AppInfraUApp')
     } else {
         implementation philipsdeps.product_registration_lib
+        implementation philipsdeps.uid
+        implementation philipsdeps.pif
+        implementation philipsdeps.jump
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.commlib_api
+        implementation philipsdeps.commlib_ble
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.catk
+        implementation philipsdeps.csw
+        implementation philipsdeps.cloudcontroller
+        implementation philipsdeps.cloudcontroller_api
+        implementation philipsdeps.productselection
+        implementation philipsdeps.commlib_cloud
+        implementation philipsdeps.commlib_lan
+        implementation philipsdeps.prx
+        implementation philipsdeps.ews_android
+        implementation philipsdeps.uikitLib
+        implementation philipsdeps.registrationApi
         implementation philipsdeps.digitalCare
         implementation philipsdeps.iap
         implementation (philipsdeps.dataServices) {
@@ -354,10 +372,10 @@ dependencies {
         implementation philipsdeps.telehealthUApp
         implementation philipsdeps.ewsUApp
         implementation philipsdeps.bluelib_demouapp
+        implementation philipsdeps.bluelib
         implementation philipsdeps.NeuraUApp
         implementation project(':pushnotification')
-        implementation project(':themesettings')
-        implementation philipsdeps.AppInfra
+        implementation project(':themesettings')       
         implementation philipsdeps.AppInfraUApp
     }
     implementation deps.butterknife
