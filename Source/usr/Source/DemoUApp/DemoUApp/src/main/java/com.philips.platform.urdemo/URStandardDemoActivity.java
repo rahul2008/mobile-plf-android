@@ -30,8 +30,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.adobe.mobile.Config;
-import com.janrain.android.Jump;
-import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.Configuration;
@@ -239,8 +237,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
                 //Resetn
                 UserRegistrationInitializer.getInstance().resetInitializationState();
-                //Logout mUser
-                clearData();
 
                 int checkedId = mRadioGroup.getCheckedRadioButtonId();
                 // find which radio button is selected
@@ -332,16 +328,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         RLog.d("updateHSDPUuidSwitch", " Going to set :" + b);
         final AppInfraInterface appInfraInterface = URDemouAppInterface.appInfra;
         appInfraInterface.getConfigInterface().setPropertyForKey(HSDP_UUID_SHOULD_UPLOAD, "UserRegistration", String.valueOf(b), configError);
-    }
-
-    private void clearData() {
-        HsdpUser hsdpUser = new HsdpUser(mContext);
-        hsdpUser.deleteFromDisk();
-        if (JRSession.getInstance() != null) {
-            JRSession.getInstance().signOutAllAuthenticatedUsers();
-        }
-        Jump.signOutCaptureUser(mContext);
-
     }
 
     @Override
