@@ -651,12 +651,17 @@ String imageURL;
     }
 
     private void hideProgressDialog() {
-        buttonClickable(true);
-        if (isVisible())
-            registerButton.setText(getResources().getString(R.string.PRG_Register_Btntxt));
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
-        }
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                buttonClickable(true);
+                if (isVisible())
+                    registerButton.setText(getResources().getString(R.string.PRG_Register_Btntxt));
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.cancel();
+                }
+            }
+        });
     }
     UserWithProducts userWithProducts;
     RegisteredProduct registeredProduct1;

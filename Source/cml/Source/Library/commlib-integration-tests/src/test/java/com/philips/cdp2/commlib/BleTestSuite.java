@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -12,12 +12,8 @@ import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = {"pretty"},
-        format = {
-                "json:../build/cucumber-reports/report.json",
-                "html:../build/cucumber-reports/html"
-        },
-        features = "src/androidTest/assets/features",
+        plugin = {"json:build/cucumber-reports/report.json"},
+        features = "src/test/assets/features",
         strict = true,
         tags = {"@automated", "@android", "~@not_android", "~@target"}
 )

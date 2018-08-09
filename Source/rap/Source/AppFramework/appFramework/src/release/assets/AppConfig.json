@@ -84,8 +84,6 @@
     "ConsentCacheTTLInMinutes" : 3
   },
   "dataservices": {
-    "supportedMomentTypes": [
-      "Temperature"
-    ]
+    "supportedMomentTypes": ["Temperature", "SleepSession", "sleepSession", "Note"]
   }
 }
