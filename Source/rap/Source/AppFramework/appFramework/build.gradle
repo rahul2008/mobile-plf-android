@@ -374,8 +374,8 @@ dependencies {
         implementation philipsdeps.bluelib_demouapp
         implementation philipsdeps.bluelib
         implementation philipsdeps.NeuraUApp
-        implementation philipsdeps.pushnotification
-        implementation philipsdeps.themesettings        
+        implementation project(':pushnotification')
+        implementation project(':themesettings')       
         implementation philipsdeps.AppInfraUApp
     }
     implementation deps.butterknife
