@@ -41,7 +41,7 @@ import java.util.List;
 
 public class FirmwareUpdateFragment extends Fragment {
 
-    private static final String TAG = FirmwareUpdateFragment.class.getSimpleName();
+    private static final String TAG = "FirmwareUpdateFragment";
 
     private SHNDevice mDevice;
     private SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate;
