@@ -51,7 +51,7 @@ dependencies {
     testImplementation deps.support.annotations
     testImplementation deps.mockito
     testImplementation deps.powermock_junit
-    testImplementation deps.cucumber
+    testImplementation deps.cucumber_java
     testImplementation deps.cucumber_junit
     testImplementation project(':commlib-testutils')
     testImplementation project(':bluelib')
