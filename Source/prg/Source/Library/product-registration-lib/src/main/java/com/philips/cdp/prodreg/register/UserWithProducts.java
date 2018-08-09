@@ -187,7 +187,7 @@ public class UserWithProducts {
 
     protected boolean isUserSignedIn(final Context context) {
         User mUser = getUser();
-        return mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN && (mUser.isEmailVerified() || mUser.isMobileVerified());
+        return (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) && (mUser.isEmailVerified() || mUser.isMobileVerified());
     }
 
     @NonNull

@@ -85,7 +85,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     private User mUser;
     private Button mBtnRegistrationWithAccountSettings;
     private CoppaExtension coppaExtension;
-    private Switch mHSDPLazyLoadingSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus;
+    private Switch mSkipHSDPSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,13 +136,13 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         mLlConfiguration = findViewById(R.id.ll_configuartion);
         LlcoppaItems = findViewById(R.id.CoppaItems);
         mRadioGroup = findViewById(R.id.myRadioGroup);
-        mHSDPLazyLoadingSwitch = findViewById(R.id.hsdp_lazy_loading_switch);
+        mSkipHSDPSwitch = findViewById(R.id.skip_hsdp_switch);
         hsdpUuidUpload = findViewById(R.id.switch_hsdp_uuid_upload);
         consentConfirmationStatus = findViewById(R.id.updateCoppaConsentConfirmationStatus);
         updateCoppaConsentStatus = findViewById(R.id.updateCoppaConsentStatus);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         restoredText = prefs.getString("reg_environment", null);
-        mHSDPLazyLoadingSwitch.setChecked(prefs.getBoolean("reg_delay_hsdp_configuration", false));
+        mSkipHSDPSwitch.setChecked(prefs.getBoolean("reg_delay_hsdp_configuration", false));
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
         if (restoredText != null) {
 
@@ -190,10 +190,10 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         });
 
 
-        mHSDPLazyLoadingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mSkipHSDPSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateHsdpLazyLoadingStatus(b);
+                updateSkipHsdpStatus(b);
             }
         });
 
@@ -274,12 +274,12 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                         mBtnHsdpRefreshAccessToken.setVisibility(GONE);
                     }
 
-                    if (mHSDPLazyLoadingSwitch.isChecked()) {
+                    if (mSkipHSDPSwitch.isChecked()) {
                         editor.putBoolean("reg_delay_hsdp_configuration", true).apply();
                     } else {
                         editor.remove("reg_delay_hsdp_configuration").apply();
                     }
-                    updateHsdpLazyLoadingStatus(mHSDPLazyLoadingSwitch.isChecked());
+                    updateSkipHsdpStatus(mSkipHSDPSwitch.isChecked());
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                     String restoredText = prefs.getString("reg_hsdp_environment", null);
                     RLog.d("Restored teest", "" + restoredText);
@@ -314,8 +314,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         }
     }
 
-    private void updateHsdpLazyLoadingStatus(boolean b) {
-        RLog.d("updateHsdpLazyLoadingStatus", " Going to set :" + b);
+    private void updateSkipHsdpStatus(boolean b) {
+        RLog.d("updateSkipHsdpStatus", " Going to set :" + b);
         final AppInfraInterface appInfraInterface = URDemouAppInterface.appInfra;
         appInfraInterface.getConfigInterface().setPropertyForKey(HSDP_SKIP_HSDP_LOGIN, "UserRegistration", String.valueOf(b), configError);
     }

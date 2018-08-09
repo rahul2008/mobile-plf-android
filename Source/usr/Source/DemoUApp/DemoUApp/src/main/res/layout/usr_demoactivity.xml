@@ -176,7 +176,7 @@
                     android:text="HSDP" />
 
                 <com.philips.platform.uid.view.widget.Switch
-                    android:id="@+id/hsdp_lazy_loading_switch"
+                    android:id="@+id/skip_hsdp_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dip"

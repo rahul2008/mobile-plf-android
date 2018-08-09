@@ -222,7 +222,7 @@ public class RegistrationConfiguration {
     }
 
     /**
-     * Status of HSDP UUID uploading
+     * Status of Skipping HSDP log-in
      *
      * @return boolean
      */
