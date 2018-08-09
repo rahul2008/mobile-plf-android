@@ -85,6 +85,10 @@ public class DICommLog {
         return isLoggingEnabled;
     }
 
+    public static void enableLogging() {
+        isLoggingEnabled = true;
+    }
+
     public static void disableLogging() {
         isLoggingEnabled = false;
     }

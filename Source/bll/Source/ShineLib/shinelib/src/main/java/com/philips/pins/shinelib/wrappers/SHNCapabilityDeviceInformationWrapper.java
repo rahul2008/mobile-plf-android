@@ -16,7 +16,7 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 import java.util.Date;
 
 public class SHNCapabilityDeviceInformationWrapper implements SHNCapabilityDeviceInformation {
-    private static final String TAG = SHNCapabilityDeviceInformationWrapper.class.getSimpleName();
+    private static final String TAG = "SHNCapabilityDeviceInformationWrapper";
 
     @NonNull
     private final SHNCapabilityDeviceInformation wrappedShnCapability;

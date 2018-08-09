@@ -161,7 +161,7 @@ import java.util.Queue;
 
 public class SHNProtocolMoonshineStreamingV2 implements SHNProtocolMoonshineStreaming, SHNServiceMoonshineStreaming.SHNServiceMoonshineStreamingListener {
 
-    private static final String TAG = SHNProtocolMoonshineStreamingV2.class.getSimpleName();
+    private static final String TAG = "SHNProtocolMoonshineStreamingV2";
 
     public static final int DEFAULT_TX_WINDOW_SIZE = 12;
     public static final int PROTOCOL_VERSION = 2;

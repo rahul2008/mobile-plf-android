@@ -19,11 +19,10 @@ import java.util.Locale;
 
 public class SHNInitializingServicesState extends SHNConnectingState {
 
-    private static final String TAG = "SHNInitializingServicesState";
     private static final long SERVICE_INITIALIZATION_TIMEOUT = 20_000L;
 
     public SHNInitializingServicesState(@NonNull SHNDeviceStateMachine stateMachine) {
-        super(stateMachine, SERVICE_INITIALIZATION_TIMEOUT);
+        super(stateMachine, "SHNInitializingServicesState", SERVICE_INITIALIZATION_TIMEOUT);
     }
 
     @Override
@@ -35,7 +34,7 @@ public class SHNInitializingServicesState extends SHNConnectingState {
 
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        SHNLogger.d(TAG, "onServiceStateChanged: " + state + " [" + shnService.getUuid() + "]");
+        SHNLogger.d(logTag, "onServiceStateChanged: " + state + " [" + shnService.getUuid() + "]");
 
         if (areAllRegisteredServicesReady()) {
             stateMachine.setState(new SHNReadyState(stateMachine));
@@ -44,7 +43,7 @@ public class SHNInitializingServicesState extends SHNConnectingState {
         if (state == SHNService.State.Error) {
             final String errorMsg = String.format(Locale.US, "Service [%s] state changed to error, state [%s]", shnService.getUuid(), state);
 
-            SHNLogger.e(TAG, errorMsg);
+            SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
@@ -59,7 +58,7 @@ public class SHNInitializingServicesState extends SHNConnectingState {
 
         for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
             SHNService shnService = sharedResources.getSHNService(bluetoothGattService.getUuid());
-            SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not used by plugin" : " connecting plugin service to ble service"));
+            SHNLogger.i(logTag, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not used by plugin" : " connecting plugin service to ble service"));
 
             SHNDevice.DiscoveryListener discoveryListener = sharedResources.getDiscoveryListener();
             if (discoveryListener != null) {
