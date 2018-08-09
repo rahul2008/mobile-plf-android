@@ -59,7 +59,7 @@ pipeline {
                 }
             }
             steps {
-                PublishUnitTestsresults()
+                PublishUnitTestsResults()
             }
         }
 
