@@ -27,7 +27,6 @@ public class DemoUapp implements UappInterface {
     public static final String ERROR_MSG_INVALID_IMPLEMENTATION = "Please implement EWSActionBarListener in Activity";
     public static final String SCREEN_ORIENTATION = "screen.orientation";
     public static final String PRODUCT_NAME = "productName";
-    private static final String TAG = "EWSInterface";
     @NonNull
     private Context context;
 
