@@ -28,7 +28,6 @@ import java.util.UUID;
  * @publicPluginApi
  */
 public class SHNServiceHealthThermometer implements SHNService.SHNServiceListener, SHNCharacteristic.SHNCharacteristicChangedListener {
-    private final static String TAG = "SHNServiceHealthThermometer";
     final static UUID SERVICE_HEALTH_THERMOMETER_UUID                = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x1809));
     final static UUID CHARACTERISTIC_TEMPERATURE_MEASUREMENT_UUID    = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A1C));
     final static UUID CHARACTERISTIC_TEMPERATURE_TYPE_UUID           = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A1D));

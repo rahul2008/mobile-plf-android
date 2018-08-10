@@ -17,7 +17,6 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
  * All rights reserved.
  */
 public class SHNCapabilityBatteryWrapper implements SHNCapabilityBattery, SHNCapabilityBattery.SHNCapabilityBatteryListener {
-    private static final String TAG = "SHNCapabilityBatteryWrapper";
     private final SHNCapabilityBattery wrappedShnCapability;
     private final Handler userHandler;
     private final Handler internalHandler;

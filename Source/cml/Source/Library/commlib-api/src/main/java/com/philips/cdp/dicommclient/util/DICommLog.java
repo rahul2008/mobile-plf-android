@@ -10,8 +10,6 @@ import android.util.Log;
 
 import com.philips.cdp2.commlib_api.BuildConfig;
 
-import java.io.BufferedWriter;
-
 /**
  * Custom log class:
  * - Defines all log tags
@@ -122,6 +120,4 @@ public class DICommLog {
             Log.w(tag, message);
         }
     }
-
-    public static BufferedWriter out;
 }

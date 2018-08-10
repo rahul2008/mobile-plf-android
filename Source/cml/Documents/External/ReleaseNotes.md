@@ -14,7 +14,7 @@ Version {next}
 * N/A
 
 ### Breaking Changes
-* N/A
+* Removed BufferedWriter out from DiCommLog
 
 ### Defects solved
 * \#123749 Discovery callback are now posted to main thread
