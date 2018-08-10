@@ -128,7 +128,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @BindView(R2.id.usr_createscreen_create_button)
     ProgressBarButton usrCreatescreenCreateButton;
 
-    @BindView(R2.id.usr_createScreen_baseLayout_LinearLayout)
+    @BindView(R2.id.usr_reg_root_layout)
     LinearLayout usrCreateScreenBaseLayoutLinearLayout;
 
     @BindView(R2.id.usr_createscreen_emailormobile_label)
