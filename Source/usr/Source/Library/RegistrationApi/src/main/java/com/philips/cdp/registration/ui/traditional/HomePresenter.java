@@ -17,7 +17,7 @@ import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.events.SocialProvider;
-import com.philips.cdp.registration.handlers.LoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.listener.WeChatAuthenticationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -50,7 +50,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagging.trackPage;
 import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_FACEBOOK;
 import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_WECHAT;
 
-public class HomePresenter implements NetworkStateListener, LoginHandler, EventListener {
+public class HomePresenter implements NetworkStateListener, SocialLoginProviderHandler, EventListener {
 
     private String TAG = HomePresenter.class.getSimpleName();
 

@@ -95,26 +95,6 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                                 RLog.e(TAG, "refreshUpdateUser : onLoginFailedWithError  ");
                                 handler.onRefreshUserFailed(userRegistrationFailureInfo.getErrorCode());
                             }
-
-                            @Override
-                            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-                                //Nope
-                            }
-
-                            @Override
-                            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-                                //Nope
-                            }
-
-                            @Override
-                            public void onContinueSocialProviderLoginSuccess() {
-                                //Nope
-                            }
-
-                            @Override
-                            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                                //Nope
-                            }
                         }, mContext, mUpdateUserRecordHandler, null, null);
                         RLog.d(TAG, "refreshUpdateUser onSuccess isHSDPSkipLoginConfigurationAvailable :" + RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable());
                         RLog.d(TAG, "refreshUpdateUser onSuccess isHsdpFlow" + RegistrationConfiguration.getInstance().isHsdpFlow());

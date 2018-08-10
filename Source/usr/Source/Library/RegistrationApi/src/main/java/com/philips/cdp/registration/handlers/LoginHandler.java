@@ -1,4 +1,3 @@
-package com.philips.cdp.registration.handlers;
 
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
@@ -8,72 +7,27 @@ package com.philips.cdp.registration.handlers;
  * /
  */
 
+package com.philips.cdp.registration.handlers;
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
-import org.json.JSONObject;
-
 /**
- * It is a callback class to proposition for handling social provider login
- *
+ * It is a callback class to proposition for handling traditional login
  * @since 1.0.0
  */
 public interface LoginHandler {
 
     /**
-     * {@code onLoginSuccess} method to on login success
-     *
+     * {@code onLoginSuccess}method is invoked on traditional(philips) login success
      * @since 1.0.0
      */
     void onLoginSuccess();
 
     /**
-     * {@code userRegistrationFailureInfo} method is invoked on login failed with error
-     *
-     * @param userRegistrationFailureInfo instance of UserRegistrationFailureInfo
-     *                                    which gives failure information when social login fails
+     * {@code onLoginFailedWithError }method is invoked on traditional(philips) login fails with error
+     * @param userRegistrationFailureInfo gives user registration failure information when philips login fails
      * @since 1.0.0
      */
     void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);
 
-    /**
-     * {@code onLoginFailedWithTwoStepError} method is invoked on login failed with tow step error
-     *
-     * @param prefilledRecord         Json object of login detail record
-     * @param socialRegistrationToken social registration token
-     * @since 1.0.0
-     */
-    void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
-                                       String socialRegistrationToken);
-
-    /**
-     * {@code onLoginFailedWithMergeFlowError} method is invoked on login failed with merge flow error
-     *
-     * @param mergeToken                  merge token
-     * @param existingProvider            used social login provider
-     * @param conflictingIdentityProvider conflicting identity provider
-     * @param conflictingIdpNameLocalized conflicting idp name localized
-     * @param existingIdpNameLocalized    existing idp name localized
-     * @param emailId                     email id
-     * @since 1.0.0
-     */
-    void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
-                                         String conflictingIdentityProvider, String conflictingIdpNameLocalized,
-                                         String existingIdpNameLocalized, String emailId);
-
-    /**
-     * {@code onContinueSocialProviderLoginSuccess} method is invoked on continue social provider login success
-     *
-     * @since 1.0.0
-     */
-    void onContinueSocialProviderLoginSuccess();
-
-    /**
-     * {@code userRegistrationFailureInfo} method is invoked on continue social provider login failure
-     *
-     * @param userRegistrationFailureInfo it gives the registration failure information when social provider login fails to continue
-     * @since 1.0.0
-     */
-    void onContinueSocialProviderLoginFailure(
-            UserRegistrationFailureInfo userRegistrationFailureInfo);
 }

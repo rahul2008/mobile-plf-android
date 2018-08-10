@@ -121,16 +121,18 @@ public class User {
      *
      * @param emailAddress email ID of the User
      * @param password     password of the User
-     * @param loginHandler instance of LoginHandler
+     * @param loginHandler instance of SocialLoginProviderHandler
      * @since 1.0.0
      */
     public void loginUsingTraditional(final String emailAddress, final String password,
                                       final LoginHandler loginHandler) {
         RLog.d(TAG, "loginUsingTraditional called");
         if (loginHandler == null && emailAddress == null && password == null) {
-            throw new RuntimeException("Email , Password , TraditionalLoginHandler can't be null");
+            throw new RuntimeException("Email , Password , LoginHandler can't be null");
         }
         new Thread(() -> {
+
+
             LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
                     new LoginHandler() {
                         @Override
@@ -162,26 +164,6 @@ public class User {
                             ThreadUtils.postInMainThread(mContext, () -> loginHandler.
                                     onLoginFailedWithError(userRegistrationFailureInfo));
                         }
-
-                        @Override
-                        public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-                            //Nope
-                        }
-
-                        @Override
-                        public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-                            //Nope
-                        }
-
-                        @Override
-                        public void onContinueSocialProviderLoginSuccess() {
-                            //Nope
-                        }
-
-                        @Override
-                        public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                            //Nope
-                        }
                     }, mContext, mUpdateUserRecordHandler, emailAddress, password);
             loginTraditionalResultHandler.loginTraditionally(emailAddress, password);
         }).start();
@@ -191,57 +173,57 @@ public class User {
     /**
      * {@code loginUserUsingSocialProvider} logs in a user via a social login provider
      *
-     * @param activity           activity
-     * @param providerName       social login provider name
-     * @param socialLoginHandler instance of  SocialProviderLoginHandler
-     * @param mergeToken         token generated of two distinct account created by same User
+     * @param activity                         activity
+     * @param providerName                     social login provider name
+     * @param socialSocialLoginProviderHandler instance of  SocialProviderLoginHandler
+     * @param mergeToken                       token generated of two distinct account created by same User
      * @since 1.0.0
      */
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
-                                             final LoginHandler socialLoginHandler,
+                                             final SocialLoginProviderHandler socialSocialLoginProviderHandler,
                                              final String mergeToken) {
         RLog.d(TAG, "loginUserUsingSocialProvider called");
         new Thread(() -> {
             if (providerName != null && activity != null) {
                 LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
-                        socialLoginHandler, activity, mUpdateUserRecordHandler);
+                        socialSocialLoginProviderHandler, activity, mUpdateUserRecordHandler);
                 RLog.d(TAG, "loginUserUsingSocialProvider with providename = " + providerName + " and activity is not null");
                 loginSocialResultHandler.loginSocial(activity, providerName, mergeToken);
             } else {
-                if (null == socialLoginHandler) return;
+                if (null == socialSocialLoginProviderHandler) return;
                 UserRegistrationFailureInfo userRegistrationFailureInfo =
                         new UserRegistrationFailureInfo(mContext);
                 userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
                 RLog.e(TAG, "Error occurred in loginUserUsingSocialProvider , might be provider name is null or activity is null " + userRegistrationFailureInfo.getErrorDescription());
                 ThreadUtils.postInMainThread(activity, () ->
-                        socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                        socialSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
             }
         }).start();
     }
 
     /**
      * @param activity
-     * @param providerName - for example "facebook" or "wechat"
-     * @param loginHandler - object of SocialProviderLoginHandler
-     * @param mergeToken   - mergeToken when gets a merge token from janrain
-     * @param accessToken  - accessToken from social provider
+     * @param providerName               - for example "facebook" or "wechat"
+     * @param socialLoginProviderHandler - object of SocialProviderLoginHandler
+     * @param mergeToken                 - mergeToken when gets a merge token from janrain
+     * @param accessToken                - accessToken from social provider
      */
-    public void startTokenAuthForNativeProvider(final Activity activity, final String providerName, final LoginHandler loginHandler, final String mergeToken, final String accessToken) {
+    public void startTokenAuthForNativeProvider(final Activity activity, final String providerName, final SocialLoginProviderHandler socialLoginProviderHandler, final String mergeToken, final String accessToken) {
         RLog.d(TAG, "startTokenAuthForNativeProvider called");
         new Thread(() -> {
             if (providerName != null && activity != null) {
                 LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
-                        loginHandler, activity, mUpdateUserRecordHandler);
+                        socialLoginProviderHandler, activity, mUpdateUserRecordHandler);
                 RLog.d(TAG, "loginUserUsingSocialProvider with providename = " + providerName + " and activity is not null");
                 loginSocialResultHandler.startTokenAuthForNativeProvider(activity, providerName, mergeToken, accessToken);
             } else {
-                if (null == loginHandler) return;
+                if (null == socialLoginProviderHandler) return;
                 UserRegistrationFailureInfo userRegistrationFailureInfo =
                         new UserRegistrationFailureInfo(mContext);
                 userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
                 RLog.e(TAG, "Error occurred in loginUserUsingSocialProvider , might be provider name is null or activity is null " + userRegistrationFailureInfo.getErrorDescription());
                 ThreadUtils.postInMainThread(activity, () ->
-                        loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                        socialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
             }
         }).start();
 
@@ -252,34 +234,34 @@ public class User {
     /**
      * {@code loginUserUsingSocialNativeProvider} logs in a user via a native social login provider like we chat.
      *
-     * @param activity     activity .
-     * @param providerName social logIn provider name
-     * @param accessToken  access token social logIn provider
-     * @param tokenSecret  secret token of social logIn provider
-     * @param loginHandler instance of LoginHandler
-     * @param mergeToken   token generated of two distinct account created by same User
+     * @param activity                   activity .
+     * @param providerName               social logIn provider name
+     * @param accessToken                access token social logIn provider
+     * @param tokenSecret                secret token of social logIn provider
+     * @param socialLoginProviderHandler instance of SocialLoginProviderHandler
+     * @param mergeToken                 token generated of two distinct account created by same User
      * @since 1.0.0
      */
     public void loginUserUsingSocialNativeProvider(final Activity activity,
                                                    final String providerName,
                                                    final String accessToken,
                                                    final String tokenSecret,
-                                                   final LoginHandler loginHandler,
+                                                   final SocialLoginProviderHandler socialLoginProviderHandler,
                                                    final String mergeToken) {
         new Thread(() -> {
             if (providerName != null && activity != null) {
                 LoginSocialNativeProvider loginSocialResultHandler = new LoginSocialNativeProvider(
-                        loginHandler, mContext, mUpdateUserRecordHandler);
+                        socialLoginProviderHandler, mContext, mUpdateUserRecordHandler);
                 RLog.d(TAG, "loginUserUsingSocialNativeProvider with providename = " + providerName + " and activity is not null");
                 loginSocialResultHandler.loginSocial(activity, providerName, accessToken,
                         tokenSecret, mergeToken);
             } else {
-                if (loginHandler == null) return;
+                if (socialLoginProviderHandler == null) return;
                 UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
                 userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
                 RLog.e(TAG, "Error occurred in loginUserUsingSocialNativeProvider, might be provider name is null or activity is null " + userRegistrationFailureInfo.getErrorDescription());
                 ThreadUtils.postInMainThread(mContext, () ->
-                        loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                        socialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
             }
         }).start();
     }
@@ -418,23 +400,23 @@ public class User {
     /**
      * {@code registerUserInfoForSocial} methods creates a new account using social provider.
      *
-     * @param givenName               given name of User
-     * @param displayName             display name of User
-     * @param familyName              family name of User
-     * @param userEmail               email address of user
-     * @param olderThanAgeLimit       is user older than the defined age limit
-     * @param isReceiveMarketingEmail is User wants to  receive marketing email
-     * @param loginHandler            instance of   LoginHandler loginHandler
-     * @param socialRegistrationToken social provider login registration token
+     * @param givenName                  given name of User
+     * @param displayName                display name of User
+     * @param familyName                 family name of User
+     * @param userEmail                  email address of user
+     * @param olderThanAgeLimit          is user older than the defined age limit
+     * @param isReceiveMarketingEmail    is User wants to  receive marketing email
+     * @param socialLoginProviderHandler instance of   SocialLoginProviderHandler socialLoginProviderHandler
+     * @param socialRegistrationToken    social provider login registration token
      * @since 1.0.0
      */
     public void registerUserInfoForSocial(final String givenName, final String displayName, final String familyName,
                                           final String userEmail, final boolean olderThanAgeLimit, final boolean isReceiveMarketingEmail,
-                                          final LoginHandler loginHandler, final String socialRegistrationToken) {
+                                          final SocialLoginProviderHandler socialLoginProviderHandler, final String socialRegistrationToken) {
         new Thread(() -> {
-            if (loginHandler != null) {
+            if (socialLoginProviderHandler != null) {
                 RLog.d(TAG, "registerUserInfoForSocial ");
-                RegisterSocial registerSocial = new RegisterSocial(loginHandler, mContext, mUpdateUserRecordHandler);
+                RegisterSocial registerSocial = new RegisterSocial(socialLoginProviderHandler, mContext, mUpdateUserRecordHandler);
                 registerSocial.registerUserForSocial(givenName, displayName, familyName, userEmail, olderThanAgeLimit, isReceiveMarketingEmail, socialRegistrationToken);
             }
         }).start();

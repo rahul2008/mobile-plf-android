@@ -5,7 +5,7 @@ import android.content.Context;
 import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.handlers.LoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
@@ -32,7 +32,7 @@ public class BaseHSDPLoginTest {
     @Mock
     HSDPAuthenticationListener hsdpAuthenticationListener;
     @Mock
-    LoginHandler loginHandler;
+    SocialLoginProviderHandler socialLoginProviderHandler;
     @Mock
     HsdpUser hsdpUser;
     @Mock
@@ -64,7 +64,7 @@ public class BaseHSDPLoginTest {
     public void shouldHsdpLoginOnSuccess() {
         when(networkUtility.isNetworkAvailable()).thenReturn(true);
         baseHSDPLogin.hsdpLogin("dfsdfs", "fsfds@gmail.com", hsdpAuthenticationListener);
-        loginHandler.onLoginSuccess();
+        socialLoginProviderHandler.onLoginSuccess();
         verify(hsdpAuthenticationListener).onHSDPLoginSuccess();
     }
 
@@ -72,7 +72,7 @@ public class BaseHSDPLoginTest {
     public void shouldLoginFailedWithError() {
         when(networkUtility.isNetworkAvailable()).thenReturn(true);
         baseHSDPLogin.hsdpLogin("dfsdfs", "fsfds@gmail.com", hsdpAuthenticationListener);
-        loginHandler.onLoginSuccess();
+        socialLoginProviderHandler.onLoginSuccess();
         verify(hsdpAuthenticationListener).onHSDPLoginFailure(1001,"Already HSDP logged In" );
     }
 

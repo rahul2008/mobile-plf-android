@@ -482,8 +482,8 @@ public class HsdpUser {
      * handle social connection failed
      *
      * @param loginHandler login handler
-     * @param errorCode    error code
-     * @param description  string
+     * @param errorCode                  error code
+     * @param description                string
      */
     private void handleSocialConnectionFailed(LoginHandler loginHandler,
                                               int errorCode, String description, String errorTagging) {

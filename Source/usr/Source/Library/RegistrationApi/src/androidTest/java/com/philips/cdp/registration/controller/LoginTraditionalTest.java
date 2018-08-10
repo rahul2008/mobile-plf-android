@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.handlers.LoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 
 import org.json.JSONArray;
@@ -24,7 +24,7 @@ public class LoginTraditionalTest extends RegistrationApiInstrumentationBase {
     public void setUp() throws Exception {
         context =  getInstrumentation()
                 .getTargetContext();
-        LoginHandler traditionalLoginHandler = new LoginHandler() {
+        SocialLoginProviderHandler traditionalSocialLoginProviderHandler = new SocialLoginProviderHandler() {
             @Override
             public void onLoginSuccess() {
 
@@ -66,7 +66,7 @@ public class LoginTraditionalTest extends RegistrationApiInstrumentationBase {
 
             }
         };
-        loginTraditional = new LoginTraditional(traditionalLoginHandler,context,updateUserRecordHandler,"sample@sample.com","sample");
+        loginTraditional = new LoginTraditional(traditionalSocialLoginProviderHandler,context,updateUserRecordHandler,"sample@sample.com","sample");
         synchronized(this){//synchronized block
         }
     }

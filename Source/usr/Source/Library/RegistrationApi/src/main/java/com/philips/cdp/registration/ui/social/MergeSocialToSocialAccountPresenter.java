@@ -6,7 +6,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworkStateListener;
-import com.philips.cdp.registration.handlers.LoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 
-public class MergeSocialToSocialAccountPresenter implements NetworkStateListener, LoginHandler {
+public class MergeSocialToSocialAccountPresenter implements NetworkStateListener, SocialLoginProviderHandler {
 
     private MergeSocialToSocialAccountContract mergeSocialToSocialAccountContract;
 

@@ -11,7 +11,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.handlers.LoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -92,12 +92,12 @@ public class HomePresenterTest {
     }
 
     @Mock
-    LoginHandler socialProviderLoginHandlerMock;
+    SocialLoginProviderHandler socialProviderSocialLoginProviderHandlerMock;
 
     @Test
     public void shouldStartAccessTokenFacebookAuth() throws Exception {
 //        homePresenter.startAccessTokenAuthForFacebook();
         //      Mockito.when(homeContractMock.getURFaceBookUtility()).thenReturn(urFaceBookUtilityMock);
-        //     Mockito.verify( homeContractMock.getURFaceBookUtility()).startAccessTokenAuthForFacebook(userMock, contextMock, socialProviderLoginHandlerMock, "accessToken", null);
+        //     Mockito.verify( homeContractMock.getURFaceBookUtility()).startAccessTokenAuthForFacebook(userMock, contextMock, socialProviderSocialLoginProviderHandlerMock, "accessToken", null);
     }
 }

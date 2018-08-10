@@ -15,8 +15,6 @@ import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 
-import org.json.JSONObject;
-
 public class BaseHSDPLogin {
     private static final String TAG = BaseHSDPLogin.class.getSimpleName();
     private Context mContext;
@@ -58,32 +56,12 @@ public class BaseHSDPLogin {
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 RLog.d(TAG, "onLoginFailedWithError : if : HSDPAuthenticationListener : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());
             }
-
-            @Override
-            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-                //NOPE
-            }
-
-            @Override
-            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-                //NOPE
-            }
-
-            @Override
-            public void onContinueSocialProviderLoginSuccess() {
-                //NOPE
-            }
-
-            @Override
-            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                //NOPE
-            }
         });
     }
 
     void hsdpLogin(String accessToken, String emailOrMobile, LoginHandler loginHandler) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        RLog.d(TAG, "hsdpLogin : with LoginHandler");
+        RLog.d(TAG, "hsdpLogin : with SocialLoginProviderHandler");
         hsdpUser.login(emailOrMobile, accessToken, Jump.getRefreshSecret(), new LoginHandler() {
 
 
@@ -91,7 +69,7 @@ public class BaseHSDPLogin {
             public void onLoginSuccess() {
                 loginHandler.onLoginSuccess();
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
-                RLog.d(TAG, "onSuccess : if : LoginHandler : onLoginSuccess : is called with :" + mUser.getUserLoginState());
+                RLog.d(TAG, "onSuccess : if : SocialLoginProviderHandler : onLoginSuccess : is called with :" + mUser.getUserLoginState());
             }
 
             @Override
@@ -100,27 +78,7 @@ public class BaseHSDPLogin {
                 if (RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable())
                     loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
-                RLog.d(TAG, "onLoginFailedWithError : if : LoginHandler : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());
-            }
-
-            @Override
-            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-                //NOPE
-            }
-
-            @Override
-            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-                //NOPE
-            }
-
-            @Override
-            public void onContinueSocialProviderLoginSuccess() {
-                //NOPE
-            }
-
-            @Override
-            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                //NOPE
+                RLog.d(TAG, "onLoginFailedWithError : if : SocialLoginProviderHandler : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());
             }
         });
     }

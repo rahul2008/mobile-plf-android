@@ -102,6 +102,8 @@ public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResult
     public void onFailure(SignInError error) {
         RLog.d(TAG, "onFailure : is called");
         try {
+            RLog.e(TAG, "onFailure : error Description :"+ error.captureApiError.error_description );
+            RLog.e(TAG, "onFailure : error code :"+ error.captureApiError.code );
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
@@ -155,7 +157,7 @@ public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResult
 //                @Override
 //                public void onLoginSuccess() {
 //                    ThreadUtils.postInMainThread(mContext, () ->
-//                            mTraditionalLoginHandler.onLoginSuccess());
+//                            mLoginHandler.onLoginSuccess());
 //                    RLog.d(TAG, "loginIntoHsdp : SocialLoginHandler : onLoginSuccess is called");
 //                }
 //
@@ -163,7 +165,7 @@ public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResult
 //                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 //                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
 //                    ThreadUtils.postInMainThread(mContext, () ->
-//                            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+//                            mLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 //                    RLog.d(TAG, "loginIntoHsdp : SocialLoginHandler : onLoginFailedWithError is called");
 //                }
 //            });

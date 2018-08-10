@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.handlers.LoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 
 import org.json.JSONArray;
@@ -26,7 +26,7 @@ public class RegisterSocialTest extends RegistrationApiInstrumentationBase {
     public void setUp() throws Exception {
            super.setUp();
         mContext = getInstrumentation().getTargetContext();
-        LoginHandler socialProviderLoginHandler = new LoginHandler() {
+        SocialLoginProviderHandler socialProviderSocialLoginProviderHandler = new SocialLoginProviderHandler() {
             @Override
             public void onLoginSuccess() {
 
@@ -68,7 +68,7 @@ public class RegisterSocialTest extends RegistrationApiInstrumentationBase {
 
             }
         };
-        mRegisterSocial = new RegisterSocial(socialProviderLoginHandler,mContext,updateUserRecordHandler);
+        mRegisterSocial = new RegisterSocial(socialProviderSocialLoginProviderHandler,mContext,updateUserRecordHandler);
     }
 
     public void testGetErrorMessage(){

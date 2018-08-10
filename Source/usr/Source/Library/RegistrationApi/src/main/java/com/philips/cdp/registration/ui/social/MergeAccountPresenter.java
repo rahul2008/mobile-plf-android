@@ -11,7 +11,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -66,27 +65,6 @@ public class MergeAccountPresenter implements LoginHandler, NetworkStateListener
 //        }
         mergeAccountContract.mergeFailure(userRegistrationFailureInfo.getErrorDescription(),userRegistrationFailureInfo.getErrorCode());
     }
-
-    @Override
-    public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-        //nope
-    }
-
-    @Override
-    public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-    //nope
-    }
-
-    @Override
-    public void onContinueSocialProviderLoginSuccess() {
-    //nope
-    }
-
-    @Override
-    public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-    //nope
-    }
-
 
     public void mergeToTraditionalAccount(String mEmailId, String s, String mMergeToken) {
         mUser.mergeToTraditionalAccount(mEmailId, s, mMergeToken, this);

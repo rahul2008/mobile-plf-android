@@ -415,29 +415,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         handleLogInFailed(userRegistrationFailureInfo);
     }
 
-    @Override
-    public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-        //nope
-    }
-
-    @Override
-    public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-        //nope
-
-    }
-
-    @Override
-    public void onContinueSocialProviderLoginSuccess() {
-        //nope
-
-    }
-
-    @Override
-    public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        //nope
-
-    }
-
     private void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
         hideSignInSpinner();
@@ -475,7 +452,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onSendForgotPasswordSuccess() {
-        if(isVisible()) {
+        if (isVisible()) {
             handleSendForgotSuccess();
         }
     }
@@ -494,7 +471,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                         alertDialogFragment.dismiss();
                         RLog.i(TAG, "onClick :dismiss ");
                         uiEnableState(true);
-                        if(networkUtility.isNetworkAvailable()) {
+                        if (networkUtility.isNetworkAvailable()) {
                             observeLoginButton();
                         }
                     }
@@ -865,6 +842,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void notificationInlineMsg(String msg) {
+        RLog.d(TAG, "notificationInlineMsg : " + msg);
         mRegError.setError(msg);
         uiEnableState(true);
         if (networkUtility.isNetworkAvailable()) {

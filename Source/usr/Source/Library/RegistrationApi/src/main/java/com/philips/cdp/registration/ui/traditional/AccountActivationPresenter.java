@@ -8,7 +8,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
 /**
  * Created by philips on 22/06/17.
@@ -51,25 +50,4 @@ public class AccountActivationPresenter implements NetworkStateListener, LoginHa
         accountActivationContract.hideActivateSpinner();
         accountActivationContract.activateButtonEnable(true);
     }
-
-    @Override
-    public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-        //nope
-    }
-
-    @Override
-    public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-        //nope
-    }
-
-    @Override
-    public void onContinueSocialProviderLoginSuccess() {
-        //nope
-    }
-
-    @Override
-    public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        //nope
-    }
-
 }

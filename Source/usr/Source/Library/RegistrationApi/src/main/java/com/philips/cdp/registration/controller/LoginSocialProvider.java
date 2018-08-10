@@ -24,7 +24,7 @@ import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.LoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -37,7 +37,7 @@ public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInRes
 
     private Context mContext;
 
-    private LoginHandler mLoginHandler;
+    private SocialLoginProviderHandler mSocialLoginProviderHandler;
 
     private String mMergeToken;
 
@@ -45,10 +45,10 @@ public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInRes
 
     private final static String TAG = LoginSocialProvider.class.getSimpleName();
 
-    public LoginSocialProvider(LoginHandler loginHandler, Context context,
+    public LoginSocialProvider(SocialLoginProviderHandler socialLoginProviderHandler, Context context,
                                UpdateUserRecordHandler updateUserRecordHandler) {
         super(context);
-        mLoginHandler = loginHandler;
+        mSocialLoginProviderHandler = socialLoginProviderHandler;
         mContext = context;
         mUpdateUserRecordHandler = updateUserRecordHandler;
     }
@@ -64,7 +64,7 @@ public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInRes
 
             String emailorMobile = getUserEmailOrMobile(user);
             RLog.d(TAG, "onSuccess : from LoginSocialProvider is called");
-            hsdpLogin(user.getAccessToken(), emailorMobile, mLoginHandler);
+            hsdpLogin(user.getAccessToken(), emailorMobile, mSocialLoginProviderHandler);
 //            HsdpUser hsdpUser = new HsdpUser(mContext);
 //
 //            String emailorMobile;
@@ -91,8 +91,7 @@ public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInRes
 //                    });
 
         } else {
-            ThreadUtils.postInMainThread(mContext, () ->
-                    mLoginHandler.onLoginSuccess());
+            ThreadUtils.postInMainThread(mContext, mSocialLoginProviderHandler::onLoginSuccess);
         }
 
     }
@@ -126,7 +125,7 @@ public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInRes
                     .getLocalizedName(conflictingIdentityProvider);
             String finalEmailId = emailId;
             ThreadUtils.postInMainThread(mContext, () ->
-                    mLoginHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
+                    mSocialLoginProviderHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
                             conflictingIdentityProvider, conflictingIdpNameLocalized,
                             existingIdpNameLocalized, finalEmailId));
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
@@ -138,7 +137,7 @@ public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInRes
             JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
             String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
             ThreadUtils.postInMainThread(mContext, () ->
-                    mLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord,
+                    mSocialLoginProviderHandler.onLoginFailedWithTwoStepError(prefilledRecord,
                             socialRegistrationToken));
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
@@ -146,7 +145,7 @@ public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInRes
         } else if (error.reason == SignInError.FailureReason.AUTHENTICATION_CANCELLED_BY_USER) {
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER);
             ThreadUtils.postInMainThread(mContext, () ->
-                    mLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                    mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
             //   AUTHENTICATION_CANCELLED_BY_USER
 
             RLog.d(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
@@ -154,7 +153,7 @@ public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInRes
         } else {
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->
-                    mLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                    mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 
             RLog.d(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
 
@@ -208,13 +207,13 @@ public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInRes
     @Override
     public void onFlowDownloadFailure() {
         RLog.d(TAG, "onFlowDownloadFailure : is called");
-        if (mLoginHandler != null) {
+        if (mSocialLoginProviderHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, ErrorCodes.SOCIAL_LOGIN_FAILED_SERVER_ERROR));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.SOCIAL_LOGIN_FAILED_SERVER_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->
-                    mLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                    mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
