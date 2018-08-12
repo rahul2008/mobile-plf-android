@@ -23,6 +23,10 @@ android {
         versionName "1.5.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -42,7 +46,8 @@ dependencies {
         implementation philipsdeps.AppInfra
         implementation philipsdeps.pif
     }
-
+    implementation deps.firebase_core
+    implementation deps.firebase_config
     implementation deps.gson
     implementation deps.volley
 }

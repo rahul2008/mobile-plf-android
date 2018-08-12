@@ -109,8 +109,7 @@ dependencies {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.pif
     }
-    implementation deps.firbase_core
-    implementation deps.firbase_config
+    implementation deps.gson
     implementation deps.leakcanary
 }
 

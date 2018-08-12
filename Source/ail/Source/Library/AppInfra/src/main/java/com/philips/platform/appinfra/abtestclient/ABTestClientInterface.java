@@ -21,8 +21,7 @@ public interface ABTestClientInterface extends Serializable {
      * EXPERIENCES_UPDATED: tests are configured, all experience values have been downloaded from the server for this app start
      */
     enum CACHESTATUSVALUES {
-        NO_TESTS_DEFINED, NO_CACHED_EXPERIENCES, EXPERIENCES_NOT_UPDATED,
-        EXPERIENCES_PARTIALLY_UPDATED, EXPERIENCES_UPDATED
+        EXPERIENCE_NOT_UPDATED, EXPERIENCE_UPDATED;
     }
 
     /**
@@ -87,4 +86,10 @@ public interface ABTestClientInterface extends Serializable {
      * @since 1.0.0
      */
     void updateCache(OnRefreshListener listener);
+
+    /**
+     * API to enable developer mode to true or false
+     * @param state - pass true to enable or false to disable
+     */
+    void enableDeveloperMode(boolean state);
 }

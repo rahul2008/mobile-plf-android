@@ -9,7 +9,6 @@ import android.content.Context;
 import android.os.Build;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
-import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
 import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.aikm.AIKManager;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -279,6 +278,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         private LanguagePackInterface languagePack;
         private AppUpdateInterface appupdateInterface;
         private AIKMInterface aikmInterface;
+        private ABTestClientInterface abTestClientInterface;
 
         private ConsentManagerInterface consentManager;
         private DeviceStoredConsentHandler deviceStoredConsentHandler;
@@ -301,10 +301,22 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             mRestInterface = null;
             languagePack = null;
             aikmInterface = null;
+            abTestClientInterface = null;
             consentManager = null;
             deviceStoredConsentHandler=null;
         }
 
+
+        /**
+         * Sets config.
+         *
+         * @param abTestClient the config
+         * @return the config
+         */
+        public Builder setAbTesting(ABTestClientInterface abTestClient) {
+            abTestClientInterface = abTestClient;
+            return this;
+        }
 
         /**
          * Sets config.
@@ -437,7 +449,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    final Object abTestConfig = ABTestClientManager.getAbtestConfig(appConfigurationManager, ai);
+                   /* final Object abTestConfig = ABTestClientManager.getAbtestConfig(appConfigurationManager, ai);
                     if (abTestConfig != null) {
                         ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
                     } else {
@@ -450,7 +462,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
                     if (ai.getAppIdentity() != null) {
                         initializeLogs(ai);
-                    }
+                    }*/
 
 //                    appConfigurationManager.migrateDynamicData();
                 }

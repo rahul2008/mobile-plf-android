@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
-import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -62,7 +61,7 @@ public class AbTestingDemo extends Activity {
         final SecureStorageInterface mSecureStorage = appInfra.getSecureStorage();
 
         //abTestingInterface = AILDemouAppInterface.mAppInfra.getAbTesting();
-        abTestingInterface = new ABTestClientManager((AppInfra) appInfra);
+//        abTestingInterface = new ABTestClientManager((AppInfra) appInfra);
 
        // testName.setText("DOT-ReceiveMarketingOptIn");
         defaultValue.setText("Experience K");

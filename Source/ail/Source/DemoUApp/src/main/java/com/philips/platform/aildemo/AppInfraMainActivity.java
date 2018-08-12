@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.platform.aildemo.abtesting.AbTestMainActivity;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -205,7 +206,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 break;
 
             case 9 :
-                Intent abTesting = new Intent(AppInfraMainActivity.this , AbTestingDemo.class );
+                Intent abTesting = new Intent(AppInfraMainActivity.this , AbTestMainActivity.class );
                 startActivity(abTesting);
                 break;
 

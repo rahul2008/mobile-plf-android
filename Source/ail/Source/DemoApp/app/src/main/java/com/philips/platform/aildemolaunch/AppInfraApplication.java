@@ -8,8 +8,10 @@ package com.philips.platform.aildemolaunch;
 import android.app.Application;
 import android.util.Log;
 
+import com.philips.platform.aildemo.abtesting.AbTestingImpl;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.tagging.ApplicationLifeCycleHandler;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -26,10 +28,15 @@ public class AppInfraApplication extends Application {
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
+
+        AbTestingImpl abTestingImpl = new AbTestingImpl(this);
+
         AppInfra.Builder builder = new AppInfra.Builder();
+        builder.setAbTesting(abTestingImpl);
         long current_time = System.currentTimeMillis();
         Log.i("time","Time before ail build "+ current_time);
         gAppInfra = builder.build(getApplicationContext());
+        abTestingImpl.setAppInfraInterface(gAppInfra);
         long end_time = System.currentTimeMillis();
         Log.i("time","Time after ail build "+ end_time);
         Log.i("time","Application Diff is " + (end_time - current_time));
