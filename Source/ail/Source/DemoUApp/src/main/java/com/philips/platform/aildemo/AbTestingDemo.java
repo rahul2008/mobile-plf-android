@@ -61,7 +61,7 @@ public class AbTestingDemo extends Activity {
         final SecureStorageInterface mSecureStorage = appInfra.getSecureStorage();
 
         //abTestingInterface = AILDemouAppInterface.mAppInfra.getAbTesting();
-//        abTestingInterface = new ABTestClientManager((AppInfra) appInfra);
+        abTestingInterface = AILDemouAppInterface.getInstance().getAppInfra().getAbTesting();
 
        // testName.setText("DOT-ReceiveMarketingOptIn");
         defaultValue.setText("Experience K");
