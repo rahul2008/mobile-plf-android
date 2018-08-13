@@ -27,13 +27,13 @@ class CacheModel {
 
         private String testValue;
         private String updateType;
-        private String appVersion;
+        private int appVersion;
 
-        public String getAppVersion() {
+        public int getAppVersion() {
             return appVersion;
         }
 
-        public void setAppVersion(String appVersion) {
+        public void setAppVersion(int appVersion) {
             this.appVersion = appVersion;
         }
 
