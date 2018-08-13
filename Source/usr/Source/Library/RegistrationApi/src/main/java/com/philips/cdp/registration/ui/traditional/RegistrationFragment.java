@@ -58,12 +58,12 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 
 
-public class RegistrationFragment extends Fragment implements NetworkStateListener, BackEventListener, CounterListener, URNotification.URNotificationInterface {
+public class RegistrationFragment extends Fragment implements NetworkStateListener, BackEventListener, CounterListener {
 
     @Inject
     NetworkUtility networkUtility;
     private static final long serialVersionUID = 1128016096756071386L;
-
+    private Context mContext;
 
     private FragmentManager mFragmentManager;
 
@@ -116,6 +116,12 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     public RegistrationContentConfiguration getContentConfiguration() {
         return registrationContentConfiguration;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -496,6 +502,25 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         }
     }
 
+    public void hideNotificationBarView() {
+        if (notification != null)
+            notification.hideNotification();
+    }
+
+    public void showNotificationBarOnNetworkNotAvailable() {
+
+        new Handler().postDelayed(() -> {
+            notification = new URNotification(this.getParentActivity(), new URNotification.URNotificationInterface() {
+                @Override
+                public void notificationInlineMsg(String msg) {
+                    // NOP
+                }
+            });
+            notification.showNotification(
+                    new NotificationMessage(mContext.getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.USR_Network_ErrorMsg)));
+        }, 100);
+    }
+
     public Activity getParentActivity() {
         return getActivity();
     }
@@ -577,11 +602,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         }
     }
 
-    @Override
-    public void notificationInlineMsg(String msg) {
-//        notificationInterface = baseFragment;
-    }
-
 
     public class MyCountDownTimer extends CountDownTimer {
         public MyCountDownTimer(long startTime, long interval) {
@@ -615,39 +635,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             }
         });
         return view;
-    }
-
-
-    public void updateErrorNotification(String errorMessage, int errorCode) {
-        RLog.e(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
-        getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
-    }
-
-    public void updateErrorNotification(String errorMessage) {
-        RLog.e(TAG, "errorMessage = " + errorMessage);
-        getNotification().showNotification(new NotificationMessage(errorMessage));
-
-
-    }
-
-    public URNotification getNotification() {
-        if (notification == null) {
-            return notification = new URNotification(this.getParentActivity(), this);
-        }
-        return notification;
-    }
-
-    public void showNotificationBarOnNetworkNotAvailable() {
-
-        new Handler().postDelayed(() -> {
-            getNotification().showNotification(
-                    new NotificationMessage(getContext().getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), getContext().getResources().getString(R.string.USR_Network_ErrorMsg)));
-        }, 100);
-    }
-
-    public void hideNotificationBarView() {
-        if (getNotification() != null)
-            getNotification().hideNotification();
     }
 
 }

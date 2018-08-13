@@ -86,7 +86,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @BindView(R2.id.usr_forgotpassword_input_label)
     Label usr_forgotpassword_input_label;
 
-    @BindView(R2.id.usr_forgotpassword_baseLayout_LinearLayout)
+    @BindView(R2.id.usr_reg_root_layout)
     LinearLayout usrForgotPasswordBaseLayout;
 
     //Temp name:

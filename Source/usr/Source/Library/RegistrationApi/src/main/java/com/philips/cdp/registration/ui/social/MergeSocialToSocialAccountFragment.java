@@ -28,6 +28,7 @@ import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -134,7 +135,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
         mConflictProvider = bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
         mEmail = bundle.getString(RegConstants.SOCIAL_MERGE_EMAIL);
-        RLog.e("TAG", "Social Provider : "+mConflictProvider);
+        RLog.e("TAG", "Social Provider : " + mConflictProvider);
         String conflictingProvider = "USR_" + mConflictProvider;
         int conflictSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(conflictingProvider, "string",
                 getRegistrationFragment().getParentActivity().getPackageName());
@@ -178,9 +179,9 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @OnClick(R2.id.usr_mergeScreen_login_button)
     void mergeAccount() {
         if (networkUtility.isNetworkAvailable()) {
-            if(mConflictProvider.equalsIgnoreCase(RegConstants.SOCIAL_PROVIDER_FACEBOOK)){
+            if (mConflictProvider.equalsIgnoreCase(RegConstants.SOCIAL_PROVIDER_FACEBOOK)) {
                 startFaceBookLogin();
-            }else {
+            } else {
                 mergeSocialToSocialAccountPresenter.loginUserUsingSocialProvider(mConflictProvider, mMergeToken);
             }
             showMergeSpinner();
@@ -275,9 +276,9 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @Override
     public void mergeFailure(UserRegistrationFailureInfo failureInfo) {
         hideMergeSpinner();
-        updateErrorNotification(failureInfo.getErrorDescription(), failureInfo.getErrorCode());
-//        mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, errorCode));
-//        scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
+        if (failureInfo.getErrorCode() != ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER) {
+            updateErrorNotification(failureInfo.getErrorDescription(), failureInfo.getErrorCode());
+        }
     }
 
     @Override
@@ -313,7 +314,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void onFaceBookEmailReceived(String email) {
-            startAccessTokenAuthForFacebook();
+        startAccessTokenAuthForFacebook();
     }
 
     @Override

@@ -110,12 +110,11 @@ public class ConsentCacheInteractorTest {
         thenNullConsentStatusIsReturned();
     }
 
-    @Test(expected=RuntimeException.class)
-    public void fetchConsentTypeState_WhenUserIdIsNull() throws Exception {
+    @Test(expected=NullPointerException.class)
+    public void fetchConsentTypeState_WhenUserIdIsNull() {
         when(userMock.getHsdpUUID()).thenReturn(null);
         givenSecureStorageReturns(getSingleConsentStatusJson(null, "active", CONSENT_TYPE_1, 10));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
-        Mockito.when(consentCacheInteractor.fetchConsentTypeState(CONSENT_TYPE_1)).thenThrow(new RuntimeException("user is not logged in"));
     }
 
     @Test

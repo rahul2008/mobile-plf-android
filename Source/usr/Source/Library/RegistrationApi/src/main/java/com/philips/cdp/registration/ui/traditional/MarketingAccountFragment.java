@@ -61,7 +61,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @BindView(R2.id.usr_marketingScreen_philipsNews_label)
     Label receivePhilipsNewsLabel;
 
-    @BindView(R2.id.usr_marketingScreen_rootContainer_linearLayout)
+    @BindView(R2.id.usr_reg_root_layout)
     LinearLayout usrMarketingScreenRootContainerLinearLayout;
 
     private User mUser;

@@ -101,7 +101,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     @BindView(R2.id.ll_root_layout)
     LinearLayout spinnerLayout;
 
-    @BindView(R2.id.usr_startScreen_baseLayout_LinearLayout)
+    @BindView(R2.id.usr_reg_root_layout)
     LinearLayout usr_startScreen_baseLayout_LinearLayout;
 
     @BindView(R2.id.usr_StartScreen_privacyNotice_country_LinearLayout)

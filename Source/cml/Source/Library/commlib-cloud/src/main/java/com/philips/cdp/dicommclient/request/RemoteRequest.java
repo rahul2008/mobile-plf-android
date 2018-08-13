@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.listener.DcsResponseListener;
 import com.philips.cdp.cloudcontroller.api.listener.PublishEventListener;
@@ -159,7 +160,10 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     }
 
     private class JsonData {
+        @SerializedName("status")
         int status;
+
+        @SerializedName("data")
         public Object data;
     }
 }

@@ -233,6 +233,6 @@ Receive free product accessories</string>
   <string name="label_sleep_tips">How can I improve my sleep score?</string>
   <string name="mya_config_tab">Configuration tab</string>
   <string name="RA_Code_Tampered">Code has been Tampered</string>
-
+  <string name="RA_Change_Configuration">Change Configuration</string>
 
 </resources>
