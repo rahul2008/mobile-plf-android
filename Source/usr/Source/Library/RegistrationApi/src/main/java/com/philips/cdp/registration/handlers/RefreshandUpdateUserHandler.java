@@ -72,7 +72,8 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(mContext);
                 RLog.e(TAG, "refreshUpdateUser : onSuccess : " + response.toString());
-                if (!RegistrationConfiguration.getInstance().isHsdpFlow()) {
+                final RegistrationConfiguration registrationConfiguration = RegistrationConfiguration.getInstance();
+                if (!registrationConfiguration.isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
                     RLog.d(TAG, "refreshUpdateUser : is not HSDP flow  ");
                     return;
@@ -96,13 +97,11 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                                 handler.onRefreshUserFailed(userRegistrationFailureInfo.getErrorCode());
                             }
                         }, mContext, mUpdateUserRecordHandler, null, null);
-                        RLog.d(TAG, "refreshUpdateUser onSuccess isHSDPSkipLoginConfigurationAvailable :" + RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable());
-                        RLog.d(TAG, "refreshUpdateUser onSuccess isHsdpFlow" + RegistrationConfiguration.getInstance().isHsdpFlow());
-                        if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow()) {
-                            RLog.d(TAG, "onSuccess if isHsdpLazyLoadingStatus is not true");
+                        RLog.d(TAG, "onSuccess : refreshUpdateUser onSuccess isHSDPSkipLoginConfigurationAvailable :" + registrationConfiguration.isHSDPSkipLoginConfigurationAvailable());
+                        RLog.d(TAG, "onSuccess : refreshUpdateUser onSuccess isHsdpFlow" + registrationConfiguration.isHsdpFlow());
+                        if (!registrationConfiguration.isHSDPSkipLoginConfigurationAvailable() && registrationConfiguration.isHsdpFlow()) {
                             loginTraditional.loginIntoHsdp();
                         } else {
-                            RLog.d(TAG, "onSuccess  : isHsdpLazyLoadingStatus is false hsdpUserRecordV2 is not NULL  ");
                             handler.onRefreshUserSuccess();
                         }
                     } else {

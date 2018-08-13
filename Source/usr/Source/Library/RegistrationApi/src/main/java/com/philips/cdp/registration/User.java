@@ -624,7 +624,7 @@ public class User {
         if (networkUtility.isNetworkAvailable()) {
 
             if (getUserLoginState() == UserLoginState.USER_NOT_LOGGED_IN) {
-                UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_SYSTEM_ERROR_7012, "Janrain Login not success");
+                UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(ErrorCodes.HSDP_JANRAIN_NOT_SUCCESS_ERROR_7012, "Janrain Login not success");
             }
             RLog.d(TAG, "authorizeHSDP: Janrain user signed-in not an HSDP So making HSDP call");
             if (hsdpFlow)

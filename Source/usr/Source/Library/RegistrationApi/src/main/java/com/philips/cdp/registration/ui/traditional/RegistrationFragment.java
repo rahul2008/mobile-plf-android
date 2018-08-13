@@ -10,7 +10,6 @@ package com.philips.cdp.registration.ui.traditional;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -63,7 +62,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     @Inject
     NetworkUtility networkUtility;
-    private static final long serialVersionUID = 1128016096756071386L;
     private Context mContext;
 
     private FragmentManager mFragmentManager;
@@ -74,7 +72,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     private RegistrationLaunchMode mRegistrationLaunchMode;
 
     RegistrationContentConfiguration registrationContentConfiguration;
-    Intent msgIntent;
     private static long RESEND_DISABLED_DURATION = 60 * 1000;
     private static final long INTERVAL = 1 * 1000;
     static public MyCountDownTimer myCountDownTimer;

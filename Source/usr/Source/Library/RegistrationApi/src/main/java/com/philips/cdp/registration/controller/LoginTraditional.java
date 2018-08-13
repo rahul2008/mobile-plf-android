@@ -89,11 +89,12 @@ public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResult
         Jump.saveToDisk(mContext);
 
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
-            RLog.d(TAG, "onSuccess if isHsdpLazyLoadingStatus is not true");
+        final RegistrationConfiguration registrationConfiguration = RegistrationConfiguration.getInstance();
+        RLog.d(TAG, "onSuccess : isHSDPSkipLoginConfigurationAvailable : "+registrationConfiguration.isHSDPSkipLoginConfigurationAvailable());
+        RLog.d(TAG, "onSuccess : isHsdpFlow : "+registrationConfiguration.isHsdpFlow());
+        if (!registrationConfiguration.isHSDPSkipLoginConfigurationAvailable() && registrationConfiguration.isHsdpFlow() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
             loginIntoHsdp();
         } else {
-            RLog.d(TAG, "onSuccess if isHsdpLazyLoadingStatus is not false");
             ThreadUtils.postInMainThread(mContext, () -> mLoginHandler.onLoginSuccess());
         }
     }
@@ -102,8 +103,8 @@ public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResult
     public void onFailure(SignInError error) {
         RLog.d(TAG, "onFailure : is called");
         try {
-            RLog.e(TAG, "onFailure : error Description :"+ error.captureApiError.error_description );
-            RLog.e(TAG, "onFailure : error code :"+ error.captureApiError.code );
+            RLog.e(TAG, "onFailure : error Description :" + error.captureApiError.error_description);
+            RLog.e(TAG, "onFailure : error code :" + error.captureApiError.code);
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
