@@ -25,6 +25,7 @@ import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.errors.NotificationMessage;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -34,10 +35,10 @@ import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment implements URNotification.URNotificationInterface {
 
-    private URNotification.URNotificationInterface notificationInterface;
+    private URNotification notification;
 
-    protected RegistrationBaseFragment() {
-    }
+    private Context mContext;
+    private URNotification.URNotificationInterface notificationInterface;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -72,6 +73,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
 
     }
 
@@ -318,32 +320,37 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     public void updateErrorNotification(String errorMessage, int errorCode) {
         RLog.e(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
-        getRegistrationFragment().updateErrorNotification(errorMessage, errorCode);
+        getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
     }
-
 
     public void updateErrorNotification(String errorMessage) {
         RLog.e(TAG, "errorMessage = " + errorMessage);
-        getRegistrationFragment().updateErrorNotification(errorMessage);
+        getNotification().showNotification(new NotificationMessage(errorMessage));
 
-    }
 
-    public URNotification getNotification() {
-        return getRegistrationFragment().getNotification();
     }
 
     public void showNotificationBarOnNetworkNotAvailable() {
 
-        getRegistrationFragment().showNotificationBarOnNetworkNotAvailable();
+        new Handler().postDelayed(() -> {
+            getNotification().showNotification(
+                    new NotificationMessage(mContext.getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.USR_Network_ErrorMsg)));
+        }, 100);
     }
 
     public void hideNotificationBarView() {
-        getRegistrationFragment().hideNotificationBarView();
+        if (notification != null)
+            notification.hideNotification();
     }
 
     public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment) {
+        RLog.d(TAG, "registerInlineNotificationListener :" + baseFragment);
         notificationInterface = baseFragment;
     }
 
-
+    public URNotification getNotification() {
+        if (notification == null)
+            notification = new URNotification(getRegistrationFragment().getParentActivity(), this);
+        return notification;
+    }
 }
