@@ -50,6 +50,8 @@ public class MyAccountState extends BaseState{
     private static final String PRIVACY_SETTINGS_EVENT = "PrivacySettingsEvent";
     private static final String MY_DETAILS_EVENT = "MyDetailsEvent";
     private static final String MY_ORDERS_EVENT = "MyOrdersEvent";
+    private static final String MY_OPTIN_EVENT = "MyOptinEvent";
+
     private static final String TAG = MyAccountState.class.getSimpleName();
 
     @Override
@@ -70,7 +72,7 @@ public class MyAccountState extends BaseState{
         if (isHybrisAvailable) {
             profileItems = new String[]{"MYA_My_details", "MYA_My_orders"};
         } else {
-            profileItems = new String[]{"MYA_My_details"};
+            profileItems = new String[]{"MYA_My_details","MYA_Marketing_Optin"};
         }
         String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
         launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
@@ -112,6 +114,9 @@ public class MyAccountState extends BaseState{
                 } else if (itemName.equalsIgnoreCase("MYA_My_orders")) {
                     getBaseState(fragmentLauncher, MY_ORDERS_EVENT);
                     return true;
+                } else if(itemName.equalsIgnoreCase("MYA_Marketing_Optin")){
+                    getBaseState(fragmentLauncher, MY_OPTIN_EVENT);
+
                 }
                 return false;
             }

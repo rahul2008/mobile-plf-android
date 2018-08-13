@@ -45,6 +45,7 @@ public class AppStates {
     public static final String SHOPPING_CART_VIEW = "shopping_cart";
     public static final String PRIVACY_SETTINGS_STATE="privacy_settings";
     public static final String MY_DETAILS_STATE="my_details";
+    public static final String MY_OPTIN_STATE="my_optin";
     public static final String TELE_HEALTHSERVICES_DEEP_LINKING_STATE ="TeleHealthServicesDeepLinkingState";
     public static final String MY_ORDERS="my_orders";
     public static final String TESTNEURADEMO = "neurademo";

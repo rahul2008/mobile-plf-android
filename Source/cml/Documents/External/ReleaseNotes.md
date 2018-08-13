@@ -18,6 +18,7 @@ Version {next}
 
 ### Defects solved
 * \#123749 Discovery callback are now posted to main thread
+* \#144890 RemoteRequests are correctly parsed again
 
 ### Residual anomalies
 * N/A

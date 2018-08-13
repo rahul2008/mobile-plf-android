@@ -19,7 +19,7 @@
         android:fillViewport="true">
 
         <RelativeLayout
-            android:id="@+id/usr_loginScreen_rootLayout_LinearLayout"
+            android:id="@+id/usr_reg_root_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
