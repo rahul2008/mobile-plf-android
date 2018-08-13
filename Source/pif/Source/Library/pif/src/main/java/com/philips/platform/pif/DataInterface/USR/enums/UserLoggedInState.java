@@ -1,8 +1,8 @@
-package com.philips.cdp.registration;
+package com.philips.platform.pif.DataInterface.USR.enums;
 
 
 /**
- * API UserLoginState is implemented to return the exact status of the user while logging in. The user log in states returned are the following:
+ * API UserLoggedInState is implemented to return the exact status of the user while logging in. The user log in states returned are the following:
  *
  * USER_NOT_LOGGED_IN: Informs the state of the user as not logged in
  * PENDING_VERIFICATION: Informs that the verification is pending for the user
@@ -13,13 +13,10 @@ package com.philips.cdp.registration;
  * @since 1804.0
  *
  */
-public enum UserLoginState {
+public enum UserLoggedInState {
     USER_NOT_LOGGED_IN,
     PENDING_VERIFICATION,
     PENDING_TERM_CONDITION,
     PENDING_HSDP_LOGIN,
     USER_LOGGED_IN;
-
-
 }
-

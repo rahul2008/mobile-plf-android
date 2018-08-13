@@ -8,37 +8,76 @@
 
 package com.philips.cdp.registration;
 
-import android.app.*;
-import android.content.*;
-import android.support.annotation.*;
+import android.app.Activity;
+import android.content.Context;
+import android.support.annotation.Nullable;
 
-import com.janrain.android.*;
-import com.janrain.android.capture.Capture.*;
-import com.janrain.android.capture.*;
-import com.janrain.android.engage.session.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.controller.*;
-import com.philips.cdp.registration.dao.*;
+import com.janrain.android.Jump;
+import com.janrain.android.capture.Capture.InvalidApidChangeException;
+import com.janrain.android.capture.CaptureRecord;
+import com.janrain.android.engage.session.JRSession;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.controller.AddConsumerInterest;
+import com.philips.cdp.registration.controller.BaseHSDPLogin;
+import com.philips.cdp.registration.controller.ForgotPassword;
+import com.philips.cdp.registration.controller.LoginSocialNativeProvider;
+import com.philips.cdp.registration.controller.LoginSocialProvider;
+import com.philips.cdp.registration.controller.LoginTraditional;
+import com.philips.cdp.registration.controller.RefreshUserSession;
+import com.philips.cdp.registration.controller.RegisterSocial;
+import com.philips.cdp.registration.controller.RegisterTraditional;
+import com.philips.cdp.registration.controller.ResendVerificationEmail;
+import com.philips.cdp.registration.controller.UpdateDateOfBirth;
+import com.philips.cdp.registration.controller.UpdateGender;
+import com.philips.cdp.registration.controller.UpdateReceiveMarketingEmail;
+import com.philips.cdp.registration.controller.UpdateUserRecord;
+import com.philips.cdp.registration.dao.ConsumerArray;
+import com.philips.cdp.registration.dao.ConsumerInterest;
+import com.philips.cdp.registration.dao.DIUserProfile;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.hsdp.*;
-import com.philips.cdp.registration.listener.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
+import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
+import com.philips.cdp.registration.handlers.LoginHandler;
+import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.cdp.registration.handlers.RefreshandUpdateUserHandler;
+import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
+import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
+import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
+import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.hsdp.HsdpUserRecordV2;
+import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.Gender;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.text.*;
-import java.util.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.*;
+import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getPreferenceValue;
 
 /**
  * {@code User} class represents information related to a logged in user of USR.
@@ -331,12 +370,7 @@ public class User {
                     RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
                     refreshUserSession.refreshUserSession();
                 } else {
-                    ThreadUtils.postInMainThread(mContext, new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(RegConstants.FAILURE_TO_CONNECT);
-                        }
-                    });
+                    ThreadUtils.postInMainThread(mContext, () -> refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(RegConstants.FAILURE_TO_CONNECT));
                 }
             }
         }).start();
@@ -541,11 +575,9 @@ public class User {
     /**
      * {@code getUserSignInState} method checks a user is logged in state
      *
-     * @return boolean
-     * @since 1.0.1
+     * @return UserLoginState
+     * @since 1804.0
      */
-
-
     public UserLoginState getUserLoginState() {
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {
@@ -580,6 +612,12 @@ public class User {
     }
 
 
+    /**
+     * {@code authorizeHSDP} method authorize a user is log-in in HSDP Backend
+     *
+     * @param hsdpAuthenticationListener Pass the HSDPAuthenticationListener listner in parameter
+     * @since 1804.0
+     */
     public void authorizeHSDP(HSDPAuthenticationListener hsdpAuthenticationListener) {
         final boolean hsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
         RLog.d(TAG, "authorizeHSDP: proposition called this public api");
@@ -940,16 +978,6 @@ public class User {
         }
         RLog.d(TAG, "getMobile diUserProfile : " + diUserProfile.getMobile());
         return diUserProfile.getMobile();
-    }
-
-
-    private String getPassword() {
-        DIUserProfile diUserProfile = getUserInstance();
-        if (diUserProfile == null) {
-            return null;
-        }
-        RLog.d(TAG, "getPassword diUserProfile : " + diUserProfile.getPassword());
-        return diUserProfile.getPassword();
     }
 
     /**

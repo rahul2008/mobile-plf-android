@@ -1,4 +1,4 @@
-package com.philips.cdp.registration.listener;
+package com.philips.platform.pif.DataInterface.USR.listeners;
 
 public interface HSDPAuthenticationListener {
 

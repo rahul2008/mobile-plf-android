@@ -9,14 +9,15 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDetailsListener;
@@ -109,9 +110,55 @@ public class UserDataProvider extends User implements UserDataInterface {
 
     @Override
     public boolean isUserLoggedIn(Context context) {
-        final boolean isLoggedIn = getUserLoginState() == UserLoginState.USER_LOGGED_IN;
+        boolean isLoggedIn = isUserSignIn();
         RLog.d(TAG, "isUserLoggedIn :  " + isLoggedIn);
         return isLoggedIn;
+    }
+
+    @Override
+    public UserLoggedInState getUserLoggedInState() {
+        return getState();
+    }
+
+    private UserLoggedInState getState() {
+        switch (getUserLoginState()) {
+            case USER_LOGGED_IN:
+                return UserLoggedInState.USER_LOGGED_IN;
+            case USER_NOT_LOGGED_IN:
+                return UserLoggedInState.USER_NOT_LOGGED_IN;
+            case PENDING_VERIFICATION:
+                return UserLoggedInState.PENDING_VERIFICATION;
+            case PENDING_HSDP_LOGIN:
+                return UserLoggedInState.PENDING_HSDP_LOGIN;
+            case PENDING_TERM_CONDITION:
+                return UserLoggedInState.PENDING_TERM_CONDITION;
+        }
+        return UserLoggedInState.USER_NOT_LOGGED_IN;
+    }
+
+
+    @Override
+    public void authorizeHsdp(com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener hsdpAuthenticationListener) {
+        authorizeHSDP(getHsdpAuthenticationHandler(hsdpAuthenticationListener));
+    }
+
+
+    @NonNull
+    private HSDPAuthenticationListener getHsdpAuthenticationHandler(com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener hsdpAuthenticationListener) {
+        RLog.d(TAG, "getHsdpAuthenticationHandler");
+        return new HSDPAuthenticationListener() {
+            @Override
+            public void onHSDPLoginSuccess() {
+                RLog.d(TAG, "onHSDPLoginSuccess");
+                hsdpAuthenticationListener.onHSDPLoginSuccess();
+            }
+
+            @Override
+            public void onHSDPLoginFailure(int errorCode, String msg) {
+                RLog.d(TAG, "onHSDPLoginFailure");
+                hsdpAuthenticationListener.onHSDPLoginFailure(errorCode, msg);
+            }
+        };
     }
 
     @Override
