@@ -63,7 +63,7 @@ public class URNotification {
                 break;
 
             case NOTIFICATION_BAR:
-                notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_startScreen_baseLayout_LinearLayout));
+                notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));
                 break;
         }
     }

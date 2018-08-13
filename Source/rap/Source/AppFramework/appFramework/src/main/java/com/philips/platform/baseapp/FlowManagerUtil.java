@@ -10,6 +10,7 @@ import com.philips.platform.appframework.connectivitypowersleep.insights.Insight
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.stateimpl.DemoDevicePairingState;
+import com.philips.platform.baseapp.screens.Optin.MarketingOptin;
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
 import com.philips.platform.baseapp.screens.cocoversion.CocoVersionState;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
@@ -62,6 +63,7 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
         uiStateMap.put(AppStates.MY_ACCOUNT, new MyAccountState());
         uiStateMap.put(AppStates.PRIVACY_SETTINGS_STATE, new PrivacySettingsState());
+        uiStateMap.put(AppStates.MY_OPTIN_STATE, new MarketingOptin());
         uiStateMap.put(AppStates.MY_DETAILS_STATE, new MyDetailsState());
         uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
         uiStateMap.put(AppStates.NEURA, new NeuraState());

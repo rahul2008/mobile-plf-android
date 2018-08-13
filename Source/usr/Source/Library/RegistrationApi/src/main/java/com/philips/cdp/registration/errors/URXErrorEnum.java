@@ -74,7 +74,7 @@ public enum URXErrorEnum {
             default:
 
                 if(getStringId(errorCode) == RegConstants.UNKNOWN_ERROR_ID ){
-                    return context.getString(R.string.USR_Generic_Network_Error) +" "+ "["+errorCode+"]";
+                    return context.getString(R.string.USR_Generic_Network_ErrorMsg) +" "+ "["+errorCode+"]";
                 }
                 return context.getString(getStringId(errorCode));
 

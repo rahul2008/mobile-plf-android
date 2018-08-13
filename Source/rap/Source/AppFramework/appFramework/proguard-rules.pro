@@ -147,8 +147,8 @@
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
--dontpreverify
--dontoptimize
+#-dontpreverify
+#-dontoptimize
 
 #attributes
 -keepattributes *Annotation*

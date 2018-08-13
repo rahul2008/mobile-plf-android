@@ -132,12 +132,16 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
                         bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                             @Override
                             public void onDeviceSelected(RefAppBleReferenceAppliance bleRefAppliance) {
-                                if (bleRefAppliance.getDeviceMeasurementPort() != null && bleRefAppliance.getDeviceMeasurementPort().getPortProperties() != null) {
-                                    bleRefAppliance.getDeviceMeasurementPort().reloadProperties();
-                                } else {
-                                    updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
-                                    connectivityPresenter.setUpApplicance(bleRefAppliance);
-                                    bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
+                                if(bleRefAppliance==null || bleRefAppliance.getDeviceMeasurementPort()==null) {
+                                    Toast.makeText(getActivity(),"Reference Node is not valid",Toast.LENGTH_SHORT).show();
+                                }else{
+                                    if (bleRefAppliance.getDeviceMeasurementPort() != null && bleRefAppliance.getDeviceMeasurementPort().getPortProperties() != null) {
+                                        bleRefAppliance.getDeviceMeasurementPort().reloadProperties();
+                                    } else {
+                                        updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
+                                        connectivityPresenter.setUpApplicance(bleRefAppliance);
+                                        bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
+                                    }
                                 }
                             }
                         });
