@@ -32,7 +32,7 @@ import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONObject;
 
-public class LoginSocialNativeProvider extends BaseHSDPLogin implements Jump.SignInResultHandler,
+public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.SignInResultHandler,
         JumpFlowDownloadStatusListener {
     private final static String TAG = LoginSocialNativeProvider.class.getSimpleName();
     private Context mContext;

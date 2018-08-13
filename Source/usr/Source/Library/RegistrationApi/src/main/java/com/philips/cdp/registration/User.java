@@ -20,7 +20,7 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
-import com.philips.cdp.registration.controller.BaseHSDPLogin;
+import com.philips.cdp.registration.controller.HSDPLoginService;
 import com.philips.cdp.registration.controller.ForgotPassword;
 import com.philips.cdp.registration.controller.LoginSocialNativeProvider;
 import com.philips.cdp.registration.controller.LoginSocialProvider;
@@ -647,10 +647,10 @@ public class User {
 
         if (RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable()) {
             RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = ");
-            BaseHSDPLogin baseHSDPLogin = new BaseHSDPLogin(mContext);
+            HSDPLoginService HSDPLoginService = new HSDPLoginService(mContext);
             if (hsdpAuthenticationListener != null) {
                 RLog.d(TAG, "authorizeHSDP: with mTraditionalLoginHandler ");
-                baseHSDPLogin.hsdpLogin(getAccessToken(), getEmail(), hsdpAuthenticationListener);
+                HSDPLoginService.hsdpLogin(getAccessToken(), getEmail(), hsdpAuthenticationListener);
             } else {
                 throw new RuntimeException("Please provide HSDPAuthentiationListner");
             }

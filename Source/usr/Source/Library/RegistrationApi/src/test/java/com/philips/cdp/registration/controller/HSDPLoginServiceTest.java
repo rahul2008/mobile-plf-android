@@ -22,9 +22,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunner.class)
-public class BaseHSDPLoginTest {
+public class HSDPLoginServiceTest {
 
-    private BaseHSDPLogin baseHSDPLogin;
+    private HSDPLoginService HSDPLoginService;
     @Mock
     Context mContext;
     @Mock
@@ -44,26 +44,26 @@ public class BaseHSDPLoginTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         RegistrationConfiguration.getInstance().setComponent(componentMock);
-        baseHSDPLogin = new BaseHSDPLogin(mContext);
+        HSDPLoginService = new HSDPLoginService(mContext);
     }
 
     @Test
     public void shouldGetUserEmailOrMobileWithEmail() {
         when(mUser.getEmail()).thenReturn("xyz@philips.com");
-        baseHSDPLogin.getUserEmailOrMobile(mUser);
+        HSDPLoginService.getUserEmailOrMobile(mUser);
     }
 
     @Test
     public void shouldGetUserEmailOrMobileWithMobile() {
         when(mUser.getEmail()).thenReturn("234242342424");
-        baseHSDPLogin.getUserEmailOrMobile(mUser);
+        HSDPLoginService.getUserEmailOrMobile(mUser);
         Mockito.verify(mUser).getMobile();
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldHsdpLoginOnSuccess() {
         when(networkUtility.isNetworkAvailable()).thenReturn(true);
-        baseHSDPLogin.hsdpLogin("dfsdfs", "fsfds@gmail.com", hsdpAuthenticationListener);
+        HSDPLoginService.hsdpLogin("dfsdfs", "fsfds@gmail.com", hsdpAuthenticationListener);
         socialLoginProviderHandler.onLoginSuccess();
         verify(hsdpAuthenticationListener).onHSDPLoginSuccess();
     }
@@ -71,7 +71,7 @@ public class BaseHSDPLoginTest {
     @Test(expected = NullPointerException.class)
     public void shouldLoginFailedWithError() {
         when(networkUtility.isNetworkAvailable()).thenReturn(true);
-        baseHSDPLogin.hsdpLogin("dfsdfs", "fsfds@gmail.com", hsdpAuthenticationListener);
+        HSDPLoginService.hsdpLogin("dfsdfs", "fsfds@gmail.com", hsdpAuthenticationListener);
         socialLoginProviderHandler.onLoginSuccess();
         verify(hsdpAuthenticationListener).onHSDPLoginFailure(1001,"Already HSDP logged In" );
     }

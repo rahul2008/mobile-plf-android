@@ -35,7 +35,7 @@ import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegisterSocial extends BaseHSDPLogin implements SocialLoginProviderHandler, Jump.SignInResultHandler,
+public class RegisterSocial extends HSDPLoginService implements SocialLoginProviderHandler, Jump.SignInResultHandler,
         JumpFlowDownloadStatusListener {
 
     private String TAG = RegisterSocial.class.getSimpleName();

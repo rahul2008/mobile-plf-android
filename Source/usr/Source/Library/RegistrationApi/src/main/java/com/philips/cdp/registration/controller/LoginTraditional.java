@@ -27,7 +27,7 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
-public class LoginTraditional extends BaseHSDPLogin implements Jump.SignInResultHandler, JumpFlowDownloadStatusListener {
+public class LoginTraditional extends HSDPLoginService implements Jump.SignInResultHandler, JumpFlowDownloadStatusListener {
 
 
     private Context mContext;

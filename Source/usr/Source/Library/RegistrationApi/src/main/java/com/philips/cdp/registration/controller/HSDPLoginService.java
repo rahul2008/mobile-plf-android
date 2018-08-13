@@ -15,12 +15,12 @@ import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 
-public class BaseHSDPLogin {
-    private static final String TAG = BaseHSDPLogin.class.getSimpleName();
+public class HSDPLoginService {
+    private static final String TAG = HSDPLoginService.class.getSimpleName();
     private Context mContext;
     private User mUser;
 
-    public BaseHSDPLogin(Context mContext) {
+    public HSDPLoginService(Context mContext) {
         this.mContext = mContext;
         this.mUser = new User(mContext);
     }

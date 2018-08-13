@@ -33,7 +33,7 @@ import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONObject;
 
-public class LoginSocialProvider extends BaseHSDPLogin implements Jump.SignInResultHandler, JumpFlowDownloadStatusListener {
+public class LoginSocialProvider extends HSDPLoginService implements Jump.SignInResultHandler, JumpFlowDownloadStatusListener {
 
     private Context mContext;
 
