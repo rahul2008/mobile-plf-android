@@ -35,7 +35,7 @@ import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegisterSocial extends HSDPLoginService implements SocialLoginProviderHandler, Jump.SignInResultHandler,
+public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInResultHandler,
         JumpFlowDownloadStatusListener {
 
     private String TAG = RegisterSocial.class.getSimpleName();
@@ -43,14 +43,15 @@ public class RegisterSocial extends HSDPLoginService implements SocialLoginProvi
 
     private Context mContext;
 
+    private HSDPLoginService hsdpLoginService;
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
     public RegisterSocial(SocialLoginProviderHandler socialLoginProviderHandler,
                           Context context, UpdateUserRecordHandler updateUserRecordHandler) {
-        super(context);
         mSocialLoginProviderHandler = socialLoginProviderHandler;
         mContext = context;
         mUpdateUserRecordHandler = updateUserRecordHandler;
+        hsdpLoginService = new HSDPLoginService(mContext);
     }
 
     public void onSuccess() {
@@ -61,8 +62,8 @@ public class RegisterSocial extends HSDPLoginService implements SocialLoginProvi
 
         if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
             RLog.d(TAG, "onSuccess : if : is called");
-            String emailOrMobile = getUserEmailOrMobile(user);
-            hsdpLogin(user.getAccessToken(), emailOrMobile, mSocialLoginProviderHandler);
+            String emailOrMobile = hsdpLoginService.getUserEmailOrMobile(user);
+            hsdpLoginService.hsdpLogin(user.getAccessToken(), emailOrMobile, mSocialLoginProviderHandler);
         } else {
             ThreadUtils.postInMainThread(mContext, () ->
                     mSocialLoginProviderHandler.onContinueSocialProviderLoginSuccess());
@@ -70,11 +71,6 @@ public class RegisterSocial extends HSDPLoginService implements SocialLoginProvi
             RLog.d(TAG, "onSuccess : else : is called");
         }
     }
-
-
-//    public void onCode(String code) {
-//        RLog.d(TAG, "onCode : is called");
-//    }
 
     public void onFailure(SignInError error) {
         RLog.d(TAG, "onFailure : is called");
@@ -242,24 +238,7 @@ public class RegisterSocial extends HSDPLoginService implements SocialLoginProvi
         if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow() && isEmailVerified) {
             RLog.d(TAG, "handleOnLoginSuccess : is hsdpflow  and email verified");
             try {
-                hsdpLogin(captured.getAccessToken(), captured.getString("email"), mSocialLoginProviderHandler);
-//            HsdpUser hsdpUser = new HsdpUser(mContext);
-//
-//                hsdpUser.login(captured.getString("email"), captured.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
-//
-//                    @Override
-//                    public void onLoginSuccess() {
-//                        ThreadUtils.postInMainThread(mContext, () ->
-//                                mSocialProviderLoginHandler.onLoginSuccess());
-//                    }
-//
-//                    @Override
-//                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-//                        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-//                        ThreadUtils.postInMainThread(mContext, () ->
-//                                mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-//                    }
-//                });
+                hsdpLoginService.hsdpLogin(captured.getAccessToken(), captured.getString("email"), mSocialLoginProviderHandler);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
