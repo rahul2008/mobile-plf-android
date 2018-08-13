@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.demouapp.fragment.port;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,6 +35,7 @@ import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.acceptNewPinFor;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.rejectNewPinFor;
 import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
+import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
 
 public class DevicePortFragment extends Fragment {
 
@@ -57,7 +59,13 @@ public class DevicePortFragment extends Fragment {
 
         @Override
         public void onPortError(DevicePort port, Error error, @Nullable String errorData) {
-            DICommLog.e(TAG, String.format(Locale.US, "Device port error: [%s], data: [%s]", error.getErrorMessage(), errorData));
+            String errorMessage = String.format(Locale.US, "Device port error: [%s], data: [%s]", error.getErrorMessage(), errorData);
+            DICommLog.e(TAG, errorMessage);
+
+            Activity activity = getActivity();
+            if (activity != null) {
+                showIndefiniteMessage(rootview, errorMessage);
+            }
 
             if (isAdded() && error == Error.INSECURE_CONNECTION) {
                 promptCertificateMismatch();
