@@ -78,12 +78,12 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        RLog.i(TAG, "onAttach : is called");
+        RLog.d(TAG, "onAttach : is called");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RLog.i(TAG, "onCreateView : is called");
+        RLog.d(TAG, "onCreateView : is called");
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
@@ -100,7 +100,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     private void setContentConfig(View view) {
-        RLog.i(TAG, "setContentConfig : is called");
+        RLog.d(TAG, "setContentConfig : is called");
         if (getRegistrationFragment().getContentConfiguration() != null) {
             updateText(view, R.id.usr_marketingScreen_headTitle_Lable,
                     getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
@@ -118,13 +118,13 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             }
         } else {
             defalutBannerText(view);
-            RLog.i(TAG, "setContentConfig : getContentConfiguration : is null");
+            RLog.d(TAG, "setContentConfig : getContentConfiguration : is null");
         }
     }
 
     @SuppressLint("StringFormatInvalid")
     void defalutBannerText(View view) {
-        RLog.i(TAG, "defalutBannerText : is called");
+        RLog.d(TAG, "defalutBannerText : is called");
         String joinNow = mContext.getResources().getString(R.string.USR_DLS_Optin_Body_Line2);
         String updateJoinNowText = mContext.getResources().getString(R.string.USR_DLS_Optin_Body_Line2);
         joinNow = String.format(joinNow, updateJoinNowText);
@@ -149,30 +149,30 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @Override
     public void onStop() {
         super.onStop();
-        RLog.i(TAG, "onStop : is called");
+        RLog.d(TAG, "onStop : is called");
         if (marketingAccountPresenter != null) {
             marketingAccountPresenter.unRegister();
-            RLog.i(TAG, "onStop : unregister NetworStateListener,JANRAIN_INIT_SUCCESS");
+            RLog.d(TAG, "onStop : unregister NetworStateListener,JANRAIN_INIT_SUCCESS");
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        RLog.i(TAG, "onSaveInstanceState : is called");
+        RLog.d(TAG, "onSaveInstanceState : is called");
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
-        RLog.i(TAG, "onViewStateRestored : is called");
+        RLog.d(TAG, "onViewStateRestored : is called");
         super.onViewStateRestored(savedInstanceState);
         mBundle = null;
     }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.i(TAG, "onConfigurationChanged : is called");
+        RLog.d(TAG, "onConfigurationChanged : is called");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
@@ -192,11 +192,11 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         if (v.getId() == R.id.usr_marketingScreen_countMe_button) {
             showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, true);
-            RLog.i(TAG, "updateMarketingEmail : is called with update true");
+            RLog.d(TAG, "updateMarketingEmail : is called with update true");
         } else if (v.getId() == R.id.usr_marketingScreen_maybeLater_button) {
             showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, false);
-            RLog.i(TAG, "updateMarketingEmail : is called with update false");
+            RLog.d(TAG, "updateMarketingEmail : is called with update false");
         }
     }
 
@@ -215,7 +215,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         public void onClick(View widget) {
             getRegistrationFragment().addPhilipsNewsFragment();
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
-            RLog.i(TAG, "PHILIPS_ANNOUNCEMENT : Fragment is loaded");
+            RLog.d(TAG, "PHILIPS_ANNOUNCEMENT : Fragment is loaded");
         }
     };
 
@@ -226,17 +226,17 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !(mUser.isEmailVerified() || mUser.isMobileVerified())) {
             if (FieldsValidator.isValidEmail(mUser.getEmail())) {
                 launchAccountActivateFragment();
-                RLog.i(TAG, "handleRegistrationSuccess : launchAccountActivateFragment is called");
+                RLog.d(TAG, "handleRegistrationSuccess : launchAccountActivateFragment is called");
             } else {
                 launchMobileVerifyCodeFragment();
-                RLog.i(TAG, "handleRegistrationSuccess : launchMobileVerifyCodeFragment is called");
+                RLog.d(TAG, "handleRegistrationSuccess : launchMobileVerifyCodeFragment is called");
             }
         } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
             getRegistrationFragment().userRegistrationComplete();
-            RLog.i(TAG, "handleRegistrationSuccess : userRegistrationComplete is called");
+            RLog.d(TAG, "handleRegistrationSuccess : userRegistrationComplete is called");
         } else {
             getRegistrationFragment().userRegistrationComplete();
-            RLog.i(TAG, "handleRegistrationSuccess : else : userRegistrationComplete is called");
+            RLog.d(TAG, "handleRegistrationSuccess : else : userRegistrationComplete is called");
         }
         if (mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0) {
             mTrackCreateAccountTime = (System.currentTimeMillis() - RegUtility.

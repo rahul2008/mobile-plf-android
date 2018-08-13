@@ -163,7 +163,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     protected void consumeTouch(View view) {
 
-        RLog.i(TAG, "consumeTouch is called");
+        RLog.d(TAG, "consumeTouch is called");
         if (view == null)
             return;
         view.setOnTouchListener((v, event) -> true);
@@ -267,7 +267,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
-        RLog.i(TAG, "scrollViewAutomatically is called");
+        RLog.d(TAG, "scrollViewAutomatically is called");
         view.requestFocus();
         if (scrollView != null) {
             scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

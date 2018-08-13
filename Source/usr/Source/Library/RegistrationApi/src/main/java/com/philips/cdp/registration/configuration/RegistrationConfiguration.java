@@ -214,10 +214,10 @@ public class RegistrationConfiguration {
     public boolean isHsdpUuidShouldUpload() {
         Object obj = appConfiguration.getHSDPUuidUpload();
         if (obj != null) {
-            RLog.i("RegistrationConfiguration", "isHsdpUuidShouldUpload : " + Boolean.parseBoolean((String) obj));
+            RLog.d("RegistrationConfiguration", "isHsdpUuidShouldUpload : " + Boolean.parseBoolean((String) obj));
             return Boolean.parseBoolean((String) obj);
         }
-        RLog.i("RegistrationConfiguration", "isHsdpUuidShouldUpload : false");
+        RLog.d("RegistrationConfiguration", "isHsdpUuidShouldUpload : false");
         return false;
     }
 

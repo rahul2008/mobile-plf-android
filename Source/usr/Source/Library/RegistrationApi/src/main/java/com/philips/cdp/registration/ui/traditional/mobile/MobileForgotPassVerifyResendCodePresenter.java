@@ -105,7 +105,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
                         AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR,
                         AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
-                RLog.i(TAG, " SMS Resend failure = " + response);
+                RLog.d(TAG, " SMS Resend failure = " + response);
                 final String errorCode = jsonObject.getString("errorCode");
                 mobileVerifyCodeContract.showSMSSpecifedError(Integer.parseInt(errorCode));
             }
@@ -123,7 +123,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(TAG, "MOBILE NUMBER Netowrk *** network: " + isOnline);
+        RLog.d(TAG, "MOBILE NUMBER Netowrk *** network: " + isOnline);
 
         if (isOnline) {
             mobileVerifyCodeContract.netWorkStateOnlineUiHandle();

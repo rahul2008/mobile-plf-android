@@ -148,7 +148,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
           registerSMSReceiver();
-        RLog.i(TAG, "onViewCreated : getParentFragment().requestPermissions(");
+        RLog.d(TAG, "onViewCreated : getParentFragment().requestPermissions(");
   }
 
     private void setDescription() {
@@ -376,10 +376,10 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void registerSMSReceiver() {
-        RLog.i(TAG, "registerSMSReceiver : " + mSMSBroadCastReceiver.isSmsPermissionGranted());
+        RLog.d(TAG, "registerSMSReceiver : " + mSMSBroadCastReceiver.isSmsPermissionGranted());
         mobileVerifyCodePresenter.registerSMSReceiver();
         if (!mSMSBroadCastReceiver.isSmsPermissionGranted()) {
-            RLog.i(TAG, "registerSMSReceiver : isSmsPermissionGranted");
+            RLog.d(TAG, "registerSMSReceiver : isSmsPermissionGranted");
             requestPermissionSMS();
         }
     }
@@ -391,7 +391,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void onOTPReceived(String otp) {
-        RLog.i(TAG, "onOTPReceived : got otp");
+        RLog.d(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
                 verifyClicked();

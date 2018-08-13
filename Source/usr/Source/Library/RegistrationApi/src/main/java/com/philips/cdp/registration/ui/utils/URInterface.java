@@ -64,10 +64,10 @@ public class URInterface implements UappInterface {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
-            RLog.i(TAG, "launch : Launched as activity");
+            RLog.i(TAG, "Launch : Launched as activity");
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
-            RLog.i(TAG, "launch : Launched as fragment");
+            RLog.i(TAG, "Launch : Launched as fragment");
         }
     }
 

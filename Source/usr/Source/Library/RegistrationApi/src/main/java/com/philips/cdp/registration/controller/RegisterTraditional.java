@@ -52,7 +52,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onSuccess() {
-        RLog.i(TAG, "onSuccess : is called");
+        RLog.d(TAG, "onSuccess : is called");
         Jump.saveToDisk(mContext);
         mUpdateUserRecordHandler.updateUserRecordRegister();
         ThreadUtils.postInMainThread(mContext, () ->

@@ -205,7 +205,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onRefreshUserSuccess() {
         if (this.isVisible()) {
-            RLog.i(TAG, "onRefreshUserSuccess");
+            RLog.d(TAG, "onRefreshUserSuccess");
             storePreference(user.getMobile());
             setDescription();
             hideProgressSpinner();
@@ -220,7 +220,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         final String localizedError = new URError(context).getLocalizedError(ErrorType.HSDP, error);
 //        errorMessage.setError(localizedError);
         updateErrorNotification(localizedError);
-        RLog.i(TAG, "onRefreshUserFailed : Error =" + localizedError);
+        RLog.d(TAG, "onRefreshUserFailed : Error =" + localizedError);
     }
 
     @Override
@@ -249,7 +249,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         registerSMSReceiver();
-        RLog.i(TAG, "onViewCreated : getParentFragment().requestPermissions(");
+        RLog.d(TAG, "onViewCreated : getParentFragment().requestPermissions(");
     }
 
     @Override
@@ -393,7 +393,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void registerSMSReceiver() {
-        RLog.i(TAG, "registerSMSReceiver : " + mSMSBroadCastReceiver.isSmsPermissionGranted());
+        RLog.d(TAG, "registerSMSReceiver : " + mSMSBroadCastReceiver.isSmsPermissionGranted());
         mobileVerifyCodePresenter.registerSMSReceiver();
         if (!mSMSBroadCastReceiver.isSmsPermissionGranted()) {
             RLog.i(TAG, "registerSMSReceiver : isSmsPermissionGranted");
@@ -409,7 +409,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onOTPReceived(String otp) {
-        RLog.i(TAG, "onOTPReceived : got otp");
+        RLog.d(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
             verifyClicked();

@@ -144,17 +144,17 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                RLog.i(TAG, " isAccountActivate is " + token + " -- " + response);
+                RLog.d(TAG, " isAccountActivate is " + token + " -- " + response);
                 constructMobileVerifyCodeFragment(mobileNumberKey, tokenKey, redirectUriKey, verificationSmsCodeURLKey, token);
             } else {
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
 //                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode"), context);
                 forgotPasswordContract.forgotPasswordErrorMessage(errorCode);
-                RLog.i(TAG, " SMS Resend failure = " + response);
+                RLog.d(TAG, " SMS Resend failure = " + response);
             }
         } catch (Exception e) {
-            RLog.i(TAG,"Exception : "+e.getMessage());
+            RLog.e(TAG,"Exception : "+e.getMessage());
         }
     }
 
