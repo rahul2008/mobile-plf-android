@@ -270,7 +270,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         private InternationalizationInterface local;
         private ServiceDiscoveryInterface mServiceDiscoveryInterface;
         private TimeInterface mTimeSyncInterfaceBuilder;
-        private ABTestClientInterface aIabtesting;
+        private ABTestClientInterface abtesting;
 
 
         private AppConfigurationInterface configInterface;
@@ -278,8 +278,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         private LanguagePackInterface languagePack;
         private AppUpdateInterface appupdateInterface;
         private AIKMInterface aikmInterface;
-        private ABTestClientInterface abTestClientInterface;
-
         private ConsentManagerInterface consentManager;
         private DeviceStoredConsentHandler deviceStoredConsentHandler;
 
@@ -301,7 +299,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             mRestInterface = null;
             languagePack = null;
             aikmInterface = null;
-            abTestClientInterface = null;
+            abtesting = null;
             consentManager = null;
             deviceStoredConsentHandler=null;
         }
@@ -314,7 +312,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
          * @return the config
          */
         public Builder setAbTesting(ABTestClientInterface abTestClient) {
-            abTestClientInterface = abTestClient;
+            this.abtesting = abTestClient;
             return this;
         }
 
@@ -449,6 +447,11 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+
+                    if (abtesting != null) {
+                        ai.setAbTesting(abtesting);
+                    }
+
                    /* final Object abTestConfig = ABTestClientManager.getAbtestConfig(appConfigurationManager, ai);
                     if (abTestConfig != null) {
                         ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);

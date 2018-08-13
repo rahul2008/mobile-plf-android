@@ -75,6 +75,7 @@ public class AbTestingImpl implements ABTestClientInterface {
             testValue = defaultValue;
         } else
             testValue = valueModel.getTestValue();
+
         updateDiskCacheForTestName(requestNameKey, testValue, updateType);
         return testValue;
     }

@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +17,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.platform.aildemo.abtesting.AbTestMainActivity;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.demo.R;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AppInfraMainActivity extends AppCompatActivity {
 
@@ -206,7 +201,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 break;
 
             case 9 :
-                Intent abTesting = new Intent(AppInfraMainActivity.this , AbTestMainActivity.class );
+                Intent abTesting = new Intent(AppInfraMainActivity.this , AbTestingDemo.class );
                 startActivity(abTesting);
                 break;
 
