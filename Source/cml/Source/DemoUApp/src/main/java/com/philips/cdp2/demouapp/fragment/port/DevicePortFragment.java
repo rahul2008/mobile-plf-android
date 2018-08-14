@@ -62,13 +62,15 @@ public class DevicePortFragment extends Fragment {
             String errorMessage = String.format(Locale.US, "Device port error: [%s], data: [%s]", error.getErrorMessage(), errorData);
             DICommLog.e(TAG, errorMessage);
 
-            Activity activity = getActivity();
-            if (activity != null) {
-                showIndefiniteMessage(rootview, errorMessage);
-            }
+            if (isAdded()) {
+                Activity activity = getActivity();
+                if (activity != null) {
+                    showIndefiniteMessage(rootview, errorMessage);
+                }
 
-            if (isAdded() && error == Error.INSECURE_CONNECTION) {
-                promptCertificateMismatch();
+                if (error == Error.INSECURE_CONNECTION) {
+                    promptCertificateMismatch();
+                }
             }
         }
     };
