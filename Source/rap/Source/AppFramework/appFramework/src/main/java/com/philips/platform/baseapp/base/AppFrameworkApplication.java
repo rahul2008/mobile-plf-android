@@ -10,7 +10,9 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
@@ -334,7 +336,7 @@ public class AppFrameworkApplication extends Application {
      * @param appInfraInitializationCallback
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
-
+        Log.d("firebase instance id - ", FirebaseInstanceId.getInstance().getToken());
         AbTestingImpl abTestingImpl = new AbTestingImpl(this);
         AppInfra.Builder builder = new AppInfra.Builder();
         builder.setAbTesting(abTestingImpl);

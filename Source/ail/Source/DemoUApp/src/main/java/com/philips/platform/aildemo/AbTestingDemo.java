@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
@@ -27,8 +26,8 @@ import java.util.Arrays;
 
 public class AbTestingDemo extends Activity {
 
-    String[] valueTypes = {"App Update", "App Restart"};
-    ABTestClientInterface.UPDATETYPES valueType;
+    private String[] valueTypes = {"App Update", "App Restart"};
+    private ABTestClientInterface.UPDATETYPES valueType;
     private ABTestClientInterface abTestingInterface;
     private TextView value;
     private Button btValue;
@@ -48,8 +47,6 @@ public class AbTestingDemo extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.abtesting);
-
-        Log.d("firebase instance id - ", FirebaseInstanceId.getInstance().getToken());
 
         value = (TextView) findViewById(R.id.value);
         btValue = (Button) findViewById(R.id.bttestValue);
