@@ -182,7 +182,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             @Override
             public void onClick(View v) {
                 if (mUser.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
-                    Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
+                    showToast(" User not Signed in");
                 } else {
                     LlcoppaItems.setVisibility(VISIBLE);
                 }
@@ -371,15 +371,16 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 @Override
                 public void onSuccess() {
                     Toast.makeText(mContext, "updateCoppaConsentStatus success", Toast.LENGTH_LONG).show();
+                    showToast("updateCoppaConsentStatus success");
                 }
 
                 @Override
                 public void onFailure(int message) {
-                    Toast.makeText(mContext, "updateCoppaConsentStatus failure" + message, Toast.LENGTH_LONG).show();
+                    showToast("updateCoppaConsentStatus failure");
                 }
             });
         } else {
-            Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
+            showToast(" User not Signed in");
         }
     }
 
@@ -393,16 +394,16 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             coppaExtension.updateCoppaConsentConfirmationStatus(b, new CoppaConsentUpdateCallback() {
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(mContext, "updateCoppaConsentConfirmationStatus success", Toast.LENGTH_LONG).show();
+                    showToast("updateCoppaConsentConfirmationStatus success");
                 }
 
                 @Override
                 public void onFailure(int message) {
-                    Toast.makeText(mContext, "updateCoppaConsentConfirmationStatus failure" + message, Toast.LENGTH_LONG).show();
+                    showToast("updateCoppaConsentConfirmationStatus failure" + message);
                 }
             });
         } else {
-            Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
+            showToast(" User not Signed in");
         }
 
     }
@@ -444,7 +445,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
         } else if (i == R.id.btn_registration_with_hsdp_status) {
             UserLoginState userLoginState = mUser.getUserLoginState();
-            Toast.makeText(this, "User Login State : " + userLoginState, Toast.LENGTH_SHORT).show();
+            showToast("User Login State : " + userLoginState);
         } else if (i == R.id.btn_refresh_user) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Refresh User ");
             handleRefreshAccessToken();
@@ -453,7 +454,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
                 User user = new User(mContext);
                 if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
-                    Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
+                    showToast("Please login before refreshing access token");
                 } else {
                     mProgressDialog.setMessage("Refreshing...");
                     mProgressDialog.show();
@@ -465,14 +466,14 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
             User user1 = new User(mContext);
             if (user1.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
-                Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
+                showToast("Please login before refreshing access token");
             } else {
                 handleGender();
             }
         } else if (i == R.id.btn_update_date_of_birth) {
             User user = new User(mContext);
             if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
-                Toast.makeText(this, "Please login before updating user", Toast.LENGTH_LONG).show();
+                showToast("Please login before updating user");
             } else {
                 handleDoBUpdate(user.getDateOfBirth());
             }
@@ -483,7 +484,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 Toast.makeText(mContext, "Confirmation State " + c.getConfirmationGiven() +
                         "\n consent state" + c.getGiven(), Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
+                showToast(" User not Signed in");
             }
         } else if (i == R.id.updateCoppaConsentStatus) {
 
@@ -505,7 +506,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     }
                 });
             } else {
-                Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
+                showToast(" User not Signed in");
             }
         } else if (i == R.id.updateCoppaConsentConfirmationStatus) {
 
@@ -526,7 +527,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     }
                 });
             } else {
-                Toast.makeText(mContext, " User not Signed in", Toast.LENGTH_LONG).show();
+                showToast(" User not Signed in");
             }
 
         }
@@ -576,7 +577,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             @Override
             public void onLogoutSuccess() {
                 hideLogoutSpinner();
-                Toast.makeText(mContext, "Logout success", Toast.LENGTH_LONG).show();
+                showToast("Logout success");
                 LlcoppaItems.setVisibility(GONE);
 
             }
@@ -584,7 +585,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             @Override
             public void onLogoutFailure(int responseCode, String message) {
                 hideLogoutSpinner();
-                Toast.makeText(mContext, "Code " + responseCode + "Message" + message, Toast.LENGTH_LONG).show();
+                showToast("Code " + responseCode + "Message" + message);
             }
         });
     }
@@ -683,7 +684,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 }
             });
         } else {
-            Toast.makeText(this, "Plase login", Toast.LENGTH_SHORT).show();
+            showToast("Please login");
         }
     }
 
