@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine;
 
 import android.bluetooth.BluetoothDevice;
@@ -15,7 +20,7 @@ public abstract class SHNDeviceState extends State<SHNDeviceStateMachine> {
 
     protected final SHNDeviceResources sharedResources;
 
-    public SHNDeviceState(@NonNull SHNDeviceStateMachine stateMachine, String logTag) {
+    public SHNDeviceState(@NonNull SHNDeviceStateMachine stateMachine, @NonNull final String logTag) {
         super(stateMachine);
         this.logTag = logTag;
         sharedResources = stateMachine.getSharedResources();
