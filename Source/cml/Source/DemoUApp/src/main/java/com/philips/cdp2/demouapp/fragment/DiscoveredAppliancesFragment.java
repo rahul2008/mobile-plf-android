@@ -267,6 +267,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
                 commCentral.clearDiscoveredAppliances();
             }
         });
+
         return view;
     }
 
