@@ -257,7 +257,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private void handleUseRLoginStateFragments() {
         User mUser = new User(getParentActivity().getApplicationContext());
-        boolean isUserSignIn = mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN;
+        boolean isUserSignIn = mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal();
         boolean isEmailVerified = (mUser.isEmailVerified() || mUser.isMobileVerified());
         boolean isEmailVerificationRequired = RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
