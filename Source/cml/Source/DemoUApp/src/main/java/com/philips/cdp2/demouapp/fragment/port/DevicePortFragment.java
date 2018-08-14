@@ -63,10 +63,7 @@ public class DevicePortFragment extends Fragment {
             DICommLog.e(TAG, errorMessage);
 
             if (isAdded()) {
-                Activity activity = getActivity();
-                if (activity != null) {
-                    showIndefiniteMessage(rootview, errorMessage);
-                }
+                showIndefiniteMessage(rootview, errorMessage);
 
                 if (error == Error.INSECURE_CONNECTION) {
                     promptCertificateMismatch();
