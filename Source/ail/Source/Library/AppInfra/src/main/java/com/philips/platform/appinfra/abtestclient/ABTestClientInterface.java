@@ -22,8 +22,9 @@ public interface ABTestClientInterface extends Serializable {
      * EXPERIENCES_PARTIALLY_UPDATED: tests are configured, some experience values are updated from the server in this app start, others may still be from previous execution or not cached at all
      * EXPERIENCES_UPDATED: tests are configured, all experience values have been downloaded from the server for this app start
      */
+    // TODO:Deepthi update  documentation in all places
     enum CACHESTATUSVALUES {
-        EXPERIENCE_NOT_UPDATED, EXPERIENCE_UPDATED;
+        EXPERIENCE_NOT_UPDATED, EXPERIENCE_UPDATED
     }
 
     /**
@@ -49,6 +50,7 @@ public interface ABTestClientInterface extends Serializable {
      * @since 1.0.0
      */
     interface OnRefreshListener {
+        // TODO:Deepthi This can be referred as SERVER_ERROR
         enum ERRORVALUES {NO_NETWORK, ERROR_WHILE_FETCHING_VALUES}
 
 
@@ -93,5 +95,6 @@ public interface ABTestClientInterface extends Serializable {
      * API to enable developer mode to true or false
      * @param state - pass true to enable or false to disable
      */
+    // TODO:Deepthi add since 2018.4.0
     void enableDeveloperMode(boolean state);
 }
