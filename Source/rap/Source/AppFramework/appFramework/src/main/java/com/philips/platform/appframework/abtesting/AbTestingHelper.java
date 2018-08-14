@@ -148,7 +148,7 @@ class AbTestingHelper {
         return gson.fromJson(abTestingLocalCache.fetchFromDisk(), CacheModel.class);
     }
 
-    void syncInMemoryCache(Map<String, CacheModel.ValueModel> inMemoryCache, Map<String, CacheModel.ValueModel> cacheModel) {
+    private void syncInMemoryCache(Map<String, CacheModel.ValueModel> inMemoryCache, Map<String, CacheModel.ValueModel> cacheModel) {
         for (Map.Entry<String, CacheModel.ValueModel> entry : cacheModel.entrySet()) {
             Log.d(AppInfraLogEventID.AI_ABTEST_CLIENT, entry.getKey() + " Count : " + entry.getValue().getTestValue());
             if (inMemoryCache.containsKey(entry.getKey())) {
