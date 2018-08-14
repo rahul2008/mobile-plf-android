@@ -1,13 +1,13 @@
 package com.philips.platform.appframework.abtesting;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
-
+import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +31,7 @@ class AbTestingHelper {
     void initAbTesting(AppInfraInterface appInfraInterface) {
         this.appInfraInterface = appInfraInterface;
         abTestingLocalCache = new AbTestingLocalCache(appInfraInterface.getAppInfraContext());
-        fireBaseWrapper.initFireBase();
+        abTestingLocalCache.initAppInfra(appInfraInterface);
         fireBaseWrapper.initAppInfra(appInfraInterface);
         inMemoryCache = new HashMap<>();
         this.cacheModel = getCacheFromPreference();
@@ -69,10 +69,12 @@ class AbTestingHelper {
         return cachestatusvalues;
     }
 
-    //TODO (Deepthi)- can we remove params
-    String getTestValue(@NonNull String requestNameKey, String defaultValue, ABTestClientInterface.UPDATETYPES updateType, Map<String, Object> parameters) {
+    String getTestValue(@NonNull String requestNameKey, String defaultValue, ABTestClientInterface.UPDATETYPES updateType) {
+
+        if(TextUtils.isEmpty(requestNameKey))
+            return null;
+
         //fetching data from in-memory cache
-        //TODO - need to discuss for empty and null key
         CacheModel.ValueModel valueModel = inMemoryCache.get(requestNameKey);
         String testValue;
         if (valueModel == null || valueModel.getTestValue() == null) {
@@ -96,10 +98,15 @@ class AbTestingHelper {
             removeCacheForTestName(requestNameKey);
         } else if (updateType.name().equals
                 (ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
-            saveCacheToPreference(cacheModel);
+            abTestingLocalCache.saveToDisk(getGson().toJson(cacheModel));
         }
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                 "testValue " + testValue);
+    }
+
+    @NonNull
+    private Gson getGson() {
+        return new Gson();
     }
 
     private void removeCacheForTestName(String testName) {
@@ -108,7 +115,7 @@ class AbTestingHelper {
             final Map<String, CacheModel.ValueModel> cModel = model.getTestValues();
             if (cModel != null && cModel.containsKey(testName)) {
                 cModel.remove(testName);
-                saveCacheToPreference(model);
+                abTestingLocalCache.saveToDisk(getGson().toJson(model));
             }
         }
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
@@ -125,32 +132,18 @@ class AbTestingHelper {
     }
 
     /**
-     * method to save cachemodel object in preference.
-     *
-     * @param model cachemodel object
-     */
-    private void saveCacheToPreference(final CacheModel model) {
-        final Gson gson = new Gson();
-        String cacheToPreference = gson.toJson(model);
-        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                "save Cache to Preference " + cacheToPreference);
-        abTestingLocalCache.saveToDisk(cacheToPreference);
-
-    }
-
-    /**
      * method to fetch from the shared preference.
      *
      * @return cachemodel object
      */
     private CacheModel getCacheFromPreference() {
-        final Gson gson = new Gson();
+        final Gson gson = getGson();
         return gson.fromJson(abTestingLocalCache.fetchFromDisk(), CacheModel.class);
     }
 
     private void syncInMemoryCache(Map<String, CacheModel.ValueModel> inMemoryCache, Map<String, CacheModel.ValueModel> cacheModel) {
         for (Map.Entry<String, CacheModel.ValueModel> entry : cacheModel.entrySet()) {
-            Log.d(AppInfraLogEventID.AI_ABTEST_CLIENT, entry.getKey() + " Count : " + entry.getValue().getTestValue());
+            appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, entry.getKey() + " Count : " + entry.getValue().getTestValue());
             if (inMemoryCache.containsKey(entry.getKey())) {
                 CacheModel.ValueModel valueModel = inMemoryCache.get(entry.getKey());
                 if (valueModel.getUpdateType() != null && valueModel.getUpdateType().equals(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name())) {

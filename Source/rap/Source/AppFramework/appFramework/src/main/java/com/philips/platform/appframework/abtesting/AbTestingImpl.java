@@ -1,9 +1,9 @@
 package com.philips.platform.appframework.abtesting;
 
 import android.support.annotation.NonNull;
+
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
-import java.util.Map;
 
 public class AbTestingImpl implements ABTestClientInterface {
 
@@ -24,13 +24,13 @@ public class AbTestingImpl implements ABTestClientInterface {
     }
 
     @Override
-    public String getTestValue(@NonNull String requestNameKey, String defaultValue, UPDATETYPES updateType, Map<String, Object> parameters) {
-        return abTestingHelper.getTestValue(requestNameKey,defaultValue,updateType,parameters);
+    public String getTestValue(@NonNull String requestNameKey, String defaultValue, UPDATETYPES updateType) {
+        return abTestingHelper.getTestValue(requestNameKey, defaultValue, updateType);
     }
 
     @Override
     public void updateCache(OnRefreshListener onRefreshListener) {
-       abTestingHelper.updateCache(onRefreshListener);
+        abTestingHelper.updateCache(onRefreshListener);
     }
 
     @Override

@@ -3,6 +3,10 @@ package com.philips.platform.appframework.abtesting;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfraLogEventID;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+
 import java.util.Map;
 
 class AbTestingLocalCache {
@@ -12,6 +16,8 @@ class AbTestingLocalCache {
 
     private final SharedPreferences mSharedPreferences;
     private String key = "cacheobject";
+    private AppInfraInterface appInfraInterface;
+
 
     AbTestingLocalCache(Context context) {
         mSharedPreferences = context.getSharedPreferences(ABTEST_PREFERENCE,
@@ -22,10 +28,15 @@ class AbTestingLocalCache {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(key, value);
         editor.apply();
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                "save Cache to Preference " + value);
     }
 
     String fetchFromDisk() {
         return mSharedPreferences.getString(key, null);
     }
 
+    public void initAppInfra(AppInfraInterface appInfraInterface) {
+        this.appInfraInterface = appInfraInterface;
+    }
 }

@@ -79,8 +79,7 @@ public interface ABTestClientInterface extends Serializable {
      * @return experience value for the requested test.
      * @since 1.0.0
      */
-    String getTestValue(@NonNull String requestNameKey, String defaultValue, UPDATETYPES updateType,
-                        Map<String, Object> parameters);
+    String getTestValue(@NonNull String requestNameKey, String defaultValue, UPDATETYPES updateType);
 
     /**
      * Download experience values from the server. Call will have no effect if state equals
