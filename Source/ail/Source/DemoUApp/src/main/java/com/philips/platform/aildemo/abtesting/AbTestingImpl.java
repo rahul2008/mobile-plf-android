@@ -1,6 +1,7 @@
 package com.philips.platform.aildemo.abtesting;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -68,8 +69,9 @@ public class AbTestingImpl implements ABTestClientInterface {
 
     //TODO (Deepthi)- can we remove params
     @Override
-    public String getTestValue(String requestNameKey, String defaultValue, UPDATETYPES updateType, Map<String, Object> parameters) {
+    public String getTestValue(@NonNull String requestNameKey, String defaultValue, UPDATETYPES updateType, Map<String, Object> parameters) {
         //fetching data from in-memory cache
+        //TODO - need to discuss for empty and null key
         CacheModel.ValueModel valueModel = inMemoryCache.get(requestNameKey);
         String testValue;
         if (valueModel == null || valueModel.getTestValue() == null) {
@@ -82,7 +84,6 @@ public class AbTestingImpl implements ABTestClientInterface {
     }
 
     private void updateDiskCacheForTestName(String requestNameKey, String testValue, UPDATETYPES updateType) {
-        // TODO - need to discuss about setting update type
         if (inMemoryCache.containsKey(requestNameKey)) {
             final CacheModel.ValueModel val = inMemoryCache.get(requestNameKey);
             if (val.getTestValue() == null || !updateType.name().equalsIgnoreCase(UPDATETYPES.EVERY_APP_START.name())) {
@@ -107,6 +108,7 @@ public class AbTestingImpl implements ABTestClientInterface {
             final Map<String, CacheModel.ValueModel> cModel = model.getTestValues();
             if (cModel != null && cModel.containsKey(testName)) {
                 cModel.remove(testName);
+                saveCacheToPreference(model);
             }
         }
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,

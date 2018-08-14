@@ -27,7 +27,7 @@ public class RegistrationIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        try {
+       /* try {
             InstanceID instanceID = InstanceID.getInstance(this);
             String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
@@ -37,7 +37,7 @@ public class RegistrationIntentService extends IntentService {
 
         } catch (IOException e) {
             PNLog.d(TAG, "Failed to complete token refresh"+e.getMessage());
-        }
+        }*/
     }
 
 

@@ -24,6 +24,7 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
     private FirebaseRemoteConfig remoteConfig;
     private FetchDataHandler fetchDataHandler;
     private ABTestClientInterface.OnRefreshListener onRefreshListener;
+    private int cacheExpirationTime = 43200; // 12hours by default
 
     public void initFireBase() {
         remoteConfig = FirebaseRemoteConfig.getInstance();
@@ -34,7 +35,7 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
     public void fetchDataFromFireBase(final FetchDataHandler fetchDataHandler, ABTestClientInterface.OnRefreshListener onRefreshListener) {
         this.onRefreshListener = onRefreshListener;
         this.fetchDataHandler = fetchDataHandler;
-        remoteConfig.fetch().addOnCompleteListener(this).addOnFailureListener(this);
+        remoteConfig.fetch(cacheExpirationTime).addOnCompleteListener(this).addOnFailureListener(this);
     }
 
     void enableDeveloperMode(boolean state) {
@@ -42,6 +43,10 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
                 .setDeveloperModeEnabled(state)
                 .build();
         remoteConfig.setConfigSettings(config);
+        if (state) {
+            cacheExpirationTime = 0;
+        } else
+            cacheExpirationTime = 43200;
     }
 
     @Override

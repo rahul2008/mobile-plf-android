@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
@@ -48,6 +49,8 @@ public class AbTestingDemo extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.abtesting);
 
+        Log.d("firebase instance id - ", FirebaseInstanceId.getInstance().getToken());
+
         value = (TextView) findViewById(R.id.value);
         btValue = (Button) findViewById(R.id.bttestValue);
         btCacheStatus = (Button) findViewById(R.id.btcachestatus);
@@ -62,7 +65,7 @@ public class AbTestingDemo extends Activity {
 
         //abTestingInterface = AILDemouAppInterface.mAppInfra.getAbTesting();
         abTestingInterface = AILDemouAppInterface.getInstance().getAppInfra().getAbTesting();
-
+        abTestingInterface.enableDeveloperMode(true);
        // testName.setText("DOT-ReceiveMarketingOptIn");
         defaultValue.setText("Experience K");
 
