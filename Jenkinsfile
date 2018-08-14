@@ -105,7 +105,11 @@ pipeline {
 
         stage('Publish to artifactory') {
             when {
-                anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                    anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
+                }
             }
             steps {
                 sh '''#!/bin/bash -l
