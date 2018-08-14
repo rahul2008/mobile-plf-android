@@ -46,8 +46,6 @@ dependencies {
         implementation philipsdeps.AppInfra
         implementation philipsdeps.pif
     }
-    implementation deps.firebase_core
-    implementation deps.firebase_config
     implementation deps.gson
     implementation deps.volley
 }

@@ -5,6 +5,8 @@
  */
 package com.philips.platform.appinfra.abtestclient;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Map;
 
@@ -75,7 +77,7 @@ public interface ABTestClientInterface extends Serializable {
      * @return experience value for the requested test.
      * @since 1.0.0
      */
-    String getTestValue(String requestNameKey, String defaultValue, UPDATETYPES updateType,
+    String getTestValue(@NonNull String requestNameKey, String defaultValue, UPDATETYPES updateType,
                         Map<String, Object> parameters);
 
     /**

@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-package com.philips.platform.aildemo.abtesting;
+package com.philips.platform.appframework.abtesting;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package com.philips.platform.aildemo.abtesting;
+package com.philips.platform.appframework.abtesting;
 
 import android.content.Context;
 import android.content.SharedPreferences;

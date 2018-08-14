@@ -8,7 +8,7 @@ package com.philips.platform.aildemolaunch;
 import android.app.Application;
 import android.util.Log;
 
-import com.philips.platform.aildemo.abtesting.AbTestingImpl;
+import com.philips.platform.appframework.abtesting.AbTestingImpl;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;

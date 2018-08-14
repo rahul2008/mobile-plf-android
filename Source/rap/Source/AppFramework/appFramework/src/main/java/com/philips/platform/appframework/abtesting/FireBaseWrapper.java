@@ -1,4 +1,4 @@
-package com.philips.platform.aildemo.abtesting;
+package com.philips.platform.appframework.abtesting;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -9,13 +9,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
-import com.philips.platform.appinfra.demo.R;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static com.philips.platform.aildemo.abtesting.AbTestingUtil.getAppVersion;
+import static com.philips.platform.appframework.abtesting.AbTestingUtil.getAppVersion;
 
 
 public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
@@ -28,8 +27,6 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
 
     public void initFireBase() {
         remoteConfig = FirebaseRemoteConfig.getInstance();
-        // TODO (Deepthi) - need to discuss on firebase defaults
-//        remoteConfig.setDefaults(R.xml.firebase_defaults);
     }
 
     public void fetchDataFromFireBase(final FetchDataHandler fetchDataHandler, ABTestClientInterface.OnRefreshListener onRefreshListener) {

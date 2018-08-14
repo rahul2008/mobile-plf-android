@@ -1,7 +1,8 @@
-package com.philips.platform.aildemo.abtesting;
+package com.philips.platform.appframework.abtesting;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -12,7 +13,8 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.platform.aildemo.abtesting.AbTestingUtil.getAppVersion;
+import static com.philips.platform.appframework.abtesting.AbTestingUtil.getAppVersion;
+
 
 public class AbTestingImpl implements ABTestClientInterface {
 
@@ -40,6 +42,9 @@ public class AbTestingImpl implements ABTestClientInterface {
             AbTestingUtil.syncInMemoryCache(inMemoryCache, cacheModel.getTestValues());
         else
             cacheModel = new CacheModel();
+
+        Log.d(AppInfraLogEventID.AI_ABTEST_CLIENT, " disk cache size "+ cacheModel.getTestValues().size()+"");
+        Log.d(AppInfraLogEventID.AI_ABTEST_CLIENT, " in-memory cache size "+ inMemoryCache.size()+"");
     }
 
     @Override
@@ -88,9 +93,8 @@ public class AbTestingImpl implements ABTestClientInterface {
             final CacheModel.ValueModel val = inMemoryCache.get(requestNameKey);
             if (val.getTestValue() == null || !updateType.name().equalsIgnoreCase(UPDATETYPES.EVERY_APP_START.name())) {
                 cacheModel(requestNameKey, testValue, updateType.name());
-            } else {
-                //value is already there in cache ignoring the new value
             }
+            //value is already there in cache ignoring the new value
         }
         if (updateType.equals(UPDATETYPES.EVERY_APP_START)) {
             removeCacheForTestName(requestNameKey);
@@ -131,12 +135,10 @@ public class AbTestingImpl implements ABTestClientInterface {
      */
     private void saveCacheToPreference(final CacheModel model) {
         final Gson gson = new Gson();
-        new Thread(() -> {
-            String cacheToPreference = gson.toJson(model);
-            appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "save Cache to Preference "+cacheToPreference);
-            abTestingLocalCache.saveToDisk(cacheToPreference);
-        }).start();
+        String cacheToPreference = gson.toJson(model);
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                "save Cache to Preference " + cacheToPreference);
+        abTestingLocalCache.saveToDisk(cacheToPreference);
 
     }
 
