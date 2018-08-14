@@ -64,6 +64,7 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
     @Override
     public void onFailure(@NonNull Exception e) {
         Log.d(TAG, "Fetch Failed");
+        //TODO(Deepthi) - error mapping need to be mapped
         onRefreshListener.onError(ABTestClientInterface.OnRefreshListener.ERRORVALUES.NO_NETWORK, e.getMessage());
         fetchDataHandler.updateCacheStatus(ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCE_NOT_UPDATED);
     }

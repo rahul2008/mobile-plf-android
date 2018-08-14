@@ -26,6 +26,7 @@ public class AbTestingUtil {
         }
     }
 
+    //TODO (Deepthi) - need to check can we take from AppUpdate
     static int getAppVersion() {
         return BuildConfig.VERSION_CODE;
     }
