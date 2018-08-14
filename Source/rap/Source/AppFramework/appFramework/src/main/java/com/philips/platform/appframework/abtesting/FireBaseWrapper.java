@@ -15,9 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static com.philips.platform.appframework.abtesting.AbTestingUtil.getAppVersion;
-
-
 public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
 
     private FirebaseRemoteConfig remoteConfig;
@@ -76,7 +73,7 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
         for (String key : experiments) {
             CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
             valueModel.setTestValue(remoteConfig.getString(key));
-            valueModel.setAppVersion(getAppVersion());
+            valueModel.setAppVersion(Integer.parseInt(appInfraInterface.getAppIdentity().getAppVersion()));
             valueModel.setUpdateType(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name());
             map.put(key, valueModel);
             appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "experiments value", valueModel.getTestValue());

@@ -1,17 +1,15 @@
 package com.philips.platform.appframework.abtesting;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.philips.platform.appframework.abtesting.AbTestingUtil.getAppVersion;
 
 class AbTestingHelper {
 
@@ -27,25 +25,25 @@ class AbTestingHelper {
     }
 
     void initFireBase() {
-        fireBaseWrapper = new FireBaseWrapper();
         fireBaseWrapper.initFireBase();
     }
 
-    public void initAbTesting(AppInfraInterface appInfraInterface) {
+    void initAbTesting(AppInfraInterface appInfraInterface) {
+        this.appInfraInterface = appInfraInterface;
         abTestingLocalCache = new AbTestingLocalCache(appInfraInterface.getAppInfraContext());
         fireBaseWrapper.initFireBase();
         fireBaseWrapper.initAppInfra(appInfraInterface);
         inMemoryCache = new HashMap<>();
         this.cacheModel = getCacheFromPreference();
         if (cacheModel != null)
-            AbTestingUtil.syncInMemoryCache(inMemoryCache, cacheModel.getTestValues());
+            syncInMemoryCache(inMemoryCache, cacheModel.getTestValues());
         else
             cacheModel = new CacheModel();
 
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, " in-memory cache size " + inMemoryCache.size() + "");
     }
 
-    public void updateCache(ABTestClientInterface.OnRefreshListener onRefreshListener) {
+    void updateCache(ABTestClientInterface.OnRefreshListener onRefreshListener) {
         if(!appInfraInterface.getRestClient().isInternetReachable()) {
             onRefreshListener.onError(ABTestClientInterface.OnRefreshListener.ERRORVALUES.NO_NETWORK,"No internet available");
             return;
@@ -53,7 +51,7 @@ class AbTestingHelper {
         fireBaseWrapper.fetchDataFromFireBase(new FetchDataHandler() {
             @Override
             public void fetchData(Map<String, CacheModel.ValueModel> data) {
-                AbTestingUtil.syncInMemoryCache(inMemoryCache, data);
+                syncInMemoryCache(inMemoryCache, data);
             }
 
             @Override
@@ -63,7 +61,7 @@ class AbTestingHelper {
         }, onRefreshListener);
     }
 
-    public void enableDeveloperMode(boolean state) {
+    void enableDeveloperMode(boolean state) {
         fireBaseWrapper.enableDeveloperMode(state);
     }
 
@@ -72,7 +70,7 @@ class AbTestingHelper {
     }
 
     //TODO (Deepthi)- can we remove params
-    public String getTestValue(@NonNull String requestNameKey, String defaultValue, ABTestClientInterface.UPDATETYPES updateType, Map<String, Object> parameters) {
+    String getTestValue(@NonNull String requestNameKey, String defaultValue, ABTestClientInterface.UPDATETYPES updateType, Map<String, Object> parameters) {
         //fetching data from in-memory cache
         //TODO - need to discuss for empty and null key
         CacheModel.ValueModel valueModel = inMemoryCache.get(requestNameKey);
@@ -92,7 +90,7 @@ class AbTestingHelper {
             if (val.getTestValue() == null || !updateType.name().equalsIgnoreCase(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name())) {
                 cacheModel(requestNameKey, testValue, updateType.name());
             }
-            //value is already there in cache ignoring the new value
+            //else value is already there in cache ignoring the new value
         }
         if (updateType.equals(ABTestClientInterface.UPDATETYPES.EVERY_APP_START)) {
             removeCacheForTestName(requestNameKey);
@@ -150,7 +148,24 @@ class AbTestingHelper {
         return gson.fromJson(abTestingLocalCache.fetchFromDisk(), CacheModel.class);
     }
 
-    public void setAppInfraInterface(AppInfraInterface appInfraInterface) {
-        this.appInfraInterface = appInfraInterface;
+    void syncInMemoryCache(Map<String, CacheModel.ValueModel> inMemoryCache, Map<String, CacheModel.ValueModel> cacheModel) {
+        for (Map.Entry<String, CacheModel.ValueModel> entry : cacheModel.entrySet()) {
+            Log.d(AppInfraLogEventID.AI_ABTEST_CLIENT, entry.getKey() + " Count : " + entry.getValue().getTestValue());
+            if (inMemoryCache.containsKey(entry.getKey())) {
+                CacheModel.ValueModel valueModel = inMemoryCache.get(entry.getKey());
+                if (valueModel.getUpdateType() != null && valueModel.getUpdateType().equals(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name())) {
+                    valueModel.setTestValue(entry.getValue().getTestValue());
+                } else if (valueModel.getUpdateType() != null && valueModel.getUpdateType().equals(ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
+                    if (getAppVersion() > valueModel.getAppVersion()) {
+                        valueModel.setTestValue(entry.getValue().getTestValue());
+                    }
+                }
+            } else
+                inMemoryCache.put(entry.getKey(), entry.getValue());
+        }
+    }
+
+    int getAppVersion() {
+        return Integer.parseInt(appInfraInterface.getAppIdentity().getAppVersion());
     }
 }

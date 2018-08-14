@@ -20,17 +20,12 @@ class AbTestingLocalCache {
 
     void saveToDisk(String value) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(key,value);
+        editor.putString(key, value);
         editor.apply();
     }
 
     String fetchFromDisk() {
-        return mSharedPreferences.getString(key,null);
+        return mSharedPreferences.getString(key, null);
     }
-
-    Map<String, ?> fetchAllValues() {
-        return mSharedPreferences.getAll();
-    }
-
 
 }
