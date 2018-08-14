@@ -39,11 +39,9 @@ public class BaseConfiguration {
             return null;
         }
         if (property instanceof String) {
-            RLog.d(TAG, "getConfigPropertyValue : property " + property);
             return (String) property;
         }
         if (property instanceof Map) {
-            RLog.d(TAG, "getConfigPropertyValue : getPropertyValueFromMap " + getPropertyValueFromMap((Map) property));
             return getPropertyValueFromMap((Map) property);
         }
         return null;

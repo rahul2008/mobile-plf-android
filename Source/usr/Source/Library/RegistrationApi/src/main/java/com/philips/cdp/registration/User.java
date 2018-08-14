@@ -185,7 +185,7 @@ public class User {
             if (providerName != null && activity != null) {
                 LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
                         socialLoginHandler, activity, mUpdateUserRecordHandler);
-                RLog.d(TAG, "loginUserUsingSocialProvider with providename = " + providerName + " and activity is not null");
+                RLog.i(TAG, "loginUserUsingSocialProvider with providename = " + providerName + " and activity is not null");
                 loginSocialResultHandler.loginSocial(activity, providerName, mergeToken);
             } else {
                 if (null == socialLoginHandler) return;
@@ -212,14 +212,14 @@ public class User {
             if (providerName != null && activity != null) {
                 LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
                         socialLoginHandler, activity, mUpdateUserRecordHandler);
-                RLog.d(TAG, "loginUserUsingSocialProvider with providename = " + providerName + " and activity is not null");
+                RLog.i(TAG, "startTokenAuthForNativeProvider with providename = " + providerName + " and activity is not null");
                 loginSocialResultHandler.startTokenAuthForNativeProvider(activity, providerName, mergeToken, accessToken);
             } else {
                 if (null == socialLoginHandler) return;
                 UserRegistrationFailureInfo userRegistrationFailureInfo =
                         new UserRegistrationFailureInfo(mContext);
                 userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
-                RLog.e(TAG, "Error occurred in loginUserUsingSocialProvider , might be provider name is null or activity is null " + userRegistrationFailureInfo.getErrorDescription());
+                RLog.e(TAG, "Error occurred in startTokenAuthForNativeProvider , might be provider name is null or activity is null " + userRegistrationFailureInfo.getErrorDescription());
                 ThreadUtils.postInMainThread(activity, () ->
                         socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
             }
@@ -507,7 +507,6 @@ public class User {
             else {
                 JSONObject mObject = new JSONObject(captured.toString());
                 if (!mObject.isNull(loginType)) {
-                    RLog.d(TAG, "DIUserProfile isLoginTypeVerified= " + captured.toString());
                     return true;
                 }
             }

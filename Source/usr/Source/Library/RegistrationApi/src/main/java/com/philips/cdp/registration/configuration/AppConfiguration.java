@@ -36,6 +36,7 @@ public class AppConfiguration extends BaseConfiguration {
 
     public String getWeChatAppId() {
         Object weChatAppIdObject = appInfraWrapper.getURProperty(WE_CHAT_APP_ID_KEY);
+
         RLog.d(TAG, "getWeChatAppId : " + getConfigPropertyValue(weChatAppIdObject));
         return getConfigPropertyValue(weChatAppIdObject);
     }
@@ -72,14 +73,18 @@ public class AppConfiguration extends BaseConfiguration {
 
     public String getClientId(String environment) {
         Object clientIdObject = appInfraWrapper.getURProperty(CLIENT_ID_KEY + environment);
-        RLog.d(TAG, "getClientId : " + getConfigPropertyValue(clientIdObject));
-        return getConfigPropertyValue(clientIdObject);
-    }
+        String  configPropertyValue= getConfigPropertyValue(clientIdObject);
+        RLog.d(TAG, "getclientId: " + configPropertyValue);
+        RLog.i(TAG, "hasclientId : " + (configPropertyValue != null));
+        return configPropertyValue;
+    }}
 
     public String getCampaignId() {
         Object campaignIdObject = appInfraWrapper.getURProperty(PIL_CONFIGURATION_CAMPAIGN_ID);
-        RLog.d(TAG, "getCampaignId : " + getConfigPropertyValue(campaignIdObject));
-        return getConfigPropertyValue(campaignIdObject);
+        String  configPropertyValue= getConfigPropertyValue(campaignIdObject);
+        RLog.d(TAG, "getCampaignId : " + configPropertyValue);
+        RLog.i(TAG, "hasCampaignId : " + (configPropertyValue != null));
+        return configPropertyValue;
     }
 
     public Object getEmailVerificationRequired() {
