@@ -7,8 +7,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import java.util.Map;
-
 class AbTestingLocalCache {
 
 

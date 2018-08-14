@@ -62,7 +62,7 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
     @Override
     public void onFailure(@NonNull Exception e) {
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "Fetch Failed");
-        onRefreshListener.onError(ABTestClientInterface.OnRefreshListener.ERRORVALUES.ERROR_WHILE_FETCHING_VALUES, "something went wrong while fetching values from Firebase");
+        onRefreshListener.onError(ABTestClientInterface.OnRefreshListener.ERRORVALUES.SERVER_ERROR);
         fetchDataHandler.updateCacheStatus(ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCE_NOT_UPDATED);
     }
 

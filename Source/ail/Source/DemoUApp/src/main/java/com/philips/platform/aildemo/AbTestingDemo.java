@@ -2,7 +2,6 @@ package com.philips.platform.aildemo;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.demo.R;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 /**
  * Created by 310243577 on 10/3/2016.
@@ -77,7 +75,7 @@ public class AbTestingDemo extends Activity {
                 valueType = ABTestClientInterface.UPDATETYPES.EVERY_APP_START;
             }
             String test = abTestingInterface.getTestValue(testName.getText().toString(), defaultValue.getText().toString(),
-                    valueType, null);
+                    valueType);
             value.setText("Experience - " + test);
         });
 
@@ -96,8 +94,8 @@ public class AbTestingDemo extends Activity {
             }
 
             @Override
-            public void onError(ERRORVALUES error, String message) {
-                refreshStatus.setText(message);
+            public void onError(ERRORVALUES error) {
+                refreshStatus.setText(error.name());
             }
         }));
 

@@ -50,13 +50,12 @@ public interface ABTestClientInterface extends Serializable {
      * @since 1.0.0
      */
     interface OnRefreshListener {
-        // TODO:Deepthi This can be referred as SERVER_ERROR
-        enum ERRORVALUES {NO_NETWORK, ERROR_WHILE_FETCHING_VALUES}
+        enum ERRORVALUES {NO_NETWORK, SERVER_ERROR}
 
 
         void onSuccess();
 
-        void onError(ERRORVALUES error, String message);
+        void onError(ERRORVALUES error);
     }
 
     /**
@@ -94,7 +93,7 @@ public interface ABTestClientInterface extends Serializable {
     /**
      * API to enable developer mode to true or false
      * @param state - pass true to enable or false to disable
+     * @since 2018.4.0
      */
-    // TODO:Deepthi add since 2018.4.0
     void enableDeveloperMode(boolean state);
 }
