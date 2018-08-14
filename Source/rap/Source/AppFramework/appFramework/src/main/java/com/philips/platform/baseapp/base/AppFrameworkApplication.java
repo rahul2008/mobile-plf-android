@@ -337,11 +337,11 @@ public class AppFrameworkApplication extends Application {
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
         Log.d("firebase instance id - ", FirebaseInstanceId.getInstance().getToken());
-        AbTestingImpl abTestingImpl = new AbTestingImpl(this);
+        AbTestingImpl abTestingImpl = new AbTestingImpl();
         AppInfra.Builder builder = new AppInfra.Builder();
         builder.setAbTesting(abTestingImpl);
         appInfra = builder.build(getApplicationContext());
-        abTestingImpl.setAppInfraInterface(appInfra);
+        abTestingImpl.initAbTesting(appInfra);
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);

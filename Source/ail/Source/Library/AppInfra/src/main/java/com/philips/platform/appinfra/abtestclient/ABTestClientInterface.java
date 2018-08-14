@@ -49,7 +49,7 @@ public interface ABTestClientInterface extends Serializable {
      * @since 1.0.0
      */
     interface OnRefreshListener {
-        enum ERRORVALUES {NO_NETWORK, EXPERIENCES_PARTIALLY_DOWNLOADED}
+        enum ERRORVALUES {NO_NETWORK, ERROR_WHILE_FETCHING_VALUES}
 
 
         void onSuccess();
