@@ -233,6 +233,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
                 }
             }
         });
+        lanDiscoverySwitch.setChecked(true);
 
         bleDiscoverySwitch = view.findViewById(R.id.cml_sw_startstop_ble_discovery);
         bleDiscoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -266,7 +267,6 @@ public class DiscoveredAppliancesFragment extends Fragment {
                 commCentral.clearDiscoveredAppliances();
             }
         });
-
         return view;
     }
 
