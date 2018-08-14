@@ -341,40 +341,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         hideKeyBoard();
     }
 
-
-    public void navigateToHome() {
-
-        RLog.i(TAG, "navigateToHome : is called");
-
-        FragmentManager fragmentManager = getChildFragmentManager();
-        int fragmentCount = fragmentManager.getBackStackEntryCount();
-        try {
-            for (int i = fragmentCount; i >= 0; i--) {
-                fragmentManager.popBackStack();
-            }
-        } catch (IllegalStateException ignore) {
-        } catch (Exception ignore) {
-        }
-    }
-
-
-    public void replaceFragment(Fragment fragment, String fragmentTag) {
-
-        RLog.i(TAG, "replaceFragment : is called");
-
-        try {
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, fragmentTag);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(TAG,
-                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-        hideKeyBoard();
-    }
-
-
     private void replacMarketingAccountFragment() {
         try {
             MarketingAccountFragment marketingAccountFragment = new MarketingAccountFragment();

@@ -10,11 +10,11 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.ConsumerArray;
 import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
-import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -326,13 +327,12 @@ public class UserTest extends TestCase {
     }
 
 
-//    @Test
-//    public void shouldAuthoriseHSDP() {
-//        Mockito.when(registrationConfiguration.isHsdpFlow()).thenReturn(true);
-//        Mockito.when(hsdpConfiguration.getHsdpSecretId()).thenReturn("sdfsdf");
-//        Mockito.when(hsdpConfiguration.getHsdpSharedId()).thenReturn("sdfsfsd");
-//        Mockito.when(appConfiguration.getRegistrationEnvironment()).thenReturn("ACCEPTANCE");
-//        user.authorizeHSDP(mockHsdpAuthenticationListener);
-//
-//    }
+    @Test
+    public void shouldAuthoriseHSDP() {
+        Mockito.when(registrationConfiguration.isHsdpFlow()).thenReturn(true);
+        Mockito.when(hsdpConfiguration.getHsdpSecretId()).thenReturn(Mockito.anyString());
+        Mockito.when(hsdpConfiguration.getHsdpSharedId()).thenReturn(Mockito.anyString());
+        Mockito.when(appConfiguration.getRegistrationEnvironment()).thenReturn("ACCEPTANCE");
+        user.authorizeHSDP(mockHsdpAuthenticationListener);
+    }
 }
