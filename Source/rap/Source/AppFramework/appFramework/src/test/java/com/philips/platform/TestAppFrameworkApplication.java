@@ -6,7 +6,9 @@
 package com.philips.platform;
 
 import android.content.Context;
+
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
@@ -37,7 +39,7 @@ import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import org.junit.Ignore;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -148,7 +150,7 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         when(appInfraInterface.getRestClient()).thenReturn(restInterface);
         when(restInterface.isInternetReachable()).thenReturn(true);
         when(userRegistrationState.getUserObject(any(Context.class))).thenReturn(user);
-        when(user.isUserSignIn()).thenReturn(true);
+        when(user.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
         initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
             @Override
             public void onAppInfraInitialization() {

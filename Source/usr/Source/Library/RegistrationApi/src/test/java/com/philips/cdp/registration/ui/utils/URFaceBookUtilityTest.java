@@ -13,7 +13,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.mobile.FaceBookContractor;
@@ -111,12 +111,12 @@ public class URFaceBookUtilityTest {
     Activity activityMock;
 
     @Mock
-    SocialProviderLoginHandler socialProviderLoginHandlerMock;
+    SocialLoginProviderHandler socialProviderSocialLoginProviderHandlerMock;
 
     @Test
     public void shouldStartAccessTokenAuthForFacebook() throws Exception {
-       urFaceBookUtility.startAccessTokenAuthForFacebook(userMock,activityMock,socialProviderLoginHandlerMock,"accessToken","mergeToken");
+       urFaceBookUtility.startAccessTokenAuthForFacebook(userMock,activityMock, socialProviderSocialLoginProviderHandlerMock,"accessToken","mergeToken");
        Mockito.verify(userMock).startTokenAuthForNativeProvider(activityMock,
-               RegConstants.SOCIAL_PROVIDER_FACEBOOK, socialProviderLoginHandlerMock, "mergeToken", "accessToken");
+               RegConstants.SOCIAL_PROVIDER_FACEBOOK, socialProviderSocialLoginProviderHandlerMock, "mergeToken", "accessToken");
     }
 }

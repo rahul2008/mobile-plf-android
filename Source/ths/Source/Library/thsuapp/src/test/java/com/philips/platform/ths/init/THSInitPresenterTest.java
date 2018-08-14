@@ -19,6 +19,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -32,7 +33,6 @@ import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
@@ -45,7 +45,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,17 +53,13 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static com.philips.platform.ths.utility.THSConstants.THS_SDK_SERVICE_ID;
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
@@ -193,7 +188,8 @@ public class THSInitPresenterTest {
 
     @Test
     public void initializeAwsdk() throws Exception {
-        when(userMock.isUserSignIn()).thenReturn(true);
+       // when(userMock.isUserSignIn()).thenReturn(true);
+        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
         mThsInitPresenter.initializeAwsdk();
         verify(serviceDiscoveryMock).getServiceUrlWithCountryPreference(anyString(),any(ServiceDiscoveryInterface.OnGetServiceUrlListener.class));
     }
@@ -288,7 +284,7 @@ public class THSInitPresenterTest {
         when(sdkErrorMock.getHttpResponseCode()).thenReturn(401);
         when(thssdkErrorMock.getHttpResponseCode()).thenReturn(401);
         mThsInitPresenter.onLoginResponse(THSAuthenticationMock, thssdkErrorMock);
-        verify(userMock).isUserSignIn();
+        verify(userMock).getUserLoginState();
     }
 
     @Test

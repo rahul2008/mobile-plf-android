@@ -30,6 +30,7 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -140,7 +141,7 @@ public class PRUiHelper {
                 prodRegFirstLaunchFragment.setArguments(arguments);
                 prodRegFirstLaunchFragment.showFragment(prodRegFirstLaunchFragment,
                         fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
-            } else if (!user.isUserSignIn()) {
+            } else if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
                 prodRegUiListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
                 if (fragmentLauncher.getFragmentActivity() instanceof ProdRegBaseActivity)
                     fragmentLauncher.getFragmentActivity().finish();

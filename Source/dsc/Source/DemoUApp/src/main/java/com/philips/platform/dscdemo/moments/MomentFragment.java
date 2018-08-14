@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -141,7 +142,7 @@ public class MomentFragment extends DSBaseFragment
     public void onStart() {
         super.onStart();
 
-        if (mUser != null && !mUser.isUserSignIn()) {
+        if (mUser != null && mUser.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
             mTvAddMomentType.setVisibility(View.VISIBLE);
             mTvLatestMoment.setVisibility(View.INVISIBLE);
@@ -354,7 +355,7 @@ public class MomentFragment extends DSBaseFragment
 
     public void logOut() {
         User user = new User(getContext());
-        if (!user.isUserSignIn()) return;
+        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) return;
 
         user.logout(new LogoutHandler() {
             @Override

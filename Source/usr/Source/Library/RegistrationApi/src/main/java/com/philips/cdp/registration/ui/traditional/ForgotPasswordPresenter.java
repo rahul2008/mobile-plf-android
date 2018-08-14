@@ -149,7 +149,6 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
             } else {
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-//                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode"), context);
                 forgotPasswordContract.forgotPasswordErrorMessage(errorCode);
                 RLog.i(TAG, " SMS Resend failure = " + response);
             }

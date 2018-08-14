@@ -23,6 +23,7 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.uid.view.widget.Button;
 
 import java.util.List;
@@ -111,7 +112,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
             public void onClick(final View v) {
                 final FragmentActivity activity = getActivity();
                 final User user = new User(activity);
-                if (user.isUserSignIn()) {
+                if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                     final ProdRegRegistrationFragment processFragment = new ProdRegRegistrationFragment();
                     processFragment.setArguments(dependencies);
                     registerButton.setClickable(false);

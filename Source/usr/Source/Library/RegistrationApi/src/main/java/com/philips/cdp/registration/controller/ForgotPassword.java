@@ -13,9 +13,11 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
-import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -43,12 +45,12 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
     public void onSuccess() {
         ThreadUtils.postInMainThread(mContext, () ->
                 mForgotPaswordHandler.onSendForgotPasswordSuccess());
-        RLog.d(TAG,"onSuccess : is called ");
+        RLog.d(TAG, "onSuccess : is called ");
     }
 
     @Override
     public void onFailure(ForgetPasswordError error) {
-        RLog.d(TAG,"onFailure : is called ");
+        RLog.d(TAG, "onFailure : is called ");
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
         userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         handleOnlySocialSignIn(error.captureApiError, userRegistrationFailureInfo);
@@ -58,7 +60,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
 
     private void handleOnlySocialSignIn(CaptureApiError error,
                                         UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.d(TAG,"handleOnlySocialSignIn : is called");
+        RLog.d(TAG, "handleOnlySocialSignIn : is called");
         if (null != error && null != error.error
                 && error.code == RegConstants.ONLY_SOCIAL_SIGN_IN_ERROR_CODE) {
             try {
@@ -68,7 +70,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
                             .getString(RegConstants.MESSAGE));
                 }
             } catch (JSONException e) {
-                RLog.d(TAG,"handleOnlySocialSignIn : "+e.getMessage());
+                RLog.d(TAG, "handleOnlySocialSignIn : " + e.getMessage());
             }
         }
     }
@@ -77,7 +79,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
     private String mEmailAddress;
 
     public void performForgotPassword(final String emailAddress) {
-        RLog.d(TAG,"performForgotPassword : is called");
+        RLog.d(TAG, "performForgotPassword : is called");
         mEmailAddress = emailAddress;
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
@@ -95,20 +97,20 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
 
     @Override
     public void onFlowDownloadSuccess() {
-        RLog.d(TAG,"onFlowDownloadSuccess : is called");
+        RLog.d(TAG, "onFlowDownloadSuccess : is called");
         Jump.performForgotPassword(mEmailAddress, this);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
 
     @Override
     public void onFlowDownloadFailure() {
-        RLog.d(TAG,"onFlowDownloadFailure : is called");
+        RLog.d(TAG, "onFlowDownloadFailure : is called");
         if (mForgotPaswordHandler != null) {
-            RLog.d(TAG,"onFlowDownloadFailure : mForgotPaswordHandler is null");
+            RLog.d(TAG, "onFlowDownloadFailure : mForgotPaswordHandler is null");
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));
+            userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, ErrorCodes.FORGOT_PASSWORD_FAILED_SERVER_ERROR));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
-            userRegistrationFailureInfo.setErrorCode(RegConstants.FORGOT_PASSWORD_FAILED_SERVER_ERROR);
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.FORGOT_PASSWORD_FAILED_SERVER_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->
                     mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo));
         }

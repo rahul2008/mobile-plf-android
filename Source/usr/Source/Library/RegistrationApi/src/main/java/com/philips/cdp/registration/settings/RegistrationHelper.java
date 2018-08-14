@@ -17,6 +17,7 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
+import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -113,7 +114,7 @@ public class RegistrationHelper {
 
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
-     //   generateKeyAndMigrateData(context);
+        //   generateKeyAndMigrateData(context);
         refreshNTPOffset();
         final Runnable runnable = new Runnable() {
 
@@ -121,7 +122,7 @@ public class RegistrationHelper {
             public void run() {
                 deleteLegacyDIProfileFile(context);
                 if (networkUtility.isNetworkAvailable()) {
-                    RLog.i(TAG, "initializeUserRegistration initializeEnvironment for Locale: "+mLocale);
+                    RLog.i(TAG, "initializeUserRegistration initializeEnvironment for Locale: " + mLocale);
                     UserRegistrationInitializer.getInstance().initializeEnvironment(context, mLocale);
                 } else {
                     if (UserRegistrationInitializer.getInstance().
@@ -187,6 +188,31 @@ public class RegistrationHelper {
     public synchronized void unRegisterUserRegistrationListener(
             UserRegistrationListener userRegistrationListener) {
         UserRegistrationHelper.getInstance().unregisterEventNotification(userRegistrationListener);
+    }
+
+    /**
+     * {@code registerHSDPAuthenticationListener} method registers a listener in order to listen
+     * the callbacks returned by User Registration component. It must be called by
+     * integrating applications
+     * to be able to listen to User Registration events.
+     *
+     * @param hsdpAuthenticationListener
+     */
+    public synchronized void registerHSDPAuthenticationListener(
+            HSDPAuthenticationListener hsdpAuthenticationListener) {
+        UserRegistrationHelper.getInstance().registerHSDPAuthenticationEventNotification(hsdpAuthenticationListener);
+    }
+
+    /**
+     * {@code unRegisterHSDPAuthenticationListener} method unregisters the listener registered via
+     * {@code registerUserRegistrationListener} method. This will make integrating applications
+     * to stop listening to User Registration events.
+     *
+     * @param hsdpAuthenticationListener
+     */
+    public synchronized void unRegisterHSDPAuthenticationListener(
+            HSDPAuthenticationListener hsdpAuthenticationListener) {
+        UserRegistrationHelper.getInstance().unregisterHSDPAuthenticationEventNotification(hsdpAuthenticationListener);
     }
 
     public synchronized UserRegistrationHelper getUserRegistrationListener() {
