@@ -17,7 +17,7 @@ import com.philips.pins.shinelib.utility.Utilities;
 import java.util.concurrent.Executor;
 
 public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
-    private static final String TAG = BluetoothGattCallbackOnExecutor.class.getSimpleName();
+    private static final String TAG = "BluetoothGattCallbackOnExecutor";
     private ISHNBluetoothGattCallback iShnBluetoothGattCallback;
     private Executor executor;
 

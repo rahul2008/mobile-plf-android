@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 public class SHNDeviceDefinitions {
-    private static final String TAG = SHNDeviceDefinitions.class.getSimpleName();
+    private static final String TAG = "SHNDeviceDefinitions";
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
 
     public SHNDeviceDefinitions() {

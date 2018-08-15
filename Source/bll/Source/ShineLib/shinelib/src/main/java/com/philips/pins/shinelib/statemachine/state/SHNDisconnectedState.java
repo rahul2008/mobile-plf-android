@@ -9,7 +9,7 @@ import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 public class SHNDisconnectedState extends SHNDeviceState {
 
     public SHNDisconnectedState(@NonNull SHNDeviceStateMachine stateMachine) {
-        super(stateMachine);
+        super(stateMachine, "SHNDisconnectedState");
     }
 
     @Override

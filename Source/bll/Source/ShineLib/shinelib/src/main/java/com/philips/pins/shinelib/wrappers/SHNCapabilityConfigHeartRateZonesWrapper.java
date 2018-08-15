@@ -12,7 +12,6 @@ import java.util.List;
 
 public class SHNCapabilityConfigHeartRateZonesWrapper implements SHNCapabilityConfigHeartRateZones {
 
-    private static final String TAG = SHNCapabilityConfigHeartRateZones.class.getSimpleName();
     private final SHNCapabilityConfigHeartRateZones wrappedShnCapability;
     private final Handler internalHandler;
     private final Handler userHandler;
