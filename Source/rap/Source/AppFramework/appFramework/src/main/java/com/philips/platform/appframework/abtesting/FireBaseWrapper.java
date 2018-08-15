@@ -50,6 +50,7 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
     public void onComplete(@NonNull Task<Void> task) {
         if (task.isSuccessful()) {
             appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "Fetch Succeeded");
+            // TODO: Deepthi, why do we getinstance again and reassign to remoteconfig since its already done during initialization
             final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
             remoteConfig.activateFetched();
             fetchDataHandler.fetchData(fetchExperiences());

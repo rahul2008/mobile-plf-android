@@ -13,8 +13,10 @@ class AbTestingLocalCache {
 
 
     private static final String ABTEST_PREFERENCE = "abTest_preference";
-
+    // TODO: Deepthi Use uniform coding standard, remove 'm' or use across all classes
     private final SharedPreferences mSharedPreferences;
+
+    // TODO: Deepthi could name as abtestcachedobj
     private String key = "cacheobject";
     private AppInfraInterface appInfraInterface;
 

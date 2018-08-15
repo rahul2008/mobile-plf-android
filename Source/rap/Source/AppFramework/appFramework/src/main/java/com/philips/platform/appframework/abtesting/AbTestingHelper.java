@@ -11,6 +11,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: Deepthi,  This class is not making sense
 class AbTestingHelper {
 
     private FireBaseWrapper fireBaseWrapper;
@@ -24,6 +25,7 @@ class AbTestingHelper {
         fireBaseWrapper = new FireBaseWrapper();
     }
 
+    // TODO: Deepthi,This API is redundant, wrapper can be directly used.. need not have layers
     void initFireBase() {
         fireBaseWrapper.initFireBase();
     }
@@ -89,10 +91,12 @@ class AbTestingHelper {
     private void updateDiskCacheForTestName(String requestNameKey, String testValue, ABTestClientInterface.UPDATETYPES updateType) {
         if (inMemoryCache.containsKey(requestNameKey)) {
             final CacheModel.ValueModel val = inMemoryCache.get(requestNameKey);
+            // TODO: Deepthi, need to relook on below logic
             if (val.getTestValue() == null || !updateType.name().equalsIgnoreCase(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name())) {
                 cacheModel(requestNameKey, testValue, updateType.name());
             }
             //else value is already there in cache ignoring the new value
+            // TODO: Deepthi, what if only the app update type has changed for an existing test
         }
         if (updateType.equals(ABTestClientInterface.UPDATETYPES.EVERY_APP_START)) {
             removeCacheForTestName(requestNameKey);
@@ -122,6 +126,7 @@ class AbTestingHelper {
                 "remove cache for TestName");
     }
 
+    // TODO: Deepthi method name is confusing, could be createCreateCacheModel
     private void cacheModel(String requestNameKey, String testValue, String updateType) {
         final CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
         valueModel.setTestValue(testValue);
@@ -154,6 +159,7 @@ class AbTestingHelper {
                     }
                 }
             } else
+                // TODO: Deepthi, where are we assigning app update value as app restart
                 inMemoryCache.put(entry.getKey(), entry.getValue());
         }
     }
