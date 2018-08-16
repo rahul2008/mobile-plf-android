@@ -118,13 +118,18 @@ public class AbTestingImpl implements ABTestClientInterface {
                 if (valueModel.getUpdateType() != null && valueModel.getUpdateType().equals(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name())) {
                     valueModel.setTestValue(entry.getValue().getTestValue());
                 } else if (valueModel.getUpdateType() != null && valueModel.getUpdateType().equals(ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
-                    if (getAppVersion() > valueModel.getAppVersion()) {
+                    if (isAppUpdated(valueModel)) {
                         valueModel.setTestValue(entry.getValue().getTestValue());
                     }
                 }
             } else
                 inMemoryCache.put(entry.getKey(), entry.getValue());
         }
+    }
+
+    private boolean isAppUpdated(CacheModel.ValueModel valueModel) {
+
+        return getAppVersion() > valueModel.getAppVersion();
     }
 
     private int getAppVersion() {
