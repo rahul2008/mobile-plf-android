@@ -26,7 +26,9 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_NEUTRAL;
@@ -38,6 +40,18 @@ import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIA
 public class WifiPortFragment extends Fragment {
 
     private static final String TAG = "WifiPortFragment";
+    private static final String PROPERTY_SSID = "ssid";
+    private static final String PROPERTY_PASSWORD = "password";
+    private static final String PROPERTY_PROTECTION = "protection";
+    private static final String PROPERTY_IPADDRESS = "ipaddress";
+    private static final String PROPERTY_NETMASK = "netmask";
+    private static final String PROPERTY_GATEWAY = "gateway";
+    private static final String PROPERTY_DHCP = "dhcp";
+    private static final String PROPERTY_MACADDRESS = "macaddress";
+    private static final String PROPERTY_CPPID = "cppid";
+    private static final String PROPERTY_CTN = "ctn";
+    private static final String PROPERTY_TRAVEL_SSID = "travelssid";
+    private static final String PROPERTY_TRAVEL_PASSWORD = "travelpassword";
 
     private View rootview;
     private EditText ssidEdit;
@@ -127,7 +141,7 @@ public class WifiPortFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        currentAppliance.getWifiPort().putProperties(getPortProperties());
                     }
                 }
         );
@@ -188,5 +202,12 @@ public class WifiPortFragment extends Fragment {
         builder.setPositiveButton(R.string.cml_prompt_certificate_mismatch_accept, mismatchDialogClickListener);
 
         builder.show();
+    }
+
+    private Map<String, Object> getPortProperties() {
+        Map<String, Object> map = new HashMap<>();
+        map.put(PROPERTY_TRAVEL_SSID, travelSsidEdit.getText().toString());
+        map.put(PROPERTY_TRAVEL_PASSWORD, travelPasswordEdit.getText().toString());
+        return map;
     }
 }
