@@ -50,8 +50,6 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
     public void onComplete(@NonNull Task<Void> task) {
         if (task.isSuccessful()) {
             appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "Fetch Succeeded");
-            // TODO: Deepthi, why do we getinstance again and reassign to remoteconfig since its already done during initialization
-            final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
             remoteConfig.activateFetched();
             fetchDataHandler.fetchData(fetchExperiences());
             fetchDataHandler.updateCacheStatus(ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCE_UPDATED);
@@ -67,7 +65,6 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
     }
 
     private Map<String, CacheModel.ValueModel> fetchExperiences() {
-        final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
         Set<String> experiments = remoteConfig.getKeysByPrefix("");
         Map<String, CacheModel.ValueModel> map = new HashMap<>();
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "experiment size ", experiments.size() + "");

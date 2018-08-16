@@ -16,13 +16,9 @@ import java.util.Map;
 
 public interface ABTestClientInterface extends Serializable {
     /**
-     * NO_TESTS_DEFINED: no list of tests is configured
-     * NO_CACHED_EXPERIENCES: tests are configured but no experience values are in cache
      * EXPERIENCES_NOT_UPDATED: tests are configured, cached experience values are of previous app start
-     * EXPERIENCES_PARTIALLY_UPDATED: tests are configured, some experience values are updated from the server in this app start, others may still be from previous execution or not cached at all
      * EXPERIENCES_UPDATED: tests are configured, all experience values have been downloaded from the server for this app start
      */
-    // TODO:Deepthi update  documentation in all places
     enum CACHESTATUSVALUES {
         EXPERIENCE_NOT_UPDATED, EXPERIENCE_UPDATED
     }
@@ -78,8 +74,7 @@ public interface ABTestClientInterface extends Serializable {
      * @return experience value for the requested test.
      * @since 1.0.0
      */
-    // TODO: Deepthi @NonNull can be applied to defaultValue as well, shall discuss if think otherwise
-    String getTestValue(@NonNull String requestNameKey, String defaultValue, UPDATETYPES updateType);
+    String getTestValue(@NonNull String requestNameKey, @NonNull String defaultValue, UPDATETYPES updateType);
 
     /**
      * Download experience values from the server. Call will have no effect if state equals

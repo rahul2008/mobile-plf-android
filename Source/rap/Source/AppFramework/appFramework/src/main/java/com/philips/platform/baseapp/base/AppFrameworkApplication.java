@@ -24,6 +24,7 @@ import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.appframework.abtesting.AbTestingImpl;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.abtesting.FireBaseWrapper;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppKpsConfigurationInfo;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -337,6 +338,7 @@ public class AppFrameworkApplication extends Application {
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
         Log.d("firebase instance id - ", FirebaseInstanceId.getInstance().getToken());
+        new FireBaseWrapper().initFireBase();
         AbTestingImpl abTestingImpl = new AbTestingImpl();
         AppInfra.Builder builder = new AppInfra.Builder();
         builder.setAbTesting(abTestingImpl);
