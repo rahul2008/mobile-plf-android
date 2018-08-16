@@ -337,8 +337,8 @@ public class AppFrameworkApplication extends Application {
      * @param appInfraInitializationCallback
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
-        Log.d("firebase instance id - ", FirebaseInstanceId.getInstance().getToken());
         new FireBaseWrapper().initFireBase();
+        Log.d("firebase instance id - ", FirebaseInstanceId.getInstance().getToken());
         AbTestingImpl abTestingImpl = new AbTestingImpl();
         AppInfra.Builder builder = new AppInfra.Builder();
         builder.setAbTesting(abTestingImpl);
