@@ -132,7 +132,7 @@ public class AbTestingImpl implements ABTestClientInterface {
         return getAppVersion() > valueModel.getAppVersion();
     }
 
-    private int getAppVersion() {
+    static int getAppVersion() {
         return BuildConfig.VERSION_CODE;
     }
 
