@@ -86,7 +86,7 @@
       "fileName": "AppInfraLog",
       "numberOfFiles": 5,
       "fileSizeInBytes": 50000,
-      "logLevel": "Error",
+      "logLevel": "All",
       "fileLogEnabled": false,
       "cloudLogEnabled":false,
       "cloudBatchLimit":5,
