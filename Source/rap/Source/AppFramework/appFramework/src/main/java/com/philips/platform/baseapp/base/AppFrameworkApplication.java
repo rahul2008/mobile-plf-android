@@ -33,6 +33,7 @@ import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListen
 import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
@@ -344,6 +345,7 @@ public class AppFrameworkApplication extends Application {
         builder.setAbTesting(abTestingImpl);
         appInfra = builder.build(getApplicationContext());
         abTestingImpl.initAbTesting(appInfra);
+
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
@@ -369,6 +371,18 @@ public class AppFrameworkApplication extends Application {
                         RALog.e(LOG, ailpActivateResult.toString() + "---" + s);
                     }
                 });
+            }
+        });
+        abTestingImpl.enableDeveloperMode(true);
+        abTestingImpl.updateCache(new ABTestClientInterface.OnRefreshListener() {
+            @Override
+            public void onSuccess() {
+                RALog.d(LOG, "abtesting cache updated successfully");
+            }
+
+            @Override
+            public void onError(ERRORVALUES error) {
+                RALog.d(LOG, "abtesting update failed");
             }
         });
     }

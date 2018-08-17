@@ -111,7 +111,7 @@ public class AbTestingImpl implements ABTestClientInterface {
 
     private void syncInMemoryCache(Map<String, CacheModel.ValueModel> inMemoryCache, Map<String, CacheModel.ValueModel> cacheModel) {
         for (Map.Entry<String, CacheModel.ValueModel> entry : cacheModel.entrySet()) {
-            appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, entry.getKey() + " Count : " + entry.getValue().getTestValue());
+            appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, " abtest data "+entry.getKey() +" --- "+ entry.getValue().getTestValue());
             if (inMemoryCache.containsKey(entry.getKey())) {
                 CacheModel.ValueModel valueModel = inMemoryCache.get(entry.getKey());
                 if (valueModel.getUpdateType() != null && valueModel.getUpdateType().equals(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name())) {

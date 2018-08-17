@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
@@ -32,8 +33,10 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -52,6 +55,7 @@ import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+import static com.philips.platform.baseapp.screens.Optin.MarketingOptin.AB_TEST_OPTIN_IMAGE_KEY;
 
 /**
  * This class contains all initialization & Launching details of UR
@@ -121,7 +125,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         //Post HSDP initialization on background thread.
         new Thread(() -> initHSDP(((AppFrameworkApplication) context.getApplicationContext()).getAppState())).start();
-
         initializeUserRegistrationLibrary();
     }
 
@@ -283,12 +286,20 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         urLaunchInput.enableAddtoBackStack(true);
         RegistrationContentConfiguration contentConfiguration = new RegistrationContentConfiguration();
         contentConfiguration.enableContinueWithouAccount(true);
-       // contentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
+        ABTestClientInterface abTesting = getAppInfra().getAbTesting();
+        abTesting.enableDeveloperMode(true);
+        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPES.EVERY_APP_START);
+        if (testValue.equalsIgnoreCase("promo")) {
+            contentConfiguration.enableMarketImage(R.drawable.promo);
+        } else if (testValue.equalsIgnoreCase("shaver")) {
+            contentConfiguration.enableMarketImage(R.drawable.optin_image);
+        } else {
+            contentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
+        }
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-       // urLaunchInput.setUIFlow(UIFlow.FLOW_B);
-
+        urLaunchInput.setUIFlow(UIFlow.FLOW_B);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }
