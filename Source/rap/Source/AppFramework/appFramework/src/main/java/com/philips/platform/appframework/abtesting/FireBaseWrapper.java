@@ -10,12 +10,9 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import static com.philips.platform.appframework.abtesting.AbTestingImpl.getAppVersion;
 
 public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
 
@@ -73,7 +70,7 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
         for (String key : experiments) {
             CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
             valueModel.setTestValue(remoteConfig.getString(key));
-            valueModel.setAppVersion(getAppVersion());
+            valueModel.setAppVersion(appInfraInterface.getAppIdentity().getAppVersion());
             valueModel.setUpdateType(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name());
             map.put(key, valueModel);
             appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "experiments value", valueModel.getTestValue());

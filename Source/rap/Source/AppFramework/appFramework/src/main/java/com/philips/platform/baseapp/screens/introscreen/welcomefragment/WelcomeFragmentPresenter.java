@@ -50,9 +50,9 @@ public class WelcomeFragmentPresenter extends AbstractUIBasePresenter {
         try {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             baseState = targetFlowManager.getNextState(eventState);
-
             if (baseState != null) {
                 welcomeFragmentView.showActionBar();
+                baseState.init(getApplicationContext());
                 baseState.navigate(getFragmentLauncher());
                 welcomeFragmentView.clearAdapter();
                 welcomeFragmentView = null;

@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
-import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -106,7 +105,7 @@ public class AbTestingImpl implements ABTestClientInterface {
         final CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
         valueModel.setTestValue(testValue);
         valueModel.setUpdateType(updateType);
-        valueModel.setAppVersion(getAppVersion());
+        valueModel.setAppVersion(appInfraInterface.getAppIdentity().getAppVersion());
         inMemoryCache.put(requestNameKey, valueModel);
     }
 
@@ -128,13 +127,11 @@ public class AbTestingImpl implements ABTestClientInterface {
     }
 
     private boolean isAppUpdated(CacheModel.ValueModel valueModel) {
-
-        return getAppVersion() > valueModel.getAppVersion();
+        return TextUtils.isEmpty(valueModel.getAppVersion()) || !valueModel.getAppVersion().equalsIgnoreCase(appInfraInterface.getAppIdentity().getAppVersion());
     }
 
-    static int getAppVersion() {
-        return BuildConfig.VERSION_CODE;
-    }
+
+
 
 
 }
