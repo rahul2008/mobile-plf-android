@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -225,7 +226,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void onUserRegistrationComplete(Activity activity) {
 
-        if (null != activity && getUserObject(activity).isUserSignIn()) {
+        if (null != activity && getUserObject(activity).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
             setUrCompleted();
             getApplicationContext().determineChinaFlow();
             //calling this method again after successful login to update the hybris flow boolean value if user changes the country while logging-in

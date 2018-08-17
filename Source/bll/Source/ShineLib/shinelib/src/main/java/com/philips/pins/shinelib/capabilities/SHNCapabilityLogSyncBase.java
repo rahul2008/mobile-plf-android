@@ -29,7 +29,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
 
     protected List<SHNResult> resultsThatDoNotCauseFailure;
 
-    private static final String TAG = SHNCapabilityLogSyncBase.class.getSimpleName();
+    private static final String TAG = "SHNCapabilityLogSyncBase";
     private static final int MAX_STORED_MEASUREMENTS = 50;
 
     private List<SHNLogItem> shnLogItems;

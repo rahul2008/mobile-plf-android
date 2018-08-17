@@ -23,20 +23,18 @@ import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady
 
 public class SHNDisconnectingState extends SHNDeviceState {
 
-    private static final String TAG = "SHNDisconnectingState";
-
     private static final long DISCONNECT_TIMEOUT = 1_000L;
 
     private Timer disconnectTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
-            SHNLogger.e(TAG, "disconnect timeout in SHNDisconnectingState");
+            SHNLogger.e(logTag, "disconnect timeout in SHNDisconnectingState");
             handleGattDisconnectEvent();
         }
     }, DISCONNECT_TIMEOUT);
 
     public SHNDisconnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
-        super(stateMachine);
+        super(stateMachine, "SHNDisconnectingState");
     }
 
     @Override
@@ -88,7 +86,7 @@ public class SHNDisconnectingState extends SHNDeviceState {
         if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
             final String errorMsg = "Not ready for connection to the peripheral.";
 
-            SHNLogger.e(TAG, errorMsg);
+            SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
         }
     }

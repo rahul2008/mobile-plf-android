@@ -8,7 +8,7 @@ package com.philips.platform.catk;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appinfra.utility.AIUtility;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.catk.datamodel.CachedConsentStatus;
 import com.philips.platform.catk.datamodel.ConsentDTO;
 import com.philips.platform.catk.error.ConsentNetworkError;
@@ -19,8 +19,8 @@ import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -50,7 +50,7 @@ public class ConsentInteractor implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
-        if (!consentsClient.getCatkComponent().getUser().isUserSignIn()) {
+        if (consentsClient.getCatkComponent().getUser().getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
             callback.onGetConsentsFailed((new ConsentError("User not logged in", ConsentError.CONSENT_ERROR_USER_NOT_LOGGED_IN)));
             return;
         }

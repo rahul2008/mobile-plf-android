@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 
 import org.json.JSONObject;
@@ -26,7 +26,7 @@ public class LoginSocialProviderTest extends RegistrationApiInstrumentationBase 
         Context context =  getInstrumentation()
                 .getTargetContext();;
 
-        SocialProviderLoginHandler mSocialProviderLoginHandler= new SocialProviderLoginHandler() {
+        SocialLoginProviderHandler mSocialProviderSocialLoginProviderHandler = new SocialLoginProviderHandler() {
             @Override
             public void onLoginSuccess() {
 
@@ -69,7 +69,7 @@ public class LoginSocialProviderTest extends RegistrationApiInstrumentationBase 
 
             }
         };
-        mLoginSocialProvider = new LoginSocialProvider(mSocialProviderLoginHandler,context,mUpdateUserRecordHandler);
+        mLoginSocialProvider = new LoginSocialProvider(mSocialProviderSocialLoginProviderHandler,context,mUpdateUserRecordHandler);
     }
 
 
@@ -77,7 +77,7 @@ public class LoginSocialProviderTest extends RegistrationApiInstrumentationBase 
 
         assertNotNull(mLoginSocialProvider);
 //        mLoginSocialProvider.onSuccess();
-        mLoginSocialProvider.onCode("sample");
+//        mLoginSocialProvider.onCode("sample");
         mLoginSocialProvider.onFlowDownloadFailure();
     }
 }

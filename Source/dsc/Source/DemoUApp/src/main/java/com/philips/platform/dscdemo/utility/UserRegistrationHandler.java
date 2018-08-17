@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -34,7 +35,7 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
 
     @Override
     public boolean isUserLoggedIn() {
-        return new User(context).isUserSignIn();
+        return new User(context).getUserLoginState() == UserLoginState.USER_LOGGED_IN;
     }
 
     @NonNull

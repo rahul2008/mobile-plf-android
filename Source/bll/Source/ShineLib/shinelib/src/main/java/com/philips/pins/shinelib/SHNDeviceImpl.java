@@ -42,7 +42,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 return;
             }
 
-            SHNLogger.i(TAG, String.format("State changed (%s -> %s)", oldState.getClass().getSimpleName(), newState.getClass().getSimpleName()));
+            SHNLogger.i(TAG, String.format("State changed (%s -> %s)", oldState.getLogTag(), newState.getLogTag()));
             if (oldState.getExternalState() != newState.getExternalState()) {
                 sharedResources.notifyStateToListener();
             }

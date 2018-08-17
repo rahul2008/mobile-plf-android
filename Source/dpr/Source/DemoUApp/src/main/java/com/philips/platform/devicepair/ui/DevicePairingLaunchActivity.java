@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.devicepair.ui;
 
 import android.app.Activity;
@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -42,7 +43,7 @@ public class DevicePairingLaunchActivity extends AppCompatActivity implements Us
         setContentView(R.layout.device_pairing_launch_layout);
 
         User user = new User(this);
-        if (user.isUserSignIn()) {
+        if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
             SyncScheduler.getInstance().scheduleSync();
             showFragment();
         } else {
@@ -108,7 +109,7 @@ public class DevicePairingLaunchActivity extends AppCompatActivity implements Us
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.dpr_frame_container);
-        if (currentFrag instanceof PairingFragment || !(new User(this).isUserSignIn())) {
+        if (currentFrag instanceof PairingFragment || (new User(this).getUserLoginState() != UserLoginState.USER_LOGGED_IN)) {
             finish();
         } else {
             super.onBackPressed();

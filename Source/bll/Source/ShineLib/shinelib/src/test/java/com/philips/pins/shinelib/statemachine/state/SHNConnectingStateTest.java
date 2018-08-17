@@ -43,7 +43,7 @@ public class SHNConnectingStateTest {
         initMocks(this);
         mockStatic(SHNTagger.class);
         when(stateMachineMock.getSharedResources()).thenReturn(deviceResourcesMock);
-        state = new SHNConnectingState(stateMachineMock, 1000) {};
+        state = new SHNConnectingState(stateMachineMock, "SHNGattConnectingStateTest", 1000) {};
     }
 
     @Test

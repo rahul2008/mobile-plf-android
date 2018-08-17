@@ -221,6 +221,20 @@ public class RegistrationConfiguration {
         return false;
     }
 
+    /**
+     * Status of Skipping HSDP log-in
+     *
+     * @return boolean
+     */
+    public boolean isHSDPSkipLoginConfigurationAvailable() {
+        Object obj = appConfiguration.getDelayedHsdpLoginStatus();
+        if (obj != null) {
+            RLog.i("RegistrationConfiguration", "isHSDPSkipLoginConfigurationAvailable : " + Boolean.parseBoolean((String) obj));
+            return Boolean.parseBoolean((String) obj);
+        }
+        RLog.i("RegistrationConfiguration", "isHSDPSkipLoginConfigurationAvailable : false");
+        return false;
+    }
 
     /**
      * Get minimium age for country
@@ -244,31 +258,6 @@ public class RegistrationConfiguration {
         }
         return 0;
     }
-
-
-    /*    *//**
-     * Get HSDP information for specified configuration
-     *
-     * @return HSDPInfo Object
-     *//*
-    public HSDPInfo getHSDPInfo() {
-
-        String sharedId = hsdpConfiguration.getHsdpSharedId();
-
-        String secreteId = hsdpConfiguration.getHsdpSecretId();
-
-        String baseUrl = hsdpConfiguration.getHsdpBaseUrl();
-
-        String appName = hsdpConfiguration.getHsdpAppName();
-
-        RLog.d(TAG, "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
-
-        if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
-            RLog.e(TAG, "getHSDPInfo returning NULL");
-            return null;
-        }
-        return new HSDPInfo(sharedId, secreteId, baseUrl, appName);
-    }*/
 
     /**
      * Get provoders

@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
-String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %buildType=TICS" : ""
+String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %buildType=TICS\nH H(22-23) * * * %buildType=HPFortify" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def nodes = '27.0.2 && device'
@@ -16,7 +16,7 @@ pipeline {
         }
     }
     parameters {
-        choice(choices: 'Normal\nPSRA\nLeakCanary\nTICS', description: 'What type of build to build?', name: 'buildType')
+        choice(choices: 'Normal\nPSRA\nLeakCanary\nTICS\nHPFortify', description: 'What type of build to build?', name: 'buildType')
     }
     triggers {
         parameterizedCron(param_string_cron)
@@ -29,19 +29,35 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '24'))
     }
     stages {
-        stage('Build+test') {
+        stage('Initialize') {
             steps {
                 echo "Node labels: ${nodes}"
                 sh 'printenv'
+                InitialiseBuild()
+            }
+        }
 
+        stage('Build+test') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                }
+            }
+            steps {
                 timeout(time: 1, unit: 'HOURS') {
-                    InitialiseBuild()
                     BuildAndUnitTest()
                 }
             }
         }
 
         stage('Publish tests') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                }
+            }
             steps {
                 PublishUnitTestsResults()
             }
@@ -89,7 +105,11 @@ pipeline {
 
         stage('Publish to artifactory') {
             when {
-                anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                    anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
+                }
             }
             steps {
                 sh '''#!/bin/bash -l
@@ -113,10 +133,22 @@ pipeline {
             }
             steps {
                 sh '''#!/bin/bash -le
+                    ./gradlew :referenceApp:printArtifactoryApkPath
                     apkname=`xargs < apkname.txt`
                     PSRA_APK_NAME=${apkname/.apk/._PSRA.apk}
                     curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT ${PSRA_APK_NAME} -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
                 '''
+            }
+        }
+
+        stage('HPFortify') {
+            when {
+                allOf {
+                    expression { return params.buildType == 'HPFortify' }
+                }
+            }
+            steps {
+                BuildHPFortify()
             }
         }
 
@@ -194,6 +226,17 @@ def InitialiseBuild() {
     committerName = sh (script: "git show -s --format='%an' HEAD", returnStdout: true).trim()
     currentBuild.description = "Submitter: " + committerName + ";Node: ${env.NODE_NAME}"
     echo currentBuild.description
+
+    if (params.buildType == 'TICS') {
+        currentBuild.displayName = "${env.BUILD_NUMBER}-TICS"
+    }
+    if (params.buildType == 'PSRA') {
+        currentBuild.displayName = "${env.BUILD_NUMBER}-PSRA"
+    }
+    if (params.buildType == 'HPFortify') {
+        currentBuild.displayName = "${env.BUILD_NUMBER}-HPFortify"
+    }
+    echo currentBuild.displayName
 }
 
 def BuildAndUnitTest() {
@@ -275,6 +318,20 @@ def BuildLint() {
          :pushnotification:lintRelease \
          :themesettings:lintRelease
         #prx:lint and rap:lintRelease are not working and we are keeping it as known issues
+    '''
+}
+
+def BuildHPFortify() {
+    sh '''#!/bin/bash -l
+        set -e
+        chmod -R 755 .
+        ./gradlew --refresh-dependencies
+        echo "*** sourceanalyzer -b 001 -source 1.8 ./gradlew --full-stacktrace assembleRelease ***"
+        sourceanalyzer -b 001 -source 1.8 ./gradlew --full-stacktrace assembleRelease
+        echo "*** sourceanalyzer -b 001 -scan -f results.fpr ***"
+        sourceanalyzer -b 001 -scan -f results.fpr
+        echo "*** fortifyclient -url https://fortify.philips.com/ssc ***"
+        fortifyclient -url https://fortify.philips.com/ssc -authtoken 59f58b28-62a3-4770-87dd-e0cddb3c7bba uploadFPR -file results.fpr -project CDPP_CoCo -version plf_android
     '''
 }
 

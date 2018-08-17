@@ -219,7 +219,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        //applyParams(config, usrForgotPasswordBaseLayout, width);
     }
 
     private void handleUiState() {
@@ -227,7 +226,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
             mRegError.hideError();
             hideNotificationBarView();
         } else {
-//            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             showNotificationBarOnNetworkNotAvailable();
             scrollViewAutomatically(mRegError, layoutScrollView);
         }
@@ -275,7 +273,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
         } else {
             hideForgotPasswordSpinner();
-//            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             showNotificationBarOnNetworkNotAvailable();
         }
     }
@@ -298,12 +295,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         showLogoutAlert();
         hideForgotPasswordSpinner();
-//        showDialog(context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Title),
-//                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Message_Line1),
-//                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Message_Line2),
-//                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Button_Title),
-//                getRegistrationFragment().getParentActivity(), mContinueBtnClick);
-
         mRegError.hideError();
     }
 
@@ -337,16 +328,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     public void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.d(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
         hideForgotPasswordSpinner();
-//        if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT ||
-//                userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE) {
-////            mRegError.setError(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-//            updateErrorNotification(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-//            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
-//            usr_forgotpassword_inputId_inputValidation.showError();
-//            return;
-//        }
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
-            //forgotPasswordErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
             if (RegistrationHelper.getInstance().isMobileFlow())
                 forgotPasswordErrorMessage(getString(R.string.USR_DLS_Forgot_Password_Body_With_Phone_No));
             else
@@ -364,15 +346,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
             forgotPasswordErrorMessage(userRegistrationFailureInfo.getErrorDescription());
             sendEmailOrSMSButton.setEnabled(false);
         }
-//        scrollViewAutomatically(userIdEditText, layoutScrollView);
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
     }
-
-//    private View.OnClickListener mContinueBtnClick = view -> {
-//        trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
-//        getFragmentManager().popBackStack();
-//        RegAlertDialog.dismissDialog();
-//    };
 
     @Override
     protected void handleOrientation(View view) {
@@ -403,10 +378,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public void onErrorResponse(VolleyError error) {
         hideForgotPasswordSpinner();
-
-//        System.out.println("errornull "+ error);
-//        System.out.println("errornull"+ error.networkResponse);
-//        forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.NETWOK, error.networkResponse.statusCode));
         final String message = error.getMessage();
         if (message == null) {
             usr_forgotpassword_inputId_inputValidation.setErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, RegConstants.UNKNOWN_ERROR_ID));

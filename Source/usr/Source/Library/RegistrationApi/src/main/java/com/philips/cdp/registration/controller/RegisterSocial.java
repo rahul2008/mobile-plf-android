@@ -14,7 +14,6 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
-import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -22,36 +21,37 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
+import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInResultHandler,
-        Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
+public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInResultHandler,
+        JumpFlowDownloadStatusListener {
 
     private String TAG = RegisterSocial.class.getSimpleName();
-    private SocialProviderLoginHandler mSocialProviderLoginHandler;
+    private SocialLoginProviderHandler mSocialLoginProviderHandler;
 
     private Context mContext;
 
+    private HSDPLoginService hsdpLoginService;
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
-    public RegisterSocial(SocialProviderLoginHandler socialProviderLoginHandler,
+    public RegisterSocial(SocialLoginProviderHandler socialLoginProviderHandler,
                           Context context, UpdateUserRecordHandler updateUserRecordHandler) {
-        mSocialProviderLoginHandler = socialProviderLoginHandler;
+        mSocialLoginProviderHandler = socialLoginProviderHandler;
         mContext = context;
         mUpdateUserRecordHandler = updateUserRecordHandler;
+        hsdpLoginService = new HSDPLoginService(mContext);
     }
 
     public void onSuccess() {
@@ -60,45 +60,16 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
         User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordRegister();
 
-        if (RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
+        if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
             RLog.d(TAG, "onSuccess : if : is called");
-            HsdpUser hsdpUser = new HsdpUser(mContext);
-            String emailOrMobile;
-            if (FieldsValidator.isValidEmail(user.getEmail())) {
-                emailOrMobile = user.getEmail();
-                RLog.d(TAG, "onSuccess : if : if : is valid email");
-            } else {
-                emailOrMobile = user.getMobile();
-                RLog.d(TAG, "onSuccess : if : else : is not valid email");
-            }
-            hsdpUser.login(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
-
-                @Override
-                public void onLoginSuccess() {
-                    ThreadUtils.postInMainThread(mContext, () ->
-                            mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess());
-
-                    RLog.d(TAG, "onSuccess : if : SocialLoginHandler : onLoginSuccess : is called");
-                }
-
-                @Override
-                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                    AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                    ThreadUtils.postInMainThread(mContext, () ->
-                            mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-                    RLog.d(TAG, "onSuccess : if : SocialLoginHandler : onLoginFailedWithError : is called");
-                }
-            });
+            String emailOrMobile = hsdpLoginService.getUserEmailOrMobile(user);
+            hsdpLoginService.hsdpLogin(user.getAccessToken(), emailOrMobile, mSocialLoginProviderHandler);
         } else {
             ThreadUtils.postInMainThread(mContext, () ->
-                    mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess());
+                    mSocialLoginProviderHandler.onContinueSocialProviderLoginSuccess());
 
             RLog.d(TAG, "onSuccess : else : is called");
         }
-    }
-
-    public void onCode(String code) {
-        RLog.d(TAG, "onCode : is called");
     }
 
     public void onFailure(SignInError error) {
@@ -107,7 +78,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
         userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         ThreadUtils.postInMainThread(mContext, () ->
-                mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
+                mSocialLoginProviderHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
     }
 
     private JSONObject mUser;
@@ -144,14 +115,14 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
     @Override
     public void onFlowDownloadFailure() {
         RLog.d(TAG, "onFlowDownloadFailure : is called");
-        if (mSocialProviderLoginHandler != null) {
+        if (mSocialLoginProviderHandler != null) {
             RLog.d(TAG, "onFlowDownloadFailure : mSocialProviderLoginHandler is not null");
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));
+            userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, ErrorCodes.JANRAIN_FLOW_DOWNLOAD_ERROR));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_JAN_RAIN_SERVER_CONNECTION_FAILED);
-            userRegistrationFailureInfo.setErrorCode(RegConstants.JANRAIN_FLOW_DOWNLOAD_ERROR);
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.JANRAIN_FLOW_DOWNLOAD_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->
-                    mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                    mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
@@ -181,7 +152,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
 
 
     private void completeSocialProviderLogin(DIUserProfile diUserProfile,
-                                             SocialProviderLoginHandler socialProviderLoginHandler, String socialRegistrationToken) {
+                                             SocialLoginProviderHandler socialLoginProviderHandler, String socialRegistrationToken) {
         RLog.d(TAG, "completeSocialProviderLogin : is called");
         String familyName = "";
         if (diUserProfile != null) {
@@ -203,8 +174,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
             userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.NETWORK_ERROR);
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.NETWORK_ERROR);
-            socialProviderLoginHandler
-                    .onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
+            socialLoginProviderHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
             AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         }
     }
@@ -221,28 +191,28 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
     public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.d(TAG, "onLoginFailedWithError : is called");
         ThreadUtils.postInMainThread(mContext, () ->
-                mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
     }
 
     @Override
     public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
         RLog.d(TAG, "onLoginFailedWithTwoStepError : is called");
         ThreadUtils.postInMainThread(mContext, () ->
-                mSocialProviderLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord, socialRegistrationToken));
+                mSocialLoginProviderHandler.onLoginFailedWithTwoStepError(prefilledRecord, socialRegistrationToken));
     }
 
     @Override
     public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
         RLog.d(TAG, "onLoginFailedWithMergeFlowError : is called");
         ThreadUtils.postInMainThread(mContext, () ->
-                mSocialProviderLoginHandler.onLoginFailedWithMergeFlowError(mergeToken, existingProvider, conflictingIdentityProvider, conflictingIdpNameLocalized, existingIdpNameLocalized, emailId));
+                mSocialLoginProviderHandler.onLoginFailedWithMergeFlowError(mergeToken, existingProvider, conflictingIdentityProvider, conflictingIdpNameLocalized, existingIdpNameLocalized, emailId));
     }
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
         RLog.d(TAG, "onContinueSocialProviderLoginSuccess : is called");
         ThreadUtils.postInMainThread(mContext, () ->
-                mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess());
+                mSocialLoginProviderHandler.onContinueSocialProviderLoginSuccess());
     }
 
     @Override
@@ -250,7 +220,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
         RLog.d(TAG, "onContinueSocialProviderLoginFailure : is called");
         AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         ThreadUtils.postInMainThread(mContext, () ->
-                mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
+                mSocialLoginProviderHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
     }
 
 
@@ -265,25 +235,10 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
         }
         RLog.d(TAG, "handleOnLoginSuccess : is isEmailVerified" + isEmailVerified);
 
-        if (RegistrationConfiguration.getInstance().isHsdpFlow() && isEmailVerified) {
+        if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow() && isEmailVerified) {
             RLog.d(TAG, "handleOnLoginSuccess : is hsdpflow  and email verified");
-            HsdpUser hsdpUser = new HsdpUser(mContext);
             try {
-                hsdpUser.login(captured.getString("email"), captured.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
-
-                    @Override
-                    public void onLoginSuccess() {
-                        ThreadUtils.postInMainThread(mContext, () ->
-                                mSocialProviderLoginHandler.onLoginSuccess());
-                    }
-
-                    @Override
-                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                        ThreadUtils.postInMainThread(mContext, () ->
-                                mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-                    }
-                });
+                hsdpLoginService.hsdpLogin(captured.getAccessToken(), captured.getString("email"), mSocialLoginProviderHandler);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -291,7 +246,7 @@ public class RegisterSocial implements SocialProviderLoginHandler, Jump.SignInRe
         } else {
             RLog.d(TAG, "handleOnLoginSuccess : either of isHsdpflow or isEmailVerified is false");
             ThreadUtils.postInMainThread(mContext, () ->
-                    mSocialProviderLoginHandler.onLoginSuccess());
+                    mSocialLoginProviderHandler.onLoginSuccess());
         }
     }
 }

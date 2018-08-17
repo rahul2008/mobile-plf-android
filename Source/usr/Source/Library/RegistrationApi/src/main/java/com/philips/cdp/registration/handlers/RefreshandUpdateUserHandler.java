@@ -72,7 +72,8 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(mContext);
                 RLog.e(TAG, "refreshUpdateUser : onSuccess : " + response.toString());
-                if (!RegistrationConfiguration.getInstance().isHsdpFlow()) {
+                final RegistrationConfiguration registrationConfiguration = RegistrationConfiguration.getInstance();
+                if (!registrationConfiguration.isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
                     RLog.d(TAG, "refreshUpdateUser : is not HSDP flow  ");
                     return;
@@ -83,7 +84,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                     HsdpUserRecordV2 hsdpUserRecordV2 = hsdpUser.getHsdpUserRecord();
                     if (hsdpUserRecordV2 == null) {
                         RLog.d(TAG, "refreshUpdateUser : hsdpUserRecordV2 is NULL  ");
-                        LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
+                        LoginTraditional loginTraditional = new LoginTraditional(new LoginHandler() {
                             @Override
                             public void onLoginSuccess() {
                                 RLog.d(TAG, "refreshUpdateUser : onLoginSuccess  ");
@@ -96,7 +97,13 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                                 handler.onRefreshUserFailed(userRegistrationFailureInfo.getErrorCode());
                             }
                         }, mContext, mUpdateUserRecordHandler, null, null);
-                        loginTraditional.loginIntoHsdp();
+                        RLog.d(TAG, "onSuccess : refreshUpdateUser onSuccess isHSDPSkipLoginConfigurationAvailable :" + registrationConfiguration.isHSDPSkipLoginConfigurationAvailable());
+                        RLog.d(TAG, "onSuccess : refreshUpdateUser onSuccess isHsdpFlow" + registrationConfiguration.isHsdpFlow());
+                        if (!registrationConfiguration.isHSDPSkipLoginConfigurationAvailable() && registrationConfiguration.isHsdpFlow()) {
+                            loginTraditional.loginIntoHsdp();
+                        } else {
+                            handler.onRefreshUserSuccess();
+                        }
                     } else {
                         RLog.d(TAG, "refreshUpdateUser : hsdpUserRecordV2 is not NULL  ");
                         handler.onRefreshUserSuccess();

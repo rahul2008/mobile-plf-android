@@ -107,7 +107,7 @@ public class URInterface implements UappInterface {
             registrationFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
 
-            if (null != uappLaunchInput && null != ((URLaunchInput) uappLaunchInput).
+            if (null != ((URLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener()) {
                 RegistrationConfiguration.getInstance().setUserRegistrationUIEventListener
                         (((URLaunchInput) uappLaunchInput).

@@ -8,8 +8,6 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import com.philips.cdp.registration.R;
-
 public class RegConstants {
 
     public static final String TRADITIONAL_REGISTRATION_FIRST_NAME = "traditionalRegistration_firstName";
@@ -108,31 +106,7 @@ public class RegConstants {
 
     public static final String SOCIAL_MERGE_EMAIL = "social_merge_email";
 
-
-
-    public static final int TRADITIONAL_LOGIN_FAILED_SERVER_ERROR = 7001;
-
-    public static final int SOCIAL_LOGIN_FAILED_SERVER_ERROR = 7002;
-
-    public static final int REGISTER_TRADITIONAL_FAILED_SERVER_ERROR = 7003;
-
-    public static final int FORGOT_PASSWORD_FAILED_SERVER_ERROR = 7004;
-
-    public static final int RESEND_MAIL_FAILED_SERVER_ERROR = 7005;
-
-    public static final int MERGE_TRADITIONAL_FAILED_SERVER_ERROR = 7006;
-
-    public static final int REGISTER_SOCIAL_FAILED_SERVER_ERROR = 7007;
-
-    public static final int UPDATE_MARKETING_EMAIL_FAILED_SERVER_ERROR = 7008;
-
-    public static final int REFRESH_USER_FAILED_SERVER_ERROR = 7009;
-
     public static final int HSDP_ACTIVATE_ACCOUNT_FAILED = 10000;
-
-    public static final int HSDP_CONFIGURATION_ERROR = 7010;
-
-    public static final int JANRAIN_FLOW_DOWNLOAD_ERROR = 2000;
 
     public static final String IS_SOCIAL_PROVIDER = "IS_SOCIAL_PROVIDER";
 
@@ -202,6 +176,6 @@ public class RegConstants {
 
     public static final String KEY_BUNDLE_COUNTRY_NAME = "KEY_BUNDLE_COUNTRY_NAME";
 
-    public static final int CAMPAIGN_ID_UNAVAILABLE= 412;
+    public static final int CAMPAIGN_ID_UNAVAILABLE = 412;
     public static final int UNKNOWN_ERROR_ID = -500;
 }
