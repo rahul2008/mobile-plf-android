@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Build;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
 import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.aikm.AIKManager;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -444,31 +445,13 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
             ai.getTagging().registerClickStreamHandler(ai.getConsentManager());
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+            new Thread(() -> {
 
-                    if (abtesting != null) {
-                        ai.setAbTesting(abtesting);
-                    }
+                if (abtesting != null) {
+                    ai.setAbTesting(abtesting);
+                } else
+                    ai.setAbTesting(new ABTestClientManager());
 
-                   /* final Object abTestConfig = ABTestClientManager.getAbtestConfig(appConfigurationManager, ai);
-                    if (abTestConfig != null) {
-                        ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
-                    } else {
-                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                                AppInfraLogEventID.AI_APPINFRA, "Please add the Abtest Config Values " +
-                                        "to use Abtesting");
-                    }
-                    ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APPINFRA,
-                            "Device name:" + Build.MANUFACTURER + " " + Build.MODEL + " " + " OS version:" + Build.VERSION.RELEASE);
-
-                    if (ai.getAppIdentity() != null) {
-                        initializeLogs(ai);
-                    }*/
-
-//                    appConfigurationManager.migrateDynamicData();
-                }
             }).start();
 
             new Thread(new Runnable() {
