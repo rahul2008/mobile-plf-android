@@ -36,13 +36,14 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
-import static com.philips.pins.shinelib.SHNDevice.State.*;
+import static com.philips.pins.shinelib.SHNDevice.State.Connected;
+import static com.philips.pins.shinelib.SHNDevice.State.Connecting;
+import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
+import static com.philips.pins.shinelib.SHNDevice.State.Disconnecting;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -1267,9 +1268,8 @@ public class SHNDeviceImplTest {
     public void whenBluetoothIsSwitchedOffDuringReconnectCycleThenFailedToConnectIsReported() {
         shnDevice.connect(100L);
         reset(mockedSHNDeviceListener);
-        when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
 
-        shnDevice.onStateUpdated(mockedSHNCentral);
+        shnDevice.onStateUpdated(mockedSHNCentral, SHNCentralStateNotReady);
 
         verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
         verify(mockedSHNDeviceListener).onStateUpdated(shnDevice, Disconnecting);

@@ -59,8 +59,8 @@ public class SHNGattConnectingState extends SHNConnectingState {
     }
 
     @Override
-    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-        if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
+    public void onStateUpdated(@NonNull SHNCentral.State state) {
+        if (state == SHNCentralStateNotReady) {
             shouldRetryConnecting = false;
             handleGattDisconnectEvent();
         }

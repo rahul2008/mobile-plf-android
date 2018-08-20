@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothGatt;
@@ -271,9 +276,8 @@ public class SHNGattConnectingStateTest {
 
     @Test
     public void whenShineCentralBecomesNotReady_thenItWillGoToADisconnectingState_andReportAFailure() {
-        when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
 
-        gattConnectingState.onStateUpdated(mockedSHNCentral);
+        gattConnectingState.onStateUpdated(SHNCentralStateNotReady);
 
         verify(stateMachine).setState(any(SHNDisconnectingState.class));
         verify(sharedResources).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
