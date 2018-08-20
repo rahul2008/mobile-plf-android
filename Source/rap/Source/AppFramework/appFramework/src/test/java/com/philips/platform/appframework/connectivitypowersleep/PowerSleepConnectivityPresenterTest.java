@@ -25,6 +25,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.trackers.UnsupportedMomentTypeException;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmMomentType;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -51,6 +52,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -282,6 +284,14 @@ public class PowerSleepConnectivityPresenterTest {
         momentDBFetchRequestListner.onFetchFailure(new Exception("error msg"));
         verify(view).showToast("Error while fetching data from power sleep device. Error::error msg");
     }
+
+    @Test
+    public void fetchLatestSessionInfoUnsupportedMomentTypeTest() {
+        doThrow(new UnsupportedMomentTypeException()).when(dataServicesManager).fetchLatestMomentByType(any(String.class), any());
+        powerSleepConnectivityPresenter.fetchLatestSessionInfo();
+        verify(view).showToast("sleepSession is not configured as a supported moment type");
+    }
+
     @After
     public void tearDown() {
         view = null;
