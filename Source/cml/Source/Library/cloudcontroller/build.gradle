@@ -41,8 +41,6 @@ dependencies {
 
     compileOnly deps.support.annotations
 
-    def suffix = objcdp.getVersionSuffix()
-
     if (directdependencies) {
         implementation project(':cloudcontroller-api')
     } else {
