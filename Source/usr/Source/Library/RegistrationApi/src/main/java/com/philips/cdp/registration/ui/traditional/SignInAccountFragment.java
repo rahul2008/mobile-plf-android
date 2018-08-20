@@ -96,7 +96,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         EventListener, ResendVerificationEmailHandler,
         NetworkStateListener {
 
-    private static final String TAG = SignInAccountFragment.class.getSimpleName();
+    private static final String TAG = "SignInAccountFragment";
     private static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
     @Inject
@@ -166,6 +166,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        RLog.i(TAG,"Screen name is "+ TAG);
+
 
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
@@ -222,15 +224,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.usr_loginScreen_login_button) {
-            RLog.d(TAG, "onClick :usr_loginScreen_login_button ");
+            RLog.i(TAG, TAG+".login button clicked");
             hideValidations();
             uiEnableState(false);
             mBtnSignInAccount.showProgressIndicator();
             signIn();
         }
 
-        RLog.i(TAG, "onClick :Dismissing Alert Dialog ");
         if (alertDialogFragment != null) {
+            RLog.i(TAG, "onClick :Dismissing Alert Dialog ");
             uiEnableState(true);
             alertDialogFragment.dismiss();
         } else {

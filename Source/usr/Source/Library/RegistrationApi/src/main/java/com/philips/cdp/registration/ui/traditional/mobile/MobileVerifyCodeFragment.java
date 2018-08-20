@@ -78,7 +78,7 @@ import static com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver.SMS_PER
 public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener {
 
-    public static String TAG = MobileVerifyCodeFragment.class.getSimpleName();
+    public static String TAG = "MobileVerifyCodeFragment";
 
     @Inject
     NetworkUtility networkUtility;
@@ -121,6 +121,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        RLog.i(TAG,"Screen name is "+ TAG);
+
 
         mobileVerifyCodePresenter = new MobileVerifyCodePresenter(this);
         mSMSBroadCastReceiver = new SMSBroadCastReceiver(this);
@@ -237,6 +239,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @OnClick(R2.id.btn_reg_Verify)
     public void verifyClicked() {
+        RLog.i(TAG,TAG + ".verifyClicked");
         verifyButton.showProgressIndicator();
         smsNotReceived.setEnabled(false);
         verificationCodeValidationEditText.setEnabled(false);
@@ -279,6 +282,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @OnClick(R2.id.btn_reg_resend_code)
     public void resendButtonClicked() {
+        RLog.i(TAG,TAG + ".resendButtonClicked");
         disableVerifyButton();
         verifyButton.hideProgressIndicator();
         getRegistrationFragment().addFragment(new MobileVerifyResendCodeFragment());

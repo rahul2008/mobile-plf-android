@@ -45,7 +45,7 @@ import butterknife.ButterKnife;
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
         View.OnClickListener, MarketingAccountContract {
 
-    private static final String TAG = MarketingAccountFragment.class.getSimpleName();
+    private static final String TAG = "MarketingAccountFragment";
     @BindView(R2.id.usr_marketingScreen_countMe_button)
     ProgressBarButton countMeButton;
 
@@ -83,7 +83,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RLog.d(TAG, "onCreateView : is called");
+        RLog.i(TAG,"Screen name is "+ TAG);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
@@ -192,11 +192,11 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         if (v.getId() == R.id.usr_marketingScreen_countMe_button) {
             showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, true);
-            RLog.d(TAG, "updateMarketingEmail : is called with update true");
+            RLog.i(TAG, TAG + "updateMarketingEmail : update clicked");
         } else if (v.getId() == R.id.usr_marketingScreen_maybeLater_button) {
             showProgressDialog();
             marketingAccountPresenter.updateMarketingEmail(mUser, false);
-            RLog.d(TAG, "updateMarketingEmail : is called with update false");
+            RLog.i(TAG, TAG + "updateMarketingEmail : maybelater clicked");
         }
     }
 

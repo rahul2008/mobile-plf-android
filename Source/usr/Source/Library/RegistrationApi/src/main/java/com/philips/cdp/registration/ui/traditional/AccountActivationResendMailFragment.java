@@ -75,7 +75,7 @@ import io.reactivex.schedulers.Schedulers;
 public class AccountActivationResendMailFragment extends RegistrationBaseFragment implements
         RefreshUserHandler, AccountActivationResendMailContract, CounterListener {
 
-    private String TAG = AccountActivationResendMailFragment.class.getSimpleName();
+    private String TAG = "AccountActivationResendMailFragment";
 
     @Inject
     UpdateUserProfile updateUserProfile;
@@ -143,7 +143,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
+        RLog.i(TAG,"Screen name is "+ TAG);
         registerInlineNotificationListener(this);
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         accountActivationResendMailPresenter = new AccountActivationResendMailPresenter(this, user, registrationHelper);
@@ -213,14 +213,15 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @OnClick(R2.id.usr_activationresend_return_button)
     public void returnVerifyScreen() {
-        RLog.d(RLog.ONCLICK, "AccountActivationFragment : Activate Account");
+        RLog.i(TAG, TAG+".returnVerifyScreen clicked");
         hideNotificationBar();
         getRegistrationFragment().onBackPressed();
     }
 
     @OnClick(R2.id.usr_activationresend_emailResend_button)
     public void resendEmail() {
-        RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
+
+        RLog.i(TAG, TAG+".resendEmail clicked");
         hideNotificationBar();
         addEmailClicked(emailUser);
 

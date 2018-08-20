@@ -47,6 +47,8 @@ import butterknife.OnClick;
 
 public class MergeAccountFragment extends RegistrationBaseFragment implements MergeAccountContract {
 
+    private String TAG = "MergeAccountFragment";
+
     @Inject
     NetworkUtility networkUtility;
 
@@ -67,7 +69,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @BindView(R2.id.usr_mergeScreen_password_inputLayout)
     InputValidationLayout mEtPassword;
-
 
     @BindView(R2.id.usr_mergeScreen_password_textField)
     ValidationEditText passwordValidationEditText;
@@ -92,6 +93,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        RLog.i(TAG,"Screen name is"+ TAG);
         View view = inflater.inflate(R.layout.reg_fragment_social_merge_account, container, false);
         registerInlineNotificationListener(this);
         ButterKnife.bind(this, view);
@@ -147,6 +149,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @OnClick(R2.id.usr_mergeScreen_merge_button)
     public void mergeButtonClick() {
+        RLog.i(TAG,TAG + ".mergeButton click");
         if (mEtPassword.hasFocus()) {
             mEtPassword.clearFocus();
         }

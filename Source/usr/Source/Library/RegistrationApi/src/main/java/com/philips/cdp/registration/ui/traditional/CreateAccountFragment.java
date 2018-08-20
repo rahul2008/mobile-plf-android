@@ -65,6 +65,8 @@ import butterknife.OnClick;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements CreateAccountContract {
 
+    private String TAG = "CreateAccountFragment";
+
     @Inject
     NetworkUtility networkUtility;
 
@@ -204,6 +206,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        RLog.i(TAG,"Screen name is "+ TAG);
+
 
         View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
         registerInlineNotificationListener(this);
@@ -577,6 +581,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @OnClick(R2.id.usr_createscreen_switchtologin_button)
     public void setSwitchToLogin() {
+        RLog.i(TAG,TAG+".setSwitchToLogin");
         getRegistrationFragment().addFragment(new SignInAccountFragment());
     }
 

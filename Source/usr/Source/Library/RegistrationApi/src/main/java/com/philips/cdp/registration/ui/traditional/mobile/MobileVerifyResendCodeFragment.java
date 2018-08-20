@@ -77,7 +77,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNI
 public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener {
 
-    private String TAG = MobileVerifyResendCodeFragment.class.getSimpleName();
+    private String TAG = "MobileVerifyResendCodeFragment";
 
     @BindView(R2.id.btn_reg_resend_update)
     ProgressBarButton resendSMSButton;
@@ -123,6 +123,8 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
+
+        RLog.i(TAG,"Screen name is "+ TAG);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         registerInlineNotificationListener(this);
         mobileVerifyResendCodePresenter = new MobileVerifyResendCodePresenter(this);
@@ -270,7 +272,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         getRegistrationFragment().hideKeyBoard();
         errorMessage.hideError();
         hidePopup();
-        RLog.d(TAG, "verifyClicked ");
+        RLog.i(TAG,TAG + ".verifyClicked");
         if (phoneNumberEditText.getText().toString().equals(user.getMobile())) {
             mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
             disableResendButton();
@@ -289,6 +291,8 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
+        RLog.i(TAG,TAG + ".thanksButton clicked");
+
         hidePopup();
         getRegistrationFragment().onBackPressed();
     }

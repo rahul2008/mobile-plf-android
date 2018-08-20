@@ -60,6 +60,8 @@ import butterknife.OnClick;
 public class AlmostDoneFragment extends RegistrationBaseFragment implements AlmostDoneContract,
         OnUpdateListener {
 
+    private static String TAG = "AlmostDoneFragment";
+
     @BindView(R2.id.usr_almostDoneScreen_termsAndConditions_checkBox)
     CheckBox acceptTermsCheck;
 
@@ -90,7 +92,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @BindView(R2.id.usr_almostDoneScreen_description_label)
     Label almostDoneDescriptionLabel;
 
-
     @BindView(R2.id.usr_almostDoneScreen_rootContainer_linearLayout)
     LinearLayout usr_almostDoneScreen_rootContainer_linearLayout;
 
@@ -105,7 +106,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     boolean isValidEmail;
 
-    private static String TAG = AlmostDoneFragment.class.getSimpleName();
 
 
     public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
@@ -147,7 +147,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         initializeUI(view);
-        RLog.d(TAG, "onCreateView : is called");
+        RLog.i(TAG,"Screen name is"+ TAG);
         return view;
     }
 
@@ -397,7 +397,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @OnClick(R2.id.usr_almostDoneScreen_continue_button)
     public void continueButtonClicked() {
-        RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
+        RLog.i(TAG,TAG+".continueButton Clicked ");
+
         loginIdEditText.clearFocus();
 
         if (marketingOptCheck.getVisibility() == View.VISIBLE && isMarketingOptChecked()) {

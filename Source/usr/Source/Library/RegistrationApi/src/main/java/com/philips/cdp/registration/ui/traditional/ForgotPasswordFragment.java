@@ -60,7 +60,7 @@ import butterknife.OnClick;
 public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         ForgotPasswordContract {
 
-    private static final String TAG = ForgotPasswordFragment.class.getSimpleName();
+    private static final String TAG = "ForgotPasswordFragment";
 
     @Inject
     NetworkUtility networkUtility;
@@ -157,6 +157,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        RLog.i(TAG,"Screen name is "+ TAG);
+
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_forgot_password, container, false);
 
@@ -250,7 +252,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @OnClick(R2.id.usr_forgotpassword_sendRequest_button)
     public void sendRequestButton() {
-        RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
+        RLog.i(TAG, TAG+".forgotpassword sendRequest  clicked");
         showForgotPasswordSpinner();
         getRegistrationFragment().hideKeyBoard();
         resetPassword();

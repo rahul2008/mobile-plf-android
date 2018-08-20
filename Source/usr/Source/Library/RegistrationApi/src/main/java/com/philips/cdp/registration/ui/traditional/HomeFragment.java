@@ -73,7 +73,7 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER
 
 public class HomeFragment extends RegistrationBaseFragment implements NetworkStateListener, HomeContract {
 
-    private static final String TAG = HomeFragment.class.getSimpleName();
+    private static final String TAG = "HomeFragment";
 
     @BindView(R2.id.usr_startScreen_createAccount_Button)
     Button mBtnCreateAccount;
@@ -138,9 +138,10 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        RLog.i(TAG,"Screen name is "+ TAG);
+
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         registerInlineNotificationListener(this);
-        RLog.d(TAG, "OnCreateView : is Called");
         mURFaceBookUtility = new URFaceBookUtility(this);
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
         homePresenter = new HomePresenter(this, mCallbackManager);
@@ -601,6 +602,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
 
     @OnClick(R2.id.usr_startScreen_createAccount_Button)
     void createAccountButtonClick() {
+        RLog.i(TAG,TAG+".createAccountButton Clicked");
         if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
         launchCreateAccountFragment();
     }
@@ -608,12 +610,14 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
 
     @OnClick(R2.id.usr_startScreen_Login_Button)
     void myPhilipsButtonClick() {
+        RLog.i(TAG,TAG+".myPhilipsButton Clicked ");
         if (mRegError.isShown()) hideNotificationBarView();// mRegError.hideError();
         launchSignInFragment();
     }
 
     @OnClick(R2.id.usr_StartScreen_Skip_Button)
     void skipButtonClick() {
+        RLog.i(TAG,TAG+".skipButton clicked");
         if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
 
         if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
