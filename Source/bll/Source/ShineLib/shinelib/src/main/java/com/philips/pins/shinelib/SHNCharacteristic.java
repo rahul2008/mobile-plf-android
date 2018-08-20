@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class SHNCharacteristic {
-    private static final String TAG = SHNCharacteristic.class.getSimpleName();
+    private static final String TAG = "SHNCharacteristic";
     private static final boolean ENABLE_DEBUG_LOGGING = false;
     private static final UUID CLIENT_CHARACTERISTIC_CONFIG_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
     private SHNCharacteristicInfo characteristicInfo;

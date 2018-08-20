@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.errors.NotificationMessage;
+import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class URNotification {
         switch (mNotificationType) {
 
             case INLINE:
+                RLog.d("URNotification", "Notifying Inline message with :" + notificationMessage.getMessage());
                 notificationInterface.notificationInlineMsg(notificationMessage.getMessage());
                 break;
 

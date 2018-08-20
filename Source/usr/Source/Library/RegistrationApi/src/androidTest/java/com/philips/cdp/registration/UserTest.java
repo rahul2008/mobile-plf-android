@@ -553,9 +553,9 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 //                User user = new User(context);
 //                Class userClass = user.getClass();
 //                try {
-//                        Method loginMethod = userClass.getMethod("loginUsingTraditional", new Class[]{String.class,String.class, TraditionalLoginHandler.class});
+//                        Method loginMethod = userClass.getMethod("loginUsingTraditional", new Class[]{String.class,String.class, LoginHandler.class});
 //
-//                        loginMethod.invoke(user, new Object[]{"a","b",new TraditionalLoginHandler() {
+//                        loginMethod.invoke(user, new Object[]{"a","b",new LoginHandler() {
 //                                @Override
 //                                public void onLoginSuccess() {
 //                                        saveToDisk(COPPA_CONFIRMED_SIGNED_USER);//Test Case assumes correct credentials will always cause Jump to successfully login the user

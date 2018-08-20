@@ -39,7 +39,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
      */
     public static final int NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT = 5;
 
-    private static final String TAG = SHNAssociationProcedureNearestDevice.class.getSimpleName();
+    private static final String TAG = "SHNAssociationProcedureNearestDevice";
     private SHNAssociationProcedureListener shnAssociationProcedureListener;
     private SortedMap<Integer, SHNDevice> discoveredDevices;
     private Timer nearestDeviceIterationTimer;

@@ -32,7 +32,7 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
     public static final UUID SERVICE_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x180F));
     public static final UUID SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A19));
 
-    private static final String TAG = SHNServiceBattery.class.getSimpleName();
+    private static final String TAG = "SHNServiceBattery";
 
     private SHNServiceBatteryListener shnServiceBatteryListener;
 

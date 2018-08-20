@@ -15,7 +15,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
  * It is a callback class to proposition for handling traditional login
  * @since 1.0.0
  */
-public interface TraditionalLoginHandler {
+public interface LoginHandler {
 
     /**
      * {@code onLoginSuccess}method is invoked on traditional(philips) login success

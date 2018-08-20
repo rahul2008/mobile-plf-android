@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -50,7 +51,7 @@ public class DSLaunchActivity extends AppCompatActivity
 
         User user = new User(this);
         if (savedInstanceState == null)
-            if (user.isUserSignIn()) {
+            if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                 showFragment();
                 DatabaseHelper databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
                 try {
@@ -187,7 +188,7 @@ public class DSLaunchActivity extends AppCompatActivity
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container_user_reg);
-        if (currentFrag instanceof MomentFragment || !(new User(this).isUserSignIn())) {
+        if (currentFrag instanceof MomentFragment || (new User(this).getUserLoginState() != UserLoginState.USER_LOGGED_IN)) {
             finish();
         } else {
             super.onBackPressed();

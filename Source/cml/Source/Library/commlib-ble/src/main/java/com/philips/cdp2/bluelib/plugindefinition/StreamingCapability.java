@@ -15,8 +15,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 public class StreamingCapability implements CapabilityDiComm {
 
-    private static String TAG = "StreamingCapability";
-
     private SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming;
     private Set<ResultListener<StreamData>> mDataRawResultListeners = new CopyOnWriteArraySet<>();
 

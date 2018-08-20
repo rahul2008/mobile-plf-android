@@ -92,7 +92,7 @@ public class SHNDeviceAssociation {
         void onAssociatedDeviceRemoved(@NonNull final SHNDevice device);
     }
 
-    private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
+    private static final String TAG = "SHNDeviceAssociation";
 
     private final SHNDeviceScannerInternal shnDeviceScannerInternal;
     private List<SHNDevice> associatedDevices;

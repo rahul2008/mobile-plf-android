@@ -172,8 +172,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         if (savedInstanceState != null) {
             if (savedInstanceState.getString("saveEmailVerifiedErrorText") != null &&
                     savedInstanceState.getBoolean("isEmailVerifiedError")) {
-//                mEMailVerifiedError.setError(
-//                        savedInstanceState.getString("saveEmailVerifiedErrorText"));
                 updateErrorNotification(savedInstanceState.getString("saveEmailVerifiedErrorText"));
             }
         }
@@ -202,10 +200,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         RLog.i(TAG, TAG+".emailResend clicked");
 
         //  if (proceedResend) {
+
         getRegistrationFragment().addFragment(new AccountActivationResendMailFragment());
-        //  } else {
-        //      showResendAlertDialog();
-        //  }
     }
 
     private void initUI(View view) {
@@ -238,7 +234,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        // applyParams(config, usr_activation_root_layout, width);
     }
 
     @Override
@@ -267,11 +262,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
                 activateButtonEnable(false);
                 mBtnResend.setEnabled(false);
                 mBtnActivate.setEnabled(false);
-                // mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
                 showNotificationBarOnNetworkNotAvailable();
             }
         } else {
-//            mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
             showNotificationBarOnNetworkNotAvailable();
             activateButtonEnable(false);
             mBtnResend.setEnabled(false);
@@ -328,7 +321,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void verificationError(String errorMsg) {
-//        mEMailVerifiedError.setError(errorMsg);
         updateErrorNotification(errorMsg);
     }
 

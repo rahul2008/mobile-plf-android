@@ -30,7 +30,7 @@ import java.util.UUID;
  */
 public class SHNServiceBodyComposition implements SHNService.SHNServiceListener, SHNCharacteristic.SHNCharacteristicChangedListener {
 
-    private static final String TAG = SHNServiceBodyComposition.class.getSimpleName();
+    private static final String TAG = "SHNServiceBodyComposition";
 
     public static final UUID BODY_COMPOSITION_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x181B));
 

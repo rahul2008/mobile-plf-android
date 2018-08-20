@@ -12,6 +12,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -41,7 +42,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     boolean isRefreshTokenRequestedBefore;
 
     THSInitPresenter(THSInitFragment thsInitFragment) {
-        AmwellLog.d(AmwellLog.LOG,"Init Presenter created and isRefreshToken is set to false");
+        AmwellLog.d(AmwellLog.LOG, "Init Presenter created and isRefreshToken is set to false");
         isRefreshTokenRequestedBefore = false;
         mThsInitFragment = thsInitFragment;
     }
@@ -53,18 +54,18 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
     protected void initializeAwsdk() {
         User user = THSManager.getInstance().getUser(mThsInitFragment.getContext());
-        if (user == null || !user.isUserSignIn()) {
+        if (user == null || user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
             mThsInitFragment.hideProgressBar();
             mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION, mThsInitFragment.getString(R.string.ths_user_not_logged_in), false);
             mThsInitFragment.hideProgressBar();
-            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in),true,false);
+            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in), true, false);
             return;
         }
         try {
             AmwellLog.i("initializeAwsdk", "Initialize - Call initiated from Client");
             THSManager.getInstance().initializeTeleHealth(mThsInitFragment.getContext(), this);
-        } catch(Exception e){
-            AmwellLog.e("initializeAwsdk",e.toString());
+        } catch (Exception e) {
+            AmwellLog.e("initializeAwsdk", e.toString());
             mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_initialization_failed));
         }
     }
@@ -74,10 +75,10 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
         if (sdkError.getSdkError() != null) {
             if (null != mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
-                AmwellLog.e("onInitializationResponse",sdkError.getSdkError().toString());
+                AmwellLog.e("onInitializationResponse", sdkError.getSdkError().toString());
                 mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(mThsInitFragment.getContext(), ANALYTICS_INITIALIZATION, sdkError.getSdkError()));
             }
-        }else {
+        } else {
             checkForUserExisitance();
         }
         //launchWelcomeScreen();
@@ -89,14 +90,14 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             mThsInitFragment.hideProgressBar();
             if (mThsInitFragment.getContext() != null) {
                 String errorMesage = mThsInitFragment.getFragmentActivity().getString(R.string.ths_se_server_error_toast_message);
-                if(null!=var1 && null!=var1.getMessage()){
-                    mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION,var1.getMessage(),false);//
-                    AmwellLog.e("onInitializationFailure",var1.toString());
-                    if(var1.getMessage().equalsIgnoreCase(THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE)){
-                        errorMesage=mThsInitFragment.getFragmentActivity().getString(R.string.ths_user_outside_US_message);
+                if (null != var1 && null != var1.getMessage()) {
+                    mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION, var1.getMessage(), false);//
+                    AmwellLog.e("onInitializationFailure", var1.toString());
+                    if (var1.getMessage().equalsIgnoreCase(THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE)) {
+                        errorMesage = mThsInitFragment.getFragmentActivity().getString(R.string.ths_user_outside_US_message);
                     }
                 }
-                mThsInitFragment.showError(errorMesage,true, false);
+                mThsInitFragment.showError(errorMesage, true, false);
             }
         }
     }
@@ -107,20 +108,20 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             THSManager.getInstance().checkConsumerExists(mThsInitFragment.getContext(), this);
             //THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
-            AmwellLog.e("checkForUserExisitance",e.toString());
+            AmwellLog.e("checkForUserExisitance", e.toString());
         }
     }
 
     @Override
     public void onResponse(Boolean aBoolean, THSSDKError thssdkError) {
-        if(mThsInitFragment!= null && mThsInitFragment.isFragmentAttached()) {
+        if (mThsInitFragment != null && mThsInitFragment.isFragmentAttached()) {
             SDKError sdkError = null;
             if (thssdkError != null) {
                 sdkError = thssdkError.getSdkError();
             }
             if (null != sdkError) {
 
-                AmwellLog.e( "checkForUserExisitance", "onResponse: "+sdkError.toString());
+                AmwellLog.e("checkForUserExisitance", "onResponse: " + sdkError.toString());
 
                 mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(mThsInitFragment.getContext(), ANALYTIC_CONSUMER_EXIST_CHECK, sdkError));
                 return;
@@ -136,10 +137,10 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
     private void authenticateUser() {
         try {
-            THSManager.getInstance().authenticateMutualAuthToken(mThsInitFragment.getContext(),this);
+            THSManager.getInstance().authenticateMutualAuthToken(mThsInitFragment.getContext(), this);
             // THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
-            AmwellLog.e("authenticateUser",e.toString());
+            AmwellLog.e("authenticateUser", e.toString());
         }
     }
 
@@ -166,16 +167,16 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
     public void onLoginResponse(THSAuthentication thsAuthentication, THSSDKError sdkError) {
 
-        AmwellLog.d(AmwellLog.LOG,"OnLogin Response of Authenticate call");
+        AmwellLog.d(AmwellLog.LOG, "OnLogin Response of Authenticate call");
 
         if (sdkError.getSdkError() != null && sdkError.getHttpResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
-            AmwellLog.d(AmwellLog.LOG,"OnLogin Response of Authenticate call - " + "UNAUTHORIZED");
+            AmwellLog.d(AmwellLog.LOG, "OnLogin Response of Authenticate call - " + "UNAUTHORIZED");
             if (checkIfRefreshTokenWasTriedBefore()) {
                 AmwellLog.e("onLoginResponse ", sdkError.getSdkError().toString());
                 mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_authenticated));
                 return;
             }
-            AmwellLog.d(AmwellLog.LOG,"Before calling refresh signon, isRefreshToken made true");
+            AmwellLog.d(AmwellLog.LOG, "Before calling refresh signon, isRefreshToken made true");
             isRefreshTokenRequestedBefore = true;
             refreshToken();
             return;
@@ -197,18 +198,18 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             @Override
             public void onRefreshLoginSessionSuccess() {
                 final Context context = mThsInitFragment.getContext();
-                if(context!= null) {
-                    AmwellLog.d(AmwellLog.LOG,"In refreshSignon success");
+                if (context != null) {
+                    AmwellLog.d(AmwellLog.LOG, "In refreshSignon success");
                     THSManager.getInstance().getThsConsumer(context).setHsdpToken(THSManager.getInstance().getUser(context).getHsdpAccessToken());
                     authenticateUser();
-                }else {
+                } else {
                     mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_se_server_error_toast_message));
                 }
             }
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int i) {
-                AmwellLog.d(AmwellLog.LOG,"In onRefreshLoginSessionFailedWithError" + i);
+                AmwellLog.d(AmwellLog.LOG, "In onRefreshLoginSessionFailedWithError" + i);
                 mThsInitFragment.hideProgressBar();
                 mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_refresh_signon_failed));
             }
@@ -230,9 +231,9 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         mThsInitFragment.hideProgressBar();
         if (sdkError == null) {
-            if(mThsInitFragment.isDeeplinkingFlow()){
+            if (mThsInitFragment.isDeeplinkingFlow()) {
                 launchAppointmentList();
-            }else {
+            } else {
                 launchWelcomeScreen();
             }
 //            launchOnBoardingScreen();
@@ -261,7 +262,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         return false;
     }
 
-    protected void launchAppointmentList(){
+    protected void launchAppointmentList() {
         mThsInitFragment.hideProgressBar();
         mThsInitFragment.popSelfBeforeTransition();
         mThsInitFragment.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);

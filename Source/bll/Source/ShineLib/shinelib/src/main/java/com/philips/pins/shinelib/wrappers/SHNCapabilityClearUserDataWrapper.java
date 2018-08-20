@@ -10,7 +10,6 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigHeartRateZones;
 
 public class SHNCapabilityClearUserDataWrapper implements SHNCapabilityClearUserData {
 
-    private static final String TAG = SHNCapabilityConfigHeartRateZones.class.getSimpleName();
     private final SHNCapabilityClearUserData wrappedShnCapability;
     private final Handler internalHandler;
     private final Handler userHandler;

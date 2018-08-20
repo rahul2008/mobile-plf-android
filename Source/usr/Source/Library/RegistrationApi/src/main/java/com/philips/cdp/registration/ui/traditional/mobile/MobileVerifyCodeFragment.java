@@ -220,7 +220,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void onRefreshUserFailed(int error) {
         hideProgressSpinner();
         final String localizedError = new URError(context).getLocalizedError(ErrorType.HSDP, error);
-//        errorMessage.setError(localizedError);
         updateErrorNotification(localizedError);
         RLog.d(TAG, "onRefreshUserFailed : Error =" + localizedError);
     }
@@ -266,7 +265,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         user.refreshUser(this);
         super.onResume();
         EventBus.getDefault().register(this);
-//        registerSMSReceiver();
     }
 
     @Subscribe
@@ -315,17 +313,9 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void netWorkStateOfflineUiHandle() {
         hideProgressSpinner();
-        //errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
-        // updateErrorNotification(new URError(getContext()).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         smsNotReceived.setEnabled(false);
         disableVerifyButton();
     }
-
-//    @Override
-//    public void showSmsSendFailedError() {
-//        errorMessage.setError(getString(R.string.reg_URX_SMS_InternalServerError));
-//        hideProgressSpinner();
-//    }
 
     @Override
     public void refreshUserOnSmsVerificationSuccess() {
@@ -335,13 +325,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         user.refreshUser(this);
     }
 
-//    @Override
-//    public void smsVerificationResponseError() {
-//        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
-//        hideProgressSpinner();
-//
-//    }
-
     @Override
     public void hideProgressSpinner() {
         verifyButton.hideProgressIndicator();
@@ -349,14 +332,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         verificationCodeValidationEditText.setEnabled(true);
         enableVerifyButton();
     }
-
-//    @Override
-//    public void setOtpInvalidErrorMessage(int errorCode) {
-//        trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
-//        //errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
-//        updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
-//        hideProgressSpinner();
-//    }
 
     @Override
     public void setOtpErrorMessageFromJson(int errorCode) {
@@ -380,20 +355,11 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onErrorResponse(VolleyError error) {
         RLog.d(TAG, "onErrorResponse" + error);
-//        errorMessage.setError(getString(R.string.reg_URX_SMS_InternalServerError));
-//        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.NETWOK, error.networkResponse.statusCode));
-
         final NetworkResponse response = error.networkResponse;
         if (response == null) return;
         updateErrorNotification(new URError(context).getLocalizedError(ErrorType.NETWOK, response.statusCode));
         hideProgressSpinner();
     }
-
-//    @Override
-//    public void showOtpInvalidError() {
-//        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
-//        hideProgressSpinner();
-//    }
 
     @Override
     public void registerSMSReceiver() {
