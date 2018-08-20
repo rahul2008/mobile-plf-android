@@ -17,7 +17,7 @@
 #}
 
 # ICP Proguard rules ---- START -----
--injars jars/libs
+-injars ./
 
 -keep class com.philips.icpinterface.ComponentDetails {
 	<fields>;

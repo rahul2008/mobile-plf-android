@@ -69,11 +69,11 @@ tasks.withType(Test) {
 
 task copyLibDebug(type: Copy) {
     from 'libs/ICPClientInterface.jar'
-    into "build/intermediates/bundles/debug/libs/"
+    into "build/intermediates/bundles/debug/"
 }
 task copyLibRelease(type: Copy) {
     from 'libs/ICPClientInterface.jar'
-    into "build/intermediates/bundles/release/libs/"
+    into "build/intermediates/bundles/release/"
 }
 
 preBuild.dependsOn(copyLibDebug)
