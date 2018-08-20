@@ -44,26 +44,34 @@ android {
 }
 
 dependencies {
-
-    def suffix = objcdp.getVersionSuffix()
-    def dp = project.ext.has('useprojectdependencies')
-
-    if (dp) {
+    if (directdependencies) {
         implementation project(':AppInfra')
         implementation project(':uid')
-        implementation project(':commlib-api')
-        implementation project(':commlib-lan')
         implementation project(':catk')
         implementation project(':csw')
         implementation project(':pif')
         implementation project(':dataServices')
-    }
-    for (dep in [':registrationApi', ':uAppFwLib', ':commlib', ':dataServicesUApp', ':cloudcontroller']) {
-        if (directdependencies) {
-            implementation project(dep)
-        } else {
-            implementation("$group$dep:$platformversion$suffix") { changing = true }
-        }
+        implementation project(':dataServicesUApp')
+        implementation project(':uAppFwLib')
+        implementation project(':registrationApi')
+        implementation project(':commlib')
+        implementation project(':commlib-api')
+        implementation project(':commlib-lan')
+        implementation project(':cloudcontroller')
+    } else {
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.uid
+        implementation philipsdeps.catk
+        implementation philipsdeps.csw
+        implementation philipsdeps.pif
+        implementation philipsdeps.dataServices
+        implementation philipsdeps.dataServicesUApp
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.registrationApi
+        implementation philipsdeps.commlib
+        implementation philipsdeps.commlib_api
+        implementation philipsdeps.commlib_lan
+        implementation philipsdeps.cloudcontroller
     }
 
     implementation deps.support.fragment

@@ -208,9 +208,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
+
+    if (directdependencies) {
         implementation project(':product-registration-libUApp')
     } else {
         implementation philipsdeps.product_registration_libUApp
