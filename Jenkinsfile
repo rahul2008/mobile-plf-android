@@ -327,7 +327,7 @@ def BuildHPFortify() {
         chmod -R 755 .
         ./gradlew --refresh-dependencies
         echo "*** sourceanalyzer -b 001 -source 1.8 ./gradlew --full-stacktrace assembleRelease ***"
-        sourceanalyzer -b 001 -source 1.8 ./gradlew --full-stacktrace assembleRelease
+        sourceanalyzer -debug -verbose -b 001 -source 1.8 ./gradlew --full-stacktrace assembleRelease
         echo "*** sourceanalyzer -b 001 -scan -f results.fpr ***"
         sourceanalyzer -b 001 -scan -f results.fpr
         echo "*** fortifyclient -url https://fortify.philips.com/ssc ***"
