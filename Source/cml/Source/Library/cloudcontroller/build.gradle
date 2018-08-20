@@ -37,7 +37,7 @@ android {
 }
 
 dependencies {
-    api files('ICPClientInterface.jar')
+    api fileTree(include: ['*.jar'], dir: 'libs')
 
     compileOnly deps.support.annotations
 
