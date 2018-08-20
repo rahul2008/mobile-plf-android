@@ -15,6 +15,7 @@ Version {next}
 
 ### Breaking Changes
 * Removed BufferedWriter out from DiCommLog
+* Calling `getPortProperties` on a Port will no longer implicitly call `reloadProperties` on the port.
 
 ### Defects solved
 * \#123749 Discovery callback are now posted to main thread
