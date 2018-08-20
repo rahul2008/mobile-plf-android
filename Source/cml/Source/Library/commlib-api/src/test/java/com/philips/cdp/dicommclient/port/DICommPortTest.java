@@ -577,12 +577,6 @@ public class DICommPortTest {
     }
 
     @Test
-    public void testGetPropertiesWhenPortInfoNull() {
-        diCommPort.getPortProperties();
-        verifyGetPropertiesCalled(true);
-    }
-
-    @Test
     @SuppressWarnings("unchecked")
     public void testRegisterListener() {
         diCommPort.addPortListener(portListenerMock);
