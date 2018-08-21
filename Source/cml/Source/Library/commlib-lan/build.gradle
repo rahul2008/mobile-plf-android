@@ -70,21 +70,13 @@ dependencies {
 
     implementation deps.gson
 
-    def suffix = objcdp.getVersionSuffix()
-
-    for (dep in [':commlib-api']) {
-        if (directdependencies) {
-            implementation project(dep)
-        } else {
-            implementation("$group$dep:$platformversion$suffix") { changing = true }
-        }
-    }
-
-    if (findProject(":commlib-testutils")) {
-        testImplementation project(':commlib-testutils')
+    if (directdependencies) {
+        implementation project(':commlib-api')
     } else {
-        testImplementation("$group:commlib-testutils:$platformversion$suffix") { changing = true }
+        implementation philipsdeps.commlib_api
     }
+
+    testImplementation project(':commlib-testutils')
 
     testImplementation deps.junit
     testImplementation deps.assertj

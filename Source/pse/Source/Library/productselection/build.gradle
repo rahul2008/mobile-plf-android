@@ -48,11 +48,11 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.mockito
 
-    def dp = project.ext.has('useprojectdependencies')
+
 
     implementation deps.shamanland_fonticon
 
-    if(dp) {
+    if (directdependencies) {
         implementation project(':uAppFwLib')
         implementation project(':prx')
         implementation project(':uid')
