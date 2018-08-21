@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.philips.platform.appframework.abtesting.CacheModel;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;

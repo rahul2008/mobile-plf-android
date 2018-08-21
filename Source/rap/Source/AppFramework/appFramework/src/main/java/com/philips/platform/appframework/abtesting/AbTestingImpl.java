@@ -14,8 +14,8 @@ import java.util.Map;
 
 public class AbTestingImpl implements ABTestClientInterface {
 
-    private com.philips.platform.appframework.abtesting.FireBaseWrapper fireBaseWrapper;
-    private com.philips.platform.appframework.abtesting.AbTestingLocalCache abTestingLocalCache;
+    private FireBaseWrapper fireBaseWrapper;
+    private AbTestingLocalCache abTestingLocalCache;
     private Map<String, CacheModel.ValueModel> inMemoryCache;
     private AppInfraInterface appInfraInterface;
     private CACHESTATUSVALUES cachestatusvalues = CACHESTATUSVALUES.EXPERIENCE_NOT_UPDATED;
@@ -46,8 +46,8 @@ public class AbTestingImpl implements ABTestClientInterface {
     }
 
     @NonNull
-    com.philips.platform.appframework.abtesting.AbTestingLocalCache getAbTestingLocalCache(AppInfraInterface appInfraInterface) {
-        return new com.philips.platform.appframework.abtesting.AbTestingLocalCache(appInfraInterface.getAppInfraContext(), new Gson());
+    AbTestingLocalCache getAbTestingLocalCache(AppInfraInterface appInfraInterface) {
+        return new AbTestingLocalCache(appInfraInterface.getAppInfraContext(), new Gson());
     }
 
     @Override

@@ -6,8 +6,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
-import com.philips.platform.appframework.abtesting.CacheModel;
-import com.philips.platform.appframework.abtesting.FetchDataHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
