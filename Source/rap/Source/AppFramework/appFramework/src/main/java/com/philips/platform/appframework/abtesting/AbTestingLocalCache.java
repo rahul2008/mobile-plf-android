@@ -2,9 +2,9 @@ package com.philips.platform.appframework.abtesting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.philips.platform.appframework.abtesting.CacheModel;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -24,7 +24,7 @@ class AbTestingLocalCache {
         this.gson = gson;
         sharedPreferences = context.getSharedPreferences(ABTEST_PREFERENCE,
                 Context.MODE_PRIVATE);
-        this.preferenceCacheModel = new Gson().fromJson(fetchFromDisk(), CacheModel.class);
+        this.preferenceCacheModel = gson.fromJson(fetchFromDisk(), CacheModel.class);
         if (preferenceCacheModel == null)
             preferenceCacheModel = new CacheModel();
     }
@@ -37,7 +37,7 @@ class AbTestingLocalCache {
                 "save Cache to Preference " + cacheModel);
     }
 
-    private String fetchFromDisk() {
+    String fetchFromDisk() {
         return sharedPreferences.getString(key, null);
     }
 
@@ -51,7 +51,7 @@ class AbTestingLocalCache {
             final Map<String, CacheModel.ValueModel> cModel = model.getTestValues();
             if (cModel != null && cModel.containsKey(testName)) {
                 cModel.remove(testName);
-                saveToDisk(getGson().toJson(model));
+                saveToDisk(gson.toJson(model));
             }
         }
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
@@ -67,18 +67,18 @@ class AbTestingLocalCache {
         return preferenceCacheModel;
     }
 
-    @NonNull
-    private Gson getGson() {
-        return gson;
-    }
 
     void saveCacheToDisk() {
-        saveToDisk(getGson().toJson(preferenceCacheModel));
+        saveToDisk(gson.toJson(preferenceCacheModel));
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
                 "updated Cache to Preference " + preferenceCacheModel);
     }
 
     void updatePreferenceCacheModel(Map<String, CacheModel.ValueModel> inMemoryCache) {
         this.preferenceCacheModel.setTestValues(inMemoryCache);
+    }
+
+    CacheModel getPreferenceCacheModel() {
+        return preferenceCacheModel;
     }
 }

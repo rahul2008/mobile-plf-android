@@ -6,6 +6,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.philips.platform.appframework.abtesting.CacheModel;
+import com.philips.platform.appframework.abtesting.FetchDataHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
@@ -14,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
+class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
 
     private FirebaseRemoteConfig remoteConfig;
     private FetchDataHandler fetchDataHandler;
@@ -22,11 +24,11 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
     private int cacheExpirationTime = 43200; // 12hours by default
     private AppInfraInterface appInfraInterface;
 
-    public void initFireBase() {
-        remoteConfig = FirebaseRemoteConfig.getInstance();
+    FireBaseWrapper(FirebaseRemoteConfig remoteConfig) {
+        this.remoteConfig = remoteConfig;
     }
 
-    public void fetchDataFromFireBase(final FetchDataHandler fetchDataHandler, ABTestClientInterface.OnRefreshListener onRefreshListener) {
+    void fetchDataFromFireBase(final FetchDataHandler fetchDataHandler, ABTestClientInterface.OnRefreshListener onRefreshListener) {
         this.onRefreshListener = onRefreshListener;
         this.fetchDataHandler = fetchDataHandler;
         remoteConfig.fetch(cacheExpirationTime).addOnCompleteListener(this).addOnFailureListener(this);
@@ -80,5 +82,9 @@ public class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListe
 
     void initAppInfra(AppInfraInterface appInfraInterface) {
         this.appInfraInterface = appInfraInterface;
+    }
+
+    int getCacheExpirationTime() {
+        return cacheExpirationTime;
     }
 }

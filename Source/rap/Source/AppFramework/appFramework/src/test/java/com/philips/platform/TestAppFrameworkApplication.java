@@ -171,11 +171,6 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
     }
 
-    @Override
-    protected AppInfra createAppInfraInstance() {
-        return appInfraInterface;
-    }
-
     @Mock
     private DemoDataServicesState mockDSState;
 

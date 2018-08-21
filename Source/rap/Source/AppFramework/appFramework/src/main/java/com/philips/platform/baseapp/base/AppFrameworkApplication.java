@@ -22,11 +22,10 @@ import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
-import com.philips.platform.appframework.abtesting.AbTestingImpl;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.abtesting.FireBaseWrapper;
+import com.philips.platform.appframework.abtesting.AbTestingImpl;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppKpsConfigurationInfo;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -345,9 +344,9 @@ public class AppFrameworkApplication extends Application {
      * @param appInfraInitializationCallback
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
-        new FireBaseWrapper().initFireBase();
-        Log.d("firebase instance id - ", FirebaseInstanceId.getInstance().getToken());
         AbTestingImpl abTestingImpl = new AbTestingImpl();
+        abTestingImpl.initFireBase();
+        Log.d("FireBase instance id - ", FirebaseInstanceId.getInstance().getToken());
         AppInfra.Builder builder = new AppInfra.Builder();
         builder.setAbTesting(abTestingImpl);
         appInfra = builder.build(getApplicationContext());
