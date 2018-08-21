@@ -160,7 +160,6 @@ pipeline {
                 script {
                     echo "Running TICS..."
                     sh """#!/bin/bash -le
-                        ./gradlew clean jacocoTestReport
                         /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
                         /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity
                     """
