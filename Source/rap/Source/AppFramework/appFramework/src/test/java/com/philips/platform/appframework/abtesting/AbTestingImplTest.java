@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.HashMap;
 import java.util.Map;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
@@ -127,6 +128,11 @@ public class AbTestingImplTest {
         when(restInterfaceMock.isInternetReachable()).thenReturn(true);
         abTesting.updateCache(onRefreshListenerMock);
         verify(fireBaseWrapperMock).fetchDataFromFireBase(fetchDataHandlerMock, onRefreshListenerMock);
+    }
+
+    @Test
+    public void shouldReturnInstanceWhenUsed() {
+        assertNotNull(abTesting.getAbTestingLocalCache(appInfraInterfaceMock));
     }
 
     @Test
