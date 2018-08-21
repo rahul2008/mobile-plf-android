@@ -30,6 +30,7 @@
     "appidentity.sector": "b2c",
     "appidentity.appState": "DEVELOPMENT",
     "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "appUpdate.autoRefresh": true,
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": [
       "bundleId",

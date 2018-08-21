@@ -8,17 +8,12 @@ import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
@@ -48,13 +43,9 @@ public class AbTestingImplTest {
     @Mock
     private FetchDataHandler fetchDataHandlerMock;
 
-    @Captor
-    private ArgumentCaptor<FetchDataHandler> fetchDataHandlerArgumentCaptor;
-
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-
         dummyData.put("key1", getValueModel());
         dummyData.put("key2", getValueModel2());
 
