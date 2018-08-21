@@ -32,6 +32,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.trackers.UnsupportedMomentTypeException;
 import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -154,24 +155,28 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     }
 
     public void fetchLatestSessionInfo(){
-        dataServicesManager.fetchLatestMomentByType(MomentType.SLEEP_SESSION,new DBFetchRequestListner<Moment>() {
-            @Override
-            public void onFetchSuccess(final List<? extends Moment> list) {
-                        if(list!=null && list.size()>0) {
-                            Moment moment=list.get(0);
-                            Summary summary=connectivityHelper.getSummaryInfoFromMoment(moment);
-                            connectivityViewListener.updateScreenWithLatestSessionInfo(summary);
-                        }else{
-                            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"sessions data not available in db");
-                        }
+        try {
+            dataServicesManager.fetchLatestMomentByType(MomentType.SLEEP_SESSION, new DBFetchRequestListner<Moment>() {
+                @Override
+                public void onFetchSuccess(final List<? extends Moment> list) {
+                    if (list != null && list.size() > 0) {
+                        Moment moment = list.get(0);
+                        Summary summary = connectivityHelper.getSummaryInfoFromMoment(moment);
+                        connectivityViewListener.updateScreenWithLatestSessionInfo(summary);
+                    } else {
+                        RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "sessions data not available in db");
+                    }
 
-            }
+                }
 
-            @Override
-            public void onFetchFailure(final Exception e) {
-                connectivityViewListener.showToast("Error while fetching data from power sleep device. Error::"+e.getMessage());
-            }
-        });
+                @Override
+                public void onFetchFailure(final Exception e) {
+                    connectivityViewListener.showToast("Error while fetching data from power sleep device. Error::" + e.getMessage());
+                }
+            });
+        } catch (UnsupportedMomentTypeException e) {
+            connectivityViewListener.showToast(MomentType.SLEEP_SESSION + " is not configured as a supported moment type");
+        }
     }
 
 
