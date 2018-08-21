@@ -186,10 +186,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
             }
             showMergeSpinner();
         }
-//        else {
-//            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-//            scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
-//        }
     }
 
     private void showMergeSpinner() {
@@ -210,10 +206,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         if (isOnline) {
             mRegError.hideError();
         }
-//        else {
-//            scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
-//            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-//        }
     }
 
     private void updateUiOnNetworkChange(boolean isOnline) {
@@ -228,6 +220,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void setViewParams(Configuration config, int width) {
+        //NOP
     }
 
     @Override
