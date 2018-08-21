@@ -56,6 +56,7 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
+        abTesting.enableDeveloperMode(true);
         String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE);
         if (testValue.equalsIgnoreCase("Sonicare")) {
             registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);

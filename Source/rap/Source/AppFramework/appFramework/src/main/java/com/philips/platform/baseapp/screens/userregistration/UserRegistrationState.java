@@ -289,13 +289,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         contentConfiguration.enableContinueWithouAccount(true);
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
         abTesting.enableDeveloperMode(true);
-        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPES.EVERY_APP_START);
-        if (testValue.equalsIgnoreCase("promo")) {
-            contentConfiguration.enableMarketImage(R.drawable.promo);
-        } else if (testValue.equalsIgnoreCase("shaver")) {
-            contentConfiguration.enableMarketImage(R.drawable.optin_image);
+        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE);
+        if (testValue.equalsIgnoreCase("Sonicare")) {
+            contentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
+        } else if (testValue.equalsIgnoreCase("Norelco")) {
+            contentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
         } else {
-            contentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
+            contentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
         }
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);
