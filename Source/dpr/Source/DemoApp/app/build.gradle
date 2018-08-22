@@ -226,7 +226,7 @@ configurations.all {
 dependencies {
 
     //Coco
-    def dp = project.ext.has('useprojectdependencies')
+
 
     implementation project(':registrationApi')
 

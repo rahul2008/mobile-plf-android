@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -84,11 +85,11 @@ public class DemoDataServicesState extends DemoBaseState
         dsDemoAppuAppInterface.init(getUappDependencies(context), dsDemoAppuAppSettings);
 
         User user = new User(context);
-        if (user.isUserSignIn()) {
+        if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
             SyncScheduler.getInstance().scheduleSync();
         }
         if (!BaseAppUtil.isDSPollingEnabled(context)) {
-            if (new User(context).isUserSignIn()) {
+            if (new User(context).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                 registerDSForRegisteringToken();
                 registerForReceivingPayload();
             } else {
@@ -209,6 +210,6 @@ public class DemoDataServicesState extends DemoBaseState
 
     @Override
     public boolean isUserSignedIn(Context appContext) {
-        return new User(appContext).isUserSignIn();
+        return new User(appContext).getUserLoginState() == UserLoginState.USER_LOGGED_IN;
     }
 }

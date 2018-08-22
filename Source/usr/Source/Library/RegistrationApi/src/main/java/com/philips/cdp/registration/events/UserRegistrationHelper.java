@@ -9,9 +9,11 @@
 
 package com.philips.cdp.registration.events;
 
+import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -26,12 +28,19 @@ public class UserRegistrationHelper {
 
     /* User registration listeners */
     private final CopyOnWriteArrayList<UserRegistrationListener> userRegistrationListeners;
+    /* User registration listeners */
+    private final CopyOnWriteArrayList<HSDPAuthenticationListener> hsdpAuthenticationListeners;
+
+    private ArrayList listner = new ArrayList();
 
     /**
      * Class constructor
      */
     private UserRegistrationHelper() {
-        userRegistrationListeners = new CopyOnWriteArrayList<UserRegistrationListener>();
+        userRegistrationListeners = new CopyOnWriteArrayList<>();
+        hsdpAuthenticationListeners = new CopyOnWriteArrayList<>();
+        listner.add(userRegistrationListeners);
+        listner.add(hsdpAuthenticationListeners);
     }
 
     /**
@@ -90,6 +99,46 @@ public class UserRegistrationHelper {
         }
     }
 
+
+
+    /**
+     * {@code registerEventNotification} method to registration event notification
+     *
+     * @param observer UserRegistrationListener object
+     */
+    public synchronized void registerHSDPAuthenticationEventNotification(HSDPAuthenticationListener observer) {
+        RLog.d(TAG, "registerEventNotification");
+        synchronized (hsdpAuthenticationListeners) {
+            if (observer != null) {
+                for (int i = 0; i < hsdpAuthenticationListeners.size(); i++) {
+                    HSDPAuthenticationListener tmp = hsdpAuthenticationListeners.get(i);
+                    if (tmp.getClass() == observer.getClass()) {
+                        hsdpAuthenticationListeners.remove(tmp);
+                    }
+                }
+                hsdpAuthenticationListeners.add(observer);
+            }
+        }
+    }
+
+    /**
+     * {@code unregisterEventNotification} method to unregister event notification
+     *
+     * @param observer UserRegistrationListener object
+     */
+    public synchronized void unregisterHSDPAuthenticationEventNotification(HSDPAuthenticationListener observer) {
+        RLog.d(TAG, "unregisterEventNotification");
+        synchronized (hsdpAuthenticationListeners) {
+            if (observer != null) {
+                for (int i = 0; i < hsdpAuthenticationListeners.size(); i++) {
+                    HSDPAuthenticationListener tmp = hsdpAuthenticationListeners.get(i);
+                    if (tmp.getClass() == observer.getClass()) {
+                        hsdpAuthenticationListeners.remove(tmp);
+                    }
+                }
+            }
+        }
+    }
     /**
      * {@code notifyOnUserLogoutSuccess} method to notify on user logout success
      */
@@ -127,6 +176,34 @@ public class UserRegistrationHelper {
             for (UserRegistrationListener eventListener : userRegistrationListeners) {
                 if (eventListener != null) {
                     eventListener.onUserLogoutSuccessWithInvalidAccessToken();
+                }
+            }
+        }
+    }
+
+    /**
+     * {@code notifyOnLogoutSuccessWithInvalidAccessToken} method to notify on logout success with invalid access token
+     */
+    public synchronized void notifyOnHSDPLoginSuccess() {
+        RLog.d(TAG, "notifyOnHSDPLoginSuccess");
+        synchronized (userRegistrationListeners) {
+            for (HSDPAuthenticationListener eventListener : hsdpAuthenticationListeners) {
+                if (eventListener != null) {
+                    eventListener.onHSDPLoginSuccess();
+                }
+            }
+        }
+    }
+
+    /**
+     * {@code notifyOnLogoutSuccessWithInvalidAccessToken} method to notify on logout success with invalid access token
+     */
+    public synchronized void notifyOnHSDPLoginFailure(int errorCode, String errorMsg) {
+        RLog.d(TAG, "notifyOnHSDPLoginFailure");
+        synchronized (userRegistrationListeners) {
+            for (HSDPAuthenticationListener eventListener : hsdpAuthenticationListeners) {
+                if (eventListener != null) {
+                    eventListener.onHSDPLoginFailure(errorCode, errorMsg);
                 }
             }
         }

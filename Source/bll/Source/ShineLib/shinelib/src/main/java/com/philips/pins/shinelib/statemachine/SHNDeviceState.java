@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine;
 
 import android.bluetooth.BluetoothDevice;
@@ -11,12 +16,13 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 public abstract class SHNDeviceState extends State<SHNDeviceStateMachine> {
 
-    private static final String TAG = "SHNDeviceState";
+    protected String logTag;
 
     protected final SHNDeviceResources sharedResources;
 
-    public SHNDeviceState(@NonNull SHNDeviceStateMachine stateMachine) {
+    public SHNDeviceState(@NonNull SHNDeviceStateMachine stateMachine, @NonNull final String logTag) {
         super(stateMachine);
+        this.logTag = logTag;
         sharedResources = stateMachine.getSharedResources();
     }
 
@@ -55,6 +61,10 @@ public abstract class SHNDeviceState extends State<SHNDeviceStateMachine> {
     }
 
     private void showLogOfEmptyMethodCall(String methodName) {
-        SHNLogger.d(TAG, String.format("Called empty implementation of %s, current state: %s", methodName, this.stateMachine.getState().getClass().getSimpleName()));
+        SHNLogger.d(logTag, String.format("Called empty implementation of %s, current state: %s", methodName, this.stateMachine.getState().getClass().getSimpleName()));
+    }
+
+    public String getLogTag() {
+        return logTag;
     }
 }

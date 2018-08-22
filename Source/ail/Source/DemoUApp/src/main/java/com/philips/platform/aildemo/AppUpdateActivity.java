@@ -97,6 +97,10 @@ public class AppUpdateActivity extends AppCompatActivity {
 		appUpdateRefresh.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(appupdateInterface == null) {
+					Toast.makeText(AppUpdateActivity.this, "enable appUpdate.autoRefresh to true in AppConfig.json", Toast.LENGTH_LONG).show();
+					return;
+				}
 				appupdateInterface.refresh(new AppUpdateInterface.OnRefreshListener() {
 					@Override
 					public void onError(AIAppUpdateRefreshResult error, String message) {
@@ -114,6 +118,12 @@ public class AppUpdateActivity extends AppCompatActivity {
 		fetchappupdateValues.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
+				if(appupdateInterface == null) {
+					Toast.makeText(AppUpdateActivity.this, "enable appUpdate.autoRefresh to true in AppConfig.json", Toast.LENGTH_LONG).show();
+					return;
+				}
+
 				tvappversionval.setText(AILDemouAppInterface.getInstance().getAppInfra().getAppIdentity().getAppVersion());
 				tvminversionval.setText(appupdateInterface.getMinimumVersion());
 				tvisDeprecated.setText(String.valueOf(appupdateInterface.isDeprecated()));

@@ -46,6 +46,7 @@ println "Working branch: ${objcdp.getWorkingBranch()}"
 
 
 subprojects {
+    task reportAllProjectDependencies(type: DependencyReportTask) {}
     buildscript {
         apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 

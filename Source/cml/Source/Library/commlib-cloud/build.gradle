@@ -68,25 +68,23 @@ task generateJavadocPublicApi(type: Javadoc) {
 dependencies {
     compileOnly deps.support.annotations
 
-    def suffix = objcdp.getVersionSuffix()
-
-    for (dep in [':commlib-api', ':cloudcontroller-api']) {
-        if (findProject(dep)) {
-            implementation project(dep)
-        } else {
-            implementation("$group$dep:$platformversion$suffix") { changing = true }
-        }
-    }
-
-    for (dep in [':cloudcontroller', ':cloudcontroller-api',':commlib-testutils']) {
-        if (findProject(dep)) {
-            testImplementation project(dep)
-        } else {
-            testImplementation("$group$dep:$platformversion$suffix") { changing = true }
-        }
-    }
-
     implementation deps.gson
+
+    if (directdependencies) {
+        implementation project(':commlib-api')
+        implementation project(':cloudcontroller-api')
+    } else {
+        implementation philipsdeps.commlib_api
+        implementation philipsdeps.cloudcontroller_api
+    }
+
+    if (directdependencies) {
+        testImplementation project(':cloudcontroller')
+    } else {
+        testImplementation philipsdeps.cloudcontroller
+    }
+
+    testImplementation project(':commlib-testutils')
 
     testImplementation deps.junit
     testImplementation deps.mockito

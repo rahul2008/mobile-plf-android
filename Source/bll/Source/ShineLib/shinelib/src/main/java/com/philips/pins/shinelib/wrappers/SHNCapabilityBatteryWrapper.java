@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -12,12 +12,7 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class SHNCapabilityBatteryWrapper implements SHNCapabilityBattery, SHNCapabilityBattery.SHNCapabilityBatteryListener {
-    private static final String TAG = SHNCapabilityBatteryWrapper.class.getSimpleName();
     private final SHNCapabilityBattery wrappedShnCapability;
     private final Handler userHandler;
     private final Handler internalHandler;

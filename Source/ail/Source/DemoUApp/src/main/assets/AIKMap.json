@@ -1,0 +1,76 @@
+{
+  "appinfra.localtesting": [
+    {
+      "clientId": "4c73b365"
+    },
+    {
+      "clientId": "2d35b548bb"
+    },
+    {
+      "clientId": "ecbb6a284f"
+    },
+    {
+      "new": "49967f42cf",
+      "clientId": "d68cc08550"
+    },
+    {
+      "new": "e88cf71dab",
+      "clientId": "89c821b20a"
+    },
+    {
+      "new": "7ff2e35031",
+      "clientId": "9f0df8f0"
+    },
+    {
+      "clientId": "2eec3c82a6abd9"
+    }
+  ],
+  "userreg.janrain.cdn": [
+    {
+      "clientId": "c9e153c5"
+    },
+    {
+      "clientId": "0ce51950ec"
+    },
+    {
+      "clientId": "d0f1cfb3aa"
+    },
+    {
+      "new": "b1f9f948ec",
+      "clientId": "02cc3dd7da"
+    },
+    {
+      "new": "e6e173c5da",
+      "clientId": "b83d533301"
+    }
+  ],
+  "appinfra.keybag": [
+    {
+      "clientId": "b716849e4213df"
+    },
+    {
+      "key": "9c8732408862080878f2521e90bf2be7da309e2f4c26"
+    },
+    {
+      "key": "5dfad536bd4c0771dd51774fef517912a53b00dcc4ecec"
+    },
+    {
+      "key": "25fe1fa312b223085d3a3bd0631e9b957d2ae2105aa7be"
+    },
+    {
+      "key": "eef7d199e0d02465d372c3425345d6322bddc9c4e5c1"
+    },
+    {
+      "key": "d0e9569b82020157aae3405a9a0b0c1f49b7d44362c438"
+    },
+    {
+      "key": "b4c84ca7fdefe53b8cea42838ea239afed002657ff7e"
+    },
+    {
+      "key": "8a6913e7bcddeefaec056d16588f404ef59add55e5dd3d"
+    },
+    {
+      "key": "22a8e918b8a52b58d68ea73959bc77852b54f32b73ee"
+    }
+  ]
+}

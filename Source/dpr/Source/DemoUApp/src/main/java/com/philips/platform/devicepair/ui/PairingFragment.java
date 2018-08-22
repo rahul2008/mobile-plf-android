@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
@@ -370,7 +371,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
 
     public void logOut() {
         User user = new User(getContext());
-        if (!user.isUserSignIn()) return;
+        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) return;
 
         user.logout(new LogoutHandler() {
             @Override

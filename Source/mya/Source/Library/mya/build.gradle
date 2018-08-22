@@ -136,9 +136,9 @@ dependencies {
 
 
     //Coco
-    def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+
+    if (directdependencies) {
         implementation project(':uikitLib')
         implementation project(':uid')
         implementation project(':uAppFwLib')
@@ -151,12 +151,14 @@ dependencies {
     } else {
         implementation philipsdeps.uikitLib
         implementation philipsdeps.uid
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
         implementation (philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'
         }
-        implementation philipsdeps.mya_csw
-        implementation philipsdeps.mya_chi
-        implementation philipsdeps.mya_catk
+        implementation philipsdeps.csw
+        implementation philipsdeps.catk
+        implementation philipsdeps.pif
     }
 
     // Tests

@@ -125,8 +125,8 @@ dependencies {
     implementation deps.dagger.dagger
 
     // Philips Components
-    def dp = project.ext.has('useprojectdependencies')
-    if (dp) {
+
+    if (directdependencies) {
         implementation project(':registrationApi')
         implementation project(':pif')
         implementation project(':AppInfra')
@@ -135,7 +135,8 @@ dependencies {
             exclude group: 'com.android.support', module: 'customtabs'
             exclude group: 'com.google.dagger'
         }
-        implementation philipsdeps.mya_chi
+        implementation philipsdeps.pif
+        implementation philipsdeps.AppInfra
     }
 
     // Tests

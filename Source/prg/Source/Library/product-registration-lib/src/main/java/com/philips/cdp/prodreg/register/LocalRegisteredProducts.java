@@ -12,6 +12,7 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +62,7 @@ public class LocalRegisteredProducts {
         Gson gson = getGSon();
         String data = getProdRegCache().getStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY);
         RegisteredProduct[] products = getRegisteredProducts(gson, data);
-        if (user.isUserSignIn() && products != null) {
+        if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN && products != null) {
             ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
             for (RegisteredProduct registeredProduct : products) {
                 if (registeredProduct.getUserUUid().length() == 0 || registeredProduct.getUserUUid().equals(uuid)) {

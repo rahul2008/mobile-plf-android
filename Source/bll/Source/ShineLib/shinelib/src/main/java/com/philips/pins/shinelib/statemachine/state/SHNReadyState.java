@@ -23,10 +23,8 @@ import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady
 
 public class SHNReadyState extends SHNDeviceState {
 
-    private static final String TAG = "SHNReadyState";
-
     public SHNReadyState(@NonNull SHNDeviceStateMachine stateMachine) {
-        super(stateMachine);
+        super(stateMachine, "SHNReadyState");
     }
 
     @Override
@@ -56,12 +54,12 @@ public class SHNReadyState extends SHNDeviceState {
 
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        SHNLogger.d(TAG, "onServiceStateChanged: " + state + " [" + shnService.getUuid() + "]");
+        SHNLogger.d(logTag, "onServiceStateChanged: " + state + " [" + shnService.getUuid() + "]");
 
         if (state == SHNService.State.Error) {
             final String errorMsg = String.format(Locale.US, "Service [%s] state changed to error in SHNReadyState, moving to SHNDisconnectingState", shnService.getUuid());
 
-            SHNLogger.e(TAG, errorMsg);
+            SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
@@ -80,7 +78,7 @@ public class SHNReadyState extends SHNDeviceState {
         if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
             final String errorMsg = "Not ready for connection to the peripheral.";
 
-            SHNLogger.e(TAG, errorMsg);
+            SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
             handleGattDisconnectEvent();
@@ -89,7 +87,7 @@ public class SHNReadyState extends SHNDeviceState {
 
     @Override
     public void disconnect() {
-        SHNLogger.d(TAG, "Disconnect call in state SHNReadyState");
+        SHNLogger.d(logTag, "Disconnect call in state SHNReadyState");
         stateMachine.setState(new SHNDisconnectingState(stateMachine));
     }
 

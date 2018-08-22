@@ -13,12 +13,14 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
+import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
@@ -57,6 +59,7 @@ import com.squareup.leakcanary.LeakCanary;
 public class AppFrameworkApplication extends Application {
     private static final String LOG = AppFrameworkApplication.class.getSimpleName();
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
+    private static final String PSRA_BUILD_TYPE = "psraRelease";
     public static final String Apteligent_APP_ID = "69bb94377f0949908f3eeba142b8b21100555300";
     public AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
@@ -100,11 +103,15 @@ public class AppFrameworkApplication extends Application {
         applyStrictMode();
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
-                // This proisChinaCountrycess is dedicated to LeakCanary for heap analysis.
+                // This process is dedicated to LeakCanary for heap analysis.
                 // You should not initialise your app in this process.
                 return;
             }
             LeakCanary.install(this);
+        }
+        if (!BuildConfig.BUILD_TYPE.equalsIgnoreCase(PSRA_BUILD_TYPE)) {
+            DICommLog.enableLogging();
+            SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
         }
         super.onCreate();
     }

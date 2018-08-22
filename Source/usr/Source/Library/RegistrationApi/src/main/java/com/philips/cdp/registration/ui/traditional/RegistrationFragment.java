@@ -10,7 +10,6 @@ package com.philips.cdp.registration.ui.traditional;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -26,6 +25,7 @@ import android.widget.TextView;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -62,7 +62,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     @Inject
     NetworkUtility networkUtility;
-    private static final long serialVersionUID = 1128016096756071386L;
     private Context mContext;
 
     private FragmentManager mFragmentManager;
@@ -73,7 +72,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     private RegistrationLaunchMode mRegistrationLaunchMode;
 
     RegistrationContentConfiguration registrationContentConfiguration;
-    Intent msgIntent;
     private static long RESEND_DISABLED_DURATION = 60 * 1000;
     private static final long INTERVAL = 1 * 1000;
     static public MyCountDownTimer myCountDownTimer;
@@ -259,7 +257,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private void handleUseRLoginStateFragments() {
         User mUser = new User(getParentActivity().getApplicationContext());
-        boolean isUserSignIn = mUser.isUserSignIn();
+        boolean isUserSignIn = mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal();
         boolean isEmailVerified = (mUser.isEmailVerified() || mUser.isMobileVerified());
         boolean isEmailVerificationRequired = RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
@@ -342,40 +340,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         currentFragment = fragment;
         hideKeyBoard();
     }
-
-
-    public void navigateToHome() {
-
-        RLog.i(TAG, "navigateToHome : is called");
-
-        FragmentManager fragmentManager = getChildFragmentManager();
-        int fragmentCount = fragmentManager.getBackStackEntryCount();
-        try {
-            for (int i = fragmentCount; i >= 0; i--) {
-                fragmentManager.popBackStack();
-            }
-        } catch (IllegalStateException ignore) {
-        } catch (Exception ignore) {
-        }
-    }
-
-
-    public void replaceFragment(Fragment fragment, String fragmentTag) {
-
-        RLog.i(TAG, "replaceFragment : is called");
-
-        try {
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, fragmentTag);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(TAG,
-                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-        hideKeyBoard();
-    }
-
 
     private void replacMarketingAccountFragment() {
         try {

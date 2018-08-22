@@ -20,7 +20,7 @@ import java.util.Date;
  */
 public class SHNWeightMeasurement {
 
-    private static final String TAG = SHNWeightMeasurement.class.getSimpleName();
+    private static final String TAG = "SHNWeightMeasurement";
 
     private final Flags flags;
     private final Date timestamp;

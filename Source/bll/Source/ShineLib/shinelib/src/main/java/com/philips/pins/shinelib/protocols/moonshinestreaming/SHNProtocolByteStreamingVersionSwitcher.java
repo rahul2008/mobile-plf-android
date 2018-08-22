@@ -12,7 +12,7 @@ import com.philips.pins.shinelib.services.SHNServiceByteStreaming;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class SHNProtocolByteStreamingVersionSwitcher implements SHNProtocolMoonshineStreaming {
-    private static final String TAG = SHNProtocolByteStreamingVersionSwitcher.class.getSimpleName();
+    private static final String TAG = "SHNProtocolByteStreamingVersionSwitcher";
     private static final boolean ENABLE_DEBUG_LOGGING = false;
     private static final int PROTOCOL_VERSION_V1 = 1;
     private static final int PROTOCOL_VERSION_V2 = 2;

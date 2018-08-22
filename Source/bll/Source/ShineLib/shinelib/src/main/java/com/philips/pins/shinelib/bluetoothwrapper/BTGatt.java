@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondStatusListener {
-    private static final String TAG = BTGatt.class.getSimpleName();
+    private static final String TAG = "BTGatt";
     private static final boolean ENABLE_DEBUG_LOGGING = false;
     private static final int BOND_CREATED_WAIT_TIME_MILLIS = 500;
     private static final int DELAY_AFTER_SERVICE_DISCOVERY_MILLIS = 500;
@@ -307,7 +307,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
 // For Tuscany we found that Android does not negotiate the MTU size. The below statements work for Lolipop on a MOTOG.
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //                    boolean result = gatt.requestMtu(128);
-//                    Log.e(TAG, "gatt.requestMtu(128); = " + result);
+//                    Log.e(logTag, "gatt.requestMtu(128); = " + result);
 //                }
             }
         };

@@ -23,7 +23,6 @@ import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class SHNDeviceWrapper implements SHNDevice {
-    private static final String TAG = SHNDeviceWrapper.class.getSimpleName();
     private final SHNDevice shnDevice;
     private static Handler tempInternalHandler;
     private static Handler tempUserHandler;

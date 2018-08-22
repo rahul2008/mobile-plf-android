@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
 
-public class XIconTextView extends TextView {
+public class XIconTextView extends android.support.v7.widget.AppCompatTextView {
     final String iconFontAssetName = "PUIIcon.ttf";
 
     public XIconTextView(Context context) {

@@ -42,7 +42,7 @@ public enum Workaround {
             new OS[]            { }
     );
 
-    private static final String TAG = Workaround.class.getSimpleName();
+    private static final String TAG = "Workaround";
     private static final boolean ENABLE_DEBUG_LOGGING = false;
 
     private Phone[] phones;
