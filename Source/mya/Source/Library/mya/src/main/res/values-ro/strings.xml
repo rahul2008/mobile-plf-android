@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Eşti offline</string>
 <string name="MYA_Offline_message">Conexiunea la internet nu pare să funcţioneze. Verifică şi încearcă din nou.</string>
 <string name="mya_Privacy_Settings_Desc">Controlează-ţi confidenţialitatea. Pentru mai multe detalii, citeşte notificarea de confidenţialitate.</string>
+    <string name="MYA_Visit_Website">[ro]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[ro]Marketing OptIn</string>
 </resources>

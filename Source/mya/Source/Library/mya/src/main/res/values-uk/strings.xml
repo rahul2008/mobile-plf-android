@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Ви поза мережею</string>
 <string name="MYA_Offline_message">Здається, немає з’єднання з Інтернетом. Перевірте і спробуйте знову.</string>
 <string name="mya_Privacy_Settings_Desc">Зберігайте приватність. Докладніше читайте в _Політиці конфіденційності_.</string>
+    <string name="MYA_Visit_Website">[uk]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[uk]Marketing OptIn</string>
 </resources>
