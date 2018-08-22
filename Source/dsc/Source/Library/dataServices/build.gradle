@@ -169,16 +169,17 @@ configurations.all {
 }
 
 dependencies {
-    def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+
+    if (directdependencies) {
         implementation project(':catk')
         implementation project(':pif')
         implementation project(':AppInfra')
     } else {
-        implementation(philipsdeps.mya_catk) {
+        implementation(philipsdeps.catk) {
             exclude group: 'com.google.code.findbugs', module: 'jsr305'
         }
+        implementation philipsdeps.pif
         implementation philipsdeps.AppInfra
     }
 

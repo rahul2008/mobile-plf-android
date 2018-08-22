@@ -81,6 +81,7 @@ ext.philipsdeps = [
         product_registration_lib        : [group: 'com.philips.cdp', name: 'product-registration-lib', version: platformversionsuffix, changing: true],
         pushnotification                : [group: 'com.philips.cdp', name: 'pushnotification', version: platformversionsuffix, changing: true],
         registrationApi                 : [group: 'com.philips.cdp', name: 'registrationApi', version: platformversionsuffix, changing: true],
+        securedblibrary                 : [group: 'com.philips.cdp', name: 'securedblibrary', version: platformversionsuffix, changing: true],
         telehealth                      : [group: 'com.philips.cdp', name: 'telehealth', version: platformversionsuffix, changing: true],
         telehealthUApp                  : [group: 'com.philips.cdp', name: 'thsUapp', version: platformversionsuffix, changing: true],
         themesettings                   : [group: 'com.philips.cdp', name: 'themesettings', version: platformversionsuffix, changing: true],
@@ -90,6 +91,7 @@ ext.philipsdeps = [
         uikitLib                        : [group: 'com.philips.cdp', name: 'uikitLib', version: platformversionsuffix, changing: true],
         UserRegistrationUApp            : [group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: platformversionsuffix, changing: true]
        ]
+
 ext.repos = [
         base: 'http://artifactory-ehv.ta.philips.com:8082/artifactory',
 ]

@@ -42,6 +42,8 @@ dependencies {
     } else {
         implementation philipsdeps.pluginreferenceboard
         implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.bluelib
     }
 
     implementation deps.support.design

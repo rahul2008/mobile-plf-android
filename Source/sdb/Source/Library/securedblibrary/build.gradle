@@ -114,9 +114,9 @@ configurations.all {
 }
 
 dependencies {
-    def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+
+    if (directdependencies) {
         api project(':AppInfra')
     } else {
         api philipsdeps.AppInfra
