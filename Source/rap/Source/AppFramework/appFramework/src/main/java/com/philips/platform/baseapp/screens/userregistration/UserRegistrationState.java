@@ -8,10 +8,11 @@ package com.philips.platform.baseapp.screens.userregistration;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -37,7 +38,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -96,7 +96,9 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected static final String CHINA_CODE = "CN";
     protected static final String DEFAULT = "default";
     private URInterface urInterface;
-
+    private FirebaseAnalytics firebaseAnalytics;
+    private String MARKETING_OPTIN = "Marketing-Optin";
+    private String MARKETING_OPTIN_STATUS = "Marketing-Optin-status";
     /**
      * AppFlowState constructor
      */
@@ -127,7 +129,9 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         //Post HSDP initialization on background thread.
         new Thread(() -> initHSDP(((AppFrameworkApplication) context.getApplicationContext()).getAppState())).start();
         initializeUserRegistrationLibrary();
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
+
 
     private void initHSDP(AppIdentityInterface.AppState configuration) {
         AppInfraInterface appInfra = getAppInfra();
@@ -290,10 +294,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
         abTesting.enableDeveloperMode(true);
         String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE);
+        Bundle bundle = new Bundle();
+        bundle.putString(AB_TEST_OPTIN_IMAGE_KEY, testValue);
+        firebaseAnalytics.logEvent(MARKETING_OPTIN, bundle);
         if (testValue.equalsIgnoreCase("Sonicare")) {
             contentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
-        } else if (testValue.equalsIgnoreCase("Norelco")) {
-            contentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
+            contentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");
+            contentConfiguration.setOptInQuessionaryText("Custom Reward Coupons, Holiday Surprises, VIP Shopping Days");
         } else {
             contentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
         }
@@ -372,10 +379,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected void setUrCompleted() {
         if (userObject != null) {
             getApplicationContext().getAppInfra().getLogging().setHSDPUserUUID(userObject.getHsdpUUID());
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("optin-status", userObject.getReceiveMarketingEmail());
+            firebaseAnalytics.logEvent(MARKETING_OPTIN_STATUS, bundle);
         }
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putBoolean(Constants.UR_LOGIN_COMPLETED, true);
-        editor.commit();
+        editor.apply();
     }
 
     private SharedPreferences getSharedPreferences() {

@@ -2,9 +2,10 @@ package com.philips.platform.baseapp.screens.Optin;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.TextUtils;
+import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -18,7 +19,6 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -30,6 +30,7 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
     private FragmentLauncher fragmentLauncher;
     private User userObject;
     public static String AB_TEST_OPTIN_IMAGE_KEY = "optin_image";
+    private String MY_ACCOUNT_OPTIN_IMAGE= "my_account_optin_image";
 
     public MarketingOptin() {
         super(AppStates.MY_DETAILS_STATE);
@@ -58,10 +59,13 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
         abTesting.enableDeveloperMode(true);
         String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE);
+        Bundle bundle = new Bundle();
+        bundle.putString(AB_TEST_OPTIN_IMAGE_KEY, testValue);
+        FirebaseAnalytics.getInstance(context).logEvent(MY_ACCOUNT_OPTIN_IMAGE, bundle);
         if (testValue.equalsIgnoreCase("Sonicare")) {
             registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
-        } else if (testValue.equalsIgnoreCase("Norelco")) {
-            registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
+            registrationContentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");
+            registrationContentConfiguration.setOptInQuessionaryText("Custom Reward Coupons, Holiday Surprises, VIP Shopping Days");
         } else {
             registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
         }
