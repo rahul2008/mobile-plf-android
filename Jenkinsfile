@@ -115,10 +115,11 @@ pipeline {
                 sh '''#!/bin/bash -l
                     set -e
                     ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
-                    ./gradlew referenceApp:dependencies > ./dependency_log.txt
+
                     apkname=`xargs < apkname.txt`
-                    dependencyname=${apkname/.apk/.gradledependencies}
-                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependencyname}" -T ./dependency_log.txt
+                    dependenciesName=${apkname/.apk/.gradledependencies.gz}
+                    ./gradlew -Dorg.gradle.parallel=false reportAllProjectDependencies | gzip -9 > ./allProjects.gradledependencies.gz
+                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependenciesName}" -T ./allProjects.gradledependencies.gz
                 '''
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
                 DeployingConnectedTestsLogs()
