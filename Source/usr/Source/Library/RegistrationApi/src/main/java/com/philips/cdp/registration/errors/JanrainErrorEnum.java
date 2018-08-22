@@ -1,12 +1,15 @@
 package com.philips.cdp.registration.errors;
 
 import android.content.Context;
+import android.content.res.Configuration;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by philips on 4/17/18.
@@ -127,6 +130,9 @@ public enum JanrainErrorEnum {
     private static String getUSR_JanrainFormattedError(Context context, int errorCode) {
 
         int stringId = getStringId(errorCode);
+        final String englishString = getEnglishString(context, stringId);
+        RLog.d("Error","englishString :"+ englishString);
+
 
         if (stringId == R.string.USR_JanRain_Server_ConnectionLost_ErrorMsg) {
             return String.format(context.getResources().getString(stringId), errorCode);
@@ -144,6 +150,18 @@ public enum JanrainErrorEnum {
 
         }
         return context.getString(stringId);
+    }
+
+    protected static String getEnglishString(Context context, int messageId) {
+        Configuration configuration = getEnglishConfiguration(context);
+
+        return context.createConfigurationContext(configuration).getResources().getString(messageId);
+    }
+
+    private static Configuration getEnglishConfiguration(Context context) {
+        Configuration configuration = new Configuration(context.getResources().getConfiguration());
+        configuration.setLocale(new Locale("en"));
+        return configuration;
     }
 
 }

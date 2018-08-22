@@ -412,6 +412,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
         EventBus.getDefault().post(new LoginFailureNotification());
+
         handleLogInFailed(userRegistrationFailureInfo);
     }
 
@@ -427,7 +428,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
         }
 
-        trackInvalidCredentials();
+       // trackInvalidCredentials();
     }
 
     @Override
@@ -580,11 +581,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         trackMultipleActionsMap(AppTagingConstants.SEND_DATA, map);
     }
 
-    private void trackInvalidCredentials() {
-        AppTagging.trackAction(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.USER_ERROR,
-                AppTagingConstants.INVALID_CREDENTIALS);
-    }
+//    private void trackInvalidCredentials() {
+//        AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+//                AppTagingConstants.USER_ERROR,
+//                AppTagingConstants.INVALID_CREDENTIALS);
+//    }
 
     @Override
     public void onResendVerificationEmailFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {

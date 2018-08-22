@@ -66,13 +66,11 @@ public class AppTagingConstants {
 
     public static final String PREVIOUS_PAGE_NAME = "previousPageName";
 
-    public static final String TECHNICAL_ERROR = "error";
+    public static final String TECHNICAL_ERROR = "technicalError";
 
-    public static final String USER_ERROR = "error";
+    public static final String USER_ERROR = "userError";
 
     public static final String RESET_PASSWORD_SUCCESS = "A link is sent to your email to reset the password of your Philips Account";
-
-    public static final int NETWORK_ERROR_CODE = 111;
 
     public static final int EMAIL_NOT_VERIFIED_CODE = 112;
 
