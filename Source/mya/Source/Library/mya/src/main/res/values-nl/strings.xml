@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">U bent offline</string>
 <string name="MYA_Offline_message">Uw internetverbinding lijkt niet te werken. Controleer deze en probeer het opnieuw</string>
 <string name="mya_Privacy_Settings_Desc">Beheer uw privacy. Lees onze _privacyverklaring_ voor meer informatie.</string>
+    <string name="MYA_Visit_Website">[nl]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[nl]Marketing OptIn</string>
 </resources>

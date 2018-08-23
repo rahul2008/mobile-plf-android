@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Du er offline</string>
 <string name="MYA_Offline_message">Din internetforbindelse virker tilsyneladende ikke. Kontrollér forbindelsen, og prøv igen</string>
 <string name="mya_Privacy_Settings_Desc">Styr dine personlige oplysninger. Læs meddelelse om beskyttelse af personlige oplysninger.</string>
+    <string name="MYA_Visit_Website">[da]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[da]Marketing OptIn</string>
 </resources>
