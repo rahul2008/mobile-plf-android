@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Nimate vzpostavljene povezave</string>
 <string name="MYA_Offline_message">Videti je, da vaša internetna povezava ne deluje. Preverite povezavo in poskusite znova.</string>
 <string name="mya_Privacy_Settings_Desc">Nadzorujte svojo zasebnost. Za več informacij preberite _obvestilo o zasebnosti_.</string>
+    <string name="MYA_Visit_Website">[sl]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[sl]Marketing OptIn</string>
 </resources>

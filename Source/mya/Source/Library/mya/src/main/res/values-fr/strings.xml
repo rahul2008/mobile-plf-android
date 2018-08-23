@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Vous êtes hors ligne</string>
 <string name="MYA_Offline_message">Votre connexion Internet semble ne pas fonctionner. Vérifiez et réessayez.</string>
 <string name="mya_Privacy_Settings_Desc">Contrôlez votre confidentialité. Lisez la _politique de confidentialité_ pour en savoir plus.</string>
+    <string name="MYA_Visit_Website">[fr]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[fr]Marketing OptIn</string>
 </resources>
