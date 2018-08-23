@@ -20,7 +20,9 @@ public class AbTestingImpl implements ABTestClientInterface {
     private AppInfraInterface appInfraInterface;
     private CACHESTATUSVALUES cachestatusvalues = CACHESTATUSVALUES.EXPERIENCE_NOT_UPDATED;
 
-
+    /**
+     * invoke this api to initialise FireBase remote configuration
+     */
     public void initFireBase() {
         fireBaseWrapper = getFireBaseWrapper();
     }
@@ -40,6 +42,7 @@ public class AbTestingImpl implements ABTestClientInterface {
         abTestingLocalCache.initAppInfra(appInfraInterface);
         fireBaseWrapper.initAppInfra(appInfraInterface);
         inMemoryCache = new HashMap<>();
+        // Syncing in-memory cache with disk memory if available
         if (abTestingLocalCache.getCacheFromPreference().getTestValues() != null)
             syncInMemoryCache(inMemoryCache, abTestingLocalCache.getCacheFromPreference().getTestValues());
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, " in-memory cache size " + inMemoryCache.size() + "");
@@ -74,9 +77,11 @@ public class AbTestingImpl implements ABTestClientInterface {
     @Override
     public void updateCache(OnRefreshListener onRefreshListener) {
         if(!appInfraInterface.getRestClient().isInternetReachable()) {
+            // throw error callback if no network available
             onRefreshListener.onError(OnRefreshListener.ERRORVALUES.NO_NETWORK);
             return;
         }
+        // fetching data from FireBase Server
         fireBaseWrapper.fetchDataFromFireBase(getFetchDataHandler(), onRefreshListener);
     }
 
@@ -85,11 +90,13 @@ public class AbTestingImpl implements ABTestClientInterface {
         return new FetchDataHandler() {
             @Override
             public void fetchData(Map<String, CacheModel.ValueModel> data) {
+                // Syncing in-memory cache with FireBase data if available
                 syncInMemoryCache(inMemoryCache, data);
             }
 
             @Override
             public void updateCacheStatus(CACHESTATUSVALUES cachestatusvalues) {
+                // update cache status
                 AbTestingImpl.this.cachestatusvalues = cachestatusvalues;
             }
         };
@@ -97,6 +104,7 @@ public class AbTestingImpl implements ABTestClientInterface {
 
     @Override
     public void enableDeveloperMode(boolean state) {
+        // enable/dis-able FireBase developer mode
         fireBaseWrapper.enableDeveloperMode(state);
     }
 

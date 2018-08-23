@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "821727349597",
-    "firebase_url": "https://abtesting-16e5d.firebaseio.com",
-    "project_id": "abtesting-16e5d",
-    "storage_bucket": "abtesting-16e5d.appspot.com"
+    "project_number": "693951506629",
+    "firebase_url": "https://reference-app-android.firebaseio.com",
+    "project_id": "reference-app-android",
+    "storage_bucket": "reference-app-android.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:821727349597:android:a2d23725f1fd704c",
+        "mobilesdk_app_id": "1:693951506629:android:a2d23725f1fd704c",
         "android_client_info": {
           "package_name": "com.philips.platform.referenceapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "821727349597-vvbaiatfge3h65jre9idi1qc5d91ouc4.apps.googleusercontent.com",
+          "client_id": "693951506629-t4ohbsqhpf0n34v5ijqrev2l55dk9ehf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCe_2UGoafR_wehKVdEOgD4CSMI3PKmti0"
+          "current_key": "AIzaSyDCO7mqwGb26ms2vDLvt3ZoE5IoAlrIlpw"
         }
       ],
       "services": {
