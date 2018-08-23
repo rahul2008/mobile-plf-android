@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class WelcomeStateTest {
+public class CookiesConsentStateTest {
 
     @Mock
     private FragmentLauncher fragmentLauncher;

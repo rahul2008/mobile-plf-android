@@ -23,7 +23,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class WelcomeFragmentPresenterTest extends TestCase {
+public class CookiesConsentPresenterTest extends TestCase {
 
     private WelcomeFragmentPresenter welcomeFragmentPresenter;
     private WelcomeFragmentView welcomeFragmentViewMock;
