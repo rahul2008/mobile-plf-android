@@ -8,7 +8,6 @@ package com.philips.platform.appinfra.abtestclient;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * The ABTest client Interface
@@ -18,6 +17,7 @@ public interface ABTestClientInterface extends Serializable {
     /**
      * EXPERIENCES_NOT_UPDATED: tests are configured, cached experience values are of previous app start
      * EXPERIENCES_UPDATED: tests are configured, all experience values have been downloaded from the server for this app start
+     * @since 2018.4.0
      */
     enum CACHESTATUSVALUES {
         EXPERIENCE_NOT_UPDATED, EXPERIENCE_UPDATED
@@ -25,6 +25,7 @@ public interface ABTestClientInterface extends Serializable {
 
     /**
      * Update cache after app restart or update
+     * @since 2018.4.0
      */
     enum UPDATETYPES {
         EVERY_APP_START(1), ONLY_AT_APP_UPDATE(2);
@@ -43,7 +44,7 @@ public interface ABTestClientInterface extends Serializable {
 
     /**
      *These tests will be refreshes if you update cache after app restart or update
-     * @since 1.0.0
+     * @since 2018.4.0
      */
     interface OnRefreshListener {
         enum ERRORVALUES {NO_NETWORK, SERVER_ERROR}
@@ -56,12 +57,11 @@ public interface ABTestClientInterface extends Serializable {
 
     /**
      * Returns the status of the cached experiences for the configured list of tests.
-     * At initialization of the module, the status is either NO_TESTS_DEFINED, NO_CACHED_EXPERIENCES,
-     * or EXPERIENCES_NOT_UPDATED.
-     * An updateCache() may change the state to EXPERIENCES_PARTIALLY_UPDATED or EXPERIENCES_UPDATED.
+     * At initialization of the module, the status is EXPERIENCES_NOT_UPDATED.
+     * On successful updateCache() state will be updated to EXPERIENCES_UPDATED.
      *
      * @return status of the experience cache.
-     * @since 1.0.0
+     * @since 2018.4.0
      */
     CACHESTATUSVALUES getCacheStatus();
 
@@ -72,16 +72,16 @@ public interface ABTestClientInterface extends Serializable {
      * @param requestNameKey     name of the test for which the value is to be provided
      * @param defaultValue value to use if no cached value is available
      * @return experience value for the requested test.
-     * @since 1.0.0
+     * @since 2018.4.0
      */
     String getTestValue(@NonNull String requestNameKey, @NonNull String defaultValue, UPDATETYPES updateType);
 
     /**
-     * Download experience values from the server. Call will have no effect if state equals
-     * NO_TESTS_DEFINED or EXPERIENCES_UPDATED.
+     * Download updated experience values from the server. Call will have no effect if state equals
+     * EXPERIENCES_NOT_UPDATED or EXPERIENCES_UPDATED.
      *
      * @param listener for OnRefresh
-     * @since 1.0.0
+     * @since 2018.4.0
      */
     void updateCache(OnRefreshListener listener);
 
