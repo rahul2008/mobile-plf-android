@@ -69,7 +69,9 @@ public class AbTestingImpl implements ABTestClientInterface {
             testValue = defaultValue;
         } else
             testValue = valueModel.getTestValue();
-
+        // once the value is given from in-memory then we check if the type is restart or update
+        // then if it is update then we store the value in the disk else
+        // in memory(update of in-memory only happens if the key is not defined in server)
         updateCachesForTestName(requestNameKey, testValue, updateType);
         return testValue;
     }
@@ -90,7 +92,7 @@ public class AbTestingImpl implements ABTestClientInterface {
         return new FetchDataHandler() {
             @Override
             public void fetchData(Map<String, CacheModel.ValueModel> data) {
-                // Syncing in-memory cache with FireBase data if available
+                // Syncing in-memory cache with FireBase data if required
                 syncInMemoryCache(inMemoryCache, data);
             }
 
@@ -118,9 +120,11 @@ public class AbTestingImpl implements ABTestClientInterface {
             //else value is already there in cache ignoring the new value
         }
         if (updateType.equals(UPDATETYPES.EVERY_APP_START)) {
+            // remove testValue from disk if update type is app-start
             abTestingLocalCache.removeFromDisk(requestNameKey);
         } else if (updateType.name().equals
                 (UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
+            // saving test value to cache
             abTestingLocalCache.saveCacheToDisk();
         }
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
@@ -153,6 +157,11 @@ public class AbTestingImpl implements ABTestClientInterface {
         }
     }
 
+    /**
+     *
+     * @param valueModel - to get version from disk
+     * @return - will verify is application version updated
+     */
     private boolean isAppUpdated(CacheModel.ValueModel valueModel) {
         return valueModel.getAppVersion() == null || valueModel.getAppVersion().isEmpty() || !valueModel.getAppVersion().equalsIgnoreCase(appInfraInterface.getAppIdentity().getAppVersion());
     }

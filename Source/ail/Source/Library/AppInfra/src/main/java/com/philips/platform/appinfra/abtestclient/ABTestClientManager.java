@@ -16,7 +16,7 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     @Override
     public CACHESTATUSVALUES getCacheStatus() {
-        return null;
+        return CACHESTATUSVALUES.EXPERIENCE_NOT_UPDATED;
     }
 
     @Override
@@ -31,6 +31,5 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     @Override
     public void enableDeveloperMode(boolean state) {
-
     }
 }

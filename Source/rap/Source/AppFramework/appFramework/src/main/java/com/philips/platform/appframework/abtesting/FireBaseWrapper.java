@@ -19,6 +19,7 @@ class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
     private FirebaseRemoteConfig remoteConfig;
     private FetchDataHandler fetchDataHandler;
     private ABTestClientInterface.OnRefreshListener onRefreshListener;
+    private final int defaultCacheExpirationTime = 43200;
     private int cacheExpirationTime = 43200; // 12hours by default
     private AppInfraInterface appInfraInterface;
 
@@ -38,9 +39,10 @@ class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
                 .build();
         remoteConfig.setConfigSettings(config);
         if (state) {
-            cacheExpirationTime = 0;
-        } else
-            cacheExpirationTime = 43200;
+            cacheExpirationTime = 0; // have made cache expiration time to zero seconds if enabled developer mode
+        } else {
+            cacheExpirationTime = defaultCacheExpirationTime;
+        }
         
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,"firebase developer mode set to "+state);
     }

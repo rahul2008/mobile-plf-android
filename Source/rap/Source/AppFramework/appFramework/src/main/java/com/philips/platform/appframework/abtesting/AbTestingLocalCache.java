@@ -66,7 +66,9 @@ class AbTestingLocalCache {
         return preferenceCacheModel;
     }
 
-
+    /**
+     * api to save cache model object to disk memory
+     */
     void saveCacheToDisk() {
         saveToDisk(gson.toJson(preferenceCacheModel));
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
