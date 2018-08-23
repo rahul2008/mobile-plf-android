@@ -91,7 +91,7 @@ public class AppTaggingErrors {
                 trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.USER_ERROR, EMAIL_IS_NOT_VERIFIED);
                 break;
-            //URX Errors
+                //URX Errors
             case ErrorCodes.URX_INVALID_PHONENUMBER:
             case ErrorCodes.URX_SMS_ACCOUNT_ALREADY_VERIFIED:
                 //Janrain Errors
@@ -132,7 +132,7 @@ public class AppTaggingErrors {
                             AppTagingConstants.USER_ERROR, EMAIL_ALREADY_IN_USE);
                 }
                 break;
-            //URX Errors
+                 //URX Errors
             case ErrorCodes.URX_INVALID_PHONENUMBER:
             case ErrorCodes.URX_SMS_ACCOUNT_ALREADY_VERIFIED:
                 //Janrain Errors

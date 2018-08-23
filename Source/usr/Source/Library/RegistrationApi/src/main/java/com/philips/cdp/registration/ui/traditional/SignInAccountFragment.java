@@ -428,7 +428,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
         }
 
-       // trackInvalidCredentials();
+        // trackInvalidCredentials();
     }
 
     @Override
@@ -610,6 +610,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.d(RLog.CALLBACK, "SignInAccountFragment : family name" + mUser.getFamilyName());
 
         if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+            userRegistrationFailureInfo.setErrorCode(AppTagingConstants.EMAIL_NOT_VERIFIED_CODE);
+            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             launchAccountActivationFragment();
             return;
         }
