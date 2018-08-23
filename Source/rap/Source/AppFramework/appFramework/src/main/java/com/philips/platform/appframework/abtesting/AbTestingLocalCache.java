@@ -8,6 +8,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import java.util.HashMap;
 import java.util.Map;
 
 class AbTestingLocalCache {
@@ -24,8 +25,10 @@ class AbTestingLocalCache {
         sharedPreferences = context.getSharedPreferences(ABTEST_PREFERENCE,
                 Context.MODE_PRIVATE);
         this.preferenceCacheModel = gson.fromJson(fetchFromDisk(), CacheModel.class);
-        if (preferenceCacheModel == null)
+        if (preferenceCacheModel == null) {
             preferenceCacheModel = new CacheModel();
+            preferenceCacheModel.setTestValues(new HashMap<>());
+        }
     }
 
     private void saveToDisk(String cacheModel) {
@@ -75,8 +78,8 @@ class AbTestingLocalCache {
                 "updated Cache to Preference " + preferenceCacheModel);
     }
 
-    void updatePreferenceCacheModel(Map<String, CacheModel.ValueModel> inMemoryCache) {
-        this.preferenceCacheModel.setTestValues(inMemoryCache);
+    void updatePreferenceCacheModel(String key, CacheModel.ValueModel valueModel) {
+        this.preferenceCacheModel.getTestValues().put(key, valueModel);
     }
 
     CacheModel getPreferenceCacheModel() {

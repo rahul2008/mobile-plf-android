@@ -95,7 +95,7 @@ public class AbTestingImplTest {
         assertTrue(testValue.equals("value1"));
         assertEquals(abTesting.getInMemoryCache().get("key1").getUpdateType(), ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE.name());
         assertEquals(abTesting.getInMemoryCache().get("key1").getAppVersion(), "18.3");
-        verify(abTestingLocalCacheMock).updatePreferenceCacheModel(abTesting.getInMemoryCache());
+        verify(abTestingLocalCacheMock).updatePreferenceCacheModel("key1",abTesting.getInMemoryCache().get("key1"));
         verify(abTestingLocalCacheMock).saveCacheToDisk();
         testValue = abTesting.getTestValue("key3", "default_value", ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE);
         assertTrue(testValue.equals("default_value"));

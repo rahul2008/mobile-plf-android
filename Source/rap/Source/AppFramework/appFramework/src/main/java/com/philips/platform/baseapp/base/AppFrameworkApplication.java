@@ -346,7 +346,6 @@ public class AppFrameworkApplication extends Application {
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
         AbTestingImpl abTestingImpl = new AbTestingImpl();
         abTestingImpl.initFireBase();
-        Log.d("FireBase instance id - ", FirebaseInstanceId.getInstance().getToken());
         AppInfra.Builder builder = new AppInfra.Builder();
         builder.setAbTesting(abTestingImpl);
         appInfra = builder.build(getApplicationContext());
@@ -384,6 +383,7 @@ public class AppFrameworkApplication extends Application {
             @Override
             public void onSuccess() {
                 RALog.d(LOG, "abtesting cache updated successfully");
+                RALog.d("FireBase instance id - ", FirebaseInstanceId.getInstance().getToken());
             }
 
             @Override

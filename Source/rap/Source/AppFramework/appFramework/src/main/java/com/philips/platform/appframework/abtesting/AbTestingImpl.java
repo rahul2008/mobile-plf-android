@@ -115,7 +115,6 @@ public class AbTestingImpl implements ABTestClientInterface {
             final CacheModel.ValueModel val = inMemoryCache.get(requestNameKey);
             if (val.getTestValue() == null || !updateType.name().equalsIgnoreCase(UPDATETYPES.EVERY_APP_START.name())) {
                 updateInMemoryCache(requestNameKey, testValue, updateType.name());
-                abTestingLocalCache.updatePreferenceCacheModel(inMemoryCache);
             }
             //else value is already there in cache ignoring the new value
         }
@@ -124,7 +123,8 @@ public class AbTestingImpl implements ABTestClientInterface {
             abTestingLocalCache.removeFromDisk(requestNameKey);
         } else if (updateType.name().equals
                 (UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
-            // saving test value to cache
+            // saving test value to disk cache
+            abTestingLocalCache.updatePreferenceCacheModel(requestNameKey, inMemoryCache.get(requestNameKey));
             abTestingLocalCache.saveCacheToDisk();
         }
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,

@@ -12,9 +12,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
@@ -69,12 +66,9 @@ public class AbTestingLocalCacheTest {
 
     @Test
     public void shouldUpdateTestValues() {
-        Map<String,CacheModel.ValueModel> map = new HashMap<>();
         CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
-        map.put("some_key", valueModel);
-        abTestingLocalCache.updatePreferenceCacheModel(map);
-        assertTrue(abTestingLocalCache.getPreferenceCacheModel().getTestValues().equals(map));
-        assertEquals(map.get("some_key"),valueModel);
+        abTestingLocalCache.updatePreferenceCacheModel("key3",valueModel);
+        assertEquals(abTestingLocalCache.getPreferenceCacheModel().getTestValues().get("key3"),valueModel);
     }
 
 
