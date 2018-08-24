@@ -515,6 +515,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
 
 
     private void enableControls(boolean clickableState) {
+        RLog.d(TAG, "enableControls : " + clickableState);
         handleBtnClickableStates(clickableState);
     }
 
@@ -528,6 +529,10 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         mCountryDisplay2.setEnabled(state);
         privacyPolicy2.setEnabled(state);
         //    continueWithouAccount.setEnabled(state);
+        if (!homePresenter.isNetworkAvailable()) {
+            RLog.d(TAG, " URNotification handleBtnClickableStates");
+            showNotificationBarOnNetworkNotAvailable();
+        } else hideNotificationBarView();
     }
 
     @Override
