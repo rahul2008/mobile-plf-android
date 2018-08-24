@@ -66,6 +66,10 @@ public class HPKPManager implements HPKPInterface {
     @Override
     public boolean isPinnedCertificateMatching(String hostName, List<X509Certificate> chain) {
         String storedPublicKeyDetails = hpkpStorageHelper.getStoredPublicKeyDetails(hostName);
+        if(TextUtils.isEmpty(storedPublicKeyDetails)){
+            return false;
+        }
+
         boolean isCertificatePinsMisMatch = true;
         for (X509Certificate certificate : chain) {
             String certificatePin = getSHA256Value(certificate);
@@ -74,8 +78,10 @@ public class HPKPManager implements HPKPInterface {
                 break;
             }
         }
+
         HPKPExpirationHelper hpkpExpirationHelper = new HPKPExpirationHelper(storedPublicKeyDetails, null);
         boolean isPinnedPublicKeyExpired = hpkpExpirationHelper.isPinnedPublicKeyExpired();
+
         logError(hostName, isCertificatePinsMisMatch, isPinnedPublicKeyExpired);
         return !isCertificatePinsMisMatch && !isPinnedPublicKeyExpired;
     }
