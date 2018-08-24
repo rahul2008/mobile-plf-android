@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.philips.platform.ews.demoapplication.microapp.UAppDependencyHelper;
 import com.philips.platform.ews.demoapplication.themesettinngs.ThemeHelper;
