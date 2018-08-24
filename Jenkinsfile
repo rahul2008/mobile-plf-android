@@ -455,13 +455,7 @@ def DeployingJavaDocs() {
             echo "Not published JavaDoc as build is not on a master, develop or release branch" . $BranchName
         fi
 
-        zip -r ./Source/bll/Documents/External/bluelib-api.zip ./Source/bll/Documents/External/bluelib-api/ ./Source/bll/Documents/External/bluelib-plugin-api/ 2>&1
-        find . -name "commlib-*-api" | while read DOCDIR;
-        do
-          zip -r $DOCDIR.zip $DOCDIR > /dev/null 2>&1
-        done
-
-        ./gradlew :referenceApp:printPlatformVersion
+        ./gradlew :bluelib:zipJavadoc :commlib-api:zipJavadoc :commlib-ble:zipJavadoc :commlib-cloud:zipJavadoc :commlib-lan:zipJavadoc :referenceApp:printPlatformVersion
         platformVersion=`xargs < platformversion.txt`
 
         curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/bluelib/$platformVersion/ -T ./Source/bll/Documents/External/bluelib-api.zip

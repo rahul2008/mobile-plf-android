@@ -133,6 +133,14 @@ generateJavadoc.dependsOn {
     tasks.findAll { task -> task.name.startsWith('generateJavadoc') && task.name != "generateJavadoc" }
 }
 
+task zipJavadoc(type: Zip) {
+    from "${projectDir}/../../../Documents/External/${project.name}-api/"
+    include '*'
+    include '*/*' //to include contents of a folder present inside Reports directory
+    archiveName "${project.name}-api.zip"
+    destinationDir(file("${projectDir}/../../../Documents/External/"))
+}
+
 pitest {
     targetClasses = [
             'com.philips.pins.shinelib.associationprocedures.*',

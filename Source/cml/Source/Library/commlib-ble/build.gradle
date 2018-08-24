@@ -65,6 +65,14 @@ task generateJavadocPublicApi(type: Javadoc) {
     failOnError false
 }
 
+task zipJavadoc(type: Zip) {
+    from "${projectDir}/../../../Documents/External/${project.name}-api/"
+    include '*'
+    include '*/*' //to include contents of a folder present inside Reports directory
+    archiveName "${project.name}-api.zip"
+    destinationDir(file("${projectDir}/../../../Documents/External/"))
+}
+
 dependencies {
     implementation deps.support.supportv4
     compileOnly deps.support.annotations
