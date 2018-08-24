@@ -292,7 +292,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         RegistrationContentConfiguration contentConfiguration = new RegistrationContentConfiguration();
         contentConfiguration.enableContinueWithouAccount(true);
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
-        abTesting.enableDeveloperMode(true);
         String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
         Bundle bundle = new Bundle();
         bundle.putString(AB_TEST_OPTIN_IMAGE_KEY, testValue);

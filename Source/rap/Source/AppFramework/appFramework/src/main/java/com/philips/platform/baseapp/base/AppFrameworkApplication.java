@@ -349,7 +349,7 @@ public class AppFrameworkApplication extends Application {
         builder.setAbTesting(abTestingImpl);
         appInfra = builder.build(getApplicationContext());
         abTestingImpl.initAbTesting(appInfra);
-
+        abTestingImpl.enableDeveloperMode(true);
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
@@ -377,7 +377,6 @@ public class AppFrameworkApplication extends Application {
                 });
             }
         });
-        abTestingImpl.enableDeveloperMode(true);
         abTestingImpl.updateCache(new ABTestClientInterface.OnRefreshListener() {
             @Override
             public void onSuccess() {
