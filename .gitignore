@@ -6,3 +6,5 @@ local.properties
 *.lock
 
 Source/mya/Source/Library/MyAccount/gradle/wrapper/
+Source/cml/Documents/External/commlib-*-api
+Source/bll/Documents/External/bluelib*-api
