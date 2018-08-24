@@ -153,6 +153,15 @@
                 "nextState": "AbTesting_web_view"
               }
             ]
+          },
+          {
+            "eventId": "back",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "welcome"
+              }
+            ]
           }
         ]
       },
