@@ -26,6 +26,7 @@ import com.philips.platform.ews.demoapplication.themesettinngs.ThemeHelper;
 import com.philips.platform.ews.demoapplication.themesettinngs.ThemeSettingsFragment;
 import com.philips.platform.ews.microapp.EWSActionBarListener;
 import com.philips.platform.ews.microapp.EWSLauncherInput;
+import com.philips.platform.ews.microapp.EwsResultListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -38,7 +39,7 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListener {
+public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListener, EwsResultListener {
 
     private final int TOOLBAR_UPDATE_TIMER = 100;
     private SharedPreferences defaultSharedPreferences;
@@ -139,6 +140,11 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -293,5 +299,15 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
     public void onBackPressed() {
         super.onBackPressed();
         updateActionBar();
+    }
+
+    @Override
+    public void onEWSFinishSuccess() {
+        Toast.makeText(this, "EWS finished successfully. Back to EWSDemoUActivity.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onEWSError(int errorCode) {
+
     }
 }

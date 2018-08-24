@@ -5,12 +5,16 @@
 
 package com.philips.platform.ews.connectionsuccessful;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +25,9 @@ import com.philips.platform.ews.base.BaseFragment;
 import com.philips.platform.ews.common.callbacks.FragmentCallback;
 import com.philips.platform.ews.databinding.FragmentConnectionSuccessfulBinding;
 import com.philips.platform.ews.microapp.EWSActionBarListener;
+import com.philips.platform.ews.microapp.EwsResultListener;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -86,6 +93,16 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
 
     @Override
     public void finishMicroApp() {
+        EwsResultListener resultListener = null;
+
+        try {
+            resultListener = ((EwsResultListener) getContext());
+        } catch (ClassCastException e) {}
+
+        if (resultListener != null) {
+            resultListener.onEWSFinishSuccess();
+        }
+
         getActivity().finish();
     }
 }
