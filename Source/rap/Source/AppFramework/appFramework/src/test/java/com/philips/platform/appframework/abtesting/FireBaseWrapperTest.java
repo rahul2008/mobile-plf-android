@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.abtestclient.CacheModel;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -34,7 +35,7 @@ public class FireBaseWrapperTest {
     @Mock
     private Task<Void> voidTask;
     @Mock
-    private FetchDataHandler fetchDataHandlerMock;
+    private AbTestingImpl.FetchDataHandler fetchDataHandlerMock;
     @Mock
     private ABTestClientInterface.OnRefreshListener refreshListenerMock;
     @Mock
@@ -73,8 +74,8 @@ public class FireBaseWrapperTest {
     public void shouldReturnOnFetchFailed() {
         fireBaseWrapper.fetchDataFromFireBase(fetchDataHandlerMock, refreshListenerMock);
         fireBaseWrapper.onFailure(new Exception());
-        verify(refreshListenerMock).onError(ABTestClientInterface.OnRefreshListener.ERRORVALUES.SERVER_ERROR);
-        verify(fetchDataHandlerMock).updateCacheStatus(ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCE_NOT_UPDATED);
+        verify(refreshListenerMock).onError(ABTestClientInterface.OnRefreshListener.ERRORVALUE.SERVER_ERROR);
+        verify(fetchDataHandlerMock).updateCacheStatus(ABTestClientInterface.CACHESTATUS.EXPERIENCE_NOT_UPDATED);
     }
 
     @Test
@@ -83,7 +84,7 @@ public class FireBaseWrapperTest {
         when(voidTask.isSuccessful()).thenReturn(true);
         fireBaseWrapper.onComplete(voidTask);
         verify(firebaseRemoteConfigMock).activateFetched();
-        verify(fetchDataHandlerMock).updateCacheStatus(ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCE_UPDATED);
+        verify(fetchDataHandlerMock).updateCacheStatus(ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED);
         verify(refreshListenerMock).onSuccess();
     }
 
@@ -98,18 +99,18 @@ public class FireBaseWrapperTest {
         when(firebaseRemoteConfigMock.getString("key3")).thenReturn("value3");
         when(firebaseRemoteConfigMock.getKeysByPrefix("")).thenReturn(experimentKeys);
         when(voidTask.isSuccessful()).thenReturn(true);
-        fireBaseWrapper.fetchDataFromFireBase(new FetchDataHandler() {
+        fireBaseWrapper.fetchDataFromFireBase(new AbTestingImpl.FetchDataHandler() {
             @Override
             public void fetchData(Map<String, CacheModel.ValueModel> data) {
                 assertTrue(data.get("key1").getTestValue().equals("value1"));
                 assertTrue(data.get("key2").getTestValue().equals("value2"));
                 assertTrue(data.get("key3").getTestValue().equals("value3"));
-                assertTrue(data.get("key1").getUpdateType().equals(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name()));
+                assertTrue(data.get("key1").getUpdateType().equals(ABTestClientInterface.UPDATETYPE.APP_RESTART.name()));
                 assertTrue(data.get("key1").getAppVersion().equals("18.4"));
             }
             @Override
-            public void updateCacheStatus(ABTestClientInterface.CACHESTATUSVALUES cachestatusvalues) {
-                assertEquals(cachestatusvalues, ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCE_UPDATED);
+            public void updateCacheStatus(ABTestClientInterface.CACHESTATUS CACHESTATUS) {
+                assertEquals(CACHESTATUS, ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED);
             }
         }, refreshListenerMock);
         fireBaseWrapper.onComplete(voidTask);

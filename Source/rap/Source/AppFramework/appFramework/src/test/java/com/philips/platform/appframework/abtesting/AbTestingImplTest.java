@@ -5,15 +5,19 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.abtestclient.CacheModel;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
@@ -42,7 +46,7 @@ public class AbTestingImplTest {
     @Mock
     private RestInterface restInterfaceMock;
     @Mock
-    private FetchDataHandler fetchDataHandlerMock;
+    private AbTestingImpl.FetchDataHandler fetchDataHandlerMock;
 
     @Before
     public void setUp() {
@@ -91,18 +95,18 @@ public class AbTestingImplTest {
         when(cacheModelMock.getTestValues()).thenReturn(dummyData);
         abTesting.initAbTesting(appInfraInterfaceMock);
         assertNull(abTesting.getTestValue("", "", null));
-        String testValue = abTesting.getTestValue("key1", "default_value", ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE);
+        String testValue = abTesting.getTestValue("key1", "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
         assertTrue(testValue.equals("value1"));
-        assertEquals(abTesting.getInMemoryCache().get("key1").getUpdateType(), ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE.name());
+        assertEquals(abTesting.getInMemoryCache().get("key1").getUpdateType(), ABTestClientInterface.UPDATETYPE.APP_UPDATE.name());
         assertEquals(abTesting.getInMemoryCache().get("key1").getAppVersion(), "18.3");
         verify(abTestingLocalCacheMock).updatePreferenceCacheModel("key1",abTesting.getInMemoryCache().get("key1"));
         verify(abTestingLocalCacheMock).saveCacheToDisk();
-        testValue = abTesting.getTestValue("key3", "default_value", ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE);
+        testValue = abTesting.getTestValue("key3", "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
         assertTrue(testValue.equals("default_value"));
 
-        String testValue2 = abTesting.getTestValue("key2", "default_value", ABTestClientInterface.UPDATETYPES.EVERY_APP_START);
+        String testValue2 = abTesting.getTestValue("key2", "default_value", ABTestClientInterface.UPDATETYPE.APP_RESTART);
         assertTrue(testValue2.equals("value2"));
-        assertEquals(abTesting.getInMemoryCache().get("key2").getUpdateType(), ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name());
+        assertEquals(abTesting.getInMemoryCache().get("key2").getUpdateType(), ABTestClientInterface.UPDATETYPE.APP_RESTART.name());
         verify(abTestingLocalCacheMock).removeFromDisk("key2");
 
     }
@@ -115,7 +119,7 @@ public class AbTestingImplTest {
 
     @Test
     public void shouldReturnCacheStatusNotUpdatedByDefault() {
-        assertTrue(abTesting.getCacheStatus() == ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCE_NOT_UPDATED);
+        assertTrue(abTesting.getCacheStatus() == ABTestClientInterface.CACHESTATUS.EXPERIENCE_NOT_UPDATED);
     }
 
     @Test
@@ -124,7 +128,7 @@ public class AbTestingImplTest {
         when(restInterfaceMock.isInternetReachable()).thenReturn(false);
         abTesting.initAbTesting(appInfraInterfaceMock);
         abTesting.updateCache(onRefreshListenerMock);
-        verify(onRefreshListenerMock).onError(ABTestClientInterface.OnRefreshListener.ERRORVALUES.NO_NETWORK);
+        verify(onRefreshListenerMock).onError(ABTestClientInterface.OnRefreshListener.ERRORVALUE.NO_NETWORK);
         when(restInterfaceMock.isInternetReachable()).thenReturn(true);
         abTesting.updateCache(onRefreshListenerMock);
         verify(fireBaseWrapperMock).fetchDataFromFireBase(fetchDataHandlerMock, onRefreshListenerMock);
@@ -165,11 +169,11 @@ public class AbTestingImplTest {
         abTesting.getFetchDataHandler().fetchData(dummyData2);
         assertEquals(abTesting.getInMemoryCache().get("key1").getTestValue(), "value2");
         assertEquals(abTesting.getInMemoryCache().get("key1").getAppVersion(), "18.3");
-        assertEquals(abTesting.getInMemoryCache().get("key1").getUpdateType(), ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name());
+        assertEquals(abTesting.getInMemoryCache().get("key1").getUpdateType(), ABTestClientInterface.UPDATETYPE.APP_RESTART.name());
 
         assertEquals(abTesting.getInMemoryCache().get("key2").getTestValue(), "value1");
         assertEquals(abTesting.getInMemoryCache().get("key2").getAppVersion(), "18.3");
-        assertEquals(abTesting.getInMemoryCache().get("key2").getUpdateType(), ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE.name());
+        assertEquals(abTesting.getInMemoryCache().get("key2").getUpdateType(), ABTestClientInterface.UPDATETYPE.APP_UPDATE.name());
 
         when(appIdentityInterfaceMock.getAppVersion()).thenReturn("18.4");
         dummyData2.get("key2").setAppVersion("18.4");
@@ -177,13 +181,13 @@ public class AbTestingImplTest {
         assertEquals(abTesting.getInMemoryCache().get("key2").getTestValue(), "new_value");
         assertEquals(abTesting.getInMemoryCache().get("key2").getAppVersion(), "18.4");
 
-        abTesting.getFetchDataHandler().updateCacheStatus(ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCE_UPDATED);
-        assertTrue(abTesting.getCacheStatus().equals(ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCE_UPDATED));
+        abTesting.getFetchDataHandler().updateCacheStatus(ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED);
+        assertTrue(abTesting.getCacheStatus().equals(ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED));
     }
 
     private CacheModel.ValueModel getValueModel() {
         CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
-        valueModel.setUpdateType(ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE.name());
+        valueModel.setUpdateType(ABTestClientInterface.UPDATETYPE.APP_UPDATE.name());
         valueModel.setTestValue("value1");
         valueModel.setAppVersion("18.3");
         return valueModel;
@@ -191,7 +195,7 @@ public class AbTestingImplTest {
 
     private CacheModel.ValueModel getValueModel2() {
         CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
-        valueModel.setUpdateType(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name());
+        valueModel.setUpdateType(ABTestClientInterface.UPDATETYPE.APP_RESTART.name());
         valueModel.setTestValue("value2");
         valueModel.setAppVersion("18.3");
         return valueModel;

@@ -293,7 +293,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         contentConfiguration.enableContinueWithouAccount(true);
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
         abTesting.enableDeveloperMode(true);
-        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE);
+        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
         Bundle bundle = new Bundle();
         bundle.putString(AB_TEST_OPTIN_IMAGE_KEY, testValue);
         firebaseAnalytics.logEvent(MARKETING_OPTIN, bundle);

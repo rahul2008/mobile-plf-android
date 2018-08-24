@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.CacheModel;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.junit.Before;
@@ -32,7 +33,7 @@ public class AbTestingLocalCacheTest {
     @Mock
     private LoggingInterface loggingInterfaceMock;
 
-    private String testValue = "{\"mTestValues\":{\"key1\":{\"testValue\":\"some_value\",\"updateType\":\"ONLY_AT_APP_UPDATE\",\"appVersion\":\"some_version\"}}}";
+    private String testValue = "{\"mTestValues\":{\"key1\":{\"testValue\":\"some_value\",\"updateType\":\"APP_UPDATE\",\"appVersion\":\"some_version\"}}}";
 
     @Before
     public void setUp(){

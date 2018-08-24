@@ -15,12 +15,12 @@ public class ABTestClientManager implements ABTestClientInterface {
 
 
     @Override
-    public CACHESTATUSVALUES getCacheStatus() {
-        return CACHESTATUSVALUES.EXPERIENCE_NOT_UPDATED;
+    public CACHESTATUS getCacheStatus() {
+        return CACHESTATUS.EXPERIENCE_NOT_UPDATED;
     }
 
     @Override
-    public String getTestValue(@NonNull String requestNameKey, @NonNull String defaultValue, UPDATETYPES updateType) {
+    public String getTestValue(@NonNull String requestNameKey, @NonNull String defaultValue, UPDATETYPE updateType) {
         return defaultValue;
     }
 

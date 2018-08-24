@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
@@ -387,7 +386,7 @@ public class AppFrameworkApplication extends Application {
             }
 
             @Override
-            public void onError(ERRORVALUES error) {
+            public void onError(ERRORVALUE error) {
                 RALog.d(LOG, "abtesting update failed");
             }
         });

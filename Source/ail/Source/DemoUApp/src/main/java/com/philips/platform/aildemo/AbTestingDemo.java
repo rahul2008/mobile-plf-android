@@ -21,7 +21,7 @@ import com.philips.platform.appinfra.demo.R;
 public class AbTestingDemo extends Activity {
 
     private String[] valueTypes = {"App Update", "App Restart"};
-    private ABTestClientInterface.UPDATETYPES valueType;
+    private ABTestClientInterface.UPDATETYPE valueType;
     private ABTestClientInterface abTestingInterface;
     private TextView value;
     private TextView cacheStatusValue;
@@ -70,9 +70,9 @@ public class AbTestingDemo extends Activity {
 
 	    btValue.setOnClickListener(v -> {
            if (requestType.getSelectedItem().toString().equalsIgnoreCase("App Update")) {
-                valueType = ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE;
+                valueType = ABTestClientInterface.UPDATETYPE.APP_UPDATE;
             } else if (requestType.getSelectedItem().toString().equalsIgnoreCase("App Restart")) {
-                valueType = ABTestClientInterface.UPDATETYPES.EVERY_APP_START;
+                valueType = ABTestClientInterface.UPDATETYPE.APP_RESTART;
             }
             String test = abTestingInterface.getTestValue(testName.getText().toString(), defaultValue.getText().toString(),
                     valueType);
@@ -94,7 +94,7 @@ public class AbTestingDemo extends Activity {
             }
 
             @Override
-            public void onError(ERRORVALUES error) {
+            public void onError(ERRORVALUE error) {
                 refreshStatus.setText(error.name());
             }
         }));

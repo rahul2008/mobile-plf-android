@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.abtestclient.CacheModel;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.HashMap;
@@ -14,11 +15,16 @@ import java.util.Map;
 
 public class AbTestingImpl implements ABTestClientInterface {
 
+    interface FetchDataHandler {
+        void fetchData(Map<String, CacheModel.ValueModel> data);
+        void updateCacheStatus(ABTestClientInterface.CACHESTATUS CACHESTATUS);
+    }
+
     private FireBaseWrapper fireBaseWrapper;
     private AbTestingLocalCache abTestingLocalCache;
     private Map<String, CacheModel.ValueModel> inMemoryCache;
     private AppInfraInterface appInfraInterface;
-    private CACHESTATUSVALUES cachestatusvalues = CACHESTATUSVALUES.EXPERIENCE_NOT_UPDATED;
+    private CACHESTATUS CACHESTATUSVALUE = CACHESTATUS.EXPERIENCE_NOT_UPDATED;
 
     /**
      * invoke this api to initialise FireBase remote configuration
@@ -54,12 +60,12 @@ public class AbTestingImpl implements ABTestClientInterface {
     }
 
     @Override
-    public CACHESTATUSVALUES getCacheStatus() {
-        return cachestatusvalues;
+    public CACHESTATUS getCacheStatus() {
+        return CACHESTATUSVALUE;
     }
 
     @Override
-    public String getTestValue(@NonNull String requestNameKey, @NonNull String defaultValue, UPDATETYPES updateType) {
+    public String getTestValue(@NonNull String requestNameKey, @NonNull String defaultValue, UPDATETYPE updateType) {
         if (requestNameKey.isEmpty())
             return null;
         //fetching data from in-memory cache
@@ -80,7 +86,7 @@ public class AbTestingImpl implements ABTestClientInterface {
     public void updateCache(OnRefreshListener onRefreshListener) {
         if(!appInfraInterface.getRestClient().isInternetReachable()) {
             // throw error callback if no network available
-            onRefreshListener.onError(OnRefreshListener.ERRORVALUES.NO_NETWORK);
+            onRefreshListener.onError(OnRefreshListener.ERRORVALUE.NO_NETWORK);
             return;
         }
         // fetching data from FireBase Server
@@ -97,9 +103,9 @@ public class AbTestingImpl implements ABTestClientInterface {
             }
 
             @Override
-            public void updateCacheStatus(CACHESTATUSVALUES cachestatusvalues) {
+            public void updateCacheStatus(CACHESTATUS CACHESTATUS) {
                 // update cache status
-                AbTestingImpl.this.cachestatusvalues = cachestatusvalues;
+                AbTestingImpl.this.CACHESTATUSVALUE = CACHESTATUS;
             }
         };
     }
@@ -110,19 +116,19 @@ public class AbTestingImpl implements ABTestClientInterface {
         fireBaseWrapper.enableDeveloperMode(state);
     }
 
-    private void updateCachesForTestName(String requestNameKey, String testValue, UPDATETYPES updateType) {
+    private void updateCachesForTestName(String requestNameKey, String testValue, UPDATETYPE updateType) {
         if (inMemoryCache.containsKey(requestNameKey)) {
             final CacheModel.ValueModel val = inMemoryCache.get(requestNameKey);
-            if (val.getTestValue() == null || !updateType.name().equalsIgnoreCase(UPDATETYPES.EVERY_APP_START.name())) {
+            if (val.getTestValue() == null || !updateType.name().equalsIgnoreCase(UPDATETYPE.APP_RESTART.name())) {
                 updateInMemoryCache(requestNameKey, testValue, updateType.name());
             }
             //else value is already there in cache ignoring the new value
         }
-        if (updateType.equals(UPDATETYPES.EVERY_APP_START)) {
+        if (updateType.equals(UPDATETYPE.APP_RESTART)) {
             // remove testValue from disk if update type is app-start
             abTestingLocalCache.removeFromDisk(requestNameKey);
         } else if (updateType.name().equals
-                (UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
+                (UPDATETYPE.APP_UPDATE.name())) {
             // saving test value to disk cache
             abTestingLocalCache.updatePreferenceCacheModel(requestNameKey, inMemoryCache.get(requestNameKey));
             abTestingLocalCache.saveCacheToDisk();
@@ -144,9 +150,9 @@ public class AbTestingImpl implements ABTestClientInterface {
             appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, " abtest data "+entry.getKey() +" --- "+ entry.getValue().getTestValue());
             if (inMemoryCache.containsKey(entry.getKey())) {
                 CacheModel.ValueModel valueModel = inMemoryCache.get(entry.getKey());
-                if (valueModel.getUpdateType() != null && valueModel.getUpdateType().equals(UPDATETYPES.EVERY_APP_START.name())) {
+                if (valueModel.getUpdateType() != null && valueModel.getUpdateType().equals(UPDATETYPE.APP_RESTART.name())) {
                     valueModel.setTestValue(entry.getValue().getTestValue());
-                } else if (valueModel.getUpdateType() != null && valueModel.getUpdateType().equals(UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
+                } else if (valueModel.getUpdateType() != null && valueModel.getUpdateType().equals(UPDATETYPE.APP_UPDATE.name())) {
                     if (isAppUpdated(valueModel)) {
                         valueModel.setTestValue(entry.getValue().getTestValue());
                         valueModel.setAppVersion(entry.getValue().getAppVersion());

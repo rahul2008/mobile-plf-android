@@ -1,6 +1,7 @@
 package com.philips.platform.appframework.abtesting;
 
 import android.support.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -9,7 +10,9 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.abtestclient.CacheModel;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -17,7 +20,7 @@ import java.util.Set;
 class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
 
     private FirebaseRemoteConfig remoteConfig;
-    private FetchDataHandler fetchDataHandler;
+    private AbTestingImpl.FetchDataHandler fetchDataHandler;
     private ABTestClientInterface.OnRefreshListener onRefreshListener;
     private final int defaultCacheExpirationTime = 43200;
     private int cacheExpirationTime = 43200; // 12hours by default
@@ -27,7 +30,7 @@ class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
         this.remoteConfig = remoteConfig;
     }
 
-    void fetchDataFromFireBase(final FetchDataHandler fetchDataHandler, ABTestClientInterface.OnRefreshListener onRefreshListener) {
+    void fetchDataFromFireBase(final AbTestingImpl.FetchDataHandler fetchDataHandler, ABTestClientInterface.OnRefreshListener onRefreshListener) {
         this.onRefreshListener = onRefreshListener;
         this.fetchDataHandler = fetchDataHandler;
         remoteConfig.fetch(cacheExpirationTime).addOnCompleteListener(this).addOnFailureListener(this);
@@ -53,7 +56,7 @@ class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
             appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "Fetch Succeeded");
             remoteConfig.activateFetched();
             fetchDataHandler.fetchData(fetchExperiences());
-            fetchDataHandler.updateCacheStatus(ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCE_UPDATED);
+            fetchDataHandler.updateCacheStatus(ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED);
             onRefreshListener.onSuccess();
         }
     }
@@ -61,8 +64,8 @@ class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
     @Override
     public void onFailure(@NonNull Exception e) {
         appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "Fetch Failed");
-        onRefreshListener.onError(ABTestClientInterface.OnRefreshListener.ERRORVALUES.SERVER_ERROR);
-        fetchDataHandler.updateCacheStatus(ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCE_NOT_UPDATED);
+        onRefreshListener.onError(ABTestClientInterface.OnRefreshListener.ERRORVALUE.SERVER_ERROR);
+        fetchDataHandler.updateCacheStatus(ABTestClientInterface.CACHESTATUS.EXPERIENCE_NOT_UPDATED);
     }
 
     private Map<String, CacheModel.ValueModel> fetchExperiences() {
@@ -73,7 +76,7 @@ class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
             CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
             valueModel.setTestValue(remoteConfig.getString(key));
             valueModel.setAppVersion(appInfraInterface.getAppIdentity().getAppVersion());
-            valueModel.setUpdateType(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name());
+            valueModel.setUpdateType(ABTestClientInterface.UPDATETYPE.APP_RESTART.name());
             map.put(key, valueModel);
             appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "experiments value", valueModel.getTestValue());
         }

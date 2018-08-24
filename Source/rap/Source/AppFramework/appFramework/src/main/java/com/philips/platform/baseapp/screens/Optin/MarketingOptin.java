@@ -58,7 +58,7 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
         abTesting.enableDeveloperMode(true);
-        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE);
+        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
         Bundle bundle = new Bundle();
         bundle.putString(AB_TEST_OPTIN_IMAGE_KEY, testValue);
         FirebaseAnalytics.getInstance(context).logEvent(MY_ACCOUNT_OPTIN_IMAGE, bundle);

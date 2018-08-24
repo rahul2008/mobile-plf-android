@@ -227,7 +227,7 @@ public class RegUtility {
 
         ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
         String flowType = abTestClientInterface.getTestValue(RegConstants.DOT_RECEIVE_MARKETING_OPT_IN, UIFlow.FLOW_A.getValue(),
-                ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE);
+                ABTestClientInterface.UPDATETYPE.APP_UPDATE);
         if (flowType.equalsIgnoreCase(UIFlow.FLOW_B.getValue())) {
             return UIFlow.FLOW_B;
         }
