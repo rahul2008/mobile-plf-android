@@ -413,7 +413,7 @@ public class AppFrameworkApplication extends Application {
 
                 @Override
                 public void onGetConsentFailed(ConsentError error) {
-                    RALog.d(getClass().getSimpleName(), "error while saving neura consent ");
+                    RALog.d(getClass().getSimpleName(), "error while fetching ab-testing consent ");
                 }
             });
         } else
