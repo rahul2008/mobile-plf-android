@@ -48,6 +48,7 @@ public class CookiesConsentPresenter extends AbstractUIBasePresenter implements 
         BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
         BaseState baseState = null;
         ConsentDefinition consentDefinition = appInfraInterface.getConsentManager().getConsentDefinitionForType(appInfraInterface.getAbTesting().getAbTestingConsentIdentifier());
+        // TODO: Deepthi : here you need to add for clicktrseam as well at all required places
         try {
             switch (componentID) {
                 case R.id.usr_cookiesConsentScreen_accept_button:

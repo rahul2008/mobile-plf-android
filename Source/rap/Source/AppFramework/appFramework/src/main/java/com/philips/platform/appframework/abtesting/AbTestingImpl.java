@@ -212,6 +212,7 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
      * Register device handler for ab-testing consent.
      */
     private void registerConsentHandler() {
+        // TODO: Deepthi, is it working after every app restart
         DeviceStoredConsentHandler deviceStoredConsentHandler = new DeviceStoredConsentHandler(appInfraInterface);
         appInfraInterface.getConsentManager().registerHandler(Collections.singletonList(AB_TESTING_CONSENT), deviceStoredConsentHandler);
     }
