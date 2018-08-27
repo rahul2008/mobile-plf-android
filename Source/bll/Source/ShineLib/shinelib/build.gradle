@@ -11,6 +11,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
+
 archivesBaseName = "bluelib"
 
 android {
@@ -42,6 +43,8 @@ android {
 
 }
 
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+
 dependencies {
     if (directdependencies) {
         api project(':AppInfra')
@@ -68,30 +71,6 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-}
-
-task generateJavadocPublicApi(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("${projectDir}/../../../Documents/External/${project.name}-api/")
-
-    include {
-        if (it.isDirectory) {
-            return true
-        }
-        return it.file.text.contains("* @publicApi")
-    }
-
-    options {
-        memberLevel = JavadocMemberLevel.PUBLIC
-        links("http://docs.oracle.com/javase/7/docs/api/");
-        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
-        docEncoding = 'UTF-8'
-        encoding = 'UTF-8'
-        charSet = 'UTF-8'
-    }
-
-    failOnError false
 }
 
 task generateJavadocPluginApi(type: Javadoc) {
@@ -131,14 +110,6 @@ task generateJavadoc()
 
 generateJavadoc.dependsOn {
     tasks.findAll { task -> task.name.startsWith('generateJavadoc') && task.name != "generateJavadoc" }
-}
-
-task zipJavadoc(type: Zip) {
-    from "${projectDir}/../../../Documents/External/${project.name}-api/"
-    include '*'
-    include '*/*' //to include contents of a folder present inside Reports directory
-    archiveName "${project.name}-api.zip"
-    destinationDir(file("${projectDir}/../../../Documents/External/"))
 }
 
 pitest {
