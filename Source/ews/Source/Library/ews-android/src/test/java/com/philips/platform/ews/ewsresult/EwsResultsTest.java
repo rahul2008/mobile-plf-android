@@ -31,6 +31,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Display;
 
+import com.philips.platform.ews.EWSActivity;
 import com.philips.platform.ews.connectionsuccessful.ConnectionSuccessfulFragment;
 import com.philips.platform.ews.microapp.EwsResultListener;
 
@@ -44,26 +45,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-public class EwsResultListenerTest {
+public class EwsResultsTest {
 
     private ConnectionSuccessfulFragment connectionSuccessfulFragmentSpy;
-    private ResultListener listener;
 
     private ResultListener listenerSpy;
+    private EWSActivity ewsActivitySpy;
 
     @Before
     public void setup() {
         initMocks(this);
         listenerSpy = spy(new ResultListener());
+        ewsActivitySpy = spy(new EWSActivity());
         connectionSuccessfulFragmentSpy = spy(new ConnectionSuccessfulFragment());
         when(connectionSuccessfulFragmentSpy.getContext()).thenReturn(listenerSpy);
     }
@@ -74,11 +73,13 @@ public class EwsResultListenerTest {
         verify(listenerSpy, times(1)).onEWSFinishSuccess();
     }
 
+    @Test
+    public void ewsActivityWillPassResultBackToTheCallingActivity() throws Exception {
+        ewsActivitySpy.onEWSFinishSuccess();
+        verify(ewsActivitySpy, times(1)).setResult(EwsResultListener.EWS_RESULT, null);
+    }
+
     private class ResultListener extends Context implements EwsResultListener {
-
-        public ResultListener() {
-
-        }
 
         @Override
         public void onEWSFinishSuccess() {
