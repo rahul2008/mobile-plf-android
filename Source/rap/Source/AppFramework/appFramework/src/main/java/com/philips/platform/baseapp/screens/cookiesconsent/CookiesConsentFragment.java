@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 
 package com.philips.platform.baseapp.screens.cookiesconsent;
 
@@ -14,9 +14,17 @@ import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractOnboardingBaseFragment;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -41,7 +49,8 @@ public class CookiesConsentFragment extends AbstractOnboardingBaseFragment imple
     public static String TAG = CookiesConsentFragment.class.getSimpleName();
 
     private AbstractUIBasePresenter presenter;
-    private WelcomePagerAdapter welcomePagerAdapter ;
+    private WelcomePagerAdapter welcomePagerAdapter;
+
     public void onBackPressed() {
         RALog.d(TAG, " On Back Pressed");
 
@@ -51,9 +60,10 @@ public class CookiesConsentFragment extends AbstractOnboardingBaseFragment imple
         return new CookiesConsentPresenter(this);
     }
 
-   Label usr_cookiesConsentScreen_info_weblink_label;
-   ProgressBarButton usr_cookiesConsentScreen_accept_button;
-      Button      usr_cookiesConsentScreen_Reject_button;
+    Label usr_cookiesConsentScreen_info_weblink_label;
+    ProgressBarButton usr_cookiesConsentScreen_accept_button;
+    Button usr_cookiesConsentScreen_Reject_button;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         presenter = getWelcomePresenter();
@@ -66,7 +76,7 @@ public class CookiesConsentFragment extends AbstractOnboardingBaseFragment imple
 
         usr_cookiesConsentScreen_accept_button = view.findViewById(R.id.usr_cookiesConsentScreen_accept_button);
 
-         usr_cookiesConsentScreen_Reject_button = view.findViewById(R.id.usr_cookiesConsentScreen_Reject_button);
+        usr_cookiesConsentScreen_Reject_button = view.findViewById(R.id.usr_cookiesConsentScreen_Reject_button);
         usr_cookiesConsentScreen_Reject_button.setOnClickListener(this);
         usr_cookiesConsentScreen_accept_button.setOnClickListener(this);
         usr_cookiesConsentScreen_info_weblink_label.setOnClickListener(this);
@@ -74,6 +84,7 @@ public class CookiesConsentFragment extends AbstractOnboardingBaseFragment imple
         startAppTagging();
         return view;
     }
+
     private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
@@ -81,9 +92,11 @@ public class CookiesConsentFragment extends AbstractOnboardingBaseFragment imple
 
         }
     };
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(R.string.RA_Consent, true);
     }
 
     protected void startAppTagging() {
@@ -104,21 +117,32 @@ public class CookiesConsentFragment extends AbstractOnboardingBaseFragment imple
     }
 
     @Override
-    public boolean handleBackEvent() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
     public void clearAdapter() {
 
     }
 
     @Override
-    public boolean onLongClick(View view) {return false;}
+    public boolean onLongClick(View view) {
+        return false;
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) getFragmentActivity().getApplication();
+        BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
+        try {
+            targetFlowManager.getBackState(targetFlowManager.getCurrentState());
+        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                e) {
+            Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
+        }
+        hideActionBar();
+        getFragmentActivity().getSupportFragmentManager().popBackStack();
+        return true;
     }
 }

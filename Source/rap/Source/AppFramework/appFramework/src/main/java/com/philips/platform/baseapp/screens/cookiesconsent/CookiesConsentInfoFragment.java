@@ -33,8 +33,7 @@ import com.philips.platform.uid.view.widget.Label;
  * <b>To use the Introduction screen flow, start the mActivity with IntroudctionScreenActivity as the Intent</b><br>
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  */
-public class CookiesConsentInfoFragment extends AbstractOnboardingBaseFragment implements View.OnClickListener,
-        CookiesConsentInfoFragmentView,BackEventListener, View.OnLongClickListener {
+public class CookiesConsentInfoFragment extends AbstractOnboardingBaseFragment implements BackEventListener {
 
     public static String TAG = CookiesConsentInfoFragment.class.getSimpleName();
 
@@ -45,13 +44,9 @@ public class CookiesConsentInfoFragment extends AbstractOnboardingBaseFragment i
 
     }
 
-    protected AbstractUIBasePresenter getWelcomePresenter() {
-        return new CookiesConsentInfoPresenter(this);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        presenter = getWelcomePresenter();
+//        presenter = getWelcomePresenter();
         startLogging();
         View view = inflater.inflate(R.layout.rap_fragment_cookiesinfo, container, false);
         welcomePagerAdapter = new WelcomePagerAdapter(getActivity().getSupportFragmentManager());
@@ -78,28 +73,13 @@ public class CookiesConsentInfoFragment extends AbstractOnboardingBaseFragment i
     }
 
     @Override
-    public void onClick(View v) {
-        if (presenter != null) {
-            presenter.onEvent(v.getId());
-        }
-    }
-
-    @Override
-    public boolean handleBackEvent() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    public boolean onLongClick(View view) {return false;}
-
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
 
     @Override
-    public void clearAdapter() {
-
+    public boolean handleBackEvent() {
+        getFragmentActivity().getSupportFragmentManager().popBackStackImmediate();
+        return true;
     }
 }

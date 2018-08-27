@@ -30,7 +30,6 @@ import com.philips.platform.baseapp.condition.ConditionCookiesConsentInfo;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
 import com.philips.platform.baseapp.condition.ConditionShouldLaunchNeura;
-import com.philips.platform.baseapp.screens.cookiesconsent.CookiesConsentInfoState;
 import com.philips.platform.baseapp.screens.cookiesconsent.CookiesConsentState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesDeepLinkingState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
@@ -63,7 +62,6 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
         uiStateMap.put(AppStates.TESTNEURADEMO, new DemoNeuraState());
         uiStateMap.put(AppStates.COOKIES_CONSENT, new CookiesConsentState());
-        uiStateMap.put(AppStates.COOKIES_CONSENT_INFO, new CookiesConsentInfoState());
 
     }
 

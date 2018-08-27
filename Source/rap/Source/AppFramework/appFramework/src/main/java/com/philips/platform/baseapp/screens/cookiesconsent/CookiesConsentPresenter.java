@@ -6,6 +6,10 @@
 package com.philips.platform.baseapp.screens.cookiesconsent;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -16,8 +20,8 @@ import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.neura.NeuraWhatMeanFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -56,6 +60,10 @@ public class CookiesConsentPresenter extends AbstractUIBasePresenter implements 
                     baseState = getNextState(targetFlowManager, EVENT_REJECT);
                     cookiesConsentProvider.storeConsentTypeState(false, getPostConsentTypeCallback());
                     break;
+                case R.id.usr_cookiesConsentScreen_info_weblink_label:
+                    launchWhatDoesItMeanFragment(cookiesConsentFragmentView.getFragmentActivity());
+                    break;
+
             }
         } catch (Exception e) {
             Toast.makeText(cookiesConsentFragmentView.getFragmentActivity(),
@@ -116,5 +124,21 @@ public class CookiesConsentPresenter extends AbstractUIBasePresenter implements 
                 }
             });
         }
+    }
+
+    private void launchWhatDoesItMeanFragment(FragmentActivity fragmentActivity) {
+        FragmentManager mFragmentManager = fragmentActivity.
+                getSupportFragmentManager();
+        Fragment whatDoesItMeanFragment = getWhatDoesItMeanFragment();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.replace(cookiesConsentFragmentView.getContainerId(),
+                whatDoesItMeanFragment,
+                NeuraWhatMeanFragment.TAG);
+        fragmentTransaction.addToBackStack(NeuraWhatMeanFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    public Fragment getWhatDoesItMeanFragment() {
+        return new CookiesConsentInfoFragment();
     }
 }
