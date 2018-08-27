@@ -15,11 +15,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.philips.platform.ews.EWSActivity;
 import com.philips.platform.ews.R;
 import com.philips.platform.ews.base.BaseFragment;
 import com.philips.platform.ews.common.callbacks.FragmentCallback;
@@ -103,6 +105,11 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
             resultListener.onEWSFinishSuccess();
         }
 
-        getActivity().finish();
+        if(!(getActivity() instanceof EWSActivity)) {
+            int backStackEntryCount = getActivity().getSupportFragmentManager().getBackStackEntryCount();
+            if(backStackEntryCount > 0) {
+                getActivity().getSupportFragmentManager().popBackStack(getActivity().getSupportFragmentManager().getBackStackEntryAt(0).getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        }
     }
 }

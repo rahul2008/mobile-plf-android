@@ -4,13 +4,15 @@
  */
 package com.philips.platform.ews.microapp;
 
+import java.io.Serializable;
+
 /**
- * EWSFinishSuccessListener provides notification for the success of EWS finish.
+ * EwsResultListener provides notification for the success of EWS finish.
  */
-public interface EwsResultListener {
+public interface EwsResultListener extends Serializable {
+
 
     public static final int EWS_RESULT = 10000;
-
 
     void onEWSFinishSuccess();
     void onEWSError(int errorCode);

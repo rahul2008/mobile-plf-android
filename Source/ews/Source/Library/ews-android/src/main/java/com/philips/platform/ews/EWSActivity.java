@@ -182,11 +182,10 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
         ewsTagger.pauseLifecycleInfo();
     }
 
-
-
     @Override
     public void onEWSFinishSuccess() {
         setResult(EWS_RESULT, null);
+        finish();
     }
 
     @Override

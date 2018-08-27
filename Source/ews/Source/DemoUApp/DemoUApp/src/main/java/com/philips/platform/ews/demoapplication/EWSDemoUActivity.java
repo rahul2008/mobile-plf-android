@@ -304,7 +304,7 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
 
     @Override
     public void onEWSFinishSuccess() {
-        Toast.makeText(this, "EWS finished successfully. Back to EWSDemoUActivity.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "EWS finished successfully", Toast.LENGTH_LONG).show();
     }
 
     @Override
