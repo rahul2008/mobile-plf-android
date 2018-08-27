@@ -39,17 +39,55 @@ public class CookiesConsentPresenter extends AbstractUIBasePresenter {
 
     @Override
     public void onEvent(final int componentID) {
+        AppFrameworkApplication appFrameworkApplication =
+                (AppFrameworkApplication) cookiesConsentFragmentView.getFragmentActivity().getApplication();
+        BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
+        BaseState baseState = null;
+        try {
+            switch (componentID) {
+                case R.id.usr_cookiesConsentScreen_accept_button:
+                    String EVENT_ALLOW = "accept";
+                    baseState = getNextState(targetFlowManager, EVENT_ALLOW);
+                    break;
 
 
+                case R.id.usr_cookiesConsentScreen_Reject_button:
+                    String EVENT_REJECT = "reject";
+                    baseState = getNextState(targetFlowManager, EVENT_REJECT);
+                    break;
+
+
+
+            }
+        } catch (Exception e){
+            Toast.makeText(cookiesConsentFragmentView.getFragmentActivity(),
+                    cookiesConsentFragmentView.getFragmentActivity().getString(R.string.RA_something_wrong),
+                    Toast.LENGTH_SHORT).show();
+
+        }
+        if (baseState != null) {
+            baseState.init(cookiesConsentFragmentView.getFragmentActivity().getApplicationContext());
+            baseState.navigate(getUiLauncher());
+
+        }
     }
-
+    @NonNull
+    FragmentLauncher getUiLauncher() {
+        return new FragmentLauncher(cookiesConsentFragmentView.getFragmentActivity(),
+                cookiesConsentFragmentView.getContainerId(), cookiesConsentFragmentView.getActionBarListener());
+    }
+    @NonNull
+    BaseState getNextState(BaseFlowManager targetFlowManager, String event) {
+        return targetFlowManager.getNextState(event);
+    }
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) cookiesConsentFragmentView.getFragmentActivity().getApplicationContext();
     }
 
     @NonNull
     protected FragmentLauncher getFragmentLauncher() {
-        return new FragmentLauncher(cookiesConsentFragmentView.getFragmentActivity(), cookiesConsentFragmentView.getContainerId(), cookiesConsentFragmentView.getActionBarListener());
+        return new FragmentLauncher(cookiesConsentFragmentView.getFragmentActivity(),
+                cookiesConsentFragmentView.getContainerId(), cookiesConsentFragmentView.getActionBarListener());
     }
 
 }

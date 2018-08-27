@@ -54,7 +54,7 @@ public class CookiesConsentInfoFragment extends AbstractOnboardingBaseFragment i
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         presenter = getWelcomePresenter();
         startLogging();
-        View view = inflater.inflate(R.layout.rap_fragment_cookiesinfo), container, false);
+        View view = inflater.inflate(R.layout.rap_fragment_cookiesinfo, container, false);
         welcomePagerAdapter = new WelcomePagerAdapter(getActivity().getSupportFragmentManager());
         usr_cookiesConsentScreen_philipsNews_label = view.findViewById(R.id.usr_cookiesConsentScreen_philipsNews_label);
         RegUtility.linkifyPhilipsNews(usr_cookiesConsentScreen_philipsNews_label, getFragmentActivity(), mPhilipsNewsClick);
