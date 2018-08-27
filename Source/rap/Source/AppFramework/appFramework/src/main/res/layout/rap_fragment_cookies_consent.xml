@@ -45,13 +45,23 @@
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/usr_cookiesConsentScreen_philipsNews_label"
+                    android:id="@+id/usr_cookiesConsentScreen_info_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_dimen_16dp"
                     android:layout_marginStart="@dimen/reg_dimen_16dp"
                     android:layout_marginTop="@dimen/reg_dimen_16dp"
-                    android:text="@string/USR_DLS_OptIn_Promotional_Message_Line1"
+                    android:text="@string/RA_cookies_consent_description"
+                    android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
+                    android:textSize="@dimen/reg_text_size_12" />
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/usr_cookiesConsentScreen_info_weblink_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                    android:layout_marginStart="@dimen/reg_dimen_16dp"
+                    android:layout_marginTop="@dimen/reg_dimen_16dp"
+                    android:text="@string/RA_Neura_Consent_HyperLink"
                     android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
                     android:textSize="@dimen/reg_text_size_12" />
             </LinearLayout>

@@ -49,27 +49,19 @@ public class CookiesConsentInfoFragment extends AbstractOnboardingBaseFragment i
         return new CookiesConsentInfoPresenter(this);
     }
 
-   Label usr_cookiesConsentScreen_philipsNews_label;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         presenter = getWelcomePresenter();
         startLogging();
         View view = inflater.inflate(R.layout.rap_fragment_cookiesinfo, container, false);
         welcomePagerAdapter = new WelcomePagerAdapter(getActivity().getSupportFragmentManager());
-        usr_cookiesConsentScreen_philipsNews_label = view.findViewById(R.id.usr_cookiesConsentScreen_philipsNews_label);
-        RegUtility.linkifyPhilipsNews(usr_cookiesConsentScreen_philipsNews_label, getFragmentActivity(), mPhilipsNewsClick);
+
 
 
         startAppTagging();
         return view;
     }
-    private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            RALog.d(TAG, " mPhilipsNewsClick ");
 
-        }
-    };
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -89,8 +81,6 @@ public class CookiesConsentInfoFragment extends AbstractOnboardingBaseFragment i
     public void onClick(View v) {
         if (presenter != null) {
             presenter.onEvent(v.getId());
-            // Fix for Bug 63728:Reference app crashed after the app has launched and we tap on skip button
-            v.setOnClickListener(null);
         }
     }
 
