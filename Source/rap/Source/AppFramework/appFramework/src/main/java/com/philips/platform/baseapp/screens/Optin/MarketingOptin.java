@@ -30,7 +30,7 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
     private FragmentLauncher fragmentLauncher;
     private User userObject;
     public static String AB_TEST_OPTIN_IMAGE_KEY = "optin_image";
-    private String MY_ACCOUNT_OPTIN_IMAGE= "my_account_optin_image";
+    private String MY_ACCOUNT_OPTIN_IMAGE= "myAccountOptinImage";
 
     public MarketingOptin() {
         super(AppStates.MY_DETAILS_STATE);

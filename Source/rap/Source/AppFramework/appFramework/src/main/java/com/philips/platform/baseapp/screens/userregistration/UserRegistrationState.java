@@ -97,8 +97,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected static final String DEFAULT = "default";
     private URInterface urInterface;
     private FirebaseAnalytics firebaseAnalytics;
-    private String MARKETING_OPTIN = "Marketing-Optin";
-    private String MARKETING_OPTIN_STATUS = "Marketing-Optin-status";
+    private String MARKETING_OPTIN = "MarketingOptin";
+    private String MARKETING_OPTIN_STATUS = "MarketingOptinStatus";
     /**
      * AppFlowState constructor
      */
