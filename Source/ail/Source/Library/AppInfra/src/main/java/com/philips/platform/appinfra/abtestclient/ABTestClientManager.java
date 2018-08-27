@@ -32,4 +32,9 @@ public class ABTestClientManager implements ABTestClientInterface {
     @Override
     public void enableDeveloperMode(boolean state) {
     }
+
+    @Override
+    public String getAbTestingConsentIdentifier() {
+        return "";
+    }
 }

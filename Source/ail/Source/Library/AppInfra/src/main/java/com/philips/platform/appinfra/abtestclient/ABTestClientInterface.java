@@ -91,4 +91,12 @@ public interface ABTestClientInterface extends Serializable {
      * @since 2018.4.0
      */
     void enableDeveloperMode(boolean state);
+
+
+    /**
+     *
+     * @return This method returns the A/B-testing consent identifier
+     * @since 2018.4.0
+     */
+    String getAbTestingConsentIdentifier();
 }

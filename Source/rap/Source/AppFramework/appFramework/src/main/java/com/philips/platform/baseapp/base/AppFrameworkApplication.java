@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -36,12 +37,13 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentStatusChangedListener;
+import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
-import com.philips.platform.baseapp.screens.cookiesconsent.CookiesConsentProvider;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
@@ -55,9 +57,9 @@ import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
@@ -176,7 +178,6 @@ public class AppFrameworkApplication extends Application {
         initializeCC();
         initializeTHS();
         registerNeuraHandler();
-        registerAbTestingHandler();
     }
     private void initializePrivacySettings() {
         privacySettingsState = new PrivacySettingsState();
@@ -199,11 +200,6 @@ public class AppFrameworkApplication extends Application {
 
     private void registerNeuraHandler() {
         new NeuraConsentProvider(new DeviceStoredConsentHandler(appInfra)).registerConsentHandler(appInfra);
-    }
-
-    private void registerAbTestingHandler() {
-        cookiesConsentProvider = new CookiesConsentProvider(new DeviceStoredConsentHandler(appInfra));
-        cookiesConsentProvider.registerConsentHandler(appInfra);
     }
 
     public UserRegistrationState getUserRegistrationState() {
@@ -391,37 +387,38 @@ public class AppFrameworkApplication extends Application {
                 });
             }
         });
+        ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(abTestingImpl.getAbTestingConsentIdentifier());
+        if (consentDefinition != null) {
+            appInfra.getConsentManager().fetchConsentState(consentDefinition, new FetchConsentCallback() {
+                @Override
+                public void onGetConsentSuccess(ConsentDefinitionStatus consentStatus) {
+                    if (consentStatus.getConsentState() == ConsentStates.active) {
+                        FirebaseAnalytics.getInstance(getApplicationContext()).setAnalyticsCollectionEnabled(true);
+                        abTestingImpl.updateCache(new ABTestClientInterface.OnRefreshListener() {
+                            @Override
+                            public void onSuccess() {
+                                RALog.d(LOG, "abtesting cache updated successfully");
+                                RALog.d("FireBase instance id - ", FirebaseInstanceId.getInstance().getToken());
+                            }
 
-        cookiesConsentProvider.fetchConsentHandler(new FetchConsentTypeStateCallback() {
-            @Override
-            public void onGetConsentsSuccess(ConsentStatus consentStatus) {
-                if (consentStatus.getConsentState() == ConsentStates.active) {
-                    FirebaseAnalytics.getInstance(getApplicationContext()).setAnalyticsCollectionEnabled(true);
-                    abTestingImpl.updateCache(new ABTestClientInterface.OnRefreshListener() {
-                        @Override
-                        public void onSuccess() {
-                            RALog.d(LOG, "abtesting cache updated successfully");
-                            RALog.d("FireBase instance id - ", FirebaseInstanceId.getInstance().getToken());
-                        }
-
-                        @Override
-                        public void onError(ERRORVALUE error) {
-                            RALog.d(LOG, "abtesting update failed");
-                        }
-                    });
-                } else {
-                    RALog.d(LOG, "ab-testing consent set to false");
-                    FirebaseAnalytics.getInstance(getApplicationContext()).setAnalyticsCollectionEnabled(false);
-                    FirebaseAnalytics.getInstance(getApplicationContext()).resetAnalyticsData();
+                            @Override
+                            public void onError(ERRORVALUE error) {
+                                RALog.d(LOG, "abtesting update failed");
+                            }
+                        });
+                    } else {
+                        RALog.d(LOG, "ab-testing consent set to false");
+                        FirebaseAnalytics.getInstance(getApplicationContext()).setAnalyticsCollectionEnabled(false);
+                        FirebaseAnalytics.getInstance(getApplicationContext()).resetAnalyticsData();
+                    }
                 }
-            }
 
-            @Override
-            public void onGetConsentsFailed(ConsentError error) {
-                RALog.d(getClass().getSimpleName(), "error while saving neura consent ");
-            }
-        });
-
+                @Override
+                public void onGetConsentFailed(ConsentError error) {
+                    RALog.d(getClass().getSimpleName(), "error while saving neura consent ");
+                }
+            });
+        }
 
     }
 

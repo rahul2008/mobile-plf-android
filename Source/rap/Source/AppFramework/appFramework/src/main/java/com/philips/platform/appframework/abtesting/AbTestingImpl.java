@@ -1,6 +1,7 @@
 package com.philips.platform.appframework.abtesting;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.gson.Gson;
@@ -8,12 +9,36 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.CacheModel;
+import com.philips.platform.appinfra.consentmanager.ConsentStatusChangedListener;
+import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AbTestingImpl implements ABTestClientInterface {
+public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChangedListener, ABTestClientInterface.OnRefreshListener {
+
+    public final static String AB_TESTING_CONSENT = "ab-testingConsent";
+
+    @Override
+    public void consentStatusChanged(@NonNull ConsentDefinition consentDefinition, @Nullable ConsentError consentError, boolean requestedStatus) {
+        if(requestedStatus) {
+            updateCache(this);
+        }
+    }
+
+    @Override
+    public void onSuccess() {
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "abtesting cache updated successfully");
+    }
+
+    @Override
+    public void onError(ERRORVALUE error) {
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "abtesting update failed");
+    }
 
     interface FetchDataHandler {
         void fetchData(Map<String, CacheModel.ValueModel> data);
@@ -48,6 +73,8 @@ public class AbTestingImpl implements ABTestClientInterface {
         abTestingLocalCache.initAppInfra(appInfraInterface);
         fireBaseWrapper.initAppInfra(appInfraInterface);
         inMemoryCache = new HashMap<>();
+        registerConsentHandler();
+        appInfraInterface.getConsentManager().addConsentStatusChangedListener(appInfraInterface.getConsentManager().getConsentDefinitionForType(getAbTestingConsentIdentifier()), this);
         // Syncing in-memory cache with disk memory if available
         if (abTestingLocalCache.getCacheFromPreference().getTestValues() != null)
             syncInMemoryCache(inMemoryCache, abTestingLocalCache.getCacheFromPreference().getTestValues());
@@ -116,6 +143,11 @@ public class AbTestingImpl implements ABTestClientInterface {
         fireBaseWrapper.enableDeveloperMode(state);
     }
 
+    @Override
+    public String getAbTestingConsentIdentifier() {
+        return AB_TESTING_CONSENT;
+    }
+
     private void updateCachesForTestName(String requestNameKey, String testValue, UPDATETYPE updateType) {
         if (inMemoryCache.containsKey(requestNameKey)) {
             final CacheModel.ValueModel val = inMemoryCache.get(requestNameKey);
@@ -174,5 +206,13 @@ public class AbTestingImpl implements ABTestClientInterface {
 
     Map<String, CacheModel.ValueModel> getInMemoryCache() {
         return inMemoryCache;
+    }
+
+    /**
+     * Register device handler for ab-testing consent.
+     */
+    private void registerConsentHandler() {
+        DeviceStoredConsentHandler deviceStoredConsentHandler = appInfraInterface.getDeviceStoredConsentHandler();
+        appInfraInterface.getConsentManager().registerHandler(Collections.singletonList(AB_TESTING_CONSENT), deviceStoredConsentHandler);
     }
 }

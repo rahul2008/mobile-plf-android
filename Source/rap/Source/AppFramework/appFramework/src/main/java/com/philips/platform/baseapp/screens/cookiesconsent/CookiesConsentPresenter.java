@@ -16,49 +16,51 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
-import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
+import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.neura.NeuraWhatMeanFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.PostConsentTypeCallback;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 
-public class CookiesConsentPresenter extends AbstractUIBasePresenter implements PostConsentTypeCallback {
+public class CookiesConsentPresenter extends AbstractUIBasePresenter implements PostConsentCallback {
     public static String TAG = CookiesConsentPresenter.class.getSimpleName();
     private final AppFrameworkApplication appFrameworkApplication;
     private CookiesConsentFragmentView cookiesConsentFragmentView;
-    private CookiesConsentProvider cookiesConsentProvider;
     private boolean CONSENT_STATUS = false;
+    private AppInfraInterface appInfraInterface;
 
     public CookiesConsentPresenter(CookiesConsentFragmentView cookiesConsentFragmentView) {
         super(cookiesConsentFragmentView);
         this.cookiesConsentFragmentView = cookiesConsentFragmentView;
         appFrameworkApplication =
                 (AppFrameworkApplication) cookiesConsentFragmentView.getFragmentActivity().getApplication();
-        cookiesConsentProvider = new CookiesConsentProvider(new DeviceStoredConsentHandler(appFrameworkApplication.getAppInfra()));
+        appInfraInterface = appFrameworkApplication.getAppInfra();
     }
 
     @Override
     public void onEvent(final int componentID) {
         BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
         BaseState baseState = null;
+        ConsentDefinition consentDefinition = appInfraInterface.getConsentManager().getConsentDefinitionForType(appInfraInterface.getAbTesting().getAbTestingConsentIdentifier());
         try {
             switch (componentID) {
                 case R.id.usr_cookiesConsentScreen_accept_button:
                     CONSENT_STATUS = true;
                     String EVENT_ALLOW = "accept";
-                    cookiesConsentProvider.storeConsentTypeState(true, getPostConsentTypeCallback());
+                    appInfraInterface.getConsentManager().storeConsentState(consentDefinition,true, getPostConsentTypeCallback());
                     baseState = getNextState(targetFlowManager, EVENT_ALLOW);
                     break;
                 case R.id.usr_cookiesConsentScreen_Reject_button:
                     CONSENT_STATUS = false;
                     String EVENT_REJECT = "reject";
                     baseState = getNextState(targetFlowManager, EVENT_REJECT);
-                    cookiesConsentProvider.storeConsentTypeState(false, getPostConsentTypeCallback());
+                    appInfraInterface.getConsentManager().storeConsentState(consentDefinition,false, getPostConsentTypeCallback());
                     break;
                 case R.id.usr_cookiesConsentScreen_info_weblink_label:
                     launchWhatDoesItMeanFragment(cookiesConsentFragmentView.getFragmentActivity());
@@ -99,7 +101,7 @@ public class CookiesConsentPresenter extends AbstractUIBasePresenter implements 
     }
 
     @NonNull
-    PostConsentTypeCallback getPostConsentTypeCallback() {
+    PostConsentCallback getPostConsentTypeCallback() {
         return this;
     }
 
