@@ -26,7 +26,6 @@ import com.philips.platform.appframework.stateimpl.TestFragmentState;
 import com.philips.platform.baseapp.FlowManagerUtil;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionCookiesConsent;
-import com.philips.platform.baseapp.condition.ConditionCookiesConsentInfo;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
 import com.philips.platform.baseapp.condition.ConditionShouldLaunchNeura;
@@ -71,9 +70,6 @@ public class FlowManager extends BaseFlowManager {
         baseConditionMap.put(AppConditions.CONDITION_APP_LAUNCH, new ConditionAppLaunch());
         baseConditionMap.put(AppConditions.SHOULD_LAUNCH_NEURA, new ConditionShouldLaunchNeura());
         baseConditionMap.put(AppConditions.LAUNCH_COOKIES_CONSENT, new ConditionCookiesConsent());
-        baseConditionMap.put(AppConditions.LAUNCH_COOKIES_CONSENT_INFO, new ConditionCookiesConsentInfo());
-
-
     }
 
 }

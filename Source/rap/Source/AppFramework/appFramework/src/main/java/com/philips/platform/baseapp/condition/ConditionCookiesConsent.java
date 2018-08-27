@@ -30,7 +30,7 @@ public class ConditionCookiesConsent extends BaseCondition implements FetchConse
     private boolean shouldLaunchAbTesting = true;
 
     public ConditionCookiesConsent() {
-        super(AppConditions.SHOULD_LAUNCH_NEURA);
+        super(AppConditions.LAUNCH_COOKIES_CONSENT);
     }
 
     @Override
@@ -43,13 +43,10 @@ public class ConditionCookiesConsent extends BaseCondition implements FetchConse
         return shouldLaunchAbTesting;
     }
 
-    public boolean isShouldLaunchAbTesting() {
-        return shouldLaunchAbTesting;
-    }
-
     @Override
     public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
-        if (consentDefinitionStatus != null && (consentDefinitionStatus.getConsentState() == ConsentStates.active || consentDefinitionStatus.getConsentState() == ConsentStates.rejected)) {
+        if (consentDefinitionStatus != null && (consentDefinitionStatus.getConsentState() == ConsentStates.active
+                || consentDefinitionStatus.getConsentState() == ConsentStates.rejected)) {
             shouldLaunchAbTesting = false;
         }
     }
