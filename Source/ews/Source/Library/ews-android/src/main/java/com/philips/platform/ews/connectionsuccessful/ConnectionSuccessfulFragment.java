@@ -105,7 +105,7 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
             resultListener.onEWSFinishSuccess();
         }
 
-        if(!(getActivity() instanceof EWSActivity)) {
+        if((getActivity() != null && !(getActivity() instanceof EWSActivity))) {
             int backStackEntryCount = getActivity().getSupportFragmentManager().getBackStackEntryCount();
             if(backStackEntryCount > 0) {
                 getActivity().getSupportFragmentManager().popBackStack(getActivity().getSupportFragmentManager().getBackStackEntryAt(0).getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);

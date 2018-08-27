@@ -9,10 +9,8 @@ import java.io.Serializable;
 /**
  * EwsResultListener provides notification for the success of EWS finish.
  */
-public interface EwsResultListener extends Serializable {
-
-
-    public static final int EWS_RESULT = 10000;
+public interface EwsResultListener {
+    int EWS_RESULT = 10000;
 
     void onEWSFinishSuccess();
     void onEWSError(int errorCode);
