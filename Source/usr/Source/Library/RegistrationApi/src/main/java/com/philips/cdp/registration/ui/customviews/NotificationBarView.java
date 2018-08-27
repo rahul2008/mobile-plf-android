@@ -27,7 +27,7 @@ public class NotificationBarView {
             popupWindow = new PopupWindow(mActivity);
             popupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
             popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-            popupWindow.setFocusable(true);
+            popupWindow.setFocusable(false);
             popupWindow.setContentView(view);
 
         }
@@ -44,6 +44,10 @@ public class NotificationBarView {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
+    }
+
+    boolean isNotificationBarViewShowing() {
+        return popupWindow != null && popupWindow.isShowing();
     }
 
     private View getNotificationContentView(String title, String message, boolean isError) {
