@@ -25,9 +25,13 @@ import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.appframework.stateimpl.TestFragmentState;
 import com.philips.platform.baseapp.FlowManagerUtil;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
+import com.philips.platform.baseapp.condition.ConditionCookiesConsent;
+import com.philips.platform.baseapp.condition.ConditionCookiesConsentInfo;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
 import com.philips.platform.baseapp.condition.ConditionShouldLaunchNeura;
+import com.philips.platform.baseapp.screens.cookiesconsent.CookiesConsentInfoState;
+import com.philips.platform.baseapp.screens.cookiesconsent.CookiesConsentState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesDeepLinkingState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
 import com.philips.platform.modularui.stateimpl.EWSFragmentState;
@@ -53,11 +57,14 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TESTBLUELIB, new DemoBLLState());
         uiStateMap.put(AppStates.EWS, new EWSFragmentState());
         uiStateMap.put(AppStates.TEST_DEVICE_PAIRING, new DemoDevicePairingState());
-//        uiStateMap.put(AppStates.TESTDLS, new DemoDlsState());
+//      uiStateMap.put(AppStates.TESTDLS, new DemoDlsState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICESDEMO, new DemoThsState());
         uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
         uiStateMap.put(AppStates.TESTNEURADEMO, new DemoNeuraState());
+        uiStateMap.put(AppStates.COOKIES_CONSENT, new CookiesConsentState());
+        uiStateMap.put(AppStates.COOKIES_CONSENT_INFO, new CookiesConsentInfoState());
+
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {
@@ -65,6 +72,10 @@ public class FlowManager extends BaseFlowManager {
         baseConditionMap.put(AppConditions.IS_DONE_PRESSED, new ConditionIsDonePressed());
         baseConditionMap.put(AppConditions.CONDITION_APP_LAUNCH, new ConditionAppLaunch());
         baseConditionMap.put(AppConditions.SHOULD_LAUNCH_NEURA, new ConditionShouldLaunchNeura());
+        baseConditionMap.put(AppConditions.LAUNCH_COOKIES_CONSENT, new ConditionCookiesConsent());
+        baseConditionMap.put(AppConditions.LAUNCH_COOKIES_CONSENT_INFO, new ConditionCookiesConsentInfo());
+
+
     }
 
 }

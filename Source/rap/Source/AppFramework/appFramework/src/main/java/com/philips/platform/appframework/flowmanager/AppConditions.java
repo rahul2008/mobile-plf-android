@@ -13,4 +13,7 @@ public class AppConditions {
     public static final String IS_DONE_PRESSED = "isDonePressed";
     public static final String CONDITION_APP_LAUNCH = "conditionAppLaunch";
     public static final String SHOULD_LAUNCH_NEURA = "shouldLaunchNeura";
+    public static final String LAUNCH_COOKIES_CONSENT = "launchCookiesConsent";
+    public static final String LAUNCH_COOKIES_CONSENT_INFO = "launchCookiesConsentInfo";
+
 }
