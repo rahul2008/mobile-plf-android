@@ -234,5 +234,6 @@ Receive free product accessories</string>
   <string name="mya_config_tab">Configuration tab</string>
   <string name="RA_Code_Tampered">Code has been Tampered</string>
   <string name="RA_Change_Configuration">Change Configuration</string>
+  <string name="RA_cookies_consent_description">I want to share my app data to help improve the app and provide me with personalized servecies.</string>
 
 </resources>
