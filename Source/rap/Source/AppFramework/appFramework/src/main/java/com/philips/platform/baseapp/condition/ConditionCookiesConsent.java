@@ -13,7 +13,7 @@ import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.neura.NeuraConsentProvider;
+import com.philips.platform.baseapp.screens.cookiesconsent.CookiesConsentProvider;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
@@ -29,7 +29,7 @@ public class ConditionCookiesConsent extends BaseCondition implements FetchConse
      * @since 1.1.0
      */
 
-    private boolean shouldLaunchNeura = true;
+    private boolean shouldLaunchAbTesting = true;
 
     public ConditionCookiesConsent() {
         super(AppConditions.SHOULD_LAUNCH_NEURA);
@@ -38,9 +38,9 @@ public class ConditionCookiesConsent extends BaseCondition implements FetchConse
     @Override
     public boolean isSatisfied(Context context) {
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        NeuraConsentProvider neuraConsentProvider = getNeuraConsentProvider(appFrameworkApplication);
-        neuraConsentProvider.fetchConsentHandler(getFetchConsentTypeStateCallback());
-        return shouldLaunchNeura;
+        CookiesConsentProvider cookieConsentProvider = getCookieConsentProvider(appFrameworkApplication);
+        cookieConsentProvider.fetchConsentHandler(getFetchConsentTypeStateCallback());
+        return shouldLaunchAbTesting;
     }
 
     @NonNull
@@ -49,23 +49,23 @@ public class ConditionCookiesConsent extends BaseCondition implements FetchConse
     }
 
     @NonNull
-    NeuraConsentProvider getNeuraConsentProvider(AppFrameworkApplication appFrameworkApplication) {
-        return new NeuraConsentProvider(new DeviceStoredConsentHandler(appFrameworkApplication.getAppInfra()));
+    CookiesConsentProvider getCookieConsentProvider(AppFrameworkApplication appFrameworkApplication) {
+        return new CookiesConsentProvider(new DeviceStoredConsentHandler(appFrameworkApplication.getAppInfra()));
     }
 
     @Override
     public void onGetConsentsSuccess(ConsentStatus consentStatus) {
         if (consentStatus != null && (consentStatus.getConsentState() == ConsentStates.active || consentStatus.getConsentState() == ConsentStates.rejected)) {
-            shouldLaunchNeura = false;
+            shouldLaunchAbTesting = false;
         }
     }
 
     @Override
     public void onGetConsentsFailed(ConsentError error) {
-        shouldLaunchNeura = true;
+        shouldLaunchAbTesting = true;
     }
 
-    public boolean isShouldLaunchNeura() {
-        return shouldLaunchNeura;
+    public boolean isShouldLaunchAbTesting() {
+        return shouldLaunchAbTesting;
     }
 }

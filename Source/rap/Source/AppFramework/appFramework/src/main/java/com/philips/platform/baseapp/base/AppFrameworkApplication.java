@@ -11,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
@@ -40,6 +41,7 @@ import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
+import com.philips.platform.baseapp.screens.cookiesconsent.CookiesConsentProvider;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
@@ -52,6 +54,10 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSta
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
@@ -82,6 +88,7 @@ public class AppFrameworkApplication extends Application {
     private SupportFragmentState supportFragmentState;
     private TeleHealthServicesState teleHealthServicesState;
     private PrivacySettingsState privacySettingsState;
+    private CookiesConsentProvider cookiesConsentProvider;
 
 
     public static boolean isAppDataInitialized() {
@@ -169,6 +176,7 @@ public class AppFrameworkApplication extends Application {
         initializeCC();
         initializeTHS();
         registerNeuraHandler();
+        registerAbTestingHandler();
     }
     private void initializePrivacySettings() {
         privacySettingsState = new PrivacySettingsState();
@@ -191,6 +199,11 @@ public class AppFrameworkApplication extends Application {
 
     private void registerNeuraHandler() {
         new NeuraConsentProvider(new DeviceStoredConsentHandler(appInfra)).registerConsentHandler(appInfra);
+    }
+
+    private void registerAbTestingHandler() {
+        cookiesConsentProvider = new CookiesConsentProvider(new DeviceStoredConsentHandler(appInfra));
+        cookiesConsentProvider.registerConsentHandler(appInfra);
     }
 
     public UserRegistrationState getUserRegistrationState() {
@@ -343,6 +356,7 @@ public class AppFrameworkApplication extends Application {
      * @param appInfraInitializationCallback
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
+
         AbTestingImpl abTestingImpl = new AbTestingImpl();
         abTestingImpl.initFireBase();
         AppInfra.Builder builder = new AppInfra.Builder();
@@ -377,18 +391,37 @@ public class AppFrameworkApplication extends Application {
                 });
             }
         });
-        abTestingImpl.updateCache(new ABTestClientInterface.OnRefreshListener() {
+
+        cookiesConsentProvider.fetchConsentHandler(new FetchConsentTypeStateCallback() {
             @Override
-            public void onSuccess() {
-                RALog.d(LOG, "abtesting cache updated successfully");
-                RALog.d("FireBase instance id - ", FirebaseInstanceId.getInstance().getToken());
+            public void onGetConsentsSuccess(ConsentStatus consentStatus) {
+                if (consentStatus.getConsentState() == ConsentStates.active) {
+                    FirebaseAnalytics.getInstance(getApplicationContext()).setAnalyticsCollectionEnabled(true);
+                    abTestingImpl.updateCache(new ABTestClientInterface.OnRefreshListener() {
+                        @Override
+                        public void onSuccess() {
+                            RALog.d(LOG, "abtesting cache updated successfully");
+                            RALog.d("FireBase instance id - ", FirebaseInstanceId.getInstance().getToken());
+                        }
+
+                        @Override
+                        public void onError(ERRORVALUE error) {
+                            RALog.d(LOG, "abtesting update failed");
+                        }
+                    });
+                } else {
+                    FirebaseAnalytics.getInstance(getApplicationContext()).setAnalyticsCollectionEnabled(false);
+                    FirebaseAnalytics.getInstance(getApplicationContext()).resetAnalyticsData();
+                }
             }
 
             @Override
-            public void onError(ERRORVALUE error) {
-                RALog.d(LOG, "abtesting update failed");
+            public void onGetConsentsFailed(ConsentError error) {
+
             }
         });
+
+
     }
 
 }

@@ -1,65 +1,63 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.platform.baseapp.screens.cookiesconsent;
 
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
-import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
-import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
-import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 
-public class CookiesConsentPresenter extends AbstractUIBasePresenter {
+public class CookiesConsentPresenter extends AbstractUIBasePresenter implements PostConsentTypeCallback {
     public static String TAG = CookiesConsentPresenter.class.getSimpleName();
-
-    private final int MENU_OPTION_HOME = 0;
-    private SharedPreferenceUtility sharedPreferenceUtility;
-    private BaseState baseState;
+    private final AppFrameworkApplication appFrameworkApplication;
     private CookiesConsentFragmentView cookiesConsentFragmentView;
- 
+    private CookiesConsentProvider cookiesConsentProvider;
+    private boolean CONSENT_STATUS = false;
+
     public CookiesConsentPresenter(CookiesConsentFragmentView cookiesConsentFragmentView) {
         super(cookiesConsentFragmentView);
         this.cookiesConsentFragmentView = cookiesConsentFragmentView;
+        appFrameworkApplication =
+                (AppFrameworkApplication) cookiesConsentFragmentView.getFragmentActivity().getApplication();
+        cookiesConsentProvider = new CookiesConsentProvider(new DeviceStoredConsentHandler(appFrameworkApplication.getAppInfra()));
     }
 
     @Override
     public void onEvent(final int componentID) {
-        AppFrameworkApplication appFrameworkApplication =
-                (AppFrameworkApplication) cookiesConsentFragmentView.getFragmentActivity().getApplication();
         BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
         BaseState baseState = null;
         try {
             switch (componentID) {
                 case R.id.usr_cookiesConsentScreen_accept_button:
+                    CONSENT_STATUS = true;
                     String EVENT_ALLOW = "accept";
+                    cookiesConsentProvider.storeConsentTypeState(true, getPostConsentTypeCallback());
                     baseState = getNextState(targetFlowManager, EVENT_ALLOW);
                     break;
-
-
                 case R.id.usr_cookiesConsentScreen_Reject_button:
+                    CONSENT_STATUS = false;
                     String EVENT_REJECT = "reject";
                     baseState = getNextState(targetFlowManager, EVENT_REJECT);
+                    cookiesConsentProvider.storeConsentTypeState(false, getPostConsentTypeCallback());
                     break;
-
-
-
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(cookiesConsentFragmentView.getFragmentActivity(),
                     cookiesConsentFragmentView.getFragmentActivity().getString(R.string.RA_something_wrong),
                     Toast.LENGTH_SHORT).show();
@@ -68,18 +66,20 @@ public class CookiesConsentPresenter extends AbstractUIBasePresenter {
         if (baseState != null) {
             baseState.init(cookiesConsentFragmentView.getFragmentActivity().getApplicationContext());
             baseState.navigate(getUiLauncher());
-
         }
     }
+
     @NonNull
     FragmentLauncher getUiLauncher() {
         return new FragmentLauncher(cookiesConsentFragmentView.getFragmentActivity(),
                 cookiesConsentFragmentView.getContainerId(), cookiesConsentFragmentView.getActionBarListener());
     }
+
     @NonNull
     BaseState getNextState(BaseFlowManager targetFlowManager, String event) {
         return targetFlowManager.getNextState(event);
     }
+
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) cookiesConsentFragmentView.getFragmentActivity().getApplicationContext();
     }
@@ -90,4 +90,31 @@ public class CookiesConsentPresenter extends AbstractUIBasePresenter {
                 cookiesConsentFragmentView.getContainerId(), cookiesConsentFragmentView.getActionBarListener());
     }
 
+    @NonNull
+    PostConsentTypeCallback getPostConsentTypeCallback() {
+        return this;
+    }
+
+    @Override
+    public void onPostConsentFailed(ConsentError error) {
+        RALog.d(getClass().getSimpleName(), "error while saving ab-testing consent ");
+    }
+
+    @Override
+    public void onPostConsentSuccess() {
+        if (CONSENT_STATUS) {
+            appFrameworkApplication.getAppInfra().getAbTesting().updateCache(new ABTestClientInterface.OnRefreshListener() {
+                @Override
+                public void onSuccess() {
+                    RALog.d(getClass().getSimpleName(), "abtesting cache updated successfully");
+                    RALog.d("FireBase instance id - ", FirebaseInstanceId.getInstance().getToken());
+                }
+
+                @Override
+                public void onError(ERRORVALUE error) {
+                    RALog.d(getClass().getSimpleName(), "abtesting update failed");
+                }
+            });
+        }
+    }
 }
