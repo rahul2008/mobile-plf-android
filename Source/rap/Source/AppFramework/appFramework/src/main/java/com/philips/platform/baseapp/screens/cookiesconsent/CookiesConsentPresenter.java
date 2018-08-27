@@ -47,21 +47,23 @@ public class CookiesConsentPresenter extends AbstractUIBasePresenter implements 
     public void onEvent(final int componentID) {
         BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
         BaseState baseState = null;
-        ConsentDefinition consentDefinition = appInfraInterface.getConsentManager().getConsentDefinitionForType(appInfraInterface.getAbTesting().getAbTestingConsentIdentifier());
-        // TODO: Deepthi : here you need to add for clicktrseam as well at all required places
+        ConsentDefinition abTestingConsentDefinition = appInfraInterface.getConsentManager().getConsentDefinitionForType(appInfraInterface.getAbTesting().getAbTestingConsentIdentifier());
+        ConsentDefinition taggingDefinition = appInfraInterface.getConsentManager().getConsentDefinitionForType(appInfraInterface.getTagging().getClickStreamConsentIdentifier());
         try {
             switch (componentID) {
                 case R.id.usr_cookiesConsentScreen_accept_button:
                     CONSENT_STATUS = true;
                     String EVENT_ALLOW = "accept";
-                    appInfraInterface.getConsentManager().storeConsentState(consentDefinition,true, getPostConsentTypeCallback());
+                    appInfraInterface.getConsentManager().storeConsentState(abTestingConsentDefinition,true, getPostConsentTypeCallback());
+                    appInfraInterface.getConsentManager().storeConsentState(taggingDefinition,true, getPostConsentTypeCallback());
                     baseState = getNextState(targetFlowManager, EVENT_ALLOW);
                     break;
                 case R.id.usr_cookiesConsentScreen_Reject_button:
                     CONSENT_STATUS = false;
                     String EVENT_REJECT = "reject";
                     baseState = getNextState(targetFlowManager, EVENT_REJECT);
-                    appInfraInterface.getConsentManager().storeConsentState(consentDefinition,false, getPostConsentTypeCallback());
+                    appInfraInterface.getConsentManager().storeConsentState(abTestingConsentDefinition,false, getPostConsentTypeCallback());
+                    appInfraInterface.getConsentManager().storeConsentState(taggingDefinition,false, getPostConsentTypeCallback());
                     break;
                 case R.id.usr_cookiesConsentScreen_info_weblink_label:
                     launchWhatDoesItMeanFragment(cookiesConsentFragmentView.getFragmentActivity());
