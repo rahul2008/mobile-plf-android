@@ -7,19 +7,18 @@
 package com.philips.platform.baseapp.condition;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
-import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
+import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
-import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
 
-public class ConditionCookiesConsent extends BaseCondition implements FetchConsentTypeStateCallback {
+public class ConditionCookiesConsent extends BaseCondition implements FetchConsentCallback {
 
 
     /**
@@ -37,34 +36,26 @@ public class ConditionCookiesConsent extends BaseCondition implements FetchConse
     @Override
     public boolean isSatisfied(Context context) {
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        CookiesConsentProvider cookieConsentProvider = getCookieConsentProvider(appFrameworkApplication);
-        cookieConsentProvider.fetchConsentHandler(getFetchConsentTypeStateCallback());
+        ConsentDefinition consentDefinition = appFrameworkApplication.getAppInfra().getConsentManager().getConsentDefinitionForType(appFrameworkApplication.getAppInfra().getAbTesting().getAbTestingConsentIdentifier());
+        if (consentDefinition != null) {
+            appFrameworkApplication.getAppInfra().getConsentManager().fetchConsentState(consentDefinition,this);
+        }
         return shouldLaunchAbTesting;
     }
 
-    @NonNull
-    FetchConsentTypeStateCallback getFetchConsentTypeStateCallback() {
-        return this;
-    }
-
-    @NonNull
-    CookiesConsentProvider getCookieConsentProvider(AppFrameworkApplication appFrameworkApplication) {
-        return new CookiesConsentProvider(new DeviceStoredConsentHandler(appFrameworkApplication.getAppInfra()));
+    public boolean isShouldLaunchAbTesting() {
+        return shouldLaunchAbTesting;
     }
 
     @Override
-    public void onGetConsentsSuccess(ConsentStatus consentStatus) {
-        if (consentStatus != null && (consentStatus.getConsentState() == ConsentStates.active || consentStatus.getConsentState() == ConsentStates.rejected)) {
+    public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
+        if (consentDefinitionStatus != null && (consentDefinitionStatus.getConsentState() == ConsentStates.active || consentDefinitionStatus.getConsentState() == ConsentStates.rejected)) {
             shouldLaunchAbTesting = false;
         }
     }
 
     @Override
-    public void onGetConsentsFailed(ConsentError error) {
+    public void onGetConsentFailed(ConsentError error) {
         shouldLaunchAbTesting = true;
-    }
-
-    public boolean isShouldLaunchAbTesting() {
-        return shouldLaunchAbTesting;
     }
 }

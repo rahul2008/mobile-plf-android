@@ -90,8 +90,6 @@ public class AppFrameworkApplication extends Application {
     private SupportFragmentState supportFragmentState;
     private TeleHealthServicesState teleHealthServicesState;
     private PrivacySettingsState privacySettingsState;
-    private CookiesConsentProvider cookiesConsentProvider;
-
 
     public static boolean isAppDataInitialized() {
         return appDataInitializationStatus;
@@ -418,7 +416,8 @@ public class AppFrameworkApplication extends Application {
                     RALog.d(getClass().getSimpleName(), "error while saving neura consent ");
                 }
             });
-        }
+        } else
+            RALog.d(LOG, "consent definition is null");
 
     }
 

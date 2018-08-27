@@ -163,6 +163,7 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
         List<String> consentTypes = new ArrayList<>();
         consentTypes.add(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra().getTagging().getClickStreamConsentIdentifier());
         consentTypes.add(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra().getLogging().getCloudLoggingConsentIdentifier());
+        consentTypes.add(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra().getAbTesting().getAbTestingConsentIdentifier());
         return new ConsentDefinition(R.string.RA_MYA_Click_Stream_Hosting_Consent, R.string.RA_MYA_Consent_Clickstream_Help,
                 consentTypes, 1);
     }
