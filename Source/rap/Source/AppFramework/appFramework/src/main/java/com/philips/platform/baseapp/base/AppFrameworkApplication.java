@@ -410,6 +410,7 @@ public class AppFrameworkApplication extends Application {
                         }
                     });
                 } else {
+                    RALog.d(LOG, "ab-testing consent set to false");
                     FirebaseAnalytics.getInstance(getApplicationContext()).setAnalyticsCollectionEnabled(false);
                     FirebaseAnalytics.getInstance(getApplicationContext()).resetAnalyticsData();
                 }
@@ -417,7 +418,7 @@ public class AppFrameworkApplication extends Application {
 
             @Override
             public void onGetConsentsFailed(ConsentError error) {
-
+                RALog.d(getClass().getSimpleName(), "error while saving neura consent ");
             }
         });
 
