@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">אתה במצב לא מקוון</string>
 <string name="MYA_Offline_message">נראה שחיבור האינטרנט שלך אינו פועל. בדוק ונסה שוב</string>
 <string name="mya_Privacy_Settings_Desc">שלוט בפרטיות שלך. למידע נוסף, קרא את _הודעת הפרטיות_.</string>
+    <string name="MYA_Visit_Website">[he]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[he]Marketing OptIn</string>
 </resources>

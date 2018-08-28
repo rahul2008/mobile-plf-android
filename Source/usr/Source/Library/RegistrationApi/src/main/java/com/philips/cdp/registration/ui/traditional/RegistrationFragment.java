@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -30,14 +29,12 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.errors.NotificationMessage;
 import com.philips.cdp.registration.events.CounterHelper;
 import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
@@ -83,7 +80,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     private boolean isCounterRunning;
 
     private static final String TAG = RegistrationFragment.class.getSimpleName();
-    private URNotification notification;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -445,11 +441,11 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(TAG, "onNetWorkStateReceived : is called" + isOnline);
-        if (isOnline) {
-            hideNotificationBarView();
-        } else {
-            showNotificationBarOnNetworkNotAvailable();
-        }
+//        if (isOnline) {
+//            hideNotificationBarView();
+//        } else {
+//            showNotificationBarOnNetworkNotAvailable();
+//        }
         if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             UserRegistrationInitializer.getInstance().resetInitializationState();
         }
@@ -466,24 +462,21 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         }
     }
 
-    public void hideNotificationBarView() {
-        if (notification != null)
-            notification.hideNotification();
-    }
-
-    public void showNotificationBarOnNetworkNotAvailable() {
-
-        new Handler().postDelayed(() -> {
-            notification = new URNotification(this.getParentActivity(), new URNotification.URNotificationInterface() {
-                @Override
-                public void notificationInlineMsg(String msg) {
-                    // NOP
-                }
-            });
-            notification.showNotification(
-                    new NotificationMessage(mContext.getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.USR_Network_ErrorMsg)));
-        }, 100);
-    }
+//    public void hideNotificationBarView() {
+//        if (notification != null)
+//            notification.hideNotification();
+//    }
+//
+//    public void showNotificationBarOnNetworkNotAvailable() {
+//
+//        new Handler().postDelayed(() -> {
+//            notification = new URNotification(this.getParentActivity(), msg -> {
+//                // NOP
+//            });
+//            notification.showNotification(
+//                    new NotificationMessage(mContext.getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.USR_Network_ErrorMsg)));
+//        }, 100);
+//    }
 
     public Activity getParentActivity() {
         return getActivity();

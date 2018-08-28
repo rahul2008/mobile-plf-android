@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Du er frakoblet</string>
 <string name="MYA_Offline_message">Det ser ikke ut til at Internett-tilkoblingen din fungerer. Kontroller den og prøv på nytt</string>
 <string name="mya_Privacy_Settings_Desc">Ta kontroll over personvernet ditt. Les _merknaden om personvern_ for mer informasjon.</string>
+    <string name="MYA_Visit_Website">[nb]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[nb]Marketing OptIn</string>
 </resources>

@@ -154,9 +154,9 @@ dependencies {
     }
     implementation deps.play_services_awareness
 
-    def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+
+    if (directdependencies) {
         implementation project(':uid')
         implementation project(':uAppFwLib')
         implementation project(':AppInfra')

@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Ste offline</string>
 <string name="MYA_Offline_message">Zdá sa, že vaše pripojenie k internetu nefunguje. Skontrolujte to a skúste akciu vykonať znova.</string>
 <string name="mya_Privacy_Settings_Desc">Regulujte si ochranu súkromia. Viac informácií nájdete v _oznámení o ochrane súkromia_.</string>
+    <string name="MYA_Visit_Website">[sk]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[sk]Marketing OptIn</string>
 </resources>

@@ -91,9 +91,9 @@ dependencies {
     implementation deps.support.design
     implementation deps.gson
 
-    def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
+
+    if (directdependencies) {
         implementation project(':uikitLib')
         implementation project(':uAppFwLib')
         implementation project(':AppInfra')

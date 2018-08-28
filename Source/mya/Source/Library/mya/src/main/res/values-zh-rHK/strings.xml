@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">您已經離線</string>
 <string name="MYA_Offline_message">您的網絡連線似乎未能正常運作，請檢查並再試一次</string>
 <string name="mya_Privacy_Settings_Desc">控制您的私隱設定。詳情請查閱_私隱聲明_。</string>
+    <string name="MYA_Visit_Website">[zh-HK]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[zh-H]Marketing OptIn</string>
 </resources>

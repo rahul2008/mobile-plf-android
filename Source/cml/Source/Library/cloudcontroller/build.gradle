@@ -41,21 +41,13 @@ dependencies {
 
     compileOnly deps.support.annotations
 
-    def suffix = objcdp.getVersionSuffix()
-
-    for (dep in [':cloudcontroller-api']) {
-        if (directdependencies) {
-            implementation project(dep)
-        } else {
-            implementation("$group$dep:$platformversion$suffix") { changing = true }
-        }
-    }
-
-    if (findProject(":commlib-testutils")) {
-        testImplementation project(':commlib-testutils')
+    if (directdependencies) {
+        implementation project(':cloudcontroller-api')
     } else {
-        testImplementation("$group:commlib-testutils:$versions.cml_commlib$suffix") { changing = true }
+        implementation philipsdeps.cloudcontroller_api
     }
+
+    testImplementation project(':commlib-testutils')
 
     testImplementation deps.junit
     testImplementation deps.assertj
@@ -74,15 +66,3 @@ dependencies {
 tasks.withType(Test) {
     ignoreFailures = true
 }
-
-task copyLibDebug(type: Copy) {
-    from 'libs/ICPClientInterface.jar'
-    into "build/intermediates/bundles/debug/libs/"
-}
-task copyLibRelease(type: Copy) {
-    from 'libs/ICPClientInterface.jar'
-    into "build/intermediates/bundles/release/libs/"
-}
-
-preBuild.dependsOn(copyLibDebug)
-preBuild.dependsOn(copyLibRelease)
