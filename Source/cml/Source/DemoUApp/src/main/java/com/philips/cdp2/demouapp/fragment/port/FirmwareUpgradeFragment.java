@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -45,6 +47,7 @@ import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIA
 import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
 import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
 import static java.lang.System.currentTimeMillis;
+import static java.util.Objects.requireNonNull;
 
 public class FirmwareUpgradeFragment extends Fragment {
     private static final String TAG = "FirmwareUpgradeFragment";
@@ -62,7 +65,6 @@ public class FirmwareUpgradeFragment extends Fragment {
     private TextView statusTextView;
     private TextView canUpgradeTextView;
     private EditText timeoutEditText;
-    private Button btnUpload;
     private Button btnDeploy;
     private Button btnCancel;
 
@@ -89,6 +91,7 @@ public class FirmwareUpgradeFragment extends Fragment {
             if (viewId == R.id.cml_btnCheckUpgrade) {
                 firmwarePort.reloadProperties();
             } else if (viewId == R.id.cml_btnSelectFirmware) {
+                readFirmwareFiles();
                 selectFirmware();
             } else if (viewId == R.id.cml_btnUploadFirmware) {
                 uploadSelectedFirmware();
@@ -110,7 +113,7 @@ public class FirmwareUpgradeFragment extends Fragment {
 
         @Override
         public void onPortError(FirmwarePort port, Error error, String errorData) {
-            updateTextViews(getString( R.string.cml_lblResultPortError, error.getErrorMessage()));
+            updateTextViews(getString(R.string.cml_lblResultPortError, error.getErrorMessage()));
         }
     };
 
@@ -121,7 +124,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         public void onCheckingProgress(int progress) {
             Log.i(TAG, "onCheckingProgress(" + progress + ")");
 
-            updateButtons(false, false, true);
+            updateButtons(false, true);
             updateTextViews(getString(R.string.cml_checking_firmware));
 
             firmwareUploadProgressBar.setProgress(progress);
@@ -131,7 +134,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         public void onDownloadProgress(int progress) {
             Log.i(TAG, "onDownloadProgress(" + progress + ")");
 
-            updateButtons(false, false, true);
+            updateButtons(false, true);
             int throughput = calculateThroughputInBytesPerSecond(progress);
             updateTextViews(String.format(Locale.US, "%s: %d%% (%d B/s)", getString(R.string.cml_uploading_firmware_image), progress, throughput));
 
@@ -142,15 +145,17 @@ public class FirmwareUpgradeFragment extends Fragment {
         public void onDownloadFailed(final FirmwarePortException exception) {
             Log.i(TAG, "onDownloadFailed(" + exception.getMessage() + ")");
 
-            updateButtons(true, false, false);
+            updateButtons(false, false);
             updateTextViews(String.format(Locale.US, "%s %s", getString(R.string.cml_uploading_firmware_failed), exception.getMessage()));
+
+            firmwareUploadProgressBar.setProgress(0);
         }
 
         @Override
         public void onDownloadFinished() {
             Log.i(TAG, "onDownloadFinished()");
 
-            updateButtons(false, true, true);
+            updateButtons(true, true);
             updateTextViews(getString(R.string.cml_upload_firmware_finished));
         }
 
@@ -158,7 +163,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         public void onFirmwareAvailable(String version) {
             Log.i(TAG, "onFirmwareAvailable(" + version + ")");
 
-            updateButtons(true, false, false);
+            updateButtons(false, false);
             updateTextViews(String.format(Locale.US, "%s %s", getString(R.string.cml_new_firmware_available), version));
         }
 
@@ -166,25 +171,27 @@ public class FirmwareUpgradeFragment extends Fragment {
         public void onDeployFailed(FirmwarePortException exception) {
             Log.i(TAG, "onDeployFailed(" + exception.getMessage() + ")");
 
-            updateButtons(true, false, false);
+            updateButtons(false, false);
             updateTextViews(String.format(Locale.US, "%s %s", getString(R.string.cml_deploy_firmware_failed), exception.getMessage()));
+
+            firmwareUploadProgressBar.setProgress(0);
         }
 
         @Override
         public void onDeployFinished() {
             Log.i(TAG, "onDeployFinished()");
 
-            updateButtons(true, false, false);
+            updateButtons(false, false);
             updateTextViews(getString(R.string.cml_firmware_deploy_finished));
         }
     };
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.cml_fragment_firmware_upgrade, container, false);
 
-        final String cppId = getArguments().getString(APPLIANCE_KEY);
+        String cppId = requireNonNull(getArguments()).getString(APPLIANCE_KEY);
         Appliance appliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
         if (appliance != null && appliance instanceof ReferenceAppliance) {
             firmwarePort = appliance.getFirmwarePort();
@@ -194,23 +201,28 @@ public class FirmwareUpgradeFragment extends Fragment {
         firmwareImageNameTextView = rootView.findViewById(R.id.cml_tvFirmwareImageName);
 
         Button btnRefreshProperties = rootView.findViewById(R.id.cml_btnCheckUpgrade);
+        btnRefreshProperties.setOnClickListener(clickListener);
+
         Button btnSelect = rootView.findViewById(R.id.cml_btnSelectFirmware);
-        btnUpload = rootView.findViewById(R.id.cml_btnUploadFirmware);
+        btnSelect.setOnClickListener(clickListener);
+
+        Button btnUpload = rootView.findViewById(R.id.cml_btnUploadFirmware);
+        btnUpload.setOnClickListener(clickListener);
+        btnUpload.setEnabled(true);
+
         btnDeploy = rootView.findViewById(R.id.cml_btnDeployFirmware);
+        btnDeploy.setOnClickListener(clickListener);
+        btnDeploy.setEnabled(false);
+
         btnCancel = rootView.findViewById(R.id.cml_btnCancelFirmware);
+        btnCancel.setOnClickListener(clickListener);
+        btnCancel.setEnabled(false);
 
         stateTextView = rootView.findViewById(R.id.cml_txtFirmwareState);
         versionTextView = rootView.findViewById(R.id.cml_txtFirmwareVersion);
         statusTextView = rootView.findViewById(R.id.cml_txtFirmwareStatusMsg);
         timeoutEditText = rootView.findViewById(R.id.cml_timeoutEditText);
         canUpgradeTextView = rootView.findViewById(R.id.cml_tvCanUpgrade);
-
-        btnRefreshProperties.setOnClickListener(clickListener);
-        btnSelect.setOnClickListener(clickListener);
-        btnUpload.setOnClickListener(clickListener);
-        btnDeploy.setOnClickListener(clickListener);
-        btnCancel.setOnClickListener(clickListener);
-        updateButtons(true, false, false);
 
         firmwareUploadProgressBar = rootView.findViewById(R.id.cml_progressUploadFirmware);
         firmwareUploadProgressBar.setProgress(0);
@@ -223,7 +235,9 @@ public class FirmwareUpgradeFragment extends Fragment {
         super.onResume();
 
         if (firmwarePort == null) {
-            getFragmentManager().popBackStack();
+            if (getFragmentManager() != null) {
+                getFragmentManager().popBackStack();
+            }
             return;
         }
         readFirmwareFiles();
@@ -242,8 +256,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         firmwarePort.removeFirmwarePortListener(firmwarePortListener);
     }
 
-    private void updateButtons(boolean isUploadEnabled, boolean isDeployEnabled, boolean isCancelEnabled) {
-        btnUpload.setEnabled(isUploadEnabled);
+    private void updateButtons(boolean isDeployEnabled, boolean isCancelEnabled) {
         btnDeploy.setEnabled(isDeployEnabled);
         btnCancel.setEnabled(isCancelEnabled);
     }
@@ -262,7 +275,12 @@ public class FirmwareUpgradeFragment extends Fragment {
     }
 
     private void readFirmwareFiles() {
-        final File externalFilesDir = getActivity().getExternalFilesDir(null);
+        final FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        final File externalFilesDir = activity.getExternalFilesDir(null);
         if (externalFilesDir == null) {
             return;
         }
@@ -272,7 +290,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         if (files == null) {
             showIndefiniteMessage(rootView, getString(cml_no_firmware_directory_found));
         } else {
-            fwImageAdapter = new ArrayAdapter<File>(getActivity(), android.R.layout.simple_spinner_dropdown_item, files) {
+            fwImageAdapter = new ArrayAdapter<File>(activity, android.R.layout.simple_spinner_dropdown_item, files) {
                 @NonNull
                 @Override
                 public View getView(final int position, final View convertView, final @NonNull ViewGroup parent) {
@@ -293,6 +311,11 @@ public class FirmwareUpgradeFragment extends Fragment {
     }
 
     private void selectFirmware() {
+        final FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
         SelectorDialog dialog = SelectorDialog.newInstance(R.string.cml_choose_firmware_image, fwImageAdapter, new SelectorDialog.OnDialogSelectorListener() {
             @Override
             public void onSelectedOption(int index) {
@@ -300,7 +323,7 @@ public class FirmwareUpgradeFragment extends Fragment {
             }
         });
 
-        dialog.show(getActivity().getSupportFragmentManager(), null);
+        dialog.show(activity.getSupportFragmentManager(), null);
     }
 
     private void selectFirmwareImage(int index) {
@@ -322,12 +345,11 @@ public class FirmwareUpgradeFragment extends Fragment {
                 showMessage(rootView, getString(R.string.cml_select_a_firmware_image));
             } else {
                 firmwareBytes = fileToBytes(firmwareFile);
-
                 firmwareSizeInBytes = firmwareBytes.length;
-                startTimeMillis = currentTimeMillis();
 
                 try {
                     firmwarePort.pushLocalFirmware(firmwareBytes, getTimeoutInMillisFromUi());
+                    startTimeMillis = currentTimeMillis();
                 } catch (IllegalStateException ex) {
                     showMessage(rootView, getString(R.string.cml_firmware_update_already_in_progress));
                 }
