@@ -38,32 +38,9 @@ android {
     lintOptions {
         abortOnError false
     }
-
 }
 
-task generateJavadocPublicApi(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("${projectDir}/../../../Documents/External/${project.name}-api/")
-
-    include {
-        if (it.isDirectory) {
-            return true
-        }
-        return it.file.text.contains("* @publicApi")
-    }
-
-    options {
-        memberLevel = JavadocMemberLevel.PUBLIC
-        links("http://docs.oracle.com/javase/7/docs/api/")
-        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference")
-        docEncoding = 'UTF-8'
-        encoding = 'UTF-8'
-        charSet = 'UTF-8'
-    }
-
-    failOnError false
-}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {
     compileOnly deps.support.annotations
