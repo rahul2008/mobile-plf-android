@@ -9,10 +9,6 @@ if (BranchName == "develop") {
     nodes = nodes + " && TICS"
 }
 
-boolean MasterBranch = (BranchName ==~ /master.*/)
-boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
-boolean DevelopBranch = (BranchName ==~ /develop.*/)
-
 pipeline {
     agent {
         node {
@@ -341,6 +337,10 @@ def BuildHPFortify() {
 }
 
 def DeployingLeakCanaryArtifacts() {
+    boolean MasterBranch = (BranchName ==~ /master.*/)
+    boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
+    boolean DevelopBranch = (BranchName ==~ /develop.*/)
+
     def shellcommand = '''#!/bin/bash -l
         export BASE_PATH=`pwd`
         echo $BASE_PATH
@@ -387,6 +387,10 @@ def DeployingLeakCanaryArtifacts() {
 }
 
 def DeployingConnectedTestsLogs() {
+    boolean MasterBranch = (BranchName ==~ /master.*/)
+    boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
+    boolean DevelopBranch = (BranchName ==~ /develop.*/)
+
     def shellcommand = '''#!/bin/bash -l
         export BASE_PATH=`pwd`
         echo $BASE_PATH
@@ -425,6 +429,10 @@ def DeployingConnectedTestsLogs() {
 }
 
 def DeployingJavaDocs() {
+    boolean MasterBranch = (BranchName ==~ /master.*/)
+    boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
+    boolean DevelopBranch = (BranchName ==~ /develop.*/)
+
     def shellcommand = '''#!/bin/bash -l
         export BASE_PATH=`pwd`
         echo $BASE_PATH
