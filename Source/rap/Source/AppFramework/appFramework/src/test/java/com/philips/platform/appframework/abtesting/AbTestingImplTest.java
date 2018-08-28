@@ -7,6 +7,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.CacheModel;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -47,6 +48,8 @@ public class AbTestingImplTest {
     private RestInterface restInterfaceMock;
     @Mock
     private AbTestingImpl.FetchDataHandler fetchDataHandlerMock;
+    @Mock
+    private ConsentManagerInterface consentManagerInterfaceMock;
 
     @Before
     public void setUp() {
@@ -76,6 +79,7 @@ public class AbTestingImplTest {
         when(appIdentityInterfaceMock.getAppVersion()).thenReturn("18.3");
         when(appInfraInterfaceMock.getAppIdentity()).thenReturn(appIdentityInterfaceMock);
         when(appInfraInterfaceMock.getLogging()).thenReturn(loggingInterfaceMock);
+        when(appInfraInterfaceMock.getConsentManager()).thenReturn(consentManagerInterfaceMock);
         when(abTestingLocalCacheMock.getCacheFromPreference()).thenReturn(cacheModelMock);
         abTesting.initFireBase();
     }

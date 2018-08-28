@@ -10,6 +10,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.pif.chi.ConsentError;
@@ -36,9 +37,10 @@ public class ConditionCookiesConsent extends BaseCondition implements FetchConse
     @Override
     public boolean isSatisfied(Context context) {
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        ConsentDefinition consentDefinition = appFrameworkApplication.getAppInfra().getConsentManager().getConsentDefinitionForType(appFrameworkApplication.getAppInfra().getAbTesting().getAbTestingConsentIdentifier());
+        AppInfraInterface appInfra = appFrameworkApplication.getAppInfra();
+        ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getAbTesting().getAbTestingConsentIdentifier());
         if (consentDefinition != null) {
-            appFrameworkApplication.getAppInfra().getConsentManager().fetchConsentState(consentDefinition,this);
+            appInfra.getConsentManager().fetchConsentState(consentDefinition,this);
         }
         return shouldLaunchAbTesting;
     }
