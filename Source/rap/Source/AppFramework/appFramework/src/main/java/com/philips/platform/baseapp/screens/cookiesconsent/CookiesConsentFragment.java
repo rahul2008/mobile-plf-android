@@ -9,8 +9,9 @@ package com.philips.platform.baseapp.screens.cookiesconsent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,18 +81,17 @@ public class CookiesConsentFragment extends AbstractOnboardingBaseFragment imple
         usr_cookiesConsentScreen_Reject_button.setOnClickListener(this);
         usr_cookiesConsentScreen_accept_button.setOnClickListener(this);
         usr_cookiesConsentScreen_info_weblink_label.setOnClickListener(this);
-
+        underlineLabel();
         startAppTagging();
         return view;
     }
 
-    private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            RALog.d(TAG, " mPhilipsNewsClick ");
+    private void underlineLabel() {
+        SpannableString contentWhatDoesItMean = new SpannableString(usr_cookiesConsentScreen_info_weblink_label.getText());
+        contentWhatDoesItMean.setSpan(new UnderlineSpan(),0,contentWhatDoesItMean.length(),0);
+        usr_cookiesConsentScreen_info_weblink_label.setText(contentWhatDoesItMean);
+    }
 
-        }
-    };
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
