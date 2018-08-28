@@ -375,7 +375,7 @@ public class AppFrameworkApplication extends Application {
                     @Override
                     public void onSuccess(String filePath) {
                         UikitLocaleHelper.getUikitLocaleHelper().setFilePath(filePath);
-                        RALog.d(LOG, "Success langauge pack activate " + "---" + filePath);
+                        RALog.d(LOG, "Success language pack activate " + "---" + filePath);
                     }
 
                     @Override
@@ -385,7 +385,7 @@ public class AppFrameworkApplication extends Application {
                 });
             }
         });
-        ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(abTestingImpl.getAbTestingConsentIdentifier());
+        ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getAbTesting().getAbTestingConsentIdentifier());
         if (consentDefinition != null) {
             appInfra.getConsentManager().fetchConsentState(consentDefinition, new FetchConsentCallback() {
                 @Override
@@ -395,13 +395,13 @@ public class AppFrameworkApplication extends Application {
                         abTestingImpl.updateCache(new ABTestClientInterface.OnRefreshListener() {
                             @Override
                             public void onSuccess() {
-                                RALog.d(LOG, "abtesting cache updated successfully");
+                                RALog.d(LOG, "ab-testing cache updated successfully");
                                 RALog.d("FireBase instance id - ", FirebaseInstanceId.getInstance().getToken());
                             }
 
                             @Override
                             public void onError(ERRORVALUE error) {
-                                RALog.d(LOG, "abtesting update failed");
+                                RALog.d(LOG, "ab-testing update failed");
                             }
                         });
                     } else {

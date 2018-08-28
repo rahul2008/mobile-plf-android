@@ -11,15 +11,17 @@ import android.content.Context;
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
+import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
+import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
+import com.philips.platform.pif.chi.datamodel.ConsentStatus;
+
+import static com.philips.platform.appframework.abtesting.AbTestingImpl.AB_TESTING_CONSENT;
 
 
-public class ConditionCookiesConsent extends BaseCondition implements FetchConsentCallback {
+public class ConditionCookiesConsent extends BaseCondition implements FetchConsentTypeStateCallback {
 
 
     /**
@@ -38,23 +40,20 @@ public class ConditionCookiesConsent extends BaseCondition implements FetchConse
     public boolean isSatisfied(Context context) {
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         AppInfraInterface appInfra = appFrameworkApplication.getAppInfra();
-        ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getAbTesting().getAbTestingConsentIdentifier());
-        if (consentDefinition != null) {
-            appInfra.getConsentManager().fetchConsentState(consentDefinition,this);
-        }
+        new DeviceStoredConsentHandler(appInfra).fetchConsentTypeState(AB_TESTING_CONSENT,this);
         return shouldLaunchAbTesting;
     }
 
     @Override
-    public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
-        if (consentDefinitionStatus != null && (consentDefinitionStatus.getConsentState() == ConsentStates.active
-                || consentDefinitionStatus.getConsentState() == ConsentStates.rejected)) {
+    public void onGetConsentsSuccess(ConsentStatus consentStatus) {
+        if (consentStatus != null && (consentStatus.getConsentState() == ConsentStates.active
+                || consentStatus.getConsentState() == ConsentStates.rejected)) {
             shouldLaunchAbTesting = false;
         }
     }
 
     @Override
-    public void onGetConsentFailed(ConsentError error) {
+    public void onGetConsentsFailed(ConsentError error) {
         shouldLaunchAbTesting = true;
     }
 }
