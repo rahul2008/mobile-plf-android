@@ -45,6 +45,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static com.philips.platform.ews.microapp.EwsResultListener.EWS_RESULT_FAILURE_DATA;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -68,15 +71,21 @@ public class EwsResultsTest {
     }
 
     @Test
-    public void itShouldCallTheResultListenerWhenfinishMicroAppIsCalled() throws Exception {
+    public void itShouldCallTheResultListenerWhenfinishMicroAppIsCalled() {
         connectionSuccessfulFragmentSpy.finishMicroApp();
         verify(listenerSpy, times(1)).onEWSFinishSuccess();
     }
 
     @Test
-    public void ewsActivityWillPassResultBackToTheCallingActivity() throws Exception {
+    public void ewsActivityWillPassResultBackToTheCallingActivityOnEwsFinishSuccess() {
         ewsActivitySpy.onEWSFinishSuccess();
-        verify(ewsActivitySpy, times(1)).setResult(EwsResultListener.EWS_RESULT, null);
+        verify(ewsActivitySpy, times(1)).setResult(EwsResultListener.EWS_RESULT_SUCCESS, null);
+    }
+
+    @Test
+    public void ewsActivityWillPassResultBackToTheCallingActivityOnEwsError() {
+        ewsActivitySpy.onEWSError(12345);
+        verify(ewsActivitySpy, times(1)).setResult(eq(EwsResultListener.EWS_RESULT_FAILURE), any(Intent.class));
     }
 
     private class ResultListener extends Context implements EwsResultListener {

@@ -184,12 +184,15 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
 
     @Override
     public void onEWSFinishSuccess() {
-        setResult(EWS_RESULT, null);
+        setResult(EWS_RESULT_SUCCESS, null);
         finish();
     }
 
     @Override
     public void onEWSError(int errorCode) {
-
+        Intent failureIntent = new Intent();
+        failureIntent.putExtra(EWS_RESULT_FAILURE_DATA, errorCode);
+        setResult(EWS_RESULT_FAILURE, failureIntent);
+        finish();
     }
 }
