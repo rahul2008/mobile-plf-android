@@ -87,7 +87,7 @@ public class AppTagingConstantsTest  extends RegistrationApiInstrumentationBase 
     }
     @Test
     public void testErrorOne() throws Exception {
-        assertEquals(101, ErrorCodes.NETWORK_ERROR);
+        assertEquals(-101, ErrorCodes.NETWORK_ERROR);
     }
     @Test
     public void testErrorTwo() throws Exception {
