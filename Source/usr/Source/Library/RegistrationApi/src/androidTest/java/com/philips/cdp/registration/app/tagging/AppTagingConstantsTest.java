@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.app.tagging;
 
 import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
+import com.philips.cdp.registration.errors.ErrorCodes;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -86,7 +87,7 @@ public class AppTagingConstantsTest  extends RegistrationApiInstrumentationBase 
     }
     @Test
     public void testErrorOne() throws Exception {
-        assertEquals(111, appTagingConstants.NETWORK_ERROR_CODE);
+        assertEquals(101, ErrorCodes.NETWORK_ERROR);
     }
     @Test
     public void testErrorTwo() throws Exception {
