@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,16 +100,18 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
 
         try {
             resultListener = ((EwsResultListener) getContext());
-        } catch (ClassCastException e) {}
+        } catch (ClassCastException e) {
+        }
 
         if (resultListener != null) {
             resultListener.onEWSFinishSuccess();
         }
 
-        if((getActivity() != null && !(getActivity() instanceof EWSActivity))) {
-            int backStackEntryCount = getActivity().getSupportFragmentManager().getBackStackEntryCount();
-            if(backStackEntryCount > 0) {
-                getActivity().getSupportFragmentManager().popBackStack(getActivity().getSupportFragmentManager().getBackStackEntryAt(0).getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        FragmentActivity launcherActivity = getActivity();
+        if ((launcherActivity != null && !(launcherActivity instanceof EWSActivity))) {
+            int backStackEntryCount = launcherActivity.getSupportFragmentManager().getBackStackEntryCount();
+            if (backStackEntryCount > 0) {
+                launcherActivity.getSupportFragmentManager().popBackStack(launcherActivity.getSupportFragmentManager().getBackStackEntryAt(0).getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
     }

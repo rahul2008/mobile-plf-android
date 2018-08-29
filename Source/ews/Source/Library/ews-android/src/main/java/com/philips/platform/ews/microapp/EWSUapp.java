@@ -116,7 +116,7 @@ public class EWSUapp implements UappInterface {
         intent.putExtra(EWSActivity.KEY_CONTENT_CONFIGURATION, DependencyHelper.getContentConfiguration());
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         if (context instanceof Activity) {
-            ((Activity) context).startActivityForResult(intent, EwsResultListener.EWS_RESULT_SUCCESS);
+            ((Activity) context).startActivityForResult(intent, EwsResultListener.LAUNCH_EWS_REQUEST);
         } else {
             context.startActivity(intent);
         }

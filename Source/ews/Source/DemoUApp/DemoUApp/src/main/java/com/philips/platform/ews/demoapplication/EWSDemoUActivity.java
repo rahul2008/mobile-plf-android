@@ -146,6 +146,17 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LAUNCH_EWS_REQUEST) {
+            switch (resultCode) {
+                case EWS_RESULT_SUCCESS:
+                    onEWSFinishSuccess();
+                    break;
+                case EWS_RESULT_FAILURE:
+                    int errorCode = data.getIntExtra(EWS_RESULT_FAILURE_DATA, -1);
+                    onEWSError(errorCode);
+                    break;
+            }
+        }
     }
 
     @Override
@@ -309,6 +320,6 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
 
     @Override
     public void onEWSError(int errorCode) {
-
+        Toast.makeText(this, "EWS failed with error code:" + errorCode, Toast.LENGTH_LONG).show();
     }
 }
