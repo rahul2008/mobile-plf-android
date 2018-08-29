@@ -29,6 +29,7 @@ public class AppTagging {
     public static void trackFirstPage(String currPage) {
         trackPage(currPage);
     }
+
     public static void trackAction(String state, String key, String value) {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
         commonGoalsMap.put(key, value);
