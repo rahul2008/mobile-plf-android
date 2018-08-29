@@ -100,7 +100,7 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
 
         try {
             resultListener = ((EwsResultListener) getContext());
-        } catch (ClassCastException e) {
+        } catch (ClassCastException ignored) {
         }
 
         if (resultListener != null) {
