@@ -30,7 +30,6 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
     private FragmentLauncher fragmentLauncher;
     private User userObject;
     public static String AB_TEST_OPTIN_IMAGE_KEY = "optin_image";
-    private String MY_ACCOUNT_OPTIN_IMAGE= "myAccountOptinImage";
 
     public MarketingOptin() {
         super(AppStates.MY_DETAILS_STATE);
@@ -58,9 +57,6 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
         String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
-        Bundle bundle = new Bundle();
-        bundle.putString(AB_TEST_OPTIN_IMAGE_KEY, testValue);
-        FirebaseAnalytics.getInstance(context).logEvent(MY_ACCOUNT_OPTIN_IMAGE, bundle);
         if (testValue.equalsIgnoreCase("Sonicare")) {
             registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
             registrationContentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");

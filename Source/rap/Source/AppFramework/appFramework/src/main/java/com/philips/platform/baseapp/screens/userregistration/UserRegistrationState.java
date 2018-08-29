@@ -293,9 +293,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         contentConfiguration.enableContinueWithouAccount(true);
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
         String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
-        Bundle bundle = new Bundle();
-        bundle.putString(AB_TEST_OPTIN_IMAGE_KEY, testValue);
-        firebaseAnalytics.logEvent(MARKETING_OPTIN, bundle);
+        firebaseAnalytics.logEvent("LaunchingRegistration", null);
         if (testValue.equalsIgnoreCase("Sonicare")) {
             contentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
             contentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");
@@ -378,9 +376,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected void setUrCompleted() {
         if (userObject != null) {
             getApplicationContext().getAppInfra().getLogging().setHSDPUserUUID(userObject.getHsdpUUID());
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("optin-status", userObject.getReceiveMarketingEmail());
-            firebaseAnalytics.logEvent(MARKETING_OPTIN_STATUS, bundle);
+            firebaseAnalytics.logEvent("MarketingOptinstatusSuccess", null);
         }
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putBoolean(Constants.UR_LOGIN_COMPLETED, true);
