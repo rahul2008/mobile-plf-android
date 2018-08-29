@@ -92,9 +92,9 @@ dependencies {
     }
     implementation deps.support.appcompatv7
     implementation deps.support.design
-    def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
+
+    if (directdependencies) {
         implementation project(':uAppFwLib')
         implementation project(':AppInfraUApp')
         implementation project(':AppInfra')

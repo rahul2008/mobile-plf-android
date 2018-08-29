@@ -43,12 +43,10 @@ android {
 }
 
 dependencies {
-    for (dep in [':AppInfra']) {
-        if (directdependencies) {
-            api project(dep)
-        } else {
-            api("$group$dep:$platformversion$suffix") { changing = true }
-        }
+    if (directdependencies) {
+        api project(':AppInfra')
+    } else {
+        api philipsdeps.AppInfra
     }
 
     implementation deps.support.annotations

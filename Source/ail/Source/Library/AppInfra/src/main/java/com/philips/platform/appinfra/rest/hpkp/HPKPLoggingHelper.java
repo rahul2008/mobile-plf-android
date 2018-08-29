@@ -14,8 +14,8 @@ class HPKPLoggingHelper {
     static final String LOG_MESSAGE_PUBLIC_KEY_NOT_FOUND_STORAGE = "Could not find Public-Key-Pins in storage";
     static final String LOG_MESSAGE_STORAGE_ERROR = "Could not update Public-Key-Pins in Secure Storage";
 
-    private static final String TAG = HPKPManager.class.getSimpleName();
     private static final String LOG_MESSAGE_BASE = "Public-key pins Mismatch";
+    private static final String LOG_MAP_KEY = "hostname";
     private static final int PIN_MISMATCH_LOG_MAX_COUNT = 3;
     private HashMap<String, Integer> pinMismatchLogCount;
     private LoggingInterface loggingInterface;
@@ -39,6 +39,8 @@ class HPKPLoggingHelper {
     }
 
     private void log(String hostname, String message, LoggingInterface.LogLevel logLevel) {
-        loggingInterface.log(logLevel, TAG, LOG_MESSAGE_BASE + ":" + hostname + ":" + message);
+        HashMap<String, String> map = new HashMap<>();
+        map.put(LOG_MAP_KEY, hostname);
+        loggingInterface.log(logLevel, LOG_MESSAGE_BASE, message, map);
     }
 }

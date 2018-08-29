@@ -70,21 +70,15 @@ dependencies {
 
     implementation deps.gson
 
-    def suffix = objcdp.getVersionSuffix()
-
-    if (findProject(':commlib-testutils')) {
-        testImplementation project(':commlib-testutils')
+    if (directdependencies) {
+        implementation project(':AppInfra')
+        implementation project(':securedblibrary')
     } else {
-        testImplementation("$group:commlib-testutils:$platformversion$suffix") { changing = true }
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.securedblibrary
     }
 
-    for (dep in [':AppInfra', ':securedblibrary']) {
-        if (directdependencies) {
-            implementation project(dep)
-        } else {
-            implementation("$group$dep:$platformversion$suffix") { changing = true }
-        }
-    }
+    testImplementation project(':commlib-testutils')
 
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows

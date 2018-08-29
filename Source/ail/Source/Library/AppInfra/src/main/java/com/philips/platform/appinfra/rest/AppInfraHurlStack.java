@@ -115,6 +115,8 @@ public class AppInfraHurlStack extends HurlStack {
                     break;
                 } catch (CertificateException | InvalidKeyException | NoSuchProviderException | SignatureException e) {
                     appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, this.getClass().getSimpleName(), e.getMessage());
+                } catch (Exception e) {
+                    appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, this.getClass().getSimpleName(), "Uncaught Exception" + e.getMessage());
                 }
             }
         } catch (NoSuchAlgorithmException | SSLPeerUnverifiedException | KeyStoreException e) {

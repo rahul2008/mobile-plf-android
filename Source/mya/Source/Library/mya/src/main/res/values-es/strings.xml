@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">No tienes conexión a Internet</string>
 <string name="MYA_Offline_message">Tu conexión a Internet parece no funcionar. Compruébalo e inténtalo de nuevo.</string>
 <string name="mya_Privacy_Settings_Desc">Controla tu privacidad. Lea la _privacy notice_ para obtener más información.</string>
+    <string name="MYA_Visit_Website">[es]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[es]Marketing OptIn</string>
 </resources>

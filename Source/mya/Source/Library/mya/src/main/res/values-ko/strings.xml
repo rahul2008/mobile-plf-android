@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">오프라인 상태입니다.</string>
 <string name="MYA_Offline_message">인터넷 연결이 작동하지 않는 것으로 보입니다. 확인 후 다시 시도하십시오.</string>
 <string name="mya_Privacy_Settings_Desc">개인정보를 관리하십시오. 자세한 내용은 개인정보 보호정책을 읽어 보십시오.</string>
+    <string name="MYA_Visit_Website">[ko]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[ko]Marketing OptIn</string>
 </resources>

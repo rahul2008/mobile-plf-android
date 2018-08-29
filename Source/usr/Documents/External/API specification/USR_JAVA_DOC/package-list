@@ -1,0 +1,5 @@
+com.philips.cdp.registration
+com.philips.cdp.registration.handlers
+com.philips.cdp.registration.listener
+com.philips.cdp.registration.settings
+com.philips.cdp.registration.ui.utils

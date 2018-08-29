@@ -17,8 +17,6 @@
 #}
 
 # ICP Proguard rules ---- START -----
--injars libs
-
 -keep class com.philips.icpinterface.ComponentDetails {
 	<fields>;
 	private void  callbackFunction(int,int);
