@@ -123,6 +123,7 @@ pipeline {
                 '''
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
                 DeployingConnectedTestsLogs()
+                DeployingJavaDocs()
             }
         }
 
@@ -416,6 +417,52 @@ def DeployingConnectedTestsLogs() {
         do
             curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/logs/ -T $LOGS
         done
+
+        if [ $? != 0 ]
+        then
+            exit 1
+        else
+            cd $BASE_PATH
+        fi
+    '''
+    sh shellcommand
+}
+
+def DeployingJavaDocs() {
+    boolean MasterBranch = (BranchName ==~ /master.*/)
+    boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
+    boolean DevelopBranch = (BranchName ==~ /develop.*/)
+
+    def shellcommand = '''#!/bin/bash -l
+        export BASE_PATH=`pwd`
+        echo $BASE_PATH
+
+        cd $BASE_PATH
+
+        ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
+        ARTIFACTORY_REPO="unknown"
+
+        if [ '''+MasterBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-pkgs-android-stage-local"
+        elif [ '''+ReleaseBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-pkgs-android-release-local"
+        elif [ '''+DevelopBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-pkgs-android-snapshot-local"
+        else
+            echo "Not published JavaDoc as build is not on a master, develop or release branch" . $BranchName
+        fi
+
+        ./gradlew :bluelib:zipJavadoc :commlib-api:zipJavadoc :commlib-ble:zipJavadoc :commlib-cloud:zipJavadoc :commlib-lan:zipJavadoc :referenceApp:printPlatformVersion
+        platformVersion=`xargs < platformversion.txt`
+
+        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/bluelib/$platformVersion/ -T ./Source/bll/Documents/External/bluelib-api.zip
+        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-api/$platformVersion/ -T ./Source/cml/Documents/External/commlib-api-api.zip
+        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-ble/$platformVersion/ -T ./Source/cml/Documents/External/commlib-ble-api.zip
+        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-cloud/$platformVersion/ -T ./Source/cml/Documents/External/commlib-cloud-api.zip
+        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-lan/$platformVersion/ -T ./Source/cml/Documents/External/commlib-lan-api.zip
 
         if [ $? != 0 ]
         then

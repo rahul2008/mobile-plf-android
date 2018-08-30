@@ -421,3 +421,14 @@ task('printArtifactoryApkPath') {
         println "Artifactory path of apk stored in apkname.txt"
     }
 }
+
+task('printPlatformVersion') {
+    doLast {
+        if (new File('platformversion.txt').exists()) {
+            new File('platformversion.txt').delete()
+        }
+        File platformversion = new File('platformversion.txt')
+        platformversion.append(version)
+        println "Platform version stored in platformversion.txt"
+    }
+}

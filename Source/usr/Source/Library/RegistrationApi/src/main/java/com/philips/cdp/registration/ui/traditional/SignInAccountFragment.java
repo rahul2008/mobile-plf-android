@@ -415,6 +415,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
         EventBus.getDefault().post(new LoginFailureNotification());
+
         handleLogInFailed(userRegistrationFailureInfo);
     }
 
@@ -429,7 +430,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
         }
 
-        trackInvalidCredentials();
+        // trackInvalidCredentials();
     }
 
     @Override
@@ -582,11 +583,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         trackMultipleActionsMap(AppTagingConstants.SEND_DATA, map);
     }
 
-    private void trackInvalidCredentials() {
-        AppTagging.trackAction(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.USER_ERROR,
-                AppTagingConstants.INVALID_CREDENTIALS);
-    }
+//    private void trackInvalidCredentials() {
+//        AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+//                AppTagingConstants.USER_ERROR,
+//                AppTagingConstants.INVALID_CREDENTIALS);
+//    }
 
     @Override
     public void onResendVerificationEmailFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -611,6 +612,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.d(TAG, "handleLoginSuccess: family name" + mUser.getFamilyName());
 
         if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+            userRegistrationFailureInfo.setErrorCode(AppTagingConstants.EMAIL_NOT_VERIFIED_CODE);
+            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             launchAccountActivationFragment();
             return;
         }

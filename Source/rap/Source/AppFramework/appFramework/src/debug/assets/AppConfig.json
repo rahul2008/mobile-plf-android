@@ -127,5 +127,10 @@
   },
   "dataservices": {
     "supportedMomentTypes": ["Temperature", "SleepSession", "sleepSession", "Note"]
+  },
+  "pairingRelationshipType": {
+    "STAGING": "urn:cdp|datareceiver_stg",
+    "DEVELOPMENT": "urn:cdp|datareceiver_dev",
+    "TEST": "urn:cdp|datareceiver_dev"
   }
 }
