@@ -44,15 +44,18 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
     }
 
     public void resendOTPRequest(String serviceUrl, final String mobileNumber) {
+        RLog.i(TAG, "url : " +serviceUrl);
         URRequest urRequest = new URRequest(serviceUrl, getBodyContent(mobileNumber), null, mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse);
         urRequest.makeRequest(false);
     }
 
     @NonNull
     private String getBodyContent(String mobileNumber) {
-        return "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
+        String body = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
+        RLog.d(TAG, "body : " + body);
+        return body;
     }
 
     private String getClientId() {

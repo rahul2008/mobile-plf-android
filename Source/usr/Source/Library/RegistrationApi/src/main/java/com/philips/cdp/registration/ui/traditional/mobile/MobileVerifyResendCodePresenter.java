@@ -57,7 +57,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
             public void onSuccess(URL url) {
                 Map<String, String> header = new HashMap<>();
                 header.put("Content-Type", "application/json; charset=UTF-8");
-                RLog.d(TAG, VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
+                RLog.i(TAG, VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
                 URRequest urRequest = new URRequest(getSmsVerificationUrl(url.toString(), mobileNumber), null, header
                         , response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
                 urRequest.makeRequest(true);
@@ -157,7 +157,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
 
             @Override
             public void onSuccess(URL url) {
-                RLog.d(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + url);
+                RLog.i(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + url);
                 URRequest urRequest = new URRequest(url + "/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), null, response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
                 urRequest.makeRequest(false);
             }
@@ -175,9 +175,12 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     }
 
     private String getUpdateMobileNUmberURL(String mobilenumber) {
-        return "client_id=" + getClientId() + "&locale=zh-CN&response_type=token&form=mobileNumberForm&flow=standard&" +
+
+        String body = "client_id=" + getClientId() + "&locale=zh-CN&response_type=token&form=mobileNumberForm&flow=standard&" +
                 "flow_version=" + Jump.getCaptureFlowVersion() + "&token=" + getAccessToken() +
                 "&mobileNumberConfirm=" + mobilenumber + "&mobileNumber=" + mobilenumber;
+        RLog.d(TAG, "body" + body);
+        return body;
     }
 
     private String getClientId() {

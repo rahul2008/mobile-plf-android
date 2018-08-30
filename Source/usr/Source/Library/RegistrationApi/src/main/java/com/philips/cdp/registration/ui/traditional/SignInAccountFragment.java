@@ -686,6 +686,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
         RLog.d(TAG, " envir :" + getClientId() + getRedirectUri());
+        RLog.i(TAG, "url :" + url);
+        RLog.d(TAG, "bodyContent :" + bodyContent);
+
+
         URRequest urRequest = new URRequest(url, bodyContent, null, this::handleResendSMSRespone, this::onErrorOfResendSMSIntent);
         urRequest.makeRequest(true);
     }
