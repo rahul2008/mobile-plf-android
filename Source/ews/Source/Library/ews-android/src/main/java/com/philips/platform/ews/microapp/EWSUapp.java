@@ -4,6 +4,7 @@
  */
 package com.philips.platform.ews.microapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -113,8 +114,12 @@ public class EWSUapp implements UappInterface {
         Intent intent = new Intent(context, EWSActivity.class);
         intent.putExtra(SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
         intent.putExtra(EWSActivity.KEY_CONTENT_CONFIGURATION, DependencyHelper.getContentConfiguration());
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        context.startActivity(intent);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        if (context instanceof Activity) {
+            ((Activity) context).startActivityForResult(intent, EwsResultListener.LAUNCH_EWS_REQUEST);
+        } else {
+            context.startActivity(intent);
+        }
     }
 
 }

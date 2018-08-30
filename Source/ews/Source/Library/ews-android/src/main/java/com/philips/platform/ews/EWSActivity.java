@@ -5,6 +5,7 @@
 
 package com.philips.platform.ews;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.philips.platform.ews.injections.EWSConfigurationModule;
 import com.philips.platform.ews.injections.EWSDependencyProviderModule;
 import com.philips.platform.ews.injections.EWSModule;
 import com.philips.platform.ews.microapp.EWSActionBarListener;
+import com.philips.platform.ews.microapp.EwsResultListener;
 import com.philips.platform.ews.navigation.Navigator;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.util.BundleUtils;
@@ -29,7 +31,7 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import java.util.concurrent.TimeUnit;
 
-public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActionBarListener {
+public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActionBarListener, EwsResultListener {
 
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
@@ -178,5 +180,19 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
     protected void onPause() {
         super.onPause();
         ewsTagger.pauseLifecycleInfo();
+    }
+
+    @Override
+    public void onEWSFinishSuccess() {
+        setResult(EWS_RESULT_SUCCESS, null);
+        finish();
+    }
+
+    @Override
+    public void onEWSError(int errorCode) {
+        Intent failureIntent = new Intent();
+        failureIntent.putExtra(EWS_RESULT_FAILURE_DATA, errorCode);
+        setResult(EWS_RESULT_FAILURE, failureIntent);
+        finish();
     }
 }
