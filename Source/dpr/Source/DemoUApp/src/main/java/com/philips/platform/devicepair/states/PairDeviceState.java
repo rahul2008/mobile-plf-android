@@ -67,6 +67,6 @@ public class PairDeviceState extends AbstractBaseState implements DevicePairingL
     private void pairDevice() {
         List<String> list = new ArrayList();
         DataServicesManager.getInstance().pairDevices(pairDevice.getDeviceID(), pairDevice.getDeviceType(),
-                list, list, "urn:cdp|datareceiver_stg", this);
+                list, list, pairDevice.getRelationshipType(), this);
     }
 }

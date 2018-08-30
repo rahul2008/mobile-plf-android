@@ -8,6 +8,7 @@ package com.philips.platform.devicepair.pojo;
 public class PairDevice {
     private String deviceID;
     private String deviceType;
+    private String relationshipType;
 
     public String getDeviceID() {
         return deviceID;
@@ -23,5 +24,13 @@ public class PairDevice {
 
     public void setDeviceType(String deviceType) {
         this.deviceType = deviceType;
+    }
+
+    public String getRelationshipType() {
+        return relationshipType;
+    }
+
+    public void setRelationshipType(String relationshipType) {
+        this.relationshipType = relationshipType;
     }
 }
