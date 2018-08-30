@@ -10,8 +10,8 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
@@ -37,7 +37,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.consentmanager.ConsentStatusChangedListener;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
@@ -352,6 +351,8 @@ public class AppFrameworkApplication extends Application {
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
 
         AbTestingImpl abTestingImpl = new AbTestingImpl();
+        FirebaseApp.initializeApp(this);
+
         abTestingImpl.initFireBase();
         AppInfra.Builder builder = new AppInfra.Builder();
         builder.setAbTesting(abTestingImpl);
