@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.uid.view.widget.Label;
@@ -76,6 +77,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.reg_user_detail_fragment, container, false);
+        trackPage(AppTaggingPages.USER_PROFILE);
         initViews(view);
         setRetainInstance(true);
         myaDetailPresenter = new UserDetailPresenter(this);
@@ -205,6 +207,6 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
 
     @Override
     public void notificationInlineMsg(String msg) {
-     //NOP
+        //NOP
     }
 }
