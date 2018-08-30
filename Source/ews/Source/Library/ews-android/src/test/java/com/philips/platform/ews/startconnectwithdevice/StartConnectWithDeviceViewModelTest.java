@@ -11,6 +11,7 @@ import com.philips.platform.ews.navigation.FragmentNavigator;
 import com.philips.platform.ews.navigation.Navigator;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.util.StringProvider;
+import com.philips.platform.ews.wifi.WiFiUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +37,9 @@ public class StartConnectWithDeviceViewModelTest {
     private StringProvider stringProviderMock;
 
     @Mock
+    private WiFiUtil wiFiUtil;
+
+    @Mock
     private HappyFlowContentConfiguration happyFlowContentConfigurationMock;
 
     @Mock
@@ -45,11 +49,12 @@ public class StartConnectWithDeviceViewModelTest {
 
     @Mock
     private EWSTagger mockEWSTagger;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock,
+        subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock, wiFiUtil,
                 happyFlowContentConfigurationMock, baseContentConfigurationMock, mockEWSTagger);
         when(baseContentConfigurationMock.getDeviceName()).thenReturn(123435);
     }
