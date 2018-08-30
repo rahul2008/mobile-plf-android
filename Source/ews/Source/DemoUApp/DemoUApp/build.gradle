@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
@@ -33,11 +31,6 @@ buildscript {
         classpath(builddeps.cdpSCM)
     }
 }
-
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
- */
 
 allprojects {
     repositories {
