@@ -52,7 +52,7 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER
 
 public class HomePresenter implements NetworkStateListener, SocialLoginProviderHandler, EventListener {
 
-    private String TAG = HomePresenter.class.getSimpleName();
+    private String TAG = "HomePresenter";
 
     @Inject
     NetworkUtility networkUtility;
@@ -111,7 +111,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
     void configureCountrySelection() {
         String mShowCountrySelection = appConfiguration.getShowCountrySelection();
-        RLog.d(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
+        RLog.d(TAG, " Country Show Country Selection :" + mShowCountrySelection);
         if (mShowCountrySelection != null) {
             if (mShowCountrySelection.equalsIgnoreCase("false")) {
                 homeContract.hideCountrySelctionLabel();
@@ -126,7 +126,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " getHomeCountry Success :" + s);
+                RLog.d(TAG, " getHomeCountry Success :" + s);
                 String selectedCountryCode;
                 if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
                     selectedCountryCode = s.toUpperCase();
@@ -140,7 +140,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                RLog.e(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
+                RLog.e(TAG, " Country Error :" + s);
                 String selectedCountryCode = RegUtility.getFallbackCountryCode();
                 serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
                 homeContract.updateHomeCountry(selectedCountryCode);
@@ -246,7 +246,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
-        RLog.d(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
+        RLog.d(TAG, "onContinueSocialProviderLoginSuccess");
 
         homeContract.completeSocialLogin();
 

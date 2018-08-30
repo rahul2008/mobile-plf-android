@@ -177,7 +177,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onConfigurationChanged");
+        RLog.d(TAG, " onConfigurationChanged");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
@@ -268,13 +268,13 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.d("MobileActivationFragment", " onRefreshUserSuccess");
+        RLog.d(TAG, " onRefreshUserSuccess");
     }
 
     @Override
     public void onRefreshUserFailed(int error) {
         hideProgressSpinner();
-        RLog.d("MobileActivationFragment", " onRefreshUserFailed");
+        RLog.d(TAG, " onRefreshUserFailed");
     }
 
     @Override

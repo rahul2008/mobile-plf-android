@@ -17,37 +17,9 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
  */
 public class RLog {
 
-    public static final String FRAGMENT_LIFECYCLE = "FragmentLifecycle";
-
-    public static final String ACTIVITY_LIFECYCLE = "ActivityLifecycle";
-
-    public static final String EVENT_LISTENERS = "EventListeners";
-
-    public static final String APPLICATION = "RegistrationApplication";
-
-    public static final String NETWORK_STATE = "NetworkState";
-
-    public static final String JANRAIN_INITIALIZE = "JanrainInitialize";
-
-    public static final String VERSION = "Version";
-
-    public static final String EXCEPTION = "Exception";
-
-    public static final String ONCLICK = "onClick";
-
-    public static final String CALLBACK = "CallBack";
-
-    public static final String ANALYTICS = "Analytics";
-
-    public static final String HSDP = "Hsdp";
-
     private static boolean isLoggingEnabled;
 
     private static LoggingInterface mLoggingInterface;
-
-    public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
-
-    public static final String AB_TESTING = "AB Testing";
 
     private static AppTaggingInterface mAppTaggingInterface;
 

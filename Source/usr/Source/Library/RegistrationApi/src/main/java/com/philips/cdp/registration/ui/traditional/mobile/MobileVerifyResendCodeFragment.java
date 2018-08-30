@@ -189,7 +189,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onConfigurationChanged");
+        RLog.d(TAG, " : onConfigurationChanged");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
@@ -240,9 +240,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
+        RLog.d(TAG, " : onRefreshUserSuccess");
         EventBus.getDefault().post(new UpdateMobile(user.getMobile()));
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess mobile" + user.getMobile());
+        RLog.d(TAG, " : onRefreshUserSuccess mobile" + user.getMobile());
         mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
 
     }
@@ -250,7 +250,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void onRefreshUserFailed(int error) {
         hideProgressSpinner();
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
+        RLog.d(TAG, " : onRefreshUserFailed");
     }
 
 
@@ -446,7 +446,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             View view = getRegistrationFragment().getNotificationContentView(
                     context.getResources().getString(R.string.USR_DLS_ResendSMS_NotificationBar_Title),
                     user.getMobile());
-            RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess mobile" + user.getMobile());
+            RLog.d(TAG, "MobileActivationFragment : onRefreshUserSuccess mobile" + user.getMobile());
             popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             popupWindow.setContentView(view);

@@ -82,25 +82,25 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private boolean isCounterRunning;
 
-    private static final String TAG = RegistrationFragment.class.getSimpleName();
+    private static final String TAG = "RegistrationFragment";
     private URNotification notification;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "onCreate : onCreate");
-        RLog.d(RLog.VERSION, "onCreate : Jump Version :" + Jump.getJumpVersion());
-        RLog.d(RLog.VERSION, "onCreate : Registration Version :" +
+
+        RLog.d(TAG, "onCreate");
+        RLog.d(TAG, "Jump Version :" + Jump.getJumpVersion());
+        RLog.d(TAG, "Registration Version :" +
                 RegistrationHelper.getRegistrationApiVersion());
-        RLog.d(RLog.VERSION, "onCreate : HSDP Version :" + BuildConfig.VERSION_CODE);
+        RLog.d(TAG, "HSDP Version :" + BuildConfig.VERSION_CODE);
 
         RegistrationBaseFragment.setHeightWidthToZero();
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        RLog.d(TAG, "onCreate : Bundle is null" + bundle);
 
+        if (bundle != null) {
             mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
             registrationContentConfiguration = (RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG);
-        } else {
-            RLog.d(TAG, "onCreate : Bundle is null");
         }
 
         CounterHelper.getInstance()
@@ -143,20 +143,20 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     public void onResume() {
         super.onResume();
         networkUtility.registerNetworkListener(mNetworkReceiver);
-        RLog.d(TAG, "onResume : is called");
+        RLog.d(TAG, "onResume ");
     }
 
     @Override
     public void onPause() {
         super.onPause();
         networkUtility.unRegisterNetworkListener(mNetworkReceiver);
-        RLog.d(TAG, "onPause : is called");
+        RLog.d(TAG, "onPause ");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        RLog.d(TAG, "onStop : is called");
+        RLog.d(TAG, "onStop");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         RegistrationBaseFragment.setHeightWidthToZero();
         setPrevTiltle();
@@ -249,9 +249,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         try {
             handleUseRLoginStateFragments();
         } catch (IllegalStateException e) {
-            RLog.e(TAG,
-                    "loadFirstFragment :FragmentTransaction Exception occured in loadFirstFragment  :"
-                            + e.getMessage());
+            RLog.e(TAG, "loadFirstFragment :FragmentTransaction " +
+                    "Exception occured in loadFirstFragment  :" + e.getMessage());
         }
     }
 
@@ -316,9 +315,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException e) {
-            RLog.d(TAG,
-                    "replaceWithHomeFragment :FragmentTransaction Exception occurred in addFragment  :"
-                            + e.getMessage());
+            RLog.d(TAG, "replaceWithHomeFragment :FragmentTransaction " +
+                    "Exception occurred in addFragment  :" + e.getMessage());
         }
     }
 
@@ -348,9 +346,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             fragmentTransaction.replace(R.id.fl_reg_fragment_container, marketingAccountFragment);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
+            RLog.e(TAG, "RegistrationFragment :FragmentTransaction Exception " +
+                    "occured in addFragment  :" + e.getMessage());
         }
     }
 
@@ -422,7 +419,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     public void hideKeyBoard() {
-        RLog.d(TAG, "hideKeyBoard : is called");
         if (getParentActivity() != null) {
             InputMethodManager imm = (InputMethodManager) getParentActivity()
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -434,7 +430,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     public void showKeyBoard() {
-        RLog.d(TAG, "showKeyBoard : is called");
         if (getParentActivity() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager)
                     getParentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

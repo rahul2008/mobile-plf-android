@@ -344,12 +344,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
         switch (abTestingUIFlow) {
             case FLOW_A:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                RLog.d(TAG, "UI Flow Type A");
                 acceptTermsCheck.setVisibility(View.VISIBLE);
                 break;
 
             case FLOW_B:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                RLog.d(TAG, "UI Flow Type B");
                 acceptTermsCheck.setVisibility(View.VISIBLE);
                 marketingOptCheck.setVisibility(View.GONE);
                 break;
@@ -528,7 +528,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void handleContinueSocialProvider() {
-        RLog.d(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
+        RLog.d(TAG, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();
@@ -540,7 +540,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
         switch (abTestingUIFlow) {
             case FLOW_A:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                RLog.d(TAG, "UI Flow Type A");
                 if (almostDonePresenter.isEmailVerificationStatus()) {
                     completeRegistration();
                     trackActionStatus(AppTagingConstants.SEND_DATA,
@@ -551,7 +551,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 }
                 break;
             case FLOW_B:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                RLog.d(TAG, "UI Flow Type B");
                 if (!marketingOptCheck.isShown() && !mUser.getReceiveMarketingEmail()) {
                     launchMarketingAccountFragment();
                     trackActionStatus(AppTagingConstants.SEND_DATA,
@@ -656,13 +656,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
         switch (abTestingFlow) {
             case FLOW_A:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                RLog.d(TAG, "UI Flow Type A");
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                         AppTagingConstants.REGISTRATION_CONTROL);
                 break;
 
             case FLOW_B:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                RLog.d(TAG, "UI Flow Type B");
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                         AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
                 break;

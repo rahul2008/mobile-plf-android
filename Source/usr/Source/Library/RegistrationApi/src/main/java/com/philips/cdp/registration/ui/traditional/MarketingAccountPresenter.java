@@ -12,6 +12,8 @@ import com.philips.cdp.registration.ui.utils.RLog;
 
 public class MarketingAccountPresenter implements NetworkStateListener, UpdateUserDetailsHandler {
 
+    private String TAG = "MarketingAccountPresenter";
+
     MarketingAccountContract marketingAccountContract;
 
     public MarketingAccountPresenter(MarketingAccountContract marketingAccountContract){
@@ -19,21 +21,21 @@ public class MarketingAccountPresenter implements NetworkStateListener, UpdateUs
     }
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.d(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
+        RLog.d(TAG, " onNetWorkStateReceived : " + isOnline);
         marketingAccountContract.handleUiState();
     }
 
     @Override
     public void onUpdateSuccess() {
         marketingAccountContract.trackRemarketing();
-        RLog.d("MarketingAccountFragment", "onUpdateSuccess ");
+        RLog.d(TAG, "onUpdateSuccess ");
         marketingAccountContract.hideRefreshProgress();
         marketingAccountContract.handleRegistrationSuccess();
     }
 
     @Override
     public void onUpdateFailedWithError(final int error) {
-        RLog.d("MarketingAccountFragment", "onUpdateFailedWithError ");
+        RLog.d(TAG, "onUpdateFailedWithError ");
         marketingAccountContract.hideRefreshProgress();
     }
 

@@ -24,7 +24,7 @@ import javax.inject.Inject;
 
 public class CreateAccountPresenter implements NetworkStateListener, EventListener, TraditionalRegistrationHandler {
 
-    private static final String TAG = CreateAccountPresenter.class.getSimpleName();
+    private static final String TAG = "CreateAccountPresenter";
 
     private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
     private final static int TOO_MANY_REGISTARTION_ATTEMPTS = 510;
@@ -47,7 +47,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.d(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
+        RLog.d(TAG, " onNetWorkStateReceived : " + isOnline);
         createAccountContract.handleUiState();
         createAccountContract.updateUiStatus();
     }
@@ -72,7 +72,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
 
     @Override
     public void onEventReceived(String event) {
-        RLog.d(RLog.EVENT_LISTENERS, "CreateAccoutFragment :onCounterEventReceived : " + event);
+        RLog.d(TAG, "CreateAccoutFragment :onCounterEventReceived : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             createAccountContract.updateUiStatus();
         }
@@ -91,7 +91,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
     }
 
     private void handleRegistrationSuccess() {
-        RLog.d(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
+        RLog.d(TAG, "onRegisterSuccess");
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             createAccountContract.storeEMail();
         }
@@ -118,11 +118,11 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
                 AppTagingConstants.SUCCESS_USER_CREATION);
         switch (abTestingUIFlow) {
             case FLOW_A:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
+                RLog.d(TAG, "UI Flow Type A ");
                 setABTestingFlow();
                 break;
             case FLOW_B:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                RLog.d(TAG, "UI Flow Type B");
                 createAccountContract.launchMarketingAccountFragment();
                 break;
         }

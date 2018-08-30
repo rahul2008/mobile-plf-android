@@ -53,6 +53,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
     private Bundle mBundle;
 
     private boolean isOnline = true;
+    private String TAG = "AlmostDoneFragment";
 
     public AlmostDonePresenter(AlmostDoneContract almostDoneContract, User user) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -220,7 +221,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
             }
 
         } catch (JSONException e) {
-            RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
+            RLog.e(TAG, "handleSocialTwoStepError JSONException : " + e.getMessage());
         }
     }
 
@@ -255,7 +256,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
                 }
             }
         } catch (JSONException e) {
-            RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
+            RLog.e(TAG, "AlmostDoneFragment Exception : " + e.getMessage());
         }
     }
 

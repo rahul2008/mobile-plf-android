@@ -36,7 +36,7 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment {
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "PhilipsNewsFragment : onConfigurationChanged");
+        RLog.d(TAG, " onConfigurationChanged");
         setCustomParams(config);
     }
 

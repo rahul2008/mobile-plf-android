@@ -247,8 +247,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         int strengthMeterStrong = 100;
         int strengthMeterMedium = 66;
 
-        RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment register: NetworkStateListener,strength " + strength);
+        RLog.d(TAG,
+                " register: NetworkStateListener,strength " + strength);
         if (strength > strengthStrong) {
             passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Strong), strengthMeterStrong, true, R.color.uid_green_level_30,
                     R.drawable.reg_password_strength_strong, 0, true);
@@ -294,18 +294,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @Override
     public void onDestroy() {
 
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
+        RLog.d(TAG, " : onDestroy");
         if (createAccountPresenter != null)
             createAccountPresenter.unRegisterListener();
-
-        RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
     }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onConfigurationChanged");
+        RLog.d(TAG, " : onConfigurationChanged");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
@@ -369,14 +366,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         switch (abTestingUIFlow) {
 
             case FLOW_A:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                RLog.d(TAG, "UI Flow Type A");
                 usrCreatescreenMarketingmailsCheckbox.setVisibility(View.VISIBLE);
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                         AppTagingConstants.REGISTRATION_CONTROL);
                 break;
             case FLOW_B:
 
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                RLog.d(TAG, "UI Flow Type B");
                 usrCreatescreenMarketingmailsCheckbox.setVisibility(View.GONE);
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                         AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
@@ -399,7 +396,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         } else {
             emailString = FieldsValidator.getMobileNumber(usrCreatescreenEmailormobileTextfield.getText().toString());
         }
-        RLog.d(RLog.CALLBACK, "create : family name" + usrCreateScreenLastNameTextField.getText().toString());
+        RLog.d(TAG, "create : LastName " + usrCreateScreenLastNameTextField.getText().toString());
 
         createAccountPresenter.registerUserInfo(user, usrCreateScreenFirstNameTextField.getText().toString(), usrCreateScreenLastNameTextField.getText().toString(), emailString
                 , usrCreateScreenPasswordTextField.getText().toString(), true, usrCreatescreenMarketingmailsCheckbox.isChecked());
@@ -649,9 +646,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @OnClick(R2.id.usr_createscreen_create_button)
     public void progressBar() {
-        RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment register: progresBarButton");
-        RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
+        RLog.d(TAG,
+                "register: progresBarButton");
+        RLog.d(TAG, "Register Account");
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (usrCreatescreenTermsandconditionsCheckbox.isChecked()) {
                 registerUserInfo();

@@ -47,6 +47,8 @@ import java.util.Map;
 
 
 public class RegUtility {
+    private static String TAG = "RegUtility";
+
     private static long createAccountStartTime;
 
     private static UIFlow uiFlow;
@@ -407,7 +409,7 @@ public class RegUtility {
                 countryName = mContext.getApplicationContext().getString(identifier);
 
             } catch (Exception resourcesNotFoundException) {
-                RLog.d(RLog.EXCEPTION, resourcesNotFoundException.getMessage());
+                RLog.d(TAG, "getCountry"+ resourcesNotFoundException.getMessage());
             }
         }
 

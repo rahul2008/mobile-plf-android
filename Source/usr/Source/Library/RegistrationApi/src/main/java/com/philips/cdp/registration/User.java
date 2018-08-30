@@ -700,7 +700,7 @@ public class User {
         if (isEmailVerificationRequired) {
             isTermsAndConditionsAccepted = !capturedRecord.isNull(USER_EMAIL_VERIFIED) ||
                     !capturedRecord.isNull(USER_MOBILE_VERIFIED);
-            RLog.i(TAG, "isUserSignIn SignIn status" + isTermsAndConditionsAccepted);
+            RLog.i(TAG, "isUserSignIn isTermsAndConditionsAccepted" + isTermsAndConditionsAccepted);
         }
         return isTermsAndConditionsAccepted;
     }

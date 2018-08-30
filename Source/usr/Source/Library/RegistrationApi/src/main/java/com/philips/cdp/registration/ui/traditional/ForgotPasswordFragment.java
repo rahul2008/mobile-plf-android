@@ -192,7 +192,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         super.onDestroyView();
         if (forgotPasswordPresenter != null)
             forgotPasswordPresenter.clearDisposable();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onDestroyView");
+        RLog.d(TAG, "ResetPasswordFragment : onDestroyView");
     }
 
     @Override
@@ -202,12 +202,12 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onDestroy");
+        RLog.d(TAG, "onDestroy");
         if (forgotPasswordPresenter != null)
             forgotPasswordPresenter.unRegisterListener();
 
-        RLog.d(RLog.EVENT_LISTENERS,
-                "ResetPasswordFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
+        RLog.d(TAG,
+                "unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
 
         super.onDestroy();
     }
@@ -215,7 +215,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onConfigurationChanged");
+        RLog.d(TAG, " onConfigurationChanged");
         setCustomParams(config);
     }
 
@@ -292,7 +292,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void handleSendForgotPasswordSuccess() {
-        RLog.d(RLog.CALLBACK, "ResetPasswordFragment : onSendForgotPasswordSuccess");
+        RLog.d(TAG, "ResetPasswordFragment : onSendForgotPasswordSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         showLogoutAlert();
@@ -321,14 +321,14 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                 alertDialogFragment.show(getFragmentManager(), null);
             }
         } catch (Exception e) {
-            RLog.e(RLog.CALLBACK, e.getMessage());
+            RLog.e(TAG,"showLogoutAlert " + e.getMessage());
         }
 
     }
 
     @Override
     public void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.d(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
+        RLog.d(TAG, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
         hideForgotPasswordSpinner();
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
             if (RegistrationHelper.getInstance().isMobileFlow())

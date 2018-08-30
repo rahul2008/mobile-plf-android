@@ -123,7 +123,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onConfigurationChanged");
+        RLog.d(TAG, " onConfigurationChanged");
         setCustomParams(config);
     }
 

@@ -685,9 +685,8 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
 
 
     private void handleSocialProviders(final String countryCode) {
-        RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
+        RLog.d(TAG , "handleSocialProviders method country code : " + countryCode);
         mLlSocialProviderBtnContainer.post(new Runnable() {
-
             @Override
             public void run() {
                 mLlSocialProviderBtnContainer.removeAllViews();
@@ -697,7 +696,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
                     for (int i = 0; i < providers.size(); i++) {
                         inflateEachProviderBtn(providers.get(i));
                     }
-                    RLog.d("HomeFragment", "social providers : " + providers);
+                    RLog.d(TAG, "social providers : " + providers);
                 }
                 UIOverProvidersSize(providers);
                 homePresenter.updateHomeControls();
@@ -744,7 +743,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
             mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, drawableId), params);
             mLlSocialProviderBtnContainer.invalidate();
         } catch (Exception e) {
-            RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
+            RLog.e(TAG, "Inflate Buttons exception :" + e.getMessage());
         }
     }
 
@@ -934,7 +933,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         hideProgressDialog();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.TECHNICAL_ERROR);
-        RLog.d(RLog.CALLBACK, "HomeFragment error");
+        RLog.d(TAG, "genericError ");
         enableControls(true);
 //        updateErrorNotification(mContext.getString(R.string.reg_Generic_Network_Error));
         //showNotificationBarOnNetworkNotAvailable();

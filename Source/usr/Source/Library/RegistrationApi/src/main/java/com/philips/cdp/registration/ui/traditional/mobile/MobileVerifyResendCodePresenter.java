@@ -25,7 +25,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 public class MobileVerifyResendCodePresenter implements NetworkStateListener {
-    private String TAG = MobileVerifyResendCodePresenter.class.getSimpleName();
+    private String TAG = "MobileVerifyResendCodePresenter";
     private static final String VERIFICATION_SMS_CODE_SERVICE_ID = "userreg.urx.verificationsmscode";
     private static final String BASE_URL_CODE_SERVICE_ID = "userreg.janrain.api";
     private static final int RESEND_OTP_REQUEST_CODE = 101;
@@ -136,7 +136,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER Netowrk *** network: " + isOnline);
+        RLog.d(TAG, "MOBILE NUMBER network isOnline : " + isOnline);
         if (isOnline) {
             mobileVerifyCodeContract.netWorkStateOnlineUiHandle();
         } else {

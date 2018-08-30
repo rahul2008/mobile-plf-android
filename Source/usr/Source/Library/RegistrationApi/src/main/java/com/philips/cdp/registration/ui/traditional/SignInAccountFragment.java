@@ -166,7 +166,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        RLog.i(TAG,"Screen name is "+ TAG);
+        RLog.i(TAG, "Screen name is " + TAG);
 
 
         registerInlineNotificationListener(this);
@@ -224,7 +224,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.usr_loginScreen_login_button) {
-            RLog.i(TAG, TAG+".login button clicked");
+            RLog.i(TAG, TAG + ".login button clicked");
             hideValidations();
             uiEnableState(false);
             mBtnSignInAccount.showProgressIndicator();
@@ -279,7 +279,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private boolean emailOrMobileValidator(String emailOrMobile) {
-        RLog.e(TAG, "Email or Mobile No. is Empty");
         if (emailOrMobile.isEmpty() && !RegistrationHelper.getInstance().isMobileFlow()) {
             mEtEmail.setErrorMessage(R.string.USR_NameField_ErrorText);
         } else {
@@ -288,12 +287,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
             if ((!FieldsValidator.isValidMobileNumber(emailOrMobile) || !FieldsValidator.isValidEmail(emailOrMobile))) {
-                RLog.e(TAG, "Not a valid Mobile No.");
+                RLog.d(TAG, "Valid Mobile No./ Email"
+                        + (FieldsValidator.isValidMobileNumber(emailOrMobile) || FieldsValidator.isValidEmail(emailOrMobile)));
                 mEtEmail.setErrorMessage(R.string.USR_InvalidEmailOrPhoneNumber_ErrorMsg);
                 return FieldsValidator.isValidMobileNumber(emailOrMobile) || FieldsValidator.isValidEmail(emailOrMobile);
             }
         } else {
-            RLog.e(TAG, "Not a valid Email ID or Invalid Email.");
+            RLog.d(TAG, "Valid Email ID" + FieldsValidator.isValidEmail(emailOrMobile));
             mEtEmail.setErrorMessage(R.string.USR_InvalidOrMissingEmail_ErrorMsg);
             return FieldsValidator.isValidEmail(emailOrMobile);
         }
@@ -419,7 +419,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.d(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
         hideSignInSpinner();
         mBtnSignInAccount.hideProgressIndicator();
         uiEnableState(true);
@@ -441,7 +440,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleSendForgotSuccess() {
-        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
+        RLog.i(TAG, " handleSendForgotSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         hideForgotPasswordSpinner();
@@ -541,7 +540,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onEventReceived(String event) {
-        RLog.d(RLog.EVENT_LISTENERS, "SignInAccountFragment :onCounterEventReceived is : " + event);
+        RLog.d(TAG, " onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             handleUiState();
         }
@@ -549,7 +548,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.d(RLog.NETWORK_STATE, "SignInAccountFragment : onNetWorkStateReceived state :" + isOnline);
+        RLog.d(TAG, " onNetWorkStateReceived state :" + isOnline);
         handleUiState();
         uiEnableState(isOnline);
         observeLoginButton();
@@ -609,7 +608,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
         boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber(mUser.getMobile());
-        RLog.d(RLog.CALLBACK, "SignInAccountFragment : family name" + mUser.getFamilyName());
+        RLog.d(TAG, "handleLoginSuccess: family name" + mUser.getFamilyName());
 
         if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
             launchAccountActivationFragment();
@@ -644,7 +643,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 MobileVerifyCodeFragment fragment = new MobileVerifyCodeFragment();
                 getRegistrationFragment().addFragment(fragment);
             } else {
-                RLog.d(TAG, "SignInAccountFragment : invalid value");
+                RLog.d(TAG, " invalid value");
 //                updateErrorNotification(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
 //                mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
 //                scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -680,8 +679,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void createResendSMSIntent(String url) {
-        RLog.d(TAG, "MOBILE NUMBER *** : " + loginValidationEditText.getText().toString());
-        RLog.d(TAG, " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        RLog.d(TAG, "MOBILE NUMBER : " + loginValidationEditText.getText().toString());
+        RLog.d(TAG, "RegistrationEnvironment :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
         String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(loginValidationEditText.getText().toString()) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +

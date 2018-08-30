@@ -208,7 +208,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onConfigurationChanged");
+        RLog.d(TAG, " onConfigurationChanged");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }

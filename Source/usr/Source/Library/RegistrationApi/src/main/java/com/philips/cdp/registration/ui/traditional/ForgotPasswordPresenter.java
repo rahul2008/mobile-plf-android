@@ -188,7 +188,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
         this.mobileNumber = mobileNumber;
         String smsServiceID = "userreg.urx.verificationsmscode";
 
-        RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+        RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
         disposable.add(serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(smsServiceID)
                 .map(serviceUrl -> getBaseUrl(serviceUrl))
                 .map(baseUrl -> {

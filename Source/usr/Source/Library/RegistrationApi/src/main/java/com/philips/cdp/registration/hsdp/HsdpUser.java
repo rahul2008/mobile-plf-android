@@ -54,7 +54,7 @@ import javax.inject.Inject;
 public class HsdpUser {
 
     private final LoggingInterface loggingInterface;
-    private String TAG = HsdpUser.class.getSimpleName();
+    private String TAG = "HsdpUser";
     private DhpAuthenticationResponse dhpAuthenticationResponse = null;
 
     @Inject
@@ -236,7 +236,7 @@ public class HsdpUser {
                         }
                     });
                     handler.post(() -> {
-                        RLog.d(RLog.HSDP, "onHsdpRefreshSuccess : response :" +
+                        RLog.d(TAG, "onHsdpRefreshSuccess : response :" +
                                 dhpAuthenticationResponse.rawResponse.toString());
                         ThreadUtils.postInMainThread(mContext, refreshHandler::onRefreshLoginSessionSuccess);
                     });
@@ -245,7 +245,7 @@ public class HsdpUser {
                             dhpAuthenticationResponse.responseCode
                                     .equals(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
                         handler.post(() -> {
-                            RLog.d(RLog.HSDP, "onHsdpRefreshFailure : responseCode : "
+                            RLog.d(TAG, "onHsdpRefreshFailure : responseCode : "
                                     + dhpAuthenticationResponse.responseCode +
                                     " message : " + dhpAuthenticationResponse.message);
                             ThreadUtils.postInMainThread(mContext, () ->
@@ -254,7 +254,7 @@ public class HsdpUser {
                         });
                     } else {
                         handler.post(() -> {
-                            RLog.d(RLog.HSDP, "onHsdpRefreshFailure : responseCode : "
+                            RLog.d(TAG, "onHsdpRefreshFailure : responseCode : "
                                     + dhpAuthenticationResponse.responseCode +
                                     " message : " + dhpAuthenticationResponse.message);
                             ThreadUtils.postInMainThread(mContext, () ->
@@ -283,7 +283,7 @@ public class HsdpUser {
                 hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getApplicationName()) {
 
-            RLog.d(RLog.HSDP, "Base URL " + hsdpInfo.getBaseURL());
+            RLog.d(TAG, "Base URL " + hsdpInfo.getBaseURL());
             dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(),
                     hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecreteId());
         }
@@ -428,7 +428,7 @@ public class HsdpUser {
                                     loggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
                                 }
                                 handler.post(() -> {
-                                    RLog.d(RLog.HSDP, "Social onHsdpLoginSuccess : response :"
+                                    RLog.d(TAG, "Social onHsdpLoginSuccess : response :"
                                             + rawResponse.toString());
                                     HsdpUser hsdpUser = new HsdpUser(mContext);
                                     if (hsdpUser.getHsdpUserRecord() != null) {
@@ -448,7 +448,7 @@ public class HsdpUser {
 
                     } else {
                         handler.post(() -> {
-                            RLog.d(RLog.HSDP, "Social onHsdpLoginFailure :  responseCode : "
+                            RLog.d(TAG, "Social onHsdpLoginFailure :  responseCode : "
                                     + dhpAuthenticationResponse1.responseCode +
                                     " message : " + dhpAuthenticationResponse1.message);
                             handleSocialConnectionFailed(loginHandler, Integer.parseInt(
@@ -456,7 +456,7 @@ public class HsdpUser {
                         });
                     }
                 } catch (Exception e) {
-                    RLog.e(RLog.HSDP, "HSDP Social Login : " + e.getMessage());
+                    RLog.e(TAG, "HSDP Social Login : " + e.getMessage());
                     handleSocialNetworkFailure(loginHandler);
                 }
             }).start();
@@ -473,7 +473,7 @@ public class HsdpUser {
             if (null != userUID) {
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,
                         "evar2", userUID);
-                RLog.d(RLog.HSDP, "HSDP evar2 " + userUID);
+                RLog.d(TAG, "HSDP evar2 userUID" + userUID);
             }
         }
     }

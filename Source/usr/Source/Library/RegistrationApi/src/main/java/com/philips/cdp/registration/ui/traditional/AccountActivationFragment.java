@@ -138,8 +138,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onStop() {
         super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDestroy");
-        RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworStateListener");
+        RLog.d(TAG , "onStop");
         wasAppInBackground = true;
         accountActivationPresenter.unRegisterListener();
         getRegistrationFragment().stopCountDownTimer();
@@ -181,7 +180,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onConfigurationChanged");
+        RLog.d(TAG, "AccountActivationFragment : onConfigurationChanged");
         setCustomParams(config);
     }
 
@@ -328,7 +327,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onRefreshUserSuccess() {
         if (this.isVisible()) {
-            RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
+            RLog.d(TAG, "onRefreshUserSuccess");
             setDiscription();
             if (mEmailId.equals(mUser.getEmail())) {
                 updateActivationUIState();
@@ -345,7 +344,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
 
     private void handleRefreshUserFailed(int error) {
-        RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
+        RLog.d(TAG, "onRefreshUserFailed");
         if (error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED) {
             verificationError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
             hideActivateSpinner();
