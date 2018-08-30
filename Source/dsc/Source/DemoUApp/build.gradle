@@ -51,22 +51,30 @@ android {
 }
 
 dependencies {
-    def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+
+    if (directdependencies) {
         implementation project(':AppInfra')
         implementation project(':uAppFwLib')
         implementation project(':uid')
         implementation project(':pif')
         implementation project(':catk')
         implementation project(':jump')
-    }
-    for (dep in [':registrationApi', ':securedblibrary', ':dataServices', ':csw']) {
-        if (directdependencies) {
-            implementation project(dep)
-        } else {
-            implementation("$group$dep:$platformversion$suffix") { changing = true }
-        }
+        implementation project(':registrationApi')
+        implementation project(':securedblibrary')
+        implementation project(':dataServices')
+        implementation project(':csw')
+    } else {
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.uid
+        implementation philipsdeps.pif
+        implementation philipsdeps.catk
+        implementation philipsdeps.jump
+        implementation philipsdeps.registrationApi
+        implementation philipsdeps.securedblibrary
+        implementation philipsdeps.dataServices
+        implementation philipsdeps.csw
     }
 
     implementation deps.support.appcompatv7

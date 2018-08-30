@@ -124,9 +124,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation deps.junit
 
-    def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+
+    if (directdependencies) {
         implementation project(':AppInfra')
         implementation project(':uid')
     } else {

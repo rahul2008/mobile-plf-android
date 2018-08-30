@@ -66,7 +66,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getNotification();
+        //getNotification();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -349,8 +349,10 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public URNotification getNotification() {
-        if (notification == null)
+        if (notification == null) {
+            RLog.d(TAG, "getNotification ");
             notification = new URNotification(getRegistrationFragment().getParentActivity(), this);
+        }
         return notification;
     }
 }

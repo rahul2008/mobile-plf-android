@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
-String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %buildType=TICS\nH H(22-23) * * * %buildType=HPFortify" : ""
+String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %buildType=TICS" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def nodes = '27.0.2 && device'
@@ -115,10 +115,11 @@ pipeline {
                 sh '''#!/bin/bash -l
                     set -e
                     ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
-                    ./gradlew referenceApp:dependencies > ./dependency_log.txt
+
                     apkname=`xargs < apkname.txt`
-                    dependencyname=${apkname/.apk/.gradledependencies}
-                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependencyname}" -T ./dependency_log.txt
+                    dependenciesName=${apkname/.apk/.gradledependencies.gz}
+                    ./gradlew -Dorg.gradle.parallel=false reportAllProjectDependencies | gzip -9 > ./allProjects.gradledependencies.gz
+                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependenciesName}" -T ./allProjects.gradledependencies.gz
                 '''
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
                 DeployingConnectedTestsLogs()
@@ -160,7 +161,6 @@ pipeline {
                 script {
                     echo "Running TICS..."
                     sh """#!/bin/bash -le
-                        ./gradlew clean jacocoTestReport
                         /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
                         /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity
                     """
@@ -187,7 +187,7 @@ pipeline {
                     echo "BranchName changed to ${jobBranchName}"
 
                     sh """#!/bin/bash -le
-                        curl -X POST http://310256016:61a84d6f3e9343128dff5736ef68259e@cdp2-jenkins.htce.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/E2E_Android_${jobBranchName}/buildWithParameters?APKPATH=$APK_NAME
+                        curl -X POST http://platform-ubuntu-ehv-002.ddns.htc.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/E2E_Android_${jobBranchName}/buildWithParameters?APKPATH=$APK_NAME
                     """
                 }
             }
@@ -327,7 +327,7 @@ def BuildHPFortify() {
         chmod -R 755 .
         ./gradlew --refresh-dependencies
         echo "*** sourceanalyzer -b 001 -source 1.8 ./gradlew --full-stacktrace assembleRelease ***"
-        sourceanalyzer -b 001 -source 1.8 ./gradlew --full-stacktrace assembleRelease
+        sourceanalyzer -debug -verbose -b 001 -source 1.8 ./gradlew --full-stacktrace assembleRelease
         echo "*** sourceanalyzer -b 001 -scan -f results.fpr ***"
         sourceanalyzer -b 001 -scan -f results.fpr
         echo "*** fortifyclient -url https://fortify.philips.com/ssc ***"

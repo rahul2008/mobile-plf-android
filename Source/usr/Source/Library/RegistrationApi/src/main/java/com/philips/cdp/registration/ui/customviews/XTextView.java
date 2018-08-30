@@ -9,31 +9,32 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
 
-public class XTextView extends TextView {
+public class XTextView extends AppCompatTextView {
 
-	private static final String XMLNS = "http://reg.lib/schema";
+    private static final String XMLNS = "http://reg.lib/schema";
 
-	public XTextView(Context context) {
-		super(context);
-	}
+    public XTextView(Context context) {
+        super(context);
+    }
 
-	public XTextView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+    public XTextView(Context context, AttributeSet attrs) {
+        super(context, attrs);
 
-		String fontAssetName = attrs.getAttributeValue(XTextView.XMLNS, "fontAssetName");
-		applyAttributes(this, context, fontAssetName);
-	}
+        String fontAssetName = attrs.getAttributeValue(XTextView.XMLNS, "fontAssetName");
+        applyAttributes(this, context, fontAssetName);
+    }
 
-	private void applyAttributes(TextView view, Context context, String fontAssetName) {
-		FontLoader.getInstance().setTypeface(view, fontAssetName);
-	}
+    private void applyAttributes(TextView view, Context context, String fontAssetName) {
+        FontLoader.getInstance().setTypeface(view, fontAssetName);
+    }
 
-	public void setTypeface(String fontAssetName) {
-		FontLoader.getInstance().setTypeface(this, fontAssetName);
-	}
+    public void setTypeface(String fontAssetName) {
+        FontLoader.getInstance().setTypeface(this, fontAssetName);
+    }
 }

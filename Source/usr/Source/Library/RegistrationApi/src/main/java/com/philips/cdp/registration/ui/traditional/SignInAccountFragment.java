@@ -304,6 +304,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         @Override
         public void onClick(View widget) {
+            mRegError.hideError();
             if (loginValidationEditText.getText().toString().trim().length() <= 0) {
                 launchResetPasswordFragment();
             } else if (registrationSettingsURL.isMobileFlow() && (FieldsValidator.isValidMobileNumber(loginValidationEditText.getText().toString()))) {

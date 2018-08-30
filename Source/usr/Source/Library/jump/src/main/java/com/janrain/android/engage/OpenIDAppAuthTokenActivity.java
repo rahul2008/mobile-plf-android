@@ -152,12 +152,16 @@ public class OpenIDAppAuthTokenActivity extends Activity {
             @Nullable AuthorizationException authException) {
         LogUtils.logd(TAG, "Token request complete");
         LogUtils.logd(TAG, "Token: " + tokenResponse);
-
-        mAuthState.update(tokenResponse, authException);
-        final JRSession session = JRSession.getInstance();
-        JROpenIDAppAuth.OpenIDAppAuthProvider mOpenIDProvider = session.getCurrentOpenIDAppAuthProvider();
-        mOpenIDProvider.getAuthInfoTokenForAccessToken(mAuthState.getLastAuthorizationResponse().request.configuration.discoveryDoc.getUserinfoEndpoint(),mAuthState.getLastTokenResponse().accessToken,tokenResponse.accessToken);
-
+        try {
+            mAuthState.update(tokenResponse, authException);
+            final JRSession session = JRSession.getInstance();
+            JROpenIDAppAuth.OpenIDAppAuthProvider mOpenIDProvider = session.getCurrentOpenIDAppAuthProvider();
+            mOpenIDProvider.getAuthInfoTokenForAccessToken(
+                    mAuthState.getLastAuthorizationResponse().request.configuration.discoveryDoc.getUserinfoEndpoint(),
+                    mAuthState.getLastTokenResponse().accessToken, tokenResponse.accessToken);
+        } catch (Exception ex) {
+            LogUtils.logd(TAG, "receivedTokenResponse : Exception", ex);
+        }
         this.finish();
     }
 
