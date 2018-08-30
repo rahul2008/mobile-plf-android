@@ -10,7 +10,9 @@ import android.content.Intent;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
+import com.philips.cdp.registration.configuration.AppConfiguration;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.devicepair.ui.DevicePairingBaseFragment;
 import com.philips.platform.devicepair.ui.DevicePairingLaunchActivity;
 import com.philips.platform.devicepair.ui.PairingFragment;
@@ -69,5 +71,9 @@ public class DevicePairingUappInterface implements UappInterface {
 
     public static CommCentral getCommCentral() {
         return devicePairingUappDependencies.getCommCentral();
+    }
+
+    public static AppConfigurationInterface getAppConfig() {
+        return devicePairingUappDependencies.getAppInfra().getConfigInterface();
     }
 }
