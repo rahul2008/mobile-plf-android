@@ -170,9 +170,11 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
     @NonNull
     private String getBodyContent() {
-        return "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
+        String body  = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
+        RLog.d(TAG, "body :  "+ body);
+        return body;
     }
 
     private String getClientId() {
@@ -201,6 +203,8 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
+                        RLog.i(TAG, "CreateResendSMSIntent url :  "+ verificationUrl);
+
                         URRequest urRequest = new URRequest(verificationUrl, getBodyContent(), null, forgotPasswordContract::onSuccessResponse, forgotPasswordContract::onErrorResponse);
                         urRequest.makeRequest(true);
                     }

@@ -678,13 +678,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void createResendSMSIntent(String url) {
-        RLog.i(TAG, "MOBILE NUMBER *** : " + loginValidationEditText.getText().toString());
-        RLog.i(TAG, " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        RLog.d(TAG, "MOBILE NUMBER *** : " + loginValidationEditText.getText().toString());
+        RLog.d(TAG, " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
         String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(loginValidationEditText.getText().toString()) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
-        RLog.i(TAG, " envir :" + getClientId() + getRedirectUri());
+        RLog.d(TAG, " envir :" + getClientId() + getRedirectUri());
+        RLog.i(TAG, "createResendSMSIntent url :" + url);
+        RLog.d(TAG, "createResendSMSIntent bodyContent :" + bodyContent);
         URRequest urRequest = new URRequest(url, bodyContent, null, this::handleResendSMSRespone, this::onErrorOfResendSMSIntent);
         urRequest.makeRequest(true);
     }
