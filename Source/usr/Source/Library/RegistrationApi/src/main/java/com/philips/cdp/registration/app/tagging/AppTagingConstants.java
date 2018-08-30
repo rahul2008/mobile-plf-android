@@ -10,33 +10,33 @@ package com.philips.cdp.registration.app.tagging;
 
 public class AppTagingConstants {
 
-    public static final String DEFAULT_COUNTRY = "global";
-
-    public static final String DEFAULT_LANGUAGE = "en";
-
-    public static final String DEFAULT_CURRENCY = "EUR";
-
-    public static final String CP_KEY = "sector";
-
-    public static final String APPNAME_KEY = "app.name";
-
-    public static final String VERSION_KEY = "app.version";
-
-    public static final String OS_KEY = "app.os";
-
-    public static final String LANGUAGE_KEY = "locale.language";
-
-    public static final String APPSID_KEY = "appsId";
-
-    public static final String CURRENCY_KEY = "locale.currency";
-
-    public static final String TIMESTAMP_KEY = "timestamp";
-
-    public static final String CP_VALUE = "CP";
-
-    public static final String APPNAME_VALUE = "registration";
-
-    public static final String OS_ANDROID = "android";
+//    public static final String DEFAULT_COUNTRY = "global";
+//
+//    public static final String DEFAULT_LANGUAGE = "en";
+//
+//    public static final String DEFAULT_CURRENCY = "EUR";
+//
+//    public static final String CP_KEY = "sector";
+//
+//    public static final String APPNAME_KEY = "app.name";
+//
+//    public static final String VERSION_KEY = "app.version";
+//
+//    public static final String OS_KEY = "app.os";
+//
+//    public static final String LANGUAGE_KEY = "locale.language";
+//
+//    public static final String APPSID_KEY = "appsId";
+//
+//    public static final String CURRENCY_KEY = "locale.currency";
+//
+//    public static final String TIMESTAMP_KEY = "timestamp";
+//
+//    public static final String CP_VALUE = "CP";
+//
+//    public static final String APPNAME_VALUE = "registration";
+//
+//    public static final String OS_ANDROID = "android";
 
     public static final String SEND_DATA = "sendData";
 
@@ -66,28 +66,27 @@ public class AppTagingConstants {
 
     public static final String PREVIOUS_PAGE_NAME = "previousPageName";
 
-    public static final String TECHNICAL_ERROR = "error";
+    public static final String TECHNICAL_ERROR = "technicalError";
 
-    public static final String USER_ERROR = "error";
+    public static final String USER_ERROR = "userError";
 
     public static final String RESET_PASSWORD_SUCCESS = "A link is sent to your email to reset the password of your Philips Account";
 
-    public static final int NETWORK_ERROR_CODE = 111;
-
     public static final int EMAIL_NOT_VERIFIED_CODE = 112;
 
-    public static final String COUNTRY_KEY = "locale.country";
+//    public static final String COUNTRY_KEY = "locale.country";
 
     public static final String SIGN_OUT = "signOut";
 
-    public static final String LOGOUT_BTN_SELECTED = "logoutButtonSelected";
+//    public static final String LOGOUT_BTN_SELECTED = "logoutButtonSelected";
 
     public static final String LOGOUT_SUCCESS = "logoutSuccess";
 
     public static final String SUCCESS_RESEND_EMAIL_VERIFICATION = "successResendEmailVerification";
-    public static final String SUCCESS_RESEND_SMS_VERIFICATION = "successResendSMSVerification";
-    public static final String SUCCESS_RESEND_MOBILE_VERIFICATION = "successResendMobileVerification";
 
+    public static final String SUCCESS_RESEND_SMS_VERIFICATION = "successResendSMSVerification";
+
+    public static final String SUCCESS_RESEND_MOBILE_VERIFICATION = "successResendMobileVerification";
 
     public static final String RESEND_VERIFICATION_MAIL_LINK_SENT = "We have sent an email to your email address to reset your password";
 
@@ -149,8 +148,6 @@ public class AppTagingConstants {
 
     public static final String FAILURE_FORGOT_PASSWORD = "failureForgotPassword";
 
-    public static final String INVALID_CREDENTIALS = "UR:failedLogin:Janrain:210:Incorrect username or password. Try again.";
-
     public static final String FAILURE_SERVICEDISCOVERY = "UR:RegistrationConfigurationFailed:ServiceDiscovery:";
 
     public static final String REG_JAN_RAIN_SERVER_CONNECTION_FAILED = "UR:Failed to connect to the server, Please try again after some time.";
@@ -159,12 +156,15 @@ public class AppTagingConstants {
 
     public static final String REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR = "UR:No worries! You do not need a Philips password. You have logged in with a social provider previously.";
 
-    public static final String KEY_HSDP_ID = "HSDPId";
     public static final String VALUE_FORGOT_PASSWORD_CHANNEL_EMAIL = "email";
+
     public static final String VALUE_FORGOT_PASSWORD_CHANNEL_PHONE_NUMBER = "phone number";
+
     public static String SKIP_REGISTRATION = "loginRegistartionSkipped";
 
     public static String KEY_COUNTRY_SELECTED = "countrySelected";
+
     public static String KEY_FORGOT_PASSWORD_CHANNEL = "forgotPasswordChannel";
+
     public static String KEY_SKIP_SECURE_DATA = "skipSecureData";
 }

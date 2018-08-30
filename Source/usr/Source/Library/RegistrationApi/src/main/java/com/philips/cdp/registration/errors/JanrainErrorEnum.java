@@ -145,5 +145,4 @@ public enum JanrainErrorEnum {
         }
         return context.getString(stringId);
     }
-
 }

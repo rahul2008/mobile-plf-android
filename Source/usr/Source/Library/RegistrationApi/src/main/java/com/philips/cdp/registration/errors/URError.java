@@ -2,11 +2,7 @@ package com.philips.cdp.registration.errors;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RLog;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by philips on 4/17/18.
@@ -23,8 +19,8 @@ public class URError {
     }
 
     public String getLocalizedError(ErrorType errorType, int errorCode) {
-        RLog.i(TAG,"ErrorType :"+errorType + " : errorCode "+errorCode);
-        RLog.i(TAG,"LocalizedError is :"+getString(errorType, errorCode));
+        RLog.i(TAG, "ErrorType :" + errorType + " : errorCode " + errorCode);
+        RLog.i(TAG, "LocalizedError is :" + getString(errorType, errorCode));
         return getString(errorType, errorCode);
     }
 
@@ -43,5 +39,7 @@ public class URError {
         }
 
     }
+
+
 
 }
