@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
-import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -98,7 +97,7 @@ public class TimeSyncDemo extends AppCompatActivity {
                 refreshButton.setVisibility(View.INVISIBLE);
                 mTimeSyncInterface.refreshTime();
                 Date date = mTimeSyncInterface.getUTCTime();
-                formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+                formatter.setTimeZone(TimeZone.getTimeZone(TimeInterface.UTC));
                 UTCtimeVal.setText(formatter.format(date));
 
             }
@@ -114,14 +113,14 @@ public class TimeSyncDemo extends AppCompatActivity {
                     isSynchronized.setText("Not Synchronized");
                 }
                 Date date = mTimeSyncInterface.getUTCTime();
-                formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+                formatter.setTimeZone(TimeZone.getTimeZone(TimeInterface.UTC));
                 UTCtimeVal.setText(formatter.format(date));
             }
         });
 
 
         Date date = mTimeSyncInterface.getUTCTime();
-        formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+        formatter.setTimeZone(TimeZone.getTimeZone(TimeInterface.UTC));
         UTCtimeVal.setText(formatter.format(date));
     }
 

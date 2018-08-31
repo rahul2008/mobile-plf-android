@@ -48,7 +48,7 @@ public class TimeSyncTest extends AppInfraInstrumentation {
         assertNotNull(mTimeSyncSntpClient);
         final SimpleDateFormat sdf = new SimpleDateFormat(TimeSyncSntpClient.DATE_FORMAT, Locale.ENGLISH);
         Date date = new Date(0);
-        sdf.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+        sdf.setTimeZone(TimeZone.getTimeZone(TimeInterface.UTC));
         //String firstJan1970 = sdf.format(date);
     }
 
@@ -59,7 +59,7 @@ public class TimeSyncTest extends AppInfraInstrumentation {
         final SimpleDateFormat sdf = new SimpleDateFormat(TimeSyncSntpClient.DATE_FORMAT, Locale.ENGLISH);
         Date date = mTimeSyncSntpClient.getUTCTime();
         Date d  = new Date(0);
-        sdf.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+        sdf.setTimeZone(TimeZone.getTimeZone(TimeInterface.UTC));
         String str = sdf.format(date);
         String str1 = sdf.format(d);
         assertNotSame(str, str1);

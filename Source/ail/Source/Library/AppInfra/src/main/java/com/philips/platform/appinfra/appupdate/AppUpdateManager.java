@@ -23,7 +23,7 @@ import com.philips.platform.appinfra.appupdate.model.AppUpdateModel;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +46,6 @@ public class AppUpdateManager implements AppUpdateInterface {
 	private transient AppUpdateModel mAppUpdateModel;
 	private transient Gson mGson;
 	private transient FileUtils mFileUtils;
-	public static final String APPUPDATE_DATE_FORMAT = "yyyy-MM-dd";
 
 
 	public AppUpdateManager(AppInfra appInfra) {
@@ -222,7 +221,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 			String deprecationDate = getAppUpdateModel().getVersion().getDeprecationDate();
 
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-			formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+			formatter.setTimeZone(TimeZone.getTimeZone(TimeInterface.UTC));
 			try {
 				Date deprecationdate = formatter.parse(deprecationDate);
 				Date currentDate = new Date();
@@ -276,7 +275,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 		if (getAppUpdateModel() != null && getAppUpdateModel().getVersion() != null) {
 			SimpleDateFormat formatter = new SimpleDateFormat(APPUPDATE_DATE_FORMAT
 					, Locale.ENGLISH);
-			formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+			formatter.setTimeZone(TimeZone.getTimeZone(TimeInterface.UTC));
 			try {
 				return formatter.parse(getAppUpdateModel().getVersion().getDeprecationDate());
 			} catch (ParseException e) {

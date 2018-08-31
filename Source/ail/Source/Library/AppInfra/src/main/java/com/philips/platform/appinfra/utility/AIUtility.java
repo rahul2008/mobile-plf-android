@@ -2,10 +2,9 @@ package com.philips.platform.appinfra.utility;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
 import java.text.SimpleDateFormat;
@@ -38,7 +37,7 @@ public class AIUtility {
      */
     public static String convertDateToString(Date date) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
-        dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+        dateFormat.setTimeZone(TimeZone.getTimeZone(TimeInterface.UTC));
         return String.valueOf(dateFormat.format(date));
     }
 }
