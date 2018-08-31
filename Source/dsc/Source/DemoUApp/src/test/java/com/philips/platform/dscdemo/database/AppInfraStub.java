@@ -1,5 +1,7 @@
 package com.philips.platform.dscdemo.database;
 
+import android.content.Context;
+
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.aikm.AIKMInterface;
@@ -220,6 +222,11 @@ class AppInfraStub implements AppInfraInterface {
 
     @Override
     public DeviceStoredConsentHandler getDeviceStoredConsentHandler() {
+        return null;
+    }
+
+    @Override
+    public Context getAppInfraContext() {
         return null;
     }
 }

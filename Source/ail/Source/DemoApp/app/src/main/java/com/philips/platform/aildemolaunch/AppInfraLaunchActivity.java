@@ -14,6 +14,7 @@ import com.philips.platform.aildemo.AILDemouAppSettings;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;

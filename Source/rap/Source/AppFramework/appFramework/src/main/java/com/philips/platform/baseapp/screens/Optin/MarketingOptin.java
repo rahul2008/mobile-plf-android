@@ -2,8 +2,10 @@ package com.philips.platform.baseapp.screens.Optin;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -16,6 +18,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -26,6 +29,7 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
     Context context;
     private FragmentLauncher fragmentLauncher;
     private User userObject;
+    public static String AB_TEST_OPTIN_IMAGE_KEY = "optin_image";
 
     public MarketingOptin() {
         super(AppStates.MY_DETAILS_STATE);
@@ -51,13 +55,20 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
-        registrationContentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
+        ABTestClientInterface abTesting = getAppInfra().getAbTesting();
+        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
+        if (testValue.equalsIgnoreCase(context.getString(R.string.RAP_Abtesting_Value))) {
+            registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
+            registrationContentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");
+            registrationContentConfiguration.setOptInQuessionaryText("Custom Reward Coupons, Holiday Surprises, VIP Shopping Days");
+        } else {
+            registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
+        }
         return registrationContentConfiguration;
     }
     @Override
     public void init(Context context) {
         this.context = context;
-
     }
     protected AppInfraInterface getAppInfra() {
         return ((AppFrameworkApplication) context).getAppInfra();

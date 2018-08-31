@@ -7,6 +7,7 @@ package com.philips.platform;
 
 import android.content.Context;
 
+import com.google.firebase.FirebaseApp;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
@@ -133,6 +134,7 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     public void onCreate() {
         super.onCreate();
         MockitoAnnotations.initMocks(this);
+        FirebaseApp.initializeApp(this);
         appInfraInterface = mock(AppInfra.class);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getTagging()).thenReturn(taggingInterface);
@@ -169,11 +171,6 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         userRegistrationOnBoardingState.init(this);
         setTargetFlowManager();
 
-    }
-
-    @Override
-    protected AppInfra createAppInfraInstance() {
-        return appInfraInterface;
     }
 
     @Mock

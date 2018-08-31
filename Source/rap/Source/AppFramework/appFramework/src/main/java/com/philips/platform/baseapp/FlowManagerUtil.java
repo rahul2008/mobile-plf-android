@@ -14,6 +14,7 @@ import com.philips.platform.baseapp.screens.Optin.MarketingOptin;
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
 import com.philips.platform.baseapp.screens.cocoversion.CocoVersionState;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
+import com.philips.platform.baseapp.screens.cookiesconsent.CookiesConsentState;
 import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPOrderHistoryState;
@@ -43,6 +44,7 @@ public class FlowManagerUtil {
 
     public void addValuesToMap(final Map<String, BaseState> uiStateMap) {
         RALog.d(TAG, " addValuesToMap called");
+        uiStateMap.put(AppStates.COOKIES_CONSENT, new CookiesConsentState());
         uiStateMap.put(AppStates.WELCOME, new WelcomeState());
         uiStateMap.put(AppStates.ON_BOARDING_REGISTRATION, new UserRegistrationOnBoardingState());
         uiStateMap.put(AppStates.SETTINGS_REGISTRATION, new UserRegistrationSettingsState());
