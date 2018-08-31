@@ -118,7 +118,6 @@ public class MyAccountStateTest {
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
         when(appInfraInterface.getConsentManager()).thenReturn(consentManagerInterfaceMock);
         when(resources.getString(anyInt())).thenReturn("ABC");
-        when(hamburgerActivity.getString(anyInt())).thenReturn("Updated");
     }
 
     @Test
