@@ -1,4 +1,4 @@
-package com.philips.platform.aildemolaunch;
+package com.philips.platform.demoapp;
 
 
 import android.support.test.espresso.DataInteraction;
@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.philips.platform.appinfra.demoapp.AppInfraLaunchActivity;
+import com.philips.platform.appinfra.demoapp.R;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,13 +37,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SSNewStoreDataTest extends SecureStorageBaseTest {
+public class NewSSEncryptDecryptDataTest extends SecureStorageBaseTest {
 
     @Rule
     public ActivityTestRule<AppInfraLaunchActivity> mActivityTestRule = new ActivityTestRule<>(AppInfraLaunchActivity.class);
 
     @Test
-    public void sSNewStoreDataTest() {
+    public void newSSEncryptDecryptDataTest() {
         setUp();
         DataInteraction linearLayout = onData(anything())
                 .inAdapterView(allOf(withId(R.id.listViewAppInfraComponents),
@@ -52,59 +54,34 @@ public class SSNewStoreDataTest extends SecureStorageBaseTest {
         linearLayout.perform(click());
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.secureStorage), withText("Secure Storage"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
+                allOf(withId(R.id.EncryptDecrypt), withText("Encrypt and Decrypt"),
                         isDisplayed()));
         appCompatButton.perform(click());
 
         ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.Key_editText),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.RelativeLayout")),
-                                        1),
-                                0),
-                        isDisplayed()));
-        appCompatEditText.perform(replaceText("abc"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.data_editText),
+                allOf(withId(R.id.plainText),
                         childAtPosition(
                                 allOf(withId(R.id.SCROLLER_ID3),
                                         childAtPosition(
                                                 withClassName(is("android.widget.LinearLayout")),
-                                                1)),
+                                                3)),
                                 0)));
-        appCompatEditText2.perform(scrollTo(), replaceText("def"), closeSoftKeyboard());
+        appCompatEditText.perform(scrollTo(), replaceText("app infra"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.encript_button), withText("Store"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        2),
-                                0),
+                allOf(withId(R.id.buttonEncrypt), withText("Encrypt Data"),
                         isDisplayed()));
         appCompatButton2.perform(click());
 
         ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.decypt_button), withText("Fetch"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        2),
-                                1),
+                allOf(withId(R.id.buttonDecrypt), withText("Decrypt Data"),
                         isDisplayed()));
         appCompatButton3.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.decripted_Output_textView), withText("def"),
+                allOf(withId(R.id.textViewDataMatched), withText("True"),
                         isDisplayed()));
-        textView.check(matches(withText("def")));
+        textView.check(matches(withText("True")));
 
     }
 

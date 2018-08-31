@@ -1,10 +1,8 @@
-package com.philips.platform.appframework.abtesting;
+package com.philips.platform.appinfra.demoapp.abtesting;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -27,28 +25,24 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
 
     @Override
     public void consentStatusChanged(@NonNull ConsentDefinition consentDefinition, @Nullable ConsentError consentError, boolean requestedStatus) {
-        if (requestedStatus) {
+        if(requestedStatus) {
             updateCache(this);
-        } else {
-            FirebaseAnalytics.getInstance(appInfraInterface.getAppInfraContext()).setAnalyticsCollectionEnabled(false);
-            FirebaseAnalytics.getInstance(appInfraInterface.getAppInfraContext()).resetAnalyticsData();
         }
-
     }
 
     @Override
     public void onSuccess() {
-        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "ab-testing cache updated successfully");
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "abtesting cache updated successfully");
     }
 
     @Override
     public void onError(ERRORVALUE error) {
-        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "ab-testing update failed");
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "abtesting update failed");
     }
 
     interface FetchDataHandler {
         void fetchData(Map<String, CacheModel.ValueModel> data);
-        void updateCacheStatus(ABTestClientInterface.CACHESTATUS CACHESTATUS);
+        void updateCacheStatus(CACHESTATUS CACHESTATUS);
     }
 
     private FireBaseWrapper fireBaseWrapper;
@@ -59,15 +53,14 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
 
     /**
      * invoke this api to initialise FireBase remote configuration
-     * @param - pass application context to initialise FireBase
      */
-    public void initFireBase(Context context) {
-        fireBaseWrapper = getFireBaseWrapper(context);
+    public void initFireBase() {
+        fireBaseWrapper = getFireBaseWrapper();
     }
 
     @NonNull
-    FireBaseWrapper getFireBaseWrapper(Context context) {
-        return new FireBaseWrapper(context, FirebaseRemoteConfig.getInstance());
+    FireBaseWrapper getFireBaseWrapper() {
+        return new FireBaseWrapper(FirebaseRemoteConfig.getInstance());
     }
 
     /**
@@ -120,7 +113,7 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
     public void updateCache(OnRefreshListener onRefreshListener) {
         if(!appInfraInterface.getRestClient().isInternetReachable()) {
             // throw error callback if no network available
-            onRefreshListener.onError(OnRefreshListener.ERRORVALUE.NO_NETWORK);
+            onRefreshListener.onError(ERRORVALUE.NO_NETWORK);
             return;
         }
         // fetching data from FireBase Server
