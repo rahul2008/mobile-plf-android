@@ -112,6 +112,9 @@ dependencies {
     }
     implementation deps.gson
     implementation deps.leakcanary
+    implementation deps.firebase_core
+    implementation deps.firebase_config
+    implementation deps.firebase_iid
 }
 
 tasks.withType(Test) {
