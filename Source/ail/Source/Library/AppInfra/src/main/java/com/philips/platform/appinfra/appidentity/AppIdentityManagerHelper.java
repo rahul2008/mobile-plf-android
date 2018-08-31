@@ -57,7 +57,7 @@ class AppIdentityManagerHelper {
                     boolean isValid = isValidAppVersion(appVersion);
                     if (!isValid)
                         throw new IllegalArgumentException("AppVersion should in this format " +
-                                "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
+                                "\" [0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?([_(-].*)?\" ");
             } else {
                 throw new IllegalArgumentException("Appversion cannot be null");
             }

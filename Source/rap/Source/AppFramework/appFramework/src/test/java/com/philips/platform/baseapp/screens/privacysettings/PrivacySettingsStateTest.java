@@ -6,6 +6,7 @@ import android.content.res.Resources;
 
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -26,6 +27,7 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
+
 @RunWith(org.mockito.junit.MockitoJUnitRunner.Silent.class)
 public class PrivacySettingsStateTest {
     private Context context;
@@ -58,9 +60,12 @@ public class PrivacySettingsStateTest {
     @Mock
     private LoggingInterface loggingInterfaceMock;
 
+    @Mock
+    private ABTestClientInterface abTestClientInterfaceMock;
     private PrivacySettingsState privacySettingsState;
+
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         privacySettingsState = new PrivacySettingsState();
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
@@ -69,9 +74,11 @@ public class PrivacySettingsStateTest {
         when(application.getAppInfra()).thenReturn(appInfraInterface);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
         when(appInfraInterface.getLogging()).thenReturn(loggingInterfaceMock);
+        when(appInfraInterface.getAbTesting()).thenReturn(abTestClientInterfaceMock);
         when(appInfraInterface.getConsentManager()).thenReturn(consentManagerInterfaceMock);
         when(resources.getString(anyInt())).thenReturn("ABC");
     }
+
     @Test
     public void shouldCreateNonNullListOfConsentDefinitions() throws Exception {
         assertNotNull(givenListOfConsentDefinitions());

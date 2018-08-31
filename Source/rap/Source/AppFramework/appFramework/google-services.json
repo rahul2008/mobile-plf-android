@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "693951506629",
+    "firebase_url": "https://reference-app-android.firebaseio.com",
+    "project_id": "reference-app-android",
+    "storage_bucket": "reference-app-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693951506629:android:a2d23725f1fd704c",
+        "android_client_info": {
+          "package_name": "com.philips.platform.referenceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693951506629-t4ohbsqhpf0n34v5ijqrev2l55dk9ehf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCO7mqwGb26ms2vDLvt3ZoE5IoAlrIlpw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

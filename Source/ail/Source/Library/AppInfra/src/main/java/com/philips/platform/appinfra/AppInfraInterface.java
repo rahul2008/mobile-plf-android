@@ -1,5 +1,7 @@
 package com.philips.platform.appinfra;
 
+import android.content.Context;
+
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -122,4 +124,12 @@ public interface AppInfraInterface extends Serializable {
      * @since 1802.0
      */
     DeviceStoredConsentHandler getDeviceStoredConsentHandler();
-}
+
+    /**
+     * Get Context of Appinfra
+     * @return - the context
+     * @since 1804.0
+     */
+    Context getAppInfraContext();
+
+    }

@@ -27,7 +27,7 @@
   <string name="PRG_Enter_Purchase_Date_ErrMsg">הזן תאריך רכישה</string>
   <string name="PRG_Extended_Warranty_Lbltxt">תקופת האחריות שלך הוארכה עד</string>
   <string name="PRG_Find_Serial_Number">היכן אוכל למצוא את המספר הסידורי שלי?</string>
-  <string name="PRG_Find_Serial_Number_Title">[he]Where is the serial number?</string>
+  <string name="PRG_Find_Serial_Number_Title">[iw]Where is the serial number?</string>
   <string name="PRG_Invalid_Date_ErrMsg">הזן תאריך בין שנת 2000 לתאריך הנוכחי</string>
   <string name="PRG_Invalid_Date_Title">תאריך רכישה לא חוקי</string>
   <string name="PRG_Invalid_SerialNum_ErrMsg">נא להזין מספר סידורי חוקי</string>
@@ -38,8 +38,8 @@
   <string name="PRG_NavBar_Title">רשום את המוצר שלך</string>
   <string name="PRG_Network_ErrMsg">נסה מאוחר יותר.</string>
   <string name="PRG_Network_Err_Title">שגיאת רשת!</string>
-  <string name="PRG_No_Internet_ErrMsg">[he]Please check your internet connection</string>
-  <string name="PRG_No_Internet_Title">[he]No internet connection</string>
+  <string name="PRG_No_Internet_ErrMsg">[iw]Please check your internet connection</string>
+  <string name="PRG_No_Internet_Title">[iw]No internet connection</string>
   <string name="PRG_OK">אישור </string>
   <string name="PRG_Open_Settings">[NT,he]Open settings</string>
   <string name="PRG_Please_Enter_Date_Lbltxt">הזן תאריך רכישה</string>
