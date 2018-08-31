@@ -130,11 +130,8 @@ public class StartConnectWithDeviceViewModelTest {
     }
 
     private class DialogShowable implements ConfirmWifiNetworkViewModel.ViewCallback {
-
         @Override
         public void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration, @NonNull EWSTagger ewsTagger) {
-
         }
     }
-
 }
