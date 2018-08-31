@@ -294,7 +294,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
         String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
         firebaseAnalytics.logEvent("LaunchingRegistration", null);
-        if (testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_Abtesting_Value))) {
+        if (testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Value))) {
             contentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
             contentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");
             contentConfiguration.setOptInQuessionaryText("Custom Reward Coupons, Holiday Surprises, VIP Shopping Days");

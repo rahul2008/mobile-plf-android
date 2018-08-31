@@ -71,7 +71,7 @@ public class MyAccountState extends BaseState{
         launchInput.setMyaTabConfig(myaTabConfig);
         String[] profileItems;
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) fragmentLauncher.getFragmentActivity().getApplicationContext();
-        String abTestingCacheStatus = appFrameworkApplication.getString(R.string.RA_abtest_cache_status).concat(appFrameworkApplication.getAppInfra().getAbTesting().getCacheStatus().name());
+        String abTestingCacheStatus = appFrameworkApplication.getString(R.string.RA_abTest_cache_status).concat(appFrameworkApplication.getAppInfra().getAbTesting().getCacheStatus().name());
         if (isHybrisAvailable) {
             profileItems = new String[]{"MYA_My_details", "MYA_My_orders", abTestingCacheStatus};
         } else {
