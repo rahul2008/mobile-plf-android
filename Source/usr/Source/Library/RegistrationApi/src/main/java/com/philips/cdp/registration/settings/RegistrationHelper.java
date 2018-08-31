@@ -13,6 +13,7 @@ import android.os.LocaleList;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.NetworkStateListener;
@@ -94,7 +95,7 @@ public class RegistrationHelper {
      */
     public void initializeUserRegistration(final Context context) {
         RLog.init();
-
+        AppTagging.init();
 
         if (mLocale == null) {
             String languageCode;

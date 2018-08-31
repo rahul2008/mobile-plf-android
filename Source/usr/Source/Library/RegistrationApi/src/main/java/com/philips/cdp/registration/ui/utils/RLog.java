@@ -1,7 +1,7 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import android.support.annotation.*;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.janrain.android.engage.JREngage;
@@ -9,7 +9,6 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.dhpclient.util.HsdpLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 /**
  * Registration loggger used for logginan system .
@@ -21,15 +20,12 @@ public class RLog {
 
     private static LoggingInterface mLoggingInterface;
 
-    private static AppTaggingInterface mAppTaggingInterface;
-
     /**
      * Initialize the logger with AppInfra logger Taken care by USR coponent no need to call explicitly
      */
     public static void init() {
         mLoggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
-        mLoggingInterface = mLoggingInterface.createInstanceForComponent("usr", RegistrationHelper.getRegistrationApiVersion());
-        mAppTaggingInterface = RegistrationConfiguration.getInstance().getComponent().getAppTaggingInterface();
+        mLoggingInterface = mLoggingInterface.createInstanceForComponent(RegConstants.COMPONENT_TAGS_ID, RegistrationHelper.getRegistrationApiVersion());
     }
 
     /**
@@ -70,9 +66,10 @@ public class RLog {
         if (isLoggingEnabled) {
             Log.d(tag, message);
         }
-        if(mLoggingInterface==null) return;
+        if (mLoggingInterface == null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, tag, message);
     }
+
     /**
      * Logs at error level
      *
@@ -83,7 +80,7 @@ public class RLog {
         if (isLoggingEnabled) {
             Log.e(tag, message);
         }
-        if(mLoggingInterface==null) return;
+        if (mLoggingInterface == null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.ERROR, tag, message);
     }
 
@@ -97,9 +94,10 @@ public class RLog {
         if (isLoggingEnabled) {
             Log.i(tag, message);
         }
-        if(mLoggingInterface==null) return;
+        if (mLoggingInterface == null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, message);
     }
+
     /**
      * Logs at verbose level
      *
@@ -110,7 +108,7 @@ public class RLog {
         if (isLoggingEnabled) {
             Log.v(tag, message);
         }
-        if(mLoggingInterface==null) return;
+        if (mLoggingInterface == null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
     }
 
