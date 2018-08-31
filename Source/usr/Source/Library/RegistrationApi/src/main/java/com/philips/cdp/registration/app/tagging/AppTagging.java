@@ -9,6 +9,7 @@
 package com.philips.cdp.registration.app.tagging;
 
 import android.app.Activity;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -62,4 +63,8 @@ public class AppTagging {
     }
 
 
+    @VisibleForTesting
+    public static void setMockAppTaggingInterface(AppTaggingInterface mockAppTaggingInterface) {
+        appTaggingInterface = mockAppTaggingInterface;
+    }
 }

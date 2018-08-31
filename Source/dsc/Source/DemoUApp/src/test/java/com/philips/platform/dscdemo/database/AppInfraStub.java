@@ -157,6 +157,16 @@ class AppInfraStub implements AppInfraInterface {
             public String getServiceDiscoveryEnvironment() {
                 return null;
             }
+
+            @Override
+            public void validateServiceDiscoveryEnv(String serviceDiscoveryEnvironment) {
+
+            }
+
+            @Override
+            public void validateMicrositeId(String micrositeId) {
+
+            }
         };
     }
 

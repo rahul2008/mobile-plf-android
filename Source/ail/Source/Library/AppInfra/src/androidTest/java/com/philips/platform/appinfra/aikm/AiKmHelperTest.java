@@ -253,10 +253,10 @@ public class AiKmHelperTest extends AppInfraInstrumentation {
         serviceDiscovery.setmError("something went wrong");
         AIKMResponse aikmResponse = new AIKMResponse();
         aiKmHelper.mapAndValidateGroom(null, "0", aikmResponse);
-        assertEquals(aikmResponse.getkError(), AIKManager.KError.DATA_NOT_FOUND);
+        assertEquals(aikmResponse.getkError(), AIKMResponse.KError.DATA_NOT_FOUND);
 
         aiKmHelper.mapAndValidateGroom( "service_id","string", aikmResponse);
-        assertEquals(AIKManager.KError.INVALID_INDEX_URL, aikmResponse.getkError());
+        assertEquals(AIKMResponse.KError.INVALID_INDEX_URL, aikmResponse.getkError());
 
         aiKmHelper = new AiKmHelper(mAppInfraMock) {
             @Override
@@ -265,7 +265,7 @@ public class AiKmHelperTest extends AppInfraInstrumentation {
             }
         };
         aiKmHelper.mapAndValidateGroom("service_id", "1",aikmResponse);
-        assertEquals(AIKManager.KError.INVALID_JSON, aikmResponse.getkError());
+        assertEquals(AIKMResponse.KError.INVALID_JSON, aikmResponse.getkError());
 
         JSONObject someJsonObject = new JSONObject();
         try {

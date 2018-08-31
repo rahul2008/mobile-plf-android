@@ -57,7 +57,7 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
         String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
-        if (testValue.equalsIgnoreCase(context.getString(R.string.RAP_Abtesting_Value))) {
+        if (testValue.equalsIgnoreCase(context.getString(R.string.RA_abTesting_Value))) {
             registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
             registrationContentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");
             registrationContentConfiguration.setOptInQuessionaryText("Custom Reward Coupons, Holiday Surprises, VIP Shopping Days");

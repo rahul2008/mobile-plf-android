@@ -240,6 +240,10 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
         } else if (fragment instanceof MarketingAccountFragment) {
             return AppTaggingPages.MARKETING_OPT_IN;
+
+        } else if (fragment instanceof UserDetailsFragment) {
+            return AppTaggingPages.USER_PROFILE;
+
         } else {
             return AppTaggingPages.MERGE_ACCOUNT;
         }

@@ -7,7 +7,7 @@ package com.philips.platform.appinfra.logging;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
-import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,7 +39,7 @@ public class LogFormatter extends Formatter {
         final StringBuilder builder = new StringBuilder();
         builder.append("[");
         if (mappInfra != null && mappInfra.getTime() != null) {
-            dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+            dateFormat.setTimeZone(TimeZone.getTimeZone(TimeInterface.UTC));
             builder.append(dateFormat.format(mappInfra.getTime().getUTCTime())).append("]");
         }
 

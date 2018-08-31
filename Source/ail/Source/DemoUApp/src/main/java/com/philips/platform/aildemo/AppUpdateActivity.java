@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
-import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -134,7 +133,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 				tvUpdateMessage.setText(appupdateInterface.getUpdateMessage());
 				tvMinimumOSverion.setText(appupdateInterface.getMinimumOSverion());
 				tvMinimumOSversionMessage.setText(appupdateInterface.getMinimumOSMessage());
-				SimpleDateFormat formatter = new SimpleDateFormat(AppUpdateManager.APPUPDATE_DATE_FORMAT
+				SimpleDateFormat formatter = new SimpleDateFormat(AppUpdateInterface.APPUPDATE_DATE_FORMAT
 						, Locale.ENGLISH);
 				if(appupdateInterface.getToBeDeprecatedDate() != null) {
 					String s = formatter.format(appupdateInterface.getToBeDeprecatedDate());

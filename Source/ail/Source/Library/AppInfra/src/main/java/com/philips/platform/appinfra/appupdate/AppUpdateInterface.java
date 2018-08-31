@@ -13,6 +13,8 @@ import java.util.Date;
  */
 public interface AppUpdateInterface extends Serializable {
 
+	final String APPUPDATE_DATE_FORMAT = "yyyy-MM-dd";
+
 	/**
 	 * refreshes the appupdate info available in the server.
 	 * refresh will fail if appupdate.serviceId is missing in appconfig

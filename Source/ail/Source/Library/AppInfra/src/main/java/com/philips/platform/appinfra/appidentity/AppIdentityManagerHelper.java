@@ -203,18 +203,9 @@ class AppIdentityManagerHelper {
                     serviceDiscoveryEnvironment = defSevicediscoveryEnv;
             }
         }
-
         serviceDiscoveryEnvValidate(serviceDiscoveryEnvironment);
         if (serviceDiscoveryEnvironment != null) {
-            if (serviceDiscoveryEnvironment.equalsIgnoreCase("STAGING")) {
-                serviceDiscoveryEnvironment = "STAGING";
-            } else if (serviceDiscoveryEnvironment.equalsIgnoreCase("PRODUCTION")) {
-                serviceDiscoveryEnvironment = "PRODUCTION";
-            } else {
-                throw new IllegalArgumentException("\"ServiceDiscovery environment in AppConfig.json " +
-                        " file must match \" +\n" +
-                        "\"one of the following values \\n STAGING, \\n PRODUCTION\"");
-            }
+            serviceDiscoveryEnvironment = serviceDiscoveryEnvironment.toUpperCase();
         }
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
                 "service Discovery Environment " + serviceDiscoveryEnvironment);

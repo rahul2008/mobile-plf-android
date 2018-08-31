@@ -10,34 +10,6 @@ package com.philips.cdp.registration.app.tagging;
 
 public class AppTagingConstants {
 
-//    public static final String DEFAULT_COUNTRY = "global";
-//
-//    public static final String DEFAULT_LANGUAGE = "en";
-//
-//    public static final String DEFAULT_CURRENCY = "EUR";
-//
-//    public static final String CP_KEY = "sector";
-//
-//    public static final String APPNAME_KEY = "app.name";
-//
-//    public static final String VERSION_KEY = "app.version";
-//
-//    public static final String OS_KEY = "app.os";
-//
-//    public static final String LANGUAGE_KEY = "locale.language";
-//
-//    public static final String APPSID_KEY = "appsId";
-//
-//    public static final String CURRENCY_KEY = "locale.currency";
-//
-//    public static final String TIMESTAMP_KEY = "timestamp";
-//
-//    public static final String CP_VALUE = "CP";
-//
-//    public static final String APPNAME_VALUE = "registration";
-//
-//    public static final String OS_ANDROID = "android";
-
     public static final String SEND_DATA = "sendData";
 
     public static final String SPECIAL_EVENTS = "specialEvents";
@@ -74,11 +46,7 @@ public class AppTagingConstants {
 
     public static final int EMAIL_NOT_VERIFIED_CODE = 112;
 
-//    public static final String COUNTRY_KEY = "locale.country";
-
     public static final String SIGN_OUT = "signOut";
-
-//    public static final String LOGOUT_BTN_SELECTED = "logoutButtonSelected";
 
     public static final String LOGOUT_SUCCESS = "logoutSuccess";
 

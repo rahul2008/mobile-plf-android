@@ -1,5 +1,6 @@
 package com.philips.platform.appframework.abtesting;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -32,12 +33,12 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
 
     @Override
     public void onSuccess() {
-        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "abtesting cache updated successfully");
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "ab-testing cache updated successfully");
     }
 
     @Override
     public void onError(ERRORVALUE error) {
-        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "abtesting update failed");
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "ab-testing update failed");
     }
 
     interface FetchDataHandler {
@@ -53,14 +54,15 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
 
     /**
      * invoke this api to initialise FireBase remote configuration
+     * @param - pass application context to initialise FireBase
      */
-    public void initFireBase() {
-        fireBaseWrapper = getFireBaseWrapper();
+    public void initFireBase(Context context) {
+        fireBaseWrapper = getFireBaseWrapper(context);
     }
 
     @NonNull
-    FireBaseWrapper getFireBaseWrapper() {
-        return new FireBaseWrapper(FirebaseRemoteConfig.getInstance());
+    FireBaseWrapper getFireBaseWrapper(Context context) {
+        return new FireBaseWrapper(context, FirebaseRemoteConfig.getInstance());
     }
 
     /**

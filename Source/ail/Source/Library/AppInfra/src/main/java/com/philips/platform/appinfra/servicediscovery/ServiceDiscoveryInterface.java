@@ -20,6 +20,18 @@ import java.util.Map;
 public interface ServiceDiscoveryInterface extends Serializable{
 
     /**
+     * Intent action to notify service discovery home country change.
+     * @since 1804.0
+     */
+    String AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION = "ail.servicediscovery.homecountryChanged";
+
+    /**
+     * Constant to get home country from broadcast intent.
+     * @since 1804.0
+     */
+    String AIL_HOME_COUNTRY = "ail.servicediscovery.homeCountry";
+
+    /**
      * This is the callback method Error cases.
      * the call back will have Error method for actions completed with Errors.
      * onSuccess returns the Error response type
