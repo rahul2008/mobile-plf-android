@@ -32,10 +32,6 @@
     <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item>
     <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_blue_level_45</item>
     <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalBackgroundColor">@color/uid_blue_level_45</item>
-    <item name="uidNotificationBarAccentNormalButtonTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalPrimaryTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalSecondaryTextColor">@color/uid_blue_level_5</item>
   </style>
   <style name="AccentBlue.VeryLight">
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_blue_level_50</item>
@@ -49,10 +45,6 @@
     <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item>
     <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_blue_level_50</item>
     <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalBackgroundColor">@color/uid_blue_level_50</item>
-    <item name="uidNotificationBarAccentNormalButtonTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalPrimaryTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalSecondaryTextColor">@color/uid_blue_level_5</item>
   </style>
   <style name="AccentBlue.Bright">
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_blue_level_45</item>
@@ -66,10 +58,6 @@
     <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item>
     <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_blue_level_45</item>
     <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalBackgroundColor">@color/uid_blue_level_45</item>
-    <item name="uidNotificationBarAccentNormalButtonTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalPrimaryTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalSecondaryTextColor">@color/uid_blue_level_5</item>
   </style>
   <style name="AccentBlue.VeryDark">
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_blue_level_45</item>
@@ -83,9 +71,5 @@
     <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item>
     <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_blue_level_45</item>
     <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalBackgroundColor">@color/uid_blue_level_45</item>
-    <item name="uidNotificationBarAccentNormalButtonTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalPrimaryTextColor">@color/uid_level_white</item>
-    <item name="uidNotificationBarAccentNormalSecondaryTextColor">@color/uid_blue_level_5</item>
   </style>
 </resources>
