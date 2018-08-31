@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -26,9 +27,13 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
 
     @Override
     public void consentStatusChanged(@NonNull ConsentDefinition consentDefinition, @Nullable ConsentError consentError, boolean requestedStatus) {
-        if(requestedStatus) {
+        if (requestedStatus) {
             updateCache(this);
+        } else {
+            FirebaseAnalytics.getInstance(appInfraInterface.getAppInfraContext()).setAnalyticsCollectionEnabled(false);
+            FirebaseAnalytics.getInstance(appInfraInterface.getAppInfraContext()).resetAnalyticsData();
         }
+
     }
 
     @Override
