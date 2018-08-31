@@ -349,10 +349,7 @@ public class AppFrameworkApplication extends Application {
      * @param appInfraInitializationCallback
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
-
         AbTestingImpl abTestingImpl = new AbTestingImpl();
-        FirebaseApp.initializeApp(this);
-
         abTestingImpl.initFireBase();
         AppInfra.Builder builder = new AppInfra.Builder();
         builder.setAbTesting(abTestingImpl);
