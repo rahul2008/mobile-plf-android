@@ -2,9 +2,11 @@ package com.philips.cdp.registration.myaccount;
 
 import android.content.Context;
 
+import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -20,6 +22,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
@@ -29,10 +32,10 @@ public class UserDetailsFragmentTest {
     private Context mContext;
     @Mock
     private com.philips.cdp.registration.injection.RegistrationComponent componentMock;
-    @Mock
-    private AppTaggingInterface appTaggingInterface;
 
     User userMock;
+    @Mock
+    AppTaggingInterface appTaggingInterface;
     @Mock
     AppInfraInterface appInfraInterface;
 
@@ -45,8 +48,9 @@ public class UserDetailsFragmentTest {
         userMock = new User(mContext);
         myaDetailsFragment.setUser(userMock);
         SupportFragmentTestUtil.startFragment(myaDetailsFragment);
-//        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
-//        when(appInfraInterface.getTagging().createInstanceForComponent("usr", BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        AppTagging.setMockAppTaggingInterface(appTaggingInterface);
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent("usr", BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
     }
 
     @Test
