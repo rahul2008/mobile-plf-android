@@ -70,10 +70,12 @@ public class MyAccountState extends BaseState{
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
         launchInput.setMyaTabConfig(myaTabConfig);
         String[] profileItems;
+        AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) fragmentLauncher.getFragmentActivity().getApplicationContext();
+        String abTestingCacheStatus = appFrameworkApplication.getString(R.string.RA_abtest_cache_status).concat(appFrameworkApplication.getAppInfra().getAbTesting().getCacheStatus().name());
         if (isHybrisAvailable) {
-            profileItems = new String[]{"MYA_My_details", "MYA_My_orders"};
+            profileItems = new String[]{"MYA_My_details", "MYA_My_orders", abTestingCacheStatus};
         } else {
-            profileItems = new String[]{"MYA_My_details","MYA_Marketing_Optin"};
+            profileItems = new String[]{"MYA_My_details", "MYA_Marketing_Optin", abTestingCacheStatus};
         }
         String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
         launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());

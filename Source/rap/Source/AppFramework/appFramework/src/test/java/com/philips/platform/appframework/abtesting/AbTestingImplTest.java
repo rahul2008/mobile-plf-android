@@ -1,6 +1,7 @@
 package com.philips.platform.appframework.abtesting;
 
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -50,6 +51,8 @@ public class AbTestingImplTest {
     private AbTestingImpl.FetchDataHandler fetchDataHandlerMock;
     @Mock
     private ConsentManagerInterface consentManagerInterfaceMock;
+    @Mock
+    private Context contextMock;
 
     @Before
     public void setUp() {
@@ -66,7 +69,7 @@ public class AbTestingImplTest {
 
             @NonNull
             @Override
-            FireBaseWrapper getFireBaseWrapper() {
+            FireBaseWrapper getFireBaseWrapper(Context context) {
                 return fireBaseWrapperMock;
             }
 
@@ -81,7 +84,7 @@ public class AbTestingImplTest {
         when(appInfraInterfaceMock.getLogging()).thenReturn(loggingInterfaceMock);
         when(appInfraInterfaceMock.getConsentManager()).thenReturn(consentManagerInterfaceMock);
         when(abTestingLocalCacheMock.getCacheFromPreference()).thenReturn(cacheModelMock);
-        abTesting.initFireBase();
+        abTesting.initFireBase(contextMock);
     }
 
 
@@ -154,7 +157,7 @@ public class AbTestingImplTest {
 
             @NonNull
             @Override
-            FireBaseWrapper getFireBaseWrapper() {
+            FireBaseWrapper getFireBaseWrapper(Context context) {
                 return fireBaseWrapperMock;
             }
         };
@@ -163,7 +166,7 @@ public class AbTestingImplTest {
         dummyData.put("key2", valueModel);
 
         when(cacheModelMock.getTestValues()).thenReturn(dummyData);
-        abTesting.initFireBase();
+        abTesting.initFireBase(contextMock);
         abTesting.initAbTesting(appInfraInterfaceMock);
 
         Map<String, CacheModel.ValueModel> dummyData2 = new HashMap<>();

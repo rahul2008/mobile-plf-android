@@ -1,5 +1,7 @@
 package com.philips.platform.appframework.abtesting;
 
+import android.content.Context;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -40,10 +42,13 @@ public class FireBaseWrapperTest {
     private ABTestClientInterface.OnRefreshListener refreshListenerMock;
     @Mock
     private AppIdentityInterface appIdentityInterfaceMock;
+    @Mock
+    private Context contextMock;
+
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        fireBaseWrapper = new FireBaseWrapper(firebaseRemoteConfigMock);
+        fireBaseWrapper = new FireBaseWrapper(contextMock, firebaseRemoteConfigMock);
         when(appInfraInterfaceMock.getLogging()).thenReturn(loggingInterfaceMock);
         when(appIdentityInterfaceMock.getAppVersion()).thenReturn("18.4");
         when(appInfraInterfaceMock.getAppIdentity()).thenReturn(appIdentityInterfaceMock);
