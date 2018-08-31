@@ -23,6 +23,7 @@ import com.philips.platform.appframework.logout.URLogout;
 import com.philips.platform.appframework.logout.URLogoutInterface;
 import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -71,7 +72,14 @@ public class MyAccountState extends BaseState{
         launchInput.setMyaTabConfig(myaTabConfig);
         String[] profileItems;
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) fragmentLauncher.getFragmentActivity().getApplicationContext();
-        String abTestingCacheStatus = appFrameworkApplication.getString(R.string.RA_abTest_cache_status).concat(appFrameworkApplication.getAppInfra().getAbTesting().getCacheStatus().name());
+        String cacheStatus = appFrameworkApplication.getAppInfra().getAbTesting().getCacheStatus().name();
+        String abTestingCacheStatus;
+        if(cacheStatus.equalsIgnoreCase(ABTestClientInterface.CACHESTATUS.EXPERIENCE_NOT_UPDATED.name())) {
+            abTestingCacheStatus = "Not Updated";
+        } else {
+            abTestingCacheStatus = "Updated";
+        }
+        abTestingCacheStatus = appFrameworkApplication.getString(R.string.RA_abTest_cache_status).concat(abTestingCacheStatus);
         if (isHybrisAvailable) {
             profileItems = new String[]{"MYA_My_details", "MYA_My_orders", abTestingCacheStatus};
         } else {

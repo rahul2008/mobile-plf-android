@@ -33,12 +33,12 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
 
     @Override
     public void onSuccess() {
-        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "abtesting cache updated successfully");
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "ab-testing cache updated successfully");
     }
 
     @Override
     public void onError(ERRORVALUE error) {
-        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "abtesting update failed");
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT, "ab-testing update failed");
     }
 
     interface FetchDataHandler {
