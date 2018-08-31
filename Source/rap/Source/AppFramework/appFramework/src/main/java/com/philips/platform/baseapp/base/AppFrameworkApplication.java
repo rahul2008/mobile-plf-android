@@ -350,7 +350,7 @@ public class AppFrameworkApplication extends Application {
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
         AbTestingImpl abTestingImpl = new AbTestingImpl();
-        abTestingImpl.initFireBase();
+        abTestingImpl.initFireBase(this);
         AppInfra.Builder builder = new AppInfra.Builder();
         builder.setAbTesting(abTestingImpl);
         appInfra = builder.build(getApplicationContext());

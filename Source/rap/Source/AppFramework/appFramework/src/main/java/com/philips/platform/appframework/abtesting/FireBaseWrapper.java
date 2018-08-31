@@ -1,10 +1,12 @@
 package com.philips.platform.appframework.abtesting;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -26,7 +28,8 @@ class FireBaseWrapper implements OnCompleteListener<Void>, OnFailureListener {
     private int cacheExpirationTime = 43200; // 12hours by default
     private AppInfraInterface appInfraInterface;
 
-    FireBaseWrapper(FirebaseRemoteConfig remoteConfig) {
+    FireBaseWrapper(Context context, FirebaseRemoteConfig remoteConfig) {
+        FirebaseApp.initializeApp(context);
         this.remoteConfig = remoteConfig;
     }
 
