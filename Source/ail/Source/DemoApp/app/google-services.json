@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:982961796297:android:ab885084a2988c88",
         "android_client_info": {
-          "package_name": "com.philips.platform.appinfra.demo"
+          "package_name": "com.philips.platform.appinfra.demoapp"
         }
       },
       "oauth_client": [

@@ -1,4 +1,4 @@
-package com.philips.platform.aildemolaunch;
+package com.philips.platform.demoapp;
 
 
 import android.support.test.espresso.DataInteraction;
@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.philips.platform.appinfra.demoapp.AppInfraLaunchActivity;
+import com.philips.platform.appinfra.demoapp.R;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -19,11 +22,11 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -34,16 +37,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class EncryptWithOldSSAndDecryptWithNewSSDataTest extends SecureStorageBaseTest{
+public class OldSecureStorageStoreDataTest extends SecureStorageBaseTest{
 
     @Rule
     public ActivityTestRule<AppInfraLaunchActivity> mActivityTestRule = new ActivityTestRule<>(AppInfraLaunchActivity.class);
 
     @Test
-    public void encryptWithOldSSAndDecryptWithNewSSDataTest() {
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+    public void oldSecureStorageStoreDataTest() {
         setUp();
         DataInteraction linearLayout = onData(anything())
                 .inAdapterView(allOf(withId(R.id.listViewAppInfraComponents),
@@ -53,75 +53,70 @@ public class EncryptWithOldSSAndDecryptWithNewSSDataTest extends SecureStorageBa
                 .atPosition(0);
         linearLayout.perform(click());
 
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-
-        ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.EncryptDecrypt), withText("Encrypt and Decrypt"),
-                        isDisplayed()));
-        appCompatButton.perform(click());
-
         ViewInteraction toggleButton = onView(
                 allOf(withId(R.id.toggleButton), withText("OFF"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                8),
                         isDisplayed()));
         toggleButton.perform(click());
 
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.plainText),
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.secureStorage), withText("Secure Storage"),
                         childAtPosition(
-                                allOf(withId(R.id.SCROLLER_ID3),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.LinearLayout")),
-                                                3)),
-                                0)));
-        appCompatEditText.perform(scrollTo(), replaceText("app"), closeSoftKeyboard());
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.plainText), withText("app"),
-                        childAtPosition(
-                                allOf(withId(R.id.SCROLLER_ID3),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.LinearLayout")),
-                                                3)),
-                                0)));
-        appCompatEditText2.perform(scrollTo(), replaceText("app infra"));
-
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.plainText), withText("app infra"),
-                        childAtPosition(
-                                allOf(withId(R.id.SCROLLER_ID3),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.LinearLayout")),
-                                                3)),
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
                                 0),
                         isDisplayed()));
-        appCompatEditText3.perform(closeSoftKeyboard());
+        appCompatButton.perform(click());
 
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.Key_editText),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.RelativeLayout")),
+                                        1),
+                                0),
+                        isDisplayed()));
+        appCompatEditText.perform(replaceText("arm"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.data_editText),
+                        childAtPosition(
+                                allOf(withId(R.id.SCROLLER_ID3),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                1)),
+                                0)));
+        appCompatEditText2.perform(scrollTo(), replaceText("hands"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.buttonEncrypt), withText("Encrypt Data"),
-                        isDisplayed()));
-        appCompatButton2.perform(click());
-
-        ViewInteraction toggleButton2 = onView(
-                allOf(withId(R.id.toggleButton), withText("ON"),
+                allOf(withId(R.id.encript_button), withText("Store"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
-                                        1),
-                                1),
+                                        2),
+                                0),
                         isDisplayed()));
-        toggleButton2.perform(click());
+        appCompatButton2.perform(click());
 
         ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.buttonDecrypt), withText("Decrypt Data"),
+                allOf(withId(R.id.decypt_button), withText("Fetch"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        2),
+                                1),
                         isDisplayed()));
         appCompatButton3.perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.decripted_Output_textView), withText("hands"),
+                        isDisplayed()));
+        textView.check(matches(withText("hands")));
 
     }
 

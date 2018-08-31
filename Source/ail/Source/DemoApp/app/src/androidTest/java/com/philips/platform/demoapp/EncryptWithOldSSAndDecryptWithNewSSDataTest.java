@@ -1,4 +1,4 @@
-package com.philips.platform.aildemolaunch;
+package com.philips.platform.demoapp;
 
 
 import android.support.test.espresso.DataInteraction;
@@ -9,6 +9,9 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+
+import com.philips.platform.appinfra.demoapp.AppInfraLaunchActivity;
+import com.philips.platform.appinfra.demoapp.R;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -22,8 +25,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -31,17 +33,19 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UnknownKeyForCreatePasswordTest extends SecureStorageBaseTest {
+public class EncryptWithOldSSAndDecryptWithNewSSDataTest extends SecureStorageBaseTest{
 
     @Rule
     public ActivityTestRule<AppInfraLaunchActivity> mActivityTestRule = new ActivityTestRule<>(AppInfraLaunchActivity.class);
 
     @Test
-    public void unknownKeyForCreatePasswordTest() {
+    public void encryptWithOldSSAndDecryptWithNewSSDataTest() {
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         setUp();
         DataInteraction linearLayout = onData(anything())
                 .inAdapterView(allOf(withId(R.id.listViewAppInfraComponents),
@@ -51,49 +55,75 @@ public class UnknownKeyForCreatePasswordTest extends SecureStorageBaseTest {
                 .atPosition(0);
         linearLayout.perform(click());
 
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.createPaaasword), withText("Create Password"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
+                allOf(withId(R.id.EncryptDecrypt), withText("Encrypt and Decrypt"),
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.Key_editText),
-                        childAtPosition(
-                                allOf(withId(R.id.secureLayout),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.RelativeLayout")),
-                                                1)),
-                                0),
+        ViewInteraction toggleButton = onView(
+                allOf(withId(R.id.toggleButton), withText("OFF"),
                         isDisplayed()));
-        appCompatEditText.perform(click());
+        toggleButton.perform(click());
+
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.plainText),
+                        childAtPosition(
+                                allOf(withId(R.id.SCROLLER_ID3),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                3)),
+                                0)));
+        appCompatEditText.perform(scrollTo(), replaceText("app"), closeSoftKeyboard());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.Key_editText),
+                allOf(withId(R.id.plainText), withText("app"),
                         childAtPosition(
-                                allOf(withId(R.id.secureLayout),
+                                allOf(withId(R.id.SCROLLER_ID3),
                                         childAtPosition(
-                                                withClassName(is("android.widget.RelativeLayout")),
-                                                1)),
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                3)),
+                                0)));
+        appCompatEditText2.perform(scrollTo(), replaceText("app infra"));
+
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.plainText), withText("app infra"),
+                        childAtPosition(
+                                allOf(withId(R.id.SCROLLER_ID3),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                3)),
                                 0),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("unknownkey"), closeSoftKeyboard());
+        appCompatEditText3.perform(closeSoftKeyboard());
+
 
         ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.retrieve), withText("Retrieve"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.secureLayout),
-                                        1),
-                                1),
+                allOf(withId(R.id.buttonEncrypt), withText("Encrypt Data"),
                         isDisplayed()));
         appCompatButton2.perform(click());
 
-        onView(withText("Key is not found")).inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+        ViewInteraction toggleButton2 = onView(
+                allOf(withId(R.id.toggleButton), withText("ON"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        1),
+                                1),
+                        isDisplayed()));
+        toggleButton2.perform(click());
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.buttonDecrypt), withText("Decrypt Data"),
+                        isDisplayed()));
+        appCompatButton3.perform(click());
 
     }
 

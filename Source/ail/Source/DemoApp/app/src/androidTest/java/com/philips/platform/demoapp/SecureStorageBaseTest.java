@@ -1,9 +1,11 @@
-package com.philips.platform.aildemolaunch;
+package com.philips.platform.demoapp;
 
 import android.support.test.espresso.ViewInteraction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+
+import com.philips.platform.appinfra.demoapp.R;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

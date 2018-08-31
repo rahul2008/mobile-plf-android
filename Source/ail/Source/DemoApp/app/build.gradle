@@ -71,7 +71,7 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
     defaultConfig {
-        applicationId "com.philips.platform.appinfra.demo"
+        applicationId "com.philips.platform.appinfra.demoapp"
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
@@ -94,6 +94,7 @@ dependencies {
     androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+    androidTestCompile 'com.android.support.test:rules:1.0.2'
     implementation deps.support.appcompatv7
     implementation deps.support.design
 
