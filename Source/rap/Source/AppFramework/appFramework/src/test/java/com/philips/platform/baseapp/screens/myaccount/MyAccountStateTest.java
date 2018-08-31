@@ -122,7 +122,6 @@ public class MyAccountStateTest {
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
         when(appInfraInterface.getConsentManager()).thenReturn(consentManagerInterfaceMock);
         when(resources.getString(anyInt())).thenReturn("ABC");
-        when(context.getString(anyInt())).thenReturn("ABC");
         when(appInfraInterface.getAbTesting()).thenReturn(abTestClientInterface);
         when(abTestClientInterface.getCacheStatus()).thenReturn(ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED);
     }
