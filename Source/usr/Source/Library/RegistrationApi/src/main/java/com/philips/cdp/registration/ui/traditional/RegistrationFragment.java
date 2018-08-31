@@ -299,7 +299,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private void launchMarketingAccountFragment() {
         AppTagging.trackFirstPage(AppTaggingPages.MARKETING_OPT_IN);
-        replacMarketingAccountFragment();
+        replaceMarketingAccountFragment();
     }
 
     private void trackPage(String currPage) {
@@ -340,7 +340,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         hideKeyBoard();
     }
 
-    private void replacMarketingAccountFragment() {
+    private void replaceMarketingAccountFragment() {
         try {
             MarketingAccountFragment marketingAccountFragment = new MarketingAccountFragment();
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -451,7 +451,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         }
         if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() &&
                 !UserRegistrationInitializer.getInstance().isJumpInitializationInProgress()) {
-            RLog.i(TAG, "onNetWorkStateReceived :is called");
             RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
             registrationSettings
                     .initializeUserRegistration(getParentActivity()

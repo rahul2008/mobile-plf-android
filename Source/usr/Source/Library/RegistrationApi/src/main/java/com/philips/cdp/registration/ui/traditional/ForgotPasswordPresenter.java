@@ -129,7 +129,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
         try {
             JSONObject jsonObject = new JSONObject(response);
             final String errorCode = jsonObject.getString("errorCode");
-            RLog.e(TAG, " Response Error code = " + errorCode);
+            RLog.e(TAG, " handleResendSMSRespone: Response Error code = " + errorCode);
             if ("0".equals(errorCode)) {
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
@@ -150,10 +150,10 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 forgotPasswordContract.forgotPasswordErrorMessage(errorCode);
-                RLog.d(TAG, " SMS Resend failure = " + response);
+                RLog.d(TAG, "handleResendSMSRespone: SMS Resend failure = " + response);
             }
         } catch (Exception e) {
-            RLog.e(TAG,"Exception : "+e.getMessage());
+            RLog.e(TAG,"handleResendSMSRespone: Exception : "+e.getMessage());
         }
     }
 
@@ -203,7 +203,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
-                        RLog.i(TAG, "url :  "+ verificationUrl);
+                        RLog.i(TAG, "initateCreateResendSMSIntent: url :  "+ verificationUrl);
 
                         URRequest urRequest = new URRequest(verificationUrl, getBodyContent(), null, forgotPasswordContract::onSuccessResponse, forgotPasswordContract::onErrorResponse);
                         urRequest.makeRequest(true);
@@ -211,7 +211,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
                     @Override
                     public void onError(Throwable e) {
-                        RLog.e(TAG, "Error = " + e.getMessage());
+                        RLog.e(TAG, "initateCreateResendSMSIntent : Error = " + e.getMessage());
                         forgotPasswordContract.hideForgotPasswordSpinner();
                         forgotPasswordContract.forgotPasswordErrorMessage(
                                 context.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));

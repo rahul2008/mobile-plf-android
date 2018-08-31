@@ -743,7 +743,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
             mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, drawableId), params);
             mLlSocialProviderBtnContainer.invalidate();
         } catch (Exception e) {
-            RLog.e(TAG, "Inflate Buttons exception :" + e.getMessage());
+            RLog.d(TAG, "Inflate Buttons exception :" + e.getMessage());
         }
     }
 

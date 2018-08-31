@@ -418,7 +418,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 //            errorMessage.setError(errorMsg);
             phoneNumberEditText.setText(user.getMobile());
             enableResendButton();
-            RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
+            RLog.e(TAG, "onErrorOfResendSMSIntent : Error from Request " + error.getMessage());
             final Integer code = Integer.parseInt(errorCode);
             if (URNotification.INLINE_ERROR_CODE.contains(code)) {
                 errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, code));

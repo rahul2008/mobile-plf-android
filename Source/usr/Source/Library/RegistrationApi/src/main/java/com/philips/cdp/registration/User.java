@@ -178,7 +178,7 @@ public class User {
                         public void onLoginSuccess() {
                             DIUserProfile diUserProfile = getUserInstance();
                             if (diUserProfile != null && loginHandler != null) {
-                                diUserProfile.setPassword(password);
+                                diUserProfile.setPassword(password);//TODO: check what is replacing password
                                 RLog.d(TAG, "loginUsingTraditional onLoginSuccess with DIUserProfile " + diUserProfile);
                                 ThreadUtils.postInMainThread(mContext, loginHandler::onLoginSuccess);
                             } else {
@@ -232,7 +232,7 @@ public class User {
                 if (null == socialSocialLoginProviderHandler) return;
                 UserRegistrationFailureInfo userRegistrationFailureInfo =
                         new UserRegistrationFailureInfo(mContext);
-                userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
+                userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
                 RLog.e(TAG, "Error occurred in loginUserUsingSocialProvider , might be provider name is null or activity is null " + userRegistrationFailureInfo.getErrorDescription());
                 ThreadUtils.postInMainThread(activity, () ->
                         socialSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
@@ -253,7 +253,7 @@ public class User {
             if (providerName != null && activity != null) {
                 LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
                         socialLoginProviderHandler, activity, mUpdateUserRecordHandler);
-                RLog.i(TAG, "loginUserUsingSocialProvider with providename = " + providerName + " and activity is not null");
+                RLog.i(TAG, "startTokenAuthForNativeProvider with providename = " + providerName + " and activity is not null");
                 loginSocialResultHandler.startTokenAuthForNativeProvider(activity, providerName, mergeToken, accessToken);
             } else {
                 if (null == socialLoginProviderHandler) return;
@@ -388,12 +388,13 @@ public class User {
                                        final ResendVerificationEmailHandler resendVerificationEmail) {
         if (emailAddress != null) {
             ResendVerificationEmail resendVerificationEmailHandler = new ResendVerificationEmail(mContext, resendVerificationEmail);
-            RLog.d(TAG, "resendVerificationMail with email address and resendVerificationMail called");
+            RLog.d(TAG, "resendVerificationMail initiated resend verification email");
             resendVerificationEmailHandler.resendVerificationMail(emailAddress);
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+            //TODO: Change error code from NETWORK_ERROR
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
-            RLog.e(TAG, "resendVerificationMail without email address and onResendVerificationEmailFailedWithError called" + userRegistrationFailureInfo.getErrorDescription());
+            RLog.e(TAG, "resendVerificationMail not initiated due email is null" + userRegistrationFailureInfo.getErrorDescription());
             ThreadUtils.postInMainThread(mContext, () ->
                     resendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo));
         }
@@ -530,6 +531,7 @@ public class User {
      */
     @Deprecated
     public boolean getEmailOrMobileVerificationStatus() {
+        //TODO : check and remove if its not required
         RLog.i(TAG, "DIUserProfile getEmailOrMobileVerificationStatus  = " + (isEmailVerified() || isMobileVerified()));
         return (isEmailVerified() || isMobileVerified());
     }
@@ -672,6 +674,7 @@ public class User {
     private boolean isSignedInOnAcceptedTermsAndConditions() {
         boolean isAcceptTerms = RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired();
         if (isAcceptTerms) {
+            //TODO : remove if not required ,as its duplicate
             RLog.i(TAG, "isUserSignIn isAcceptTerms : " + isAcceptTerms);
 
             if (!isTermsAndConditionAccepted()) {
@@ -688,7 +691,6 @@ public class User {
         boolean hsdpUserSignedIn = false;
         if (hsdpFlow) {
             hsdpUserSignedIn = hsdpUser.isHsdpUserSignedIn();
-            RLog.i(TAG, "isHSDPUserSignedIn SignIn status if isHsdpFlow: " + hsdpUserSignedIn);
         }
         return hsdpUserSignedIn;
     }
@@ -700,7 +702,6 @@ public class User {
         if (isEmailVerificationRequired) {
             isTermsAndConditionsAccepted = !capturedRecord.isNull(USER_EMAIL_VERIFIED) ||
                     !capturedRecord.isNull(USER_MOBILE_VERIFIED);
-            RLog.i(TAG, "isUserSignIn isTermsAndConditionsAccepted" + isTermsAndConditionsAccepted);
         }
         return isTermsAndConditionsAccepted;
     }
@@ -903,9 +904,9 @@ public class User {
             RLog.d(TAG, "refreshUser called");
             new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
         } else {
-            RLog.e(TAG, "refreshUser failed because of network issue");
+            RLog.e(TAG, "refreshUser failed because of network offline");
             ThreadUtils.postInMainThread(mContext, () ->
-                    handler.onRefreshUserFailed(ErrorCodes.NETWORK_ERROR));
+                    handler.onRefreshUserFailed(ErrorCodes.NO_NETWORK));
         }
     }
 
@@ -930,14 +931,15 @@ public class User {
                 if (responseCode == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
                         || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
                     clearData();
-                    RLog.e(TAG, "onLogoutFailure logout Hsdp failed with clearData if responseCode :" + responseCode);
+                    RLog.e(TAG, "onLogoutFailure logout INVALID_ACCESS_TOKEN_CODE and INVALID_REFRESH_TOKEN_CODE:" + responseCode);
                     if (logoutHandler != null) {
                         ThreadUtils.postInMainThread(mContext, logoutHandler::onLogoutSuccess);
                     }
                     RegistrationHelper.getInstance().getUserRegistrationListener()
                             .notifyOnLogoutSuccessWithInvalidAccessToken();
                 } else {
-                    RLog.e(TAG, "onLogoutFailure logout INVALID_ACCESS_TOKEN_CODE and INVALID_REFRESH_TOKEN_CODE:" + responseCode);
+                    RLog.e(TAG, "onLogoutFailure logout :" + responseCode);
+
                     if (logoutHandler != null) {
                         ThreadUtils.postInMainThread(mContext, () ->
                                 logoutHandler.onLogoutFailure(responseCode, message));

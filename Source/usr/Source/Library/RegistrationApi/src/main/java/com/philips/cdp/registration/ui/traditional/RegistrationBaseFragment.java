@@ -319,12 +319,12 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void updateErrorNotification(String errorMessage, int errorCode) {
-        RLog.e(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
+        RLog.d(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
         getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
     }
 
     public void updateErrorNotification(String errorMessage) {
-        RLog.e(TAG, "errorMessage = " + errorMessage);
+        RLog.d(TAG, "errorMessage = " + errorMessage);
         getNotification().showNotification(new NotificationMessage(errorMessage));
 
 

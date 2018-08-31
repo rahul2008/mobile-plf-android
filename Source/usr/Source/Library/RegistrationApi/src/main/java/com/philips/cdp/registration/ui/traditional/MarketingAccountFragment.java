@@ -221,7 +221,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void handleRegistrationSuccess() {
-        RLog.i(TAG, "handleRegistrationSuccess : is called");
+        RLog.d(TAG, "handleRegistrationSuccess : is called");
         hideRefreshProgress();
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !(mUser.isEmailVerified() || mUser.isMobileVerified())) {
             if (FieldsValidator.isValidEmail(mUser.getEmail())) {

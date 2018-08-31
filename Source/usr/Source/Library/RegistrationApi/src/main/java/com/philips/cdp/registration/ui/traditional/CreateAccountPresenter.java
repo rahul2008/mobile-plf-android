@@ -142,7 +142,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
 
 
     private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.e(TAG, "CreateAccountFragment : onRegisterFailedWithFailure" + userRegistrationFailureInfo.getErrorCode());
+        RLog.e(TAG, "handleRegisterFailedWithFailure : onRegisterFailedWithFailure" + userRegistrationFailureInfo.getErrorCode());
         createAccountContract.registrtionFail();
         if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.JANRAIN_INVALID_DATA_FOR_VALIDATION) {
             final Context fragmentContext = createAccountContract.getFragmentContext();

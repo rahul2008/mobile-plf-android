@@ -295,14 +295,14 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         RLog.d(TAG, "ResetPasswordFragment : onSendForgotPasswordSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
-        showLogoutAlert();
+        showAlert();
         hideForgotPasswordSpinner();
         mRegError.hideError();
     }
 
     private AlertDialogFragment alertDialogFragment;
 
-    void showLogoutAlert() {
+    void showAlert() {
         try {
             if (alertDialogFragment == null && isRequestSent == true) {
                 final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
@@ -321,29 +321,25 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                 alertDialogFragment.show(getFragmentManager(), null);
             }
         } catch (Exception e) {
-            RLog.e(TAG,"showLogoutAlert " + e.getMessage());
+            RLog.e(TAG,"showAlert : Exception " + e.getMessage());
         }
 
     }
 
     @Override
     public void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.d(TAG, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
         hideForgotPasswordSpinner();
+        RLog.e(TAG, " handleSendForgotPasswordFailedWithError : Error code = " + userRegistrationFailureInfo.getErrorCode() +
+                userRegistrationFailureInfo.getErrorDescription());
+
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
             if (RegistrationHelper.getInstance().isMobileFlow())
                 forgotPasswordErrorMessage(getString(R.string.USR_DLS_Forgot_Password_Body_With_Phone_No));
             else
                 forgotPasswordErrorMessage(getString(R.string.USR_DLS_Forgot_Password_Body_Without_Phone_No));
             userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.REG_TRADITIONAL_SIGN_IN_FORGOT_PWD_SOCIAL_ERROR);
-            RLog.e(TAG, "equal to SOCIAL_SIGIN_IN_ONLY_CODE Error code = " + userRegistrationFailureInfo.getErrorCode());
             sendEmailOrSMSButton.setEnabled(false);
         } else {
-            RLog.e(TAG, " not equal to Social sigin Response Error code = " + userRegistrationFailureInfo.getErrorCode());
-            RLog.e(TAG, " not equal to Social sigin Response Error code = " + userRegistrationFailureInfo.getError());
-            RLog.e(TAG, " not equal to Social sigin Response Error code = " + userRegistrationFailureInfo.getErrorDescription());
-
-
             if (userRegistrationFailureInfo.getErrorCode() == -1) return;
             forgotPasswordErrorMessage(userRegistrationFailureInfo.getErrorDescription());
             sendEmailOrSMSButton.setEnabled(false);
@@ -390,7 +386,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
             JSONObject jsonObject = new JSONObject(message);
             final String errorCode = jsonObject.getString("errorCode");
             hideForgotPasswordSpinner();
-            RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
+            RLog.e(TAG, "onErrorResponse : Error from Request " + error.getMessage());
             final Integer code = Integer.parseInt(errorCode);
             if (URNotification.INLINE_ERROR_CODE.contains(code)) {
                 forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, code));

@@ -140,7 +140,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                RLog.e(TAG, " Country Error :" + s);
+                RLog.e(TAG, "getHomeCountry : Country Error :" + s);
                 String selectedCountryCode = RegUtility.getFallbackCountryCode();
                 serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
                 homeContract.updateHomeCountry(selectedCountryCode);
@@ -204,19 +204,19 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
                         try {
                             final String token = jsonObj.getString("access_token");
                             final String openId = jsonObj.getString("openid");
-                            RLog.d("WECHAT body", "WeChat token " + token + " openid " + openId);
+                            RLog.d("WECHAT", "WeChat token " + token + " openid " + openId);
                             user.loginUserUsingSocialNativeProvider(homeContract.getActivityContext(),
                                     "wechat", token, openId, HomePresenter.this, "");
                         } catch (JSONException e) {
                             homeContract.wechatAuthenticationSuccessParsingError();
-                            RLog.e("WECHAT", "Error handleWeChatCode wechatAuthenticationSuccessParsingError");
+                            RLog.e("WECHAT", "handleWeChatCode : Error wechatAuthenticationSuccessParsingError" + e.getMessage());
                         }
                     }
 
                     @Override
                     public void onFail() {
                         homeContract.wechatAuthenticationFailError();
-                        RLog.e("WECHAT", "Error handleWeChatCode wechatAuthenticationFailError ");
+                        RLog.e("WECHAT", "handleWeChatCode : Error wechatAuthenticationFailError ");
                     }
                 });
     }
@@ -330,7 +330,6 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
 
     void registerFaceBookCallBack() {
-        RLog.i(TAG, "registerFaceBookCallBack");
         homeContract.getURFaceBookUtility().registerFaceBookCallBack();
     }
 
@@ -476,7 +475,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
                     @Override
                     public void onError(Throwable e) {
-                        RLog.d(TAG, "getLocaleServiceDiscovery onError ");
+                        RLog.d(TAG, "getLocaleServiceDiscovery : onError ");
                         getLocaleServiceDiscoveryByCountry(countryName);
                     }
                 });
@@ -495,7 +494,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
                     @Override
                     public void onError(Throwable e) {
-                        RLog.e(TAG, "getLocaleServiceDiscoveryByCountry onError " + e.getMessage());
+                        RLog.e(TAG, "getLocaleServiceDiscoveryByCountry : onError " + e.getMessage());
                         homeContract.localeServiceDiscoveryFailed();
                     }
                 });

@@ -232,7 +232,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
 
         if (alertDialogFragment != null) {
-            RLog.i(TAG, "onClick :Dismissing Alert Dialog ");
+            //TODO: optimize the alert dialog
+            RLog.d(TAG, "onClick :Dismissing Alert Dialog");
             uiEnableState(true);
             alertDialogFragment.dismiss();
         } else {
@@ -423,7 +424,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         hideSignInSpinner();
         mBtnSignInAccount.hideProgressIndicator();
         uiEnableState(true);
-        RLog.e(TAG, "handleLogInFailed Error Code :" + userRegistrationFailureInfo.getErrorCode());
+        RLog.e(TAG, "handleLogInFailed : Error Code :" + userRegistrationFailureInfo.getErrorCode());
         if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
             updateErrorNotification(mContext.getApplicationContext().getString(R.string.USR_Janrain_Invalid_Credentials), userRegistrationFailureInfo.getErrorCode());
         } else {
@@ -710,7 +711,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             JSONObject jsonObject = new JSONObject(message);
             final String errorCode = jsonObject.getString("errorCode");
 
-            RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
+            RLog.e(TAG, "onErrorOfResendSMSIntent : Error from Request " + error.getMessage());
             final Integer code = Integer.parseInt(errorCode);
             if (URNotification.INLINE_ERROR_CODE.contains(code)) {
                 mEtEmail.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.URX, code));
@@ -725,7 +726,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void serviceDiscovery() {
         RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-
+        //TODO: optimize the class as the service discovery is not there every time
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.urx.verificationsmscode", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
             @Override
@@ -814,7 +815,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             }
 
         } catch (Exception e) {
-            RLog.e(TAG, " Exception  = " + e.getMessage());
+            RLog.e(TAG, "handleResendSMSRespone : Exception  = " + e.getMessage());
         }
     }
 
