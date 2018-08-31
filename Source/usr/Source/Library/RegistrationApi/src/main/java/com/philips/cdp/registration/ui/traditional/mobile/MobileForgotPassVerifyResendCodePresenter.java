@@ -44,7 +44,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
     }
 
     public void resendOTPRequest(String serviceUrl, final String mobileNumber) {
-        RLog.i(TAG, "url : " +serviceUrl);
+        RLog.i(TAG, "resendOTPRequest: url : " +serviceUrl);
         URRequest urRequest = new URRequest(serviceUrl, getBodyContent(mobileNumber), null, mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse);
         urRequest.makeRequest(false);
     }

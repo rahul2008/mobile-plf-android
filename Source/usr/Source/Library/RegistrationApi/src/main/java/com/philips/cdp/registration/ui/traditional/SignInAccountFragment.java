@@ -690,9 +690,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(loginValidationEditText.getText().toString()) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
-        RLog.d(TAG, " envir :" + getClientId() + getRedirectUri());
-        RLog.i(TAG, "url :" + url);
-        RLog.d(TAG, "bodyContent :" + bodyContent);
+        RLog.d(TAG, "createResendSMSIntent: envir :" + getClientId() + getRedirectUri());
+        RLog.i(TAG, "createResendSMSIntent: url :" + url);
+        RLog.d(TAG, "createResendSMSIntent: bodyContent :" + bodyContent);
 
 
         URRequest urRequest = new URRequest(url, bodyContent, null, this::handleResendSMSRespone, this::onErrorOfResendSMSIntent);

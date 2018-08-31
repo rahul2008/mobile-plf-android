@@ -47,8 +47,8 @@ public class MobileVerifyCodePresenter implements NetworkStateListener {
     }
 
     private void getRequest(String url, String bodyContent) {
-        RLog.i(TAG,"url: " + url);
-        RLog.d(TAG,"bodyContent: " + bodyContent);
+        RLog.i(TAG,"getRequest: verifyMobileNumber url: " + url);
+        RLog.d(TAG,"getRequest: verifyMobileNumber bodyContent" + bodyContent);
         URRequest urRequest = new URRequest(url, bodyContent, null, mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse);
         urRequest.makeRequest(false);
     }

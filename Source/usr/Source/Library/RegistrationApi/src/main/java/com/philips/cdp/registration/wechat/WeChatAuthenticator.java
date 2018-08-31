@@ -25,7 +25,7 @@ public class WeChatAuthenticator {
             try {
                 String body = "appid=" + weChatAppId + "&secret=" + weChatAppSecrete + "&code=" + weChatAccessCode + "&grant_type=authorization_code";
 
-                RLog.i(TAG, "URL " + WECHAT_ACCESS_TOKEN_URL );
+                RLog.i(TAG, "WeChatAuthenticator: URL " + WECHAT_ACCESS_TOKEN_URL );
 
                 RLog.d(TAG, "JSON Body = " + body);
                 Map<String, String> header = new HashMap<>();
