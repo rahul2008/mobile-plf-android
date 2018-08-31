@@ -57,15 +57,18 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
             public void onSuccess(URL url) {
                 Map<String, String> header = new HashMap<>();
                 header.put("Content-Type", "application/json; charset=UTF-8");
-                RLog.i(TAG, VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
+                RLog.d(TAG, "getURLFromServiceDiscoveryAndRequestVerificationCode: " +
+                        VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
                 URRequest urRequest = new URRequest(getSmsVerificationUrl(url.toString(), mobileNumber), null, header
-                        , response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+                        , response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response),
+                        mobileVerifyCodeContract::onErrorResponse);
                 urRequest.makeRequest(true);
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                RLog.d(TAG, error.name() + "and error message is " + message);
+                RLog.d(TAG, "getURLFromServiceDiscoveryAndRequestVerificationCode " +
+                        error.name() + "and error message is " + message);
                 mobileVerifyCodeContract.enableResendButton();
             }
         });
@@ -88,7 +91,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
             mobileVerifyCodeContract.hideProgressSpinner();
             handleResendSms(response);
         } else if (resultCode == CHANGE_NUMBER_REQUEST_CODE) {
-            RLog.d("CHANGE_NUMBER_REQUEST_CODE", "CHANGE_NUMBER_REQUEST_CODE" + response);
+            RLog.d(TAG, "CHANGE_NUMBER_REQUEST_CODE" + response);
             handlePhoneNumberChange(response);
         } else {
             mobileVerifyCodeContract.hideProgressSpinner();
@@ -98,10 +101,10 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     private void handlePhoneNumberChange(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
-            RLog.d("CHANGE_NUMBER_REQUEST_CODE", "CHANGE_NUMBER_REQUEST_STAT " + jsonObject.get(STAT));
+            RLog.d(TAG, "CHANGE_NUMBER_REQUEST_STAT " + jsonObject.get(STAT));
 
             if (jsonObject.get(STAT).equals("ok")) {
-                RLog.d("CHANGE_NUMBER_REQUEST_CODE", "CHANGE_NUMBER_REQUEST_CODE" + response);
+                RLog.d(TAG, "CHANGE_NUMBER_REQUEST_CODE" + response);
                 mobileVerifyCodeContract.refreshUser();
             } else {
                 mobileVerifyCodeContract.hideProgressSpinner();

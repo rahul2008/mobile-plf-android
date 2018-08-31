@@ -169,7 +169,7 @@ public class ConsumerInterestUpdate {
                     }
 
                 } catch (Exception e) {
-                    RLog.e(TAG, "Exception Occured : " + e.getMessage());
+                    RLog.e(TAG, "processResponse: Exception  " + e.getMessage());
                 }
 
 

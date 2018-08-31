@@ -159,7 +159,7 @@ public class UserRegistrationInitializer {
 
                 } else if (Jump.JR_FAILED_TO_DOWNLOAD_FLOW.equalsIgnoreCase(intent.getAction())
                         && (extras != null)) {
-                    RLog.e(TAG, "Janrain flow download failed");
+                    RLog.e(TAG, "janrainStatusReceiver : Janrain flow download failed");
                     mIsJumpInitializationInProgress = false;
                     mJanrainIntialized = false;
                     mReceivedDownloadFlowSuccess = false;

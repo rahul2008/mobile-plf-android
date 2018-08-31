@@ -394,7 +394,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                 forgotPasswordErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, code));
             }
         } catch (JSONException e) {
-            RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred");
+            RLog.e(TAG, "onErrorResponse : Exception "+ e.getMessage());
         }
     }
 

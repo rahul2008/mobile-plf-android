@@ -426,7 +426,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
                 updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, code));
             }
         } catch (JSONException e) {
-            RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred");
+            RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred" + e.getMessage());
         }
     }
     @Override

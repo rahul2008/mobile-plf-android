@@ -113,7 +113,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
                 mobileVerifyCodeContract.showSMSSpecifedError(Integer.parseInt(errorCode));
             }
         } catch (JSONException e) {
-            RLog.e(TAG, " handleResendSMSRespone is " + e.getMessage());
+            RLog.e(TAG, "handleResendSMSRespone : Exception " + e.getMessage());
         }
 
 

@@ -21,6 +21,9 @@ import javax.crypto.NoSuchPaddingException;
 
 public class Encryption {
 
+    private String TAG = "Encryption";
+
+
     private static final String ALGORITHM = "RSA";
 
     private static final String PROVIDER = "BC";
@@ -40,7 +43,7 @@ public class Encryption {
             key = keyFactory.generatePublic(spec);
         } catch (InvalidKeySpecException |
                 NoSuchAlgorithmException expection) {
-            RLog.e("Exception", expection.toString());
+            RLog.e(TAG, "getPublicKey: Exception " + expection.toString());
         }
         return key;
     }
@@ -57,11 +60,10 @@ public class Encryption {
             byte[] cipherTextBytes = cipher.doFinal(toBeEncryptedBytes);
             byte[] base64EncodedBytes = Base64.encode(cipherTextBytes, Base64.DEFAULT);
             return new String(base64EncodedBytes);
-        } catch (NoSuchAlgorithmException |
-                NoSuchPaddingException | BadPaddingException |
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | BadPaddingException |
                 IllegalBlockSizeException | NoSuchProviderException | InvalidKeyException
-                expection) {
-            RLog.e("Exception", expection.toString());
+                exception) {
+            RLog.e(TAG, "encrypt: Exception" + exception.toString());
         }
         return null;
     }
