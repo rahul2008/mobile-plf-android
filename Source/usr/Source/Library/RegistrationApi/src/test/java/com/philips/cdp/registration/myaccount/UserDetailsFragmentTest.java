@@ -45,12 +45,12 @@ public class UserDetailsFragmentTest {
         mContext = RuntimeEnvironment.application;
         RegistrationConfiguration.getInstance().setComponent(componentMock);
         myaDetailsFragment = new UserDetailsFragment();
-        userMock = new User(mContext);
-        myaDetailsFragment.setUser(userMock);
-        SupportFragmentTestUtil.startFragment(myaDetailsFragment);
         AppTagging.setMockAppTaggingInterface(appTaggingInterface);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent("usr", BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        userMock = new User(mContext);
+        myaDetailsFragment.setUser(userMock);
+        SupportFragmentTestUtil.startFragment(myaDetailsFragment);
     }
 
     @Test
