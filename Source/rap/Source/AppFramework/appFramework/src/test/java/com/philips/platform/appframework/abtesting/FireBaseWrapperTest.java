@@ -1,9 +1,9 @@
 package com.philips.platform.appframework.abtesting;
 
-import android.content.Context;
-
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.philips.platform.CustomRobolectricRunner;
+import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.CacheModel;
@@ -12,8 +12,11 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -24,7 +27,8 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class FireBaseWrapperTest {
 
     private FireBaseWrapper fireBaseWrapper;
@@ -42,13 +46,11 @@ public class FireBaseWrapperTest {
     private ABTestClientInterface.OnRefreshListener refreshListenerMock;
     @Mock
     private AppIdentityInterface appIdentityInterfaceMock;
-    @Mock
-    private Context contextMock;
 
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        fireBaseWrapper = new FireBaseWrapper(contextMock, firebaseRemoteConfigMock);
+        fireBaseWrapper = new FireBaseWrapper(RuntimeEnvironment.application, firebaseRemoteConfigMock);
         when(appInfraInterfaceMock.getLogging()).thenReturn(loggingInterfaceMock);
         when(appIdentityInterfaceMock.getAppVersion()).thenReturn("18.4");
         when(appInfraInterfaceMock.getAppIdentity()).thenReturn(appIdentityInterfaceMock);
