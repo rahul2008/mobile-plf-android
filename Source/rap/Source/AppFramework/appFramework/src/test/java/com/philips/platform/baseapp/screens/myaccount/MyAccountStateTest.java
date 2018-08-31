@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -88,6 +89,9 @@ public class MyAccountStateTest {
     @Mock
     AppTaggingInterface appTaggingInterfaceMock;
 
+    @Mock
+    private ABTestClientInterface abTestClientInterface;
+
     private static final String LANGUAGE_TAG = "en-US";
     private Context context;
 
@@ -118,6 +122,9 @@ public class MyAccountStateTest {
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
         when(appInfraInterface.getConsentManager()).thenReturn(consentManagerInterfaceMock);
         when(resources.getString(anyInt())).thenReturn("ABC");
+        when(context.getString(anyInt())).thenReturn("ABC");
+        when(appInfraInterface.getAbTesting()).thenReturn(abTestClientInterface);
+        when(abTestClientInterface.getCacheStatus()).thenReturn(ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED);
     }
 
     @Test
