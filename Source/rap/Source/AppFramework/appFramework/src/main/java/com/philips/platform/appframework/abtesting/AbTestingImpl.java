@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.gson.Gson;
@@ -67,7 +68,8 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
 
     @NonNull
     FireBaseWrapper getFireBaseWrapper(Context context) {
-        return new FireBaseWrapper(context, FirebaseRemoteConfig.getInstance());
+        FirebaseApp.initializeApp(context);
+        return new FireBaseWrapper(FirebaseRemoteConfig.getInstance());
     }
 
     /**

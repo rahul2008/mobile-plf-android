@@ -134,7 +134,6 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     public void onCreate() {
         super.onCreate();
         MockitoAnnotations.initMocks(this);
-        FirebaseApp.initializeApp(this);
         appInfraInterface = mock(AppInfra.class);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getTagging()).thenReturn(taggingInterface);
