@@ -79,7 +79,9 @@ public class MyAccountState extends BaseState{
         } else {
             abTestingCacheStatus = "Updated";
         }
-        abTestingCacheStatus = actContext.getString(R.string.RA_abTest_cache_status).concat(abTestingCacheStatus);
+        abTestingCacheStatus = actContext.getString(R.string.RA_abTest_cache_status);
+        if (abTestingCacheStatus != null)
+            abTestingCacheStatus = abTestingCacheStatus.concat(abTestingCacheStatus);
         if (isHybrisAvailable) {
             profileItems = new String[]{"MYA_My_details", "MYA_My_orders", abTestingCacheStatus};
         } else {
