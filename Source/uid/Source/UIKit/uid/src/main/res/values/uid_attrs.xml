@@ -800,24 +800,6 @@
     <attr name="uidToggleButtonSecondaryDisabledOffLedIndicatorColor" format="reference|color" />
     <attr name="uidToggleButtonSecondaryDisabledOffSeparatorColor" format="reference|color" />
     <attr name="uidToggleButtonSecondaryDisabledOffTextColor" format="reference|color" />
-    <attr name="uidTokenDefaultNormalBackgroundColor" format="reference|color" />
-    <attr name="uidTokenDefaultNormalCircleBackgroundColor" format="reference|color" />
-    <attr name="uidTokenDefaultNormalCircleTextColor" format="reference|color" />
-    <attr name="uidTokenDefaultNormalCloseIconColor" format="reference|color" />
-    <attr name="uidTokenDefaultNormalImageColor" format="reference|float" />
-    <attr name="uidTokenDefaultNormalTextColor" format="reference|color" />
-    <attr name="uidTokenDefaultFocusBackgroundColor" format="reference|color" />
-    <attr name="uidTokenDefaultFocusCircleTextColor" format="reference|color" />
-    <attr name="uidTokenDefaultFocusCloseIconColor" format="reference|color" />
-    <attr name="uidTokenDefaultFocusTextColor" format="reference|color" />
-    <attr name="uidTokenDefaultPressedBackgroundColor" format="reference|color" />
-    <attr name="uidTokenDefaultPressedCloseIconColor" format="reference|color" />
-    <attr name="uidTokenDefaultDisabledBackgroundColor" format="reference|color" />
-    <attr name="uidTokenDefaultDisabledCircleBackgroundColor" format="reference|color" />
-    <attr name="uidTokenDefaultDisabledCircleTextColor" format="reference|color" />
-    <attr name="uidTokenDefaultDisabledCloseIconColor" format="reference|color" />
-    <attr name="uidTokenDefaultDisabledImageColor" format="reference|float" />
-    <attr name="uidTokenDefaultDisabledTextColor" format="reference|color" />
     <attr name="uidToolbarInputBackgroundColor" format="reference|color" />
     <attr name="uidToolbarOnImageBackgroundColor" format="reference|color" />
     <attr name="uidTooltipDarkBackgroundColor" format="reference|color" />
