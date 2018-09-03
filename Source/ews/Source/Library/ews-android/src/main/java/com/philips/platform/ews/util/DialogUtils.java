@@ -24,25 +24,7 @@ import java.util.Locale;
 
 public class DialogUtils {
 
-    private static volatile DialogUtils instance;
-    private static Object mutex = new Object();
-
-    private DialogUtils() {
-    }
-
-    public static DialogUtils getInstance() {
-        DialogUtils result = instance;
-        if (result == null) {
-            synchronized (mutex) {
-                result = instance;
-                if (result == null)
-                    instance = result = new DialogUtils();
-            }
-        }
-        return result;
-    }
-
-    public AlertDialogFragment presentTroubleshootHomeWifiDialog(@NonNull Context context, @NonNull FragmentManager childFragmentManager, @NonNull BaseContentConfiguration baseContentConfiguration, @NonNull final EWSTagger ewsTagger) {
+    public static AlertDialogFragment presentTroubleshootHomeWifiDialog(@NonNull Context context, @NonNull FragmentManager childFragmentManager, @NonNull BaseContentConfiguration baseContentConfiguration, @NonNull final EWSTagger ewsTagger) {
         EWSAlertDialogFragment alertDialogFragment = null;
         if (childFragmentManager.findFragmentByTag(AlertDialogFragment.class.getCanonicalName()) == null) {
             final View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.troubleshoot_home_wifi_fragment,

@@ -65,7 +65,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
 
     @Override
     public void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration, @NonNull final EWSTagger ewsTagger) {
-        final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) DialogUtils.getInstance().presentTroubleshootHomeWifiDialog(getContext(), getChildFragmentManager(), baseContentConfiguration, ewsTagger);
+        final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) DialogUtils.presentTroubleshootHomeWifiDialog(getContext(), getChildFragmentManager(), baseContentConfiguration, ewsTagger);
         ImageView imageView = alertDialogFragment.getDialog().getWindow().findViewById(R.id.ic_close);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
