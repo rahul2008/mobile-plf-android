@@ -21,7 +21,9 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -189,6 +191,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         compositeDisposable.add(observeLoginButton());
     }
 
+
     @Override
     public void onDestroyView() {
         getActivity().getWindow().setSoftInputMode(mode);
@@ -277,6 +280,23 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
         mUser = new User(mContext);
         registrationSettingsURL = new RegistrationSettingsURL();
+
+        handlePasswordDoubleClick();
+
+    }
+
+    private void handlePasswordDoubleClick() {
+
+        final GestureDetector gestureDetector = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
+            public boolean onDoubleTap(MotionEvent e) {
+                return true;
+            }
+        });
+
+        passwordValidationEditText.setOnTouchListener((v, event) -> {
+            mEtEmail.setErrorMessage(R.string.USR_NameField_ErrorText);
+            return gestureDetector.onTouchEvent(event);
+        });
     }
 
     private boolean emailOrMobileValidator(String emailOrMobile) {
