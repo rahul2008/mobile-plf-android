@@ -44,15 +44,18 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
     }
 
     public void resendOTPRequest(String serviceUrl, final String mobileNumber) {
+        RLog.i(TAG, "resendOTPRequest: url : " +serviceUrl);
         URRequest urRequest = new URRequest(serviceUrl, getBodyContent(mobileNumber), null, mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse);
         urRequest.makeRequest(false);
     }
 
     @NonNull
     private String getBodyContent(String mobileNumber) {
-        return "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
+        String body = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
+        RLog.d(TAG, "body : " + body);
+        return body;
     }
 
     private String getClientId() {
@@ -105,12 +108,12 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
                         AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR,
                         AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
-                RLog.i(TAG, " SMS Resend failure = " + response);
+                RLog.d(TAG, " SMS Resend failure = " + response);
                 final String errorCode = jsonObject.getString("errorCode");
                 mobileVerifyCodeContract.showSMSSpecifedError(Integer.parseInt(errorCode));
             }
         } catch (JSONException e) {
-            RLog.e(TAG, " handleResendSMSRespone is " + e.getMessage());
+            RLog.e(TAG, "handleResendSMSRespone : Exception " + e.getMessage());
         }
 
 
@@ -123,7 +126,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateLi
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(TAG, "MOBILE NUMBER Netowrk *** network: " + isOnline);
+        RLog.d(TAG, "MOBILE NUMBER Netowrk *** network: " + isOnline);
 
         if (isOnline) {
             mobileVerifyCodeContract.netWorkStateOnlineUiHandle();

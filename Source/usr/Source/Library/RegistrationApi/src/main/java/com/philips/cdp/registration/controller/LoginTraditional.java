@@ -105,8 +105,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
     public void onFailure(SignInError error) {
         RLog.d(TAG, "onFailure : is called");
         try {
-            RLog.e(TAG, "onFailure : error Description :" + error.captureApiError.error_description);
-            RLog.e(TAG, "onFailure : error code :" + error.captureApiError.code);
+            RLog.e(TAG, "onFailure : error code & Description :" + error.captureApiError.code +" " + error.captureApiError.error_description);
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
@@ -115,7 +114,6 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
                     mLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         } catch (Exception e) {
             RLog.e("Login failed :", "exception :" + e.getMessage());
-            RLog.d(TAG, "onFailure : is called" + e.getMessage());
         }
     }
 

@@ -51,7 +51,7 @@ public class NotificationBarView {
     }
 
     private View getNotificationContentView(String title, String message, boolean isError) {
-        RLog.i(TAG, "getNotificationContentView : isCalled");
+        RLog.i(TAG, "getNotificationContentView : is called ");
         final View view;
         if (isError)
             view = View.inflate(mActivity, R.layout.reg_notification_error_bg, null);

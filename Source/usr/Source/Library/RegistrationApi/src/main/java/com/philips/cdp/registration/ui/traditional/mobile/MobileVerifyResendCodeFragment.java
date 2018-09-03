@@ -77,7 +77,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNI
 public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener {
 
-    private String TAG = MobileVerifyResendCodeFragment.class.getSimpleName();
+    private String TAG = "MobileVerifyResendCodeFragment";
 
     @BindView(R2.id.btn_reg_resend_update)
     ProgressBarButton resendSMSButton;
@@ -123,6 +123,8 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
+
+        RLog.i(TAG,"Screen name is "+ TAG);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         registerInlineNotificationListener(this);
         mobileVerifyResendCodePresenter = new MobileVerifyResendCodePresenter(this);
@@ -187,7 +189,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onConfigurationChanged");
+        RLog.d(TAG, " : onConfigurationChanged");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
@@ -238,9 +240,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
+        RLog.d(TAG, " : onRefreshUserSuccess");
         EventBus.getDefault().post(new UpdateMobile(user.getMobile()));
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess mobile" + user.getMobile());
+        RLog.d(TAG, " : onRefreshUserSuccess mobile" + user.getMobile());
         mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
 
     }
@@ -248,7 +250,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void onRefreshUserFailed(int error) {
         hideProgressSpinner();
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
+        RLog.d(TAG, " : onRefreshUserFailed");
     }
 
 
@@ -270,7 +272,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         getRegistrationFragment().hideKeyBoard();
         errorMessage.hideError();
         hidePopup();
-        RLog.d(TAG, "verifyClicked ");
+        RLog.i(TAG,TAG + ".verifyClicked");
         if (phoneNumberEditText.getText().toString().equals(user.getMobile())) {
             mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
             disableResendButton();
@@ -289,6 +291,8 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
+        RLog.i(TAG,TAG + ".thanksButton clicked");
+
         hidePopup();
         getRegistrationFragment().onBackPressed();
     }
@@ -414,7 +418,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 //            errorMessage.setError(errorMsg);
             phoneNumberEditText.setText(user.getMobile());
             enableResendButton();
-            RLog.e(TAG, "createResendSMSIntent : Error from Request " + error.getMessage());
+            RLog.e(TAG, "onErrorOfResendSMSIntent : Error from Request " + error.getMessage());
             final Integer code = Integer.parseInt(errorCode);
             if (URNotification.INLINE_ERROR_CODE.contains(code)) {
                 errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, code));
@@ -422,7 +426,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
                 updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, code));
             }
         } catch (JSONException e) {
-            RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred");
+            RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred" + e.getMessage());
         }
     }
     @Override
@@ -442,7 +446,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             View view = getRegistrationFragment().getNotificationContentView(
                     context.getResources().getString(R.string.USR_DLS_ResendSMS_NotificationBar_Title),
                     user.getMobile());
-            RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess mobile" + user.getMobile());
+            RLog.d(TAG, "MobileActivationFragment : onRefreshUserSuccess mobile" + user.getMobile());
             popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             popupWindow.setContentView(view);

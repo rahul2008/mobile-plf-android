@@ -5,7 +5,6 @@ import android.support.annotation.VisibleForTesting;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.restclient.URRequest;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -48,6 +47,8 @@ public class MobileVerifyCodePresenter implements NetworkStateListener {
     }
 
     private void getRequest(String url, String bodyContent) {
+        RLog.i(TAG,"getRequest: verifyMobileNumber url: " + url);
+        RLog.d(TAG,"getRequest: verifyMobileNumber bodyContent" + bodyContent);
         URRequest urRequest = new URRequest(url, bodyContent, null, mobileVerifyCodeContract::onSuccessResponse, mobileVerifyCodeContract::onErrorResponse);
         urRequest.makeRequest(false);
     }

@@ -66,6 +66,8 @@ public class RegistrationActivity extends UIDActivity implements
 
     private Toolbar toolbar;
     private TextView mTvTitle;
+    private static String TAG = RegistrationActivity.class.getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +143,7 @@ public class RegistrationActivity extends UIDActivity implements
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
-        RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
+        RLog.d(TAG, " RegistrationActivity protected onSaveInstanceState");
         @SuppressWarnings("deprecation") int alwaysFinishActivity = Settings.System.
                 getInt(getContentResolver(),
                         Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
