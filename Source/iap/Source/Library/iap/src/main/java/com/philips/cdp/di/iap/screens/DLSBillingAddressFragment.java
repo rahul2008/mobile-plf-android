@@ -636,7 +636,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
     private String addressWithNewLineIfNull( String code) {
         if (!TextUtils.isEmpty(code)) {
-                return code.replaceAll(",null", " ");
+                return code.replaceAll("[,null]", " ");
         }
         return null;
     }
