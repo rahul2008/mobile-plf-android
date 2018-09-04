@@ -7,6 +7,8 @@
 
 package com.philips.platform.mya.mock;
 
+import android.content.Context;
+
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.aikm.AIKMInterface;
@@ -103,6 +105,11 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
 
     @Override
     public DeviceStoredConsentHandler getDeviceStoredConsentHandler() {
+        return null;
+    }
+
+    @Override
+    public Context getAppInfraContext() {
         return null;
     }
 }

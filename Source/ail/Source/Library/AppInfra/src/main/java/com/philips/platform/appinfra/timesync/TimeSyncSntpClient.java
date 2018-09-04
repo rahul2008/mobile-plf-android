@@ -34,7 +34,6 @@ public class TimeSyncSntpClient implements TimeInterface {
 
     private static final long serialVersionUID = -5777846591881357200L;
     public static final String DATE_FORMAT = "yyyy-MM-dd'T' K mm:ss.SSS Z";
-    public static final String UTC = "UTC";
     private static final String OFFSET = "offset";
     private static final String SERVERTIME_PREFERENCE = "timeSync";
     private static final String OFFLINE_REFRESH_PREFERENCE = "offline_refresh_timeSync";

@@ -54,7 +54,7 @@ import javax.inject.Inject;
 public class HsdpUser {
 
     private final LoggingInterface loggingInterface;
-    private String TAG = HsdpUser.class.getSimpleName();
+    private String TAG = "HsdpUser";
     private DhpAuthenticationResponse dhpAuthenticationResponse = null;
 
     @Inject
@@ -129,13 +129,13 @@ public class HsdpUser {
 
                 dhpResponse = null;
                 if (null != getHsdpUserRecord() && null != getHsdpUserRecord().getAccessCredential()) {
-                    RLog.d(TAG, "logOut called from DhpAuthenticationManagementClient ");
+                    RLog.d(TAG, "logOut: is called from DhpAuthenticationManagementClient ");
                     dhpResponse = authenticationManagementClient.
                             logout(getHsdpUserRecord().getUserUUID(),
                                     getHsdpUserRecord().getAccessCredential().getAccessToken());
                 }
                 if (dhpResponse == null) {
-                    RLog.e(TAG, "logOut dhpResponse is NULL");
+                    RLog.e(TAG, "logOut:  dhpResponse is NULL");
                     handler.post(() -> ThreadUtils.postInMainThread(mContext, () ->
                             logoutHandler.
                                     onLogoutFailure(ErrorCodes.NETWORK_ERROR, mContext.
@@ -144,7 +144,7 @@ public class HsdpUser {
                     if (dhpResponse.responseCode != null &&
                             dhpResponse.responseCode.equals(SUCCESS_CODE)) {
                         handler.post(() -> {
-                            RLog.d(TAG, "onHsdsLogoutSuccess : response"
+                            RLog.d(TAG, "logOut: onHsdsLogoutSuccess response"
                                     + dhpResponse.rawResponse.toString());
                             ThreadUtils.postInMainThread(mContext, logoutHandler::onLogoutSuccess);
                         });
@@ -154,7 +154,7 @@ public class HsdpUser {
                                         INVALID_ACCESS_TOKEN_CODE) || dhpResponse.
                                         responseCode.equals(RegConstants.
                                         INVALID_REFRESH_TOKEN_CODE))) {
-                            RLog.d(TAG, "onHsdsLogoutFailure : responseCode : "
+                            RLog.d(TAG, "logOut: onHsdsLogoutFailure : responseCode : "
                                     + dhpResponse.responseCode + " message : "
                                     + dhpResponse.message);
                             ThreadUtils.postInMainThread(mContext, () ->
@@ -163,7 +163,7 @@ public class HsdpUser {
                                             dhpResponse.message));
                         } else {
                             handler.post(() -> {
-                                RLog.d(TAG, "onHsdsLogoutFailure : responseCode : " +
+                                RLog.d(TAG, "logOut: onHsdsLogoutFailure : responseCode : " +
                                         dhpResponse.responseCode +
                                         " message : " + dhpResponse.message);
                                 ThreadUtils.postInMainThread(mContext, () ->
@@ -176,7 +176,7 @@ public class HsdpUser {
                 }
             }).start();
         } else {
-            RLog.e(TAG, "logOut No Network Connection");
+            RLog.e(TAG, "logOut : No Network Connection");
             ThreadUtils.postInMainThread(mContext, () ->
                     logoutHandler.onLogoutFailure(ErrorCodes.NO_NETWORK,
                             new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK)));
@@ -236,7 +236,7 @@ public class HsdpUser {
                         }
                     });
                     handler.post(() -> {
-                        RLog.d(RLog.HSDP, "onHsdpRefreshSuccess : response :" +
+                        RLog.d(TAG, "onHsdpRefreshSuccess : response :" +
                                 dhpAuthenticationResponse.rawResponse.toString());
                         ThreadUtils.postInMainThread(mContext, refreshHandler::onRefreshLoginSessionSuccess);
                     });
@@ -245,7 +245,7 @@ public class HsdpUser {
                             dhpAuthenticationResponse.responseCode
                                     .equals(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
                         handler.post(() -> {
-                            RLog.d(RLog.HSDP, "onHsdpRefreshFailure : responseCode : "
+                            RLog.d(TAG, "onHsdpRefreshFailure : responseCode : "
                                     + dhpAuthenticationResponse.responseCode +
                                     " message : " + dhpAuthenticationResponse.message);
                             ThreadUtils.postInMainThread(mContext, () ->
@@ -254,7 +254,7 @@ public class HsdpUser {
                         });
                     } else {
                         handler.post(() -> {
-                            RLog.d(RLog.HSDP, "onHsdpRefreshFailure : responseCode : "
+                            RLog.d(TAG, "onHsdpRefreshFailure : responseCode : "
                                     + dhpAuthenticationResponse.responseCode +
                                     " message : " + dhpAuthenticationResponse.message);
                             ThreadUtils.postInMainThread(mContext, () ->
@@ -283,7 +283,7 @@ public class HsdpUser {
                 hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getApplicationName()) {
 
-            RLog.d(RLog.HSDP, "Base URL " + hsdpInfo.getBaseURL());
+            RLog.d(TAG, "Base URL " + hsdpInfo.getBaseURL());
             dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(),
                     hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecreteId());
         }
@@ -428,7 +428,7 @@ public class HsdpUser {
                                     loggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
                                 }
                                 handler.post(() -> {
-                                    RLog.d(RLog.HSDP, "Social onHsdpLoginSuccess : response :"
+                                    RLog.d(TAG, "Social onHsdpLoginSuccess : response :"
                                             + rawResponse.toString());
                                     HsdpUser hsdpUser = new HsdpUser(mContext);
                                     if (hsdpUser.getHsdpUserRecord() != null) {
@@ -448,7 +448,7 @@ public class HsdpUser {
 
                     } else {
                         handler.post(() -> {
-                            RLog.d(RLog.HSDP, "Social onHsdpLoginFailure :  responseCode : "
+                            RLog.d(TAG, "Social onHsdpLoginFailure :  responseCode : "
                                     + dhpAuthenticationResponse1.responseCode +
                                     " message : " + dhpAuthenticationResponse1.message);
                             handleSocialConnectionFailed(loginHandler, Integer.parseInt(
@@ -456,7 +456,7 @@ public class HsdpUser {
                         });
                     }
                 } catch (Exception e) {
-                    RLog.e(RLog.HSDP, "HSDP Social Login : " + e.getMessage());
+                    RLog.e(TAG, "login : exception " + e.getMessage());
                     handleSocialNetworkFailure(loginHandler);
                 }
             }).start();
@@ -473,7 +473,7 @@ public class HsdpUser {
             if (null != userUID) {
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,
                         "evar2", userUID);
-                RLog.d(RLog.HSDP, "HSDP evar2 " + userUID);
+                RLog.d(TAG, "sendEncryptedUUIDToAnalytics : HSDP evar2 userUID" + userUID);
             }
         }
     }
@@ -527,8 +527,8 @@ public class HsdpUser {
                 hsdpUserRecordV2.getUserUUID() != null
                 && (getHsdpUserRecord().getAccessCredential() != null &&
                 getHsdpUserRecord().getAccessCredential().getAccessToken() != null);
-        RLog.i(TAG, "isHsdpUserSignedIn : " + isSignedIn);
-        RLog.i(TAG, "HsdpUserRecordV2 : " + (hsdpUserRecordV2 != null ? hsdpUserRecordV2.toString() : null));
+        RLog.i(TAG, "isHsdpUserSignedIn : isSignedIn" + isSignedIn);
+        RLog.d(TAG, "HsdpUserRecordV2 : hsdpUserRecord is available" + (hsdpUserRecordV2 != null ? hsdpUserRecordV2.toString() : null));
         return isSignedIn;
     }
 }

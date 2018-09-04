@@ -9,8 +9,11 @@
 package com.philips.cdp.registration.app.tagging;
 
 import android.app.Activity;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.HashMap;
@@ -19,7 +22,12 @@ import java.util.Map;
 
 public class AppTagging {
 
-    private static AppTaggingInterface appTaggingInterface = RegistrationConfiguration.getInstance().getComponent().getAppTaggingInterface();
+    private static AppTaggingInterface appTaggingInterface;
+
+    public static void init(){
+        appTaggingInterface = RegistrationConfiguration.getInstance().getComponent().getAppTaggingInterface();
+        appTaggingInterface = appTaggingInterface.createInstanceForComponent(RegConstants.COMPONENT_TAGS_ID, RegistrationHelper.getRegistrationApiVersion());
+    }
 
     public static void trackPage(String currPage) {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
@@ -55,4 +63,8 @@ public class AppTagging {
     }
 
 
+    @VisibleForTesting
+    public static void setMockAppTaggingInterface(AppTaggingInterface mockAppTaggingInterface) {
+        appTaggingInterface = mockAppTaggingInterface;
+    }
 }

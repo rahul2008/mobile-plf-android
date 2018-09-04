@@ -63,4 +63,15 @@ public interface AppIdentityInterface extends Serializable {
      */
     String getServiceDiscoveryEnvironment();
 
+    /**
+     * Validate service discovery environment. Throws exception when invalid.
+     * @since 1804.0
+     */
+    void validateServiceDiscoveryEnv (String serviceDiscoveryEnvironment);
+
+    /**
+     * Validate microsite id. Throws exception if invalid.
+     * @since 1804.0
+     */
+    void validateMicrositeId(String micrositeId);
 }

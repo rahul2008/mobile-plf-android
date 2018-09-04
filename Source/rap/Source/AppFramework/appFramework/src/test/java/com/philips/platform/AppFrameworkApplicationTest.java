@@ -15,6 +15,7 @@ package com.philips.platform;
 
 import android.content.Context;
 
+import com.google.firebase.FirebaseApp;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
@@ -59,7 +60,7 @@ public class AppFrameworkApplicationTest extends AppFrameworkApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        FirebaseApp.initializeApp(this);
         initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
             @Override
             public void onAppInfraInitialization() {

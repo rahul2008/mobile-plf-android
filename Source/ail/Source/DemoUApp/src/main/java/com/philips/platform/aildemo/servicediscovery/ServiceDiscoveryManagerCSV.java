@@ -20,7 +20,6 @@ import android.util.Log;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
@@ -43,8 +42,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
-
-import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION;
 
 //import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 
@@ -660,7 +657,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
 
     private void saveToSecureStore(String country, String countryCode) {
         SecureStorageInterface ssi = mAppInfra.getSecureStorage();
-        SecureStorage.SecureStorageError mSecureStorage = new SecureStorage.SecureStorageError();
+        SecureStorageInterface.SecureStorageError mSecureStorage = new SecureStorageInterface.SecureStorageError();
         if (countryCode.equals(COUNTRY)) {
             ssi.storeValueForKey(COUNTRY, country, mSecureStorage);
         } else if (countryCode.equals(COUNTRY_SOURCE)) {

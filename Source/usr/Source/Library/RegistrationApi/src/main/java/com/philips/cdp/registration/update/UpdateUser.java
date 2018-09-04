@@ -26,10 +26,10 @@ public class UpdateUser implements Capture.CaptureApiRequestCallback {
         mUpdateUserListener = updateUserListener;
         if (null != updatedUserData && null != userData) {
             try {
-                RLog.d(TAG, "updating User  ");
+                RLog.d(TAG, "update:updating User  ");
                 ((CaptureRecord) updatedUserData).synchronize(this, userData);
             } catch (Capture.InvalidApidChangeException e) {
-                RLog.e(TAG, "Exception occured while updating User Info ");
+                RLog.e(TAG, "update: Exception occurred while updating User Info "+ e.getMessage());
                 mUpdateUserListener.onUserUpdateFailed(ErrorCodes.UNKNOWN_ERROR);
             }
         } else {
@@ -46,7 +46,7 @@ public class UpdateUser implements Capture.CaptureApiRequestCallback {
 
     @Override
     public void onFailure(CaptureApiError e) {
-        RLog.e(TAG, "onFailure updating User Info " + e.code);
+        RLog.e(TAG, "onFailure:  updating User Info " + e.code);
         mUpdateUserListener.onUserUpdateFailed(e.code);
     }
 }

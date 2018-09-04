@@ -165,7 +165,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     protected void consumeTouch(View view) {
 
-        RLog.i(TAG, "consumeTouch is called");
+        RLog.d(TAG, "consumeTouch is called");
         if (view == null)
             return;
         view.setOnTouchListener((v, event) -> true);
@@ -269,7 +269,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
-        RLog.i(TAG, "scrollViewAutomatically is called");
+        RLog.d(TAG, "scrollViewAutomatically is called");
         view.requestFocus();
         if (scrollView != null) {
             scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -319,12 +319,12 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void updateErrorNotification(String errorMessage, int errorCode) {
-        RLog.e(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
+        RLog.d(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
         getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
     }
 
     public void updateErrorNotification(String errorMessage) {
-        RLog.e(TAG, "errorMessage = " + errorMessage);
+        RLog.d(TAG, "errorMessage = " + errorMessage);
         getNotification().showNotification(new NotificationMessage(errorMessage));
 
 

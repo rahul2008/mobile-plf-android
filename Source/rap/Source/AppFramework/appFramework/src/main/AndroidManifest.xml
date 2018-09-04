@@ -71,6 +71,9 @@
         <!--</receiver>-->
 
         <!--Credentials For LocatePhilips Near you feature(Google Map)-->
+
+        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

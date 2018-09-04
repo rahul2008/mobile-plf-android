@@ -21,7 +21,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class UserRegistrationHelper {
 
-    private final String TAG = UserRegistrationHelper.class.getSimpleName();
+    private final String TAG = "UserRegistrationHelper";
 
     /* User registration helper*/
     private static volatile UserRegistrationHelper eventHelper;

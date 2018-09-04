@@ -67,7 +67,7 @@ import static com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver.SMS_PER
 public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment implements
         MobileForgotPassVerifyCodeContract, OnUpdateListener {
 
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "MobileForgotPassVerifyCodeFragment";
     @Inject
     NetworkUtility networkUtility;
 
@@ -119,6 +119,8 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
                              Bundle savedInstanceState) {
 
         final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
+        RLog.i(TAG,"Screen name is "+ TAG);
+
 
         RegistrationConfiguration.getInstance().getComponent().inject(this);
 
@@ -148,7 +150,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
           registerSMSReceiver();
-        RLog.i(TAG, "onViewCreated : getParentFragment().requestPermissions(");
+        RLog.d(TAG, "onViewCreated : getParentFragment().requestPermissions(");
   }
 
     private void setDescription() {
@@ -206,7 +208,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onConfigurationChanged");
+        RLog.d(TAG, " onConfigurationChanged");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
@@ -253,6 +255,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @OnClick(R2.id.btn_reg_Verify)
     public void verifyClicked() {
+        RLog.i(TAG,TAG+".forgotpassword verify clicked");
         verifyButton.showProgressIndicator();
         smsNotReceived.setEnabled(false);
         verificationCodeValidationEditText.setEnabled(false);
@@ -285,6 +288,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @OnClick(R2.id.btn_reg_resend_code)
     public void resendButtonClicked() {
+        RLog.i(TAG,TAG+".resendButton clicked");
         verificationCodeValidationEditText.setText("");
         final String lMobileNumberKey = "mobileNumber";
         final String tokenKey = "token";
@@ -376,10 +380,10 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void registerSMSReceiver() {
-        RLog.i(TAG, "registerSMSReceiver : " + mSMSBroadCastReceiver.isSmsPermissionGranted());
+        RLog.d(TAG, "registerSMSReceiver : " + mSMSBroadCastReceiver.isSmsPermissionGranted());
         mobileVerifyCodePresenter.registerSMSReceiver();
         if (!mSMSBroadCastReceiver.isSmsPermissionGranted()) {
-            RLog.i(TAG, "registerSMSReceiver : isSmsPermissionGranted");
+            RLog.d(TAG, "registerSMSReceiver : isSmsPermissionGranted");
             requestPermissionSMS();
         }
     }
@@ -391,7 +395,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void onOTPReceived(String otp) {
-        RLog.i(TAG, "onOTPReceived : got otp");
+        RLog.d(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
                 verifyClicked();

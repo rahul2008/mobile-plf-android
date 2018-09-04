@@ -18,6 +18,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 public class PhilipsNewsFragment extends RegistrationBaseFragment {
+    private String TAG = "PhilipsNewsFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,13 +28,15 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.reg_fragment_philips_news, null);
+        RLog.i(TAG,"Screen name is "+ TAG);
+
         handleOrientation(view);
         return view;
     }
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "PhilipsNewsFragment : onConfigurationChanged");
+        RLog.d(TAG, " onConfigurationChanged");
         setCustomParams(config);
     }
 
