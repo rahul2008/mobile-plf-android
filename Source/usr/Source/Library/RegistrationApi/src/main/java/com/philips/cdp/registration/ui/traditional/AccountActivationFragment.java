@@ -298,9 +298,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             RegAlertDialog.showDialog(mContext.getResources().getString(
                     R.string.USR_DLS_Email_Verify_Alert_Title),
                     mContext.getResources().getString(
-                            R.string.USR_DLS_Forgot_Password_Alert_Message_Line1),
+                            R.string.USR_DLS_Email_Verify_Alert_Body_Line1),
                     mContext.getResources().getString(
-                            R.string.USR_DLS_Forgot_Password_Alert_Message_Line2),
+                            R.string.USR_DLS_Email_Verify_Alert_Body_Line2),
                     mContext.getResources().getString(
                             R.string.USR_DLS_Button_Title_Ok)
                     , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
