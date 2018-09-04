@@ -21,9 +21,10 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
-import android.view.GestureDetector;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -286,16 +287,25 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handlePasswordDoubleClick() {
-
-        final GestureDetector gestureDetector = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
-            public boolean onDoubleTap(MotionEvent e) {
-                return true;
+        passwordValidationEditText.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+            @Override
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                return false;
             }
-        });
 
-        passwordValidationEditText.setOnTouchListener((v, event) -> {
-            mEtEmail.setErrorMessage(R.string.USR_NameField_ErrorText);
-            return gestureDetector.onTouchEvent(event);
+            @Override
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+            }
         });
     }
 
