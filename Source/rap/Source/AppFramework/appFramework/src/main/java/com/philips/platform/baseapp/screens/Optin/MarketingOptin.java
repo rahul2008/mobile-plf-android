@@ -42,9 +42,7 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-        if (getAppInfra().getServiceDiscovery().getHomeCountry().equalsIgnoreCase("IN")) {
-            urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-        }
+        urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
         urLaunchInput.setUIFlow(UIFlow.FLOW_B);
         urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setUserRegistrationUIEventListener(this);
