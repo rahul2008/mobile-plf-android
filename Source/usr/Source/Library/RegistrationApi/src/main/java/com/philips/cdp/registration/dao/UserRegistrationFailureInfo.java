@@ -165,7 +165,7 @@ public class UserRegistrationFailureInfo {
 //            RLog.d("RegUtility", "getTaggingErrorDescription : " + serverResponse.toString());
             return serverResponse.getString("error");
         } catch (JSONException e) {
-            RLog.e("RegUtility", "getTaggingErrorDescription Exception: " + e.getMessage());
+            RLog.e(TAG, "getTaggingErrorDescription Exception: " + e.getMessage());
             return "";
         }
     }

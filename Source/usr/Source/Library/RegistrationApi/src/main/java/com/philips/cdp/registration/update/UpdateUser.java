@@ -33,7 +33,7 @@ public class UpdateUser implements Capture.CaptureApiRequestCallback {
                 mUpdateUserListener.onUserUpdateFailed(ErrorCodes.UNKNOWN_ERROR);
             }
         } else {
-            RLog.e(TAG, "updatedUserData NULL ");
+            RLog.e(TAG, "update: updatedUserData NULL ");
             mUpdateUserListener.onUserUpdateFailed(ErrorCodes.UNKNOWN_ERROR);
         }
     }

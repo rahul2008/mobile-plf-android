@@ -113,7 +113,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
             ThreadUtils.postInMainThread(mContext, () ->
                     mLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         } catch (Exception e) {
-            RLog.e("Login failed :", "exception :" + e.getMessage());
+            RLog.e(TAG, "onFailure: exception :" + e.getMessage());
         }
     }
 
