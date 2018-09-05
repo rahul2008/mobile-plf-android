@@ -140,7 +140,7 @@ public class RegistrationConfiguration {
     public List<String> getServiceDiscoveryCountries() {
         HashMap<String, String> sdCountryMapping = (HashMap<String, String>) appConfiguration.getServiceDiscoveryCountryMapping();
         if (null == sdCountryMapping) {
-            RLog.e(TAG, "sdCountryMapping is null");
+            RLog.e(TAG, "getServiceDiscoveryCountries: getServiceDiscoveryCountryMapping is null");
             return new ArrayList<>();
         }
         return new ArrayList<>(sdCountryMapping.keySet());

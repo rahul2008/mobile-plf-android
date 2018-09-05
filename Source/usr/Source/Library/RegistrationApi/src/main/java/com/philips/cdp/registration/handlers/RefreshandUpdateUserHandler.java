@@ -145,7 +145,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
     @Override
     public void onFlowDownloadSuccess() {
-        RLog.e(TAG, "onFlowDownloadSuccess");
+        RLog.e(TAG, "onFlowDownloadSuccess is called");
         refreshAndUpdateUser(refreshUserHandler, user, password);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
@@ -153,7 +153,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
     @Override
     public void onFlowDownloadFailure() {
-        RLog.e(TAG, "onFlowDownloadFailure");
+        RLog.e(TAG, "onFlowDownloadFailure is called");
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
         if (refreshUserHandler != null) {
             refreshUserHandler.onRefreshUserFailed(0);

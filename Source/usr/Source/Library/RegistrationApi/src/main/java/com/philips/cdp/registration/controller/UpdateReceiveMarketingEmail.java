@@ -76,7 +76,7 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
                 ThreadUtils.postInMainThread(mContext, () ->
                         mUpdateUserDetails.
                                 onUpdateFailedWithError(ErrorCodes.UNKNOWN_ERROR));
-            RLog.e(TAG, e.getMessage());
+            RLog.e(TAG, "performActualUpdate: JSONException" + e.getMessage());
         }
     }
 
@@ -90,10 +90,10 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
                 marketingOptIn.put(TIMESTAMP, ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT));
 
                 mUpdatedUserdata.put(MARKETING_OPT_IN, marketingOptIn);
+                RLog.d(TAG, "performLocalUpdate : saveToDisk");
                 mUpdatedUserdata.saveToDisk(mContext);
-                RLog.i(TAG, "performLocalUpdate : saveToDisk");
             } catch (JSONException e) {
-                RLog.e(TAG, e.getMessage());
+                RLog.e(TAG,"performLocalUpdate: JJSONException"+ e.getMessage());
             }
         }
     }

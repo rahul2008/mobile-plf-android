@@ -195,7 +195,8 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
 
     void handleWeChatCode(String pWeChatCode) {
-        RLog.i("WECHAT", "WeChat Code: " + pWeChatCode);
+
+        RLog.d(TAG,"WECHAT : Code: " + pWeChatCode);
         WeChatAuthenticator weChatAuthenticator = new WeChatAuthenticator();
         weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, pWeChatCode,
                 new WeChatAuthenticationListener() {
@@ -204,19 +205,19 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
                         try {
                             final String token = jsonObj.getString("access_token");
                             final String openId = jsonObj.getString("openid");
-                            RLog.i("WECHAT body", "WeChat token " + token + " openid " + openId);
+                            RLog.d(TAG,"WECHAT : token " + token + " openid " + openId);
                             user.loginUserUsingSocialNativeProvider(homeContract.getActivityContext(),
                                     "wechat", token, openId, HomePresenter.this, "");
                         } catch (JSONException e) {
                             homeContract.wechatAuthenticationSuccessParsingError();
-                            RLog.e("WECHAT", "Error handleWeChatCode wechatAuthenticationSuccessParsingError");
+                            RLog.e(TAG,"WECHAT :handleWeChatCode : Error wechatAuthenticationSuccessParsingError" + e.getMessage());
                         }
                     }
 
                     @Override
                     public void onFail() {
                         homeContract.wechatAuthenticationFailError();
-                        RLog.e("WECHAT", "Error handleWeChatCode wechatAuthenticationFailError ");
+                        RLog.e(TAG,"WECHAT : handleWeChatCode : Error wechatAuthenticationFailError ");
                     }
                 });
     }
@@ -423,13 +424,13 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
         public void onReceive(Context context, Intent intent) {
             int error_code = intent.getIntExtra(RegConstants.WECHAT_ERR_CODE, 0);
             String weChatCode = intent.getStringExtra(RegConstants.WECHAT_CODE);
-            RLog.i("WECHAT", "BroadcastReceiver Got message: " + error_code + " " + weChatCode);
+            RLog.d(TAG,"WECHAT :BroadcastReceiver Got message: " + error_code + " " + weChatCode);
             switch (error_code) {
                 case BaseResp.ErrCode.ERR_OK:
                     if (weChatCode != null) {
                         homeContract.startWeChatLogin(weChatCode);
                     } else {
-                        RLog.i("WECHAT", "Wechat = " + weChatCode);
+                        RLog.d(TAG,"WECHAT : errorcode = " + weChatCode);
                     }
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
