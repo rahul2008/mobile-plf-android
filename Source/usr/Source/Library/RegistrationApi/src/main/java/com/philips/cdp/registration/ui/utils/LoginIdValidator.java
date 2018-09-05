@@ -24,7 +24,8 @@ public class LoginIdValidator implements Validator {
 
         if (!validMail && RegistrationHelper.getInstance().isMobileFlow()) {
            validMail = FieldsValidator.isValidMobileNumber(msg.toString());
-        }
+        }else
+            validMail = FieldsValidator.isValidEmail(msg.toString());
 
         if (msg.length() == 0) {
             validLoginId.isEmpty(true);
