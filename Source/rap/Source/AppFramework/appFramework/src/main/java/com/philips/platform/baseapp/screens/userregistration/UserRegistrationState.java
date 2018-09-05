@@ -299,10 +299,10 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             contentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");
             contentConfiguration.setOptInQuessionaryText("Custom Reward Coupons, Holiday Surprises, VIP Shopping Days");
         } else if(testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Kitchen))){
-            contentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
+            contentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
         }
         else {
-            contentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
+            contentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
         }
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);

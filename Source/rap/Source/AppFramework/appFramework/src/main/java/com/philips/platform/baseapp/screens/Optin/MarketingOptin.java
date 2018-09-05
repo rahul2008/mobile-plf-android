@@ -62,9 +62,9 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
             registrationContentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");
             registrationContentConfiguration.setOptInQuessionaryText("Custom Reward Coupons, Holiday Surprises, VIP Shopping Days");
         } else if(testValue.equalsIgnoreCase(context.getString(R.string.RA_abTesting_Kitchen))){
-            registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
-        } else {
             registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
+        } else {
+            registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
         }
         return registrationContentConfiguration;
     }
