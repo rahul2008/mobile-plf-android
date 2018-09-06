@@ -24,7 +24,7 @@ import javax.inject.Inject;
 
 public class ConfirmWifiNetworkViewModel extends BaseObservable {
 
-    interface ViewCallback {
+    public interface ViewCallback {
         void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration, @NonNull EWSTagger ewsTagger);
     }
 
@@ -42,7 +42,8 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
     @NonNull
     private BaseContentConfiguration baseContentConfiguration;
 
-    @NonNull private final EWSTagger ewsTagger;
+    @NonNull
+    private final EWSTagger ewsTagger;
 
     @Inject
     public ConfirmWifiNetworkViewModel(@NonNull final Navigator navigator,
