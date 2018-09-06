@@ -65,7 +65,7 @@ public class WelcomeVideoPresenterTest {
 
     @Test
     public void fetchVideoUrlSuccess() throws Exception {
-        String urlString = "https://images.philips.com/skins/PhilipsConsumer/CDP2_reference_app_vid_short";
+        String urlString = "https://archive.org/download/RickAstleyNeverGonnaGiveYouUp_201603/Rick Astley - Never Gonna Give You Up.mp4";
         onGetServiceUrlListener.onSuccess(new URL(urlString));
         verify(view).setVideoDataSource(urlString+WelcomeVideoPresenter.COMPRESSED_VIDEO_EXTENSION);
     }
