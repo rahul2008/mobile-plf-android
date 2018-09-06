@@ -21,10 +21,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -281,32 +278,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
         mUser = new User(mContext);
         registrationSettingsURL = new RegistrationSettingsURL();
-
-        handlePasswordDoubleClick();
-
-    }
-
-    private void handlePasswordDoubleClick() {
-        passwordValidationEditText.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
-            @Override
-            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-                return false;
-            }
-
-            @Override
-            public void onDestroyActionMode(ActionMode actionMode) {
-            }
-        });
     }
 
     private boolean emailOrMobileValidator(String emailOrMobile) {
