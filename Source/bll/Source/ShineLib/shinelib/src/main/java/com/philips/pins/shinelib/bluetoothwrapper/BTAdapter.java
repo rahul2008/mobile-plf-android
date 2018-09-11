@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 
 public class BTAdapter {
 
-    private static final int DISCOVERY_REPORT_DELAY_MILLIS = 1000;
+    private static final long DISCOVERY_REPORT_DELAY_MILLIS = 0L;
 
     private final Handler handler;
     private final BluetoothAdapter bluetoothAdapter;
