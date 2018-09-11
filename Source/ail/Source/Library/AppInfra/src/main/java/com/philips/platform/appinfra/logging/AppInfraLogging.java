@@ -29,7 +29,7 @@ import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInt
 
 public class AppInfraLogging implements LoggingInterface, AppInfraInitialisationCompleteListener {
 
-    public final static String CLOUD_CONSENT = "cloudConsent";
+    public final static String CLOUD_CONSENT = "AIL_CloudConsent";
 
     public static final int LOG_METADATA_INDEX=3;
     public static final int LOG_MESSAGE_INDEX=0;
