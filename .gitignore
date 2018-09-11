@@ -13,6 +13,7 @@ out/
 
 # files to be ignored
 *.aar
+*.bak
 *.class
 *.iml
 *.lock

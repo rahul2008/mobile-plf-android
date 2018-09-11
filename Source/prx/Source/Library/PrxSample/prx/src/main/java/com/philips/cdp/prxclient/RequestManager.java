@@ -2,6 +2,7 @@ package com.philips.cdp.prxclient;
 
 import android.util.Log;
 
+import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseListener;
@@ -56,11 +57,11 @@ public class RequestManager {
 
 	private void makeRequest(final PrxRequest prxRequest, final ResponseListener listener) {
 		try {
-			mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_REQUEST_MANAGER, "excute prx request");
+			mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_REQUEST_MANAGER, "execute prx request");
 			new NetworkWrapper(mPrxDependencies).executeCustomJsonRequest(prxRequest, listener);
 		} catch (Exception e) {
-			mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.ERROR, PrxConstants.PRX_REQUEST_MANAGER, "Error in excute prx request");
-
+			mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.ERROR, PrxConstants.PRX_REQUEST_MANAGER, "Error in execute prx request");
+			listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(),PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
 		}
 	}
 

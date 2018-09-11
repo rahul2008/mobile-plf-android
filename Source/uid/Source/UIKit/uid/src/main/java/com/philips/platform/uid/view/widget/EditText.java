@@ -18,6 +18,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 
@@ -66,9 +69,11 @@ public class EditText extends AppCompatEditText {
         setHintTextColors(themedContext, typedArray);
         setTextColors(themedContext, typedArray);
         restorePadding(paddingRect);
-
         typedArray.recycle();
         initIconHandler();
+        if(isPasswordInputType()){
+            setCustomSelectionActionModeCallback(passwordActionMode);
+        }
     }
 
     private void setHintTextColors(final Context themedContext, final TypedArray typedArray) {
@@ -249,4 +254,29 @@ public class EditText extends AppCompatEditText {
             out.writeByte((byte) (this.passwordVisible ? 1 : 0));
         }
     }
+
+    private ActionMode.Callback passwordActionMode = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            menu.removeItem(android.R.id.cut);
+            menu.removeItem(android.R.id.copy);
+            menu.removeItem(android.R.id.shareText);
+            return true;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            passwordActionMode = null;
+        }
+    };
 }
