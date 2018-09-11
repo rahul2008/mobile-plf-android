@@ -46,11 +46,11 @@ public class ProductAdapter  extends RecyclerView.Adapter<ListRowHolder>  {
         final String text = s.concat(registeredProduct.getSerialNumber() != null ? registeredProduct.getSerialNumber() : "");
         holder.mSerailNumber.setText(text);
         if (registeredProduct.getRegistrationState().toString().equalsIgnoreCase("PENDING") || registeredProduct.getRegistrationState().toString().equalsIgnoreCase("REGISTERING")) {
-            holder.mStatus.setTextColor(ContextCompat.getColor(mContext, R.color.gray));
+            holder.mStatus.setTextColor(mContext.getColor(R.color.gray));
         } else if (registeredProduct.getRegistrationState().toString().equalsIgnoreCase("REGISTERED")) {
-            holder.mStatus.setTextColor(ContextCompat.getColor(mContext, R.color.green));
+            holder.mStatus.setTextColor(mContext.getColor(R.color.green));
         } else {
-            holder.mStatus.setTextColor(ContextCompat.getColor(mContext, R.color.red));
+            holder.mStatus.setTextColor(mContext.getColor(R.color.red));
         }
         holder.mStatus.setText(Html.fromHtml("<font color='#222'>Status : </font>" + registeredProduct.getRegistrationState()));
         if (registeredProduct.getProdRegError() != null)
