@@ -160,7 +160,11 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mEtStateBilling.setKeyListener(null);
 
         mEtFirstNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
-        mEtLastNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        if(HybrisDelegate.getInstance(mContext).getStore().getFamilyName()!=null){
+            mEtLastNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        }else {
+            mEtLastNameBilling.setText("");
+        }
 
         mEtEmailBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmailBilling.setEnabled(false);
