@@ -80,7 +80,7 @@ public class BTAdapterTest {
 
         List<ScanSettings> capturedMeasurements = callbackCaptor.getAllValues();
         ScanSettings settings = capturedMeasurements.get(0);
-        assertEquals(settings.getReportDelayMillis(), 1000);
+        assertEquals(settings.getReportDelayMillis(), 0);
     }
 
     @SuppressWarnings("unchecked")
