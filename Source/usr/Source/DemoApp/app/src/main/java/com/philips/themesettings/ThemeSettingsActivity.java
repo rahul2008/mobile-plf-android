@@ -100,9 +100,9 @@ public class ThemeSettingsActivity extends UIDActivity {
             fos.close();
             return f.getPath();
         } catch (FileNotFoundException e) {
-            RLog.e(ThemeSettingsActivity.class.getName(), e.getMessage());
+            RLog.e(ThemeSettingsActivity.class.getName(),"getCatalogAppJSONAssetPath: " +e.getMessage());
         } catch (IOException e) {
-            RLog.e(ThemeSettingsActivity.class.getName(), e.getMessage());
+            RLog.e(ThemeSettingsActivity.class.getName(), "getCatalogAppJSONAssetPath: " +e.getMessage());
         }
         return null;
     }

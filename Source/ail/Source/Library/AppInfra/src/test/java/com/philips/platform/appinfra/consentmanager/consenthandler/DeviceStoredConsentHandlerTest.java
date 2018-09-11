@@ -79,17 +79,6 @@ public class DeviceStoredConsentHandlerTest {
     }
 
     @Test
-    public void verifyErrorForMissingType() {
-        when(storageInterface.fetchValueForKey(anyString(), eq(secureStorageError))).thenReturn(storedValueFalseVersion).thenReturn(null);
-        handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
-            @Override
-            public void onGetConsentsSuccess(ConsentStatus consent) {
-                assertTrue(consent.getConsentState() == ConsentStates.inactive);
-            }
-        });
-    }
-
-    @Test
     public void verifyActiveStatus() {
         when(storageInterface.fetchValueForKey(anyString(), eq(secureStorageError))).thenReturn(storedValueHighVersion);
         handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {

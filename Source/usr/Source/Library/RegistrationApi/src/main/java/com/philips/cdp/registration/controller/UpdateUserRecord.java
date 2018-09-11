@@ -120,7 +120,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                         updateUserRecord(updatedUser, originalUserInfo);
 
                     } catch (JSONException e) {
-                        RLog.e(TAG, "On success, Caught JSON Exception");
+                        RLog.e(TAG, "updateUserRecordRegister :On success JSON Exception" + e.getMessage());
                     }
                 }
                 @Override
@@ -178,7 +178,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 }
                 updateUserRecord(updatedUser, originalUserInfo);
             } catch (JSONException e) {
-                RLog.e(TAG, "On success, Caught JSON Exception"+e.getMessage());
+                RLog.e(TAG, "updateUserRecordLogin: JSON Exception"+e.getMessage());
             }
         }
     }
