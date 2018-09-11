@@ -1,78 +1,31 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 apply plugin: 'com.jakewharton.butterknife'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
 archivesBaseName = "registrationApi"
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-    repositories {
-        google()
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.releaseexternal
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven { url sonatype }
-    }
     dependencies {
-
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         classpath deps.retrolambda_gradle
         classpath deps.butterknife_gradle
     }
 }
-
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
-allprojects {
-    repositories {
-
-        maven {
-            url repos.releaseexternal
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    apply plugin: 'com.jfrog.artifactory'
-
-    group = 'com.philips.cdp'
-
-}
-
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -85,10 +38,12 @@ artifacts {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+
     compileOptions {
         sourceCompatibility versions.sourceCompatibility
         targetCompatibility versions.targetCompatibility
     }
+
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
@@ -100,6 +55,7 @@ android {
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
     }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -113,11 +69,9 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
-
     lintOptions {
         abortOnError false
     }
-
 
     buildTypes {
         release {
@@ -128,10 +82,6 @@ android {
             debuggable true
             testCoverageEnabled = true
         }
-    }
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
     }
 
     testOptions {
@@ -144,7 +94,6 @@ android {
             }
         }
     }
-
 }
 
 configurations.all {
@@ -153,14 +102,30 @@ configurations.all {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation deps.butterknife
     annotationProcessor deps.butterknife
+    annotationProcessor deps.butterknife_compiler
+    annotationProcessor deps.dagger.compiler
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     implementation deps.apache
+    implementation deps.butterknife
+    implementation deps.calligraphy
     implementation deps.constraintlayout
-
-
-
+    implementation deps.dagger.dagger
+    implementation deps.facebook
+    implementation deps.greenrobot
+    implementation deps.javax_annotation
+    implementation deps.libphonenumber
+    implementation deps.multidex
+    implementation deps.okhttp
+    implementation deps.rxbinding
+    implementation deps.rxjava2
+    implementation deps.support.appcompatv7
+    implementation deps.support.recyclerview
+    implementation deps.support.supportv4
+    implementation deps.volley
+    implementation deps.wechat
 
     if (directdependencies) {
         implementation project(':uid')
@@ -175,52 +140,31 @@ dependencies {
         implementation project(':jump')
         implementation project(':hsdp')
     }
-    implementation deps.apache
-    implementation deps.libphonenumber
-    annotationProcessor deps.butterknife_compiler
-    implementation deps.butterknife
-    annotationProcessor deps.dagger.compiler
-    implementation deps.dagger.dagger
-    implementation deps.javax_annotation
-    implementation deps.rxjava2
-    implementation deps.rxbinding
-    androidTestImplementation deps.junit
-    androidTestImplementation deps.dexmaker_google
-    androidTestImplementation deps.dexmaker_google_mockito
+
     testImplementation deps.junit
     testImplementation deps.mockito
-    testImplementation deps.robolectric_utils
-    testImplementation deps.robolectric_junit2
     testImplementation deps.robolectric
+    testImplementation deps.robolectric_junit
     testImplementation deps.robolectric_shadows
-    implementation deps.multidex
-    androidTestImplementation deps.android_testrunner
+    testImplementation deps.robolectric_utils
+
     androidTestImplementation deps.android_testrules
+    androidTestImplementation deps.android_testrunner
+    androidTestImplementation deps.dexmaker_google
+    androidTestImplementation deps.dexmaker_google_mockito
+    androidTestImplementation deps.junit
     androidTestImplementation deps.uiautomator
-    implementation deps.support.supportv4
-    implementation deps.volley
-    implementation deps.greenrobot
-    implementation deps.support.appcompatv7
-    implementation deps.support.recyclerview
-    implementation deps.okhttp
-    implementation deps.wechat
-    implementation deps.calligraphy
-    implementation deps.facebook
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-
     description 'Run findbugs'
     group 'verification'
     ignoreFailures = true
     classes = fileTree('build/intermediates/classes/debug/com/philips/')
     source = fileTree('src/main/java')
     classpath = files()
-
     effort = 'max'
-
     excludeFilter = file("findbugs-exclude.xml")
-
     reports {
         xml.enabled = true
         html.enabled = false
@@ -228,13 +172,11 @@ task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 }
 
 task pmd(type: Pmd, dependsOn: "assembleDebug") {
-
     description 'Run pmd'
     group 'verification'
     ignoreFailures = true
     ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
     source = fileTree('src/main/java/com')
-
     reports {
         xml.enabled = true
         html.enabled = false
@@ -245,11 +187,6 @@ task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
     from configurations.implementation
 }
-
-def coverageSourceDirs = [
-        '../RegistrationApi/src/main/java'
-]
-
 
 tasks.withType(Test) {
     ignoreFailures = true

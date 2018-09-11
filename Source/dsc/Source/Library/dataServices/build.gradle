@@ -1,74 +1,26 @@
-apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-apply plugin: 'pl.droidsonroids.pitest'
-def coverageSourceDirs = [
-        '../dataServices/src/main/java'
-]
-
-archivesBaseName = "dataServices"
-
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-        classpath builddeps.pitest_solidsoft
-    }
-}
-
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
+apply plugin: 'com.android.library'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'pl.droidsonroids.pitest'
 
-        flatDir {
-            dirs 'libs'
-        }
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+
+archivesBaseName = "dataServices"
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
+        classpath builddeps.pitest_solidsoft
     }
 }
 
@@ -159,8 +111,6 @@ android {
             }
         }
     }
-
-
 }
 
 configurations.all {
@@ -169,7 +119,20 @@ configurations.all {
 }
 
 dependencies {
+    compileOnly deps.javax_annotation
+    annotationProcessor deps.dagger.compiler
 
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation deps.greenrobot
+    implementation deps.joda_time
+    implementation deps.retrofit1
+    implementation deps.okhttp
+    implementation deps.javax_inject
+    implementation deps.dagger.dagger
+    implementation(deps.support.annotations) {
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+    }
 
     if (directdependencies) {
         implementation project(':catk')
@@ -183,20 +146,6 @@ dependencies {
         implementation philipsdeps.AppInfra
     }
 
-    implementation(deps.support.annotations) {
-        exclude group: 'com.google.code.findbugs', module: 'jsr305'
-    }
-
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation deps.greenrobot
-    implementation deps.joda_time
-    implementation deps.retrofit1
-    implementation deps.okhttp
-    implementation deps.javax_inject
-
-    implementation deps.dagger.dagger
-    annotationProcessor deps.dagger.compiler
-    compileOnly deps.javax_annotation
     testAnnotationProcessor deps.dagger.compiler
 
     testImplementation deps.junit

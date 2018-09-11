@@ -38,7 +38,6 @@ android {
     lintOptions {
         abortOnError false
     }
-
 }
 
 dependencies {
@@ -64,6 +63,7 @@ dependencies {
 
     testImplementation deps.powermock_junit
 }
+
 tasks.withType(Test) {
     ignoreFailures = true
 }

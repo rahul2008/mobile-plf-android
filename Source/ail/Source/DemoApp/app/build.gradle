@@ -1,62 +1,24 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+apply plugin: 'com.google.gms.google-services'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 
 archivesBaseName = 'AppInfraApp'
 
 buildscript {
-
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-    }
-}
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
+        classpath builddeps.cdpSCM
     }
 }
 
@@ -64,12 +26,15 @@ android {
     signingConfigs {
         release
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
     }
+
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+
     defaultConfig {
         applicationId "com.philips.platform.appinfra.demoapp"
         minSdkVersion versions.minsdk
@@ -78,11 +43,13 @@ android {
         versionCode 1
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             signingConfig signingConfigs.debug
         }
     }
+
     lintOptions {
         abortOnError false
     }
@@ -90,14 +57,14 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation deps.junit
-    androidTestImplementation deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    androidTestCompile 'com.android.support.test:rules:1.0.2'
+
+    implementation deps.firebase_config
+    implementation deps.firebase_core
+    implementation deps.firebase_iid
+    implementation deps.gson
+    implementation deps.leakcanary
     implementation deps.support.appcompatv7
     implementation deps.support.design
-
 
     if (directdependencies) {
         implementation project(':uAppFwLib')
@@ -110,14 +77,15 @@ dependencies {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.pif
     }
-    implementation deps.gson
-    implementation deps.leakcanary
-    implementation deps.firebase_core
-    implementation deps.firebase_config
-    implementation deps.firebase_iid
+
+    testImplementation deps.junit
+
+    androidTestImplementation deps.espresso_core, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile 'com.android.support.test:rules:1.0.2'
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }
-apply plugin: 'com.google.gms.google-services'

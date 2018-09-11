@@ -1,10 +1,13 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
 
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -13,62 +16,12 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle
 archivesBaseName = "digitalCare"
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-    }
-}
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-
-        maven { url sonatype }
-        maven { url robolectric }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
+        classpath builddeps.cdpSCM
     }
 }
 
@@ -102,6 +55,7 @@ android {
     lintOptions {
         abortOnError false
     }
+
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
@@ -112,7 +66,6 @@ android {
             }
         }
     }
-
 
     resourcePrefix 'consumercare'
 
@@ -130,7 +83,6 @@ android {
         }
 
         android.libraryVariants.all { variant ->
-
             task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
                 title = "Documentation for Android $android.defaultConfig.versionName b$android.defaultConfig.versionCode"
                 destinationDir = new File("${project.getProjectDir()}/doc/", "ConsumerCare")
@@ -157,7 +109,6 @@ android {
     packagingOptions {
         pickFirst 'META-INF/LICENSE'
     }
-
 }
 
 configurations.all {
@@ -167,7 +118,6 @@ configurations.all {
 
 dependencies {
     testImplementation deps.junit
-
 
     if (directdependencies) {
         implementation project(':productselection')
@@ -197,6 +147,7 @@ dependencies {
     implementation deps.gson
     implementation deps.volley
     implementation deps.shamanland_fonticon
+
     testImplementation deps.opengl
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows_multidex
@@ -209,6 +160,7 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
 }
+
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'

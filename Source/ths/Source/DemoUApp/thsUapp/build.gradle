@@ -1,34 +1,23 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
 archivesBaseName = "thsUapp"
 
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-        flatDir {
-            dirs 'libs'
-        }
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
     }
 }
 
@@ -44,6 +33,7 @@ task zipDocuments(type: Zip) {
         classifier 'docs'
     }
 }
+//=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
     compileSdkVersion versions.sdk
@@ -54,12 +44,11 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 1
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
         ]
-
     }
 
     dexOptions {
@@ -78,48 +67,21 @@ android {
             debuggable true
         }
     }
-
-}
-
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation(deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+
     implementation deps.support.appcompatv7
     implementation deps.support.design
     implementation deps.constraintlayout
     implementation deps.calligraphy
+
     testImplementation deps.junit
 
-
+    androidTestImplementation(deps.espresso_core, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 
     if (directdependencies) {
         implementation project(':AppInfra')
@@ -128,13 +90,13 @@ dependencies {
         implementation project(':registrationApi')
         implementation project(':telehealth')
     } else {
-        implementation (philipsdeps.AppInfra) {
+        implementation(philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.uAppFwLib) {
+        implementation(philipsdeps.uAppFwLib) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.telehealth) {
+        implementation(philipsdeps.telehealth) {
             exclude group: 'com.android.support'
             transitive = true
         }

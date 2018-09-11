@@ -1,10 +1,15 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
 apply plugin: 'spoon'
 
 
 buildscript {
     repositories {
-        apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+        apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
         maven { url repos.jcenter
             credentials {

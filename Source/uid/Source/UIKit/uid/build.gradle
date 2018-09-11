@@ -1,54 +1,17 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 
 archivesBaseName = 'uid'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-    }
-}
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    apply plugin: 'com.jfrog.artifactory'
-    group = 'com.philips.cdp'
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -79,13 +42,14 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             consumerProguardFiles "proguard-rules.pro"
         }
         debug {
-            testCoverageEnabled=true
+            testCoverageEnabled = true
         }
     }
 
@@ -99,19 +63,15 @@ android {
         unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
     }
-
-
 }
 
 dependencies {
-    testImplementation deps.junit
-
     implementation deps.support.appcompatv7
     implementation deps.support.design
     implementation deps.constraintlayout
     implementation deps.calligraphy
 
-
+    testImplementation deps.junit
 
     if (directdependencies) {
         implementation project(':IconFont')
@@ -130,7 +90,6 @@ dependencies {
         exclude module: "com.android.support"
     }
     androidTestImplementation deps.android_test_commons
-
 }
 
 tasks.withType(Test) {

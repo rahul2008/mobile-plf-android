@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 apply plugin: 'maven'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
@@ -13,86 +16,18 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle
 archivesBaseName = "productselection"
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
+        classpath builddeps.cdpSCM
     }
 }
 
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
-dependencies {
-
-    testImplementation deps.junit
-    testImplementation deps.mockito
-
-
-
-    implementation deps.shamanland_fonticon
-
-    if (directdependencies) {
-        implementation project(':uAppFwLib')
-        implementation project(':prx')
-        implementation project(':uid')
-        implementation project(':AppInfra')
-    } else {
-        implementation philipsdeps.uAppFwLib
-        implementation philipsdeps.prx
-        implementation philipsdeps.uid
-    }
-
-    implementation deps.constraintlayout
-    implementation deps.support.supportv4
-    implementation deps.support.appcompatv7
-    implementation deps.calligraphy
-    implementation deps.volley
-
-
-    androidTestImplementation deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-
-}
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -112,10 +47,11 @@ android {
         targetSdkVersion versions.target
         versionCode 3
         generatedDensities = []
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
+    
     buildTypes {
         release {
             minifyEnabled false
@@ -126,13 +62,13 @@ android {
             debuggable false
             minifyEnabled false
             shrinkResources false
-            testCoverageEnabled=true
+            testCoverageEnabled = true
         }
     }
 
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
     }
 
     dexOptions {
@@ -142,23 +78,44 @@ android {
     lintOptions {
         abortOnError false
     }
+}
 
+dependencies {
+    implementation deps.shamanland_fonticon
+    implementation deps.constraintlayout
+    implementation deps.support.supportv4
+    implementation deps.support.appcompatv7
+    implementation deps.calligraphy
+    implementation deps.volley
 
+    testImplementation deps.junit
+    testImplementation deps.mockito
+
+    if (directdependencies) {
+        implementation project(':uAppFwLib')
+        implementation project(':prx')
+        implementation project(':uid')
+        implementation project(':AppInfra')
+    } else {
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.prx
+        implementation philipsdeps.uid
+    }
+
+    androidTestImplementation deps.espresso_core, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-
     description 'Run findbugs'
     group 'verification'
     ignoreFailures = true
     classes = fileTree('build/intermediates/classes/simulator/debug')
     source = fileTree('src/main/java')
     classpath = files()
-
     effort = 'max'
-
     excludeFilter = file("findbugs-exclude.xml")
-
     reports {
         xml.enabled = true
         html.enabled = false
@@ -166,13 +123,11 @@ task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 }
 
 task pmd(type: Pmd, dependsOn: "assembleDebug") {
-
     description 'Run pmd'
     group 'verification'
     ignoreFailures = true
     ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
     source = fileTree('src/main/java')
-
     reports {
         xml.enabled = true
         html.enabled = false

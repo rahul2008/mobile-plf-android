@@ -6,8 +6,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
@@ -105,10 +103,6 @@ android {
     }
 }
 
-configurations {
-    //compile.exclude module: 'support-annotations'
-}
-
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
@@ -125,13 +119,12 @@ dependencies {
     implementation deps.dagger.dagger
 
     // Philips Components
-
     if (directdependencies) {
         implementation project(':registrationApi')
         implementation project(':pif')
         implementation project(':AppInfra')
     } else {
-        implementation (philipsdeps.registrationApi) {
+        implementation(philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'
             exclude group: 'com.google.dagger'
         }
@@ -149,7 +142,7 @@ dependencies {
         exclude module: 'support-v4'
     }
     testImplementation deps.robolectric_utils
-    testImplementation deps.robolectric_junit2
+    testImplementation deps.robolectric_junit
     testImplementation deps.powermock_core
     testImplementation deps.powermock_junit
     testImplementation deps.powermock_junit_rule
@@ -187,7 +180,6 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
         xml.enabled = true
         html.enabled = false
     }
-
 }
 
 tasks.withType(Test) {

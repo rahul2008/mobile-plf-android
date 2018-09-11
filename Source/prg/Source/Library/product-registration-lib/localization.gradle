@@ -1,17 +1,18 @@
-import com.github.jrubygradle.JRubyExec
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.github.jruby-gradle.base'
 
 buildscript {
-    repositories {
-        jcenter()
-    }
-
     dependencies {
         classpath builddeps.jruby_gradle
     }
 }
-apply plugin: 'com.github.jruby-gradle.base'
 
-dependencies{
+import com.github.jrubygradle.JRubyExec
+dependencies {
     jrubyExec rubygems
 }
 

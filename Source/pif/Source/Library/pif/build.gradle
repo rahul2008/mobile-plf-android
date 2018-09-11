@@ -1,13 +1,9 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2018.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -54,10 +50,9 @@ android {
         }
     }
 
-
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        sourceCompatibility versions.sourceCompatibility
+        targetCompatibility versions.targetCompatibility
     }
 }
 
@@ -65,8 +60,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.joda_time
     testImplementation deps.junit
-    testImplementation deps.robolectric_3_8
+    testImplementation deps.robolectric
 }
+
 tasks.withType(Test) {
     ignoreFailures = true
 }
