@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChangedListener, ABTestClientInterface.OnRefreshListener {
 
-    public final static String AB_TESTING_CONSENT = "ab-testingConsent";
+    public final static String AB_TESTING_CONSENT = "abTestConsent";
 
     @Override
     public void consentStatusChanged(@NonNull ConsentDefinition consentDefinition, @Nullable ConsentError consentError, boolean requestedStatus) {
