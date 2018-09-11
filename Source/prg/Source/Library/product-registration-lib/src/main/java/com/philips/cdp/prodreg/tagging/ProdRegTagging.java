@@ -1,14 +1,13 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.cdp.prodreg.tagging;
 
 import android.app.Activity;
 
-import com.philips.cdp.product_registration_lib.BuildConfig;
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.HashMap;
@@ -16,48 +15,29 @@ import java.util.Map;
 
 public class ProdRegTagging {
 
-    private static ProdRegTagging prodRegTagging;
     private static AppTaggingInterface aiAppTaggingInterface;
 
-    private ProdRegTagging() {
+    public static void init() {
+        aiAppTaggingInterface = RegistrationConfiguration.getInstance().getComponent().getAppTaggingInterface();
+        aiAppTaggingInterface = aiAppTaggingInterface.createInstanceForComponent("prg", com.philips.cdp.registration.BuildConfig.VERSION_NAME);
     }
 
-    public static ProdRegTagging getInstance() {
-        if (prodRegTagging == null) {
-            prodRegTagging = new ProdRegTagging();
-        }
-        return prodRegTagging;
+    public static void trackPage(String pageName) {
+        aiAppTaggingInterface.trackPageWithInfo(pageName, null);
     }
 
-    @SuppressWarnings("deprecation")
-    public static void init(AppInfra appInfra) {
-        aiAppTaggingInterface = appInfra.getTagging().createInstanceForComponent("prg", BuildConfig.VERSION_NAME);
-    }
-
-    public AppTaggingInterface getAiAppTaggingInterface() {
-        return aiAppTaggingInterface;
-    }
-
-    public void trackPage(String pageName) {
-        try {
-            getAiAppTaggingInterface().trackPageWithInfo(pageName, null);
-        } catch (IllegalArgumentException e) {
-
-        }
-    }
-
-    public void trackAction(String event, String key, String value) {
+    public static void trackAction(String event, String key, String value) {
         final Map<String, String> commonGoalsMap = new HashMap<>();
         commonGoalsMap.put(key, value);
-        getAiAppTaggingInterface().trackActionWithInfo(event, commonGoalsMap);
+        aiAppTaggingInterface.trackActionWithInfo(event, commonGoalsMap);
     }
 
-    public void pauseCollectingLifecycleData() {
-        getAiAppTaggingInterface().pauseLifecycleInfo();
+    public static void pauseCollectingLifecycleData() {
+        aiAppTaggingInterface.pauseLifecycleInfo();
     }
 
-    public void collectLifecycleData(Activity activity) {
-        getAiAppTaggingInterface().collectLifecycleInfo(activity);
+    public static void collectLifecycleData(Activity activity) {
+        aiAppTaggingInterface.collectLifecycleInfo(activity);
     }
 
 }

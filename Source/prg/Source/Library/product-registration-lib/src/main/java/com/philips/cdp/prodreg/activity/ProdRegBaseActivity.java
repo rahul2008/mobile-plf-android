@@ -41,18 +41,16 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ProdRegBaseActivity extends UIDActivity {
     private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
-    private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
     private Handler mSiteCatListHandler = new Handler();
     private Toolbar mToolbar;
     private ActionBarTextView mActionBarTextView;
-    private static final long serialVersionUID = -6635233525340545682L;
 
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
         @Override
         public void run() {
-            ProdRegTagging.getInstance().pauseCollectingLifecycleData();
+            ProdRegTagging.pauseCollectingLifecycleData();
         }
     };
 
@@ -60,7 +58,7 @@ public class ProdRegBaseActivity extends UIDActivity {
 
         @Override
         public void run() {
-            ProdRegTagging.getInstance().collectLifecycleData(ProdRegBaseActivity.this);
+            ProdRegTagging.collectLifecycleData(ProdRegBaseActivity.this);
         }
     };
 
@@ -107,7 +105,7 @@ public class ProdRegBaseActivity extends UIDActivity {
         super.onResume();
     }
 
-    @SuppressWarnings({"unchecked","serial"})
+    @SuppressWarnings({"unchecked", "serial"})
     protected void showFragment() {
         try {
             boolean isFirstLaunch = false;
