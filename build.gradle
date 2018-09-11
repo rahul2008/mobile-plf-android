@@ -7,7 +7,7 @@ buildscript {
     apply from: projectDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     repositories {
-        maven{
+        maven {
             url repos.mavengoogle
         }
         maven { url repos.jcenter }
@@ -61,7 +61,7 @@ subprojects {
         apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
         repositories {
-            maven{
+            maven {
                 url repos.mavengoogle
                 credentials {
                     username = "readonly"
@@ -83,7 +83,7 @@ subprojects {
     }
 
     repositories {
-        maven{
+        maven {
             url repos.mavengoogle
             credentials {
                 username = "readonly"
