@@ -47,6 +47,7 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_HOST;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_PORT;
 import static java.lang.Thread.currentThread;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 
@@ -84,6 +85,8 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
 
     private ScheduledExecutorService listenExecutor = newSingleThreadScheduledExecutor();
     private ScheduledFuture listenTaskFuture;
+
+    private ExecutorService descriptionReceiverExecutor = newFixedThreadPool(10);
 
     private ExecutorService callbackExecutor = newSingleThreadExecutor();
 
@@ -277,21 +280,30 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
             return;
         }
 
-        final SSDPDevice device;
-
         if (deviceCache.containsKey(usn)) {
-            device = deviceCache.get(usn);
+            SSDPDevice device = deviceCache.get(usn);
             device.updateFrom(message);
+            notifySsdpDevice(message, device);
         } else {
-            device = createFromSearchResponse(message);
+            // TODO: Deduplicate - do not create new Runnable if 1 is already running for the same target USN
+            Runnable fetchDescriptionTask = new Runnable() {
+                @Override
+                public void run() {
+                    SSDPDevice createdDevice = createFromSearchResponse(message);
 
-            if (device == null) {
-                return;
-            } else {
-                deviceCache.put(usn, device);
-            }
+                    if (createdDevice == null) {
+                        return;
+                    } else {
+                        deviceCache.put(usn, createdDevice);
+                        notifySsdpDevice(message, createdDevice);
+                    }
+                }
+            };
+            descriptionReceiverExecutor.execute(fetchDescriptionTask);
         }
+    }
 
+    private void notifySsdpDevice(SSDPMessage message, SSDPDevice device) {
         String notificationSubType = message.get(NOTIFICATION_SUBTYPE);
 
         if (notificationSubType == null) {

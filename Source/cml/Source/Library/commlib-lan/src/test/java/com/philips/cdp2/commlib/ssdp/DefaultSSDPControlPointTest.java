@@ -9,16 +9,21 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -37,6 +42,7 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPD
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.USN;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -49,8 +55,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SSDPDevice.class})
-public class SSDPControlPointTest {
+@PrepareForTest({SSDPDevice.class, Executors.class, DefaultSSDPControlPoint.class})
+public class DefaultSSDPControlPointTest {
 
     private static final String TEST_LOCATION = "http://1.2.3.4/mock/location";
     private static final String TEST_USN = "uuid:2f402f80-da50-11e1-9b23-00123456789f";
@@ -82,6 +88,12 @@ public class SSDPControlPointTest {
     @Mock
     private MulticastSocket listenSocketMock;
 
+    @Mock
+    private ExecutorService mockFetchingDescriptionExecutor;
+
+    @Captor
+    private ArgumentCaptor<Runnable> runnableCaptor;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -94,9 +106,21 @@ public class SSDPControlPointTest {
         when(ssdpMessageMock.get(USN)).thenReturn(TEST_USN);
         when(ssdpMessageMock.get(BOOT_ID)).thenReturn(TEST_BOOTID);
         when(ssdpMessageMock.get(LOCATION)).thenReturn(TEST_LOCATION);
+        doAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                runnableCaptor.getValue().run();
+                return null;
+            }
+        }).when(mockFetchingDescriptionExecutor).execute(runnableCaptor.capture());
 
         mockStatic(SSDPDevice.class);
         when(createFromSearchResponse(ssdpMessageMock)).thenReturn(ssdpDeviceMock);
+
+        mockStatic(Executors.class);
+        when(Executors.newFixedThreadPool(10)).thenReturn(mockFetchingDescriptionExecutor);
+        when(Executors.newSingleThreadExecutor()).thenCallRealMethod();
+        when(Executors.newSingleThreadScheduledExecutor()).thenCallRealMethod();
 
         ssdpControlPoint = new DefaultSSDPControlPoint() {
             @NonNull
