@@ -63,6 +63,10 @@ subprojects {
         repositories {
             maven{
                 url repos.mavengoogle
+                credentials {
+                    username = "readonly"
+                    password = "123qweasdzxc"
+                }
             }
             maven {
                 url repos.jcenter
@@ -74,16 +78,8 @@ subprojects {
                     password = "123qweasdzxc"
                 }
             }
-            maven { url sonatype }
             google()
         }
-    }
-
-    group = 'com.philips.cdp'
-    version = platformversion
-
-    if (!it.projectDir.exists()) {
-        throw new GradleException("Project not found ${it}")
     }
 
     repositories {
@@ -94,8 +90,9 @@ subprojects {
                 password = "123qweasdzxc"
             }
         }
-
-        maven { url repos.jcenter }
+        maven {
+            url repos.jcenter
+        }
         maven {
             url repos.plugin
             credentials {
@@ -103,6 +100,14 @@ subprojects {
                 password = "123qweasdzxc"
             }
         }
+        google()
+    }
+
+    group = 'com.philips.cdp'
+    version = platformversion
+
+    if (!it.projectDir.exists()) {
+        throw new GradleException("Project not found ${it}")
     }
 
     ext.useprojectdependencies = true
