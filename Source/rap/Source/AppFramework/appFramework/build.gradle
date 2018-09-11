@@ -245,7 +245,6 @@ dependencies {
     implementation(deps.support.annotations) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    implementation deps.firebase_iid
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.gson
@@ -257,9 +256,11 @@ dependencies {
     implementation deps.javax_annotation
     implementation deps.play_services_gcm
 
-    implementation deps.firebase_core
+    implementation (deps.firebase_core) {
+        exclude group: 'com.google.firebase', module: 'firebase-iid'
+    }
     implementation deps.firebase_config
-
+    implementation deps.firebase_iid
     debugImplementation deps.leakcanary_no_op
     leakCanaryImplementation deps.leakcanary
     releaseImplementation deps.leakcanary_no_op
