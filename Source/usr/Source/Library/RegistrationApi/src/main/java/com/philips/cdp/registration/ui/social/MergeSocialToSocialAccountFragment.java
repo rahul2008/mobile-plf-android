@@ -52,6 +52,8 @@ import butterknife.OnClick;
 public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment implements
         MergeSocialToSocialAccountContract {
 
+    private String TAG = "MergeSocialToSocialAccountFragment";
+
     @Inject
     NetworkUtility networkUtility;
 
@@ -135,7 +137,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
         mConflictProvider = bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
         mEmail = bundle.getString(RegConstants.SOCIAL_MERGE_EMAIL);
-        RLog.e("TAG", "Social Provider : " + mConflictProvider);
+        RLog.e(TAG, "Social Provider : " + mConflictProvider);
         String conflictingProvider = "USR_" + mConflictProvider;
         int conflictSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(conflictingProvider, "string",
                 getRegistrationFragment().getParentActivity().getPackageName());

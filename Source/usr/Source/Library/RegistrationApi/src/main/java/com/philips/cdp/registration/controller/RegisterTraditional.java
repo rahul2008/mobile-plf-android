@@ -77,7 +77,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
             ThreadUtils.postInMainThread(mContext, () ->
                     mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
         } catch (Exception e) {
-            RLog.e(TAG, "onFailure Exception : " + e.getMessage());
+            RLog.e(TAG, "onFailure: Exception : " + e.getMessage());
         }
 
     }
