@@ -185,13 +185,11 @@
   <color name="uid_signal_lime_level_45">#9FEB07</color>
   <color name="uid_signal_lime_level_50">#8DDE00</color>
   <color name="uid_signal_lime_level_60">#7BCC00</color>
-  <color name="uid_signal_orange_level_15">#E65800</color>
   <color name="uid_signal_orange_level_30">#FFB640</color>
   <color name="uid_signal_orange_level_40">#FF9F19</color>
   <color name="uid_signal_orange_level_45">#FF830F</color>
   <color name="uid_signal_orange_level_50">#F76700</color>
   <color name="uid_signal_orange_level_60">#E65800</color>
-  <color name="uid_signal_orange_level_75">#E65800</color>
   <color name="uid_signal_pink_level_30">#FF9CDC</color>
   <color name="uid_signal_pink_level_40">#FF8AD6</color>
   <color name="uid_signal_pink_level_45">#FF6BC4</color>
@@ -207,8 +205,6 @@
   <color name="uid_signal_red_level_45">#FA5A4B</color>
   <color name="uid_signal_red_level_50">#F2463D</color>
   <color name="uid_signal_red_level_60">#DE3835</color>
-  <color name="uid_signal_red_level_75">#DE3835</color>
-  <color name="uid_signal_yellow_level_15">#F2A200</color>
   <color name="uid_signal_yellow_level_30">#FFED5E</color>
   <color name="uid_signal_yellow_level_40">#FFDD19</color>
   <color name="uid_signal_yellow_level_45">#FFCD05</color>
