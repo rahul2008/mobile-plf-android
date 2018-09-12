@@ -1,8 +1,12 @@
 package com.philips.cdp.registration.app.tagging;
 
+import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.injection.RegistrationComponent;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import junit.framework.TestCase;
 
@@ -12,12 +16,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.mockito.Mockito.when;
 
 /**
  * Created by philips on 12/3/17.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(CustomRobolectricRunner.class)
 public class AppTaggingErrorsTest extends TestCase{
 
     AppTaggingErrors appTaggingErrors;
@@ -55,7 +60,10 @@ public class AppTaggingErrorsTest extends TestCase{
     private RegistrationComponent registrationComponentMock;
 
     @Mock
-    private com.philips.platform.appinfra.tagging.AppTaggingInterface appTaggingInterfaceMock;
+    AppTaggingInterface appTaggingInterfaceMock;
+
+    @Mock
+    AppInfraInterface appInfraInterface;
 
 
     @Before
@@ -63,10 +71,12 @@ public class AppTaggingErrorsTest extends TestCase{
 
         MockitoAnnotations.initMocks(this);
 
-        Mockito.when(registrationComponentMock.getAppTaggingInterface()).thenReturn(appTaggingInterfaceMock);
+       // Mockito.when(registrationComponentMock.getAppTaggingInterface()).thenReturn(appTaggingInterfaceMock);
         RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
-
-        appTaggingErrors=new AppTaggingErrors();
+        AppTagging.setMockAppTaggingInterface(appTaggingInterfaceMock);
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
+        when(appInfraInterface.getTagging().createInstanceForComponent("usr", BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterfaceMock);
+        appTaggingErrors = new AppTaggingErrors();
     }
 
     @Test
@@ -144,13 +154,13 @@ public class AppTaggingErrorsTest extends TestCase{
     @Test
     public void trackActionRegisterError_NETWORK_ERROR_CODE() throws Exception {
         Mockito.when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(NETWORK_ERROR_CODE);
-        appTaggingErrors.trackActionRegisterError(userRegistrationFailureInfoMock,"flowType");
+        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfoMock, "flowType");
     }
 
     @Test
-    public void trackActionRegisterError_EMAIL_ADDRESS_ALREADY_USE_CODE() throws Exception {
+    public void trackActionRegisterError_EMAIL_ADDRESS_ALREADY_USE_CODE() {
         Mockito.when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(EMAIL_ADDRESS_ALREADY_USE_CODE);
-        appTaggingErrors.trackActionRegisterError(userRegistrationFailureInfoMock,"flowType");
+        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfoMock, "flowType");
     }
 
     @Test

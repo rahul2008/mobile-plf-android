@@ -85,7 +85,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                 message + methodDuration);
     }
 
-
+    @Override
     public Context getAppInfraContext() {
         return appInfraContext;
     }
@@ -271,7 +271,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         private InternationalizationInterface local;
         private ServiceDiscoveryInterface mServiceDiscoveryInterface;
         private TimeInterface mTimeSyncInterfaceBuilder;
-        private ABTestClientInterface aIabtesting;
+        private ABTestClientInterface abtesting;
 
 
         private AppConfigurationInterface configInterface;
@@ -279,7 +279,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         private LanguagePackInterface languagePack;
         private AppUpdateInterface appupdateInterface;
         private AIKMInterface aikmInterface;
-
         private ConsentManagerInterface consentManager;
         private DeviceStoredConsentHandler deviceStoredConsentHandler;
 
@@ -301,10 +300,22 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             mRestInterface = null;
             languagePack = null;
             aikmInterface = null;
+            abtesting = null;
             consentManager = null;
             deviceStoredConsentHandler=null;
         }
 
+
+        /**
+         * Sets config.
+         *
+         * @param abTestClient the config
+         * @return the config
+         */
+        public Builder setAbTesting(ABTestClientInterface abTestClient) {
+            this.abtesting = abTestClient;
+            return this;
+        }
 
         /**
          * Sets config.
@@ -434,26 +445,13 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
             ai.getTagging().registerClickStreamHandler(ai.getConsentManager());
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    final Object abTestConfig = ABTestClientManager.getAbtestConfig(appConfigurationManager, ai);
-                    if (abTestConfig != null) {
-                        ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
-                    } else {
-                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                                AppInfraLogEventID.AI_APPINFRA, "Please add the Abtest Config Values " +
-                                        "to use Abtesting");
-                    }
-                    ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APPINFRA,
-                            "Device name:" + Build.MANUFACTURER + " " + Build.MODEL + " " + " OS version:" + Build.VERSION.RELEASE);
+            new Thread(() -> {
 
-                    if (ai.getAppIdentity() != null) {
-                        initializeLogs(ai);
-                    }
+                if (abtesting != null) {
+                    ai.setAbTesting(abtesting);
+                } else
+                    ai.setAbTesting(new ABTestClientManager());
 
-//                    appConfigurationManager.migrateDynamicData();
-                }
             }).start();
 
             new Thread(new Runnable() {

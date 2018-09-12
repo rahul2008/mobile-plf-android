@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
-String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %buildType=TICS\nH H(22-23) * * * %buildType=HPFortify" : ""
+String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %buildType=TICS" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def nodes = '27.0.2 && device'
@@ -115,13 +115,15 @@ pipeline {
                 sh '''#!/bin/bash -l
                     set -e
                     ./gradlew saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
-                    ./gradlew referenceApp:dependencies > ./dependency_log.txt
+
                     apkname=`xargs < apkname.txt`
-                    dependencyname=${apkname/.apk/.gradledependencies}
-                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependencyname}" -T ./dependency_log.txt
+                    dependenciesName=${apkname/.apk/.gradledependencies.gz}
+                    ./gradlew -Dorg.gradle.parallel=false reportAllProjectDependencies | gzip -9 > ./allProjects.gradledependencies.gz
+                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependenciesName}" -T ./allProjects.gradledependencies.gz
                 '''
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
                 DeployingConnectedTestsLogs()
+                DeployingJavaDocs()
             }
         }
 
@@ -160,7 +162,6 @@ pipeline {
                 script {
                     echo "Running TICS..."
                     sh """#!/bin/bash -le
-                        ./gradlew clean jacocoTestReport
                         /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
                         /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity
                     """
@@ -187,7 +188,7 @@ pipeline {
                     echo "BranchName changed to ${jobBranchName}"
 
                     sh """#!/bin/bash -le
-                        curl -X POST http://310256016:61a84d6f3e9343128dff5736ef68259e@cdp2-jenkins.htce.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/E2E_Android_${jobBranchName}/buildWithParameters?APKPATH=$APK_NAME
+                        curl -X POST http://platform-ubuntu-ehv-002.ddns.htc.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/E2E_Android_${jobBranchName}/buildWithParameters?APKPATH=$APK_NAME
                     """
                 }
             }
@@ -327,7 +328,7 @@ def BuildHPFortify() {
         chmod -R 755 .
         ./gradlew --refresh-dependencies
         echo "*** sourceanalyzer -b 001 -source 1.8 ./gradlew --full-stacktrace assembleRelease ***"
-        sourceanalyzer -b 001 -source 1.8 ./gradlew --full-stacktrace assembleRelease
+        sourceanalyzer -debug -verbose -b 001 -source 1.8 ./gradlew --full-stacktrace assembleRelease
         echo "*** sourceanalyzer -b 001 -scan -f results.fpr ***"
         sourceanalyzer -b 001 -scan -f results.fpr
         echo "*** fortifyclient -url https://fortify.philips.com/ssc ***"
@@ -416,6 +417,52 @@ def DeployingConnectedTestsLogs() {
         do
             curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/logs/ -T $LOGS
         done
+
+        if [ $? != 0 ]
+        then
+            exit 1
+        else
+            cd $BASE_PATH
+        fi
+    '''
+    sh shellcommand
+}
+
+def DeployingJavaDocs() {
+    boolean MasterBranch = (BranchName ==~ /master.*/)
+    boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
+    boolean DevelopBranch = (BranchName ==~ /develop.*/)
+
+    def shellcommand = '''#!/bin/bash -l
+        export BASE_PATH=`pwd`
+        echo $BASE_PATH
+
+        cd $BASE_PATH
+
+        ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
+        ARTIFACTORY_REPO="unknown"
+
+        if [ '''+MasterBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-pkgs-android-stage-local"
+        elif [ '''+ReleaseBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-pkgs-android-release-local"
+        elif [ '''+DevelopBranch+''' = true ]
+        then
+            ARTIFACTORY_REPO="platform-pkgs-android-snapshot-local"
+        else
+            echo "Not published JavaDoc as build is not on a master, develop or release branch" . $BranchName
+        fi
+
+        ./gradlew :bluelib:zipJavadoc :commlib-api:zipJavadoc :commlib-ble:zipJavadoc :commlib-cloud:zipJavadoc :commlib-lan:zipJavadoc :referenceApp:printPlatformVersion
+        platformVersion=`xargs < platformversion.txt`
+
+        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/bluelib/$platformVersion/ -T ./Source/bll/Documents/External/bluelib-api.zip
+        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-api/$platformVersion/ -T ./Source/cml/Documents/External/commlib-api-api.zip
+        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-ble/$platformVersion/ -T ./Source/cml/Documents/External/commlib-ble-api.zip
+        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-cloud/$platformVersion/ -T ./Source/cml/Documents/External/commlib-cloud-api.zip
+        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-lan/$platformVersion/ -T ./Source/cml/Documents/External/commlib-lan-api.zip
 
         if [ $? != 0 ]
         then

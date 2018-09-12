@@ -167,21 +167,26 @@ configurations.all {
 
 dependencies {
     testImplementation deps.junit
-    def dp = project.ext.has('useprojectdependencies')
 
-    if (dp) {
+
+    if (directdependencies) {
         implementation project(':productselection')
         implementation project(':uid')
+        implementation project(':csw')
         implementation project(':uAppFwLib')
         implementation project(':AppInfra')
         implementation project(':prx')
-        implementation project(':csw')
         implementation project(':catk')
         implementation project(':pif')
     } else {
         implementation philipsdeps.productselection
         implementation philipsdeps.uid
-        implementation philipsdeps.mya_csw
+        implementation philipsdeps.csw
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.prx
+        implementation philipsdeps.catk
+        implementation philipsdeps.pif
     }
 
     implementation deps.play_services_maps

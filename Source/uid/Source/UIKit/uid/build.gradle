@@ -111,9 +111,9 @@ dependencies {
     implementation deps.constraintlayout
     implementation deps.calligraphy
 
-    def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
+
+    if (directdependencies) {
         implementation project(':IconFont')
     } else {
         implementation philipsdeps.IconFont

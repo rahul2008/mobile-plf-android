@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Вие сте офлайн</string>
 <string name="MYA_Offline_message">Изглежда, че вашата интернет връзка не работи. Проверете и опитайте отново.</string>
 <string name="mya_Privacy_Settings_Desc">Контролирайте поверителността си. Прочетете _privacy notice_ за повече информация.</string>
+    <string name="MYA_Visit_Website">[bg]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[bg]Marketing OptIn</string>
 </resources>

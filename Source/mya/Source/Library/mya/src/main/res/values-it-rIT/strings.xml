@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Non sei online</string>
 <string name="MYA_Offline_message">Sembra esserci un problema con la tua connessione a Internet. Ti preghiamo di verificare e di riprovare</string>
 <string name="mya_Privacy_Settings_Desc">Preserva la tua privacy. Per ulteriori informazioni, leggi l\'_informativa sulla privacy.</string>
+    <string name="MYA_Visit_Website">[it]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[it]Marketing OptIn</string>
 </resources>

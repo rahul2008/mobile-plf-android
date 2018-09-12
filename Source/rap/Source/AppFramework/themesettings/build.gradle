@@ -1,31 +1,12 @@
 apply plugin: 'com.android.library'
 
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
     dependencies {
-        classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
     }
 }
-
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -100,9 +81,7 @@ dependencies {
 
     implementation deps.support.recyclerview
 
-    def dp = project.ext.has('useprojectdependencies')
-
-    if(dp) {
+    if (directdependencies) {
         implementation project(':uid')
     } else {
         implementation philipsdeps.uid

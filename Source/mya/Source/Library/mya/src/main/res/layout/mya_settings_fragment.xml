@@ -12,6 +12,8 @@
 
         <com.philips.platform.uid.view.widget.Label
             style="@style/UIDLabel.Header"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
             android:text="@string/MYA_Account_settings" />
 
         <android.support.v7.widget.RecyclerView

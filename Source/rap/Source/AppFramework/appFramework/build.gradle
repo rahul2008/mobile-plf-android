@@ -5,7 +5,8 @@ apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
 apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting_logging.gradle"
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply plugin: 'com.jakewharton.butterknife'
 
 buildscript {
@@ -244,8 +245,6 @@ dependencies {
     implementation(deps.support.annotations) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    implementation deps.firebase_iid
-    implementation deps.firebase_core
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.gson
@@ -257,6 +256,11 @@ dependencies {
     implementation deps.javax_annotation
     implementation deps.play_services_gcm
 
+    implementation (deps.firebase_core) {
+        exclude group: 'com.google.firebase', module: 'firebase-iid'
+    }
+    implementation deps.firebase_config
+    implementation deps.firebase_iid
     debugImplementation deps.leakcanary_no_op
     leakCanaryImplementation deps.leakcanary
     releaseImplementation deps.leakcanary_no_op
@@ -268,9 +272,9 @@ dependencies {
     implementation deps.multidex
     annotationProcessor deps.butterknife_compiler
 
-    def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
+
+    if (directdependencies) {
         implementation project(':product-registration-lib')
         implementation project(':uid')
         implementation project(':pif')
@@ -420,3 +424,16 @@ task('printArtifactoryApkPath') {
         println "Artifactory path of apk stored in apkname.txt"
     }
 }
+
+task('printPlatformVersion') {
+    doLast {
+        if (new File('platformversion.txt').exists()) {
+            new File('platformversion.txt').delete()
+        }
+        File platformversion = new File('platformversion.txt')
+        platformversion.append(version)
+        println "Platform version stored in platformversion.txt"
+    }
+}
+
+apply plugin: 'com.google.gms.google-services'

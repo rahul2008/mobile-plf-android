@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2017.
+ * Copyright (c) Koninklijke Philips N.V., 2018.
  * All rights reserved.
  */
 package com.philips.platform.ews.startconnectwithdevice;
@@ -7,10 +7,12 @@ package com.philips.platform.ews.startconnectwithdevice;
 import com.philips.platform.ews.R;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
 import com.philips.platform.ews.configuration.HappyFlowContentConfiguration;
+import com.philips.platform.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.platform.ews.navigation.FragmentNavigator;
 import com.philips.platform.ews.navigation.Navigator;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.util.StringProvider;
+import com.philips.platform.ews.wifi.WiFiUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,7 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -36,6 +39,12 @@ public class StartConnectWithDeviceViewModelTest {
     private StringProvider stringProviderMock;
 
     @Mock
+    private ConfirmWifiNetworkViewModel.ViewCallback dialogShowable;
+
+    @Mock
+    private WiFiUtil wiFiUtil;
+
+    @Mock
     private HappyFlowContentConfiguration happyFlowContentConfigurationMock;
 
     @Mock
@@ -45,11 +54,12 @@ public class StartConnectWithDeviceViewModelTest {
 
     @Mock
     private EWSTagger mockEWSTagger;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock,
+        subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock, wiFiUtil,
                 happyFlowContentConfigurationMock, baseContentConfigurationMock, mockEWSTagger);
         when(baseContentConfigurationMock.getDeviceName()).thenReturn(123435);
     }
@@ -59,6 +69,14 @@ public class StartConnectWithDeviceViewModelTest {
         stubHomeWiFiStatus();
         verify(mockEWSTagger).trackActionSendData("specialEvents", "getStartedToConnectWiFi");
         verify(navigatorMock).navigateToHomeNetworkConfirmationScreen();
+    }
+
+    @Test
+    public void itShouldShowAWifiTroubleshootDialogIfWifiIsDisabledWhenClickedOnGettingStartedButton() throws Exception {
+        when(wiFiUtil.isHomeWiFiEnabled()).thenReturn(false);
+        subject.setViewCallback(dialogShowable);
+        stubHomeWiFiStatus();
+        verify(dialogShowable).showTroubleshootHomeWifiDialog(any(BaseContentConfiguration.class), any(EWSTagger.class));
     }
 
     private void stubHomeWiFiStatus() {
@@ -109,5 +127,4 @@ public class StartConnectWithDeviceViewModelTest {
         subject.onDestroy();
 
     }
-
 }

@@ -119,22 +119,19 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    // Philips Dependencies
-    def dp = project.ext.has('useprojectdependencies')
-
-    if (dp) {
+    if (directdependencies) {
         implementation project(':uikitLib')
         implementation project(':commlib-lan')
         implementation project(':uid')
         implementation project(':uAppFwLib')
         implementation project(':AppInfra')
-        implementation project(':commlib')
         implementation project(':commlib-api')
     } else {
         implementation philipsdeps.uikitLib
         implementation philipsdeps.commlib_lan
         implementation philipsdeps.uid
         implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
     }
 
     // Android/Google

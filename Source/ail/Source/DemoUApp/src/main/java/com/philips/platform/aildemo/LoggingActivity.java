@@ -12,22 +12,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.consentmanager.ConsentManager;
-import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
-import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.appinfra.demo.R;
-import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.pif.chi.ConsentError;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 
 import java.util.HashMap;
 import java.util.logging.Logger;

@@ -179,13 +179,13 @@ public class UserDataProvider extends User implements UserDataInterface {
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int error) {
-                RLog.e(TAG, "onRefreshLoginSessionFailedWithError " + error);
+                RLog.e(TAG, "getRefreshHandler: onRefreshLoginSessionFailedWithError: " + error);
                 refreshListener.onRefreshSessionFailure(error);
             }
 
             @Override
             public void onRefreshLoginSessionInProgress(String message) {
-                RLog.e(TAG, "onRefreshLoginSessionInProgress : " + message);
+                RLog.e(TAG, "getRefreshHandler: onRefreshLoginSessionInProgress : " + message);
                 refreshListener.onRefreshSessionInProgress(message);
             }
         };

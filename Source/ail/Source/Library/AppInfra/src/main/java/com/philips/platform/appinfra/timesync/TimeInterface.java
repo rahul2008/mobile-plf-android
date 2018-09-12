@@ -12,6 +12,8 @@ import java.util.Date;
  * The UTC Time Sync Interface
  */
 public interface TimeInterface extends Serializable {
+    String UTC = "UTC";
+
     /**
      * Gets utc time from NTP server.
      *

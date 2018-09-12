@@ -9,7 +9,6 @@ package com.philips.platform.appinfra.logging;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -18,14 +17,14 @@ import com.philips.platform.appinfra.AppInfraInitialisationCompleteListener;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_HOME_COUNTRY;
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.AIL_HOME_COUNTRY;
 
 
 public class AppInfraLogging implements LoggingInterface, AppInfraInitialisationCompleteListener {
@@ -182,7 +181,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
             appInfra.getServiceDiscovery().registerOnHomeCountrySet(new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    if (intent.getAction().equals(ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION)) {
+                    if (intent.getAction().equals(ServiceDiscoveryInterface.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION)) {
                         String countryCode = (String) intent.getExtras().get(AIL_HOME_COUNTRY);
                         ailCloudLogMetaData.setHomeCountry(countryCode);
                     }

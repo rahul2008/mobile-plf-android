@@ -63,18 +63,18 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
                 @Override
                 public void onRefreshUserSuccess() {
                     getMarketingConsentDefinition(consentType, callback);
-                    RLog.d(TAG, "onRefreshUserSuccess ");
+                    RLog.d(TAG, "refreshUserOrGetMarketingConsent: onRefreshUserSuccess ");
                 }
 
                 @Override
                 public void onRefreshUserFailed(int error) {
                     getMarketingConsentDefinition(consentType, callback);
-                    RLog.e(TAG, "onRefreshUserFailed ");
+                    RLog.e(TAG, "refreshUserOrGetMarketingConsent : onRefreshUserFailed ");
                 }
             });
         } else {
             getMarketingConsentDefinition(consentType, callback);
-            RLog.d(TAG, "return marketing consent cache as internet is offline");
+            RLog.d(TAG, "refreshUserOrGetMarketingConsent :     return marketing consent cache as internet is offline");
         }
     }
 

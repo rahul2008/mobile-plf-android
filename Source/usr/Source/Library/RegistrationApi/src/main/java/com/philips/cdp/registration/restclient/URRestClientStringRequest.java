@@ -99,7 +99,7 @@ public class URRestClientStringRequest extends StringRequest {
     protected VolleyError parseNetworkError(VolleyError volleyError) {
         if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
             final String message = new String(volleyError.networkResponse.data);
-            RLog.e(TAG, "parseNetworkError =" + message);
+            RLog.e(TAG, "parseNetworkError: volleyError message" + message);
             volleyError = new VolleyError(message);
         }
 

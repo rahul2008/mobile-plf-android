@@ -32,6 +32,7 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.devicepair.R;
@@ -232,6 +233,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
                 mPairDevice = new PairDevice();
                 mPairDevice.setDeviceID(mAppliancesList.get(i).getNetworkNode().getCppId());
                 mPairDevice.setDeviceType(mAppliancesList.get(i).getNetworkNode().getDeviceType());
+                mPairDevice.setRelationshipType(getRelationshipType());
                 return mPairDevice;
             }
         }
@@ -292,7 +294,14 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         String permission[] = new String[0];
         String secretKeyGen = "";
         pairingPort.pair("cphuser", "", new User(mContext).getHsdpUUID(),
-                secretKeyGen, "urn:cdp|datareceiver_stg", permission);
+                secretKeyGen, getRelationshipType(), permission);
+    }
+
+    private String getRelationshipType() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        String env = (String) DevicePairingUappInterface.getAppConfig().getPropertyForKey("appidentity.appState", "appinfra", configError);
+        return (String) DevicePairingUappInterface.getAppConfig().getPropertyForKey(env, "pairingRelationshipType", configError);
     }
 
     public void updateDiscoveredDevices(List<String> discoveredDevices) {

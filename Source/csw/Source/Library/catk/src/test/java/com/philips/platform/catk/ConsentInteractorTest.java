@@ -125,7 +125,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeStateFails_ifUserNotLoggedIn() {
-        givenUserIsLoggedIn(false);
+        givenUserLoginStateIs(UserLoginState.USER_NOT_LOGGED_IN);
         givenInternetIs(REACHABLE);
         whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
         thenOnGetConsentsFailedIsCalledForFetchCallback();
@@ -133,7 +133,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeState_whenOnline() {
-        givenUserIsLoggedIn(true);
+        givenUserLoginStateIs(UserLoginState.USER_LOGGED_IN);
         givenInternetIs(REACHABLE);
         whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
         thenGetStatusForIsCalledFor(MOMENT_CONSENT);
@@ -148,7 +148,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeState_whenOffline() {
-        givenUserIsLoggedIn(true);
+        givenUserLoginStateIs(UserLoginState.USER_LOGGED_IN);
         givenInternetIs(UNREACHABLE);
         whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
         thenOnGetConsentsFailedIsCalledForFetchCallback();
@@ -163,7 +163,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void itShouldReportConsentFailedWhenResponseFails() {
-        givenUserIsLoggedIn(true);
+        givenUserLoginStateIs(UserLoginState.USER_LOGGED_IN);
         whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
         andCatkResponseFailsWithError(new ConsentNetworkError(new VolleyError()));
         thenConsentFailedIsReported();
@@ -171,7 +171,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void itShouldReportConsentSuccessWhenNonEmptyResponse() {
-        givenUserIsLoggedIn(true);
+        givenUserLoginStateIs(UserLoginState.USER_LOGGED_IN);
         whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
         andResponseFromCatkIs(new ConsentDTO("local", ConsentStates.active, "type", 0, new DateTime(someTimestamp)));
         thenConsentStatusReturnedInCallbackIs("active");
@@ -195,7 +195,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeState_ReturnsCachedConsent() {
-        givenUserIsLoggedIn(true);
+        givenUserLoginStateIs(UserLoginState.USER_LOGGED_IN);
         givenConsentCacheFetchReturns(VALID_CACHED_REJECTED_STATUS, TEST_CONSENT);
         whenFetchConsentStateIsCalledFor(TEST_CONSENT);
         thenGetStatusForConsentTypeIsNotCalled();
@@ -205,7 +205,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeState_CallsBackendFetch_IfCacheIsExpired() {
-        givenUserIsLoggedIn(true);
+        givenUserLoginStateIs(UserLoginState.USER_LOGGED_IN);
         givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS_EXPIRED, MOMENT_CONSENT);
         whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
 
@@ -219,7 +219,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeState_StoresIntoCache_IfFetchingFromBackend() {
-        givenUserIsLoggedIn(true);
+        givenUserLoginStateIs(UserLoginState.USER_LOGGED_IN);
         whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
 
         thenConsentCacheFetchIsCalledFor(MOMENT_CONSENT);
@@ -233,7 +233,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeState_returnsFromCacheEvenIfItsExpired_IfOffline() {
-        givenUserIsLoggedIn(true);
+        givenUserLoginStateIs(UserLoginState.USER_LOGGED_IN);
         givenInternetIs(UNREACHABLE);
         givenConsentCacheFetchReturns(CACHED_REJECTED_STATUS_EXPIRED, MOMENT_CONSENT);
         whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
@@ -246,7 +246,7 @@ public class ConsentInteractorTest {
 
     @Test
     public void fetchConsentTypeState_DoesNotStoreToCache_IfBackendFetchThrowsError() {
-        givenUserIsLoggedIn(true);
+        givenUserLoginStateIs(UserLoginState.USER_LOGGED_IN);
         whenFetchConsentStateIsCalledFor(MOMENT_CONSENT);
         andCatkResponseFailsWithError(new ConsentNetworkError(new VolleyError()));
         thenConsentFailedIsReported();
@@ -267,8 +267,8 @@ public class ConsentInteractorTest {
         thenConsentCacheClearIsNotCalled();
     }
 
-    private void givenUserIsLoggedIn(boolean loggedIn) {
-        when(mockUser.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
+    private void givenUserLoginStateIs(UserLoginState loggedIn) {
+        when(mockUser.getUserLoginState()).thenReturn(loggedIn);
         when(mockCatkComponent.getUser()).thenReturn(mockUser);
         when(mockCatk.getCatkComponent()).thenReturn(mockCatkComponent);
     }

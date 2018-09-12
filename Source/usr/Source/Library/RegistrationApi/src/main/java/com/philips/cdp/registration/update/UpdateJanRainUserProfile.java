@@ -40,11 +40,11 @@ public class UpdateJanRainUserProfile implements UpdateUserProfile {
     void updateUserEmail(String emailId, CaptureApiRequestCallback captureApiRequestCallback) {
         CaptureRecord currentUser = Jump.getSignedInUser();
         try {
-            RLog.d(TAG, "updating User Email with provided email");
+            RLog.d(TAG, "updateUserEmail : initiated");
             currentUser.put(JANRAIN_UPDATE_EMAIL_KEY, emailId);
             Capture.updateUserProfile(currentUser, EDIT_PROFILE_FORM_NAME, captureApiRequestCallback);
         } catch (JSONException e) {
-            RLog.e(TAG, "Exception while updating User Email with provided email" + e.getMessage());
+            RLog.e(TAG, "updateUserEmail : Exception while updating User Email with provided email" + e.getMessage());
         }
     }
 }

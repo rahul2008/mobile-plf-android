@@ -30,6 +30,7 @@
     "appidentity.sector": "b2c",
     "appidentity.appState": "DEVELOPMENT",
     "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "appUpdate.autoRefresh": true,
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": [
       "bundleId",
@@ -85,7 +86,7 @@
       "fileName": "AppInfraLog",
       "numberOfFiles": 5,
       "fileSizeInBytes": 50000,
-      "logLevel": "Error",
+      "logLevel": "All",
       "fileLogEnabled": false,
       "cloudLogEnabled":false,
       "cloudBatchLimit":5,
@@ -127,5 +128,10 @@
   },
   "dataservices": {
     "supportedMomentTypes": ["Temperature", "SleepSession", "sleepSession", "Note"]
+  },
+  "pairingRelationshipType": {
+    "STAGING": "urn:cdp|datareceiver_stg",
+    "DEVELOPMENT": "urn:cdp|datareceiver_dev",
+    "TEST": "urn:cdp|datareceiver_dev"
   }
 }

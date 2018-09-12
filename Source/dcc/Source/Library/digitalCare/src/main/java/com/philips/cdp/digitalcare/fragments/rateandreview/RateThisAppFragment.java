@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
@@ -27,6 +28,13 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.ProductReviewFragment;
 import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.RateThisAppFragmentContract;
 import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.RateThisAppFragmentPresenter;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.philips.cdp.digitalcare.analytics.AnalyticsConstants.ACTION_KEY_SPECIAL_EVENTS;
+import static com.philips.cdp.digitalcare.analytics.AnalyticsConstants.ACTION_VALUE_RATE_THIS_APP;
+import static com.philips.cdp.digitalcare.analytics.AnalyticsConstants.ACTION_VALUE_WRITE_PRODUCT_REVIEW;
 
 @SuppressWarnings("serial")
 public class RateThisAppFragment extends DigitalCareBaseFragment implements RateThisAppFragmentContract {
@@ -113,8 +121,18 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Rate
         int id = view.getId();
         if(isConnectionAvailable()) {
             if (id == R.id.tellus_PhilipsReviewButton) {
+                Map<String, String> contextData = new HashMap<>();
+                contextData.put(ACTION_KEY_SPECIAL_EVENTS,ACTION_VALUE_WRITE_PRODUCT_REVIEW);
+                DigitalCareConfigManager.getInstance().getTaggingInterface().
+                        trackActionWithInfo(AnalyticsConstants.ACTION_SEND_DATA,
+                                contextData);
                 rateProductReview();
             } else if (id == R.id.tellus_PlayStoreReviewButton) {
+                Map<String, String> contextData = new HashMap<>();
+                contextData.put(ACTION_KEY_SPECIAL_EVENTS,ACTION_VALUE_RATE_THIS_APP);
+                DigitalCareConfigManager.getInstance().getTaggingInterface().
+                        trackActionWithInfo(AnalyticsConstants.ACTION_SEND_DATA,
+                                contextData);
                 rateThisApp();
             }
         }

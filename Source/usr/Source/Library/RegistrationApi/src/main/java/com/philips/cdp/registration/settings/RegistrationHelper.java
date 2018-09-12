@@ -13,6 +13,7 @@ import android.os.LocaleList;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.NetworkStateListener;
@@ -94,7 +95,7 @@ public class RegistrationHelper {
      */
     public void initializeUserRegistration(final Context context) {
         RLog.init();
-
+        AppTagging.init();
 
         if (mLocale == null) {
             String languageCode;
@@ -107,7 +108,8 @@ public class RegistrationHelper {
                 countryCode = Locale.getDefault().getCountry();
             }
 
-            RLog.i(TAG, "initializeUserRegistration : setLocale : " + languageCode + "_" + countryCode);
+            RLog.i(TAG, "initializeUserRegistration : setLocale : "
+                    + languageCode + "_" + countryCode);
             setLocale(languageCode, countryCode);
 
         }
@@ -122,14 +124,15 @@ public class RegistrationHelper {
             public void run() {
                 deleteLegacyDIProfileFile(context);
                 if (networkUtility.isNetworkAvailable()) {
-                    RLog.i(TAG, "initializeUserRegistration initializeEnvironment for Locale: " + mLocale);
+                    RLog.i(TAG, "initializeUserRegistration :" +
+                            " initializeEnvironment for Locale: " + mLocale);
                     UserRegistrationInitializer.getInstance().initializeEnvironment(context, mLocale);
                 } else {
                     if (UserRegistrationInitializer.getInstance().
                             getJumpFlowDownloadStatusListener() != null) {
                         UserRegistrationInitializer.getInstance().
                                 getJumpFlowDownloadStatusListener().onFlowDownloadFailure();
-                        RLog.i(TAG, "initializeUserRegistration onFlowDownloadFailure ");
+                        RLog.e(TAG, "initializeUserRegistration: onFlowDownloadFailure due Network is not Available");
                     }
                 }
             }
@@ -145,14 +148,14 @@ public class RegistrationHelper {
     }
 
     private void deleteLegacyDIProfileFile(Context context) {
-        RLog.i(TAG, "deleteLegacyDIProfileFile");
+        RLog.d(TAG, "deleteLegacyDIProfileFile is called");
         context.deleteFile(RegConstants.DI_PROFILE_FILE);
         Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
     }
 
 
     private void refreshNTPOffset() {
-        RLog.i(TAG, "refreshNTPOffset");
+        RLog.d(TAG, "refreshNTPOffset is called ");
         ServerTime.init(timeInterface);
         ServerTime.refreshOffset();
     }
@@ -247,7 +250,7 @@ public class RegistrationHelper {
     }
 
     public boolean isMobileFlow() {
-        RLog.i(TAG, "isMobileFlow : " + registrationSettingsURL.isMobileFlow());
+        RLog.d(TAG, "isMobileFlow : " + registrationSettingsURL.isMobileFlow());
         return registrationSettingsURL.isMobileFlow();
     }
 

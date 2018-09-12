@@ -26,6 +26,7 @@ public class AppIdProvider {
     public interface AppIdListener {
         /**
          * Called when the AppId has changed.
+         *
          * @param appId String The appId after it was updated.
          */
         void onAppIdChanged(final String appId);
@@ -44,6 +45,7 @@ public class AppIdProvider {
 
     /**
      * Allows to set a different AppId
+     *
      * @param appId String
      */
     public void setAppId(@NonNull final String appId) {
@@ -54,6 +56,7 @@ public class AppIdProvider {
 
     /**
      * Returns the AppId.
+     *
      * @return String The app Id
      */
     @NonNull
@@ -63,6 +66,7 @@ public class AppIdProvider {
 
     /**
      * Adds a listener to be notified when AppId changes.
+     *
      * @param listener AppIdListener
      */
     public void addAppIdListener(final @NonNull AppIdListener listener) {
@@ -71,15 +75,21 @@ public class AppIdProvider {
 
     /**
      * Stops listener from being notified when AppId changes.
+     *
      * @param listener AppIdListener
      */
     public void removeAppIdListener(final @NonNull AppIdListener listener) {
         listeners.remove(listener);
     }
 
-    private void notifyAppIdChanged(@NonNull String appId) {
-        for (AppIdListener listener : listeners) {
-            listener.onAppIdChanged(appId);
-        }
+    private void notifyAppIdChanged(@NonNull final String appId) {
+        HandlerProvider.createHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                for (AppIdListener listener : listeners) {
+                    listener.onAppIdChanged(appId);
+                }
+            }
+        });
     }
 }

@@ -14,6 +14,7 @@ import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
@@ -30,6 +31,8 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGIST
 
 
 public class AddSecureEmailFragment extends RegistrationBaseFragment implements AddSecureEmailContract {
+
+    private String TAG = "AddSecureEmailFragment";
 
     @BindView(R2.id.btn_reg_secure_data_email)
     ProgressBarButton addRecoveryEmailButton;
@@ -54,6 +57,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         registerInlineNotificationListener(this);
+        RLog.i(TAG,"Screen name is "+ TAG);
         addSecureEmailPresenter = new AddSecureEmailPresenter(this);
         View view = inflater.inflate(R.layout.reg_fragment_secure_email, container, false);
         ButterKnife.bind(this, view);
@@ -84,12 +88,14 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @OnClick(R2.id.btn_reg_secure_data_email)
     public void addEmailButtonClicked() {
+        RLog.i(TAG,TAG+".addEmailButton clicked");
         recoveryErrorTextView.setVisibility(GONE);
         addSecureEmailPresenter.addEmailClicked(recoveryEmail.getText().toString());
     }
 
     @OnClick(R2.id.btn_reg_secure_data_email_later)
     public void maybeLaterButtonClicked() {
+        RLog.i(TAG,TAG+".maybeLaterButton clicked");
         addSecureEmailPresenter.maybeLaterClicked();
     }
 

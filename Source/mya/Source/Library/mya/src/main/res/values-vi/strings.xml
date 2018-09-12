@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Bạn đang ngoại tuyến</string>
 <string name="MYA_Offline_message">Kết nối internet của bạn có vẻ như không hiệu quả. Vui lòng kiểm tra và thử lại</string>
 <string name="mya_Privacy_Settings_Desc">Kiểm soát quyền riêng tư của bạn. Hãy đọc _thông báo về quyền riêng tư_ để biết thêm thông tin.</string>
+    <string name="MYA_Visit_Website">[vi]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[vi]Marketing OptIn</string>
 </resources>

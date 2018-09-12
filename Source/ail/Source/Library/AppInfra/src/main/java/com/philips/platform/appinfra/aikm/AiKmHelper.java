@@ -240,7 +240,7 @@ class AiKmHelper {
             String groomIndex = getGroomIndexWithSplit(configUrls);
             mapAndValidateGroom(key, groomIndex, aikmResponse);
         } else {
-            aikmResponse.setkError(AIKManager.KError.NO_KINDEX_URL_FOUND);
+            aikmResponse.setkError(AIKMResponse.KError.NO_KINDEX_URL_FOUND);
         }
         return aikmResponse;
     }
@@ -251,7 +251,7 @@ class AiKmHelper {
             try {
                 index = Integer.parseInt(groomIndex);
             } catch (NumberFormatException e) {
-                aikmResponse.setkError(AIKManager.KError.INVALID_INDEX_URL);
+                aikmResponse.setkError(AIKMResponse.KError.INVALID_INDEX_URL);
                 return aikmResponse;
             }
             try {
@@ -262,22 +262,22 @@ class AiKmHelper {
                     try {
                         jsonObject = (JSONObject) jsonArray.get(index);
                     } catch (JSONException e) {
-                        aikmResponse.setkError(AIKManager.KError.DATA_NOT_FOUND);
+                        aikmResponse.setkError(AIKMResponse.KError.DATA_NOT_FOUND);
                         return aikmResponse;
                     }
                     Map<?,?> map = mapData(jsonObject, index, serviceId);
                     aikmResponse.setkMap(map);
                 } else {
-                    aikmResponse.setkError(AIKManager.KError.INVALID_JSON);
+                    aikmResponse.setkError(AIKMResponse.KError.INVALID_JSON);
                 }
             } catch (Exception e) {
                 if (e instanceof JSONException)
-                    aikmResponse.setkError(AIKManager.KError.INVALID_JSON);
+                    aikmResponse.setkError(AIKMResponse.KError.INVALID_JSON);
                 else
-                    aikmResponse.setkError(AIKManager.KError.CONVERT_ERROR);
+                    aikmResponse.setkError(AIKMResponse.KError.CONVERT_ERROR);
             }
         } else {
-            aikmResponse.setkError(AIKManager.KError.INVALID_INDEX_URL);
+            aikmResponse.setkError(AIKMResponse.KError.INVALID_INDEX_URL);
         }
         return aikmResponse;
     }

@@ -44,7 +44,7 @@ public class URNotification {
     }
 
     public URNotification(Activity mActivity, URNotificationInterface notificationInterface) {
-
+        RLog.d("URNotification", "URNotification");
         this.mActivity = mActivity;
         this.notificationInterface = notificationInterface;
     }
@@ -54,9 +54,11 @@ public class URNotification {
         if (INLINE_ERROR_CODE.contains(notificationMessage.getErrorCode()))
             mNotificationType = NotificationType.INLINE;
 
-        if (mNotificationType == NotificationType.NOTIFICATION_BAR)
+        if (mNotificationType == NotificationType.NOTIFICATION_BAR) {
+            if (notificationBarView != null) return;
+            RLog.d("URNotification", "URNotification : new NotificationBarView");
             notificationBarView = new NotificationBarView(mActivity);
-
+        }
         switch (mNotificationType) {
 
             case INLINE:
@@ -65,7 +67,9 @@ public class URNotification {
                 break;
 
             case NOTIFICATION_BAR:
-                notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));
+                RLog.d("URNotification", "URNotification : NOTIFICATION_BAR : showError");
+                if (!notificationBarView.isNotificationBarViewShowing())
+                    notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));
                 break;
         }
     }
@@ -73,8 +77,12 @@ public class URNotification {
     public void hideNotification() {
         switch (mNotificationType) {
             case NOTIFICATION_BAR:
-                if (notificationBarView != null)
+                if (notificationBarView != null && notificationBarView.isNotificationBarViewShowing()) {
                     notificationBarView.hidePopup();
+                    RLog.d("URNotification", "URNotification : hideNotification");
+                    notificationBarView = null;
+
+                }
         }
     }
 

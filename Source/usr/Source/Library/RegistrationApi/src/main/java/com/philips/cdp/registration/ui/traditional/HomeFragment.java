@@ -73,7 +73,7 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER
 
 public class HomeFragment extends RegistrationBaseFragment implements NetworkStateListener, HomeContract {
 
-    private static final String TAG = HomeFragment.class.getSimpleName();
+    private static final String TAG = "HomeFragment";
 
     @BindView(R2.id.usr_startScreen_createAccount_Button)
     Button mBtnCreateAccount;
@@ -138,9 +138,10 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        RLog.i(TAG,"Screen name is "+ TAG);
+
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         registerInlineNotificationListener(this);
-        RLog.d(TAG, "OnCreateView : is Called");
         mURFaceBookUtility = new URFaceBookUtility(this);
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
         homePresenter = new HomePresenter(this, mCallbackManager);
@@ -515,6 +516,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
 
 
     private void enableControls(boolean clickableState) {
+        RLog.d(TAG, "enableControls : " + clickableState);
         handleBtnClickableStates(clickableState);
     }
 
@@ -528,6 +530,10 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         mCountryDisplay2.setEnabled(state);
         privacyPolicy2.setEnabled(state);
         //    continueWithouAccount.setEnabled(state);
+        if (!homePresenter.isNetworkAvailable()) {
+            RLog.d(TAG, " URNotification handleBtnClickableStates");
+            showNotificationBarOnNetworkNotAvailable();
+        } else hideNotificationBarView();
     }
 
     @Override
@@ -601,6 +607,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
 
     @OnClick(R2.id.usr_startScreen_createAccount_Button)
     void createAccountButtonClick() {
+        RLog.i(TAG,TAG+".createAccountButton Clicked");
         if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
         launchCreateAccountFragment();
     }
@@ -608,12 +615,14 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
 
     @OnClick(R2.id.usr_startScreen_Login_Button)
     void myPhilipsButtonClick() {
+        RLog.i(TAG,TAG+".myPhilipsButton Clicked ");
         if (mRegError.isShown()) hideNotificationBarView();// mRegError.hideError();
         launchSignInFragment();
     }
 
     @OnClick(R2.id.usr_StartScreen_Skip_Button)
     void skipButtonClick() {
+        RLog.i(TAG,TAG+".skipButton clicked");
         if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
 
         if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
@@ -676,9 +685,8 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
 
 
     private void handleSocialProviders(final String countryCode) {
-        RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
+        RLog.d(TAG , "handleSocialProviders method country code : " + countryCode);
         mLlSocialProviderBtnContainer.post(new Runnable() {
-
             @Override
             public void run() {
                 mLlSocialProviderBtnContainer.removeAllViews();
@@ -688,7 +696,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
                     for (int i = 0; i < providers.size(); i++) {
                         inflateEachProviderBtn(providers.get(i));
                     }
-                    RLog.d("HomeFragment", "social providers : " + providers);
+                    RLog.d(TAG, "social providers : " + providers);
                 }
                 UIOverProvidersSize(providers);
                 homePresenter.updateHomeControls();
@@ -735,7 +743,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
             mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, drawableId), params);
             mLlSocialProviderBtnContainer.invalidate();
         } catch (Exception e) {
-            RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
+            RLog.d(TAG, "Inflate Buttons exception :" + e.getMessage());
         }
     }
 
@@ -925,7 +933,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         hideProgressDialog();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.TECHNICAL_ERROR);
-        RLog.d(RLog.CALLBACK, "HomeFragment error");
+        RLog.d(TAG, "genericError ");
         enableControls(true);
 //        updateErrorNotification(mContext.getString(R.string.reg_Generic_Network_Error));
         //showNotificationBarOnNetworkNotAvailable();

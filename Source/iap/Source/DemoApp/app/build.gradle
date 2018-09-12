@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+
 buildscript {
     apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
@@ -234,9 +236,7 @@ dependencies {
     implementation deps.support.annotations
     implementation deps.support.appcompatv7
 
-    def dp = project.ext.has('useprojectdependencies')
-
-    if(dp) {
+    if (directdependencies) {
         implementation project(':uid')
         implementation project(':registrationApi')
         implementation project(':iap')

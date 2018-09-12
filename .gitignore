@@ -1,12 +1,41 @@
-.idea/*
+# directories to be ignored
+.externalNativeBuild/
 .gradle/
+.idea/
+.settings/
+bin/
 build/
-local.properties
+captures/
+gen/
+gradle/
+out/
+/Source/*/Documents/External/*-api/
+
+# files to be ignored
+*.aar
+*.bak
+*.class
 *.iml
 *.lock
+.classpath
+.project
+.settings
+~$*
+gradle.properties
+local.properties
+**/Library/settings.gradle
 
-Source/mya/Source/Library/\.idea/
+# MacOS specific
+.AppleDouble
+.DS_Store
+.DS_Store?
+.LSOverride
+Icon
 
-Source/mya/Source/Library/MyAccount/\.idea/
+# Windows specific
+Desktop.ini
+Thumbs.db
 
-Source/mya/Source/Library/MyAccount/gradle/wrapper/
+# files still to be kept
+!/gradle/
+!/gradle.properties

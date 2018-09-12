@@ -44,23 +44,23 @@ android {
 dependencies {
     compileOnly deps.support.annotations
 
-    def suffix = objcdp.getVersionSuffix()
-
-    for (dep in [':commlib-ble', ':commlib-cloud', ':commlib-lan']) {
-        if (findProject(dep)) {
-            implementation project(dep)
-        } else {
-            implementation("$group$dep:$platformversion$suffix") { changing = true }
-        }
+    if (directdependencies) {
+        implementation project(':commlib-ble')
+        implementation project(':commlib-cloud')
+        implementation project(':commlib-lan')
+    } else {
+        implementation philipsdeps.commlib_ble
+        implementation philipsdeps.commlib_cloud
+        implementation philipsdeps.commlib_lan
     }
 
-    for (dep in [':cloudcontroller', ':commlib-testutils']) {
-        if (findProject(dep)) {
-            testImplementation project(dep)
-        } else {
-            testImplementation("$group$dep:$platformversion$suffix") { changing = true }
-        }
+    if (directdependencies) {
+        testImplementation project(':cloudcontroller')
+    } else {
+        testImplementation philipsdeps.cloudcontroller
     }
+
+    testImplementation project(':commlib-testutils')
 
     testImplementation deps.powermock_junit
 }

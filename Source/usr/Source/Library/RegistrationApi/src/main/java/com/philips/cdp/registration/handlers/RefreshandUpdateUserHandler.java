@@ -71,7 +71,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
             @Override
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(mContext);
-                RLog.e(TAG, "refreshUpdateUser : onSuccess : " + response.toString());
+                RLog.d(TAG, "refreshUpdateUser : onSuccess : " + response.toString());
                 final RegistrationConfiguration registrationConfiguration = RegistrationConfiguration.getInstance();
                 if (!registrationConfiguration.isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
@@ -116,7 +116,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
             @Override
             public void onFailure(CaptureAPIError failureParam) {
-                RLog.e(TAG, "refreshUpdateUser : onFailure  ");
+                RLog.e(TAG, "refreshUpdateUser : onFailure  " + failureParam.captureApiError.code);
                 if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
 
                     user.refreshLoginSession(new RefreshLoginSessionHandler() {
@@ -137,7 +137,6 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                         }
                     });
                 }
-                RLog.e(TAG, "refreshUpdateUser : onRefreshUserFailed  ");
                 handler.onRefreshUserFailed(0);
             }
         });
@@ -145,7 +144,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
     @Override
     public void onFlowDownloadSuccess() {
-        RLog.e(TAG, "onFlowDownloadSuccess");
+        RLog.e(TAG, "onFlowDownloadSuccess is called");
         refreshAndUpdateUser(refreshUserHandler, user, password);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
@@ -153,7 +152,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
     @Override
     public void onFlowDownloadFailure() {
-        RLog.e(TAG, "onFlowDownloadFailure");
+        RLog.e(TAG, "onFlowDownloadFailure is called");
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
         if (refreshUserHandler != null) {
             refreshUserHandler.onRefreshUserFailed(0);
