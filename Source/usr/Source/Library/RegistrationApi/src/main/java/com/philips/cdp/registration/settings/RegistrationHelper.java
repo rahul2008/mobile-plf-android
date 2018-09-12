@@ -247,7 +247,7 @@ public class RegistrationHelper {
     }
 
     public boolean isMobileFlow() {
-        RLog.i(TAG, "isMobileFlow : " + registrationSettingsURL.isMobileFlow());
+        RLog.d(TAG, "isMobileFlow : " + registrationSettingsURL.isMobileFlow());
         return registrationSettingsURL.isMobileFlow();
     }
 
