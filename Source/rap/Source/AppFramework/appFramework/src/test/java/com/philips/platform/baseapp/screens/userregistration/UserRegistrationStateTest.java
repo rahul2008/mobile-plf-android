@@ -18,6 +18,7 @@ import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -47,6 +48,7 @@ import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SECRET;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+import static com.philips.platform.baseapp.screens.Optin.MarketingOptin.AB_TEST_OPTIN_IMAGE_KEY;
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.CHINA_CODE;
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.DEFAULT;
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.HSDP_STAGE_SECRET_KEY_CHINA;
@@ -146,6 +148,25 @@ public class UserRegistrationStateTest {
         assertEquals(shadowIntent.getIntentClass().getSimpleName(), WebViewActivity.class.getSimpleName());
     }
 
+    @Test
+    public void validateAbTestingValues() {
+        appFrameworkApplication.getAppInfra().getAbTesting().updateCache(new ABTestClientInterface.OnRefreshListener() {
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onError(ERRORVALUE error) {
+            }
+        });
+        try {
+            wait(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(appFrameworkApplication.getAppInfra().getAbTesting().getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE));
+    }
+
 
     @After
     public void tearDown() {
@@ -178,6 +199,7 @@ public class UserRegistrationStateTest {
         @Override
         public void navigate(UiLauncher uiLauncher) {
             fragmentLauncher = (FragmentLauncher) uiLauncher;
+            super.navigate(uiLauncher);
         }
 
         @Override
