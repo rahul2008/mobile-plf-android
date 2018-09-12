@@ -51,7 +51,6 @@ android {
     }
 
     testOptions {
-        unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
         unitTests.all {
             jvmArgs '-noverify'
@@ -125,6 +124,7 @@ dependencies {
     androidTestImplementation deps.mockito_old
     androidTestImplementation deps.junit
 }
+
 tasks.withType(Test) {
     ignoreFailures = true
 }

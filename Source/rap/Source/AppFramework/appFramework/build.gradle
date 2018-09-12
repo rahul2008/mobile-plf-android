@@ -132,9 +132,6 @@ android {
     }
 
     testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
         unitTests.all {
             jvmArgs '-noverify'
             jacoco {

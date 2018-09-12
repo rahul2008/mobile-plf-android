@@ -45,7 +45,6 @@ android {
     }
 
     testOptions {
-        unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
         unitTests.all {
             jvmArgs '-noverify'
@@ -147,10 +146,7 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.robolectric_shadows
-    testImplementation(deps.robolectric) {
-        exclude module: 'commons-logging'
-        exclude module: 'support-v4'
-    }
+    testImplementation deps.robolectric
     testImplementation deps.robolectric_utils
     testImplementation deps.robolectric_junit
 
@@ -186,11 +182,8 @@ task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
     classes = fileTree('build/intermediates/classes/debug')
     source = fileTree('src/main/java')
     classpath = files()
-
     effort = 'max'
-
     excludeFilter = file("findbugs-exclude.xml")
-
     reports {
         xml.enabled = true
         html.enabled = false
@@ -203,12 +196,10 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
     ignoreFailures = true
     ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
     source = fileTree('src/main/java')
-
     reports {
         xml.enabled = true
         html.enabled = false
     }
-
 }
 
 tasks.withType(Test) {

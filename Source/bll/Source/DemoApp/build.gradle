@@ -3,64 +3,10 @@
  * All rights reserved.
  */
 
-
 apply plugin: 'com.android.application'
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-}
-
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-}
-
-repositories {
-    maven {
-        url repos.jcenter
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
-    maven {
-        url repos.release
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
-    maven {
-        url repos.stage
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
-    maven {
-        url repos.snapshot
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
 }
 
 android {
@@ -97,6 +43,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     implementation project(':AppInfra')
     implementation project(':bluelib')
     implementation project(':uAppFwLib')

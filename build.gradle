@@ -103,6 +103,17 @@ subprojects {
         google()
     }
 
+    afterEvaluate {
+        android {
+            testOptions {
+                unitTests {
+                    // As per Robolectric documentation
+                    includeAndroidResources = true
+                }
+            }
+        }
+    }
+
     group = 'com.philips.cdp'
     version = platformversion
 

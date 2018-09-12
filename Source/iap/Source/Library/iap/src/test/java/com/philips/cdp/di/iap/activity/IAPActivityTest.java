@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.activity;
 
 import android.content.Intent;
@@ -31,7 +36,6 @@ import java.util.ArrayList;
 
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -80,7 +84,7 @@ public class IAPActivityTest {
 
     @Test
     public void shouldSaveInstanceIsNotnull() throws Exception {
-        activity = buildActivity(IAPActivity.class, intent).withIntent(intent).get();
+        activity = buildActivity(IAPActivity.class, intent).create().get();
         IAPActivity spyActivity = Mockito.spy(activity);
 
         Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
@@ -239,7 +243,7 @@ public class IAPActivityTest {
     }
 
     private void destroyActivity(Intent intent) {
-        activity = buildActivity(IAPActivity.class, intent).withIntent(intent).get();
+        activity = buildActivity(IAPActivity.class, intent).create().get();
         IAPActivity spyActivity = Mockito.spy(activity);
 
         Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
