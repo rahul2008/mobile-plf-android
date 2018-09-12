@@ -165,7 +165,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     protected void consumeTouch(View view) {
 
-        RLog.i(TAG, "consumeTouch is called");
+        RLog.d(TAG, "consumeTouch is called");
         if (view == null)
             return;
         view.setOnTouchListener((v, event) -> true);
