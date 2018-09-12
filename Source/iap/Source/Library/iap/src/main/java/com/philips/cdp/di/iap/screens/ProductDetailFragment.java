@@ -15,6 +15,7 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
@@ -40,6 +44,7 @@ import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.prx.PRXAssetExecutor;
+import com.philips.cdp.di.iap.prx.PRXDisclaimerExecutor;
 import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.products.ProductDetailEntity;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
@@ -53,13 +58,27 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
+import com.philips.cdp.prxclient.datamodels.Disclaimer.Disclaimer;
+import com.philips.cdp.prxclient.datamodels.Disclaimer.DisclaimerModel;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.rest.request.StringRequest;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.DialogConstants;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.UIPicker;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import static com.philips.cdp.di.iap.R.id.delete_btn;
@@ -95,6 +114,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private LinearLayout mQuantityAndDelete;
     private TextView mQuantity;
     private Button mDeleteProduct;
+    private Label mProductDisclaimer;
+
 
     private ArrayList<String> mAsset;
     private boolean mLaunchedFromProductCatalog = false;
@@ -104,6 +125,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private boolean mIsFromVertical;
     private ArrayList<StoreEntity> mUpdtedStoreEntity;
     private RelativeLayout mParentLayout;
+    private DisclaimerModel mDisclaimerModel;
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
@@ -177,7 +199,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mProductDiscountedPrice = rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
         mProductStockInfo = rootView.findViewById(R.id.iap_productDetailsScreen_outOfStock_label);
         mDeleteProduct = rootView.findViewById(R.id.delete_btn);
-        if(getContext()!=null) {
+        if (getContext() != null) {
             mDeleteProduct.setTextColor(ContextCompat.getColor(getContext(), R.color.uid_signal_red_level_45));
         }
         mDeleteProduct.setOnClickListener(this);
@@ -188,9 +210,17 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mImageAdapter = new ImageAdapter(mContext, new ArrayList<String>());
         mViewPager.setAdapter(mImageAdapter);
         indicator.setViewPager(mViewPager);
+        mProductDisclaimer = rootView.findViewById(R.id.iap_productDetailsScreen_productDisclaimer);
+
+
 
         mBundle = getArguments();
-        if (mBundle != null) {
+        mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
+        //  mCTNValue = "HX8331";
+        //fetchProductDetailFromPrx();
+
+
+       if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 mIsFromVertical = true;
                 mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
@@ -216,6 +246,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 populateData();
             }
         }
+
     }
 
     private void fetchProductDetailFromPrx() {
@@ -279,10 +310,53 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
                     mProductSummary = entry.getValue();
                     populateData();
+                    makeDisclaimerRequestThroughRest();
                     break;
                 }
             }
         }
+    }
+
+    private void makeDisclaimerRequest() {
+        ArrayList<String> ctnList = new ArrayList<>();
+        ctnList.add(mCTNValue);
+        PRXDisclaimerExecutor builder = new PRXDisclaimerExecutor(mContext, ctnList, this);
+        builder.preparePRXDataRequest();
+
+    }
+
+    private void makeDisclaimerRequestThroughRest() {
+        //https://stg.philips.com/prx/product/B2C/en_US/CONSUMER/products/HX8332/11.disclaimers
+        String baseURL = "https://stg.philips.com/prx/product/B2C/en_US/CONSUMER/products/";
+        final RestInterface mRestInterface = CartModelContainer.getInstance().getAppInfraInstance().getRestClient();
+        final StringRequest stringRequest = new StringRequest(Request.Method.GET, baseURL + mCTNValue + ".disclaimers", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("disc ", " success response " + response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    ResponseData responseData = new DisclaimerModel().parseJsonResponseData(jsonObject);
+                    mDisclaimerModel = (DisclaimerModel) responseData;
+                    showDisclaimer(mDisclaimerModel);
+                    Log.d("disc ", " success response " + response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("disc ", " failed " + error.getMessage());
+            }
+        }
+                , null, null, null);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mRestInterface.getRequestQueue().add(stringRequest);
+            }
+        }).start();
     }
 
     @Override
@@ -323,7 +397,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
         }
         makeAssetRequest();
-       setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
+        setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
     }
 
     private Drawable countArrow;
@@ -436,7 +510,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
             bundle.putString(IAPConstant.IAP_BUY_URL, storeEntities.get(0).getBuyURL());
             bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
-            addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), WebBuyFromRetailers.TAG,true);
+            addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), WebBuyFromRetailers.TAG, true);
         } else {
 
             bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST));
@@ -446,7 +520,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
             } else {
                 addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE),
-                        BuyFromRetailersFragment.TAG,true);
+                        BuyFromRetailersFragment.TAG, true);
             }
         }
     }
@@ -484,7 +558,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     void buyProduct(final String ctnNumber) {
-        if(!mAddToCart.isActivated()) {
+        if (!mAddToCart.isActivated()) {
             mAddToCart.showProgressIndicator();
         }
         mShoppingCartAPI.buyProduct(mContext, ctnNumber, mBuyProductListener);
@@ -512,6 +586,23 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
         if (v == mDeleteProduct) {
             deleteProduct();
+        }
+    }
+
+    private void showDisclaimer(DisclaimerModel disclaimerModel) {
+        try {
+            List<Disclaimer> disclaimerList = disclaimerModel.getData().getDisclaimers().getDisclaimer();
+            mProductDisclaimer.setVisibility(View.VISIBLE);
+
+            if (null !=  disclaimerList && disclaimerList.size() > 0) {
+                StringBuilder disclaimerStringBuilder = new StringBuilder();
+                for(Disclaimer disclaimer:disclaimerList){
+                    disclaimerStringBuilder.append("- ").append(disclaimer.getDisclaimerText()).append(System.getProperty("line.separator"));
+                }
+                mProductDisclaimer.setText(disclaimerStringBuilder.toString());
+            }
+        }catch (Exception e){
+
         }
     }
 
@@ -589,7 +680,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     actualPrice = mProductDetail.getPrice().getFormattedValue();
                     discountedPrice = mProductDetail.getDiscountPrice().getFormattedValue();
                     setPrice(actualPrice, discountedPrice);
-                    setStockInfo(mProductDetail.getStock().getStockLevelStatus(),mProductDetail.getStock().getStockLevel());
+                    setStockInfo(mProductDetail.getStock().getStockLevelStatus(), mProductDetail.getStock().getStockLevel());
                 } else {
                     mPrice.setVisibility(View.GONE);
                     mProductDiscountedPrice.setVisibility(View.GONE);
@@ -615,7 +706,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
             if (mLaunchedFromProductCatalog) {
                 setPrice(actualPrice, discountedPrice);
-                setStockInfo(stockLevelStatus,stockLevel);
+                setStockInfo(stockLevelStatus, stockLevel);
             } else {
                 mPrice.setVisibility(View.GONE);
                 mProductDiscountedPrice.setText(actualPrice);
@@ -625,7 +716,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void setStockInfo(String stockLevelStatus, int stockLevel) {
         IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
-        if (iapStockAvailabilityHelper.isStockAvailable(stockLevelStatus,stockLevel)) {
+        if (iapStockAvailabilityHelper.isStockAvailable(stockLevelStatus, stockLevel)) {
             mAddToCart.setEnabled(true);
             mProductStockInfo.setVisibility(View.GONE);
         } else {
@@ -646,7 +737,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mPrice.setText(actualPrice);
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
             mProductDiscountedPrice.setVisibility(View.GONE);
-           // mPrice.setTextColor(Utility.getThemeColor(mContext));
+            // mPrice.setTextColor(Utility.getThemeColor(mContext));
         } else if (actualPrice != null && discountedPrice.equalsIgnoreCase(actualPrice)) {
             mPrice.setVisibility(View.GONE);
             mProductDiscountedPrice.setVisibility(View.VISIBLE);
@@ -744,13 +835,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
         } else if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
             hideProgressBar();
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG,true);
+            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG, true);
         }
     }
 
     private void startShoppingCartFragment() {
         mAddToCart.hideProgressIndicator();
-        addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG,true);
+        addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG, true);
     }
 
     @Override
@@ -806,7 +897,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             } else {
                 getFragmentManager().popBackStack();
             }
-         }
+        }
       /*  if(Utility.isProductDetailsFromOrderSummarry){
             Utility.isProductDetailsFromOrderSummarry=false;
             addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG,false);
