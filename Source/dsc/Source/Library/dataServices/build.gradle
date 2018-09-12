@@ -176,16 +176,12 @@ dependencies {
         implementation project(':pif')
         implementation project(':AppInfra')
     } else {
-        implementation(philipsdeps.catk) {
-            exclude group: 'com.google.code.findbugs', module: 'jsr305'
-        }
+       
         implementation philipsdeps.pif
         implementation philipsdeps.AppInfra
     }
 
-    implementation(deps.support.annotations) {
-        exclude group: 'com.google.code.findbugs', module: 'jsr305'
-    }
+    
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.greenrobot

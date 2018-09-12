@@ -135,7 +135,6 @@ ext.deps = [
         javax_inject                  : 'javax.inject:javax.inject:1',
         joda_time                     : 'joda-time:joda-time:2.10',
         json                          : 'org.json:json:20180130',
-        jsr305                        : 'com.google.code.findbugs:jsr305:3.0.2',
         leakcanary                    : 'com.squareup.leakcanary:leakcanary-android:1.5.4',
         leakcanary_no_op              : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4',
         livedata                      : 'android.arch.lifecycle:livedata:1.1.1',
