@@ -34,6 +34,7 @@ import org.robolectric.shadows.ShadowActivity;
 
 import java.util.ArrayList;
 
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
