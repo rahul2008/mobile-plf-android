@@ -152,11 +152,7 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
     testImplementation deps.assertj
-
-    testImplementation(deps.robolectric) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
+    testImplementation deps.robolectric
 }
 
 tasks.withType(Test) {

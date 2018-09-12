@@ -8,18 +8,6 @@
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-    repositories {
-        maven{
-            url repos.mavengoogle
-        }
-        maven { url sonatype }
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.googleservices
@@ -29,29 +17,7 @@ buildscript {
 }
 
 allprojects {
-
     ext.androidAssertJVer = '1.2.0'
-
-    repositories {
-            maven{
-                url repos.mavengoogle
-            }
-            maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven { url sonatype }
-        maven { url robolectric }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
 
     tasks.withType(Test) {
         maxHeapSize = '4g'
@@ -62,7 +28,6 @@ allprojects {
         }
     }
 }
-
 
 tasks.withType(Test) {
   ignoreFailures = true

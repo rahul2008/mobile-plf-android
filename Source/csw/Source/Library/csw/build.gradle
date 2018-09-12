@@ -15,11 +15,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 archivesBaseName = "csw"
 
 buildscript {
-    repositories {
-        google()
-        maven { url sonatype }
-    }
-
     dependencies {
         classpath deps.butterknife_gradle
     }

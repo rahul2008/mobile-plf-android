@@ -53,14 +53,8 @@ dependencies {
     implementation deps.junit
     implementation deps.mockito
 
-    implementation(deps.robolectric) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-    implementation(deps.robolectric_shadows) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
+    implementation deps.robolectric
+    implementation deps.robolectric_shadows
 }
 
 configurations.all {

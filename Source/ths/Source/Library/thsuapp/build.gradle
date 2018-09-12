@@ -138,10 +138,7 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.opengl
-    testImplementation(deps.robolectric) {
-        exclude module: 'commons-logging'
-        exclude module: 'support-v4'
-    }
+    testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
 
     androidTestImplementation(deps.espresso_core, {

@@ -150,12 +150,9 @@ dependencies {
     }
 
     // Tests
-    testImplementation(deps.robolectric) {
-        exclude module: 'commons-logging'
-        exclude module: 'support-v4'
-    }
     testImplementation deps.junit
     testImplementation deps.mockito
+    testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
     testImplementation deps.opengl
 }
