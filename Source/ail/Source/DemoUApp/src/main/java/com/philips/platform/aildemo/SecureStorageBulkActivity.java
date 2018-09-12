@@ -16,7 +16,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.securestoragev1.SecureStorageV1;
-import com.philips.platform.appinfra.securestoragev2.SecureStorageV2;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -160,7 +159,7 @@ public class SecureStorageBulkActivity extends Activity {
         }
         ;
 //     InputStream inputStream = getResources().openRawResource(R.raw.internals);
-        System.out.println(inputStream);
+        //System.out.println(inputStream);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         int i;

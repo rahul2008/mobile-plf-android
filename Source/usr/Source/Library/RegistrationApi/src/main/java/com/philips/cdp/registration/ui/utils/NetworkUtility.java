@@ -29,7 +29,7 @@ public class NetworkUtility {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = (activeNetwork != null && activeNetwork.isConnected() && activeNetwork.isAvailable());
-        System.out.println("isConnected"+isConnected);
+        RLog.d(TAG, "isNetworkAvailable "+isConnected);
         return isConnected;
     }
 
