@@ -45,7 +45,9 @@ dependencies {
     implementation project(':commlib-cloud')
     implementation project(':cloudcontroller')
     implementation project(':cloudcontroller-api')
+
     implementation deps.gson
+    implementation deps.commons_io
 
     testImplementation deps.junit
     testImplementation deps.support.annotations
@@ -55,6 +57,4 @@ dependencies {
     testImplementation deps.cucumber_junit
     testImplementation project(':commlib-testutils')
     testImplementation project(':bluelib')
-
-    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 }

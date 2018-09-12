@@ -182,6 +182,7 @@ ext.deps = [
         butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:8.4.0', // Held at 8.4.0 since 8.8.1 is giving an issue, see: https://github.com/JakeWharton/butterknife/issues/1130
         cucumber_java                 : 'io.cucumber:cucumber-java:3.0.2',
         cucumber_junit                : 'io.cucumber:cucumber-junit:3.0.2',
+        dexmaker_mockito              : 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1',
         espresso_contrib              : 'com.android.support.test.espresso:espresso-contrib:3.0.2',
         espresso_core                 : 'com.android.support.test.espresso:espresso-core:3.0.2',
         espresso_web                  : 'com.android.support.test.espresso:espresso-web:3.0.2',

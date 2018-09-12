@@ -116,7 +116,7 @@ dependencies {
     androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.junit
     androidTestImplementation deps.mockito_android
-
+    androidTestImplementation deps.dexmaker_mockito
 }
 
 tasks.withType(Test) {
