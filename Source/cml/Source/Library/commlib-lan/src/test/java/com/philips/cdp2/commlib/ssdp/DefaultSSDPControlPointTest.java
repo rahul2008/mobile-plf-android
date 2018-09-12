@@ -15,7 +15,7 @@ import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,8 +41,10 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_ALI
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_BYEBYE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPDATE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.USN;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.after;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -56,12 +58,15 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SSDPDevice.class})
+@PrepareForTest({SSDPDevice.class, DefaultSSDPControlPoint.class})
 public class DefaultSSDPControlPointTest {
 
     private static final String TEST_LOCATION = "http://1.2.3.4/mock/location";
     private static final String TEST_USN = "uuid:2f402f80-da50-11e1-9b23-00123456789f";
     private static final String TEST_BOOTID = "1337";
+    private static final String TEST_LOCATION_2 = "http://2.3.4.5/mock/location";
+    private static final String TEST_USN_2 = "uuid:2f402f80-11e1-9b23-da50-00123456789f";
+    private static final String TEST_BOOTID_2 = "2337";
 
     private DefaultSSDPControlPoint ssdpControlPoint;
 
@@ -72,7 +77,13 @@ public class DefaultSSDPControlPointTest {
     private SSDPMessage ssdpMessageMock;
 
     @Mock
+    private SSDPMessage secondSsdpMessageMock;
+
+    @Mock
     private SSDPDevice ssdpDeviceMock;
+
+    @Mock
+    private SSDPDevice secondSsdpDeviceMock;
 
     @Mock
     private Context contextMock;
@@ -107,6 +118,9 @@ public class DefaultSSDPControlPointTest {
         when(ssdpMessageMock.get(USN)).thenReturn(TEST_USN);
         when(ssdpMessageMock.get(BOOT_ID)).thenReturn(TEST_BOOTID);
         when(ssdpMessageMock.get(LOCATION)).thenReturn(TEST_LOCATION);
+        when(secondSsdpMessageMock.get(USN)).thenReturn(TEST_USN_2);
+        when(secondSsdpMessageMock.get(BOOT_ID)).thenReturn(TEST_BOOTID_2);
+        when(secondSsdpMessageMock.get(LOCATION)).thenReturn(TEST_LOCATION_2);
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -313,6 +327,49 @@ public class DefaultSSDPControlPointTest {
         verify(broadcastSocketMock, times(2)).joinGroup(any(InetAddress.class));
         verify(listenSocketMock, times(2)).joinGroup(any(InetAddress.class));
     }
+
+    @Test
+    public void whenTwoDifferentSsdpAliveMessagesAreReceived_thenTheyShouldBeHandledInParallel() {
+        ssdpControlPoint = new DefaultSSDPControlPoint() {
+            @NonNull
+            @Override
+            MulticastSocket createBroadcastSocket() throws IOException {
+                return broadcastSocketMock;
+            }
+
+            @NonNull
+            @Override
+            MulticastSocket createListenSocket() throws IOException {
+                return listenSocketMock;
+            }
+
+            // do not override the threadpool init
+        };
+        ssdpControlPoint.addDeviceListener(deviceListener);
+
+        final Semaphore fetchDescriptionSemaphore = new Semaphore(0);
+        when(createFromSearchResponse(secondSsdpMessageMock)).thenAnswer(new Answer<SSDPDevice>() {
+            @Override
+            public SSDPDevice answer(InvocationOnMock invocation) throws Throwable {
+                fetchDescriptionSemaphore.acquire();
+                return secondSsdpDeviceMock;
+            }
+        });
+
+        when(ssdpMessageMock.get(NOTIFICATION_SUBTYPE)).thenReturn(NOTIFICATION_SUBTYPE_ALIVE);
+        when(secondSsdpMessageMock.get(NOTIFICATION_SUBTYPE)).thenReturn(NOTIFICATION_SUBTYPE_ALIVE);
+
+        ssdpControlPoint.handleMessage(secondSsdpMessageMock);
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        verify(deviceListener, after(50)).onDeviceAvailable(ssdpDeviceMock);
+
+        fetchDescriptionSemaphore.release();
+
+        verify(deviceListener, after(50)).onDeviceAvailable(secondSsdpDeviceMock);
+    }
+
+    
 
     @Test(expected = TransportUnavailableException.class)
     public void givenSocketsCannotBeOpened_whenStartIsInvoked_thenATransportUnavailableExceptionIsThrown() throws SocketException {
