@@ -25,6 +25,8 @@ import java.net.MulticastSocket;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -68,6 +70,8 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
 
     private final Map<String, SSDPDevice> deviceCache = new ConcurrentHashMap<>();
     private static final int SEARCH_INTERVAL_SECONDS = 5;
+
+    private final List<String> fetchingDescriptionForUSNs = new ArrayList<>();
 
     private WifiManager.MulticastLock lock;
 
@@ -293,20 +297,23 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
             notifySsdpDevice(message, device);
         } else {
             // TODO: Deduplicate - do not create new Runnable if 1 is already running for the same target USN
-            Runnable fetchDescriptionTask = new Runnable() {
-                @Override
-                public void run() {
-                    SSDPDevice createdDevice = createFromSearchResponse(message);
+            if (!fetchingDescriptionForUSNs.contains(usn)) {
+                Runnable fetchDescriptionTask = new Runnable() {
+                    @Override
+                    public void run() {
+                        SSDPDevice createdDevice = createFromSearchResponse(message);
 
-                    if (createdDevice == null) {
-                        return;
-                    } else {
-                        deviceCache.put(usn, createdDevice);
-                        notifySsdpDevice(message, createdDevice);
+                        if (createdDevice != null) {
+                            // TODO: throw this back to the original thread
+                            deviceCache.put(usn, createdDevice);
+                            notifySsdpDevice(message, createdDevice);
+                        }
+                        fetchingDescriptionForUSNs.remove(usn);
                     }
-                }
-            };
-            descriptionReceiverExecutor.execute(fetchDescriptionTask);
+                };
+                fetchingDescriptionForUSNs.add(usn);
+                descriptionReceiverExecutor.execute(fetchDescriptionTask);
+            }
         }
     }
 

@@ -70,6 +70,8 @@ public class DefaultSSDPControlPointTest {
 
     private DefaultSSDPControlPoint ssdpControlPoint;
 
+    private boolean executeFetchDiscoveryImmediatly = true;
+
     @Mock
     private DeviceListener deviceListener;
 
@@ -124,7 +126,9 @@ public class DefaultSSDPControlPointTest {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                fetchDescriptionRunnableCaptor.getValue().run();
+                if (executeFetchDiscoveryImmediatly) {
+                    fetchDescriptionRunnableCaptor.getValue().run();
+                }
                 return null;
             }
         }).when(mockDescriptionReceiverExecutor).execute(fetchDescriptionRunnableCaptor.capture());
@@ -369,7 +373,27 @@ public class DefaultSSDPControlPointTest {
         verify(deviceListener, after(50)).onDeviceAvailable(secondSsdpDeviceMock);
     }
 
-    
+    @Test
+    public void whenTwoSsdpAliveMessagesForTheSameApplianceAreReceived_thenTheSecondMessageShouldBeDiscarded() {
+        when(ssdpMessageMock.get(NOTIFICATION_SUBTYPE)).thenReturn(NOTIFICATION_SUBTYPE_ALIVE);
+        executeFetchDiscoveryImmediatly = false;
+
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        assertEquals(1, fetchDescriptionRunnableCaptor.getAllValues().size());
+    }
+
+    @Test
+    public void givenCreatingAnSsdpDeviceFailed_whenASsdpMessageForTheSameApplianceIsReceived_thenItWillFetchTheDescriptionAgain() {
+        when(ssdpMessageMock.get(NOTIFICATION_SUBTYPE)).thenReturn(NOTIFICATION_SUBTYPE_ALIVE);
+        when(createFromSearchResponse(ssdpMessageMock)).thenReturn(null);
+
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        assertEquals(2, fetchDescriptionRunnableCaptor.getAllValues().size());
+    }
 
     @Test(expected = TransportUnavailableException.class)
     public void givenSocketsCannotBeOpened_whenStartIsInvoked_thenATransportUnavailableExceptionIsThrown() throws SocketException {
