@@ -26,7 +26,8 @@ ext.versions = [
         jacocoToolVersionForRobolectricTests: '0.7.6.201602180812',
         jacocoToolVersion                   : '0.7.4.201502262128',
         sourceCompatibility                 : 1.8,
-        targetCompatibility                 : 1.8
+        targetCompatibility                 : 1.8,
+        robolectric                         : '3.8'
 ]
 
 ext.builddeps = [
@@ -213,11 +214,11 @@ ext.deps = [
         powermock_junit_rule_agent    : 'org.powermock:powermock-module-junit4-rule-agent:1.7.4',
         retrolambda                   : 'net.orfjackal.retrolambda:retrolambda:2.5.4',
         retrolambda_gradle            : 'me.tatarka:gradle-retrolambda:3.7.0',
-        robolectric                   : 'org.robolectric:robolectric:3.8',
-        robolectric_junit             : 'org.robolectric:junit:3.8',
-        robolectric_shadows           : 'org.robolectric:shadows-supportv4:3.8',
-        robolectric_shadows_multidex  : 'org.robolectric:shadows-multidex:3.8',
-        robolectric_utils             : 'org.robolectric:robolectric-utils:3.4-rc2',
+        robolectric                   : "org.robolectric:robolectric:${ext.versions.robolectric}",
+        robolectric_junit             : "org.robolectric:junit:${ext.versions.robolectric}",
+        robolectric_shadows           : "org.robolectric:shadows-supportv4:${ext.versions.robolectric}",
+        robolectric_shadows_multidex  : "org.robolectric:shadows-multidex:${ext.versions.robolectric}",
+        robolectric_utils             : "org.robolectric:utils:${ext.versions.robolectric}",
         rubygems                      : 'rubygems:roo:2.7.1',
         rxbinding                     : 'com.jakewharton.rxbinding2:rxbinding:2.1.1',
         rxjava2                       : 'io.reactivex.rxjava2:rxandroid:2.1.0',
