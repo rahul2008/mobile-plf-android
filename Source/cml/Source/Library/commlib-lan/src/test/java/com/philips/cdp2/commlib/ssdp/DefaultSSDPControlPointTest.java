@@ -9,6 +9,7 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
@@ -55,7 +56,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SSDPDevice.class, Executors.class, DefaultSSDPControlPoint.class})
+@PrepareForTest({SSDPDevice.class})
 public class DefaultSSDPControlPointTest {
 
     private static final String TEST_LOCATION = "http://1.2.3.4/mock/location";
@@ -89,10 +90,10 @@ public class DefaultSSDPControlPointTest {
     private MulticastSocket listenSocketMock;
 
     @Mock
-    private ExecutorService mockFetchingDescriptionExecutor;
+    private ExecutorService mockDescriptionReceiverExecutor;
 
     @Captor
-    private ArgumentCaptor<Runnable> runnableCaptor;
+    private ArgumentCaptor<Runnable> fetchDescriptionRunnableCaptor;
 
     @Before
     public void setUp() {
@@ -109,18 +110,13 @@ public class DefaultSSDPControlPointTest {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                runnableCaptor.getValue().run();
+                fetchDescriptionRunnableCaptor.getValue().run();
                 return null;
             }
-        }).when(mockFetchingDescriptionExecutor).execute(runnableCaptor.capture());
+        }).when(mockDescriptionReceiverExecutor).execute(fetchDescriptionRunnableCaptor.capture());
 
         mockStatic(SSDPDevice.class);
         when(createFromSearchResponse(ssdpMessageMock)).thenReturn(ssdpDeviceMock);
-
-        mockStatic(Executors.class);
-        when(Executors.newFixedThreadPool(10)).thenReturn(mockFetchingDescriptionExecutor);
-        when(Executors.newSingleThreadExecutor()).thenCallRealMethod();
-        when(Executors.newSingleThreadScheduledExecutor()).thenCallRealMethod();
 
         ssdpControlPoint = new DefaultSSDPControlPoint() {
             @NonNull
@@ -134,7 +130,15 @@ public class DefaultSSDPControlPointTest {
             MulticastSocket createListenSocket() throws IOException {
                 return listenSocketMock;
             }
+
+            @NonNull
+            @Override
+            ExecutorService initDescriptionReceiverThreadpool() {
+                return mockDescriptionReceiverExecutor;
+            }
         };
+
+        DICommLog.disableLogging();
     }
 
     @After
