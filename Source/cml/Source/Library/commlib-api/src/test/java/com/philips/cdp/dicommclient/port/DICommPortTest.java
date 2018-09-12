@@ -79,6 +79,9 @@ public class DICommPortTest {
     @Before
     public void setUp() {
         initMocks(this);
+
+        DICommLog.disableLogging();
+
         HandlerProvider.enableMockedHandler(handlerMock);
 
         diCommPort = new TestPort(communicationStrategyMock);
@@ -574,6 +577,13 @@ public class DICommPortTest {
         assertEquals(POWER_VALUE, capturedMap.get(POWER_KEY));
         assertEquals(CHILDLOCK_VALUE, capturedMap.get(CHILDLOCK_KEY));
         assertEquals(2, capturedMap.size());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testGivenPortInfoIsNull_whenCallingGetProperties_thenItWillNotImplicitlyCallReloadProperties() {
+        diCommPort.getPortProperties();
+        verifyGetPropertiesCalled(false);
     }
 
     @Test
