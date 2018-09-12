@@ -107,6 +107,9 @@ public class URDemoApplication extends Application {
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
+        if(mAppInfraInterface == null){
+            mAppInfraInterface = new AppInfra.Builder().build(this);
+        }
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
@@ -127,6 +130,9 @@ public class URDemoApplication extends Application {
     }
 
     public void initHSDP(Configuration configuration) {
+        if(mAppInfraInterface == null){
+            mAppInfraInterface = new AppInfra.Builder().build(this);
+        }
         final AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
 
