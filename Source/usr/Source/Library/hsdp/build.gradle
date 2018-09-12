@@ -111,9 +111,9 @@ dependencies {
 
     // JUnit4 Rules
     androidTestImplementation deps.android_testrules
+
     // Android JUnit Runner
     androidTestImplementation deps.android_testrunner
-    androidTestImplementation deps.dexmaker_google
     androidTestImplementation deps.junit
     androidTestImplementation deps.mockito_android
 

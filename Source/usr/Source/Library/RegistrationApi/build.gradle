@@ -149,8 +149,6 @@ dependencies {
 
     androidTestImplementation deps.android_testrules
     androidTestImplementation deps.android_testrunner
-    androidTestImplementation deps.dexmaker_google
-    androidTestImplementation deps.dexmaker_google_mockito
     androidTestImplementation deps.junit
     androidTestImplementation deps.uiautomator
 }
