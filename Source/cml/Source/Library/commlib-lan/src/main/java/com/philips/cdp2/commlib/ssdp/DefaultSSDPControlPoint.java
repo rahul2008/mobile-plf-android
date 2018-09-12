@@ -86,7 +86,7 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
     private ScheduledExecutorService listenExecutor = newSingleThreadScheduledExecutor();
     private ScheduledFuture listenTaskFuture;
 
-    private ExecutorService descriptionReceiverExecutor = newFixedThreadPool(10);
+    private ExecutorService descriptionReceiverExecutor;
 
     private ExecutorService callbackExecutor = newSingleThreadExecutor();
 
@@ -120,6 +120,7 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
 
     public DefaultSSDPControlPoint() {
         this.multicastGroup = getMultiCastGroupAddress();
+        this.descriptionReceiverExecutor = initDescriptionReceiverThreadpool();
     }
 
     @Override
@@ -231,6 +232,12 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
     @VisibleForTesting
     MulticastSocket createListenSocket() throws IOException {
         return new MulticastSocket(ssdpAddress);
+    }
+
+    @NonNull
+    @VisibleForTesting
+    ExecutorService initDescriptionReceiverThreadpool() {
+        return newFixedThreadPool(10);
     }
 
     private void startSearching() {
