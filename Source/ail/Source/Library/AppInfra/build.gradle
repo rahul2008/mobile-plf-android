@@ -120,6 +120,7 @@ dependencies {
     testImplementation deps.powermock_junit
 
     androidTestImplementation deps.mockito_android
+    androidTestImplementation deps.junit
 }
 
 tasks.withType(Test) {
