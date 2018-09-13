@@ -81,4 +81,10 @@ public interface SHNDeviceDefinitionInfo {
      * @return true when the AdvertisementData matches what is expected for a device handled by the plugin, false otherwise
      */
     boolean matchesOnAdvertisedData(BluetoothDevice bluetoothDevice, BleScanRecord bleScanRecord, int rssi);
+
+    /**
+     *
+     * @return connection priority for the
+     */
+    int getConnectionPriority();
 }

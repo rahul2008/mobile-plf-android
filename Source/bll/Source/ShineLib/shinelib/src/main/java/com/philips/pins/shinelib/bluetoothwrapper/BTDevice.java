@@ -40,9 +40,10 @@ public class BTDevice {
         return device.getBondState();
     }
 
-    public BTGatt connectGatt(final Context context, boolean autoConnect, SHNCentral shnCentral, final BTGatt.BTGattCallback callback) {
+    public BTGatt connectGatt(final Context context, boolean autoConnect, SHNCentral shnCentral, final BTGatt.BTGattCallback callback, final int connectionPriority) {
         btGatt = new BTGatt(shnCentral, callback, handler);
         BluetoothGatt bluetoothGatt = device.connectGatt(context, autoConnect, btGatt);
+        bluetoothGatt.requestConnectionPriority(connectionPriority);
         btGatt.setBluetoothGatt(bluetoothGatt);
 
         if (Workaround.CORRUPTED_CACHE.isRequiredOnThisDevice()) {
