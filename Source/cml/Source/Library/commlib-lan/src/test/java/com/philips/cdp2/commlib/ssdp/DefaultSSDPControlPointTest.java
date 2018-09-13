@@ -70,7 +70,8 @@ public class DefaultSSDPControlPointTest {
 
     private DefaultSSDPControlPoint ssdpControlPoint;
 
-    private boolean executeFetchDiscoveryImmediatly = true;
+    private boolean executeFetchDescriptionImmediatly = true;
+    private boolean executeWorkImmediatly = true;
 
     @Mock
     private DeviceListener deviceListener;
@@ -105,8 +106,14 @@ public class DefaultSSDPControlPointTest {
     @Mock
     private ExecutorService mockDescriptionReceiverExecutor;
 
+    @Mock
+    private ExecutorService mockWorkerExecutor;
+
     @Captor
     private ArgumentCaptor<Runnable> fetchDescriptionRunnableCaptor;
+
+    @Captor
+    private ArgumentCaptor<Runnable> workerRunnableCaptor;
 
     @Before
     public void setUp() {
@@ -126,12 +133,22 @@ public class DefaultSSDPControlPointTest {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                if (executeFetchDiscoveryImmediatly) {
+                if (executeFetchDescriptionImmediatly) {
                     fetchDescriptionRunnableCaptor.getValue().run();
                 }
                 return null;
             }
         }).when(mockDescriptionReceiverExecutor).execute(fetchDescriptionRunnableCaptor.capture());
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                if (executeWorkImmediatly) {
+                    workerRunnableCaptor.getValue().run();
+                }
+                return null;
+            }
+        }).when(mockWorkerExecutor).execute(workerRunnableCaptor.capture());
 
         mockStatic(SSDPDevice.class);
         when(createFromSearchResponse(ssdpMessageMock)).thenReturn(ssdpDeviceMock);
@@ -151,8 +168,14 @@ public class DefaultSSDPControlPointTest {
 
             @NonNull
             @Override
-            ExecutorService initDescriptionReceiverThreadpool() {
+            ExecutorService createDescriptionReceiverThreadpool() {
                 return mockDescriptionReceiverExecutor;
+            }
+
+            @NonNull
+            @Override
+            ExecutorService createWorkerExecutor() {
+                return mockWorkerExecutor;
             }
         };
 
@@ -370,13 +393,13 @@ public class DefaultSSDPControlPointTest {
 
         fetchDescriptionSemaphore.release();
 
-        verify(deviceListener, after(50)).onDeviceAvailable(secondSsdpDeviceMock);
+        verify(deviceListener, after(100)).onDeviceAvailable(secondSsdpDeviceMock);
     }
 
     @Test
     public void whenTwoSsdpAliveMessagesForTheSameApplianceAreReceived_thenTheSecondMessageShouldBeDiscarded() {
         when(ssdpMessageMock.get(NOTIFICATION_SUBTYPE)).thenReturn(NOTIFICATION_SUBTYPE_ALIVE);
-        executeFetchDiscoveryImmediatly = false;
+        executeFetchDescriptionImmediatly = false;
 
         ssdpControlPoint.handleMessage(ssdpMessageMock);
         ssdpControlPoint.handleMessage(ssdpMessageMock);
@@ -394,6 +417,42 @@ public class DefaultSSDPControlPointTest {
 
         assertEquals(2, fetchDescriptionRunnableCaptor.getAllValues().size());
     }
+
+    @Test
+    public void whenAnSsdpAliveMessageIsReceived_thenAnAvailableSsdpDeviceShouldBeNotified_onTheWorkerThread() {
+        executeWorkImmediatly = false;
+        ssdpControlPoint = new DefaultSSDPControlPoint() {
+            @NonNull
+            @Override
+            MulticastSocket createBroadcastSocket() throws IOException {
+                return broadcastSocketMock;
+            }
+
+            @NonNull
+            @Override
+            MulticastSocket createListenSocket() throws IOException {
+                return listenSocketMock;
+            }
+
+            // do not override the threadpool init
+
+            @NonNull
+            @Override
+            ExecutorService createWorkerExecutor() {
+                return mockWorkerExecutor;
+            }
+        };
+
+        when(ssdpMessageMock.get(NOTIFICATION_SUBTYPE)).thenReturn(NOTIFICATION_SUBTYPE_ALIVE);
+        ssdpControlPoint.handleMessage(ssdpMessageMock);
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
+
+        assertEquals(1, workerRunnableCaptor.getAllValues().size());
+    }
+
 
     @Test(expected = TransportUnavailableException.class)
     public void givenSocketsCannotBeOpened_whenStartIsInvoked_thenATransportUnavailableExceptionIsThrown() throws SocketException {

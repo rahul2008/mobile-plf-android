@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -92,7 +93,7 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
 
     private ExecutorService descriptionReceiverExecutor;
 
-    private ExecutorService callbackExecutor = newSingleThreadExecutor();
+    private ExecutorService workerExecutor;
 
     private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
 
@@ -124,7 +125,8 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
 
     public DefaultSSDPControlPoint() {
         this.multicastGroup = getMultiCastGroupAddress();
-        this.descriptionReceiverExecutor = initDescriptionReceiverThreadpool();
+        this.descriptionReceiverExecutor = createDescriptionReceiverThreadpool();
+        this.workerExecutor = createWorkerExecutor();
     }
 
     @Override
@@ -240,8 +242,14 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
 
     @NonNull
     @VisibleForTesting
-    ExecutorService initDescriptionReceiverThreadpool() {
+    ExecutorService createDescriptionReceiverThreadpool() {
         return newFixedThreadPool(10);
+    }
+
+    @NonNull
+    @VisibleForTesting
+    ExecutorService createWorkerExecutor() {
+        return newSingleThreadExecutor();
     }
 
     private void startSearching() {
@@ -296,19 +304,22 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
             device.updateFrom(message);
             notifySsdpDevice(message, device);
         } else {
-            // TODO: Deduplicate - do not create new Runnable if 1 is already running for the same target USN
             if (!fetchingDescriptionForUSNs.contains(usn)) {
                 Runnable fetchDescriptionTask = new Runnable() {
                     @Override
                     public void run() {
-                        SSDPDevice createdDevice = createFromSearchResponse(message);
+                        final SSDPDevice createdDevice = createFromSearchResponse(message);
 
-                        if (createdDevice != null) {
-                            // TODO: throw this back to the original thread
-                            deviceCache.put(usn, createdDevice);
-                            notifySsdpDevice(message, createdDevice);
-                        }
-                        fetchingDescriptionForUSNs.remove(usn);
+                        workerExecutor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (createdDevice != null) {
+                                    deviceCache.put(usn, createdDevice);
+                                    notifySsdpDevice(message, createdDevice);
+                                }
+                                fetchingDescriptionForUSNs.remove(usn);
+                            }
+                        });
                     }
                 };
                 fetchingDescriptionForUSNs.add(usn);
@@ -387,7 +398,7 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
 
                     DICommLog.d(SSDP, message.toString());
 
-                    callbackExecutor.execute(new Runnable() {
+                    workerExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
                             handleMessage(message);
