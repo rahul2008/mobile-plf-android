@@ -14,8 +14,10 @@ import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.commlib.ssdp.DefaultSSDPControlPoint.DeviceListener;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,9 +44,9 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_BYE
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPDATE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.USN;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.after;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -356,7 +358,7 @@ public class DefaultSSDPControlPointTest {
     }
 
     @Test
-    public void whenTwoDifferentSsdpAliveMessagesAreReceived_thenTheyShouldBeHandledInParallel() {
+    public void whenTwoDifferentSsdpAliveMessagesAreReceived_thenTheyShouldBeHandledInParallel() throws InterruptedException {
         ssdpControlPoint = new DefaultSSDPControlPoint() {
             @NonNull
             @Override
@@ -372,7 +374,22 @@ public class DefaultSSDPControlPointTest {
 
             // do not override the threadpool init
         };
-        ssdpControlPoint.addDeviceListener(deviceListener);
+
+        final CountDownLatch firstDeviceFoundLatch = new CountDownLatch(1);
+        final CountDownLatch secondDeviceFoundLatch = new CountDownLatch(1);
+
+        ssdpControlPoint.addDeviceListener(new DeviceListener() {
+            @Override
+            public void onDeviceAvailable(SSDPDevice device) {
+                if (device == ssdpDeviceMock) {
+                    firstDeviceFoundLatch.countDown();
+                } else if (device == secondSsdpDeviceMock) {
+                    secondDeviceFoundLatch.countDown();
+                }
+            }
+
+            @Override public void onDeviceUnavailable(SSDPDevice device) {}
+        });
 
         final Semaphore fetchDescriptionSemaphore = new Semaphore(0);
         when(createFromSearchResponse(secondSsdpMessageMock)).thenAnswer(new Answer<SSDPDevice>() {
@@ -389,11 +406,11 @@ public class DefaultSSDPControlPointTest {
         ssdpControlPoint.handleMessage(secondSsdpMessageMock);
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
-        verify(deviceListener, after(200)).onDeviceAvailable(ssdpDeviceMock);
+        assertTrue(firstDeviceFoundLatch.await(1, TimeUnit.SECONDS));
 
         fetchDescriptionSemaphore.release();
 
-        verify(deviceListener, after(200)).onDeviceAvailable(secondSsdpDeviceMock);
+        assertTrue(secondDeviceFoundLatch.await(1, TimeUnit.SECONDS));
     }
 
     @Test
@@ -421,38 +438,12 @@ public class DefaultSSDPControlPointTest {
     @Test
     public void whenAnSsdpAliveMessageIsReceived_thenAnAvailableSsdpDeviceShouldBeNotified_onTheWorkerThread() {
         executeWorkImmediatly = false;
-        ssdpControlPoint = new DefaultSSDPControlPoint() {
-            @NonNull
-            @Override
-            MulticastSocket createBroadcastSocket() throws IOException {
-                return broadcastSocketMock;
-            }
-
-            @NonNull
-            @Override
-            MulticastSocket createListenSocket() throws IOException {
-                return listenSocketMock;
-            }
-
-            // do not override the threadpool init
-
-            @NonNull
-            @Override
-            ExecutorService createWorkerExecutor() {
-                return mockWorkerExecutor;
-            }
-        };
 
         when(ssdpMessageMock.get(NOTIFICATION_SUBTYPE)).thenReturn(NOTIFICATION_SUBTYPE_ALIVE);
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {}
-
         assertEquals(1, workerRunnableCaptor.getAllValues().size());
     }
-
 
     @Test(expected = TransportUnavailableException.class)
     public void givenSocketsCannotBeOpened_whenStartIsInvoked_thenATransportUnavailableExceptionIsThrown() throws SocketException {
