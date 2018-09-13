@@ -79,6 +79,9 @@ public class DICommPortTest {
     @Before
     public void setUp() {
         initMocks(this);
+
+        DICommLog.disableLogging();
+
         HandlerProvider.enableMockedHandler(handlerMock);
 
         diCommPort = new TestPort(communicationStrategyMock);
@@ -577,9 +580,10 @@ public class DICommPortTest {
     }
 
     @Test
-    public void testGetPropertiesWhenPortInfoNull() {
+    @SuppressWarnings("unchecked")
+    public void testGivenPortInfoIsNull_whenCallingGetProperties_thenItWillNotImplicitlyCallReloadProperties() {
         diCommPort.getPortProperties();
-        verifyGetPropertiesCalled(true);
+        verifyGetPropertiesCalled(false);
     }
 
     @Test

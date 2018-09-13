@@ -139,14 +139,12 @@ public abstract class DICommPort<T extends PortProperties> {
     public abstract boolean supportsSubscription();
 
     /**
-     * Get the properties for this port, possibly triggering a {@link DICommPort#reloadProperties()} when they are not yet available.
+     * Get the locally cached properties for this port.
+     * In order to update the cache, pease use {@link DICommPort#reloadProperties()}.
      *
-     * @return The locally available properties, or null if not available yet.
+     * @return The locally cached properties, or null if not available yet.
      */
     public T getPortProperties() {
-        if (mPortProperties == null) {
-            reloadProperties();
-        }
         return mPortProperties;
     }
 
