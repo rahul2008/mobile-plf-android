@@ -389,11 +389,11 @@ public class DefaultSSDPControlPointTest {
         ssdpControlPoint.handleMessage(secondSsdpMessageMock);
         ssdpControlPoint.handleMessage(ssdpMessageMock);
 
-        verify(deviceListener, after(50)).onDeviceAvailable(ssdpDeviceMock);
+        verify(deviceListener, after(200)).onDeviceAvailable(ssdpDeviceMock);
 
         fetchDescriptionSemaphore.release();
 
-        verify(deviceListener, after(100)).onDeviceAvailable(secondSsdpDeviceMock);
+        verify(deviceListener, after(200)).onDeviceAvailable(secondSsdpDeviceMock);
     }
 
     @Test
