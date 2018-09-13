@@ -133,7 +133,6 @@ dependencies {
 
     // Tests
     testImplementation deps.junit
-    testImplementation deps.mockito
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
     testImplementation(deps.robolectric) {

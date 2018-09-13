@@ -152,7 +152,6 @@ dependencies {
     testImplementation deps.robolectric_shadows_multidex
     testImplementation deps.robolectric_shadows
     testImplementation deps.powermock_core
-    testImplementation deps.mockito
     testImplementation deps.powermock_junit
     testImplementation deps.powermock_junit_rule
     testImplementation deps.powermock_junit_rule_agent
