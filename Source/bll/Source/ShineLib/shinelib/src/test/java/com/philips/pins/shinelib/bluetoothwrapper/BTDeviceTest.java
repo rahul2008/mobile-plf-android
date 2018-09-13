@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib.bluetoothwrapper;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.os.Build;
 
 import com.philips.pins.shinelib.SHNCentral;
@@ -69,7 +70,7 @@ public class BTDeviceTest {
         SHNCentral shnCentral = mock(SHNCentral.class);
         BTGatt.BTGattCallback callback = mock(BTGatt.BTGattCallback.class);
 
-        BTGatt btGatt = btDevice.connectGatt(RuntimeEnvironment.application, false, shnCentral, callback);
+        BTGatt btGatt = btDevice.connectGatt(RuntimeEnvironment.application, false, shnCentral, callback, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
 
         assertNotNull(btGatt);
     }

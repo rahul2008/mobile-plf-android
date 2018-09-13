@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothProfile;
@@ -53,17 +54,21 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         NONE, PERIPHERAL, APP
     }
 
+    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, int connectionPriority) {
+        this(btDevice, shnCentral, deviceTypeName, SHNBondInitiator.NONE, connectionPriority);
+    }
+
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
-        this(btDevice, shnCentral, deviceTypeName, SHNBondInitiator.NONE);
+        this(btDevice, shnCentral, deviceTypeName, SHNBondInitiator.NONE, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
     }
 
     @Deprecated
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, boolean deviceBondsDuringConnect) {
-        this(btDevice, shnCentral, deviceTypeName, deviceBondsDuringConnect ? SHNBondInitiator.PERIPHERAL : SHNBondInitiator.NONE);
+        this(btDevice, shnCentral, deviceTypeName, deviceBondsDuringConnect ? SHNBondInitiator.PERIPHERAL : SHNBondInitiator.NONE, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
     }
 
-    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator) {
-        sharedResources = new SHNDeviceResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback);
+    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator, int connectionPriority) {
+        sharedResources = new SHNDeviceResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback, connectionPriority);
         stateMachine = new SHNDeviceStateMachine(sharedResources);
         stateMachine.addStateListener(stateChangedListener);
 
