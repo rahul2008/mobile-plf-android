@@ -110,6 +110,9 @@ subprojects {
                     // As per Robolectric documentation
                     includeAndroidResources = true
                 }
+                unitTests.all {
+                    jvmArgs('-ea', '-noverify')
+                }
             }
         }
     }

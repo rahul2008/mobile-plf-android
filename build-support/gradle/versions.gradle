@@ -183,6 +183,7 @@ ext.deps = [
         cucumber_java                 : 'io.cucumber:cucumber-java:3.0.2',
         cucumber_junit                : 'io.cucumber:cucumber-junit:3.0.2',
         dexmaker_mockito              : 'com.linkedin.dexmaker:dexmaker-mockito:2.19.1',
+        dexmaker_mockito_inline       : 'com.linkedin.dexmaker:dexmaker-mockito-inline:2.19.1',
         espresso_contrib              : 'com.android.support.test.espresso:espresso-contrib:3.0.2',
         espresso_core                 : 'com.android.support.test.espresso:espresso-core:3.0.2',
         espresso_web                  : 'com.android.support.test.espresso:espresso-web:3.0.2',
