@@ -195,7 +195,6 @@ ext.deps = [
         libphonenumber                : 'com.googlecode.libphonenumber:libphonenumber:8.9.13',
         mockito                       : "org.mockito:mockito-core:${ext.versions.mockito}",
         mockito_android               : "org.mockito:mockito-android:${ext.versions.mockito}",
-        mockito_inline                : "org.mockito:mockito-inline:${ext.versions.mockito}",
         multidex                      : 'com.android.support:multidex:1.0.3',
         opengl                        : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',
         openid_appauth                : 'net.openid:appauth:0.7.1',

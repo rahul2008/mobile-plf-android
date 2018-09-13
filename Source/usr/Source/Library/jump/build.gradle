@@ -104,7 +104,7 @@ dependencies {
     implementation deps.wechat
 
     testImplementation deps.junit
-    testImplementation deps.mockito_inline
+    testImplementation deps.mockito
     testImplementation deps.robolectric
 
     // JUnit4 Rules
