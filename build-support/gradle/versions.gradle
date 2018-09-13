@@ -27,8 +27,8 @@ ext.versions = [
         jacocoToolVersion                   : '0.7.4.201502262128',
         sourceCompatibility                 : 1.8,
         targetCompatibility                 : 1.8,
-        mockito                             : '2.22.0',
-        powermock                           : '1.7.4',
+        mockito                             : '2.22.0', // Mockito and Powermock need to be upgraded in tandem, see: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
+        powermock                           : '1.7.4', // Mockito and Powermock need to be upgraded in tandem, see: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
         robolectric                         : '3.8'
 ]
 
@@ -193,8 +193,9 @@ ext.deps = [
         junit                         : 'junit:junit:4.12',
         junit_runners                 : 'com.nitorcreations:junit-runners:1.3',
         libphonenumber                : 'com.googlecode.libphonenumber:libphonenumber:8.9.13',
-        mockito                       : "org.mockito:mockito-core:${ext.versions.mockito}",  // Check this before updating: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
+        mockito                       : "org.mockito:mockito-core:${ext.versions.mockito}",
         mockito_android               : "org.mockito:mockito-android:${ext.versions.mockito}",
+        mockito_inline                : "org.mockito:mockito-inline:${ext.versions.mockito}",
         multidex                      : 'com.android.support:multidex:1.0.3',
         opengl                        : 'org.khronos:opengl-api:gl1.1-android-2.1_r1',
         openid_appauth                : 'net.openid:appauth:0.7.1',

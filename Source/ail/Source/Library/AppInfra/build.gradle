@@ -113,14 +113,13 @@ dependencies {
 
     testImplementation deps.robolectric
     testImplementation deps.assertj
-    testImplementation deps.mockito
+    testImplementation deps.mockito_inline
     testImplementation deps.junit
     testImplementation deps.powermock_core
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
 
     androidTestImplementation deps.mockito_android
-    androidTestImplementation deps.dexmaker_mockito
     androidTestImplementation deps.junit
 }
 

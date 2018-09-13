@@ -104,7 +104,7 @@ dependencies {
     implementation deps.wechat
 
     testImplementation deps.junit
-    testImplementation deps.mockito
+    testImplementation deps.mockito_inline
     testImplementation deps.robolectric
 
     // JUnit4 Rules
@@ -114,7 +114,6 @@ dependencies {
     androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.junit
     androidTestImplementation deps.mockito_android
-    androidTestImplementation deps.dexmaker_mockito
 }
 
 task copyToLib(type: Copy) {
