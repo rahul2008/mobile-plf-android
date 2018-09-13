@@ -120,8 +120,6 @@ dependencies {
     testImplementation deps.powermock_junit
 
     androidTestImplementation deps.mockito_android
-    androidTestImplementation deps.dexmaker_mockito_inline
-    androidTestImplementation deps.junit
 }
 
 tasks.withType(Test) {

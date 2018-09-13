@@ -114,7 +114,7 @@ dependencies {
     implementation deps.play_services_awareness
     implementation deps.firebase_iid
 
-    implementation(deps.firbase_messaging) {
+    implementation(deps.firebase_messaging) {
         exclude group: 'com.google.firebase', module: 'firebase-iid'
     }
 
