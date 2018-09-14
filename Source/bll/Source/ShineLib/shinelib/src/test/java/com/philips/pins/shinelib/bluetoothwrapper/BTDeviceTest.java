@@ -26,6 +26,7 @@ import org.robolectric.util.ReflectionHelpers;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -74,7 +75,7 @@ public class BTDeviceTest {
     public void whenBluetoothDeviceConnectGattIsCalledThenReturnGatt() throws NoSuchFieldException, IllegalAccessException {
         SHNCentral shnCentral = mock(SHNCentral.class);
         BTGatt.BTGattCallback callback = mock(BTGatt.BTGattCallback.class);
-        when(bluetoothDevice.connectGatt(any(Context.class), any(Boolean.class), any(BTGatt.class))).thenReturn(any(BluetoothGatt.class));
+        when(bluetoothDevice.connectGatt(any(Context.class), eq(false), any(BTGatt.class))).thenReturn(any(BluetoothGatt.class));
         BTGatt btGatt = btDevice.connectGatt(RuntimeEnvironment.application, false, shnCentral, callback, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
 
         assertNotNull(btGatt);
