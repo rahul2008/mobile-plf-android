@@ -18,6 +18,7 @@ Version {next}
 * Calling `getPortProperties` on a Port will no longer implicitly call `reloadProperties` on the port.
 
 ### Defects solved
+* \#145509 - Fix for the bug where the remote getProps requests for the Floorcare vaccum cleaner were failing. The json for the requests needed to be edited.
 * \#146816 AppIdProvider now posts notifications on the main thread
 * \#123749 Discovery callback are now posted to main thread
 * \#144890 RemoteRequests are correctly parsed again
