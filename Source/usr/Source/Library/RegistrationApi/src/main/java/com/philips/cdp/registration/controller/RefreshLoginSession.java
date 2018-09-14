@@ -16,7 +16,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 
 public class RefreshLoginSession implements CaptureApiRequestCallback {
 
-	private final static String TAG = RefreshLoginSession.class.getSimpleName();
+	private final static String TAG = "RefreshLoginSession";
 
 	private RefreshLoginSessionHandler mRefreshLoginSessionHandler;
 

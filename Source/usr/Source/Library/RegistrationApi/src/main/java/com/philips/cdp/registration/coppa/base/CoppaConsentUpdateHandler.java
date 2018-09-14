@@ -18,7 +18,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
  */
  class CoppaConsentUpdateHandler implements Capture.CaptureApiRequestCallback {
 
-    private final static String TAG = CoppaConsentUpdateHandler.class.getSimpleName();
+    private final static String TAG = "CoppaConsentUpdateHandler";
 
     private CoppaConsentUpdateCallback mCoppaConsentUpdateCallback;
     CoppaConsentUpdateHandler(final CoppaConsentUpdateCallback coppaConsentUpdateCallback){

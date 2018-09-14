@@ -15,7 +15,7 @@ import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 public class AddConsumerInterest implements CaptureApiRequestCallback {
-	private final static String TAG = AddConsumerInterest.class.getSimpleName();
+	private final static String TAG = "AddConsumerInterest";
 
 	AddConsumerInterestHandler mAddConsumerInterest;
 
