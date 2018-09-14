@@ -51,7 +51,7 @@ public class URInterface implements UappInterface {
 
     private static final long serialVersionUID = 1128016096756071381L;
 
-    private static String TAG = "UappInterface";
+    private static String TAG = "URInterface";
 
     /**
      * Launches the USR user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
