@@ -176,16 +176,12 @@ dependencies {
         implementation project(':pif')
         implementation project(':AppInfra')
     } else {
-        implementation(philipsdeps.catk) {
-            exclude group: 'com.google.code.findbugs', module: 'jsr305'
-        }
+       
         implementation philipsdeps.pif
         implementation philipsdeps.AppInfra
     }
 
-    implementation(deps.support.annotations) {
-        exclude group: 'com.google.code.findbugs', module: 'jsr305'
-    }
+    
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.greenrobot
@@ -198,6 +194,8 @@ dependencies {
     annotationProcessor deps.dagger.compiler
     compileOnly deps.javax_annotation
     testAnnotationProcessor deps.dagger.compiler
+    implementation deps.support.annotations
+
 
     testImplementation deps.junit
     testImplementation deps.mockito
