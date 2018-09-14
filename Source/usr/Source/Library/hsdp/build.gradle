@@ -128,7 +128,7 @@ android {
 
 }
 
-
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
     implementation project(':jump')
     implementation project(':AppInfra')

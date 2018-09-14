@@ -225,7 +225,7 @@ android {
         tasks["compile${productFlavor}${buildtype}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildtype}Assets"])
     }
 }
-
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 repositories {
     flatDir {
         dirs 'libs'
