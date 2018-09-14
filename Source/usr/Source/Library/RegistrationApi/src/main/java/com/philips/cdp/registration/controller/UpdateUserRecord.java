@@ -21,7 +21,6 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -126,7 +125,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 }
                 @Override
                 public void onError(ERRORVALUES errorvalues, String s) {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
+                    RLog.e(TAG, " Country Error :" + s);
                 }
             });
 
@@ -144,6 +143,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
                 @Override
                 public void onFailure(CaptureApiError e) {
+                    RLog.e(TAG, "updateUserRecord : onFailure : error " + e.raw_response);
                 }
             }, originalUserInfo);
 

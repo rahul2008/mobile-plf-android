@@ -29,7 +29,7 @@ public class UpdateJanRainUserProfile implements UpdateUserProfile {
 
                 @Override
                 public void onFailure(CaptureApiError e) {
-                    RLog.e(TAG, "updateUserEmail : onFailure");
+                    RLog.e(TAG, "updateUserEmail : onFailure : error " + e.raw_response);
                     emitter.onError(new Throwable(e.error));
                 }
             };

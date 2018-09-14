@@ -46,7 +46,7 @@ public class UpdateUser implements Capture.CaptureApiRequestCallback {
 
     @Override
     public void onFailure(CaptureApiError e) {
-        RLog.e(TAG, "onFailure updating User Info " + e.code);
+        RLog.e(TAG, "onFailure updating User Info " + e.raw_response);
         mUpdateUserListener.onUserUpdateFailed(e.code);
     }
 }

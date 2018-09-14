@@ -105,8 +105,6 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
     public void onFailure(SignInError error) {
         try {
             RLog.e(TAG, "onFailure : is called error: "+error.captureApiError.raw_response);
-            RLog.d(TAG, "onFailure : error Description :" + error.captureApiError.error_description);
-            RLog.d(TAG, "onFailure : error code :" + error.captureApiError.code);
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);

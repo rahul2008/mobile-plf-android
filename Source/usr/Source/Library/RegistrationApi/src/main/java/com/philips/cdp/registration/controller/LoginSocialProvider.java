@@ -104,7 +104,7 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
     @Override
     public void onFailure(SignInError error) {
         try {
-            RLog.d(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
+            RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                     && error.captureApiError.isMergeFlowError()) {

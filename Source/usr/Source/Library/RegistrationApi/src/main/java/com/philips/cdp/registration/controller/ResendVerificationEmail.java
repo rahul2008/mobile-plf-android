@@ -46,12 +46,16 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback, JumpF
     }
 
     public void onFailure(CaptureApiError error) {
-        RLog.d(TAG, "onFailure : call onResendVerificationEmailFailedWithError ");
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error, mContext);
-        userRegistrationFailureInfo.setErrorCode(error.code);
-        ThreadUtils.postInMainThread(mContext, () ->
-                mResendVerificationEmail
-                        .onResendVerificationEmailFailedWithError(userRegistrationFailureInfo));
+        try {
+            RLog.e(TAG, "onFailure : call onResendVerificationEmailFailedWithError " + error.raw_response);
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error, mContext);
+            userRegistrationFailureInfo.setErrorCode(error.code);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mResendVerificationEmail
+                            .onResendVerificationEmailFailedWithError(userRegistrationFailureInfo));
+        } catch (Exception e){
+            RLog.e(TAG, "onFailure :  Exception " + e.getMessage());
+        }
     }
 
 
