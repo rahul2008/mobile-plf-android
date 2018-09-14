@@ -282,20 +282,19 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private boolean emailOrMobileValidator(String emailOrMobile) {
         if (emailOrMobile.isEmpty() && !RegistrationHelper.getInstance().isMobileFlow()) {
-            mEtEmail.setErrorMessage(R.string.USR_NameField_ErrorText);
+            mEtEmail.setErrorMessage(R.string.USR_InvalidOrMissingEmail_ErrorMsg);
         } else {
             mEtEmail.setErrorMessage(R.string.USR_InvalidEmailOrPhoneNumber_ErrorMsg);
         }
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
             if ((!FieldsValidator.isValidMobileNumber(emailOrMobile) || !FieldsValidator.isValidEmail(emailOrMobile))) {
-                RLog.d(TAG, "Valid Mobile No./ Email"
-                        + (FieldsValidator.isValidMobileNumber(emailOrMobile) || FieldsValidator.isValidEmail(emailOrMobile)));
+                RLog.d(TAG, "Not a valid Mobile No.");
                 mEtEmail.setErrorMessage(R.string.USR_InvalidEmailOrPhoneNumber_ErrorMsg);
                 return FieldsValidator.isValidMobileNumber(emailOrMobile) || FieldsValidator.isValidEmail(emailOrMobile);
             }
         } else {
-            RLog.d(TAG, "Valid Email ID" + FieldsValidator.isValidEmail(emailOrMobile));
+            RLog.d(TAG, "Not a valid Email ID or Invalid Email.");
             mEtEmail.setErrorMessage(R.string.USR_InvalidOrMissingEmail_ErrorMsg);
             return FieldsValidator.isValidEmail(emailOrMobile);
         }
@@ -685,8 +684,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void createResendSMSIntent(String url) {
-        RLog.d(TAG, "MOBILE NUMBER : " + loginValidationEditText.getText().toString());
-        RLog.d(TAG, "RegistrationEnvironment :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        RLog.d(TAG, "MOBILE NUMBER *** : " + loginValidationEditText.getText().toString());
+        RLog.d(TAG, " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
         String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(loginValidationEditText.getText().toString()) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +

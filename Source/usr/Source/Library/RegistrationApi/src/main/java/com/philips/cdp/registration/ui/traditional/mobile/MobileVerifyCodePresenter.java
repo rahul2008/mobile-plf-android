@@ -21,7 +21,7 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_R
 
 public class MobileVerifyCodePresenter implements NetworkStateListener {
 
-    private static final String TAG = MobileVerifyCodePresenter.class.getSimpleName();
+    private static final String TAG = "MobileVerifyCodePresenter";
 
     public static final String HTTPS = "https://";
     private final String USE_VERIFICATION_CODE = "/access/useVerificationCode";

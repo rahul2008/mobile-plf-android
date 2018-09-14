@@ -67,7 +67,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     private String CONSUMER_PRIMARY_ADDRESS = "primaryAddress";
 
-    private final static String TAG = UpdateUserRecord.class.getSimpleName();
+    private final static String TAG = "UpdateUserRecord";
 
     public UpdateUserRecord(Context context) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -125,7 +125,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 }
                 @Override
                 public void onError(ERRORVALUES errorvalues, String s) {
-                    RLog.d(TAG, " Country Error :" + s);
+                    RLog.e(TAG, "updateUserRecordRegister Country Error :" + s);
                 }
             });
 
@@ -143,6 +143,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
                 @Override
                 public void onFailure(CaptureApiError e) {
+                    RLog.e(TAG, "updateUserRecord : onFailure : error " + e.raw_response);
                 }
             }, originalUserInfo);
 

@@ -43,7 +43,7 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
-    private final static String TAG = LoginSocialProvider.class.getSimpleName();
+    private final static String TAG = "LoginSocialProvider";
 
     public LoginSocialProvider(SocialLoginProviderHandler socialLoginProviderHandler, Context context,
                                UpdateUserRecordHandler updateUserRecordHandler) {
@@ -103,7 +103,8 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
 
     @Override
     public void onFailure(SignInError error) {
-        RLog.d(TAG, "onFailure : is called");
+        try{
+            RLog.d(TAG, "onFailure : is called : Error : " + error.captureApiError.raw_response);
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isMergeFlowError()) {
@@ -159,6 +160,10 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
 
         }
         AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
+        }catch(Exception e){
+            RLog.d(TAG, "onFailure : is called : Exception : " + e.getMessage());
+        }
+
     }
 
     private Activity mActivity;
