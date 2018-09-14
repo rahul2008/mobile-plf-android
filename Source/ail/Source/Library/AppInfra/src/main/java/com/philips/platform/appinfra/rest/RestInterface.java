@@ -45,4 +45,9 @@ public interface RestInterface extends Serializable {
     interface NetworkConnectivityChangeListener {
         void onConnectivityStateChange(boolean isConnected);
     }
+
+    /**
+     * Method to clear rest client cached response
+     */
+    void clearCacheResponse();
 }
