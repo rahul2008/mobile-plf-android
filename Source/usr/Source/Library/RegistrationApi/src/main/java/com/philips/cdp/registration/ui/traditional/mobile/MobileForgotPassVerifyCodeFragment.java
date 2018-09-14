@@ -67,7 +67,7 @@ import static com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver.SMS_PER
 public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment implements
         MobileForgotPassVerifyCodeContract, OnUpdateListener {
 
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "MobileForgotPassVerifyCodeFragment";
     @Inject
     NetworkUtility networkUtility;
 

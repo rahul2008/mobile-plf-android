@@ -31,7 +31,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback, JumpF
     public ResendVerificationEmailHandler mResendVerificationEmail;
     private Context mContext;
     private String mEmailAddress;
-    private static final String TAG = ResendVerificationEmail.class.getSimpleName();
+    private static final String TAG = "ResendVerificationEmail";
 
     public ResendVerificationEmail(final Context context, final ResendVerificationEmailHandler resendVerificationEmail) {
         mResendVerificationEmail = resendVerificationEmail;

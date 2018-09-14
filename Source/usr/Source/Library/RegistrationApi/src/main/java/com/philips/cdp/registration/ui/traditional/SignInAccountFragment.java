@@ -96,7 +96,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         EventListener, ResendVerificationEmailHandler,
         NetworkStateListener {
 
-    private static final String TAG = SignInAccountFragment.class.getSimpleName();
+    private static final String TAG = "SignInAccountFragment";
     private static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
     @Inject

@@ -78,7 +78,7 @@ import static com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver.SMS_PER
 public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener {
 
-    public static String TAG = MobileVerifyCodeFragment.class.getSimpleName();
+    public static String TAG = "MobileVerifyCodeFragment";
 
     @Inject
     NetworkUtility networkUtility;

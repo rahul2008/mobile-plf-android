@@ -52,7 +52,7 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER
 
 public class HomePresenter implements NetworkStateListener, SocialLoginProviderHandler, EventListener {
 
-    private String TAG = HomePresenter.class.getSimpleName();
+    private String TAG = "HomePresenter";
 
     @Inject
     NetworkUtility networkUtility;

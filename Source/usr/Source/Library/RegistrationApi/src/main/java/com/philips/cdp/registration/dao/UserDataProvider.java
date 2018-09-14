@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class UserDataProvider extends User implements UserDataInterface {
-    private final String TAG = UserDataProvider.class.getSimpleName();
+    private final String TAG = "UserDataProvider";
     private static final long serialVersionUID = 1995972602210564L;
     private transient Context context;
     private HashMap<String, Object> userDataMap;

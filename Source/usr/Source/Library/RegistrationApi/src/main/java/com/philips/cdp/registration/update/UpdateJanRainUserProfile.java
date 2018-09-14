@@ -11,7 +11,7 @@ import io.reactivex.Completable;
 
 public class UpdateJanRainUserProfile implements UpdateUserProfile {
 
-    private String TAG = UpdateJanRainUserProfile.class.getSimpleName();
+    private String TAG = "UpdateJanRainUserProfile";
 
     private static final String JANRAIN_UPDATE_EMAIL_KEY = "email";
     private static final String EDIT_PROFILE_FORM_NAME = "editProfileForm";

@@ -56,7 +56,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     protected static int mHeight = 0;
 
     private final int JELLY_BEAN = 16;
-    private final static String TAG = RegistrationBaseFragment.class.getSimpleName();
+    private final static String TAG = "RegistrationBaseFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

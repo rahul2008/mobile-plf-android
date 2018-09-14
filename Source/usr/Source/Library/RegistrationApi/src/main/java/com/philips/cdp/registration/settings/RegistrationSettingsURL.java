@@ -23,7 +23,7 @@ import javax.inject.Inject;
 
 public class RegistrationSettingsURL extends RegistrationSettings {
 
-    private String TAG = RegistrationSettingsURL.class.getSimpleName();
+    private String TAG = "RegistrationSettingsURL";
 
     @Inject
     HSDPConfiguration hsdpConfiguration;

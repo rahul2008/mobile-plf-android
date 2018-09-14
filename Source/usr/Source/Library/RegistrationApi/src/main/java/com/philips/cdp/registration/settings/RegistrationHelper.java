@@ -37,7 +37,7 @@ import javax.inject.Inject;
  */
 public class RegistrationHelper {
 
-    private String TAG = RegistrationHelper.class.getSimpleName();
+    private String TAG = "RegistrationHelper";
 
     @Inject
     NetworkUtility networkUtility;

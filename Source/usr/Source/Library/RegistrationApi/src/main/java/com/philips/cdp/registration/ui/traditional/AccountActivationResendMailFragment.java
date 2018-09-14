@@ -75,7 +75,7 @@ import io.reactivex.schedulers.Schedulers;
 public class AccountActivationResendMailFragment extends RegistrationBaseFragment implements
         RefreshUserHandler, AccountActivationResendMailContract, CounterListener {
 
-    private String TAG = AccountActivationResendMailFragment.class.getSimpleName();
+    private String TAG = "AccountActivationResendMailFragment";
 
     @Inject
     UpdateUserProfile updateUserProfile;

@@ -43,7 +43,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ForgotPasswordPresenter implements NetworkStateListener, EventListener,
         ForgotPasswordHandler {
 
-    private static String TAG = ForgotPasswordPresenter.class.getSimpleName();
+    private static String TAG = "ForgotPasswordPresenter";
 
 
     private final RegistrationHelper registrationHelper;

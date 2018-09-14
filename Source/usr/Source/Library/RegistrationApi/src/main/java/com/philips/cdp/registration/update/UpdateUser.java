@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 public class UpdateUser implements Capture.CaptureApiRequestCallback {
 
-    private String TAG = UpdateUser.class.getSimpleName();
+    private String TAG = "UpdateUser";
 
     private UpdateUserListener mUpdateUserListener;
 

@@ -25,7 +25,7 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class MobileForgotPassVerifyResendCodePresenter implements NetworkStateListener {
 
-    private static final String TAG = MobileForgotPassVerifyResendCodePresenter.class.getSimpleName();
+    private static final String TAG = "MobileForgotPassVerifyResendCodePresenter";
     private String redirectUri;
 
     @Inject

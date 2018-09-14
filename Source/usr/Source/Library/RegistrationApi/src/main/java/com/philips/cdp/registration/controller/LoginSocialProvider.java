@@ -35,6 +35,8 @@ import org.json.JSONObject;
 
 public class LoginSocialProvider extends HSDPLoginService implements Jump.SignInResultHandler, JumpFlowDownloadStatusListener {
 
+    private final static String TAG = "LoginSocialProvider";
+
     private Context mContext;
 
     private SocialLoginProviderHandler mSocialLoginProviderHandler;
@@ -42,8 +44,6 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
     private String mMergeToken;
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
-
-    private final static String TAG = LoginSocialProvider.class.getSimpleName();
 
     public LoginSocialProvider(SocialLoginProviderHandler socialLoginProviderHandler, Context context,
                                UpdateUserRecordHandler updateUserRecordHandler) {

@@ -29,7 +29,7 @@ import javax.inject.Inject;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
 
 public class RegistrationConfiguration {
-    private String TAG = RegistrationConfiguration.class.getSimpleName();
+    private String TAG = "RegistrationConfiguration";
 
     @Inject
     HSDPConfiguration hsdpConfiguration;
@@ -125,9 +125,9 @@ public class RegistrationConfiguration {
      */
     public String getMicrositeId() {
         String micrositeId = appConfiguration.getMicrositeId();
-        RLog.d(this.getClass().getSimpleName(), "Microsite ID is :" + micrositeId);
+        RLog.d(TAG, "Microsite ID is :" + micrositeId);
         if (null == micrositeId) {
-            RLog.e(this.getClass().getSimpleName(), "Microsite ID is null");
+            RLog.e(TAG, "Microsite ID is null");
         }
         return micrositeId;
     }
@@ -214,10 +214,10 @@ public class RegistrationConfiguration {
     public boolean isHsdpUuidShouldUpload() {
         Object obj = appConfiguration.getHSDPUuidUpload();
         if (obj != null) {
-            RLog.i("RegistrationConfiguration", "isHsdpUuidShouldUpload : " + Boolean.parseBoolean((String) obj));
+            RLog.i(TAG, "isHsdpUuidShouldUpload : " + Boolean.parseBoolean((String) obj));
             return Boolean.parseBoolean((String) obj);
         }
-        RLog.i("RegistrationConfiguration", "isHsdpUuidShouldUpload : false");
+        RLog.i(TAG, "isHsdpUuidShouldUpload : false");
         return false;
     }
 

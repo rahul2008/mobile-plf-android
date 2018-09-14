@@ -44,7 +44,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
 
     private HSDPLoginService mHsdpLoginService;
 
-    private final static String TAG = LoginTraditional.class.getSimpleName();
+    private final static String TAG = "LoginTraditional";
 
     public LoginTraditional(LoginHandler loginHandler, Context context,
                             UpdateUserRecordHandler updateUserRecordHandler, String email, String password) {

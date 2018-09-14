@@ -34,7 +34,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
 
     private ForgotPasswordHandler mForgotPaswordHandler;
     private Context mContext;
-    private static String TAG = ForgotPassword.class.getSimpleName();
+    private static String TAG = "ForgotPassword";
 
     public ForgotPassword(final Context context, ForgotPasswordHandler forgotPaswordHandler) {
         mForgotPaswordHandler = forgotPaswordHandler;

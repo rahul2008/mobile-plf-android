@@ -33,7 +33,7 @@ import org.json.JSONObject;
 
 public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener, TraditionalRegistrationHandler {
 
-    private String TAG = RegisterTraditional.class.getSimpleName();
+    private String TAG = "RegisterTraditional";
 
     private Context mContext;
 

@@ -87,7 +87,7 @@ import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getPref
  */
 public class User {
 
-    private final String TAG = User.class.getSimpleName();
+    private final String TAG = "User";
     private final LoggingInterface loggingInterface;
 
     @Inject

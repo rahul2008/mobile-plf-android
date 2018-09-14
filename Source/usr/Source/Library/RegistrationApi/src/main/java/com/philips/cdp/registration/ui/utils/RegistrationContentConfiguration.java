@@ -5,7 +5,7 @@ import java.io.*;
 
 public class RegistrationContentConfiguration implements Serializable {
 
-    private final String TAG = RegistrationContentConfiguration.class.getSimpleName();
+    private final String TAG = "RegistrationContentConfiguration";
 
     private static final long serialVersionUID = 1128016096756071383L;
 

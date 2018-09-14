@@ -30,7 +30,7 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
 
     private static final ConsentError NO_CONNECTION_ERROR = new ConsentError("There was no internet connection when posting marketing consent", ConsentError.CONSENT_ERROR_NO_CONNECTION);
     private final Context context;
-    private final String TAG = MarketingConsentHandler.class.getSimpleName();
+    private final String TAG = "MarketingConsentHandler";
     private AppInfraInterface appInfra;
 
     /**

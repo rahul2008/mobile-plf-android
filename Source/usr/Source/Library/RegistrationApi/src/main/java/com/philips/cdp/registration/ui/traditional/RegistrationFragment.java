@@ -77,7 +77,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private boolean isCounterRunning;
 
-    private static final String TAG = RegistrationFragment.class.getSimpleName();
+    private static final String TAG = "RegistrationFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -19,7 +19,7 @@ public class NetworkUtility {
 
     private Context context;
 
-    private final String TAG = NetworkUtility.class.getSimpleName();
+    private final String TAG = "NetworkUtility";
 
     public NetworkUtility(Context context) {
         this.context = context;

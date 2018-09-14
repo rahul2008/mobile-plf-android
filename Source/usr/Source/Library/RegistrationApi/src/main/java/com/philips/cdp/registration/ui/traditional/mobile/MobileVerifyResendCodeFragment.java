@@ -77,7 +77,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNI
 public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener {
 
-    private String TAG = MobileVerifyResendCodeFragment.class.getSimpleName();
+    private String TAG = "MobileVerifyResendCodeFragment";
 
     @BindView(R2.id.btn_reg_resend_update)
     ProgressBarButton resendSMSButton;

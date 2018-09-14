@@ -38,7 +38,7 @@ import org.json.JSONObject;
 public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInResultHandler,
         JumpFlowDownloadStatusListener {
 
-    private String TAG = RegisterSocial.class.getSimpleName();
+    private String TAG = "RegisterSocial";
     private SocialLoginProviderHandler mSocialLoginProviderHandler;
 
     private Context mContext;

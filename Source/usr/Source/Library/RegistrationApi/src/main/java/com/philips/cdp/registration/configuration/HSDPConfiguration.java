@@ -13,7 +13,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 
 public class HSDPConfiguration extends BaseConfiguration {
 
-    private static String TAG = HSDPConfiguration.class.getSimpleName();
+    private static String TAG = "HSDPConfiguration";
 
     private static final String URL_ENCODING_FORMAT = "UTF-8";
 

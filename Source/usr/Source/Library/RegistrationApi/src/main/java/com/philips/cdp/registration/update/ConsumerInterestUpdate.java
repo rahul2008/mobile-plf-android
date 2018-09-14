@@ -26,7 +26,7 @@ import java.util.*;
 
 public class ConsumerInterestUpdate {
 
-    private final String TAG = ConsumerInterestUpdate.class.getSimpleName();
+    private final String TAG = "ConsumerInterestUpdate";
     private String baseUrl;
     private Context mContext;
 

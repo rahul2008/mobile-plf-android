@@ -73,7 +73,7 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER
 
 public class HomeFragment extends RegistrationBaseFragment implements NetworkStateListener, HomeContract {
 
-    private static final String TAG = HomeFragment.class.getSimpleName();
+    private static final String TAG = "HomeFragment";
 
     @BindView(R2.id.usr_startScreen_createAccount_Button)
     Button mBtnCreateAccount;

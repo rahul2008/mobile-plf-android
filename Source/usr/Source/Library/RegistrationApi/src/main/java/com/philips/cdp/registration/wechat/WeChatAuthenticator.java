@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WeChatAuthenticator {
-    private String TAG = WeChatAuthenticator.class.getSimpleName();
+    private String TAG = "WeChatAuthenticator";
 
     private final String WECHAT_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?";
 

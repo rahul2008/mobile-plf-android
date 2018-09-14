@@ -25,7 +25,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import org.json.JSONObject;
 
 public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListener {
-    private String TAG = RefreshandUpdateUserHandler.class.getSimpleName();
+    private String TAG = "RefreshandUpdateUserHandler";
 
     public UpdateUserRecordHandler mUpdateUserRecordHandler;
     private Context mContext;

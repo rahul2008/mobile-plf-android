@@ -67,7 +67,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     private String CONSUMER_PRIMARY_ADDRESS = "primaryAddress";
 
-    private final static String TAG = UpdateUserRecord.class.getSimpleName();
+    private final static String TAG = "UpdateUserRecord";
 
     public UpdateUserRecord(Context context) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);

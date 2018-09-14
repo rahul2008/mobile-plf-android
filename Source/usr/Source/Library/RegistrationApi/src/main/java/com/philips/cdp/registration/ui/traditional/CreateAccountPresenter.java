@@ -24,7 +24,7 @@ import javax.inject.Inject;
 
 public class CreateAccountPresenter implements NetworkStateListener, EventListener, TraditionalRegistrationHandler {
 
-    private static final String TAG = CreateAccountPresenter.class.getSimpleName();
+    private static final String TAG = "CreateAccountPresenter";
 
     private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
     private final static int TOO_MANY_REGISTARTION_ATTEMPTS = 510;
