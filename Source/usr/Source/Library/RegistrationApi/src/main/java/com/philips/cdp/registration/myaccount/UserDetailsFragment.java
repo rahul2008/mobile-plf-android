@@ -50,7 +50,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     private UserDetailPresenter myaDetailPresenter;
     private User user;
 
-    private String TAG = UserDetailsFragment.class.getSimpleName();
+    private String TAG = "UserDetailsFragment";
     private Context mContext;
 
     @Override

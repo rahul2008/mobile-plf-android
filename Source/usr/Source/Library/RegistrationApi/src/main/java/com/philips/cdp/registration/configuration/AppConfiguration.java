@@ -28,7 +28,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 
 public class AppConfiguration extends BaseConfiguration {
 
-    private final String TAG = AppConfiguration.class.getSimpleName();
+    private final String TAG = "AppConfiguration";
 
     private static final String SD_COUNTRYMAPPING_ID_KEY = "servicediscovery.countryMapping";
     private static final String WE_CHAT_APP_ID_KEY = "weChatAppId";

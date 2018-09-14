@@ -16,7 +16,7 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 public abstract class RegistrationSettings {
 
-    private String TAG = RegistrationSettings.class.getSimpleName();
+    private String TAG = "RegistrationSettings";
 
     protected String mProductRegisterUrl = null;
 
