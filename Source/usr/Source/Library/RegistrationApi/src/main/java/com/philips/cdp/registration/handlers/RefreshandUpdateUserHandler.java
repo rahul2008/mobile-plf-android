@@ -116,29 +116,33 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
             @Override
             public void onFailure(CaptureAPIError failureParam) {
-                RLog.e(TAG, "refreshUpdateUser : onFailure  ");
-                if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
+                try {
+                    RLog.e(TAG, "refreshUpdateUser : onFailure  error: " + failureParam.captureApiError.raw_response);
+                    if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
 
-                    user.refreshLoginSession(new RefreshLoginSessionHandler() {
-                        @Override
-                        public void onRefreshLoginSessionSuccess() {
-                            RLog.d(TAG, "refreshLoginSession : onRefreshLoginSessionSuccess  ");
-                            handler.onRefreshUserSuccess();
-                        }
+                        user.refreshLoginSession(new RefreshLoginSessionHandler() {
+                            @Override
+                            public void onRefreshLoginSessionSuccess() {
+                                RLog.d(TAG, "refreshLoginSession : onRefreshLoginSessionSuccess  ");
+                                handler.onRefreshUserSuccess();
+                            }
 
-                        @Override
-                        public void onRefreshLoginSessionFailedWithError(int error) {
-                            RLog.d(TAG, "refreshLoginSession : onRefreshLoginSessionFailedWithError  ");
-                            handler.onRefreshUserFailed(error);
-                        }
+                            @Override
+                            public void onRefreshLoginSessionFailedWithError(int error) {
+                                RLog.d(TAG, "refreshLoginSession : onRefreshLoginSessionFailedWithError  ");
+                                handler.onRefreshUserFailed(error);
+                            }
 
-                        @Override
-                        public void onRefreshLoginSessionInProgress(String message) {
-                        }
-                    });
+                            @Override
+                            public void onRefreshLoginSessionInProgress(String message) {
+                            }
+                        });
+                    }
+                    RLog.e(TAG, "refreshUpdateUser : onRefreshUserFailed  ");
+                    handler.onRefreshUserFailed(0);
+                } catch (Exception e){
+                    RLog.d(TAG, "onFailure : is called : Exception : " + e.getMessage());
                 }
-                RLog.e(TAG, "refreshUpdateUser : onRefreshUserFailed  ");
-                handler.onRefreshUserFailed(0);
             }
         });
     }

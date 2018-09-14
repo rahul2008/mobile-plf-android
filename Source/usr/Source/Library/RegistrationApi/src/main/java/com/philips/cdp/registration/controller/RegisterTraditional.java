@@ -67,7 +67,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     @Override
     public void onFailure(SignInError error) {
         try {
-            RLog.e(TAG, "onFailure : is called" + error.reason.name());
+            RLog.e(TAG, "onFailure : is called error: "  + error.captureApiError.raw_response);
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
             if (error.captureApiError.code == ErrorCodes.UNKNOWN_ERROR) {
                 userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));

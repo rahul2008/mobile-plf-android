@@ -50,12 +50,16 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
 
     @Override
     public void onFailure(ForgetPasswordError error) {
-        RLog.d(TAG, "onFailure : is called ");
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
-        userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-        handleOnlySocialSignIn(error.captureApiError, userRegistrationFailureInfo);
-        ThreadUtils.postInMainThread(mContext, () ->
-                mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo));
+        try {
+            RLog.d(TAG, "onFailure : is called : error : " + error.captureApiError.raw_response);
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
+            userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
+            handleOnlySocialSignIn(error.captureApiError, userRegistrationFailureInfo);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo));
+        }catch (Exception e){
+            RLog.d(TAG, "onFailure : is called : Exception : " + e.getMessage());
+        }
     }
 
     private void handleOnlySocialSignIn(CaptureApiError error,

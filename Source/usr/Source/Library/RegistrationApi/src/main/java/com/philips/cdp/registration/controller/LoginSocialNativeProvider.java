@@ -67,45 +67,49 @@ public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.
 
     @Override
     public void onFailure(SignInError error) {
-        RLog.d(TAG, "onFailure : is called");
-        if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
-                && error.captureApiError.isMergeFlowError()) {
+        try {
+            RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
+            if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
+                    && error.captureApiError.isMergeFlowError()) {
 
-            RLog.d(TAG, "onFailure : isMergeFlowError");
-            String emailId = null;
-            if (null != error.auth_info) {
-                JRDictionary profile = error.auth_info.getAsDictionary("profile");
-                emailId = profile.getAsString("email");
-            }
-            mMergeToken = error.captureApiError.getMergeToken();
-            final String existingProvider = error.captureApiError
-                    .getExistingAccountIdentityProvider();
-            String conflictingIdentityProvider = error.captureApiError
-                    .getConflictingIdentityProvider();
-            String conflictingIdpNameLocalized = JRProvider
-                    .getLocalizedName(conflictingIdentityProvider);
-            String existingIdpNameLocalized = JRProvider
-                    .getLocalizedName(conflictingIdentityProvider);
-            String finalEmailId = emailId;
-            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginProviderHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
-                    conflictingIdentityProvider, conflictingIdpNameLocalized,
-                    existingIdpNameLocalized, finalEmailId));
+                RLog.d(TAG, "onFailure : isMergeFlowError");
+                String emailId = null;
+                if (null != error.auth_info) {
+                    JRDictionary profile = error.auth_info.getAsDictionary("profile");
+                    emailId = profile.getAsString("email");
+                }
+                mMergeToken = error.captureApiError.getMergeToken();
+                final String existingProvider = error.captureApiError
+                        .getExistingAccountIdentityProvider();
+                String conflictingIdentityProvider = error.captureApiError
+                        .getConflictingIdentityProvider();
+                String conflictingIdpNameLocalized = JRProvider
+                        .getLocalizedName(conflictingIdentityProvider);
+                String existingIdpNameLocalized = JRProvider
+                        .getLocalizedName(conflictingIdentityProvider);
+                String finalEmailId = emailId;
+                ThreadUtils.postInMainThread(mContext, () -> mSocialLoginProviderHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
+                        conflictingIdentityProvider, conflictingIdpNameLocalized,
+                        existingIdpNameLocalized, finalEmailId));
 
-        } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
-                && error.captureApiError.isTwoStepRegFlowError()) {
-            RLog.d(TAG, "onFailure : isTwoStepRegFlowError");
-            JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
-            String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
-            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginProviderHandler.onLoginFailedWithTwoStepError(prefilledRecord,
-                    socialRegistrationToken));
+            } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
+                    && error.captureApiError.isTwoStepRegFlowError()) {
+                RLog.d(TAG, "onFailure : isTwoStepRegFlowError");
+                JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
+                String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
+                ThreadUtils.postInMainThread(mContext, () -> mSocialLoginProviderHandler.onLoginFailedWithTwoStepError(prefilledRecord,
+                        socialRegistrationToken));
 
-        } else {
-            RLog.d(TAG, "onFailure : else is called");
+            } else {
+                RLog.d(TAG, "onFailure : else is called");
 //            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
 //            userRegistrationFailureInfo.setErrorDescription();
 //            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
 //            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 
+            }
+        } catch (Exception e) {
+            RLog.d(TAG, "onFailure : is called : Exception : " + e.getMessage());
         }
     }
 
