@@ -105,7 +105,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     boolean isValidEmail;
 
-    private static String TAG = AlmostDoneFragment.class.getSimpleName();
+    private static String TAG = "AlmostDoneFragment";
 
 
     public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {

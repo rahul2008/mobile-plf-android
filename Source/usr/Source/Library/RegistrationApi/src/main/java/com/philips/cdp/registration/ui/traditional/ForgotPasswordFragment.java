@@ -60,7 +60,7 @@ import butterknife.OnClick;
 public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         ForgotPasswordContract {
 
-    private static final String TAG = ForgotPasswordFragment.class.getSimpleName();
+    private static final String TAG = "ForgotPasswordFragment";
 
     @Inject
     NetworkUtility networkUtility;

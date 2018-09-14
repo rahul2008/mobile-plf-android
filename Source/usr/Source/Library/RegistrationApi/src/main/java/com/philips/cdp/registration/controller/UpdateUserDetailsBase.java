@@ -30,7 +30,7 @@ public class UpdateUserDetailsBase implements
         UpdateUser.UpdateUserListener, RefreshLoginSessionHandler {
 
 
-    private String TAG = UpdateUserDetailsBase.class.getSimpleName();
+    private String TAG = "UpdateUserDetailsBase";
 
     protected UpdateUserDetailsHandler mUpdateUserDetails;
 

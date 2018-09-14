@@ -96,7 +96,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         EventListener, ResendVerificationEmailHandler,
         NetworkStateListener {
 
-    private static final String TAG = SignInAccountFragment.class.getSimpleName();
+    private static final String TAG = "SignInAccountFragment";
     private static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
     @Inject
@@ -277,21 +277,21 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private boolean emailOrMobileValidator(String emailOrMobile) {
-        RLog.e(TAG, "Email or Mobile No. is Empty");
+        RLog.d(TAG, "Email or Mobile No. is Empty");
         if (emailOrMobile.isEmpty() && !RegistrationHelper.getInstance().isMobileFlow()) {
-            mEtEmail.setErrorMessage(R.string.USR_NameField_ErrorText);
+            mEtEmail.setErrorMessage(R.string.USR_InvalidOrMissingEmail_ErrorMsg);
         } else {
             mEtEmail.setErrorMessage(R.string.USR_InvalidEmailOrPhoneNumber_ErrorMsg);
         }
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
             if ((!FieldsValidator.isValidMobileNumber(emailOrMobile) || !FieldsValidator.isValidEmail(emailOrMobile))) {
-                RLog.e(TAG, "Not a valid Mobile No.");
+                RLog.d(TAG, "Not a valid Mobile No.");
                 mEtEmail.setErrorMessage(R.string.USR_InvalidEmailOrPhoneNumber_ErrorMsg);
                 return FieldsValidator.isValidMobileNumber(emailOrMobile) || FieldsValidator.isValidEmail(emailOrMobile);
             }
         } else {
-            RLog.e(TAG, "Not a valid Email ID or Invalid Email.");
+            RLog.d(TAG, "Not a valid Email ID or Invalid Email.");
             mEtEmail.setErrorMessage(R.string.USR_InvalidOrMissingEmail_ErrorMsg);
             return FieldsValidator.isValidEmail(emailOrMobile);
         }
@@ -678,13 +678,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void createResendSMSIntent(String url) {
-        RLog.i(TAG, "MOBILE NUMBER *** : " + loginValidationEditText.getText().toString());
-        RLog.i(TAG, " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        RLog.d(TAG, "MOBILE NUMBER *** : " + loginValidationEditText.getText().toString());
+        RLog.d(TAG, " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
         String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(loginValidationEditText.getText().toString()) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
-        RLog.i(TAG, " envir :" + getClientId() + getRedirectUri());
+        RLog.d(TAG, " envir :" + getClientId() + getRedirectUri());
+        RLog.i(TAG, "createResendSMSIntent url :" + url);
+        RLog.d(TAG, "createResendSMSIntent bodyContent :" + bodyContent);
         URRequest urRequest = new URRequest(url, bodyContent, null, this::handleResendSMSRespone, this::onErrorOfResendSMSIntent);
         urRequest.makeRequest(true);
     }

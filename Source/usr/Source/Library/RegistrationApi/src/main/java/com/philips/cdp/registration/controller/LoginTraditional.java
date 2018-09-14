@@ -44,7 +44,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
 
     private HSDPLoginService mHsdpLoginService;
 
-    private final static String TAG = LoginTraditional.class.getSimpleName();
+    private final static String TAG = "LoginTraditional";
 
     public LoginTraditional(LoginHandler loginHandler, Context context,
                             UpdateUserRecordHandler updateUserRecordHandler, String email, String password) {
@@ -103,10 +103,8 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
 
     @Override
     public void onFailure(SignInError error) {
-        RLog.d(TAG, "onFailure : is called");
         try {
-            RLog.e(TAG, "onFailure : error Description :" + error.captureApiError.error_description);
-            RLog.e(TAG, "onFailure : error code :" + error.captureApiError.code);
+            RLog.e(TAG, "onFailure : is called error: "+error.captureApiError.raw_response);
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);

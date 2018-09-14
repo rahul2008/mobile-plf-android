@@ -11,7 +11,7 @@ import io.reactivex.Completable;
 
 public class UpdateJanRainUserProfile implements UpdateUserProfile {
 
-    private String TAG = UpdateJanRainUserProfile.class.getSimpleName();
+    private String TAG = "UpdateJanRainUserProfile";
 
     private static final String JANRAIN_UPDATE_EMAIL_KEY = "email";
     private static final String EDIT_PROFILE_FORM_NAME = "editProfileForm";
@@ -29,7 +29,7 @@ public class UpdateJanRainUserProfile implements UpdateUserProfile {
 
                 @Override
                 public void onFailure(CaptureApiError e) {
-                    RLog.e(TAG, "updateUserEmail : onFailure");
+                    RLog.e(TAG, "updateUserEmail : onFailure : error " + e.raw_response);
                     emitter.onError(new Throwable(e.error));
                 }
             };

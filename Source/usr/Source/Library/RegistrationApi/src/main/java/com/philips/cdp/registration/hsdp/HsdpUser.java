@@ -54,7 +54,7 @@ import javax.inject.Inject;
 public class HsdpUser {
 
     private final LoggingInterface loggingInterface;
-    private String TAG = HsdpUser.class.getSimpleName();
+    private String TAG = "HsdpUser";
     private DhpAuthenticationResponse dhpAuthenticationResponse = null;
 
     @Inject

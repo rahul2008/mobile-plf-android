@@ -87,7 +87,7 @@ import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getPref
  */
 public class User {
 
-    private final String TAG = User.class.getSimpleName();
+    private final String TAG = "User";
     private final LoggingInterface loggingInterface;
 
     @Inject
@@ -542,7 +542,7 @@ public class User {
             else {
                 JSONObject mObject = new JSONObject(captured.toString());
                 if (!mObject.isNull(loginType)) {
-                    RLog.i(TAG, "DIUserProfile isLoginTypeVerified= " + captured.toString());
+                    RLog.d(TAG, "DIUserProfile isLoginTypeVerified= " + captured.toString());
                     return true;
                 }
             }

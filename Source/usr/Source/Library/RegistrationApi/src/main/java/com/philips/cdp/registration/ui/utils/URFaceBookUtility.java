@@ -28,7 +28,7 @@ import java.util.List;
 
 public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRequest.GraphJSONObjectCallback {
 
-    private final static String TAG = URFaceBookUtility.class.getSimpleName();
+    private final static String TAG = "URFaceBookUtility";
     public static final String FIELDS = "fields";
     public static final String ID_EMAIL = "id,email";
     public static final String EMAIL = "email";

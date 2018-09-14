@@ -31,7 +31,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback, JumpF
     public ResendVerificationEmailHandler mResendVerificationEmail;
     private Context mContext;
     private String mEmailAddress;
-    private static final String TAG = ResendVerificationEmail.class.getSimpleName();
+    private static final String TAG = "ResendVerificationEmail";
 
     public ResendVerificationEmail(final Context context, final ResendVerificationEmailHandler resendVerificationEmail) {
         mResendVerificationEmail = resendVerificationEmail;
@@ -46,12 +46,16 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback, JumpF
     }
 
     public void onFailure(CaptureApiError error) {
-        RLog.d(TAG, "onFailure : call onResendVerificationEmailFailedWithError ");
-        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error, mContext);
-        userRegistrationFailureInfo.setErrorCode(error.code);
-        ThreadUtils.postInMainThread(mContext, () ->
-                mResendVerificationEmail
-                        .onResendVerificationEmailFailedWithError(userRegistrationFailureInfo));
+        try {
+            RLog.e(TAG, "onFailure : call onResendVerificationEmailFailedWithError " + error.raw_response);
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error, mContext);
+            userRegistrationFailureInfo.setErrorCode(error.code);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mResendVerificationEmail
+                            .onResendVerificationEmailFailedWithError(userRegistrationFailureInfo));
+        } catch (Exception e){
+            RLog.e(TAG, "onFailure :  Exception " + e.getMessage());
+        }
     }
 
 

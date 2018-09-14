@@ -45,7 +45,7 @@ import butterknife.ButterKnife;
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
         View.OnClickListener, MarketingAccountContract {
 
-    private static final String TAG = MarketingAccountFragment.class.getSimpleName();
+    private static final String TAG = "MarketingAccountFragment";
     @BindView(R2.id.usr_marketingScreen_countMe_button)
     ProgressBarButton countMeButton;
 

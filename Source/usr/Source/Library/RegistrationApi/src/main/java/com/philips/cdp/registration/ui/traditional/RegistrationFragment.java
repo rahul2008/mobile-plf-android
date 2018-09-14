@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
@@ -45,7 +44,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
-import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -79,15 +77,11 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private boolean isCounterRunning;
 
-    private static final String TAG = RegistrationFragment.class.getSimpleName();
+    private static final String TAG = "RegistrationFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.i(RLog.FRAGMENT_LIFECYCLE, "onCreate : onCreate");
-        RLog.i(RLog.VERSION, "onCreate : Jump Version :" + Jump.getJumpVersion());
-        RLog.i(RLog.VERSION, "onCreate : Registration Version :" +
-                RegistrationHelper.getRegistrationApiVersion());
-        RLog.i(RLog.VERSION, "onCreate : HSDP Version :" + BuildConfig.VERSION_CODE);
 
         RegistrationBaseFragment.setHeightWidthToZero();
         Bundle bundle = getArguments();

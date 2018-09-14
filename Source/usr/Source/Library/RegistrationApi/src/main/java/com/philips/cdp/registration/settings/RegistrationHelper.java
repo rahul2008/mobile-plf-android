@@ -37,7 +37,7 @@ import javax.inject.Inject;
  */
 public class RegistrationHelper {
 
-    private String TAG = RegistrationHelper.class.getSimpleName();
+    private String TAG = "RegistrationHelper";
 
     @Inject
     NetworkUtility networkUtility;
@@ -247,7 +247,7 @@ public class RegistrationHelper {
     }
 
     public boolean isMobileFlow() {
-        RLog.i(TAG, "isMobileFlow : " + registrationSettingsURL.isMobileFlow());
+        RLog.d(TAG, "isMobileFlow : " + registrationSettingsURL.isMobileFlow());
         return registrationSettingsURL.isMobileFlow();
     }
 

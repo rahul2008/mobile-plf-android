@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WeChatAuthenticator {
-    private String TAG = WeChatAuthenticator.class.getSimpleName();
+    private String TAG = "WeChatAuthenticator";
 
     private final String WECHAT_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?";
 
@@ -25,7 +25,9 @@ public class WeChatAuthenticator {
             try {
                 String body = "appid=" + weChatAppId + "&secret=" + weChatAppSecrete + "&code=" + weChatAccessCode + "&grant_type=authorization_code";
 
-                RLog.d(TAG, "JSON Body = " + WECHAT_ACCESS_TOKEN_URL + body);
+                RLog.i(TAG, "WeChatAuthenticator URL " + WECHAT_ACCESS_TOKEN_URL );
+
+                RLog.d(TAG, "JSON Body = " + body);
                 Map<String, String> header = new HashMap<>();
                 header.put("User-Agent", "wechatLoginDemo");
 

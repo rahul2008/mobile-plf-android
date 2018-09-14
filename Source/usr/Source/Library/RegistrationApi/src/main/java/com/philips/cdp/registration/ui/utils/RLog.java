@@ -1,8 +1,7 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import android.support.annotation.*;
-import android.util.Log;
+import android.support.annotation.VisibleForTesting;
 
 import com.janrain.android.engage.JREngage;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -41,7 +40,6 @@ public class RLog {
 
     public static final String HSDP = "Hsdp";
 
-    private static boolean isLoggingEnabled;
 
     private static LoggingInterface mLoggingInterface;
 
@@ -56,7 +54,8 @@ public class RLog {
      */
     public static void init() {
         mLoggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
-        mLoggingInterface = mLoggingInterface.createInstanceForComponent("usr", RegistrationHelper.getRegistrationApiVersion());
+        mLoggingInterface = mLoggingInterface.createInstanceForComponent(
+                "usr", RegistrationHelper.getRegistrationApiVersion());
         mAppTaggingInterface = RegistrationConfiguration.getInstance().getComponent().getAppTaggingInterface();
     }
 
@@ -65,7 +64,6 @@ public class RLog {
      */
     public static void enableLogging() {
         HsdpLog.enableLogging();
-        isLoggingEnabled = true;
         JREngage.isLoggingEnabled = Boolean.TRUE;
     }
 
@@ -74,7 +72,6 @@ public class RLog {
      */
     public static void disableLogging() {
         HsdpLog.disableLogging();
-        isLoggingEnabled = false;
         JREngage.isLoggingEnabled = Boolean.FALSE;
     }
 
@@ -84,7 +81,7 @@ public class RLog {
      * @return true if enabled else false.
      */
     public static boolean isLoggingEnabled() {
-        return isLoggingEnabled;
+        return HsdpLog.isLoggingEnabled();
     }
 
 
@@ -95,9 +92,6 @@ public class RLog {
      * @param message Logging message
      */
     public static void d(String tag, String message) {
-        if (isLoggingEnabled) {
-            Log.d(tag, message);
-        }
         if(mLoggingInterface==null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, tag, message);
     }
@@ -108,9 +102,6 @@ public class RLog {
      * @param message Logging message
      */
     public static void e(String tag, String message) {
-        if (isLoggingEnabled) {
-            Log.e(tag, message);
-        }
         if(mLoggingInterface==null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.ERROR, tag, message);
     }
@@ -122,9 +113,6 @@ public class RLog {
      * @param message Logging message
      */
     public static void i(String tag, String message) {
-        if (isLoggingEnabled) {
-            Log.i(tag, message);
-        }
         if(mLoggingInterface==null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, message);
     }
@@ -135,9 +123,6 @@ public class RLog {
      * @param message Logging message
      */
     public static void v(String tag, String message) {
-        if (isLoggingEnabled) {
-            Log.v(tag, message);
-        }
         if(mLoggingInterface==null) return;
         mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
     }

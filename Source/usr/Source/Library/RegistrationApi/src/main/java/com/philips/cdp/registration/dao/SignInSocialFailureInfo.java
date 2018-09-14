@@ -17,7 +17,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
  */
 public class SignInSocialFailureInfo {
 
-    private final String TAG = SignInSocialFailureInfo.class.getSimpleName();
+    private final String TAG = "SignInSocialFailureInfo";
 
     /* Error code */
     private int mErrorCode;

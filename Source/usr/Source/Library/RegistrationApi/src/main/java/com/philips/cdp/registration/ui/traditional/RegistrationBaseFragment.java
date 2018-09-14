@@ -56,7 +56,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     protected static int mHeight = 0;
 
     private final int JELLY_BEAN = 16;
-    private final static String TAG = RegistrationBaseFragment.class.getSimpleName();
+    private final static String TAG = "RegistrationBaseFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -165,7 +165,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     protected void consumeTouch(View view) {
 
-        RLog.i(TAG, "consumeTouch is called");
+        RLog.d(TAG, "consumeTouch is called");
         if (view == null)
             return;
         view.setOnTouchListener((v, event) -> true);
