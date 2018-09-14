@@ -73,7 +73,7 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
     }
 
     public void onFailure(SignInError error) {
-        RLog.d(TAG, "onFailure : is called");
+        RLog.d(TAG, "onFailure : is called "+error.captureApiError.raw_response);
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
         userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
