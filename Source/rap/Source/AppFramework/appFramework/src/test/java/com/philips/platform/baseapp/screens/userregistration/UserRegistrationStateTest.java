@@ -148,26 +148,6 @@ public class UserRegistrationStateTest {
         assertEquals(shadowIntent.getIntentClass().getSimpleName(), WebViewActivity.class.getSimpleName());
     }
 
-    @Test
-    public void validateAbTestingValues() {
-        appFrameworkApplication.getAppInfra().getAbTesting().updateCache(new ABTestClientInterface.OnRefreshListener() {
-            @Override
-            public void onSuccess() {
-            }
-
-            @Override
-            public void onError(ERRORVALUE error) {
-            }
-        });
-        try {
-            wait(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        assertNotNull(appFrameworkApplication.getAppInfra().getAbTesting().getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE));
-    }
-
-
     @After
     public void tearDown() {
         activityController.pause().stop().destroy();
@@ -199,7 +179,6 @@ public class UserRegistrationStateTest {
         @Override
         public void navigate(UiLauncher uiLauncher) {
             fragmentLauncher = (FragmentLauncher) uiLauncher;
-            super.navigate(uiLauncher);
         }
 
         @Override
