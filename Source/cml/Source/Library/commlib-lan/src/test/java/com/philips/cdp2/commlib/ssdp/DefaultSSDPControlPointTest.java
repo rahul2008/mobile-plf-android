@@ -72,8 +72,8 @@ public class DefaultSSDPControlPointTest {
 
     private DefaultSSDPControlPoint ssdpControlPoint;
 
-    private boolean executeFetchDescriptionImmediatly = true;
-    private boolean executeWorkImmediatly = true;
+    private boolean executeFetchDescriptionImmediately = true;
+    private boolean executeWorkImmediately = true;
 
     @Mock
     private DeviceListener deviceListener;
@@ -135,7 +135,7 @@ public class DefaultSSDPControlPointTest {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                if (executeFetchDescriptionImmediatly) {
+                if (executeFetchDescriptionImmediately) {
                     fetchDescriptionRunnableCaptor.getValue().run();
                 }
                 return null;
@@ -145,7 +145,7 @@ public class DefaultSSDPControlPointTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                if (executeWorkImmediatly) {
+                if (executeWorkImmediately) {
                     workerRunnableCaptor.getValue().run();
                 }
                 return null;
@@ -416,7 +416,7 @@ public class DefaultSSDPControlPointTest {
     @Test
     public void whenTwoSsdpAliveMessagesForTheSameApplianceAreReceived_thenTheSecondMessageShouldBeDiscarded() {
         when(ssdpMessageMock.get(NOTIFICATION_SUBTYPE)).thenReturn(NOTIFICATION_SUBTYPE_ALIVE);
-        executeFetchDescriptionImmediatly = false;
+        executeFetchDescriptionImmediately = false;
 
         ssdpControlPoint.handleMessage(ssdpMessageMock);
         ssdpControlPoint.handleMessage(ssdpMessageMock);
@@ -437,7 +437,7 @@ public class DefaultSSDPControlPointTest {
 
     @Test
     public void whenAnSsdpAliveMessageIsReceived_thenAnAvailableSsdpDeviceShouldBeNotified_onTheWorkerThread() {
-        executeWorkImmediatly = false;
+        executeWorkImmediately = false;
 
         when(ssdpMessageMock.get(NOTIFICATION_SUBTYPE)).thenReturn(NOTIFICATION_SUBTYPE_ALIVE);
         ssdpControlPoint.handleMessage(ssdpMessageMock);
