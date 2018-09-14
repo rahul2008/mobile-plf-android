@@ -915,7 +915,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     private void handlePrivacyPolicyAndCountryView(int width) {
         int length = viewLength(mCountryDisplay, mCountryDisplay.getText().toString()) +
                 viewLength(privacyPolicy, privacyPolicy.getText().toString());
-        if ((width * .9) > length) {
+        if ((width * .85) > length) {
             usr_StartScreen_privacyNotice_country_LinearLayout2.setVisibility(View.GONE);
             usr_StartScreen_privacyNotice_country_LinearLayout.setVisibility(View.VISIBLE);
 
