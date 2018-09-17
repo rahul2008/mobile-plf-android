@@ -83,8 +83,9 @@ public interface SHNDeviceDefinitionInfo {
     boolean matchesOnAdvertisedData(BluetoothDevice bluetoothDevice, BleScanRecord bleScanRecord, int rssi);
 
     /**
+     * Specifies the connection priority for the connection.
      *
-     * @return connection priority for the
+     * @return connection priority which will be used for the connection
      */
     int getConnectionPriority();
 }
