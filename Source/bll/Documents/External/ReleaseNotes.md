@@ -1,6 +1,30 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
+Version 1804
+------------
+### Functionality Delivered
+N/A
+
+### Backwards Compatibility
+N/A
+
+### Features not covered
+* \#148037 Apps can now set a connection priority for the BLE connection
+
+### Breaking Changes
+* SHNDeviceDefinitionInfo interface now has an additional method called 'getConnectionPriority' which will need to be implemented by the Proposition's device definition to supply the connection priority. It can be either one of the following - CONNECTION_PRIORITY_BALANCED, CONNECTION_PRIORITY_HIGH or CONNECTION_PRIORITY_LOW_POWER from the BluetoothGatt class in Android.
+
+### Defects solved
+N/A
+
+### Residual anomalies
+N/A
+
+### Risks and mitigations
+N/A
+
+
 Version 1803
 ------------
 ### Functionality Delivered
