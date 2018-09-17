@@ -247,5 +247,8 @@ This App uses Google Firebase, an app development service (Firebase) provided by
 
 On behalf of Philips, Firebase will use information from your device such as your Device ID. IP address, your IDFA or Google Play Services ID and your MAC address and replace them with unique code. When you use the App we will measure the numbers of visits to the App, which pages you visit your network connection, load times and when the app crashes. We use this information to evaluate and understand your use of the App, to test and analyze performance and ultimately optimize our products and services</string>
     <string name="RA_abTest_cache_status">ABTestCacheStatus = </string>
+    <string name="RA_mkt_optin_title_text">Here\'s what You Have To Look Forward To:</string>
+  <string name="RA_quessionary_text">Custom Reward Coupons, Holiday Surprises, VIP Shopping Days</string>
+  <string name="Ra_default_value">default_value</string>
 
 </resources>

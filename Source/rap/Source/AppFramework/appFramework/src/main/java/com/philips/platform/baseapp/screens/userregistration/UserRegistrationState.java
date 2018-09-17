@@ -97,8 +97,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected static final String DEFAULT = "default";
     private URInterface urInterface;
     private FirebaseAnalytics firebaseAnalytics;
-    private String MARKETING_OPTIN = "MarketingOptin";
-    private String MARKETING_OPTIN_STATUS = "MarketingOptinStatus";
     /**
      * AppFlowState constructor
      */
@@ -292,12 +290,12 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         RegistrationContentConfiguration contentConfiguration = new RegistrationContentConfiguration();
         contentConfiguration.enableContinueWithouAccount(true);
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
-        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
+        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, applicationContext.getString(R.string.Ra_default_value), ABTestClientInterface.UPDATETYPE.APP_UPDATE);
         firebaseAnalytics.logEvent("LaunchingRegistration", null);
         if (testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Sonicare))) {
             contentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
-            contentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");
-            contentConfiguration.setOptInQuessionaryText("Custom Reward Coupons, Holiday Surprises, VIP Shopping Days");
+            contentConfiguration.setOptInTitleText(applicationContext.getString(R.string.RA_mkt_optin_title_text));
+            contentConfiguration.setOptInQuessionaryText(applicationContext.getString(R.string.RA_quessionary_text));
         } else if(testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Kitchen))){
             contentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
         }
