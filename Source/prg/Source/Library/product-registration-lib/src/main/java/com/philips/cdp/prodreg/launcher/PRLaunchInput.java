@@ -22,6 +22,8 @@ public class PRLaunchInput extends UappLaunchInput {
     @IdRes
     int backgroundImageResourceId;
 
+    int showExtendWarrntyNothanksButton = 100;
+
     /**
      *
      * @param products - pass list of products
@@ -85,5 +87,13 @@ public class PRLaunchInput extends UappLaunchInput {
      */
     public void setBackgroundImageResourceId(final int backgroundImageResourceId) {
         this.backgroundImageResourceId = backgroundImageResourceId;
+    }
+
+    public int getShowExtendWarrntyNothanksButton() {
+        return showExtendWarrntyNothanksButton;
+    }
+
+    public void setShowExtendWarrntyNothanksButton(int showExtendWarrntyNothanksButton) {
+        this.showExtendWarrntyNothanksButton = showExtendWarrntyNothanksButton;
     }
 }

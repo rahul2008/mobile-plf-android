@@ -20,6 +20,7 @@ import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.CTNUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -129,9 +130,15 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
         PRLaunchInput prodRegLaunchInput;
         prodRegLaunchInput = new PRLaunchInput(getProductList(), true);
         prodRegLaunchInput.setProdRegUiListener(this);
+        if (getAppInfra().getServiceDiscovery().getHomeCountry().equalsIgnoreCase("IN")) {
+            prodRegLaunchInput.setShowExtendWarrntyNothanksButton(12);
+        }
         new PRInterface().launch(fragmentLauncher,prodRegLaunchInput);
     }
 
+    protected AppInfraInterface getAppInfra() {
+        return ((AppFrameworkApplication) applicationContext).getAppInfra();
+    }
 
 
 }
