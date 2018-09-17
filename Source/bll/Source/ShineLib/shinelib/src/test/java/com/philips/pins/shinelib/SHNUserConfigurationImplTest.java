@@ -367,9 +367,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setWeightInKg(111.0);
 
-        assertThat((Float) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY)).isEqualTo(null);
+        assertThat((Double) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat((Float) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY)).isEqualTo(111.0);
+        assertThat((Double) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY)).isEqualTo(111.0);
     }
 
     @Test
@@ -401,9 +401,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setDecimalSeparator('T');
 
-        assertThat((Character) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY)).isEqualTo(null);
+        assertThat((Integer) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat((Character) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY)).isEqualTo((char) 'T');
+        assertThat((Integer) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY)).isEqualTo((int) 'T');
     }
 
     @Test
@@ -470,9 +470,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         final Date dateOfBirth = new Date();
         shnUserConfiguration.setDateOfBirth(dateOfBirth);
 
-        assertThat((Date) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DATE_OF_BIRTH_KEY)).isEqualTo(null);
+        assertThat((Long) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DATE_OF_BIRTH_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat((Date) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DATE_OF_BIRTH_KEY)).isEqualTo(dateOfBirth.getTime());
+        assertThat((Long) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DATE_OF_BIRTH_KEY)).isEqualTo(dateOfBirth.getTime());
     }
 
     @Test
