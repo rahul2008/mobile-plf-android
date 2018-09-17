@@ -29,7 +29,7 @@ import java.util.List;
  * Class user registration failure info
  */
 public class UserRegistrationFailureInfo {
-    private final String TAG = UserRegistrationFailureInfo.class.getSimpleName();
+    private final String TAG = "UserRegistrationFailureInfo";
 
     private String errorTagging = "";
 

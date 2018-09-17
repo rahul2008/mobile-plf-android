@@ -19,7 +19,7 @@ class UserDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> imple
 
     private MyaDetailContract.View view;
 
-    private static String TAG = UserDetailPresenter.class.getSimpleName();
+    private static String TAG = "UserDetailPresenter";
 
     UserDetailPresenter(MyaDetailContract.View view) {
         this.view = view;

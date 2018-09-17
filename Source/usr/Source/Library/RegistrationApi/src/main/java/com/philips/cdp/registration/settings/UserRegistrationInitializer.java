@@ -40,7 +40,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class UserRegistrationInitializer {
 
-    private String TAG = UserRegistrationInitializer.class.getSimpleName();
+    private String TAG = "UserRegistrationInitializer";
 
     @Inject
     ServiceDiscoveryInterface serviceDiscoveryInterface;

@@ -12,7 +12,7 @@ public class URError {
 
     private Context context;
 
-    private final String TAG = URError.class.getSimpleName();
+    private final String TAG = "URError";
 
     public URError(Context context) {
         this.context = context;

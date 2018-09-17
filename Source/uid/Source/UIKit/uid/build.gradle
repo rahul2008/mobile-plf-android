@@ -63,6 +63,7 @@ android {
         unitTests.returnDefaultValues = true
     }
 }
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {
     implementation deps.support.appcompatv7

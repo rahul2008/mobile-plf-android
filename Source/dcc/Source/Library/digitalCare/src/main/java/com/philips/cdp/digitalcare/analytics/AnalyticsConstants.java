@@ -62,6 +62,7 @@ public class AnalyticsConstants {
     /*  Action keys View Product Details*/
     public static final String ACTION_KEY_VIEW_PRODUCT_VIDEO_START = "videoStart";
     public static final String ACTION_KEY_VIEW_PRODUCT_VIDEO_NAME = "videoName";
+    public static final String ACTION_KEY_SPECIAL_EVENTS = "specialEvents";
 
     /*****************
      * Action Values
@@ -69,6 +70,8 @@ public class AnalyticsConstants {
     public static final String ACTION_VALUE_FACEBOOK = "Facebook";
     public static final String ACTION_VALUE_LOCATE_PHILIPS_SEND_GET_DIRECTIONS = "getLocationDirections";
     public static final String ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION = "callLocation";
+    public static final String ACTION_VALUE_WRITE_PRODUCT_REVIEW = "writeProductReview";
+    public static final String ACTION_VALUE_RATE_THIS_APP = "rateThisApp";
 
     /* Error text */
     public static final String ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON = "Error connecting to network";

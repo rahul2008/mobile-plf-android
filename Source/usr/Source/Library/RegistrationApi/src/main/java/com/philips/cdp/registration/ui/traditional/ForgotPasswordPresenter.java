@@ -43,7 +43,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ForgotPasswordPresenter implements NetworkStateListener, EventListener,
         ForgotPasswordHandler {
 
-    private static String TAG = ForgotPasswordPresenter.class.getSimpleName();
+    private static String TAG = "ForgotPasswordPresenter";
 
 
     private final RegistrationHelper registrationHelper;
@@ -203,7 +203,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
-                        RLog.i(TAG, "initateCreateResendSMSIntent: url :  "+ verificationUrl);
+                        RLog.i(TAG, "CreateResendSMSIntent url :  "+ verificationUrl);
 
                         URRequest urRequest = new URRequest(verificationUrl, getBodyContent(), null, forgotPasswordContract::onSuccessResponse, forgotPasswordContract::onErrorResponse);
                         urRequest.makeRequest(true);

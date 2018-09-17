@@ -34,7 +34,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
 
     private ForgotPasswordHandler mForgotPaswordHandler;
     private Context mContext;
-    private static String TAG = ForgotPassword.class.getSimpleName();
+    private static String TAG = "ForgotPassword";
 
     public ForgotPassword(final Context context, ForgotPasswordHandler forgotPaswordHandler) {
         mForgotPaswordHandler = forgotPaswordHandler;
@@ -50,12 +50,17 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
 
     @Override
     public void onFailure(ForgetPasswordError error) {
-        RLog.d(TAG, "onFailure : is called ");
+        try {
+        RLog.e(TAG, "onFailure : is called error"+ error.captureApiError.raw_response);
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
         userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         handleOnlySocialSignIn(error.captureApiError, userRegistrationFailureInfo);
         ThreadUtils.postInMainThread(mContext, () ->
                 mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo));
+        } catch (Exception e) {
+            RLog.e(TAG, "onFailure : is called Exception :" + e.getMessage());
+
+        }
     }
 
     private void handleOnlySocialSignIn(CaptureApiError error,

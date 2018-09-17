@@ -165,6 +165,7 @@ android {
         tasks["compile${productFlavor}${buildtype}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildtype}Assets"])
     }
 }
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 configurations.all {
     // check for updates every build
@@ -180,7 +181,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
-    implementation deps.firebase_iid
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.gson
@@ -191,8 +191,11 @@ dependencies {
     implementation deps.javax_inject
     implementation deps.javax_annotation
     implementation deps.play_services_gcm
-    implementation deps.firebase_core
+    implementation (deps.firebase_core) {
+        exclude group: 'com.google.firebase', module: 'firebase-iid'
+    }
     implementation deps.firebase_config
+    implementation deps.firebase_iid
 
     debugImplementation deps.leakcanary_no_op
     leakCanaryImplementation deps.leakcanary

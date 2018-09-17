@@ -101,6 +101,7 @@ android {
         exclude 'lib/x86/libRSSupport.so'
     }
 }
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 configurations {
     compile.exclude module: 'support-annotations'

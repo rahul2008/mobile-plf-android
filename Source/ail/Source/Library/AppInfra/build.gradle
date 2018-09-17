@@ -13,6 +13,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradl
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 
+
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
@@ -74,6 +75,7 @@ android {
         }
     }
 }
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {
     if (directdependencies) {

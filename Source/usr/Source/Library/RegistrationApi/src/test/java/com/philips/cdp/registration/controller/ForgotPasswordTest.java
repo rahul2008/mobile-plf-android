@@ -62,11 +62,11 @@ public class ForgotPasswordTest extends TestCase{
     Jump.ForgotPasswordResultHandler.ForgetPasswordError forgetPasswordErrorMock;
 
 
-    @Test(expected = NullPointerException.class)
-    public void onFailure() throws Exception {
-
-       forgotPassword.onFailure(forgetPasswordErrorMock);
-    }
+//    @Test(expected = NullPointerException.class)
+//    public void onFailure() throws Exception {
+//
+//       forgotPassword.onFailure(forgetPasswordErrorMock);
+//    }
 
     @Test(expected = NullPointerException.class)
     public void performForgotPassword() throws Exception {
@@ -74,10 +74,10 @@ public class ForgotPasswordTest extends TestCase{
         forgotPassword.performForgotPassword("email");
     }
 
-    @Test(expected = NullPointerException.class)
-    public void onFlowDownloadSuccess() throws Exception {
-        forgotPassword.onFlowDownloadSuccess();
-    }
+//    @Test(expected = NullPointerException.class)
+//    public void onFlowDownloadSuccess() throws Exception {
+//        forgotPassword.onFlowDownloadSuccess();
+//    }
 
 /*    @Test
     public void onFlowDownloadFailure() throws Exception {
