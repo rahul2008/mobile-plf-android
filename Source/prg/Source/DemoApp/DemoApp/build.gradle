@@ -80,6 +80,7 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+    
     defaultConfig {
         applicationId "com.philips.cdp.demo"
         minSdkVersion versions.minsdk
@@ -107,12 +108,6 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-prg.pro'
             signingConfig signingConfigs.release
-        }
-    }
-
-    android {
-        lintOptions {
-            abortOnError false
         }
     }
 

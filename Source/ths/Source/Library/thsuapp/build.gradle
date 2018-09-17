@@ -53,10 +53,6 @@ android {
         ]
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -66,11 +62,6 @@ android {
             debuggable true
             minifyEnabled false
         }
-    }
-
-    compileOptions {
-        targetCompatibility versions.targetCompatibility
-        sourceCompatibility versions.sourceCompatibility
     }
 
     testOptions {

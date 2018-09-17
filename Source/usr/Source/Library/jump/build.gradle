@@ -44,10 +44,6 @@ android {
         ]
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -68,11 +64,6 @@ android {
         debug {
             debuggable true
         }
-    }
-
-    compileOptions {
-        targetCompatibility versions.targetCompatibility
-        sourceCompatibility versions.sourceCompatibility
     }
 }
 
@@ -107,10 +98,7 @@ dependencies {
     testImplementation deps.mockito
     testImplementation deps.robolectric
 
-    // JUnit4 Rules
     androidTestImplementation deps.android_testrules
-
-    // Android JUnit Runner
     androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.junit
     androidTestImplementation deps.mockito_android

@@ -67,10 +67,6 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     //Exclude jniLibs as it will be coming from vertical
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'

@@ -38,7 +38,6 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-
     defaultConfig {
         // applicationId "com.iap.demouapp"
         minSdkVersion versions.minsdk
@@ -90,7 +89,6 @@ android {
     }
     
     lintOptions {
-        abortOnError false
         checkReleaseBuilds false
         disable 'InvalidPackage'
         disable 'GradleCompatible'

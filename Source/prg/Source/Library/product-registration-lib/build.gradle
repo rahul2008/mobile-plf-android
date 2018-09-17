@@ -84,10 +84,6 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.all {

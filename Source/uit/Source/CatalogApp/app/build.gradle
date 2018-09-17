@@ -6,17 +6,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'spoon'
 
-
 buildscript {
     repositories {
         apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-        maven { url repos.jcenter
+        maven {
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
-}
+        }
     }
 
     dependencies {
@@ -40,15 +40,12 @@ android {
         renderscriptSupportModeEnabled true
         generatedDensities = []
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     packagingOptions {
@@ -58,10 +55,7 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'LICENSE.txt'
-
     }
-
-
 }
 
 dependencies {
@@ -80,5 +74,5 @@ spoon {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

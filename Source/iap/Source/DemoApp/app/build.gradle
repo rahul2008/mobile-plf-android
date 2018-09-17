@@ -72,10 +72,6 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
 
     defaultConfig {
         applicationId "com.philips.cdp.di.iapdemo"
@@ -154,7 +150,6 @@ android {
     }
 
     lintOptions {
-        abortOnError false
         checkReleaseBuilds false
         disable 'InvalidPackage'
         disable 'GradleCompatible'

@@ -126,11 +126,6 @@ hockeyapp {
 def buildType
 
 android {
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
-
     testOptions {
         unitTests.all {
             jvmArgs '-noverify'

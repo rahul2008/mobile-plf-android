@@ -27,11 +27,6 @@ android {
     signingConfigs {
         release
     }
-    
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
 
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -71,10 +66,6 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     buildTypes {
@@ -118,7 +109,7 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
 
-    androidTestImplementation deps.mockito_android
+    androidTestImplementation deps.dexmaker_mockito
     androidTestImplementation deps.junit
 }
 

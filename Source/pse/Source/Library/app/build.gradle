@@ -72,6 +72,7 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+    
     defaultConfig {
         applicationId "com.philips.hor_productselection_android"
         minSdkVersion versions.minsdk
@@ -88,10 +89,6 @@ android {
 
     signingConfigs {
         release
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     buildTypes {

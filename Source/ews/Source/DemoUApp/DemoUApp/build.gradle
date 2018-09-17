@@ -31,6 +31,7 @@ android {
         versionName "1.0"
         consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
     }
+    
     dataBinding {
         enabled = true
     }
@@ -43,6 +44,7 @@ android {
             keyPassword "philips"
         }
     }
+    
     buildTypes {
         debug {
 
@@ -50,9 +52,6 @@ android {
         release {
 
         }
-    }
-    lintOptions {
-        abortOnError false
     }
 }
 

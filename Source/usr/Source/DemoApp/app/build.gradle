@@ -79,10 +79,6 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
 
     defaultConfig {
         applicationId "com.philips.cdp.registration"
@@ -106,7 +102,6 @@ android {
     }
 
     lintOptions {
-        abortOnError false
         disable 'MissingTranslation'
     }
 

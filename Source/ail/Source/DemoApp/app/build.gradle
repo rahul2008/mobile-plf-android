@@ -27,11 +27,6 @@ android {
         release
     }
 
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
-
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
@@ -48,10 +43,6 @@ android {
         release {
             signingConfig signingConfigs.debug
         }
-    }
-
-    lintOptions {
-        abortOnError false
     }
 }
 

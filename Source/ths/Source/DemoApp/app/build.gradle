@@ -75,6 +75,7 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+    
     defaultConfig {
         applicationId 'com.philips.platform.thsdemolaunch'
         minSdkVersion versions.minsdk
@@ -97,10 +98,6 @@ android {
     dexOptions {
         preDexLibraries = false
         javaMaxHeapSize "4g"
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     signingConfigs {

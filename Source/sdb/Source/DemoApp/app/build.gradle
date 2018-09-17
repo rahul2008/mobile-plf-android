@@ -98,19 +98,6 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
-    productFlavors {
-    }
-
-    android {
-        lintOptions {
-            abortOnError false
-        }
-    }
-
     /*
     This defined for signing the apk -- start
      */

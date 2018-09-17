@@ -66,17 +66,8 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
-
     dexOptions {
         preDexLibraries = false
-    }
-
-    lintOptions {
-        abortOnError false
     }
 }
 

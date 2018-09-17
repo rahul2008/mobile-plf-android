@@ -39,10 +39,6 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
 
     defaultConfig {
         minSdkVersion versions.minsdk
@@ -67,10 +63,6 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     buildTypes {
@@ -147,6 +139,7 @@ dependencies {
     testImplementation deps.robolectric_shadows
     testImplementation deps.robolectric_utils
 
+    androidTestImplementation deps.mockito_android
     androidTestImplementation deps.android_testrules
     androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.junit

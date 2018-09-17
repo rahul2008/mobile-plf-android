@@ -39,6 +39,7 @@ task zipDocuments(type: Zip) {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+    
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
@@ -90,7 +91,6 @@ android {
     }
 
     lintOptions {
-        abortOnError false
         checkReleaseBuilds false
         disable 'InvalidPackage'
         disable 'GradleCompatible'

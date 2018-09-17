@@ -105,6 +105,15 @@ subprojects {
 
     afterEvaluate {
         android {
+            compileOptions {
+                sourceCompatibility versions.sourceCompatibility
+                targetCompatibility versions.targetCompatibility
+            }
+
+            lintOptions {
+                abortOnError false
+            }
+
             testOptions {
                 unitTests {
                     // As per Robolectric documentation

@@ -30,15 +30,6 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
 }
 
 dependencies {

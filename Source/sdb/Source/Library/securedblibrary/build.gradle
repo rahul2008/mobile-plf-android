@@ -52,15 +52,6 @@ android {
             testCoverageEnabled = true
         }
     }
-
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
-
-    lintOptions {
-        abortOnError false
-    }
 }
 
 configurations.all {

@@ -15,10 +15,6 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-    lintOptions {
-        abortOnError false
-    }
-
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.all {
@@ -47,11 +43,6 @@ android {
             debuggable true
             minifyEnabled false
         }
-    }
-
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
     }
 }
 

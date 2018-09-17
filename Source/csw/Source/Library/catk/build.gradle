@@ -29,9 +29,6 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-    lintOptions {
-        abortOnError false
-    }
 
     testOptions {
         unitTests.returnDefaultValues = true
@@ -95,10 +92,6 @@ android {
         exclude 'lib/x86/libblasV8.so'
         exclude 'lib/x86/librsjni.so'
         exclude 'lib/x86/libRSSupport.so'
-    }
-
-    lintOptions {
-        abortOnError false
     }
 }
 

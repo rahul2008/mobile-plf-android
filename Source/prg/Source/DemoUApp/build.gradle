@@ -39,6 +39,7 @@ task zipDocuments(type: Zip) {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+    
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
@@ -53,12 +54,6 @@ android {
     }
     
     dataBinding.enabled = true
-    
-    android {
-        lintOptions {
-            abortOnError false
-        }
-    }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'

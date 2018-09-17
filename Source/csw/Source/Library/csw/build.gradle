@@ -24,9 +24,6 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-    lintOptions {
-        abortOnError false
-    }
 
     defaultConfig {
         minSdkVersion versions.minsdk
@@ -66,10 +63,6 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     testOptions {

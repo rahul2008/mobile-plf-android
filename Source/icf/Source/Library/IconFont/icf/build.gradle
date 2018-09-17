@@ -35,6 +35,7 @@ task zipDocuments(type: Zip) {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+
     defaultConfig {
         multiDexEnabled true
         minSdkVersion versions.minsdk
@@ -42,10 +43,6 @@ android {
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     buildTypes {

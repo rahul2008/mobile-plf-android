@@ -110,10 +110,6 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def appName = "ews_demo_app_"

@@ -97,10 +97,6 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     def Properties props = new Properties()
 	def propFile = new File("${project.projectDir}/../signing.properties")
     if (propFile.canRead()) {
