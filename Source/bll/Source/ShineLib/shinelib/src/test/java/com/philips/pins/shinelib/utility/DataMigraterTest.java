@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -152,7 +152,7 @@ public class DataMigraterTest extends RobolectricTest {
 
         PersistentStorage newUserStorage = storageFactory.getPersistentStorageForUser();
         verifyTestData(newUserStorage);
-        assertThat(newUserStorage.get(ANOTHER_KEY)).isEqualTo(true);
+        assertThat((Boolean) newUserStorage.get(ANOTHER_KEY)).isEqualTo(true);
     }
 
     @Test
@@ -167,7 +167,7 @@ public class DataMigraterTest extends RobolectricTest {
         SHNUserConfigurationImpl newUserConfiguration = new SHNUserConfigurationImpl(storageFactory, handlerMock, new SHNUserConfigurationCalculations());
         verifyUserData(newUserConfiguration);
         for (final String key : DataMigrater.userKeyMapping.keySet()) {
-            assertThat(oldRootStorage.get(key)).isNull();
+            assertThat((Object) oldRootStorage.get(key)).isNull();
         }
     }
 
@@ -183,7 +183,7 @@ public class DataMigraterTest extends RobolectricTest {
         SHNUserConfigurationImpl newUserConfiguration = new SHNUserConfigurationImpl(storageFactory, handlerMock, new SHNUserConfigurationCalculations());
         verifyUserData(newUserConfiguration);
         for (final String key : DataMigrater.userKeyMapping.keySet()) {
-            assertThat(oldUserStorage.get(key)).isNull();
+            assertThat((Object) oldUserStorage.get(key)).isNull();
         }
     }
 
@@ -252,8 +252,8 @@ public class DataMigraterTest extends RobolectricTest {
     // -----
 
     private void verifyTestData(final PersistentStorage storage) {
-        assertThat(storage.get(KEY_1)).isEqualTo(VALUE_1_STRING);
-        assertThat(storage.get(KEY_2)).isEqualTo(VALUE_2_INT);
+        assertThat((String) storage.get(KEY_1)).isEqualTo(VALUE_1_STRING);
+        assertThat((Integer) storage.get(KEY_2)).isEqualTo(VALUE_2_INT);
     }
 
     private void insertTestData(final PersistentStorage storage) {
