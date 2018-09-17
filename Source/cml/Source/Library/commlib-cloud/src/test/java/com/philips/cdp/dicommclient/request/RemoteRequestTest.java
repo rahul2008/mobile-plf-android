@@ -10,9 +10,12 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -82,7 +85,7 @@ public class RemoteRequestTest {
     }
 
     @Test
-    public void givenRequestCreated_whenExecuted_andPublishCallbackReceived_thenShouldReturnErrorResponse() throws Exception{
+    public void givenRequestCreated_whenExecuted_andPublishCallbackReceived_thenShouldReturnErrorResponse() throws Exception {
         final int messageId = 1337;
         final String conversationId = testUUID();
         when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
@@ -118,7 +121,7 @@ public class RemoteRequestTest {
     }
 
     @Test
-    public void givenRequestCreated_whenExecuted_andNonSuccessPublishCallbackReceived_thenShouldReturnErrorResponse() throws Exception{
+    public void givenRequestCreated_whenExecuted_andNonSuccessPublishCallbackReceived_thenShouldReturnErrorResponse() throws Exception {
         final int messageId = 1337;
         final String conversationId = testUUID();
         when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
@@ -137,7 +140,7 @@ public class RemoteRequestTest {
     }
 
     @Test
-    public void givenRequestCreated_whenExecuted_andBothCallbacksReceived_thenShouldReturnResponse() throws Exception{
+    public void givenRequestCreated_whenExecuted_andBothCallbacksReceived_thenShouldReturnResponse() throws Exception {
         final int messageId = 1337;
         final String conversationId = testUUID();
         when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
@@ -230,7 +233,7 @@ public class RemoteRequestTest {
     }
 
     @Test
-    public void givenRequestCreated_whenExecuted_andEventCallbackReceived_thenShouldReturnErrorResponse() throws Exception{
+    public void givenRequestCreated_whenExecuted_andEventCallbackReceived_thenShouldReturnErrorResponse() throws Exception {
         final int messageId = 1337;
         final String conversationId = testUUID();
         when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
@@ -246,6 +249,40 @@ public class RemoteRequestTest {
         Response response = this.subject.execute();
         Error result = response.getError();
         assertNotNull(result);
+    }
+
+    @Test
+    public void givenRequestWithNoDataIsCreated_whenExecuted_thenTheResponseShouldNotContainTheDataProperty() throws Exception {
+        final String responseWithNoData = "{ \"product\":\"1\",\"port\":\"\"}";
+        Mockito.when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenAnswer(new Answer() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                assertEquals(args[0], responseWithNoData);
+                return null;
+            }
+        });
+        this.subject.execute();
+    }
+
+    @Test
+    public void givenRequestWithDataIsCreated_whenExecuted_thenTheResponseShouldContainTheDataProperty() throws Exception {
+        final Map<String, Object> map = new HashMap<>();
+        map.put("dummyKey", "dummyValue");
+        subject = new RemoteRequest("", "", 1, RemoteRequestType.GET_PROPS, map, handlerMock, cloudControllerMock) {
+            @Override
+            protected CountDownLatch createCountDownLatch() {
+                return latchMock;
+            }
+        };
+        final String responseWithData = "{ \"product\":\"1\",\"port\":\"\",\"data\":{\"dummyKey\":\"dummyValue\"}}";
+        Mockito.when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenAnswer(new Answer() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                assertEquals(args[0], responseWithData);
+                return null;
+            }
+        });
+        subject.execute();
     }
 
     private String testUUID() {

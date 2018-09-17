@@ -155,24 +155,24 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_single_product, container, false);
         UIDHelper.injectCalligraphyFonts();
-        dateParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_Layout);
-        serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_serialNumber_layout);
-        productTitleTextView = (Label) view.findViewById(R.id.prg_registerScreen_productTitle_label);
-        productCtnTextView = (Label) view.findViewById(R.id.prg_registerScreen_ctn_label);
-        date_input_field = (InputValidationLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationLayout);
-        date_EditText = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationEditText);
+        dateParentLayout = view.findViewById(R.id.prg_registerScreen_dateOfPurchase_Layout);
+        serialNumberParentLayout = view.findViewById(R.id.prg_registerScreen_serialNumber_layout);
+        productTitleTextView = view.findViewById(R.id.prg_registerScreen_productTitle_label);
+        productCtnTextView = view.findViewById(R.id.prg_registerScreen_ctn_label);
+        date_input_field = view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationLayout);
+        date_EditText = view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationEditText);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
-        registerButton = (ProgressBarButton) view.findViewById(R.id.prg_registerScreen_register_button);
-        productImageView = (ImageView) view.findViewById(R.id.prg_registerScreen_product_image);
+        registerButton = view.findViewById(R.id.prg_registerScreen_register_button);
+        productImageView = view.findViewById(R.id.prg_registerScreen_product_image);
 
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnTouchListener(onClickPurchaseDate());
-        ProdRegTagging.getInstance().trackPage(AnalyticsConstants.REGISTRATION_SCREEN);
-        findSerialTextView = (Label)view.findViewById(R.id.prg_registerScreen_findSerialNumber_Label);
+        ProdRegTagging.trackPage(AnalyticsConstants.REGISTRATION_SCREEN);
+        findSerialTextView = view.findViewById(R.id.prg_registerScreen_findSerialNumber_Label);
         makeTextViewHyperlink(findSerialTextView);
-        serial_input_field = (InputValidationLayout) view.findViewById(R.id.prg_registerScreen_serialNumber_validationLayout);
-        field_serial = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_serialNumber_validationEditText);
+        serial_input_field = view.findViewById(R.id.prg_registerScreen_serialNumber_validationLayout);
+        field_serial = view.findViewById(R.id.prg_registerScreen_serialNumber_validationEditText);
 
         prodRegUtil = new ProdRegUtil();
         return view;
@@ -323,7 +323,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             date_input_field.hideError();
         }
 
-        ProdRegTagging.getInstance().trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.PURCHASE_DATE_REQUIRED);
+        ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.PURCHASE_DATE_REQUIRED);
     }
 
     /**
@@ -532,7 +532,7 @@ String imageURL;
 
     @Override
     public void tagEvents(final String event, final String key, final String value) {
-        ProdRegTagging.getInstance().trackAction(event, key, value);
+        ProdRegTagging.trackAction(event, key, value);
     }
 
 
@@ -571,12 +571,12 @@ String imageURL;
                     .setCancelable(true);
             alertDialogFragment = builder.create();
             alertDialogFragment.show(getFragmentManager(), "prg_registerfrag");
-            Label serialNumberTitle = (Label) view.findViewById(R.id.serial_number_title_message);
-            Label serialNumberRegisteredOn = (Label) view.findViewById(R.id.serial_number_registered_message);
-            Label serialNumberWarranty = (Label) view.findViewById(R.id.serial_number_warranty_message);
+            Label serialNumberTitle = view.findViewById(R.id.serial_number_title_message);
+            Label serialNumberRegisteredOn = view.findViewById(R.id.serial_number_registered_message);
+            Label serialNumberWarranty = view.findViewById(R.id.serial_number_warranty_message);
             serialNumberTitle.setText(getString(R.string.PRG_This_Serial_No).concat(" ").concat(registeredProduct.getSerialNumber()).concat(" ").concat(getString(R.string.PRG_Already_Registered)));
-            Button changeSerialNumber = (Button) view.findViewById(R.id.button_continue);
-            Button closeDialog = (Button) view.findViewById(R.id.closeButton);
+            Button changeSerialNumber = view.findViewById(R.id.button_continue);
+            Button closeDialog = view.findViewById(R.id.closeButton);
             if (!TextUtils.isEmpty(registeredProduct.getPurchaseDate())) {
                 serialNumberRegisteredOn.setVisibility(View.VISIBLE);
                 serialNumberRegisteredOn.setText(prodRegUtil.generateSpannableText(getString(R.string.PRG_registered_on)," " + prodRegUtil.getDisplayDate(registeredProduct.getPurchaseDate())));

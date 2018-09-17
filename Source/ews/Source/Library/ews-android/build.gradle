@@ -115,7 +115,7 @@ android {
     }
 }
 
-
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 

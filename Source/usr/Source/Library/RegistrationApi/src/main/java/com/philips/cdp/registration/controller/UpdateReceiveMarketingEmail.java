@@ -34,7 +34,7 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
 
     private boolean mReceiveMarketingEmail;
 
-    private static final String TAG = UpdateReceiveMarketingEmail.class.getSimpleName();
+    private static final String TAG = "UpdateReceiveMarketingEmail";
 
     public UpdateReceiveMarketingEmail(Context context) {
         super(context);

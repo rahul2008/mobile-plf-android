@@ -60,7 +60,7 @@ android {
         sourceCompatibility 1.8
     }
 }
-
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.joda_time

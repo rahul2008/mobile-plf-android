@@ -29,7 +29,7 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
 
     private RefreshLoginSessionHandler mRefreshLoginSessionHandler;
     private Context mContext;
-    private static final String TAG = RefreshUserSession.class.getSimpleName();
+    private static final String TAG = "RefreshUserSession";
 
 
     public RefreshUserSession(RefreshLoginSessionHandler refreshLoginSessionHandler, Context context) {

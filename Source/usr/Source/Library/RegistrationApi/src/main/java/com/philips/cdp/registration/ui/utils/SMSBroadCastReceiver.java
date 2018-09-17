@@ -50,7 +50,7 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
     private final ReceiveAndRegisterOTPListener mReceiveAndRegisterOTPListener;
     public static final String OTP_REGEX = "[0-9]{1,6}";
     public static final int SMS_PERMISSION_CODE = 1000;
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "SMSBroadCastReceiver";
 
     public SMSBroadCastReceiver(ReceiveAndRegisterOTPListener mReceiveAndRegisterOTPListener) {
 

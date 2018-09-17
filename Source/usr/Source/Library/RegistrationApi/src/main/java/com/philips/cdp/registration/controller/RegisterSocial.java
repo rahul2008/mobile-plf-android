@@ -38,7 +38,7 @@ import org.json.JSONObject;
 public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInResultHandler,
         JumpFlowDownloadStatusListener {
 
-    private String TAG = RegisterSocial.class.getSimpleName();
+    private String TAG = "RegisterSocial";
     private SocialLoginProviderHandler mSocialLoginProviderHandler;
 
     private Context mContext;
@@ -73,12 +73,16 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
     }
 
     public void onFailure(SignInError error) {
-        RLog.d(TAG, "onFailure : is called");
+        try{
+        RLog.d(TAG, "onFailure : is called error: "+ error.captureApiError.raw_response);
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
         userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         ThreadUtils.postInMainThread(mContext, () ->
                 mSocialLoginProviderHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
+    }catch(Exception e) {
+            RLog.d(TAG, "onFailure : is called : Exception : " + e.getMessage());
+        }
     }
 
     private JSONObject mUser;
@@ -125,7 +129,6 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
                     mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
-
     }
 
 

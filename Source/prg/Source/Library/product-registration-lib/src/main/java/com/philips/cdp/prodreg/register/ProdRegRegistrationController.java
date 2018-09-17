@@ -26,6 +26,11 @@ import com.philips.cdp.registration.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.philips.cdp.prodreg.constants.AnalyticsConstants.EXTEND_WARRANTY_OPTION;
+import static com.philips.cdp.prodreg.constants.AnalyticsConstants.PRODUCT_MODEL;
+import static com.philips.cdp.prodreg.constants.AnalyticsConstants.PROD_REG_SUCCESS_EVENT;
+import static com.philips.cdp.prodreg.constants.AnalyticsConstants.REGISTRATION_EVENT;
+
 public class ProdRegRegistrationController {
 
     public static final String TAG = ProdRegRegistrationController.class.getSimpleName();
@@ -156,7 +161,7 @@ public class ProdRegRegistrationController {
         final boolean validDate = validatePurchaseDate(purchaseDate);
         final boolean validSerialNumber = isValidSerialNumber(serialNumber);
         if (!isApiCallingProgress && validDate && validSerialNumber) {
-            registerControllerCallBacks.tagEvents("RegistrationEvent", AnalyticsConstants.SPECIAL_EVENTS, "extendWarrantyOption");
+            registerControllerCallBacks.tagEvents(REGISTRATION_EVENT, AnalyticsConstants.SPECIAL_EVENTS, EXTEND_WARRANTY_OPTION);
            // registerControllerCallBacks.showLoadingDialog();
             registerControllerCallBacks.logEvents(TAG, "Registering product with product details as CTN::" + getRegisteredProduct().getCtn());
             if (getRegisteredProduct().getRegistrationState() != RegistrationState.REGISTERED)
@@ -199,7 +204,7 @@ public class ProdRegRegistrationController {
                     registerControllerCallBacks.buttonClickable(true);
                     registerControllerCallBacks.dismissLoadingDialog();
                     updateRegisteredProductsList(registeredProduct);
-                    registerControllerCallBacks.tagEvents("ProdRegSuccessEvent", "productModel", registeredProduct.getCtn());
+                    registerControllerCallBacks.tagEvents(PROD_REG_SUCCESS_EVENT, PRODUCT_MODEL, registeredProduct.getCtn());
                     registerControllerCallBacks.showSuccessLayout();
                 }
             }

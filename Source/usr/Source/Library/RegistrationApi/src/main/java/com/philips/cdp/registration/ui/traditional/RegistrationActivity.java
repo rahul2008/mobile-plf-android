@@ -66,7 +66,7 @@ public class RegistrationActivity extends UIDActivity implements
 
     private Toolbar toolbar;
     private TextView mTvTitle;
-    private static String TAG = RegistrationActivity.class.getSimpleName();
+    private static String TAG = "RegistrationActivity";
 
 
     @Override
