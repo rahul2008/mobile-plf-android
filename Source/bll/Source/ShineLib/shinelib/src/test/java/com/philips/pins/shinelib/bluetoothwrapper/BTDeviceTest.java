@@ -82,8 +82,8 @@ public class BTDeviceTest {
         BTGatt.BTGattCallback callback = mock(BTGatt.BTGattCallback.class);
         when(bluetoothDevice.connectGatt(any(Context.class), eq(false), any(BTGatt.class))).thenReturn(any(BluetoothGatt.class));
 
-        /*BTGatt btGatt = btDevice.connectGatt(RuntimeEnvironment.application, false, shnCentral, callback, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
-        assertNotNull(btGatt);*/
+        BTGatt btGatt = btDevice.connectGatt(RuntimeEnvironment.application, false, shnCentral, callback, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+        assertNotNull(btGatt);
     }
 
     @Test
