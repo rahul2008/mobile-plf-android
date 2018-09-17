@@ -79,8 +79,9 @@ public class BTDeviceTest {
     @Test
     public void whenBluetoothDeviceConnectGattIsCalledThenReturnGatt() throws NoSuchFieldException, IllegalAccessException {
         SHNCentral shnCentral = mock(SHNCentral.class);
+        BluetoothGatt mockBluetoothGatt = mock(BluetoothGatt.class);
         BTGatt.BTGattCallback callback = mock(BTGatt.BTGattCallback.class);
-        when(bluetoothDevice.connectGatt(any(Context.class), eq(false), any(BTGatt.class))).thenReturn(any(BluetoothGatt.class));
+        when(bluetoothDevice.connectGatt(any(Context.class), eq(false), any(BTGatt.class))).thenReturn(mockBluetoothGatt);
 
         BTGatt btGatt = btDevice.connectGatt(RuntimeEnvironment.application, false, shnCentral, callback, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
         assertNotNull(btGatt);
