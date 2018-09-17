@@ -101,6 +101,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
                 }
                 consentStatus = new ConsentStatus(consentInfo.startsWith(String.valueOf(false)) ? ConsentStates.rejected : ConsentStates.active,
                         Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)), timestamp);
+
             }
             consentStatusMemoryCache.put(consentType, consentStatus);
             callback.onGetConsentsSuccess(consentStatus);
