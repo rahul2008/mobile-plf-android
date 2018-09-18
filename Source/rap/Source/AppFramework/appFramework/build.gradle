@@ -5,7 +5,6 @@
 
 apply plugin: 'com.android.application'
 apply plugin: 'de.felixschulze.gradle.hockeyapp'
-apply plugin: 'com.google.gms.google-services'
 
 apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting_logging.gradle"
