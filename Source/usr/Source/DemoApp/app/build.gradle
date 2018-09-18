@@ -4,8 +4,6 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
@@ -154,7 +152,7 @@ if (propFile.canRead()) {
 
 dependencies {
     annotationProcessor deps.butterknife_compiler
-    
+
     implementation project(':AppInfra')
     implementation project(':uAppFwLib')
     implementation project(':uid')
@@ -168,9 +166,9 @@ dependencies {
     implementation deps.greenrobot
     implementation deps.wechat
     implementation deps.butterknife
-    
+
     testImplementation deps.junit
-    
+
     androidTestImplementation deps.support.annotations
     androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.android_testrules

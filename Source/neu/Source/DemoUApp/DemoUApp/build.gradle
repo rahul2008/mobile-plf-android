@@ -4,8 +4,6 @@
  */
 
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
@@ -39,7 +37,7 @@ task zipDocuments(type: Zip) {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-    
+
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target

@@ -4,8 +4,6 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
@@ -80,7 +78,7 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-    
+
     defaultConfig {
         applicationId "com.philips.cdp.demo"
         minSdkVersion versions.minsdk

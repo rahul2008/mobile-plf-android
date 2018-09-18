@@ -4,8 +4,6 @@
  */
 
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
@@ -48,7 +46,7 @@ android {
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         consumerProguardFiles 'proguard-rules-prx.pro'
     }
-    
+
     buildTypes {
         debug {
             debuggable true

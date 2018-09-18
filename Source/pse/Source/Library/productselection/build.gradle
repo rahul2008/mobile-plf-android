@@ -4,8 +4,6 @@
  */
 
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
 apply plugin: 'maven'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
@@ -51,7 +49,7 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
-    
+
     buildTypes {
         release {
             minifyEnabled false

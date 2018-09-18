@@ -4,8 +4,6 @@
  */
 
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
