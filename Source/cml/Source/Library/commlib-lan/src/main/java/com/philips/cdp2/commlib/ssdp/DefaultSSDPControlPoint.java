@@ -25,9 +25,11 @@ import java.net.MulticastSocket;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
@@ -47,6 +49,7 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_HOST;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_PORT;
 import static java.lang.Thread.currentThread;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 
@@ -68,6 +71,8 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
     private final Map<String, SSDPDevice> deviceCache = new ConcurrentHashMap<>();
     private static final int SEARCH_INTERVAL_SECONDS = 5;
 
+    private final List<String> fetchDescriptionInProgressForUsnList = new CopyOnWriteArrayList<>();
+
     private WifiManager.MulticastLock lock;
 
     private final SocketAddress ssdpAddress = new InetSocketAddress(SSDP_HOST, SSDP_PORT);
@@ -85,7 +90,9 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
     private ScheduledExecutorService listenExecutor = newSingleThreadScheduledExecutor();
     private ScheduledFuture listenTaskFuture;
 
-    private ExecutorService callbackExecutor = newSingleThreadExecutor();
+    private ExecutorService descriptionReceiverExecutor;
+
+    private ExecutorService workerExecutor;
 
     private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
 
@@ -117,6 +124,8 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
 
     public DefaultSSDPControlPoint() {
         this.multicastGroup = getMultiCastGroupAddress();
+        this.descriptionReceiverExecutor = createDescriptionReceiverThreadpool();
+        this.workerExecutor = createWorkerExecutor();
     }
 
     @Override
@@ -230,6 +239,18 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
         return new MulticastSocket(ssdpAddress);
     }
 
+    @NonNull
+    @VisibleForTesting
+    ExecutorService createDescriptionReceiverThreadpool() {
+        return newFixedThreadPool(4);
+    }
+
+    @NonNull
+    @VisibleForTesting
+    ExecutorService createWorkerExecutor() {
+        return newSingleThreadExecutor();
+    }
+
     private void startSearching() {
         broadcastTaskFuture = broadcastExecutor.scheduleAtFixedRate(searchTask, 0, SEARCH_INTERVAL_SECONDS, TimeUnit.SECONDS);
     }
@@ -277,21 +298,36 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
             return;
         }
 
-        final SSDPDevice device;
-
         if (deviceCache.containsKey(usn)) {
-            device = deviceCache.get(usn);
+            SSDPDevice device = deviceCache.get(usn);
             device.updateFrom(message);
+            notifySsdpDevice(message, device);
         } else {
-            device = createFromSearchResponse(message);
+            if (!fetchDescriptionInProgressForUsnList.contains(usn)) {
+                Runnable fetchDescriptionTask = new Runnable() {
+                    @Override
+                    public void run() {
+                        final SSDPDevice createdDevice = createFromSearchResponse(message);
 
-            if (device == null) {
-                return;
-            } else {
-                deviceCache.put(usn, device);
+                        workerExecutor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (createdDevice != null) {
+                                    deviceCache.put(usn, createdDevice);
+                                    notifySsdpDevice(message, createdDevice);
+                                }
+                                fetchDescriptionInProgressForUsnList.remove(usn);
+                            }
+                        });
+                    }
+                };
+                fetchDescriptionInProgressForUsnList.add(usn);
+                descriptionReceiverExecutor.execute(fetchDescriptionTask);
             }
         }
+    }
 
+    private void notifySsdpDevice(SSDPMessage message, SSDPDevice device) {
         String notificationSubType = message.get(NOTIFICATION_SUBTYPE);
 
         if (notificationSubType == null) {
@@ -361,7 +397,7 @@ public class DefaultSSDPControlPoint implements SSDPControlPoint {
 
                     DICommLog.d(SSDP, message.toString());
 
-                    callbackExecutor.execute(new Runnable() {
+                    workerExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
                             handleMessage(message);
