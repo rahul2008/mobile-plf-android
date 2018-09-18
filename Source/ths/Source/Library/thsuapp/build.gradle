@@ -131,8 +131,9 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.opengl
-    testImplementation deps.robolectric
-    testImplementation deps.robolectric_shadows
+    // TODO: Migrate this to platform defined set of Robolectric (currently version 3.8)
+    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
+    testImplementation 'org.robolectric:robolectric:3.4-rc2'
 
     androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'

@@ -139,10 +139,11 @@ dependencies {
     // Tests
     testImplementation deps.junit
     testImplementation deps.mockito
-    testImplementation deps.robolectric_shadows
-    testImplementation deps.robolectric
-    testImplementation deps.robolectric_utils
-    testImplementation deps.robolectric_junit
+    // TODO: Migrate this to platform defined set of Robolectric (currently version 3.8)
+    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
+    testImplementation 'org.robolectric:robolectric:3.4-rc2'
+    testImplementation 'org.robolectric:robolectric-utils:3.4-rc2'
+    testImplementation 'org.robolectric:robolectric-junit:3.4-rc2'
 
     // Android test
     androidTestImplementation deps.assertj
