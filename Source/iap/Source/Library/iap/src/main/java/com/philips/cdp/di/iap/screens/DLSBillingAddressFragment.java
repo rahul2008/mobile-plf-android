@@ -1,15 +1,13 @@
 package com.philips.cdp.di.iap.screens;
 
+import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
@@ -34,11 +32,15 @@ import java.util.Map;
  * Created by philips on 8/31/17.
  */
 
-public class DLSBillingAddressFragment extends InAppBaseFragment
+public class DLSBillingAddressFragment
         implements SalutationDropDown.SalutationListener,
         StateDropDown.StateListener {
 
-    private Context mContext;
+
+    private final DLSAddressPresenter addressPresenter;
+    private final Activity mContext;
+    private final View view;
+
     private InputValidationLayout mLlFirstNameBilling;
     private InputValidator inputValidatorFirstNameBilling;
     private InputValidationLayout mLlLastNameBilling;
@@ -48,6 +50,17 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     private InputValidationLayout mLlAddressLineTwoBilling;
     private InputValidator inputValidatorAddressLineTwoBilling;
     private InputValidationLayout mLlTownBilling;
+
+
+
+    public DLSBillingAddressFragment(DLSAddressPresenter addressPresenter) {
+        this.addressPresenter = addressPresenter;
+        this.mContext = this.addressPresenter.getAddressContractor().getActivityContext();
+        this.view = this.addressPresenter.getAddressContractor().getBillingAddressView();
+
+        initializeViews(view);
+    }
+
     private InputValidator inputValidatorTownBilling;
     private InputValidationLayout mLlPostalCodeBilling;
     private InputValidator inputValidatorPostalCodeBilling;
@@ -72,25 +85,13 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     private PhoneNumberUtil phoneNumberUtil;
     private StateDropDown mStateDropDownBilling;
     private Validator mValidator;
-    private DLSAddressFragment dlsAddressFragment;
     AddressFields billingAddressFields;
     private String mRegionIsoCode;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dls_iap_address_billing, container, false);
-        initializeViews(view);
-        return view;
-    }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
     private void initializeViews(View rootView) {
         billingAddressFields = new AddressFields();
 
-        dlsAddressFragment = (DLSAddressFragment) DLSBillingAddressFragment.this.getParentFragment();
 
         phoneNumberUtil = PhoneNumberUtil.getInstance();
 
@@ -200,7 +201,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mEtStateBilling.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Utility.hideKeypad(getActivity());
+                Utility.hideKeypad(mContext);
                 mStateDropDownBilling.show();
                 return false;
             }
@@ -208,11 +209,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
+
 
     private void showUSRegions() {
         if (mEtCountryBilling.getText().toString().equals("US")) {
@@ -243,8 +240,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
     public void updateFields(Map<String, String> mAddressFieldsHashmap) {
         if (mAddressFieldsHashmap == null) return;
-        dlsAddressFragment.mBtnContinue.setText(getString(R.string.iap_continue));
-        dlsAddressFragment.mBtnContinue.setEnabled(true);
+        addressPresenter.setContinueButtonState(true);
         CartModelContainer.getInstance().setAddressId(mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
 
         mEtFirstNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
@@ -446,7 +442,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             checkBillingAddressFields();
         }
         if (!result) {
-            dlsAddressFragment.mBtnContinue.setEnabled(false);
+            addressPresenter.setContinueButtonState(false);
         } else {
             checkBillingAddressFields();
         }
@@ -477,23 +473,23 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             setBillingAddressFields(billingAddressFields);
             IAPLog.d(IAPLog.LOG, billingAddressFields.toString());
             if (billingAddressFields != null) {
-                dlsAddressFragment.setBillingAddressFields(billingAddressFields);
+                addressPresenter.setBillingAddressFields(billingAddressFields);
                 Utility.isBillingAddressFilled=true;
                 if(Utility.isShippingAddressFilled || Utility.isAddressFilledFromDeliveryAddress) {
-                    dlsAddressFragment.mBtnContinue.setEnabled(true);
+                    addressPresenter.setContinueButtonState(true);
                 }
                 else
                 {
-                    dlsAddressFragment.mBtnContinue.setEnabled(false);
+                    addressPresenter.setContinueButtonState(false);
                 }
                 return true;
             }else {
                 Utility.isBillingAddressFilled=false;
-               dlsAddressFragment.mBtnContinue.setEnabled(false);
+                addressPresenter.setContinueButtonState(false);
             }
         } else {
             Utility.isBillingAddressFilled=false;
-            dlsAddressFragment.mBtnContinue.setEnabled(false);
+            addressPresenter.setContinueButtonState(false);
         }
         return false;
     }

@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iap.screens;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
@@ -44,7 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class DLSAddressFragment extends InAppBaseFragment implements View.OnClickListener, AddressController.AddressListener, PaymentController.PaymentListener {
+public class DLSAddressFragment extends InAppBaseFragment implements View.OnClickListener, AddressController.AddressListener, PaymentController.PaymentListener,CompoundButton.OnCheckedChangeListener,DLSAddressContractor {
 
     public static final String TAG = DLSAddressFragment.class.getName();
     Context mContext;
@@ -59,7 +60,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     AddressFields shippingAddressFields;
     AddressFields billingAddressFields;
     private  TextView tv_checkOutSteps;
-    private boolean isCheckEnableContinueButton=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,46 +96,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
         upDateUi(true);
 
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // CartModelContainer.getInstance().setSwitchToBillingAddress(!isChecked);
-                if (getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
-                    if (isChecked) {
-                        ((DLSBillingAddressFragment) billingFragment).prePopulateShippingAddress();
-                        setFragmentVisibility(billingFragment, true);
-                    } else {
-                        ((DLSBillingAddressFragment) billingFragment).clearAllFields();
-                        setFragmentVisibility(shippingFragment, false);
-                    }
-                    return;
-                } else {
-                    if (isChecked) {
-                        setFragmentVisibility(billingFragment, false);
-                    } else {
-                        setFragmentVisibility(billingFragment, true);
-                        if(billingAddressFields!=null && shippingAddressFields!=null) {
-                            ((DLSBillingAddressFragment) billingFragment).prePopulateShippingAddress();
-                            mBtnContinue.setEnabled(true);
-                        }
-                    }
-
-                }
-                if( isChecked && ((DLSShippingAddressFragment) shippingFragment).checkFields())
-                {
-                    mBtnContinue.setEnabled(true);
-
-                }else if(!isChecked && ((DLSBillingAddressFragment) billingFragment).checkBillingAddressFields() && ((DLSShippingAddressFragment) shippingFragment).checkFields()){
-                    mBtnContinue.setEnabled(true);
-                }
-                else
-                {
-                    mBtnContinue.setEnabled(false);
-                }
-
-                upDateUi(isChecked);
-            }
-        });
+        checkBox.setOnCheckedChangeListener(this);
     }
     private  void upDateUi(boolean  isChecked){
         Bundle bundle = getArguments();
@@ -468,9 +429,32 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         this.shippingAddressFields = shippingAddressFields;
     }
 
-    public void setBillingAddressFields(AddressFields billingAddressFields) {
-        this.billingAddressFields = billingAddressFields;
-        CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
+    @Override
+    public void setContinueButtonState(boolean state) {
+        mBtnContinue.setText(getString(R.string.iap_continue));
+        mBtnContinue.setEnabled(state);
+    }
+
+    @Override
+    public void setBillingAddressFields(AddressFields addressFields) {
+        this.billingAddressFields = addressFields;
+        CartModelContainer.getInstance().setBillingAddress(addressFields);
+    }
+
+
+    @Override
+    public View getShippingAddressView() {
+        return null;
+    }
+
+    @Override
+    public View getBillingAddressView() {
+        return null;
+    }
+
+    @Override
+    public Activity getActivityContext() {
+        return getActivityContext();
     }
 
     @Override
@@ -483,16 +467,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
             setFragmentVisibility(billingFragment, true);
             setFragmentVisibility(shippingFragment, false);
-
-           /* final AddressFields billingAddressFields = ((DLSBillingAddressFragment) billingFragment).billingAddressFields;
-            if (billingAddressFields == null) {
-                //set Billing Address same as Shipping Address
-                CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
-            } else {
-                CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
-                addFragment(
-                        OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG);
-            }*/
 
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
@@ -529,5 +503,44 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
         transaction.commit();
 
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+        if (getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
+            if (isChecked) {
+                ((DLSBillingAddressFragment) billingFragment).prePopulateShippingAddress();
+                setFragmentVisibility(billingFragment, true);
+            } else {
+                ((DLSBillingAddressFragment) billingFragment).clearAllFields();
+                setFragmentVisibility(shippingFragment, false);
+            }
+            return;
+        } else {
+            if (isChecked) {
+                setFragmentVisibility(billingFragment, false);
+            } else {
+                setFragmentVisibility(billingFragment, true);
+                if(billingAddressFields!=null && shippingAddressFields!=null) {
+                    ((DLSBillingAddressFragment) billingFragment).prePopulateShippingAddress();
+                    mBtnContinue.setEnabled(true);
+                }
+            }
+
+        }
+        if( isChecked && ((DLSShippingAddressFragment) shippingFragment).checkFields())
+        {
+            mBtnContinue.setEnabled(true);
+
+        }else if(!isChecked && ((DLSBillingAddressFragment) billingFragment).checkBillingAddressFields() && ((DLSShippingAddressFragment) shippingFragment).checkFields()){
+            mBtnContinue.setEnabled(true);
+        }
+        else
+        {
+            mBtnContinue.setEnabled(false);
+        }
+
+        upDateUi(isChecked);
     }
 }
