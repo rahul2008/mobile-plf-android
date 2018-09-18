@@ -22,7 +22,7 @@ public class PRLaunchInput extends UappLaunchInput {
     @IdRes
     int backgroundImageResourceId;
 
-    int showExtendWarrntyNothanksButton = 100;
+    boolean showExtendWarrntyNothanksButton;
 
     /**
      *
@@ -89,11 +89,11 @@ public class PRLaunchInput extends UappLaunchInput {
         this.backgroundImageResourceId = backgroundImageResourceId;
     }
 
-    public int getShowExtendWarrntyNothanksButton() {
+    public boolean getMandatoryProductRegistration() {
         return showExtendWarrntyNothanksButton;
     }
 
-    public void setShowExtendWarrntyNothanksButton(int showExtendWarrntyNothanksButton) {
+    public void setMandatoryProductRegistration(boolean showExtendWarrntyNothanksButton) {
         this.showExtendWarrntyNothanksButton = showExtendWarrntyNothanksButton;
     }
 }

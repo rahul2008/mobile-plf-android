@@ -261,7 +261,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
             PRInterface prInterface = new PRInterface();
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
-            prLaunchInput.setShowExtendWarrntyNothanksButton(2);
+            prLaunchInput.setMandatoryProductRegistration(true);
             prInterface.launch(fragLauncher, prLaunchInput);
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,  ((MainActivity) getActivity()).getThemeConfig(), ((MainActivity) getActivity()).getThemeResourceId(), null);
@@ -273,7 +273,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             }
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
-            prLaunchInput.setShowExtendWarrntyNothanksButton(2);
+            prLaunchInput.setMandatoryProductRegistration(true);
             new PRInterface().launch(activityLauncher, prLaunchInput);
         }
     }

@@ -134,7 +134,6 @@ public class ProdRegBaseActivity extends UIDActivity {
             final PRLaunchInput prLaunchInput = new PRLaunchInput(regProdList, isFirstLaunch);
             prLaunchInput.setProdRegUiListener(prUiHelper.getProdRegUiListener());
             prLaunchInput.setBackgroundImageResourceId(imageResID);
-            prLaunchInput.setShowExtendWarrntyNothanksButton(2);
             new PRInterface().launch(fragLauncher, prLaunchInput);
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());

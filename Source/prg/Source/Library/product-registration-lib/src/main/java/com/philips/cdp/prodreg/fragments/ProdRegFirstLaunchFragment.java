@@ -90,9 +90,8 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 productImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 productImage.requestLayout();
             }
-            int noThanksButton = dependencies.getInt(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE);
-            System.out.println("indra "+ noThanksButton);
-            if(noThanksButton == 2 ) {
+            boolean hideNoThanksButton = dependencies.getBoolean(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE);
+            if(!hideNoThanksButton ) {
                 registerLater.setVisibility(View.GONE);
             }
         }
