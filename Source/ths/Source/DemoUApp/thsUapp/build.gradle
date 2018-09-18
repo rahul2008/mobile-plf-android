@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
