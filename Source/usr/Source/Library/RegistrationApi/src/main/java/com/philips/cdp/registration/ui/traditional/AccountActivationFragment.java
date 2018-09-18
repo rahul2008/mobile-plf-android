@@ -246,6 +246,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void handleUiState(boolean isNetworkAvailable) {
+        if (isInstanceofCurrentFragment()) {
         if (isNetworkAvailable) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mEMailVerifiedError.hideError();
@@ -264,11 +265,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mBtnResend.setEnabled(false);
             scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);
         }
+        }
 
     }
 
     @Override
     public void updateActivationUIState() {
+        if (isInstanceofCurrentFragment()) {
         hideActivateSpinner();
         if (mUser.isEmailVerified()) {
             mBtnResend.setVisibility(View.GONE);
@@ -286,6 +289,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         }
         activateButtonEnable(true);
         mBtnResend.setEnabled(true);
+        }
+
     }
 
     private void showVerifyAlertDialog() {
