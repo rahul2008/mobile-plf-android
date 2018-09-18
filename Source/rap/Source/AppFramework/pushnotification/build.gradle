@@ -130,3 +130,4 @@ tasks.withType(Test) {
     ignoreFailures = true
 }
 
+apply plugin: 'com.google.gms.google-services'
