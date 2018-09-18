@@ -196,7 +196,8 @@ public class SHNDeviceImplTest {
             }
         }).when(mockedSHNCentral).addInternalListener(isA(SHNCentral.SHNCentralListener.class));
 
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.NONE, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).shnBondInitiator(SHNDeviceImpl.SHNBondInitiator.NONE).
+                connectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED).build();
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
         shnDevice.registerDiscoveryListener(mockedDiscoveryListener);
         shnDevice.registerService(mockedSHNService);
@@ -218,6 +219,14 @@ public class SHNDeviceImplTest {
         connectTillGATTServicesDiscovered();
         mockedServiceState = SHNService.State.Ready;
         shnDevice.onServiceStateChanged(mockedSHNService, mockedServiceState);
+    }
+
+    @Test
+    public void whenSHNDeviceIsBuiltThenItsConnectionPriorityIsInitialisedAsBalanced() {
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).build();
+        assertNotNull(shnDevice);
+        connectTillGATTConnected();
+        verify(mockedBTDevice).connectGatt(mockedSHNCentral.getApplicationContext(), false, mockedSHNCentral, btGattCallback, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
     }
 
     // State Disconnected
@@ -575,7 +584,7 @@ public class SHNDeviceImplTest {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verifyStatic(SHNTagger.class, times(1));
         SHNTagger.sendTechnicalError(captor.capture());
-        String result = String.format("Service [%s] state changed to error, state [%s]",null, SHNService.State.Error);
+        String result = String.format("Service [%s] state changed to error, state [%s]", null, SHNService.State.Error);
         assertEquals(result, captor.getValue());
     }
 
@@ -799,7 +808,8 @@ public class SHNDeviceImplTest {
     // Device that requires bonding
     @Test
     public void whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting() {
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.PERIPHERAL, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).shnBondInitiator(SHNDeviceImpl.SHNBondInitiator.PERIPHERAL).
+                connectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED).build();
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
 
         shnDevice.connect();
@@ -813,7 +823,8 @@ public class SHNDeviceImplTest {
 
     @Test
     public void whenBondingNoneSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting() {
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.NONE, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).shnBondInitiator(SHNDeviceImpl.SHNBondInitiator.NONE).
+                connectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED).build();
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
 
         shnDevice.connect();
@@ -829,7 +840,8 @@ public class SHNDeviceImplTest {
 
     @Test
     public void whenBondingPeripheralSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting() {
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.PERIPHERAL, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).shnBondInitiator(SHNDeviceImpl.SHNBondInitiator.PERIPHERAL).
+                connectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED).build();
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
 
         shnDevice.connect();
@@ -845,7 +857,8 @@ public class SHNDeviceImplTest {
 
     @Test
     public void whenBondingAppSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting() {
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.APP, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).shnBondInitiator(SHNDeviceImpl.SHNBondInitiator.APP).
+                connectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED).build();
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
 
         shnDevice.connect();
@@ -861,7 +874,8 @@ public class SHNDeviceImplTest {
 
     @Test
     public void whenBondingAppSHNDeviceInStateConnectingCreataeBondReturnsFalseGATTCallbackIndicatedConnectedThenStateIsConnecting() {
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.APP, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).shnBondInitiator(SHNDeviceImpl.SHNBondInitiator.APP).
+                connectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED).build();
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
 
         when(mockedBTDevice.createBond()).thenReturn(false);
@@ -879,7 +893,8 @@ public class SHNDeviceImplTest {
 
     @Test
     public void whenBondingAppSHNDeviceInStateConnectingCreateBondReturnsTrueGATTCallbackIndicatedConnectedThenTagIsSentWithProperData() {
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.APP, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).shnBondInitiator(SHNDeviceImpl.SHNBondInitiator.APP).
+                connectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED).build();
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
         when(mockedBTDevice.createBond()).thenReturn(false);
 
@@ -1308,7 +1323,8 @@ public class SHNDeviceImplTest {
     @Test
     public void whenDeviceHasNoDiscoveryListenerItNeverCalls_onServiceDiscovered() throws Exception {
         // Creating new SHNDeviceImpl => will have no DiscoveryListener set
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.PERIPHERAL, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).shnBondInitiator(SHNDeviceImpl.SHNBondInitiator.PERIPHERAL).
+                connectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED).build();
         connectTillGATTServicesDiscovered();
         verify(mockedDiscoveryListener, never()).onServiceDiscovered(any(UUID.class), any(SHNService.class));
     }
@@ -1322,7 +1338,8 @@ public class SHNDeviceImplTest {
     @Test
     public void whenDeviceHasNoDiscoveryListenerItNeverCalls_onCharacteristicDiscovered() throws Exception {
         // Creating new SHNDeviceImpl => will have no DiscoveryListener set
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.PERIPHERAL, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).shnBondInitiator(SHNDeviceImpl.SHNBondInitiator.PERIPHERAL).
+                connectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED).build();
 
         shnDevice.onCharacteristicDiscovered(MOCK_UUID, MOCK_BYTES, mockedSHNCharacteristic);
         verify(mockedDiscoveryListener, never()).onCharacteristicDiscovered(MOCK_UUID, MOCK_BYTES, mockedSHNCharacteristic);
