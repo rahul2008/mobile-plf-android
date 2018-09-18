@@ -229,6 +229,22 @@ public class SHNDeviceImplTest {
         verify(mockedBTDevice).connectGatt(mockedSHNCentral.getApplicationContext(), false, mockedSHNCentral, btGattCallback, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
     }
 
+    @Test
+    public void whenSHNDeviceIsBuiltAndAnInvalidConnectionPriorityIsSetTheTheConnectionPriorityIsInitialisedAsBalanced() {
+        int veryInvalidConnectionPriority = 1000;
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).connectionPriority(veryInvalidConnectionPriority).build();
+        connectTillGATTConnected();
+        verify(mockedBTDevice).connectGatt(mockedSHNCentral.getApplicationContext(), false, mockedSHNCentral, btGattCallback, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+    }
+
+    @Test
+    public void whenSHNDeviceIsBuiltAndAValidConnectionPriorityIsSetTheTheConnectionPriorityIsInitialisedAsProvided() {
+        int veryValidConnectionPriority = BluetoothGatt.CONNECTION_PRIORITY_HIGH;
+        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).connectionPriority(veryValidConnectionPriority).build();
+        connectTillGATTConnected();
+        verify(mockedBTDevice).connectGatt(mockedSHNCentral.getApplicationContext(), false, mockedSHNCentral, btGattCallback, BluetoothGatt.CONNECTION_PRIORITY_HIGH);
+    }
+
     // State Disconnected
     @Test
     public void whenASHNDeviceIsCreatedThenItsStateIsDisconnected() {
