@@ -1,18 +1,23 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'pl.droidsonroids.pitest'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+
+archivesBaseName = "dataServicesUApp"
+
 buildscript {
     dependencies {
         classpath builddeps.pitest
     }
 }
-
-apply plugin: 'com.android.library'
-
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
-apply plugin: 'pl.droidsonroids.pitest'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
-
-archivesBaseName = "dataServicesUApp"
 
 android {
     compileSdkVersion versions.sdk
@@ -41,16 +46,9 @@ android {
             minifyEnabled false
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
 dependencies {
-
-
     if (directdependencies) {
         implementation project(':AppInfra')
         implementation project(':uAppFwLib')
@@ -112,6 +110,7 @@ pitest {
     timestampedReports = false
     excludedClasses = []
 }
+
 tasks.withType(Test) {
     ignoreFailures = true
 }

@@ -1,5 +1,0 @@
-include ':app'
-include 'DemoUApp'
-project(':DemoUApp').projectDir = new File('../DemoUApp')
-include 'ConsentHandlerInterface'
-project(':ConsentHandlerInterface').projectDir = new File('./Source/pif/Source/Library/pif')

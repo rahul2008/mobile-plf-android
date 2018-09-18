@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -28,11 +28,6 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
 configurations {
@@ -71,7 +66,7 @@ task generateJavadocPublicApi(type: Javadoc) {
 
 task generateJavadoc(type: Javadoc, dependsOn: sourceJar) {
     source = android.sourceSets.main.java.srcDirs
-    
+
     doFirst {
         classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
         classpath += configurations.javadocDeps

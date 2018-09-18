@@ -1,67 +1,23 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.releaseexternal
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
+        classpath builddeps.cdpSCM
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "RegistrationSampleApp"
-
-allprojects {
-    repositories {
-        maven {
-            url repos.releaseexternal
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-        }
-    }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    apply plugin: 'com.jfrog.artifactory'
-
-    group = 'com.philips.cdp'
-    
-}
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -79,7 +35,7 @@ artifactory {
             properties = ['git.commitid': objcdp.getCommitHashLong()]
         }
         defaults {
-            publications ('apk')
+            publications('apk')
             publishPom = true
             publishArtifacts = true
         }
@@ -136,13 +92,14 @@ publishing {
         }
     }
 }
+
 android {
     signingConfigs {
         release
     }
+
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-
 
     defaultConfig {
         applicationId "com.philips.cdp.registration"
@@ -164,11 +121,6 @@ android {
         preDexLibraries = false
         javaMaxHeapSize "4g"
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -193,30 +145,24 @@ android {
         debug {
             minifyEnabled false
             debuggable true
-//            proguardFile 'proguard-rules.pro'
         }
     }
 
     productFlavors {
-        /*simulator {
-            applicationId 'com.philips.cdp.registration'
-            versionCode 5
-            versionName version +  "(" + objcdp.getCommitHash() + ")"
-        }*/
         device {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
-            versionName version +  "(" + objcdp.getCommitHash() + ")"
+            versionName version + "(" + objcdp.getCommitHash() + ")"
         }
     }
 }
 
 def Properties props = new Properties()
 def propFile = new File("${projectDir}/../signing.properties")
-if (propFile.canRead()){
+if (propFile.canRead()) {
     props.load(new FileInputStream(propFile))
 
-    if (props!=null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+    if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
         android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
         android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
         android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
@@ -225,32 +171,29 @@ if (propFile.canRead()){
         println 'signing.properties found but some entries are missing'
         android.buildTypes.release.signingConfig = null
     }
-}else {
+} else {
     println 'usr rsa signing.properties not found'
     android.buildTypes.release.signingConfig = null
 }
-repositories { flatDir { dirs 'libs' } }
+
 dependencies {
     implementation deps.support.multidex
     implementation project(':registrationApi')
+
     androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-
     description 'Run findbugs'
     group 'verification'
     ignoreFailures = true
     classes = fileTree('build/intermediates/classes/device/debug/com/philips/')
     source = fileTree('src/main/java')
     classpath = files()
-
     effort = 'max'
-
     excludeFilter = file("findbugs-exclude.xml")
-
     reports {
         xml.enabled = true
         html.enabled = false
@@ -258,14 +201,11 @@ task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 }
 
 task pmd(type: Pmd) {
-
     description 'Run pmd'
     group 'verification'
     ignoreFailures = true
     ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
     source = fileTree('RegistrationApi/src/main/java/com')
-
-
     reports {
         xml.enabled = true
         html.enabled = false
@@ -273,5 +213,5 @@ task pmd(type: Pmd) {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

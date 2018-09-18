@@ -1,6 +1,0 @@
-include ':hsdp'
-include ':jump'
-include ':RegistrationApi'
-include ':RegistrationCoppaSampleApp'
-
-
