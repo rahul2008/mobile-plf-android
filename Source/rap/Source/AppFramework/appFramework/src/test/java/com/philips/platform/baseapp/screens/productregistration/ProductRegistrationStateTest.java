@@ -55,10 +55,10 @@ public class ProductRegistrationStateTest extends TestCase {
 
     @Test
     public void launchSupportState(){
-//        productRegistrationState.init(application);
-//        productRegistrationState.navigate(fragmentLauncher);
-//        FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
-//        int fragmentCount = fragmentManager.getBackStackEntryCount();
-//        assertEquals(1,fragmentCount);
+        productRegistrationState.init(application);
+        productRegistrationState.navigate(fragmentLauncher);
+        FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
+        int fragmentCount = fragmentManager.getBackStackEntryCount();
+        assertEquals(1,fragmentCount);
     }
 }
