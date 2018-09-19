@@ -12,10 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
@@ -60,13 +58,20 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     AddressFields shippingAddressFields;
     AddressFields billingAddressFields;
     private  TextView tv_checkOutSteps;
+    private DLSAddressPresenter dlsAddressPresenter;
+    private DLSBillingAddress dlsBillingAddress;
+    private View billingView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.iap_address, container, false);
         mParentContainer = view.findViewById(R.id.address_container);
+        billingView = view.findViewById(R.id.dls_iap_address_billing);
         initializeViews(view);
+
+        dlsAddressPresenter = new DLSAddressPresenter(this);
+        dlsBillingAddress = new DLSBillingAddress(dlsAddressPresenter);
         return view;
     }
 
@@ -109,7 +114,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 setFragmentVisibility(billingFragment, true);
                 setFragmentVisibility(shippingFragment, false);
                 HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
-                ((DLSBillingAddressFragment) billingFragment).updateFields(mAddressFieldsHashmap);
+                getDLSBillingAddress().updateFields(mAddressFieldsHashmap);
             }
         }
 
@@ -124,19 +129,19 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             updateCheckoutStepNumber("2");
             checkBox.setVisibility(View.VISIBLE);
             if(!isChecked){
-                //((DLSBillingAddressFragment) billingFragment).disableAllFields();
-                ((DLSBillingAddressFragment) billingFragment).clearAllFields();
+                //((DLSBillingAddress) billingFragment).disableAllFields();
+                getDLSBillingAddress().clearAllFields();
                 mBtnContinue.setEnabled(false);
                 Utility.isAddressFilledFromDeliveryAddress=true;
-                ((DLSBillingAddressFragment) billingFragment).enableAllFields();
+                getDLSBillingAddress().enableAllFields();
 
             }else {
-               // ((DLSBillingAddressFragment) billingFragment).enableAllFields();
-                ((DLSBillingAddressFragment) billingFragment).disableAllFields();
+               // ((DLSBillingAddress) billingFragment).enableAllFields();
+                getDLSBillingAddress().disableAllFields();
                 Utility.isAddressFilledFromDeliveryAddress=true;
                 mBtnContinue.setEnabled(true);
                 HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
-                ((DLSBillingAddressFragment) billingFragment).updateFields(mAddressFieldsHashmap);
+                getDLSBillingAddress().updateFields(mAddressFieldsHashmap);
 
             }
             setFragmentVisibility(shippingFragment, false);
@@ -449,12 +454,17 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     @Override
     public View getBillingAddressView() {
-        return null;
+        return billingView;
     }
 
     @Override
     public Activity getActivityContext() {
         return getActivityContext();
+    }
+
+    @Override
+    public DLSBillingAddress getDLSBillingAddress() {
+        return dlsBillingAddress;
     }
 
     @Override
@@ -510,10 +520,10 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
         if (getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
             if (isChecked) {
-                ((DLSBillingAddressFragment) billingFragment).prePopulateShippingAddress();
+                getDLSBillingAddress().prePopulateShippingAddress();
                 setFragmentVisibility(billingFragment, true);
             } else {
-                ((DLSBillingAddressFragment) billingFragment).clearAllFields();
+                getDLSBillingAddress().clearAllFields();
                 setFragmentVisibility(shippingFragment, false);
             }
             return;
@@ -523,7 +533,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             } else {
                 setFragmentVisibility(billingFragment, true);
                 if(billingAddressFields!=null && shippingAddressFields!=null) {
-                    ((DLSBillingAddressFragment) billingFragment).prePopulateShippingAddress();
+                    getDLSBillingAddress().prePopulateShippingAddress();
                     mBtnContinue.setEnabled(true);
                 }
             }
@@ -533,7 +543,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         {
             mBtnContinue.setEnabled(true);
 
-        }else if(!isChecked && ((DLSBillingAddressFragment) billingFragment).checkBillingAddressFields() && ((DLSShippingAddressFragment) shippingFragment).checkFields()){
+        }else if(!isChecked && (getDLSBillingAddress()).checkBillingAddressFields() && ((DLSShippingAddressFragment) shippingFragment).checkFields()){
             mBtnContinue.setEnabled(true);
         }
         else

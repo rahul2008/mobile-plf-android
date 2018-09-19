@@ -19,4 +19,6 @@ public interface DLSAddressContractor {
      View getBillingAddressView();
 
      Activity getActivityContext();
+
+     DLSBillingAddress getDLSBillingAddress();
 }

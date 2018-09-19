@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
-import com.philips.cdp.di.iap.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,28 +19,28 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
-public class DLSBillingAddressFragmentTest {
+public class DLSBillingAddressTest {
     private Context mContext;
-    private DLSBillingAddressFragment dlsBillingAddressFragment;
+    private DLSBillingAddress dlsBillingAddress;
 
     @Before
     public void setUp() {
         initMocks(this);
         mContext = RuntimeEnvironment.application;
-        dlsBillingAddressFragment = new DLSBillingAddressFragment();
+        dlsBillingAddress = new DLSBillingAddress();
 
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
 
-        SupportFragmentTestUtil.startFragment(dlsBillingAddressFragment);
+        SupportFragmentTestUtil.startFragment(dlsBillingAddress);
     }
 
     @Mock
     HashMap<String, String> addressFiledMapMock;
     @Test(expected = NullPointerException.class)
     public void shouldUpdateFileds() throws Exception {
-        dlsBillingAddressFragment.updateFields(addressFiledMapMock);
+        dlsBillingAddress.updateFields(addressFiledMapMock);
     }
 }

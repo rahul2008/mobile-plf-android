@@ -39,16 +39,15 @@
             android:checked="true"
             android:text="Use this address as my billing address" />
 
-        <fragment
-            android:id="@+id/fragment_billing_address"
-            android:name="com.philips.cdp.di.iap.screens.DLSBillingAddressFragment"
+        <include
+            layout="@layout/dls_iap_address_billing"
+            android:id="@+id/dls_iap_address_billing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tag="com.philips.cdp.di.iap.screens.DLSBillingAddressFragment"
             android:layout_marginEnd="@dimen/border16_margin_left_right"
             android:layout_marginStart="@dimen/border16_margin_left_right">
 
-        </fragment>
+        </include>
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/btn_continue"

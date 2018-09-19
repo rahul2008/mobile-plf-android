@@ -32,7 +32,7 @@ import java.util.Map;
  * Created by philips on 8/31/17.
  */
 
-public class DLSBillingAddressFragment
+public class DLSBillingAddress
         implements SalutationDropDown.SalutationListener,
         StateDropDown.StateListener {
 
@@ -53,7 +53,7 @@ public class DLSBillingAddressFragment
 
 
 
-    public DLSBillingAddressFragment(DLSAddressPresenter addressPresenter) {
+    public DLSBillingAddress(DLSAddressPresenter addressPresenter) {
         this.addressPresenter = addressPresenter;
         this.mContext = this.addressPresenter.getAddressContractor().getActivityContext();
         this.view = this.addressPresenter.getAddressContractor().getBillingAddressView();
@@ -87,6 +87,7 @@ public class DLSBillingAddressFragment
     private Validator mValidator;
     AddressFields billingAddressFields;
     private String mRegionIsoCode;
+
 
 
     private void initializeViews(View rootView) {
