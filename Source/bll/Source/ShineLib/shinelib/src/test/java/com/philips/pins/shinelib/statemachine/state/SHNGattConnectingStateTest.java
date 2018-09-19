@@ -167,6 +167,16 @@ public class SHNGattConnectingStateTest {
     }
 
     @Test
+    public void givenTheDeviceIsConfiguredToUseConnectionPriorityAsHigh_whenOnEnterIsCalled_thenTheConnectionWillBeInitiatedUsingConnectionPriorityAsHigh() {
+        doReturn(BluetoothGatt.CONNECTION_PRIORITY_HIGH).when(sharedResources).getConnectionPriority();
+        doReturn(SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();
+
+        gattConnectingState.onEnter();
+
+        verify(mockedBTDevice).connectGatt(mockedContext, false, mockedSHNCentral, mockedBtGattCallback, BluetoothGatt.CONNECTION_PRIORITY_HIGH);
+    }
+
+    @Test
     public void givenTheDeviceHasJustBeenDisconnected_whenOnEnterIsCalled_thenItWillPostponeTheConnectCall() {
         long justNow = System.currentTimeMillis();
         doReturn(justNow).when(sharedResources).getLastDisconnectedTimeMillis();
@@ -232,6 +242,7 @@ public class SHNGattConnectingStateTest {
 
     @Test
     public void whenGattConnectFails_thenItWillGoToADisconnectingState_andReportAFailure() {
+
         gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_FAILURE, BluetoothProfile.STATE_DISCONNECTED);
 
         verify(stateMachine).setState(any(SHNDisconnectingState.class));

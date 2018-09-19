@@ -36,8 +36,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private static final String TAG = "SHNDeviceImpl";
     private SHNDeviceStateMachine stateMachine;
     @VisibleForTesting
-    private SHNDeviceResources sharedResources;
-    @VisibleForTesting
+    SHNDeviceResources sharedResources;
     private BTDevice btDevice;
     private SHNCentral shnCentral;
     private String deviceTypeName;
@@ -78,18 +77,13 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             this.deviceTypeName = deviceTypeName;
         }
 
-        public Builder connectionPriority(int param) {
-            this.connectionPriority = param;
+        public Builder withConnectionPriority(int priority) {
+            this.connectionPriority = priority;
             return this;
         }
 
-        public Builder deviceBondsDuringConnect(boolean param) {
-            this.shnBondInitiator = param ? SHNBondInitiator.PERIPHERAL : SHNBondInitiator.NONE;
-            return this;
-        }
-
-        public Builder shnBondInitiator(SHNBondInitiator param) {
-            this.shnBondInitiator = param;
+        public Builder withBondInitiator(SHNBondInitiator initiator) {
+            this.shnBondInitiator = initiator;
             return this;
         }
 
@@ -143,7 +137,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void connect() {
-
         stateMachine.getState().connect();
     }
 
