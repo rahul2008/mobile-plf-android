@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 import com.github.jrubygradle.JRubyExec
 
 buildscript {
@@ -6,7 +11,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:0.1.17'
+        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.6.0'
     }
 }
 apply plugin: 'com.github.jruby-gradle.base'

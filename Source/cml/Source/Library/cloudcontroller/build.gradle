@@ -10,7 +10,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = "cloudcontroller"
 
-
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -29,11 +28,6 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
 dependencies {
@@ -52,14 +46,8 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.assertj
 
-    testImplementation(deps.robolectric) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-    testImplementation(deps.robolectric_shadows) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_shadows
     testImplementation deps.powermock_junit
     testImplementation deps.powermock_api_mockito
 }

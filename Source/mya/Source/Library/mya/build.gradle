@@ -4,23 +4,18 @@
  */
 
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
-
 
 buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
+        classpath builddeps.cdpSCM
     }
 }
 
@@ -31,13 +26,9 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-    lintOptions {
-        abortOnError false
-    }
 
     testOptions {
         unitTests {
-            includeAndroidResources = true
             returnDefaultValues = true
         }
         unitTests.all {
@@ -47,12 +38,6 @@ android {
             }
         }
     }
-
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
-
 
     defaultConfig {
         minSdkVersion versions.minsdk
@@ -69,7 +54,6 @@ android {
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
-
     }
 
     buildTypes {
@@ -80,9 +64,8 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            testCoverageEnabled=true
+            testCoverageEnabled = true
         }
-
     }
 
     packagingOptions {
@@ -108,12 +91,6 @@ android {
         exclude 'lib/x86/librsjni.so'
         exclude 'lib/x86/libRSSupport.so'
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
-
 }
 
 configurations {
@@ -135,10 +112,7 @@ dependencies {
     implementation deps.support.design
     implementation deps.calligraphy
 
-
-    //Coco
-
-
+    // Philips components
     if (directdependencies) {
         implementation project(':uikitLib')
         implementation project(':uid')
@@ -154,7 +128,7 @@ dependencies {
         implementation philipsdeps.uid
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
-        implementation (philipsdeps.registrationApi) {
+        implementation(philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'
         }
         implementation philipsdeps.csw
@@ -163,12 +137,9 @@ dependencies {
     }
 
     // Tests
-    testImplementation(deps.robolectric) {
-        exclude module: 'commons-logging'
-        exclude module: 'support-v4'
-    }
     testImplementation deps.junit
     testImplementation deps.mockito
+    testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
     testImplementation deps.opengl
 }

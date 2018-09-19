@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 // Propositions can override configurations here
 android {
 
@@ -23,6 +28,7 @@ android {
     signingConfigs {
         release
     }
+    
     /*
     This defined for signing the apk -- start
      */

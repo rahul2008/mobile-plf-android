@@ -59,8 +59,6 @@ public class WelcomeVideoPresenterTest {
         welcomeVideoPresenter.fetchVideoDataSource();
         verify(serviceDiscoveryInterfaceMock).getServiceUrlWithLanguagePreference(eq(Constants.SERVICE_DISCOVERY_SPLASH_VIDEO), captor.capture());
         onGetServiceUrlListener = captor.getValue();
-
-
     }
 
     @Test

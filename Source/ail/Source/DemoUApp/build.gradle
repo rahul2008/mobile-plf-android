@@ -2,7 +2,7 @@
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
- 
+
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
@@ -23,10 +23,6 @@ android {
         versionName "1.5.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
-    }
 }
 
 dependencies {
@@ -34,8 +30,6 @@ dependencies {
 
     implementation deps.support.appcompatv7
     implementation deps.support.design
-
-
 
     if (directdependencies) {
         implementation project(':uAppFwLib')
@@ -49,7 +43,6 @@ dependencies {
     implementation deps.gson
     implementation deps.volley
 }
-
 
 tasks.withType(Test) {
     ignoreFailures = true
