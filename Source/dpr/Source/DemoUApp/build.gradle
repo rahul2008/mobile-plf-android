@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
+
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -25,9 +29,7 @@ android {
         ]
 
     }
-    lintOptions {
-        abortOnError false
-    }
+    
     buildTypes {
         release {
             minifyEnabled false
@@ -39,8 +41,6 @@ android {
             debuggable true
         }
     }
-
-
 }
 
 dependencies {

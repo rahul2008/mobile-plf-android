@@ -1,86 +1,30 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply plugin: 'de.felixschulze.gradle.hockeyapp'
-
-apply from: "../scripts/task_verification.gradle"
-apply from: "../scripts/task_reporting_logging.gradle"
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
-apply plugin: 'com.jakewharton.butterknife'
-
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url sonatype }
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        google()
-    }
-
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-        classpath builddeps.bintrayplugin
-        classpath builddeps.hockeyapp
-        classpath deps.butterknife_gradle
-    }
-}
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-import com.philips.cdp.cdpSCM
+apply plugin: 'com.android.application'
+apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "referenceApp"
+apply from: "../scripts/task_verification.gradle"
+apply from: "../scripts/task_reporting_logging.gradle"
 
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven { url sonatype }
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
+        classpath builddeps.bintrayplugin
+        classpath builddeps.hockeyapp
     }
 }
+
+archivesBaseName = "referenceApp"
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -111,6 +55,7 @@ artifactory {
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz')
+
 artifacts {
     archives zipDoc
     archives zipSrc
@@ -180,14 +125,7 @@ hockeyapp {
 def buildType
 
 android {
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
     testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
         unitTests.all {
             jvmArgs '-noverify'
             jacoco {
@@ -195,9 +133,10 @@ android {
             }
         }
     }
+
     applicationVariants.all { variant ->
         buildType = variant.buildType.name // sets the current build type
-        println "*****BuildType****"+ buildType
+        println "*****BuildType****" + buildType
     }
 
     compileSdkVersion versions.sdk
@@ -226,11 +165,6 @@ android {
     }
 }
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
 
 configurations.all {
     // check for updates every build
@@ -245,6 +179,7 @@ dependencies {
     implementation(deps.support.annotations) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.gson
@@ -255,12 +190,12 @@ dependencies {
     implementation deps.javax_inject
     implementation deps.javax_annotation
     implementation deps.play_services_gcm
-
     implementation (deps.firebase_core) {
         exclude group: 'com.google.firebase', module: 'firebase-iid'
     }
     implementation deps.firebase_config
     implementation deps.firebase_iid
+
     debugImplementation deps.leakcanary_no_op
     leakCanaryImplementation deps.leakcanary
     releaseImplementation deps.leakcanary_no_op
@@ -270,9 +205,8 @@ dependencies {
     implementation deps.ormlite.core
     implementation deps.ormlite.android
     implementation deps.multidex
+    implementation deps.butterknife
     annotationProcessor deps.butterknife_compiler
-
-
 
     if (directdependencies) {
         implementation project(':product-registration-lib')
@@ -338,38 +272,38 @@ dependencies {
         implementation philipsdeps.registrationApi
         implementation philipsdeps.digitalCare
         implementation philipsdeps.iap
-        implementation (philipsdeps.dataServices) {
+        implementation(philipsdeps.dataServices) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.mya) {
+        implementation(philipsdeps.mya) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.commlib) {
+        implementation(philipsdeps.commlib) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.commlib_demouapp) {
+        implementation(philipsdeps.commlib_demouapp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.digitalCareUApp) {
+        implementation(philipsdeps.digitalCareUApp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.uAppFwLibUApp) {
+        implementation(philipsdeps.uAppFwLibUApp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.iapUApp) {
+        implementation(philipsdeps.iapUApp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.dataServicesUApp) {
+        implementation(philipsdeps.dataServicesUApp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.product_registration_libUApp) {
+        implementation(philipsdeps.product_registration_libUApp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.UserRegistrationUApp) {
+        implementation(philipsdeps.UserRegistrationUApp) {
             exclude group: 'com.android.support'
             exclude group: 'com.philips.cdp', module: 'RegistrationApi'
         }
-        implementation (philipsdeps.devicepairingUApp) {
+        implementation(philipsdeps.devicepairingUApp) {
             exclude group: 'com.android.support'
         }
         implementation philipsdeps.telehealth
@@ -379,14 +313,11 @@ dependencies {
         implementation philipsdeps.bluelib
         implementation philipsdeps.NeuraUApp
         implementation project(':pushnotification')
-        implementation project(':themesettings')       
+        implementation project(':themesettings')
         implementation philipsdeps.AppInfraUApp
     }
-    implementation deps.butterknife
-    annotationProcessor deps.butterknife_compiler
     testImplementation deps.json
     testImplementation deps.junit
-    testImplementation deps.mockito
     testImplementation deps.opengl
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
@@ -394,7 +325,7 @@ dependencies {
     testImplementation deps.powermock_junit
     testImplementation deps.powermock_junit_rule
     testImplementation deps.powermock_junit_rule_agent
-    testImplementation deps.robolectric_3_8
+    testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
     testImplementation deps.robolectric_shadows_multidex
 }
@@ -416,11 +347,11 @@ task('printArtifactoryApkPath') {
             new File('apkname.txt').delete()
         }
         File apkname = new File('apkname.txt')
-        apkname.append(objcdp.getArtifactoryContextUrl() +   \
-          "/" + objcdp.getArtifactoryPublishRepoKey() +   \
-          "/" + project.group.replace('.', '/') + "/" +   \
-          archivesBaseName + "/" + version +   \
-          "/" + archivesBaseName + "-" + version + ".apk")
+        apkname.append(objcdp.getArtifactoryContextUrl() +      \
+             "/" + objcdp.getArtifactoryPublishRepoKey() +      \
+             "/" + project.group.replace('.', '/') + "/" +      \
+             archivesBaseName + "/" + version +      \
+             "/" + archivesBaseName + "-" + version + ".apk")
         println "Artifactory path of apk stored in apkname.txt"
     }
 }
@@ -435,5 +366,3 @@ task('printPlatformVersion') {
         println "Platform version stored in platformversion.txt"
     }
 }
-
-apply plugin: 'com.google.gms.google-services'

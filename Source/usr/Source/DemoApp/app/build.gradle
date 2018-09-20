@@ -1,69 +1,23 @@
-apply plugin: 'com.android.application'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply plugin: 'com.jakewharton.butterknife'
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-    repositories {
-        google()
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.releaseexternal
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    }
+apply plugin: 'com.android.application'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-        classpath deps.butterknife_gradle
+        classpath builddeps.cdpSCM
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "UserRegistrationApp"
-
-allprojects {
-    repositories {
-        maven {
-            url repos.releaseexternal
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-    }
-}
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -77,7 +31,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('apk')
+                publications('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -87,7 +41,9 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
 }
 
 publishing {
@@ -96,10 +52,6 @@ publishing {
             groupId group
             version = version
             artifactId archivesBaseName
-
-//            artifact("$projectDir/dependencies.lock") {
-//                classifier = '1stleveldependencies'
-//            }
 
             artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
 
@@ -117,17 +69,13 @@ publishing {
     }
 }
 
-
 android {
     signingConfigs {
         release
     }
+
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
 
 
     defaultConfig {
@@ -137,7 +85,6 @@ android {
 
         multiDexEnabled true
         testApplicationId "com.philips.cdp.registration.test"
-        // testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         // replace the below string with your own Google client ID. Make sure this is consistent
@@ -153,7 +100,6 @@ android {
     }
 
     lintOptions {
-        abortOnError false
         disable 'MissingTranslation'
     }
 
@@ -182,16 +128,15 @@ android {
             debuggable true
         }
     }
-
 }
 
 def Properties props = new Properties()
-def propFile =
-        new File("${projectDir}/../../Library/signing.properties")
-if (propFile.canRead()){
+def propFile = new File("${projectDir}/../../Library/signing.properties")
+
+if (propFile.canRead()) {
     props.load(new FileInputStream(propFile))
 
-    if (props!=null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+    if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
         android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
         android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
         android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
@@ -200,16 +145,14 @@ if (propFile.canRead()){
         println 'signing.properties found but some entries are missing'
         android.buildTypes.release.signingConfig = null
     }
-}else {
+} else {
     println 'usr signing.properties not found'
     android.buildTypes.release.signingConfig = null
 }
-repositories { flatDir { dirs 'libs' } }
+
 dependencies {
-    androidTestImplementation deps.support.annotations
-    androidTestImplementation deps.android_testrunner
-    androidTestImplementation deps.android_testrules
-    androidTestImplementation deps.uiautomator
+    annotationProcessor deps.butterknife_compiler
+
     implementation project(':AppInfra')
     implementation project(':uAppFwLib')
     implementation project(':uid')
@@ -222,9 +165,14 @@ dependencies {
     implementation deps.multidex
     implementation deps.greenrobot
     implementation deps.wechat
-    testImplementation deps.junit
     implementation deps.butterknife
-    annotationProcessor deps.butterknife_compiler
+
+    testImplementation deps.junit
+
+    androidTestImplementation deps.support.annotations
+    androidTestImplementation deps.android_testrunner
+    androidTestImplementation deps.android_testrules
+    androidTestImplementation deps.uiautomator
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
@@ -243,7 +191,6 @@ task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 }
 
 task pmd(type: Pmd) {
-
     description 'Run pmd'
     group 'verification'
     ignoreFailures = true

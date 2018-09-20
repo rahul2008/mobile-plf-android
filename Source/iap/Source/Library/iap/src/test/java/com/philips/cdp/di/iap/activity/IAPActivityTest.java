@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.activity;
 
 import android.content.Intent;
@@ -6,17 +11,11 @@ import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.TextView;
-
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.platform.uappframework.listener.ActionBarListener;
-
+import java.util.ArrayList;
 import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,13 +24,10 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowActivity;
 
-import java.util.ArrayList;
-
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -41,27 +37,16 @@ import static org.robolectric.Robolectric.buildActivity;
 
 @RunWith(RobolectricTestRunner.class)
 public class IAPActivityTest {
-    @Mock
-    FragmentManager fragmentManagerMock;
-    @Mock
-    FragmentTransaction fragmentTransactionMock;
-    @Captor
-    ArgumentCaptor<Fragment> fragmentArgumentCaptor;
+    @Mock private FragmentManager fragmentManagerMock;
+    @Mock private FragmentTransaction fragmentTransactionMock;
+    @Captor private ArgumentCaptor<Fragment> fragmentArgumentCaptor;
 
     private IAPActivity activity;
-    private ShadowActivity shadowActivity;
     private Intent intent;
-    private MockNetworkController mNetworkController;
-    private HybrisDelegate mHybrisDelegate;
-    @Mock
-    private ActionBarListener mockActionBarListener;
-    @Mock
-    private TextView mockTextView;
 
     @Before
     public void setUp() {
         initMocks(this);
-
 
         when(fragmentManagerMock.beginTransaction()).thenReturn(fragmentTransactionMock);
 
@@ -80,7 +65,7 @@ public class IAPActivityTest {
 
     @Test
     public void shouldSaveInstanceIsNotnull() throws Exception {
-        activity = buildActivity(IAPActivity.class, intent).withIntent(intent).get();
+        activity = buildActivity(IAPActivity.class, intent).get();
         IAPActivity spyActivity = Mockito.spy(activity);
 
         Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
@@ -206,8 +191,14 @@ public class IAPActivityTest {
 
     @Test
     public void shouldCalled_onPause() {
-        pauseActivity(intent);
-        activity.onPause();
+        activity = buildActivity(IAPActivity.class, intent).get();
+        IAPActivity spyActivity = Mockito.spy(activity);
+
+        Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
+        spyActivity.onCreate(null);
+        spyActivity.onPause();
+
+        verify(fragmentTransactionMock).replace(anyInt(), fragmentArgumentCaptor.capture(), anyString());
     }
 
     @Test(expected = NullPointerException.class)
@@ -224,22 +215,7 @@ public class IAPActivityTest {
 
     @Test
     public void shouldCalled_onDestroy() {
-        destroyActivity(intent);
-    }
-
-    private void pauseActivity(Intent intent) {
         activity = buildActivity(IAPActivity.class, intent).get();
-        IAPActivity spyActivity = Mockito.spy(activity);
-
-        Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
-        spyActivity.onCreate(null);
-        spyActivity.onPause();
-
-        verify(fragmentTransactionMock).replace(anyInt(), fragmentArgumentCaptor.capture(), anyString());
-    }
-
-    private void destroyActivity(Intent intent) {
-        activity = buildActivity(IAPActivity.class, intent).withIntent(intent).get();
         IAPActivity spyActivity = Mockito.spy(activity);
 
         Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
