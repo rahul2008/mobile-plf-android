@@ -31,6 +31,7 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.BitMapDecoder;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -138,10 +139,11 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         }
     }
 
-    private void updateMarketingImage(View view, int text) {
-        ImageView productImage = (ImageView) view.findViewById(R.id.prg_welcomeScreem_product_image);
+    private void updateMarketingImage(View view, int resId) {
+        ImageView productImage = view.findViewById(R.id.prg_welcomeScreem_product_image);
         productImage.setVisibility(View.VISIBLE);
-        productImage.setImageDrawable(getResources().getDrawable(text, getActivity().getTheme()));
+        productImage.setImageBitmap(
+                BitMapDecoder.decodeSampledBitmapFromResource(getResources(), resId, 100, 100));
         productImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         productImage.requestLayout();
     }
@@ -303,5 +305,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     public void notificationInlineMsg(String msg) {
         errorRegError.setError(msg);
     }
+
 }
 
