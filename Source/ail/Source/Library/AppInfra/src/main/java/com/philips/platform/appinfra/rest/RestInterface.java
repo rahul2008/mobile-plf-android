@@ -47,7 +47,9 @@ public interface RestInterface extends Serializable {
     }
 
     /**
-     * Method to clear rest client cached response
+     * api will clear the cache of App-Infra rest client,
+     * their will be performance issue,
+     * advisible to be used during cleanup activities for an application
      */
     void clearCacheResponse();
 }
