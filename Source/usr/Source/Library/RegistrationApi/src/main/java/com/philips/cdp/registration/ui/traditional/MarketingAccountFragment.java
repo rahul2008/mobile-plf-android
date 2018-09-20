@@ -11,6 +11,7 @@ package com.philips.cdp.registration.ui.traditional;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
@@ -142,10 +143,16 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     private void updateMarketingImage(View view, int resId) {
         ImageView productImage = view.findViewById(R.id.prg_welcomeScreem_product_image);
         productImage.setVisibility(View.VISIBLE);
-        productImage.setImageBitmap(
-                BitMapDecoder.decodeSampledBitmapFromResource(getResources(), resId, 100, 100));
-        productImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        productImage.requestLayout();
+        new Thread(() -> {
+            Bitmap bm = BitMapDecoder.decodeSampledBitmapFromResource(getResources(), resId, 100, 100);
+            if (getActivity() != null && !getActivity().isFinishing()) {
+                getActivity().runOnUiThread(() -> {
+                    productImage.setImageBitmap(bm);
+                    productImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    productImage.requestLayout();
+                });
+            }
+        }).start();
     }
 
     @Override
