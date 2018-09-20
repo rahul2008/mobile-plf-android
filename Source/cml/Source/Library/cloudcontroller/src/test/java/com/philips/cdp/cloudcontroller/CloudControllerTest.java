@@ -8,18 +8,18 @@ package com.philips.cdp.cloudcontroller;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
-
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.listener.DcsEventListener;
 import com.philips.cdp.cloudcontroller.api.listener.DcsResponseListener;
 import com.philips.icpinterface.CallbackHandler;
+import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventSubscription;
 import com.philips.icpinterface.Provision;
 import com.philips.icpinterface.SignOn;
 import com.philips.icpinterface.configuration.Params;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
-
+import java.nio.ByteBuffer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +29,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -60,20 +61,40 @@ public class CloudControllerTest {
     @Mock
     private SignOn signOnMock;
 
+    @Mock
+    private DownloadData downloadDataMock;
+
+    @Mock
+    private KpsConfigurationInfo mockKpsConfiguration;
+
+    @Mock
+    private Context mockContext;
+
     private final String cppId = "valid cppId";
-    private DefaultCloudController cloudController;
+    private ByteBuffer downloadDataBuffer;
+
+    private DefaultCloudController subject;
 
     @Before
     public void setUp() {
         initMocks(this);
 
         mockStatic(SignOn.class);
-        when(SignOn.getInstance((CallbackHandler) any(), (Params) any(), (Context) any(), (byte[]) any())).thenReturn(signOnMock);
+        when(SignOn.getInstance((CallbackHandler) any(), (Params) any())).thenReturn(signOnMock);
 
         mockStatic(EventSubscription.class);
         when(EventSubscription.getInstance((CallbackHandler) any(), anyInt())).thenReturn(eventSubscriptionMock);
 
         mockStatic(Log.class);
+
+        when(signOnMock.init()).thenReturn(Errors.SUCCESS);
+
+        when(mockKpsConfiguration.getAppId()).thenReturn("bogusId");
+        when(mockKpsConfiguration.getAppVersion()).thenReturn(1337);
+
+        initBufferUsedForTests();
+
+        subject = new DefaultCloudController(mockContext, mockKpsConfiguration);
     }
 
     @Test
@@ -292,9 +313,9 @@ public class CloudControllerTest {
     public void whenSubscribeIsSuccessfulThenStateIsStarted() {
         whenDCSCommandWasExecutedThenDCSStateIsStarting();
 
-        cloudController.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.SUCCESS, null);
+        subject.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.SUCCESS, null);
 
-        assertEquals(CloudController.ICPClientDCSState.STARTED, cloudController.getState());
+        assertEquals(CloudController.ICPClientDCSState.STARTED, subject.getState());
     }
 
     @Test
@@ -319,14 +340,14 @@ public class CloudControllerTest {
 
     @Test
     public void whenStartDCSIsCalledWhileNotSignedOnThenSignOnIsPerformed() {
-        cloudController = createCloudControllerWithListeners(cppId, dcsListener);
+        subject = createCloudControllerWithListeners(cppId, dcsListener);
 
-        cloudController.onICPCallbackEventOccurred(Commands.SIGNON, Errors.SUCCESS, null);
+        subject.onICPCallbackEventOccurred(Commands.SIGNON, Errors.SUCCESS, null);
         Provision provisionMock = mock(Provision.class);
-        cloudController.onICPCallbackEventOccurred(Commands.KEY_PROVISION, Errors.SUCCESS, provisionMock);
-        cloudController.onICPCallbackEventOccurred(Commands.SIGNON, Errors.AUTHENTICATION_FAILED, null);
+        subject.onICPCallbackEventOccurred(Commands.KEY_PROVISION, Errors.SUCCESS, provisionMock);
+        subject.onICPCallbackEventOccurred(Commands.SIGNON, Errors.AUTHENTICATION_FAILED, null);
 
-        cloudController.startDCSService(startedListener);
+        subject.startDCSService(startedListener);
 
         verify(signOnMock).executeCommand();
     }
@@ -336,7 +357,7 @@ public class CloudControllerTest {
         whenStartDCSIsCalledWhileNotSignedOnThenSignOnIsPerformed();
 
         when(signOnMock.getSignOnStatus()).thenReturn(true);
-        cloudController.onICPCallbackEventOccurred(Commands.SIGNON, Errors.SUCCESS, null);
+        subject.onICPCallbackEventOccurred(Commands.SIGNON, Errors.SUCCESS, null);
 
         verify(eventSubscriptionMock).executeCommand();
     }
@@ -353,19 +374,19 @@ public class CloudControllerTest {
 
     @Test
     public void whenDCSCommandWasExecutedThenDCSStateIsStarting() {
-        cloudController = initCloudControllerAndPerformSignOn();
+        subject = initCloudControllerAndPerformSignOn();
         when(eventSubscriptionMock.executeCommand()).thenReturn(Errors.REQUEST_PENDING);
 
-        cloudController.startDCSService(startedListener);
+        subject.startDCSService(startedListener);
 
-        assertEquals(CloudController.ICPClientDCSState.STARTING, cloudController.getState());
+        assertEquals(CloudController.ICPClientDCSState.STARTING, subject.getState());
     }
 
     @Test
     public void whenStopDCSIsCalledWhenStopCommandIsExecuted() {
         whenSubscribeIsSuccessfulThenStateIsStarted();
 
-        cloudController.stopDCSService();
+        subject.stopDCSService();
 
         verify(eventSubscriptionMock).stopCommand();
     }
@@ -374,9 +395,9 @@ public class CloudControllerTest {
     public void whenStopDCSIsCalledWhenStateIsStopping() {
         whenSubscribeIsSuccessfulThenStateIsStarted();
 
-        cloudController.stopDCSService();
+        subject.stopDCSService();
 
-        assertEquals(CloudController.ICPClientDCSState.STOPPING, cloudController.getState());
+        assertEquals(CloudController.ICPClientDCSState.STOPPING, subject.getState());
     }
 
     @Test
@@ -384,9 +405,84 @@ public class CloudControllerTest {
         whenStopDCSIsCalledWhenStateIsStopping();
 
         when(eventSubscriptionMock.getState()).thenReturn(EventSubscription.SUBSCRIBE_EVENTS_STOPPED);
-        cloudController.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.SUCCESS, null);
+        subject.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.SUCCESS, null);
 
-        assertEquals(CloudController.ICPClientDCSState.STOPPED, cloudController.getState());
+        assertEquals(CloudController.ICPClientDCSState.STOPPED, subject.getState());
+    }
+
+    @Test
+    public void dataDownloadSuccessfullyProcessed() throws Exception {
+        // Buffer set up in setUp(), no other init needed.
+
+        when(downloadDataMock.getBuffer()).thenReturn(downloadDataBuffer);
+
+        subject.onICPCallbackEventOccurred(Commands.DOWNLOAD_DATA, Errors.SUCCESS, downloadDataMock);
+    }
+
+    @Test
+    public void dataDownloadSuccessfullyProcessedWhenBufferIndexNotAtStart() throws Exception {
+        downloadDataBuffer.get();
+
+        when(downloadDataMock.getBuffer()).thenReturn(downloadDataBuffer);
+
+        subject.onICPCallbackEventOccurred(Commands.DOWNLOAD_DATA, Errors.SUCCESS, downloadDataMock);
+    }
+
+    @Test
+    public void givenSignOnWasCompleted_whenLocaleIsSet_thenLocaleIsForwardedToIcpClient() {
+        subject.setSignOn(signOnMock);
+
+        subject.setNewLocale("", "");
+
+        verify(signOnMock).setNewLocale("", "");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void givenSignOnWasNotCompleted_whenLocaleIsSet_thenIllegalStateExceptionIsThrown() {
+
+        subject.setNewLocale("", "");
+    }
+
+    /*
+    Acceptance Criteria
+     - given di-comm pairing relation does not exist for old provisioning, when provisioning is run, then the new strategy (fixed evidence) will be used
+     - given di-comm pairing relation does exist for old provisioning, when provisioning is run, then old strategy (swapped appId and version) will remain in use
+     - given evidence has changed, when provisioning is run, the new strategy will always be used
+     */
+
+    //@Test
+    //public void givenDiCommPairingRelationshipDoesNotExistForOldProvisioning_whenProvisioningIsRan_thenTheNewStrategyWillBeUsed() {
+    //
+    //}
+
+    @Test
+    public void givenProvisioningStrategyIsStored_whenStartingProvisioning_thenStoredProvisioningStrategyShouldBeUsed() {
+        fail();
+    }
+
+    @Test
+    public void givenProvisioningStrategyIsNotStored_whenStartingProvisioning_thenOldProvisioningStrategyShouldBeUsed() {
+        assertEquals(subject.getOldProvision(), subject.getProvision());
+    }
+
+    @Test
+    public void givenOldProvisioningStrategyIsUsed_whenPairingRelationsExist_thenOldProvisioningStrategyWillBeStored() {
+        fail();
+    }
+
+    @Test
+    public void givenOldProvisioningStrategyIsUsed_whenNoPairingRelationsExist_thenNewProvisioningStrategyWillBeStored() {
+        fail();
+    }
+
+    @Test
+    public void givenProvisioningStrategyIsNotStored_whenProvisioningIsFinished_thenProvisioningStrategyIsStored() {
+        fail();
+    }
+
+    @Test
+    public void givenProvisioningEvidenceExists_andProvisioningEvidenceHasChanged_whenStartingProvisioning_thenNewProvisioningStrategyWillBeStored() {
+        fail();
     }
 
     private DefaultCloudController createCloudControllerWithListeners(String cppId, DcsEventListener dcsListener) {
@@ -394,11 +490,20 @@ public class CloudControllerTest {
     }
 
     private DefaultCloudController createCloudControllerWithListeners(String cppId, DcsEventListener dcsListener, DcsResponseListener responseListener) {
-        DefaultCloudController controller = new DefaultCloudController(null);
+        DefaultCloudController controller = new DefaultCloudController(mockContext, mockKpsConfiguration);
         controller.addDCSEventListener(cppId, dcsListener);
         if (responseListener != null) {
             controller.addDCSResponseListener(responseListener);
         }
         return controller;
+    }
+
+    private void initBufferUsedForTests() {
+        final int DOWNLOAD_DATA_BUFFER_CAPACITY = 1000;
+        downloadDataBuffer = ByteBuffer.allocateDirect(DOWNLOAD_DATA_BUFFER_CAPACITY);
+        for (int i = 0; i < DOWNLOAD_DATA_BUFFER_CAPACITY; i++) {
+            downloadDataBuffer.put((byte) 1);
+        }
+        downloadDataBuffer.rewind();
     }
 }
