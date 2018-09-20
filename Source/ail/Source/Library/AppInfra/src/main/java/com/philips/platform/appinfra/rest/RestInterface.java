@@ -47,8 +47,8 @@ public interface RestInterface extends Serializable {
     }
 
     /** @apiNote - api will clear the cache of App-Infra rest client,
-     * their will be performance issue,
-     * advisible to be used during cleanup activities for an application
+     * there will be performance issue within app, hence advised
+     * to be used during cleanup activities for an application
      *  @since 18.0.5
      */
     void clearCacheResponse();
