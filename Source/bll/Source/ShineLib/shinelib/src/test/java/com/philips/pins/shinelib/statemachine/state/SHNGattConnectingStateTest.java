@@ -33,6 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
@@ -127,7 +128,7 @@ public class SHNGattConnectingStateTest {
     public void givenBluetoothIsTurnedOff_whenOnEnterIsCalled_thenConnectGattIsNotCalled() {
         gattConnectingState.onEnter();
 
-        verify(mockedBTDevice, times(0)).connectGatt(nullable(Context.class), anyBoolean(), nullable(SHNCentral.class), nullable(BTGatt.BTGattCallback.class));
+        verify(mockedBTDevice, times(0)).connectGatt(nullable(Context.class), anyBoolean(), nullable(SHNCentral.class), nullable(BTGatt.BTGattCallback.class), anyInt());
     }
 
     @Test
@@ -150,7 +151,7 @@ public class SHNGattConnectingStateTest {
 
         gattConnectingState.onEnter();
 
-        verify(mockedBTDevice).connectGatt(same(mockedContext), eq(false), same(mockedSHNCentral), same(mockedBtGattCallback));
+        verify(mockedBTDevice).connectGatt(same(mockedContext), eq(false), same(mockedSHNCentral), same(mockedBtGattCallback), eq(0));
     }
 
     @Test
@@ -166,13 +167,23 @@ public class SHNGattConnectingStateTest {
     }
 
     @Test
+    public void givenTheDeviceIsConfiguredToUseConnectionPriorityAsHigh_whenOnEnterIsCalled_thenTheConnectionWillBeInitiatedUsingConnectionPriorityAsHigh() {
+        doReturn(BluetoothGatt.CONNECTION_PRIORITY_HIGH).when(sharedResources).getConnectionPriority();
+        doReturn(SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();
+
+        gattConnectingState.onEnter();
+
+        verify(mockedBTDevice).connectGatt(mockedContext, false, mockedSHNCentral, mockedBtGattCallback, BluetoothGatt.CONNECTION_PRIORITY_HIGH);
+    }
+
+    @Test
     public void givenTheDeviceHasJustBeenDisconnected_whenOnEnterIsCalled_thenItWillPostponeTheConnectCall() {
         long justNow = System.currentTimeMillis();
         doReturn(justNow).when(sharedResources).getLastDisconnectedTimeMillis();
 
         gattConnectingState.onEnter();
 
-        verify(mockedBTDevice, times(0)).connectGatt(nullable(Context.class), anyBoolean(), nullable(SHNCentral.class), nullable(BTGatt.BTGattCallback.class));
+        verify(mockedBTDevice, times(0)).connectGatt(nullable(Context.class), anyBoolean(), nullable(SHNCentral.class), nullable(BTGatt.BTGattCallback.class), anyInt());
         verify(mockedSHNInternalHandler).postDelayed(any(Runnable.class), anyLong());
     }
 
@@ -188,7 +199,7 @@ public class SHNGattConnectingStateTest {
         doReturn(longAgo).when(sharedResources).getLastDisconnectedTimeMillis();
         runnableArgumentCaptor.getValue().run();
 
-        verify(mockedBTDevice).connectGatt(same(mockedContext), anyBoolean(), same(mockedSHNCentral), same(mockedBtGattCallback));
+        verify(mockedBTDevice).connectGatt(same(mockedContext), anyBoolean(), same(mockedSHNCentral), same(mockedBtGattCallback), anyInt());
     }
 
     @Test
@@ -231,6 +242,7 @@ public class SHNGattConnectingStateTest {
 
     @Test
     public void whenGattConnectFails_thenItWillGoToADisconnectingState_andReportAFailure() {
+
         gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_FAILURE, BluetoothProfile.STATE_DISCONNECTED);
 
         verify(stateMachine).setState(any(SHNDisconnectingState.class));
@@ -255,7 +267,7 @@ public class SHNGattConnectingStateTest {
 
         gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_FAILURE, BluetoothProfile.STATE_DISCONNECTED);
 
-        verify(mockedBTDevice).connectGatt(same(mockedContext), anyBoolean(), same(mockedSHNCentral), same(mockedBtGattCallback));
+        verify(mockedBTDevice).connectGatt(same(mockedContext), anyBoolean(), same(mockedSHNCentral), same(mockedBtGattCallback), anyInt());
     }
 
     @Test
