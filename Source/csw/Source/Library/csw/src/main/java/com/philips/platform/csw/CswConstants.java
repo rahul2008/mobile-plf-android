@@ -17,5 +17,13 @@ public class CswConstants {
         public static final String SPECIAL_EVENTS = "specialEvents";
         public static final String CONSENT_ACCEPTED = "consentAccepted";
         public static final String CONSENT_REJECTED = "consentRejected";
+        public static final String IN_APP_NOTIFICATION = "inAppNotification";
+        public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
+        public static final String REVOKE_CONSENT_POPUP = "Revoke consent popup";
+
+        public static class Action {
+            public static final String ACTION_YES = "Yes";
+            public static final String ACTION_CANCEL = "Cancel";
+        }
     }
 }
