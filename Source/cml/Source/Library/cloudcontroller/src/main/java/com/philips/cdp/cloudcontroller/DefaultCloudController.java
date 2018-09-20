@@ -6,15 +6,11 @@
 package com.philips.cdp.cloudcontroller;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
-
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.ICPDownloadListener;
 import com.philips.cdp.cloudcontroller.api.listener.AppUpdateListener;
@@ -42,7 +38,6 @@ import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.ComponentInfo;
 import com.philips.icpinterface.data.Errors;
 import com.philips.icpinterface.data.IdentityInformation;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,6 +73,10 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         NOT_PROVISIONED,
         PROVISIONING,
         PROVISIONED
+    }
+
+    private enum ProvisionStrategy {
+        UNKNOWN, OLD, NEW
     }
 
     private Context mContext;
@@ -180,23 +179,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     private void startKeyProvisioning() {
         Log.i(LogConstants.KPS, "Start provision");
         mKeyProvisioningState = KeyProvision.PROVISIONING;
-        String appVersion;
-
-        // set Peripheral Information
-        Provision provision = new Provision(mICPCallbackHandler, mKpsConfiguration, null, mContext);
-
-        // Set Application Info
-        PackageManager pm = mContext.getPackageManager();
-        String appId = mKpsConfigurationInfo.getAppId();
-
-        try {
-            appVersion = "" + pm.getPackageInfo(mContext.getPackageName(), 0).versionCode;
-        } catch (NameNotFoundException e) {
-            throw new KeyProvisioningException(e);
-        }
-
-        Log.i(LogConstants.KPS, appId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
-        provision.setApplicationInfo(createIdentityInformation(appVersion, appId));
+        Provision provision = getProvision();
 
         int commandResult = provision.executeCommand();
         if (commandResult != Errors.REQUEST_PENDING) {
@@ -211,6 +194,40 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
                 mKeyProvisioningState = KeyProvision.NOT_PROVISIONED;
             }
         }
+    }
+
+    @NonNull
+    private Provision getProvision() {
+        return getOldProvision();
+    }
+
+    @NonNull
+    private Provision getOldProvision() {
+        // set Peripheral Information
+        Provision provision = new Provision(mICPCallbackHandler, mKpsConfiguration, null, mContext);
+
+        // Set Application Info
+        String appId = mKpsConfigurationInfo.getAppId();
+        int appVersion = mKpsConfigurationInfo.getAppVersion();
+
+        Log.i(LogConstants.KPS, appId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
+        // Warning! We are intentionally providing the appId and appVersion in the WRONG order (bug-compatible) - See TFS bug #148756
+        provision.setApplicationInfo(createIdentityInformation(String.valueOf(appVersion), appId));
+        return provision;
+    }
+
+    @NonNull
+    private Provision getNewProvision() {
+        // set Peripheral Information
+        Provision provision = new Provision(mICPCallbackHandler, mKpsConfiguration, null, mContext);
+
+        // Set Application Info
+        String appId = mKpsConfigurationInfo.getAppId();
+        int appVersion = mKpsConfigurationInfo.getAppVersion();
+
+        Log.i(LogConstants.KPS, appId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
+        provision.setApplicationInfo(createIdentityInformation(appId, String.valueOf(appVersion)));
+        return provision;
     }
 
     private IdentityInformation createIdentityInformation(String relationshipId, String appVersion) {
@@ -719,8 +736,9 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
 
     private boolean isUpgradeAvailable(int versionAvailableInCPP) {
         Log.i(LogConstants.ICPCLIENT, "Version at CPP:" + versionAvailableInCPP);
-        if (getAppVersion() < versionAvailableInCPP) {
-            Log.i(LogConstants.ICPCLIENT, "Version:" + getAppVersion());
+        int appVersion = mKpsConfigurationInfo.getAppVersion();
+        if (appVersion < versionAvailableInCPP) {
+            Log.i(LogConstants.ICPCLIENT, "Version:" + appVersion);
             return true;
         }
         return false;
@@ -787,7 +805,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
 
         componentInfo[0] = new ComponentInfo();
         componentInfo[0].id = appComponentId;
-        componentInfo[0].versionNumber = getAppVersion();
+        componentInfo[0].versionNumber = mKpsConfigurationInfo.getAppVersion();
 
         ComponentDetails componentDetails = new ComponentDetails(mICPCallbackHandler, componentInfo);
 
@@ -875,16 +893,6 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-        }
-    }
-
-    private int getAppVersion() {
-        try {
-            PackageInfo packageInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-            Log.i(LogConstants.CLOUD_CONTROLLER, "Application version: " + packageInfo.versionName + " (" + packageInfo.versionCode + ")");
-            return packageInfo.versionCode;
-        } catch (NameNotFoundException e) {
-            throw new IllegalStateException("Could not get package name: " + e);
         }
     }
 
