@@ -103,6 +103,12 @@ public class RestManager implements RestInterface {
         }
     }
 
+    @Override
+    public void clearCacheResponse() {
+        if (mRequestQueue != null && mRequestQueue.getCache() != null)
+            mRequestQueue.getCache().clear();
+    }
+
     private NetworkInfo getNetworkInfo() {
         //Check for mobile data or Wifi network Info
         final ConnectivityManager connMgr = (ConnectivityManager) mAppInfra.getAppInfraContext().getSystemService(Context.CONNECTIVITY_SERVICE);

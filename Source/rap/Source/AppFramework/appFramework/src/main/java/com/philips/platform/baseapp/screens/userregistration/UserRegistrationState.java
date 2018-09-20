@@ -353,6 +353,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void onUserLogoutSuccess() {
         RALog.d(TAG, " User Logout success  ");
         DemoAppManager.getInstance().getUserRegistrationHandler().clearAccessToken();
+        getAppInfra().getRestClient().clearCacheResponse();
+
     }
 
     @Override
