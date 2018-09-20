@@ -1,72 +1,28 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-
-archivesBaseName = "ews-android"
-
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username "readonly"
-                password "123qweasdzxc"
-            }
-        }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local'
-            credentials {
-                username "readonly"
-                password "123qweasdzxc"
-            }
-        }
-
-        mavenCentral()
-    }
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-    }
-}
-
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
+apply plugin: 'com.android.library'
 
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-        flatDir {
-            dirs 'libs'
-        }
+archivesBaseName = "ews-android"
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
     }
 }
 
 android {
     def assignedVersionNumber = version
+
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
@@ -82,12 +38,8 @@ android {
     dataBinding {
         enabled = true
     }
-    lintOptions {
-        abortOnError false
-    }
 
     testOptions {
-        unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
         unitTests.all {
             jvmArgs '-noverify'
@@ -109,13 +61,9 @@ android {
 
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
 }
 
-
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
@@ -152,8 +100,8 @@ dependencies {
     testImplementation deps.powermock_junit
     testImplementation deps.powermock_junit_rule
     testImplementation deps.powermock_classloading_xstream
-
 }
+
 tasks.withType(Test) {
     ignoreFailures = true
 }

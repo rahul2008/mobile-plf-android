@@ -13,7 +13,7 @@ import com.philips.platform.uid.utils.UIDUtils;
 
 public class NotificationBarView {
 
-    private static final String TAG = NotificationBarView.class.getSimpleName();
+    private static final String TAG = "NotificationBarView";
     private final Activity mActivity;
     private PopupWindow popupWindow;
 

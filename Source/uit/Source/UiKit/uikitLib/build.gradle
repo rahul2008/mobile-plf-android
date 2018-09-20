@@ -1,50 +1,17 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 archivesBaseName = "uikitLib"
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-    }
-}
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        flatDir {
-            dirs 'libs'
-        }
-    }
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 }
 
 configurations.all {
@@ -54,11 +21,12 @@ configurations.all {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.support.appcompatv7
-    implementation deps.support.design
+    
     implementation deps.calligraphy
     implementation deps.shamanland_fonticon
+    implementation deps.support.appcompatv7
     implementation deps.support.cardview
+    implementation deps.support.design
     implementation deps.support.recyclerview
 }
 
@@ -85,7 +53,7 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 1
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         generatedDensities = []
         vectorDrawables.useSupportLibrary = true
     }
@@ -97,10 +65,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     //Exclude jniLibs as it will be coming from vertical
@@ -115,5 +79,5 @@ android {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

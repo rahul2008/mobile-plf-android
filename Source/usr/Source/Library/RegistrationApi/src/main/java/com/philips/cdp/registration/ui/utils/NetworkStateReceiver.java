@@ -17,7 +17,7 @@ import javax.inject.Inject;
 
 public class NetworkStateReceiver extends BroadcastReceiver {
 
-    private static String TAG = NetworkStateReceiver.class.getSimpleName();
+    private static String TAG = "NetworkStateReceiver";
     @Inject
     NetworkUtility networkUtility;
 

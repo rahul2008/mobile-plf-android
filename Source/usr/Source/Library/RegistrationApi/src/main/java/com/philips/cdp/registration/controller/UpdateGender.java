@@ -26,7 +26,7 @@ public class UpdateGender extends UpdateUserDetailsBase {
 
     public final static String USER_GENDER = "gender";
 
-    private static final String TAG =  UpdateGender.class.getSimpleName();
+    private static final String TAG =  "UpdateGender";
 
     private Gender mGender;
 

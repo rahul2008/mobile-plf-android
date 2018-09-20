@@ -34,7 +34,7 @@ import org.json.JSONObject;
 
 public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.SignInResultHandler,
         JumpFlowDownloadStatusListener {
-    private final static String TAG = LoginSocialNativeProvider.class.getSimpleName();
+    private final static String TAG = "LoginSocialNativeProvider";
     private Context mContext;
     private SocialLoginProviderHandler mSocialLoginProviderHandler;
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
@@ -67,7 +67,8 @@ public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.
 
     @Override
     public void onFailure(SignInError error) {
-        RLog.d(TAG, "onFailure : is called");
+        try{
+        RLog.d(TAG, "onFailure : is called error: "+ error.captureApiError.raw_response);
         if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isMergeFlowError()) {
 
@@ -105,6 +106,9 @@ public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.
 //            userRegistrationFailureInfo.setErrorDescription();
 //            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
 //            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+
+        }}catch(Exception e){
+            RLog.e(TAG, "onFailure : is called exception" + e.getMessage());
 
         }
     }

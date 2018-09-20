@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -112,9 +112,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setIsoLanguageCode("TEST");
 
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_LANGUAGE_CODE_KEY)).isEqualTo(null);
+        assertThat((String) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_LANGUAGE_CODE_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_LANGUAGE_CODE_KEY)).isEqualTo("TEST");
+        assertThat((String) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_LANGUAGE_CODE_KEY)).isEqualTo("TEST");
     }
 
     @Test
@@ -147,9 +147,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setIsoCountryCode("TEST");
 
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_COUNTRY_CODE_KEY)).isEqualTo(null);
+        assertThat((String) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_COUNTRY_CODE_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_COUNTRY_CODE_KEY)).isEqualTo("TEST");
+        assertThat((String) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_COUNTRY_CODE_KEY)).isEqualTo("TEST");
     }
 
     @Test
@@ -182,9 +182,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setClockFormat(SHNUserConfiguration.ClockFormat._12H);
 
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.CLOCK_FORMAT_KEY)).isEqualTo(null);
+        assertThat((SHNUserConfiguration.ClockFormat) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.CLOCK_FORMAT_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.CLOCK_FORMAT_KEY)).isEqualTo(SHNUserConfiguration.ClockFormat._12H);
+        assertThat((SHNUserConfiguration.ClockFormat) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.CLOCK_FORMAT_KEY)).isEqualTo(SHNUserConfiguration.ClockFormat._12H);
     }
 
     @Test
@@ -216,9 +216,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setUseMetricSystem(false);
 
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.USE_METRIC_SYSTEM_KEY)).isEqualTo(null);
+        assertThat((Boolean) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.USE_METRIC_SYSTEM_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.USE_METRIC_SYSTEM_KEY)).isEqualTo(false);
+        assertThat((Boolean) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.USE_METRIC_SYSTEM_KEY)).isEqualTo(false);
     }
 
     @Test
@@ -265,9 +265,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setSex(SHNUserConfiguration.Sex.Female);
 
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.SEX_KEY)).isEqualTo(null);
+        assertThat((SHNUserConfiguration.Sex) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.SEX_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.SEX_KEY)).isEqualTo(SHNUserConfiguration.Sex.Female);
+        assertThat((SHNUserConfiguration.Sex) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.SEX_KEY)).isEqualTo(SHNUserConfiguration.Sex.Female);
     }
 
     @Test
@@ -299,9 +299,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setRestingHeartRate(111);
 
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.RESTING_HEART_RATE_KEY)).isEqualTo(null);
+        assertThat((Integer) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.RESTING_HEART_RATE_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.RESTING_HEART_RATE_KEY)).isEqualTo(111);
+        assertThat((Integer) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.RESTING_HEART_RATE_KEY)).isEqualTo(111);
     }
 
     @Test
@@ -333,9 +333,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setHeightInCm(111);
 
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HEIGHT_IN_CM_KEY)).isEqualTo(null);
+        assertThat((Integer) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HEIGHT_IN_CM_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HEIGHT_IN_CM_KEY)).isEqualTo(111);
+        assertThat((Integer) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HEIGHT_IN_CM_KEY)).isEqualTo(111);
     }
 
     @Test
@@ -367,9 +367,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setWeightInKg(111.0);
 
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY)).isEqualTo(null);
+        assertThat((Double) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY)).isEqualTo(111.0);
+        assertThat((Double) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY)).isEqualTo(111.0);
     }
 
     @Test
@@ -401,9 +401,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setDecimalSeparator('T');
 
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY)).isEqualTo(null);
+        assertThat((Integer) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY)).isEqualTo((int) 'T');
+        assertThat((Integer) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY)).isEqualTo((int) 'T');
     }
 
     @Test
@@ -435,9 +435,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
         shnUserConfiguration.setHandedness(SHNUserConfiguration.Handedness.LeftHanded);
 
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HANDEDNESS_KEY)).isEqualTo(null);
+        assertThat((SHNUserConfiguration.Handedness) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HANDEDNESS_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HANDEDNESS_KEY)).isEqualTo(SHNUserConfiguration.Handedness.LeftHanded);
+        assertThat((SHNUserConfiguration.Handedness) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HANDEDNESS_KEY)).isEqualTo(SHNUserConfiguration.Handedness.LeftHanded);
     }
 
     @Test
@@ -470,9 +470,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         final Date dateOfBirth = new Date();
         shnUserConfiguration.setDateOfBirth(dateOfBirth);
 
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DATE_OF_BIRTH_KEY)).isEqualTo(null);
+        assertThat((Long) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DATE_OF_BIRTH_KEY)).isEqualTo(null);
         mockedInternalHandler.executeFirstPostedExecution();
-        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DATE_OF_BIRTH_KEY)).isEqualTo(dateOfBirth.getTime());
+        assertThat((Long) persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DATE_OF_BIRTH_KEY)).isEqualTo(dateOfBirth.getTime());
     }
 
     @Test

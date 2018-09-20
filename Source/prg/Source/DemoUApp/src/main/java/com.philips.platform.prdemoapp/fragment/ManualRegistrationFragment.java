@@ -7,9 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +18,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.philips.cdp.prodreg.constants.*;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRLaunchInput;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
@@ -262,6 +261,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
             PRInterface prInterface = new PRInterface();
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
+            prLaunchInput.setMandatoryProductRegistration(true);
             prInterface.launch(fragLauncher, prLaunchInput);
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,  ((MainActivity) getActivity()).getThemeConfig(), ((MainActivity) getActivity()).getThemeResourceId(), null);
@@ -273,6 +273,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             }
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
+            prLaunchInput.setMandatoryProductRegistration(true);
             new PRInterface().launch(activityLauncher, prLaunchInput);
         }
     }

@@ -1,66 +1,26 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-def buildOutputDir
-
-archivesBaseName = "uAppFwLib"
-
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-    }
-}
-
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
+apply plugin: 'com.android.library'
 
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+
+def buildOutputDir
+
+archivesBaseName = "uAppFwLib"
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
     }
 }
-
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -84,7 +44,6 @@ task tgzTask(type: Tar) {
     extension = 'tgz'
     compression = Compression.GZIP
 }
-
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
@@ -100,6 +59,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'proguard-rules-ufw.pro'
     }
+
     buildTypes {
         release {
             buildOutputDir = "release"
@@ -111,10 +71,8 @@ android {
             buildOutputDir = "debug"
         }
     }
-
-
 }
-
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
@@ -122,36 +80,32 @@ configurations.all {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation deps.junit
 
-
-
-    if (directdependencies) {
-        implementation project(':AppInfra')
-        implementation project(':uid')
-    } else {
-        implementation (philipsdeps.AppInfra) {
-            exclude group: 'com.android.support'
-        }
-        implementation (philipsdeps.uid) {
-            exclude group: 'com.android.support'
-        }
-    }
+    implementation deps.support.annotations
+    implementation deps.support.appcompatv7
+    implementation deps.gson
 
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.robolectric
 
-    implementation deps.support.annotations
-    implementation deps.support.appcompatv7
-    implementation deps.gson
+    if (directdependencies) {
+        implementation project(':AppInfra')
+        implementation project(':uid')
+    } else {
+        implementation(philipsdeps.AppInfra) {
+            exclude group: 'com.android.support'
+        }
+        implementation(philipsdeps.uid) {
+            exclude group: 'com.android.support'
+        }
+    }
 }
 
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
     from configurations.implementation
 }
-
 
 tasks.withType(Test) {
     ignoreFailures = true

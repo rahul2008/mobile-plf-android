@@ -1,47 +1,20 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-//apply plugin: 'de.mobilej.unmock'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 archivesBaseName = "telehealth"
-
-def coverageSourceDirs = [
-        '../thsuapp/src/main/java'
-]
 
 buildscript {
     dependencies {
         classpath builddeps.buildinfoextractor
         classpath builddeps.bintrayplugin
         classpath builddeps.mobilej
-    }
-}
-
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
     }
 }
 
@@ -78,11 +51,8 @@ android {
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
         ]
+    }
 
-    }
-    lintOptions {
-        abortOnError false
-    }
     buildTypes {
         release {
             minifyEnabled false
@@ -92,17 +62,10 @@ android {
             debuggable true
             minifyEnabled false
         }
-
-    }
-
-    compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
     }
 
     testOptions {
         unitTests.returnDefaultValues = true
-        unitTests.includeAndroidResources = true
         unitTests.all {
             // set JVM arguments for the test JVM(s)
             jvmArgs '-noverify'
@@ -115,10 +78,9 @@ android {
             }
         }
     }
-
-
 }
 
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 configurations.all {
     // check for updates every build
@@ -127,14 +89,6 @@ configurations.all {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
-    androidTestImplementation(deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    implementation deps.support.appcompatv7
-    implementation deps.constraintlayout
-    implementation deps.support.design
-    testImplementation deps.opengl
 
     if (directdependencies) {
         implementation project(':AppInfra')
@@ -145,18 +99,18 @@ dependencies {
         implementation project(':csw')
         implementation project(':catk')
     } else {
-        implementation (philipsdeps.AppInfra) {
+        implementation(philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.registrationApi) {
-            exclude group: 'com.android.support'
-        }
-
-        implementation (philipsdeps.csw) {
+        implementation(philipsdeps.registrationApi) {
             exclude group: 'com.android.support'
         }
 
-        implementation (philipsdeps.catk) {
+        implementation(philipsdeps.csw) {
+            exclude group: 'com.android.support'
+        }
+
+        implementation(philipsdeps.catk) {
             exclude group: 'com.android.support'
         }
     }
@@ -165,26 +119,26 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
-
-    implementation deps.support.design
-    implementation deps.play_services_maps
-    implementation deps.play_services_location
-    implementation deps.libphonenumber
     implementation deps.calligraphy
+    implementation deps.constraintlayout
+    implementation deps.libphonenumber
+    implementation deps.play_services_location
+    implementation deps.play_services_maps
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
 
+    testImplementation deps.assertj
     testImplementation deps.junit
     testImplementation deps.mockito
-    testImplementation deps.assertj
-    testImplementation(deps.robolectric) {
-        exclude module: 'commons-logging'
-        exclude module: 'support-v4'
-    }
-    testImplementation deps.robolectric_shadows
     testImplementation deps.opengl
+    // TODO: Migrate this to platform defined set of Robolectric (currently version 3.8)
+    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
+    testImplementation 'org.robolectric:robolectric:3.4-rc2'
 
+    androidTestImplementation(deps.espresso_core, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 }
-
-
 
 tasks.withType(Test) {
     ignoreFailures = true
