@@ -46,10 +46,10 @@ public interface RestInterface extends Serializable {
         void onConnectivityStateChange(boolean isConnected);
     }
 
-    /**
-     * api will clear the cache of App-Infra rest client,
+    /** @apiNote - api will clear the cache of App-Infra rest client,
      * their will be performance issue,
      * advisible to be used during cleanup activities for an application
+     *  @since 18.0.5
      */
     void clearCacheResponse();
 }
