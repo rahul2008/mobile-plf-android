@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 public class UpdateUser implements Capture.CaptureApiRequestCallback {
 
-    private String TAG = UpdateUser.class.getSimpleName();
+    private String TAG = "UpdateUser";
 
     private UpdateUserListener mUpdateUserListener;
 
@@ -33,7 +33,7 @@ public class UpdateUser implements Capture.CaptureApiRequestCallback {
                 mUpdateUserListener.onUserUpdateFailed(ErrorCodes.UNKNOWN_ERROR);
             }
         } else {
-            RLog.e(TAG, "updatedUserData NULL ");
+            RLog.e(TAG, "update: updatedUserData NULL ");
             mUpdateUserListener.onUserUpdateFailed(ErrorCodes.UNKNOWN_ERROR);
         }
     }
@@ -46,7 +46,7 @@ public class UpdateUser implements Capture.CaptureApiRequestCallback {
 
     @Override
     public void onFailure(CaptureApiError e) {
-        RLog.e(TAG, "onFailure:  updating User Info " + e.code);
+        RLog.e(TAG, "onFailure updating User Info " + e.raw_response);
         mUpdateUserListener.onUserUpdateFailed(e.code);
     }
 }

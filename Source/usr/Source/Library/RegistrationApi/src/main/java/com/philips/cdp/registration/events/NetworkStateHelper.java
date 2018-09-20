@@ -18,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class NetworkStateHelper {
 
-    private final String TAG = NetworkStateHelper.class.getSimpleName();
+    private final String TAG = "NetworkStateHelper";
 
     /**
      * Network state helper

@@ -1,4 +1,0 @@
-include ':app'
-
-include 'productselection'
-project(':productselection').projectDir = new File('./productselection')

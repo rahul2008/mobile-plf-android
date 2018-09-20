@@ -12,15 +12,15 @@ public class URError {
 
     private Context context;
 
-    private final String TAG = URError.class.getSimpleName();
+    private final String TAG = "URError";
 
     public URError(Context context) {
         this.context = context;
     }
 
     public String getLocalizedError(ErrorType errorType, int errorCode) {
-        RLog.i(TAG, "ErrorType :" + errorType + " : errorCode " + errorCode);
-        RLog.i(TAG, "LocalizedError is :" + getString(errorType, errorCode));
+        RLog.i(TAG, "getLocalizedError: ErrorType :" + errorType + " : errorCode "
+                + errorCode + "LocalizedError is :" + getString(errorType, errorCode));
         return getString(errorType, errorCode);
     }
 

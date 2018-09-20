@@ -251,6 +251,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void handleUiState(boolean isNetworkAvailable) {
+        if (isInstanceofCurrentFragment()) {
         if (isNetworkAvailable) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mEMailVerifiedError.hideError();
@@ -269,11 +270,12 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mBtnResend.setEnabled(false);
             scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);
         }
-
+        }
     }
 
     @Override
     public void updateActivationUIState() {
+        if (isInstanceofCurrentFragment()) {
         hideActivateSpinner();
         if (mUser.isEmailVerified()) {
             mBtnResend.setVisibility(View.GONE);
@@ -292,15 +294,16 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         activateButtonEnable(true);
         mBtnResend.setEnabled(true);
     }
+    }
 
     private void showVerifyAlertDialog() {
         if (isInstanceofCurrentFragment()) {
             RegAlertDialog.showDialog(mContext.getResources().getString(
                     R.string.USR_DLS_Email_Verify_Alert_Title),
                     mContext.getResources().getString(
-                            R.string.USR_DLS_Forgot_Password_Alert_Message_Line1),
+                            R.string.USR_DLS_Email_Verify_Alert_Body_Line1),
                     mContext.getResources().getString(
-                            R.string.USR_DLS_Forgot_Password_Alert_Message_Line2),
+                            R.string.USR_DLS_Email_Verify_Alert_Body_Line2),
                     mContext.getResources().getString(
                             R.string.USR_DLS_Button_Title_Ok)
                     , getRegistrationFragment().getParentActivity(), mContinueBtnClick);

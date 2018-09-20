@@ -1,66 +1,24 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
+        classpath builddeps.cdpSCM
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "uidApp"
-
 group = 'com.philips.cdp'
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-}
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -95,10 +53,6 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-//            artifact("$projectDir/dependencies.lock") {
-//                classifier = '1stleveldependencies'
-//            }
-
             artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
 
             pom.withXml {
@@ -114,23 +68,6 @@ publishing {
         }
     }
 }
-/*
-hockeyapp {
-    apiToken = "b9d6e2f453894b4fbcb161b33a94f6c8"
-    commitSha = objcdp.getCommitHashLong()
-    buildServerUrl = objcdp.getArtifactoryUrl()
-    releaseType = 2 // alpha
-    notify = 1
-    mappingFileNameRegex = "mapping.txt"
-    mandatory = 1
-    status = 2
-    notesType = 1
-
-//    notes = new File(file(objcdp.getExternalDocPath() + '/ReleaseNotes.md').absolutePath).getText('UTF-8')
-}
-=======
-    notes = new File(file(objcdp.getExternalDocPath() + '/ReleaseNotes.md').absolutePath).getText('UTF-8')
-}*/
 
 android {
     compileSdkVersion versions.sdk
@@ -192,17 +129,20 @@ android {
     }
 
     testOptions {
-        unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
         unitTests.all {
             jvmArgs '-noverify'
         }
     }
-
-
 }
 
 dependencies {
+    implementation project(':uid')
+    
+    implementation deps.greenrobot
+    implementation deps.support.design
+    implementation deps.glide
+    implementation deps.calligraphy
 
     annotationProcessor deps.butterknife_compiler
 
@@ -212,24 +152,16 @@ dependencies {
     implementation(deps.support.appcompatv7) {
         exclude module: "com.android.support"
     }
-
     implementation(deps.butterknife) {
         exclude module: "com.android.support"
     }
-
     implementation(deps.butterknife_compiler) {
         exclude module: "com.android.support"
     }
-
-    implementation deps.greenrobot
-
-    implementation project(':uid')
-
     testImplementation(deps.junit) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-
     androidTestImplementation(deps.espresso_core) {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
@@ -242,9 +174,5 @@ dependencies {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-    implementation deps.support.design
-    implementation deps.glide
-    implementation deps.calligraphy
     androidTestImplementation deps.android_test_commons
-
 }

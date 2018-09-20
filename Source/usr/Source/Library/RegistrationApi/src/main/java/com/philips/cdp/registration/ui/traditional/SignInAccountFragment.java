@@ -21,9 +21,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -280,41 +278,23 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
         mUser = new User(mContext);
         registrationSettingsURL = new RegistrationSettingsURL();
-
-        handlePasswordDoubleClick();
-
-    }
-
-    private void handlePasswordDoubleClick() {
-
-        final GestureDetector gestureDetector = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
-            public boolean onDoubleTap(MotionEvent e) {
-                return true;
-            }
-        });
-
-        passwordValidationEditText.setOnTouchListener((v, event) -> {
-            mEtEmail.setErrorMessage(R.string.USR_NameField_ErrorText);
-            return gestureDetector.onTouchEvent(event);
-        });
     }
 
     private boolean emailOrMobileValidator(String emailOrMobile) {
         if (emailOrMobile.isEmpty() && !RegistrationHelper.getInstance().isMobileFlow()) {
-            mEtEmail.setErrorMessage(R.string.USR_NameField_ErrorText);
+            mEtEmail.setErrorMessage(R.string.USR_InvalidOrMissingEmail_ErrorMsg);
         } else {
             mEtEmail.setErrorMessage(R.string.USR_InvalidEmailOrPhoneNumber_ErrorMsg);
         }
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
             if ((!FieldsValidator.isValidMobileNumber(emailOrMobile) || !FieldsValidator.isValidEmail(emailOrMobile))) {
-                RLog.d(TAG, "Valid Mobile No./ Email"
-                        + (FieldsValidator.isValidMobileNumber(emailOrMobile) || FieldsValidator.isValidEmail(emailOrMobile)));
+                RLog.d(TAG, "Not a valid Mobile No.");
                 mEtEmail.setErrorMessage(R.string.USR_InvalidEmailOrPhoneNumber_ErrorMsg);
                 return FieldsValidator.isValidMobileNumber(emailOrMobile) || FieldsValidator.isValidEmail(emailOrMobile);
             }
         } else {
-            RLog.d(TAG, "Valid Email ID" + FieldsValidator.isValidEmail(emailOrMobile));
+            RLog.d(TAG, "Not a valid Email ID or Invalid Email.");
             mEtEmail.setErrorMessage(R.string.USR_InvalidOrMissingEmail_ErrorMsg);
             return FieldsValidator.isValidEmail(emailOrMobile);
         }
@@ -704,8 +684,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void createResendSMSIntent(String url) {
-        RLog.d(TAG, "MOBILE NUMBER : " + loginValidationEditText.getText().toString());
-        RLog.d(TAG, "RegistrationEnvironment :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        RLog.d(TAG, "MOBILE NUMBER *** : " + loginValidationEditText.getText().toString());
+        RLog.d(TAG, " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
         String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(loginValidationEditText.getText().toString()) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +

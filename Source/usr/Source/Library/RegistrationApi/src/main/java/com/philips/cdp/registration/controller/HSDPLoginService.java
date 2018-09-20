@@ -16,7 +16,7 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 public class HSDPLoginService {
-    private static final String TAG = HSDPLoginService.class.getSimpleName();
+    private static final String TAG = "HSDPLoginService";
     private Context mContext;
     private User mUser;
 

@@ -1,40 +1,22 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
+
 archivesBaseName = "prx"
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../../build-support/gradle/versions.gradle'
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
     }
-}
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    apply plugin: 'com.jfrog.artifactory'
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -60,14 +42,15 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 1
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         consumerProguardFiles 'proguard-rules-prx.pro'
     }
+
     buildTypes {
         debug {
             debuggable true
-            testCoverageEnabled=true
+            testCoverageEnabled = true
         }
     }
 }
@@ -76,25 +59,24 @@ configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
-
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
-
-
-   if (directdependencies) {
-       implementation project(':AppInfra')
-    } else {
-       implementation philipsdeps.AppInfra
-    }
-
-    androidTestImplementation deps.junit
-    androidTestImplementation deps.mockito
     implementation deps.support.appcompatv7
     implementation deps.support.design
     implementation deps.support.annotations
     implementation deps.gson
     implementation deps.volley
+
+    if (directdependencies) {
+        implementation project(':AppInfra')
+    } else {
+        implementation philipsdeps.AppInfra
+    }
+
+    androidTestImplementation deps.junit
+    androidTestImplementation deps.mockito_android
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

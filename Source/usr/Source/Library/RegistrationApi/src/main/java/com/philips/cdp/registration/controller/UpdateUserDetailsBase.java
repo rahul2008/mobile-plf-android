@@ -30,7 +30,7 @@ public class UpdateUserDetailsBase implements
         UpdateUser.UpdateUserListener, RefreshLoginSessionHandler {
 
 
-    private String TAG = UpdateUserDetailsBase.class.getSimpleName();
+    private String TAG = "UpdateUserDetailsBase";
 
     protected UpdateUserDetailsHandler mUpdateUserDetails;
 
@@ -89,7 +89,7 @@ public class UpdateUserDetailsBase implements
 
     @Override
     public void onUserUpdateFailed(int error) {
-        RLog.e(TAG, "Error onUserUpdateFailed" + error);
+        RLog.e(TAG, "onUserUpdateFailed: Error " + error);
         if (error == ErrorCodes.UNKNOWN_ERROR) {
             if (null != mUpdateUserDetails) {
                 ThreadUtils.postInMainThread(mContext, () ->

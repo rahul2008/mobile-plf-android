@@ -24,7 +24,7 @@ public class BaseConfiguration {
 
     private static final String DEFAULT_PROPERTY_KEY = "default";
 
-    private static final String TAG = BaseConfiguration.class.getSimpleName();
+    private static final String TAG = "BaseConfiguration";
 
     @Inject
     protected AppInfraWrapper appInfraWrapper;
