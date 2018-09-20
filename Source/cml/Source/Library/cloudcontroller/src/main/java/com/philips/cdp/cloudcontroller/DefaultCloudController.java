@@ -79,6 +79,9 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         UNKNOWN, OLD, NEW
     }
 
+    @VisibleForTesting
+    ProvisionStrategy mProvisionStrategy = ProvisionStrategy.UNKNOWN;
+
     private Context mContext;
     private KpsConfigurationInfo mKpsConfigurationInfo;
 
@@ -145,16 +148,6 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     @VisibleForTesting
-    DefaultCloudController(Context context) {
-        mSignOn = null;
-        mSignOnListeners = new CopyOnWriteArraySet<>();
-        mDcsResponseListeners = new CopyOnWriteArraySet<>();
-        mDcsEventListenersMap = new HashMap<>();
-        mPublishEventListeners = null;
-        mContext = context;
-    }
-
-    @VisibleForTesting
     void setSignOn(final SignOn signOn) {
         this.mSignOn = signOn;
     }
@@ -197,12 +190,14 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     @NonNull
-    private Provision getProvision() {
+    @VisibleForTesting
+    Provision getProvision() {
         return getOldProvision();
     }
 
     @NonNull
-    private Provision getOldProvision() {
+    @VisibleForTesting
+    Provision getOldProvision() {
         // set Peripheral Information
         Provision provision = new Provision(mICPCallbackHandler, mKpsConfiguration, null, mContext);
 
@@ -217,7 +212,8 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     @NonNull
-    private Provision getNewProvision() {
+    @VisibleForTesting
+    Provision getNewProvision() {
         // set Peripheral Information
         Provision provision = new Provision(mICPCallbackHandler, mKpsConfiguration, null, mContext);
 
