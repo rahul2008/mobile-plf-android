@@ -16,40 +16,45 @@ import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 public interface DLSAddressContractor {
 
 
-     void setContinueButtonState(boolean state);
-     void setBillingAddressFields(AddressFields addressFields);
+    void setContinueButtonState(boolean state);
 
-     View getShippingAddressView();
-     View getBillingAddressView();
+    String getContinueButtonText();
 
-     Activity getActivityContext();
+    boolean getCheckBoxState();
 
-     FragmentActivity getFragmentActivity();
+    void setBillingAddressFields(AddressFields addressFields);
 
-     DLSBillingAddressView getDLSBillingAddress();
+    void setShippingAddressFields(AddressFields shippingAddressFields);
 
-     void enableView(View view);
-     void disableView(View view);
+    View getShippingAddressView();
 
-     void hideProgressbar();
+    View getBillingAddressView();
 
-     void showProgressbar();
+    Activity getActivityContext();
 
-     void showErrorMessage(Message msg);
+    FragmentActivity getFragmentActivity();
 
-     String getContinueButtonText();
+    DLSBillingAddressView getDLSBillingAddress();
 
-     DeliveryModes getDeliveryModes();
+    void enableView(View view);
 
-     void addOrderSummaryFragment();
+    void disableView(View view);
 
-     AddressFields getBillingAddressFields();
+    void hideProgressbar();
 
-     AddressFields getShippingAddressFields();
+    void showProgressbar();
 
-     void addPaymentSelectionFragment(Bundle bundle);
+    void showErrorMessage(Message msg);
 
-     void setShippingAddressFields(AddressFields shippingAddressFields);
+    DeliveryModes getDeliveryModes();
 
-     boolean getCheckBoxState();
+    void addOrderSummaryFragment();
+
+    void addPaymentSelectionFragment(Bundle bundle);
+
+
+    AddressFields getBillingAddressFields();
+
+    AddressFields getShippingAddressFields();
+
 }
