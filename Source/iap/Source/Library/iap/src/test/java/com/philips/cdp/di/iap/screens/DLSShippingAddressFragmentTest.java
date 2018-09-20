@@ -19,12 +19,12 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @Config(constants = BuildConfig.class, sdk = 25)
 public class DLSShippingAddressFragmentTest {
     private Context mContext;
-    private DLSShippingAddressFragment dlsShippingAddressFragment;
+    private DLSShippingAddressView dlsShippingAddressView;
 
     @Before
     public void setUp() {
         initMocks(this);
-        dlsShippingAddressFragment = new DLSShippingAddressFragment();
+        dlsShippingAddressView = new DLSShippingAddressView();
         mContext = RuntimeEnvironment.application;
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
@@ -33,6 +33,6 @@ public class DLSShippingAddressFragmentTest {
     @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
 
-        SupportFragmentTestUtil.startFragment(dlsShippingAddressFragment);
+        SupportFragmentTestUtil.startFragment(dlsShippingAddressView);
     }
 }

@@ -21,26 +21,26 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @Config(constants = BuildConfig.class, sdk = 25)
 public class DLSBillingAddressTest {
     private Context mContext;
-    private DLSBillingAddress dlsBillingAddress;
+    private DLSBillingAddressView dlsBillingAddressView;
 
     @Before
     public void setUp() {
         initMocks(this);
         mContext = RuntimeEnvironment.application;
-        dlsBillingAddress = new DLSBillingAddress();
+        dlsBillingAddressView = new DLSBillingAddressView();
 
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
 
-        SupportFragmentTestUtil.startFragment(dlsBillingAddress);
+        SupportFragmentTestUtil.startFragment(dlsBillingAddressView);
     }
 
     @Mock
     HashMap<String, String> addressFiledMapMock;
     @Test(expected = NullPointerException.class)
     public void shouldUpdateFileds() throws Exception {
-        dlsBillingAddress.updateFields(addressFiledMapMock);
+        dlsBillingAddressView.updateFields(addressFiledMapMock);
     }
 }

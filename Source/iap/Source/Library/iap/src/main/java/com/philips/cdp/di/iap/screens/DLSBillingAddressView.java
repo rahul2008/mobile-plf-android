@@ -32,7 +32,7 @@ import java.util.Map;
  * Created by philips on 8/31/17.
  */
 
-public class DLSBillingAddress
+public class DLSBillingAddressView
         implements SalutationDropDown.SalutationListener,
         StateDropDown.StateListener {
 
@@ -51,13 +51,15 @@ public class DLSBillingAddress
     private InputValidator inputValidatorAddressLineTwoBilling;
     private InputValidationLayout mLlTownBilling;
 
+    private DLSBillingAddressPresenter dlsBillingAddressPresenter;
 
 
-    public DLSBillingAddress(DLSAddressPresenter addressPresenter) {
+
+    public DLSBillingAddressView(DLSAddressPresenter addressPresenter) {
         this.addressPresenter = addressPresenter;
         this.mContext = this.addressPresenter.getAddressContractor().getActivityContext();
         this.view = this.addressPresenter.getAddressContractor().getBillingAddressView();
-
+        dlsBillingAddressPresenter = new DLSBillingAddressPresenter();
         initializeViews(view);
     }
 
@@ -82,7 +84,6 @@ public class DLSBillingAddress
     private ValidationEditText mEtEmailBilling;
     private ValidationEditText mEtPhone1Billing;
     private SalutationDropDown mSalutationDropDownBilling;
-    private PhoneNumberUtil phoneNumberUtil;
     private StateDropDown mStateDropDownBilling;
     private Validator mValidator;
     AddressFields billingAddressFields;
@@ -92,9 +93,6 @@ public class DLSBillingAddress
 
     private void initializeViews(View rootView) {
         billingAddressFields = new AddressFields();
-
-
-        phoneNumberUtil = PhoneNumberUtil.getInstance();
 
         mLlFirstNameBilling = rootView.findViewById(R.id.ll_billing_first_name);
         inputValidatorFirstNameBilling = new InputValidator(Validator.NAME_PATTERN);
@@ -213,13 +211,7 @@ public class DLSBillingAddress
 
 
     private void showUSRegions() {
-        if (mEtCountryBilling.getText().toString().equals("US")) {
-            mlLStateBilling.setVisibility(View.VISIBLE);
-            CartModelContainer.getInstance().setAddessStateVisible(true);
-        } else {
-            mlLStateBilling.setVisibility(View.GONE);
-            CartModelContainer.getInstance().setAddessStateVisible(false);
-        }
+        dlsBillingAddressPresenter.showUSRegions(mEtCountryBilling,mlLStateBilling);
     }
 
     @Override
@@ -355,22 +347,6 @@ public class DLSBillingAddress
 
     }
 
-
-    private boolean validatePhoneNumber(EditText editText, String country, String number) {
-        try {
-            Phonenumber.PhoneNumber phoneNumber = phoneNumberUtil.parse(number, country);
-            boolean isValid = phoneNumberUtil.isValidNumber(phoneNumber);
-            String formattedPhoneNumber = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
-            editText.setText(formattedPhoneNumber);
-            editText.setSelection(editText.getText().length());
-            return isValid;
-        } catch (Exception e) {
-            IAPLog.d("ShippingAddressFragment", "NumberParseException");
-        }
-        return false;
-    }
-
-
     public void validate(View editText, boolean hasFocus) {
 
         boolean result = true;
@@ -396,7 +372,7 @@ public class DLSBillingAddress
             }
         }
         if (editText.getId() == R.id.et_billing_phone1 && !hasFocus) {
-            result = validatePhoneNumber(mEtPhone1Billing, HybrisDelegate.getInstance().getStore().getCountry()
+            result = addressPresenter.validatePhoneNumber(mEtPhone1Billing, HybrisDelegate.getInstance().getStore().getCountry()
                     , mEtPhone1Billing.getText().toString());
             if (!result) {
                 mLlPhone1Billing.setErrorMessage(R.string.iap_phone_error);
