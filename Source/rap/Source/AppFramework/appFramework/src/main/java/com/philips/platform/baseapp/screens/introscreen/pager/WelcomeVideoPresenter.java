@@ -35,11 +35,7 @@ public class WelcomeVideoPresenter implements WelcomeVideoFragmentContract.Prese
                 new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onSuccess(URL url) {
-                        String videoUrl = url.toString() + COMPRESSED_VIDEO_EXTENSION;
-                        if (videoUrl.contains("/CDP2_reference_app_vid_short")) {
-                            videoUrl = "https://archive.org/download/RickAstleyNeverGonnaGiveYouUp_201603/Rick Astley - Never Gonna Give You Up.mp4";
-                        }
-                        view.setVideoDataSource(videoUrl);
+                        view.setVideoDataSource(url.toString() + COMPRESSED_VIDEO_EXTENSION);
                     }
 
                     @Override
