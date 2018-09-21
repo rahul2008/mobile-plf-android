@@ -370,12 +370,12 @@ public class HsdpUser {
 
                         @Override
                         public void onFileWriteFailure() {
-                            RLog.d(TAG, "Error while saving hsdp record to SS");
+                            RLog.e(TAG, "getHsdpUserRecord: Error while saving hsdp record to SS");
                         }
                     });
                 }
             } else {
-                RLog.d(TAG, "Hsdp record not available");
+                RLog.d(TAG, "getHsdpUserRecord: Hsdp record not available");
             }
         }
 
