@@ -34,14 +34,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class DLSAddressPresenter implements AddressController.AddressListener,PaymentController.PaymentListener {
+public class AddressPresenter implements AddressController.AddressListener,PaymentController.PaymentListener {
 
-    private final DLSAddressContractor addressContractor;
+    private final AddressContractor addressContractor;
     private final AddressController mAddressController;
     private final PhoneNumberUtil phoneNumberUtil;
     private PaymentController mPaymentController;
 
-    public DLSAddressPresenter(DLSAddressContractor addressContractor) {
+    public AddressPresenter(AddressContractor addressContractor) {
 
         this.addressContractor = addressContractor;
         mAddressController = new AddressController(addressContractor.getActivityContext(), this);
@@ -49,7 +49,7 @@ public class DLSAddressPresenter implements AddressController.AddressListener,Pa
         phoneNumberUtil = PhoneNumberUtil.getInstance();
     }
 
-    public DLSAddressContractor getAddressContractor() {
+    public AddressContractor getAddressContractor() {
         return addressContractor;
     }
 

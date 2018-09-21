@@ -245,7 +245,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
                 bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
+                addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
                         AddressSelectionFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;

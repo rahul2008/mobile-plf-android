@@ -10,7 +10,7 @@ import com.philips.platform.uid.view.widget.InputValidationLayout;
  * Created by philips on 9/20/18.
  */
 
-public class DLSBillingAddressPresenter {
+public class AddressBillingPresenter {
 
 
     boolean isUSSelected(EditText editText){

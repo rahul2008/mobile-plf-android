@@ -6,7 +6,7 @@ import android.text.TextUtils;
  * Created by philips on 9/20/18.
  */
 
-public class DLSShippingAddressPresenter {
+public class AddressShippingPresenter {
 
 
     String addressWithNewLineIfNull( String code) {

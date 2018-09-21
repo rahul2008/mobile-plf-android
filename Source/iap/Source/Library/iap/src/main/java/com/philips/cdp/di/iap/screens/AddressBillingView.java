@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.app.Activity;
-import android.content.Context;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -10,8 +9,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
@@ -32,12 +29,12 @@ import java.util.Map;
  * Created by philips on 8/31/17.
  */
 
-public class DLSBillingAddressView
+public class AddressBillingView
         implements SalutationDropDown.SalutationListener,
         StateDropDown.StateListener {
 
 
-    private final DLSAddressPresenter addressPresenter;
+    private final AddressPresenter addressPresenter;
     private final Activity mContext;
     private final View view;
 
@@ -51,15 +48,15 @@ public class DLSBillingAddressView
     private InputValidator inputValidatorAddressLineTwoBilling;
     private InputValidationLayout mLlTownBilling;
 
-    private DLSBillingAddressPresenter dlsBillingAddressPresenter;
+    private AddressBillingPresenter addressBillingPresenter;
 
 
 
-    public DLSBillingAddressView(DLSAddressPresenter addressPresenter) {
+    public AddressBillingView(AddressPresenter addressPresenter) {
         this.addressPresenter = addressPresenter;
         this.mContext = this.addressPresenter.getAddressContractor().getActivityContext();
         this.view = this.addressPresenter.getAddressContractor().getBillingAddressView();
-        dlsBillingAddressPresenter = new DLSBillingAddressPresenter();
+        addressBillingPresenter = new AddressBillingPresenter();
         initializeViews(view);
     }
 
@@ -211,7 +208,7 @@ public class DLSBillingAddressView
 
 
     private void showUSRegions() {
-        dlsBillingAddressPresenter.showUSRegions(mEtCountryBilling,mlLStateBilling);
+        addressBillingPresenter.showUSRegions(mEtCountryBilling,mlLStateBilling);
     }
 
     @Override

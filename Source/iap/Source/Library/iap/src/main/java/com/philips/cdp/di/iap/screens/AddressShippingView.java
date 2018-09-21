@@ -1,27 +1,21 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.app.Activity;
-import android.os.Message;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.InputValidator;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
@@ -30,11 +24,11 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import java.util.HashMap;
 
-public class DLSShippingAddressView
+public class AddressShippingView
         implements SalutationDropDown.SalutationListener,
         StateDropDown.StateListener {
 
-    private final DLSAddressPresenter addressPresenter;
+    private final AddressPresenter addressPresenter;
     private final View view;
     private Activity mContext;
     private InputValidationLayout mLlFirstName;
@@ -74,17 +68,17 @@ public class DLSShippingAddressView
     private AddressFields shippingAddressFields;
     private String mRegionIsoCode;
 
-    DLSAddressContractor addressContractor;
+    AddressContractor addressContractor;
 
-    DLSShippingAddressPresenter dlsShippingAddressPresenter;
+    AddressShippingPresenter addressShippingPresenter;
 
-    public DLSShippingAddressView(DLSAddressPresenter addressPresenter) {
+    public AddressShippingView(AddressPresenter addressPresenter) {
         this.addressPresenter = addressPresenter;
         addressContractor = addressPresenter.getAddressContractor();
         this.mContext = addressContractor.getActivityContext();
         this.view = addressContractor.getShippingAddressView();
 
-        dlsShippingAddressPresenter = new DLSShippingAddressPresenter();
+        addressShippingPresenter = new AddressShippingPresenter();
 
         initializeViews(view);
     }
@@ -490,8 +484,8 @@ public class DLSShippingAddressView
         mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
         mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutation.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
-        mEtAddressLineOne.setText(dlsShippingAddressPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
-        mEtAddressLineTwo.setText(dlsShippingAddressPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_2)));
+        mEtAddressLineOne.setText(addressShippingPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
+        mEtAddressLineTwo.setText(addressShippingPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_2)));
         mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));

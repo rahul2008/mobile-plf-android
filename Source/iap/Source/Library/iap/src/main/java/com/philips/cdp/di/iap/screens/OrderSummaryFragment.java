@@ -281,8 +281,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
-                        DLSAddressFragment.TAG,true);
+                addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
+                        AddressFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                 mAddresses = shippingAddresses.getAddresses();

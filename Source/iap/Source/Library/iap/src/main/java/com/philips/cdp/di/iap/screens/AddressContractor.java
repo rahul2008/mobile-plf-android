@@ -13,7 +13,7 @@ import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
  * Created by philips on 9/18/18.
  */
 
-public interface DLSAddressContractor {
+public interface AddressContractor {
 
 
     void setContinueButtonState(boolean state);
@@ -34,7 +34,7 @@ public interface DLSAddressContractor {
 
     FragmentActivity getFragmentActivity();
 
-    DLSBillingAddressView getDLSBillingAddress();
+    AddressBillingView getDLSBillingAddress();
 
     void enableView(View view);
 
