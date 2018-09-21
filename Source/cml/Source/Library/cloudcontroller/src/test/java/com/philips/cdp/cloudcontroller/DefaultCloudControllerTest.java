@@ -43,8 +43,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EventSubscription.class, SignOn.class, Log.class})
-public class CloudControllerTest {
+@PrepareForTest({ EventSubscription.class, SignOn.class, Log.class })
+public class DefaultCloudControllerTest {
 
     @Mock
     private DcsEventListener dcsListener;
@@ -60,6 +60,10 @@ public class CloudControllerTest {
 
     @Mock
     private SignOn signOnMock;
+    @Mock
+    private Provision mockOldProvision;
+    @Mock
+    private Provision mockNewProvision;
 
     @Mock
     private DownloadData downloadDataMock;
@@ -74,6 +78,8 @@ public class CloudControllerTest {
     private ByteBuffer downloadDataBuffer;
 
     private DefaultCloudController subject;
+
+    private boolean performProvisionMock = true;
 
     @Before
     public void setUp() {
@@ -93,8 +99,28 @@ public class CloudControllerTest {
         when(mockKpsConfiguration.getAppVersion()).thenReturn(1337);
 
         initBufferUsedForTests();
+    }
 
-        subject = new DefaultCloudController(mockContext, mockKpsConfiguration);
+    private void createDefaultCloudController() {
+        if (performProvisionMock) {
+            when(mockOldProvision.executeCommand()).thenReturn(Errors.REQUEST_PENDING);
+            when(mockNewProvision.executeCommand()).thenReturn(Errors.REQUEST_PENDING);
+            subject = new DefaultCloudController(mockContext, mockKpsConfiguration) {
+                @NonNull
+                @Override
+                Provision getOldProvision() {
+                    return mockOldProvision;
+                }
+
+                @NonNull
+                @Override
+                Provision getNewProvision() {
+                    return mockNewProvision;
+                }
+            };
+        } else {
+            subject = new DefaultCloudController(mockContext, mockKpsConfiguration);
+        }
     }
 
     @Test
@@ -412,7 +438,7 @@ public class CloudControllerTest {
 
     @Test
     public void dataDownloadSuccessfullyProcessed() throws Exception {
-        // Buffer set up in setUp(), no other init needed.
+        createDefaultCloudController();
 
         when(downloadDataMock.getBuffer()).thenReturn(downloadDataBuffer);
 
@@ -421,6 +447,7 @@ public class CloudControllerTest {
 
     @Test
     public void dataDownloadSuccessfullyProcessedWhenBufferIndexNotAtStart() throws Exception {
+        createDefaultCloudController();
         downloadDataBuffer.get();
 
         when(downloadDataMock.getBuffer()).thenReturn(downloadDataBuffer);
@@ -430,8 +457,7 @@ public class CloudControllerTest {
 
     @Test
     public void givenSignOnWasCompleted_whenLocaleIsSet_thenLocaleIsForwardedToIcpClient() {
-        subject.setSignOn(signOnMock);
-
+        createDefaultCloudController();
         subject.setNewLocale("", "");
 
         verify(signOnMock).setNewLocale("", "");
@@ -439,6 +465,8 @@ public class CloudControllerTest {
 
     @Test(expected = IllegalStateException.class)
     public void givenSignOnWasNotCompleted_whenLocaleIsSet_thenIllegalStateExceptionIsThrown() {
+        createDefaultCloudController();
+        subject.setSignOn(null); // fake an error in the construction of SignOn
 
         subject.setNewLocale("", "");
     }
@@ -462,7 +490,9 @@ public class CloudControllerTest {
 
     @Test
     public void givenProvisioningStrategyIsNotStored_whenStartingProvisioning_thenOldProvisioningStrategyShouldBeUsed() {
-        assertEquals(subject.getOldProvision(), subject.getProvision());
+        createDefaultCloudController();
+
+        assertEquals(mockOldProvision, subject.getProvision());
     }
 
     @Test
@@ -490,12 +520,12 @@ public class CloudControllerTest {
     }
 
     private DefaultCloudController createCloudControllerWithListeners(String cppId, DcsEventListener dcsListener, DcsResponseListener responseListener) {
-        DefaultCloudController controller = new DefaultCloudController(mockContext, mockKpsConfiguration);
-        controller.addDCSEventListener(cppId, dcsListener);
+        createDefaultCloudController();
+        subject.addDCSEventListener(cppId, dcsListener);
         if (responseListener != null) {
-            controller.addDCSResponseListener(responseListener);
+            subject.addDCSResponseListener(responseListener);
         }
-        return controller;
+        return subject;
     }
 
     private void initBufferUsedForTests() {
