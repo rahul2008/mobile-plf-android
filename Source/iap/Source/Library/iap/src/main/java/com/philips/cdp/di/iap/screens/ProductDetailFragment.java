@@ -215,13 +215,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
 
         mBundle = getArguments();
-        mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
-        mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
         //  mCTNValue = "HX8331";
-        fetchProductDetailFromPrx();
 
 
-       /*if (mBundle != null) {
+       if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 mIsFromVertical = true;
                 mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
@@ -246,7 +243,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
                 populateData();
             }
-        }*/
+        }
 
     }
 
@@ -561,7 +558,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         try {
             List<Disclaimer> disclaimerList = disclaimerModel.getData().getDisclaimers().getDisclaimer();
             mProductDisclaimer.setVisibility(View.VISIBLE);
-
             if (null !=  disclaimerList && disclaimerList.size() > 0) {
                 StringBuilder disclaimerStringBuilder = new StringBuilder();
                 for(Disclaimer disclaimer:disclaimerList){
