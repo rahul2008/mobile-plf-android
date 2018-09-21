@@ -50,8 +50,8 @@ public class MarketingOptinTest {
     public void testSettingAbTestValues() {
         when(abTestClientInterfaceMock.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE)).thenReturn("Sonicare");
         RegistrationContentConfiguration registrationContentConfiguration = marketingOptin.getRegistrationContentConfiguration();
-        assertEquals(registrationContentConfiguration.getEnableMarketImage(),R.drawable.abtesting_sonicare);
-        assertEquals(registrationContentConfiguration.getOptInTitleText(),"Here\\'s what You Have To Look Forward To:");
+        assertEquals(registrationContentConfiguration.getEnableMarketImage(), R.drawable.abtesting_sonicare);
+        assertEquals(registrationContentConfiguration.getOptInTitleText(),"Here\'s what You Have To Look Forward To:");
         assertEquals(registrationContentConfiguration.getOptInQuessionaryText(),"Custom Reward Coupons, Holiday Surprises, VIP Shopping Days");
     }
 }
