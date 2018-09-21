@@ -675,8 +675,7 @@ public class User {
     private boolean isSignedInOnAcceptedTermsAndConditions() {
         boolean isAcceptTerms = RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired();
         if (isAcceptTerms) {
-            //TODO : remove if not required ,as its duplicate
-            RLog.i(TAG, "isUserSignIn isAcceptTerms : " + isAcceptTerms);
+            RLog.d(TAG, "isUserSignIn isAcceptTerms : " + isAcceptTerms);
 
             if (!isTermsAndConditionAccepted()) {
                 RLog.d(TAG, "isSignedInOnAcceptedTermsAndConditions isTermsAndConditionAccepted clear data on SignIn :" + false);

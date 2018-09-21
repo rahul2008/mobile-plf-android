@@ -527,7 +527,7 @@ public class HsdpUser {
                 hsdpUserRecordV2.getUserUUID() != null
                 && (getHsdpUserRecord().getAccessCredential() != null &&
                 getHsdpUserRecord().getAccessCredential().getAccessToken() != null);
-        RLog.i(TAG, "isHsdpUserSignedIn : isSignedIn" + isSignedIn);
+        RLog.d(TAG, "isHsdpUserSignedIn : isSignedIn" + isSignedIn);
         RLog.d(TAG, "HsdpUserRecordV2 : hsdpUserRecord is available" + (hsdpUserRecordV2 != null ? hsdpUserRecordV2.toString() : null));
         return isSignedIn;
     }
