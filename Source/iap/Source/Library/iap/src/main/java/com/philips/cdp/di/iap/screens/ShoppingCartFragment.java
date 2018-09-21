@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -45,6 +46,8 @@ import com.philips.cdp.di.iap.utils.Utility;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_VOUCHER_CODE;
 
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
@@ -90,6 +93,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_UPDATE_PRODUCT_COUNT), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_APPLY_VOUCHER), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_VOUCHER), this);
+
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
 
         View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
@@ -190,7 +196,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onEventReceived(final String event) {
         hideProgressBar();
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG,true);
+            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG, true);
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.valueOf(event));
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
@@ -209,13 +215,27 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
 
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    AddressSelectionFragment.TAG,true);
+                    AddressSelectionFragment.TAG, true);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
             Utility.showActionDialog(mContext, getString(R.string.iap_remove_product), getString(R.string.iap_cancel)
                     , getString(R.string.iap_delete_item_alert_title), getString(R.string.iap_product_remove_description), getFragmentManager(), this);
+        } else if (event.equalsIgnoreCase(IAPConstant.IAP_APPLY_VOUCHER)) {
+            VoucherFragment voucherFragment = new VoucherFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(IAP_VOUCHER_CODE, mData.get(0).getAppliedVoucherCode());
+            voucherFragment.setArguments(bundle);
+            addFragment(voucherFragment, VoucherFragment.TAG, true);
+        } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_VOUCHER)) {
+            String appliedVoucherCode = mData.get(0).getAppliedVoucherCode();
+            if (null == appliedVoucherCode || appliedVoucherCode.isEmpty()) {
+                Toast.makeText(getActivity(), "Invalid Voucher",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                createCustomProgressBar(mParentLayout, BIG);
+                mShoppingCartAPI.deleteAppliedVoucher(appliedVoucherCode);
+            }
         }
     }
-
     void startProductDetailFragment(ShoppingCartAdapter mAdapter) {
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();

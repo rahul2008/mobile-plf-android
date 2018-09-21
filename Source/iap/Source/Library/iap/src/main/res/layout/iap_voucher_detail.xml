@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/voucher_detail_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/enter_voucher_label"
+        style="@style/UIDLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/iap_shopping_cart_btn_margin"
+        android:paddingLeft="@dimen/border16_margin_left_right"
+        android:paddingRight="@dimen/border16_margin_left_right"
+        android:text="@string/iap_voucher_apply_label"
+        />
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/coupon_editText"
+        android:layout_below="@+id/enter_voucher_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/border8_margin"
+        android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
+        android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+
+
+        />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/voucher_btn"
+        style="@style/iapCentralesansBookFont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/coupon_editText"
+        android:layout_marginBottom="@dimen/iap_shopping_cart_price_margin_bottom"
+        android:layout_marginTop="@dimen/iap_shopping_cart_btn_margin"
+        android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
+        android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
+        android:enabled="true"
+        android:text="Apply"
+        app:uidComponentType="Primary" />
+
+
+</RelativeLayout>

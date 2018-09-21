@@ -294,4 +294,7 @@ FedEx(parcel postage)</string>
   <string name="iap_your_order_number_is">Your order number is:</string>
   <string name="iap_zero_results_found">0 results found for %s</string>
   <string name="iap_zero_results_message">This filters our product list. Please check that there are no typos in your filter term</string>
+  <string name="iap_promotion_gift_code">Promotional or gift code</string>
+  <string name="iap_apply_voucher">Apply gift code</string>
+  <string name="iap_voucher_apply_label">Enter your promotion or gift code </string>
 </resources>

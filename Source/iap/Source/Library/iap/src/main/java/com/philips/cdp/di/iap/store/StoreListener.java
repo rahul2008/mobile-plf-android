@@ -97,4 +97,12 @@ public interface StoreListener {
 
     String getPhoneContactUrl(String category);
 
+
+    //Voucher
+    String getApplyVoucherUrl();
+
+    String getDeleteVoucherUrl(String voucherId);
+
+    String getAppliedVoucherUrl();
+
 }

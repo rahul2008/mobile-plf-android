@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.cart;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -18,6 +19,8 @@ import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.model.DeleteCartRequest;
+import com.philips.cdp.di.iap.model.DeleteVoucherRequest;
+import com.philips.cdp.di.iap.model.GetAppliedVoucherRequest;
 import com.philips.cdp.di.iap.model.GetCartsRequest;
 import com.philips.cdp.di.iap.model.GetCurrentCartRequest;
 import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
@@ -44,6 +47,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.philips.cdp.di.iap.session.RequestCode.DELETE_VOUCHER;
+import static com.philips.cdp.di.iap.session.RequestCode.GET_APPLIED_VOUCHER;
 
 public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         implements AbstractModel.DataLoadListener, AddressController.AddressListener {
@@ -290,6 +296,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         });
     }
 
+
     private void handleNoCartErrorOrNotifyError(final Message msg, final Context context,
                                                 final IAPCartListener iapHandlerListener,
                                                 final String ctnNumber,
@@ -462,4 +469,56 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void onSetDeliveryMode(Message msg) {
         return;
     }
+
+
+    private void getAppliedVoucherCode( final ArrayList<ShoppingCartData> aData) {
+
+        final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+        GetAppliedVoucherRequest request = new GetAppliedVoucherRequest(delegate.getStore(), null, new AbstractModel.DataLoadListener() {
+            @Override
+            public void onModelDataLoadFinished(Message msg) {
+                final String voucherCode ;
+                int requestCode = msg.what;
+                if(requestCode==GET_APPLIED_VOUCHER){
+                    if(msg.obj instanceof String){
+                        voucherCode=(String)msg.obj;
+                        aData.get(0).setAppliedVoucherCode(voucherCode);
+                        refreshList(aData);
+                    }
+                }
+            }
+            @Override
+            public void onModelDataError(Message msg) {
+
+            }
+        });
+        delegate.sendRequest(GET_APPLIED_VOUCHER, request, request);
+    }
+
+
+    @Override
+    public void deleteAppliedVoucher(String voucherCode) {
+        final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+
+        DeleteVoucherRequest deleteVoucherRequest = new DeleteVoucherRequest(delegate.getStore(), null, new AbstractModel.DataLoadListener() {
+            @Override
+            public void onModelDataLoadFinished(Message msg) {
+                int requestCode = msg.what;
+                if(requestCode==DELETE_VOUCHER){
+                    if(msg.obj==null){
+                        Log.v("Voucher Delete", "Success");
+                        getCurrentCartDetails();// refresh as voucher is removed
+                    }
+
+                }
+            }
+
+            @Override
+            public void onModelDataError(Message msg) {
+                Log.v("Voucher Delete", "failure");
+            }
+        }, voucherCode);
+        delegate.sendRequest(DELETE_VOUCHER, deleteVoucherRequest, deleteVoucherRequest);
+    }
+
 }

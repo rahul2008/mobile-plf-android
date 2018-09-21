@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
@@ -50,6 +51,8 @@ public class HybrisStore extends AbstractStore {
     private static final String SUFFIX_PAY = "/pay";
     private static final String SUFFIX_CONTACT_PHONE_URL = "%s" + ".querytype.(fallback)";
 
+    private static final String SUFFIX_VOUCHERS = "/vouchers";
+
     private boolean mIsNewUser;
 
     private StoreConfiguration mStoreConfig;
@@ -89,6 +92,8 @@ public class HybrisStore extends AbstractStore {
 
     private String mMakePaymentUrl;
     private String mPlaceOrderUrl;
+
+    private String mApplyVoucherUrl;
 
     public HybrisStore(Context context, IAPSettings iapSettings) {
         mIAPUser = createUser(context);
@@ -255,6 +260,9 @@ public class HybrisStore extends AbstractStore {
         mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
         mGetPhoneContactUrl = "https://www.philips.com/prx/cdls/B2C/" +
                 mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
+
+        //Voucher
+        mApplyVoucherUrl = mBaseURl.concat(SUFFIX_CARTS).concat(SUFFIX_CURRENT).concat(SUFFIX_VOUCHERS).concat(LANG)+ mStoreConfig.getLocale();
     }
 
     //OAuth
@@ -398,5 +406,23 @@ public class HybrisStore extends AbstractStore {
     @Override
     public String getPhoneContactUrl(String category) {
         return String.format(mGetPhoneContactUrl, category);
+    }
+
+    //carts/current/vouchers?lang=en_US
+    @Override
+    public String getApplyVoucherUrl() {
+        Log.v("voucher: ",mApplyVoucherUrl);
+        return mApplyVoucherUrl;
+    }
+
+    @Override
+    public String getDeleteVoucherUrl(String voucherId) {
+        String deleteVoucherUrl= mBaseURl.concat(SUFFIX_CARTS).concat(SUFFIX_CURRENT).concat(SUFFIX_VOUCHERS).concat(SEPERATOR).concat(voucherId).concat(LANG)+ mStoreConfig.getLocale();
+        return deleteVoucherUrl;
+    }
+
+    @Override
+    public String getAppliedVoucherUrl() {
+        return mApplyVoucherUrl;
     }
 }
