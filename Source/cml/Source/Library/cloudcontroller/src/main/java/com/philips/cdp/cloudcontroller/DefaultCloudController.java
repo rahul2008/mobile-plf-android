@@ -6,6 +6,7 @@
 package com.philips.cdp.cloudcontroller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -62,6 +63,8 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     private static final String CERTIFICATE_EXTENSION = ".cer";
     private static final String DCS_RESPONSE = "RESPONSE";
     private static final String DCS_CHANGE = "CHANGE";
+    public static final String CLOUD_CONTROLLER_SETTINGS = "CloudControllerSettings";
+    public static final String KPS_CONFIGURATION_INFO_HASH = "KpsConfigurationInfoHash";
 
     private PairingController mPairingController;
 
@@ -75,12 +78,29 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         PROVISIONED
     }
 
-    private enum ProvisionStrategy {
-        UNKNOWN, OLD, NEW
-    }
-
     @VisibleForTesting
-    ProvisionStrategy mProvisionStrategy = ProvisionStrategy.UNKNOWN;
+    enum ProvisionStrategy {
+        UNKNOWN(0), OLD(1), NEW(2);
+
+        private int value;
+
+        ProvisionStrategy(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public static ProvisionStrategy fromInt(int value) {
+            for (ProvisionStrategy strategy : values()) {
+                if (strategy.getValue() == value) {
+                    return strategy;
+                }
+            }
+            return UNKNOWN;
+        }
+    }
 
     private Context mContext;
     private KpsConfigurationInfo mKpsConfigurationInfo;
@@ -148,6 +168,12 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     @VisibleForTesting
+    ProvisionStrategy getProvisionStrategy() {
+        SharedPreferences mPreferences = mContext.getSharedPreferences(CLOUD_CONTROLLER_SETTINGS, Context.MODE_PRIVATE);
+        return ProvisionStrategy.fromInt(mPreferences.getInt("PROVISIONING_STRATEGY", ProvisionStrategy.UNKNOWN.getValue()));
+    }
+
+    @VisibleForTesting
     void setSignOn(final SignOn signOn) {
         this.mSignOn = signOn;
     }
@@ -192,7 +218,16 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     @NonNull
     @VisibleForTesting
     Provision getProvision() {
-        return getOldProvision();
+        if (getStoredKpsConfigurationInfoHash() == null || (mKpsConfigurationInfo.getHash() == getStoredKpsConfigurationInfoHash())) {
+            switch (getProvisionStrategy()) {
+                case NEW:
+                    return getNewProvision();
+                default:
+                    return getOldProvision();
+            }
+        } else {
+            return getNewProvision();
+        }
     }
 
     @NonNull
@@ -224,6 +259,16 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         Log.i(LogConstants.KPS, appId + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
         provision.setApplicationInfo(createIdentityInformation(appId, String.valueOf(appVersion)));
         return provision;
+    }
+
+    @VisibleForTesting
+    Integer getStoredKpsConfigurationInfoHash() {
+        SharedPreferences preferences = mContext.getSharedPreferences(CLOUD_CONTROLLER_SETTINGS, Context.MODE_PRIVATE);
+        if (preferences.contains(KPS_CONFIGURATION_INFO_HASH)) {
+            return preferences.getInt(KPS_CONFIGURATION_INFO_HASH, 0);
+        } else {
+            return null;
+        }
     }
 
     private IdentityInformation createIdentityInformation(String relationshipId, String appVersion) {

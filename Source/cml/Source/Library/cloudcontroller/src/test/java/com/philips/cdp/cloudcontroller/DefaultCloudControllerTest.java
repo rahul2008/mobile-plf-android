@@ -76,10 +76,12 @@ public class DefaultCloudControllerTest {
 
     private final String cppId = "valid cppId";
     private ByteBuffer downloadDataBuffer;
+    private Integer mockKpsConfigurationInfoHash = 2345;
 
     private DefaultCloudController subject;
 
     private boolean performProvisionMock = true;
+    private DefaultCloudController.ProvisionStrategy mProvisionStrategy = DefaultCloudController.ProvisionStrategy.UNKNOWN;
 
     @Before
     public void setUp() {
@@ -97,6 +99,8 @@ public class DefaultCloudControllerTest {
 
         when(mockKpsConfiguration.getAppId()).thenReturn("bogusId");
         when(mockKpsConfiguration.getAppVersion()).thenReturn(1337);
+        when(mockKpsConfiguration.getHash()).thenReturn(2345);
+
 
         initBufferUsedForTests();
     }
@@ -117,9 +121,24 @@ public class DefaultCloudControllerTest {
                 Provision getNewProvision() {
                     return mockNewProvision;
                 }
+
+                @Override
+                ProvisionStrategy getProvisionStrategy() {
+                    return mProvisionStrategy;
+                }
+
+                @Override
+                Integer getStoredKpsConfigurationInfoHash() {
+                    return mockKpsConfigurationInfoHash;
+                }
             };
         } else {
-            subject = new DefaultCloudController(mockContext, mockKpsConfiguration);
+            subject = new DefaultCloudController(mockContext, mockKpsConfiguration) {
+                @Override
+                ProvisionStrategy getProvisionStrategy() {
+                    return mProvisionStrategy;
+                }
+            };
         }
     }
 
@@ -484,8 +503,35 @@ public class DefaultCloudControllerTest {
     //}
 
     @Test
-    public void givenProvisioningStrategyIsStored_whenStartingProvisioning_thenStoredProvisioningStrategyShouldBeUsed() {
-        fail();
+    public void givenStoredProvisioningEvidenceDoesNotExists_andProvisioningStrategyIsStored_whenStartingProvisioning_thenStoredProvisioningStrategyShouldBeUsed() {
+        mockKpsConfigurationInfoHash = null;
+
+        createDefaultCloudController();
+
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.UNKNOWN;
+        assertEquals(mockOldProvision, subject.getProvision());
+
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.OLD;
+        assertEquals(mockOldProvision, subject.getProvision());
+
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.NEW;
+        assertEquals(mockNewProvision, subject.getProvision());
+    }
+
+    @Test
+    public void givenProvisioningEvidenceExists_andProvisioningEvidenceHasNotChanged_andProvisioningStrategyIsStored_whenStartingProvisioning_thenStoredProvisioningStrategyShouldBeUsed() {
+        // mockKpsConfigurationInfoHash is set to 2345 in setup
+
+        createDefaultCloudController();
+
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.UNKNOWN;
+        assertEquals(mockOldProvision, subject.getProvision());
+
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.OLD;
+        assertEquals(mockOldProvision, subject.getProvision());
+
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.NEW;
+        assertEquals(mockNewProvision, subject.getProvision());
     }
 
     @Test
@@ -496,22 +542,29 @@ public class DefaultCloudControllerTest {
     }
 
     @Test
-    public void givenOldProvisioningStrategyIsUsed_whenPairingRelationsExist_thenOldProvisioningStrategyWillBeStored() {
-        fail();
+    public void givenProvisioningEvidenceExists_andProvisioningEvidenceHasChanged_whenStartingProvisioning_thenNewProvisioningStrategyWillBeUsed() {
+        mockKpsConfigurationInfoHash = 42;
+
+        createDefaultCloudController();
+
+        assertEquals(mockNewProvision, subject.getProvision());
     }
 
     @Test
-    public void givenOldProvisioningStrategyIsUsed_whenNoPairingRelationsExist_thenNewProvisioningStrategyWillBeStored() {
+    public void givenOldProvisioningStrategyIsUsed_whenNoPairingRelationsExist_thenNewProvisioningStrategyWillBeUsed() {
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.OLD;
+
+        createDefaultCloudController();
+
+    }
+
+    @Test
+    public void givenOldProvisioningStrategyIsUsed_whenPairingRelationsExist_thenOldProvisioningStrategyWillBeUsed() {
         fail();
     }
 
     @Test
     public void givenProvisioningStrategyIsNotStored_whenProvisioningIsFinished_thenProvisioningStrategyIsStored() {
-        fail();
-    }
-
-    @Test
-    public void givenProvisioningEvidenceExists_andProvisioningEvidenceHasChanged_whenStartingProvisioning_thenNewProvisioningStrategyWillBeStored() {
         fail();
     }
 
