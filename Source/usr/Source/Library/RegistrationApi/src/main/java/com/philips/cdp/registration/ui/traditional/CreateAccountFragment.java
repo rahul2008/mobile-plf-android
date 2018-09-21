@@ -646,8 +646,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @OnClick(R2.id.usr_createscreen_create_button)
     public void progressBar() {
-        RLog.d(TAG,
-                "register: progresBarButton");
+        RLog.d(TAG, "register: progresBarButton");
         RLog.d(TAG, "Register Account");
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (usrCreatescreenTermsandconditionsCheckbox.isChecked()) {

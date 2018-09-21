@@ -11,6 +11,8 @@ import java.util.List;
 
 public class URNotification {
 
+    private static final String TAG = "URNotification";
+
     private final Activity mActivity;
     private NotificationType mNotificationType = NotificationType.NOTIFICATION_BAR;
     private NotificationBarView notificationBarView;
@@ -44,7 +46,7 @@ public class URNotification {
     }
 
     public URNotification(Activity mActivity, URNotificationInterface notificationInterface) {
-        RLog.d("URNotification", "URNotification");
+        RLog.d(TAG, "URNotification");
         this.mActivity = mActivity;
         this.notificationInterface = notificationInterface;
     }
@@ -56,18 +58,18 @@ public class URNotification {
 
         if (mNotificationType == NotificationType.NOTIFICATION_BAR) {
             if (notificationBarView != null) return;
-            RLog.d("URNotification", "URNotification : new NotificationBarView");
+            RLog.d(TAG, "URNotification : new NotificationBarView");
             notificationBarView = new NotificationBarView(mActivity);
         }
         switch (mNotificationType) {
 
             case INLINE:
-                RLog.d("URNotification", "Notifying Inline message with :" + notificationMessage.getMessage());
+                RLog.d(TAG, "URNotification : INLINE : showError :" + notificationMessage.getMessage());
                 notificationInterface.notificationInlineMsg(notificationMessage.getMessage());
                 break;
 
             case NOTIFICATION_BAR:
-                RLog.d("URNotification", "URNotification : NOTIFICATION_BAR : showError");
+                RLog.d(TAG, "URNotification : NOTIFICATION_BAR : showError");
                 if (!notificationBarView.isNotificationBarViewShowing())
                     notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));
                 break;
@@ -79,7 +81,7 @@ public class URNotification {
             case NOTIFICATION_BAR:
                 if (notificationBarView != null && notificationBarView.isNotificationBarViewShowing()) {
                     notificationBarView.hidePopup();
-                    RLog.d("URNotification", "URNotification : hideNotification");
+                    RLog.d(TAG, "URNotification : hideNotification");
                     notificationBarView = null;
 
                 }

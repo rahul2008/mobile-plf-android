@@ -236,12 +236,12 @@ public class RegistrationHelper {
 
 
     public void setLocale(String languageCode, String countryCode) {
-        RLog.d("Locale", "setLocale language" + languageCode + " country" + countryCode);
+        RLog.d(TAG, "setLocale language " + languageCode + " country " + countryCode);
         mLocale = new Locale(languageCode, countryCode);
     }
 
     public synchronized Locale getLocale() {
-        RLog.d("Locale", "Locale locale  " + mLocale);
+        RLog.d(TAG, "Locale getLocale  " + mLocale);
         return mLocale;
     }
 
