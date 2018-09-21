@@ -29,6 +29,14 @@ public class AddressFragmentTest {
     private Context mContext;
     private AddressFragment addressFragment;
 
+    private AddressPresenter addressPresenter;
+    @Mock
+    private AddressContractor addressContractorMock;
+    @Mock
+    private android.view.View billingViewMock;
+    @Mock
+    private android.view.View shippingViewMock;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -36,9 +44,13 @@ public class AddressFragmentTest {
         mContext = RuntimeEnvironment.application;
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
+
+        Mockito.when(addressContractorMock.getBillingAddressView()).thenReturn(billingViewMock);
+        Mockito.when(addressContractorMock.getShippingAddressView()).thenReturn(shippingViewMock);
+        addressPresenter = new AddressPresenter(addressContractorMock);
     }
 
-    @Test(expected = InflateException.class)
+    @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
 
         SupportFragmentTestUtil.startFragment(addressFragment);
@@ -67,7 +79,7 @@ public class AddressFragmentTest {
     /* s mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
         mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);*/
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = NullPointerException.class)
     public void shouldInitializeViews() throws Exception {
 
         initViews();
@@ -76,7 +88,7 @@ public class AddressFragmentTest {
         Mockito.when(addressFragment.getFragmentByID(R.id.fragment_billing_address)).thenReturn(billingFragmentMock);
 */
 
-        addressFragment.initializeViews(viewMock);
+        addressFragment.initializeViews(viewMock,addressPresenter);
 
     }
 
@@ -106,7 +118,6 @@ public class AddressFragmentTest {
         Mockito.when(addressFieldsMock.getTitleCode()).thenReturn("abcdef");
         Mockito.when(addressFieldsMock.getPostalCode()).thenReturn("123456");
         Mockito.when(addressFieldsMock.getPhone1()).thenReturn("1234567890");
-        addressFragment.addressPayload(addressFieldsMock);
-
+        addressPresenter.addressPayload(addressFieldsMock);
     }
 }

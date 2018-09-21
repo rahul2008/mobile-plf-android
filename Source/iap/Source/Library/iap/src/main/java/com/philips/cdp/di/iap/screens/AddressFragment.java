@@ -50,18 +50,19 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.iap_address, container, false);
-        mParentContainer = view.findViewById(R.id.address_container);
-        billingView = view.findViewById(R.id.dls_iap_address_billing);
-        shoppingView = view.findViewById(R.id.dls_iap_address_shipping);
         addressPresenter = new AddressPresenter(this);
-        addressBillingView = new AddressBillingView(addressPresenter);
-        addressShippingView = new AddressShippingView(addressPresenter);
-        initializeViews(view);
-
+        initializeViews(view,addressPresenter);
         return view;
     }
 
-    void initializeViews(View rootView) {
+    void initializeViews(View rootView,AddressPresenter addressPresenter) {
+
+        mParentContainer = rootView.findViewById(R.id.address_container);
+        billingView = rootView.findViewById(R.id.dls_iap_address_billing);
+        shoppingView = rootView.findViewById(R.id.dls_iap_address_shipping);
+
+        addressBillingView = new AddressBillingView(addressPresenter);
+        addressShippingView = new AddressShippingView(addressPresenter);
 
         tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
 

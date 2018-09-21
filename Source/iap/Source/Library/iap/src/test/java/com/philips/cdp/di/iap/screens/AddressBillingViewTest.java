@@ -4,35 +4,41 @@ import android.content.Context;
 
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
-import com.philips.cdp.di.iap.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
+
+import java.util.HashMap;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
-public class DLSShippingAddressFragmentTest {
+public class AddressBillingViewTest {
     private Context mContext;
-    private AddressShippingView addressShippingView;
+    private AddressBillingView addressBillingView;
+
+    AddressPresenter addressPresenter;
+    @Mock
+    private AddressContractor addressContractorMock;
 
     @Before
     public void setUp() {
         initMocks(this);
-        addressShippingView = new AddressShippingView();
         mContext = RuntimeEnvironment.application;
-        TestUtils.getStubbedStore();
-        TestUtils.getStubbedHybrisDelegate();
     }
 
+    @Mock
+    HashMap<String, String> addressFiledMapMock;
     @Test(expected = NullPointerException.class)
-    public void shouldDisplayAddressSelectionFragment() {
-
-        SupportFragmentTestUtil.startFragment(addressShippingView);
+    public void shouldUpdateFileds() throws Exception {
+        addressPresenter = new AddressPresenter(addressContractorMock);
+        addressBillingView = new AddressBillingView(addressPresenter);
+        addressBillingView.updateFields(addressFiledMapMock);
     }
 }
