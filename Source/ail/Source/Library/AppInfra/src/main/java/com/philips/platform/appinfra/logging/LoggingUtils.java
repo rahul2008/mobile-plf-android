@@ -121,15 +121,15 @@ public class LoggingUtils {
     }
 
     public static String getCurrentDateAndTime(String format) {
-//        DateFormat dateFormat = new SimpleDateFormat(format);
-//        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-//        Date date = new Date();
-//        return dateFormat.format(date);
+        DateFormat dateFormat = new SimpleDateFormat(format);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date date = new Date();
+        return dateFormat.format(date);
 
 
-        DateTime dateTime = new DateTime(currentTimeMillis());
-        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
-        return dateTime.toString(format);
+//        DateTime dateTime = new DateTime(currentTimeMillis());
+//        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+//        return dateTime.toString(format);
     }
 
     public static String getFormattedDateAndTime(long datetime,String format) {
