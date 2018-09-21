@@ -10,6 +10,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -45,6 +46,7 @@ public class MarketingOptinTest {
         marketingOptin.init(context);
     }
 
+    @Test
     public void testSettingAbTestValues() {
         when(abTestClientInterfaceMock.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE)).thenReturn("Sonicare");
         RegistrationContentConfiguration registrationContentConfiguration = marketingOptin.getRegistrationContentConfiguration();
