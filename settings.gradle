@@ -144,3 +144,7 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 //project(':dcc-demoapp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
 //include ':ail-demoapp'
 //project(':ail-demoapp').projectDir = new File('./Source/ail/Source/DemoApp/app')
+
+//Theme generator
+//include ':dlsresources'
+//project(':dlsresources').projectDir = new File('./Source/uid/Source/UIKit/dlsresources')
