@@ -21,32 +21,30 @@ import java.util.HashMap;
 
 public class PRXDisclaimerExecutor {
 
+
+    public interface ProductDisclaimerListener {
+        void onFetchProductDisclaimerSuccess(DisclaimerModel disclaimerModel);
+
+        void onFetchProductDisclaimerFailure(String error);
+    }
+
+
+
     Context mContext;
     ArrayList<String> mCtns;
-    AbstractModel.DataLoadListener mDataLoadListener;
-    private HashMap<String, DisclaimerModel> mDisclaimerData;
+    private ProductDisclaimerListener mProductDisclaimerListener;
 
 
-    //Handling error cases where Product is in Hybris but not in PRX store.
-    protected volatile int mProductUpdateCount;
-    protected int mProductPresentInPRX;
 
-    public PRXDisclaimerExecutor(Context mContext, ArrayList<String> mCtns, AbstractModel.DataLoadListener mDataLoadListener) {
+    public PRXDisclaimerExecutor(Context mContext, ArrayList<String> mCtns, ProductDisclaimerListener aProductDisclaimerListener) {
         this.mContext = mContext;
         this.mCtns = mCtns;
-        this.mDataLoadListener = mDataLoadListener;
-        this.mDisclaimerData = new HashMap<>();
+        this.mProductDisclaimerListener = aProductDisclaimerListener;
     }
 
     public void preparePRXDataRequest() {
         for (String ctn : mCtns) {
             executeRequest(ctn, prepareDisclaimerRequest(ctn));
-        }
-
-        if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
-            Message result = Message.obtain();
-            result.obj = mDisclaimerData;
-            mDataLoadListener.onModelDataLoadFinished(result);
         }
     }
 
@@ -57,18 +55,15 @@ public class PRXDisclaimerExecutor {
         mRequestManager.executeRequest(productDisclaimerRequestBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                mProductUpdateCount++;
-                mProductPresentInPRX++;
                 DisclaimerModel disclaimerModel = (DisclaimerModel) responseData;
                 if (disclaimerModel.isSuccess()) {
                     CartModelContainer.getInstance().addProductDisclaimer(ctn, disclaimerModel);
                 }
-                notifySuccess((DisclaimerModel) responseData);
+                notifySuccess(disclaimerModel);
             }
 
             @Override
             public void onResponseError(final PrxError prxError) {
-                mProductUpdateCount++;
                 if (prxError.getStatusCode() == 404) {
                     notifyError(ctn, prxError.getStatusCode(), "Product not found in your store");
                 } else
@@ -78,39 +73,20 @@ public class PRXDisclaimerExecutor {
     }
 
     protected void notifyError(final String ctn, final int errorCode, final String error) {
-        Message result = Message.obtain();
-        result.obj = error;
-
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + ctn + "_" + errorCode + error);
-
-        if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
-            if (mProductPresentInPRX > 0) {
-                result.obj = mDisclaimerData;
-                mDataLoadListener.onModelDataLoadFinished(result);
-            } else {
-                mDataLoadListener.onModelDataError(result);
-            }
-        }
+        mProductDisclaimerListener.onFetchProductDisclaimerFailure(error);
     }
 
     protected void notifySuccess(DisclaimerModel model) {
         if (model.getData() != null) {
-           // mDisclaimerData.put(model.getData().getCtn(), model);
-        }
-        if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
-            Message result = Message.obtain();
-            result.obj = mDisclaimerData;
-            mDataLoadListener.onModelDataLoadFinished(result);
+            mProductDisclaimerListener.onFetchProductDisclaimerSuccess(model);
         }
     }
 
     private ProductDisclaimerRequest prepareDisclaimerRequest(final String code) {
-//        String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
-
         ProductDisclaimerRequest productDisclaimerRequest = new ProductDisclaimerRequest(code, null);
         productDisclaimerRequest.setSector(PrxConstants.Sector.B2C);
-        // productDisclaimerRequest.setLocaleMatchResult(locale);
         productDisclaimerRequest.setCatalog(PrxConstants.Catalog.CONSUMER);
         return productDisclaimerRequest;
     }

@@ -87,7 +87,7 @@ import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_UPDATE_PRODUCT_COUNT;
 public class ProductDetailFragment extends InAppBaseFragment implements
         PRXAssetExecutor.AssetListener, View.OnClickListener, EventListener,
         AbstractModel.DataLoadListener, ErrorDialogFragment.ErrorDialogListener,
-        ProductDetailController.ProductSearchListener, ShoppingCartListener<ShoppingCartData>, AlertListener {
+        ProductDetailController.ProductSearchListener, ShoppingCartListener<ShoppingCartData>, AlertListener, PRXDisclaimerExecutor.ProductDisclaimerListener {
 
 
     public static final String TAG = ProductDetailFragment.class.getName();
@@ -125,7 +125,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private boolean mIsFromVertical;
     private ArrayList<StoreEntity> mUpdtedStoreEntity;
     private RelativeLayout mParentLayout;
-    private DisclaimerModel mDisclaimerModel;
+
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
@@ -216,11 +216,12 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
         mBundle = getArguments();
         mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
+        mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
         //  mCTNValue = "HX8331";
-        //fetchProductDetailFromPrx();
+        fetchProductDetailFromPrx();
 
 
-       if (mBundle != null) {
+       /*if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 mIsFromVertical = true;
                 mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
@@ -245,7 +246,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
                 populateData();
             }
-        }
+        }*/
 
     }
 
@@ -310,7 +311,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
                     mProductSummary = entry.getValue();
                     populateData();
-                    makeDisclaimerRequestThroughRest();
+                    makeDisclaimerRequest();
                     break;
                 }
             }
@@ -322,42 +323,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         ctnList.add(mCTNValue);
         PRXDisclaimerExecutor builder = new PRXDisclaimerExecutor(mContext, ctnList, this);
         builder.preparePRXDataRequest();
-
     }
 
-    private void makeDisclaimerRequestThroughRest() {
-        //https://stg.philips.com/prx/product/B2C/en_US/CONSUMER/products/HX8332/11.disclaimers
-        String baseURL = "https://stg.philips.com/prx/product/B2C/en_US/CONSUMER/products/";
-        final RestInterface mRestInterface = CartModelContainer.getInstance().getAppInfraInstance().getRestClient();
-        final StringRequest stringRequest = new StringRequest(Request.Method.GET, baseURL + mCTNValue + ".disclaimers", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("disc ", " success response " + response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    ResponseData responseData = new DisclaimerModel().parseJsonResponseData(jsonObject);
-                    mDisclaimerModel = (DisclaimerModel) responseData;
-                    showDisclaimer(mDisclaimerModel);
-                    Log.d("disc ", " success response " + response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("disc ", " failed " + error.getMessage());
-            }
-        }
-                , null, null, null);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mRestInterface.getRequestQueue().add(stringRequest);
-            }
-        }).start();
-    }
 
     @Override
     public void onResume() {
@@ -929,6 +897,20 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onNegativeBtnClick() {
+
+    }
+
+
+
+    @Override
+    public void onFetchProductDisclaimerSuccess(DisclaimerModel disclaimerModel) {
+        if(null!=disclaimerModel) {
+            showDisclaimer(disclaimerModel);
+        }
+    }
+
+    @Override
+    public void onFetchProductDisclaimerFailure(String error) {
 
     }
 }

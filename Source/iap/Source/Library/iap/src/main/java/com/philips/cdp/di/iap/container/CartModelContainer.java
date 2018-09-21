@@ -47,6 +47,7 @@ public class CartModelContainer {
     private CartModelContainer() {
         mPRXSummaryObjects = new HashMap<>();
         mPRXAssetObjects = new HashMap<>();
+        mPRXDisclaimerObjects = new HashMap<>();
         mProductList = new HashMap<>();
     }
 
