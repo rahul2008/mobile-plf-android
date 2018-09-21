@@ -478,7 +478,7 @@ public class AddressShippingView
 
         if (mAddressFieldsHashmap == null) return;
         addressPresenter.setContinueButtonState(true);
-       // mParentFragment.mBtnContinue.setText(getString(R.string.iap_save));
+        addressContractor.setContinueButtonText(mContext.getString(R.string.iap_save));
         CartModelContainer.getInstance().setAddressId(mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
 
         mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));

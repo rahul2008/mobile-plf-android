@@ -17,6 +17,7 @@ public interface AddressContractor {
 
 
     void setContinueButtonState(boolean state);
+    void setContinueButtonText(String buttonText);
 
     String getContinueButtonText();
 

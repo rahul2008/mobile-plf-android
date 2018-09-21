@@ -272,8 +272,12 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
 
     @Override
     public void setContinueButtonState(boolean state) {
-        mBtnContinue.setText(getString(R.string.iap_continue));
         mBtnContinue.setEnabled(state);
+    }
+
+    @Override
+    public void setContinueButtonText(String buttonText) {
+        mBtnContinue.setText(buttonText);
     }
 
     @Override
