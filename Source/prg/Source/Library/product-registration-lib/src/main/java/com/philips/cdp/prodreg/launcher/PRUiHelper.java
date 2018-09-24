@@ -108,7 +108,6 @@ public class PRUiHelper {
     private void invokeProductRegistrationAsActivity(final ActivityLauncher activityLauncher, final PRLaunchInput prLaunchInput) {
         ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_PRODUCT_REGISTRATION);
         Intent intent = new Intent(context, ProdRegBaseActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, prLaunchInput.getProducts());
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, activityLauncher.getEnterAnimation());
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, activityLauncher.getExitAnimation());
