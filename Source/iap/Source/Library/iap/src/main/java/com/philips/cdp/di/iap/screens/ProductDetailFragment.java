@@ -25,9 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
@@ -61,27 +59,17 @@ import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.prxclient.datamodels.Disclaimer.Disclaimer;
 import com.philips.cdp.prxclient.datamodels.Disclaimer.DisclaimerModel;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.appinfra.rest.request.StringRequest;
-import com.philips.platform.uid.thememanager.UIDHelper;
-import com.philips.platform.uid.utils.DialogConstants;
-import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.UIPicker;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.cdp.di.iap.R.id.delete_btn;
 import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_UPDATE_PRODUCT_COUNT;
 
 public class ProductDetailFragment extends InAppBaseFragment implements
@@ -215,9 +203,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
 
         mBundle = getArguments();
-        //  mCTNValue = "HX8331";
-
-
        if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 mIsFromVertical = true;
@@ -243,6 +228,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
                 populateData();
             }
+
         }
 
     }
@@ -308,11 +294,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
                     mProductSummary = entry.getValue();
                     populateData();
-                    makeDisclaimerRequest();
                     break;
                 }
             }
         }
+        makeDisclaimerRequest();
     }
 
     private void makeDisclaimerRequest() {
