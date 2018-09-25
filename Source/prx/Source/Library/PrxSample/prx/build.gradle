@@ -86,7 +86,11 @@ dependencies {
        implementation philipsdeps.AppInfra
     }
 
+    testCompile deps.junit
+    androidTestCompile deps.junit
     androidTestImplementation deps.junit
+    androidTestCompile deps.json
+    testCompile deps.json
     androidTestImplementation deps.mockito
     implementation deps.support.appcompatv7
     implementation deps.support.design
