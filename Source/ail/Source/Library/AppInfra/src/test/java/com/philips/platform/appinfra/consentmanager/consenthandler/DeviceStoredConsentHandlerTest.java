@@ -40,6 +40,9 @@ public class DeviceStoredConsentHandlerTest {
     private DeviceStoredConsentHandler handler;
     private String storedValueHighVersion = "true" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER +"2018-05-18 07:30:27.119 +0000";
     private String storedValueFalseVersion = "false" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2018-07-08 10:19:27.156 +0000";
+    private String storedValueWithTimeStamp = "true" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "1539780583150";
+
+
     @Mock
     private SecureStorageInterface storageInterface;
 
@@ -107,6 +110,17 @@ public class DeviceStoredConsentHandlerTest {
             @Override
             public void onGetConsentsSuccess(ConsentStatus consent) {
                 assertTrue(consent.getConsentState() == ConsentStates.rejected);
+            }
+        });
+    }
+
+    @Test
+    public void checkThatWeCanReadOldConsentsWithTimeStamp() {
+        when(storageInterface.fetchValueForKey(anyString(), eq(secureStorageError))).thenReturn(storedValueWithTimeStamp);
+        handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
+            @Override
+            public void onGetConsentsSuccess(ConsentStatus consent) {
+                assertTrue(consent.getConsentState() == ConsentStates.active);
             }
         });
     }

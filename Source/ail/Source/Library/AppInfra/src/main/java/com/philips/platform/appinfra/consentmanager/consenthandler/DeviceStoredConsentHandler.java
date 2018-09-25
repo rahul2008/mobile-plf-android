@@ -15,6 +15,9 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -97,7 +100,11 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
                 if (storedTimestamp == null) {
                     timestamp = new Date(0);
                 } else {
+                   if (storedTimestamp.contains("-")) {
                     timestamp = AIUtility.convertStringToDate(storedTimestamp, "yyyy-MM-dd HH:mm:ss.SSS Z");
+                    } else {
+                        timestamp = new DateTime(storedTimestamp, DateTimeZone.UTC).toDate();
+                    }
                 }
                 consentStatus = new ConsentStatus(consentInfo.startsWith(String.valueOf(false)) ? ConsentStates.rejected : ConsentStates.active,
                         Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)), timestamp);
