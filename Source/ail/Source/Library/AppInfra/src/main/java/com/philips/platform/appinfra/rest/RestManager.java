@@ -217,7 +217,7 @@ public class RestManager implements RestInterface {
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             if (connectivityManager != null && connectivityManager.getActiveNetworkInfo()!=null) {
                 NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-                connected = activeNetwork.isConnectedOrConnecting();
+                connected = activeNetwork.isConnected();
             }
             for (NetworkConnectivityChangeListener networkConnectivityChangeListener : networkConnectivityChangeListeners) {
                 networkConnectivityChangeListener.onConnectivityStateChange(connected);
