@@ -46,16 +46,21 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     private View shoppingView;
     private AddressPresenter addressPresenter;
 
+    private boolean isShippingAddressFilled = false;
+    private boolean isBillingAddressFilled = false;
+    private boolean isAddressFilledFromDeliveryAddress = false;
+    private boolean isDeliveryFirstTimeUser = Utility.isDelvieryFirstTimeUser;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.iap_address, container, false);
         addressPresenter = new AddressPresenter(this);
-        initializeViews(view,addressPresenter);
+        initializeViews(view, addressPresenter);
         return view;
     }
 
-    void initializeViews(View rootView,AddressPresenter addressPresenter) {
+    void initializeViews(View rootView, AddressPresenter addressPresenter) {
 
         mParentContainer = rootView.findViewById(R.id.address_container);
         billingView = rootView.findViewById(R.id.dls_iap_address_billing);
@@ -110,13 +115,13 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
                 //((AddressBillingView) billingFragment).disableAllFields();
                 getDLSBillingAddress().clearAllFields();
                 mBtnContinue.setEnabled(false);
-                Utility.isAddressFilledFromDeliveryAddress = true;
+                setAddressFilledFromDeliveryAddressStatus(true);
                 getDLSBillingAddress().enableAllFields();
 
             } else {
                 // ((AddressBillingView) billingFragment).enableAllFields();
                 getDLSBillingAddress().disableAllFields();
-                Utility.isAddressFilledFromDeliveryAddress = true;
+                setAddressFilledFromDeliveryAddressStatus(true);
                 mBtnContinue.setEnabled(true);
                 HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
                 getDLSBillingAddress().updateFields(mAddressFieldsHashmap);
@@ -171,7 +176,6 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
             } else {
                 createNewAddressOrUpdateIfAddressIDPresent();
             }
-            // removeStaticFragments();
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
@@ -187,7 +191,6 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
 
 
     private void createNewAddressOrUpdateIfAddressIDPresent() {
-        // createCustomProgressBar(mParentContainer,BIG);
         if (shippingAddressFields != null) {
             CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
         }
@@ -200,16 +203,14 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         }
 
         HashMap<String, String> updateAddressPayload = new HashMap<>();
-        if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save)))
-            updateAddressPayload = addressPresenter.addressPayload(shippingAddressFields);
-        else {
-            if (checkBox.isChecked() && billingAddressFields == null) {
-                billingAddressFields = shippingAddressFields;
-                if (billingAddressFields != null) {
-                    updateAddressPayload = addressPresenter.addressPayload(billingAddressFields);
-                }
+
+        if (checkBox.isChecked() && billingAddressFields == null) {
+            billingAddressFields = shippingAddressFields;
+            if (billingAddressFields != null) {
+                updateAddressPayload = addressPresenter.addressPayload(billingAddressFields);
             }
         }
+
         if (!getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
             if (CartModelContainer.getInstance().getAddressId() != null && CartModelContainer.getInstance().getAddressFromDelivery() != null) {
                 if (CartModelContainer.getInstance().isAddessStateVisible() && CartModelContainer.getInstance().getRegionIsoCode() != null) {
@@ -241,8 +242,6 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         HashMap<String, String> addressHashMap = addressPresenter.addressPayload(shippingAddressFields);
         addressPresenter.updateAddress(addressHashMap);
     }
-
-
 
 
     private void showError(Message msg) {
@@ -364,6 +363,46 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public AddressFields getShippingAddressFields() {
         return shippingAddressFields;
+    }
+
+    @Override
+    public boolean isShippingAddressFilled() {
+        return isShippingAddressFilled;
+    }
+
+    @Override
+    public boolean isBillingAddressFilled() {
+        return isBillingAddressFilled;
+    }
+
+    @Override
+    public boolean isAddressFilledFromDeliveryAddress() {
+        return isAddressFilledFromDeliveryAddress;
+    }
+
+    @Override
+    public boolean isDeliveryFirstTimeUser() {
+        return isDeliveryFirstTimeUser;
+    }
+
+    @Override
+    public void setShippingAddressFilledStatus(boolean status) {
+        this.isShippingAddressFilled = status;
+    }
+
+    @Override
+    public void setBillingAddressFilledStatus(boolean status) {
+        this.isBillingAddressFilled = status;
+    }
+
+    @Override
+    public void setAddressFilledFromDeliveryAddressStatus(boolean status) {
+        this.isAddressFilledFromDeliveryAddress = status;
+    }
+
+    @Override
+    public void setDeliveryFirstTimeUserStatus(boolean status) {
+        this.isDeliveryFirstTimeUser = status;
     }
 
     @Override

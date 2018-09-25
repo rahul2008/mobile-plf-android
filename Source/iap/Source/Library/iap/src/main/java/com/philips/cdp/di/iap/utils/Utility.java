@@ -34,10 +34,7 @@ import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
 public class Utility {
     public static final String TAG = Utility.class.getName();
     private static AlertDialogFragment alertDialogFragment;
-    public static boolean isShippingAddressFilled=false;
-    public static boolean isBillingAddressFilled=false;
-    public static boolean isAddressFilledFromDeliveryAddress=false;
-    public static boolean isDelvieryFirstTimeUser=false;
+    public static boolean isDelvieryFirstTimeUser = false;
 
     public static void hideKeypad(Activity pContext) {
         if(pContext == null){

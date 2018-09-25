@@ -430,18 +430,18 @@ public class AddressShippingView
             IAPLog.d(IAPLog.LOG, shippingAddressFields.toString());
             if (addressContractor.getCheckBoxState() && shippingAddressFields!=null ) {
                 addressContractor.setContinueButtonState(true);
-                Utility.isShippingAddressFilled=true;
+                addressContractor.setShippingAddressFilledStatus(true);
                 addressContractor.setShippingAddressFields(shippingAddressFields);
-            } else if(shippingAddressFields!=null && Utility.isBillingAddressFilled) {
+            } else if(shippingAddressFields!=null && addressContractor.isBillingAddressFilled()) {
                 addressContractor.setContinueButtonState(true);
-                Utility.isShippingAddressFilled=true;
+                addressContractor.setShippingAddressFilledStatus(true);
             }else{
-                Utility.isShippingAddressFilled=false;
+                addressContractor.setShippingAddressFilledStatus(false);
             }
 
             return true;
         } else {
-            Utility.isShippingAddressFilled=false;
+            addressContractor.setShippingAddressFilledStatus(false);
         }
         return false;
     }

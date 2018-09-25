@@ -50,10 +50,13 @@ public class AddressBillingView
 
     private AddressBillingPresenter addressBillingPresenter;
 
+    AddressContractor addressContractor;
+
 
 
     public AddressBillingView(AddressPresenter addressPresenter) {
         this.addressPresenter = addressPresenter;
+        addressContractor = addressPresenter.getAddressContractor();
         this.mContext = this.addressPresenter.getAddressContractor().getActivityContext();
         this.view = this.addressPresenter.getAddressContractor().getBillingAddressView();
         addressBillingPresenter = new AddressBillingPresenter();
@@ -448,8 +451,8 @@ public class AddressBillingView
             IAPLog.d(IAPLog.LOG, billingAddressFields.toString());
             if (billingAddressFields != null) {
                 addressPresenter.setBillingAddressFields(billingAddressFields);
-                Utility.isBillingAddressFilled=true;
-                if(Utility.isShippingAddressFilled || Utility.isAddressFilledFromDeliveryAddress) {
+                addressContractor.setBillingAddressFilledStatus(true);
+                if(addressContractor.isShippingAddressFilled() || addressContractor.isAddressFilledFromDeliveryAddress()) {
                     addressPresenter.setContinueButtonState(true);
                 }
                 else
@@ -458,11 +461,11 @@ public class AddressBillingView
                 }
                 return true;
             }else {
-                Utility.isBillingAddressFilled=false;
+                addressContractor.setBillingAddressFilledStatus(false);
                 addressPresenter.setContinueButtonState(false);
             }
         } else {
-            Utility.isBillingAddressFilled=false;
+            addressContractor.setBillingAddressFilledStatus(false);
             addressPresenter.setContinueButtonState(false);
         }
         return false;
