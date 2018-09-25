@@ -60,19 +60,19 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return registeredProducts;
     }
 
-
+    Button registerLater;
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
-        registerButton = (Button) view.findViewById(R.id.prg_welcomeScreen_yes_button);
-        Button registerLater = (Button) view.findViewById(R.id.prg_welcomeScreen_no_button);
-        productImage = (ImageView) view.findViewById(R.id.prg_welcomeScreem_product_image);
-        benefitsMessage = (TextView) view.findViewById(R.id.prg_welcomeScreen_benefit_label);
+        registerButton = view.findViewById(R.id.prg_welcomeScreen_yes_button);
+        registerLater = view.findViewById(R.id.prg_welcomeScreen_no_button);
+        productImage = view.findViewById(R.id.prg_welcomeScreem_product_image);
+        benefitsMessage = view.findViewById(R.id.prg_welcomeScreen_benefit_label);
         benefitsMessage.setText(getString(R.string.PRG_ReceiveUpdates_Lbltxt) + "\n" +
                 getString(R.string.prod_reg_benefits_conf_message));
         registerButton.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());
-        ProdRegTagging.getInstance().trackPage(AnalyticsConstants.PRODUCT_REGISTRATION_OFFER_SCREEN);
+        ProdRegTagging.trackPage(AnalyticsConstants.PRODUCT_REGISTRATION_OFFER_SCREEN);
         return view;
     }
 
@@ -89,6 +89,10 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 productImage.setImageDrawable(getResources().getDrawable(resId, getActivity().getTheme()));
                 productImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 productImage.requestLayout();
+            }
+            boolean hideNoThanksButton = dependencies.getBoolean(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE);
+            if(!hideNoThanksButton ) {
+                registerLater.setVisibility(View.GONE);
             }
         }
     }

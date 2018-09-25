@@ -34,11 +34,6 @@ android {
             buildConfigField "String", "LIBRARY_VERSION", "\"${version}\""
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'

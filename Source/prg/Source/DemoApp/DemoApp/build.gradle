@@ -1,76 +1,24 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-        classpath builddeps.jruby_gradle
+        classpath builddeps.cdpSCM
         classpath builddeps.jruby_gradle
     }
 }
 
-
-//apply from: 'localization.gradle'
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "product-registration-libApp"
-
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-
-       apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -84,7 +32,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('apk')
+                publications('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -94,7 +42,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -129,6 +78,7 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+
     defaultConfig {
         applicationId "com.philips.cdp.demo"
         minSdkVersion versions.minsdk
@@ -142,12 +92,15 @@ android {
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
     }
+
     dataBinding {
         enabled = true
     }
+
     signingConfigs {
         release
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -155,17 +108,12 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    android {
-        lintOptions {
-            abortOnError false
-        }
-    }
 
     /*
     This defined for signing the apk -- start
      */
     def Properties props = new Properties()
-	println  "  projectDir:   "+ project.projectDir;
+    println "  projectDir:   " + project.projectDir;
     def propFile = new File("${project.projectDir}/signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
@@ -201,14 +149,10 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
-
-
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
-
 
     if (directdependencies) {
         implementation project(':product-registration-libUApp')

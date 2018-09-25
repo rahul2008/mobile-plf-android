@@ -31,4 +31,9 @@ public class RestInterfaceMock implements RestInterface {
     public void unregisterNetworkChangeListener(NetworkConnectivityChangeListener networkConnectivityChangeListener) {
 
     }
+
+    @Override
+    public void clearCacheResponse() {
+
+    }
 }

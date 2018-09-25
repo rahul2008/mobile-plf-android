@@ -40,7 +40,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class UserRegistrationInitializer {
 
-    private String TAG = UserRegistrationInitializer.class.getSimpleName();
+    private String TAG = "UserRegistrationInitializer";
 
     @Inject
     ServiceDiscoveryInterface serviceDiscoveryInterface;
@@ -236,7 +236,7 @@ public class UserRegistrationInitializer {
 
                     @Override
                     public void onError(Throwable e) {
-                        RLog.e(TAG, "getLocaleServiceDiscovery : onError, So calling getLocaleServiceDiscoveryByCountry ");
+                        RLog.e(TAG, "getLocaleServiceDiscovery : onError: So calling getLocaleServiceDiscoveryByCountry ");
                         getLocaleServiceDiscoveryByCountry(context, registrationType);
                     }
                 });
@@ -255,7 +255,7 @@ public class UserRegistrationInitializer {
 
                     @Override
                     public void onError(Throwable e) {
-                        RLog.e(TAG, "getLocaleServiceDiscovery : onError, So notify JANRAIN_INIT_FAILURE");
+                        RLog.e(TAG, "getLocaleServiceDiscovery : onError: So notify JANRAIN_INIT_FAILURE");
                         ThreadUtils.postInMainThread(context, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                     }
                 });

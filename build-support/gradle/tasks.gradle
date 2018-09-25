@@ -1,11 +1,18 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'jacoco'
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
 jacoco {
     apply from: buildscript.sourceFile.parent + "/versions.gradle"
     toolVersion versions.jacocoToolVersionForRobolectricTests
 }
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     reports {
         xml.enabled = true
         html.enabled = true

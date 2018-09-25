@@ -1,82 +1,39 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
 archivesBaseName = "UserRegistrationUApp"
 
 buildscript {
-    repositories {
-        apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-    
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.releaseexternal
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
     }
 }
 
-allprojects {
-    repositories {
-        maven {
-            url repos.releaseexternal
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
-
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+
     dexOptions {
         jumboMode true
     }
 
     defaultConfig {
-
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 1
         versionName version
         multiDexEnabled true
-
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
-
     }
     buildTypes {
         release {
@@ -103,19 +60,16 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
-
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation deps.adobemobilelib
+    implementation deps.support.appcompatv7
+    implementation deps.support.supportv4
     implementation deps.support.design
-
-
+    implementation deps.greenrobot
 
     if (directdependencies) {
         implementation project(':uAppFwLib')
@@ -129,17 +83,6 @@ dependencies {
         implementation philipsdeps.uid
         implementation philipsdeps.registrationApi
     }
-    implementation deps.adobemobilelib
-
-    implementation deps.support.appcompatv7
-    implementation deps.support.supportv4
-
-
-    implementation(deps.butterknife) {
-
-        exclude module: "com.android.support"
-    }
-    implementation deps.greenrobot
 }
 
 tasks.withType(Test) {

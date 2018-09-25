@@ -1,74 +1,24 @@
-apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-
-archivesBaseName = "iap"
-
-def coverageSourceDirs = [
-        '../iap/src/main/java'
-]
-
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-    }
-}
-
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
+apply plugin: 'com.android.library'
 
-        flatDir {
-            dirs 'libs'
-        }
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+
+archivesBaseName = "iap"
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
     }
 }
-
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -88,12 +38,8 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-    lintOptions {
-        abortOnError false
-    }
 
     testOptions {
-        unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
         unitTests.all {
             jvmArgs '-noverify'
@@ -117,7 +63,6 @@ android {
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
-
     }
 
     buildTypes {
@@ -128,7 +73,6 @@ android {
             debuggable true
             minifyEnabled false
         }
-
     }
 
     packagingOptions {
@@ -154,13 +98,8 @@ android {
         exclude 'lib/x86/librsjni.so'
         exclude 'lib/x86/libRSSupport.so'
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
-
 }
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 configurations {
     compile.exclude module: 'support-annotations'
@@ -170,8 +109,6 @@ configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
-
-//apply from: "build.workaround-missing-resource.gradle"
 
 dependencies {
     //3rd party
@@ -184,12 +121,7 @@ dependencies {
     implementation deps.gson
     implementation deps.libphonenumber
 
-
-
-
-    //Coco
-
-
+    // Philips components
     if (directdependencies) {
         implementation project(':uid')
         implementation project(':registrationApi')
@@ -205,34 +137,29 @@ dependencies {
     // Tests
     testImplementation deps.junit
     testImplementation deps.mockito
-    testImplementation deps.robolectric_shadows
-    testImplementation(deps.robolectric) {
-        exclude module: 'commons-logging'
-        exclude module: 'support-v4'
-    }
-    testImplementation deps.robolectric_utils
-    testImplementation deps.robolectric_junit2
+    // TODO: Migrate this to platform defined set of Robolectric (currently version 3.8)
+    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
+    testImplementation 'org.robolectric:robolectric:3.4-rc2'
+    testImplementation 'org.robolectric:robolectric-utils:3.4-rc2'
+    testImplementation 'org.robolectric:robolectric-junit:3.4-rc2'
 
+    // Android test
     androidTestImplementation deps.assertj
-    androidTestImplementation deps.dexmaker_google_mockito
-    androidTestImplementation deps.dexmaker_google
     androidTestImplementation deps.espresso_web
     androidTestImplementation deps.uiautomator
-
-    // Android runner and rules support
-    androidTestImplementation deps. android_testrunner
+    androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.android_testrules
+    
     // Espressosupport
     androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    
     androidTestImplementation(deps.espresso_contrib) {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
-    // add this for intent mocking support
-    // androidTestImplementation 'com.android.support.test.espresso:espresso-intents:2.2.2'
 
     // add this for webview testing support
     androidTestImplementation deps.espresso_web
@@ -245,11 +172,8 @@ task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
     classes = fileTree('build/intermediates/classes/debug')
     source = fileTree('src/main/java')
     classpath = files()
-
     effort = 'max'
-
     excludeFilter = file("findbugs-exclude.xml")
-
     reports {
         xml.enabled = true
         html.enabled = false
@@ -262,12 +186,10 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
     ignoreFailures = true
     ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
     source = fileTree('src/main/java')
-
     reports {
         xml.enabled = true
         html.enabled = false
     }
-
 }
 
 tasks.withType(Test) {

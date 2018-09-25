@@ -27,7 +27,7 @@
     <item name="uid_button_disabled_alpha" format="float" type="dimen">0.25</item>
 
     <!-- Quiet button-->
-    <dimen name="uid_quiet_button_padding_left_right">24dp</dimen>
+    <dimen name="uid_quiet_button_padding_left_right">8dp</dimen>
     <dimen name="uid_quiet_button_min_size">24dp</dimen>
     <dimen name="uid_quiet_button_max_width">40dp</dimen>
     <dimen name="uid_quiet_icon_only_padding_left_right">8dp</dimen>

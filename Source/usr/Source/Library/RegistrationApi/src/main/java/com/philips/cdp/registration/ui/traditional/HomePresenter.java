@@ -163,7 +163,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
     void registerWeChatApp() {
         mWeChatAppId = appConfiguration.getWeChatAppId();
         mWeChatAppSecret = appConfiguration.getWeChatAppSecret();
-        RLog.d(weChat, weChat + "Id " + mWeChatAppId + weChat + "Secrete" + mWeChatAppSecret);
+        RLog.d(weChat, weChat + " mWeChatAppId " + mWeChatAppId + weChat + "Secret" + mWeChatAppSecret);
 
         if (mWeChatAppId != null && mWeChatAppSecret != null) {
             mWeChatApi = WXAPIFactory.createWXAPI(homeContract.getActivityContext(),
@@ -195,7 +195,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
 
     void handleWeChatCode(String pWeChatCode) {
-        RLog.d("WECHAT", "WeChat Code: " + pWeChatCode);
+        RLog.d(TAG,"WECHAT : Code: " + pWeChatCode);
         WeChatAuthenticator weChatAuthenticator = new WeChatAuthenticator();
         weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, pWeChatCode,
                 new WeChatAuthenticationListener() {
@@ -204,19 +204,19 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
                         try {
                             final String token = jsonObj.getString("access_token");
                             final String openId = jsonObj.getString("openid");
-                            RLog.d("WECHAT", "WeChat token " + token + " openid " + openId);
+                            RLog.d(TAG,"WECHAT : token " + token + " openid " + openId);
                             user.loginUserUsingSocialNativeProvider(homeContract.getActivityContext(),
                                     "wechat", token, openId, HomePresenter.this, "");
                         } catch (JSONException e) {
                             homeContract.wechatAuthenticationSuccessParsingError();
-                            RLog.e("WECHAT", "handleWeChatCode : Error wechatAuthenticationSuccessParsingError" + e.getMessage());
+                            RLog.e(TAG,"WECHAT :handleWeChatCode : Error wechatAuthenticationSuccessParsingError" + e.getMessage());
                         }
                     }
 
                     @Override
                     public void onFail() {
                         homeContract.wechatAuthenticationFailError();
-                        RLog.e("WECHAT", "handleWeChatCode : Error wechatAuthenticationFailError ");
+                        RLog.e(TAG,"WECHAT : handleWeChatCode : Error wechatAuthenticationFailError ");
                     }
                 });
     }
@@ -225,7 +225,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
     @Override
     public void onLoginFailedWithTwoStepError(final JSONObject prefilledRecord,
                                               final String socialRegistrationToken) {
-        RLog.d("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
+        RLog.d(TAG, "Login failed with two step error" + "JSON OBJECT :"
                 + prefilledRecord);
         EventBus.getDefault().post(new LoginFailureNotification());
         homeContract.createSocialAccount(prefilledRecord, socialRegistrationToken);
@@ -422,13 +422,13 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
         public void onReceive(Context context, Intent intent) {
             int error_code = intent.getIntExtra(RegConstants.WECHAT_ERR_CODE, 0);
             String weChatCode = intent.getStringExtra(RegConstants.WECHAT_CODE);
-            RLog.d("WECHAT", "BroadcastReceiver Got message: " + error_code + " " + weChatCode);
+            RLog.d(TAG,"WECHAT :BroadcastReceiver Got message: " + error_code + " " + weChatCode);
             switch (error_code) {
                 case BaseResp.ErrCode.ERR_OK:
                     if (weChatCode != null) {
                         homeContract.startWeChatLogin(weChatCode);
                     } else {
-                        RLog.d("WECHAT", "Wechat = " + weChatCode);
+                        RLog.d(TAG,"WECHAT : errorcode = " + weChatCode);
                     }
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:

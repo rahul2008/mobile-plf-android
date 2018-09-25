@@ -103,6 +103,12 @@ public class RestManager implements RestInterface {
         }
     }
 
+    @Override
+    public void clearCacheResponse() {
+        if (mRequestQueue != null && mRequestQueue.getCache() != null)
+            mRequestQueue.getCache().clear();
+    }
+
     private NetworkInfo getNetworkInfo() {
         //Check for mobile data or Wifi network Info
         final ConnectivityManager connMgr = (ConnectivityManager) mAppInfra.getAppInfraContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -205,22 +211,17 @@ public class RestManager implements RestInterface {
     }
 
     class NetworkChangeReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(final Context context, final Intent intent) {
             boolean connected = false;
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                    connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-                //we are connected to a network
-                connected = true;
-            } else
-                connected = false;
+            if (connectivityManager != null && connectivityManager.getActiveNetworkInfo()!=null) {
+                NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+                connected = activeNetwork.isConnected();
+            }
             for (NetworkConnectivityChangeListener networkConnectivityChangeListener : networkConnectivityChangeListeners) {
                 networkConnectivityChangeListener.onConnectivityStateChange(connected);
             }
         }
-
     }
-
 }

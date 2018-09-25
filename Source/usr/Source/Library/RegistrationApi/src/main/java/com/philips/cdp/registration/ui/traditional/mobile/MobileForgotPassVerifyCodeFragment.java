@@ -270,7 +270,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     public void resetSmsPassword() {
 
-        RLog.d("MobileVerifyCodeFragment ", "response" + verificationCodeValidationEditText.getText()
+        RLog.d(TAG , "response" + verificationCodeValidationEditText.getText()
                 + " " + redirectUriValue + " " + responseToken);
         constructRedirectUri();
         final String redirectUriKey = "redirectUriValue";

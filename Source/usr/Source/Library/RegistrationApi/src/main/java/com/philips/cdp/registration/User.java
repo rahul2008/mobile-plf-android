@@ -87,7 +87,7 @@ import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getPref
  */
 public class User {
 
-    private final String TAG = User.class.getSimpleName();
+    private final String TAG = "User";
     private final LoggingInterface loggingInterface;
 
     @Inject
@@ -544,6 +544,7 @@ public class User {
             else {
                 JSONObject mObject = new JSONObject(captured.toString());
                 if (!mObject.isNull(loginType)) {
+                    RLog.d(TAG, "DIUserProfile isLoginTypeVerified= " + captured.toString());
                     return true;
                 }
             }
@@ -674,8 +675,7 @@ public class User {
     private boolean isSignedInOnAcceptedTermsAndConditions() {
         boolean isAcceptTerms = RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired();
         if (isAcceptTerms) {
-            //TODO : remove if not required ,as its duplicate
-            RLog.i(TAG, "isUserSignIn isAcceptTerms : " + isAcceptTerms);
+            RLog.d(TAG, "isUserSignIn isAcceptTerms : " + isAcceptTerms);
 
             if (!isTermsAndConditionAccepted()) {
                 RLog.d(TAG, "isSignedInOnAcceptedTermsAndConditions isTermsAndConditionAccepted clear data on SignIn :" + false);

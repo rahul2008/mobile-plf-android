@@ -36,7 +36,7 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
 
     private String mBirthDate;
 
-    private final String TAG = UpdateDateOfBirth.class.getSimpleName();
+    private final String TAG = "UpdateDateOfBirth";
 
     public UpdateDateOfBirth(Context context) {
         super(context);

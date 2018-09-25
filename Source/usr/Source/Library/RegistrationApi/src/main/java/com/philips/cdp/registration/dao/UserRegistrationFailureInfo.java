@@ -29,7 +29,7 @@ import java.util.List;
  * Class user registration failure info
  */
 public class UserRegistrationFailureInfo {
-    private final String TAG = UserRegistrationFailureInfo.class.getSimpleName();
+    private final String TAG = "UserRegistrationFailureInfo";
 
     private String errorTagging = "";
 
@@ -165,7 +165,7 @@ public class UserRegistrationFailureInfo {
 //            RLog.d("RegUtility", "getTaggingErrorDescription : " + serverResponse.toString());
             return serverResponse.getString("error");
         } catch (JSONException e) {
-            RLog.e("RegUtility", "getTaggingErrorDescription Exception: " + e.getMessage());
+            RLog.e(TAG, "getTaggingErrorDescription Exception: " + e.getMessage());
             return "";
         }
     }

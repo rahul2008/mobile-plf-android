@@ -25,7 +25,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import org.json.JSONObject;
 
 public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListener {
-    private String TAG = RefreshandUpdateUserHandler.class.getSimpleName();
+    private String TAG = "RefreshandUpdateUserHandler";
 
     public UpdateUserRecordHandler mUpdateUserRecordHandler;
     private Context mContext;
@@ -116,7 +116,8 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
             @Override
             public void onFailure(CaptureAPIError failureParam) {
-                RLog.e(TAG, "refreshUpdateUser : onFailure  " + failureParam.captureApiError.code);
+                try{
+                    RLog.e(TAG, "onFailure : refreshUpdateUser error " + failureParam.captureApiError.raw_response);
                 if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
 
                     user.refreshLoginSession(new RefreshLoginSessionHandler() {
@@ -138,13 +139,17 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                     });
                 }
                 handler.onRefreshUserFailed(0);
+                } catch (Exception e){
+                    RLog.e(TAG, "onFailure :  Exception " + e.getMessage());
+                }
+
             }
         });
     }
 
     @Override
     public void onFlowDownloadSuccess() {
-        RLog.e(TAG, "onFlowDownloadSuccess");
+        RLog.e(TAG, "onFlowDownloadSuccess is called");
         refreshAndUpdateUser(refreshUserHandler, user, password);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
@@ -152,7 +157,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
     @Override
     public void onFlowDownloadFailure() {
-        RLog.e(TAG, "onFlowDownloadFailure");
+        RLog.e(TAG, "onFlowDownloadFailure is called");
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
         if (refreshUserHandler != null) {
             refreshUserHandler.onRefreshUserFailed(0);

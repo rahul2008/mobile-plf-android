@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.le.ScanRecord;
 import android.os.Handler;
 import android.os.ParcelUuid;
@@ -151,6 +152,11 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
             @Override
             public boolean matchesOnAdvertisedData(BluetoothDevice bluetoothDevice, BleScanRecord bleScanRecord, int rssi) {
                 return resultForMatchesOnAdvertisedData;
+            }
+
+            @Override
+            public int getConnectionPriority() {
+                return BluetoothGatt.CONNECTION_PRIORITY_BALANCED;
             }
         });
 

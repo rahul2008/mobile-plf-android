@@ -16,6 +16,8 @@ import java.util.regex.*;
 public class FieldsValidator {
 
     private static Phonenumber.PhoneNumber numberProto;
+    private static final String TAG = "RegistrationSettingsURL";
+
 
     public static boolean isValidName(String name) {
         if (name == null)
@@ -36,10 +38,8 @@ public class FieldsValidator {
         if (email.contains(" "))
             return false;
 
-        String emailPattern = "^(?!.\\-\\_{2,}.)(?!.*?[._-]{2})[a-zA-Z0-9][a-zA-Z0-9._%+-]{0,61}[^`~,.<>;':\"\\/\\[\\]\\|{}()=" +
-                "_+\\?*&\\^%$#@!\\\\-]@((?!.\\-\\_{2,}.)(?!.*?[._-]{2})[^`~,.<>;':\"\\/\\[\\]\\|{}()=_+\\?*&\\^%$#@!\\\\-][-a-zA-Z0-9_.]+" +
-                "[^`~,.<>;':\"\\/\\[\\]\\|{}()=_+\\?*&\\^%$#@!\\\\-]{0,}\\.[a-zA-z]+(?!.*?[0-9])[^`~,.<>;':\"\\/\\[\\]\\|{}()=_+" +
-                "\\?*&\\^%$#@!\\\\-])$";
+
+        String emailPattern = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
@@ -179,9 +179,9 @@ public class FieldsValidator {
                 try {
                     // You can find your country code here
                     numberProto = phoneUtil.parse(mobile, "CN");
-                    RLog.d("MobileNumber", phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.E164));
+                    RLog.d(TAG,"isValidMobileNumber " + phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.E164));
                 } catch (NumberParseException e) {
-                    RLog.d("MobileNumber Exception", "NumberParseException : MobileNumber");
+                    RLog.d(TAG,"isValidMobileNumber Exception NumberParseException " +e.getMessage());
                     return false;
                 }
 
@@ -205,7 +205,7 @@ public class FieldsValidator {
                 } catch (NumberParseException e) {
                     e.printStackTrace();
                 }
-                RLog.d("Validated MobileNumber", mobileNumber);
+                RLog.d(TAG,"Validated MobileNumber"+ mobileNumber);
             }
         }
         return mobileNumber;

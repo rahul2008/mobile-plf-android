@@ -1,8 +1,6 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2018.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -18,8 +16,7 @@ task zipDocuments(type: Zip) {
 }
 
 task zipcClogs(type: Zip) {
-
-        from project.projectDir
-        include '/build/reports/androidTests/connected/**'
-        classifier 'logs'
+    from project.projectDir
+    include '/build/reports/androidTests/connected/**'
+    classifier 'logs'
 }

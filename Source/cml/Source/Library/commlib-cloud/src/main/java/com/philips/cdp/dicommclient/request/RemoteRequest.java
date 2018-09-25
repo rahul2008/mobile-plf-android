@@ -28,6 +28,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private static final int CPP_DEVICE_CONTROL_TIMEOUT = 30000;
     static final int SUCCESS = 0;
     private static String BASEDATA_PORTS = "{ \"product\":\"%d\",\"port\":\"%s\",\"data\":%s}";
+    private static String BASENODATA_PORTS = "{ \"product\":\"%d\",\"port\":\"%s\"}";
     private static final String DICOMM_REQUEST = "DICOMM-REQUEST";
     private static int REQUEST_PRIORITY = 20;
     private static int REQUEST_TTL = 5;
@@ -55,9 +56,13 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     }
 
     private String createDataToSend(String portName, int productId, Map<String, Object> dataMap) {
-        String data = GsonProvider.get().toJson(dataMap, Map.class);
-        String dataToSend = String.format(Locale.US, BASEDATA_PORTS, productId, portName, data);
-
+        String dataToSend;
+        if (mDataMap == null || mDataMap.size() == 0) {
+            dataToSend = String.format(Locale.US, BASENODATA_PORTS, productId, portName);
+        } else {
+            String data = GsonProvider.get().toJson(dataMap, Map.class);
+            dataToSend = String.format(Locale.US, BASEDATA_PORTS, productId, portName, data);
+        }
         DICommLog.i(DICommLog.REMOTEREQUEST, "Data to send: " + dataToSend);
         return dataToSend;
     }
@@ -109,7 +114,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     @Override
     public void onDCSResponseReceived(final @NonNull String dcsResponse, final @NonNull String conversationId) {
         mResponseConversationId = conversationId;
-        if(mConversationId == null) {
+        if (mConversationId == null) {
             DICommLog.i(DICommLog.REMOTEREQUEST, "onDCSResponseReceived before setting conv. ID");
         }
         DICommLog.i(DICommLog.REMOTEREQUEST, "DCSEvent received from the right request");

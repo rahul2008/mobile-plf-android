@@ -71,21 +71,10 @@ public class MyAccountState extends BaseState{
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
         launchInput.setMyaTabConfig(myaTabConfig);
         String[] profileItems;
-        AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) fragmentLauncher.getFragmentActivity().getApplicationContext();
-        String cacheStatus = appFrameworkApplication.getAppInfra().getAbTesting().getCacheStatus().name();
-        String abTestingCacheStatus;
-        if(cacheStatus.equalsIgnoreCase(ABTestClientInterface.CACHESTATUS.EXPERIENCE_NOT_UPDATED.name())) {
-            abTestingCacheStatus = "Not Updated";
-        } else {
-            abTestingCacheStatus = "Updated";
-        }
-        abTestingCacheStatus = actContext.getString(R.string.RA_abTest_cache_status);
-        if (abTestingCacheStatus != null)
-            abTestingCacheStatus = abTestingCacheStatus.concat(abTestingCacheStatus);
         if (isHybrisAvailable) {
-            profileItems = new String[]{"MYA_My_details", "MYA_My_orders", abTestingCacheStatus};
+            profileItems = new String[]{"MYA_My_details", "MYA_My_orders"};
         } else {
-            profileItems = new String[]{"MYA_My_details", "MYA_Marketing_Optin", abTestingCacheStatus};
+            profileItems = new String[]{"MYA_My_details", "MYA_Marketing_Optin"};
         }
         String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
         launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
