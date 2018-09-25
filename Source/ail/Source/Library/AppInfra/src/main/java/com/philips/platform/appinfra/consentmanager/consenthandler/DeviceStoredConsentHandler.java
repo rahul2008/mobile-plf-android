@@ -100,10 +100,10 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
                 if (storedTimestamp == null) {
                     timestamp = new Date(0);
                 } else {
-                   if (isTimestampInCurrentFormat(storedTimestamp)) {
+                   if (isTimestampInCurrentFormattedDateTimeString(storedTimestamp)) {
                         timestamp = AIUtility.convertStringToDate(storedTimestamp, "yyyy-MM-dd HH:mm:ss.SSS Z");
                     } else {
-                        timestamp = new DateTime(Long.parseLong(storedTimestamp), DateTimeZone.UTC).toDate();
+                        timestamp = parseDateTimeFromLegacyFormat(storedTimestamp);
                     }
                 }
                 consentStatus = new ConsentStatus(consentInfo.startsWith(String.valueOf(false)) ? ConsentStates.rejected : ConsentStates.active,
@@ -114,7 +114,11 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
         }
     }
 
-    private boolean isTimestampInCurrentFormat(String storedTimestamp) {
+    private Date parseDateTimeFromLegacyFormat(String storedTimestamp) {
+        return new DateTime(Long.parseLong(storedTimestamp), DateTimeZone.UTC).toDate();
+    }
+
+    private boolean isTimestampInCurrentFormattedDateTimeString(String storedTimestamp) {
         return storedTimestamp.contains("-");
     }
 
