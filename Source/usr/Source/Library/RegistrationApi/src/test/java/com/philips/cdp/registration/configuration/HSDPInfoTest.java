@@ -1,42 +1,44 @@
 package com.philips.cdp.registration.configuration;
 
-import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertEquals;
 
+@RunWith(MockitoJUnitRunner.class)
+public class HSDPInfoTest extends TestCase {
 
-public class HSDPInfoTest extends RegistrationApiInstrumentationBase {
-
-    HSDPInfo hsdpInfo;
+    private HSDPInfo hsdpInfo;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-            hsdpInfo = new HSDPInfo("sharedId", "secretId", "baseURL", "applicationName");
+        hsdpInfo = new HSDPInfo("sharedId", "secretId", "baseURL", "applicationName");
     }
 
     @Test
-    public void testSetSharedId() throws Exception {
+    public void testSetSharedId() {
         assertEquals("sharedId",hsdpInfo.getSharedId());
     }
 
     @Test
-    public void testSetSecreteId() throws Exception {
+    public void testSetSecreteId() {
         assertEquals("secretId",hsdpInfo.getSecreteId());
 
     }
 
     @Test
-    public void testSetBaseURL() throws Exception {
+    public void testSetBaseURL() {
         assertEquals("baseURL",hsdpInfo.getBaseURL());
 
     }
 
     @Test
-    public void testSetApplicationName() throws Exception {
+    public void testSetApplicationName() {
         assertEquals("applicationName",hsdpInfo.getApplicationName());
     }
 }
