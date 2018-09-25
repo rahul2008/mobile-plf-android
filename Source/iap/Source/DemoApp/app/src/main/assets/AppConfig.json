@@ -29,7 +29,7 @@
   "appinfra": {
     "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
-    "appidentity.appState": "PRODUCTION",
+    "appidentity.appState": "STAGING",
     "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": [

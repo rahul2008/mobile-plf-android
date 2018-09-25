@@ -42,7 +42,7 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
         LeakCanary.install(this);
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         // HSDPConfiguration();
-        initRegistration(Configuration.PRODUCTION);
+        initRegistration(Configuration.STAGING);
         RLog.enableLogging();
     }
 
