@@ -344,7 +344,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
         try {
             mIapInterface.launch(new ActivityLauncher
-                            (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME),
+                            (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, DEFAULT_THEME, null),
                     mIapLaunchInput);
 
         } catch (RuntimeException exception) {
@@ -440,7 +440,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         URInterface urInterface = new URInterface();
 
         ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null,  0, null);
         urInterface.launch(activityLauncher, urLaunchInput);
 
 
