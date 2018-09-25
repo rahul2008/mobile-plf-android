@@ -37,9 +37,12 @@ import java.util.Locale;
 public class AddressPresenter implements AddressController.AddressListener,PaymentController.PaymentListener {
 
     private final AddressContractor addressContractor;
-    private final AddressController mAddressController;
+
+    protected AddressController mAddressController;
+    protected PaymentController mPaymentController;
+
     private final PhoneNumberUtil phoneNumberUtil;
-    private PaymentController mPaymentController;
+
 
     public AddressPresenter(AddressContractor addressContractor) {
 
@@ -255,6 +258,7 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
         return mShippingAddressHashMap;
     }
 
+    //This method can be further refactored as this is not testable
     boolean validatePhoneNumber(EditText editText, String country, String number) {
         try {
             Phonenumber.PhoneNumber phoneNumber = phoneNumberUtil.parse(number, country);
