@@ -2,7 +2,7 @@ package com.philips.cdp.prxclient.request;
 
 import com.philips.cdp.prxclient.response.ResponseData;
 
-import junit.framework.AssertionFailedError;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;

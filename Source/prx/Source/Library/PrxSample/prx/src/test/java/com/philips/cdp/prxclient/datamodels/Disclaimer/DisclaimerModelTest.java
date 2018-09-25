@@ -1,6 +1,6 @@
 package com.philips.cdp.prxclient.datamodels.Disclaimer;
 
-import android.util.Log;
+
 
 import com.philips.cdp.prxclient.request.ProductDisclaimerRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.android.volley.VolleyLog.TAG;
+
 import static org.junit.Assert.*;
 
 public class DisclaimerModelTest {
