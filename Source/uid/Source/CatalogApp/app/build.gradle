@@ -144,6 +144,8 @@ dependencies {
     implementation deps.glide
     implementation deps.calligraphy
 
+    annotationProcessor deps.butterknife_compiler
+
     implementation(deps.support.recyclerview) {
         exclude module: "com.android.support"
     }
@@ -151,6 +153,9 @@ dependencies {
         exclude module: "com.android.support"
     }
     implementation(deps.butterknife) {
+        exclude module: "com.android.support"
+    }
+    implementation(deps.butterknife_compiler) {
         exclude module: "com.android.support"
     }
     testImplementation(deps.junit) {

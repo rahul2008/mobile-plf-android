@@ -156,14 +156,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Weak"
-                    android:textColor="@color/uid_signal_red_level_15"/>
+                    android:textColor="@color/uid_signal_red_level_30"/>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/usr_createscreen_passwordhint_label"
                     style="@style/reg_text_background"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/uid_signal_red_level_15"
+                    android:background="@color/uid_signal_red_level_30"
                     android:padding="@dimen/reg_dimen_12dp"
                     android:text="@string/USR_Password_Guidelines"
                     android:textColor="?attr/uidLabelDescriptorNormalTextColor"/>

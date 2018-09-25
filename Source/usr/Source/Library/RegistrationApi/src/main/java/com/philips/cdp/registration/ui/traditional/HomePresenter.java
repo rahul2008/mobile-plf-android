@@ -225,7 +225,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
     @Override
     public void onLoginFailedWithTwoStepError(final JSONObject prefilledRecord,
                                               final String socialRegistrationToken) {
-        RLog.d("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
+        RLog.d(TAG, "Login failed with two step error" + "JSON OBJECT :"
                 + prefilledRecord);
         EventBus.getDefault().post(new LoginFailureNotification());
         homeContract.createSocialAccount(prefilledRecord, socialRegistrationToken);

@@ -13,5 +13,5 @@ task generateAllThemes(type: JavaExec, group: "DLS theme tasks") {
 
 task generateThemesAndCopyXmls(dependsOn: ['generateAllThemes', "test"], type: Copy, group: "DLS theme tasks") {
     from 'generated'
-    into '../../UIKit/uid/Src/main/res/values'
+    into './Source/uid/Source/UIKit/uid/Src/main/res/values'
 }

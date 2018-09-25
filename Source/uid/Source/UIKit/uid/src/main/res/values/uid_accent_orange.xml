@@ -30,12 +30,12 @@
     <item name="uidButtonAccentDisabledBackgroundColor">#59DE7510</item>
     <item name="uidButtonAccentDisabledIconColor">#80FFFFFF</item>
     <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item>
-    <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_orange_level_45</item>
-    <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalBackgroundColor">@color/uid_orange_level_45</item>
     <item name="uidNotificationBarAccentNormalButtonTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalPrimaryTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalSecondaryTextColor">@color/uid_orange_level_5</item>
+    <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_orange_level_45</item>
+    <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
   </style>
   <style name="AccentOrange.VeryLight">
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_orange_level_50</item>
@@ -47,12 +47,12 @@
     <item name="uidButtonAccentDisabledBackgroundColor">#59CC6116</item>
     <item name="uidButtonAccentDisabledIconColor">#80FFFFFF</item>
     <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item>
-    <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_orange_level_50</item>
-    <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalBackgroundColor">@color/uid_orange_level_50</item>
     <item name="uidNotificationBarAccentNormalButtonTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalPrimaryTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalSecondaryTextColor">@color/uid_orange_level_5</item>
+    <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_orange_level_50</item>
+    <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
   </style>
   <style name="AccentOrange.Bright">
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_orange_level_45</item>
@@ -64,12 +64,12 @@
     <item name="uidButtonAccentDisabledBackgroundColor">#59DE7510</item>
     <item name="uidButtonAccentDisabledIconColor">#80FFFFFF</item>
     <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item>
-    <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_orange_level_45</item>
-    <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalBackgroundColor">@color/uid_orange_level_45</item>
     <item name="uidNotificationBarAccentNormalButtonTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalPrimaryTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalSecondaryTextColor">@color/uid_orange_level_5</item>
+    <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_orange_level_45</item>
+    <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
   </style>
   <style name="AccentOrange.VeryDark">
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_orange_level_45</item>
@@ -81,11 +81,11 @@
     <item name="uidButtonAccentDisabledBackgroundColor">#59DE7510</item>
     <item name="uidButtonAccentDisabledIconColor">#80FFFFFF</item>
     <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item>
-    <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_orange_level_45</item>
-    <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalBackgroundColor">@color/uid_orange_level_45</item>
     <item name="uidNotificationBarAccentNormalButtonTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalPrimaryTextColor">@color/uid_level_white</item>
     <item name="uidNotificationBarAccentNormalSecondaryTextColor">@color/uid_orange_level_5</item>
+    <item name="uidNotificationBadgeAccentBackgroundColor">@color/uid_orange_level_45</item>
+    <item name="uidNotificationBadgeAccentTextColor">@color/uid_level_white</item>
   </style>
 </resources>

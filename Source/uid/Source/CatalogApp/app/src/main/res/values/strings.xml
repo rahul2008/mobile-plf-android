@@ -54,7 +54,8 @@
     <string name="content_desc_close">close</string>
     <string name="preview">Preview</string>
     <string name="done">Done</string>
-    <string name="buttons_text_quiet">Quiet Button</string>
+    <string name="buttons_text_quiet">Quiet Emphasis Button</string>
+    <string name="buttons_text_quiet_default">Quiet Default Button</string>
 
     <!--Settings page for ToggleSwitch-->
     <string name="switch_text">Switch</string>

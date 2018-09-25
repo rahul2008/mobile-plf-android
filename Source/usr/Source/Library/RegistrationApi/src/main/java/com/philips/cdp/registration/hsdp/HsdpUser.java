@@ -107,7 +107,7 @@ public class HsdpUser {
 
         String appName = hsdpConfiguration.getHsdpAppName();
 
-        RLog.d("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
+        RLog.d(TAG, "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
 
         if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
             return null;
@@ -296,7 +296,7 @@ public class HsdpUser {
      * @param userFileWriteListener user file write listener
      */
     private void saveToDisk(UserFileWriteListener userFileWriteListener) {
-        RLog.d("HsdpTesting", "Saving Hsdp record to secure storage");
+        RLog.d(TAG, "Saving Hsdp record to secure storage");
         Parcel parcel = Parcel.obtain();
         getHsdpUserRecord().writeToParcel(parcel, 0);
         String parcelString = Base64.encodeToString(parcel.marshall(), Base64.DEFAULT);
@@ -324,18 +324,18 @@ public class HsdpUser {
             return HsdpUserInstance.getInstance().getHsdpUserRecordV2();
         }
         //Check if HsdpRecord v2 is present in secure storage or not.
-        RLog.d("HsdpTesting", "Checking if hsdp record v2 is present in SS or not?");
+        RLog.d(TAG, "Checking if hsdp record v2 is present in SS or not?");
         if (Jump.getSecureStorageInterface().doesStorageKeyExist(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD)) {
-            RLog.d("HsdpTesting", "Hsdp record v2 present");
+            RLog.d(TAG, "Hsdp record v2 present");
             String hsdpRecord = Jump.getSecureStorageInterface().fetchValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD,
                     new SecureStorageInterface.SecureStorageError());
             if (hsdpRecord != null) {
                 byte[] hsdpRecordByteArray = Base64.decode(hsdpRecord, Base64.DEFAULT);
-                RLog.d("HsdpTesting", "Unmarshalling hsdp record v2");
+                RLog.d(TAG, "Unmarshalling hsdp record v2");
                 Parcel parcel = Parcel.obtain();
                 parcel.unmarshall(hsdpRecordByteArray, 0, hsdpRecordByteArray.length);
                 parcel.setDataPosition(0);
-                RLog.d("HsdpTesting", "Stting hsdp record v2");
+                RLog.d(TAG, "Stting hsdp record v2");
                 HsdpUserInstance.getInstance().setHsdpUserRecordV2(HsdpUserRecordV2.CREATOR.createFromParcel(parcel));
                 parcel.recycle();
             }
@@ -345,7 +345,7 @@ public class HsdpUser {
                     new SecureStorageInterface.SecureStorageError());
             RLog.d(TAG, "getHsdpUserRecordV2 hsdpRecord = " + hsdpRecord + " Not keeping in secure storage");
             if (hsdpRecord != null) {
-                RLog.d("HsdpTesting", "Migrating hsdp record v1 to v2");
+                RLog.d(TAG, "Migrating hsdp record v1 to v2");
                 Object obj = SecureStorage.stringToObject(hsdpRecord);
                 if (obj instanceof HsdpUserRecord) {
                     final HsdpUserRecord hsdpUserRecord = (HsdpUserRecord) obj;
@@ -364,18 +364,18 @@ public class HsdpUser {
                     saveToDisk(new UserFileWriteListener() {
                         @Override
                         public void onFileWriteSuccess() {
-                            RLog.d("HsdpTesting", "Deleting v1 record");
+                            RLog.d(TAG, "Deleting v1 record");
                             Jump.getSecureStorageInterface().removeValueForKey(HSDP_RECORD_FILE);
                         }
 
                         @Override
                         public void onFileWriteFailure() {
-                            RLog.d("HsdpTesting", "Error while saving hsdp record to SS");
+                            RLog.e(TAG, "getHsdpUserRecord: Error while saving hsdp record to SS");
                         }
                     });
                 }
             } else {
-                RLog.d("HsdpTesting", "Hsdp record not available");
+                RLog.d(TAG, "getHsdpUserRecord: Hsdp record not available");
             }
         }
 
@@ -527,7 +527,7 @@ public class HsdpUser {
                 hsdpUserRecordV2.getUserUUID() != null
                 && (getHsdpUserRecord().getAccessCredential() != null &&
                 getHsdpUserRecord().getAccessCredential().getAccessToken() != null);
-        RLog.i(TAG, "isHsdpUserSignedIn : isSignedIn" + isSignedIn);
+        RLog.d(TAG, "isHsdpUserSignedIn : isSignedIn" + isSignedIn);
         RLog.d(TAG, "HsdpUserRecordV2 : hsdpUserRecord is available" + (hsdpUserRecordV2 != null ? hsdpUserRecordV2.toString() : null));
         return isSignedIn;
     }

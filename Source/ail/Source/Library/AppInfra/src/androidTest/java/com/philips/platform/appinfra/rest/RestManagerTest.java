@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -412,6 +413,16 @@ public class RestManagerTest extends AppInfraInstrumentation {
         if (null != mStringRequest) {
             mRestInterface.getRequestQueue().add(mStringRequest);
         }
+    }
+
+    public void testClearCache() {
+        Cache cache = mRestInterface.getRequestQueue().getCache();
+        Cache.Entry entry = new Cache.Entry();
+        entry.serverDate = System.currentTimeMillis();
+        entry.data = "some_data".getBytes();
+        cache.put("key", entry);
+        mRestInterface.clearCacheResponse();
+        assertEquals(cache.get("key"),null);
     }
 }
 

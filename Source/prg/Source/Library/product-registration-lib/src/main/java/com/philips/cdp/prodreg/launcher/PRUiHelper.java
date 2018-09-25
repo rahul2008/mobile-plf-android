@@ -116,6 +116,7 @@ public class PRUiHelper {
         intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
         intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, prLaunchInput.getBackgroundImageResourceId());
+        intent.putExtra(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE,prLaunchInput.getMandatoryProductRegistration());
         context.startActivity(intent);
     }
 
@@ -133,6 +134,7 @@ public class PRUiHelper {
             final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(PRLaunchInput.getProducts());
             arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
             arguments.putInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, PRLaunchInput.getBackgroundImageResourceId());
+            arguments.putBoolean(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE,PRLaunchInput.getMandatoryProductRegistration());
             arguments.putBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, PRLaunchInput.isAppLaunchFlow());
             ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_PRODUCT_REGISTRATION);
             final User user = new User(fragmentLauncher.getFragmentActivity());
