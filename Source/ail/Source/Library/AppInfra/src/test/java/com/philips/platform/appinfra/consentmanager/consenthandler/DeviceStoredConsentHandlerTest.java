@@ -83,11 +83,11 @@ public class DeviceStoredConsentHandlerTest {
 
     @Test
     public void verifyErrorForMissingType() {
-        when(storageInterface.fetchValueForKey(anyString(), eq(secureStorageError))).thenReturn(storedValueFalseVersion).thenReturn(null);
+        when(storageInterface.fetchValueForKey(anyString(), eq(secureStorageError))).thenReturn(null);
         handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentStatus consent) {
-                assertTrue(consent.getConsentState() == ConsentStates.inactive);
+                assertEquals(ConsentStates.inactive, consent.getConsentState());
             }
         });
     }
@@ -109,13 +109,13 @@ public class DeviceStoredConsentHandlerTest {
         handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentStatus consent) {
-                assertTrue(consent.getConsentState() == ConsentStates.rejected);
+                assertEquals( ConsentStates.rejected, consent.getConsentState());
             }
         });
     }
 
     @Test
-    public void checkThatWeCanReadOldConsentsWithTimeStamp() {
+    public void canReadBackwardsCompatibleConsentsWithTimeStamp() {
         when(storageInterface.fetchValueForKey(anyString(), eq(secureStorageError))).thenReturn(storedValueWithTimeStamp);
         handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
             @Override
