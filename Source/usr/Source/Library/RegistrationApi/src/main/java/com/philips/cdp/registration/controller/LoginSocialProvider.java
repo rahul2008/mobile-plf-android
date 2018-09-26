@@ -103,9 +103,11 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
 
     @Override
     public void onFailure(SignInError error) {
-        try{
-            RLog.d(TAG, "onFailure : is called : Error : " + error.captureApiError.raw_response);
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+        try{
+            RLog.d(TAG, "onFailure : is calleddd");
+            RLog.d(TAG, "onFailure : is called : Error : " + error.captureApiError
+            +"  "+error.captureApiError.error_description);
         if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isMergeFlowError()) {
             String emailId = null;
@@ -148,22 +150,23 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
             ThreadUtils.postInMainThread(mContext, () ->
                     mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
             //   AUTHENTICATION_CANCELLED_BY_USER
-
             RLog.d(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
-
         } else {
-            userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
-            ThreadUtils.postInMainThread(mContext, () ->
-                    mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-
+            loginFailed(userRegistrationFailureInfo);
             RLog.d(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
-
         }
         AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         }catch(Exception e){
             RLog.d(TAG, "onFailure : is called : Exception : " + e.getMessage());
+            loginFailed(userRegistrationFailureInfo);
         }
 
+    }
+
+    private void loginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
+        ThreadUtils.postInMainThread(mContext, () ->
+                mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
     }
 
     private Activity mActivity;
