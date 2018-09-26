@@ -69,7 +69,6 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     public static final String KPS_CONFIGURATION_INFO_HASH = "KpsConfigurationInfoHash";
     public static final int UNKNOWN_NR_OF_RELATIONSHIPS = -1;
     public static final String PROVISIONING_STRATEGY_SETTING = "PROVISIONING_STRATEGY";
-    public static final int UNKNOWN_NR_OF_RELATIONSHIPS_BYPASSED = -2;
 
     private PairingController mPairingController;
 
@@ -141,6 +140,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     private int mByteOffset = 0;
 
     private int mNrOfRelationships = UNKNOWN_NR_OF_RELATIONSHIPS;
+    private boolean isProvisioningStrategyKnown = false;
 
     public DefaultCloudController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
         this.mContext = context;
@@ -149,7 +149,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         mKpsConfiguration = new KeyProvisioningHelper(kpsConfigurationInfo);
 
         mICPCallbackHandler = new ICPCallbackHandler(this);
-        mPairingController = new DefaultPairingController(this);
+        mPairingController = createPairingController();
 
         mSignOnListeners = new CopyOnWriteArraySet<>();
         mPublishEventListeners = new CopyOnWriteArraySet<>();
@@ -170,6 +170,11 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         }
 
         setNewLocale(mKpsConfigurationInfo.getCountryCode(), mKpsConfigurationInfo.getLanguageCode());
+    }
+
+    @VisibleForTesting
+    PairingController createPairingController() {
+        return new DefaultPairingController(this);
     }
 
     @VisibleForTesting
@@ -231,14 +236,14 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     @NonNull
     @VisibleForTesting
     Provision getProvision() {
-        //return getOldProvision();
         if (getStoredKpsConfigurationInfoHash() == null || (mKpsConfigurationInfo.getHash() == getStoredKpsConfigurationInfoHash())) {
             switch (getProvisionStrategy()) {
                 case NEW:
-                    mNrOfRelationships = UNKNOWN_NR_OF_RELATIONSHIPS_BYPASSED;
+                    isProvisioningStrategyKnown = true;
                     return getNewProvision();
                 case OLD:
-                    mNrOfRelationships = UNKNOWN_NR_OF_RELATIONSHIPS_BYPASSED;
+                    isProvisioningStrategyKnown = true;
+                case UNKNOWN:
                 default:
                     return getOldProvision();
             }
@@ -591,7 +596,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
                     Log.i(LogConstants.ICPCLIENT, "SIGNON-SUCCESSFUL");
                     mIsSignOn = true;
 
-                    if (mNrOfRelationships == UNKNOWN_NR_OF_RELATIONSHIPS) {
+                    if (!isProvisioningStrategyKnown && mNrOfRelationships == UNKNOWN_NR_OF_RELATIONSHIPS) {
                         performRelationshipsCheck();
                     } else {
                         notifySignedOn();
@@ -1046,7 +1051,6 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
      *
      * @param countryCode the country code of the locale
      * @param languageCode the language code of the locale
-     *
      * @throws IllegalStateException when you call this method before signon was done
      */
     public final void setNewLocale(String countryCode, String languageCode) {
