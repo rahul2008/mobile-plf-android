@@ -78,8 +78,16 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
                     mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
         } catch (Exception e) {
             RLog.e(TAG, "onFailure: Exception : " + e.getMessage());
+            loginFailed();
         }
 
+    }
+
+    private void loginFailed() {
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo( mContext);
+        userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
+        ThreadUtils.postInMainThread(mContext, () ->
+                mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
     }
 
     // moved app logic to set user info (traditional login) in diuserprofile to

@@ -82,6 +82,10 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
                 mSocialLoginProviderHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
     }catch(Exception e) {
             RLog.d(TAG, "onFailure : is called : Exception : " + e.getMessage());
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mSocialLoginProviderHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
         }
     }
 
