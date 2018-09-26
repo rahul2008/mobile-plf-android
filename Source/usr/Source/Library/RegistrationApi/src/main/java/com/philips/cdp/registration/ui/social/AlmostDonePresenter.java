@@ -111,6 +111,8 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
 
         if (!mUser.getReceiveMarketingEmail() && optinState) {
             almostDoneContract.showMarketingOptCheck();
+        } else if (mUser.isEmailVerified() && !mUser.getReceiveMarketingEmail()) {
+            almostDoneContract.showMarketingOptCheck();
         } else {
             almostDoneContract.hideMarketingOptCheck();
         }
