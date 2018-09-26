@@ -40,23 +40,34 @@ public class FieldsValidatorTest {
         Assert.assertFalse(validEmail);
     }
     @Test
-    public void shouldReturnFalse_WhenValid() {
+    public void shouldReturnTrue_WhenValid() {
         boolean validEmail = FieldsValidator.isValidEmail("sample@philips.com");
         Assert.assertTrue(validEmail);
     }
     @Test
-    public void shouldReturnFalse_WhenValidSingleChar() {
+    public void shouldReturnTrue_WhenValidSingleChar() {
         boolean validEmail = FieldsValidator.isValidEmail("s@philips.com");
         Assert.assertTrue(validEmail);
     }
     @Test
-    public void shouldReturnFalse_WhenValidSingleSpecialChar() {
+    public void shouldReturnTrue_WhenValidSingleSpecialChar() {
         boolean validEmail = FieldsValidator.isValidEmail("_@philips.com");
         Assert.assertTrue(validEmail);
     }
     @Test
-    public void shouldReturnFalse_WhenValidWithSpecialChar() {
+    public void shouldReturnTrue_WhenValidWithSpecialChar() {
         boolean validEmail = FieldsValidator.isValidEmail("_d@philips.com");
         Assert.assertTrue(validEmail);
     }
+    @Test
+    public void shouldReturnTrue_WhenValidWithUpperCharMixed() {
+        boolean validEmail = FieldsValidator.isValidEmail("UKr@philips.com");
+        Assert.assertTrue(validEmail);
+    }
+    @Test
+    public void shouldReturnFalse_WhenValidWithUpperChar() {
+        boolean validEmail = FieldsValidator.isValidEmail("UKK@philips.com");
+        Assert.assertTrue(validEmail);
+    }
+
 }
