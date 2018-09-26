@@ -11,6 +11,8 @@ import android.util.Log;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.listener.DcsEventListener;
 import com.philips.cdp.cloudcontroller.api.listener.DcsResponseListener;
+import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
+import com.philips.cdp.cloudcontroller.api.pairing.PairingRelation;
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventSubscription;
@@ -20,10 +22,15 @@ import com.philips.icpinterface.configuration.Params;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
 import java.nio.ByteBuffer;
+import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -35,6 +42,7 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -60,8 +68,10 @@ public class DefaultCloudControllerTest {
 
     @Mock
     private SignOn signOnMock;
+
     @Mock
     private Provision mockOldProvision;
+
     @Mock
     private Provision mockNewProvision;
 
@@ -74,14 +84,20 @@ public class DefaultCloudControllerTest {
     @Mock
     private Context mockContext;
 
+    @Mock
+    private PairingController pairingControllerMock;
+
+    @Captor
+    private ArgumentCaptor<PairingController.PairingCallback> pairingCallbackCaptor;
+
     private final String cppId = "valid cppId";
     private ByteBuffer downloadDataBuffer;
-    private Integer mockKpsConfigurationInfoHash = 2345;
+    private Integer testKpsConfigurationInfoHash = 2345;
 
     private DefaultCloudController subject;
 
-    private boolean performProvisionMock = true;
     private DefaultCloudController.ProvisionStrategy mProvisionStrategy = DefaultCloudController.ProvisionStrategy.UNKNOWN;
+    private DefaultCloudController.ProvisionStrategy mStoredProvisionStrategy = DefaultCloudController.ProvisionStrategy.UNKNOWN;
 
     @Before
     public void setUp() {
@@ -101,50 +117,7 @@ public class DefaultCloudControllerTest {
         when(mockKpsConfiguration.getAppVersion()).thenReturn(1337);
         when(mockKpsConfiguration.getHash()).thenReturn(2345);
 
-
         initBufferUsedForTests();
-    }
-
-    private void createDefaultCloudController() {
-        if (performProvisionMock) {
-            when(mockOldProvision.executeCommand()).thenReturn(Errors.REQUEST_PENDING);
-            when(mockNewProvision.executeCommand()).thenReturn(Errors.REQUEST_PENDING);
-            subject = new DefaultCloudController(mockContext, mockKpsConfiguration) {
-                @NonNull
-                @Override
-                Provision getOldProvision() {
-                    return mockOldProvision;
-                }
-
-                @NonNull
-                @Override
-                Provision getNewProvision() {
-                    return mockNewProvision;
-                }
-
-                @Override
-                ProvisionStrategy getProvisionStrategy() {
-                    return mProvisionStrategy;
-                }
-
-                @Override
-                Integer getStoredKpsConfigurationInfoHash() {
-                    return mockKpsConfigurationInfoHash;
-                }
-            };
-        } else {
-            subject = new DefaultCloudController(mockContext, mockKpsConfiguration) {
-                @Override
-                ProvisionStrategy getProvisionStrategy() {
-                    return mProvisionStrategy;
-                }
-
-                @Override
-                Integer getStoredKpsConfigurationInfoHash() {
-                    return mockKpsConfigurationInfoHash;
-                }
-            };
-        }
     }
 
     @Test
@@ -509,7 +482,7 @@ public class DefaultCloudControllerTest {
 
     @Test
     public void givenStoredProvisioningEvidenceDoesNotExists_andProvisioningStrategyIsStored_whenStartingProvisioning_thenStoredProvisioningStrategyShouldBeUsed() {
-        mockKpsConfigurationInfoHash = null;
+        testKpsConfigurationInfoHash = null;
 
         createDefaultCloudController();
 
@@ -525,7 +498,7 @@ public class DefaultCloudControllerTest {
 
     @Test
     public void givenProvisioningEvidenceExists_andProvisioningEvidenceHasNotChanged_andProvisioningStrategyIsStored_whenStartingProvisioning_thenStoredProvisioningStrategyShouldBeUsed() {
-        // mockKpsConfigurationInfoHash is set to 2345 in setup
+        // testKpsConfigurationInfoHash is set to 2345 in setup
 
         createDefaultCloudController();
 
@@ -548,7 +521,7 @@ public class DefaultCloudControllerTest {
 
     @Test
     public void givenProvisioningEvidenceExists_andProvisioningEvidenceHasChanged_whenStartingProvisioning_thenNewProvisioningStrategyWillBeUsed() {
-        mockKpsConfigurationInfoHash = 42;
+        testKpsConfigurationInfoHash = 42;
 
         createDefaultCloudController();
 
@@ -557,10 +530,33 @@ public class DefaultCloudControllerTest {
 
     @Test
     public void givenOldProvisioningStrategyIsUsed_whenNoPairingRelationsExist_thenNewProvisioningStrategyWillBeUsed() {
-        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.OLD;
-        performProvisionMock = false;
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.UNKNOWN;
+
+        when(mockOldProvision.getEUI64()).thenReturn("test123456789");
+
+        doAnswer(new Answer() {
+            @Override
+            public Integer answer(InvocationOnMock invocation) throws Throwable {
+                subject.onICPCallbackEventOccurred(Commands.SIGNON, Errors.SUCCESS, signOnMock);
+
+                return Errors.REQUEST_PENDING;
+            }
+        }).when(signOnMock).executeCommand();
+
+        doAnswer(new Answer() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                PairingController.PairingCallback callback = pairingCallbackCaptor.getValue();
+                callback.onRelationshipGet(Collections.<PairingRelation>emptyList());
+
+                return null;
+            }
+        }).when(pairingControllerMock).getRelationships(pairingCallbackCaptor.capture());
 
         createDefaultCloudController();
+        subject.onICPCallbackEventOccurred(Commands.KEY_PROVISION, Errors.SUCCESS, mockOldProvision);
+
+        assertEquals(DefaultCloudController.ProvisionStrategy.NEW, mStoredProvisionStrategy);
     }
 
     @Test
@@ -593,5 +589,44 @@ public class DefaultCloudControllerTest {
             downloadDataBuffer.put((byte) 1);
         }
         downloadDataBuffer.rewind();
+    }
+
+    private void createDefaultCloudController() {
+        when(mockOldProvision.executeCommand()).thenReturn(Errors.REQUEST_PENDING);
+        when(mockNewProvision.executeCommand()).thenReturn(Errors.REQUEST_PENDING);
+
+        subject = new DefaultCloudController(mockContext, mockKpsConfiguration) {
+            @NonNull
+            @Override
+            Provision getOldProvision() {
+                return mockOldProvision;
+            }
+
+            @NonNull
+            @Override
+            Provision getNewProvision() {
+                return mockNewProvision;
+            }
+
+            @Override
+            ProvisionStrategy getProvisionStrategy() {
+                return mProvisionStrategy;
+            }
+
+            @Override
+            void storeProvisionStrategy(ProvisionStrategy strategy) {
+                mStoredProvisionStrategy = strategy;
+            }
+
+            @Override
+            Integer getStoredKpsConfigurationInfoHash() {
+                return testKpsConfigurationInfoHash;
+            }
+
+            @Override
+            PairingController createPairingController() {
+                return pairingControllerMock;
+            }
+        };
     }
 }
