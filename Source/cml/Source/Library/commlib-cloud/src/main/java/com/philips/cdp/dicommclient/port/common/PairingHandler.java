@@ -7,7 +7,6 @@ package com.philips.cdp.dicommclient.port.common;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingEntity;
@@ -18,7 +17,6 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-
 import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Date;
@@ -69,6 +67,11 @@ public class PairingHandler<T extends Appliance> {
         @Override
         public void onRelationshipRemove() {
             handleRelationshipRemove();
+        }
+
+        @Override
+        public void onRelationshipGet(@NonNull Collection<PairingRelation> relationships) {
+            // NOP
         }
 
         @Override
@@ -296,6 +299,7 @@ public class PairingHandler<T extends Appliance> {
                 PAIRING_DI_COMM_RELATIONSHIP
         );
 
+        resetPairingAttempts(mAppliance.getNetworkNode().getCppId());
         startPairingPortTask(pairingRelation);
     }
 

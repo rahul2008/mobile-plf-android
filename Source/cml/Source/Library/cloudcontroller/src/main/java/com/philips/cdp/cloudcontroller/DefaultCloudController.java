@@ -22,6 +22,7 @@ import com.philips.cdp.cloudcontroller.api.listener.SendNotificationRegistration
 import com.philips.cdp.cloudcontroller.api.listener.SignonListener;
 import com.philips.cdp.cloudcontroller.api.pairing.DefaultPairingController;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
+import com.philips.cdp.cloudcontroller.api.pairing.PairingRelation;
 import com.philips.cdp.cloudcontroller.api.util.LogConstants;
 import com.philips.icpinterface.ComponentDetails;
 import com.philips.icpinterface.DownloadData;
@@ -47,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -65,6 +67,9 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     private static final String DCS_CHANGE = "CHANGE";
     public static final String CLOUD_CONTROLLER_SETTINGS = "CloudControllerSettings";
     public static final String KPS_CONFIGURATION_INFO_HASH = "KpsConfigurationInfoHash";
+    public static final int UNKNOWN_NR_OF_RELATIONSHIPS = -1;
+    public static final String PROVISIONING_STRATEGY_SETTING = "PROVISIONING_STRATEGY";
+    public static final int UNKNOWN_NR_OF_RELATIONSHIPS_BYPASSED = -2;
 
     private PairingController mPairingController;
 
@@ -73,9 +78,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     private enum KeyProvision {
-        NOT_PROVISIONED,
-        PROVISIONING,
-        PROVISIONED
+        NOT_PROVISIONED, PROVISIONING, PROVISIONED
     }
 
     @VisibleForTesting
@@ -137,6 +140,8 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     private int mPercentage;
     private int mByteOffset = 0;
 
+    private int mNrOfRelationships = UNKNOWN_NR_OF_RELATIONSHIPS;
+
     public DefaultCloudController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
         this.mContext = context;
 
@@ -170,7 +175,14 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     @VisibleForTesting
     ProvisionStrategy getProvisionStrategy() {
         SharedPreferences mPreferences = mContext.getSharedPreferences(CLOUD_CONTROLLER_SETTINGS, Context.MODE_PRIVATE);
-        return ProvisionStrategy.fromInt(mPreferences.getInt("PROVISIONING_STRATEGY", ProvisionStrategy.UNKNOWN.getValue()));
+        return ProvisionStrategy.fromInt(mPreferences.getInt(PROVISIONING_STRATEGY_SETTING, ProvisionStrategy.UNKNOWN.getValue()));
+    }
+
+    @VisibleForTesting
+    void storeProvisionStrategy(ProvisionStrategy strategy) {
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(CLOUD_CONTROLLER_SETTINGS, Context.MODE_PRIVATE).edit();
+        editor.putInt(PROVISIONING_STRATEGY_SETTING, strategy.getValue());
+        editor.apply();
     }
 
     @VisibleForTesting
@@ -196,6 +208,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     private void startKeyProvisioning() {
+        mIsSignOn = false;
         Log.i(LogConstants.KPS, "Start provision");
         mKeyProvisioningState = KeyProvision.PROVISIONING;
         Provision provision = getProvision();
@@ -218,10 +231,14 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     @NonNull
     @VisibleForTesting
     Provision getProvision() {
+        //return getOldProvision();
         if (getStoredKpsConfigurationInfoHash() == null || (mKpsConfigurationInfo.getHash() == getStoredKpsConfigurationInfoHash())) {
             switch (getProvisionStrategy()) {
                 case NEW:
+                    mNrOfRelationships = UNKNOWN_NR_OF_RELATIONSHIPS_BYPASSED;
                     return getNewProvision();
+                case OLD:
+                    mNrOfRelationships = UNKNOWN_NR_OF_RELATIONSHIPS_BYPASSED;
                 default:
                     return getOldProvision();
             }
@@ -229,8 +246,6 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             return getNewProvision();
         }
     }
-
-
 
     @NonNull
     @VisibleForTesting
@@ -411,8 +426,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             if (isSignOn()) {
                 Log.i(LogConstants.CLOUD_CONTROLLER, "Starting DCS - Already Signed On");
                 int numberOfEvents = 1;
-                mEventSubscription = EventSubscription.getInstance(mICPCallbackHandler,
-                        numberOfEvents);
+                mEventSubscription = EventSubscription.getInstance(mICPCallbackHandler, numberOfEvents);
                 mEventSubscription.setFilter("");
                 mEventSubscription.setServiceTag("");
 
@@ -457,7 +471,9 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     private void notifyNotificationListener(boolean success) {
-        if (mNotificationListener == null) return;
+        if (mNotificationListener == null) {
+            return;
+        }
         if (success) {
             mNotificationListener.onRegistrationIdSentSuccess();
         } else {
@@ -467,9 +483,11 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
 
     @Override
     public void notifyDCSListener(String data, String fromEui64, String action, String conversationId) {
-        if (action == null || data == null) return;
+        if (action == null || data == null) {
+            return;
+        }
 
-        switch(action) {
+        switch (action) {
             case DCS_RESPONSE:
                 // DICOMM-RESPONSE
                 for (DcsResponseListener listener : mDcsResponseListeners) {
@@ -496,20 +514,16 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
      * via CPP
      */
     @Override
-    public int publishEvent(String eventData, String eventType,
-                            String actionName, String conversationId, int priority,
-                            int ttl, String purifierEui64) {
+    public int publishEvent(String eventData, String eventType, String actionName, String conversationId, int priority, int ttl, String purifierEui64) {
         EventPublisher mEventPublisher = new EventPublisher(mICPCallbackHandler);
         int messageID = -1;
-        Log.i(LogConstants.ICPCLIENT, "publishEvent eventData " + eventData + " eventType "
-                + eventType + " Action Name: " + actionName +
-                " replyTo: " + mAppCppId + " + isSignOn " + mIsSignOn);
+        Log.i(LogConstants.ICPCLIENT,
+            "publishEvent eventData " + eventData + " eventType " + eventType + " Action Name: " + actionName + " replyTo: " + mAppCppId + " + isSignOn " + mIsSignOn);
         if (mIsSignOn) {
-            mEventPublisher.setEventInformation(eventType, actionName,
-                    mAppCppId, conversationId, priority, ttl);
+            mEventPublisher.setEventInformation(eventType, actionName, mAppCppId, conversationId, priority, ttl);
             mEventPublisher.setEventData(eventData);
             if (purifierEui64 != null) {
-                mEventPublisher.setTargets(new String[]{purifierEui64});
+                mEventPublisher.setTargets(new String[] { purifierEui64 });
             } else {
                 mEventPublisher.setTargets(new String[0]);
             }
@@ -527,11 +541,9 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             return false;
         }
 
-        Log.i(LogConstants.CLOUD_CONTROLLER, "CPPController sendNotificationRegistrationId provider : " + provider
-                + "------------RegId : " + gcmRegistrationId);
+        Log.i(LogConstants.CLOUD_CONTROLLER, "CPPController sendNotificationRegistrationId provider : " + provider + "------------RegId : " + gcmRegistrationId);
 
-        ThirdPartyNotification thirdParty = new ThirdPartyNotification(
-                mICPCallbackHandler, NOTIFICATION_SERVICE_TAG);
+        ThirdPartyNotification thirdParty = new ThirdPartyNotification(mICPCallbackHandler, NOTIFICATION_SERVICE_TAG);
         thirdParty.setProtocolDetails(NOTIFICATION_PROTOCOL, provider, gcmRegistrationId);
 
         int commandResult = thirdParty.executeCommand();
@@ -570,8 +582,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
      * Publish Events, Subscription, etc..)
      */
     @Override
-    public void onICPCallbackEventOccurred(int eventType, int status,
-                                           ICPClient icpClient) {
+    public void onICPCallbackEventOccurred(int eventType, int status, ICPClient icpClient) {
         Log.i(LogConstants.ICPCLIENT, "onICPCallbackEventOccurred eventType " + CloudCommand.fromCommandCode(eventType) + " status " + CloudError.fromErrorCode(status));
         switch (eventType) {
 
@@ -579,12 +590,11 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
                 if (status == Errors.SUCCESS) {
                     Log.i(LogConstants.ICPCLIENT, "SIGNON-SUCCESSFUL");
                     mIsSignOn = true;
-                    mSignOnState = SignOnState.SIGNED_ON;
-                    notifySignOnListeners(true);
 
-                    if (mAppDcsRequestState == AppRequestedState.START) {
-                        Log.i(LogConstants.CLOUD_CONTROLLER, "Starting DCS after sign on");
-                        startDCSService(dcsStartListener);
+                    if (mNrOfRelationships == UNKNOWN_NR_OF_RELATIONSHIPS) {
+                        performRelationshipsCheck();
+                    } else {
+                        notifySignedOn();
                     }
                 } else {
                     Log.e(LogConstants.ICPCLIENT, "SIGNON-FAILED");
@@ -630,6 +640,67 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         }
     }
 
+    private PairingController.PairingCallback getRelationshipsCallback = new PairingController.PairingCallback() {
+        @Override
+        public void onRelationshipAdd(String relationStatus) {
+            // NOP
+        }
+
+        @Override
+        public void onRelationshipRemove() {
+            // NOP
+        }
+
+        @Override
+        public void onRelationshipGet(@NonNull Collection<PairingRelation> relationships) {
+            mNrOfRelationships = relationships.size();
+
+            if (mNrOfRelationships > 0) {
+                storeProvisionStrategy(ProvisionStrategy.OLD);
+
+                notifySignedOn();
+            } else {
+                storeProvisionStrategy(ProvisionStrategy.NEW);
+
+                startKeyProvisioning();
+            }
+        }
+
+        @Override
+        public void onPermissionsAdd() {
+            // NOP
+        }
+
+        @Override
+        public void onPermissionsRemove() {
+            // NOP
+        }
+
+        @Override
+        public void onPermissionsGet(Collection<String> permissions) {
+            // NOP
+        }
+
+        @Override
+        public void onPairingError(int eventType, int status) {
+            // NOP
+        }
+    };
+
+    private void notifySignedOn() {
+        mSignOnState = SignOnState.SIGNED_ON;
+        notifySignOnListeners(true);
+
+        if (mAppDcsRequestState == AppRequestedState.START) {
+            Log.i(LogConstants.CLOUD_CONTROLLER, "Starting DCS after sign on");
+            startDCSService(dcsStartListener);
+        }
+    }
+
+    private void performRelationshipsCheck() {
+        mPairingController.getRelationships(getRelationshipsCallback);
+    }
+
     private void keyProvisionEvent(int status, ICPClient icpClient) {
         if (status == Errors.SUCCESS) {
             Log.i(LogConstants.KPS, "PROVISION-SUCCESS");
@@ -637,6 +708,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             Provision provision = (Provision) icpClient;
             Log.i(LogConstants.KPS, "EUI64(APP-KEY): " + provision.getEUI64());
             mAppCppId = provision.getEUI64();
+
             signOn();
         } else {
             Log.e(LogConstants.KPS, "PROVISION-FAILED");
