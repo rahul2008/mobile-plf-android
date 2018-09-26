@@ -552,7 +552,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 mProductDisclaimer.setText(disclaimerStringBuilder.toString());
             }
         }catch (Exception e){
-
+            IAPLog.v("DISCLAIMER_REQ",e.getMessage());
         }
     }
 

@@ -6,17 +6,35 @@ import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
 
+/**
+ * The type Product disclaimer request.
+ */
 public class ProductDisclaimerRequest extends PrxRequest {
 
     private static final String PRXDisclaimerDataServiceID = "prxclient.disclaimers";
     private String mRequestTag = null;
 
-    public ProductDisclaimerRequest(String ctn, String serviceId) {
+
+    /**
+     * Instantiates a new Product disclaimer request.
+     * @since 1805
+     * @param ctn         product ctn
+     * @param requestTag  requestTag
+     */
+    public ProductDisclaimerRequest(String ctn, String requestTag) {
         super(ctn, PRXDisclaimerDataServiceID);
-        this.mRequestTag = serviceId;
+        this.mRequestTag = requestTag;
     }
 
 
+    /**
+     * Instantiates a new Product disclaimer request.
+     * @since 1805
+     * @param ctn         product ctn
+     * @param sector      sector
+     * @param catalog     catalog
+     * @param requestTag  request tag
+     */
     public ProductDisclaimerRequest(String ctn, PrxConstants.Sector sector,
                                     PrxConstants.Catalog catalog, String requestTag) {
         super(ctn, PRXDisclaimerDataServiceID, sector, catalog);
