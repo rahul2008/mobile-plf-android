@@ -194,7 +194,8 @@ public class SecondSetupStepsViewModel {
     }
 
     public void showPasswordEntryScreenEvent() {
-        navigator.navigateToConnectToDeviceWithPasswordScreen("");
+        navigator.navigateToSelectWiFiScreen();
+        //navigator.navigateToConnectToDeviceWithPasswordScreen("");
     }
 
     void setLocationPermissionFlowCallback(@Nullable LocationPermissionFlowCallback locationPermissionFlowCallback) {

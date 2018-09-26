@@ -19,9 +19,10 @@ public final class Page {
     public static final String RESET_CONNECTION = "resetConnection";        //EWS_H_03.02
     public static final String RESET_DEVICE = "resetDevice";        //EWS_H_03.03
     public static final String SETUP_ACCESS_POINT_MODE = "setupAccessPointMode";        //EWS_H_03.04
-    public static final String CONNECTING_DEVICE_WITH_WIFI = "connectingDeviceWithWifi";        //EWS_04_00
-    public static final String WRONG_WIFI_NETWORK = "wrongWifiNetwork";     //EWS_04_00.a
-    public static final String CONNECTION_UNSUCCESSFUL = "connectionUnsuccessful";      //EWS_04_00.b
-    public static final String CONNECTION_SUCCESSFUL = "connectionSuccessful";      //EWS_04_01
-    public static final String CANCEL_WIFI_SETUP = "cancelWifiSetup";       //EWS_04_02
+    public static final String FETCHING_WIFI_NETWORKS = "fetchingWifiNetworks";        //EWS_04_00
+    public static final String CONNECTING_DEVICE_WITH_WIFI = "connectingDeviceWithWifi";        //EWS_05_00
+    public static final String WRONG_WIFI_NETWORK = "wrongWifiNetwork";     //EWS_05_00.a
+    public static final String CONNECTION_UNSUCCESSFUL = "connectionUnsuccessful";      //EWS_05_00.b
+    public static final String CONNECTION_SUCCESSFUL = "connectionSuccessful";      //EWS_05_01
+    public static final String CANCEL_WIFI_SETUP = "cancelWifiSetup";       //EWS_05_02
 }

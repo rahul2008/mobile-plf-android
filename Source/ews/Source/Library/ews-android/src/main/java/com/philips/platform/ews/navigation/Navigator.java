@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import com.philips.platform.ews.confirmwifi.ConfirmWifiNetworkFragment;
 import com.philips.platform.ews.connectionsuccessful.ConnectionSuccessfulFragment;
 import com.philips.platform.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
+import com.philips.platform.ews.homewificonnection.SelectWiFiFragment;
 import com.philips.platform.ews.hotspotconnection.ConnectingWithDeviceFragment;
 import com.philips.platform.ews.settingdeviceinfo.ConnectWithPasswordFragment;
 import com.philips.platform.ews.setupsteps.FirstSetupStepsFragment;
@@ -48,6 +49,10 @@ public class Navigator {
 
     public void navigateToCompletingDeviceSetupScreen() {
         pushFragment(new SecondSetupStepsFragment());
+    }
+
+    public void navigateToSelectWiFiScreen() {
+        pushFragment(new SelectWiFiFragment());
     }
 
     public void navigateToConnectToDeviceWithPasswordScreen(String friendlyName) {

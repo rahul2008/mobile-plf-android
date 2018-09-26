@@ -9,6 +9,7 @@ import com.philips.platform.ews.base.BaseTroubleShootingViewModel;
 import com.philips.platform.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.platform.ews.connectionsuccessful.ConnectionSuccessfulViewModel;
 import com.philips.platform.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
+import com.philips.platform.ews.homewificonnection.SelectWiFiViewModel;
 import com.philips.platform.ews.hotspotconnection.ConnectingWithDeviceViewModel;
 import com.philips.platform.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.platform.ews.setupsteps.FirstSetupStepsViewModel;
@@ -39,6 +40,8 @@ public interface EWSComponent {
     BaseTroubleShootingViewModel baseTroubleShootingViewModel();
 
     ConnectingWithDeviceViewModel connectingWithDeviceViewModel();
+
+    SelectWiFiViewModel selectWiFiViewModel();
 
     ConnectingDeviceWithWifiViewModel connectingDeviceWithWifiViewModel();
 

@@ -48,7 +48,7 @@
     <!--EWS_03_01a_connect with password-->
     <string name="label_ews_password_title">Now setting up the %1$s with %2$s</string>
     <string name="label_ews_password_body">If your Wi-Fi network is not password protected, tap connect</string>
-    <string name="label_ews_password_form_password_title">Wi-FI Password</string>
+    <string name="label_ews_password_form_password_title">Wi-Fi Password</string>
     <string name="label_ews_password_from_name_title">You can give your %1$s any name or keep the default name.</string>
     <string name="button_ews_password_connect">Connect</string>
     <!--EWS_04_00 connecting device with Wi -->

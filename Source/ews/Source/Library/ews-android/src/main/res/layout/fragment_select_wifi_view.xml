@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) Koninklijke Philips N.V., 2018.
+  ~ All rights reserved.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="com.philips.platform.ews.homewificonnection.SelectWiFiViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/default_screen_top_margin"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/wifiSelected"
+            android:layout_alignParentTop="true"
+            android:fillViewport="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
+
+                <TextView
+                    android:id="@+id/selectWifiTitleText"
+                    style="@style/Txt.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Select you Wi-Fi connection"/>
+
+                <TextView
+                    android:id="@+id/selectWifiDescText"
+                    style="@style/Txt.Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/selectWifiTitleText"
+                    android:layout_marginTop="@dimen/default_screen_top_margin"
+                    android:text="Please select the Wi-Fi Network to which your device will be connected."/>
+
+                <!--<TextView
+                    android:id="@+id/selectWifiTipText"
+                    style="@style/EWS.Txt.Body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/selectWifiDescText"
+                    android:layout_marginTop="@dimen/d"
+                    android:background="@color/color_panel"
+                    android:padding="@dimen/b"
+                    android:text="@string/ews_5a_tip"
+                    android:textColor="@color/colorPrimary"/>
+
+                <LinearLayout
+                    android:id="@+id/ews_gs_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/selectWifiTipText"
+                    android:layout_marginTop="@dimen/b"
+                    android:background="@color/color_panel">
+
+                    <TextView
+                        style="@style/EWS.Txt.Body"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:padding="@dimen/b"
+                        android:text="@string/ews_5a_choose_network_msg"
+                        android:textColor="@color/colorPrimary"/>
+
+                    <ImageView
+                        android:id="@+id/refreshBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{() -> viewModel.fetchWifiNodes()}"
+                        android:padding="@dimen/b"
+                        app:srcCompat="@drawable/ic_dls_black_refresh_24"
+                        tools:ignore="ContentDescription"/>
+
+                </LinearLayout>
+-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ews_gs_text"
+                    android:layout_marginTop="@dimen/default_screen_top_margin"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/progressbarView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.isRefreshing.get() ? View.VISIBLE:View.GONE}">
+
+                        <ProgressBar
+                            android:id="@+id/progressBar"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/default_screen_top_margin"/>
+
+                        <TextView
+                            style="@style/Txt.Body"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/progressBar"
+                            android:layout_marginTop="@dimen/default_screen_top_margin"
+                            android:text="Fetching WiFi Networks"
+                            android:textAlignment="center"/>
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/wifiListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:scrollbars="vertical"
+                        android:splitMotionEvents="false"
+                        android:visibility="@{viewModel.isRefreshing.get() ? View.GONE:View.VISIBLE}"
+                        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                        app:selectWiFiAdapter="@{viewModel.adapter}"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/wifiSelected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/default_screen_top_margin"
+            android:layout_marginTop="@dimen/default_screen_top_margin"
+            android:enabled="@{viewModel.enableNextButton.get()}"
+            android:onClick="@{() -> viewModel.onNextButtonClicked()}"
+            android:text="Continue"/>
+
+        <!--<Button
+            android:id="@+id/networkNotListed"
+            style="@style/Btn.Quiet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:onClick="@{()->viewModel.onHavingIssuesButtonClicked()}"
+            android:text="@string/ews_5a_network_error_btn_msg"/>-->
+    </RelativeLayout>
+</layout>

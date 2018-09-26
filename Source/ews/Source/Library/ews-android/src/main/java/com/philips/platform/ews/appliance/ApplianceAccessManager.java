@@ -8,7 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.cdp.dicommclient.networknode.WiFiNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
+import com.philips.cdp.dicommclient.port.common.WiFiNetworksPort;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
@@ -16,6 +18,9 @@ import com.philips.platform.ews.annotations.ApplianceRequestType;
 import com.philips.platform.ews.logger.EWSLogger;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.tagging.Tag;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -38,6 +43,10 @@ public class ApplianceAccessManager {
         void onFailedToSetProperties();
     }
 
+    public interface FetchWiFiNetworksCallBack {
+        void onWiFiNetworksReceived(@NonNull List<WiFiNode> wiFiNodeList);
+    }
+
     public static final String TAG = "ApplianceAccessManager";
     @ApplianceRequestType
     int requestType = ApplianceRequestType.UNKNOWN;
@@ -45,6 +54,8 @@ public class ApplianceAccessManager {
     private FetchCallback fetchCallback;
     @Nullable
     private SetPropertiesCallback putCallback;
+    @Nullable
+    private FetchWiFiNetworksCallBack fetchWiFiNetworksCallBack;
     private EWSGenericAppliance appliance;
     private EWSTagger ewsTagger;
     private EWSLogger ewsLogger;
@@ -97,6 +108,34 @@ public class ApplianceAccessManager {
         }
 
     };
+
+
+    private DICommPortListener<WiFiNetworksPort> wiFiNetworksPortDICommPortListener =
+            new DICommPortListener<WiFiNetworksPort>() {
+                @Override
+                public void onPortUpdate(final WiFiNetworksPort wiFiNetworksPort) {
+                    wiFiNetworksPort.removePortListener(this);
+                    sendResult(wiFiNetworksPort.getPortProperties() != null
+                            ? wiFiNetworksPort.getPortProperties().getWifiNetworkList()
+                            : new ArrayList<>());
+                }
+
+                @Override
+                public void onPortError(final WiFiNetworksPort wiFiNetworksPort, final Error error,
+                                        @Nullable final String s) {
+                    ewsLogger.e(TAG, "unable to fetch wifi networks" + error);
+                    wiFiNetworksPort.removePortListener(this);
+                    sendResult(new ArrayList<>());
+                }
+
+                void sendResult(@NonNull List<WiFiNode> wiFiNodeList) {
+                    if (fetchWiFiNetworksCallBack != null) {
+                        fetchWiFiNetworksCallBack.onWiFiNetworksReceived(wiFiNodeList);
+                    }
+                    //eventBus.post(new FetchWiFiNetworksResponseEvent(wiFiNodeList));
+                    requestType = ApplianceRequestType.UNKNOWN;
+                }
+            };
 
     @Inject
     public ApplianceAccessManager(
@@ -164,5 +203,15 @@ public class ApplianceAccessManager {
     @VisibleForTesting
     void setApplianceWifiRequestType(@ApplianceRequestType int type) {
         this.requestType = type;
+    }
+
+    public void fetchWiFiNetworks(@NonNull final FetchWiFiNetworksCallBack callBack) {
+        fetchWiFiNetworksCallBack = callBack;
+        if (requestType == ApplianceRequestType.UNKNOWN) {
+            requestType = ApplianceRequestType.GET_WIFI_NETWORKS_PROPS;
+            final WiFiNetworksPort wiFiNetworksPort = appliance.getWiFiNetworksPort();
+            wiFiNetworksPort.addPortListener(wiFiNetworksPortDICommPortListener);
+            wiFiNetworksPort.reloadProperties();
+        }
     }
 }
