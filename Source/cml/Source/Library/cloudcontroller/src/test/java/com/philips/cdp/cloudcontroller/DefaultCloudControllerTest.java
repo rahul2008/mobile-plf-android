@@ -138,6 +138,11 @@ public class DefaultCloudControllerTest {
                 ProvisionStrategy getProvisionStrategy() {
                     return mProvisionStrategy;
                 }
+
+                @Override
+                Integer getStoredKpsConfigurationInfoHash() {
+                    return mockKpsConfigurationInfoHash;
+                }
             };
         }
     }
@@ -553,9 +558,9 @@ public class DefaultCloudControllerTest {
     @Test
     public void givenOldProvisioningStrategyIsUsed_whenNoPairingRelationsExist_thenNewProvisioningStrategyWillBeUsed() {
         mProvisionStrategy = DefaultCloudController.ProvisionStrategy.OLD;
+        performProvisionMock = false;
 
         createDefaultCloudController();
-
     }
 
     @Test
