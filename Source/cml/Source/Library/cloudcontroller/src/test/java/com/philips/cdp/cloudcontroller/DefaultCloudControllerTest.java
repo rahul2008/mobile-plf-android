@@ -11,6 +11,7 @@ import android.util.Log;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.listener.DcsEventListener;
 import com.philips.cdp.cloudcontroller.api.listener.DcsResponseListener;
+import com.philips.cdp.cloudcontroller.api.listener.SignonListener;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingRelation;
 import com.philips.icpinterface.CallbackHandler;
@@ -35,8 +36,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -86,6 +87,8 @@ public class DefaultCloudControllerTest {
 
     @Mock
     private PairingController pairingControllerMock;
+    @Mock
+    private SignonListener mockSignOnListener;
 
     @Captor
     private ArgumentCaptor<PairingController.PairingCallback> pairingCallbackCaptor;
@@ -377,6 +380,7 @@ public class DefaultCloudControllerTest {
 
     @Test
     public void whenSignOnIsSuccessfulThenDCSIsStarted() {
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.NEW;
         whenStartDCSIsCalledWhileNotSignedOnThenSignOnIsPerformed();
 
         when(signOnMock.getSignOnStatus()).thenReturn(true);
@@ -561,12 +565,86 @@ public class DefaultCloudControllerTest {
 
     @Test
     public void givenOldProvisioningStrategyIsUsed_whenPairingRelationsExist_thenOldProvisioningStrategyWillBeUsed() {
-        fail();
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.UNKNOWN;
+
+        when(mockOldProvision.getEUI64()).thenReturn("test123456789");
+
+        doAnswer(new Answer() {
+            @Override
+            public Integer answer(InvocationOnMock invocation) throws Throwable {
+                subject.onICPCallbackEventOccurred(Commands.SIGNON, Errors.SUCCESS, signOnMock);
+
+                return Errors.REQUEST_PENDING;
+            }
+        }).when(signOnMock).executeCommand();
+
+        doAnswer(new Answer() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                PairingController.PairingCallback callback = pairingCallbackCaptor.getValue();
+                callback.onRelationshipGet(Collections.singletonList(new PairingRelation(null, null, "dontcare")));
+
+                return null;
+            }
+        }).when(pairingControllerMock).getRelationships(pairingCallbackCaptor.capture());
+
+        createDefaultCloudController();
+        subject.onICPCallbackEventOccurred(Commands.KEY_PROVISION, Errors.SUCCESS, mockOldProvision);
+
+        assertEquals(DefaultCloudController.ProvisionStrategy.OLD, mStoredProvisionStrategy);
     }
 
     @Test
-    public void givenProvisioningStrategyIsNotStored_whenProvisioningIsFinished_thenProvisioningStrategyIsStored() {
-        fail();
+    public void givenProvisioningStrategyToUseIsUnknown_whenProvisioningIsFinished_thenProvisioningStrategyIsStored() {
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.UNKNOWN;
+
+        when(mockOldProvision.getEUI64()).thenReturn("test123456789");
+
+        doAnswer(new Answer() {
+            @Override
+            public Integer answer(InvocationOnMock invocation) throws Throwable {
+                subject.onICPCallbackEventOccurred(Commands.SIGNON, Errors.SUCCESS, signOnMock);
+
+                return Errors.REQUEST_PENDING;
+            }
+        }).when(signOnMock).executeCommand();
+
+        doAnswer(new Answer() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                PairingController.PairingCallback callback = pairingCallbackCaptor.getValue();
+                callback.onRelationshipGet(Collections.singletonList(new PairingRelation(null, null, "dontcare")));
+
+                return null;
+            }
+        }).when(pairingControllerMock).getRelationships(pairingCallbackCaptor.capture());
+
+        createDefaultCloudController();
+        subject.onICPCallbackEventOccurred(Commands.KEY_PROVISION, Errors.SUCCESS, mockOldProvision);
+
+        assertThat(mStoredProvisionStrategy).isNotNull();
+    }
+
+    @Test
+    public void givenProvisioningStrategyToUseIsKnown_whenProvisioningIsFinished_thenSignOnListenersAreNotified() {
+        mProvisionStrategy = DefaultCloudController.ProvisionStrategy.NEW;
+
+        when(mockNewProvision.getEUI64()).thenReturn("test123456789");
+
+        doAnswer(new Answer() {
+            @Override
+            public Integer answer(InvocationOnMock invocation) throws Throwable {
+                subject.onICPCallbackEventOccurred(Commands.SIGNON, Errors.SUCCESS, signOnMock);
+
+                return Errors.REQUEST_PENDING;
+            }
+        }).when(signOnMock).executeCommand();
+
+        createDefaultCloudController();
+        subject.addSignOnListener(mockSignOnListener);
+        subject.onICPCallbackEventOccurred(Commands.KEY_PROVISION, Errors.SUCCESS, mockNewProvision);
+
+        verify(mockSignOnListener).signonStatus(eq(true));
     }
 
     private DefaultCloudController createCloudControllerWithListeners(String cppId, DcsEventListener dcsListener) {
