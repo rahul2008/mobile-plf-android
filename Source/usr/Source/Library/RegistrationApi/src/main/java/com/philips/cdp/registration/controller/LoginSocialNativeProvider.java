@@ -100,17 +100,20 @@ public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.
                 ThreadUtils.postInMainThread(mContext, () -> mSocialLoginProviderHandler.onLoginFailedWithTwoStepError(prefilledRecord,
                         socialRegistrationToken));
 
-            } else {
-                RLog.d(TAG, "onFailure : else is called");
-//            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-//            userRegistrationFailureInfo.setErrorDescription();
-//            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
-//            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-
-            }
-        } catch (Exception e) {
-            RLog.d(TAG, "onFailure : is called : Exception : " + e.getMessage());
+        } else {
+            RLog.d(TAG, "onFailure : else is called");
+            loginFailed();
+        }}catch(Exception e){
+            RLog.e(TAG, "onFailure : is called exception" + e.getMessage());
+            loginFailed();
         }
+    }
+
+    private void loginFailed() {
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+        userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
+        ThreadUtils.postInMainThread(mContext, () ->
+                mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
     }
 
     private Activity mActivity;

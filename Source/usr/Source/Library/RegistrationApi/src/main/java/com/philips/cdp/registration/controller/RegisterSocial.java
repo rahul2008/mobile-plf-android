@@ -73,16 +73,20 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
     }
 
     public void onFailure(SignInError error) {
-        try {
-            RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
-            userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-            AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
+        try{
+        RLog.e(TAG, "onFailure : is called error: "+ error.captureApiError.raw_response);
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
+        userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
+        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
+        ThreadUtils.postInMainThread(mContext, () ->
+                mSocialLoginProviderHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
+    }catch(Exception e) {
+            RLog.d(TAG, "onFailure : is called : Exception : " + e.getMessage());
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->
                     mSocialLoginProviderHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
-        }catch (Exception e){
-        RLog.d(TAG, "onFailure : is called : Exception : " + e.getMessage());
-    }
+        }
     }
 
     private JSONObject mUser;
@@ -129,7 +133,6 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
                     mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
-
     }
 
 
