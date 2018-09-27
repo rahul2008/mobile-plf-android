@@ -312,7 +312,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
                 mProgressDialog.cancel();
             }
         } catch (IllegalArgumentException e) {
-            RLog.e(TAG, "hideProgressDialog: view not attached " + e.getMessage();
+            RLog.e(TAG, "hideProgressDialog: view not attached " + e.getMessage());
         }
     }
 
