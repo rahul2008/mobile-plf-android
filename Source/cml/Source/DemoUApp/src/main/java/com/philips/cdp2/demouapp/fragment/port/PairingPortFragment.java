@@ -27,7 +27,6 @@ import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_success;
 import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
-import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
 
 public class PairingPortFragment extends Fragment {
 
@@ -42,7 +41,7 @@ public class PairingPortFragment extends Fragment {
 
             Activity activity = getActivity();
             if (activity != null) {
-                showMessage(rootview, getString(cml_pair_success));
+                showIndefiniteMessage(rootview, getString(cml_pair_success));
             }
         }
 
@@ -64,7 +63,7 @@ public class PairingPortFragment extends Fragment {
 
             Activity activity = getActivity();
             if (activity != null) {
-                showMessage(rootview, getString(cml_unpair_success));
+                showIndefiniteMessage(rootview, getString(cml_unpair_success));
             }
         }
 
