@@ -260,4 +260,13 @@ public static <fields>;
 -dontwarn android.support.v7.view.menu.**
 -dontwarn android.support.customtabs.**
 
+
+-dontwarn android.arch.util.paging.CountedDataSource
+-dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource
+
+
+-keep class com.squareup.okhttp.** { *; }
+-keep interface com.squareup.okhttp.** { *; }
+
+
 #------------------------------Application specific rules end  here------------------------------------

@@ -43,12 +43,12 @@
       "fileName":"AppInfraLog",
       "numberOfFiles":5,
       "fileSizeInBytes":50000,
-      "logLevel":"Off",
+      "logLevel":"All",
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
-      "cloudLogEnabled":false,
+      "cloudLogEnabled":true,
       "cloudBatchLimit":5,
-      "componentLevelLogEnabled":false,
+      "componentLevelLogEnabled":true,
       "componentIds": [
         "ail","usr"
       ]
