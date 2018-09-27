@@ -30,9 +30,9 @@
     <string name="button_ews_plug_in_next">Ok, I did it</string>
     <!--EWS_02_02_setup-steps02 -->
     <string name="label_ews_verify_ready_title_default">Is your device in setup mode?</string>
-    <string name="label_ews_verify_ready_question_default">Is the Wi-Fi light flashing?</string>
-    <string name="button_ews_verify_ready_yes_default">Yes, the Wi-Fi light is flashing</string>
-    <string name="button_ews_verify_ready_no_default">No, the Wi-Fi light is not flashing</string>
+    <string name="label_ews_verify_ready_question_default">Proposition specific instruction to put the device in setup mode.\n\nIs the Wi-Fi light flashing?</string>
+    <string name="button_ews_verify_ready_yes_default">Yes, connect to device</string>
+    <string name="button_ews_verify_ready_no_default">Having problems?</string>
     <!--EWS_03_00_Connecting with device-->
     <string name="label_ews_establishing_connection_title">Connecting to PHILIPS Setup</string>
     <string name="label_ews_establishing_connection_body">This might take a few seconds. You will be automatically redirected when finished.</string>
