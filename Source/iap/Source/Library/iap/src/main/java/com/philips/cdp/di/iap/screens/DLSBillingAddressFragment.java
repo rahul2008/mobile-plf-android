@@ -112,7 +112,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
         mLlAddressLineTwoBilling = rootView.findViewById(R.id.ll_billing_address_line_two);
         inputValidatorAddressLineTwoBilling = new InputValidator(Validator.ADDRESS_PATTERN);
-       // mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
+        // mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
 
         mLlTownBilling = rootView.findViewById(R.id.ll_billing_town);
         inputValidatorTownBilling = new InputValidator(Validator.TOWN_PATTERN);
@@ -160,7 +160,11 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mEtStateBilling.setKeyListener(null);
 
         mEtFirstNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
-        mEtLastNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        if(HybrisDelegate.getInstance(mContext).getStore().getFamilyName()!=null){
+            mEtLastNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        }else {
+            mEtLastNameBilling.setText("");
+        }
 
         mEtEmailBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmailBilling.setEnabled(false);
@@ -489,7 +493,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 return true;
             }else {
                 Utility.isBillingAddressFilled=false;
-               dlsAddressFragment.mBtnContinue.setEnabled(false);
+                dlsAddressFragment.mBtnContinue.setEnabled(false);
             }
         } else {
             Utility.isBillingAddressFilled=false;
@@ -636,7 +640,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
     private String addressWithNewLineIfNull( String code) {
         if (!TextUtils.isEmpty(code)) {
-                return code.replaceAll(",null", " ");
+            return code.replaceAll("[,null]", " ");
         }
         return null;
     }
