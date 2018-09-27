@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.adapters.AppliedVoucherAdapter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.VoucherController;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -30,7 +29,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     Context mContext;
     EditText voucherEditText;
     RelativeLayout voucherLayout;
-    public AppliedVoucherAdapter mAppliedVoucherAdapter;
+ //   public AppliedVoucherAdapter mAppliedVoucherAdapter;
 
     public static final String TAG = VoucherFragment.class.getName();
 
@@ -68,8 +67,8 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public void onStop() {
         super.onStop();
-        if (mAppliedVoucherAdapter != null)
-            mAppliedVoucherAdapter.onStop();
+        /*if (mAppliedVoucherAdapter != null)
+            mAppliedVoucherAdapter.onStop();*/
         hideProgressBar();
         NetworkUtility.getInstance().dismissErrorDialog();
     }
