@@ -48,9 +48,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/welcome_indicator"
-            android:layout_marginLeft="@dimen/layout_margin_left_right"
-            android:layout_marginRight="@dimen/layout_margin_left_right"
-            android:layout_marginBottom="@dimen/layout_margin_left_right"
+            android:layout_marginLeft="@dimen/ths_fab_margin"
+            android:layout_marginRight="@dimen/ths_fab_margin"
+            android:layout_marginBottom="@dimen/ths_fab_margin"
             android:text="@string/ths_confirm_terms"
             android:visibility="gone"
             app:uidAccent="true"/>
