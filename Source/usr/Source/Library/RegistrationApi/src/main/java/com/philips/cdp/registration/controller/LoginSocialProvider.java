@@ -103,11 +103,12 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
 
     @Override
     public void onFailure(SignInError error) {
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
         try {
-            RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
             if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                     && error.captureApiError.isMergeFlowError()) {
+                RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
+
                 String emailId = null;
                 if (null != error.auth_info) {
                     JRDictionary profile = error.auth_info.getAsDictionary("profile");
@@ -134,6 +135,8 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
                 RLog.e(TAG, "onFailure : userRegistrationFailureInfo.setErrorCode = " + error.captureApiError.code);
             } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                     && error.captureApiError.isTwoStepRegFlowError()) {
+                RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
+
 
                 JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
                 String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
@@ -149,18 +152,21 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
                         mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
                 //   AUTHENTICATION_CANCELLED_BY_USER
 
-                RLog.d(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
+                RLog.e(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
 
             } else {
                 userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
                 ThreadUtils.postInMainThread(mContext, () ->
                         mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 
-                RLog.d(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
+                RLog.e(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
             }
             AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         } catch (Exception e) {
-            RLog.d(TAG, "onFailure : is called : Exception : " + e.getMessage());
+            RLog.e(TAG, "onFailure : is called : Exception : " + e.getMessage());
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
     }
 

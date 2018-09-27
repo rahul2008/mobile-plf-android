@@ -80,7 +80,6 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
             RLog.e(TAG, "onFailure: Exception : " + e.getMessage());
             loginFailed();
         }
-
     }
 
     private void loginFailed() {

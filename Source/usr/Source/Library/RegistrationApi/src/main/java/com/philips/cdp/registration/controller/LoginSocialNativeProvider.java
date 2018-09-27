@@ -68,9 +68,9 @@ public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.
     @Override
     public void onFailure(SignInError error) {
         try {
-            RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
             if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                     && error.captureApiError.isMergeFlowError()) {
+                RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
 
                 RLog.d(TAG, "onFailure : isMergeFlowError");
                 String emailId = null;
@@ -94,16 +94,24 @@ public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.
 
             } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                     && error.captureApiError.isTwoStepRegFlowError()) {
-                RLog.d(TAG, "onFailure : isTwoStepRegFlowError");
+                RLog.e(TAG, "onFailure : isTwoStepRegFlowError"+ error.captureApiError.raw_response);
                 JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
                 String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
                 ThreadUtils.postInMainThread(mContext, () -> mSocialLoginProviderHandler.onLoginFailedWithTwoStepError(prefilledRecord,
                         socialRegistrationToken));
+            } else if (error.reason == SignInError.FailureReason.AUTHENTICATION_CANCELLED_BY_USER) {
+                UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+                userRegistrationFailureInfo.setErrorCode(ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER);
+                ThreadUtils.postInMainThread(mContext, () ->
+                        mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                //   AUTHENTICATION_CANCELLED_BY_USER
+                RLog.e(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
 
-        } else {
-            RLog.d(TAG, "onFailure : else is called");
-            loginFailed();
-        }}catch(Exception e){
+            }else {
+                RLog.e(TAG, "onFailure : else is called");
+                loginFailed();
+            }
+        } catch (Exception e) {
             RLog.e(TAG, "onFailure : is called exception" + e.getMessage());
             loginFailed();
         }
