@@ -13,15 +13,49 @@
         android:orientation="vertical">
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/extra_option"
-            style="@style/iap_list_header"
+        android:id="@+id/extra_option"
+        style="@style/iap_list_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/border16_margin_left_right"
+        android:paddingRight="@dimen/border16_margin_left_right"
+        android:text="@string/iap_extra_option"
+        />
+
+
+        <RelativeLayout
+            android:id="@+id/voucher_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingRight="@dimen/border16_margin_left_right"
-            android:text="@string/iap_extra_option"
-           />
+            android:layout_marginTop="@dimen/border16_margin_left_right"
+            android:layout_marginBottom="@dimen/border16_margin_left_right"
+         >
 
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/voucherLabel"
+                style="@style/UIDLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingLeft="@dimen/border16_margin_left_right"
+                android:paddingRight="@dimen/border16_margin_left_right"
+             />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/right_arrow_voucher"
+                style="@style/iap_right_arrow_product_catalog"
+                android:layout_width="15dip"
+                android:layout_height="15dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical" />
+
+
+        </RelativeLayout>
+        <View
+            android:id="@+id/line"
+            style="@style/iap_button_border"
+            />
         <RelativeLayout
             android:id="@+id/delivery_ups_parcel_container"
             android:layout_width="match_parent"

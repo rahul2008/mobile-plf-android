@@ -43,6 +43,7 @@ public class CartModelContainer {
     private AppInfraInterface appInfraInstance;
     private boolean addessStateVisible;
     private String mAddressIdFromDelivery;
+    private String voucherCode;
 
     private CartModelContainer() {
         mPRXSummaryObjects = new HashMap<>();
@@ -231,4 +232,14 @@ public class CartModelContainer {
     public boolean isAddessStateVisible() {
         return addessStateVisible;
     }
+
+
+    public void  setVoucherCode(String voucherCode){
+        this.voucherCode=voucherCode;
+    }
+    public String getVoucherCode(){
+        return voucherCode;
+    }
+
+
 }
