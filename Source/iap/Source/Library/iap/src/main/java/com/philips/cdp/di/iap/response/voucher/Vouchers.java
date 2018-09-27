@@ -13,4 +13,5 @@ public class Vouchers implements Serializable {
     private AppliedValue appliedValue;
 
 
+
 }
