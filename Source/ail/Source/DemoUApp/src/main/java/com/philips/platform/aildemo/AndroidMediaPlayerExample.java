@@ -23,7 +23,6 @@ import com.philips.platform.appinfra.demo.R;
 public class AndroidMediaPlayerExample extends Activity {
     ProgressBar progressBar = null;
     VideoView videoView = null;
-    String videoUrl = "android.resource://com.philips.platform.appinfra.demo/" + R.raw.demotagging;
     Context context = null;
 
     @Override
@@ -34,6 +33,7 @@ public class AndroidMediaPlayerExample extends Activity {
         setContentView(R.layout.mediaplayer_demo);
         videoView = (VideoView) findViewById(R.id.videoview);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        String  videoUrl  = "android.resource://"+getPackageName()+"/"+R.raw.demotagging;
         Uri videoUri = Uri.parse(videoUrl);
         videoView.setVideoURI(videoUri);
         MediaController mediaController = null;

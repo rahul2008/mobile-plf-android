@@ -812,7 +812,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         this.mCountry = country;
         this.mCountrySourceType = countrySource;
         if (mSecureStorageError != null && !TextUtils.isEmpty(mSecureStorageError.getErrorMessage()))
-            trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_STORE_FAILED);
+            trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_STORE_FAILED + ":"+mSecureStorageError.getErrorMessage());
 
     }
 

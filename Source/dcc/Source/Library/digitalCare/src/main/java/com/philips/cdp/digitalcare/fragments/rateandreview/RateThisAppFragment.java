@@ -79,6 +79,9 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Rate
         mRatePhilipsBtn.setOnClickListener(this);
         rateThisAppFragmentPresenter.handleProductData();
         rateThisAppFragmentPresenter.validateContryChina();
+        DigitalCareConfigManager.getInstance().getTaggingInterface().
+                trackPageWithInfo(AnalyticsConstants.PAGE_RATE_THIS_APP,
+                        getPreviousName(), getPreviousName());
     }
 
     @Override
