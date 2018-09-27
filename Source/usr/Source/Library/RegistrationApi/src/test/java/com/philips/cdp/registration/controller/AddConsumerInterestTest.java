@@ -19,7 +19,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class AddConsumerInterestTest extends TestCase {
 
-
+    @Mock
+    private CaptureApiError captureApiErrorMock;
     @Mock
     private AddConsumerInterestHandler addConsumerInterestHandlerMock;
 
@@ -34,17 +35,12 @@ public class AddConsumerInterestTest extends TestCase {
 
     @Test
     public void onSuccess() {
-
         addConsumerInterest.onSuccess();
         Mockito.verify(addConsumerInterestHandlerMock).onAddConsumerInterestSuccess();
     }
 
-    @Mock
-    private CaptureApiError captureApiErrorMock;
-
     @Test
     public void onFailure() {
-
         addConsumerInterest.onFailure(captureApiErrorMock);
         Mockito.verify(addConsumerInterestHandlerMock).onAddConsumerInterestFailedWithError(0);
 
