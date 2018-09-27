@@ -96,9 +96,6 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
 
         labelAvailableDocs.setText(getString(R.string.ths_available_time_slots_text));
 
-        ImageView greenTick = (ImageView)view.findViewById(R.id.isAvailableImage);
-        greenTick.setVisibility(View.GONE);
-
         NotificationBadge notificationBadge = (NotificationBadge) view.findViewById(R.id.notification_badge);
         notificationBadge.setVisibility(View.VISIBLE);
 

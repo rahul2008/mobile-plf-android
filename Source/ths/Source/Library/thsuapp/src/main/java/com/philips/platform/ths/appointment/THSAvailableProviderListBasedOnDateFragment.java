@@ -104,13 +104,13 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
                 thsProviderInfo.setAvailableProvider(availableProvider);
                 listOfProviderInfos.add(thsProviderInfo);
             }
-            THSProvidersListAdapter adapter = new THSProvidersListAdapter(listOfProviderInfos);
+            THSProvidersListAdapter adapter = new THSProvidersListAdapter(listOfProviderInfos, mPractice);
 
             mLabelNumberOfAvailableDoctors.setText(listOfProviderInfos.size() + " " + getString(R.string.ths_schedule_provider_count_title));
 
             adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
                 @Override
-                public void onItemClick(THSProviderEntity item) {
+                public void onItemClick(THSProviderEntity item, int viewID) {
                     mTHSAvailableProviderListBasedOnDatePresenter.launchAvailableProviderDetailFragment(item, mDate, mPractice);
                 }
             });

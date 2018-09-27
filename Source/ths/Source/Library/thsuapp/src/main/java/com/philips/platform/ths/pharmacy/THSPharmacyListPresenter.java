@@ -11,8 +11,8 @@ import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -48,7 +48,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         }
     }
 
-    public void fetchPharmacyList(THSConsumerWrapper thsConsumerWrapper, String city, State state, String zipCode) {
+    public void fetchPharmacyList(Consumer thsConsumerWrapper, String city, State state, String zipCode) {
         try {
             THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsConsumerWrapper, city, state, zipCode, this);
         } catch (AWSDKInstantiationException e) {
@@ -56,7 +56,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         }
     }
 
-    public void fetchPharmacyList(THSConsumerWrapper thsConsumerWrapper, float latitude, float longitude, int radius) {
+    public void fetchPharmacyList(Consumer thsConsumerWrapper, float latitude, float longitude, int radius) {
         try {
             THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsConsumerWrapper, latitude, longitude, radius, this);
         } catch (AWSDKInstantiationException e) {

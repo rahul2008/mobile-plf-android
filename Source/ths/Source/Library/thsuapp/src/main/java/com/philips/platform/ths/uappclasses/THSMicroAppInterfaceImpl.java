@@ -7,9 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.catk.ConsentsClient;
-import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.consent.THSLocationConsentProvider;
@@ -48,9 +45,9 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
     public void init(@NonNull final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
         appInfra = uappDependencies.getAppInfra();
-        final ConsentHandlerInterface consentHandlerInterface = new ConsentInteractor(ConsentsClient.getInstance());
+       // final ConsentHandlerInterface consentHandlerInterface = new ConsentInteractor(ConsentsClient.getInstance());
         appInfra.getConsentManager().deregisterHandler(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION));
-        appInfra.getConsentManager().registerHandler(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION), consentHandlerInterface);
+     //   appInfra.getConsentManager().registerHandler(Collections.singletonList(THSLocationConsentProvider.THS_LOCATION), consentHandlerInterface);
     }
 
     /**

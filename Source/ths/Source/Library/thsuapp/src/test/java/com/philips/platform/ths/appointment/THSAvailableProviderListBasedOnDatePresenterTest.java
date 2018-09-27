@@ -19,7 +19,6 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -35,7 +34,6 @@ import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
@@ -78,7 +76,7 @@ public class THSAvailableProviderListBasedOnDatePresenterTest {
     Practice practiceMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    Consumer thsConsumerWrapperMock;
 
     @Mock
     Consumer consumerMock;
@@ -139,8 +137,7 @@ public class THSAvailableProviderListBasedOnDatePresenterTest {
 
     @Test
     public void getAvailableProvidersBasedOnDate() throws Exception {
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
-        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setConsumer(thsConsumerWrapperMock);
         when(thsAvailableProviderListBasedOnDateFragmentMock.getContext()).thenReturn(contextMock);
         when(thsAvailableProviderListBasedOnDateFragmentMock.getPractice()).thenReturn(practiceMock);
         //when(thsAvailableProviderListBasedOnDateFragmentMock.mDate).thenReturn(dateMock);

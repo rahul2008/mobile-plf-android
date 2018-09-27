@@ -10,13 +10,16 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
@@ -37,6 +40,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
 
     private static String TAG = THSProvidersListAdapter.class.getSimpleName();
     private List<? extends THSProviderEntity> thsProviderInfos;
+    private Practice mPractice;
     private OnProviderListItemClickListener onProviderItemClickListener;
 
 
@@ -44,19 +48,19 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         this.onProviderItemClickListener = onProviderItemClickListener;
     }
 
-    public THSProvidersListAdapter(List<? extends THSProviderEntity> thsProviderInfos) {
+    public THSProvidersListAdapter(List<? extends THSProviderEntity> thsProviderInfos, Practice mPractice) {
         this.thsProviderInfos = thsProviderInfos;
-        //  mTHSAvailableProviderList = availableProvidersList;
+        this.mPractice = mPractice;
     }
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, practice, isAvailble;
+        LinearLayout doctorAvailableActionBar;
+        public TextView name, practice, isAvailble, doctorSelectActionBar, doctorScheduleActionBar, scheduleDoctorButton, selectDoctorButton;
         public RatingBar providerRating;
         public CircularImageView providerImage;
         public RelativeLayout relativeLayout;
         public NotificationBadge notificationBadge;
-        public ImageView isAvailableStatus;
         public Label providerPatientWaitingCount;
 
         public MyViewHolder(View view) {
@@ -68,94 +72,152 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             providerImage = (CircularImageView) view.findViewById(R.id.providerImage);
             relativeLayout = (RelativeLayout) view.findViewById(R.id.providerListItemLayout);
             notificationBadge = (NotificationBadge) view.findViewById(R.id.notification_badge);
-            isAvailableStatus = (ImageView) view.findViewById(R.id.isAvailableImage);
             providerPatientWaitingCount = (Label) view.findViewById(R.id.details_isAvailableImage_text);
-
+            if (!THSManager.getInstance().getProviderListABFlow().equalsIgnoreCase(THSConstants.THS_PROVIDERLIST_ABFLOW1)) {
+                doctorSelectActionBar = (TextView) itemView.findViewById(R.id.doctor_select_action_bar);
+                doctorScheduleActionBar = (TextView) itemView.findViewById(R.id.doctor_schedule_action_bar);
+                doctorAvailableActionBar = (LinearLayout) itemView.findViewById(R.id.doctor_available_action_bar);
+                scheduleDoctorButton = (TextView) itemView.findViewById(R.id.provider_schedule);
+                selectDoctorButton = (TextView) itemView.findViewById(R.id.provider_select);
+            }
         }
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.ths_provider_list, parent, false);
+        View itemView;
+        if (isProviderListABFlow1()) {
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.ths_provider_list, parent, false);
+        } else {
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.ths_firbase_flow2_provider_list, parent, false);
+
+        }
 
         return new MyViewHolder(itemView);
     }
 
+    private boolean isProviderListABFlow1() {
+        return THSManager.getInstance().getProviderListABFlow().equalsIgnoreCase(THSConstants.THS_PROVIDERLIST_ABFLOW1);
+    }
+
+
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        THSProviderInfo thsProviderInfo;
+        final THSProviderInfo thsProviderInfo;
         String providerAvailabilityString = null;
         String providerVisibility;
         Context context;
+
+        //handleActionBarEvents(holder);
+
         if ((getThsProviderEntity(holder.getAdapterPosition()) instanceof THSProviderInfo)) {
             thsProviderInfo = getThsProviderInfo(holder.getAdapterPosition());
             providerVisibility = thsProviderInfo.getVisibility().toString();
-            context = holder.isAvailableStatus.getContext();
+            context = holder.isAvailble.getContext();
             if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {
                 providerAvailabilityString = context.getResources().getString(R.string.ths_provider_available);
                 holder.isAvailble.setTextColor(ContextCompat.getColor(context, com.philips.platform.uid.R.color.uid_signal_green_level_30));
-                holder.isAvailableStatus.setImageResource(R.mipmap.green_available_icon);
             } else if (providerVisibility.equals(THSConstants.PROVIDER_OFFLINE)) {
                 providerAvailabilityString = context.getResources().getString(R.string.ths_provider_available_for_appointment);
-                holder.isAvailableStatus.setImageResource(R.mipmap.provider_offline_icon);
             } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
                 providerAvailabilityString = context.getResources().getString(R.string.ths_provider_occupied);
                 holder.isAvailble.setTextColor(ContextCompat.getColor(context, com.philips.platform.uid.R.color.uid_signal_orange_level_30));
-                holder.isAvailableStatus.setImageResource(R.mipmap.waiting_patient_icon);
                 holder.providerPatientWaitingCount.setText(String.valueOf(thsProviderInfo.getWaitingRoomCount()));
             }
-
+            initDoctorActionBar(thsProviderInfo, holder);
             holder.isAvailble.setText(providerAvailabilityString);
 
         } else {
             THSAvailableProvider thsAvailableProvider = (THSAvailableProvider) thsProviderInfos.get(position);
             thsProviderInfo = getThsProviderInfo(thsAvailableProvider);
             holder.isAvailble.setText(holder.isAvailble.getContext().getResources().getString(R.string.ths_provider_list_timeslot));
-            holder.isAvailableStatus.setVisibility(View.GONE);
             holder.notificationBadge.setVisibility(View.VISIBLE);
             holder.notificationBadge.setText("" + thsAvailableProvider.getAvailableAppointmentTimeSlots().size());
 
             try {
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.isAvailble.getLayoutParams();
                 layoutParams.addRule(RelativeLayout.RIGHT_OF, R.id.notification_badge);
-            }catch (Exception e){
-                AmwellLog.i(THSProvidersListAdapter.TAG,e.getMessage());
+            } catch (Exception e) {
+                AmwellLog.i(THSProvidersListAdapter.TAG, e.getMessage());
             }
         }
 
 
         try {
-        holder.providerRating.setRating(thsProviderInfo.getRating());
-        holder.name.setText(thsProviderInfo.getProviderInfo().getFullName());
-        holder.practice.setText(getName(thsProviderInfo));
+            holder.providerRating.setRating(thsProviderInfo.getRating());
+            holder.name.setText(thsProviderInfo.getProviderInfo().getFullName());
+            holder.practice.setText(getName(thsProviderInfo));
 
 
-        if (thsProviderInfo.hasImage()) {
-            try {
-                THSManager.getInstance().getAwsdk(holder.providerImage.getContext()).
-                        getPracticeProvidersManager().
-                        newImageLoader(thsProviderInfo.getProviderInfo(),
-                                holder.providerImage, ProviderImageSize.LARGE).placeholder
-                        (holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder,holder.providerImage.getContext().getTheme())).
-                        build().load();
-            } catch (AWSDKInstantiationException e) {
+            if (thsProviderInfo.hasImage()) {
+                try {
+                    THSManager.getInstance().getAwsdk(holder.providerImage.getContext()).
+                            getPracticeProvidersManager().
+                            newImageLoader(thsProviderInfo.getProviderInfo(),
+                                    holder.providerImage, ProviderImageSize.LARGE).placeholder
+                            (holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder, holder.providerImage.getContext().getTheme())).
+                            build().load();
+                } catch (AWSDKInstantiationException e) {
 
+                }
             }
-        }
-        }
-        catch (Exception e){
-            AmwellLog.e(THSProvidersListAdapter.TAG,e.toString());
+        } catch (Exception e) {
+            AmwellLog.e(THSProvidersListAdapter.TAG, e.toString());
         }
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                onProviderItemClickListener.onItemClick(thsProviderInfos.get(position));
+                onProviderItemClickListener.onItemClick(thsProviderInfos.get(position), v.getId());
             }
         };
         holder.relativeLayout.setOnClickListener(listener);
 
+        if (!isProviderListABFlow1()) {
+            holder.doctorSelectActionBar.setOnClickListener(listener);
+            holder.doctorScheduleActionBar.setOnClickListener(listener);
+            holder.scheduleDoctorButton.setOnClickListener(listener);
+            holder.selectDoctorButton.setOnClickListener(listener);
+        }
+
+    }
+
+
+    private void initDoctorActionBar(THSProviderInfo thsProviderInfo, MyViewHolder holder) {
+        SpannableString spannableString = new SpannableString("  " + holder.isAvailble.getResources().getString(R.string.dls_navigationright_bold_24));
+        spannableString.setSpan(new AbsoluteSizeSpan(12, true), 0, spannableString.length(), 0);
+        if (!isProviderListABFlow1()) {
+            if (isProviderSelectable(thsProviderInfo.getVisibility()) && mPractice.isShowScheduling()) {
+                holder.doctorScheduleActionBar.setVisibility(View.GONE);
+                holder.doctorSelectActionBar.setVisibility(View.GONE);
+                holder.selectDoctorButton.setText(holder.isAvailble.getContext().getResources().getString(R.string.ths_select_provider));
+                holder.selectDoctorButton.append(spannableString);
+                holder.doctorAvailableActionBar.setVisibility(View.VISIBLE);
+            } else if (isProviderSelectable(thsProviderInfo.getVisibility()) && !mPractice.isShowScheduling()) {
+                holder.doctorScheduleActionBar.setVisibility(View.GONE);
+                holder.doctorAvailableActionBar.setVisibility(View.GONE);
+                holder.doctorSelectActionBar.setVisibility(View.VISIBLE);
+                holder.doctorSelectActionBar.setText(holder.isAvailble.getContext().getResources().getString(R.string.ths_insurancedetail_selectprovider));
+                holder.doctorSelectActionBar.append(spannableString);
+            } else if (!isProviderSelectable(thsProviderInfo.getVisibility()) && mPractice.isShowScheduling()) {
+                holder.doctorSelectActionBar.setVisibility(View.GONE);
+                holder.doctorAvailableActionBar.setVisibility(View.GONE);
+                holder.doctorScheduleActionBar.setVisibility(View.VISIBLE);
+                holder.doctorScheduleActionBar.setText(holder.isAvailble.getContext().getResources().getString(R.string.ths_provider_available_for_appointment));
+                holder.doctorScheduleActionBar.append(spannableString);
+            } else {
+                holder.doctorScheduleActionBar.setVisibility(View.GONE);
+                holder.doctorSelectActionBar.setVisibility(View.GONE);
+                holder.doctorAvailableActionBar.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private boolean isProviderSelectable(String thsProviderInfoVisibility) {
+        return thsProviderInfoVisibility.equals(THSConstants.WEB_AVAILABLE) || thsProviderInfoVisibility.equals(THSConstants.PROVIDER_WEB_BUSY) ||
+                thsProviderInfoVisibility.equals(THSConstants.PROVIDER_ON_CALL);
     }
 
     @NonNull
@@ -165,6 +227,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         thsProviderInfo.setTHSProviderInfo(thsAvailableProvider.getProviderInfo());
         return thsProviderInfo;
     }
+
 
     public String getName(THSProviderInfo thsProviderInfo) {
         return thsProviderInfo.getSpecialty().getName();

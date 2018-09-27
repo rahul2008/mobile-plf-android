@@ -88,7 +88,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     void createVisit() {
         try {
             mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(false);
-            THSManager.getInstance().createVisit(mTHSCostSummaryFragment.getFragmentActivity(), THSManager.getInstance().getPthVisitContext(), this);
+            THSManager.getInstance().createVisit(mTHSCostSummaryFragment.getFragmentActivity(), THSManager.getInstance().getVisitContext(), this);
         } catch (Exception e) {
 
         }
@@ -189,7 +189,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
                 mTHSCostSummaryFragment.costSmallLabel.setText(String.valueOf("." + costStringArray[1]));
             }
             String couponCode = mTHSCostSummaryFragment.thsVisit.getCouponCodeApplied();
-            Consumer consumer = THSManager.getInstance().getPTHConsumer(mTHSCostSummaryFragment.getContext()).getConsumer();
+            Consumer consumer = THSManager.getInstance().getConsumer(mTHSCostSummaryFragment.getContext());
             if ((consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) || (null != couponCode && !couponCode.isEmpty())) {
                 mTHSCostSummaryFragment.mInitialVisitCostLabel.setVisibility(View.VISIBLE);
                 String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cover_cost_Partial_android), "$" + String.valueOf(thsVisit.getInitialVisitCost()));

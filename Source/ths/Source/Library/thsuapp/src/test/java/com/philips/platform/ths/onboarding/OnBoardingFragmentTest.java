@@ -6,7 +6,9 @@
 
 package com.philips.platform.ths.onboarding;
 
+import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -18,6 +20,7 @@ import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -29,8 +32,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import static com.philips.platform.ths.onboardingtour.OnBoardingTourPresenter.ARG_PAGER_FLOW;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,36 +42,46 @@ import static org.mockito.Mockito.when;
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class OnBoardingFragmentTest {
 
-    OnBoardingFragment mOnBoardingFragment;
+    private TestOnBoardingFragment mOnBoardingFragment;
 
     @Mock
+    private
     AWSDK awsdkMock;
 
     @Mock
+    private
     THSConsumer thsConsumerMock;
 
     @Mock
+    private
     FragmentLauncher fragmentLauncherMock;
 
     @Mock
+    private
     Consumer consumerMock;
 
     @Mock
+    private
     AppInfraInterface appInfraInterface;
 
     @Mock
+    private
     AppTaggingInterface appTaggingInterface;
 
     @Mock
+    private
     LoggingInterface loggingInterface;
 
     @Mock
+    private
     ServiceDiscoveryInterface serviceDiscoveryMock;
 
     @Mock
+    private
     ActionBarListener actionBarListenerMock;
 
     @Mock
+    private
     OnBoardingPresenter onBoardingPresenterMock;
 
     @Before
@@ -88,16 +102,50 @@ public class OnBoardingFragmentTest {
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
 
-        mOnBoardingFragment = new OnBoardingFragment();
+        mOnBoardingFragment = new TestOnBoardingFragment();
         mOnBoardingFragment.setActionBarListener(actionBarListenerMock);
         SupportFragmentTestUtil.startFragment(mOnBoardingFragment);
+    }
+
+    @Test
+    public void shouldHideAgreeButton_DependingOnFragmentArguments() throws Exception {
+        THSManager.getInstance().setOnBoradingABFlow(THSConstants.THS_ONBOARDING_ABFLOW2);
+
+        mOnBoardingFragment = new TestOnBoardingFragment();
+        mOnBoardingFragment.setActionBarListener(actionBarListenerMock);
+        SupportFragmentTestUtil.startFragment(mOnBoardingFragment);
+
+        mOnBoardingFragment.onBoardingPresenter = onBoardingPresenterMock;
+        mOnBoardingFragment.setFragmentLauncher(fragmentLauncherMock);
+        final View viewById = mOnBoardingFragment.getView().findViewById(R.id.btn_continue);
+
+        assertThat(viewById.getVisibility()).isEqualTo(View.GONE);
+    }
+
+    @Test
+    public void shouldAlignAgreeButton_DependingOnFragmentArguments() throws Exception {
+        THSManager.getInstance().setOnBoradingABFlow(THSConstants.THS_ONBOARDING_ABFLOW2);
+
+        mOnBoardingFragment = new TestOnBoardingFragment();
+        mOnBoardingFragment.setActionBarListener(actionBarListenerMock);
+        Bundle args = new Bundle();
+        args.putBoolean(ARG_PAGER_FLOW, false);
+        mOnBoardingFragment.setArguments(args);
+        SupportFragmentTestUtil.startFragment(mOnBoardingFragment);
+
+        mOnBoardingFragment.onBoardingPresenter = onBoardingPresenterMock;
+        mOnBoardingFragment.setFragmentLauncher(fragmentLauncherMock);
+        final View viewById = mOnBoardingFragment.getView().findViewById(R.id.btn_continue);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewById.getLayoutParams();
+
+        assertThat(params.getRule(RelativeLayout.BELOW)).isEqualTo(0);
     }
 
     @Test
     public void onClick() throws Exception {
         mOnBoardingFragment.onBoardingPresenter = onBoardingPresenterMock;
         mOnBoardingFragment.setFragmentLauncher(fragmentLauncherMock);
-        final View viewById = mOnBoardingFragment.getView().findViewById(R.id.tv_skip);
+        final View viewById = mOnBoardingFragment.getView().findViewById(R.id.breif_2);
         viewById.performClick();
         verify(onBoardingPresenterMock).onEvent(anyInt());
     }
@@ -106,7 +154,7 @@ public class OnBoardingFragmentTest {
     public void onClick_btn_take_tour() throws Exception {
         mOnBoardingFragment.onBoardingPresenter = onBoardingPresenterMock;
         mOnBoardingFragment.setFragmentLauncher(fragmentLauncherMock);
-        final View viewById = mOnBoardingFragment.getView().findViewById(R.id.btn_take_tour);
+        final View viewById = mOnBoardingFragment.getView().findViewById(R.id.btn_continue);
         viewById.performClick();
         verify(onBoardingPresenterMock).onEvent(anyInt());
     }

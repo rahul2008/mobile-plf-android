@@ -190,15 +190,6 @@ public class OnBoardingTourFragmentTest {
     }
 
     @Test
-    public void onClick_welcome_start_registration_button() throws Exception {
-        mOnBoardingTourFragment.pager = viewPagerMock;
-        mOnBoardingTourFragment.presenter = mOnBoardingTourPresenterMock;
-        final View viewById = mOnBoardingTourFragment.getView().findViewById(R.id.welcome_start_registration_button);
-        viewById.performClick();
-        verify(mOnBoardingTourPresenterMock).onEvent(anyInt());
-    }
-
-    @Test
     public void onClick_welcome_welcome_skip_button() throws Exception {
         mOnBoardingTourFragment.pager = viewPagerMock;
         mOnBoardingTourFragment.presenter = mOnBoardingTourPresenterMock;

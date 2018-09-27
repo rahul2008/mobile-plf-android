@@ -28,13 +28,13 @@ import com.philips.platform.ths.intake.THSSearchFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
-import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.Iterator;
@@ -42,7 +42,9 @@ import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_NO_PROVIDER_FOR_PRACTICE;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_OK;
+import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDERLIST_ABFLOW1;
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_LIST;
+import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_LIST_FLOW2;
 
 public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
@@ -54,8 +56,8 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private Consumer consumer;
     protected THSProvidersListAdapter THSProvidersListAdapter;
     private ActionBarListener actionBarListener;
-    protected Button btn_get_started;
-    protected Button btn_schedule_appointment;
+    protected THSCustomButtonWithDrawableIcon btn_get_started;
+    protected THSCustomButtonWithDrawableIcon btn_schedule_appointment;
     private RelativeLayout mRelativeLayoutContainer;
     private Label seeFirstDoctorLabel;
     private AlertDialogFragment alertDialogFragment;
@@ -65,7 +67,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Bundle bundle=getArguments();
+        Bundle bundle = getArguments();
         setHasOptionsMenu(true);
         getParcelableObjects(bundle);
         View view = inflater.inflate(R.layout.ths_providers_list_fragment, container, false);
@@ -74,22 +76,22 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         seeFirstDoctorLabel = (Label) view.findViewById(R.id.seeFirstDoctorLabel);
-        btn_get_started = (Button) view.findViewById(R.id.getStartedButton);
+        btn_get_started = (THSCustomButtonWithDrawableIcon) view.findViewById(R.id.getStartedButton);
         btn_get_started.setOnClickListener(this);
-        btn_schedule_appointment = (Button) view.findViewById(R.id.getScheduleAppointmentButton);
+        btn_schedule_appointment = (THSCustomButtonWithDrawableIcon) view.findViewById(R.id.getScheduleAppointmentButton);
         btn_schedule_appointment.setOnClickListener(this);
         mRelativeLayoutContainer = (RelativeLayout) view.findViewById(R.id.provider_list_container);
         return view;
     }
 
     public void getParcelableObjects(Bundle bundle) {
-        practice =bundle.getParcelable(THSConstants.PRACTICE_FRAGMENT);
-        consumer= THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
+        practice = bundle.getParcelable(THSConstants.PRACTICE_FRAGMENT);
+        consumer = THSManager.getInstance().getConsumer(getContext());
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.ths_provider_search_menu,menu);
+        inflater.inflate(R.menu.ths_provider_search_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -100,26 +102,35 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() ==  R.id.ths_provider_search ) {
+        if (item.getItemId() == R.id.ths_provider_search) {
             THSSearchFragment thsSearchFragment = new THSSearchFragment();
             thsSearchFragment.setFragmentLauncher(getFragmentLauncher());
             thsSearchFragment.setPractice(practice);
             thsSearchFragment.setActionBarListener(getActionBarListener());
             Bundle bundle = new Bundle();
-            bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING,THSConstants.PROVIDER_SEARCH_CONSTANT);
-            addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle, true);
-            }
+            bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.PROVIDER_SEARCH_CONSTANT);
+            addFragment(thsSearchFragment, THSSearchFragment.TAG, bundle, true);
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        THSTagUtils.doTrackPageWithInfo(THS_PROVIDER_LIST,null,null);
+        if(isProviderListABFlow1()){
+            THSTagUtils.doTrackPageWithInfo(THS_PROVIDER_LIST, null, null);
+        }
+        else{
+            THSTagUtils.doTrackPageWithInfo(THS_PROVIDER_LIST_FLOW2, null, null);
+        }
         THSManager.getInstance().setMatchMakingVisit(false);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(getActivity().getResources().getString(R.string.ths_providerList_title), true);
         }
+    }
+
+    private boolean isProviderListABFlow1() {
+        return THSManager.getInstance().getProviderListABFlow().equalsIgnoreCase(THS_PROVIDERLIST_ABFLOW1);
     }
 
     @Override
@@ -129,7 +140,6 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         actionBarListener = getActionBarListener();
         onRefresh();
     }
-
 
 
     @Override
@@ -144,32 +154,39 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     public void updateProviderAdapterList(final List<THSProviderInfo> thsProviderInfos) {
         swipeRefreshLayout.setRefreshing(false);
         List<THSProviderInfo> listAfterFilter = checkForUrgentCare(thsProviderInfos);
-        if(listAfterFilter.size() > 0) {
-            THSProvidersListAdapter = new THSProvidersListAdapter(listAfterFilter);
+        if (listAfterFilter.size() > 0) {
+            THSProvidersListAdapter = new THSProvidersListAdapter(listAfterFilter, practice);
             THSProvidersListAdapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
                 @Override
-                public void onItemClick(THSProviderEntity item) {
+                public void onItemClick(THSProviderEntity providerEntity, int viewId) {
+                    if(!isProviderListABFlow1() && (viewId == R.id.provider_select || viewId == R.id.provider_schedule ||
+                            viewId == R.id.doctor_schedule_action_bar|| viewId == R.id.doctor_select_action_bar)){
+                        THSProviderListPresenter.onEvent(providerEntity, viewId);
+                    }
+                    else{
+                        launchProviderDetailsFragment(providerEntity);
+                    }
 
-                    launchProviderDetailsFragment(item);
+
                 }
             });
             recyclerView.setAdapter(THSProvidersListAdapter);
-        }else {
+        } else {
             showNoProviderErrorDialog();
         }
 
     }
 
     protected List<THSProviderInfo> checkForUrgentCare(List<THSProviderInfo> thsProviderInfos) {
-        if(!practice.isShowScheduling()){
+        if (!practice.isShowScheduling()) {
             Iterator<THSProviderInfo> thsIterator = getProviderInfoIterator(thsProviderInfos);
-            while(thsIterator.hasNext()){
-                if(thsIterator.next().getProviderInfo().getVisibility().toString().equals(THSConstants.PROVIDER_OFFLINE)){
+            while (thsIterator.hasNext()) {
+                if (thsIterator.next().getProviderInfo().getVisibility().toString().equals(THSConstants.PROVIDER_OFFLINE)) {
                     thsIterator.remove();
                 }
             }
             return thsProviderInfos;
-        }else {
+        } else {
             return thsProviderInfos;
         }
     }
@@ -185,24 +202,23 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         thsProviderDetailsFragment.setTHSProviderEntity(item);
         thsProviderDetailsFragment.setConsumerAndPractice(consumer, practice);
         thsProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
-        addFragment(thsProviderDetailsFragment,THSProviderDetailsFragment.TAG,null, true);
+        addFragment(thsProviderDetailsFragment, THSProviderDetailsFragment.TAG, null, true);
     }
 
     @Override
     public void updateMainView(boolean isOnline) {
         mRelativeLayoutContainer.setVisibility(RelativeLayout.VISIBLE);
-        if(isOnline){
+
+        if (isOnline) {
             btn_get_started.setVisibility(View.VISIBLE);
             btn_schedule_appointment.setVisibility(View.GONE);
             if (getContext() != null) {
-                btn_get_started.setText(getContext().getString(R.string.ths_get_started_button_title));
                 seeFirstDoctorLabel.setText(getString(R.string.ths_providerList_Available_Message));
             }
-        }else {
-           btn_schedule_appointment.setVisibility(View.VISIBLE);
-           btn_get_started.setVisibility(View.GONE);
+        } else {
+            btn_schedule_appointment.setVisibility(View.VISIBLE);
+            btn_get_started.setVisibility(View.GONE);
             if (getContext() != null) {
-                btn_schedule_appointment.setText(getContext().getString(R.string.ths_schedule_appointment_button_title));
                 seeFirstDoctorLabel.setText(getString(R.string.ths_provider_list_header_text_two));
             }
         }
@@ -216,11 +232,11 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
                             @Override
                             public void onClick(View v) {
                                 alertDialogFragment.dismiss();
-                                THSTagUtils.tagInAppNotification(THS_ANALYTICS_NO_PROVIDER_FOR_PRACTICE,THS_ANALYTICS_RESPONSE_OK);
+                                THSTagUtils.tagInAppNotification(THS_ANALYTICS_NO_PROVIDER_FOR_PRACTICE, THS_ANALYTICS_RESPONSE_OK);
                                 getActivity().getSupportFragmentManager().popBackStack();
                             }
                         }).setCancelable(false).create();
-        alertDialogFragment.show(getActivity().getSupportFragmentManager(),DIALOG_TAG);
+        alertDialogFragment.show(getActivity().getSupportFragmentManager(), DIALOG_TAG);
 
     }
 
@@ -230,16 +246,16 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         if (i == R.id.getStartedButton) {
             createCustomProgressBar(mRelativeLayoutContainer, BIG);
             THSProviderListPresenter.onEvent(R.id.getStartedButton);
-        }else if(i==R.id.getScheduleAppointmentButton){
+        } else if (i == R.id.getScheduleAppointmentButton) {
             THSProviderListPresenter.onEvent(R.id.getScheduleAppointmentButton);
-        }else if(i == R.id.ths_provider_search){
+        } else if (i == R.id.ths_provider_search) {
             THSSearchFragment thsSearchFragment = new THSSearchFragment();
             thsSearchFragment.setFragmentLauncher(getFragmentLauncher());
             thsSearchFragment.setPractice(practice);
             thsSearchFragment.setActionBarListener(getActionBarListener());
             Bundle bundle = new Bundle();
-            bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING,THSConstants.PROVIDER_SEARCH_CONSTANT);
-            addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle, true);
+            bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.PROVIDER_SEARCH_CONSTANT);
+            addFragment(thsSearchFragment, THSSearchFragment.TAG, bundle, true);
         }
     }
 

@@ -27,7 +27,7 @@
   <string name="ths_address_validation_length__max_string">Address should contain maximum 25 characters</string>
   <string name="ths_address_validation_length_string">Address should contain at least 2 characters</string>
   <string name="ths_amwell_philips_licence">All providers are licensed and working under Amwell terms &amp; conditions</string>
-  <string name="ths_app_name">[NT]PhilipsTeleHealth</string>
+  <string name="ths_app_name">PhilipsTeleHealth</string>
   <string name="ths_appointment_cancelNo">No, do not cancel</string>
   <string name="ths_appointment_cancelTitle">Do you really want to cancel this appointment?</string>
   <string name="ths_appointment_cancelYes">Yes, cancel appointment</string>
@@ -41,9 +41,9 @@
   <string name="ths_appointments_choice">Upcoming appointments</string>
   <string name="ths_at_text">at</string>
   <string name="ths_available_time_slots">Available time slots</string>
-  <string name="ths_available_time_slots_text">Available time slots</string>
+  <string name="ths_available_time_slots_text">available time slots</string>
   <string name="ths_billing_title">Billing address</string>
-  <string name="ths_button_greaterthan">[NT]&gt;</string>
+  <string name="ths_button_greaterthan">&gt;</string>
   <string name="ths_cancel_appointment_action1">Schedule new appointment</string>
   <string name="ths_cancel_appointment_action2">Go back to start</string>
   <string name="ths_cancel_appointment_call">Call</string>
@@ -101,13 +101,13 @@
   <string name="ths_credit_card_details_cvv_error_string">Please enter correct CVV number</string>
   <string name="ths_credit_card_details_exp_month_error_string">Please enter valid expiry date</string>
   <string name="ths_credit_card_details_exp_year_error_string">Please enter valid expiry date</string>
-  <string name="ths_credit_card_details_slash">[NT]/</string>
+  <string name="ths_credit_card_details_slash">/</string>
   <string name="ths_credit_card_invalid">Credit card is invalid</string>
   <string name="ths_credit_card_missing">Credit card missing</string>
   <string name="ths_credit_card_valid">Credit card is valid</string>
   <string name="ths_customer_support_for_support">For support:</string>
   <string name="ths_customer_support_mail">ugrow.support@americanwell.com</string>
-  <string name="ths_customer_support_phone_number">[NT]800-552-4111</string>
+  <string name="ths_customer_support_phone_number">800-552-4111</string>
   <string name="ths_customer_underage">Customer underage</string>
   <string name="ths_customer_update_title">Edit details</string>
   <string name="ths_date_placeholder">DD / MM / YYYY</string>
@@ -133,7 +133,7 @@
   <string name="ths_followup_view_title">Please provide a phone number for any follow up calls regarding this visit.</string>
   <string name="ths_gender_validation">Select a gender</string>
   <string name="ths_get_started_button_title">Get started</string>
-  <string name="ths_google_maps_key">[NT]AIzaSyAvmDNdBPOJg_mW3qQH0s7D1wIq76BWEZk</string>
+  <string name="ths_google_maps_key">AIzaSyAvmDNdBPOJg_mW3qQH0s7D1wIq76BWEZk</string>
   <string name="ths_gps_not_enabled_message">Do you want to enable GPS?</string>
   <string name="ths_gps_not_enabled_message_title">GPS not enabled</string>
   <string name="ths_hippa_notice">HIPAA notice</string>
@@ -240,9 +240,9 @@
   <string name="ths_number_of_report_single">%d visit report</string>
   <string name="ths_ok_continue">Ok, continue</string>
   <string name="ths_on_demand_provider_unavailable">onDemand provider unavailable</string>
-  <string name="ths_onboarding_four_text">All online consultations are secure, and use high-quality streaming.</string>
+
   <string name="ths_onboarding_how_it_works">Curious how it works?</string>
-  <string name="ths_onboarding_one_text">To get the most out of your consult, we\'ll need some information. This is then stored securely for any future visits.</string>
+
   <string name="ths_onboarding_skip_tour">Skip</string>
   <string name="ths_onboarding_start_tour">Take a tour</string>
   <string name="ths_onboarding_step1_message1">To get the most out of your consult, we\'ll need some information.</string>
@@ -260,15 +260,15 @@
   <string name="ths_onboarding_step4_message2">secure</string>
   <string name="ths_onboarding_step4_message3">, and use</string>
   <string name="ths_onboarding_step4_message4">high-quality streaming.</string>
-  <string name="ths_onboarding_three_text">Your doctor may be authorized to prescribe medication, which can be sent to an address of your choice. Save yourself a trip to the pharmacy!</string>
+
   <string name="ths_onboarding_tour_header">See a provider online, anytime</string>
-  <string name="ths_onboarding_two_text">Experienced doctors with various medical backgrounds mean you can choose a consultation most relevant to your questions.</string>
+
   <string name="ths_optional">(optional)</string>
   <string name="ths_patient_waiting">patient waiting</string>
   <string name="ths_patients_waiting">patients waiting</string>
-  <string name="ths_payment_cardnumberfield">[NT]0000 0000 0000 0000</string>
+  <string name="ths_payment_cardnumberfield">0000 0000 0000 0000</string>
   <string name="ths_payment_cardnumberlabel">Card number</string>
-  <string name="ths_payment_cvvfield">[NT]0</string>
+  <string name="ths_payment_cvvfield">000</string>
   <string name="ths_payment_cvvlabel">CVC Code</string>
   <string name="ths_payment_expirylabel">Expiration date</string>
   <string name="ths_payment_header">Credit card information</string>
@@ -458,7 +458,7 @@
   <string name="ths_vitals_skip">Skip this step</string>
   <string name="ths_vitals_systolic_error">Enter values between 1 and 250,systolic value should be more than diastolic</string>
   <string name="ths_vitals_temp_text">(in ℉)</string>
-  <string name="ths_vitals_temperature_error">Temperature should be between 60 and 120 \\u2109</string>
+  <string name="ths_vitals_temperature_error">Temperature should be between 60 and 120</string>
   <string name="ths_vitals_weight_error">Weight should be between 0 and 500</string>
   <string name="ths_waiting_cancel">Cancel visit</string>
   <string name="ths_waiting_footerlabel">Please, do not leave this screen or you might lose your spot in the waiting line</string>
@@ -472,7 +472,7 @@
   <string name="ths_welcome_details">My details</string>
   <string name="ths_welcome_history">Visit history</string>
   <string name="ths_welcome_provider">Go see a provider</string>
-  <string name="ths_welcome_support">Customer support</string>
+  <string name="ths_welcome_support">Customer service</string>
   <string name="ths_welcome_title">See a provider online, anytime</string>
   <string name="ths_welcome_training">How it works</string>
   <string name="ths_whats_this">What\'s this?</string>
@@ -480,4 +480,30 @@
   <string name="ths_yourPharmacy_search_Header">Which pharmacy should we send prescription to?</string>
   <string name="ths_your_pharmacy">Pharmacy</string>
   <string name="ths_your_visit">Your visit</string>
+
+  <string name="ths_terms_conditions_1">To give you access to board-certified doctors and consultants, Philips needs to share your email address with Amwell.</string>
+  <string name="ths_terms_conditions_2">All providers are licensed and working under Amwell <u>terms &amp; conditions.</u></string>
+
+  <!--OnBoarding Texts-->
+  <string name="ths_onboarding_title_one">Providers online, anytime</string>
+  <string name="ths_onboarding_title_two">Choose a provider</string>
+  <string name="ths_onboarding_title_three">Prescriptions available</string>
+  <string name="ths_onboarding_title_four">Insurance accepted</string>
+
+  <string name="ths_onboarding_one_text">Quickly connect online with experienced medical providers.</string>
+  <string name="ths_onboarding_two_text">Find a provider that\'s right for you based on education and ratings.</string>
+  <string name="ths_onboarding_three_text">Prescriptions, if needed, can be sent to your local pharmacy for pickup.</string>
+  <string name="ths_onboarding_four_text">Online doctor visits are covered by many health plans.</string>
+
+  <string name="ths_welcome_visits">Visits</string>
+  <string name="ths_about_me">About me</string>
+  <string name="ths_offline">Offline</string>
+  <string name="ths_first_available_provider">First available provider</string>
+  <string name="ths_schedule_provider">Schedule</string>
+  <string name="ths_select_provider">Select</string>
+  <string name="ths_onboarding_start_now">Start now</string>
+  <string name="ths_provider_list_choose_provider">Or choose from all providers:</string>
+
+  <string name="ths_offline_text">This provider is not available now and does not offer scheduled visits.</string>
+
 </resources>

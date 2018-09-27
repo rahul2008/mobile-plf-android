@@ -60,7 +60,7 @@ public class THSRegistrationPresenterTest {
     THSRegistrationFragment thsRegistrationFragmentMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    Consumer thsConsumerWrapperMock;
 
     @Mock
     Consumer consumerMock;

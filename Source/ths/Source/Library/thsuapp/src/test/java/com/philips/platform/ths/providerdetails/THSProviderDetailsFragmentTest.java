@@ -266,7 +266,7 @@ public class THSProviderDetailsFragmentTest {
         SupportFragmentTestUtil.startFragment(providerDetailsFragment);
         providerDetailsFragment.providerDetailsPresenter = presenterMock;
         providerDetailsFragment.setFragmentLauncher(framgmentLauncherMock);
-        final View viewById = providerDetailsFragment.getView().findViewById(R.id.detailsButtonTwo);
+        final View viewById = providerDetailsFragment.getView().findViewById(R.id.schedule_container);
         viewById.performClick();
         verify(presenterMock).onEvent(R.id.detailsButtonTwo);
     }

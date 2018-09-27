@@ -6,9 +6,12 @@
 
 package com.philips.platform.ths.onboardingtour;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +40,15 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
     public static String TAG = OnBoardingTourFragment.class.getSimpleName();
 
     private ImageView rightArrow, leftArrow;
-    private Label doneButton;
     private Label skipButton;
     private DotNavigationIndicator indicator;
     protected OnBoardingTourPresenter presenter;
     protected ViewPager pager;
 
+    private int pagePosition;
+
     List<OnBoardingTourContentModel> onBoardingTourContentModelList;
+
     private OnBoardingTourPagerAdapter onBoardingTourPagerAdapter;
     static final long serialVersionUID = 1131L;
 
@@ -55,7 +60,6 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
         onBoardingTourContentModelList = presenter.createOnBoardingContent();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -66,15 +70,12 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
         }
 
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);
-        onBoardingTourPagerAdapter = new OnBoardingTourPagerAdapter(getActivity().getSupportFragmentManager(), onBoardingTourContentModelList, getActivity());
+        onBoardingTourPagerAdapter = new OnBoardingTourPagerAdapter(getActivity().getSupportFragmentManager(), onBoardingTourContentModelList, getFragmentLauncher(), getActionBarListener());
         pager.setAdapter(onBoardingTourPagerAdapter);
 
         rightArrow = (ImageView) view.findViewById(R.id.welcome_rightarrow);
         leftArrow = (ImageView) view.findViewById(R.id.welcome_leftarrow);
-        doneButton = (Label) view.findViewById(R.id.welcome_start_registration_button);
         skipButton = (Label) view.findViewById(R.id.welcome_skip_button);
-
-        doneButton.setOnClickListener(this);
         skipButton.setOnClickListener(this);
         leftArrow.setOnClickListener(this);
         rightArrow.setOnClickListener(this);
@@ -84,8 +85,19 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
         addPageChangeListener();
 
-        THSTagUtils.doTrackPageWithInfo(ON_BOARDING_PAGE_1, null, null);
+        THSTagUtils.doTrackPageWithInfo(ON_BOARDING_PAGE_1 + " Onboarding", null, null);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        final Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.uid_toolbar);
+        if(toolbar!=null) {
+            final Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ths_cross_icon);
+            toolbar.setNavigationIcon(drawable);
+        }
     }
 
     protected void addPageChangeListener() {
@@ -96,7 +108,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
             @Override
             public void onPageSelected(int position) {
-
+                pagePosition = position;
                 if (position == 0) {
                     skipButton.setVisibility(View.VISIBLE);
                     leftArrow.setVisibility(View.GONE);
@@ -105,12 +117,10 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
                     if (position == (pager.getAdapter().getCount() - 1)) {
                         rightArrow.setVisibility(View.GONE);
                         leftArrow.setVisibility(View.VISIBLE);
-                        doneButton.setVisibility(View.VISIBLE);
                         skipButton.setVisibility(View.GONE);
                     } else {
                         leftArrow.setVisibility(View.GONE);
                         rightArrow.setVisibility(View.VISIBLE);
-                        doneButton.setVisibility(View.GONE);
                         skipButton.setVisibility(View.VISIBLE);
                     }
                 }
@@ -140,10 +150,6 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
         if (componentID == R.id.welcome_leftarrow) {
             pager.arrowScroll(View.FOCUS_LEFT);
         }
-        if (componentID == R.id.welcome_start_registration_button) {
-            presenter.onEvent(v.getId());
-
-        }
         if (componentID == R.id.welcome_skip_button) {
             presenter.onEvent(v.getId());
         }
@@ -152,5 +158,13 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
     public boolean handleBackEvent() {
         THSTagUtils.doExitToPropositionWithCallBack();
         return true;
+    }
+
+    public OnBoardingTourPagerAdapter getOnBoardingTourPagerAdapter() {
+        return onBoardingTourPagerAdapter;
+    }
+
+    public int getPagePosition() {
+        return pagePosition;
     }
 }

@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
@@ -20,7 +21,10 @@ import com.philips.platform.ths.appointment.THSAvailableProviderListBasedOnDateF
 import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.base.THSBasePresenterHelper;
+import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
+import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
@@ -95,7 +99,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
     public void onProvidersListFetchError(Throwable throwable) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             final String string = mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message);
-            mThsBaseFragment.showError(string,true, false);
+            mThsBaseFragment.showError(string, true, false);
         }
     }
 
@@ -171,6 +175,40 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.hideProgressBar();
             mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
+        }
+
+    }
+
+    public void onEvent(final THSProviderEntity thsProviderEntity, int componentID) {
+        if (componentID == R.id.provider_select || componentID == R.id.doctor_select_action_bar) {
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, thsProviderEntity);
+            THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragment();
+            thsSymptomsFragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
+            mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle, true);
+
+        } else if (componentID == R.id.provider_schedule || componentID == R.id.doctor_schedule_action_bar) {
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startSchedulingAnAppointment");
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment, THSDateEnum.HIDEPREVDATEANDSIXMONTHSLATERDATE);
+
+
+            final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                    thsDatePickerFragmentUtility.setCalendar(year, month, day);
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year, month, day);
+                    Date date = new Date();
+                    date.setTime(calendar.getTimeInMillis());
+
+                    THSBasePresenterHelper thsBasePresenterHelper = new THSBasePresenterHelper();
+                    thsBasePresenterHelper.launchAvailableProviderDetailFragment(mThsBaseFragment, thsProviderEntity, date, ((THSProvidersListFragment) mThsBaseFragment).getPractice());
+
+                }
+            };
+
+            thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
         }
 
     }

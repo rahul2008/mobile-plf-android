@@ -20,6 +20,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.CircularImageView;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -210,6 +211,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         THSConfirmationDialogFragment tHSConfirmationDialogFragment = new THSConfirmationDialogFragment();
         tHSConfirmationDialogFragment.setPresenter(mTHSWaitingRoomPresenter);
         tHSConfirmationDialogFragment.show(getFragmentManager(), THSConfirmationDialogFragment.TAG);
+        tHSConfirmationDialogFragment.setCancelable(false);
     }
 
     @Override
@@ -217,4 +219,13 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         //Fix for 115218
     }
 
+    protected void attachTextToProgressBar(int stringResourceId, int count){
+        if(isFragmentAttached()) {
+            if(count == THSConstants.COUNT) {
+                mProgressBarWithLabel.setText(getString(stringResourceId));
+            }else{
+                mProgressBarWithLabel.setText(count + " " + getString(stringResourceId));
+            }
+        }
+    }
 }

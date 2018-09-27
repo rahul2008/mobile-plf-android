@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/available_provider_details_container"
     android:layout_width="match_parent"
     android:background="?attr/uidContentPrimaryBackgroundColor"
@@ -56,29 +55,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/dodProviderFound"
-                    fontPath="fonts/centralesansbold.ttf"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="@color/uid_signal_green_level_60"
-                    android:gravity="center"
-                    android:text="@string/ths_matchmaking_found_matchmaking"
-                    android:textColor="@color/uid_level_white"
-                    android:textSize="16sp"
-                    android:visibility="gone">
-
-                </com.philips.platform.uid.view.widget.Label>
-
                 <RelativeLayout
                     android:id="@+id/providerDetailDListLayoutRelativeLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/dodProviderFound">
+                    android:layout_height="wrap_content">
 
                     <include
                         android:id="@+id/providerDetailDListLayout"
-                        layout="@layout/ths_provider_details_c_list" />
+                        layout="@layout/ths_detail_appointment" />
+
+                    <com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon
+                        android:id="@+id/detailsButtonOne"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/providerDetailDListLayout"
+                        android:layout_marginBottom="@dimen/ths_20_dp"
+                        android:paddingEnd="@dimen/ths_fab_margin"
+                        android:paddingStart="@dimen/ths_fab_margin"
+                        android:layout_marginLeft="@dimen/ths_fab_margin"
+                        android:layout_marginRight="@dimen/ths_fab_margin"
+                        android:text="@string/ths_provider_available_for_appointment"
+                        android:drawableRight="@drawable/ic_right_arrow_show_more"
+                        android:visibility="gone" />
+
+                    <com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon
+                        android:id="@+id/schedule_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:layout_below="@+id/detailsButtonOne"
+                        android:layout_marginBottom="@dimen/ths_20_dp"
+                        android:paddingEnd="@dimen/ths_fab_margin"
+                        android:paddingStart="@dimen/ths_fab_margin"
+                        android:layout_marginLeft="@dimen/ths_fab_margin"
+                        android:text="@string/ths_provider_available_for_appointment"
+                        android:drawableRight="@drawable/ic_right_arrow_show_more"
+                        android:layout_marginRight="@dimen/ths_fab_margin"
+                         />
+
+                   <!-- <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/ths_offline_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ths_offline_text"
+                        android:layout_below="@+id/providerDetailDListLayout"
+                        android:layout_marginBottom="@dimen/ths_20_dp"
+                        android:paddingEnd="@dimen/ths_fab_margin"
+                        android:paddingStart="@dimen/ths_fab_margin"
+                        android:textSize="@dimen/ths_text_14sp"
+                        style="@style/ths_text_book"
+                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                        android:layout_marginLeft="@dimen/ths_fab_margin"
+                        android:layout_marginRight="@dimen/ths_fab_margin"
+                        android:visibility="gone"
+                        />-->
+
                 </RelativeLayout>
 
                 <View
@@ -88,51 +119,12 @@
                     android:layout_below="@+id/providerDetailDListLayoutRelativeLayout"
                     android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
-                <RelativeLayout
-                    android:id="@+id/visitCostLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/horizontalLine"
-                    android:layout_marginEnd="@dimen/uid_grid_title_padding"
-                    android:layout_marginStart="@dimen/uid_grid_title_padding"
-                    android:paddingBottom="@dimen/uid_grid_title_padding"
-                    android:paddingTop="@dimen/uid_grid_title_padding">
-
-                    <com.philips.platform.uid.view.widget.Label
-                        android:id="@+id/visitCostLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:text="Visit cost"
-                        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                        android:textSize="16dp" />
-
-                    <com.philips.platform.uid.view.widget.Label
-                        android:id="@+id/priceBeforeLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/visitCostLabel"
-                        android:text="Price before insurance"
-                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-                        android:textSize="14dp" />
-
-                    <com.philips.platform.uid.view.widget.Label
-                        android:id="@+id/visitCostValueLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="22dp"
-                        android:textColor="?attr/uidLabelValueNormalTextColor"
-                        android:textSize="30sp" />
-                </RelativeLayout>
-
                 <include
                     android:id="@+id/calendar_container_view"
                     layout="@layout/ths_time_slot_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/visitCostLayout" />
+                    android:layout_below="@id/horizontalLine" />
 
                 <View
                     android:id="@+id/horizontalLineOne"
@@ -141,50 +133,97 @@
                     android:layout_below="@+id/calendar_container_view"
                     android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
+                <RelativeLayout
+                    android:id="@+id/schedule_container"
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/horizontalLineOne"
+                    android:layout_height="wrap_content">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/schedule_appointment"
+                    style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:paddingEnd="@dimen/uid_grid_title_padding"
+                    android:paddingStart="@dimen/uid_grid_title_padding"
+                    android:paddingTop="@dimen/uid_grid_title_padding"
+                    android:text="@string/ths_schedule_appointment_button_title"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    android:textSize="16sp" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/available_slots"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/schedule_appointment"
+                    android:paddingBottom="@dimen/uid_grid_title_padding"
+                    android:paddingEnd="@dimen/uid_grid_title_padding"
+                    android:paddingStart="@dimen/uid_grid_title_padding"
+                    android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+                    android:text="@string/ths_available_time_slots"
+                    android:textSize="14sp" />
+                </RelativeLayout>
+                <!--<RelativeLayout
+                    android:id="@+id/schedule_container"
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/calendar_container_view"
+                    android:layout_height="@dimen/ths_70_dp">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/shedule_appointment"
+                    style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="@dimen/ths_fab_margin"
+                    android:paddingStart="@dimen/ths_fab_margin"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/ths_schedule_appointment_button_title"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    android:textSize="16sp" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/ths_practice_arrow_image"
+                    fontPath="fonts/iconfont.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/ths_fab_margin"
+                    android:layout_marginStart="@dimen/ths_fab_margin"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/dls_navigationright"
+                    android:textAlignment="center"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
+
+                </RelativeLayout>-->
+
+                <View
+                    android:id="@+id/horizontalLineOne_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/schedule_container"
+                    android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/profileLabel"
                     style="@style/ths_list_item_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/horizontalLineOne"
+                    android:layout_below="@+id/horizontalLineOne_new"
                     android:layout_centerVertical="true"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/ths_fab_margin"
                     android:paddingRight="@dimen/ths_fab_margin"
-                    android:text="Profile" />
+                    android:text="@string/ths_about_me" />
 
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/ratingLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/profileLabel"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Rating"
-                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-                    android:textSize="16sp" />
-
-                <com.philips.platform.uid.view.widget.RatingBar
-                    android:id="@+id/providerRatingValue"
-                    style="@style/UIDRatingBarStandardDisplay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ratingLabel"
-                    android:layout_marginBottom="@dimen/uid_grid_title_padding"
-                    android:layout_marginEnd="@dimen/uid_grid_title_padding"
-                    android:layout_marginStart="@dimen/uid_grid_title_padding"
-                    android:rating="3.6"
-                    android:stepSize=".1"
-                    android:textColor="?attr/uidLabelValueNormalTextColor"
-                    android:textSize="@dimen/uid_grid_descrption_size" />
 
                 <View
                     android:id="@+id/horizontalLineTwo"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/providerRatingValue"
+                    android:layout_below="@+id/profileLabel"
                     android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -281,7 +320,7 @@
                     android:layout_below="@+id/graduatedValueLabel"
                     android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
-                <com.philips.platform.uid.view.widget.Label
+               <!-- <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/aboutMeLabel"
                     style="@style/ths_list_item_header"
                     android:layout_width="match_parent"
@@ -291,13 +330,13 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/ths_fab_margin"
                     android:paddingRight="@dimen/ths_fab_margin"
-                    android:text="About Me" />
+                    android:text="About Me" />-->
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/aboutMeValueLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/aboutMeLabel"
+                    android:layout_below="@+id/horizontalLineFive"
                     android:paddingBottom="@dimen/uid_grid_title_padding"
                     android:paddingEnd="@dimen/uid_grid_title_padding"
                     android:paddingStart="@dimen/uid_grid_title_padding"
@@ -316,31 +355,30 @@
         android:layout_marginBottom="@dimen/uid_grid_title_padding"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingEnd="@dimen/uid_grid_title_padding"
-        android:paddingStart="@dimen/uid_grid_title_padding"
-        android:paddingTop="@dimen/uid_grid_title_padding">
-
+        android:paddingEnd="@dimen/ths_fab_margin"
+        android:paddingStart="@dimen/ths_fab_margin"
+        android:paddingTop="@dimen/ths_fab_margin">
+<!--
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/detailsButtonOne"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ths_list_space"
-            android:visibility="gone" />
+            android:visibility="gone" />-->
 
-        <com.philips.platform.uid.view.widget.Button
+        <!--<com.philips.platform.uid.view.widget.Button
             android:id="@+id/detailsButtonTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/detailsButtonOne"
             android:visibility="gone"
-            app:uidComponentType="Secondary" />
+            app:uidComponentType="Secondary" />-->
 
-        <com.philips.platform.uid.view.widget.Button
+        <com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon
             android:id="@+id/detailsButtonContinue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/detailsButtonTwo"
             android:text="@string/ths_registration_continue"
+            android:drawableRight="@drawable/ic_right_arrow_show_more"
             android:visibility="gone" />
     </RelativeLayout>
 </RelativeLayout>

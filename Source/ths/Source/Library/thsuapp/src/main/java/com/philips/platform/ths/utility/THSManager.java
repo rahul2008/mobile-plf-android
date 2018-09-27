@@ -90,7 +90,6 @@ import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.intake.THSUpdateConditionsCallback;
 import com.philips.platform.ths.intake.THSUpdateConsumerCallback;
 import com.philips.platform.ths.intake.THSUpdateVitalsCallBack;
-import com.philips.platform.ths.intake.THSVisitContext;
 import com.philips.platform.ths.intake.THSVisitContextCallBack;
 import com.philips.platform.ths.intake.THSVitalSDKCallback;
 import com.philips.platform.ths.intake.THSVitals;
@@ -119,7 +118,6 @@ import com.philips.platform.ths.providerslist.THSOnDemandSpecialtyCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.THSEditUserDetailsCallBack;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -136,6 +134,7 @@ import com.philips.platform.ths.visit.THSVisitSummaryCallbacks;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -151,25 +150,29 @@ import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static com.philips.platform.ths.utility.THSConstants.THS_SDK_SERVICE_ID;
 
 
-public class THSManager {
+public class THSManager{
     private static THSManager sTHSManager = null;
     private AWSDK mAwsdk = null;
-    private THSConsumerWrapper mTHSConsumerWrapper = new THSConsumerWrapper();
-    private THSVisitContext mVisitContext = null;
+    private VisitContext mVisitContext = null;
     private boolean isMatchMakingVisit;
     private THSConsumer mThsConsumer;
     private THSConsumer mThsParentConsumer;
     private boolean mIsReturningUser = true;
+    private String onBoradingABFlow = "";
+    private String providerListABFlow = "";
     private String ServerURL=null;
     private String mCountry="";
     ConsentDefinition mConsentDefinition;
     private Provider providerObject;
-    private Boolean gdprEnabled =false;
+    private Consumer mConsumer;
+    private THSRefreshToken mRefreshToken = new THSRefreshToken();
 
-    public Boolean isGdprEnabled() {
+    //private Boolean gdprEnabled =false;
+
+    /*public Boolean isGdprEnabled() {
         return gdprEnabled;
     }
-
+*/
 
 
     public Provider getProviderObject() {
@@ -248,24 +251,24 @@ public class THSManager {
     }
 
 
-    public THSVisitContext getPthVisitContext() {
+    public VisitContext getVisitContext() {
         return mVisitContext;
     }
 
-    public void setVisitContext(THSVisitContext mVisitContext) {
+    public void setVisitContext(VisitContext mVisitContext) {
         this.mVisitContext = mVisitContext;
     }
 
 
-    public THSConsumerWrapper getPTHConsumer(Context context) {
+    public Consumer getConsumer(Context context) {
         if(getThsConsumer(context)!=null) {
-            mTHSConsumerWrapper.setConsumer(getThsConsumer(context).getConsumer());
+            mConsumer = getThsConsumer(context).getConsumer();
         }
-       return mTHSConsumerWrapper;
+       return mConsumer;
     }
 
-    public void setPTHConsumer(THSConsumerWrapper mTHSConsumerWrapper) {
-        this.mTHSConsumerWrapper = mTHSConsumerWrapper;
+    public void setConsumer(Consumer consumer) {
+        this.mConsumer = consumer;
     }
 
     public void setTHSDocumentList(ArrayList<DocumentRecord> documentRecordList){
@@ -300,18 +303,45 @@ public class THSManager {
         return mAwsdk;
     }
 
-    public void authenticate(Context context, String username, String password, String variable, final THSLoginCallBack<THSAuthentication, THSSDKError> THSLoginCallBack) throws AWSDKInstantiationException {
+    public void authenticate(final Context context, final String username, final String password, final String variable, final THSLoginCallBack<THSAuthentication, THSSDKError> THSLoginCallBack) throws AWSDKInstantiationException {
         AmwellLog.i(AmwellLog.LOG,"Login - SDK API Called");
         getAwsdk(context).authenticate(username, password, variable, new SDKCallback<Authentication, SDKError>() {
             @Override
-            public void onResponse(Authentication authentication, SDKError sdkError) {
+            public void onResponse(final Authentication authentication, SDKError sdkError) {
                 AmwellLog.i(AmwellLog.LOG,"Login - On Response");
                 THSAuthentication THSAuthentication = new THSAuthentication();
                 THSAuthentication.setAuthentication(authentication);
 
                 THSSDKError THSSDKError = new THSSDKError();
                 THSSDKError.setSdkError(sdkError);
-                THSLoginCallBack.onLoginResponse(THSAuthentication, THSSDKError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                authenticate(context,username,password,variable,THSLoginCallBack);
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            THSLoginCallBack.onLoginFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    THSLoginCallBack.onLoginResponse(THSAuthentication, THSSDKError);
+                }
             }
 
             @Override
@@ -321,14 +351,16 @@ public class THSManager {
         });
     }
 
-    public void authenticateMutualAuthToken(Context context,final THSLoginCallBack<THSAuthentication, THSSDKError> THSLoginCallBack) throws AWSDKInstantiationException {
+    public void authenticateMutualAuthToken(final Context context, final THSLoginCallBack<THSAuthentication, THSSDKError> THSLoginCallBack) throws AWSDKInstantiationException {
 
-        String hsdpUUID = getThsConsumer(context).getHsdpUUID();
+        AmwellLog.i(AmwellLog.LOG,"Inside authenticateMutualAuthToken");
+
+        String hsdpUUID = getThsParentConsumer(context).getHsdpUUID();
         if(hsdpUUID == null || hsdpUUID.isEmpty()){
             hsdpUUID = getUser(context).getHsdpUUID();
         }
 
-        String hsdpToken = getThsConsumer(context).getHsdpToken();
+        String hsdpToken = getThsParentConsumer(context).getHsdpToken();
         if(hsdpToken == null || hsdpToken.isEmpty()){
             hsdpToken = getUser(context).getHsdpAccessToken();
         }
@@ -344,14 +376,23 @@ public class THSManager {
         getAwsdk(context).authenticateMutual(token, new SDKCallback<Authentication, SDKError>() {
             @Override
             public void onResponse(Authentication authentication, SDKError sdkError) {
-                AmwellLog.i(AmwellLog.LOG,"Login - On Response");
+                AmwellLog.i(AmwellLog.LOG,"authenticateMutualAuth Login - On Response");
+
                 THSAuthentication THSAuthentication = new THSAuthentication();
                 THSAuthentication.setAuthentication(authentication);
 
                 THSSDKError THSSDKError = new THSSDKError();
                 THSSDKError.setSdkError(sdkError);
-                THSLoginCallBack.onLoginResponse(THSAuthentication, THSSDKError);
 
+                mRefreshToken.setContext(context);
+
+                if(mRefreshToken.checkIfAuthSuccess(THSSDKError)){
+                    AmwellLog.i(AmwellLog.LOG,"authenticateMutualAuth Auth Success");
+                    THSLoginCallBack.onLoginResponse(THSAuthentication, THSSDKError);
+                }else {
+                    AmwellLog.i(AmwellLog.LOG,"authenticateMutualAuth callRefreshUserTokenInSeparateThread");
+                    mRefreshToken.refreshToken(THSLoginCallBack);
+                }
             }
 
             @Override
@@ -372,9 +413,36 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().completeEnrollment(thsAuthentication.getAuthentication(),state,username,null, new SDKCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-                mTHSConsumerWrapper.setConsumer(consumer);
-                getThsParentConsumer(context).setConsumer(consumer);
-                thsGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkPasswordError);
+
+                if(sdkPasswordError!=null && sdkPasswordError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                completeEnrollment(context,thsAuthentication,thsGetConsumerObjectCallBack);
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsGetConsumerObjectCallBack.onError(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    mConsumer = consumer;
+                    getThsParentConsumer(context).setConsumer(consumer);
+                    thsGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkPasswordError);
+                }
             }
 
             @Override
@@ -390,12 +458,40 @@ public class THSManager {
 
             @Override
             public void onResponse(Boolean aBoolean, SDKError sdkError) {
-                if(!getThsConsumer(context).isDependent()) {
-                    setIsReturningUser(aBoolean);
-                }
+
                 THSSDKError thssdkError = new THSSDKError();
                 thssdkError.setSdkError(sdkError);
-                thsCheckConsumerExistsCallback.onResponse(aBoolean,thssdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                checkConsumerExists(context,thsCheckConsumerExistsCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsCheckConsumerExistsCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    if(!getThsConsumer(context).isDependent()) {
+                        setIsReturningUser(aBoolean);
+                    }
+                    thsCheckConsumerExistsCallback.onResponse(aBoolean,thssdkError);
+                }
             }
 
             @Override
@@ -410,8 +506,8 @@ public class THSManager {
         final User user = getUser(context);
         THSConsumer thsConsumer = new THSConsumer();
 
-        if (mTHSConsumerWrapper != null) {
-            thsConsumer.setConsumer(mTHSConsumerWrapper.getConsumer());
+        if (mConsumer != null) {
+            thsConsumer.setConsumer(mConsumer);
         }
 
         thsConsumer.setFirstName(user.getGivenName());
@@ -435,7 +531,7 @@ public class THSManager {
         }
     }
 
-    public void enrollConsumer(final Context context, Date dateOfBirth, String firstName, String lastName, String gender, final State state, final THSSDKValidatedCallback<THSConsumerWrapper, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
+    public void enrollConsumer(final Context context, final Date dateOfBirth, final String firstName, final String lastName, final String gender, final State state, final THSSDKValidatedCallback<Consumer, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
         final ConsumerEnrollment newConsumerEnrollment = getConsumerEnrollment(context, dateOfBirth, firstName, lastName, gender, state);
 
         getAwsdk(context).getConsumerManager().enrollConsumer(newConsumerEnrollment,
@@ -448,14 +544,41 @@ public class THSManager {
 
                     @Override
                     public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-                        setIsReturningUser(true);
-                        getThsParentConsumer(context).setConsumer(consumer);
-                        getThsParentConsumer(context).setState(state);
-                        getThsConsumer(context).setState(state);
-                        AmwellLog.i(AmwellLog.LOG,"onGetPaymentSuccess");
-                        mTHSConsumerWrapper.setConsumer(consumer);
-                        thssdkValidatedCallback.onResponse(mTHSConsumerWrapper,sdkPasswordError);
 
+                        if(sdkPasswordError!=null && sdkPasswordError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                            AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                            mRefreshToken.setContext(context);
+                            mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                                @Override
+                                public void onSuccess() {
+                                    try {
+                                        enrollConsumer(context,dateOfBirth,firstName,lastName,gender,state,thssdkValidatedCallback);
+                                    } catch (AWSDKInstantiationException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    thssdkValidatedCallback.onFailure(throwable);
+                                }
+                            });
+
+                            refreshAmwellToken(context);
+
+                        }else {
+                            setIsReturningUser(true);
+                            getThsParentConsumer(context).setConsumer(consumer);
+                            getThsParentConsumer(context).setState(state);
+                            getThsConsumer(context).setState(state);
+                            getThsConsumer(context).setConsumer(consumer);
+                            AmwellLog.i(AmwellLog.LOG,"onGetPaymentSuccess");
+                            mConsumer = consumer;
+                            thssdkValidatedCallback.onResponse(consumer,sdkPasswordError);
+                        }
                     }
 
                     @Override
@@ -477,7 +600,11 @@ public class THSManager {
         newConsumerEnrollment.setEmail(getThsConsumer(context).getEmail());
         newConsumerEnrollment.setPassword(generatePasswordRandomly());
 
-        newConsumerEnrollment.setDob(SDKLocalDate.valueOf(dateOfBirth));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateOfBirth);
+        SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+
+        newConsumerEnrollment.setDob(sdkLocalDate);
 
         newConsumerEnrollment.setFirstName(firstName);
         newConsumerEnrollment.setGender(gender);
@@ -515,7 +642,7 @@ public class THSManager {
         return false;
     }
 
-    public void enrollDependent(final Context context, Date dateOfBirth, String firstName, String lastName, String gender, final State state, final THSSDKValidatedCallback<THSConsumerWrapper, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
+    public void enrollDependent(final Context context, final Date dateOfBirth, final String firstName, final String lastName, final String gender, final State state, final THSSDKValidatedCallback<Consumer, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().enrollDependent(getDependantEnrollment(context, dateOfBirth, firstName, lastName, gender), new SDKValidatedCallback<Consumer, SDKError>() {
             @Override
             public void onValidationFailure(@NonNull Map<String, String> map) {
@@ -524,15 +651,40 @@ public class THSManager {
 
             @Override
             public void onResponse(Consumer consumer, SDKError sdkError) {
-                mTHSConsumerWrapper.setConsumer(consumer);
 
                 THSSDKError thssdkError = new THSSDKError();
                 thssdkError.setSdkError(sdkError);
-                mTHSConsumerWrapper.setConsumer(consumer);
 
-                getThsConsumer(context).setConsumer(consumer);
-                getThsConsumer(context).setState(state);
-                thssdkValidatedCallback.onResponse(mTHSConsumerWrapper,sdkError);
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                enrollDependent(context,dateOfBirth,firstName,lastName,gender,state,thssdkValidatedCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thssdkValidatedCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    mConsumer = consumer;
+                    getThsConsumer(context).setConsumer(consumer);
+                    getThsConsumer(context).setState(state);
+                    thssdkValidatedCallback.onResponse(mConsumer,sdkError);
+                }
             }
 
             @Override
@@ -548,8 +700,11 @@ public class THSManager {
 
         newConsumerEnrollment.setSourceId(new THSHashingFunction().md5(getThsConsumer(context).getHsdpUUID()));
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateOfBirth);
+        SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
 
-        newConsumerEnrollment.setDob(SDKLocalDate.valueOf(dateOfBirth));
+        newConsumerEnrollment.setDob(sdkLocalDate);
 
         newConsumerEnrollment.setFirstName(firstName);
         newConsumerEnrollment.setGender(gender);
@@ -579,7 +734,7 @@ public class THSManager {
 
         AppConfigurationInterface.AppConfigurationError getConfigError= new AppConfigurationInterface.AppConfigurationError();
         final String APIKey = (String) getAppInfra().getConfigInterface().getPropertyForKey("apiKey","ths",getConfigError);
-        gdprEnabled =  (Boolean) getAppInfra().getConfigInterface().getPropertyForKey("gdprEnabled", "ths", getConfigError);
+     //   gdprEnabled =  (Boolean) getAppInfra().getConfigInterface().getPropertyForKey("gdprEnabled", "ths", getConfigError);
 
         getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_SDK_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
@@ -620,25 +775,50 @@ public class THSManager {
 
     }
 
-    public void getOnDemandSpecialities(Context context, PracticeInfo practiceInfo, String searchItem, final THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>, THSSDKError> thsOnDemandSpecialtyCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getPracticeProvidersManager().getOnDemandSpecialties(getPTHConsumer(context).getConsumer(), practiceInfo, searchItem, new SDKCallback<List<OnDemandSpecialty>, SDKError>() {
+    public void getOnDemandSpecialities(final Context context, final PracticeInfo practiceInfo, final String searchItem, final THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>, THSSDKError> thsOnDemandSpecialtyCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getOnDemandSpecialties(getConsumer(context), practiceInfo, searchItem, new SDKCallback<List<OnDemandSpecialty>, SDKError>() {
             @Override
             public void onResponse(List<OnDemandSpecialty> onDemandSpecialties, SDKError sdkError) {
 
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
 
-                List<THSOnDemandSpeciality> listOfThsSpecialities = new ArrayList<>();
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
 
-                for (OnDemandSpecialty onDemandSpeciality:onDemandSpecialties
-                     ) {
-                    //setMatchMakingVisit(true);
-                    THSOnDemandSpeciality thsOnDemandSpeciality = new THSOnDemandSpeciality();
-                    thsOnDemandSpeciality.setOnDemandSpecialty(onDemandSpeciality);
-                    listOfThsSpecialities.add(thsOnDemandSpeciality);
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getOnDemandSpecialities(context,practiceInfo,searchItem,thsOnDemandSpecialtyCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsOnDemandSpecialtyCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    List<THSOnDemandSpeciality> listOfThsSpecialities = new ArrayList<>();
+
+                    for (OnDemandSpecialty onDemandSpeciality:onDemandSpecialties
+                            ) {
+                        //setMatchMakingVisit(true);
+                        THSOnDemandSpeciality thsOnDemandSpeciality = new THSOnDemandSpeciality();
+                        thsOnDemandSpeciality.setOnDemandSpecialty(onDemandSpeciality);
+                        listOfThsSpecialities.add(thsOnDemandSpeciality);
+                    }
+
+                    THSSDKError thssdkError = new THSSDKError();
+                    thssdkError.setSdkError(sdkError);
+                    thsOnDemandSpecialtyCallback.onResponse(listOfThsSpecialities,thssdkError);
                 }
-
-                THSSDKError thssdkError = new THSSDKError();
-                thssdkError.setSdkError(sdkError);
-                thsOnDemandSpecialtyCallback.onResponse(listOfThsSpecialities,thssdkError);
             }
 
             @Override
@@ -648,19 +828,42 @@ public class THSManager {
         });
     }
 
-    public void getVisitContextWithOnDemandSpeciality(Context context, final THSOnDemandSpeciality thsOnDemandSpeciality, final THSVisitContextCallBack<THSVisitContext, THSSDKError> thsVisitContextCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().getVisitContext(getPTHConsumer(context).getConsumer(), thsOnDemandSpeciality.getOnDemandSpecialty(), new SDKCallback<VisitContext, SDKError>() {
+    public void getVisitContextWithOnDemandSpeciality(final Context context, final THSOnDemandSpeciality thsOnDemandSpeciality, final THSVisitContextCallBack<VisitContext, THSSDKError> thsVisitContextCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().getVisitContext(getConsumer(context), thsOnDemandSpeciality.getOnDemandSpecialty(), new SDKCallback<VisitContext, SDKError>() {
             @Override
             public void onResponse(VisitContext visitContext, SDKError sdkError) {
-                THSVisitContext thsVisitContext = new THSVisitContext();
-                thsVisitContext.setVisitContext(visitContext);
-
-                setVisitContext(thsVisitContext);
 
                 THSSDKError thsSDKError = new THSSDKError();
                 thsSDKError.setSdkError(sdkError);
 
-                thsVisitContextCallback.onResponse(thsVisitContext,thsSDKError);
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getVisitContextWithOnDemandSpeciality(context,thsOnDemandSpeciality,thsVisitContextCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsVisitContextCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    setVisitContext(visitContext);
+                    thsVisitContextCallback.onResponse(visitContext,thsSDKError);
+                }
             }
 
             @Override
@@ -670,51 +873,117 @@ public class THSManager {
         });
     }
 
-    public void getVisitContext(Context context, final THSProviderInfo thsProviderInfo, final THSVisitContextCallBack<THSVisitContext, THSSDKError> THSVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
+    public void getVisitContext(final Context context, final THSProviderInfo thsProviderInfo, final THSVisitContextCallBack<VisitContext, THSSDKError> thsvisitcontextcallback) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
 
         getAwsdk(context).getVisitManager().getVisitContext(getThsConsumer(context).getConsumer(), thsProviderInfo.getProviderInfo(), new SDKCallback<VisitContext, SDKError>() {
-                    @Override
-                    public void onResponse(VisitContext visitContext, SDKError sdkError) {
-
-                        onVisitContextResponse(visitContext, sdkError, THSVisitContextCallBack);
-
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        THSVisitContextCallBack.onFailure(throwable);
-                    }
-                });
-    }
-
-    private void onVisitContextResponse(VisitContext visitContext, SDKError sdkError, THSVisitContextCallBack<THSVisitContext, THSSDKError> THSVisitContextCallBack) {
-            THSVisitContext THSVisitContext = new THSVisitContext();
-            THSVisitContext.setVisitContext(visitContext);
-
-            THSSDKError THSSDKError = new THSSDKError();
-            THSSDKError.setSdkError(sdkError);
-
-            THSVisitContextCallBack.onResponse(THSVisitContext, THSSDKError);
-            setVisitContext(THSVisitContext);
-    }
-
-    public void getVisitContext(Context context, final Appointment appointment,final THSVisitContextCallBack<THSVisitContext, THSSDKError> THSVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException{
-        getAwsdk(context).getVisitManager().getVisitContext(appointment, new SDKCallback<VisitContext, SDKError>() {
             @Override
             public void onResponse(VisitContext visitContext, SDKError sdkError) {
-                onVisitContextResponse(visitContext, sdkError, THSVisitContextCallBack);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                getVisitContext(context, thsProviderInfo, thsvisitcontextcallback);
+                            } catch (MalformedURLException e) {
+                                thsvisitcontextcallback.onFailure(e);
+                            } catch (URISyntaxException e) {
+                                thsvisitcontextcallback.onFailure(e);
+                            } catch (AWSDKInitializationException e) {
+                                thsvisitcontextcallback.onFailure(e);
+                            } catch (AWSDKInstantiationException e) {
+                                thsvisitcontextcallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsvisitcontextcallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    onVisitContextResponse(visitContext, sdkError, thsvisitcontextcallback);
+                }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                THSVisitContextCallBack.onFailure(throwable);
+                thsvisitcontextcallback.onFailure(throwable);
+            }
+        });
+    }
+
+    private void onVisitContextResponse(VisitContext visitContext, SDKError sdkError, THSVisitContextCallBack<VisitContext, THSSDKError> thsvisitcontextcallback) {
+
+
+            THSSDKError THSSDKError = new THSSDKError();
+            THSSDKError.setSdkError(sdkError);
+
+            thsvisitcontextcallback.onResponse(visitContext, THSSDKError);
+            setVisitContext(visitContext);
+    }
+
+    public void getVisitContext(final Context context, final Appointment appointment, final THSVisitContextCallBack<VisitContext, THSSDKError> thsvisitcontextcallback) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException{
+        getAwsdk(context).getVisitManager().getVisitContext(appointment, new SDKCallback<VisitContext, SDKError>() {
+            @Override
+            public void onResponse(VisitContext visitContext, SDKError sdkError) {
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                try {
+                                    getVisitContext(context,appointment,thsvisitcontextcallback);
+                                } catch (MalformedURLException e) {
+                                    thsvisitcontextcallback.onFailure(e);
+                                } catch (URISyntaxException e) {
+                                    thsvisitcontextcallback.onFailure(e);
+                                } catch (AWSDKInitializationException e) {
+                                    thsvisitcontextcallback.onFailure(e);
+                                }
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsvisitcontextcallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    onVisitContextResponse(visitContext, sdkError, thsvisitcontextcallback);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsvisitcontextcallback.onFailure(throwable);
             }
         });
     }
 
     //TODO: What happens when getConsumer is null
-    public void getVitals(Context context, final THSVitalSDKCallback<THSVitals, THSSDKError> thsVitalCallBack) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getVitals(getPTHConsumer(context).getConsumer(),getPthVisitContext().getVisitContext(), new SDKCallback<Vitals, SDKError>() {
+    public void getVitals(final Context context, final THSVitalSDKCallback<THSVitals, THSSDKError> thsVitalCallBack) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getVitals(getConsumer(context), getVisitContext(), new SDKCallback<Vitals, SDKError>() {
             @Override
             public void onResponse(Vitals vitals, SDKError sdkError) {
                 THSVitals thsVitals = new THSVitals();
@@ -723,7 +992,33 @@ public class THSManager {
                 THSSDKError THSSDKError = new THSSDKError();
                 THSSDKError.setSdkError(sdkError);
 
-                thsVitalCallBack.onResponse(thsVitals, THSSDKError);
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getVitals(context,thsVitalCallBack);
+                            } catch (AWSDKInstantiationException e) {
+                                thsVitalCallBack.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsVitalCallBack.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsVitalCallBack.onResponse(thsVitals, THSSDKError);
+                }
 
             }
 
@@ -735,8 +1030,8 @@ public class THSManager {
         });
     }
 
-    /*public void createVisit(Context context, THSVisitContext pthVisitContext, final THSGetPaymentMethodValidatedCallback pthsdkValidatedCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().createVisit(pthVisitContext.getPthVisitContext(), new SDKValidatedCallback<Visit, SDKError>() {
+    /*public void createVisit(Context context, visitContext pthVisitContext, final THSGetPaymentMethodValidatedCallback pthsdkValidatedCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().createVisit(pthVisitContext.getVisitContext(), new SDKValidatedCallback<Visit, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 pthsdkValidatedCallback.onValidationFailure(map);
@@ -757,12 +1052,39 @@ public class THSManager {
     }*/
 
     //TODO: No SDKError is sent by backend.
-    public void getAppointments(Context context, SDKLocalDate sdkLocalDate, final THSGetAppointmentsCallback<List<Appointment>, THSSDKError> thsGetAppointmentsCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getAppointments(getPTHConsumer(context).getConsumer(),sdkLocalDate,new SDKCallback<List< Appointment >, SDKError>(){
+    public void getAppointments(final Context context, final SDKLocalDate sdkLocalDate, final THSGetAppointmentsCallback<List<Appointment>, THSSDKError> thsGetAppointmentsCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getAppointments(getConsumer(context),sdkLocalDate,new SDKCallback<List< Appointment >, SDKError>(){
 
             @Override
             public void onResponse(List<Appointment> appointments, SDKError sdkError) {
-                thsGetAppointmentsCallback.onResponse(appointments,sdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getAppointments(context,sdkLocalDate,thsGetAppointmentsCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                thsGetAppointmentsCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsGetAppointmentsCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsGetAppointmentsCallback.onResponse(appointments,sdkError);
+                }
             }
 
             @Override
@@ -775,16 +1097,43 @@ public class THSManager {
 
 
     //TODO: No SDKError is sent by backend.
-    public void getConsumerObject(final Context context, Authentication authentication, final THSGetConsumerObjectCallBack THSGetConsumerObjectCallBack) throws AWSDKInstantiationException {
+    public void getConsumerObject(final Context context, final Authentication authentication, final THSGetConsumerObjectCallBack THSGetConsumerObjectCallBack) throws AWSDKInstantiationException {
 
         getAwsdk(context).getConsumerManager().getConsumer(authentication, new SDKCallback<Consumer, SDKError>() {
             @Override
             public void onResponse(Consumer consumer, SDKError sdkError) {
-                mTHSConsumerWrapper.setConsumer(consumer);
-                //The mThsConsumer object is set to Parent as when-ever the control is in welcome screen, only the parent is the active person
-                setThsConsumer(getThsParentConsumer(context));
-                getThsConsumer(context).setConsumer(consumer);
-                THSGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getConsumerObject(context,authentication,THSGetConsumerObjectCallBack);
+                            } catch (AWSDKInstantiationException e) {
+                                THSGetConsumerObjectCallBack.onError(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            THSGetConsumerObjectCallBack.onError(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    mConsumer = consumer;
+                    //The mThsConsumer object is set to Parent as when-ever the control is in welcome screen, only the parent is the active person
+                    setThsConsumer(getThsParentConsumer(context));
+                    getThsConsumer(context).setConsumer(consumer);
+                    THSGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
+                }
             }
 
             @Override
@@ -795,8 +1144,8 @@ public class THSManager {
     }
 
     //TODO: No SDKError is sent by backend.
-    public void getConditions(Context context, final THSConditionsCallBack<THSConditionsList,THSSDKError> thsConditionsCallBack) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getConditions(getPTHConsumer(context).getConsumer(), new SDKCallback<List<Condition>, SDKError>() {
+    public void getConditions(final Context context, final THSConditionsCallBack<THSConditionsList,THSSDKError> thsConditionsCallBack) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getConditions(getConsumer(context), new SDKCallback<List<Condition>, SDKError>() {
             @Override
             public void onResponse(List<Condition> conditions, SDKError sdkError) {
                 THSConditionsList thsConditions = new THSConditionsList();
@@ -805,7 +1154,33 @@ public class THSManager {
                 THSSDKError THSSDKError = new THSSDKError();
                 THSSDKError.setSdkError(sdkError);
 
-                thsConditionsCallBack.onResponse(thsConditions, THSSDKError);
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getConditions(context,thsConditionsCallBack);
+                            } catch (AWSDKInstantiationException e) {
+                                thsConditionsCallBack.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsConditionsCallBack.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsConditionsCallBack.onResponse(thsConditions, THSSDKError);
+                }
             }
 
             @Override
@@ -817,15 +1192,46 @@ public class THSManager {
 
 
     //Done error codes
-    public void getPractices(Context context, final THSPracticesListCallback THSPracticesListCallback) throws AWSDKInstantiationException {
+    public void getPractices(final Context context, final THSPracticesListCallback THSPracticesListCallback) throws AWSDKInstantiationException {
 
-
-        getAwsdk(context).getPracticeProvidersManager().getPractices(getPTHConsumer(context).getConsumer(), new SDKCallback<List<Practice>, SDKError>() {
+        AmwellLog.i(AmwellLog.LOG,"getPractices in THSManager Called");
+        getAwsdk(context).getPracticeProvidersManager().getPractices(getConsumer(context), new SDKCallback<List<Practice>, SDKError>() {
             @Override
             public void onResponse(List<Practice> practices, SDKError sdkError) {
+
+                AmwellLog.i(AmwellLog.LOG,"onResponse of getPractices inside callback");
+
                 THSPracticeList pTHPractice = new THSPracticeList();
                 pTHPractice.setPractices(practices);
-                THSPracticesListCallback.onPracticesListReceived(pTHPractice,sdkError);
+
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getPractices(context,THSPracticesListCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            THSPracticesListCallback.onPracticesListFetchError(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    THSPracticesListCallback.onPracticesListReceived(pTHPractice,sdkError);
+                }
             }
 
             @Override
@@ -837,17 +1243,48 @@ public class THSManager {
 
 
     //Done error codes
-    public void getProviderList(Context context, Practice practice, String searchTerm, final THSProvidersListCallback THSProvidersListCallback) throws AWSDKInstantiationException{
-        getAwsdk(context).getPracticeProvidersManager().findProviders(getPTHConsumer(context).getConsumer(), practice, null, searchTerm, null, null, null, null, null, new SDKCallback<List<ProviderInfo>, SDKError>() {
+    public void getProviderList(final Context context, final Practice practice, final String searchTerm, final THSProvidersListCallback THSProvidersListCallback) throws AWSDKInstantiationException{
+        getAwsdk(context).getPracticeProvidersManager().findProviders(getConsumer(context), practice, null, searchTerm, null, null, null, null, null, new SDKCallback<List<ProviderInfo>, SDKError>() {
             @Override
             public void onResponse(List<ProviderInfo> providerInfos, SDKError sdkError) {
-                List<THSProviderInfo> thsProvidersList = new ArrayList<>();
-                for (ProviderInfo providerInfo:providerInfos) {
-                    THSProviderInfo thsProviderInfo = new THSProviderInfo();
-                    thsProviderInfo.setTHSProviderInfo(providerInfo);
-                    thsProvidersList.add(thsProviderInfo);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getProviderList(context,practice,searchTerm,THSProvidersListCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            THSProvidersListCallback.onProvidersListFetchError(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    List<THSProviderInfo> thsProvidersList = new ArrayList<>();
+                    if(providerInfos!=null && providerInfos.size()>0) {
+                        for (ProviderInfo providerInfo : providerInfos) {
+                            THSProviderInfo thsProviderInfo = new THSProviderInfo();
+                            thsProviderInfo.setTHSProviderInfo(providerInfo);
+                            thsProvidersList.add(thsProviderInfo);
+                        }
+                    }
+                    THSProvidersListCallback.onProvidersListReceived(thsProvidersList, sdkError);
                 }
-                THSProvidersListCallback.onProvidersListReceived(thsProvidersList, sdkError);
+
+
             }
 
             @Override
@@ -856,17 +1293,54 @@ public class THSManager {
             }
         });
     }
+
+    private void refreshAmwellToken(Context context) {
+        try {
+            AmwellLog.i(AmwellLog.LOG,"Calling authenticateMutualAuth API from refresh and thread goes to wait");
+            authenticateMutualAuthToken(context,mRefreshToken);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void getProviderList(Context context, Practice practice, final THSProvidersListCallback THSProvidersListCallback) throws AWSDKInstantiationException {
         getProviderList(context, practice,null,THSProvidersListCallback);
     }
 
 
     //Done error codes
-    public void getProviderDetails(Context context, THSProviderInfo thsProviderInfo, final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getPracticeProvidersManager().getProvider(thsProviderInfo.getProviderInfo(), getPTHConsumer(context).getConsumer(), new SDKCallback<Provider, SDKError>() {
+    public void getProviderDetails(final Context context, final THSProviderInfo thsProviderInfo, final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getProvider(thsProviderInfo.getProviderInfo(), getConsumer(context), new SDKCallback<Provider, SDKError>() {
             @Override
             public void onResponse(Provider provider, SDKError sdkError) {
-                THSProviderDetailsCallback.onProviderDetailsReceived(provider,sdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getProviderDetails(context,thsProviderInfo,THSProviderDetailsCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                THSProviderDetailsCallback.onProviderDetailsFetchError(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            THSProviderDetailsCallback.onProviderDetailsFetchError(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    THSProviderDetailsCallback.onProviderDetailsReceived(provider,sdkError);
+                }
             }
 
             @Override
@@ -877,13 +1351,13 @@ public class THSManager {
         });
     }
 
-    public void updateConsumer(final Context context, String updatedPhone, final THSUpdateConsumerCallback<THSConsumerWrapper, THSSDKPasswordError> pthUpdateConsumer) throws AWSDKInstantiationException {
+    public void updateConsumer(final Context context, final String updatedPhone, final THSUpdateConsumerCallback<Consumer, THSSDKPasswordError> pthUpdateConsumer) throws AWSDKInstantiationException {
         ConsumerUpdate consumerUpdate;
-        if(getPTHConsumer(context).isDependent()){
+        if(getConsumer(context).isDependent()){
             consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getThsParentConsumer(context).getConsumer());
             consumerUpdate.setPhone(updatedPhone);
         }else {
-            consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getPTHConsumer(context).getConsumer());
+            consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getConsumer(context));
             consumerUpdate.setPhone(updatedPhone);
         }
         getAwsdk(context).getConsumerManager().updateConsumer(consumerUpdate, new SDKValidatedCallback<Consumer, SDKPasswordError>() {
@@ -894,12 +1368,39 @@ public class THSManager {
 
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-                mTHSConsumerWrapper.setConsumer(consumer);
-                getThsParentConsumer(context).setConsumer(consumer);
+
                 THSSDKPasswordError pthSDKError = new THSSDKPasswordError();
                 pthSDKError.setSdkPasswordError(sdkPasswordError);
 
-                pthUpdateConsumer.onUpdateConsumerResponse(mTHSConsumerWrapper,pthSDKError);
+                if(sdkPasswordError!=null && sdkPasswordError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                updateConsumer(context,updatedPhone,pthUpdateConsumer);
+                            } catch (AWSDKInstantiationException e) {
+                                pthUpdateConsumer.onUpdateConsumerFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            pthUpdateConsumer.onUpdateConsumerFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    mConsumer=consumer;
+                    getThsParentConsumer(context).setConsumer(consumer);
+                    pthUpdateConsumer.onUpdateConsumerResponse(consumer,pthSDKError);
+                }
             }
 
             @Override
@@ -915,16 +1416,42 @@ public class THSManager {
     }
 
     //Done error codes
-    public void getMedication(Context context ,  final THSMedicationCallback.PTHGetMedicationCallback thsGetMedicationCallback ) throws AWSDKInstantiationException{
-        getAwsdk(context).getConsumerManager().getMedications(getPTHConsumer(context).getConsumer(), new SDKCallback<List<Medication>, SDKError>() {
+    public void getMedication(final Context context , final THSMedicationCallback.PTHGetMedicationCallback thsGetMedicationCallback ) throws AWSDKInstantiationException{
+        getAwsdk(context).getConsumerManager().getMedications(getConsumer(context), new SDKCallback<List<Medication>, SDKError>() {
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
                 AmwellLog.i("onGetMedicationReceived", "success");
 
                 THSMedication thsMedication = new THSMedication();
                 thsMedication.setMedicationList(medications);
-                thsGetMedicationCallback.onGetMedicationReceived(thsMedication, sdkError);
 
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getMedication(context,thsGetMedicationCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                thsGetMedicationCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsGetMedicationCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsGetMedicationCallback.onGetMedicationReceived(thsMedication, sdkError);
+                }
             }
 
             @Override
@@ -937,8 +1464,8 @@ public class THSManager {
     }
 
     //Done error codes
-    public void searchMedication(Context context, String medicineName, final THSSDKValidatedCallback<THSMedication, SDKError> thsSDKValidatedCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().searchMedications(getPTHConsumer(context).getConsumer(), medicineName, new SDKValidatedCallback<List<Medication>, SDKError>() {
+    public void searchMedication(final Context context, final String medicineName, final THSSDKValidatedCallback<THSMedication, SDKError> thsSDKValidatedCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().searchMedications(getConsumer(context), medicineName, new SDKValidatedCallback<List<Medication>, SDKError>() {
             @Override
             public void onValidationFailure(@NonNull Map<String, String> map) {
                 thsSDKValidatedCallback.onValidationFailure(map);
@@ -950,8 +1477,34 @@ public class THSManager {
 
                 THSMedication pTHMedication = new THSMedication();
                 pTHMedication.setMedicationList(medications);
-                thsSDKValidatedCallback.onResponse(pTHMedication, sdkError);
 
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                searchMedication(context,medicineName,thsSDKValidatedCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                thsSDKValidatedCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsSDKValidatedCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsSDKValidatedCallback.onResponse(pTHMedication, sdkError);
+                }
             }
 
             @Override
@@ -965,8 +1518,8 @@ public class THSManager {
     }
 
     //Done error codes
-    public void updateVitals(Context context, THSVitals thsVitals, final THSUpdateVitalsCallBack thsUpdateVitalsCallBack) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().updateVitals(getPTHConsumer(context).getConsumer(), thsVitals.getVitals(), null , new SDKValidatedCallback<Void, SDKError>() {
+    public void updateVitals(final Context context, final THSVitals thsVitals, final THSUpdateVitalsCallBack thsUpdateVitalsCallBack) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().updateVitals(getConsumer(context), thsVitals.getVitals(), null , new SDKValidatedCallback<Void, SDKError>() {
             @Override
             public void onValidationFailure(@NonNull Map<String, String> map) {
                 thsUpdateVitalsCallBack.onUpdateVitalsValidationFailure(map);
@@ -974,7 +1527,34 @@ public class THSManager {
 
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
-                thsUpdateVitalsCallBack.onUpdateVitalsResponse(sdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                updateVitals(context,thsVitals,thsUpdateVitalsCallBack);
+                            } catch (AWSDKInstantiationException e) {
+                                thsUpdateVitalsCallBack.onUpdateVitalsFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsUpdateVitalsCallBack.onUpdateVitalsFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsUpdateVitalsCallBack.onUpdateVitalsResponse(sdkError);
+                }
             }
 
             @Override
@@ -984,7 +1564,7 @@ public class THSManager {
         });
     }
 
-    public void updateConditions(Context context, List<THSCondition> pthConditionList, final THSUpdateConditionsCallback<Void, THSSDKError> thsUpdateConditionsCallback) throws AWSDKInstantiationException {
+    public void updateConditions(final Context context, final List<THSCondition> pthConditionList, final THSUpdateConditionsCallback<Void, THSSDKError> thsUpdateConditionsCallback) throws AWSDKInstantiationException {
 
         List<Condition> conditionList = new ArrayList<>();
         for (THSCondition pthcondition:pthConditionList
@@ -992,13 +1572,39 @@ public class THSManager {
             conditionList.add(pthcondition.getCondition());
         }
         
-        getAwsdk(context).getConsumerManager().updateConditions(getPTHConsumer(context).getConsumer(), conditionList, new SDKCallback<Void, SDKError>() {
+        getAwsdk(context).getConsumerManager().updateConditions(getConsumer(context), conditionList, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 THSSDKError pthSDKError = new THSSDKError();
                 pthSDKError.setSdkError(sdkError);
 
-                thsUpdateConditionsCallback.onUpdateConditonResponse(aVoid,pthSDKError);
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                updateConditions(context,pthConditionList,thsUpdateConditionsCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                thsUpdateConditionsCallback.onUpdateConditionFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsUpdateConditionsCallback.onUpdateConditionFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsUpdateConditionsCallback.onUpdateConditonResponse(aVoid,pthSDKError);
+                }
             }
 
             @Override
@@ -1009,13 +1615,40 @@ public class THSManager {
     }
 
     //Done error codes
-    public void updateMedication(Context context , THSMedication pTHMedication, final THSMedicationCallback.PTHUpdateMedicationCallback thsUpdateMedicationCallback) throws AWSDKInstantiationException{
-        getAwsdk(context).getConsumerManager().updateMedications(getPTHConsumer(context).getConsumer(), pTHMedication.getMedicationList(), new SDKCallback<Void, SDKError>() {
+    public void updateMedication(final Context context , final THSMedication pTHMedication, final THSMedicationCallback.PTHUpdateMedicationCallback thsUpdateMedicationCallback) throws AWSDKInstantiationException{
+        getAwsdk(context).getConsumerManager().updateMedications(getConsumer(context), pTHMedication.getMedicationList(), new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 // sdkError comes null even after successfully updating the medication
                 AmwellLog.i("onUpdateMedication","success");
-                thsUpdateMedicationCallback.onUpdateMedicationSent(aVoid,sdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                updateMedication(context,pTHMedication,thsUpdateMedicationCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                thsUpdateMedicationCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsUpdateMedicationCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsUpdateMedicationCallback.onUpdateMedicationSent(aVoid,sdkError);
+                }
             }
 
             @Override
@@ -1041,8 +1674,8 @@ public class THSManager {
         });
     }
 */
-    public void getPharmacies(Context context, final THSConsumerWrapper thsConsumerWrapper, String city, State state, String zipCode, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumerWrapper.getConsumer(), null,city, state, zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
+    public void getPharmacies(final Context context, final Consumer thsConsumerWrapper, final String city, final State state, final String zipCode, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumerWrapper, null,city, state, zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
             @Override
             public void onValidationFailure(@NonNull Map<String, String> map) {
                 thsGetPharmaciesCallback.onValidationFailure(map);
@@ -1050,7 +1683,34 @@ public class THSManager {
 
             @Override
             public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
-                thsGetPharmaciesCallback.onPharmacyListReceived(pharmacies,sdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getPharmacies(context,thsConsumerWrapper,city,state,zipCode,thsGetPharmaciesCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                thsGetPharmaciesCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsGetPharmaciesCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsGetPharmaciesCallback.onPharmacyListReceived(pharmacies,sdkError);
+                }
             }
 
             @Override
@@ -1060,11 +1720,38 @@ public class THSManager {
         });
     }
 
-    public void getPharmacies(Context context, final THSConsumerWrapper thsConsumerWrapper, float latitude, float longitude, int radius, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumerWrapper.getConsumer(), latitude, longitude, radius, false, new SDKCallback<List<Pharmacy>, SDKError>() {
+    public void getPharmacies(final Context context, final Consumer thsConsumerWrapper, final float latitude, final float longitude, final int radius, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumerWrapper, latitude, longitude, radius, false, new SDKCallback<List<Pharmacy>, SDKError>() {
             @Override
             public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
-                thsGetPharmaciesCallback.onPharmacyListReceived(pharmacies,sdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getPharmacies(context,thsConsumerWrapper,latitude,longitude,radius,thsGetPharmaciesCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                thsGetPharmaciesCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsGetPharmaciesCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsGetPharmaciesCallback.onPharmacyListReceived(pharmacies,sdkError);
+                }
             }
 
             @Override
@@ -1078,11 +1765,38 @@ public class THSManager {
     Error handling not done here. If there is not pharmacy returned, then the logic of the app takes to suer to select a pharmacy. Heance SDK error which
     throws Primary pharmacy not found is not required.*/
 
-    public void getConsumerPreferredPharmacy(Context context, final THSPreferredPharmacyCallback thsPreferredPharmacyCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getConsumerPharmacy(getPTHConsumer(context).getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
+    public void getConsumerPreferredPharmacy(final Context context, final THSPreferredPharmacyCallback thsPreferredPharmacyCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getConsumerPharmacy(getConsumer(context), new SDKCallback<Pharmacy, SDKError>() {
             @Override
             public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
-                thsPreferredPharmacyCallback.onPharmacyReceived(pharmacy, sdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getConsumerPreferredPharmacy(context,thsPreferredPharmacyCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                thsPreferredPharmacyCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsPreferredPharmacyCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsPreferredPharmacyCallback.onPharmacyReceived(pharmacy, sdkError);
+                }
             }
 
             @Override
@@ -1099,11 +1813,38 @@ public class THSManager {
      * @param thsUpdatePharmacyCallback
      * @throws AWSDKInstantiationException
      */
-    public void updateConsumerPreferredPharmacy(Context context, final Pharmacy pharmacy, final THSUpdatePharmacyCallback thsUpdatePharmacyCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().updateConsumerPharmacy(getPTHConsumer(context).getConsumer(), pharmacy, new SDKCallback<Void, SDKError>() {
+    public void updateConsumerPreferredPharmacy(final Context context, final Pharmacy pharmacy, final THSUpdatePharmacyCallback thsUpdatePharmacyCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().updateConsumerPharmacy(getConsumer(context), pharmacy, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
-                thsUpdatePharmacyCallback.onUpdateSuccess(sdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                updateConsumerPreferredPharmacy(context,pharmacy,thsUpdatePharmacyCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                thsUpdatePharmacyCallback.onUpdateFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsUpdatePharmacyCallback.onUpdateFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsUpdatePharmacyCallback.onUpdateSuccess(sdkError);
+                }
             }
 
             @Override
@@ -1119,11 +1860,38 @@ public class THSManager {
      * @param thsConsumerShippingAddressCallback
      * @throws AWSDKInstantiationException
      */
-    public void getConsumerShippingAddress(Context context, final THSConsumerShippingAddressCallback thsConsumerShippingAddressCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getShippingAddress(getPTHConsumer(context).getConsumer(), new SDKCallback<Address, SDKError>() {
+    public void getConsumerShippingAddress(final Context context, final THSConsumerShippingAddressCallback thsConsumerShippingAddressCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getShippingAddress(getConsumer(context), new SDKCallback<Address, SDKError>() {
             @Override
             public void onResponse(Address address, SDKError sdkError) {
-                thsConsumerShippingAddressCallback.onSuccessfulFetch(address, sdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getConsumerShippingAddress(context,thsConsumerShippingAddressCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                thsConsumerShippingAddressCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsConsumerShippingAddressCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsConsumerShippingAddressCallback.onSuccessfulFetch(address, sdkError);
+                }
             }
 
             @Override
@@ -1140,16 +1908,43 @@ public class THSManager {
      * @param thsUpdateShippingAddressCallback
      * @throws AWSDKInstantiationException
      */
-    public void updatePreferredShippingAddress(Context context,final Address address,final THSUpdateShippingAddressCallback thsUpdateShippingAddressCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().updateShippingAddress(getPTHConsumer(context).getConsumer(), address, new SDKValidatedCallback<Address, SDKError>() {
+    public void updatePreferredShippingAddress(final Context context, final Address address, final THSUpdateShippingAddressCallback thsUpdateShippingAddressCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().updateShippingAddress(getConsumer(context), address, new SDKValidatedCallback<Address, SDKError>() {
             @Override
             public void onValidationFailure(@NonNull Map<String, String> map) {
                 thsUpdateShippingAddressCallback.onAddressValidationFailure(map);
             }
 
             @Override
-            public void onResponse(Address address, SDKError sdkError) {
-                thsUpdateShippingAddressCallback.onUpdateSuccess(address,sdkError);
+            public void onResponse(final Address address, SDKError sdkError) {
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                updatePreferredShippingAddress(context,address,thsUpdateShippingAddressCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                thsUpdateShippingAddressCallback.onUpdateFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsUpdateShippingAddressCallback.onUpdateFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    thsUpdateShippingAddressCallback.onUpdateSuccess(address,sdkError);
+                }
             }
 
             @Override
@@ -1159,11 +1954,11 @@ public class THSManager {
         });
     }
 
-    public void getAvailableProvidersBasedOnDate(Context context, Practice thsPractice,
-                                                 String searchItem, Language languageSpoken, Date appointmentDate,
-                                                 Integer maxresults,
+    public void getAvailableProvidersBasedOnDate(final Context context, final Practice thsPractice,
+                                                 final String searchItem, final Language languageSpoken, final Date appointmentDate,
+                                                 final Integer maxresults,
                                                  final THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError> thsAvailableProviderCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getPracticeProvidersManager().findFutureAvailableProviders(getPTHConsumer(context).getConsumer(), thsPractice,
+        getAwsdk(context).getPracticeProvidersManager().findFutureAvailableProviders(getConsumer(context), thsPractice,
                 searchItem, languageSpoken, appointmentDate, maxresults,null, new SDKCallback<AvailableProviders, SDKError>() {
                     @Override
                     public void onResponse(AvailableProviders availableProviders, SDKError sdkError) {
@@ -1173,7 +1968,33 @@ public class THSManager {
                         THSSDKError thsSDKError = new THSSDKError();
                         thsSDKError.setSdkError(sdkError);
 
-                        thsAvailableProviderCallback.onResponse(thsAvailableProviderList,thsSDKError);
+                        if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                            AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                            mRefreshToken.setContext(context);
+                            mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                                @Override
+                                public void onSuccess() {
+                                    try {
+                                        getAvailableProvidersBasedOnDate(context,thsPractice,searchItem,languageSpoken,appointmentDate,maxresults,thsAvailableProviderCallback);
+                                    } catch (AWSDKInstantiationException e) {
+                                        thsAvailableProviderCallback.onFailure(e);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    thsAvailableProviderCallback.onFailure(throwable);
+                                }
+                            });
+
+                            refreshAmwellToken(context);
+
+                        }else {
+                            thsAvailableProviderCallback.onResponse(thsAvailableProviderList,thsSDKError);
+                        }
                     }
 
                     @Override
@@ -1184,15 +2005,42 @@ public class THSManager {
 
     }
 
-    public void getProviderAvailability(Context context, Provider provider, Date date, final THSAvailableProviderCallback<List<Date>,THSSDKError> thsAvailableProviderCallback) throws AWSDKInstantiationException {
+    public void getProviderAvailability(final Context context, final Provider provider, final Date date, final THSAvailableProviderCallback<List<Date>,THSSDKError> thsAvailableProviderCallback) throws AWSDKInstantiationException {
         try {
-            getAwsdk(context).getPracticeProvidersManager().getProviderAvailability(getPTHConsumer(context).getConsumer(), provider,
+            getAwsdk(context).getPracticeProvidersManager().getProviderAvailability(getConsumer(context), provider,
                     date, null,new SDKCallback<List<Date>, SDKError>() {
                         @Override
                         public void onResponse(List<Date> dates, SDKError sdkError) {
                             THSSDKError thssdkError = new THSSDKError();
                             thssdkError.setSdkError(sdkError);
-                            thsAvailableProviderCallback.onResponse(dates,thssdkError);
+
+                            if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                                AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                                mRefreshToken.setContext(context);
+                                mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                                    @Override
+                                    public void onSuccess() {
+                                        try {
+                                            getProviderAvailability(context,provider,date,thsAvailableProviderCallback);
+                                        } catch (AWSDKInstantiationException e) {
+                                            thsAvailableProviderCallback.onFailure(e);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Throwable throwable) {
+                                        thsAvailableProviderCallback.onFailure(throwable);
+                                    }
+                                });
+
+                                refreshAmwellToken(context);
+
+                            }else {
+                                thsAvailableProviderCallback.onResponse(dates,thssdkError);
+                            }
                         }
 
                         @Override
@@ -1226,8 +2074,8 @@ public class THSManager {
     }
 
 
-    public void getExistingSubscription(Context context, final THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError> tHSSDKCallBack) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getInsuranceSubscription(getPTHConsumer(context).getConsumer(), new SDKCallback<Subscription, SDKError>() {
+    public void getExistingSubscription(final Context context, final THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError> tHSSDKCallBack) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getInsuranceSubscription(getConsumer(context), new SDKCallback<Subscription, SDKError>() {
             @Override
             public void onResponse(Subscription subscription, SDKError sdkError) {
                 THSSubscription tHSSubscription = new THSSubscription();
@@ -1235,7 +2083,33 @@ public class THSManager {
                 THSSDKError tHSSDKError = new THSSDKError();
                 tHSSDKError.setSdkError(sdkError);
 
-                tHSSDKCallBack.onGetInsuranceResponse(tHSSubscription, tHSSDKError);
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getExistingSubscription(context,tHSSDKCallBack);
+                            } catch (AWSDKInstantiationException e) {
+                                tHSSDKCallBack.onGetInsuranceFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            tHSSDKCallBack.onGetInsuranceFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    tHSSDKCallBack.onGetInsuranceResponse(tHSSubscription, tHSSDKError);
+                }
             }
 
             @Override
@@ -1248,12 +2122,12 @@ public class THSManager {
 
     public THSSubscriptionUpdateRequest getNewSubscriptionUpdateRequest(Context context) throws AWSDKInstantiationException {
         THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest = new THSSubscriptionUpdateRequest();
-        SubscriptionUpdateRequest subscriptionUpdateRequest = getAwsdk(context).getConsumerManager().getNewSubscriptionUpdateRequest(getPTHConsumer(context).getConsumer(), false);
+        SubscriptionUpdateRequest subscriptionUpdateRequest = getAwsdk(context).getConsumerManager().getNewSubscriptionUpdateRequest(getConsumer(context), false);
         thsSubscriptionUpdateRequest.setSubscriptionUpdateRequest(subscriptionUpdateRequest);
         return thsSubscriptionUpdateRequest;
     }
 
-    public void updateInsuranceSubscription(Context context, THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest, final THSSDKValidatedCallback<Void, SDKError> tHSSDKValidatedCallback) throws AWSDKInstantiationException {
+    public void updateInsuranceSubscription(final Context context, final THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest, final THSSDKValidatedCallback<Void, SDKError> tHSSDKValidatedCallback) throws AWSDKInstantiationException {
 
         getAwsdk(context).getConsumerManager().updateInsuranceSubscription(thsSubscriptionUpdateRequest.getSubscriptionUpdateRequest(), new SDKValidatedCallback<Void, SDKError>() {
             @Override
@@ -1263,7 +2137,34 @@ public class THSManager {
 
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
-                tHSSDKValidatedCallback.onResponse(aVoid, sdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                updateInsuranceSubscription(context,thsSubscriptionUpdateRequest,tHSSDKValidatedCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                tHSSDKValidatedCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            tHSSDKValidatedCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    tHSSDKValidatedCallback.onResponse(aVoid, sdkError);
+                }
             }
 
             @Override
@@ -1280,8 +2181,8 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().validateSubscriptionUpdateRequest(thsSubscriptionUpdateRequest.getSubscriptionUpdateRequest(), errors);
     }
 
-    public void createVisit(Context context, THSVisitContext thsVisitContext, final CreateVisitCallback<THSVisit, THSSDKError> createVisitCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().createOrUpdateVisit(thsVisitContext.getVisitContext(), new SDKValidatedCallback<Visit, SDKError>() {
+    public void createVisit(final Context context, final VisitContext thsVisitContext, final CreateVisitCallback<THSVisit, THSSDKError> createVisitCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().createOrUpdateVisit(thsVisitContext, new SDKValidatedCallback<Visit, SDKError>() {
             @Override
             public void onValidationFailure(@NonNull Map<String, String> map) {
                 createVisitCallback.onCreateVisitValidationFailure(map);
@@ -1293,7 +2194,34 @@ public class THSManager {
                 thsVisit.setVisit(visit);
                 THSSDKError thssdkError = new THSSDKError();
                 thssdkError.setSdkError(sdkError);
-                createVisitCallback.onCreateVisitResponse(thsVisit, thssdkError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                createVisit(context,thsVisitContext,createVisitCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                createVisitCallback.onCreateVisitFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            createVisitCallback.onCreateVisitFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    createVisitCallback.onCreateVisitResponse(thsVisit, thssdkError);
+                }
             }
 
             @Override
@@ -1304,15 +2232,42 @@ public class THSManager {
 
     }
 
-    public void getPaymentMethod(Context context, final THSPaymentCallback.THSGetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> tHSSDKCallBack) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getPaymentMethod(getPTHConsumer(context).getConsumer(), new SDKCallback<PaymentMethod, SDKError>() {
+    public void getPaymentMethod(final Context context, final THSPaymentCallback.THSGetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> tHSSDKCallBack) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getPaymentMethod(getConsumer(context), new SDKCallback<PaymentMethod, SDKError>() {
             @Override
             public void onResponse(PaymentMethod paymentMethod, SDKError sdkError) {
                 THSPaymentMethod tHSPaymentMethod = new THSPaymentMethod();
                 tHSPaymentMethod.setPaymentMethod(paymentMethod);
                 THSSDKError tHSSDKError = new THSSDKError();
                 tHSSDKError.setSdkError(sdkError);
-                tHSSDKCallBack.onGetPaymentSuccess(tHSPaymentMethod, tHSSDKError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                getPaymentMethod(context,tHSSDKCallBack);
+                            } catch (AWSDKInstantiationException e) {
+                                tHSSDKCallBack.onGetPaymentFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            tHSSDKCallBack.onGetPaymentFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    tHSSDKCallBack.onGetPaymentSuccess(tHSPaymentMethod, tHSSDKError);
+                }
             }
 
             @Override
@@ -1324,7 +2279,7 @@ public class THSManager {
 
 
     public THSCreatePaymentRequest getNewCreatePaymentRequest(Context context) throws AWSDKInstantiationException {
-        CreatePaymentRequest createPaymentRequest = getAwsdk(context).getConsumerManager().getNewCreatePaymentRequest(getPTHConsumer(context).getConsumer());
+        CreatePaymentRequest createPaymentRequest = getAwsdk(context).getConsumerManager().getNewCreatePaymentRequest(getConsumer(context));
         THSCreatePaymentRequest tHSCreatePaymentRequest = new THSCreatePaymentRequest();
         tHSCreatePaymentRequest.setCreatePaymentRequest(createPaymentRequest);
         return tHSCreatePaymentRequest;
@@ -1352,7 +2307,7 @@ public class THSManager {
 
 
     }
-    public void updatePaymentMethod(Context context, THSCreatePaymentRequest thsCreatePaymentRequest, final THSPaymentCallback.THSUpdatePaymentMethodValidatedCallback<THSPaymentMethod, THSSDKError> tHSSDKValidatedCallback) throws AWSDKInstantiationException {
+    public void updatePaymentMethod(final Context context, final THSCreatePaymentRequest thsCreatePaymentRequest, final THSPaymentCallback.THSUpdatePaymentMethodValidatedCallback<THSPaymentMethod, THSSDKError> tHSSDKValidatedCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().updatePaymentMethod(thsCreatePaymentRequest.getCreatePaymentRequest(), new SDKValidatedCallback<PaymentMethod, SDKError>() {
             @Override
             public void onValidationFailure(@NonNull Map<String, String> map) {
@@ -1365,7 +2320,34 @@ public class THSManager {
                 tHSPaymentMethod.setPaymentMethod(paymentMethod);
                 THSSDKError tHSSDKError = new THSSDKError();
                 tHSSDKError.setSdkError(sdkError);
-                tHSSDKValidatedCallback.onUpdatePaymentSuccess(tHSPaymentMethod, tHSSDKError);
+
+                if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                    AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                        @Override
+                        public void onSuccess() {
+                            try {
+                                updatePaymentMethod(context,thsCreatePaymentRequest,tHSSDKValidatedCallback);
+                            } catch (AWSDKInstantiationException e) {
+                                tHSSDKValidatedCallback.onUpdatePaymentFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            tHSSDKValidatedCallback.onUpdatePaymentFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                }else {
+                    tHSSDKValidatedCallback.onUpdatePaymentSuccess(tHSPaymentMethod, tHSSDKError);
+                }
             }
 
             @Override
@@ -1375,8 +2357,8 @@ public class THSManager {
         });
     }
 
-    public void scheduleAppointment(Context context, final THSProviderInfo thsProviderInfo, Date appointmentDate,final String consumerRemindOptions, final THSSDKValidatedCallback<Void, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().scheduleAppointment(getPTHConsumer(context).getConsumer(), thsProviderInfo.getProviderInfo(),
+    public void scheduleAppointment(final Context context, final THSProviderInfo thsProviderInfo, final Date appointmentDate, final String consumerRemindOptions, final THSSDKValidatedCallback<Void, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().scheduleAppointment(getConsumer(context), thsProviderInfo.getProviderInfo(),
                 appointmentDate, null,consumerRemindOptions, RemindOptions.NO_REMINDER, new SDKValidatedCallback<Void, SDKError>() {
                     @Override
                     public void onValidationFailure(@NonNull Map<String, String> map) {
@@ -1385,7 +2367,34 @@ public class THSManager {
 
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
-                        thssdkValidatedCallback.onResponse(aVoid,sdkError);
+
+                        if(sdkError!=null && sdkError.getHttpResponseCode()== HttpURLConnection.HTTP_UNAUTHORIZED){
+
+                            AmwellLog.i(AmwellLog.LOG,"getPractices got 401 and called refresh in separate thread");
+
+                            mRefreshToken.setContext(context);
+                            mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack(){
+
+                                @Override
+                                public void onSuccess() {
+                                    try {
+                                        scheduleAppointment(context,thsProviderInfo,appointmentDate,consumerRemindOptions,thssdkValidatedCallback);
+                                    } catch (AWSDKInstantiationException e) {
+                                        thssdkValidatedCallback.onFailure(e);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    thssdkValidatedCallback.onFailure(throwable);
+                                }
+                            });
+
+                            refreshAmwellToken(context);
+
+                        }else {
+                            thssdkValidatedCallback.onResponse(aVoid,sdkError);
+                        }
                     }
 
                     @Override
@@ -1396,9 +2405,9 @@ public class THSManager {
 
     }
 
-    public void uploadHealthDocument(Context context, UploadAttachment uploadAttachment, final THSUploadDocumentCallback thsUploadDocumentCallback) throws AWSDKInstantiationException, IOException {
+    public void uploadHealthDocument(final Context context, final UploadAttachment uploadAttachment, final THSUploadDocumentCallback thsUploadDocumentCallback) throws AWSDKInstantiationException, IOException {
 
-        getAwsdk(context).getConsumerManager().addHealthDocument(getPTHConsumer(context).getConsumer(), uploadAttachment, new SDKValidatedCallback<DocumentRecord, SDKError>() {
+        getAwsdk(context).getConsumerManager().addHealthDocument(getConsumer(context), uploadAttachment, new SDKValidatedCallback<DocumentRecord, SDKError>() {
             @Override
             public void onValidationFailure(@NonNull Map<String, String> map) {
                 thsUploadDocumentCallback.onUploadValidationFailure(map);
@@ -1406,7 +2415,37 @@ public class THSManager {
 
             @Override
             public void onResponse(DocumentRecord documentRecord, SDKError sdkError) {
-                thsUploadDocumentCallback.onUploadDocumentSuccess(documentRecord,sdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                uploadHealthDocument(context, uploadAttachment, thsUploadDocumentCallback);
+                            } catch (IOException e) {
+                                thsUploadDocumentCallback.onError(e);
+                            } catch (AWSDKInstantiationException e) {
+                                thsUploadDocumentCallback.onError(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsUploadDocumentCallback.onError(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    thsUploadDocumentCallback.onUploadDocumentSuccess(documentRecord, sdkError);
+                }
             }
 
             @Override
@@ -1416,11 +2455,39 @@ public class THSManager {
         });
     }
 
-    public void deletedHealthDocument(Context context, DocumentRecord documentRecord, final THSDeleteDocumentCallback thsDeleteDocumentCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().removeHealthDocumentRecord(getPTHConsumer(context).getConsumer(), documentRecord, new SDKCallback<Void, SDKError>() {
+    public void deletedHealthDocument(final Context context, final DocumentRecord documentRecord, final THSDeleteDocumentCallback thsDeleteDocumentCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().removeHealthDocumentRecord(getConsumer(context), documentRecord, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
-                thsDeleteDocumentCallback.onDeleteSuccess(aVoid,sdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                deletedHealthDocument(context,documentRecord,thsDeleteDocumentCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                thsDeleteDocumentCallback.onError(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsDeleteDocumentCallback.onError(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    thsDeleteDocumentCallback.onDeleteSuccess(aVoid,sdkError);
+                }
             }
 
             @Override
@@ -1430,7 +2497,7 @@ public class THSManager {
         });
 
     }
-    public void startVisit(Context context ,Visit visit,  final Intent intent,final THSStartVisitCallback thsStartVisitCallback) throws AWSDKInstantiationException {
+    public void startVisit(final Context context , final Visit visit, final Intent intent, final THSStartVisitCallback thsStartVisitCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getVisitManager().startVisit(visit, visit.getConsumer().getAddress(), intent,new StartVisitCallback() {
 
             @Override
@@ -1470,7 +2537,35 @@ public class THSManager {
 
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
-                thsStartVisitCallback.onResponse(aVoid,sdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                startVisit(context,visit,intent,thsStartVisitCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                thsStartVisitCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsStartVisitCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    thsStartVisitCallback.onResponse(aVoid,sdkError);
+                }
             }
 
             @Override
@@ -1480,11 +2575,39 @@ public class THSManager {
         });
     }
 
-    public void cancelVisit(Context context,Visit visit, final THSCancelVisitCallBack.SDKCallback <Void, SDKError> tHSSDKCallback)  throws AWSDKInstantiationException {
+    public void cancelVisit(final Context context, final Visit visit, final THSCancelVisitCallBack.SDKCallback <Void, SDKError> tHSSDKCallback)  throws AWSDKInstantiationException {
         getAwsdk(context).getVisitManager().cancelVisit(visit, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
-                tHSSDKCallback.onResponse(aVoid, sdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                cancelVisit(context,visit,tHSSDKCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                tHSSDKCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            tHSSDKCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    tHSSDKCallback.onResponse(aVoid, sdkError);
+                }
             }
 
             @Override
@@ -1495,13 +2618,41 @@ public class THSManager {
 
     }
 
-    public void cancelAppointment(Context context, Appointment appointment, final THSInitializeCallBack<Void, THSSDKError> thsInitializeCallBack) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().cancelAppointment(getPTHConsumer(context).getConsumer(), appointment, new SDKCallback<Void, SDKError>() {
+    public void cancelAppointment(final Context context, final Appointment appointment, final THSInitializeCallBack<Void, THSSDKError> thsInitializeCallBack) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().cancelAppointment(getConsumer(context), appointment, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 THSSDKError thssdkError = new THSSDKError();
                 thssdkError.setSdkError(sdkError);
-                thsInitializeCallBack.onInitializationResponse(aVoid,thssdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                cancelAppointment(context,appointment,thsInitializeCallBack);
+                            }  catch (AWSDKInstantiationException e) {
+                                thsInitializeCallBack.onInitializationFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsInitializeCallBack.onInitializationFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    thsInitializeCallBack.onInitializationResponse(aVoid,thssdkError);
+                }
             }
 
             @Override
@@ -1517,11 +2668,39 @@ public class THSManager {
 
 
     //TODO : error code :No enum sent by amwell for sdkerror code handling
-    public void fetchEstimatedVisitCost(Context context, Provider provider, final THSFetchEstimatedCostCallback thsFetchEstimatedCostCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getPracticeProvidersManager().getEstimatedVisitCost(getPTHConsumer(context).getConsumer(), provider, new SDKCallback<EstimatedVisitCost, SDKError>() {
+    public void fetchEstimatedVisitCost(final Context context, final Provider provider, final THSFetchEstimatedCostCallback thsFetchEstimatedCostCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getEstimatedVisitCost(getConsumer(context), provider, new SDKCallback<EstimatedVisitCost, SDKError>() {
             @Override
             public void onResponse(EstimatedVisitCost estimatedVisitCost, SDKError sdkError) {
-                thsFetchEstimatedCostCallback.onEstimatedCostFetchSuccess(estimatedVisitCost,sdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                fetchEstimatedVisitCost(context,provider,thsFetchEstimatedCostCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                thsFetchEstimatedCostCallback.onError(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsFetchEstimatedCostCallback.onError(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    thsFetchEstimatedCostCallback.onEstimatedCostFetchSuccess(estimatedVisitCost,sdkError);
+                }
             }
 
             @Override
@@ -1568,12 +2747,40 @@ public class THSManager {
     }
 
     //TODO : error code :No enum sent by amwell for sdkerror code handling
-    public void getVisitHistory(final Context context, SDKLocalDate date, final THSVisitReportListCallback<List<VisitReport>, SDKError> visitReportListCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getVisitReports(getPTHConsumer(context).getConsumer(), date, null, new SDKCallback<List<VisitReport>, SDKError>() {
+    public void getVisitHistory(final Context context, final SDKLocalDate date, final THSVisitReportListCallback<List<VisitReport>, SDKError> visitReportListCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getVisitReports(getConsumer(context), date, null, new SDKCallback<List<VisitReport>, SDKError>() {
 
             @Override
             public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
-                visitReportListCallback.onResponse(visitReports,sdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                getVisitHistory(context,date,visitReportListCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                visitReportListCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            visitReportListCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    visitReportListCallback.onResponse(visitReports,sdkError);
+                }
             }
 
             @Override
@@ -1584,11 +2791,39 @@ public class THSManager {
     }
 
     //TODO : error code :No enum sent by amwell for sdkerror code handling
-    public void getVisitReportDetail(Context context, VisitReport visitReport, final THSVisitReportDetailCallback<VisitReportDetail, SDKError> thsVisitReportDetailCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getVisitReportDetail(getPTHConsumer(context).getConsumer(), visitReport, new SDKCallback<VisitReportDetail, SDKError>() {
+    public void getVisitReportDetail(final Context context, final VisitReport visitReport, final THSVisitReportDetailCallback<VisitReportDetail, SDKError> thsVisitReportDetailCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getVisitReportDetail(getConsumer(context), visitReport, new SDKCallback<VisitReportDetail, SDKError>() {
             @Override
             public void onResponse(VisitReportDetail visitReportDetail, SDKError sdkError) {
-                thsVisitReportDetailCallback.onResponse(visitReportDetail,sdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                getVisitReportDetail(context,visitReport,thsVisitReportDetailCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                thsVisitReportDetailCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsVisitReportDetailCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    thsVisitReportDetailCallback.onResponse(visitReportDetail,sdkError);
+                }
             }
 
             @Override
@@ -1599,7 +2834,7 @@ public class THSManager {
     }
     //TODO : error code :No enum sent by amwell for sdkerror code handling
 
-    public void getVisitSummary(Context context,Visit visit, final THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError> thsVisitSummaryCallback) throws AWSDKInstantiationException {
+    public void getVisitSummary(final Context context, final Visit visit, final THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError> thsVisitSummaryCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getVisitManager().getVisitSummary(visit, new SDKCallback<VisitSummary, SDKError>() {
             @Override
             public void onResponse(VisitSummary visitSummary, SDKError sdkError) {
@@ -1607,7 +2842,35 @@ public class THSManager {
                 thsVisitSummary.setVisitSummary(visitSummary);
                 THSSDKError thssdkError = new THSSDKError();
                 thssdkError.setSdkError(sdkError);
-                thsVisitSummaryCallback.onResponse(thsVisitSummary,thssdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                getVisitSummary(context,visit,thsVisitSummaryCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                thsVisitSummaryCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsVisitSummaryCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    thsVisitSummaryCallback.onResponse(thsVisitSummary,thssdkError);
+                }
             }
 
             @Override
@@ -1619,11 +2882,40 @@ public class THSManager {
 
 
     //TODO : error code :No enum sent by amwell for sdkerror code handling
-    public void getVisitReportAttachment(Context context, VisitReport visitReport, final THSVisitReportAttachmentCallback<FileAttachment, SDKError> thsVisitReportAttachmentCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getVisitReportAttachment(getPTHConsumer(context).getConsumer(), visitReport, new SDKCallback<FileAttachment, SDKError>() {
+    public void getVisitReportAttachment(final Context context, final VisitReport visitReport, final THSVisitReportAttachmentCallback<FileAttachment, SDKError> thsVisitReportAttachmentCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getVisitReportAttachment(getConsumer(context), visitReport, new SDKCallback<FileAttachment, SDKError>() {
             @Override
             public void onResponse(FileAttachment fileAttachment, SDKError sdkError) {
-                thsVisitReportAttachmentCallback.onResponse(fileAttachment,sdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                getVisitReportAttachment(context,visitReport,thsVisitReportAttachmentCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                thsVisitReportAttachmentCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsVisitReportAttachmentCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    thsVisitReportAttachmentCallback.onResponse(fileAttachment,sdkError);
+                }
+
             }
 
             @Override
@@ -1634,11 +2926,39 @@ public class THSManager {
 
     }
 
-    public void sendRatings(Context context,Visit visit, Integer providerRating, Integer visitRating,final THSSDKCallback<Void, SDKError> thssdkCallback)throws AWSDKInstantiationException{
+    public void sendRatings(final Context context, final Visit visit, final Integer providerRating, final Integer visitRating, final THSSDKCallback<Void, SDKError> thssdkCallback)throws AWSDKInstantiationException{
         getAwsdk(context).getVisitManager().sendRatings(visit, providerRating, visitRating, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
-                thssdkCallback.onResponse(aVoid,sdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                sendRatings(context,visit,providerRating,visitRating,thssdkCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                thssdkCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thssdkCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    thssdkCallback.onResponse(aVoid,sdkError);
+                }
             }
 
             @Override
@@ -1649,11 +2969,39 @@ public class THSManager {
         });
     }
 
-    public void getPractice(Context context, PracticeInfo practiceInfo, final THSPracticeCallback<Practice, SDKError> thsPracticeCallback) throws AWSDKInstantiationException {
+    public void getPractice(final Context context, final PracticeInfo practiceInfo, final THSPracticeCallback<Practice, SDKError> thsPracticeCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getPracticeProvidersManager().getPractice(practiceInfo, new SDKCallback<Practice, SDKError>() {
             @Override
             public void onResponse(Practice practice, SDKError sdkError) {
-                thsPracticeCallback.onResponse(practice,sdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                getPractice(context,practiceInfo,thsPracticeCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                thsPracticeCallback.onFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsPracticeCallback.onFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    thsPracticeCallback.onResponse(practice,sdkError);
+                }
             }
 
             @Override
@@ -1663,8 +3011,8 @@ public class THSManager {
         });
     }
 
-    public void doMatchMaking(Context context, THSVisitContext thsVisitContext, final THSMatchMakingCallback thsMatchMakingCallback)throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().startMatchmaking(thsVisitContext.getVisitContext(), new MatchmakerCallback() {
+    public void doMatchMaking(final Context context, final VisitContext thsVisitContext, final THSMatchMakingCallback thsMatchMakingCallback)throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().startMatchmaking(thsVisitContext, new MatchmakerCallback() {
 
             @Override
             public void onProviderFound(@NonNull Provider provider) {
@@ -1683,7 +3031,35 @@ public class THSManager {
 
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
-                thsMatchMakingCallback.onMatchMakingResponse(aVoid,sdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                doMatchMaking(context,thsVisitContext,thsMatchMakingCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                thsMatchMakingCallback.onMatchMakingFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsMatchMakingCallback.onMatchMakingFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    thsMatchMakingCallback.onMatchMakingResponse(aVoid,sdkError);
+                }
             }
 
             @Override
@@ -1693,9 +3069,9 @@ public class THSManager {
         });
     }
 
-    public void cancelMatchMaking(Context context, THSVisitContext thsVisitContext)throws AWSDKInstantiationException {
+    public void cancelMatchMaking(final Context context, final VisitContext thsVisitContext)throws AWSDKInstantiationException {
         try {
-            getAwsdk(context).getVisitManager().cancelMatchmaking(thsVisitContext.getVisitContext(), new SDKCallback<Void, SDKError>() {
+            getAwsdk(context).getVisitManager().cancelMatchmaking(thsVisitContext, new SDKCallback<Void, SDKError>() {
                 @Override
                 public void onResponse(Void aVoid, SDKError sdkError) {
                     if (null == sdkError) {
@@ -1703,6 +3079,34 @@ public class THSManager {
                     } else {
                         AmwellLog.v("cancelMatchMaking", "failure");
                     }
+
+                    if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                        AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                        mRefreshToken.setContext(context);
+                        mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                            @Override
+                            public void onSuccess() {
+
+                                try {
+                                    cancelMatchMaking(context,thsVisitContext);
+                                }  catch (AWSDKInstantiationException e) {
+
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Throwable throwable) {
+
+                            }
+                        });
+
+                        refreshAmwellToken(context);
+
+                    }
+
                 }
 
                 @Override
@@ -1715,13 +3119,41 @@ public class THSManager {
         }
 
     }
-    public void applyCouponCode(Context context, THSVisit thsVisit, String couponCode, final ApplyCouponCallback<Void, THSSDKError> applyCouponCallback) throws AWSDKInstantiationException{
+    public void applyCouponCode(final Context context, final THSVisit thsVisit, final String couponCode, final ApplyCouponCallback<Void, THSSDKError> applyCouponCallback) throws AWSDKInstantiationException{
         getAwsdk(context).getVisitManager().applyCouponCode(thsVisit.getVisit(), couponCode, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 THSSDKError thssdkError = new THSSDKError();
                 thssdkError.setSdkError(sdkError);
-                applyCouponCallback.onApplyCouponResponse(aVoid,thssdkError);
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                applyCouponCode(context,thsVisit,couponCode,applyCouponCallback);
+                            }  catch (AWSDKInstantiationException e) {
+                                applyCouponCallback.onApplyCouponFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            applyCouponCallback.onApplyCouponFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    applyCouponCallback.onApplyCouponResponse(aVoid,thssdkError);
+                }
             }
 
             @Override
@@ -1765,22 +3197,18 @@ public class THSManager {
 
     public void updateParentConsumer(Context context){
         final User user = getUser(context);
-        //getThsParentConsumer(context).setDob(user.getDateOfBirth());
         getThsParentConsumer(context).setEmail(user.getEmail());
-        //getThsParentConsumer(context).setFirstName(user.getGivenName());
-        //getThsParentConsumer(context).setGender(user.getGender());
         getThsParentConsumer(context).setHsdpToken(user.getHsdpAccessToken());
-        //getThsParentConsumer(context).setLastName(user.getFamilyName());
         getThsParentConsumer(context).setHsdpUUID(user.getHsdpUUID());
     }
 
-    public void updateConsumerData(final Context context, String email, Date date, String firstname, String lastname, String gender, State state, final THSEditUserDetailsCallBack thsEditUserDetailsCallBack) throws AWSDKInstantiationException {
+    public void updateConsumerData(final Context context, final String email, final Date date, final String firstname, final String lastname, final String gender, final State state, final THSEditUserDetailsCallBack thsEditUserDetailsCallBack) throws AWSDKInstantiationException {
         ConsumerUpdate consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getThsParentConsumer(context).getConsumer());
         consumerUpdate.setEmail(email);
         consumerUpdate.setLegalResidence(state);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DATE));
+        final SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DATE));
         consumerUpdate.setDob(sdkLocalDate);
         consumerUpdate.setFirstName(firstname);
         consumerUpdate.setLastName(lastname);
@@ -1793,9 +3221,38 @@ public class THSManager {
 
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-                getThsParentConsumer(context).setConsumer(consumer);
-                getThsConsumer(context).setConsumer(consumer);
-                thsEditUserDetailsCallBack.onEditUserDataResponse(consumer,sdkPasswordError);
+
+                if (sdkPasswordError != null && sdkPasswordError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                updateConsumerData(context,email,date,firstname,lastname,gender,state,thsEditUserDetailsCallBack);
+                            }  catch (AWSDKInstantiationException e) {
+                                thsEditUserDetailsCallBack.onEditUserDataFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsEditUserDetailsCallBack.onEditUserDataFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    getThsParentConsumer(context).setConsumer(consumer);
+                    getThsConsumer(context).setConsumer(consumer);
+                    thsEditUserDetailsCallBack.onEditUserDataResponse(consumer,sdkPasswordError);
+                    mConsumer = consumer;
+                }
             }
 
             @Override
@@ -1805,11 +3262,12 @@ public class THSManager {
         });
     }
 
-    public void updateDependentConsumerData(final Context context,Consumer consumer, Date date, String firstname, String lastname, String gender,  final THSEditUserDetailsCallBack thsEditUserDetailsCallBack) throws AWSDKInstantiationException{
-        DependentUpdate dependentUpdate = getAwsdk(context).getConsumerManager().getNewDependentUpdate(consumer);
+    public void updateDependentConsumerData(final Context context, final Consumer consumerSent, final Date date, final String firstname, final String lastname, final String gender, final THSEditUserDetailsCallBack thsEditUserDetailsCallBack) throws AWSDKInstantiationException {
+
+        DependentUpdate dependentUpdate = getAwsdk(context).getConsumerManager().getNewDependentUpdate(consumerSent);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DATE));
+        final SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE));
         dependentUpdate.setDob(sdkLocalDate);
         dependentUpdate.setFirstName(firstname);
         dependentUpdate.setLastName(lastname);
@@ -1821,10 +3279,39 @@ public class THSManager {
             }
 
             @Override
-            public void onResponse(@Nullable Consumer consumer, @Nullable SDKError sdkError) {
-                getThsParentConsumer(context).setConsumer(consumer);
-                getThsConsumer(context).setConsumer(consumer);
-                thsEditUserDetailsCallBack.onEditUserDataResponse(consumer,sdkError);
+            public void onResponse(@Nullable final Consumer consumer, @Nullable SDKError sdkError) {
+
+                if (sdkError != null && sdkError.getHttpResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    AmwellLog.i(AmwellLog.LOG, "getPractices got 401 and called refresh in separate thread");
+
+                    mRefreshToken.setContext(context);
+                    mRefreshToken.setRefreshCallBack(new THSRefreshTokenCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            try {
+                                updateDependentConsumerData(context, consumerSent, date, firstname, lastname, gender, thsEditUserDetailsCallBack);
+                            } catch (AWSDKInstantiationException e) {
+                                thsEditUserDetailsCallBack.onEditUserDataFailure(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsEditUserDetailsCallBack.onEditUserDataFailure(throwable);
+                        }
+                    });
+
+                    refreshAmwellToken(context);
+
+                } else {
+                    getThsConsumer(context).setConsumer(consumer);
+                    mConsumer = consumer;
+                    refreshConsumer(context, thsEditUserDetailsCallBack);
+
+                }
             }
 
             @Override
@@ -1832,11 +3319,40 @@ public class THSManager {
                 thsEditUserDetailsCallBack.onEditUserDataFailure(throwable);
             }
         });
-
-
-
     }
 
+    private void refreshConsumer(final Context context, final THSEditUserDetailsCallBack thsEditUserDetailsCallBack) {
+        try {
+            getAwsdk(context).getConsumerManager().refreshConsumer(getThsParentConsumer(context).getConsumer(), new SDKCallback<Consumer, SDKError>() {
+                @Override
+                public void onResponse(@Nullable Consumer consumer, @Nullable SDKError sdkError) {
+                    getThsParentConsumer(context).setConsumer(consumer);
+                    thsEditUserDetailsCallBack.onEditUserDataResponse(consumer,sdkError);
+                }
 
+                @Override
+                public void onFailure(@NonNull Throwable throwable) {
+                    thsEditUserDetailsCallBack.onEditUserDataFailure(throwable);
+                }
+            });
+        } catch (AWSDKInstantiationException e) {
+            thsEditUserDetailsCallBack.onEditUserDataFailure(e);
+        }
+    }
 
+    public String getOnBoradingABFlow() {
+        return onBoradingABFlow;
+    }
+
+    public void setOnBoradingABFlow(String onBoradingABFlow) {
+        this.onBoradingABFlow = onBoradingABFlow;
+    }
+
+    public String getProviderListABFlow() {
+        return providerListABFlow;
+    }
+
+    public void setProviderListABFlow(String providerListABFlow) {
+        this.providerListABFlow = providerListABFlow;
+    }
 }

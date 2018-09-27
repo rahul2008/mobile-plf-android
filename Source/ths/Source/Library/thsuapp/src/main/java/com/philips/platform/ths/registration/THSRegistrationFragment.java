@@ -163,7 +163,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             prePopulateFromPropositionData();
         }
 
-        if (THSManager.getInstance().getThsConsumer(getContext()).isDependent() && !isLaunchedFromEditDetails) {
+        if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
             mStateLabel.setVisibility(View.GONE);
             mLocationCantainer.setVisibility(View.GONE);
         }
@@ -177,7 +177,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
         mContinueButton.setText(R.string.ths_consumer_update_button_title);
 
-        Consumer consumer = THSManager.getInstance().getThsParentConsumer(getContext()).getConsumer();
+        Consumer consumer = THSManager.getInstance().getThsConsumer(getContext()).getConsumer();
         if (consumer == null) {
             return;
         }
@@ -464,9 +464,4 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             return false;
         }
     }
-
-    public boolean isLaunchedFromEditDetails() {
-        return isLaunchedFromEditDetails;
-    }
-
 }

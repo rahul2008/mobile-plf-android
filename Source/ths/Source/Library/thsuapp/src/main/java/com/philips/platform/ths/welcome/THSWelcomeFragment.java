@@ -6,9 +6,12 @@
 
 package com.philips.platform.ths.welcome;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +20,9 @@ import android.widget.RelativeLayout;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSTagUtils;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
-
+import com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME;
 
@@ -34,12 +36,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     private RelativeLayout mCustomerSupport;
     private Button mButton;
     private RelativeLayout mRelativeLayoutInitContainer;
-
-    public FragmentLauncher getFragmentLauncher() {
-        return mFragmentLauncher;
-    }
-
-
+    
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +53,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         mRelativeLayoutHowItWorks = (RelativeLayout) view.findViewById(R.id.how_it_works);
         mRelativeLayoutDetails = (RelativeLayout) view.findViewById(R.id.details);
         mCustomerSupport = (RelativeLayout) view.findViewById(R.id.customer_support);
-        mButton = (Button) view.findViewById(R.id.ths_start);
+        mButton = (THSCustomButtonWithDrawableIcon) view.findViewById(R.id.ths_start);
 
         mRelativeLayoutAppointments.setOnClickListener(this);
         mRelativeLayoutHowItWorks.setOnClickListener(this);
@@ -107,6 +104,11 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     @Override
     public void onResume() {
         super.onResume();
+        final Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.uid_toolbar);
+        if(toolbar!=null) {
+            final Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ths_cross_icon);
+            toolbar.setNavigationIcon(drawable);
+        }
     }
 
     @Override
