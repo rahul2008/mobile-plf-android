@@ -22,6 +22,7 @@ import com.philips.icpinterface.data.PairingRelationship;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class DefaultPairingController implements PairingController, ICPEventListener {
@@ -121,8 +122,10 @@ public class DefaultPairingController implements PairingController, ICPEventList
         PairingEntitiyReference trustorInternalRepresentation = relationship.getTrustorEntity() == null ? null : convertPairingEntity(relationship.getTrustorEntity());
         PairingEntitiyReference trusteeInternalRepresentation = relationship.getTrusteeEntity() == null ? null : convertPairingEntity(relationship.getTrusteeEntity());
 
-        pairingService.addRelationshipRequest(trustorInternalRepresentation, trusteeInternalRepresentation, null,
-                getPairingRelationshipData(relationship.getType(), PAIRING_PERMISSIONS.toArray(new String[PAIRING_PERMISSIONS.size()])), pairingInfo);
+        Set<String> permissions = relationship.getPermissions();
+        PairingRelationship pairingRelationship = getPairingRelationshipData(relationship.getType(), permissions.toArray(new String[permissions.size()]));
+
+        pairingService.addRelationshipRequest(trustorInternalRepresentation, trusteeInternalRepresentation, null, pairingRelationship, pairingInfo);
 
         pairingService.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
         status = pairingService.executeCommand();
@@ -198,7 +201,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * Method addPermission- adds permission to a existing relationship
      *
      * @param relationType String
-     * @param permission   String[]
+     * @param permission String[]
      */
     @Override
     public void addPermission(String relationType, String[] permission, PairingEntity trustee, @NonNull PairingCallback callback) {
@@ -226,7 +229,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * Method getPermission-get permissions of a existing relationship
      *
      * @param relationType String
-     * @param permission   String[]
+     * @param permission String[]
      */
     @Override
     public void getPermission(String relationType, String[] permission, PairingEntity trustee, PermissionListener permissionListener, @NonNull PairingCallback callback) {
@@ -259,7 +262,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * Method removePermission-remove permission from a existing relationship
      *
      * @param relationType String
-     * @param permission   String[]
+     * @param permission String[]
      */
     @Override
     public void removePermission(String relationType, String[] permission, PairingEntity trustee, @NonNull PairingCallback callback) {
@@ -287,9 +290,6 @@ public class DefaultPairingController implements PairingController, ICPEventList
 
     /**
      * add pairing info
-     *
-     * @param secretKey
-     * @return
      */
     private PairingInfo getPairingInfo(String secretKey) {
         PairingInfo pairingTypeInfo = new PairingInfo();
@@ -302,13 +302,8 @@ public class DefaultPairingController implements PairingController, ICPEventList
 
     /**
      * add pairingRelationshipData
-     *
-     * @param permission
-     * @param relationshipType
-     * @return
      */
-    private PairingRelationship getPairingRelationshipData(
-            String relationshipType, String[] permission) {
+    private PairingRelationship getPairingRelationshipData(String relationshipType, String[] permission) {
         PairingRelationship pairingRelationshipData = new PairingRelationship();
         pairingRelationshipData.pairingRelationshipIsAllowDelegation = false;
         pairingRelationshipData.pairingRelationshipMetadata = null;

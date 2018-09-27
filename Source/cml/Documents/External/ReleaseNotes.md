@@ -22,6 +22,7 @@ Version {next}
 * \#146816 AppIdProvider now posts notifications on the main thread
 * \#123749 Discovery callback are now posted to main thread
 * \#144890 RemoteRequests are correctly parsed again
+* \#152690 Fixed the Notify relationship to have push permission
 
 ### Residual anomalies
 * N/A
