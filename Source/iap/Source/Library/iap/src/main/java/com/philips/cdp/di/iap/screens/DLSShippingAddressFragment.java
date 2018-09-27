@@ -172,7 +172,11 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         mEtState.setKeyListener(null);
 
         mEtFirstName.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
-        mEtLastName.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        if(HybrisDelegate.getInstance(mContext).getStore().getFamilyName()!=null) {
+            mEtLastName.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        }else{
+            mEtLastName.setText("");
+        }
 
         mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);
@@ -536,7 +540,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
     private String addressWithNewLineIfNull( String code) {
         if (!TextUtils.isEmpty(code)) {
-                return code.replaceAll(",null", " ");
+                return code.replaceAll("[,null]", " ");
         }
         return null;
     }
