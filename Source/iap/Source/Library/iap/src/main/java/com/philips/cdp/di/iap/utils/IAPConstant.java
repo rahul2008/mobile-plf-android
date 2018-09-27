@@ -24,7 +24,7 @@ public class IAPConstant {
     public static final String IAP_EDIT_DELIVERY_MODE = "IAP_EDIT_DELIVERY_MODE";
     public static final String IAP_DELETE_PRODUCT_CONFIRM = "IAP_DELETE_PRODUCT_CONFIRM";
 
-    //Cart Voucher
+    //Cart Vouchers
     public static final String IAP_APPLY_VOUCHER = "IAP_APPLY_VOUCHER";
     public static final String IAP_DELETE_VOUCHER = "IAP_DELETE_VOUCHER";
     public static final String IAP_VOUCHER_CODE = "IAP_VOUCHER_CODE";

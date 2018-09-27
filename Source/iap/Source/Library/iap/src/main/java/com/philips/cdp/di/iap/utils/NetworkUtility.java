@@ -73,7 +73,7 @@ public class NetworkUtility {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
             showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
                     "Successful",
-                    "Voucher Applied Successfully");
+                    "Vouchers Applied Successfully");
         }
     }
 

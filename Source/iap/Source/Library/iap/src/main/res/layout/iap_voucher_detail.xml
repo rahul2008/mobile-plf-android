@@ -43,5 +43,37 @@
         android:text="Apply"
         app:uidComponentType="Primary" />
 
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/iap_accepted_code"
+        style="@style/iap_list_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/voucher_btn"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="@dimen/border16_margin_left_right"
+        android:paddingRight="@dimen/border16_margin_left_right"
+        android:text="@string/iap_accepted_code" />
+
+    <ScrollView
+        android:id="@+id/sv_header_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/iap_accepted_code"
+        android:layout_above="@+id/iap_productDetailsScreen_separator"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/applied_voucher_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/applied_voucher_cart_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:listSelector="@android:color/transparent" />
+        </LinearLayout>
+    </ScrollView>
+
 
 </RelativeLayout>

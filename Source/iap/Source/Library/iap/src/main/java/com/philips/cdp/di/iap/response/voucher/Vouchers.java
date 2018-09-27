@@ -1,6 +1,8 @@
 package com.philips.cdp.di.iap.response.voucher;
 
-public class Voucher {
+import java.io.Serializable;
+
+public class Vouchers implements Serializable {
 
     private String code;
     private boolean freeShipping;
@@ -8,5 +10,7 @@ public class Voucher {
     private String valueFormatted;
     private String valueString;
     private String voucherCode;
+    private AppliedValue appliedValue;
+
 
 }

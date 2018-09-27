@@ -228,7 +228,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_VOUCHER)) {
             String appliedVoucherCode = mData.get(0).getAppliedVoucherCode();
             if (null == appliedVoucherCode || appliedVoucherCode.isEmpty()) {
-                Toast.makeText(getActivity(), "Invalid Voucher",
+                Toast.makeText(getActivity(), "Invalid Vouchers",
                         Toast.LENGTH_SHORT).show();
             } else {
                 createCustomProgressBar(mParentLayout, BIG);

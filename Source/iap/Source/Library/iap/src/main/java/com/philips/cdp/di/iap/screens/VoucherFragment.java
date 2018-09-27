@@ -12,9 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.adapters.AppliedVoucherAdapter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.VoucherController;
-import com.philips.cdp.di.iap.response.voucher.Voucher;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.platform.uid.view.widget.Button;
@@ -30,6 +30,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     Context mContext;
     EditText voucherEditText;
     RelativeLayout voucherLayout;
+    public AppliedVoucherAdapter mAppliedVoucherAdapter;
 
     public static final String TAG = VoucherFragment.class.getName();
 
@@ -48,6 +49,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
         mApplyVoucherButton.setEnabled(false);
         mApplyVoucherButton.setOnClickListener(this);
         mVoucherController = new VoucherController(mContext, VoucherFragment.this);
+       // mAppliedVoucherAdapter=new AppliedVoucherAdapter(mContext,);
         return rootView;
     }
 
@@ -61,6 +63,15 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_apply_voucher, true);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAppliedVoucherAdapter != null)
+            mAppliedVoucherAdapter.onStop();
+        hideProgressBar();
+        NetworkUtility.getInstance().dismissErrorDialog();
     }
 
     @Override
@@ -79,7 +90,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     public void onApplyVoucherResponse(Message msg) {
         hideProgressBar();
         if(null==msg.obj) {
-            Toast.makeText(getActivity(), "Voucher Applied Successfully",
+            Toast.makeText(getActivity(), "Vouchers Applied Successfully",
                     Toast.LENGTH_SHORT).show();
             // mVoucherFragment.getActivity().getSupportFragmentManager().popBackStackImmediate();
             NetworkUtility.getInstance().showVoucherSuccessMessage(msg, getFragmentManager(),mContext);

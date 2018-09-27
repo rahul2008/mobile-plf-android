@@ -261,7 +261,7 @@ public class HybrisStore extends AbstractStore {
         mGetPhoneContactUrl = "https://www.philips.com/prx/cdls/B2C/" +
                 mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
 
-        //Voucher
+        //Vouchers
         mApplyVoucherUrl = mBaseURl.concat(SUFFIX_CARTS).concat(SUFFIX_CURRENT).concat(SUFFIX_VOUCHERS).concat(LANG)+ mStoreConfig.getLocale();
     }
 

@@ -506,7 +506,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                 int requestCode = msg.what;
                 if(requestCode==DELETE_VOUCHER){
                     if(msg.obj==null){
-                        Log.v("Voucher Delete", "Success");
+                        Log.v("Vouchers Delete", "Success");
                         getCurrentCartDetails();// refresh as voucher is removed
                     }
 
@@ -515,7 +515,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
             @Override
             public void onModelDataError(Message msg) {
-                Log.v("Voucher Delete", "failure");
+                Log.v("Vouchers Delete", "failure");
             }
         }, voucherCode);
         delegate.sendRequest(DELETE_VOUCHER, deleteVoucherRequest, deleteVoucherRequest);
