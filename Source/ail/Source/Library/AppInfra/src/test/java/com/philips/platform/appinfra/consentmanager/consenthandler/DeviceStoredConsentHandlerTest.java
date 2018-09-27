@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -21,7 +20,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Date;
 
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -35,11 +34,17 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class DeviceStoredConsentHandlerTest {
 
+
     @Mock
-    AppInfraInterface appInfra;
+    private AppInfraInterface appInfra;
     private DeviceStoredConsentHandler handler;
-    private String storedValueHighVersion = "true" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER +"2018-05-18 07:30:27.119 +0000";
-    private String storedValueFalseVersion = "false" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2018-07-08 10:19:27.156 +0000";
+    private long sampleTimestamp = 1531045167156l;
+    private String sampleDateTime = "2018-07-08 10:19:27.156 +0000";
+    private String storedValueHighVersion = "true" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + sampleDateTime;
+    private String storedValueFalseVersion = "false" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + sampleDateTime;
+    private String storedValueWithTimeStamp = "true" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "2" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + "en_US" + DeviceStoredConsentHandler.DEVICESTORE_VALUE_DELIMITER + sampleTimestamp;
+
+
     @Mock
     private SecureStorageInterface storageInterface;
 
@@ -63,7 +68,7 @@ public class DeviceStoredConsentHandlerTest {
         handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentStatus consent) {
-                assertTrue(consent.getConsentState() == ConsentStates.inactive);
+                assertEquals(ConsentStates.inactive, consent.getConsentState());
             }
         });
     }
@@ -73,18 +78,18 @@ public class DeviceStoredConsentHandlerTest {
         handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentStatus consent) {
-                assertTrue(consent.getConsentState() == ConsentStates.inactive);
+                assertEquals(ConsentStates.inactive, consent.getConsentState());
             }
         });
     }
 
     @Test
     public void verifyErrorForMissingType() {
-        when(storageInterface.fetchValueForKey(anyString(), eq(secureStorageError))).thenReturn(storedValueFalseVersion).thenReturn(null);
+        when(storageInterface.fetchValueForKey(anyString(), eq(secureStorageError))).thenReturn(null);
         handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentStatus consent) {
-                assertTrue(consent.getConsentState() == ConsentStates.inactive);
+                assertEquals(ConsentStates.inactive, consent.getConsentState());
             }
         });
     }
@@ -95,7 +100,9 @@ public class DeviceStoredConsentHandlerTest {
         handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentStatus consent) {
-                assertTrue(consent.getConsentState() == ConsentStates.active);
+                assertEquals(ConsentStates.active, consent.getConsentState());
+                assertEquals(sampleTimestamp,consent.getTimestamp().getTime());
+                assertEquals(2, consent.getVersion());
             }
         });
     }
@@ -106,7 +113,20 @@ public class DeviceStoredConsentHandlerTest {
         handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
             @Override
             public void onGetConsentsSuccess(ConsentStatus consent) {
-                assertTrue(consent.getConsentState() == ConsentStates.rejected);
+                assertEquals( ConsentStates.rejected, consent.getConsentState());
+                assertEquals(sampleTimestamp,consent.getTimestamp().getTime());
+                assertEquals(2, consent.getVersion());
+            }
+        });
+    }
+
+    @Test
+    public void canReadBackwardsCompatibleConsentsWithTimeStamp() {
+        when(storageInterface.fetchValueForKey(anyString(), eq(secureStorageError))).thenReturn(storedValueWithTimeStamp);
+        handler.fetchConsentTypeState("type1", new TestCheckConsentCallback() {
+            @Override
+            public void onGetConsentsSuccess(ConsentStatus consent) {
+                assertEquals(sampleTimestamp,consent.getTimestamp().getTime());
             }
         });
     }
