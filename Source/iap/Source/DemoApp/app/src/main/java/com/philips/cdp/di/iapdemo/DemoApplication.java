@@ -1,11 +1,7 @@
 package com.philips.cdp.di.iapdemo;
 
-import android.app.Activity;
 import android.app.Application;
-import android.app.Application.ActivityLifecycleCallbacks;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
@@ -16,7 +12,6 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -24,12 +19,9 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.squareup.leakcanary.LeakCanary;
 
-public class DemoApplication extends Application implements ActivityLifecycleCallbacks {
+public class DemoApplication extends Application{
     final String UR = "UserRegistration";
     private AppInfra mAppInfra;
-    private Activity currentActivity;
-
-    ThemeConfiguration themeConfiguration;
 
     @Override
     public void onCreate() {
@@ -38,11 +30,10 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
         UIDHelper.injectCalligraphyFonts();
         getTheme().applyStyle(R.style.Theme_DLS_Blue_UltraLight, true);
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-        registerActivityLifecycleCallbacks(this);
         LeakCanary.install(this);
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         // HSDPConfiguration();
-        initRegistration(Configuration.STAGING);
+        initRegistration(Configuration.PRODUCTION);
         RLog.enableLogging();
     }
 
@@ -253,44 +244,4 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
 
     public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
     final String AI = "appinfra";
-
-
-    @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        currentActivity = activity;
-    }
-
-    @Override
-    public void onActivityStarted(Activity activity) {
-        currentActivity = activity;
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-        currentActivity = activity;
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-
-    }
-
-    public Activity getCurrentActivity() {
-        return currentActivity;
-    }
 }

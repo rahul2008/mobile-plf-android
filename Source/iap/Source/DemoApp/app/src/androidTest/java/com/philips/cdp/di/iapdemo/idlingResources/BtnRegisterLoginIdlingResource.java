@@ -33,7 +33,7 @@ public class BtnRegisterLoginIdlingResource implements IdlingResource {
     }
 
     public Activity getCurrentActivity() {
-        return ((DemoApplication) InstrumentationRegistry.getTargetContext().getApplicationContext()).getCurrentActivity();
+        return null;
     }
 
     @Override
