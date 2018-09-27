@@ -6,11 +6,7 @@
 package com.philips.cdp.cloudcontroller.api.pairing;
 
 import android.support.annotation.NonNull;
-
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * The interface PairingController.
@@ -68,9 +64,6 @@ public interface PairingController {
     String PERMISSION_RESPONSE = "Response";
     String PERMISSION_CHANGE = "Change";
     String PERMISSION_PUSH = "Push";
-
-    List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList(PERMISSION_RESPONSE, PERMISSION_CHANGE));
-    List<String> PAIRING_PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList(PERMISSION_PUSH));
 
     /**
      * Sets the single pairing callback.

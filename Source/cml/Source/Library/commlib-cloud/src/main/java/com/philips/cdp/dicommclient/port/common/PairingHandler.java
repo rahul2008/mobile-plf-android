@@ -7,7 +7,6 @@ package com.philips.cdp.dicommclient.port.common;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingEntity;
@@ -18,7 +17,6 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-
 import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Date;
@@ -168,6 +166,8 @@ public class PairingHandler<T extends Appliance> {
 
                     currentRelationshipType = PAIRING_NOTIFY_RELATIONSHIP;
                     PairingRelation notifyPairingRelation = new PairingRelation(null, new PairingEntity(PAIRING_REFERENCEPROVIDER, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType(), null), PAIRING_NOTIFY_RELATIONSHIP);
+                    notifyPairingRelation.addPermission(PairingController.PERMISSION_PUSH);
+
                     cloudController.getPairingController().addRelationship(notifyPairingRelation, mPairingCallback);
                 }
             } else {
@@ -295,6 +295,8 @@ public class PairingHandler<T extends Appliance> {
                 getDICommApplianceEntity(),
                 PAIRING_DI_COMM_RELATIONSHIP
         );
+        pairingRelation.addPermission(PairingController.PERMISSION_RESPONSE);
+        pairingRelation.addPermission(PairingController.PERMISSION_CHANGE);
 
         startPairingPortTask(pairingRelation);
     }
@@ -316,6 +318,8 @@ public class PairingHandler<T extends Appliance> {
                 getDICommApplianceEntity(),
                 PAIRING_DI_COMM_RELATIONSHIP
         );
+        pairingRelation.addPermission(PairingController.PERMISSION_RESPONSE);
+        pairingRelation.addPermission(PairingController.PERMISSION_CHANGE);
 
         startPairingPortTask(pairingRelation);
     }
