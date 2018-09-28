@@ -19,7 +19,6 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +28,8 @@ import org.robolectric.shadows.ShadowDatePickerDialog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -134,9 +135,10 @@ public class THSProviderListPresenterTest {
         thsProviderListPresenter.onEvent(R.id.getScheduleAppointmentButton);
 
         DatePickerDialog datePickerDialog = (DatePickerDialog) ShadowDatePickerDialog.getLatestDialog();
-        DateTime dateTime = DateTime.now();
+        Date dateTime = Calendar.getInstance().getTime();
+
         DatePicker datePicker = datePickerDialog.getDatePicker();
-        datePicker.updateDate(dateTime.getYear(), dateTime.getMonthOfYear(), dateTime.getDayOfMonth());
+        datePicker.updateDate(dateTime.getYear(), dateTime.getMonth(), dateTime.getDay());
         datePickerDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).performClick();
 
         verify(thsProvidersListFragmentMock).addFragment(isA(THSAvailableProviderListBasedOnDateFragment.class), eq(THSAvailableProviderListBasedOnDateFragment.TAG), any(Bundle.class), eq(true));
@@ -175,9 +177,9 @@ public class THSProviderListPresenterTest {
         thsProviderListPresenter.onEvent(providerInfoMock, R.id.doctor_schedule_action_bar );
 
         DatePickerDialog datePickerDialog = (DatePickerDialog) ShadowDatePickerDialog.getLatestDialog();
-        DateTime dateTime = DateTime.now();
+        Date dateTime = Calendar.getInstance().getTime();
         DatePicker datePicker = datePickerDialog.getDatePicker();
-        datePicker.updateDate(dateTime.getYear(), dateTime.getMonthOfYear(), dateTime.getDayOfMonth());
+        datePicker.updateDate(dateTime.getYear(), dateTime.getMonth(), dateTime.getDay());
         datePickerDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).performClick();
 
         verify(thsProvidersListFragmentMock).addFragment(any(THSAvailableProviderDetailFragment.class), eq(THSAvailableProviderDetailFragment.TAG), any(Bundle.class), eq(true));
