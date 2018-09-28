@@ -27,7 +27,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({GpsUtil.class, EWSLogger.class, EWSTagger.class})
+@PrepareForTest({EWSLogger.class, EWSTagger.class})
 public class SecondSetupStepsViewModelTest {
 
     @Mock
@@ -117,11 +117,11 @@ public class SecondSetupStepsViewModelTest {
         verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpVerifyScreenNoButton());
     }
 
-    @Test
+    /*@Test
     public void itShouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
         sendEventToShowPasswordEntryScreen();
         verify(navigatorMock).navigateToConnectToDeviceWithPasswordScreen(anyString());
-    }
+    }*/
 
     @Test
     public void itShouldCallPostDelayedOnHandlerWhenConnectedToApplianceHotspot() throws Exception {

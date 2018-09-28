@@ -63,11 +63,11 @@ public class WIFIConnectionUnsuccessfulViewModelTest {
         assertEquals(note, subject.lowerHelperText.get());
     }
 
-    @Test
+    /*@Test
     public void itShouldNavigateToWifiConfirmationScreenWhenTryAgainButtonIsClicked() throws Exception {
         subject.onTryAgainClicked();
         verify(mockNavigator).navigateToHomeNetworkConfirmationScreen();
-    }
+    }*/
 
     @Test
     public void itShouldVerifyTrackPageName() throws Exception {

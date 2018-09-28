@@ -207,12 +207,12 @@ public class ConnectingWithDeviceViewModelTest {
         Log.e(anyString(), anyString());
     }
 
-    @Test
+    /*@Test
     public void itShouldNavigateToConnectToDeviceWithPasswordScreenOnFriendlyNameFetchingSuccess() {
         String fetchedName = "friendlyName";
         subject.onFriendlyNameFetchingSuccess(fetchedName);
         verify(mockNavigator, times(1)).navigateToConnectToDeviceWithPasswordScreen(fetchedName);
-    }
+    }*/
 
     @Test
     public void itShouldShowCancelDialogAndTagWhenCallbackIsNotNull() throws Exception {
