@@ -171,6 +171,8 @@ public class PairingHandler<T extends Appliance> {
 
                     currentRelationshipType = PAIRING_NOTIFY_RELATIONSHIP;
                     PairingRelation notifyPairingRelation = new PairingRelation(null, new PairingEntity(PAIRING_REFERENCEPROVIDER, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType(), null), PAIRING_NOTIFY_RELATIONSHIP);
+                    notifyPairingRelation.addPermission(PairingController.PERMISSION_PUSH);
+
                     cloudController.getPairingController().addRelationship(notifyPairingRelation, mPairingCallback);
                 }
             } else {
@@ -298,6 +300,8 @@ public class PairingHandler<T extends Appliance> {
                 getDICommApplianceEntity(),
                 PAIRING_DI_COMM_RELATIONSHIP
         );
+        pairingRelation.addPermission(PairingController.PERMISSION_RESPONSE);
+        pairingRelation.addPermission(PairingController.PERMISSION_CHANGE);
 
         resetPairingAttempts(mAppliance.getNetworkNode().getCppId());
         startPairingPortTask(pairingRelation);
@@ -320,6 +324,8 @@ public class PairingHandler<T extends Appliance> {
                 getDICommApplianceEntity(),
                 PAIRING_DI_COMM_RELATIONSHIP
         );
+        pairingRelation.addPermission(PairingController.PERMISSION_RESPONSE);
+        pairingRelation.addPermission(PairingController.PERMISSION_CHANGE);
 
         startPairingPortTask(pairingRelation);
     }

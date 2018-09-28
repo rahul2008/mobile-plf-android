@@ -17,7 +17,6 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -100,6 +99,8 @@ public class PairingHandlerTest {
         when(networkNodeMock.getCppId()).thenReturn(DEVICE_CPP_ID);
 
         pairingHandler = new PairingHandlerForTest(applianceMock, pairingListenerMock);
+
+        DICommLog.disableLogging();
     }
 
     @Test
@@ -139,7 +140,7 @@ public class PairingHandlerTest {
     }
 
     @Test
-    public void whenParingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId() throws Exception {
+    public void whenPairingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId() throws Exception {
         pairingHandler.startPairing();
         verify(pairingPortMock).addPortListener(pairingListenerCaptor.capture());
 
@@ -148,7 +149,7 @@ public class PairingHandlerTest {
 
     @Test
     public void whenPairingPortReportsSuccessThenRelationshipIsAddedWithTheSecretKey() throws Exception {
-        whenParingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
+        whenPairingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
 
         pairingListenerCaptor.getValue().onPortUpdate(pairingPortMock);
 
@@ -168,15 +169,18 @@ public class PairingHandlerTest {
     }
 
     @Test
-    public void whenPairingPortReportsSuccessThenPairingDiCommRelationshipsIsSend() throws Exception {
+    public void whenPairingPortReportsSuccessThenPairingDiCommRelationshipsIsSent() throws Exception {
         whenPairingPortReportsSuccessThenRelationshipIsAddedWithTheSecretKey();
 
-        assertEquals(PairingHandler.PAIRING_DI_COMM_RELATIONSHIP, pairingRelationshipCaptor.getValue().getType());
+        PairingRelation relation = pairingRelationshipCaptor.getValue();
+        assertEquals(PairingHandler.PAIRING_DI_COMM_RELATIONSHIP, relation.getType());
+        assertThat(relation.getPermissions().contains(PairingController.PERMISSION_CHANGE)).isTrue();
+        assertThat(relation.getPermissions().contains(PairingController.PERMISSION_RESPONSE)).isTrue();
     }
 
     @Test
     public void whenPairingPortReportsErrorThenRetryIsIssuedSilently() throws Exception {
-        whenParingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
+        whenPairingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
         reset(pairingPortMock);
 
         pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.NOT_UNDERSTOOD, "");
@@ -187,7 +191,7 @@ public class PairingHandlerTest {
 
     @Test
     public void whenPairingPortErrorLimitIsReachedThenErrorIsReported() throws Exception {
-        whenParingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
+        whenPairingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
         reset(pairingPortMock);
 
         pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.NOT_UNDERSTOOD, "");
@@ -205,7 +209,10 @@ public class PairingHandlerTest {
         pairingHandler.mPairingCallback.onRelationshipAdd(RELATION_STATUS_COMPLETED);
 
         verify(pairingControllerMock).addRelationship(pairingRelationshipCaptor.capture(), eq(pairingHandler.mPairingCallback));
-        assertEquals(PairingHandler.PAIRING_NOTIFY_RELATIONSHIP, pairingRelationshipCaptor.getValue().getType());
+
+        PairingRelation relation = pairingRelationshipCaptor.getValue();
+        assertEquals(PairingHandler.PAIRING_NOTIFY_RELATIONSHIP, relation.getType());
+        assertTrue(relation.getPermissions().contains(PairingController.PERMISSION_PUSH));
     }
 
     @Test
@@ -301,7 +308,7 @@ public class PairingHandlerTest {
 
     // User pairing
     @Test
-    public void whenUserParingIsStartedThenItIsTriggeredOnPairingPortWithProperUserId() throws Exception {
+    public void whenUserPairingIsStartedThenItIsTriggeredOnPairingPortWithProperUserId() throws Exception {
 
         pairingHandler.startUserPairing(USER_ID, ACCESS_TOKEN);
 
@@ -311,23 +318,29 @@ public class PairingHandlerTest {
 
     @Test
     public void whenPairingPortReportSuccessThenUserRelationshipIsAdded() throws Exception {
-        whenUserParingIsStartedThenItIsTriggeredOnPairingPortWithProperUserId();
+        whenUserPairingIsStartedThenItIsTriggeredOnPairingPortWithProperUserId();
 
         pairingListenerCaptor.getValue().onPortUpdate(pairingPortMock);
 
         ArgumentCaptor<String> secretCaptor = ArgumentCaptor.forClass(String.class);
         verify(pairingControllerMock).addRelationship(pairingRelationshipCaptor.capture(), eq(pairingHandler.mPairingCallback), secretCaptor.capture());
-        PairingEntity trustor = pairingRelationshipCaptor.getValue().getTrustorEntity();
-        PairingEntity trustee = pairingRelationshipCaptor.getValue().getTrusteeEntity();
+
+        PairingRelation relation = pairingRelationshipCaptor.getValue();
+
+        PairingEntity trustor = relation.getTrustorEntity();
+        PairingEntity trustee = relation.getTrusteeEntity();
         assertEquals(USER_ID, trustor.id);
         assertEquals(ACCESS_TOKEN, trustor.credentials);
         assertEquals(DEVICE_CPP_ID, trustee.id);
         assertNull(trustee.credentials);
+
+        assertThat(relation.getPermissions().contains(PairingController.PERMISSION_CHANGE)).isTrue();
+        assertThat(relation.getPermissions().contains(PairingController.PERMISSION_RESPONSE)).isTrue();
     }
 
     @Test
     public void whenDuringUserPairingPairingPortReportsErrorThenRetryIsIssuedSilently() throws Exception {
-        whenUserParingIsStartedThenItIsTriggeredOnPairingPortWithProperUserId();
+        whenUserPairingIsStartedThenItIsTriggeredOnPairingPortWithProperUserId();
         reset(pairingPortMock);
 
         pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.NOT_UNDERSTOOD, "");
