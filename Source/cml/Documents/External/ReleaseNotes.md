@@ -115,6 +115,7 @@ Version 1801
 * 116302 Added missing API to revoke pairing relations to `PairingPort`
 * 123173 Fixed a null pointer exception in `LanRequest`
 * 127703 Most of the time the app doesn’t stop the communication with the device after calling `disableCommunication()` method
+* 148756 Fix for bug where Cloud communication fails (pairing relationships lost) after app update
 
 ### Residual anomalies
 * N/A
