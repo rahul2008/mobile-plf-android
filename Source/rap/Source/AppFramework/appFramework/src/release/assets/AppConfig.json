@@ -41,11 +41,11 @@
         "logLevel":"Info",
         "fileLogEnabled":false,
         "consoleLogEnabled":true,
-        "cloudLogEnabled":false,
+        "cloudLogEnabled":true,
         "cloudBatchLimit":5,
         "componentLevelLogEnabled":true,
         "componentIds": [
-          "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"
+          "usr"
         ]
       },
       "logging.debugConfig":{
