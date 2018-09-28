@@ -56,7 +56,7 @@
         <!--Button background properties-->
         <item name="android:background">@drawable/uid_circular_button_big_background</item>
         <item name="uidButtonBackgroundColorList">@color/uid_circular_button_background_selector</item>
-         
+        <item name="uidButtonTextColorList">@color/uid_circular_button_text_icon_color_selector</item>
 
 
 
