@@ -29,7 +29,6 @@ import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownloadStatusListener {
 
-
     private Context mContext;
 
     private LoginHandler mLoginHandler;
