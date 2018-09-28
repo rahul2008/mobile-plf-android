@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework.stateimpl;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.philips.cdp2.commlib.core.util.ContextProvider;
@@ -34,7 +35,7 @@ public class DemoCMLStateTest {
     private CommlibUapp commlibUapp;
 
     @Mock
-    Context context;
+    Activity activityContext;
 
     @Mock
     AppFrameworkApplication appContext;
@@ -46,16 +47,16 @@ public class DemoCMLStateTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        ContextProvider.setTestingContext(context);
+        ContextProvider.setTestingContext(activityContext);
 
         demoCMLState = new DemoCMLStateMock();
     }
 
     @Test
     public void navigate() throws Exception {
-        when(context.getApplicationContext()).thenReturn(appContext);
+        when(activityContext.getApplicationContext()).thenReturn(appContext);
         when(appContext.getAppInfra()).thenReturn(appInfra);
-        demoCMLState.init(context);
+        demoCMLState.init(activityContext);
         demoCMLState.updateDataModel();
 
         demoCMLState.navigate(null);

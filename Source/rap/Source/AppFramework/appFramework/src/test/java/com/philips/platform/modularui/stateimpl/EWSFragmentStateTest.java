@@ -1,10 +1,10 @@
 package com.philips.platform.modularui.stateimpl;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.commlib.core.util.ContextProvider;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -19,7 +19,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class EWSFragmentStateTest {
     private EWSFragmentState ewsState;
     @Mock
-    private AppFrameworkApplication context;
+    private Activity context;
     @Mock
     private FragmentLauncher fragUiLauncher;
 
