@@ -6,7 +6,6 @@
 package com.philips.platform.ews.injections;
 
 import com.philips.platform.ews.base.BaseTroubleShootingViewModel;
-import com.philips.platform.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.platform.ews.connectionsuccessful.ConnectionSuccessfulViewModel;
 import com.philips.platform.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
 import com.philips.platform.ews.homewificonnection.SelectWiFiViewModel;
@@ -50,8 +49,6 @@ public interface EWSComponent {
     WrongWifiNetworkViewModel wrongWifiNetworkViewModel();
 
     StartConnectWithDeviceViewModel ewsGettingStartedViewModel();
-
-    ConfirmWifiNetworkViewModel confirmWifiNetworkViewModel();
 
     FirstSetupStepsViewModel firstSetupStepsViewModel();
 

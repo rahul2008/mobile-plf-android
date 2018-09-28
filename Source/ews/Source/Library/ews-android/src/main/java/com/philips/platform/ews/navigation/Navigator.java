@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.philips.platform.ews.confirmwifi.ConfirmWifiNetworkFragment;
 import com.philips.platform.ews.connectionsuccessful.ConnectionSuccessfulFragment;
 import com.philips.platform.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.platform.ews.homewificonnection.SelectWiFiFragment;
@@ -37,10 +36,6 @@ public class Navigator {
 
     public void navigateToGettingStartedScreen() {
         pushFragment(new StartConnectWithDeviceFragment());
-    }
-
-    public void navigateToHomeNetworkConfirmationScreen() {
-        pushFragment(new ConfirmWifiNetworkFragment());
     }
 
     public void navigateToDevicePoweredOnConfirmationScreen() {

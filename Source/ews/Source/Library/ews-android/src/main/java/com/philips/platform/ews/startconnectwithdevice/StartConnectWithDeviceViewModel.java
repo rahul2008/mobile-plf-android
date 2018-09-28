@@ -16,7 +16,6 @@ import android.support.v4.app.Fragment;
 import com.philips.platform.ews.R;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
 import com.philips.platform.ews.configuration.HappyFlowContentConfiguration;
-import com.philips.platform.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.platform.ews.navigation.Navigator;
 import com.philips.platform.ews.permission.PermissionHandler;
 import com.philips.platform.ews.tagging.EWSTagger;
@@ -36,6 +35,10 @@ public class StartConnectWithDeviceViewModel {
         void showLocationPermissionDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
     }
 
+    public interface ViewCallback {
+        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration, @NonNull EWSTagger ewsTagger);
+    }
+
     public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     @Nullable
     private LocationPermissionFlowCallback locationPermissionFlowCallback;
@@ -46,7 +49,7 @@ public class StartConnectWithDeviceViewModel {
     @NonNull
     public final ObservableField<String> description;
     @Nullable
-    private ConfirmWifiNetworkViewModel.ViewCallback viewCallback;
+    private ViewCallback viewCallback;
     @NonNull
     public final Drawable image;
     @NonNull
@@ -84,7 +87,7 @@ public class StartConnectWithDeviceViewModel {
         this.ewsTagger = ewsTagger;
     }
 
-    protected void setViewCallback(@Nullable ConfirmWifiNetworkViewModel.ViewCallback viewCallback) {
+    protected void setViewCallback(@Nullable ViewCallback viewCallback) {
         this.viewCallback = viewCallback;
     }
 
@@ -136,7 +139,7 @@ public class StartConnectWithDeviceViewModel {
                 viewCallback.showTroubleshootHomeWifiDialog(baseConfig, ewsTagger);
             } else {
                 tapGetStarted();
-                navigator.navigateToHomeNetworkConfirmationScreen();
+                navigator.navigateToDevicePoweredOnConfirmationScreen();
             }
         }
     }
@@ -161,7 +164,7 @@ public class StartConnectWithDeviceViewModel {
     }
 
     void tagLocationPermission() {
-        ewsTagger.trackInAppNotification(Page.SETUP_STEP2, Tag.VALUE.LOCATION_PERMISSION_NOTIFICATION);
+        ewsTagger.trackInAppNotification(Page.GET_STARTED, Tag.VALUE.LOCATION_PERMISSION_NOTIFICATION);
     }
 
     void tagLocationPermissionAllow() {
@@ -173,7 +176,7 @@ public class StartConnectWithDeviceViewModel {
     }
 
     void tagLocationDisabled() {
-        ewsTagger.trackInAppNotification(Page.SETUP_STEP2, Tag.VALUE.LOCATION_DISABLED_NOTIFICATION);
+        ewsTagger.trackInAppNotification(Page.GET_STARTED, Tag.VALUE.LOCATION_DISABLED_NOTIFICATION);
     }
 
     void tagLocationOpenSettings() {

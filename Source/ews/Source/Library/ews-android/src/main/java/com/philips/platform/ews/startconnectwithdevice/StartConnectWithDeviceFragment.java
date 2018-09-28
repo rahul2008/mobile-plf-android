@@ -21,7 +21,6 @@ import com.philips.platform.ews.EWSActivity;
 import com.philips.platform.ews.R;
 import com.philips.platform.ews.base.BaseFragment;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
-import com.philips.platform.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.platform.ews.databinding.FragmentStartConnectWithDeviceBinding;
 import com.philips.platform.ews.dialog.EWSAlertDialogFragment;
 import com.philips.platform.ews.tagging.EWSTagger;
@@ -35,7 +34,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 import java.util.Locale;
 
-public class StartConnectWithDeviceFragment extends BaseFragment implements ConfirmWifiNetworkViewModel.ViewCallback, StartConnectWithDeviceViewModel.LocationPermissionFlowCallback {
+public class StartConnectWithDeviceFragment extends BaseFragment implements StartConnectWithDeviceViewModel.ViewCallback, StartConnectWithDeviceViewModel.LocationPermissionFlowCallback {
 
     private StartConnectWithDeviceViewModel viewModel;
     private static final int LOCATION_PERMISSIONS_REQUEST_CODE = 10;
