@@ -87,6 +87,10 @@ android {
         abortOnError false
     }
 
+    packagingOptions {
+        pickFirst '**/*.so'
+    }
+
     compileOptions {
         sourceCompatibility versions.sourceCompatibility
         targetCompatibility versions.targetCompatibility

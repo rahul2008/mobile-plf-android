@@ -132,4 +132,8 @@ public abstract class KpsConfigurationInfo {
      */
     public abstract String getDevicePortUrl();
 
+    public int getHash() {
+        return hashCode();
+    }
+
 }

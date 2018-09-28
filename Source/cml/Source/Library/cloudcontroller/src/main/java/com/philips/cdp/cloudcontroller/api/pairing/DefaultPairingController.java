@@ -17,10 +17,13 @@ import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
 import com.philips.icpinterface.data.PairingEntitiyReference;
 import com.philips.icpinterface.data.PairingInfo;
+import com.philips.icpinterface.data.PairingReceivedRelationships;
 import com.philips.icpinterface.data.PairingRelationship;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
+import java.util.Map;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class DefaultPairingController implements PairingController, ICPEventListener {
 
@@ -28,7 +31,9 @@ public class DefaultPairingController implements PairingController, ICPEventList
     private static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
 
     private final CloudController mCloudController;
+    @Deprecated
     private PairingCallback mPairingCallback;
+    private final Map<Integer, PairingCallback> callbacks = new ConcurrentSkipListMap<>();
 
     public DefaultPairingController(@NonNull CloudController cloudController) {
         mCloudController = cloudController;
@@ -51,6 +56,28 @@ public class DefaultPairingController implements PairingController, ICPEventList
             case Commands.PAIRING_REMOVE_RELATIONSHIP:
                 mPairingCallback.onRelationshipRemove();
 
+                break;
+            case Commands.PAIRING_GET_RELATIONSHIPS:
+                final Collection<PairingRelation> relationships = new ArrayList<>();
+
+                for (int i = 0; i < pairingService.getNumberOfRelationsReturned(); i++) {
+                    PairingReceivedRelationships receivedRelationship = pairingService.getReceivedRelationsAtIndex(i);
+                    PairingReceivedRelationships.PairingEntity pairingRcvdRelEntityFrom = receivedRelationship.pairingRcvdRelEntityFrom;
+                    PairingReceivedRelationships.PairingEntity pairingRcvdRelEntityTo = receivedRelationship.pairingRcvdRelEntityTo;
+                    PairingEntity trustor =
+                        new PairingEntity(pairingRcvdRelEntityFrom.PairingEntityProvider, pairingRcvdRelEntityFrom.PairingEntityId, pairingRcvdRelEntityFrom.PairingEntityType,
+                            null);
+                    PairingEntity trustee =
+                        new PairingEntity(pairingRcvdRelEntityTo.PairingEntityProvider, pairingRcvdRelEntityTo.PairingEntityId, pairingRcvdRelEntityTo.PairingEntityType, null);
+
+                    relationships.add(new PairingRelation(trustor, trustee, receivedRelationship.pairingRcvdRelRelationType));
+                }
+
+                PairingCallback callback = callbacks.get(obj.getMessageId());
+                if (callback != null) {
+                    callback.onRelationshipGet(relationships);
+                    callbacks.remove(obj.getMessageId());
+                }
                 break;
             case Commands.PAIRING_ADD_PERMISSIONS:
                 mPairingCallback.onPermissionsAdd();
@@ -134,6 +161,38 @@ public class DefaultPairingController implements PairingController, ICPEventList
                 Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
             }
         } else {
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+        }
+    }
+
+    /**
+     * Method getRelationships - get all relationships
+     *
+     * @param callback the callback
+     */
+    @Override
+    public void getRelationships(@NonNull PairingCallback callback) {
+        if (!mCloudController.isSignOn()) {
+            return;
+        }
+
+        int iMaxPermissions = 5;
+        int iMaxRelationships = 5;
+        int iPermIndex = 0;
+
+        PairingService pairingService = createPairingService(this);
+        int status = pairingService.getRelationshipRequest(null, null, true, true, 0, iMaxPermissions, iMaxRelationships, iPermIndex);
+
+        if (Errors.SUCCESS != status) {
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+            return;
+        }
+        pairingService.setPairingServiceCommand(Commands.PAIRING_GET_RELATIONSHIPS);
+        status = pairingService.executeCommand();
+
+        callbacks.put(pairingService.getMessageId(), callback);
+
+        if (Errors.REQUEST_PENDING != status) {
             Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
         }
     }

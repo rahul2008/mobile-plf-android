@@ -70,6 +70,11 @@ public class PairingHandler<T extends Appliance> {
         }
 
         @Override
+        public void onRelationshipGet(@NonNull Collection<PairingRelation> relationships) {
+            // NOP
+        }
+
+        @Override
         public void onPermissionsAdd() {
             handlePermissionsAdd();
         }
@@ -298,6 +303,7 @@ public class PairingHandler<T extends Appliance> {
         pairingRelation.addPermission(PairingController.PERMISSION_RESPONSE);
         pairingRelation.addPermission(PairingController.PERMISSION_CHANGE);
 
+        resetPairingAttempts(mAppliance.getNetworkNode().getCppId());
         startPairingPortTask(pairingRelation);
     }
 

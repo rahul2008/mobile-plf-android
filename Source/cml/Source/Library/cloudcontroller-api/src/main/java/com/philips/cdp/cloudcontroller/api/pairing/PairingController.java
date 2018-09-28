@@ -36,6 +36,13 @@ public interface PairingController {
         void onRelationshipRemove();
 
         /**
+         * On relationship get
+         *
+         * @param relationships the relationshipssettin
+         */
+        void onRelationshipGet(@NonNull Collection<PairingRelation> relationships);
+
+        /**
          * On permissions add.
          */
         void onPermissionsAdd();
@@ -96,6 +103,13 @@ public interface PairingController {
      * @param callback     the callback
      */
     void removeRelationship(@NonNull PairingRelation relationship, @NonNull PairingCallback callback);
+
+    /**
+     * Get relationships
+     *
+     * @param callback the callback
+     */
+    void getRelationships(@NonNull PairingCallback callback);
 
     /**
      * Add permission.
