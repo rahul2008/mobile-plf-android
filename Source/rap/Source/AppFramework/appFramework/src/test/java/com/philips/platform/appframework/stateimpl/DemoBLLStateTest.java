@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework.stateimpl;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
@@ -34,7 +35,7 @@ public class DemoBLLStateTest {
     private BluelibUapp bleUapp;
 
     @Mock
-    private Context context;
+    private Activity activity;
 
     @Mock
     private UappSettings bleDemoMicroAppSettings;
@@ -46,14 +47,14 @@ public class DemoBLLStateTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        ContextProvider.setTestingContext(context);
+        ContextProvider.setTestingContext(activity);
 
         demoBLLState = new DemoBLLStateMock();
     }
 
     @Test
     public void navigate() throws Exception {
-        demoBLLState.init(context);
+        demoBLLState.init(activity);
         demoBLLState.updateDataModel();
 
         demoBLLState.navigate(null);
