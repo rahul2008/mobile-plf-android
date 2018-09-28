@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework.stateimpl;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -49,7 +50,7 @@ public class DemoCMLState extends DemoBaseState {
             } catch (UnsatisfiedLinkError error) {
                 RALog.d(TAG, "Not able to find native implementation");
             }
-            uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+            uAppInterface.launch(new ActivityLauncher((Activity) context, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                     getDLSThemeConfiguration(context.getApplicationContext()), 0, null), null);
         }
     }

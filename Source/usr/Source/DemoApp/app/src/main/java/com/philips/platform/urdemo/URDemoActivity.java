@@ -38,7 +38,7 @@ public class URDemoActivity extends UIDActivity {
         standardFlow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null,0,null), null);
+                uAppInterface.launch(new ActivityLauncher(URDemoActivity.this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null,0,null), null);
             }
         });
     }

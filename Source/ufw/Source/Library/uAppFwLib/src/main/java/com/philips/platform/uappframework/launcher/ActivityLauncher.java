@@ -71,6 +71,7 @@ public class ActivityLauncher extends UiLauncher {
 
     /**
      Constructor
+     @deprecated
      @param screenOrientation takes screen Orientation
      @param dlsThemeConfiguration takes DLS configuration
      @param dlsUiKitTheme takes UiKit Theme

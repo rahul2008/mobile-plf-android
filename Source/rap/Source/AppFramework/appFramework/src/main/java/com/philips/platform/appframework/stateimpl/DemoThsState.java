@@ -6,6 +6,7 @@
 
 package com.philips.platform.appframework.stateimpl;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -34,7 +35,7 @@ public class DemoThsState extends DemoBaseState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         final DemoMicroAppApplicationuAppDependencies uappDependencies = new DemoMicroAppApplicationuAppDependencies(((AppFrameworkApplication)appContext.getApplicationContext()).getAppInfra());
-        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,new ThemeConfiguration(appContext, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE), 0, null);
+        ActivityLauncher activityLauncher = new ActivityLauncher((Activity) appContext, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,new ThemeConfiguration(appContext, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE), 0, null);
 
         DemoMicroAppApplicationuAppInterface uAppInterface = getDemoMicroAppApplicationuAppInterface();
         uAppInterface.init(uappDependencies, new DemoMicroAppApplicationuAppSettings(appContext));// pass App-infra instance instead of null

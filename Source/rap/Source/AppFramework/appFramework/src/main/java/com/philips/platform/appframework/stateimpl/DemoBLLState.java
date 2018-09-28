@@ -5,6 +5,7 @@
 
 package com.philips.platform.appframework.stateimpl;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -34,7 +35,7 @@ public class DemoBLLState extends DemoBaseState {
 
     @NonNull
     protected ActivityLauncher getUiLauncher() {
-        return new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDLSThemeConfiguration(context.getApplicationContext()), 0, null);
+        return new ActivityLauncher((Activity) context, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDLSThemeConfiguration(context.getApplicationContext()), 0, null);
     }
 
     @NonNull
@@ -44,7 +45,7 @@ public class DemoBLLState extends DemoBaseState {
 
     @NonNull
     protected UappDependencies getUappDependencies() {
-        return new BluelibUappAppDependencies(context, ((AppFrameworkApplication) context).getAppInfra());
+        return new BluelibUappAppDependencies(context, ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra());
     }
 
     @Override

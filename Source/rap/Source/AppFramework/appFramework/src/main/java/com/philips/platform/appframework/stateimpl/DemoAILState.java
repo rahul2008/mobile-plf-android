@@ -1,5 +1,6 @@
 package com.philips.platform.appframework.stateimpl;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.philips.platform.aildemo.AILDemouAppDependencies;
@@ -31,7 +32,7 @@ public class DemoAILState extends BaseState {
         AILDemouAppLaunchInput mAIDemoAppLaunchInput = new AILDemouAppLaunchInput();
         AILDemouAppInterface mAIDemoAppInterface = AILDemouAppInterface.getInstance();
         mAIDemoAppInterface.init(mAIDemoAppDependencies, aiDemoAppSettings);
-        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
+        ActivityLauncher activityLauncher = new ActivityLauncher((Activity) context,ActivityLauncher.
                 ActivityOrientation.SCREEN_ORIENTATION_SENSOR,null, 0,null);
         mAIDemoAppInterface.launch(activityLauncher, mAIDemoAppLaunchInput);
     }

@@ -264,7 +264,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             prLaunchInput.setMandatoryProductRegistration(true);
             prInterface.launch(fragLauncher, prLaunchInput);
         } else {
-            ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,  ((MainActivity) getActivity()).getThemeConfig(), ((MainActivity) getActivity()).getThemeResourceId(), null);
+            ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,  ((MainActivity) getActivity()).getThemeConfig(), ((MainActivity) getActivity()).getThemeResourceId(), null);
 
             if (type.equalsIgnoreCase("app_flow")) {
                 prLaunchInput = new PRLaunchInput(products, true);
