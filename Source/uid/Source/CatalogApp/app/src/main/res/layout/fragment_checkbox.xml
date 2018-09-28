@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -93,6 +93,47 @@
                     android:layout_marginStart="@dimen/layout_margin_left_right"
                     android:enabled="@{frag.isCheckBoxEnabled}"
                     android:text="@string/checkbox_check_item_4"/>
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                    android:layout_marginTop="@dimen/layout_margin_top"
+                    android:text="buttons_circular_small"/>
+
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/circularImageButtonSmall"
+                    style="@style/UIDCircularButtonSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+
+                    app:uidImageButtonDrawableSrc="@drawable/uid_ic_cross_icon"/>
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                    android:layout_marginTop="@dimen/layout_margin_top"
+                    android:text="buttons_circular_big"/>
+
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/circularButtonBig"
+                    style="@style/UIDCircularButtonBig"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:text="@string/dls_message"
+
+
+                    />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
