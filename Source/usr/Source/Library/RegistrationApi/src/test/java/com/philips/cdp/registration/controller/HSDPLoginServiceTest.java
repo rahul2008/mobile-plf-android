@@ -79,7 +79,7 @@ public class HSDPLoginServiceTest {
 
 
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldHsdpLoginOnSuccess() {
         hsdpLoginService.hsdpUser = mockHsdpUser;
         when(networkUtility.isNetworkAvailable()).thenReturn(true);

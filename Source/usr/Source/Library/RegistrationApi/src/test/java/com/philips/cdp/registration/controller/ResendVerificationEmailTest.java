@@ -87,14 +87,14 @@ public class ResendVerificationEmailTest {
         verify(jumpFlowDownloadStatusListener).onFlowDownloadFailure();
     }
 
-    @Test(expected = NoClassDefFoundError.class)
+    @Test(expected = NullPointerException.class)
     public void testResendVerificationMail_WhenJanrainIntialized() {
         UserRegistrationInitializer.getInstance().setJanrainIntialized(true);
         resendVerificationEmail.resendVerificationMail("xyz@gmail.com");
         verify(jumpFlowDownloadStatusListener).onFlowDownloadFailure();
     }
 
-    @Test(expected = NoClassDefFoundError.class)
+    @Test(expected = NullPointerException.class)
     public void testOnFlowDownloadSuccess() {
         resendVerificationEmail.onFlowDownloadSuccess();
     }

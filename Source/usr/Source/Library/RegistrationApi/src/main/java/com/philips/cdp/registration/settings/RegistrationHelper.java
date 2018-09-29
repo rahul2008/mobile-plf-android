@@ -94,9 +94,6 @@ public class RegistrationHelper {
      *
      */
     public void initializeUserRegistration(final Context context) {
-        AppTagging.init();
-        RLog.init();
-
         if (mLocale == null) {
             String languageCode;
             String countryCode;

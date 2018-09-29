@@ -9,6 +9,7 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
@@ -52,7 +53,8 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
         mUpdateUserRecordHandler = updateUserRecordHandler;
         mEmail = email;
         mPassword = password;
-        mUser = new User(mContext);
+        //mUser = new User(mContext);
+        getUser();
         mHsdpLoginService = new HSDPLoginService(mContext);
     }
 
@@ -93,7 +95,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
         final RegistrationConfiguration registrationConfiguration = RegistrationConfiguration.getInstance();
         RLog.d(TAG, "onSuccess : isHSDPSkipLoginConfigurationAvailable : " + registrationConfiguration.isHSDPSkipLoginConfigurationAvailable());
         RLog.d(TAG, "onSuccess : isHsdpFlow : " + registrationConfiguration.isHsdpFlow());
-        if (!registrationConfiguration.isHSDPSkipLoginConfigurationAvailable() && registrationConfiguration.isHsdpFlow() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
+        if (!registrationConfiguration.isHSDPSkipLoginConfigurationAvailable() && registrationConfiguration.isHsdpFlow() && (getUser().isEmailVerified() || getUser().isMobileVerified())) {
             loginIntoHsdp();
         } else {
             ThreadUtils.postInMainThread(mContext, () -> mLoginHandler.onLoginSuccess());
@@ -138,7 +140,13 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
 
     public void loginIntoHsdp() {
         RLog.d(TAG, "loginIntoHsdp : is called");
-        String emailOrMobile = mHsdpLoginService.getUserEmailOrMobile(mUser);
-        mHsdpLoginService.hsdpLogin(mUser.getAccessToken(), emailOrMobile, mLoginHandler);
+        String emailOrMobile = mHsdpLoginService.getUserEmailOrMobile(getUser());
+        mHsdpLoginService.hsdpLogin(getUser().getAccessToken(), emailOrMobile, mLoginHandler);
     }
+
+    @VisibleForTesting
+    User getUser() {
+        return new User(mContext);
+    }
+
 }
