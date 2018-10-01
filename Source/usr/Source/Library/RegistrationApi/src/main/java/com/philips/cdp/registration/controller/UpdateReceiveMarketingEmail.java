@@ -34,7 +34,7 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
 
     private boolean mReceiveMarketingEmail;
 
-    private static final String TAG = UpdateReceiveMarketingEmail.class.getSimpleName();
+    private static final String TAG = "UpdateReceiveMarketingEmail";
 
     public UpdateReceiveMarketingEmail(Context context) {
         super(context);
@@ -69,14 +69,14 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
                 mUpdatedUserdata.put(MARKETING_OPT_IN, marketingOptIn);
                 UpdateUser updateUser = new UpdateUser();
                 updateUser.update(mUpdatedUserdata, userData, this);
-                RLog.i(TAG, "performActualUpdate : updateUser.update is called");
+                RLog.d(TAG, "performActualUpdate : updateUser.update is called");
             }
         } catch (JSONException e) {
             if (null != mUpdateUserDetails)
                 ThreadUtils.postInMainThread(mContext, () ->
                         mUpdateUserDetails.
                                 onUpdateFailedWithError(ErrorCodes.UNKNOWN_ERROR));
-            RLog.e(TAG, e.getMessage());
+            RLog.e(TAG, "performActualUpdate: JSONException" + e.getMessage());
         }
     }
 
@@ -90,10 +90,10 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
                 marketingOptIn.put(TIMESTAMP, ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT));
 
                 mUpdatedUserdata.put(MARKETING_OPT_IN, marketingOptIn);
+                RLog.d(TAG, "performLocalUpdate : saveToDisk");
                 mUpdatedUserdata.saveToDisk(mContext);
-                RLog.i(TAG, "performLocalUpdate : saveToDisk");
             } catch (JSONException e) {
-                RLog.e(TAG, e.getMessage());
+                RLog.e(TAG,"performLocalUpdate: JJSONException"+ e.getMessage());
             }
         }
     }

@@ -13,7 +13,7 @@ import java.util.Locale;
 
 public class LoggingExceptionHandler implements Thread.UncaughtExceptionHandler {
     private Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler;
-    private static final String TAG = LoggingExceptionHandler.class.getSimpleName();
+    private static final String TAG = "LoggingExceptionHandler";
 
     public LoggingExceptionHandler() {
         defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();

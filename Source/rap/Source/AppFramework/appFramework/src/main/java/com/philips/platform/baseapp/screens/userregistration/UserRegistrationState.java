@@ -8,10 +8,13 @@ package com.philips.platform.baseapp.screens.userregistration;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -32,6 +35,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -52,6 +56,7 @@ import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+import static com.philips.platform.baseapp.screens.Optin.MarketingOptin.AB_TEST_OPTIN_IMAGE_KEY;
 
 /**
  * This class contains all initialization & Launching details of UR
@@ -91,7 +96,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected static final String CHINA_CODE = "CN";
     protected static final String DEFAULT = "default";
     private URInterface urInterface;
-
+    private FirebaseAnalytics firebaseAnalytics;
     /**
      * AppFlowState constructor
      */
@@ -121,9 +126,10 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         //Post HSDP initialization on background thread.
         new Thread(() -> initHSDP(((AppFrameworkApplication) context.getApplicationContext()).getAppState())).start();
-
         initializeUserRegistrationLibrary();
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
+
 
     private void initHSDP(AppIdentityInterface.AppState configuration) {
         AppInfraInterface appInfra = getAppInfra();
@@ -222,7 +228,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void onUserRegistrationComplete(Activity activity) {
 
-        if (null != activity && getUserObject(activity).isUserSignIn()) {
+        if (null != activity && getUserObject(activity).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
             setUrCompleted();
             getApplicationContext().determineChinaFlow();
             //calling this method again after successful login to update the hybris flow boolean value if user changes the country while logging-in
@@ -283,12 +289,23 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         urLaunchInput.enableAddtoBackStack(true);
         RegistrationContentConfiguration contentConfiguration = new RegistrationContentConfiguration();
         contentConfiguration.enableContinueWithouAccount(true);
-       // contentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
+        ABTestClientInterface abTesting = getAppInfra().getAbTesting();
+        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, applicationContext.getString(R.string.Ra_default_value), ABTestClientInterface.UPDATETYPE.APP_UPDATE);
+        firebaseAnalytics.logEvent("LaunchingRegistration", null);
+        if (testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Sonicare))) {
+            contentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
+            contentConfiguration.setOptInTitleText(applicationContext.getString(R.string.RA_mkt_optin_title_text));
+            contentConfiguration.setOptInQuessionaryText(applicationContext.getString(R.string.RA_quessionary_text));
+        } else if(testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Kitchen))){
+            contentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
+        }
+        else {
+            contentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
+        }
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-       // urLaunchInput.setUIFlow(UIFlow.FLOW_B);
-
+        urLaunchInput.setUIFlow(UIFlow.FLOW_B);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }
@@ -337,6 +354,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void onUserLogoutSuccess() {
         RALog.d(TAG, " User Logout success  ");
         DemoAppManager.getInstance().getUserRegistrationHandler().clearAccessToken();
+        getAppInfra().getRestClient().clearCacheResponse();
+
     }
 
     @Override
@@ -360,10 +379,11 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected void setUrCompleted() {
         if (userObject != null) {
             getApplicationContext().getAppInfra().getLogging().setHSDPUserUUID(userObject.getHsdpUUID());
+            firebaseAnalytics.logEvent("MarketingOptinstatusSuccess", null);
         }
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putBoolean(Constants.UR_LOGIN_COMPLETED, true);
-        editor.commit();
+        editor.apply();
     }
 
     private SharedPreferences getSharedPreferences() {

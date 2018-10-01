@@ -13,10 +13,12 @@ import android.os.LocaleList;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
+import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -36,7 +38,7 @@ import javax.inject.Inject;
  */
 public class RegistrationHelper {
 
-    private String TAG = RegistrationHelper.class.getSimpleName();
+    private String TAG = "RegistrationHelper";
 
     @Inject
     NetworkUtility networkUtility;
@@ -93,7 +95,7 @@ public class RegistrationHelper {
      */
     public void initializeUserRegistration(final Context context) {
         RLog.init();
-
+        AppTagging.init();
 
         if (mLocale == null) {
             String languageCode;
@@ -106,14 +108,15 @@ public class RegistrationHelper {
                 countryCode = Locale.getDefault().getCountry();
             }
 
-            RLog.i(TAG, "initializeUserRegistration : setLocale : " + languageCode + "_" + countryCode);
+            RLog.i(TAG, "initializeUserRegistration : setLocale : "
+                    + languageCode + "_" + countryCode);
             setLocale(languageCode, countryCode);
 
         }
 
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
-     //   generateKeyAndMigrateData(context);
+        //   generateKeyAndMigrateData(context);
         refreshNTPOffset();
         final Runnable runnable = new Runnable() {
 
@@ -121,14 +124,15 @@ public class RegistrationHelper {
             public void run() {
                 deleteLegacyDIProfileFile(context);
                 if (networkUtility.isNetworkAvailable()) {
-                    RLog.i(TAG, "initializeUserRegistration initializeEnvironment for Locale: "+mLocale);
+                    RLog.i(TAG, "initializeUserRegistration :" +
+                            " initializeEnvironment for Locale: " + mLocale);
                     UserRegistrationInitializer.getInstance().initializeEnvironment(context, mLocale);
                 } else {
                     if (UserRegistrationInitializer.getInstance().
                             getJumpFlowDownloadStatusListener() != null) {
                         UserRegistrationInitializer.getInstance().
                                 getJumpFlowDownloadStatusListener().onFlowDownloadFailure();
-                        RLog.i(TAG, "initializeUserRegistration onFlowDownloadFailure ");
+                        RLog.e(TAG, "initializeUserRegistration: onFlowDownloadFailure due Network is not Available");
                     }
                 }
             }
@@ -144,14 +148,14 @@ public class RegistrationHelper {
     }
 
     private void deleteLegacyDIProfileFile(Context context) {
-        RLog.i(TAG, "deleteLegacyDIProfileFile");
+        RLog.d(TAG, "deleteLegacyDIProfileFile is called");
         context.deleteFile(RegConstants.DI_PROFILE_FILE);
         Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
     }
 
 
     private void refreshNTPOffset() {
-        RLog.i(TAG, "refreshNTPOffset");
+        RLog.d(TAG, "refreshNTPOffset is called ");
         ServerTime.init(timeInterface);
         ServerTime.refreshOffset();
     }
@@ -189,6 +193,31 @@ public class RegistrationHelper {
         UserRegistrationHelper.getInstance().unregisterEventNotification(userRegistrationListener);
     }
 
+    /**
+     * {@code registerHSDPAuthenticationListener} method registers a listener in order to listen
+     * the callbacks returned by User Registration component. It must be called by
+     * integrating applications
+     * to be able to listen to User Registration events.
+     *
+     * @param hsdpAuthenticationListener
+     */
+    public synchronized void registerHSDPAuthenticationListener(
+            HSDPAuthenticationListener hsdpAuthenticationListener) {
+        UserRegistrationHelper.getInstance().registerHSDPAuthenticationEventNotification(hsdpAuthenticationListener);
+    }
+
+    /**
+     * {@code unRegisterHSDPAuthenticationListener} method unregisters the listener registered via
+     * {@code registerUserRegistrationListener} method. This will make integrating applications
+     * to stop listening to User Registration events.
+     *
+     * @param hsdpAuthenticationListener
+     */
+    public synchronized void unRegisterHSDPAuthenticationListener(
+            HSDPAuthenticationListener hsdpAuthenticationListener) {
+        UserRegistrationHelper.getInstance().unregisterHSDPAuthenticationEventNotification(hsdpAuthenticationListener);
+    }
+
     public synchronized UserRegistrationHelper getUserRegistrationListener() {
         return UserRegistrationHelper.getInstance();
     }
@@ -207,12 +236,12 @@ public class RegistrationHelper {
 
 
     public void setLocale(String languageCode, String countryCode) {
-        RLog.d("Locale", "setLocale language" + languageCode + " country" + countryCode);
+        RLog.d(TAG, "setLocale language " + languageCode + " country " + countryCode);
         mLocale = new Locale(languageCode, countryCode);
     }
 
     public synchronized Locale getLocale() {
-        RLog.d("Locale", "Locale locale  " + mLocale);
+        RLog.d(TAG, "Locale getLocale  " + mLocale);
         return mLocale;
     }
 
@@ -221,7 +250,7 @@ public class RegistrationHelper {
     }
 
     public boolean isMobileFlow() {
-        RLog.i(TAG, "isMobileFlow : " + registrationSettingsURL.isMobileFlow());
+        RLog.d(TAG, "isMobileFlow : " + registrationSettingsURL.isMobileFlow());
         return registrationSettingsURL.isMobileFlow();
     }
 

@@ -10,7 +10,7 @@ import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworkStateListener;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -28,7 +28,7 @@ import javax.inject.Inject;
 
 import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
 
-public class AlmostDonePresenter implements NetworkStateListener, SocialProviderLoginHandler, UpdateUserDetailsHandler {
+public class AlmostDonePresenter implements NetworkStateListener, SocialLoginProviderHandler, UpdateUserDetailsHandler {
 
 
     @Inject
@@ -53,6 +53,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
     private Bundle mBundle;
 
     private boolean isOnline = true;
+    private String TAG = "AlmostDoneFragment";
 
     public AlmostDonePresenter(AlmostDoneContract almostDoneContract, User user) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -110,6 +111,8 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
         }
 
         if (!mUser.getReceiveMarketingEmail() && optinState) {
+            almostDoneContract.showMarketingOptCheck();
+        } else if (mUser.isEmailVerified() && !mUser.getReceiveMarketingEmail()) {
             almostDoneContract.showMarketingOptCheck();
         } else {
             almostDoneContract.hideMarketingOptCheck();
@@ -220,7 +223,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
             }
 
         } catch (JSONException e) {
-            RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
+            RLog.e(TAG, "handleSocialTwoStepError JSONException : " + e.getMessage());
         }
     }
 
@@ -255,7 +258,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
                 }
             }
         } catch (JSONException e) {
-            RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
+            RLog.e(TAG, "AlmostDoneFragment Exception : " + e.getMessage());
         }
     }
 

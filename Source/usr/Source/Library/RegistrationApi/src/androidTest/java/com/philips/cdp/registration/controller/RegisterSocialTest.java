@@ -1,18 +1,16 @@
 package com.philips.cdp.registration.controller;
 
 
-
 import android.content.Context;
 
 import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -28,7 +26,7 @@ public class RegisterSocialTest extends RegistrationApiInstrumentationBase {
     public void setUp() throws Exception {
            super.setUp();
         mContext = getInstrumentation().getTargetContext();
-        SocialProviderLoginHandler socialProviderLoginHandler = new SocialProviderLoginHandler() {
+        SocialLoginProviderHandler socialProviderSocialLoginProviderHandler = new SocialLoginProviderHandler() {
             @Override
             public void onLoginSuccess() {
 
@@ -70,17 +68,9 @@ public class RegisterSocialTest extends RegistrationApiInstrumentationBase {
 
             }
         };
-        mRegisterSocial = new RegisterSocial(socialProviderLoginHandler,mContext,updateUserRecordHandler);
+        mRegisterSocial = new RegisterSocial(socialProviderSocialLoginProviderHandler,mContext,updateUserRecordHandler);
     }
 
-    @Test
-    public  void testRegisterSocial(){
-//        assertNotNull(mRegisterSocial);
-//
-//        //mRegisterSocial.onSuccess();
-//      mRegisterSocial.onFlowDownloadFailure();
-//        mRegisterSocial.onCode("");
-    }
     public void testGetErrorMessage(){
         JSONArray jsonArray = new JSONArray();
         Method method = null;

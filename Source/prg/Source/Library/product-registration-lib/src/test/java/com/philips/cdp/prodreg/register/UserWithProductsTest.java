@@ -18,6 +18,7 @@ import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import junit.framework.TestCase;
@@ -34,10 +35,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 public class UserWithProductsTest extends TestCase {
 
     UserWithProducts userWithProducts;
@@ -58,7 +59,7 @@ public class UserWithProductsTest extends TestCase {
         localRegisteredProducts = mock(LocalRegisteredProducts.class);
         prodRegListener = mock(ProdRegListener.class);
         errorHandlerMock = mock(ErrorHandler.class);
-        when(userMock.isUserSignIn()).thenReturn(true);
+        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
         userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
             @NonNull
             @Override
@@ -88,17 +89,17 @@ public class UserWithProductsTest extends TestCase {
     @Test
     public void testIsUserSignedIn() {
         final User userMock = mock(User.class);
-        when(userMock.isUserSignIn()).thenReturn(true);
+        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
         UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener);
         assertFalse(userWithProducts.isUserSignedIn(context));
-        when(userMock.isUserSignIn()).thenReturn(false);
+        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_NOT_LOGGED_IN);
         assertFalse(userWithProducts.isUserSignedIn(context));
     }
 
     @Test
     public void testSetUUID() {
         final User userMock = mock(User.class);
-        when(userMock.isUserSignIn()).thenReturn(true);
+        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
         when(userMock.getEmailOrMobileVerificationStatus()).thenReturn(true);
         when(userMock.getJanrainUUID()).thenReturn("Janrain_id");
         UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
@@ -269,7 +270,7 @@ public class UserWithProductsTest extends TestCase {
         when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
         userWithProducts.registerProduct(product);
         assertTrue(userWithProducts.getRequestType() == UserWithProducts.PRODUCT_REGISTRATION);
-        when(userMock.isUserSignIn()).thenReturn(false);
+        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_NOT_LOGGED_IN);
         userWithProducts.getRegisteredProducts(registeredProductsListener);
         assertTrue(userWithProducts.getRequestType() != (UserWithProducts.FETCH_REGISTERED_PRODUCTS));
     }
@@ -366,7 +367,7 @@ public class UserWithProductsTest extends TestCase {
         registeredProducts.add(registeredProduct1);
         registeredProducts.add(registeredProduct2);
         registeredProducts.add(registeredProduct3);
-        assertFalse(userWithProducts.isCtnRegistered(registeredProducts, product).getRegistrationState()==RegistrationState.REGISTERED);
+        assertFalse(userWithProducts.isCtnRegistered(registeredProducts, product).getRegistrationState() == RegistrationState.REGISTERED);
     }
 
 //    @Test
@@ -489,7 +490,7 @@ public class UserWithProductsTest extends TestCase {
 
     @Test
     public void testRegistrationRequest() {
-        final RegistrationRequest registrationRequest = new RegistrationRequest(mCTN,mSerialNumber, sector,catalog);
+        final RegistrationRequest registrationRequest = new RegistrationRequest(mCTN, mSerialNumber, sector, catalog);
         final RegisteredProduct productMock = mock(RegisteredProduct.class);
         final RequestManager requestManagerMock = mock(RequestManager.class);
         final ResponseListener responseListenerMock = mock(ResponseListener.class);

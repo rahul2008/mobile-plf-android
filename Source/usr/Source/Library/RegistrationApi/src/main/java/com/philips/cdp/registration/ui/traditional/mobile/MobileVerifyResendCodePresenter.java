@@ -25,7 +25,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 public class MobileVerifyResendCodePresenter implements NetworkStateListener {
-    private String TAG = MobileVerifyResendCodePresenter.class.getSimpleName();
+    private String TAG = "MobileVerifyResendCodePresenter";
     private static final String VERIFICATION_SMS_CODE_SERVICE_ID = "userreg.urx.verificationsmscode";
     private static final String BASE_URL_CODE_SERVICE_ID = "userreg.janrain.api";
     private static final int RESEND_OTP_REQUEST_CODE = 101;
@@ -57,15 +57,17 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
             public void onSuccess(URL url) {
                 Map<String, String> header = new HashMap<>();
                 header.put("Content-Type", "application/json; charset=UTF-8");
-                RLog.d(TAG, VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
+                RLog.i(TAG, VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
                 URRequest urRequest = new URRequest(getSmsVerificationUrl(url.toString(), mobileNumber), null, header
-                        , response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+                        , response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response),
+                        mobileVerifyCodeContract::onErrorResponse);
                 urRequest.makeRequest(true);
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                RLog.d(TAG, error.name() + "and error message is " + message);
+                RLog.d(TAG, "getURLFromServiceDiscoveryAndRequestVerificationCode " +
+                        error.name() + "and error message is " + message);
                 mobileVerifyCodeContract.enableResendButton();
             }
         });
@@ -88,7 +90,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
             mobileVerifyCodeContract.hideProgressSpinner();
             handleResendSms(response);
         } else if (resultCode == CHANGE_NUMBER_REQUEST_CODE) {
-            RLog.d("CHANGE_NUMBER_REQUEST_CODE", "CHANGE_NUMBER_REQUEST_CODE" + response);
+            RLog.d(TAG, "CHANGE_NUMBER_REQUEST_CODE" + response);
             handlePhoneNumberChange(response);
         } else {
             mobileVerifyCodeContract.hideProgressSpinner();
@@ -98,10 +100,10 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     private void handlePhoneNumberChange(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
-            RLog.d("CHANGE_NUMBER_REQUEST_CODE", "CHANGE_NUMBER_REQUEST_STAT " + jsonObject.get(STAT));
+            RLog.d(TAG, "CHANGE_NUMBER_REQUEST_STAT " + jsonObject.get(STAT));
 
             if (jsonObject.get(STAT).equals("ok")) {
-                RLog.d("CHANGE_NUMBER_REQUEST_CODE", "CHANGE_NUMBER_REQUEST_CODE" + response);
+                RLog.d(TAG, "CHANGE_NUMBER_REQUEST_CODE" + response);
                 mobileVerifyCodeContract.refreshUser();
             } else {
                 mobileVerifyCodeContract.hideProgressSpinner();
@@ -136,7 +138,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER Netowrk *** network: " + isOnline);
+        RLog.d(TAG, "MOBILE NUMBER network isOnline : " + isOnline);
         if (isOnline) {
             mobileVerifyCodeContract.netWorkStateOnlineUiHandle();
         } else {
@@ -157,7 +159,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
 
             @Override
             public void onSuccess(URL url) {
-                RLog.d(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + url);
+                RLog.i(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + url);
                 URRequest urRequest = new URRequest(url + "/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), null, response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
                 urRequest.makeRequest(false);
             }
@@ -175,9 +177,12 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
     }
 
     private String getUpdateMobileNUmberURL(String mobilenumber) {
-        return "client_id=" + getClientId() + "&locale=zh-CN&response_type=token&form=mobileNumberForm&flow=standard&" +
+
+        String body = "client_id=" + getClientId() + "&locale=zh-CN&response_type=token&form=mobileNumberForm&flow=standard&" +
                 "flow_version=" + Jump.getCaptureFlowVersion() + "&token=" + getAccessToken() +
                 "&mobileNumberConfirm=" + mobilenumber + "&mobileNumber=" + mobilenumber;
+        RLog.d(TAG, "body" + body);
+        return body;
     }
 
     private String getClientId() {

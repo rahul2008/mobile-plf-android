@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.screens.InAppBaseFragment;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.logout.URLogout;
 import com.philips.platform.appframework.logout.URLogoutInterface;
@@ -273,7 +274,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     public void setUserNameAndLogoutText() {
         User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this);
-        if (!user.isUserSignIn()) {
+        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
             avatarName.setText(getString(R.string.RA_DLSS_avatar_default_text));
         } else {
             AppIdentityInterface.AppState appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
@@ -570,7 +571,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         sideBar.closeDrawer(navigationView);
         switch (view.getId()) {
             case R.id.hamburger_menu_header_container:
-                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).isUserSignIn()) {
+                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                     selectedIndex=Constants.HAMBURGER_MY_ACCOUNT_CLICK;
                     hamburgerMenuAdapter.setSelectedPosition(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                     presenter.onEvent(Constants.HAMBURGER_MY_ACCOUNT_CLICK);

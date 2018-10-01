@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V. 2017
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.ble.communication;
@@ -38,8 +38,6 @@ import java.util.Map;
 
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MAC_ADDRESS;
-import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
-import static com.philips.pins.shinelib.utility.Utilities.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -52,7 +50,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 public class BleCommunicationStrategyTest {
 
@@ -109,7 +106,6 @@ public class BleCommunicationStrategyTest {
         ArgumentCaptor<PropertyChangeListener> propertyChangeListenerArgumentCaptor = ArgumentCaptor.forClass(PropertyChangeListener.class);
 
         initMocks(this);
-        disableLogging();
 
         when(networkNodeMock.getMacAddress()).thenReturn(MAC_ADDRESS);
         when(centralMock.createSHNDeviceForAddressAndDefinition(eq(MAC_ADDRESS), any(ReferenceNodeDeviceDefinitionInfo.class))).thenReturn(deviceMock);

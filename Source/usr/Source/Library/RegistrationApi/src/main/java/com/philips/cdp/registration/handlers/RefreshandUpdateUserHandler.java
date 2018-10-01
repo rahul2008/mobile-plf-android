@@ -21,12 +21,11 @@ import com.philips.cdp.registration.hsdp.HsdpUserRecordV2;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONObject;
 
 public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListener {
-    private String TAG = RefreshandUpdateUserHandler.class.getSimpleName();
+    private String TAG = "RefreshandUpdateUserHandler";
 
     public UpdateUserRecordHandler mUpdateUserRecordHandler;
     private Context mContext;
@@ -52,7 +51,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
         }
 
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated() && !UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-            RLog.d(TAG, "refreshAndUpdateUser : not isJumpInitializated and not isRegInitializationInProgress");
+            RLog.d(TAG, "refreshAndUpdateUser : not isJumpInitializated and RegInitialization Not In Progress");
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
             return;
@@ -72,8 +71,9 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
             @Override
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(mContext);
-                RLog.e(TAG, "refreshUpdateUser : onSuccess : " + response.toString());
-                if (!RegistrationConfiguration.getInstance().isHsdpFlow()) {
+                RLog.d(TAG, "refreshUpdateUser : onSuccess : " + response.toString());
+                final RegistrationConfiguration registrationConfiguration = RegistrationConfiguration.getInstance();
+                if (!registrationConfiguration.isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
                     RLog.d(TAG, "refreshUpdateUser : is not HSDP flow  ");
                     return;
@@ -84,7 +84,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                     HsdpUserRecordV2 hsdpUserRecordV2 = hsdpUser.getHsdpUserRecord();
                     if (hsdpUserRecordV2 == null) {
                         RLog.d(TAG, "refreshUpdateUser : hsdpUserRecordV2 is NULL  ");
-                        LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
+                        LoginTraditional loginTraditional = new LoginTraditional(new LoginHandler() {
                             @Override
                             public void onLoginSuccess() {
                                 RLog.d(TAG, "refreshUpdateUser : onLoginSuccess  ");
@@ -94,10 +94,16 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                             @Override
                             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                                 RLog.e(TAG, "refreshUpdateUser : onLoginFailedWithError  ");
-                                handler.onRefreshUserFailed(RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED);
+                                handler.onRefreshUserFailed(userRegistrationFailureInfo.getErrorCode());
                             }
                         }, mContext, mUpdateUserRecordHandler, null, null);
-                        loginTraditional.loginIntoHsdp();
+                        RLog.d(TAG, "onSuccess : refreshUpdateUser onSuccess isHSDPSkipLoginConfigurationAvailable :" + registrationConfiguration.isHSDPSkipLoginConfigurationAvailable());
+                        RLog.d(TAG, "onSuccess : refreshUpdateUser onSuccess isHsdpFlow" + registrationConfiguration.isHsdpFlow());
+                        if (!registrationConfiguration.isHSDPSkipLoginConfigurationAvailable() && registrationConfiguration.isHsdpFlow()) {
+                            loginTraditional.loginIntoHsdp();
+                        } else {
+                            handler.onRefreshUserSuccess();
+                        }
                     } else {
                         RLog.d(TAG, "refreshUpdateUser : hsdpUserRecordV2 is not NULL  ");
                         handler.onRefreshUserSuccess();
@@ -110,8 +116,10 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
             @Override
             public void onFailure(CaptureAPIError failureParam) {
-                RLog.e(TAG, "refreshUpdateUser : onFailure  ");
-                if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
+                try{
+                    RLog.e(TAG, "onFailure : refreshUpdateUser error " + failureParam.captureApiError.raw_response);
+
+                if (failureParam.captureApiError !=  null && failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
 
                     user.refreshLoginSession(new RefreshLoginSessionHandler() {
                         @Override
@@ -131,15 +139,18 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                         }
                     });
                 }
-                RLog.e(TAG, "refreshUpdateUser : onRefreshUserFailed  ");
                 handler.onRefreshUserFailed(0);
+                } catch (Exception e){
+                    RLog.e(TAG, "onFailure :  Exception " + e.getMessage());
+                }
+
             }
         });
     }
 
     @Override
     public void onFlowDownloadSuccess() {
-        RLog.e(TAG, "onFlowDownloadSuccess");
+        RLog.e(TAG, "onFlowDownloadSuccess is called");
         refreshAndUpdateUser(refreshUserHandler, user, password);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
@@ -147,7 +158,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
     @Override
     public void onFlowDownloadFailure() {
-        RLog.e(TAG, "onFlowDownloadFailure");
+        RLog.e(TAG, "onFlowDownloadFailure is called");
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
         if (refreshUserHandler != null) {
             refreshUserHandler.onRefreshUserFailed(0);

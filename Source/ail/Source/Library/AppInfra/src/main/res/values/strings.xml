@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (c) Koninklijke Philips N.V., 2018
   All rights are reserved. Reproduction or dissemination
   in whole or in part is prohibited without the prior written
@@ -11,8 +10,8 @@
     <string name="localized_commercial_app_name" translatable="false">AppInfra</string>
     <string name="ail_fullLocale">en-US</string>
     <string name="ail_locale">en</string>
-    <string name="ail_cloud_consent_title">Enable Cloud logging</string>
-    <string name="ail_cloud_consent_help">Used to enable cloud logging</string>
+    <string name="ail_cloud_consent_title" translatable="false">Enable Cloud logging</string>
+    <string name="ail_cloud_consent_help" translatable="false">Used to enable cloud logging</string>
 
     <string-array name="server_pool" translatable="false">
         <item>time1.google.com</item>

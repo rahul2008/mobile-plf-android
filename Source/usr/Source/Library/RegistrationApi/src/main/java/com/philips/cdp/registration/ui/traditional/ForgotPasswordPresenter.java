@@ -43,7 +43,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ForgotPasswordPresenter implements NetworkStateListener, EventListener,
         ForgotPasswordHandler {
 
-    private static String TAG = ForgotPasswordPresenter.class.getSimpleName();
+    private static String TAG = "ForgotPasswordPresenter";
 
 
     private final RegistrationHelper registrationHelper;
@@ -129,7 +129,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
         try {
             JSONObject jsonObject = new JSONObject(response);
             final String errorCode = jsonObject.getString("errorCode");
-            RLog.e(TAG, " Response Error code = " + errorCode);
+            RLog.e(TAG, " handleResendSMSRespone: Response Error code = " + errorCode);
             if ("0".equals(errorCode)) {
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
@@ -144,17 +144,16 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                RLog.i(TAG, " isAccountActivate is " + token + " -- " + response);
+                RLog.d(TAG, " isAccountActivate is " + token + " -- " + response);
                 constructMobileVerifyCodeFragment(mobileNumberKey, tokenKey, redirectUriKey, verificationSmsCodeURLKey, token);
             } else {
                 forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-//                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode"), context);
                 forgotPasswordContract.forgotPasswordErrorMessage(errorCode);
-                RLog.i(TAG, " SMS Resend failure = " + response);
+                RLog.d(TAG, "handleResendSMSRespone: SMS Resend failure = " + response);
             }
         } catch (Exception e) {
-            RLog.i(TAG,"Exception : "+e.getMessage());
+            RLog.e(TAG,"handleResendSMSRespone: Exception : "+e.getMessage());
         }
     }
 
@@ -171,9 +170,11 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
 
     @NonNull
     private String getBodyContent() {
-        return "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
+        String body  = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
+        RLog.d(TAG, "body :  "+ body);
+        return body;
     }
 
     private String getClientId() {
@@ -189,7 +190,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
         this.mobileNumber = mobileNumber;
         String smsServiceID = "userreg.urx.verificationsmscode";
 
-        RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+        RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
         disposable.add(serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(smsServiceID)
                 .map(serviceUrl -> getBaseUrl(serviceUrl))
                 .map(baseUrl -> {
@@ -202,13 +203,15 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
+                        RLog.i(TAG, "CreateResendSMSIntent url :  "+ verificationUrl);
+
                         URRequest urRequest = new URRequest(verificationUrl, getBodyContent(), null, forgotPasswordContract::onSuccessResponse, forgotPasswordContract::onErrorResponse);
                         urRequest.makeRequest(true);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        RLog.e(TAG, "Error = " + e.getMessage());
+                        RLog.e(TAG, "initateCreateResendSMSIntent : Error = " + e.getMessage());
                         forgotPasswordContract.hideForgotPasswordSpinner();
                         forgotPasswordContract.forgotPasswordErrorMessage(
                                 context.getString(R.string.USR_Janrain_HSDP_ServerErrorMsg));

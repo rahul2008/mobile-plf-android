@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Olet offline-tilassa</string>
 <string name="MYA_Offline_message">Tarkista verkkoyhteys ja yritä uudelleen.</string>
 <string name="mya_Privacy_Settings_Desc">Suojaa yksityisyytesi. Tutustu tietosuojailmoitukseen.</string>
+    <string name="MYA_Visit_Website">[fi]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[fi]Marketing OptIn</string>
 </resources>

@@ -12,7 +12,7 @@
         android:layout_above="@+id/usr_StartScreen_privacyNotice_country_LinearLayout">
 
         <LinearLayout
-            android:id="@+id/usr_startScreen_baseLayout_LinearLayout"
+            android:id="@+id/usr_reg_root_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

@@ -26,7 +26,7 @@ import java.util.Map;
  * @publicPluginApi
  */
 public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
-    private static final String TAG = SHNCapabilityLogSyncWeightScale.class.getSimpleName();
+    private static final String TAG = "SHNCapabilityLogSyncWeightScale";
     private final SHNServiceWeightScale shnServiceWeightScale;
     private final SHNDeviceTimeAdjuster shnDeviceTimeAdjuster;
 

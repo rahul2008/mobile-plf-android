@@ -1417,7 +1417,7 @@ public class Jump {
                 }
 				
 				 Object userRecord = response.opt("result");
-                if (userRecord instanceof JSONObject){
+                if (userRecord instanceof JSONObject && null != state.signedInUser){
                     JsonUtils.deepCopy((JSONObject) userRecord, state.signedInUser);
                     LogUtils.logd("Deep copy to the signedInUser finish");
                     Jump.fireHandlerOnCaptureAPISuccess(response);

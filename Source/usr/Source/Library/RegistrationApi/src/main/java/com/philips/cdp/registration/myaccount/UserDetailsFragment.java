@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.uid.view.widget.Label;
@@ -49,7 +50,7 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     private UserDetailPresenter myaDetailPresenter;
     private User user;
 
-    private String TAG = UserDetailsFragment.class.getSimpleName();
+    private String TAG = "UserDetailsFragment";
     private Context mContext;
 
     @Override
@@ -136,6 +137,12 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        trackPage(AppTaggingPages.USER_PROFILE);
+    }
+
+    @Override
     public void setUserName(String name) {
         if (TextUtils.isEmpty(name) || name.equalsIgnoreCase("null")) {
             RLog.d(TAG, "setUserName : name is null");
@@ -205,6 +212,6 @@ public class UserDetailsFragment extends RegistrationBaseFragment implements Mya
 
     @Override
     public void notificationInlineMsg(String msg) {
-     //NOP
+        //NOP
     }
 }

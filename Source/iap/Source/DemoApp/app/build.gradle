@@ -1,70 +1,23 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
+        classpath builddeps.cdpSCM
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = 'iapApp'
-
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -78,7 +31,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('apk')
+                publications('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -88,7 +41,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -113,14 +67,11 @@ publishing {
         }
     }
 }
+
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
 
     defaultConfig {
         applicationId "com.philips.cdp.di.iapdemo"
@@ -186,7 +137,7 @@ android {
     flavorDimensions "default"
 
     productFlavors {
-       simulator {
+        simulator {
             applicationId 'com.philips.cdp.di.iapdemo'
             versionCode 2
             versionName "0.17.8"
@@ -197,8 +148,8 @@ android {
             versionName "0.17.8"
         }
     }
+
     lintOptions {
-        abortOnError false
         checkReleaseBuilds false
         disable 'InvalidPackage'
         disable 'GradleCompatible'
@@ -206,8 +157,8 @@ android {
         disable 'TypographyFractions', 'TypographyQuotes'
         absolutePaths false
         lintConfig file('lint.xml')
-
     }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -224,19 +175,22 @@ android {
     dataBinding {
         enabled = true
     }
-
-
 }
 
 dependencies {
+    debugImplementation deps.leakcanary
+    releaseImplementation deps.leakcanary_no_op
+    testImplementation deps.leakcanary_no_op
+
+    implementation project(':iapUApp')
+
+    implementation deps.constraintlayout
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.support.annotations
     implementation deps.support.appcompatv7
 
-    def dp = project.ext.has('useprojectdependencies')
-
-    if(dp) {
+    if (directdependencies) {
         implementation project(':uid')
         implementation project(':registrationApi')
         implementation project(':iap')
@@ -245,7 +199,7 @@ dependencies {
         implementation project(':AppInfra')
     } else {
         implementation philipsdeps.uid
-        implementation (philipsdeps.registrationApi){
+        implementation(philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'support-design'
             exclude group: 'com.android.support', module: 'support-supportv4'
             exclude group: 'com.android.support', module: 'support-appcompatv7'
@@ -255,16 +209,10 @@ dependencies {
         implementation philipsdeps.iap
     }
 
-    implementation deps.constraintlayout
-
-    debugImplementation deps.leakcanary
-    releaseImplementation deps.leakcanary_no_op
-    testImplementation deps.leakcanary_no_op
-    implementation project(':iapUApp')
-
     androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
     androidTestImplementation deps.espresso_contrib, {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
@@ -272,39 +220,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
 }
-
-/*task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-
-    description 'Run findbugs'
-    group 'verification'
-    ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/simulator/debug')
-    source = fileTree('src/main/java')
-    classpath = files()
-
-    effort = 'max'
-
-    excludeFilter = file("findbugs-exclude.xml")
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}
-
-task pmd(type: Pmd, dependsOn: "assembleDebug") {
-
-    description 'Run pmd'
-    group 'verification'
-    ignoreFailures = true
-    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('src/main/java')
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}*/
 
 tasks.withType(Test) {
     ignoreFailures = true

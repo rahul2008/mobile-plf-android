@@ -23,7 +23,6 @@ import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class SHNDeviceWrapper implements SHNDevice {
-    private static final String TAG = SHNDeviceWrapper.class.getSimpleName();
     private final SHNDevice shnDevice;
     private static Handler tempInternalHandler;
     private static Handler tempUserHandler;
@@ -34,7 +33,7 @@ public class SHNDeviceWrapper implements SHNDevice {
 
     private final SHNDevice.SHNDeviceListener shnDeviceListener = new SHNDeviceListener() {
         @Override
-        public void onStateUpdated(@NonNull SHNDevice shnDevice) {
+        public void onStateUpdated(@NonNull SHNDevice shnDevice, @NonNull final State state) {
             if (BuildConfig.DEBUG && SHNDeviceWrapper.this.shnDevice != shnDevice) {
                 throw new IllegalArgumentException();
             }
@@ -44,7 +43,7 @@ public class SHNDeviceWrapper implements SHNDevice {
                     userHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            shnDeviceListener.onStateUpdated(SHNDeviceWrapper.this);
+                            shnDeviceListener.onStateUpdated(SHNDeviceWrapper.this, state);
                         }
                     });
                 }

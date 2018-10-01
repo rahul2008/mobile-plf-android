@@ -19,7 +19,7 @@
         android:fillViewport="true">
 
         <RelativeLayout
-            android:id="@+id/usr_loginScreen_rootLayout_LinearLayout"
+            android:id="@+id/usr_reg_root_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -92,6 +92,7 @@
                         android:layout_height="wrap_content"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="textPassword"
+                        android:longClickable="false"
                         android:maxLines="1"
                         app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width" />
                 </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -116,6 +117,7 @@
                 android:layout_below="@+id/usr_loginScreen_login_button"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:text="@string/USR_Forgot_Password_Title"
+                android:padding="@dimen/reg_dimen_4dp"
                 android:textSize="@dimen/reg_text_size_12" />
 
             <com.philips.cdp.registration.ui.customviews.XRegError

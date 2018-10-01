@@ -17,6 +17,7 @@ import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.ui.traditional.countryselection.CountrySelectionAdapter;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -26,6 +27,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CountrySelectionFragment extends RegistrationBaseFragment implements CountrySelectionContract {
+
+    private String TAG = "CountrySelectionFragment";
+
     @BindView(R2.id.country_recycler_view)
     RecyclerView countryListView;
 
@@ -60,6 +64,8 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        RLog.i(TAG,"Screen name is "+ TAG);
+
         View view = inflater.inflate(R.layout.country_selection_layout, null);
         ButterKnife.bind(this, view);
         initUI(view);

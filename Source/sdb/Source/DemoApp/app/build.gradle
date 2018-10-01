@@ -1,65 +1,23 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
+        classpath builddeps.cdpSCM
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "securedblibraryApp"
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-    }
-}
-
 group = 'com.philips.cdp'
 
 artifactory {
@@ -74,7 +32,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('apk')
+                publications('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -84,7 +42,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -126,33 +85,24 @@ android {
         versionCode 1
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-	signingConfigs {
+
+    signingConfigs {
         release
     }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-			signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
     }
-    lintOptions {
-        abortOnError false
-    }
-    productFlavors {
-    }
-	
-	android {
-        lintOptions {
-            abortOnError false
-        }
-    }
-	
-		/*
+
+    /*
     This defined for signing the apk -- start
      */
     def Properties props = new Properties()
-	println  "  projectDir:   "+ project.projectDir;
+    println "  projectDir:   " + project.projectDir;
     def propFile = new File("${project.projectDir}/signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
@@ -174,22 +124,23 @@ android {
     /*
     This defined for signing the apk -- end
     */
-
-
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    testImplementation deps.junit
+
     implementation project(':securedblibrary')
     implementation deps.support.appcompatv7
     implementation deps.support.design
     implementation deps.support.annotations
+
+    testImplementation deps.junit
+
+    androidTestImplementation deps.espresso_core, {
+        exclude group: 'com.android.support', module: 'support-annotations'
     }
+}
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

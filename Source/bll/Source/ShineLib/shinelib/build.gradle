@@ -35,20 +35,15 @@ android {
             buildConfigField "String", "LIBRARY_VERSION", "\"${version}\""
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+
 dependencies {
-    for (dep in [':AppInfra']) {
-        if (directdependencies) {
-            api project(dep)
-        } else {
-            api("$group$dep:$platformversion$suffix") { changing = true }
-        }
+    if (directdependencies) {
+        api project(':AppInfra')
+    } else {
+        api philipsdeps.AppInfra
     }
 
     implementation deps.support.annotations
@@ -56,44 +51,11 @@ dependencies {
 
     testImplementation deps.junit
     testImplementation deps.junit_runners
-
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
-
     testImplementation deps.assertj
-
-    testImplementation(deps.robolectric) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-    testImplementation(deps.robolectric_shadows) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-}
-
-task generateJavadocPublicApi(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("${projectDir}/../../../Documents/External/${project.name}-api/")
-
-    include {
-        if (it.isDirectory) {
-            return true
-        }
-        return it.file.text.contains("* @publicApi")
-    }
-
-    options {
-        memberLevel = JavadocMemberLevel.PUBLIC
-        links("http://docs.oracle.com/javase/7/docs/api/");
-        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
-        docEncoding = 'UTF-8'
-        encoding = 'UTF-8'
-        charSet = 'UTF-8'
-    }
-
-    failOnError false
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_shadows
 }
 
 task generateJavadocPluginApi(type: Javadoc) {
@@ -167,6 +129,7 @@ pitest {
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
 }
+
 tasks.withType(Test) {
     ignoreFailures = true
 }

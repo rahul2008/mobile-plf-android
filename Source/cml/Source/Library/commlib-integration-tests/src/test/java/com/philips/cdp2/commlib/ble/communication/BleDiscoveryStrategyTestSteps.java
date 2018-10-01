@@ -9,7 +9,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -34,6 +33,11 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.lang.ref.WeakReference;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -41,16 +45,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.reflect.Whitebox;
 
-import java.lang.ref.WeakReference;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
-import static com.philips.cdp2.commlib.core.CommCentral.*;
 import static com.philips.cdp2.commlib.core.util.ContextProvider.setTestingContext;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -68,6 +64,12 @@ public class BleDiscoveryStrategyTestSteps {
     private static final long TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = TimeUnit.SECONDS.toMillis(10);
 
     private CommCentral commCentral;
+
+    @Mock
+    private Handler mockMainThreadHandler;
+
+    @Captor
+    private ArgumentCaptor<Runnable> mockMainThreadRunnableCaptor;
 
     @Mock
     private SHNDeviceScanner deviceScanner;
@@ -104,7 +106,6 @@ public class BleDiscoveryStrategyTestSteps {
     public void setup() throws SHNBluetoothHardwareUnavailableException {
         initMocks(this);
 
-        Handler mockMainThreadHandler = mock(Handler.class);
         HandlerProvider.enableMockedHandler(mockMainThreadHandler);
 
         final Context mockContext = mock(Context.class);
@@ -123,6 +124,14 @@ public class BleDiscoveryStrategyTestSteps {
             @Override
             public Void answer(final InvocationOnMock invocation) throws Throwable {
                 runnableCaptor.getValue().run();
+                return null;
+            }
+        });
+        
+        when(mockMainThreadHandler.post(mockMainThreadRunnableCaptor.capture())).thenAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) throws Throwable {
+                mockMainThreadRunnableCaptor.getValue().run();
                 return null;
             }
         });

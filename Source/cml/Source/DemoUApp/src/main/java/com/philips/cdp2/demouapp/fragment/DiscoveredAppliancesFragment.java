@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -110,7 +109,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
         @Override
         public void onDiscoveryFailedToStart() {
-            UiUtils.showMessage(getActivity(), view, getString(R.string.cml_lan_discovery_failed_to_start));
+            UiUtils.showMessage(view, getString(R.string.cml_lan_discovery_failed_to_start));
         }
     };
 
@@ -132,38 +131,29 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
         @Override
         public void onDiscoveryStopped() {
-
+            
         }
 
         @Override
         public void onDiscoveryFailedToStart() {
-            UiUtils.showMessage(getActivity(), view, getString(R.string.cml_ble_discovery_failed_to_start));
+            UiUtils.showMessage(view, getString(R.string.cml_ble_discovery_failed_to_start));
         }
     };
 
     private void onAppliancesChanged() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
+        applianceAdapter.clear();
 
-                @Override
-                public void run() {
-                    applianceAdapter.clear();
-
-                    final Set<Appliance> appliances = commCentral.getApplianceManager().getAvailableAppliances();
-                    Collections.sort(new ArrayList<>(appliances), new Comparator<Appliance>() {
-                        @Override
-                        public int compare(Appliance o1, Appliance o2) {
-                            return o1.getName().compareTo(o2.getName());
-                        }
-                    });
-                    for (Appliance appliance : appliances) {
-                        appliance.getWifiPort().addPortListener(wifiPortListener);
-                    }
-                    applianceAdapter.addAll(appliances);
-                }
-            });
+        final Set<Appliance> appliances = commCentral.getApplianceManager().getAvailableAppliances();
+        Collections.sort(new ArrayList<>(appliances), new Comparator<Appliance>() {
+            @Override
+            public int compare(Appliance o1, Appliance o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+        for (Appliance appliance : appliances) {
+            appliance.getWifiPort().addPortListener(wifiPortListener);
         }
+        applianceAdapter.addAll(appliances);
     }
 
     private DICommPortListener<WifiPort> wifiPortListener = new DICommPortListener<WifiPort>() {
@@ -243,6 +233,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
                 }
             }
         });
+        lanDiscoverySwitch.setChecked(true);
 
         bleDiscoverySwitch = view.findViewById(R.id.cml_sw_startstop_ble_discovery);
         bleDiscoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -281,12 +272,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
     }
 
     private void updateAppId() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ((TextView) view.findViewById(R.id.cml_textViewAppId)).setText(appIdProvider.getAppId());
-            }
-        });
+        ((TextView) view.findViewById(R.id.cml_textViewAppId)).setText(appIdProvider.getAppId());
     }
 
     @Override

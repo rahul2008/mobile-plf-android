@@ -5,8 +5,8 @@
 package com.philips.platform.uid.drawableutils;
 
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableWrapper;
 import android.os.Build;
-import android.support.v4.graphics.drawable.DrawableWrapper;
 
 
 import java.lang.reflect.Field;

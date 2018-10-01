@@ -35,7 +35,7 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
     public static final UUID WEIGHT_SCALE_FEATURE_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A9E));
     public static final UUID WEIGHT_MEASUREMENT_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A9D));
 
-    private static final String TAG = SHNServiceBattery.class.getSimpleName();
+    private static final String TAG = "SHNServiceWeightScale";
 
     private SHNServiceWeightScaleListener shnServiceWeightScaleListener;
 

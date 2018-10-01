@@ -45,6 +45,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
+import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -70,11 +71,9 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER
 import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_WECHAT;
 
 
-public class HomeFragment extends RegistrationBaseFragment implements HomeContract {
+public class HomeFragment extends RegistrationBaseFragment implements NetworkStateListener, HomeContract {
 
-
-    private static final int AUTHENTICATION_FAILED = -30;
-    private static final String TAG = HomeFragment.class.getSimpleName();
+    private static final String TAG = "HomeFragment";
 
     @BindView(R2.id.usr_startScreen_createAccount_Button)
     Button mBtnCreateAccount;
@@ -102,7 +101,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @BindView(R2.id.ll_root_layout)
     LinearLayout spinnerLayout;
 
-    @BindView(R2.id.usr_startScreen_baseLayout_LinearLayout)
+    @BindView(R2.id.usr_reg_root_layout)
     LinearLayout usr_startScreen_baseLayout_LinearLayout;
 
     @BindView(R2.id.usr_StartScreen_privacyNotice_country_LinearLayout)
@@ -139,8 +138,10 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        RLog.i(TAG,"Screen name is "+ TAG);
+
+        RegistrationHelper.getInstance().registerNetworkStateListener(this);
         registerInlineNotificationListener(this);
-        RLog.d(TAG, "OnCreateView : is Called");
         mURFaceBookUtility = new URFaceBookUtility(this);
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
         homePresenter = new HomePresenter(this, mCallbackManager);
@@ -152,6 +153,12 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         handleOrientation(view);
         homePresenter.registerWeChatApp();
         return view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
     }
 
     private View getViewFromRegistrationFunction(LayoutInflater inflater, ViewGroup container) {
@@ -205,8 +212,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
                 return;
             }
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
-            if (mRegError.isShown())
-                hideNotificationBarView();//mRegError.hideError();
+            if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
             if (homePresenter.isNetworkAvailable()) {
                 homePresenter.setFlowDeligate(HomePresenter.FLOWDELIGATE.SOCIALPROVIDER);
                 homePresenter.setProvider(providerName);
@@ -222,7 +228,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             } else {
                 enableControls(false);
                 //updateErr1orMessage(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
-                showNotificationBarOnNetworkNotAvailable();
+//                showNotificationBarOnNetworkNotAvailable();
             }
         });
         return socialButton;
@@ -277,7 +283,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             getRegistrationFragment().addFragment(picker);
         } else {
             disableControlsOnNetworkConnectionGone();
-            showNotificationBarOnNetworkNotAvailable();
+//            showNotificationBarOnNetworkNotAvailable();
         }
     }
 
@@ -395,10 +401,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private ClickableSpan countryClickListener = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            if (mRegError.isShown()) {
-                //mRegError.hideError();
-                hideNotificationBarView();
-            }
+            if (mRegError.isShown()) hideNotificationBarView();
+
             handleCountrySelection();
         }
     };
@@ -512,11 +516,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void enableControls(boolean clickableState) {
-        if (clickableState) {
-            //mRegError.hideError();
-            hideNotificationBarView();
-
-        }
+        RLog.d(TAG, "enableControls : " + clickableState);
         handleBtnClickableStates(clickableState);
     }
 
@@ -530,6 +530,10 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         mCountryDisplay2.setEnabled(state);
         privacyPolicy2.setEnabled(state);
         //    continueWithouAccount.setEnabled(state);
+        if (!homePresenter.isNetworkAvailable()) {
+            RLog.d(TAG, " URNotification handleBtnClickableStates");
+            showNotificationBarOnNetworkNotAvailable();
+        } else hideNotificationBarView();
     }
 
     @Override
@@ -597,12 +601,13 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         hideProgressDialog();
         handleBtnClickableStates(false);
         //updateErrorNotification(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
-        showNotificationBarOnNetworkNotAvailable();
+//        showNotificationBarOnNetworkNotAvailable();
     }
 
 
     @OnClick(R2.id.usr_startScreen_createAccount_Button)
     void createAccountButtonClick() {
+        RLog.i(TAG,TAG+".createAccountButton Clicked");
         if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
         launchCreateAccountFragment();
     }
@@ -610,12 +615,14 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @OnClick(R2.id.usr_startScreen_Login_Button)
     void myPhilipsButtonClick() {
+        RLog.i(TAG,TAG+".myPhilipsButton Clicked ");
         if (mRegError.isShown()) hideNotificationBarView();// mRegError.hideError();
         launchSignInFragment();
     }
 
     @OnClick(R2.id.usr_StartScreen_Skip_Button)
     void skipButtonClick() {
+        RLog.i(TAG,TAG+".skipButton clicked");
         if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
 
         if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
@@ -678,9 +685,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
 
     private void handleSocialProviders(final String countryCode) {
-        RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
+        RLog.d(TAG , "handleSocialProviders method country code : " + countryCode);
         mLlSocialProviderBtnContainer.post(new Runnable() {
-
             @Override
             public void run() {
                 mLlSocialProviderBtnContainer.removeAllViews();
@@ -690,7 +696,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
                     for (int i = 0; i < providers.size(); i++) {
                         inflateEachProviderBtn(providers.get(i));
                     }
-                    RLog.d("HomeFragment", "social providers : " + providers);
+                    RLog.d(TAG, "social providers : " + providers);
                 }
                 UIOverProvidersSize(providers);
                 homePresenter.updateHomeControls();
@@ -737,7 +743,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, drawableId), params);
             mLlSocialProviderBtnContainer.invalidate();
         } catch (Exception e) {
-            RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
+            RLog.d(TAG, "Inflate Buttons exception :" + e.getMessage());
         }
     }
 
@@ -745,8 +751,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
         @Override
         public void onClick(View widget) {
-            if (mRegError.isShown())
-                hideNotificationBarView();//mRegError.hideError();
+            if (mRegError.isShown()) hideNotificationBarView();//mRegError.hideError();
             handlePrivacyPolicy();
         }
     };
@@ -792,7 +797,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void wechatAuthenticationFailError() {
         hideProgressDialogWithTrackHomeAndEnableControls();
-        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK,ErrorCodes.NETWORK_ERROR));
+        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
     }
 
     @Override
@@ -841,7 +846,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void initFailed() {
-        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK,ErrorCodes.NETWORK_ERROR));
+        updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
         hideProgressDialog();
     }
 
@@ -913,7 +918,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     private void handlePrivacyPolicyAndCountryView(int width) {
         int length = viewLength(mCountryDisplay, mCountryDisplay.getText().toString()) +
                 viewLength(privacyPolicy, privacyPolicy.getText().toString());
-        if ((width * .9) > length) {
+        if ((width * .85) > length) {
             usr_StartScreen_privacyNotice_country_LinearLayout2.setVisibility(View.GONE);
             usr_StartScreen_privacyNotice_country_LinearLayout.setVisibility(View.VISIBLE);
 
@@ -928,10 +933,10 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         hideProgressDialog();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.TECHNICAL_ERROR);
-        RLog.d(RLog.CALLBACK, "HomeFragment error");
+        RLog.d(TAG, "genericError ");
         enableControls(true);
 //        updateErrorNotification(mContext.getString(R.string.reg_Generic_Network_Error));
-        showNotificationBarOnNetworkNotAvailable();
+        //showNotificationBarOnNetworkNotAvailable();
     }
 
     @Override
@@ -951,5 +956,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void notificationInlineMsg(String msg) {
         mRegError.setError(msg);
+    }
+
+    @Override
+    public void onNetWorkStateReceived(boolean isOnline) {
+        RLog.d("Hide", "isOnline : " + isOnline);
+        if (isOnline) hideNotificationBarView();
     }
 }

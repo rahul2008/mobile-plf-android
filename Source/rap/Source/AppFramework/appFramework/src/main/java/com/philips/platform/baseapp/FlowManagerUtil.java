@@ -10,9 +10,11 @@ import com.philips.platform.appframework.connectivitypowersleep.insights.Insight
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.stateimpl.DemoDevicePairingState;
+import com.philips.platform.baseapp.screens.Optin.MarketingOptin;
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
 import com.philips.platform.baseapp.screens.cocoversion.CocoVersionState;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
+import com.philips.platform.baseapp.screens.cookiesconsent.CookiesConsentState;
 import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPOrderHistoryState;
@@ -42,6 +44,7 @@ public class FlowManagerUtil {
 
     public void addValuesToMap(final Map<String, BaseState> uiStateMap) {
         RALog.d(TAG, " addValuesToMap called");
+        uiStateMap.put(AppStates.COOKIES_CONSENT, new CookiesConsentState());
         uiStateMap.put(AppStates.WELCOME, new WelcomeState());
         uiStateMap.put(AppStates.ON_BOARDING_REGISTRATION, new UserRegistrationOnBoardingState());
         uiStateMap.put(AppStates.SETTINGS_REGISTRATION, new UserRegistrationSettingsState());
@@ -62,6 +65,7 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
         uiStateMap.put(AppStates.MY_ACCOUNT, new MyAccountState());
         uiStateMap.put(AppStates.PRIVACY_SETTINGS_STATE, new PrivacySettingsState());
+        uiStateMap.put(AppStates.MY_OPTIN_STATE, new MarketingOptin());
         uiStateMap.put(AppStates.MY_DETAILS_STATE, new MyDetailsState());
         uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
         uiStateMap.put(AppStates.NEURA, new NeuraState());

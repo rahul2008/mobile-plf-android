@@ -19,12 +19,11 @@ import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
-import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
-import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.uid.view.widget.Button;
 
 import java.util.List;
@@ -61,20 +60,19 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return registeredProducts;
     }
 
-
+    Button registerLater;
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
-        registerButton = (Button) view.findViewById(R.id.prg_welcomeScreen_yes_button);
-        Button registerLater = (Button) view.findViewById(R.id.prg_welcomeScreen_no_button);
-        productImage = (ImageView) view.findViewById(R.id.prg_welcomeScreem_product_image);
-        benefitsMessage = (TextView) view.findViewById(R.id.prg_welcomeScreen_benefit_label);
+        registerButton = view.findViewById(R.id.prg_welcomeScreen_yes_button);
+        registerLater = view.findViewById(R.id.prg_welcomeScreen_no_button);
+        productImage = view.findViewById(R.id.prg_welcomeScreem_product_image);
+        benefitsMessage = view.findViewById(R.id.prg_welcomeScreen_benefit_label);
         benefitsMessage.setText(getString(R.string.PRG_ReceiveUpdates_Lbltxt) + "\n" +
                 getString(R.string.prod_reg_benefits_conf_message));
         registerButton.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());
-        ProdRegTagging.getInstance().trackPage("ProductRegistrationOfferScreen", "trackPage",
-                "ProductRegistrationOfferScreen");
+        ProdRegTagging.trackPage(AnalyticsConstants.PRODUCT_REGISTRATION_OFFER_SCREEN);
         return view;
     }
 
@@ -91,6 +89,10 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 productImage.setImageDrawable(getResources().getDrawable(resId, getActivity().getTheme()));
                 productImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 productImage.requestLayout();
+            }
+            boolean hideNoThanksButton = dependencies.getBoolean(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE);
+            if(!hideNoThanksButton ) {
+                registerLater.setVisibility(View.GONE);
             }
         }
     }
@@ -114,13 +116,9 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
             public void onClick(final View v) {
                 final FragmentActivity activity = getActivity();
                 final User user = new User(activity);
-                if (user.isUserSignIn()) {
+                if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                     final ProdRegRegistrationFragment processFragment = new ProdRegRegistrationFragment();
                     processFragment.setArguments(dependencies);
-                    ProdRegTagging.getInstance().trackAction("ProductRegistrationEvent", "specialEvents", "productregistrationOptin");
-                    final ProdRegCache prodRegCache = new ProdRegCache();
-                    new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT, 1);
-                    ProdRegTagging.getInstance().trackAction("ProductRegistrationEvent", "noOfExtendedWarrantyOptIns", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.PRODUCT_REGISTRATION_EXTENDED_WARRANTY_COUNT)));
                     registerButton.setClickable(false);
                     showFragment(processFragment);
                 } else {

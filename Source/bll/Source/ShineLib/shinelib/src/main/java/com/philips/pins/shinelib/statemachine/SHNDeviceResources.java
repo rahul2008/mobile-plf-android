@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.statemachine;
 
+import android.bluetooth.BluetoothGatt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -32,6 +33,8 @@ public class SHNDeviceResources {
     private final BTDevice btDevice;
     private final String deviceTypeName;
     private String name;
+
+    private int connectionPriority;
     private final SHNCentral shnCentral;
     private final SHNDeviceImpl.SHNBondInitiator shnBondInitiator;
     private final SHNCentral.SHNCentralListener shnCentralListener;
@@ -44,7 +47,7 @@ public class SHNDeviceResources {
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
     private Map<Class<? extends SHNCapability>, SHNCapability> registeredByClassCapabilities = new HashMap<>();
 
-    public SHNDeviceResources(SHNDevice shnDevice, BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, SHNCentral.SHNCentralListener shnCentralListener, BTGatt.BTGattCallback btGattCallback) {
+    public SHNDeviceResources(SHNDevice shnDevice, BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, SHNCentral.SHNCentralListener shnCentralListener, BTGatt.BTGattCallback btGattCallback, int connectionPriority) {
         this.shnDevice = shnDevice;
         this.btDevice = btDevice;
         this.shnCentral = shnCentral;
@@ -52,6 +55,7 @@ public class SHNDeviceResources {
         this.shnBondInitiator = shnBondInitiator;
         this.shnCentralListener = shnCentralListener;
         this.btGattCallback = btGattCallback;
+        this.connectionPriority = connectionPriority < BluetoothGatt.CONNECTION_PRIORITY_BALANCED || connectionPriority > BluetoothGatt.CONNECTION_PRIORITY_LOW_POWER ? BluetoothGatt.CONNECTION_PRIORITY_BALANCED : connectionPriority;
         this.name = btDevice.getName();
     }
 
@@ -67,7 +71,7 @@ public class SHNDeviceResources {
 
     public void notifyStateToListener() {
         if (shnDeviceListener != null) {
-            shnDeviceListener.onStateUpdated(shnDevice);
+            shnDeviceListener.onStateUpdated(shnDevice, shnDevice.getState());
         }
     }
 
@@ -199,5 +203,9 @@ public class SHNDeviceResources {
 
     public long getLastDisconnectedTimeMillis() {
         return lastDisconnectedTimeMillis;
+    }
+
+    public int getConnectionPriority() {
+        return connectionPriority;
     }
 }

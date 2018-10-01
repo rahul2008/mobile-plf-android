@@ -1,7 +1,37 @@
 CommLib for Android - Release Notes
 ===================================
 
+
 Version {next}
+------------
+
+### Functionality Delivered
+
+### Backwards Compatibility
+* N/A
+
+### Features not covered
+* N/A
+
+### Breaking Changes
+* Removed BufferedWriter out from DiCommLog
+* Calling `getPortProperties` on a Port will no longer implicitly call `reloadProperties` on the port.
+
+### Defects solved
+* \#145509 - Fix for the bug where the remote getProps requests for the Floorcare vaccum cleaner were failing. The json for the requests needed to be edited.
+* \#146816 AppIdProvider now posts notifications on the main thread
+* \#123749 Discovery callback are now posted to main thread
+* \#144890 RemoteRequests are correctly parsed again
+* \#152690 Fixed the Notify relationship to have push permission
+
+### Residual anomalies
+* N/A
+
+### Risks and mitigations
+* N/A
+
+
+Version 1803
 ------------
 
 ### Functionality Delivered
@@ -20,7 +50,10 @@ Version {next}
 For details see design documents. 
 
 ### Defects solved
-* N/A
+* \#143016 - Fixed f/w upgrade getting stuck in connection state corner case.
+* \#142583 Overridden Method called inside the constructor of DefaultCloudController was made final to prevent overriding and mitigate security threats.
+* \#142595 System Information Leak was mitigated. Log.e was replaced by Log.d in DefaultCloudController and Proguard(.pro) was updated to strip Log.d statements on release time. 
+* \#142808 Removed the code to write logs to the file. 
 
 ### Residual anomalies
 * N/A
@@ -84,6 +117,7 @@ Version 1801
 * 116302 Added missing API to revoke pairing relations to `PairingPort`
 * 123173 Fixed a null pointer exception in `LanRequest`
 * 127703 Most of the time the app doesn’t stop the communication with the device after calling `disableCommunication()` method
+* 148756 Fix for bug where Cloud communication fails (pairing relationships lost) after app update
 
 ### Residual anomalies
 * N/A

@@ -26,4 +26,7 @@ public class RequestCode {
     public static final int GET_USER = 19;
     public static final int GET_PHONE_CONTACT = 20;
     public static final int DELETE_CART = 21;
+    public static final int APPLY_VOUCHER = 22;
+    public static final int GET_APPLIED_VOUCHER = 23;
+    public static final int DELETE_VOUCHER = 24;
 }

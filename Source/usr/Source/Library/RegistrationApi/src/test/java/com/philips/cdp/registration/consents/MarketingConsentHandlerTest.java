@@ -13,6 +13,8 @@ import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -230,7 +232,7 @@ public class MarketingConsentHandlerTest {
         when(mockUser.getReceiveMarketingEmail()).thenThrow(new RuntimeException("error offline"));
         MarketingConsentHandler spy = Mockito.spy(marketingConsentHandler);
 
-        spy.refreshUserOrGetMarketingConsent("moment", givenCheckConsentCallback,false);
+        spy.refreshUserOrGetMarketingConsent("moment", givenCheckConsentCallback, false);
         verify(spy).getMarketingConsentDefinition("moment", givenCheckConsentCallback);
     }
 
@@ -329,4 +331,36 @@ public class MarketingConsentHandlerTest {
             return mockUser;
         }
     }
+
+    @Test
+    public void shouldReturnDesiredTimeStampString() throws Exception {
+        String desiredTimestampString = "2018-07-30 06:29:05 +0000";
+
+        String desiredTimestampStringWithoutTimeZone = "2018-07-30 06:29:05";
+        marketingConsentHandler = new TestMarketingConsentHandler(mockContext);
+
+        String[] anyDate = new String[4];
+        anyDate[0] = "2018-07-30 06:29:05.78y88u9717      n   eguefgefuveifu+0000";
+        anyDate[1] = "2018-07-30 06:29:05 +0000";
+        anyDate[2] = "2018-07-30 06:29:05.493 +0000";
+        anyDate[3] = "2018-07-30 06:29:05.4933453434534 +0000";
+        anyDate[3] = "2018-07-30 06:29:05 4933453434534 +0000";
+
+        for (String date : anyDate) {
+            Assert.assertEquals(desiredTimestampString, marketingConsentHandler.getDesiredFormat(date));
+        }
+
+        String[] anyDateWithoutTimeZone = new String[4];
+        anyDateWithoutTimeZone[0] = "2018-07-30 06:29:05.78y88u9717      n   eguefgefuveifu";
+        anyDateWithoutTimeZone[1] = "2018-07-30 06:29:05   ";
+        anyDateWithoutTimeZone[2] = "2018-07-30 06:29:05.493 ";
+        anyDateWithoutTimeZone[3] = "2018-07-30 06:29:05.4933453434534 ";
+        anyDateWithoutTimeZone[3] = "2018-07-30 06:29:05 4933453434534 ";
+
+        for (String date : anyDateWithoutTimeZone) {
+            Assert.assertEquals(desiredTimestampStringWithoutTimeZone, marketingConsentHandler.getDesiredFormat(date));
+        }
+
+    }
+
 }

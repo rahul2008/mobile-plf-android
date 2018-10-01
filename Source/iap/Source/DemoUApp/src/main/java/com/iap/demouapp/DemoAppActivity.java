@@ -28,6 +28,7 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -147,7 +148,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initializeIAPComponant() {
-        if (mUser != null && mUser.isUserSignIn()) {
+        if (mUser != null && mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
             mRegister.setText(this.getString(R.string.log_out));
             showProgressDialog();
             initIAP();
@@ -337,9 +338,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
         if (pIgnoreRetailerList == null)
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput,null);
         else
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, pIgnoreRetailerList);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, null,pIgnoreRetailerList);
 
         try {
             mIapInterface.launch(new ActivityLauncher
@@ -393,7 +394,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
             //RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
             if (mRegister.getText().toString().equalsIgnoreCase(this.getString(R.string.log_out))) {
-                if (mUser.isUserSignIn()) {
+                if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                     mUser.logout(new LogoutHandler() {
                         @Override
                         public void onLogoutSuccess() {

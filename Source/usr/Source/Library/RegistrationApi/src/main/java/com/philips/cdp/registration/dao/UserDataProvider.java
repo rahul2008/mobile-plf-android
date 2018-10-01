@@ -13,9 +13,11 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDetailsListener;
@@ -25,7 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class UserDataProvider extends User implements UserDataInterface {
-    private final String TAG = UserDataProvider.class.getSimpleName();
+    private final String TAG = "UserDataProvider";
     private static final long serialVersionUID = 1995972602210564L;
     private transient Context context;
     private HashMap<String, Object> userDataMap;
@@ -108,8 +110,55 @@ public class UserDataProvider extends User implements UserDataInterface {
 
     @Override
     public boolean isUserLoggedIn(Context context) {
-        RLog.d(TAG, "isUserLoggedIn : " + isUserSignIn());
-        return isUserSignIn();
+        boolean isLoggedIn = isUserSignIn();
+        RLog.d(TAG, "isUserLoggedIn :  " + isLoggedIn);
+        return isLoggedIn;
+    }
+
+    @Override
+    public UserLoggedInState getUserLoggedInState() {
+        return getState();
+    }
+
+    private UserLoggedInState getState() {
+        switch (getUserLoginState()) {
+            case USER_LOGGED_IN:
+                return UserLoggedInState.USER_LOGGED_IN;
+            case USER_NOT_LOGGED_IN:
+                return UserLoggedInState.USER_NOT_LOGGED_IN;
+            case PENDING_VERIFICATION:
+                return UserLoggedInState.PENDING_VERIFICATION;
+            case PENDING_HSDP_LOGIN:
+                return UserLoggedInState.PENDING_HSDP_LOGIN;
+            case PENDING_TERM_CONDITION:
+                return UserLoggedInState.PENDING_TERM_CONDITION;
+        }
+        return UserLoggedInState.USER_NOT_LOGGED_IN;
+    }
+
+
+    @Override
+    public void authorizeHsdp(com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener hsdpAuthenticationListener) {
+        authorizeHSDP(getHsdpAuthenticationHandler(hsdpAuthenticationListener));
+    }
+
+
+    @NonNull
+    private HSDPAuthenticationListener getHsdpAuthenticationHandler(com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener hsdpAuthenticationListener) {
+        RLog.d(TAG, "getHsdpAuthenticationHandler");
+        return new HSDPAuthenticationListener() {
+            @Override
+            public void onHSDPLoginSuccess() {
+                RLog.d(TAG, "onHSDPLoginSuccess");
+                hsdpAuthenticationListener.onHSDPLoginSuccess();
+            }
+
+            @Override
+            public void onHSDPLoginFailure(int errorCode, String msg) {
+                RLog.d(TAG, "onHSDPLoginFailure");
+                hsdpAuthenticationListener.onHSDPLoginFailure(errorCode, msg);
+            }
+        };
     }
 
     @Override
@@ -130,13 +179,13 @@ public class UserDataProvider extends User implements UserDataInterface {
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int error) {
-                RLog.e(TAG, "onRefreshLoginSessionFailedWithError " + error);
+                RLog.e(TAG, "getRefreshHandler: onRefreshLoginSessionFailedWithError: " + error);
                 refreshListener.onRefreshSessionFailure(error);
             }
 
             @Override
             public void onRefreshLoginSessionInProgress(String message) {
-                RLog.e(TAG, "onRefreshLoginSessionInProgress : " + message);
+                RLog.e(TAG, "getRefreshHandler: onRefreshLoginSessionInProgress : " + message);
                 refreshListener.onRefreshSessionInProgress(message);
             }
         };

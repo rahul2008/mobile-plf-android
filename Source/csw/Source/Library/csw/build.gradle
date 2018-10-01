@@ -15,21 +15,15 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 archivesBaseName = "csw"
 
 buildscript {
-    repositories{
-        google()
-        maven { url sonatype }
-    }
     dependencies {
         classpath deps.butterknife_gradle
     }
 }
+
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-    lintOptions {
-        abortOnError false
-    }
 
     defaultConfig {
         minSdkVersion versions.minsdk
@@ -43,7 +37,6 @@ android {
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
-
     }
 
     buildTypes {
@@ -52,11 +45,11 @@ android {
             proguardFiles 'proguard-rules.pro'
             consumerProguardFiles 'consumer-proguard-rules.pro'
         }
+
         debug {
             debuggable true
             minifyEnabled false
         }
-
     }
 
     packagingOptions {
@@ -72,14 +65,7 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
         unitTests.all {
             jvmArgs '-noverify'
             jacoco {
@@ -88,25 +74,20 @@ android {
         }
     }
 }
-
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
     //3rd party
     implementation deps.gson
-    annotationProcessor deps.butterknife
     implementation deps.dagger.dagger
     implementation deps.dagger.androidsupport
-    annotationProcessor deps.dagger.compiler
-    implementation deps.butterknife
     implementation deps.calligraphy
     implementation deps.support.recyclerview
     implementation deps.support.appcompatv7
     implementation deps.support.supportv4
-
-
+    annotationProcessor deps.dagger.compiler
 
     // Philips Components
-    def dp = project.ext.has('useprojectdependencies')
-    if (dp) {
+    if (directdependencies) {
         implementation project(':uid')
         implementation project(':registrationApi')
         implementation project(':pif')
@@ -116,7 +97,7 @@ dependencies {
         implementation project(':AppInfra')
     } else {
         implementation philipsdeps.uid
-        implementation (philipsdeps.registrationApi) {
+        implementation(philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'
             exclude group: 'com.google.dagger'
         }
@@ -143,7 +124,6 @@ dependencies {
 }
 
 task updateResources(type: Exec) {
-
     workingDir "$rootDir"
     commandLine './ConsentWidgets/generateLocalization.sh'
     ignoreExitValue true

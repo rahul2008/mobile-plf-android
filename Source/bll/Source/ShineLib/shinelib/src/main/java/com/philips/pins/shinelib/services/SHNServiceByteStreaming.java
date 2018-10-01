@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public abstract class SHNServiceByteStreaming extends SHNService implements SHNService.SHNServiceListener {
-    private static final String TAG = SHNServiceByteStreaming.class.getSimpleName();
+    private static final String TAG = "SHNServiceByteStreaming";
 
     public interface SHNServiceMoonshineStreamingListener {
         void onReadProtocolInformation(byte[] configurationData);

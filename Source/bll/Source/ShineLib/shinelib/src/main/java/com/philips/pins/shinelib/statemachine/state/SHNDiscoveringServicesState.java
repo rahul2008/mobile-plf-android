@@ -17,11 +17,10 @@ import java.util.Locale;
 
 public class SHNDiscoveringServicesState extends SHNConnectingState {
 
-    private static final String TAG = "SHNDiscoveringServicesState";
     private static final long SERVICE_DISCOVERY_TIMEOUT = 20_000L;
 
     public SHNDiscoveringServicesState(@NonNull SHNDeviceStateMachine stateMachine) {
-        super(stateMachine, SERVICE_DISCOVERY_TIMEOUT);
+        super(stateMachine, "SHNDiscoveringServicesState", SERVICE_DISCOVERY_TIMEOUT);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class SHNDiscoveringServicesState extends SHNConnectingState {
             if (gatt.getServices().size() == 0) {
                 final String errorMsg = "No services found.";
 
-                SHNLogger.w(TAG, errorMsg);
+                SHNLogger.w(logTag, errorMsg);
                 SHNTagger.sendTechnicalError(errorMsg);
 
                 gatt.disconnect();
@@ -53,7 +52,7 @@ public class SHNDiscoveringServicesState extends SHNConnectingState {
         } else {
             final String errorMsg = String.format(Locale.US, "onServicedDiscovered: error discovering services, status [%d]; disconnecting.", status);
 
-            SHNLogger.e(TAG, errorMsg);
+            SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
             stateMachine.setState(new SHNDisconnectingState(stateMachine));

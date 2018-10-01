@@ -50,7 +50,7 @@ import java.util.List;
  */
 public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "DataService.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     public static final String DATABASE_PASSWORD_KEY = "dataservices";
 
     private static DatabaseHelper sDatabaseHelper;
@@ -192,6 +192,9 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
             }
             if (newVer >= 4 && oldVer < 4) {
                addExpirationDateToInsight();
+            }
+            if (newVer >= 5 && oldVer < 5) {
+                insertMomentTypes();
             }
         } catch (SQLException e) {
             e.printStackTrace();

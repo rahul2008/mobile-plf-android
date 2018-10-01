@@ -37,6 +37,8 @@ public class ShoppingCartData implements Serializable {
     private boolean mVatInclusive;
     private double discountPrice;
 
+    private String mAppliedVoucherCode;
+
     public ShoppingCartData() {
     }
 
@@ -215,5 +217,13 @@ public class ShoppingCartData implements Serializable {
 
     public double getDiscountPrice() {
         return discountPrice;
+    }
+
+    public String getAppliedVoucherCode() {
+        return mAppliedVoucherCode;
+    }
+
+    public void setAppliedVoucherCode(String mAppliedVoucherCode) {
+        this.mAppliedVoucherCode = mAppliedVoucherCode;
     }
 }

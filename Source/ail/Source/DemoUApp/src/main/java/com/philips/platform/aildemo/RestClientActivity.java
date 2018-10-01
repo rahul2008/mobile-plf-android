@@ -20,7 +20,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
@@ -49,6 +48,7 @@ public class RestClientActivity extends AppCompatActivity {
     TextView accessTokenTextView;
     TextView urlFired;
     private Button invokeButton;
+    private Button clearCacheButton;
     private Button loginButton;
     private Button authCheckButton;
     private Button logoutButton;
@@ -82,6 +82,8 @@ public class RestClientActivity extends AppCompatActivity {
         authCheckButton.setOnClickListener(onClickAuthCheckButton(authCheckButton));
 
         logoutButton.setOnClickListener(onClickLogOut());
+
+        clearCacheButton.setOnClickListener(view -> mRestInterface.clearCacheResponse());
     }
 
     @NonNull
@@ -192,8 +194,7 @@ public class RestClientActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-//                    mRestInterface.getRequestQueue().add(finalMStringRequest);
-                    Volley.newRequestQueue(RestClientActivity.this).add(finalMStringRequest);
+                    mRestInterface.getRequestQueue().add(finalMStringRequest);
                 }
             }).start();
 
@@ -465,6 +466,7 @@ public class RestClientActivity extends AppCompatActivity {
         accessTokenTextView = (TextView) findViewById(R.id.textViewAccessToken);
         requestTypeSpinner = (Spinner) findViewById(R.id.spinnerRequestType);
         invokeButton = (Button) findViewById(R.id.buttonInvoke);
+        clearCacheButton = (Button) findViewById(R.id.buttonClearCache);
         loginButton = (Button) findViewById(R.id.buttonLogin);
         authCheckButton = (Button) findViewById(R.id.buttonCheck);
         logoutButton = (Button) findViewById(R.id.buttonLogout);

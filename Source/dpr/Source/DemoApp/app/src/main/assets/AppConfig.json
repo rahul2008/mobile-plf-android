@@ -44,8 +44,8 @@
     "propositionid": "Tuscany2016"
   },
   "dataservices": {
-    "appname": "OneBackend"
-    "supportedMomentTypes": ["Temperature"]
+    "appname": "OneBackend",
+    "supportedMomentTypes": ["Temperature", "SleepSession", "sleepSession", "Note"]
   },
   "appinfra": {
     "appidentity.micrositeId" : "77000",

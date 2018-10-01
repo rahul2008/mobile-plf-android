@@ -59,6 +59,8 @@ import butterknife.OnClick;
 public class AccountActivationFragment extends RegistrationBaseFragment implements
         AccountActivationContract, RefreshUserHandler, CounterListener {
 
+    private String TAG ="AccountActivationFragment";
+
     @Inject
     NetworkUtility networkUtility;
 
@@ -77,7 +79,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @BindView(R2.id.usr_activation_activation_error)
     XRegError mEMailVerifiedError;
 
-    @BindView(R2.id.usr_activation_root_layout)
+    @BindView(R2.id.usr_reg_root_layout)
     LinearLayout usr_activation_root_layout;
 
     AccountActivationPresenter accountActivationPresenter;
@@ -104,6 +106,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        RLog.i(TAG,"Screen name is "+ TAG);
 
         Bundle bundle = getArguments();
         if (null != bundle) {
@@ -135,8 +138,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onStop() {
         super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDestroy");
-        RLog.d(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworStateListener");
+        RLog.d(TAG , "onStop");
         wasAppInBackground = true;
         accountActivationPresenter.unRegisterListener();
         getRegistrationFragment().stopCountDownTimer();
@@ -169,8 +171,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         if (savedInstanceState != null) {
             if (savedInstanceState.getString("saveEmailVerifiedErrorText") != null &&
                     savedInstanceState.getBoolean("isEmailVerifiedError")) {
-//                mEMailVerifiedError.setError(
-//                        savedInstanceState.getString("saveEmailVerifiedErrorText"));
                 updateErrorNotification(savedInstanceState.getString("saveEmailVerifiedErrorText"));
             }
         }
@@ -180,13 +180,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onConfigurationChanged");
+        RLog.d(TAG, "AccountActivationFragment : onConfigurationChanged");
         setCustomParams(config);
     }
 
     @OnClick(R2.id.usr_activation_emailVerified_button)
     void emailVerified() {
-        RLog.d(RLog.ONCLICK, "AccountActivationFragment : Activate Account");
+        RLog.i(TAG, TAG+".emailVerified clicked");
 
         showActivateSpinner();
         activateButtonEnable(false);
@@ -196,13 +196,11 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @OnClick(R2.id.usr_activation_emailNotReceived_button)
     void emailResend() {
-        RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend email");
+        RLog.i(TAG, TAG+".emailResend clicked");
 
         //  if (proceedResend) {
+
         getRegistrationFragment().addFragment(new AccountActivationResendMailFragment());
-        //  } else {
-        //      showResendAlertDialog();
-        //  }
     }
 
     private void initUI(View view) {
@@ -235,7 +233,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        // applyParams(config, usr_activation_root_layout, width);
     }
 
     @Override
@@ -254,6 +251,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void handleUiState(boolean isNetworkAvailable) {
+        if (isInstanceofCurrentFragment()) {
         if (isNetworkAvailable) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mEMailVerifiedError.hideError();
@@ -264,21 +262,20 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
                 activateButtonEnable(false);
                 mBtnResend.setEnabled(false);
                 mBtnActivate.setEnabled(false);
-                // mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
                 showNotificationBarOnNetworkNotAvailable();
             }
         } else {
-//            mEMailVerifiedError.setError(getString(R.string.reg_NoNetworkConnection));
             showNotificationBarOnNetworkNotAvailable();
             activateButtonEnable(false);
             mBtnResend.setEnabled(false);
             scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);
         }
-
+        }
     }
 
     @Override
     public void updateActivationUIState() {
+        if (isInstanceofCurrentFragment()) {
         hideActivateSpinner();
         if (mUser.isEmailVerified()) {
             mBtnResend.setVisibility(View.GONE);
@@ -297,15 +294,16 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         activateButtonEnable(true);
         mBtnResend.setEnabled(true);
     }
+    }
 
     private void showVerifyAlertDialog() {
         if (isInstanceofCurrentFragment()) {
             RegAlertDialog.showDialog(mContext.getResources().getString(
                     R.string.USR_DLS_Email_Verify_Alert_Title),
                     mContext.getResources().getString(
-                            R.string.USR_DLS_Forgot_Password_Alert_Message_Line1),
+                            R.string.USR_DLS_Email_Verify_Alert_Body_Line1),
                     mContext.getResources().getString(
-                            R.string.USR_DLS_Forgot_Password_Alert_Message_Line2),
+                            R.string.USR_DLS_Email_Verify_Alert_Body_Line2),
                     mContext.getResources().getString(
                             R.string.USR_DLS_Button_Title_Ok)
                     , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
@@ -325,7 +323,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void verificationError(String errorMsg) {
-//        mEMailVerifiedError.setError(errorMsg);
         updateErrorNotification(errorMsg);
     }
 
@@ -333,7 +330,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onRefreshUserSuccess() {
         if (this.isVisible()) {
-            RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
+            RLog.d(TAG, "onRefreshUserSuccess");
             setDiscription();
             if (mEmailId.equals(mUser.getEmail())) {
                 updateActivationUIState();
@@ -350,7 +347,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
 
     private void handleRefreshUserFailed(int error) {
-        RLog.d(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
+        RLog.d(TAG, "onRefreshUserFailed");
         if (error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED) {
             verificationError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
             hideActivateSpinner();

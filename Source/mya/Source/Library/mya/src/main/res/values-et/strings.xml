@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Olete võrgust väljas</string>
 <string name="MYA_Offline_message">Tundub, et viga on teie internetiühenduses. Kontrollige ja proovige uuesti</string>
 <string name="mya_Privacy_Settings_Desc">Kontrollige privaatsusseadeid. Lisateabe saamiseks lugege _privaatsusavaldust_.</string>
+    <string name="MYA_Visit_Website">[et]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[et]Marketing OptIn</string>
 </resources>

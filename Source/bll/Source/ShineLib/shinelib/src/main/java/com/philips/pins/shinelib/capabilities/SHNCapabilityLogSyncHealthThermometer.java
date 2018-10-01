@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class SHNCapabilityLogSyncHealthThermometer extends SHNCapabilityLogSyncBase implements SHNServiceHealthThermometer.SHNServiceHealthThermometerListener {
 
-    private static final String TAG = SHNCapabilityLogSyncHealthThermometer.class.getSimpleName();
+    private static final String TAG = "SHNCapabilityLogSyncHealthThermometer";
 
     private final SHNServiceHealthThermometer shnServiceHealthThermometer;
     private final SHNDeviceTimeAdjuster shnDeviceTimeAdjuster;

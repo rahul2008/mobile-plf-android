@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class CoppaExtension {
+    private static final String TAG = "CoppaExtension";
 
     private final String NULL = "null";
 
@@ -67,12 +68,13 @@ public class CoppaExtension {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationNotGiven;
                     }
                 } else if (consent.getGiven() != null && (hoursSinceLastConsent() >= 24L) && consent.getConfirmationGiven() == null) {
-                    RLog.d("Consent", "Consent ***" + consent.getConfirmationCommunicationSentAt() + " " + consent.getConfirmationCommunicationSentAt());
+                    RLog.d(TAG,"getCoppaStatusForConsent ***" + consent.getConfirmationCommunicationSentAt() + " " + consent.getConfirmationCommunicationSentAt());
                     coppaStatus = CoppaStatus.kDICOPPAConfirmationPending;
                     if (!RegUtility.isCountryUS(consent.getLocale())) {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
+                        RLog.d(TAG, "Consent kDICOPPAConfirmationGiven");
+
                     }
-                    RLog.d("Consent", "Consent coppaconfirmationPending");
                 }else{
                     coppaStatus = CoppaStatus.kDICOPPAConsentGiven;
                     if (!RegUtility.isCountryUS(consent.getLocale())) {

@@ -5,6 +5,7 @@
     <string name="MYA_Profile">Profile</string>
     <string name="MYA_Settings">Settings</string>
     <string name="MYA_My_details">My details</string>
+    <string name="MYA_Marketing_Optin">Marketing OptIn</string>
     <string name="MYA_My_products">My products</string>
     <string name="MYA_My_subscriptions">My subscriptions</string>
     <string name="MYA_My_orders">My orders</string>
@@ -35,6 +36,6 @@
     <string name="MYA_Offline_message">Your internet connection does not seem to be working. Please check and try again</string>
     <string name="mya_Privacy_Settings_Desc">Control your privacy. Read the _privacy notice_ for more information.</string>
 
-    <string name="MYA_philips_website">www.philips.com</string>
+    <string name="MYA_philips_website" translatable="false">www.philips.com</string>
     <string name="MYA_Add_mobile_number" translatable="false">Add mobile number</string>
 </resources>

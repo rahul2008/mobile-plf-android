@@ -26,7 +26,7 @@ import java.util.*;
 
 public class ConsumerInterestUpdate {
 
-    private final String TAG = ConsumerInterestUpdate.class.getSimpleName();
+    private final String TAG = "ConsumerInterestUpdate";
     private String baseUrl;
     private Context mContext;
 
@@ -169,7 +169,7 @@ public class ConsumerInterestUpdate {
                     }
 
                 } catch (Exception e) {
-                    RLog.e(TAG, "Exception Occured : " + e.getMessage());
+                    RLog.e(TAG, "processResponse: Exception  " + e.getMessage());
                 }
 
 

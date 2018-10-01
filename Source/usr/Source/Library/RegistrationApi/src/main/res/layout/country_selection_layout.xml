@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_country_selection"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/usr_reg_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/uidContentPrimaryBackgroundColor"
@@ -14,4 +14,4 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:scrollbars="vertical" />
-</RelativeLayout>
+</LinearLayout>

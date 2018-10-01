@@ -65,6 +65,8 @@ import butterknife.OnClick;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements CreateAccountContract {
 
+    private String TAG = "CreateAccountFragment";
+
     @Inject
     NetworkUtility networkUtility;
 
@@ -128,7 +130,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @BindView(R2.id.usr_createscreen_create_button)
     ProgressBarButton usrCreatescreenCreateButton;
 
-    @BindView(R2.id.usr_createScreen_baseLayout_LinearLayout)
+    @BindView(R2.id.usr_reg_root_layout)
     LinearLayout usrCreateScreenBaseLayoutLinearLayout;
 
     @BindView(R2.id.usr_createscreen_emailormobile_label)
@@ -204,6 +206,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        RLog.i(TAG,"Screen name is "+ TAG);
+
 
         View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
         registerInlineNotificationListener(this);
@@ -243,8 +247,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         int strengthMeterStrong = 100;
         int strengthMeterMedium = 66;
 
-        RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment register: NetworkStateListener,strength " + strength);
+        RLog.d(TAG,
+                " register: NetworkStateListener,strength " + strength);
         if (strength > strengthStrong) {
             passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Strong), strengthMeterStrong, true, R.color.uid_green_level_30,
                     R.drawable.reg_password_strength_strong, 0, true);
@@ -252,10 +256,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Medium), strengthMeterMedium, true, R.color.uid_pink_level_30,
                     R.drawable.reg_password_strength_medium, 0, false);
         } else if (strength == strengthMedium) {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_15,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_30,
                     R.drawable.reg_password_strength_weak, R.string.USR_InValid_PwdErrorMsg, false);
         } else {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), stringthMeterNone, false, R.color.uid_signal_red_level_15,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), stringthMeterNone, false, R.color.uid_signal_red_level_30,
                     R.drawable.reg_password_strength_weak, R.string.USR_PasswordField_ErrorMsg, false);
         }
         return 0;
@@ -290,18 +294,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @Override
     public void onDestroy() {
 
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
+        RLog.d(TAG, " : onDestroy");
         if (createAccountPresenter != null)
             createAccountPresenter.unRegisterListener();
-
-        RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
     }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onConfigurationChanged");
+        RLog.d(TAG, " : onConfigurationChanged");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
@@ -365,14 +366,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         switch (abTestingUIFlow) {
 
             case FLOW_A:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                RLog.d(TAG, "UI Flow Type A");
                 usrCreatescreenMarketingmailsCheckbox.setVisibility(View.VISIBLE);
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                         AppTagingConstants.REGISTRATION_CONTROL);
                 break;
             case FLOW_B:
 
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                RLog.d(TAG, "UI Flow Type B");
                 usrCreatescreenMarketingmailsCheckbox.setVisibility(View.GONE);
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                         AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
@@ -395,7 +396,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         } else {
             emailString = FieldsValidator.getMobileNumber(usrCreatescreenEmailormobileTextfield.getText().toString());
         }
-        RLog.d(RLog.CALLBACK, "create : family name" + usrCreateScreenLastNameTextField.getText().toString());
+        RLog.d(TAG, "create : LastName " + usrCreateScreenLastNameTextField.getText().toString());
 
         createAccountPresenter.registerUserInfo(user, usrCreateScreenFirstNameTextField.getText().toString(), usrCreateScreenLastNameTextField.getText().toString(), emailString
                 , usrCreateScreenPasswordTextField.getText().toString(), true, usrCreatescreenMarketingmailsCheckbox.isChecked());
@@ -577,6 +578,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @OnClick(R2.id.usr_createscreen_switchtologin_button)
     public void setSwitchToLogin() {
+        RLog.i(TAG,TAG+".setSwitchToLogin");
         getRegistrationFragment().addFragment(new SignInAccountFragment());
     }
 
@@ -643,10 +645,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @OnClick(R2.id.usr_createscreen_create_button)
-    public void progressBar() {
-        RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment register: progresBarButton");
-        RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
+    public void createButtonWithProgressBar() {
+        RLog.d(TAG, "createButtonWithProgressBar: Create Account");
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (usrCreatescreenTermsandconditionsCheckbox.isChecked()) {
                 registerUserInfo();

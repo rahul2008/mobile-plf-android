@@ -2,7 +2,7 @@
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
- 
+
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
@@ -31,9 +31,7 @@ dependencies {
     implementation deps.support.appcompatv7
     implementation deps.support.design
 
-    def dp = project.ext.has('useprojectdependencies')
-
-    if (dp) {
+    if (directdependencies) {
         implementation project(':uAppFwLib')
         implementation project(':AppInfra')
         implementation project(':pif')
@@ -42,11 +40,9 @@ dependencies {
         implementation philipsdeps.AppInfra
         implementation philipsdeps.pif
     }
-
     implementation deps.gson
     implementation deps.volley
 }
-
 
 tasks.withType(Test) {
     ignoreFailures = true

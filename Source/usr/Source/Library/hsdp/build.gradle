@@ -1,67 +1,24 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-//apply plugin: 'com.jakewharton.butterknife'
-apply plugin: 'com.android.library'
-apply plugin: 'com.jakewharton.butterknife'
-
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
-
-archivesBaseName = "hsdp"
-
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        google()
-        maven {
-
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.releaseexternal
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-
-        maven { url sonatype }
-    }
-    dependencies {
-        classpath builddeps.buildinfoextractor
-        classpath deps.retrolambda_gradle
-        classpath deps.butterknife_gradle
-    }
-}
-
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-repositories {
-    maven {
-        url repos.releaseexternal
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
-    maven {
-        url objcdp.getArtifactoryUrl()
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
+apply plugin: 'com.android.library'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
+archivesBaseName = "hsdp"
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.buildinfoextractor
+        classpath deps.retrolambda_gradle
     }
 }
 
@@ -89,11 +46,6 @@ android {
                 includeCompileClasspath true // NB! see doc below
             }
         }
-
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     packagingOptions {
@@ -116,24 +68,21 @@ android {
         }
 
         debug {
-            testCoverageEnabled=true
+            testCoverageEnabled = true
             debuggable true
         }
     }
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
-
-
 }
 
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {
+    compileOnly deps.javax_annotation
+
     implementation project(':jump')
     implementation project(':AppInfra')
-    compileOnly deps.javax_annotation
     implementation deps.butterknife
+
     annotationProcessor deps.butterknife
     annotationProcessor deps.immutables
     annotationProcessor deps.dagger.compiler
@@ -155,12 +104,11 @@ dependencies {
 
     // JUnit4 Rules
     androidTestImplementation deps.android_testrules
+
     // Android JUnit Runner
     androidTestImplementation deps.android_testrunner
-    androidTestImplementation deps.dexmaker_google
     androidTestImplementation deps.junit
     androidTestImplementation deps.mockito_android
-
 }
 
 tasks.withType(Test) {

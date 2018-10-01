@@ -2,6 +2,7 @@ package com.philips.platform.csw.mock;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 
 import com.adobe.mobile.Analytics;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -281,6 +282,11 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
 
     @Override
     public DeviceStoredConsentHandler getDeviceStoredConsentHandler() {
+        return null;
+    }
+
+    @Override
+    public Context getAppInfraContext() {
         return null;
     }
 }

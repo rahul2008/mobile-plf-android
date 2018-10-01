@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -121,13 +122,13 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
     protected void onResume() {
         super.onResume();
 
-        if (!user.isUserSignIn()) {
+        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
             logout.setVisibility(View.GONE);
         }
 
         logout.setOnClickListener(this);
 
-        if (user.isUserSignIn()) {
+        if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
             logout.setText("Logout");
         } else {
             logout.setText("Login");
@@ -165,7 +166,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
 
     private void prepareLaunchAmwell() {
         User user = new User(this);
-        if (user != null && !user.isUserSignIn()) {
+        if (user != null && user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
             startRegistrationFragment();
         } else {
             launchAmwell();
@@ -255,7 +256,6 @@ public class MainActivity extends UIDActivity implements ActionBarListener, View
         PTHMicroAppInterface.launch(activityLauncher, PTHMicroAppLaunchInput);
 
     }
-
 
 
     @Override

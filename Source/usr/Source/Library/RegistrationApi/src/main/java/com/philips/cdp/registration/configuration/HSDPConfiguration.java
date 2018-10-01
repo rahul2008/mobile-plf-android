@@ -13,7 +13,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 
 public class HSDPConfiguration extends BaseConfiguration {
 
-    private static String TAG = HSDPConfiguration.class.getSimpleName();
+    private static String TAG = "HSDPConfiguration";
 
     private static final String URL_ENCODING_FORMAT = "UTF-8";
 
@@ -39,14 +39,14 @@ public class HSDPConfiguration extends BaseConfiguration {
         if (baseUrlAppConfig == null || baseUrlAppConfig.isEmpty()) {
             return baseUrlServiceDiscovery;
         }
-        RLog.i(TAG, "getHsdpBaseUrl : " + baseUrlAppConfig);
+        RLog.d(TAG, "getHsdpBaseUrl : " + baseUrlAppConfig);
         return baseUrlAppConfig;
     }
 
     private String getBaseUrlFromHsdpConfig() {
         Object baseUrlObject = appInfraWrapper.getURProperty(HSDP_CONFIGURATION_BASE_URL);
         String baseUrl = getDecodedBaseUrl(baseUrlObject);
-        RLog.i(TAG, "getBaseUrlFromHsdpConfig : " + baseUrl);
+        RLog.d(TAG, "getBaseUrlFromHsdpConfig : " + baseUrl);
         return baseUrl;
     }
 
@@ -62,9 +62,9 @@ public class HSDPConfiguration extends BaseConfiguration {
         try {
             decodedBaseUrl = URLDecoder.decode(baseUrl, URL_ENCODING_FORMAT);
         } catch (UnsupportedEncodingException e) {
-            RLog.i(TAG, "getDecodedBaseUrl : UnsupportedEncodingException " + e.getMessage());
+            RLog.e(TAG, "getDecodedBaseUrl : UnsupportedEncodingException " + e.getMessage());
         }
-        RLog.i(TAG, "getDecodedBaseUrl : " + decodedBaseUrl);
+        RLog.d(TAG, "getDecodedBaseUrl : " + decodedBaseUrl);
         return decodedBaseUrl;
     }
 }

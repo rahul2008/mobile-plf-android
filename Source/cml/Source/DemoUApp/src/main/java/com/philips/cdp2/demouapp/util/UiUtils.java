@@ -5,12 +5,9 @@
 
 package com.philips.cdp2.demouapp.util;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
-
 import com.philips.cdp2.commlib.demouapp.R;
 
 public class UiUtils {
@@ -19,32 +16,18 @@ public class UiUtils {
         // Utility class
     }
 
-    public static void showMessage(final @Nullable Activity activity, final @NonNull View view, final @NonNull String message) {
-        if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
-                }
-            });
-        }
+    public static void showMessage(final @NonNull View view, final @NonNull String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
     }
 
-    public static void showIndefiniteMessage(final @Nullable Activity activity, final @NonNull View view, final @NonNull String message) {
-        if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    final Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
-                    snackbar.setAction(R.string.cml_dismiss_indefinite_message, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            snackbar.dismiss();
-                        }
-                    });
-                    snackbar.show();
-                }
-            });
-        }
+    public static void showIndefiniteMessage(final @NonNull View view, final @NonNull String message) {
+        final Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.cml_dismiss_indefinite_message, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
     }
 }

@@ -32,7 +32,7 @@ public class FlowManagerTest extends TestCase {
 
     public void testPopulateStateMap(){
         flowManager.populateStateMap(uiStateMap);
-        assertEquals(38, uiStateMap.size());
+        assertEquals(40, uiStateMap.size());
     }
 
     public void testConditionMapExists(){
@@ -42,7 +42,7 @@ public class FlowManagerTest extends TestCase {
 
     public void testConditionStateMap(){
         flowManager.populateConditionMap(baseConditionMap);
-        assertEquals(4, baseConditionMap.size());
+        assertEquals(5, baseConditionMap.size());
     }
 
 

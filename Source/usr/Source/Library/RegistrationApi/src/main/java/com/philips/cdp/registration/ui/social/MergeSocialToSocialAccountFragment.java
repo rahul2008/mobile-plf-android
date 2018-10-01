@@ -28,6 +28,7 @@ import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -50,6 +51,8 @@ import butterknife.OnClick;
 
 public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment implements
         MergeSocialToSocialAccountContract {
+
+    private String TAG = "MergeSocialToSocialAccountFragment";
 
     @Inject
     NetworkUtility networkUtility;
@@ -101,6 +104,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        RLog.i(TAG,"Screen name is"+ TAG);
         View view = inflater.inflate(R.layout.reg_fragment_social_to_social_merge_account, container, false);
         registerInlineNotificationListener(this);
         ButterKnife.bind(this, view);
@@ -134,7 +138,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
         mConflictProvider = bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
         mEmail = bundle.getString(RegConstants.SOCIAL_MERGE_EMAIL);
-        RLog.e("TAG", "Social Provider : "+mConflictProvider);
+        RLog.e(TAG, "Social Provider : " + mConflictProvider);
         String conflictingProvider = "USR_" + mConflictProvider;
         int conflictSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(conflictingProvider, "string",
                 getRegistrationFragment().getParentActivity().getPackageName());
@@ -150,6 +154,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @OnClick(R2.id.usr_mergeScreen_logout_button)
     void showLogoutAlert() {
+        RLog.i(TAG,TAG+".logoutAlert clicked");
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogLayout(R.layout.social_merge_dialog)
@@ -177,18 +182,15 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @OnClick(R2.id.usr_mergeScreen_login_button)
     void mergeAccount() {
+        RLog.i(TAG,TAG+".mergeAccount clicked");
         if (networkUtility.isNetworkAvailable()) {
-            if(mConflictProvider.equalsIgnoreCase(RegConstants.SOCIAL_PROVIDER_FACEBOOK)){
+            if (mConflictProvider.equalsIgnoreCase(RegConstants.SOCIAL_PROVIDER_FACEBOOK)) {
                 startFaceBookLogin();
-            }else {
+            } else {
                 mergeSocialToSocialAccountPresenter.loginUserUsingSocialProvider(mConflictProvider, mMergeToken);
             }
             showMergeSpinner();
         }
-//        else {
-//            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-//            scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
-//        }
     }
 
     private void showMergeSpinner() {
@@ -209,10 +211,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         if (isOnline) {
             mRegError.hideError();
         }
-//        else {
-//            scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
-//            mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
-//        }
     }
 
     private void updateUiOnNetworkChange(boolean isOnline) {
@@ -227,6 +225,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void setViewParams(Configuration config, int width) {
+        //NOP
     }
 
     @Override
@@ -275,9 +274,9 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @Override
     public void mergeFailure(UserRegistrationFailureInfo failureInfo) {
         hideMergeSpinner();
-        updateErrorNotification(failureInfo.getErrorDescription(), failureInfo.getErrorCode());
-//        mRegError.setError(new URError(mContext).getLocalizedError(ErrorType.JANRAIN, errorCode));
-//        scrollViewAutomatically(mRegError, usr_mergeScreen_rootLayout_scrollView);
+        if (failureInfo.getErrorCode() != ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER) {
+            updateErrorNotification(failureInfo.getErrorDescription(), failureInfo.getErrorCode());
+        }
     }
 
     @Override
@@ -313,7 +312,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void onFaceBookEmailReceived(String email) {
-            startAccessTokenAuthForFacebook();
+        startAccessTokenAuthForFacebook();
     }
 
     @Override

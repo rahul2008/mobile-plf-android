@@ -92,7 +92,7 @@ public class SHNDeviceAssociation {
         void onAssociatedDeviceRemoved(@NonNull final SHNDevice device);
     }
 
-    private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
+    private static final String TAG = "SHNDeviceAssociation";
 
     private final SHNDeviceScannerInternal shnDeviceScannerInternal;
     private List<SHNDevice> associatedDevices;
@@ -383,8 +383,7 @@ public class SHNDeviceAssociation {
     private SHNDevice.SHNDeviceListener createClearStorageOnDisconnectListener(final SHNDevice shnDeviceToRemove) {
         return new SHNDevice.SHNDeviceListener() {
             @Override
-            public void onStateUpdated(final SHNDevice shnDevice) {
-                SHNDevice.State state = shnDevice.getState();
+            public void onStateUpdated(@NonNull final SHNDevice shnDevice, @NonNull final SHNDevice.State state) {
                 if (state.equals(SHNDevice.State.Disconnected) || state.equals(SHNDevice.State.Disconnecting)) {
                     shnDevice.unregisterSHNDeviceListener(this);
                     shnCentral.getInternalHandler().post(new Runnable() {

@@ -118,6 +118,25 @@ public class QuietButtonTest {
         getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(2, expectedColor)));
     }
 
+
+    @Test
+    public void verifyQuietDefaultButtonFontTextColor() {
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietDefaultNormalTextColor);
+        getQuietDefaultButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(2, expectedColor)));
+    }
+
+    @Test
+    public void verifyQuietDefaultButtonPressedFontTextColor() {
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietDefaultPressedTextColor);
+        getQuietDefaultButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(1, expectedColor)));
+    }
+
+    @Test
+    public void verifyQuietDefaultButtonDisabledFontTextColor() {
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietDefaultDisabledTextColor);
+        getQuietDefaultButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(0, expectedColor)));
+    }
+
     @Test
     public void verifyQuietTextOnlyPressedButtonFontColor() {
         final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietEmphasisPressedIconColor);
@@ -140,6 +159,10 @@ public class QuietButtonTest {
 
     private ViewInteraction getQuietIconandTextButton() {
         return onView(withId(com.philips.platform.uid.test.R.id.quiet_demo_image_text_button));
+    }
+
+    private ViewInteraction getQuietDefaultButton() {
+        return onView(withId(com.philips.platform.uid.test.R.id.quiet_default_button));
     }
 }
 

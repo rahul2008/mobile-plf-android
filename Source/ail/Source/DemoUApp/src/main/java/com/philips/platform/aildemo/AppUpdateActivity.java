@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
-import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -97,6 +96,10 @@ public class AppUpdateActivity extends AppCompatActivity {
 		appUpdateRefresh.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(appupdateInterface == null) {
+					Toast.makeText(AppUpdateActivity.this, "enable appUpdate.autoRefresh to true in AppConfig.json", Toast.LENGTH_LONG).show();
+					return;
+				}
 				appupdateInterface.refresh(new AppUpdateInterface.OnRefreshListener() {
 					@Override
 					public void onError(AIAppUpdateRefreshResult error, String message) {
@@ -114,6 +117,12 @@ public class AppUpdateActivity extends AppCompatActivity {
 		fetchappupdateValues.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
+				if(appupdateInterface == null) {
+					Toast.makeText(AppUpdateActivity.this, "enable appUpdate.autoRefresh to true in AppConfig.json", Toast.LENGTH_LONG).show();
+					return;
+				}
+
 				tvappversionval.setText(AILDemouAppInterface.getInstance().getAppInfra().getAppIdentity().getAppVersion());
 				tvminversionval.setText(appupdateInterface.getMinimumVersion());
 				tvisDeprecated.setText(String.valueOf(appupdateInterface.isDeprecated()));
@@ -124,7 +133,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 				tvUpdateMessage.setText(appupdateInterface.getUpdateMessage());
 				tvMinimumOSverion.setText(appupdateInterface.getMinimumOSverion());
 				tvMinimumOSversionMessage.setText(appupdateInterface.getMinimumOSMessage());
-				SimpleDateFormat formatter = new SimpleDateFormat(AppUpdateManager.APPUPDATE_DATE_FORMAT
+				SimpleDateFormat formatter = new SimpleDateFormat(AppUpdateInterface.APPUPDATE_DATE_FORMAT
 						, Locale.ENGLISH);
 				if(appupdateInterface.getToBeDeprecatedDate() != null) {
 					String s = formatter.format(appupdateInterface.getToBeDeprecatedDate());

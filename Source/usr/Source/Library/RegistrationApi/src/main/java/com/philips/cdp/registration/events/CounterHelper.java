@@ -20,7 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class CounterHelper {
 
-    private final String TAG = CounterHelper.class.getSimpleName();
+    private final String TAG = "CounterHelper";
 
     private static CounterHelper eventHelper;
 

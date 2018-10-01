@@ -216,8 +216,7 @@ public class BleRequestTest {
             @Override
             public Void answer(final InvocationOnMock invocation) {
                 request.processDiCommResponse(mockDicommResponse);
-                when(mockDevice.getState()).thenReturn(Disconnected);
-                stateListener.onStateUpdated(mockDevice);
+                stateListener.onStateUpdated(mockDevice, Disconnected);
                 return null;
             }
         }).when(mockInProgressLatch).await();
@@ -232,8 +231,7 @@ public class BleRequestTest {
         doAnswer(new Answer() {
             @Override
             public Void answer(final InvocationOnMock invocation) {
-                when(mockDevice.getState()).thenReturn(Disconnected);
-                stateListener.onStateUpdated(mockDevice);
+                stateListener.onStateUpdated(mockDevice, Disconnected);
                 return null;
             }
         }).when(mockInProgressLatch).await();
@@ -251,8 +249,8 @@ public class BleRequestTest {
             @Override
             public Void answer(final InvocationOnMock invocation) {
                 when(mockDevice.getState()).thenReturn(Connected);
-                stateListener.onStateUpdated(mockDevice);
-                stateListener.onStateUpdated(mockDevice);
+                stateListener.onStateUpdated(mockDevice, Connected);
+                stateListener.onStateUpdated(mockDevice, Connected);
                 return null;
             }
         }).when(mockInProgressLatch).await();
@@ -387,15 +385,21 @@ public class BleRequestTest {
     @Test
     public void givenRequestIsRunning_whenASuccessfulDICommMessageIsReceived_thenRequestReportsSuccess() throws InterruptedException {
         String validJsonString = "{\"A valid key\" : \"A valid value\"}";
+        DiCommMessage message = createSuccessfulResponseFromJson(validJsonString);
+
+        simulateRunWithDiCommMessage(message);
+
+        verify(responseHandlerMock).onSuccess(validJsonString);
+    }
+
+    @NonNull
+    private DiCommMessage createSuccessfulResponseFromJson(String validJsonString) {
         byte[] payload = ("\0" + validJsonString + "\0").getBytes();
 
         DiCommMessage message = mock(DiCommMessage.class);
         when(message.getMessageType()).thenReturn(MessageType.GenericResponse);
         when(message.getPayload()).thenReturn(payload);
-
-        simulateRunWithDiCommMessage(message);
-
-        verify(responseHandlerMock).onSuccess(validJsonString);
+        return message;
     }
 
     private void simulateRunWithDiCommMessage(final DiCommMessage message) throws InterruptedException {

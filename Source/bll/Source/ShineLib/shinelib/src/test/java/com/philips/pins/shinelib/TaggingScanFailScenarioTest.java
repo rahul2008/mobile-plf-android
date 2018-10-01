@@ -110,6 +110,11 @@ public class TaggingScanFailScenarioTest {
             public boolean matchesOnAdvertisedData(BluetoothDevice bluetoothDevice, BleScanRecord bleScanRecord, int rssi) {
                 return false;
             }
+
+            @Override
+            public int getConnectionPriority() {
+                return 0;
+            }
         });
 
         shnDeviceScannerInternal = new TaggingScanFailScenarioTest.TestSHNDeviceScannerInternal(shnCentralMock, testDeviceDefinitionInfos);

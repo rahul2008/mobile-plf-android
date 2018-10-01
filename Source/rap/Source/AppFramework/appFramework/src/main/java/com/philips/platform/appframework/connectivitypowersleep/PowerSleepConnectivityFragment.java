@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
@@ -44,7 +45,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View, UIView, SynchronisationCompleteListener,DBChangeListener {
+public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View, UIView, SynchronisationCompleteListener, DBChangeListener {
     public static final String TAG = PowerSleepConnectivityFragment.class.getSimpleName();
     private ProgressDialog dialog = null;
     private Handler handler = new Handler();
@@ -105,7 +106,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
             dataServicesManager = getDataServicesManager();
             connectivityHelper = new ConnectivityHelper();
             user = new User(getActivity());
-            if (user.isUserSignIn()) {
+            if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                 dataServicesManager.registerSynchronisationCompleteListener(this);
                 dataServicesManager.synchronize();
             } else {
@@ -117,11 +118,12 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     }
 
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        connectivityPresenter.fetchLatestSessionInfo();
+        if(user.isUserSignIn()) {
+            connectivityPresenter.fetchLatestSessionInfo();
+        }
     }
 
 
@@ -154,8 +156,8 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     public void onStart() {
         super.onStart();
         dataServicesManager.registerSynchronisationCompleteListener(this);
-        if(!user.isUserSignIn()) {
-            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"User not logged in");
+        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
+            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "User not logged in");
             showToast("Please sign in!");
         }
     }
@@ -167,7 +169,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     }
 
     protected PowerSleepConnectivityPresenter getConnectivityPresenter() {
-        PowerSleepConnectivityPresenter presenter = new PowerSleepConnectivityPresenter(connectivityHelper,getActivity(), this, this);
+        PowerSleepConnectivityPresenter presenter = new PowerSleepConnectivityPresenter(connectivityHelper, getActivity(), this, this);
         presenter.initDataServiceInterface(getDataServicesManager());
         return presenter;
     }
@@ -207,7 +209,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
                 if (isFragmentLive()) {
                     try {
                         bleScanDialogFragment = new BLEScanDialogFragment();
-                        if(mCommCentral.getApplianceManager()!=null) {
+                        if (mCommCentral.getApplianceManager() != null) {
                             bleScanDialogFragment.setSavedApplianceList(mCommCentral.getApplianceManager().getAvailableAppliances());
                         }
                         bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), BLE_SCAN_DIALOG_TAG);
@@ -240,7 +242,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     }
 
     @Override
-    public void updateScreenWithLatestSessionInfo(final Summary summary){
+    public void updateScreenWithLatestSessionInfo(final Summary summary) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -265,7 +267,6 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
             }
         });
     }
-
 
 
     @Override
@@ -295,7 +296,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         handler.post(new Runnable() {
             @Override
             public void run() {
-                RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,message);
+                RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG, message);
                 Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
             }
         });
@@ -306,7 +307,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         RALog.d(TAG, " Connectivity Fragment Destroyed");
 
         connectivityFragmentWeakReference = null;
-        user=null;
+        user = null;
         super.onDestroy();
     }
 
@@ -333,7 +334,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     @Override
     public void onSyncComplete() {
-        RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"On Sync complete");
+        RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "On Sync complete");
         connectivityPresenter.fetchLatestSessionInfo();
     }
 
@@ -343,31 +344,31 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         new User(getActivity()).refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                RALog.d(TAG,"Login Token refresh successful");
+                RALog.d(TAG, "Login Token refresh successful");
             }
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int i) {
-                RALog.d(TAG,"Error while refreshing login token");
+                RALog.d(TAG, "Error while refreshing login token");
             }
 
             @Override
             public void onRefreshLoginSessionInProgress(String s) {
-                RALog.d(TAG,"Login Token refresh in progress");
+                RALog.d(TAG, "Login Token refresh in progress");
             }
         });
     }
 
     @Override
     public void dBChangeSuccess(SyncType syncType) {
-        RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"On DB change success");
+        RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "On DB change success");
         dataServicesManager.synchronize();
         connectivityPresenter.fetchLatestSessionInfo();
     }
 
     @Override
     public void dBChangeFailed(Exception e) {
-        RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"DB Change failed");
+        RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "DB Change failed");
     }
 
 }

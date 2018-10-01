@@ -20,8 +20,6 @@ import java.util.Locale;
 
 public class SHNWaitingUntilBondedState extends SHNConnectingState implements SHNCentral.SHNBondStatusListener {
 
-    private static final String TAG = "SHNWaitingUntilBondedState";
-
     private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 3_000L;
     private static final long BT_STACK_HOLD_OFF_TIME_AFTER_BONDED_IN_MS = 1_000L; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
 
@@ -30,7 +28,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
         public void run() {
             final String errorMsg = "Timed out waiting until bonded; trying service discovery";
 
-            SHNLogger.w(TAG, errorMsg);
+            SHNLogger.w(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
             stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
@@ -38,7 +36,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
 
     public SHNWaitingUntilBondedState(@NonNull SHNDeviceStateMachine stateMachine) {
-        super(stateMachine, -1L);
+        super(stateMachine, "SHNWaitingUntilBondedState", -1L);
     }
 
     @Override
@@ -51,7 +49,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
             if (!sharedResources.getBtDevice().createBond()) {
                 final String errorMsg = "Already bonded, bonding or bond creation failed.";
 
-                SHNLogger.w(TAG, errorMsg);
+                SHNLogger.w(logTag, errorMsg);
                 SHNTagger.sendTechnicalError(errorMsg);
 
                 stateMachine.setState(new SHNDiscoveringServicesState(stateMachine));
@@ -68,7 +66,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
     @Override
     public void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState) {
         if (sharedResources.getBtDevice().getAddress().equals(device.getAddress())) {
-            SHNLogger.i(TAG, "Bond state changed ('" + bondStateToString(previousBondState) + "' -> '" + bondStateToString(bondState) + "')");
+            SHNLogger.i(logTag, "Bond state changed ('" + bondStateToString(previousBondState) + "' -> '" + bondStateToString(bondState) + "')");
 
             if (bondState == BluetoothDevice.BOND_BONDING) {
                 bondingTimer.restart();
@@ -84,7 +82,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
             } else if (bondState == BluetoothDevice.BOND_NONE) {
                 final String errorMsg = String.format(Locale.US, "Bond lost; currentBondState [%d], previousBondState [%d]", bondState, previousBondState);
 
-                SHNLogger.w(TAG, errorMsg);
+                SHNLogger.w(logTag, errorMsg);
                 SHNTagger.sendTechnicalError(errorMsg);
 
                 sharedResources.notifyFailureToListener(SHNResult.SHNErrorBondLost);

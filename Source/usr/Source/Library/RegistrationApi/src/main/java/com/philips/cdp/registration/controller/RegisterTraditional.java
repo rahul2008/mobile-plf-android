@@ -33,7 +33,7 @@ import org.json.JSONObject;
 
 public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener, TraditionalRegistrationHandler {
 
-    private String TAG = RegisterTraditional.class.getSimpleName();
+    private String TAG = "RegisterTraditional";
 
     private Context mContext;
 
@@ -52,7 +52,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onSuccess() {
-        RLog.i(TAG, "onSuccess : is called");
+        RLog.d(TAG, "onSuccess : is called");
         Jump.saveToDisk(mContext);
         mUpdateUserRecordHandler.updateUserRecordRegister();
         ThreadUtils.postInMainThread(mContext, () ->
@@ -67,7 +67,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     @Override
     public void onFailure(SignInError error) {
         try {
-            RLog.e(TAG, "onFailure : is called" + error.reason.name());
+            RLog.e(TAG, "onFailure : is called error: "  + error.captureApiError.raw_response);
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
             if (error.captureApiError.code == ErrorCodes.UNKNOWN_ERROR) {
                 userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
@@ -77,9 +77,16 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
             ThreadUtils.postInMainThread(mContext, () ->
                     mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
         } catch (Exception e) {
-            RLog.e(TAG, "onFailure Exception : " + e.getMessage());
+            RLog.e(TAG, "onFailure: Exception : " + e.getMessage());
+            loginFailed();
         }
+    }
 
+    private void loginFailed() {
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo( mContext);
+        userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
+        ThreadUtils.postInMainThread(mContext, () ->
+                mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
     }
 
     // moved app logic to set user info (traditional login) in diuserprofile to

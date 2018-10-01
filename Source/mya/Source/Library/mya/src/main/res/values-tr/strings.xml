@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Çevrimdışısınız</string>
 <string name="MYA_Offline_message">İnternet bağlantınız çalışmıyor gibi görünüyor. Lütfen kontrol edip yeniden deneyin</string>
 <string name="mya_Privacy_Settings_Desc">Gizlilik ayarlarınızı kontrol edin. Daha fazla bilgi için _gizlilik bildirimini_ okuyun.</string>
+    <string name="MYA_Visit_Website">[tr]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[tr]Marketing OptIn</string>
 </resources>

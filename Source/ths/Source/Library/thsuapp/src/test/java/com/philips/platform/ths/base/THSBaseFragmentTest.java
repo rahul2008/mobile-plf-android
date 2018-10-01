@@ -6,16 +6,7 @@
 
 package com.philips.platform.ths.base;
 
-import android.os.Bundle;
 import android.view.ViewGroup;
-
-import com.americanwell.sdk.AWSDK;
-import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.provider.AvailableProvider;
-import com.americanwell.sdk.entity.provider.Provider;
-import com.americanwell.sdk.entity.provider.ProviderType;
-import com.americanwell.sdk.manager.ConsumerManager;
-import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -23,55 +14,35 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
-import com.philips.platform.ths.appointment.THSAvailableProvider;
-import com.philips.platform.ths.appointment.THSAvailableProviderList;
-import com.philips.platform.ths.appointment.THSProviderNotAvailableFragment;
-import com.philips.platform.ths.appointment.THSProviderNotAvailablePresenter;
-import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
-import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uappframework.listener.ActionBarListener;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.matchers.Null;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSBaseFragmentTest {
 
-    THSBaseFragment mThsBaseFragment;
+    private THSBaseFragment mThsBaseFragment;
 
-    @Mock
-    AppTaggingInterface appTaggingInterface;
+    @Mock private AppTaggingInterface appTaggingInterface;
 
-    @Mock
-    AppInfraInterface appInfraInterfaceMock;
+    @Mock private AppInfraInterface appInfraInterfaceMock;
 
-    @Mock
-    AppConfigurationInterface appConfigurationInterfaceMock;
+    @Mock private AppConfigurationInterface appConfigurationInterfaceMock;
 
-    @Mock
-    ServiceDiscoveryInterface serviceDiscoveryMock;
+    @Mock private ServiceDiscoveryInterface serviceDiscoveryMock;
 
-    @Mock
-    LoggingInterface loggingInterface;
+    @Mock private LoggingInterface loggingInterface;
 
-    @Mock
-    ViewGroup viewGroupMock;
-
+    @Mock private ViewGroup viewGroupMock;
 
     @Before
     public void setUp() throws Exception {
@@ -86,7 +57,6 @@ public class THSBaseFragmentTest {
 
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
 
-
         mThsBaseFragment = new THSBaseFragment();
         SupportFragmentTestUtil.startFragment(mThsBaseFragment);
     }
@@ -99,7 +69,7 @@ public class THSBaseFragmentTest {
     @Test
     public void exitFromAmWell() throws Exception {
         mThsBaseFragment.exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
-        assert THSManager.getInstance().getPthVisitContext() == null;
+        assertEquals(null, THSManager.getInstance().getPthVisitContext());
     }
 
     @Test

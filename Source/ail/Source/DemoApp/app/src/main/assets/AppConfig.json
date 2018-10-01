@@ -33,7 +33,6 @@
     "servicediscovery.platformMicrositeId":"70000",
     "servicediscovery.platformEnvironment":"production",
     "servicediscovery.propositionEnabled":true,
-    "appconfig.cloudServiceId":"appinfra.appconfigdownload",
     "timesync.ntp.hosts":["time1.google.com","time2.google.com","time3.google.com","time4.google.com"],
     "LANGUAGEPACK.SERVICEID":"appinfra.languagepack",
     "servicediscovery.countryMapping":{"LU":"BE","MO":"HK"},
@@ -46,10 +45,10 @@
       "fileSizeInBytes":50000,
       "logLevel":"Off",
       "fileLogEnabled":false,
-      "consoleLogEnabled":true,
+      "consoleLogEnabled":false,
       "cloudLogEnabled":false,
       "cloudBatchLimit":5,
-      "componentLevelLogEnabled":false,
+      "componentLevelLogEnabled":true,
       "componentIds": [
         "ail","usr"
       ]
@@ -61,7 +60,7 @@
       "logLevel":"Error",
       "fileLogEnabled":false,
       "consoleLogEnabled":false,
-      "cloudLogEnabled":true,
+      "cloudLogEnabled":false,
       "cloudBatchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [

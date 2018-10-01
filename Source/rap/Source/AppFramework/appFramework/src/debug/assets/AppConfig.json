@@ -5,7 +5,6 @@
     "JanRainConfiguration.RegistrationClientID.Evaluation": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
     "JanRainConfiguration.RegistrationClientID.Staging": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
     "JanRainConfiguration.RegistrationClientID.Production": "{\"CN\":\"brhyp23jh8jrutmghjtht68yv4mvqvhu\",\"default\":\"9z23k3q8bhqyfwx78aru6bz8zksga54u\"}",
-    "Flow.EmailVerificationRequired": "true",
     "Flow.TermsAndConditionsAcceptanceRequired": "true",
     "Flow.MinimumAgeLimit": "{ \"NL\":12 ,\"GB\":16,\"default\": 16}",
     "SigninProviders.default": [
@@ -24,13 +23,15 @@
     "ShowCountrySelection": "true"
   },
   "IAP": {
-    "propositionid": "Tuscany2016"
+    "propositionid": "Tuscany2016",
+    "voucherCode.enable": true
   },
   "appinfra": {
     "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
     "appidentity.appState": "DEVELOPMENT",
     "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "appUpdate.autoRefresh": true,
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": [
       "bundleId",
@@ -86,7 +87,7 @@
       "fileName": "AppInfraLog",
       "numberOfFiles": 5,
       "fileSizeInBytes": 50000,
-      "logLevel": "Error",
+      "logLevel": "All",
       "fileLogEnabled": false,
       "cloudLogEnabled":false,
       "cloudBatchLimit":5,
@@ -127,8 +128,11 @@
     "ConsentCacheTTLInMinutes" : 3
   },
   "dataservices": {
-    "supportedMomentTypes": [
-      "Temperature"
-    ]
+    "supportedMomentTypes": ["Temperature", "SleepSession", "sleepSession", "Note"]
+  },
+  "pairingRelationshipType": {
+    "STAGING": "urn:cdp|datareceiver_stg",
+    "DEVELOPMENT": "urn:cdp|datareceiver_dev",
+    "TEST": "urn:cdp|datareceiver_dev"
   }
 }

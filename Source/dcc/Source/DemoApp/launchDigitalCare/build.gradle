@@ -1,71 +1,24 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
-apply plugin: 'com.jfrog.artifactory'
 apply from: '../extra/calabash.gradle'
-apply plugin: 'maven-publish'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
+        classpath builddeps.cdpSCM
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "digitalCareApp"
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
-
 group = 'com.philips.cdp'
 
 artifactory {
@@ -80,7 +33,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('apk')
+                publications('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -90,7 +43,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -123,10 +77,6 @@ android {
     configurations.all {
         resolutionStrategy.force deps.support.supportcompat
     }
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
 
     defaultConfig {
         applicationId "com.philips.cl.di.dev.pa"
@@ -137,15 +87,12 @@ android {
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         generatedDensities = []
-
         manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     lintOptions {
         checkReleaseBuilds false
-        abortOnError false
     }
 
     signingConfigs {
@@ -168,7 +115,7 @@ android {
     This defined for signing the apk -- start
      */
     def Properties props = new Properties()
-    println  "  projectDir:   "+ project.projectDir;
+    println "  projectDir:   " + project.projectDir;
     def propFile = new File("${project.projectDir}/signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
@@ -191,7 +138,6 @@ android {
     This defined for signing the apk -- end
     */
 
-
     dexOptions {
         javaMaxHeapSize "4g"
     }
@@ -199,7 +145,6 @@ android {
     packagingOptions {
         pickFirst 'META-INF/LICENSE'
     }
-
 }
 
 calabash {
@@ -210,10 +155,14 @@ dependencies {
     implementation deps.support.recyclerview
     implementation deps.support.appcompatv7
     implementation deps.support.supportv4
+    implementation project(':digitalCareUApp')
+    implementation project(':AppInfra')
+    implementation project(':uAppFwLib')
 
     androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
     androidTestImplementation deps.espresso_contrib, {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
@@ -222,9 +171,6 @@ dependencies {
         androidTestImplementation deps.uiautomator
     }
 
-    implementation project(':digitalCareUApp')
-    implementation project(':AppInfra')
-    implementation project(':uAppFwLib')
     androidTestImplementation deps.support.annotations
     androidTestImplementation deps.testing_support
     androidTestImplementation deps.android_testrunner
@@ -233,18 +179,14 @@ dependencies {
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-
     description 'Run findbugs'
     group 'verification'
     ignoreFailures = true
     classes = fileTree('build/intermediates/classes/simulator/debug')
     source = fileTree('src/main/java')
     classpath = files()
-
     effort = 'max'
-
     excludeFilter = file("findbugs-exclude.xml")
-
     reports {
         xml.enabled = true
         html.enabled = false
@@ -252,13 +194,11 @@ task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 }
 
 task pmd(type: Pmd, dependsOn: "assembleDebug") {
-
     description 'Run pmd'
     group 'verification'
     ignoreFailures = true
     ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
     source = fileTree('src/main/java')
-
     reports {
         xml.enabled = true
         html.enabled = false

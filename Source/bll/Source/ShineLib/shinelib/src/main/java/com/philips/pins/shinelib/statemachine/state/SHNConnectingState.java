@@ -24,12 +24,10 @@ import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady
 
 public abstract class SHNConnectingState extends SHNDeviceState {
 
-    private static final String TAG = "SHNConnectingState";
-
     private Timer connectingTimer;
 
-    public SHNConnectingState(@NonNull final SHNDeviceStateMachine stateMachine, long connectTimeOut) {
-        super(stateMachine);
+    public SHNConnectingState(@NonNull final SHNDeviceStateMachine stateMachine, String loggingTag, long connectTimeOut) {
+        super(stateMachine, loggingTag);
 
         if (connectTimeOut > 0) {
             connectingTimer = Timer.createTimer(new Runnable() {
@@ -37,7 +35,7 @@ public abstract class SHNConnectingState extends SHNDeviceState {
                 public void run() {
                     final String errorMsg = "connect timeout in SHNConnectingState";
 
-                    SHNLogger.e(TAG, errorMsg);
+                    SHNLogger.e(logTag, errorMsg);
                     SHNTagger.sendTechnicalError(errorMsg);
 
                     stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorTimeout);
@@ -66,7 +64,7 @@ public abstract class SHNConnectingState extends SHNDeviceState {
 
     @Override
     public void disconnect() {
-        SHNLogger.d(TAG, "Disconnect call in state SHNConnectingState");
+        SHNLogger.d(logTag, "Disconnect call in state SHNConnectingState");
         stateMachine.setState(new SHNDisconnectingState(stateMachine));
     }
 
@@ -75,7 +73,7 @@ public abstract class SHNConnectingState extends SHNDeviceState {
         if (newState == BluetoothProfile.STATE_DISCONNECTED) {
             final String errorMsg = String.format(Locale.US, "Connection state changed to disconnected, status [%d], newState [%d]", status, newState);
 
-            SHNLogger.e(TAG, errorMsg);
+            SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
             handleDisconnectEvent();
@@ -87,7 +85,7 @@ public abstract class SHNConnectingState extends SHNDeviceState {
         if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
             final String errorMsg = "Not ready for connection to the peripheral.";
 
-            SHNLogger.e(TAG, errorMsg);
+            SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
             handleDisconnectEvent();

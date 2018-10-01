@@ -11,16 +11,22 @@ import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
+import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.abtesting.AbTestingImpl;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppKpsConfigurationInfo;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -29,7 +35,9 @@ import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListen
 import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -47,6 +55,10 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSta
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.pif.chi.ConsentError;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
@@ -57,6 +69,7 @@ import com.squareup.leakcanary.LeakCanary;
 public class AppFrameworkApplication extends Application {
     private static final String LOG = AppFrameworkApplication.class.getSimpleName();
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
+    private static final String PSRA_BUILD_TYPE = "psraRelease";
     public static final String Apteligent_APP_ID = "69bb94377f0949908f3eeba142b8b21100555300";
     public AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
@@ -76,7 +89,6 @@ public class AppFrameworkApplication extends Application {
     private SupportFragmentState supportFragmentState;
     private TeleHealthServicesState teleHealthServicesState;
     private PrivacySettingsState privacySettingsState;
-
 
     public static boolean isAppDataInitialized() {
         return appDataInitializationStatus;
@@ -105,6 +117,10 @@ public class AppFrameworkApplication extends Application {
                 return;
             }
             LeakCanary.install(this);
+        }
+        if (!BuildConfig.BUILD_TYPE.equalsIgnoreCase(PSRA_BUILD_TYPE)) {
+            DICommLog.enableLogging();
+            SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
         }
         super.onCreate();
     }
@@ -333,8 +349,13 @@ public class AppFrameworkApplication extends Application {
      * @param appInfraInitializationCallback
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
-
-        appInfra = createAppInfraInstance();
+        AbTestingImpl abTestingImpl = new AbTestingImpl();
+        abTestingImpl.initFireBase(this);
+        AppInfra.Builder builder = new AppInfra.Builder();
+        builder.setAbTesting(abTestingImpl);
+        appInfra = builder.build(getApplicationContext());
+        abTestingImpl.initAbTesting(appInfra);
+        abTestingImpl.enableDeveloperMode(true);
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
@@ -352,7 +373,7 @@ public class AppFrameworkApplication extends Application {
                     @Override
                     public void onSuccess(String filePath) {
                         UikitLocaleHelper.getUikitLocaleHelper().setFilePath(filePath);
-                        RALog.d(LOG, "Success langauge pack activate " + "---" + filePath);
+                        RALog.d(LOG, "Success language pack activate " + "---" + filePath);
                     }
 
                     @Override
@@ -362,9 +383,40 @@ public class AppFrameworkApplication extends Application {
                 });
             }
         });
+        ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getAbTesting().getAbTestingConsentIdentifier());
+        if (consentDefinition != null) {
+            appInfra.getConsentManager().fetchConsentState(consentDefinition, new FetchConsentCallback() {
+                @Override
+                public void onGetConsentSuccess(ConsentDefinitionStatus consentStatus) {
+                    if (consentStatus.getConsentState() == ConsentStates.active) {
+                        FirebaseAnalytics.getInstance(getApplicationContext()).setAnalyticsCollectionEnabled(true);
+                        abTestingImpl.updateCache(new ABTestClientInterface.OnRefreshListener() {
+                            @Override
+                            public void onSuccess() {
+                                RALog.d(LOG, "ab-testing cache updated successfully");
+                                RALog.d("FireBase instance id - ", FirebaseInstanceId.getInstance().getToken());
+                            }
+
+                            @Override
+                            public void onError(ERRORVALUE error) {
+                                RALog.d(LOG, "ab-testing update failed");
+                            }
+                        });
+                    } else {
+                        RALog.d(LOG, "ab-testing consent set to false");
+                        FirebaseAnalytics.getInstance(getApplicationContext()).setAnalyticsCollectionEnabled(false);
+                        FirebaseAnalytics.getInstance(getApplicationContext()).resetAnalyticsData();
+                    }
+                }
+
+                @Override
+                public void onGetConsentFailed(ConsentError error) {
+                    RALog.d(getClass().getSimpleName(), "error while fetching ab-testing consent ");
+                }
+            });
+        } else
+            RALog.d(LOG, "consent definition is null");
+
     }
 
-    protected AppInfra createAppInfraInstance() {
-        return new AppInfra.Builder().build(getApplicationContext());
-    }
 }

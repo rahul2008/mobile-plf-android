@@ -5,6 +5,7 @@ import android.content.Context;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
+import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
@@ -111,6 +112,12 @@ public class UserDataProviderTest extends TestCase{
             @Override
             public boolean isUserLoggedIn(Context context) {
                 return true;
+            }
+
+
+            @Override
+            public void authorizeHSDP(HSDPAuthenticationListener hsdpAuthenticationListener) {
+                super.authorizeHSDP(hsdpAuthenticationListener);
             }
         };
     }

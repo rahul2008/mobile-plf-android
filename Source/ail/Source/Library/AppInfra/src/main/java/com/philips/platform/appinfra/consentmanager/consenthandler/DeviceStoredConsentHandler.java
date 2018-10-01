@@ -15,6 +15,9 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -88,7 +91,7 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
             SecureStorageInterface.SecureStorageError storageError = getSecureStorageError();
             String consentInfo = appInfra.getSecureStorage().fetchValueForKey(getStoredKey(consentType), storageError);
 
-            if (consentInfo == null || storageError.getErrorCode() != null || consentInfo.toUpperCase().startsWith("FALSE")) {
+            if (consentInfo == null || storageError.getErrorCode() != null) {
                 logError(storageError, consentType);
                 consentStatus = new ConsentStatus(ConsentStates.inactive, 0, new Date(0));
             } else {
@@ -97,14 +100,27 @@ public class DeviceStoredConsentHandler implements ConsentHandlerInterface {
                 if (storedTimestamp == null) {
                     timestamp = new Date(0);
                 } else {
-                    timestamp = AIUtility.convertStringToDate(storedTimestamp, "yyyy-MM-dd HH:mm:ss.SSS Z");
+                   if (isTimestampInCurrentFormattedDateTimeString(storedTimestamp)) {
+                        timestamp = AIUtility.convertStringToDate(storedTimestamp, "yyyy-MM-dd HH:mm:ss.SSS Z");
+                    } else {
+                        timestamp = parseDateTimeFromLegacyFormat(storedTimestamp);
+                    }
                 }
-                consentStatus = new ConsentStatus(ConsentStates.active,
+                consentStatus = new ConsentStatus(consentInfo.startsWith(String.valueOf(false)) ? ConsentStates.rejected : ConsentStates.active,
                         Integer.valueOf(split(consentInfo, DEVICESTORE_VALUE_DELIMITER).get(LIST_POS_VERSION)), timestamp);
+
             }
             consentStatusMemoryCache.put(consentType, consentStatus);
             callback.onGetConsentsSuccess(consentStatus);
         }
+    }
+
+    private Date parseDateTimeFromLegacyFormat(String storedTimestamp) {
+        return new DateTime(Long.parseLong(storedTimestamp), DateTimeZone.UTC).toDate();
+    }
+
+    private boolean isTimestampInCurrentFormattedDateTimeString(String storedTimestamp) {
+        return storedTimestamp.contains("-");
     }
 
     @Override

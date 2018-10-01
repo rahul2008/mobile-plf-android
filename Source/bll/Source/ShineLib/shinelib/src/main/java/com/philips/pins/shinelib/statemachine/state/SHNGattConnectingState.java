@@ -27,17 +27,15 @@ import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 
 public class SHNGattConnectingState extends SHNConnectingState {
 
-    private static final String TAG = "SHNGattConnectingState";
-
     private boolean shouldRetryConnecting = false;
     private long minimumConnectionIdleTime;
 
     public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
-        super(stateMachine, -1L);
+        super(stateMachine, "SHNGattConnectingState", -1L);
     }
 
     public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine, long connectTimeOut) {
-        super(stateMachine, connectTimeOut);
+        super(stateMachine, "SHNGattConnectingState", connectTimeOut);
         shouldRetryConnecting = true;
         if (connectTimeOut <= 0) {
             throw new InvalidParameterException("Time out can not be negative");
@@ -76,11 +74,11 @@ public class SHNGattConnectingState extends SHNConnectingState {
         }
 
         if (SHNCentralStateReady.equals(sharedResources.getShnCentral().getShnCentralState())) {
-            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
+            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback(), sharedResources.getConnectionPriority()));
         } else {
             final String errorMsg = "Not ready for connection to the peripheral, Bluetooth is not on.";
 
-            SHNLogger.e(TAG, errorMsg);
+            SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
@@ -89,7 +87,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
     }
 
     private void handleGattConnectEvent(int status) {
-        SHNLogger.d(TAG, "Handle connect event in SHNGattConnectingState");
+        SHNLogger.d(logTag, "Handle connect event in SHNGattConnectingState");
 
         if (status == BluetoothGatt.GATT_SUCCESS) {
             if (shouldWaitUntilBonded()) {
@@ -100,7 +98,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
         } else {
             final String errorMsg = String.format(Locale.US, "Bluetooth GATT connect failure, status [%d]", status);
 
-            SHNLogger.e(TAG, errorMsg);
+            SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
@@ -116,12 +114,12 @@ public class SHNGattConnectingState extends SHNConnectingState {
         sharedResources.setBtGatt(null);
 
         if (shouldRetryConnecting) {
-            SHNLogger.d(TAG, "Retrying to connect GATT in SHNGattConnectingState");
-            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
+            SHNLogger.d(logTag, "Retrying to connect GATT in SHNGattConnectingState");
+            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback(), sharedResources.getConnectionPriority()));
         } else {
             final String errorMsg = "Bluetooth GATT disconnected, not retrying to connect.";
 
-            SHNLogger.e(TAG, errorMsg);
+            SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
             sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
@@ -146,7 +144,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
     }
 
     private void postponeConnectCall(long timeDiff) {
-        SHNLogger.w(TAG, "Postponing connect with " + (minimumConnectionIdleTime - timeDiff) + "ms to allow the stack to properly disconnect");
+        SHNLogger.w(logTag, "Postponing connect with " + (minimumConnectionIdleTime - timeDiff) + "ms to allow the stack to properly disconnect");
 
         sharedResources.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
             @Override

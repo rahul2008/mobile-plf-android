@@ -65,7 +65,7 @@ public class AppInfraHurlStack extends HurlStack {
         HttpResponse httpResponse = super.executeRequest(request, additionalHeaders);
 
         if (localURLConnection.get() != null) {
-            String hostName = getHostname(request);
+            String hostName = localURLConnection.get().getURL().getHost();
             List<X509Certificate> certificatesList = getCertificatesList(localURLConnection.get());
             pinInterface.isPinnedCertificateMatching(hostName, certificatesList);
 
@@ -84,15 +84,6 @@ public class AppInfraHurlStack extends HurlStack {
             }
         }
         return "";
-    }
-
-    private String getHostname(Request<?> request) {
-        try {
-            URL url = new URL(request.getUrl());
-            return url.getHost();
-        } catch (MalformedURLException e) {
-            return "";
-        }
     }
 
     private List<X509Certificate> getCertificatesList(HttpsURLConnection connection) {
@@ -124,6 +115,8 @@ public class AppInfraHurlStack extends HurlStack {
                     break;
                 } catch (CertificateException | InvalidKeyException | NoSuchProviderException | SignatureException e) {
                     appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, this.getClass().getSimpleName(), e.getMessage());
+                } catch (Exception e) {
+                    appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, this.getClass().getSimpleName(), "Uncaught Exception" + e.getMessage());
                 }
             }
         } catch (NoSuchAlgorithmException | SSLPeerUnverifiedException | KeyStoreException e) {

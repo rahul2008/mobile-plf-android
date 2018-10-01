@@ -160,7 +160,7 @@ public class PowerSleepConnectivityFragmentTest {
     @Test
     public void onSyncCompleteTest() throws Exception {
         connectivityFragment.onSyncComplete();
-        verify(connectivityPresenter,times(2)).fetchLatestSessionInfo();
+        verify(connectivityPresenter,times(1)).fetchLatestSessionInfo();
     }
 
     @Test

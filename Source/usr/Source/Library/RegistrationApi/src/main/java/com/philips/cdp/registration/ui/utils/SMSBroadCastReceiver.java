@@ -18,6 +18,8 @@ import com.philips.cdp.registration.R;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.support.v4.app.ActivityCompat.requestPermissions;
+
 /**
  * Created by philips on 5/21/18.
  */
@@ -48,7 +50,7 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
     private final ReceiveAndRegisterOTPListener mReceiveAndRegisterOTPListener;
     public static final String OTP_REGEX = "[0-9]{1,6}";
     public static final int SMS_PERMISSION_CODE = 1000;
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "SMSBroadCastReceiver";
 
     public SMSBroadCastReceiver(ReceiveAndRegisterOTPListener mReceiveAndRegisterOTPListener) {
 
@@ -57,7 +59,7 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        RLog.i(TAG, "SMS onRecieve is Called");
+        RLog.i(TAG, "onRecieve : SMS received");
         getDataFromIntent(context, intent);
 
     }
@@ -67,16 +69,20 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
 
         Object[] pdus = (Object[]) data.get("pdus");
 
-        for (Object object: pdus) {
+        for (Object object : pdus) {
 
             SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) object);
             String sender = smsMessage.getDisplayOriginatingAddress();
-            RLog.i(TAG, "Sender Number" + sender);
+            RLog.d(TAG, "Sender Number" + sender + " getOriginatingAddress " + smsMessage.getOriginatingAddress());
+            RLog.d(TAG, "Sender Number" + sender + " getServiceCenterAddress " + smsMessage.getServiceCenterAddress());
+
+            RLog.d(TAG, "Sender Number" + sender + "Validation number starts with" + context.getString(R.string.otp_sender));
             //Check the sender to filter messages which we require to read
-            if (sender.equals(context.getString(R.string.otp_sender))) {
+
+            if (sender.startsWith(context.getString(R.string.otp_sender))) {
 
                 String messageBody = smsMessage.getMessageBody();
-
+                RLog.d(TAG, "Sender Message" + messageBody);
                 getOTPFromMessage(messageBody);
             }
         }
@@ -110,15 +116,21 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
             // You may display a non-blocking explanation here, read more in the documentation:
             // https://developer.android.com/training/permissions/requesting.html
         }
-        ActivityCompat.requestPermissions(mReceiveAndRegisterOTPListener.getActivityContext(), new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
+
+        requestPermissions(mReceiveAndRegisterOTPListener.getActivityContext(), new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
     }
 
     public void registerReceiver() {
+        RLog.d(TAG, "registerReceiver");
         mReceiveAndRegisterOTPListener.getActivityContext().registerReceiver(mReceiveAndRegisterOTPListener.getSMSBroadCastReceiver(), intentFilter);
     }
 
     public void unRegisterReceiver() {
-        mReceiveAndRegisterOTPListener.getActivityContext().unregisterReceiver(mReceiveAndRegisterOTPListener.getSMSBroadCastReceiver());
+        try {
+            mReceiveAndRegisterOTPListener.getActivityContext().unregisterReceiver(mReceiveAndRegisterOTPListener.getSMSBroadCastReceiver());
+        } catch (Exception e) {
+            RLog.e(TAG, "unRegisterReceiver: ReceiveAndRegisterOTPListener is not set"+e.getMessage());
+        }
     }
 
 }

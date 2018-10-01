@@ -1,20 +1,23 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'pl.droidsonroids.pitest'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+
+archivesBaseName = "dataServicesUApp"
+
 buildscript {
     dependencies {
         classpath builddeps.pitest
     }
 }
-
-apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
-apply plugin: 'pl.droidsonroids.pitest'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
-
-archivesBaseName = "dataServicesUApp"
 
 android {
     compileSdkVersion versions.sdk
@@ -43,30 +46,31 @@ android {
             minifyEnabled false
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
 dependencies {
-    def dp = project.ext.has('useprojectdependencies')
-
-    if (dp) {
+    if (directdependencies) {
         implementation project(':AppInfra')
         implementation project(':uAppFwLib')
         implementation project(':uid')
         implementation project(':pif')
         implementation project(':catk')
         implementation project(':jump')
-    }
-    for (dep in [':registrationApi', ':securedblibrary', ':dataServices', ':csw']) {
-        if (directdependencies) {
-            implementation project(dep)
-        } else {
-            implementation("$group$dep:$platformversion$suffix") { changing = true }
-        }
+        implementation project(':registrationApi')
+        implementation project(':securedblibrary')
+        implementation project(':dataServices')
+        implementation project(':csw')
+    } else {
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.uid
+        implementation philipsdeps.pif
+        implementation philipsdeps.catk
+        implementation philipsdeps.jump
+        implementation philipsdeps.registrationApi
+        implementation philipsdeps.securedblibrary
+        implementation philipsdeps.dataServices
+        implementation philipsdeps.csw
     }
 
     implementation deps.support.appcompatv7
@@ -106,6 +110,7 @@ pitest {
     timestampedReports = false
     excludedClasses = []
 }
+
 tasks.withType(Test) {
     ignoreFailures = true
 }

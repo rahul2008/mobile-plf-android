@@ -56,7 +56,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     protected static int mHeight = 0;
 
     private final int JELLY_BEAN = 16;
-    private final static String TAG = RegistrationBaseFragment.class.getSimpleName();
+    private final static String TAG = "RegistrationBaseFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getNotification();
+        //getNotification();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -165,7 +165,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     protected void consumeTouch(View view) {
 
-        RLog.i(TAG, "consumeTouch is called");
+        RLog.d(TAG, "consumeTouch is called");
         if (view == null)
             return;
         view.setOnTouchListener((v, event) -> true);
@@ -269,7 +269,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
-        RLog.i(TAG, "scrollViewAutomatically is called");
+        RLog.d(TAG, "scrollViewAutomatically is called");
         view.requestFocus();
         if (scrollView != null) {
             scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -307,8 +307,12 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
+        try {
+            if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                mProgressDialog.cancel();
+            }
+        } catch (IllegalArgumentException e) {
+            RLog.e(TAG, "hideProgressDialog: view not attached " + e.getMessage());
         }
     }
 
@@ -319,12 +323,12 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void updateErrorNotification(String errorMessage, int errorCode) {
-        RLog.e(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
+        RLog.d(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
         getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
     }
 
     public void updateErrorNotification(String errorMessage) {
-        RLog.e(TAG, "errorMessage = " + errorMessage);
+        RLog.d(TAG, "errorMessage = " + errorMessage);
         getNotification().showNotification(new NotificationMessage(errorMessage));
 
 
@@ -344,12 +348,15 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
     }
 
     public void registerInlineNotificationListener(RegistrationBaseFragment baseFragment) {
+        RLog.d(TAG, "registerInlineNotificationListener :" + baseFragment);
         notificationInterface = baseFragment;
     }
 
     public URNotification getNotification() {
-        if (notification == null)
+        if (notification == null) {
+            RLog.d(TAG, "getNotification ");
             notification = new URNotification(getRegistrationFragment().getParentActivity(), this);
+        }
         return notification;
     }
 }

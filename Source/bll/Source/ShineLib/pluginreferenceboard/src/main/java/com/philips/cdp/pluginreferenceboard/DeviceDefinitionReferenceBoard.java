@@ -34,7 +34,7 @@ class DeviceDefinitionReferenceBoard implements SHNDeviceDefinitionInfo.SHNDevic
     @Override
     public SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral) {
         // using existing building block from BlueLib. It is also possible to create custom implementation inside the plugin
-        SHNDeviceImpl device = new SHNDeviceImpl(shnCentral.getBTDevice(deviceAddress), shnCentral, shnDeviceDefinitionInfo.getDeviceTypeName());
+        SHNDeviceImpl device = new SHNDeviceImpl.Builder(shnCentral.getBTDevice(deviceAddress), shnCentral, shnDeviceDefinitionInfo.getDeviceTypeName()).build();
 
         // only registered capabilities are exposed to the user of the plugin
         registerDeviceInformationCapability(shnCentral, device);

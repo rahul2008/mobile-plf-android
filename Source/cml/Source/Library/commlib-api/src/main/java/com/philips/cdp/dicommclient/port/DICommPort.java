@@ -139,14 +139,12 @@ public abstract class DICommPort<T extends PortProperties> {
     public abstract boolean supportsSubscription();
 
     /**
-     * Get the properties for this port, possibly triggering a {@link DICommPort#reloadProperties()} when they are not yet available.
+     * Get the locally cached properties for this port.
+     * In order to update the cache, pease use {@link DICommPort#reloadProperties()}.
      *
-     * @return The locally available properties, or null if not available yet.
+     * @return The locally cached properties, or null if not available yet.
      */
     public T getPortProperties() {
-        if (mPortProperties == null) {
-            reloadProperties();
-        }
         return mPortProperties;
     }
 
@@ -359,8 +357,8 @@ public abstract class DICommPort<T extends PortProperties> {
                     setIsApplyingChanges(false);
                 }
                 handleResponse(data);
-                requestCompleted();
                 DICommLog.i(LOG_TAG, "putProperties - success");
+                requestCompleted();
             }
 
             public void onError(Error error, String errorData) {
@@ -368,8 +366,8 @@ public abstract class DICommPort<T extends PortProperties> {
                     setIsApplyingChanges(false);
                 }
                 notifyPortListenersOnError(error, errorData);
-                requestCompleted();
                 DICommLog.e(LOG_TAG, "putProperties - error");
+                requestCompleted();
             }
         });
     }
@@ -381,16 +379,16 @@ public abstract class DICommPort<T extends PortProperties> {
             @Override
             public void onSuccess(String data) {
                 handleResponse(data);
-                requestCompleted();
                 DICommLog.i(LOG_TAG, "getProperties - success");
+                requestCompleted();
             }
 
             @Override
             public void onError(Error error, String errorData) {
                 mGetPropertiesRequested = false;
                 notifyPortListenersOnError(error, errorData);
-                requestCompleted();
                 DICommLog.e(LOG_TAG, "getProperties - error");
+                requestCompleted();
             }
         });
     }
@@ -403,16 +401,16 @@ public abstract class DICommPort<T extends PortProperties> {
             public void onSuccess(String data) {
                 mSubscribeRequested = false;
                 handleResponse(data);
-                requestCompleted();
                 DICommLog.i(LOG_TAG, "subscribe - success");
+                requestCompleted();
             }
 
             @Override
             public void onError(Error error, String errorData) {
                 mSubscribeRequested = false;
                 notifyPortListenersOnError(error, errorData);
-                requestCompleted();
                 DICommLog.e(LOG_TAG, "subscribe - error");
+                requestCompleted();
             }
         });
     }
@@ -425,16 +423,16 @@ public abstract class DICommPort<T extends PortProperties> {
             public void onSuccess(String data) {
                 mUnsubscribeRequested = false;
                 handleResponse(data);
-                requestCompleted();
                 DICommLog.i(LOG_TAG, "unsubscribe - success");
+                requestCompleted();
             }
 
             @Override
             public void onError(Error error, String errorData) {
                 mUnsubscribeRequested = false;
                 notifyPortListenersOnError(error, errorData);
-                requestCompleted();
                 DICommLog.e(LOG_TAG, "unsubscribe - error");
+                requestCompleted();
             }
         });
     }

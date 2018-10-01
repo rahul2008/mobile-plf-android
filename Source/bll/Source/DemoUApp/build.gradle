@@ -2,6 +2,7 @@
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 apply plugin: 'com.android.library'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
@@ -26,11 +27,6 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
 dependencies {
@@ -42,6 +38,8 @@ dependencies {
     } else {
         implementation philipsdeps.pluginreferenceboard
         implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.bluelib
     }
 
     implementation deps.support.design

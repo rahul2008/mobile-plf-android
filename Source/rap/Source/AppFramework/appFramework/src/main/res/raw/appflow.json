@@ -125,6 +125,38 @@
         ]
       },
       {
+        "state": "cookies_consent",
+        "events": [
+          {
+            "eventId": "accept",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "neura"
+              }
+            ]
+          },
+          {
+            "eventId": "reject",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "neura"
+              }
+            ]
+          },
+          {
+            "eventId": "privacyAbTesting",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "AbTesting_web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "onBoarding_registration",
         "events": [
           {
@@ -164,9 +196,9 @@
             "nextStates": [
               {
                 "condition": [
-                  "shouldLaunchNeura"
+                  "launchCookiesConsent"
                 ],
-                "nextState": "neura"
+                "nextState": "cookies_consent"
               },
               {
                 "condition": [
@@ -185,9 +217,9 @@
             "nextStates": [
               {
                 "condition": [
-                  "shouldLaunchNeura"
+                  "launchCookiesConsent"
                 ],
-                "nextState": "neura"
+                "nextState": "cookies_consent"
               },
               {
                 "condition": [
@@ -385,6 +417,15 @@
             ]
           },
           {
+            "eventId": "MyOptinEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_optin"
+              }
+            ]
+          },
+          {
             "eventId": "MyDetailsEvent",
             "nextStates": [
               {
@@ -466,15 +507,6 @@
               }
             ]
           },
-//          {
-//            "eventId": "DLS",
-//            "nextStates": [
-//              {
-//                "condition": [],
-//                "nextState": "DLS"
-//              }
-//            ]
-//          },
           {
             "eventId": "TestConsumerCareEvent",
             "nextStates": [

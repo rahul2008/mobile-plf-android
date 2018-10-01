@@ -5,25 +5,23 @@
  */
 package com.philips.platform.appinfra.abtestclient;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The Cache Model for ABTest
  */
 
-class CacheModel {
+public class CacheModel {
 
-    private HashMap<String, ValueModel> mTestValues;
-
-    public HashMap<String, ValueModel> getTestValues() {
+    private Map<String, ValueModel> mTestValues;
+    public Map<String, ValueModel> getTestValues() {
         return mTestValues;
     }
-
-    public void setTestValues(HashMap<String, ValueModel> testValues) {
+    public void setTestValues(Map<String, ValueModel> testValues) {
         this.mTestValues = testValues;
     }
 
-    static class ValueModel {
+    public static class ValueModel {
 
         private String testValue;
         private String updateType;

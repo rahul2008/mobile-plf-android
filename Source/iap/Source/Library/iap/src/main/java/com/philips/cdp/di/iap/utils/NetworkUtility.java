@@ -56,12 +56,33 @@ public class NetworkUtility {
         }
     }
 
+
     public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
         if (context == null) return;
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
             showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
                     getErrorTitleMessageFromErrorCode(context, error.getIAPErrorCode()),
+                    getErrorDescriptionMessageFromErrorCode(context, error));
+        }
+    }
+
+    public void showVoucherSuccessMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
+        if (context == null) return;
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError error = (IAPNetworkError) msg.obj;
+            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
+                    "Successful",
+                    "Vouchers Applied Successfully");
+        }
+    }
+
+    public void showVoucherErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
+        if (context == null) return;
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError error = (IAPNetworkError) msg.obj;
+            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
+                    "Unsuccessful",
                     getErrorDescriptionMessageFromErrorCode(context, error));
         }
     }

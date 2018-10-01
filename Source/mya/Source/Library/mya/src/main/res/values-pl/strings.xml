@@ -33,4 +33,6 @@
 <string name="MYA_Offline_title">Nie masz połączenia z Internetem</string>
 <string name="MYA_Offline_message">Połączenie internetowe prawdopodobnie nie działa. Sprawdź i spróbuj ponownie</string>
 <string name="mya_Privacy_Settings_Desc">Dbaj o swoją prywatność. Więcej informacji znajdziesz w oświadczeniu o prywatności.</string>
+    <string name="MYA_Visit_Website">[pl]Visit our website</string>
+    <string name="MYA_Marketing_Optin">[pl]Marketing OptIn</string>
 </resources>

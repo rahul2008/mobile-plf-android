@@ -32,10 +32,6 @@ android {
             buildConfigField "String", "LIBRARY_VERSION", "\"${version}\""
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
 }
 
 task generateJavadocPublicApi(type: Javadoc) {
@@ -86,6 +82,7 @@ dependencies {
         implementation philipsdeps.cloudcontroller
         implementation philipsdeps.commlib
         implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
     }
 
     implementation deps.joda_time

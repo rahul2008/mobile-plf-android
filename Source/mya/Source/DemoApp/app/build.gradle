@@ -1,71 +1,23 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/tasks.gradle'
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath builddeps.gradle
-        classpath(builddeps.cdpSCM)
-    }
-}
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-import com.philips.cdp.cdpSCM
+apply plugin: 'com.android.application'
 
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "myaApp"
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven { url clojars }
-        group = 'com.philips.cdp'
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.cdpSCM
     }
 }
+
+archivesBaseName = "myaApp"
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -147,10 +99,6 @@ android {
         enabled = true
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     signingConfigs {
         release
     }
@@ -159,10 +107,8 @@ android {
         preDexLibraries = false
         jumboMode = false
     }
+
     buildTypes {
-        def BOOLEAN = "bool"
-        def TRUE = "true"
-        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
         def AWSDK_ENABLE_CERTIFICATE_PINNING = "awsdk_enable_certificate_pinning"
         def AWSDK_PINNED_HOSTS = "awsdk_pinned_hosts"
         def AWSDK_PINNED_CERTIFICATES = "awsdk_pinned_certificates"
@@ -170,7 +116,6 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
         release {
             signingConfig signingConfigs.release
@@ -223,11 +168,12 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/rxjava.properties'
 
         pickFirst 'lib/mips/librsjni.so'
         pickFirst 'lib/mips/libblasV8.so'
         pickFirst 'lib/mips/libRSSupport.so'
-
         pickFirst 'lib/x86/librsjni.so'
         pickFirst 'lib/x86/libblasV8.so'
         pickFirst 'lib/x86/libRSSupport.so'
@@ -236,13 +182,9 @@ android {
         pickFirst 'lib/armeabi-v7a/libRSSupport.so'
         pickFirst 'lib/arm64-v8a/libRSSupport.so'
         pickFirst 'lib/arm64-v8a/librsjni.so'
-        exclude 'META-INF/INDEX.LIST'
-        exclude 'META-INF/rxjava.properties'
-
     }
 
     testOptions {
-        unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
 
         unitTests.all {
@@ -257,29 +199,18 @@ android {
             }
         }
     }
-
-
-}
-
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
 }
 
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-
 }
 
 dependencies {
     implementation deps.support.appcompatv7
     implementation deps.constraintlayout
 
-    def dp = project.ext.has('useprojectdependencies')
-
-    if (dp) {
+    if (directdependencies) {
         implementation project(':AppInfra')
         implementation project(':uid')
         implementation project(':jump')

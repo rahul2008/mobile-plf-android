@@ -44,11 +44,13 @@ objcdp.setEnv(platform: 'android', env: environment)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
+
     publish {
         repository {
             repoKey = objcdp.getArtifactoryPublishRepoKey()
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
+
             defaults {
                 publishPom = true
                 publishIvy = false
@@ -59,14 +61,17 @@ artifactory {
             }
         }
     }
+
     resolve {
         repository {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600
+
     // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
 }
+
 
 repositories {
     maven {
@@ -77,6 +82,7 @@ repositories {
         }
     }
 }
+
 
 publishing {
     publications {

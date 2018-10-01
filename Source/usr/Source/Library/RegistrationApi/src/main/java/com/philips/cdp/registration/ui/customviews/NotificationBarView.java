@@ -13,7 +13,7 @@ import com.philips.platform.uid.utils.UIDUtils;
 
 public class NotificationBarView {
 
-    private static final String TAG = NotificationBarView.class.getSimpleName();
+    private static final String TAG = "NotificationBarView";
     private final Activity mActivity;
     private PopupWindow popupWindow;
 
@@ -27,7 +27,7 @@ public class NotificationBarView {
             popupWindow = new PopupWindow(mActivity);
             popupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
             popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-            popupWindow.setFocusable(true);
+            popupWindow.setFocusable(false);
             popupWindow.setContentView(view);
 
         }
@@ -46,8 +46,12 @@ public class NotificationBarView {
         }
     }
 
+    boolean isNotificationBarViewShowing() {
+        return popupWindow != null && popupWindow.isShowing();
+    }
+
     private View getNotificationContentView(String title, String message, boolean isError) {
-        RLog.i(TAG, "getNotificationContentView : isCalled");
+        RLog.i(TAG, "getNotificationContentView : is called ");
         final View view;
         if (isError)
             view = View.inflate(mActivity, R.layout.reg_notification_error_bg, null);

@@ -6,14 +6,14 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
-import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_HOME_COUNTRY;
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.AIL_HOME_COUNTRY;
 
 public class HomeCountryUpdateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION)) {
+        if (intent.getAction().equals(ServiceDiscoveryInterface.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION)) {
             String countryCode = (String) intent.getExtras().get(AIL_HOME_COUNTRY);
             Toast.makeText(context, "Home country updated to " + countryCode, Toast.LENGTH_SHORT).show();
             Log.v(getClass() + "", "Home country changed to " + countryCode);

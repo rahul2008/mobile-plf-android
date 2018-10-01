@@ -1,6 +1,7 @@
 package com.philips.cdp2.bluelib.plugindefinition;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 
 import com.philips.pins.shinelib.SHNAssociationProcedurePlugin;
 import com.philips.pins.shinelib.SHNCentral;
@@ -55,5 +56,10 @@ public class ReferenceNodeDeviceDefinitionInfo implements SHNDeviceDefinitionInf
     @Override
     public boolean matchesOnAdvertisedData(BluetoothDevice bluetoothDevice, BleScanRecord bleScanRecord, int rssi) {
         return false;
+    }
+
+    @Override
+    public int getConnectionPriority() {
+        return BluetoothGatt.CONNECTION_PRIORITY_BALANCED;
     }
 }

@@ -137,6 +137,17 @@
                     android:text="@string/buttons_text_quiet"/>
 
                 <com.philips.platform.uid.view.widget.Button
+                    style="@style/UIDExtraWideIconQuietDefaultButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:gravity="center"
+                    android:text="@string/buttons_text_quiet_default"/>
+
+                <com.philips.platform.uid.view.widget.Button
                         style="@style/UIDImageTextButton.Center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -213,6 +224,15 @@
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:gravity="center"
                     android:text="@string/buttons_text_quiet"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    style="@style/UIDQuietDefaultButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:gravity="center"
+                    android:text="@string/buttons_text_quiet_default"/>
 
                 <com.philips.platform.uid.view.widget.Button
                         style="@style/UIDDefaultButton.UIDImageTextButton"

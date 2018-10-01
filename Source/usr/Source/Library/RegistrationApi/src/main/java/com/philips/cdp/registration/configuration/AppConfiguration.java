@@ -19,6 +19,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_EMAIL_VERIFICATION_REQUIRED;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_MINIMUM_AGE_LIMIT;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_SKIP_LOGIN;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_UUID_UPLOAD_IN_ANALYTICS;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.PIL_CONFIGURATION_CAMPAIGN_ID;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SHOW_COUNTRY_SELECTION;
@@ -27,7 +28,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 
 public class AppConfiguration extends BaseConfiguration {
 
-    private final String TAG = AppConfiguration.class.getSimpleName();
+    private final String TAG = "AppConfiguration";
 
     private static final String SD_COUNTRYMAPPING_ID_KEY = "servicediscovery.countryMapping";
     private static final String WE_CHAT_APP_ID_KEY = "weChatAppId";
@@ -36,20 +37,27 @@ public class AppConfiguration extends BaseConfiguration {
 
     public String getWeChatAppId() {
         Object weChatAppIdObject = appInfraWrapper.getURProperty(WE_CHAT_APP_ID_KEY);
-        RLog.d(TAG, "getWeChatAppId : " + getConfigPropertyValue(weChatAppIdObject));
-        return getConfigPropertyValue(weChatAppIdObject);
+        String  configPropertyValue= getConfigPropertyValue(weChatAppIdObject);
+        RLog.d(TAG, "getWeChatAppId: " + configPropertyValue);
+        RLog.i(TAG, "hasWeChatAppId: " + (configPropertyValue != null));
+        return configPropertyValue;
     }
 
     public String getWeChatAppSecret() {
         Object weChatAppSecretObject = appInfraWrapper.getURProperty(WE_CHAT_APP_SECRET_KEY);
-        RLog.d(TAG, "getWeChatAppSecret : " + getConfigPropertyValue(weChatAppSecretObject));
-        return getConfigPropertyValue(weChatAppSecretObject);
+        String  configPropertyValue= getConfigPropertyValue(weChatAppSecretObject);
+        RLog.d(TAG, "getWeChatAppSecret: " + configPropertyValue);
+        RLog.i(TAG, "hasWeChatAppSecret: " + (configPropertyValue != null));
+        return configPropertyValue;
+
     }
 
     public String getMicrositeId() {
         Object micrositeIdObject = appInfraWrapper.getAppIdentity().getMicrositeId();
-        RLog.d(TAG, "getMicrositeId : " + getConfigPropertyValue(micrositeIdObject));
-        return getConfigPropertyValue(micrositeIdObject);
+        String  configPropertyValue= getConfigPropertyValue(micrositeIdObject);
+        RLog.d(TAG, "getmicrositeIdObject: " + configPropertyValue);
+        RLog.i(TAG, "hasmicrositeIdObject: " + (configPropertyValue != null));
+        return configPropertyValue;
     }
 
     @SuppressWarnings("unchecked")
@@ -72,14 +80,18 @@ public class AppConfiguration extends BaseConfiguration {
 
     public String getClientId(String environment) {
         Object clientIdObject = appInfraWrapper.getURProperty(CLIENT_ID_KEY + environment);
-        RLog.d(TAG, "getClientId : " + getConfigPropertyValue(clientIdObject));
-        return getConfigPropertyValue(clientIdObject);
+        String  configPropertyValue= getConfigPropertyValue(clientIdObject);
+        RLog.d(TAG, "getclientId: " + configPropertyValue);
+        RLog.i(TAG, "hasclientId : " + (configPropertyValue != null));
+        return configPropertyValue;
     }
 
     public String getCampaignId() {
         Object campaignIdObject = appInfraWrapper.getURProperty(PIL_CONFIGURATION_CAMPAIGN_ID);
-        RLog.d(TAG, "getCampaignId : " + getConfigPropertyValue(campaignIdObject));
-        return getConfigPropertyValue(campaignIdObject);
+        String  configPropertyValue= getConfigPropertyValue(campaignIdObject);
+        RLog.d(TAG, "getCampaignId : " + configPropertyValue);
+        RLog.i(TAG, "hasCampaignId : " + (configPropertyValue != null));
+        return configPropertyValue;
     }
 
     public Object getEmailVerificationRequired() {
@@ -141,5 +153,9 @@ public class AppConfiguration extends BaseConfiguration {
         return appInfraWrapper.getURProperty(HSDP_UUID_UPLOAD_IN_ANALYTICS);
     }
 
+
+    public Object getDelayedHsdpLoginStatus() {
+        return appInfraWrapper.getURProperty(HSDP_SKIP_LOGIN);
+    }
 
 }

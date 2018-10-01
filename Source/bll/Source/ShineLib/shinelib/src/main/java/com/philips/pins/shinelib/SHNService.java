@@ -26,7 +26,7 @@ import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class SHNService {
-    private static final String TAG = SHNService.class.getSimpleName();
+    private static final String TAG = "SHNService";
     private State state = State.Unavailable;
     private final UUID uuid;
     private BTGatt btGatt;

@@ -74,15 +74,18 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initialiseSecurityDialog();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.af_home_fragment, container, false);
 
         ButterKnife.bind(this, rootView);
         setDateToView();
-
-
-        initialiseSecurityDialog();
         setHasOptionsMenu(true);
         return rootView;
     }
@@ -111,6 +114,7 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
             setImageSize();
         }
     }
+
     protected void initialiseSecurityDialog() {
         boolean isUrLoginSuccess = getPreferences().getBoolean(Constants.UR_LOGIN_COMPLETED, false);
         if(isUrLoginSuccess) {

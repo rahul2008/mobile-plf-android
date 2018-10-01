@@ -15,15 +15,23 @@ import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Class user registration failure info
  */
 public class UserRegistrationFailureInfo {
-    private final String TAG = UserRegistrationFailureInfo.class.getSimpleName();
+    private final String TAG = "UserRegistrationFailureInfo";
+
+    private String errorTagging = "";
 
     private Context mContext;
 
@@ -36,17 +44,6 @@ public class UserRegistrationFailureInfo {
     /* error */
     private CaptureApiError error;
 
-    public void setErrorTagging(String errorTagging) {
-        this.errorTagging = errorTagging;
-    }
-
-    private void setErrorTagging() {
-        if (null != error && null != error.raw_response)
-            this.errorTagging = RegUtility.getTaggingErrorDescription(error.raw_response);
-    }
-
-    private String errorTagging = "";
-
     public UserRegistrationFailureInfo(Context pContext) {
         mContext = pContext;
     }
@@ -55,7 +52,7 @@ public class UserRegistrationFailureInfo {
      * {@code setError} constructor to set error
      * {@link com.janrain.android.capture.CaptureApiError}
      *
-     * @param error error
+     * @param error    error
      * @param pContext
      * @since 1.0.0
      */
@@ -65,6 +62,17 @@ public class UserRegistrationFailureInfo {
         setErrorTagging();
     }
 
+    public void setErrorTagging(String errorTagging) {
+        this.errorTagging = errorTagging;
+        RLog.d(TAG, "setErrorTagging :" + this.errorTagging);
+    }
+
+    private void setErrorTagging() {
+        if (null != error && null != error.raw_response) {
+            this.errorTagging = getTaggingErrorDescription(error.raw_response);
+            RLog.d(TAG, "setErrorTagging : getTaggingErrorDescription :" + errorTagging);
+        }
+    }
 
     /**
      * {@code getErrorDescription } method to get error description
@@ -75,11 +83,11 @@ public class UserRegistrationFailureInfo {
     public String getErrorDescription() {
         if (null != error) {
             JSONObject response = error.raw_response;
-            String message = RegUtility.getErrorMessageFromInvalidField(response);
+            String message = getErrorMessageFromInvalidField(response);
             if (message != null && !message.isEmpty()) {
                 RLog.e(TAG, "getErrorDescription : " + error.error_description);
                 return message;
-            }else{
+            } else {
                 final String localizedJanrainError = new URError(mContext).getLocalizedError(ErrorType.JANRAIN, error.code);
                 RLog.e(TAG, "getErrorDescription : " + localizedJanrainError);
                 return localizedJanrainError;
@@ -145,13 +153,52 @@ public class UserRegistrationFailureInfo {
         return error;
     }
 
+
     /**
-     * {@code setError} method to set error
-     * {@link com.janrain.android.capture.CaptureApiError}
-     *
-     * @param error error
+     * @param serverResponse
+     * @return error description
      * @since 1.0.0
      */
+    private String getTaggingErrorDescription(JSONObject serverResponse) {
+
+        try {
+//            RLog.d("RegUtility", "getTaggingErrorDescription : " + serverResponse.toString());
+            return serverResponse.getString("error");
+        } catch (JSONException e) {
+            RLog.e(TAG, "getTaggingErrorDescription Exception: " + e.getMessage());
+            return "";
+        }
+    }
+
+    /**
+     * @param serverResponse
+     * @return error Message
+     * @since 1.0.0
+     */
+    private String getErrorMessageFromInvalidField(JSONObject serverResponse) {
+        try {
+            JSONObject jsonObject = (JSONObject) serverResponse.get(RegConstants.INVALID_FIELDS);
+            if (jsonObject != null) {
+                jsonObject.keys();
+                List<String> keys = new ArrayList<>();
+                Iterator<?> i = jsonObject.keys();
+                do {
+                    String k = i.next().toString();
+                    keys.add(k);
+                } while (i.hasNext());
+
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int j = 0; j < keys.size(); j++) {
+                    JSONArray jsonObject1 = (JSONArray) jsonObject.opt(keys.get(j));
+                    stringBuilder.append(jsonObject1.getString(0)).append("\n");
+                }
+                return stringBuilder.toString();
+            }
+        } catch (Exception e) {
+            //NOP
+        }
+        return null;
+    }
 
 
 }
