@@ -93,6 +93,12 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
             boolean hideNoThanksButton = dependencies.getBoolean(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE);
             if(!hideNoThanksButton ) {
                 registerLater.setVisibility(View.GONE);
+
+                String registerBtn = dependencies.getString(ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT);
+
+                if(registerBtn!= null && registerBtn!="") {
+                    registerButton.setText(dependencies.getString(ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT));
+                }
             }
         }
     }
