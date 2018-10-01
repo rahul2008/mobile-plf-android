@@ -124,7 +124,7 @@ public class PushNotificationManager {
      * @param context
      */
     public void startPushNotificationRegistration(Context context) {
-        if (TextUtils.isEmpty(getToken())) {
+        if (TextUtils.isEmpty(getToken(getSecureStorageError()))) {
             PNLog.d(TAG, "Token is empty. Starting GCM registration....");
             startGCMRegistrationService(context);
         } else if (pushNotificationUserRegistationWrapperInterface.isUserSignedIn(context)) {
@@ -138,7 +138,7 @@ public class PushNotificationManager {
             }
         } else {
             PNLog.d(TAG, "user is not signed in.");
-            saveTokenRegistrationState(false);
+            saveTokenRegistrationState(getSecureStorageError(),false);
         }
     }
 
@@ -158,16 +158,16 @@ public class PushNotificationManager {
      */
     void registerTokenWithBackend(final Context applicationContext) {
         PNLog.d(TAG, "registerTokenWithBackend");
-        if (TextUtils.isEmpty(getToken())) {
+        if (TextUtils.isEmpty(getToken(getSecureStorageError()))) {
             PNLog.d(TAG, "Token is empty. Trying to register device with GCM server.....");
             startGCMRegistrationService(applicationContext);
         } else if(tokenRegistrationListener!=null){
             PNLog.d(TAG, "Registering token with backend");
-            tokenRegistrationListener.registerToken(getToken(), PushNotificationConstants.APP_VARIANT, PushNotificationConstants.PUSH_GCMA, new RegistrationCallbacks.RegisterCallbackListener() {
+            tokenRegistrationListener.registerToken(getToken(getSecureStorageError()), PushNotificationConstants.APP_VARIANT, PushNotificationConstants.PUSH_GCMA, new RegistrationCallbacks.RegisterCallbackListener() {
                 @Override
                 public void onResponse(boolean isRegistered) {
                     PNLog.d(TAG, "registerTokenWithBackend reponse isregistered:" + isRegistered);
-                    saveTokenRegistrationState(isRegistered);
+                    saveTokenRegistrationState(getSecureStorageError(),isRegistered);
                     if(registerCallbackListener != null) {
                         registerCallbackListener.onResponse(isRegistered);
                     }
@@ -192,7 +192,7 @@ public class PushNotificationManager {
     public void deregisterTokenWithBackend(final Context applicationContext, final DeregisterTokenListener deregisterTokenListener) {
         PNLog.d(TAG, "deregistering token with data core");
 
-        if (TextUtils.isEmpty(getToken())) {
+        if (TextUtils.isEmpty(getToken(getSecureStorageError()))) {
             PNLog.d(TAG, "Something went wrong. Token should not be empty");
             deregisterTokenListener.onError();
         }
@@ -200,11 +200,11 @@ public class PushNotificationManager {
             deregisterTokenListener.onError();
         }
         else if(tokenRegistrationListener!=null){
-            tokenRegistrationListener.deregisterToken(getToken(), PushNotificationConstants.APP_VARIANT, new RegistrationCallbacks.DergisterCallbackListener() {
+            tokenRegistrationListener.deregisterToken(getToken(getSecureStorageError()), PushNotificationConstants.APP_VARIANT, new RegistrationCallbacks.DergisterCallbackListener() {
                 @Override
                 public void onResponse(boolean isDeRegistered) {
                     PNLog.d(TAG, "deregisterTokenWithBackend isDergistered:" + isDeRegistered);
-                    saveTokenRegistrationState(!isDeRegistered);
+                    saveTokenRegistrationState(getSecureStorageError(), !isDeRegistered);
                     if (isDeRegistered) {
                         deregisterTokenListener.onSuccess();
                     } else {
@@ -242,7 +242,7 @@ public class PushNotificationManager {
      *
      * @param state
      */
-    public void saveTokenRegistrationState(boolean state) {
+    public void saveTokenRegistrationState(SecureStorageInterface.SecureStorageError secureStorageError, boolean state) {
         PNLog.d(TAG, "Saving token registration state in preferences");
         SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
         secureStorageInterface.storeValueForKey(PushNotificationConstants.IS_TOKEN_REGISTERED, String.valueOf(state), getSecureStorageError());
@@ -253,9 +253,9 @@ public class PushNotificationManager {
      *
      * @return
      */
-    public String getToken() {
+    public String getToken(SecureStorageInterface.SecureStorageError secureStorageError) {
         SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
-        String value = secureStorageInterface.fetchValueForKey(PushNotificationConstants.GCM_TOKEN, getSecureStorageError());
+        String value = secureStorageInterface.fetchValueForKey(PushNotificationConstants.GCM_TOKEN, secureStorageError);
         PNLog.d(TAG, "GCM token:" + value);
         return value;
     }
@@ -268,7 +268,7 @@ public class PushNotificationManager {
     public void startGCMRegistrationService(Context context) {
         PNLog.d(TAG, "Starting GCM registration. Getting token from server");
         //Remove registration state
-        saveTokenRegistrationState(false);
+        saveTokenRegistrationState(getSecureStorageError(),false);
         //Start registration service
         Intent intent = new Intent(context, RegistrationIntentService.class);
         context.startService(intent);

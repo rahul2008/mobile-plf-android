@@ -107,8 +107,9 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testGetTokenNotEmpty() throws Exception {
-        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), pushNotificationManager.getSecureStorageError())).thenReturn(PUSH_NOTIFICATION_TOKEN);
-        assertEquals(PUSH_NOTIFICATION_TOKEN, pushNotificationManager.getToken());
+        SecureStorageInterface.SecureStorageError secureStorageErrorMock = PowerMockito.mock(SecureStorageInterface.SecureStorageError.class);
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), secureStorageErrorMock)).thenReturn(PUSH_NOTIFICATION_TOKEN);
+        assertEquals(PUSH_NOTIFICATION_TOKEN, pushNotificationManager.getToken(secureStorageErrorMock));
     }
 
     @Test
@@ -119,8 +120,9 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testGetTokenWhenEmpty() throws Exception {
-        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), pushNotificationManager.getSecureStorageError())).thenReturn("");
-        assertEquals("", pushNotificationManager.getToken());
+        SecureStorageInterface.SecureStorageError secureStorageErrorMock = PowerMockito.mock(SecureStorageInterface.SecureStorageError.class);
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), secureStorageErrorMock)).thenReturn("");
+        assertEquals("", pushNotificationManager.getToken(secureStorageErrorMock));
     }
 
     @Test
