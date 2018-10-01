@@ -63,8 +63,6 @@ pipeline {
             }
         }
 
-
-
         stage('Lint+Jacoco') {
             when {
                 expression { return params.buildType == 'TICS' }
@@ -587,6 +585,7 @@ def PublishUnitTestsResults() {
     def cucumber_path = 'Source/cml/Source/Library/commlib-integration-tests/build/cucumber-reports'
     if (fileExists("$cucumber_path/report.json")) {
         step([$class: 'CucumberReportPublisher', jsonReportDirectory: cucumber_path, fileIncludePattern: '*.json'])
+        archiveArtifacts artifacts: cucumber_path+'/*.json', fingerprint: true, onlyIfSuccessful: true
     } else {
         echo 'No Cucumber result found, nothing to publish.'
     }
