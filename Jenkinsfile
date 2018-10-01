@@ -580,7 +580,16 @@ def PublishUnitTestsResults() {
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap Release UnitTest'])
 
+    for (lib in ["commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud"]) {
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/cml/Source/Library/${lib}/build/reports/tests/testReleaseUnitTest", reportFiles: 'index.html', reportName: "cml $lib unit test release"])
+    }
 
+    def cucumber_path = 'Source/cml/Source/Library/commlib-integration-tests/build/cucumber-reports'
+    if (fileExists("$cucumber_path/report.json")) {
+        step([$class: 'CucumberReportPublisher', jsonReportDirectory: cucumber_path, fileIncludePattern: '*.json'])
+    } else {
+        echo 'No Cucumber result found, nothing to publish.'
+    }
 }
 
 def PublishJavaDocs(){
@@ -603,16 +612,9 @@ def PublishJavaDocs(){
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ths/Documents/External/telehealth-api", reportFiles: 'index.html', reportName: "Telehealth Library API documentation"])
 
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/uid/Documents/External/uid-api", reportFiles: 'index.html', reportName: "UID Library API documentation"])
-    for (lib in ["commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud"]) {
-        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/cml/Source/Library/${lib}/build/reports/tests/testReleaseUnitTest", reportFiles: 'index.html', reportName: "cml $lib unit test release"])
-        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/cml/Documents/External/$lib-api", reportFiles: 'index.html', reportName: "cml $lib API documentation"])
-    }
 
-    def cucumber_path = 'Source/cml/Source/Library/commlib-integration-tests/build/cucumber-reports'
-    if (fileExists("$cucumber_path/report.json")) {
-        step([$class: 'CucumberReportPublisher', jsonReportDirectory: cucumber_path, fileIncludePattern: '*.json'])
-    } else {
-        echo 'No Cucumber result found, nothing to publish.'
+    for (lib in ["commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud"]) {
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/cml/Documents/External/$lib-api", reportFiles: 'index.html', reportName: "cml $lib API documentation"])
     }
 }
 

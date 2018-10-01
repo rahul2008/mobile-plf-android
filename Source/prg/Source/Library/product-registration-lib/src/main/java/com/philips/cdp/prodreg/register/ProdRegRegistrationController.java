@@ -35,6 +35,8 @@ public class ProdRegRegistrationController {
 
     public static final String TAG = ProdRegRegistrationController.class.getSimpleName();
 
+    public static final int NETWORK_ERROR = 511;
+
     public interface RegisterControllerCallBacks {
         void isValidDate(boolean validDate);
 
@@ -51,6 +53,8 @@ public class ProdRegRegistrationController {
         void tagEvents(String event, String key, String value);
 
         void showSuccessLayout();
+
+        void hideProgress();
 
         void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct);
         void dismissLoadingDialog();
@@ -160,7 +164,7 @@ public class ProdRegRegistrationController {
     public void registerProduct(final String purchaseDate, final String serialNumber) {
         final boolean validDate = validatePurchaseDate(purchaseDate);
         final boolean validSerialNumber = isValidSerialNumber(serialNumber);
-        if (!isApiCallingProgress && validDate && validSerialNumber) {
+        if (!isApiCallingProgress && validDate && validSerialNumber && getRegisteredProduct() != null) {
             registerControllerCallBacks.tagEvents(REGISTRATION_EVENT, AnalyticsConstants.SPECIAL_EVENTS, EXTEND_WARRANTY_OPTION);
            // registerControllerCallBacks.showLoadingDialog();
             registerControllerCallBacks.logEvents(TAG, "Registering product with product details as CTN::" + getRegisteredProduct().getCtn());
@@ -170,8 +174,12 @@ public class ProdRegRegistrationController {
             ProdRegHelper prodRegHelper = getProdRegHelper();
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
             prodRegHelper.getSignedInUserWithProducts(fragmentActivity).registerProduct(getRegisteredProduct());
-        }
+        }else {
+        registerControllerCallBacks.hideProgress();
+        registerControllerCallBacks.showAlertOnError(NETWORK_ERROR);
     }
+
+}
 
     @NonNull
     protected ProdRegHelper getProdRegHelper() {
