@@ -16,7 +16,7 @@ import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.utility.UserRegistrationHandler;
@@ -124,7 +124,8 @@ public class URLogoutTest {
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
-        verify(pushNotificationManager).saveTokenRegistrationState(any(Context.class), anyBoolean());
+        SecureStorageInterface.SecureStorageError secureStorageErrorMock = mock(SecureStorageInterface.SecureStorageError.class);
+        verify(pushNotificationManager).saveTokenRegistrationState(secureStorageErrorMock, anyBoolean());
         verify(demoDataServicesState).deregisterDSForRegisteringToken();
         verify(demoDataServicesState).deregisterForReceivingPayload();
         verify(urLogoutListener).onLogoutResultSuccess();
@@ -141,7 +142,8 @@ public class URLogoutTest {
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutFailure(ERROR_CODE, ERROR_MESSAGE);
-        verify(pushNotificationManager, times(0)).saveTokenRegistrationState(any(Context.class), anyBoolean());
+        SecureStorageInterface.SecureStorageError secureStorageErrorMock = mock(SecureStorageInterface.SecureStorageError.class);
+        verify(pushNotificationManager, times(0)).saveTokenRegistrationState(secureStorageErrorMock, anyBoolean());
         verify(demoDataServicesState, times(0)).deregisterDSForRegisteringToken();
         verify(demoDataServicesState, times(0)).deregisterForReceivingPayload();
         verify(urLogoutListener).onLogoutResultFailure(ERROR_CODE, ERROR_MESSAGE);
@@ -159,7 +161,8 @@ public class URLogoutTest {
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
-        verify(pushNotificationManager).saveTokenRegistrationState(any(Context.class), anyBoolean());
+        SecureStorageInterface.SecureStorageError secureStorageErrorMock = mock(SecureStorageInterface.SecureStorageError.class);
+        verify(pushNotificationManager).saveTokenRegistrationState(secureStorageErrorMock, anyBoolean());
         verify(demoDataServicesState).deregisterDSForRegisteringToken();
         verify(demoDataServicesState).deregisterForReceivingPayload();
         verify(urLogoutListener).onLogoutResultSuccess();
@@ -176,7 +179,8 @@ public class URLogoutTest {
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutFailure(ERROR_CODE, ERROR_MESSAGE);
-        verify(pushNotificationManager, times(0)).saveTokenRegistrationState(any(Context.class), anyBoolean());
+        SecureStorageInterface.SecureStorageError secureStorageErrorMock = mock(SecureStorageInterface.SecureStorageError.class);
+        verify(pushNotificationManager, times(0)).saveTokenRegistrationState(secureStorageErrorMock, anyBoolean());
         verify(demoDataServicesState, times(0)).deregisterDSForRegisteringToken();
         verify(demoDataServicesState, times(0)).deregisterForReceivingPayload();
         verify(urLogoutListener, times(1)).onLogoutResultFailure(ERROR_CODE, ERROR_MESSAGE);
@@ -192,7 +196,8 @@ public class URLogoutTest {
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
-        verify(pushNotificationManager, times(0)).saveTokenRegistrationState(any(Context.class), anyBoolean());
+        SecureStorageInterface.SecureStorageError secureStorageErrorMock = mock(SecureStorageInterface.SecureStorageError.class);
+        verify(pushNotificationManager, times(0)).saveTokenRegistrationState(secureStorageErrorMock, anyBoolean());
         verify(demoDataServicesState, times(0)).deregisterDSForRegisteringToken();
         verify(demoDataServicesState, times(0)).deregisterForReceivingPayload();
         verify(urLogoutListener).onLogoutResultSuccess();
