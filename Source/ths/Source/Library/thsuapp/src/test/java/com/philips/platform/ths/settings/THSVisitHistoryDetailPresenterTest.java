@@ -203,7 +203,7 @@ public class THSVisitHistoryDetailPresenterTest {
        // verify(thsVisitHistoryDetailFragmentMock).hideProgressBar();
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void getVisitReportDetailOnError() throws Exception {
         when(thsVisitHistoryDetailFragmentMock.getVisitReport()).thenReturn(visitReportMock);
         when(thsVisitHistoryDetailFragmentMock.getContext()).thenReturn(contextMock);

@@ -161,10 +161,10 @@ public class THSVisitHistoryPresenterTest {
 
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void onFailure() throws Exception {
         mThsVisitHistoryPresenter.onFailure(throwableMock);
-        verify(thsVisitHistoryFragmentMock).showError((String)isNull(), anyBoolean(), anyBoolean());
+        verify(thsVisitHistoryFragmentMock).showError(anyString(), anyBoolean(), false);
     }
 
     @Test

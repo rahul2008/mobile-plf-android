@@ -8,26 +8,20 @@ package com.philips.platform.ths.providerdetails;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
-import com.philips.platform.ths.appointment.THSProviderNotAvailableFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.intake.THSVisitContextCallBack;
-import com.philips.platform.ths.practice.THSPracticeCallback;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -41,18 +35,15 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_APPOINTMENTS;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ON_DEMAND_SPECIALITIES;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_START_MATCHING;
-import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PRACTICE;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER;
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
-class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSFetchEstimatedCostCallback, THSMatchMakingCallback {
+class THSProviderDetailsPresenter extends THSActionResolutionHelper implements THSBasePresenter, THSProviderDetailsCallback, THSFetchEstimatedCostCallback, THSMatchMakingCallback {
 
     private THSProviderDetailsViewInterface viewInterface;
 
@@ -130,7 +121,15 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                     Date date = new Date();
                     date.setTime(calendar.getTimeInMillis());
 
-                    launchAvailableProviderDetailBasedOnAvailibity(date);
+                    THSProviderInfo thsProviderInfo = viewInterface.getTHSProviderInfo();
+                    if (thsProviderInfo == null) {
+                        final Provider provider = viewInterface.getProvider();
+                        THSProviderInfo thsProviderInfo1 = new THSProviderInfo();
+                        thsProviderInfo1.setTHSProviderInfo(provider);
+                        thsProviderInfo = thsProviderInfo1;
+                    }
+
+                    launchAvailableProviderDetailBasedOnAvailibity(date, mThsBaseFragment, thsProviderInfo, viewInterface.getPractice());
 
                 }
             };
@@ -167,108 +166,6 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
             // matchmaking failed
             ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment.dismiss();
             mThsBaseFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
-        }
-    }
-
-    private void launchAvailableProviderDetailBasedOnAvailibity(final Date date) {
-        try {
-            THSProviderInfo thsProviderInfo = viewInterface.getTHSProviderInfo();
-            if (thsProviderInfo == null) {
-                final Provider provider = viewInterface.getProvider();
-                THSProviderInfo thsProviderInfo1 = new THSProviderInfo();
-                thsProviderInfo1.setTHSProviderInfo(provider);
-                thsProviderInfo = thsProviderInfo1;
-            }
-            THSManager.getInstance().getProviderDetails(mThsBaseFragment.getContext(),
-                    thsProviderInfo, new THSProviderDetailsCallback() {
-                        @Override
-                        public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
-                            if (null != sdkError) {
-                                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTIC_FETCH_PROVIDER, sdkError));
-                            } else {
-                                ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
-                                try {
-                                    THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
-                                            date, new THSAvailableProviderCallback<List<Date>, THSSDKError>() {
-                                                @Override
-                                                public void onResponse(final List<Date> dates, THSSDKError sdkError) {
-                                                    if (null != sdkError.getSdkError()) {
-                                                        mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTICS_FETCH_APPOINTMENTS, sdkError.getSdkError()));
-                                                    } else {
-                                                        if (viewInterface.getPractice() == null) {
-                                                            try {
-                                                                THSManager.getInstance().getPractice(mThsBaseFragment.getContext(), viewInterface.getPracticeInfo(), new THSPracticeCallback<Practice, SDKError>() {
-                                                                    @Override
-                                                                    public void onResponse(Practice practice, SDKError practiceSdkError) {
-                                                                        if (null != practiceSdkError) {
-                                                                            if (null != practiceSdkError.getSDKErrorReason()) {
-                                                                                mThsBaseFragment.showError( THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTIC_FETCH_PRACTICE,practiceSdkError));
-                                                                            }
-                                                                        } else {
-                                                                            launchFragmentBasedOnAvailibity(practice, dates, date);
-                                                                        }
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onFailure(Throwable throwable) {
-                                                                        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                                                                            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
-                                                                            mThsBaseFragment.hideProgressBar();
-                                                                        }
-                                                                    }
-                                                                });
-                                                            } catch (AWSDKInstantiationException e) {
-
-                                                            }
-                                                            return;
-                                                        }
-                                                        launchFragmentBasedOnAvailibity(viewInterface.getPractice(), dates, date);
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onFailure(Throwable throwable) {
-                                                    if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                                                        mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
-                                                        mThsBaseFragment.hideProgressBar();
-                                                    }
-                                                }
-                                            });
-                                } catch (AWSDKInstantiationException e) {
-
-                                    mThsBaseFragment.hideProgressBar();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onProviderDetailsFetchError(Throwable throwable) {
-                            if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                                mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
-                            }
-                            mThsBaseFragment.hideProgressBar();
-                        }
-                    });
-        } catch (AWSDKInstantiationException e) {
-
-            mThsBaseFragment.hideProgressBar();
-        }
-    }
-
-    private void launchFragmentBasedOnAvailibity(Practice practice, List<Date> dates, Date date) {
-        if (dates == null || dates.size() == 0) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(THSConstants.THS_DATE, date);
-            bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
-            bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSProviderDetailsFragment) mThsBaseFragment).getProvider());
-            bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSProviderDetailsFragment) mThsBaseFragment).getProviderEntitiy());
-            final THSProviderNotAvailableFragment fragment = new THSProviderNotAvailableFragment();
-            fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-            mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle, true);
-            mThsBaseFragment.hideProgressBar();
-        } else {
-            new THSBasePresenterHelper().launchAvailableProviderDetailFragment(mThsBaseFragment, viewInterface.getTHSProviderInfo(),
-                    date, practice);
         }
     }
 

@@ -32,6 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="8sp"
+            android:layout_marginRight="@dimen/ths_2_dp"
+            android:layout_marginLeft="@dimen/ths_2_dp"
             style="@style/ths_text_book"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/ths_body_text" />
@@ -40,6 +42,8 @@
             android:id="@+id/details_practiceNameLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/ths_2_dp"
+            android:layout_marginLeft="@dimen/ths_2_dp"
             android:layout_below="@+id/details_providerNameLabel"
             android:layout_marginBottom="@dimen/ths_title_padding"
             android:lineSpacingExtra="6sp"
@@ -68,10 +72,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="6dp"
                 android:layout_toRightOf="@+id/notification_badge"
                 android:lineSpacingExtra="6sp"
                 android:text="@string/ths_available_time_slots"
+                android:layout_marginRight="@dimen/ths_2_dp"
+                android:layout_marginLeft="@dimen/ths_2_dp"
                 android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:textSize="@dimen/uid_grid_descrption_size" />
 

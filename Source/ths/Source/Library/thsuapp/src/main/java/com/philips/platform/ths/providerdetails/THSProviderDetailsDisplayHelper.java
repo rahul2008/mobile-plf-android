@@ -56,6 +56,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     protected RatingBar providerRating;
     protected THSCustomButtonWithDrawableIcon detailsButtonOne, detailsButtonContinue, scheduleOptionButton;
     private RelativeLayout mTimeSlotContainer,ths_match_making_ProgressBarWithLabel, detailsButtonTwo;
+    private View horizontalLineBelow, horizontalLineAbove;
     private THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
     private THSBaseFragment thsBaseFragment;
@@ -97,6 +98,8 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         scheduleOptionButton = (THSCustomButtonWithDrawableIcon) view.findViewById(R.id.schedule_option);
         scheduleOptionButton.setOnClickListener(mOnClickListener);
         detailsButtonTwo = (RelativeLayout) view.findViewById(R.id.schedule_container);
+        horizontalLineBelow = view.findViewById(R.id.horizontalLineOne_new);
+        horizontalLineAbove = view.findViewById(R.id.horizontalLineOne);
         detailsButtonContinue = (THSCustomButtonWithDrawableIcon) view.findViewById(R.id.detailsButtonContinue);
         gridView = (THSExpandableHeightGridView) view.findViewById(R.id.grid);
         gridView.setOnItemClickListener(this);
@@ -173,10 +176,12 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         }else if((providerVisibility.equals(THSConstants.PROVIDER_OFFLINE) || providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) &&
                 !thsProviderDetailsViewInterface.getPractice().isShowScheduling()){
             detailsButtonTwo.setVisibility(View.GONE);
+            horizontalLineBelow.setVisibility(View.GONE);
         }
 
         if (dates != null) {
             mTimeSlotContainer.setVisibility(View.VISIBLE);
+            horizontalLineAbove.setVisibility(View.VISIBLE);
             isAvailable.setText(String.valueOf(dates.size()) + " " + context.getString(R.string.ths_available_time_slots_text));
 
             isAvailable.setTextColor(UIDHelper.getColorFromAttribute(context.getTheme(),R.attr.uidHyperlinkDefaultNormalTextColor,  Color.TRANSPARENT));
@@ -186,6 +191,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         } else {
             detailsButtonContinue.setVisibility(View.GONE);
             mTimeSlotContainer.setVisibility(View.GONE);
+            horizontalLineAbove.setVisibility(View.GONE);
             isAvailable.setText(providerAvailabilityString);
         }
     }
@@ -231,6 +237,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                 detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text));
                 if (THSManager.getInstance().isMatchMakingVisit()) {
                     detailsButtonTwo.setVisibility(View.GONE);
+                    horizontalLineBelow.setVisibility(View.GONE);
                 }else {
                     checkForUrgentCare();
                 }
@@ -244,6 +251,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                 detailsButtonOne.setText(mContext.getString(R.string.ths_insurancedetail_selectprovider));
                 if (THSManager.getInstance().isMatchMakingVisit()) {
                     detailsButtonTwo.setVisibility(View.GONE);
+                    horizontalLineBelow.setVisibility(View.GONE);
                 } else {
                     checkForUrgentCare();
                 }
@@ -254,6 +262,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
             } else {
                 detailsButtonOne.setVisibility(Button.GONE);
                 detailsButtonTwo.setVisibility(View.GONE);
+                horizontalLineBelow.setVisibility(View.GONE);
                 scheduleVisitAvailability();
             }
         }
@@ -263,8 +272,10 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         scheduleOptionButton.setVisibility(View.GONE);
         if(null == thsProviderDetailsViewInterface.getPractice() || thsProviderDetailsViewInterface.getPractice().isShowScheduling()) {
             detailsButtonTwo.setVisibility(View.VISIBLE);
+            horizontalLineBelow.setVisibility(View.VISIBLE);
         }else {
             detailsButtonTwo.setVisibility(View.GONE);
+            horizontalLineBelow.setVisibility(View.GONE);
         }
     }
 
@@ -283,6 +294,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     private void setButtonVisibilityForAvailableProvider() {
         detailsButtonOne.setVisibility(View.GONE);
         detailsButtonTwo.setVisibility(View.GONE);
+        horizontalLineBelow.setVisibility(View.GONE);
         detailsButtonContinue.setVisibility(View.VISIBLE);
     }
 

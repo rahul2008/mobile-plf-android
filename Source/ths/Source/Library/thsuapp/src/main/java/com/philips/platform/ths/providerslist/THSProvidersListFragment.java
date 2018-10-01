@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.Provider;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.intake.THSSearchFragment;
@@ -46,7 +47,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDERLIST_ABF
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_LIST;
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_LIST_FLOW2;
 
-public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
+public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface, OnProviderListItemClickListener {
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
     public static final String DIALOG_TAG = THSProvidersListFragment.class.getSimpleName() + "Dialog";
     protected RecyclerView recyclerView;
@@ -62,6 +63,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private Label seeFirstDoctorLabel;
     private AlertDialogFragment alertDialogFragment;
     static final long serialVersionUID = 147L;
+    private Provider provider;
 
 
     @Nullable
@@ -117,10 +119,9 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void onResume() {
         super.onResume();
-        if(isProviderListABFlow1()){
+        if (isProviderListABFlow1()) {
             THSTagUtils.doTrackPageWithInfo(THS_PROVIDER_LIST, null, null);
-        }
-        else{
+        } else {
             THSTagUtils.doTrackPageWithInfo(THS_PROVIDER_LIST_FLOW2, null, null);
         }
         THSManager.getInstance().setMatchMakingVisit(false);
@@ -156,20 +157,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         List<THSProviderInfo> listAfterFilter = checkForUrgentCare(thsProviderInfos);
         if (listAfterFilter.size() > 0) {
             THSProvidersListAdapter = new THSProvidersListAdapter(listAfterFilter, practice);
-            THSProvidersListAdapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
-                @Override
-                public void onItemClick(THSProviderEntity providerEntity, int viewId) {
-                    if(!isProviderListABFlow1() && (viewId == R.id.provider_select || viewId == R.id.provider_schedule ||
-                            viewId == R.id.doctor_schedule_action_bar|| viewId == R.id.doctor_select_action_bar)){
-                        THSProviderListPresenter.onEvent(providerEntity, viewId);
-                    }
-                    else{
-                        launchProviderDetailsFragment(providerEntity);
-                    }
-
-
-                }
-            });
+            THSProvidersListAdapter.setOnProviderItemClickListener(this);
             recyclerView.setAdapter(THSProvidersListAdapter);
         } else {
             showNoProviderErrorDialog();
@@ -266,4 +254,23 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     public void setPractice(Practice practice) {
         this.practice = practice;
     }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    @Override
+    public void onItemClick(THSProviderEntity providerEntity, int viewId) {
+        if (!isProviderListABFlow1() && (viewId == R.id.provider_select || viewId == R.id.provider_schedule ||
+                viewId == R.id.doctor_schedule_action_bar || viewId == R.id.doctor_select_action_bar)) {
+            THSProviderListPresenter.onEvent(providerEntity, viewId, practice);
+        } else {
+            launchProviderDetailsFragment(providerEntity);
+        }
+    }
+
 }

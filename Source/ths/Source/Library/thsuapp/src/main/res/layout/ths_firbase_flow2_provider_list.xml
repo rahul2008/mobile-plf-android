@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
+            android:layout_marginStart="@dimen/ths_2_dp"
             android:text="Dr. Eylin White"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/uid_recyclerview_item_title_text_size" />
@@ -36,16 +37,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/providerNameLabel"
-            android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/ths_2_dp"
             android:text="Pediatrician"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/uid_grid_descrption_size" />
+
+        <com.philips.platform.uid.view.widget.RatingBar
+            android:id="@+id/providerRating"
+            style="@style/UIDRatingBarStandardDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/practiceNameLabel"
+            android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
+            android:rating="5" />
+
 
         <RelativeLayout
             android:id="@+id/isAvailableLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/practiceNameLabel">
+            android:layout_below="@id/providerRating"
+            android:layout_marginBottom="22dp"
+            android:layout_marginStart="@dimen/ths_2_dp">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/isAvailableLabel"
@@ -53,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="6dp"
+                android:layout_toEndOf="@+id/notification_badge"
                 android:text="Available Now"
                 android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
                 android:textSize="@dimen/ths_grid_text_size" />
@@ -64,39 +78,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="@dimen/ths_list_space"
+                android:layout_marginEnd="@dimen/ths_4_dp"
                 android:enabled="false"
                 android:text="2"
                 android:visibility="gone"
                 app:backgroundTint="?attr/uidColorLevel45" />
-
-            <com.philips.platform.uid.view.widget.RatingBar
-                android:id="@+id/providerRating"
-                style="@style/UIDRatingBarStandardDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/uid_navigation_bar_padding_left"
-                android:layout_marginTop="@dimen/uid_alert_dialog_title_icon_padding"
-                android:layout_toEndOf="@+id/notification_badge"
-                android:rating="5" />
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/details_isAvailableImage_text"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_below="@+id/providerRating"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="8dp"
-                android:enabled="false"
-                android:gravity="center"
-                android:textColor="?attr/uidButtonPrimaryNormalTextColor" />
         </RelativeLayout>
+
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/actionFooterLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@id/providerDetailLayout"
         android:orientation="vertical">
 
@@ -106,39 +100,39 @@
             android:layout_width="match_parent"
             android:layout_height="1dp" />
 
-        <com.philips.platform.uid.view.widget.Label
+        <com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon
             android:id="@+id/doctor_select_action_bar"
-            fontPath="fonts/iconfont.ttf"
+            style="@style/UIDQuietButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:drawableEnd="@drawable/ths_blue_right_arrow"
             android:gravity="center"
-            android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
             android:visibility="gone" />
 
-        <com.philips.platform.uid.view.widget.Label
+        <com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon
             android:id="@+id/doctor_schedule_action_bar"
-            fontPath="fonts/iconfont.ttf"
+            style="@style/UIDQuietButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:drawableEnd="@drawable/ths_blue_right_arrow"
             android:gravity="center"
-            android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
             android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/doctor_available_action_bar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <com.philips.platform.uid.view.widget.Label
+            <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/provider_schedule"
+                style="@style/UIDQuietButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:gravity="center"
-                android:text="@string/ths_schedule_provider"
-                android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
+                android:text="@string/ths_schedule_provider" />
 
             <include
                 android:id="@+id/indicator_seperator"
@@ -147,19 +141,16 @@
                 android:layout_height="match_parent" />
 
 
-            <com.philips.platform.uid.view.widget.Label
+            <com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon
                 android:id="@+id/provider_select"
-                fontPath="fonts/iconfont.ttf"
+                style="@style/UIDQuietButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
+                android:drawableEnd="@drawable/ths_blue_right_arrow"
                 android:gravity="center"
-                android:text="@string/ths_select_provider"
-                android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
-
+                android:text="@string/ths_select_provider" />
         </LinearLayout>
-
-
     </LinearLayout>
 
     <View

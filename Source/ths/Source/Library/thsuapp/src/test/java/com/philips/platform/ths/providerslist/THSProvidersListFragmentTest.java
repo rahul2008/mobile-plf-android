@@ -44,6 +44,7 @@ import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
@@ -212,13 +213,13 @@ public class THSProvidersListFragmentTest {
     ServiceDiscoveryInterface serviceDiscoveryMock;
 
     @Mock
-    private TextView doctorActionBarMock;
+    private Button doctorActionBarMock;
 
     @Mock
-    private TextView selectDoctorActionBarMock;
+    private Button selectDoctorActionBarMock;
 
     @Mock
-    private TextView scheduleDoctorActionBarMock;
+    private Button scheduleDoctorActionBarMock;
 
     @Mock
     private LinearLayout doctorAvailableActionBarMock;
@@ -263,7 +264,6 @@ public class THSProvidersListFragmentTest {
         pv = ProviderVisibility.WEB_AVAILABLE;
         thsProviderInfoMock.setTHSProviderInfo(providerInfoMock);
         list = new ArrayList();
-        myViewHolderMock.providerPatientWaitingCount = patientWaitingCount;
         myViewHolderMock.isAvailble = textViewIsAvailable;
         myViewHolderMock.name = tvName;
         myViewHolderMock.providerRating = ratingBarMock;

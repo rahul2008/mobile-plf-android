@@ -9,7 +9,6 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.cdp.registration.User;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
-import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -100,7 +99,6 @@ public class THSProvidersListAdapterTest {
         Assertions.assertThat(viewHolder.providerImage).isNotNull();
         Assertions.assertThat(viewHolder.relativeLayout).isNotNull();
         Assertions.assertThat(viewHolder.notificationBadge).isNotNull();
-        Assertions.assertThat(viewHolder.providerPatientWaitingCount).isNotNull();
 
 
         THSManager.getInstance().setProviderListABFlow(THSConstants.THS_PROVIDERLIST_ABFLOW2);
@@ -219,7 +217,6 @@ public class THSProvidersListAdapterTest {
         viewHolderMock.doctorAvailableActionBar = getViewHolder().doctorAvailableActionBar;
         viewHolderMock.relativeLayout = getViewHolder().relativeLayout;
         viewHolderMock.scheduleDoctorButton = getViewHolder().scheduleDoctorButton;
-        viewHolderMock.providerPatientWaitingCount = getViewHolder().providerPatientWaitingCount;
         viewHolderMock.notificationBadge = getViewHolder().notificationBadge;
         viewHolderMock.providerRating = getViewHolder().providerRating;
         viewHolderMock.name = getViewHolder().name;

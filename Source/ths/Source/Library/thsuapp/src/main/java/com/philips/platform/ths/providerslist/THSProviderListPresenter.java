@@ -13,7 +13,6 @@ import android.widget.DatePicker;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
@@ -21,8 +20,8 @@ import com.philips.platform.ths.appointment.THSAvailableProviderListBasedOnDateF
 import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
+import com.philips.platform.ths.providerdetails.THSActionResolutionHelper;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -41,7 +40,7 @@ import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALY
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
-public class THSProviderListPresenter implements THSProvidersListCallback, THSBasePresenter, THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>, THSSDKError> {
+public class THSProviderListPresenter extends THSActionResolutionHelper implements THSProvidersListCallback, THSBasePresenter, THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>, THSSDKError> {
 
     private THSBaseFragment mThsBaseFragment;
     private THSProviderListViewInterface thsProviderListViewInterface;
@@ -179,7 +178,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     }
 
-    public void onEvent(final THSProviderEntity thsProviderEntity, int componentID) {
+    public void onEvent(final THSProviderEntity thsProviderEntity, int componentID, final Practice practice) {
         if (componentID == R.id.provider_select || componentID == R.id.doctor_select_action_bar) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
             Bundle bundle = new Bundle();
@@ -202,8 +201,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                     Date date = new Date();
                     date.setTime(calendar.getTimeInMillis());
 
-                    THSBasePresenterHelper thsBasePresenterHelper = new THSBasePresenterHelper();
-                    thsBasePresenterHelper.launchAvailableProviderDetailFragment(mThsBaseFragment, thsProviderEntity, date, ((THSProvidersListFragment) mThsBaseFragment).getPractice());
+                    launchAvailableProviderDetailBasedOnAvailibity(date, mThsBaseFragment, (THSProviderInfo) thsProviderEntity, practice);
 
                 }
             };
