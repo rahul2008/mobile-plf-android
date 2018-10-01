@@ -157,6 +157,7 @@ public class AIATDemoPage extends AppCompatActivity  {
 			@Override
 			public void onClick(View view) {
 				Toast.makeText(AIATDemoPage.this, "Tracked after video start completion ", Toast.LENGTH_SHORT).show();
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackVideoEnd("Tagging_trackVideoEnd");
 			}
 		});
 		TaggFileDownload.setOnClickListener(new View.OnClickListener() {
