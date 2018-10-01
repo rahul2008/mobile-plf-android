@@ -22,11 +22,13 @@ import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 
 
@@ -37,6 +39,8 @@ public class AIATDemoPage extends AppCompatActivity  {
 	EditText key;
 	EditText value;
 	EditText page_event_name;
+	private Calendar calendar1;
+	private Calendar calendar2;
 
 	AppTaggingInterface.SocialMedium sSocialMedium;
 
@@ -157,7 +161,6 @@ public class AIATDemoPage extends AppCompatActivity  {
 			@Override
 			public void onClick(View view) {
 				Toast.makeText(AIATDemoPage.this, "Tracked after video start completion ", Toast.LENGTH_SHORT).show();
-				AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackVideoEnd("Tagging_trackVideoEnd");
 			}
 		});
 		TaggFileDownload.setOnClickListener(new View.OnClickListener() {
@@ -170,14 +173,16 @@ public class AIATDemoPage extends AppCompatActivity  {
 		TaggActionStartBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
-				startActivity(intent);
+				calendar1 = Calendar.getInstance();
 			}
 		});
 
 		TaggActionEndBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				calendar2 = Calendar.getInstance();
+				appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG," time difference is ",""+getTimeDif(calendar1, calendar2));
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackTimedActionEnd(String.valueOf(getTimeDif(calendar1, calendar2)));
 				Toast.makeText(AIATDemoPage.this, "Tracked after Action start completion", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -322,5 +327,15 @@ public class AIATDemoPage extends AppCompatActivity  {
 
 		AlertDialog alert11 = builder1.create();
 		alert11.show();
+	}
+
+	public static long getTimeDif(Calendar cal1, Calendar cal2) {
+		long milis1 = cal1.getTimeInMillis();
+		long milis2 = cal2.getTimeInMillis();
+		long diff = milis2 - milis1;
+		long diffSeconds = diff / 1000;
+		long diffMinutes = diff / (60 * 1000);
+
+		return diffSeconds;
 	}
 }
