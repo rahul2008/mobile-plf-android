@@ -370,7 +370,7 @@ public class PushNotificationManagerTest {
                 getDeregisterTokenListener(isResponseSuccess);
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface);
-        pushNotificationManager.deregisterTokenWithBackend(context, deregisterTokenListener);
+        pushNotificationManager.deregisterTokenWithBackend(deregisterTokenListener);
 
         assertTrue(isDeregisterTokenApiInvoked[0]);
         assertTrue(isResponseSuccess[0]);
@@ -450,7 +450,7 @@ public class PushNotificationManagerTest {
 
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface);
-        pushNotificationManager.deregisterTokenWithBackend(context, deregisterTokenListener);
+        pushNotificationManager.deregisterTokenWithBackend(deregisterTokenListener);
 
         assertTrue(isDeregisterTokenApiInvoked[0]);
         assertTrue(isResponseSuccess[0]);

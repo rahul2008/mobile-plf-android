@@ -48,7 +48,7 @@ public class URLogout implements URLogoutInterface {
         }
 
         if (!BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext()) && BaseAppUtil.isAutoLogoutEnabled(activityContext.getApplicationContext())) {
-            getPushNotificationInstance().deregisterTokenWithBackend(activityContext.getApplicationContext(), new PushNotificationManager.DeregisterTokenListener() {
+            getPushNotificationInstance().deregisterTokenWithBackend(new PushNotificationManager.DeregisterTokenListener() {
                 @Override
                 public void onSuccess() {
                     RALog.d(TAG, " performLogout: BaseAppUtil.isDSPollingEnabled: False: deregisterTokenWithBackend: onSuccess");

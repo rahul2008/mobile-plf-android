@@ -189,7 +189,7 @@ public class PushNotificationManager {
     /**
      * Deregistration of token with datacore or backend
      */
-    public void deregisterTokenWithBackend(final Context applicationContext, final DeregisterTokenListener deregisterTokenListener) {
+    public void deregisterTokenWithBackend(final DeregisterTokenListener deregisterTokenListener) {
         PNLog.d(TAG, "deregistering token with data core");
 
         if (TextUtils.isEmpty(getToken(getSecureStorageError()))) {
