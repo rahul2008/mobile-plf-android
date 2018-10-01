@@ -114,7 +114,7 @@ public class URLogout implements URLogoutInterface {
             });
         } else {
             RALog.d(TAG, "stopDataSync: savingTokenRegState");
-            getPushNotificationInstance().saveTokenRegistrationState(activityContext.getApplicationContext(), false);
+            getPushNotificationInstance().saveTokenRegistrationState(false);
             RALog.d(TAG, "stopDataSync: deregisterDSForRegisteringToken");
             ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();
             RALog.d(TAG, "stopDataSync: deregisterForReceivingPayload");
