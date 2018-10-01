@@ -21,6 +21,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+
 import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
@@ -34,7 +35,6 @@ import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -85,7 +85,7 @@ public class SHNCentral {
          *
          * @param shnCentral the {@code SHNCentral} object that had its state changed.
          */
-        void onStateUpdated(@NonNull SHNCentral shnCentral);
+        void onStateUpdated(@NonNull SHNCentral shnCentral, @NonNull SHNCentral.State state);
     }
 
     /**
@@ -297,6 +297,7 @@ public class SHNCentral {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         applicationContext.startActivity(intent);
     }
+
     /**
      * Register a {@link SHNBondStatusListener} for device with specific address.
      *
@@ -355,7 +356,7 @@ public class SHNCentral {
                         userHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                shnCentralListener.onStateUpdated(SHNCentral.this);
+                                shnCentralListener.onStateUpdated(SHNCentral.this, getShnCentralState());
                             }
                         });
                     }
@@ -413,15 +414,14 @@ public class SHNCentral {
     }
 
     private void onSHNCentralStateChanged() {
-        Set<Integer> keys = new HashSet<>(shnCentralInternalListeners.keySet());
-        for (Integer key : keys) {
+        for (Integer key : shnCentralInternalListeners.keySet()) {
             WeakReference<SHNCentralListener> shnCentralListenerWeakReference = shnCentralInternalListeners.get(key);
             SHNCentralListener shnCentralListener = shnCentralListenerWeakReference.get();
 
             if (shnCentralListener == null) {
                 shnCentralInternalListeners.remove(key);
             } else {
-                shnCentralListener.onStateUpdated(this);
+                shnCentralListener.onStateUpdated(this, getShnCentralState());
             }
         }
     }
