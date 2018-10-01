@@ -129,7 +129,7 @@ public class PushNotificationManager {
             startGCMRegistrationService(context);
         } else if (pushNotificationUserRegistationWrapperInterface.isUserSignedIn(context)) {
             PNLog.d(TAG, "User is signed in");
-            if (!isTokenRegistered()) {
+            if (!isTokenRegistered(getSecureStorageError())) {
                 PNLog.d(TAG, "Token is not registered. Registering with datacore");
                 registerTokenWithBackend(context);
             } else {
@@ -147,9 +147,9 @@ public class PushNotificationManager {
      *
      * @return
      */
-    public boolean isTokenRegistered() {
+    public boolean isTokenRegistered(SecureStorageInterface.SecureStorageError secureStorageError) {
         SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
-        String value = secureStorageInterface.fetchValueForKey(PushNotificationConstants.IS_TOKEN_REGISTERED, getSecureStorageError());
+        String value = secureStorageInterface.fetchValueForKey(PushNotificationConstants.IS_TOKEN_REGISTERED, secureStorageError);
         return Boolean.parseBoolean(value);
     }
 
@@ -229,12 +229,12 @@ public class PushNotificationManager {
      * This method saves token in preferences
      *
      * @param token
-     * @param applicationContext
+     * @param secureStorageError
      */
-    public void saveToken(String token, Context applicationContext) {
+    public void saveToken(String token, SecureStorageInterface.SecureStorageError secureStorageError) {
         PNLog.d(TAG, "Saving token in preferences");
         SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
-        secureStorageInterface.storeValueForKey(PushNotificationConstants.GCM_TOKEN, token, getSecureStorageError());
+        secureStorageInterface.storeValueForKey(PushNotificationConstants.GCM_TOKEN, token, secureStorageError);
     }
 
     /**
