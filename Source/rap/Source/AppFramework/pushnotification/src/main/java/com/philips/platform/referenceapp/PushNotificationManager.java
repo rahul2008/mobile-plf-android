@@ -40,7 +40,7 @@ public class PushNotificationManager {
     private AppInfraInterface appInfra;
     private RegistrationCallbacks.RegisterCallbackListener registerCallbackListener = null;
 
-    public SecureStorageInterface.SecureStorageError getSecureStorageError() {
+    SecureStorageInterface.SecureStorageError getSecureStorageError() {
         return new SecureStorageInterface.SecureStorageError();
     }
 

@@ -7,7 +7,6 @@ package com.philips.platform.referenceapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -16,6 +15,7 @@ import android.text.TextUtils;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
 import com.philips.platform.referenceapp.interfaces.PushNotificationTokenRegistrationInterface;
 import com.philips.platform.referenceapp.interfaces.RegistrationCallbacks;
@@ -66,10 +66,9 @@ public class PushNotificationManagerTest {
     private Context context;
     private AppInfraInterface appInfraInterface = null;
     private AppInfra appInfra = null;
-    private SharedPreferences sharedPreferences;
     private PreferenceManager preferenceManager;
-    private SharedPreferences.Editor editor;
     private PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface;
+    private SecureStorageInterface secureStorageInterfaceMock;
 
     @Rule
     public PowerMockRule rule = new PowerMockRule();
@@ -93,26 +92,23 @@ public class PushNotificationManagerTest {
         } catch (Exception e) {
             PNLog.d(TAG, "Registering component for handling payload");
         }
-
-        PowerMockito.when(PreferenceManager.getDefaultSharedPreferences(context)).thenReturn(sharedPreferences);
     }
 
     private void initialMocking() {
         context = PowerMockito.mock(Context.class);
         appInfraInterface = PowerMockito.mock(AppInfraInterface.class);
         appInfra = PowerMockito.mock(AppInfra.class);
-        sharedPreferences = PowerMockito.mock(SharedPreferences.class);
+        secureStorageInterfaceMock = PowerMockito.mock(SecureStorageInterface.class);
         preferenceManager = PowerMockito.mock(PreferenceManager.class);
         textUtils = PowerMockito.mock(TextUtils.class);
-        editor = PowerMockito.mock(SharedPreferences.Editor.class);
         pnUserRegistrationInterface = PowerMockito.mock(PushNotificationUserRegistationWrapperInterface.class);
         pushNotificationTokenRegistrationInterface = PowerMockito.mock(PushNotificationTokenRegistrationInterface.class);
     }
 
     @Test
     public void testGetTokenNotEmpty() throws Exception {
-        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn(PUSH_NOTIFICATION_TOKEN);
-        assertEquals(PUSH_NOTIFICATION_TOKEN, pushNotificationManager.getToken(context));
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), pushNotificationManager.getSecureStorageError())).thenReturn(PUSH_NOTIFICATION_TOKEN);
+        assertEquals(PUSH_NOTIFICATION_TOKEN, pushNotificationManager.getToken());
     }
 
     @Test
@@ -123,8 +119,8 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testGetTokenWhenEmpty() throws Exception {
-        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
-        assertEquals("", pushNotificationManager.getToken(context));
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), pushNotificationManager.getSecureStorageError())).thenReturn("");
+        assertEquals("", pushNotificationManager.getToken());
     }
 
     @Test
@@ -142,9 +138,8 @@ public class PushNotificationManagerTest {
     }
 
     private void setExpectationTrueWhenPreferenceIsEmpty() {
-        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), pushNotificationManager.getSecureStorageError())).thenReturn("");
         PowerMockito.when(textUtils.isEmpty("")).thenReturn(true);
-        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
     }
 
     @Test
@@ -297,9 +292,8 @@ public class PushNotificationManagerTest {
     }
 
     private void setExpectationFalseWhenPreferenceIsEmpty() {
-        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), pushNotificationManager.getSecureStorageError())).thenReturn("");
         PowerMockito.when(textUtils.isEmpty("")).thenReturn(false);
-        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
     }
 
     @Test
