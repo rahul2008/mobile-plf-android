@@ -28,7 +28,7 @@ buildscript {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target

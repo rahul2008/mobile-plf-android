@@ -82,7 +82,7 @@ public class ThemeSettingsFragment extends BaseFragment {
         view.setVisibility(View.GONE);
         ButterKnife.bind(this, view);
         themeColorHelper = new ThemeColorHelper();
-        themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getContext()));
+        themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getActivity()));
 
         if (savedInstanceState != null) {
             colorRangeSelectedPosition = savedInstanceState.getInt(UIDHelper.COLOR_RANGE, getColorRangeAdapter().getSelectedPosition());
@@ -128,7 +128,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     private void setSeparatorBackground(final View view) {
         View viewById = view.findViewById(R.id.divider1);
-        final SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
+        final SeparatorDrawable separatorDrawable = new SeparatorDrawable(getActivity());
         viewById.setBackground(separatorDrawable);
         viewById = view.findViewById(R.id.divider2);
         viewById.setBackground(separatorDrawable);
@@ -197,11 +197,11 @@ public class ThemeSettingsFragment extends BaseFragment {
     }
 
     private void updateNavigationRangeColors() {
-        contentTonalRangeAdapter.setColorModels(themeColorHelper.getContentColorModelList(colorRange, getContext()));
+        contentTonalRangeAdapter.setColorModels(themeColorHelper.getContentColorModelList(colorRange, getActivity()));
     }
 
     private void updateTonalRangeColors() {
-        navigationListAdapter.setColorModels(themeColorHelper.getNavigationColorModelsList(colorRange, getContext()));
+        navigationListAdapter.setColorModels(themeColorHelper.getNavigationColorModelsList(colorRange, getActivity()));
     }
 
     private void buildContentTonalRangeList(final ColorRange changedColorRange) {
@@ -212,7 +212,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     @NonNull
     private ThemeColorAdapter getContentTonalRangeAdapter(final ColorRange changedColorRange) {
-        contentTonalRangeAdapter = new ThemeColorAdapter(themeColorHelper.getContentColorModelList(changedColorRange, getContext()), new ThemeChangedListener() {
+        contentTonalRangeAdapter = new ThemeColorAdapter(themeColorHelper.getContentColorModelList(changedColorRange, getActivity()), new ThemeChangedListener() {
             @Override
             public void onThemeSettingsChanged(final String tonalRangeChanged) {
                 contentColor = getContentTonalRangeByPosition();
@@ -242,7 +242,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     @NonNull
     private ThemeColorAdapter getNavigationListAdapter(final ColorRange colorRange) {
-        navigationListAdapter = new ThemeColorAdapter(themeColorHelper.getNavigationColorModelsList(colorRange, getContext()), new ThemeChangedListener() {
+        navigationListAdapter = new ThemeColorAdapter(themeColorHelper.getNavigationColorModelsList(colorRange, getActivity()), new ThemeChangedListener() {
             @Override
             public void onThemeSettingsChanged(final String changedColorRange) {
                 final ThemeColorAdapter adapter = (ThemeColorAdapter) notificationBarListview.getAdapter();
@@ -280,7 +280,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     @NonNull
     private ThemeColorAdapter getAccentColorAdapter(ColorRange colorRange) {
-        accentColorsList = themeColorHelper.getAccentColorsList(colorRange, getResources(), getContext().getPackageName());
+        accentColorsList = themeColorHelper.getAccentColorsList(colorRange, getResources(), getActivity().getPackageName());
 
         return new ThemeColorAdapter(accentColorsList, new ThemeChangedListener() {
             @Override
@@ -311,7 +311,7 @@ public class ThemeSettingsFragment extends BaseFragment {
     }
 
     private void setLayoutOrientation(final RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
     }
 
     @Override
