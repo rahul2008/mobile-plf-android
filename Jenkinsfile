@@ -307,7 +307,7 @@ def BuildAndUnitTest() {
     archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/release/*.apk'
 }
 
-AcceptanceTest() {
+def AcceptanceTest() {
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
@@ -324,13 +324,14 @@ AcceptanceTest() {
     '''
 }
 
-CapacityTest() {
+def CapacityTest() {
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
         echo "Nothing here yet..."
     '''
 }
+
 def GenerateJavaDocs(){
     sh '''#!/bin/bash -l
         set -e
