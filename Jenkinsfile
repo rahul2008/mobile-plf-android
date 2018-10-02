@@ -183,7 +183,7 @@ pipeline {
 
         stage('Upload Cucumber results to TFS') {
             when {
-                anyOf { branch 'develop'; branch 'conartists/cucumber_to_tfs' }
+                anyOf { branch 'develop' }
             }
             steps {
                 script {
