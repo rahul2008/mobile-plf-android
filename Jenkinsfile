@@ -246,6 +246,7 @@ pipeline {
     }
     post {
         always{
+            deleteDir()
             step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
         }
     }
