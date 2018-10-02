@@ -16,8 +16,10 @@ import com.philips.platform.ews.appliance.ApplianceAccessManager;
 import com.philips.platform.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
 import com.philips.platform.ews.logger.EWSLogger;
+import com.philips.platform.ews.navigation.Navigator;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.tagging.Page;
+import com.philips.platform.ews.wifi.WiFiUtil;
 
 import java.util.List;
 
@@ -39,8 +41,12 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
     @NonNull private final EWSTagger ewsTagger;
 
     @NonNull private final EWSLogger ewsLogger;
+
     @NonNull
-    private final ApplianceSessionDetailsInfo applianceSessionDetailsInfo;
+    private final WiFiUtil wiFiUtil;
+    /*
+    @NonNull
+    private final ApplianceSessionDetailsInfo applianceSessionDetailsInfo;*/
     @NonNull
     private final SelectWiFiAdapter adapter;
     @NonNull
@@ -54,16 +60,20 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
     private final ApplianceAccessManager applianceAccessManager;
     @Nullable
     private SelectWiFiViewCallback fragmentCallback;
+    @NonNull
+    protected final Navigator navigator;
 
     @Inject
-    SelectWiFiViewModel(@NonNull ApplianceAccessManager applianceAccessManager,
-                        @NonNull final ApplianceSessionDetailsInfo applianceSessionDetailsInfo,
+    SelectWiFiViewModel(@NonNull final Navigator navigator,
+                        @NonNull ApplianceAccessManager applianceAccessManager,
+                        @NonNull final WiFiUtil wiFiUtil,
                         @NonNull final SelectWiFiAdapter adapter,
                         @NonNull final EWSTagger ewsTagger,
                         @NonNull final EWSLogger ewsLogger) {
         //super(screenFlowController);
+        this.navigator = navigator;
         this.applianceAccessManager = applianceAccessManager;
-        this.applianceSessionDetailsInfo = applianceSessionDetailsInfo;
+        this.wiFiUtil = wiFiUtil;
         this.adapter = adapter;
         this.ewsTagger = ewsTagger;
         this.ewsLogger = ewsLogger;
@@ -104,8 +114,9 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
     }*/
 
     public void onNextButtonClicked() {
-        /*applianceSessionDetailsInfo.setHomeWiFiSSID(selectedSSID);
-        showNextScreen(new EWSWiFiConnectFragment());*/
+        wiFiUtil.setSelectedHomeWiFiSSID(selectedSSID);
+        navigator.navigateToConnectToDeviceWithPasswordScreen("");
+        //showNextScreen(new EWSWiFiConnectFragment());
     }
 
     public void cleanUp() {

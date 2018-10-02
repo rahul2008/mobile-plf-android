@@ -32,6 +32,7 @@ public class WiFiUtil {
     public static final int DEVICE_HOTSPOT_WIFI = 4;
     private static final String TAG = "WiFiUtil";
     private static String lastWifiSSid;
+    private static String selectedHomeWiFiSSID;
     @NonNull
     private WifiManager wifiManager;
     @NonNull
@@ -46,6 +47,14 @@ public class WiFiUtil {
     @Nullable
     public String getHomeWiFiSSD() {
         return lastWifiSSid;
+    }
+
+    public String getSelectedHomeWiFiSSID() {
+        return selectedHomeWiFiSSID;
+    }
+
+    public void setSelectedHomeWiFiSSID(@NonNull final String selectedHomeWiFiSSID) {
+        this.selectedHomeWiFiSSID = selectedHomeWiFiSSID;
     }
 
     public String getConnectedWiFiSSID() {
