@@ -37,7 +37,7 @@ pipeline {
             }
         }
 
-        stage('Build+test') {
+        stage('Commit') {
             when {
                 allOf {
                     not { expression { return params.buildType == 'PSRA' }}
@@ -47,11 +47,35 @@ pipeline {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
                     BuildAndUnitTest()
+                    PublishUnitTestsResults()
                 }
             }
         }
 
-        stage('Publish tests') {
+        stage('Publish to artifactory') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                    anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
+                }
+            }
+            steps {
+                sh '''#!/bin/bash -l
+                    set -e
+                    ./gradlew --full-stacktrace saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
+
+                    apkname=`xargs < apkname.txt`
+                    dependenciesName=${apkname/.apk/.gradledependencies.gz}
+                    ./gradlew -Dorg.gradle.parallel=false reportAllProjectDependencies | gzip -9 > ./allProjects.gradledependencies.gz
+                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependenciesName}" -T ./allProjects.gradledependencies.gz
+                '''
+                archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
+                DeployingConnectedTestsLogs()
+            }
+        }
+
+        stage('Acceptance') {
             when {
                 allOf {
                     not { expression { return params.buildType == 'PSRA' }}
@@ -59,11 +83,24 @@ pipeline {
                 }
             }
             steps {
-                PublishUnitTestsResults()
+                timeout(time: 1, unit: 'HOURS') {
+                    AcceptanceTest()
+                    PublishAcceptanceTestsResults()
+                }
             }
         }
 
-
+        stage('Capacity') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                }
+            }
+            steps {
+                CapacityTest()
+            }
+        }
 
         stage('Lint+Jacoco') {
             when {
@@ -105,28 +142,6 @@ pipeline {
             }
         }
 
-        stage('Publish to artifactory') {
-            when {
-                allOf {
-                    not { expression { return params.buildType == 'PSRA' }}
-                    not { expression { return params.buildType == 'HPFortify' }}
-                    anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
-                }
-            }
-            steps {
-                sh '''#!/bin/bash -l
-                    set -e
-                    ./gradlew --full-stacktrace saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
-
-                    apkname=`xargs < apkname.txt`
-                    dependenciesName=${apkname/.apk/.gradledependencies.gz}
-                    ./gradlew -Dorg.gradle.parallel=false reportAllProjectDependencies | gzip -9 > ./allProjects.gradledependencies.gz
-                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependenciesName}" -T ./allProjects.gradledependencies.gz
-                '''
-                archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
-                DeployingConnectedTestsLogs()
-            }
-        }
         stage('java docs') {
             when {
                 anyOf {
@@ -231,7 +246,6 @@ pipeline {
     }
     post {
         always{
-            deleteDir()
             step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
         }
     }
@@ -259,25 +273,17 @@ def BuildAndUnitTest() {
         set -e
         chmod -R 755 .
         ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
-            :AppInfra:cC \
             :AppInfra:testReleaseUnitTest \
             :uAppFwLib:testReleaseUnitTest \
-            :securedblibrary:cC \
-            :registrationApi:cC \
             :registrationApi:testReleaseUnitTest \
-            :jump:cC \
             :jump:testReleaseUnitTest \
-            :hsdp:cC \
             :hsdp:testReleaseUnitTest \
-            :productselection:cC \
             :telehealth:testReleaseUnitTest \
             :bluelib:generateJavadoc \
             :bluelib:testReleaseUnitTest \
             :product-registration-lib:testReleaseUnitTest \
             :iap:testReleaseUnitTest \
-            :digitalCareUApp:cC \
             :digitalCareUApp:testRelease \
-            :digitalCare:cC \
             :digitalCare:testRelease \
             :commlib:testReleaseUnitTest \
             :commlib-testutils:testReleaseUnitTest \
@@ -286,7 +292,6 @@ def BuildAndUnitTest() {
             :commlib-lan:testReleaseUnitTest \
             :commlib-cloud:testReleaseUnitTest \
             :commlib-api:testReleaseUnitTest \
-            :mya:cC \
             :mya:testReleaseUnitTest \
             :catk:testReleaseUnitTest \
             :csw:testReleaseUnitTest \
@@ -302,6 +307,30 @@ def BuildAndUnitTest() {
     archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/release/*.apk'
 }
 
+AcceptanceTest() {
+    sh '''#!/bin/bash -l
+        set -e
+        chmod -R 755 .
+        ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
+            :AppInfra:cC \
+            :securedblibrary:cC \
+            :registrationApi:cC \
+            :jump:cC \
+            :hsdp:cC \
+            :productselection:cC \
+            :digitalCareUApp:cC \
+            :digitalCare:cC \
+            :mya:cC
+    '''
+}
+
+CapacityTest() {
+    sh '''#!/bin/bash -l
+        set -e
+        chmod -R 755 .
+        echo "Nothing here yet..."
+    '''
+}
 def GenerateJavaDocs(){
     sh '''#!/bin/bash -l
         set -e
@@ -535,12 +564,8 @@ def DeployingJavaDocs() {
 
 def PublishUnitTestsResults() {
     junit allowEmptyResults: false, testResults: 'Source/ail/Source/Library/AppInfra/build/test-results/testReleaseUnitTest/*.xml'
-    junit allowEmptyResults: false, testResults: 'Source/ail/Source/Library/*/build/outputs/androidTest-results/*/*.xml'
     junit allowEmptyResults: false, testResults: 'Source/ufw/Source/Library/*/build/test-results/*/*.xml'
-    junit allowEmptyResults: false, testResults: 'Source/sdb/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
     junit allowEmptyResults: false, testResults: 'Source/usr/Source/Library/**/build/test-results/**/*.xml'
-    junit allowEmptyResults: false, testResults: 'Source/usr/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
-    junit allowEmptyResults: false, testResults: 'Source/pse/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
     junit allowEmptyResults: false, testResults: 'Source/ths/Source/Library/*/build/test-results/**/*.xml'
     junit allowEmptyResults: true,  testResults: 'Source/bll/**/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: true,  testResults: 'Source/prg/Source/Library/*/build/test-results/**/*.xml'
@@ -556,14 +581,10 @@ def PublishUnitTestsResults() {
     junit allowEmptyResults: false, testResults: 'Source/rap/Source/AppFramework/*/build/test-results/*/*.xml'
     junit allowEmptyResults: false, testResults: 'Source/cml/Source/Library/commlib-integration-tests/build/test-results/*/*.xml'
 
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'ail connected tests'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/sdb/Source/Library/securedblibrary/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'sdb connected tests'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'usr unit test release'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests RegistrationApi'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/jump/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests Jump'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/hsdp/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests hsdp'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pse/Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'pse connected tests'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ths/Source/Library/thsuapp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ths unit test release'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Documents/External/bluelib-api', reportFiles: 'index.html', reportName: 'bll Bluelib Public API'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Documents/External/bluelib-plugin-api', reportFiles: 'index.html', reportName: 'bll Bluelib Plugin API'])
@@ -590,6 +611,20 @@ def PublishUnitTestsResults() {
     } else {
         echo 'No Cucumber result found, nothing to publish.'
     }
+}
+
+def PublishAcceptanceTestsResults() {
+    junit allowEmptyResults: false, testResults: 'Source/ail/Source/Library/*/build/outputs/androidTest-results/*/*.xml'
+    junit allowEmptyResults: false, testResults: 'Source/sdb/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
+    junit allowEmptyResults: false, testResults: 'Source/usr/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
+    junit allowEmptyResults: false, testResults: 'Source/pse/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
+
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'ail connected tests'])
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/sdb/Source/Library/securedblibrary/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'sdb connected tests'])
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests RegistrationApi'])
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/jump/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests Jump'])
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/hsdp/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests hsdp'])
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pse/Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'pse connected tests'])
 }
 
 def PublishJavaDocs(){
