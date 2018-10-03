@@ -156,14 +156,14 @@ public class URLogoutTest {
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(false));
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
         urLogoutInterface.performLogout(testActivity, user);
-        verify(pushNotificationManager).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),secureStorageErrorMock);
+        verify(pushNotificationManager).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),any(SecureStorageInterface.SecureStorageError.class));
         deregisterTokenListener = deregisterTokenListenerArgumentCaptor.getValue();
         deregisterTokenListener.onError();
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
         SecureStorageInterface.SecureStorageError secureStorageErrorMock = mock(SecureStorageInterface.SecureStorageError.class);
-        verify(pushNotificationManager).saveTokenRegistrationState(secureStorageErrorMock, anyBoolean());
+        verify(pushNotificationManager).saveTokenRegistrationState(any(SecureStorageInterface.SecureStorageError.class), anyBoolean());
         verify(demoDataServicesState).deregisterDSForRegisteringToken();
         verify(demoDataServicesState).deregisterForReceivingPayload();
         verify(urLogoutListener).onLogoutResultSuccess();
@@ -174,14 +174,14 @@ public class URLogoutTest {
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(false));
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
         urLogoutInterface.performLogout(testActivity, user);
-        verify(pushNotificationManager, times(1)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),secureStorageErrorMock);
+        verify(pushNotificationManager, times(1)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),any(SecureStorageInterface.SecureStorageError.class));
         deregisterTokenListener = deregisterTokenListenerArgumentCaptor.getValue();
         deregisterTokenListener.onError();
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutFailure(ERROR_CODE, ERROR_MESSAGE);
         SecureStorageInterface.SecureStorageError secureStorageErrorMock = mock(SecureStorageInterface.SecureStorageError.class);
-        verify(pushNotificationManager, times(0)).saveTokenRegistrationState(secureStorageErrorMock, anyBoolean());
+        verify(pushNotificationManager, times(0)).saveTokenRegistrationState(any(SecureStorageInterface.SecureStorageError.class), anyBoolean());
         verify(demoDataServicesState, times(0)).deregisterDSForRegisteringToken();
         verify(demoDataServicesState, times(0)).deregisterForReceivingPayload();
         verify(urLogoutListener, times(1)).onLogoutResultFailure(ERROR_CODE, ERROR_MESSAGE);
@@ -193,12 +193,12 @@ public class URLogoutTest {
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
         urLogoutInterface.performLogout(testActivity, user);
-        verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),secureStorageErrorMock);
+        verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),any(SecureStorageInterface.SecureStorageError.class));
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
         SecureStorageInterface.SecureStorageError secureStorageErrorMock = mock(SecureStorageInterface.SecureStorageError.class);
-        verify(pushNotificationManager, times(0)).saveTokenRegistrationState(secureStorageErrorMock, anyBoolean());
+        verify(pushNotificationManager, times(0)).saveTokenRegistrationState(any(SecureStorageInterface.SecureStorageError.class), anyBoolean());
         verify(demoDataServicesState, times(0)).deregisterDSForRegisteringToken();
         verify(demoDataServicesState, times(0)).deregisterForReceivingPayload();
         verify(urLogoutListener).onLogoutResultSuccess();
@@ -209,7 +209,7 @@ public class URLogoutTest {
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
         urLogoutInterface.performLogout(testActivity, user);
-        verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),secureStorageErrorMock);
+        verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),any(SecureStorageInterface.SecureStorageError.class));
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutFailure(ERROR_CODE, ERROR_MESSAGE);
@@ -222,7 +222,7 @@ public class URLogoutTest {
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
         urLogoutInterface.removeListener();
         urLogoutInterface.performLogout(testActivity, user);
-        verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),secureStorageErrorMock);
+        verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),any(SecureStorageInterface.SecureStorageError.class));
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
@@ -235,7 +235,7 @@ public class URLogoutTest {
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
         urLogoutInterface.removeListener();
         urLogoutInterface.performLogout(testActivity, user);
-        verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),secureStorageErrorMock);
+        verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),any(SecureStorageInterface.SecureStorageError.class));
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutFailure(ERROR_CODE, ERROR_MESSAGE);
@@ -248,7 +248,7 @@ public class URLogoutTest {
         when(appInfraInterface.getRestClient()).thenReturn(restInterface);
         when(restInterface.isInternetReachable()).thenReturn(false);
         urLogoutInterface.performLogout(testActivity, user);
-        verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),secureStorageErrorMock);
+        verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(deregisterTokenListenerArgumentCaptor.capture(),any(SecureStorageInterface.SecureStorageError.class));
         verify(user, times(0)).logout(logoutHandlerArgumentCaptor.capture());
         verify(urLogoutListener, times(1)).onNetworkError(anyString());
     }
