@@ -171,7 +171,7 @@ public class AddressBillingView
 
         mEtCountryBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
         mEtCountryBilling.setEnabled(false);
-        showUSRegions();
+        addressBillingPresenter.showUSRegions(mEtCountryBilling,mlLStateBilling);
 
         //For billing address fields
         mValidator = new Validator();
@@ -209,13 +209,6 @@ public class AddressBillingView
                 return false;
             }
         });
-    }
-
-
-
-
-    private void showUSRegions() {
-        addressBillingPresenter.showUSRegions(mEtCountryBilling,mlLStateBilling);
     }
 
     @Override
@@ -384,7 +377,7 @@ public class AddressBillingView
             }
         }
         if (editText.getId() == R.id.et_billing_country && !hasFocus) {
-            showUSRegions();
+            addressBillingPresenter.showUSRegions(mEtCountryBilling,mlLStateBilling);
             result = inputValidatorCountryBilling.isValidCountry(((EditText) editText).getText().toString());
             if (!result) {
                 mLlCountryBilling.setErrorMessage(R.string.iap_country_error);
@@ -617,4 +610,5 @@ public class AddressBillingView
         }
         return null;
     }
+    
 }
