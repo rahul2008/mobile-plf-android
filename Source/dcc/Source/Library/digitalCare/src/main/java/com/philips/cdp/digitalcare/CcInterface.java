@@ -85,7 +85,7 @@ public class CcInterface implements UappInterface {
 
             // TODO: Remove local ACTivity and fragment launcher, orientaion needs to be passed as is from uAPP
             ActivityLauncher consumerCarelauncher =
-                    new ActivityLauncher(((ActivityLauncher) uiLauncher).getActivity(), ActivityLauncher.
+                    new ActivityLauncher(((ActivityLauncher) uiLauncher).getActivityContext(), ActivityLauncher.
                             ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, themeConfiguration, uiKitTheme,
                             null);
             consumerCarelauncher.setCustomAnimation(enterAnimation, exitAnimation);
