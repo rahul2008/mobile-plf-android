@@ -9,6 +9,7 @@ apply from: "../scripts/task_reporting_logging.gradle"
 apply from: "../scripts/flavors_pushnotification.gradle"
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/androidtest.gradle'
 
 buildscript {
     dependencies {
