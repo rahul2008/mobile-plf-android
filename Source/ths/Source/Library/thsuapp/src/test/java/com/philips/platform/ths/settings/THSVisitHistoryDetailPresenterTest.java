@@ -187,7 +187,7 @@ public class THSVisitHistoryDetailPresenterTest {
         verify(thsVisitHistoryDetailFragmentMock).showError(anyString());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void onFailure() throws Exception {
         mThsVisitHistoryDetailPresenter.onFailure(throwableMock);
     }
@@ -203,7 +203,7 @@ public class THSVisitHistoryDetailPresenterTest {
        // verify(thsVisitHistoryDetailFragmentMock).hideProgressBar();
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void getVisitReportDetailOnError() throws Exception {
         when(thsVisitHistoryDetailFragmentMock.getVisitReport()).thenReturn(visitReportMock);
         when(thsVisitHistoryDetailFragmentMock.getContext()).thenReturn(contextMock);
