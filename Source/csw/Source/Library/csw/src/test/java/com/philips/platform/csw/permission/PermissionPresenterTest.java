@@ -1,5 +1,6 @@
 package com.philips.platform.csw.permission;
 
+import android.content.Context;
 import android.test.mock.MockContext;
 
 import com.google.common.collect.ImmutableMap;
@@ -63,6 +64,9 @@ public class PermissionPresenterTest {
     private PermissionContract.Presenter.ConsentToggleResponse responseMock;
 
     private AppInfraInterfaceMock appInfraInterface;
+
+    @Mock
+    Context context;
 
     @Before
     public void setUp() throws Exception {
@@ -293,7 +297,6 @@ public class PermissionPresenterTest {
         CswInterface cswInterface = new CswInterface();
         appInfraInterface = new AppInfraInterfaceMock();
         appInfraInterface.consentManagerInterface = consentManagerInterface;
-        MockContext context = new MockContext();
         CswDependencies cswDependencies = new CswDependencies(appInfraInterface);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);

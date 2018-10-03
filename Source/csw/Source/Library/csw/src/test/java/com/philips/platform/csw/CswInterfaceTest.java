@@ -1,5 +1,6 @@
 package com.philips.platform.csw;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -57,7 +58,7 @@ public class CswInterfaceTest {
     @Mock
     private FragmentTransaction transactionMock;
     @Mock
-    private MockContext contextMock;
+    private Context contextMock;
 
 
     private LaunchInputMock givenLaunchInput;
@@ -104,13 +105,13 @@ public class CswInterfaceTest {
     public void givenInterfaceCreated_andWrongDependenciesClass_whenInit_thenShouldThrowException() {
         UappDependencies dep = new UappDependencies(null);
 
-        cswInterface.init(dep, new CswSettings(new MockContext()));
+        cswInterface.init(dep, new CswSettings(contextMock));
     }
 
     public void givenInterfaceCreated_andCorrectDependenciesClass_whenInit_thenShouldThrowException() {
         UappDependencies dep = new UappDependencies(null);
 
-        cswInterface.init(dep, new CswSettings(new MockContext()));
+        cswInterface.init(dep, new CswSettings(contextMock));
 
         assertNotNull(cswInterface);
     }
