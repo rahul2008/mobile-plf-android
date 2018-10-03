@@ -6,8 +6,10 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 
-/**
- * Created by philips on 9/20/18.
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 public class AddressBillingPresenter {

@@ -29,6 +29,12 @@ import com.philips.platform.uid.view.widget.CheckBox;
 
 import java.util.HashMap;
 
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 public class AddressFragment extends InAppBaseFragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, AddressContractor {
 
     public static final String TAG = AddressFragment.class.getName();

@@ -25,8 +25,10 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import java.util.Map;
 
-/**
- * Created by philips on 8/31/17.
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 public class AddressBillingView
@@ -610,5 +612,5 @@ public class AddressBillingView
         }
         return null;
     }
-    
+
 }

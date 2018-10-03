@@ -9,8 +9,10 @@ import android.view.View;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 
-/**
- * Created by philips on 9/18/18.
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 public interface AddressContractor {
