@@ -7,7 +7,6 @@
 
 package com.philips.platform.appframework.stateimpl;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.iap.demouapp.IapDemoUAppInterface;
@@ -30,8 +29,8 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.robolectric.RuntimeEnvironment.application;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
@@ -54,8 +53,7 @@ public class DemoIAPStateTest {
     @Test
     public void testDemoIAPNavigate() {
         demoIAPStateMock.updateDataModel();
-        Context activityContext = mock(Context.class);
-        demoIAPStateMock.init(activityContext);
+        demoIAPStateMock.init(application);
         demoIAPStateMock.navigate(null);
         verify(uappDemoInterface).launch(any(ActivityLauncher.class), (UappLaunchInput)isNull());
     }

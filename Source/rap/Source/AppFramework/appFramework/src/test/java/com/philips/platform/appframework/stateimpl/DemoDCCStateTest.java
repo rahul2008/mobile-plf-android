@@ -2,10 +2,9 @@
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.platform.appframework.stateimpl;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.CustomRobolectricRunner;
@@ -29,6 +28,7 @@ import static junit.framework.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
+import static org.robolectric.RuntimeEnvironment.application;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
@@ -42,8 +42,6 @@ public class DemoDCCStateTest {
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
-    private Context activity;
-
     @Before
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
@@ -53,7 +51,7 @@ public class DemoDCCStateTest {
     @Test
     public void testDemoDCCStateTest(){
         demoDCCStateMock.updateDataModel();
-        demoDCCStateMock.init(activity);
+        demoDCCStateMock.init(application);
         demoDCCStateMock.navigate(null);
         verify(uappDemoInterface).launch(any(ActivityLauncher.class),(UappLaunchInput)isNull());
     }
