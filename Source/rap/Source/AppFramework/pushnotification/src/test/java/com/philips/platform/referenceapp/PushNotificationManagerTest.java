@@ -2,7 +2,7 @@
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.platform.referenceapp;
 
 import android.content.Context;
@@ -24,7 +24,6 @@ import com.philips.platform.referenceapp.services.RegistrationIntentService;
 import com.philips.platform.referenceapp.utils.PNLog;
 import com.philips.platform.referenceapp.utils.PushNotificationConstants;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -40,21 +39,22 @@ import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ServiceController;
 
+import static com.philips.platform.referenceapp.utils.PushNotificationConstants.GCM_TOKEN;
+import static com.philips.platform.referenceapp.utils.PushNotificationConstants.IS_TOKEN_REGISTERED;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 /**
  * @author Ritesh.jha@philips.com
- *
+ * <p>
  * Test cases for PushNotificationManager.java
  */
 
 @RunWith(CustomRobolectricRunner.class)
-@PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
+@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 @PrepareForTest({PreferenceManager.class, TextUtils.class})
 public class PushNotificationManagerTest {
     private static final String TAG = "PushNotificationTest";
@@ -66,9 +66,9 @@ public class PushNotificationManagerTest {
     private Context context;
     private AppInfraInterface appInfraInterface = null;
     private AppInfra appInfra = null;
-    private PreferenceManager preferenceManager;
     private PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface;
     private SecureStorageInterface secureStorageInterfaceMock;
+    private SecureStorageInterface.SecureStorageError secureStorageErrorMock;
 
     @Rule
     public PowerMockRule rule = new PowerMockRule();
@@ -79,11 +79,8 @@ public class PushNotificationManagerTest {
         mockStatic(TextUtils.class);
 
         initMocks(this);
-
-        PNLog.disablePNLogging();
-
         initialMocking();
-
+        PowerMockito.when(appInfra.getSecureStorage()).thenReturn(secureStorageInterfaceMock);
         /*  Whitebox -> Various utilities for accessing internals of a class.
          *  invokeConstructor -> Invoke a constructor. Useful for testing classes with a private constructor.
          */
@@ -92,6 +89,8 @@ public class PushNotificationManagerTest {
         } catch (Exception e) {
             PNLog.d(TAG, "Registering component for handling payload");
         }
+        pushNotificationManager.init(appInfra, pnUserRegistrationInterface);
+        PNLog.disablePNLogging();
     }
 
     private void initialMocking() {
@@ -99,16 +98,16 @@ public class PushNotificationManagerTest {
         appInfraInterface = PowerMockito.mock(AppInfraInterface.class);
         appInfra = PowerMockito.mock(AppInfra.class);
         secureStorageInterfaceMock = PowerMockito.mock(SecureStorageInterface.class);
-        preferenceManager = PowerMockito.mock(PreferenceManager.class);
+        secureStorageErrorMock = PowerMockito.mock(SecureStorageInterface.SecureStorageError.class);
         textUtils = PowerMockito.mock(TextUtils.class);
         pnUserRegistrationInterface = PowerMockito.mock(PushNotificationUserRegistationWrapperInterface.class);
         pushNotificationTokenRegistrationInterface = PowerMockito.mock(PushNotificationTokenRegistrationInterface.class);
     }
 
     @Test
-    public void testGetTokenNotEmpty() throws Exception {
+    public void testGetTokenNotEmpty() {
         SecureStorageInterface.SecureStorageError secureStorageErrorMock = PowerMockito.mock(SecureStorageInterface.SecureStorageError.class);
-        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), secureStorageErrorMock)).thenReturn(PUSH_NOTIFICATION_TOKEN);
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(GCM_TOKEN, secureStorageErrorMock)).thenReturn(PUSH_NOTIFICATION_TOKEN);
         assertEquals(PUSH_NOTIFICATION_TOKEN, pushNotificationManager.getToken(secureStorageErrorMock));
     }
 
@@ -119,17 +118,18 @@ public class PushNotificationManagerTest {
     }
 
     @Test
-    public void testGetTokenWhenEmpty() throws Exception {
+    public void testGetTokenWhenEmpty() {
         SecureStorageInterface.SecureStorageError secureStorageErrorMock = PowerMockito.mock(SecureStorageInterface.SecureStorageError.class);
-        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), secureStorageErrorMock)).thenReturn("");
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(GCM_TOKEN, secureStorageErrorMock)).thenReturn("");
         assertEquals("", pushNotificationManager.getToken(secureStorageErrorMock));
     }
 
     @Test
-    public void testStartPushNotificationRegistrationWhenTokenEmpty() throws Exception {
-        setExpectationTrueWhenPreferenceIsEmpty();
+    public void testStartPushNotificationRegistrationWhenTokenEmpty() {
+        setExpectationTrueWhenPreferenceIsEmpty(GCM_TOKEN);
+        setExpectationTrueWhenPreferenceIsEmpty(IS_TOKEN_REGISTERED);
 
-        pushNotificationManager.startPushNotificationRegistration(context);
+        pushNotificationManager.startPushNotificationRegistration(context, secureStorageErrorMock);
 
         ServiceController<TestService> controller;
         controller = Robolectric.buildService(TestService.class);
@@ -139,14 +139,14 @@ public class PushNotificationManagerTest {
         assertEquals(TestService.class.getName(), intent.getComponent().getClassName());
     }
 
-    private void setExpectationTrueWhenPreferenceIsEmpty() {
-        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), pushNotificationManager.getSecureStorageError())).thenReturn("");
+    private void setExpectationTrueWhenPreferenceIsEmpty(String key) {
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(key, pushNotificationManager.getSecureStorageError())).thenReturn("");
         PowerMockito.when(textUtils.isEmpty("")).thenReturn(true);
     }
 
     @Test
-    public void testStartPushNotificationRegistrationRegisterToken() throws Exception {
-        setExpectationFalseWhenPreferenceIsEmpty();
+    public void testStartPushNotificationRegistrationRegisterToken() {
+        setExpectationFalseWhenPreferenceIsEmpty(GCM_TOKEN);
         MockInternetReacheablity();
 
         PushNotificationUserRegistationWrapperInterface pushNotificationUserRegistationWrapperInterface =
@@ -166,7 +166,7 @@ public class PushNotificationManagerTest {
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface, registerCallbackListener);
 
-        pushNotificationManager.startPushNotificationRegistration(context);
+        pushNotificationManager.startPushNotificationRegistration(context, secureStorageErrorMock);
 
         assertTrue(isRegisterTokenApiInvoked[0]);
         assertTrue(isResponseSuccess[0]);
@@ -174,12 +174,7 @@ public class PushNotificationManagerTest {
 
     @NonNull
     private PushNotificationUserRegistationWrapperInterface getPushNotificationUserRegistationWrapperInterface() {
-        return new PushNotificationUserRegistationWrapperInterface() {
-            @Override
-            public boolean isUserSignedIn(Context appContext) {
-                return true;
-            }
-        };
+        return appContext -> true;
     }
 
     @NonNull
@@ -231,16 +226,16 @@ public class PushNotificationManagerTest {
     @NonNull
     private HandleNotificationPayloadInterface handleNotificationPayloadInterfaceForSuccess(final Boolean[] isResponseSuccess) {
         return new HandleNotificationPayloadInterface() {
-                @Override
-                public void handlePayload(JSONObject payloadObject) throws JSONException {
-                    isResponseSuccess[0] = true;
-                }
+            @Override
+            public void handlePayload(JSONObject payloadObject) {
+                isResponseSuccess[0] = true;
+            }
 
-                @Override
-                public void handlePushNotification(String message) {
-                    isResponseSuccess[0] = false;
-                }
-            };
+            @Override
+            public void handlePushNotification(String message) {
+                isResponseSuccess[0] = false;
+            }
+        };
     }
 
     @NonNull
@@ -256,8 +251,9 @@ public class PushNotificationManagerTest {
     }
 
     @Test
-    public void testRegisterTokenWithBackendWhenTokenRegistrationIsTrue() throws Exception {
-        setExpectationFalseWhenPreferenceIsEmpty();
+    public void testRegisterTokenWithBackendWhenTokenRegistrationIsTrue() {
+        setExpectationFalseWhenPreferenceIsEmpty(GCM_TOKEN);
+        setExpectationFalseWhenPreferenceIsEmpty(IS_TOKEN_REGISTERED);
 
         final Boolean[] isRegisterTokenApiInvoked = {false};
 
@@ -270,7 +266,7 @@ public class PushNotificationManagerTest {
                 getRegisterCallbackListener(isResponseSuccess);
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface, registerCallbackListener);
-        pushNotificationManager.registerTokenWithBackend(context);
+        pushNotificationManager.registerTokenWithBackend(context, secureStorageErrorMock);
 
         assertTrue(isRegisterTokenApiInvoked[0]);
         assertTrue(isResponseSuccess[0]);
@@ -293,14 +289,14 @@ public class PushNotificationManagerTest {
         };
     }
 
-    private void setExpectationFalseWhenPreferenceIsEmpty() {
-        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(anyString(), pushNotificationManager.getSecureStorageError())).thenReturn("");
+    private void setExpectationFalseWhenPreferenceIsEmpty(String key) {
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(key, pushNotificationManager.getSecureStorageError())).thenReturn("");
         PowerMockito.when(textUtils.isEmpty("")).thenReturn(false);
     }
 
     @Test
-    public void testRegisterTokenWithBackendWhenTokenRegistrationErrorCondition() throws Exception {
-        setExpectationFalseWhenPreferenceIsEmpty();
+    public void testRegisterTokenWithBackendWhenTokenRegistrationErrorCondition() {
+        setExpectationFalseWhenPreferenceIsEmpty(GCM_TOKEN);
 
         final Boolean[] isRegisterTokenApiInvoked = {false};
 
@@ -313,7 +309,7 @@ public class PushNotificationManagerTest {
                 getRegisterCallbackListenerErrorCondition(isResponseSuccess);
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface, registerCallbackListener);
-        pushNotificationManager.registerTokenWithBackend(context);
+        pushNotificationManager.registerTokenWithBackend(context, secureStorageErrorMock);
 
         assertTrue(isRegisterTokenApiInvoked[0]);
         assertTrue(isResponseSuccess[0]);
@@ -352,8 +348,8 @@ public class PushNotificationManagerTest {
     }
 
     @Test
-    public void testDegisterTokenWithBackend() throws Exception {
-        setExpectationFalseWhenPreferenceIsEmpty();
+    public void testDegisterTokenWithBackend() {
+        setExpectationFalseWhenPreferenceIsEmpty(GCM_TOKEN);
         MockInternetReacheablity();
 
         pushNotificationManager.init(appInfra, pnUserRegistrationInterface);
@@ -370,7 +366,7 @@ public class PushNotificationManagerTest {
                 getDeregisterTokenListener(isResponseSuccess);
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface);
-        pushNotificationManager.deregisterTokenWithBackend(deregisterTokenListener);
+        pushNotificationManager.deregisterTokenWithBackend(deregisterTokenListener, secureStorageErrorMock);
 
         assertTrue(isDeregisterTokenApiInvoked[0]);
         assertTrue(isResponseSuccess[0]);
@@ -379,17 +375,17 @@ public class PushNotificationManagerTest {
     @NonNull
     private PushNotificationManager.DeregisterTokenListener getDeregisterTokenListener(final Boolean[] isResponseSuccess) {
         return new
-                    PushNotificationManager.DeregisterTokenListener() {
-                        @Override
-                        public void onSuccess() {
-                            isResponseSuccess[0] = true;
-                        }
+                PushNotificationManager.DeregisterTokenListener() {
+                    @Override
+                    public void onSuccess() {
+                        isResponseSuccess[0] = true;
+                    }
 
-                        @Override
-                        public void onError() {
-                            isResponseSuccess[0] = false;
-                        }
-                    };
+                    @Override
+                    public void onError() {
+                        isResponseSuccess[0] = false;
+                    }
+                };
     }
 
     @NonNull
@@ -410,8 +406,8 @@ public class PushNotificationManagerTest {
     }
 
     @Test
-    public void testDegisterTokenWithBackendForErrorCondition() throws Exception {
-        setExpectationFalseWhenPreferenceIsEmpty();
+    public void testDegisterTokenWithBackendForErrorCondition() {
+        setExpectationFalseWhenPreferenceIsEmpty(GCM_TOKEN);
         MockInternetReacheablity();
         pushNotificationManager.init(appInfra, pnUserRegistrationInterface);
         PNLog.disablePNLogging();
@@ -450,7 +446,7 @@ public class PushNotificationManagerTest {
 
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface);
-        pushNotificationManager.deregisterTokenWithBackend(deregisterTokenListener);
+        pushNotificationManager.deregisterTokenWithBackend(deregisterTokenListener, secureStorageErrorMock);
 
         assertTrue(isDeregisterTokenApiInvoked[0]);
         assertTrue(isResponseSuccess[0]);
@@ -463,7 +459,7 @@ public class PushNotificationManagerTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         PNLog.disablePNLogging();
         pushNotificationManager.deregisterForTokenRegistration();
         pushNotificationManager.deRegisterForPayload();
