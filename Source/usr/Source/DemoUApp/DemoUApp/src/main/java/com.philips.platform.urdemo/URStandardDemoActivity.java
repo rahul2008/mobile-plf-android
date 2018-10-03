@@ -340,7 +340,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     }
 
     private void registerationWithAccountSettingButtonEnableOnUserSignedIn() {
-        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN)
+        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN || mUser.getUserLoginState() == UserLoginState.PENDING_HSDP_LOGIN)
             mBtnRegistrationWithAccountSettings.setEnabled(true);
         else
             mBtnRegistrationWithAccountSettings.setEnabled(false);
