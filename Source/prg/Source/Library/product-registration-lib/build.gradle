@@ -91,6 +91,8 @@ android {
             }
         }
     }
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
 }
 
 configurations.all {

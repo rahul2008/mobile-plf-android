@@ -72,6 +72,9 @@ android {
             testCoverageEnabled = true
         }
     }
+
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
 }
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
