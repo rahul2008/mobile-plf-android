@@ -122,8 +122,7 @@ public class URLogoutTest {
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
-        SecureStorageInterface.SecureStorageError secureStorageErrorMock = mock(SecureStorageInterface.SecureStorageError.class);
-        verify(pushNotificationManager).saveTokenRegistrationState(secureStorageErrorMock, anyBoolean());
+        verify(pushNotificationManager).saveTokenRegistrationState(any(SecureStorageInterface.SecureStorageError.class), anyBoolean());
         verify(demoDataServicesState).deregisterDSForRegisteringToken();
         verify(demoDataServicesState).deregisterForReceivingPayload();
         verify(urLogoutListener).onLogoutResultSuccess();
