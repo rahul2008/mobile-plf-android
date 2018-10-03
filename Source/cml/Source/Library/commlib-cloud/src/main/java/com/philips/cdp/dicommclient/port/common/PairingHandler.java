@@ -7,6 +7,7 @@ package com.philips.cdp.dicommclient.port.common;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingEntity;
@@ -17,6 +18,8 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.icpinterface.data.Errors;
+
 import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Date;
@@ -65,8 +68,8 @@ public class PairingHandler<T extends Appliance> {
         }
 
         @Override
-        public void onRelationshipRemove() {
-            handleRelationshipRemove();
+        public void onRelationshipRemove(int status) {
+            handleRelationshipRemove(status);
         }
 
         @Override
@@ -194,8 +197,8 @@ public class PairingHandler<T extends Appliance> {
         return pairingRelation.getTrustorEntity() != null && pairingRelation.getTrustorEntity().type.equals(USER_ENTITY_TYPE);
     }
 
-    private void handleRelationshipRemove() {
-        DICommLog.i(DICommLog.PAIRING, "RemoveRelation call-SUCCESS");
+    private void handleRelationshipRemove(int status) {
+        DICommLog.i(DICommLog.PAIRING, "Handle RemoveRelation");
 
         if (PAIRING_DI_COMM_RELATIONSHIP.equalsIgnoreCase(currentRelationshipType)) {
             switch (entityState) {
@@ -242,13 +245,16 @@ public class PairingHandler<T extends Appliance> {
             }
         }
 
-        // This will indicate all relations have been removed
+        // This will notify whether all relations have been removed successfully or not
         else if (PAIRING_DATA_ACCESS_RELATIONSHIP.equalsIgnoreCase(currentRelationshipType)) {
             switch (entityState) {
                 case PURIFIER:
-                    DICommLog.i(DICommLog.PAIRING, "DATA_ACCESS Relationship removed successfully - Pairing removed successfully");
-
-                    notifyListenerSuccess();
+                    DICommLog.i(DICommLog.PAIRING, String.format("DATA_ACCESS Relationship was removed with status [%d]", status));
+                    if (status == Errors.SUCCESS) {
+                        notifyListenerSuccess();
+                    } else {
+                        notifyFailure();
+                    }
                     break;
                 case APP:
                 case DATA_ACCESS:
@@ -444,9 +450,13 @@ public class PairingHandler<T extends Appliance> {
             startPairingPortTask(pairingRelation);
         } else {
             mAppliance.getNetworkNode().setPairedState(NOT_PAIRED);
-            if (pairingListener != null) {
-                pairingListener.onPairingFailed(mAppliance);
-            }
+            notifyFailure();
+        }
+    }
+
+    private void notifyFailure() {
+        if (pairingListener != null) {
+            pairingListener.onPairingFailed(mAppliance);
         }
     }
 
