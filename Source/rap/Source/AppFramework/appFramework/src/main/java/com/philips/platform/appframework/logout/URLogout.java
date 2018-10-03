@@ -60,7 +60,7 @@ public class URLogout implements URLogoutInterface {
                     RALog.d(TAG, " performLogout: BaseAppUtil.isDSPollingEnabled: False: deregisterTokenWithBackend: onError");
                     doLogout(activityContext, user);
                 }
-            });
+            }, new SecureStorageInterface.SecureStorageError());
         } else {
             RALog.d(TAG, "performLogout: doLogout Being called in BaseAppUtil polling enabled true");
             doLogout(activityContext, user);
