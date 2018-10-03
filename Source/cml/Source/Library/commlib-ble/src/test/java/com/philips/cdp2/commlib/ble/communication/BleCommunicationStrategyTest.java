@@ -6,6 +6,7 @@ package com.philips.cdp2.commlib.ble.communication;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -19,15 +20,11 @@ import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.cdp2.commlib.util.VerboseExecutor;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
-import com.philips.pins.shinelib.utility.Utilities;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -38,6 +35,8 @@ import java.util.Map;
 
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_IS_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.KEY_MAC_ADDRESS;
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
+import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -154,7 +153,7 @@ public class BleCommunicationStrategyTest {
     @Test
     public void givenCommunicationIsNotAvailable_whenGetPropertiesIsCalled_thenAnErrorIsReported() throws Exception {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(false);
-        shnCentralListener.onStateUpdated(centralMock);
+        shnCentralListener.onStateUpdated(centralMock, SHNCentralStateNotReady);
 
         strategy.getProperties(PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
@@ -178,7 +177,7 @@ public class BleCommunicationStrategyTest {
     @Test
     public void givenCommunicationIsNotAvailable_whenPutPropertiesIsCalled_thenAnErrorIsReported() throws Exception {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(false);
-        shnCentralListener.onStateUpdated(centralMock);
+        shnCentralListener.onStateUpdated(centralMock, SHNCentralStateNotReady);
 
         Map<String, Object> dataMap = new HashMap<>();
         strategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
@@ -336,10 +335,10 @@ public class BleCommunicationStrategyTest {
 
     @Test
     public void givenCommunicationIsAvailable_whenBleIsSwitchedOff_thenListenerIsNotifiedAboutChange() {
-        shnCentralListener.onStateUpdated(centralMock);
+        shnCentralListener.onStateUpdated(centralMock, SHNCentralStateReady);
 
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(false);
-        shnCentralListener.onStateUpdated(centralMock);
+        shnCentralListener.onStateUpdated(centralMock, SHNCentralStateNotReady);
 
         verify(availabilityListenerMock).onAvailabilityChanged(strategy);
     }
@@ -348,12 +347,12 @@ public class BleCommunicationStrategyTest {
     public void givenBleIsOffAndNetworkNodeHasNoMac_whenBleIsTurnedOn_thenListenerIsNotNotified() {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(false);
         when(networkNodeMock.getMacAddress()).thenReturn(null);
-        shnCentralListener.onStateUpdated(centralMock);
+        shnCentralListener.onStateUpdated(centralMock, SHNCentralStateNotReady);
         //noinspection unchecked
         reset(availabilityListenerMock);
 
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        shnCentralListener.onStateUpdated(centralMock);
+        shnCentralListener.onStateUpdated(centralMock, SHNCentralStateReady);
 
         verifyZeroInteractions(availabilityListenerMock);
     }
@@ -361,12 +360,12 @@ public class BleCommunicationStrategyTest {
     @Test
     public void givenBleIsOffAndNetworkNodeHasMac_whenBleIsTurnedOn_thenListenerIsNotified() {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(false);
-        shnCentralListener.onStateUpdated(centralMock);
+        shnCentralListener.onStateUpdated(centralMock, SHNCentralStateNotReady);
         //noinspection unchecked
         reset(availabilityListenerMock);
 
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
-        shnCentralListener.onStateUpdated(centralMock);
+        shnCentralListener.onStateUpdated(centralMock, SHNCentralStateReady);
 
         verify(availabilityListenerMock).onAvailabilityChanged(strategy);
         assertThat(strategy.isAvailable()).isTrue();
@@ -376,7 +375,7 @@ public class BleCommunicationStrategyTest {
     public void givenBleIsOnAndNetworkNodeHasNoMac_whenMacBecomesKnown_thenListenerIsNotified() {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
         when(centralMock.isValidMacAddress(MAC_ADDRESS)).thenReturn(false);
-        shnCentralListener.onStateUpdated(centralMock);
+        shnCentralListener.onStateUpdated(centralMock, SHNCentralStateReady);
         //noinspection unchecked
         reset(availabilityListenerMock);
 
@@ -392,7 +391,7 @@ public class BleCommunicationStrategyTest {
     public void givenBleIsOnAndNetworkNodeHasNoMac_whenOtherNetworkNodePropertyChanges_thenListenerIsNotNotified() {
         when(centralMock.isBluetoothAdapterEnabled()).thenReturn(true);
         when(networkNodeMock.getMacAddress()).thenReturn(null);
-        shnCentralListener.onStateUpdated(centralMock);
+        shnCentralListener.onStateUpdated(centralMock, SHNCentralStateReady);
         //noinspection unchecked
         reset(availabilityListenerMock);
 

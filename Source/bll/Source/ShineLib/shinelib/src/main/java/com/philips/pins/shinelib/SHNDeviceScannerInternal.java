@@ -63,12 +63,12 @@ public class SHNDeviceScannerInternal {
     @SuppressWarnings("FieldCanBeLocal")
     private final SHNCentralListener shnCentralListener = new SHNCentralListener() {
         @Override
-        public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+        public void onStateUpdated(@NonNull SHNCentral shnCentral, @NonNull SHNCentral.State state) {
             if (leScanCallbackProxy == null) {
                 return;
             }
 
-            if (shnCentral.getShnCentralState() == SHNCentralStateReady) {
+            if (state == SHNCentralStateReady) {
                 leScanCallbackProxy.stopLeScan(leScanCallback);
                 leScanCallbackProxy.startLeScan(leScanCallback);
             }

@@ -63,8 +63,6 @@ pipeline {
             }
         }
 
-
-
         stage('Lint+Jacoco') {
             when {
                 expression { return params.buildType == 'TICS' }
@@ -179,6 +177,23 @@ pipeline {
                         /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
                         /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity
                     """
+                }
+            }
+        }
+
+        stage('Upload Cucumber results to TFS') {
+            when {
+                anyOf { branch 'develop' }
+            }
+            steps {
+                script {
+                    build(job: 'Platform-Infrastructure/CucumberToTfs/master', 
+                        parameters: [
+                            string(name: 'JenkinsProjectName', value: env.JOB_NAME),
+                            string(name: 'JenkinsProjectBuild', value: env.BUILD_ID),
+                            string(name: 'TestPlan', value: 'In sprint_cml_bll_ews'),
+                            string(name: 'TestSuitePath', value: 'Android/Automated Tests')
+                        ], wait: false)
                 }
             }
         }
@@ -587,6 +602,7 @@ def PublishUnitTestsResults() {
     def cucumber_path = 'Source/cml/Source/Library/commlib-integration-tests/build/cucumber-reports'
     if (fileExists("$cucumber_path/report.json")) {
         step([$class: 'CucumberReportPublisher', jsonReportDirectory: cucumber_path, fileIncludePattern: '*.json'])
+        archiveArtifacts artifacts: cucumber_path+'/*.json', fingerprint: true, onlyIfSuccessful: true
     } else {
         echo 'No Cucumber result found, nothing to publish.'
     }
