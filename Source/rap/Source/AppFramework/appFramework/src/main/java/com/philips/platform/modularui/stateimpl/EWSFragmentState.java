@@ -1,6 +1,5 @@
 package com.philips.platform.modularui.stateimpl;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -51,7 +50,7 @@ public class EWSFragmentState extends BaseState {
         DemoUapp demoUapp = new DemoUapp();
         demoUapp.init(demoUappDependencies, new UappSettings(context.getApplicationContext()));
         //its up to proposition to pass theme or not, if not passing theme then it will show default theme of library
-        demoUapp.launch(new ActivityLauncher((Activity) context, SCREEN_ORIENTATION_PORTRAIT, new ThemeConfiguration(context, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, AccentRange.ORANGE, NavigationColor.BRIGHT), -1, null),
+        demoUapp.launch(new ActivityLauncher(context, SCREEN_ORIENTATION_PORTRAIT, new ThemeConfiguration(context, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, AccentRange.ORANGE, NavigationColor.BRIGHT), -1, null),
                 (null));
     }
 

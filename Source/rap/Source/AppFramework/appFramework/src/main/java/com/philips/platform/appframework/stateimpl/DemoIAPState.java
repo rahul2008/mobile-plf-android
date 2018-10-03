@@ -1,6 +1,5 @@
 package com.philips.platform.appframework.stateimpl;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -28,7 +27,7 @@ public class DemoIAPState extends DemoBaseState {
     public void navigate(UiLauncher uiLauncher) {
         IapDemoUAppInterface uAppInterface = getIapDemoUAppInterface();
         uAppInterface.init(new IapDemoUAppDependencies(((AppFrameworkApplication)appContext.getApplicationContext()).getAppInfra()), new IapDemoAppSettings(appContext));
-        uAppInterface.launch(new ActivityLauncher((Activity) appContext, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+        uAppInterface.launch(new ActivityLauncher(appContext, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                 getDLSThemeConfiguration(appContext.getApplicationContext()), 0, null), null);
     }
 

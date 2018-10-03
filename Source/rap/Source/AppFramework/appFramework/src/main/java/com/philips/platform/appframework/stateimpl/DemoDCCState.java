@@ -7,7 +7,6 @@
 
 package com.philips.platform.appframework.stateimpl;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -35,7 +34,7 @@ public class DemoDCCState extends DemoBaseState {
     public void navigate(UiLauncher uiLauncher) {
         CCDemoUAppuAppInterface uAppInterface = getCcDemoUAppuAppInterface();
         uAppInterface.init(new CCDemoUAppuAppDependencies(((AppFrameworkApplication)context.getApplicationContext()).getAppInfra()), new CCDemoUAppuAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
-        uAppInterface.launch(new ActivityLauncher((Activity) context, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+        uAppInterface.launch(new ActivityLauncher(context, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                 getDLSThemeConfiguration(context.getApplicationContext()), 0, null), null);
 
     }

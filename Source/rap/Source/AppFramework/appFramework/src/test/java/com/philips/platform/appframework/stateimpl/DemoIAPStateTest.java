@@ -7,7 +7,7 @@
 
 package com.philips.platform.appframework.stateimpl;
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.iap.demouapp.IapDemoUAppInterface;
@@ -54,8 +54,8 @@ public class DemoIAPStateTest {
     @Test
     public void testDemoIAPNavigate() {
         demoIAPStateMock.updateDataModel();
-        Activity activity = mock(Activity.class);
-        demoIAPStateMock.init(activity);
+        Context activityContext = mock(Context.class);
+        demoIAPStateMock.init(activityContext);
         demoIAPStateMock.navigate(null);
         verify(uappDemoInterface).launch(any(ActivityLauncher.class), (UappLaunchInput)isNull());
     }

@@ -1,6 +1,6 @@
 package com.philips.platform.modularui.stateimpl;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
@@ -19,7 +19,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class EWSFragmentStateTest {
     private EWSFragmentState ewsState;
     @Mock
-    private Activity context;
+    private Context context;
     @Mock
     private FragmentLauncher fragUiLauncher;
 

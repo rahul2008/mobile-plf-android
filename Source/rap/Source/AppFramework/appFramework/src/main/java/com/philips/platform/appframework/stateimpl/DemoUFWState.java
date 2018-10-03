@@ -1,6 +1,5 @@
 package com.philips.platform.appframework.stateimpl;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -30,7 +29,7 @@ public class DemoUFWState extends DemoBaseState {
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication)context.getApplicationContext();
         UappDemoDependencies uappDependencies = new UappDemoDependencies(appFrameworkApplication.getAppInfra());
         uAppInterface.init(uappDependencies, new UappDemoSettings(context.getApplicationContext()));// pass App-infra instance instead of null
-        uAppInterface.launch(new ActivityLauncher((Activity) context, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+        uAppInterface.launch(new ActivityLauncher(context, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                 getDLSThemeConfiguration(context.getApplicationContext()), 0, null), null);
 
     }

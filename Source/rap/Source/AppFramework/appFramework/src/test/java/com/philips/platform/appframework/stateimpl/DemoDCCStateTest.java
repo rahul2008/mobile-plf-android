@@ -5,7 +5,7 @@
 */
 package com.philips.platform.appframework.stateimpl;
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.CustomRobolectricRunner;
@@ -42,7 +42,7 @@ public class DemoDCCStateTest {
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
-    private Activity activity;
+    private Context activity;
 
     @Before
     public void setUp() throws Exception{

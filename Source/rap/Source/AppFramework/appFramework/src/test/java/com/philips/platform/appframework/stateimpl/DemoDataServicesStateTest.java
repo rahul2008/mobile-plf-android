@@ -7,7 +7,6 @@
 
 package com.philips.platform.appframework.stateimpl;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -39,7 +38,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.RuntimeEnvironment.application;
 import static org.robolectric.Shadows.shadowOf;
@@ -72,8 +70,7 @@ public class DemoDataServicesStateTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         demoDataServiceStateMock = new DemoDataServiceStateMock();
-        Activity activity = mock(Activity.class);
-        demoDataServiceStateMock.init(activity);
+        demoDataServiceStateMock.init(getApplicationContext());
         demoDataServiceStateMock.updateDataModel();
         activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, 0, null);
     }

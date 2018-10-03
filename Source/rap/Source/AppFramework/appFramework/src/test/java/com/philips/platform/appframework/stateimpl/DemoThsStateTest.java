@@ -6,7 +6,7 @@
 
 package com.philips.platform.appframework.stateimpl;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -30,7 +30,7 @@ public class DemoThsStateTest {
     DemoThsState mDemoThsState;
 
     @Mock
-    Activity application;
+    Context application;
 
     @Mock
     AppFrameworkApplication appFrameworkApplication;

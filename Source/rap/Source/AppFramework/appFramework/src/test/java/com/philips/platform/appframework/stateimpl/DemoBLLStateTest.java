@@ -5,9 +5,9 @@
 */
 package com.philips.platform.appframework.stateimpl;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+
 import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
 import com.philips.cdp2.bluelib.demouapp.BluelibUappAppDependencies;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
@@ -17,6 +17,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +36,7 @@ public class DemoBLLStateTest {
     private BluelibUapp bleUapp;
 
     @Mock
-    private Activity activity;
+    private Context context;
 
     @Mock
     private UappSettings bleDemoMicroAppSettings;
@@ -47,14 +48,14 @@ public class DemoBLLStateTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        ContextProvider.setTestingContext(activity);
+        ContextProvider.setTestingContext(context);
 
         demoBLLState = new DemoBLLStateMock();
     }
 
     @Test
     public void navigate() throws Exception {
-        demoBLLState.init(activity);
+        demoBLLState.init(context);
         demoBLLState.updateDataModel();
 
         demoBLLState.navigate(null);

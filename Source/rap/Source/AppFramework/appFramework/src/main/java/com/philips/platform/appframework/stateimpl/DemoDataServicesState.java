@@ -6,7 +6,6 @@
  */
 package com.philips.platform.appframework.stateimpl;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -74,7 +73,7 @@ public class DemoDataServicesState extends DemoBaseState
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        dsDemoAppuAppInterface.launch(new ActivityLauncher((Activity) mContext, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,
+        dsDemoAppuAppInterface.launch(new ActivityLauncher(mContext, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,
                 getDLSThemeConfiguration(mContext.getApplicationContext()), 0, null), null);
     }
 

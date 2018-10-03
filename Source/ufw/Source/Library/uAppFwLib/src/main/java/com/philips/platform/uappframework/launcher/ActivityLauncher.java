@@ -6,7 +6,7 @@
 package com.philips.platform.uappframework.launcher;
 
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -67,7 +67,7 @@ public class ActivityLauncher extends UiLauncher {
     protected Bundle mBundle;
 
     private ThemeConfiguration mDLSThemeConfiguration;
-    private Activity activity;
+    private Context activityContext;
 
     /**
      Constructor
@@ -88,16 +88,16 @@ public class ActivityLauncher extends UiLauncher {
 
     /**
      Constructor
-     @param activity takes activity instance
+     @param activityContext takes activity context instance
      @param screenOrientation takes screen Orientation
      @param dlsThemeConfiguration takes DLS configuration
      @param dlsUiKitTheme takes UiKit Theme
      @param bundle bundle object
      @since 1805
      */
-    public ActivityLauncher(Activity activity, ActivityLauncher.ActivityOrientation screenOrientation, ThemeConfiguration dlsThemeConfiguration,
+    public ActivityLauncher(Context activityContext, ActivityLauncher.ActivityOrientation screenOrientation, ThemeConfiguration dlsThemeConfiguration,
                             int dlsUiKitTheme, Bundle bundle) {
-        this.activity = activity;
+        this.activityContext = activityContext;
         mScreenOrientation = screenOrientation;
         mBundle = bundle;
         mDLSThemeConfiguration =dlsThemeConfiguration;
@@ -144,8 +144,8 @@ public class ActivityLauncher extends UiLauncher {
      * @return instance of activity passed in constructor
      * @since 1805
      */
-    public Activity getActivity() {
-        return activity;
+    public Context getActivityContext() {
+        return activityContext;
     }
 }
 

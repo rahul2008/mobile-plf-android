@@ -5,7 +5,6 @@
 */
 package com.philips.platform.appframework.stateimpl;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.philips.cdp2.commlib.core.util.ContextProvider;
@@ -35,7 +34,7 @@ public class DemoCMLStateTest {
     private CommlibUapp commlibUapp;
 
     @Mock
-    Activity activityContext;
+    Context activityContext;
 
     @Mock
     AppFrameworkApplication appContext;
