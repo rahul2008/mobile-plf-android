@@ -92,11 +92,13 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
             }
             boolean hideNoThanksButton = dependencies.getBoolean(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE);
             if(!hideNoThanksButton ) {
+
+                //Registration warranty button text can be configured only in case of no thanks button is hidden.
                 registerLater.setVisibility(View.GONE);
 
-                String registerBtn = dependencies.getString(ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT);
+                String registerBtnText = dependencies.getString(ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT).trim();
 
-                if(registerBtn!= null && registerBtn!="") {
+                if(registerBtnText!= null && registerBtnText.length() > 0) {
                     registerButton.setText(dependencies.getString(ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT));
                 }
             }
