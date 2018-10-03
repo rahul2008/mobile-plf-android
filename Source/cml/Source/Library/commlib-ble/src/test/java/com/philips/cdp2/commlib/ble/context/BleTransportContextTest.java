@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.ble.context;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
@@ -143,8 +144,7 @@ public class BleTransportContextTest {
     public void givenBleTransportContextIsConstructed_whenSHNCentralBecomesNotReady_thenDiscoveredNodesAreCleared() {
         constructBleTransportContext();
 
-        when(shnCentralMock.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateNotReady);
-        shnCentralListenerArgumentCaptor.getValue().onStateUpdated(shnCentralMock);
+        shnCentralListenerArgumentCaptor.getValue().onStateUpdated(shnCentralMock, SHNCentral.State.SHNCentralStateNotReady);
 
         verify(discoveryStrategyMock, times(1)).clearDiscoveredNetworkNodes();
     }

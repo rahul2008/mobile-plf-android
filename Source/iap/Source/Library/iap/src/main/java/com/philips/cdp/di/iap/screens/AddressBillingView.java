@@ -160,7 +160,11 @@ public class AddressBillingView
         mEtStateBilling.setKeyListener(null);
 
         mEtFirstNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
-        mEtLastNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        if(HybrisDelegate.getInstance(mContext).getStore().getFamilyName()!=null){
+            mEtLastNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        }else {
+            mEtLastNameBilling.setText("");
+        }
 
         mEtEmailBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmailBilling.setEnabled(false);
@@ -609,7 +613,7 @@ public class AddressBillingView
 
     private String addressWithNewLineIfNull( String code) {
         if (!TextUtils.isEmpty(code)) {
-                return code.replaceAll(",null", " ");
+                return code.replaceAll("[,null]", " ");
         }
         return null;
     }

@@ -225,7 +225,7 @@ FedEx (посылка)</string>
   <string name="iap_salutation_none">Нет</string>
   <string name="iap_save">Сохранить</string>
   <string name="iap_search">Поиск по названию или идентификатору</string>
-  <string name="iap_search_box_hint">Recherche</string>
+  <string name="iap_search_box_hint">поиск</string>
   <string name="iap_select_delivery">Выберите способ доставки заказа:</string>
   <string name="iap_select_retailer">Выбрать магазин</string>
   <string name="iap_selection_select_address">Выбор адреса</string>

@@ -65,4 +65,7 @@ public class NetworkURLConstants {
     public static final String ORDER_DETAIL_URL = BASE_URL + "/orders/" + DUMMY_ORDER_ID + "?fields=FULL&lang=en_US";
     public static final String ORDER_HISTORY_URL = BASE_URL + "/orders?fields=FULL&lang=en_US&currentPage=" + DUMMY_PAGE_NUMBER;
     public static final String PHONE_CONTACT_URL = "https://www.philips.com/prx/cdls/B2C/en_US/CARE/" + SAMPLE_PRODUCT_CATEGORY + ".querytype.(fallback)";
+
+    //Vouchers
+    public static final String APPLY_URL = BASE_URL + "/carts/current/vouchers?lang=en_US";
 }

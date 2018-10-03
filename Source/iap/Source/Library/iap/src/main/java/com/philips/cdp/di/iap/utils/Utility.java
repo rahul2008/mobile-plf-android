@@ -22,6 +22,9 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import  com.philips.cdp.di.iap.response.orders.Address;
+import com.philips.platform.appinfra.AppInfraLogEventID;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.text.ParseException;
@@ -361,4 +364,30 @@ public class Utility {
         return imageArrow;
     }
 
-}
+    public static boolean isVoucherEnable() {
+
+        AppConfigurationInterface mConfigInterface = CartModelContainer.getInstance().getAppInfraInstance().getConfigInterface();
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+
+        try {
+            final  Object voucherCodeEnabledObject =  mConfigInterface.getPropertyForKey("voucherCode.enable", "IAP", configError);
+
+
+            if (voucherCodeEnabledObject != null) {
+                if (voucherCodeEnabledObject instanceof Boolean) {
+                    final Boolean propositionEnabled = (Boolean) voucherCodeEnabledObject;
+                    if (configError.getErrorCode() == AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError && propositionEnabled) {
+                        return true;
+                    }
+                } else {
+                    IAPLog.e(IAPLog.LOG,"voucherCode.enable instance should be boolean value true or false");
+                }
+            }
+        } catch (IllegalArgumentException illegalArgumentException) {
+            IAPLog.e(IAPLog.LOG, "IllegalArgumentException while voucherCode enable");
+        }
+        return false;
+    }
+
+    }
+

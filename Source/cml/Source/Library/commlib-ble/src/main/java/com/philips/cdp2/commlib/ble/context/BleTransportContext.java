@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
@@ -43,8 +44,8 @@ public class BleTransportContext implements TransportContext {
 
     private final SHNCentralListener shnCentralListener = new SHNCentralListener() {
         @Override
-        public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-            if (!SHNCentralStateReady.equals(shnCentral.getShnCentralState())) {
+        public void onStateUpdated(@NonNull SHNCentral shnCentral, @NonNull SHNCentral.State state) {
+            if (!(state == SHNCentralStateReady)) {
                 discoveryStrategy.clearDiscoveredNetworkNodes();
             }
         }

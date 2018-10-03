@@ -76,6 +76,7 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
 
         PowerMockito.mockStatic(DigitalCareConfigManager.class);
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
+        when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
         when(mockDigitalCareConfigManager.getViewProductDetailsData()).thenReturn(viewProductDetailsModel);
         digitalCareBaseFragmentspy=spy(fragment);
 

@@ -176,8 +176,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     public void givenScanningIsStarted_whenSHNCentralIsNotReady_thenScanningIsNotRestarted() {
         startScanning();
 
-        when(shnCentralMock.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
-        shnCentralListenerArgumentCaptorValue.onStateUpdated(shnCentralMock);
+        shnCentralListenerArgumentCaptorValue.onStateUpdated(shnCentralMock, SHNCentralStateNotReady);
 
         verify(leScanCallbackProxyMock, never()).stopLeScan(any(LeScanCallback.class));
         verify(leScanCallbackProxyMock, times(1)).startLeScan(any(LeScanCallback.class));
@@ -187,8 +186,7 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
     public void givenScanningIsStarted_whenSHNCentralIsReady_thenScanningIsRestarted() {
         startScanning();
 
-        when(shnCentralMock.getShnCentralState()).thenReturn(SHNCentralStateReady);
-        shnCentralListenerArgumentCaptorValue.onStateUpdated(shnCentralMock);
+        shnCentralListenerArgumentCaptorValue.onStateUpdated(shnCentralMock, SHNCentralStateReady);
 
         verify(leScanCallbackProxyMock).stopLeScan(any(LeScanCallback.class));
         verify(leScanCallbackProxyMock, times(2)).startLeScan(any(LeScanCallback.class));

@@ -8,6 +8,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.prxclient.datamodels.Disclaimer.DisclaimerModel;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.platform.appinfra.AppInfraInterface;
 
@@ -29,6 +30,8 @@ public class CartModelContainer {
     private HashMap<String, ProductCatalogData> mProductList;
     private HashMap<String, SummaryModel> mPRXSummaryObjects;
     private HashMap<String, ArrayList<String>> mPRXAssetObjects;
+    private HashMap<String, DisclaimerModel> mPRXDisclaimerObjects;
+
 
     private List<DeliveryModes> mDeliveryModes;
 
@@ -40,10 +43,12 @@ public class CartModelContainer {
     private AppInfraInterface appInfraInstance;
     private boolean addessStateVisible;
     private String mAddressIdFromDelivery;
+    private String voucherCode;
 
     private CartModelContainer() {
         mPRXSummaryObjects = new HashMap<>();
         mPRXAssetObjects = new HashMap<>();
+        mPRXDisclaimerObjects = new HashMap<>();
         mProductList = new HashMap<>();
     }
 
@@ -159,6 +164,10 @@ public class CartModelContainer {
         mPRXSummaryObjects.put(ctn, model);
     }
 
+    public void addProductDisclaimer(String ctn, DisclaimerModel model) {
+        mPRXDisclaimerObjects.put(ctn, model);
+    }
+
     public HashMap<String, SummaryModel> getPRXSummaryList() {
         return mPRXSummaryObjects;
     }
@@ -223,4 +232,14 @@ public class CartModelContainer {
     public boolean isAddessStateVisible() {
         return addessStateVisible;
     }
+
+
+    public void  setVoucherCode(String voucherCode){
+        this.voucherCode=voucherCode;
+    }
+    public String getVoucherCode(){
+        return voucherCode;
+    }
+
+
 }

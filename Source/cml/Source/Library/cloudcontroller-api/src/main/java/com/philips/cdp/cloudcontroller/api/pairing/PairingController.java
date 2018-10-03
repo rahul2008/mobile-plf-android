@@ -6,11 +6,7 @@
 package com.philips.cdp.cloudcontroller.api.pairing;
 
 import android.support.annotation.NonNull;
-
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * The interface PairingController.
@@ -38,6 +34,13 @@ public interface PairingController {
          * On relationship remove.
          */
         void onRelationshipRemove();
+
+        /**
+         * On relationship get
+         *
+         * @param relationships the relationshipssettin
+         */
+        void onRelationshipGet(@NonNull Collection<PairingRelation> relationships);
 
         /**
          * On permissions add.
@@ -68,9 +71,6 @@ public interface PairingController {
     String PERMISSION_RESPONSE = "Response";
     String PERMISSION_CHANGE = "Change";
     String PERMISSION_PUSH = "Push";
-
-    List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList(PERMISSION_RESPONSE, PERMISSION_CHANGE));
-    List<String> PAIRING_PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList(PERMISSION_PUSH));
 
     /**
      * Sets the single pairing callback.
@@ -103,6 +103,13 @@ public interface PairingController {
      * @param callback     the callback
      */
     void removeRelationship(@NonNull PairingRelation relationship, @NonNull PairingCallback callback);
+
+    /**
+     * Get relationships
+     *
+     * @param callback the callback
+     */
+    void getRelationships(@NonNull PairingCallback callback);
 
     /**
      * Add permission.

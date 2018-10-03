@@ -12,6 +12,9 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.util.Date;
 
 import static com.philips.platform.appinfra.tagging.AppTagging.CLICKSTREAM_CONSENT_TYPE;
@@ -21,7 +24,8 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
     @VisibleForTesting
     static final String CLICKSTREAM_CONSENT_VERSION = CLICKSTREAM_CONSENT_TYPE + "_Version";
-    private static final String CLICKSTREAM_CONSENT_TIMESTAMP = CLICKSTREAM_CONSENT_TYPE + "_Timestamp";
+    @VisibleForTesting
+    static final String CLICKSTREAM_CONSENT_TIMESTAMP = CLICKSTREAM_CONSENT_TYPE + "_Timestamp";
     private AppInfraInterface appInfraInterface;
 
     ClickStreamConsentHandler(AppInfraInterface appInfraInterface) {
@@ -57,13 +61,25 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
         AppTaggingInterface.PrivacyStatus privacyStatus = appInfraInterface.getTagging().getPrivacyConsent();
 
         Date timestamp;
-        String timestampValue = getValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP);
-        if (timestampValue == null) {
+        String storedTimestamp = getValueForKey(CLICKSTREAM_CONSENT_TIMESTAMP);
+        if (storedTimestamp == null) {
             timestamp = new Date(0);
         } else {
-            timestamp = AIUtility.convertStringToDate(timestampValue, "yyyy-MM-dd HH:mm:ss.SSS Z");
+            if (isTimestampInCurrentFormattedDateTimeString(storedTimestamp)) {
+                timestamp = AIUtility.convertStringToDate(storedTimestamp, "yyyy-MM-dd HH:mm:ss.SSS Z");
+            } else {
+                timestamp = parseDateTimeFromLegacyFormat(storedTimestamp);
+            }
         }
         callback.onGetConsentsSuccess(getConsentStatus(privacyStatus, version, timestamp));
+    }
+
+    private Date parseDateTimeFromLegacyFormat(String storedTimestamp) {
+        return new DateTime(Long.parseLong(storedTimestamp), DateTimeZone.UTC).toDate();
+    }
+
+    private boolean isTimestampInCurrentFormattedDateTimeString(String storedTimestamp) {
+        return storedTimestamp.contains("-");
     }
 
     @Override

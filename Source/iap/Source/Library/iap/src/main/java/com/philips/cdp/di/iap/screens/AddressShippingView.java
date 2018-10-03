@@ -162,7 +162,11 @@ public class AddressShippingView
         mEtState.setKeyListener(null);
 
         mEtFirstName.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
-        mEtLastName.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        if(HybrisDelegate.getInstance(mContext).getStore().getFamilyName()!=null) {
+            mEtLastName.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        }else{
+            mEtLastName.setText("");
+        }
 
         mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);

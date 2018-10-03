@@ -226,8 +226,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     @Override
-    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-        stateMachine.getState().onStateUpdated(shnCentral);
+    public void onStateUpdated(@NonNull SHNCentral shnCentral, @NonNull SHNCentral.State state) {
+        stateMachine.getState().onStateUpdated(state);
     }
 
     public void registerService(SHNService shnService) {
