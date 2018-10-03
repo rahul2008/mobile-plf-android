@@ -76,7 +76,7 @@ public class ForgotPasswordTest extends TestCase {
         verify(forgotPasswordHandler).onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
     }
 
-    @Test(expected = NoClassDefFoundError.class)
+    @Test
     public void performForgotPassword_IfJanrainInit() {
         UserRegistrationInitializer.getInstance().setJanrainIntialized(true);
         forgotPassword.performForgotPassword("xyz@gmail.com");

@@ -80,7 +80,7 @@ public class ResendVerificationEmailTest {
         //verify(mResendVerificationEmail).onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testResendVerificationMail_WhenJanrainNotIntialized() {
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
         resendVerificationEmail.resendVerificationMail("xyz@gmail.com");
