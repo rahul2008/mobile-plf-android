@@ -82,18 +82,7 @@ public class ForgotPasswordTest extends TestCase {
         forgotPassword.performForgotPassword("xyz@gmail.com");
     }
 
-    @Test
-    public void performForgotPassword_IfJanrainNotInit() {
-        UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
-        forgotPassword.performForgotPassword("xyz@gmail.com");
-        UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(jumpFlowDownloadStatusListener);
-        //verify(jumpFlowDownloadStatusListener).onFlowDownloadFailure();
-    }
 
-    @Test(expected = NoClassDefFoundError.class)
-    public void onFlowDownloadSuccess() {
-        forgotPassword.onFlowDownloadSuccess();
-    }
 
     @Test(expected = NullPointerException.class)
     public void onFlowDownloadFailure() {

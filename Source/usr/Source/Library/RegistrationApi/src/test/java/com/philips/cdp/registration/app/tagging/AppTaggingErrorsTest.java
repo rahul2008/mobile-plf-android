@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by philips on 12/3/17.
  */
-@RunWith(MockitoJUnitRunner.Silent.class)
+@RunWith(MockitoJUnitRunner.class)
 public class AppTaggingErrorsTest extends TestCase{
 
     private AppTaggingErrors appTaggingErrors;
