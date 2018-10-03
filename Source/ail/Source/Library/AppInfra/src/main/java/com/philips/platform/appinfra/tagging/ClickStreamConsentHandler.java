@@ -15,6 +15,7 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 import java.util.Date;
 
 import static com.philips.platform.appinfra.tagging.AppTagging.CLICKSTREAM_CONSENT_TYPE;
+import static junit.framework.Assert.assertEquals;
 
 class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
@@ -48,6 +49,7 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
     @Override
     public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
+        assertEquals(consentType, CLICKSTREAM_CONSENT_TYPE);
 
         String valueForKey = getValueForKey(CLICKSTREAM_CONSENT_VERSION);
         int version = valueForKey == null ? 0 : Integer.valueOf(valueForKey);
@@ -66,6 +68,7 @@ class ClickStreamConsentHandler implements ConsentHandlerInterface {
 
     @Override
     public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
+        assertEquals(consentType, CLICKSTREAM_CONSENT_TYPE);
 
         appInfraInterface.getTagging().setPrivacyConsent(getPrivacyStatus(status));
         storeValueForKey(CLICKSTREAM_CONSENT_VERSION, String.valueOf(version));
