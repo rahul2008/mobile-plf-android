@@ -45,7 +45,7 @@
       "cloudBatchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
-        "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"
+        "usr"
       ]
     },
     "logging.debugConfig":{
