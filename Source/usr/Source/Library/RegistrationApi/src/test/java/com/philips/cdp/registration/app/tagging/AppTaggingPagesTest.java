@@ -1,17 +1,16 @@
 package com.philips.cdp.registration.app.tagging;
 
-import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import static junit.framework.Assert.assertEquals;
+@RunWith(MockitoJUnitRunner.class)
+public class AppTaggingPagesTest extends TestCase {
 
-
-
-public class AppTaggingPagesTest extends RegistrationApiInstrumentationBase {
-
-    AppTaggingPages appTaggingPages;
+    private AppTaggingPages appTaggingPages;
 
     @Before
     public void setUp() throws Exception {
@@ -20,60 +19,60 @@ public class AppTaggingPagesTest extends RegistrationApiInstrumentationBase {
     }
 
     @Test
-    public void testHome() throws  Exception{
-        assertEquals("registration:home",appTaggingPages.HOME);
+    public void testHome() {
+        assertEquals("registration:home", AppTaggingPages.HOME);
     }
 
     @Test
-    public void testCreatAccount() throws Exception {
-        assertEquals("registration:createaccount",appTaggingPages.CREATE_ACCOUNT);
+    public void testCreatAccount() {
+        assertEquals("registration:createaccount", AppTaggingPages.CREATE_ACCOUNT);
 
     }
     @Test
-    public void testSignIn() throws Exception {
+    public void testSignIn() {
         assertEquals("registration:signin",AppTaggingPages.SIGN_IN_ACCOUNT);
     }
     @Test
-    public void testAccountActivaton() throws Exception {
+    public void testAccountActivaton() {
         assertEquals("registration:accountactivation",AppTaggingPages.ACCOUNT_ACTIVATION);
     }
 
     @Test
-    public void testAlomastDone() throws Exception {
+    public void testAlomastDone() {
         assertEquals("registration:almostdone",AppTaggingPages.ALMOST_DONE);
     }
     @Test
-    public void testMergeAccount() throws Exception {
+    public void testMergeAccount() {
         assertEquals("registration:mergeaccount",AppTaggingPages.MERGE_ACCOUNT);
     }
     @Test
-    public void testUserProfile() throws Exception {
+    public void testUserProfile() {
         assertEquals("registration:userprofile",AppTaggingPages.USER_PROFILE);
     }
 
 
     @Test
-    public void testMergeSocialAccount() throws Exception {
+    public void testMergeSocialAccount() {
         assertEquals("registration:mergesocialaccount",AppTaggingPages.MERGE_SOCIAL_ACCOUNT);
     }
     @Test
-    public void testForGotPassword() throws Exception {
+    public void testForGotPassword() {
         assertEquals("registration:forgotpassword",AppTaggingPages.FORGOT_PASSWORD);
     }
     @Test
-    public void testPhilipsAccount() throws Exception {
+    public void testPhilipsAccount() {
         assertEquals("registration:philipsannouncement",AppTaggingPages.PHILIPS_ANNOUNCEMENT);
     }
     @Test
-    public void testFacbook() throws Exception {
+    public void testFacbook() {
         assertEquals("registration:facebook",AppTaggingPages.FACEBOOK);
     }
     @Test
-    public void testGooglePluse() throws Exception {
+    public void testGooglePluse() {
         assertEquals("registration:googleplus",AppTaggingPages.GOOGLE_PLUS);
     }
     @Test
-    public void testTwitter() throws Exception {
+    public void testTwitter() {
         assertEquals("registration:twitter",AppTaggingPages.TWITTER);
     }
 

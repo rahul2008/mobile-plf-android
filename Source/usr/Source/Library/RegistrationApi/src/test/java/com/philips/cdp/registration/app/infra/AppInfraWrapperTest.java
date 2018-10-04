@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 /**
  * Created by philips on 11/27/17.
@@ -28,18 +28,18 @@ public class AppInfraWrapperTest extends TestCase{
     private RegistrationComponent mockRegistrationComponent;
 
     @Mock
-    AppInfraInterface appInfraInterfaceMock;
-
+    private AppInfraInterface appInfraInterfaceMock;
     @Mock
-    AppConfigurationInterface appConfigurationInterfaceMock;
+    private AppIdentityInterface appIdentityInterfaceMock;
 
-    String SD_COUNTRYMAPPING_ID_KEY = "servicediscovery.countryMapping";
+    private String SD_COUNTRYMAPPING_ID_KEY = "servicediscovery.countryMapping";
 
 
-    AppInfraWrapper appInfraWrapper;
+    private AppInfraWrapper appInfraWrapper;
 
     @Before
     public void setUp() throws Exception {
+        super.setUp();
 
         MockitoAnnotations.initMocks(this);
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
@@ -51,29 +51,28 @@ public class AppInfraWrapperTest extends TestCase{
 
 
     @Test
-    public void getAppInfraProperty() throws Exception {
+    public void getAppInfraProperty() {
 
         Assert.assertNull(appInfraWrapper.getAppInfraProperty(SD_COUNTRYMAPPING_ID_KEY));
     }
 
     @Test
-    public void getURProperty() throws Exception {
+    public void getURProperty() {
         Assert.assertNull(appInfraWrapper.getURProperty(SD_COUNTRYMAPPING_ID_KEY));
     }
 
 
-    @Mock
-    AppIdentityInterface appIdentityInterfaceMock;
+
 
     @Test
-    public void getAppState() throws Exception {
+    public void getAppState() {
 
         Mockito.when(appInfraInterfaceMock.getAppIdentity()).thenReturn(appIdentityInterfaceMock);
         Assert.assertNull(appInfraWrapper.getAppState());
     }
 
     @Test
-    public void getAppIdentity() throws Exception {
+    public void getAppIdentity() {
 
         Assert.assertNull(appInfraWrapper.getAppIdentity());
     }

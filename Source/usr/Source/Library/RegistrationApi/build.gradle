@@ -95,9 +95,7 @@ dependencies {
     annotationProcessor deps.butterknife
     annotationProcessor deps.butterknife_compiler
     annotationProcessor deps.dagger.compiler
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation deps.apache
     implementation deps.butterknife
     implementation deps.calligraphy
@@ -116,7 +114,6 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.volley
     implementation deps.wechat
-
     if (directdependencies) {
         implementation project(':uid')
         implementation project(':uAppFwLib')
@@ -130,7 +127,6 @@ dependencies {
         implementation project(':jump')
         implementation project(':hsdp')
     }
-
     testImplementation deps.junit
     testImplementation deps.mockito
     // TODO: Migrate this to platform defined set of Robolectric (currently version 3.8)
@@ -138,12 +134,14 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:3.4-rc2'
     testImplementation 'org.robolectric:robolectric-utils:3.4-rc2'
     testImplementation 'org.robolectric:robolectric-junit:3.4-rc2'
-
     androidTestImplementation deps.mockito_android
     androidTestImplementation deps.android_testrules
     androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.junit
     androidTestImplementation deps.uiautomator
+    testImplementation deps.powermock_core
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_junit
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
