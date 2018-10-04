@@ -24,6 +24,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import static com.philips.cdp.dicommclient.port.common.PairingHandler.PAIRING_DATA_ACCESS_RELATIONSHIP;
+import static com.philips.cdp.dicommclient.port.common.PairingHandler.PAIRING_DI_COMM_RELATIONSHIP;
+import static com.philips.cdp.dicommclient.port.common.PairingHandler.PAIRING_NOTIFY_RELATIONSHIP;
 import static com.philips.cdp.dicommclient.port.common.PairingHandler.RELATION_STATUS_COMPLETED;
 import static com.philips.cdp.dicommclient.port.common.PairingHandler.RELATION_STATUS_FAILED;
 import static java.lang.Long.parseLong;
@@ -33,11 +35,14 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -411,7 +416,7 @@ public class PairingHandlerTest {
     }
 
     @Test
-    public void whenDataAccessRelationshipRemovalRequestReturnsFailureDueToNetworkNotBeingAvailableThenFailureIsNotifiedOnPairingCallback() {
+    public void whenRelationshipRemovalRequestReturnsFailureDueToNetworkNotBeingAvailableThenFailureIsNotifiedViaPairingCallback() {
         pairingHandler.initializeRelationshipRemoval();
 
         pairingHandler.currentRelationshipType = PAIRING_DATA_ACCESS_RELATIONSHIP;
@@ -421,13 +426,33 @@ public class PairingHandlerTest {
     }
 
     @Test
-    public void whenDataAccessRelationshipRemovalRequestReturnsSuccessThenSuccessIsNotifiedOnPairingCallback() {
+    public void whenRelationshipRemovalRequestReturnsSuccessThenSuccessIsNotifiedViaPairingCallback() {
         pairingHandler.initializeRelationshipRemoval();
 
         pairingHandler.currentRelationshipType = PAIRING_DATA_ACCESS_RELATIONSHIP;
         pairingHandler.mPairingCallback.onRelationshipRemove(Errors.SUCCESS);
 
         verify(pairingListenerMock).onPairingSuccess(applianceMock);
+    }
+
+    @Test
+    public void whenRelationshipRemovalRequestReturnsSuccessForDICommRelationshipThenRemoveRelationshipIsCalled() {
+        pairingHandler.initializeRelationshipRemoval();
+
+        pairingHandler.currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
+        pairingHandler.mPairingCallback.onRelationshipRemove(Errors.SUCCESS);
+
+        verify(pairingControllerMock, atLeast(1)).removeRelationship(any(PairingRelation.class), any(PairingController.PairingCallback.class));
+    }
+
+    @Test
+    public void whenRelationshipRemovalRequestReturnsSuccessForNotifyRelationshipThenRemoveRelationshipIsCalled() {
+        pairingHandler.initializeRelationshipRemoval();
+
+        pairingHandler.currentRelationshipType = PAIRING_NOTIFY_RELATIONSHIP;
+        pairingHandler.mPairingCallback.onRelationshipRemove(Errors.SUCCESS);
+
+        verify(pairingControllerMock, times(1)).removeRelationship(any(PairingRelation.class), any(PairingController.PairingCallback.class));
     }
 
     class PairingHandlerForTest extends PairingHandler<Appliance> {

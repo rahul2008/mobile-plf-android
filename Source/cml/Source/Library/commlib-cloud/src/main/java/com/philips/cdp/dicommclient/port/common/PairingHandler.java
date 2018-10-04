@@ -199,7 +199,7 @@ public class PairingHandler<T extends Appliance> {
     }
 
     private void handleRelationshipRemove(int status) {
-        DICommLog.i(DICommLog.PAIRING, "Handle RemoveRelation");
+        DICommLog.i(DICommLog.PAIRING, String.format("Handle RemoveRelation and status is [%d]", status));
         if (status != Errors.SUCCESS) {
             notifyFailure();
             return;
