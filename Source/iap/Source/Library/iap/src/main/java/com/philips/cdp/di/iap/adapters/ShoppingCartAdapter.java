@@ -226,12 +226,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 
-                    shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
+                   /* shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
                         }
-                    });
+                    });*/
 
                 } else {
                     shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
