@@ -250,7 +250,7 @@ public class PairingHandler<T extends Appliance> {
             }
         }
 
-        // This will notify whether all relations have been removed successfully or not
+        // This will indicate all relations have been removed
         else if (PAIRING_DATA_ACCESS_RELATIONSHIP.equalsIgnoreCase(currentRelationshipType)) {
             switch (entityState) {
                 case PURIFIER:
