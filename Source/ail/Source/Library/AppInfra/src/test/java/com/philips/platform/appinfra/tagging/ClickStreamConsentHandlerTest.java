@@ -10,6 +10,8 @@ import com.philips.platform.pif.chi.PostConsentTypeCallback;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +29,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ClickStreamConsentHandlerTest {
 
-    private static final String TEST_VERSION = "1";
+    private static final int TEST_VERSION = 1;
     @Mock
     AppInfraInterface appInfra;
     @Mock
@@ -42,13 +44,17 @@ public class ClickStreamConsentHandlerTest {
     private String correctType = "AIL_ClickStream";
     private String wrongType = "abc";
 
+    private long sampleTimestamp = 1531045167156l;
+    private String sampleDateTime = "2018-07-08 10:19:27.156 +0000";
+
     @Before
     public void setUp() {
         clickStreamConsentHandler = new TestClickStreamConsentHandler(appInfra);
         when(appInfra.getSecureStorage()).thenReturn(storageInterface);
         when(appInfra.getTagging()).thenReturn(appTaggingInterface);
-        when(storageInterface.storeValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, "1", secureStorageError)).thenReturn(true);
-        when(storageInterface.fetchValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, secureStorageError)).thenReturn(TEST_VERSION);
+        when(storageInterface.storeValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, String.valueOf(TEST_VERSION), secureStorageError)).thenReturn(true);
+        when(storageInterface.fetchValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_VERSION, secureStorageError)).thenReturn(String.valueOf(TEST_VERSION));
+        when(storageInterface.fetchValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_TIMESTAMP, secureStorageError)).thenReturn(sampleDateTime);
     }
 
     @Test
@@ -76,7 +82,7 @@ public class ClickStreamConsentHandlerTest {
     }
 
     @Test
-    public void verifyFetchConsentSuccess() {
+    public void verifyFetchRejectedConsentSuccess() {
         when(appTaggingInterface.getPrivacyConsent()).thenReturn(AppTaggingInterface.PrivacyStatus.OPTOUT);
 
         FetchConsentTypeStateCallback mockedCallback = mock(FetchConsentTypeStateCallback.class);
@@ -86,7 +92,42 @@ public class ClickStreamConsentHandlerTest {
         verify(mockedCallback).onGetConsentsSuccess(captor.capture());
         ConsentStatus value = captor.getValue();
 
-        assertEquals(value.getConsentState(), ConsentStates.rejected);
+        assertEquals(ConsentStates.rejected, value.getConsentState() );
+        assertEquals(sampleTimestamp, value.getTimestamp().getTime());
+        assertEquals(TEST_VERSION, value.getVersion());
+    }
+
+    @Test
+    public void verifyFetchActiveConsentSuccess() {
+        when(appTaggingInterface.getPrivacyConsent()).thenReturn(AppTaggingInterface.PrivacyStatus.OPTIN);
+
+        FetchConsentTypeStateCallback mockedCallback = mock(FetchConsentTypeStateCallback.class);
+        clickStreamConsentHandler.fetchConsentTypeState(correctType, mockedCallback);
+
+        ArgumentCaptor<ConsentStatus> captor = ArgumentCaptor.forClass(ConsentStatus.class);
+        verify(mockedCallback).onGetConsentsSuccess(captor.capture());
+        ConsentStatus value = captor.getValue();
+
+        assertEquals(ConsentStates.active, value.getConsentState());
+        assertEquals(sampleTimestamp, value.getTimestamp().getTime());
+        assertEquals(TEST_VERSION, value.getVersion());
+    }
+
+    @Test
+    public void canReadBackwardsCompatibleConsentsWithTimeStamp() {
+        when(appTaggingInterface.getPrivacyConsent()).thenReturn(AppTaggingInterface.PrivacyStatus.OPTOUT);
+        when(storageInterface.fetchValueForKey(ClickStreamConsentHandler.CLICKSTREAM_CONSENT_TIMESTAMP, secureStorageError)).thenReturn(String.valueOf(sampleTimestamp));
+        
+        FetchConsentTypeStateCallback mockedCallback = mock(FetchConsentTypeStateCallback.class);
+        clickStreamConsentHandler.fetchConsentTypeState(correctType, mockedCallback);
+
+        ArgumentCaptor<ConsentStatus> captor = ArgumentCaptor.forClass(ConsentStatus.class);
+        verify(mockedCallback).onGetConsentsSuccess(captor.capture());
+        ConsentStatus value = captor.getValue();
+
+        assertEquals(ConsentStates.rejected, value.getConsentState());
+        assertEquals(sampleTimestamp, value.getTimestamp().getTime());
+        assertEquals(TEST_VERSION, value.getVersion());
     }
 
     private class TestClickStreamConsentHandler extends ClickStreamConsentHandler {

@@ -45,10 +45,10 @@
       "fileSizeInBytes":50000,
       "logLevel":"Off",
       "fileLogEnabled":false,
-      "consoleLogEnabled":true,
+      "consoleLogEnabled":false,
       "cloudLogEnabled":false,
       "cloudBatchLimit":5,
-      "componentLevelLogEnabled":false,
+      "componentLevelLogEnabled":true,
       "componentIds": [
         "ail","usr"
       ]
@@ -60,7 +60,7 @@
       "logLevel":"Error",
       "fileLogEnabled":false,
       "consoleLogEnabled":false,
-      "cloudLogEnabled":true,
+      "cloudLogEnabled":false,
       "cloudBatchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [

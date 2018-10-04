@@ -338,9 +338,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
         if (pIgnoreRetailerList == null)
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput,null);
         else
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, pIgnoreRetailerList);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, null,pIgnoreRetailerList);
 
         try {
             mIapInterface.launch(new ActivityLauncher

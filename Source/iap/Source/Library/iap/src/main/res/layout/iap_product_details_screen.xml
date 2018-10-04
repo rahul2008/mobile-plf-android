@@ -106,6 +106,20 @@
                 android:paddingBottom="@dimen/border16_margin_left_right"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
 
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/iap_productDetailsScreen_productDisclaimer"
+                style="@style/UIDLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iap_productDetailsScreen_productOverview"
+                android:includeFontPadding="false"
+                android:paddingBottom="@dimen/border16_margin_left_right"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:textSize="9sp"
+                android:visibility="gone"/>
+
+
+
         </RelativeLayout>
     </ScrollView>
     <View

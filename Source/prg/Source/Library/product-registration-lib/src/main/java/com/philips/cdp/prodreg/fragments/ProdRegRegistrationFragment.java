@@ -550,6 +550,12 @@ String imageURL;
         showFragment(prodRegSuccessFragment);
     }
 
+    @Override
+    public void hideProgress() {
+        hideProgressDialog();
+
+    }
+
     /** should be moved to dls dialog **/
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {

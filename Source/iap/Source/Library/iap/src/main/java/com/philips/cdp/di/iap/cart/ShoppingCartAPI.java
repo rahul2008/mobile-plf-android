@@ -22,4 +22,6 @@ public interface ShoppingCartAPI {
     void buyProduct(Context context, String ctnNumber, IAPCartListener iapHandlerListener);
 
     void getRetailersInformation(String ctn);
+
+    void deleteAppliedVoucher(String voucherCode);
 }
