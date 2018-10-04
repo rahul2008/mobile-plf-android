@@ -1,32 +1,21 @@
 package com.philips.cdp.di.iap.screens;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Message;
+import android.app.Activity;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.InputValidator;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
@@ -35,12 +24,19 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import java.util.HashMap;
 
-public class DLSShippingAddressFragment extends InAppBaseFragment
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
+public class AddressShippingView
         implements SalutationDropDown.SalutationListener,
         StateDropDown.StateListener {
 
-    private PhoneNumberUtil phoneNumberUtil;
-    private Context mContext;
+    private final AddressPresenter addressPresenter;
+    private final View view;
+    private Activity mContext;
     private InputValidationLayout mLlFirstName;
     private InputValidator inputValidatorFirstName;
     private InputValidationLayout mLlLastName;
@@ -77,26 +73,26 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
     private AddressFields shippingAddressFields;
     private String mRegionIsoCode;
-    private DLSAddressFragment mParentFragment;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dls_iap_address_shipping, container, false);
+    AddressContractor addressContractor;
+
+    AddressShippingPresenter addressShippingPresenter;
+
+    public AddressShippingView(AddressPresenter addressPresenter) {
+        this.addressPresenter = addressPresenter;
+        addressContractor = addressPresenter.getAddressContractor();
+        this.mContext = addressContractor.getActivityContext();
+        this.view = addressContractor.getShippingAddressView();
+
+        addressShippingPresenter = new AddressShippingPresenter();
+
         initializeViews(view);
-        return view;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
 
     private void initializeViews(View rootView) {
 
-        mParentFragment = (DLSAddressFragment) DLSShippingAddressFragment.this.getParentFragment();
         shippingAddressFields = new AddressFields();
-
-        phoneNumberUtil = PhoneNumberUtil.getInstance();
 
         mLlFirstName = rootView.findViewById(R.id.ll_first_name);
         inputValidatorFirstName = new InputValidator(Validator.NAME_PATTERN);
@@ -217,20 +213,13 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         mEtState.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Utility.hideKeypad(getActivity());
+                Utility.hideKeypad(mContext);
                 mStateDropDown.show();
                 return false;
             }
         });
 
 
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
     }
 
     @Override
@@ -337,22 +326,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
     }
 
-
-    private boolean validatePhoneNumber(EditText editText, String country, String number) {
-        try {
-            Phonenumber.PhoneNumber phoneNumber = phoneNumberUtil.parse(number, country);
-            boolean isValid = phoneNumberUtil.isValidNumber(phoneNumber);
-            String formattedPhoneNumber = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
-            editText.setText(formattedPhoneNumber);
-            editText.setSelection(editText.getText().length());
-            return isValid;
-        } catch (Exception e) {
-            IAPLog.d("ShippingAddressFragment", "NumberParseException");
-        }
-        return false;
-    }
-
-
     private void showUSRegions() {
         if (mEtCountry.getText().toString().equals("US")) {
             mlLState.setVisibility(View.VISIBLE);
@@ -388,7 +361,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
             }
         }
         if (editText.getId() == R.id.et_phone1 && !hasFocus && mEtPhone1.getText() != null) {
-            result = validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
+            result = addressPresenter.validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
                     , mEtPhone1.getText().toString());
             if (!result) {
                 mLlPhone1.setErrorMessage(R.string.iap_phone_error);
@@ -436,7 +409,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         }
 
         if (!result) {
-            mParentFragment.mBtnContinue.setEnabled(false);
+            addressContractor.setContinueButtonState(false);
         } else {
             checkFields();
         }
@@ -465,38 +438,26 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
             setAddressFields(shippingAddressFields);
             IAPLog.d(IAPLog.LOG, shippingAddressFields.toString());
-            if (mParentFragment.checkBox.isChecked() && shippingAddressFields!=null ) {
-                mParentFragment.mBtnContinue.setEnabled(true);
-                Utility.isShippingAddressFilled=true;
-                mParentFragment.setShippingAddressFields(shippingAddressFields);
-            } else if(shippingAddressFields!=null && Utility.isBillingAddressFilled) {
-                mParentFragment.mBtnContinue.setEnabled(true);
-                Utility.isShippingAddressFilled=true;
+            if (addressContractor.getCheckBoxState() && shippingAddressFields!=null ) {
+                addressContractor.setContinueButtonState(true);
+                addressContractor.setShippingAddressFilledStatus(true);
+                addressContractor.setShippingAddressFields(shippingAddressFields);
+            } else if(shippingAddressFields!=null && addressContractor.isBillingAddressFilled()) {
+                addressContractor.setContinueButtonState(true);
+                addressContractor.setShippingAddressFilledStatus(true);
             }else{
-             //  mParentFragment.mBtnContinue.setEnabled(false);
-                Utility.isShippingAddressFilled=false;
+                addressContractor.setShippingAddressFilledStatus(false);
             }
 
             return true;
         } else {
-           // mParentFragment.mBtnContinue.setEnabled(false);
-            Utility.isShippingAddressFilled=false;
+            addressContractor.setShippingAddressFilledStatus(false);
         }
         return false;
     }
 
     protected AddressFields setAddressFields(AddressFields shippingAddressFields) {
-        shippingAddressFields.setFirstName(mEtFirstName.getText().toString().trim());
-        shippingAddressFields.setLastName(mEtLastName.getText().toString().trim());
-        shippingAddressFields.setTitleCode(mEtSalutation.getText().toString().trim());
-        shippingAddressFields.setCountryIsocode(mEtCountry.getText().toString().trim());
-        shippingAddressFields.setLine1(mEtAddressLineOne.getText().toString().trim());
-        shippingAddressFields.setLine2(mEtAddressLineTwo.getText().toString().trim());
-        shippingAddressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
-        shippingAddressFields.setTown(mEtTown.getText().toString().trim());
-        shippingAddressFields.setPhone1(mEtPhone1.getText().toString().replaceAll(" ", ""));
-        shippingAddressFields.setPhone2(mEtPhone1.getText().toString().replaceAll(" ", ""));
-        shippingAddressFields.setEmail(mEtEmail.getText().toString().trim());
+        setAddressFiledsFromEditTexts(shippingAddressFields);
 
 
         if (mlLState.getVisibility() == View.VISIBLE) {
@@ -509,17 +470,32 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         return shippingAddressFields;
     }
 
+    private void setAddressFiledsFromEditTexts(AddressFields shippingAddressFields) {
+        shippingAddressFields.setFirstName(mEtFirstName.getText().toString().trim());
+        shippingAddressFields.setLastName(mEtLastName.getText().toString().trim());
+        shippingAddressFields.setTitleCode(mEtSalutation.getText().toString().trim());
+        shippingAddressFields.setCountryIsocode(mEtCountry.getText().toString().trim());
+        shippingAddressFields.setLine1(mEtAddressLineOne.getText().toString().trim());
+        shippingAddressFields.setLine2(mEtAddressLineTwo.getText().toString().trim());
+        shippingAddressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
+        shippingAddressFields.setTown(mEtTown.getText().toString().trim());
+        shippingAddressFields.setPhone1(mEtPhone1.getText().toString().replaceAll(" ", ""));
+        shippingAddressFields.setPhone2(mEtPhone1.getText().toString().replaceAll(" ", ""));
+        shippingAddressFields.setEmail(mEtEmail.getText().toString().trim());
+    }
+
     void updateFields(HashMap<String, String> mAddressFieldsHashmap) {
 
         if (mAddressFieldsHashmap == null) return;
-        mParentFragment.mBtnContinue.setText(getString(R.string.iap_save));
+        addressPresenter.setContinueButtonState(true);
+        addressContractor.setContinueButtonText(mContext.getString(R.string.iap_save));
         CartModelContainer.getInstance().setAddressId(mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
 
         mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
         mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutation.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
-        mEtAddressLineOne.setText(addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
-        mEtAddressLineTwo.setText(addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_2)));
+        mEtAddressLineOne.setText(addressShippingPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
+        mEtAddressLineTwo.setText(addressShippingPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_2)));
         mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
@@ -535,55 +511,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         } else {
             mEtState.setVisibility(View.GONE);
             mlLState.setVisibility(View.GONE);
-        }
-    }
-
-    private String addressWithNewLineIfNull( String code) {
-        if (!TextUtils.isEmpty(code)) {
-                return code.replaceAll("[,null]", " ");
-        }
-        return null;
-    }
-
-
-    public void handleError(Message msg) {
-        IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
-        if (null != iapNetworkError.getServerError()) {
-            for (int i = 0; i < iapNetworkError.getServerError().getErrors().size(); i++) {
-                Error error = iapNetworkError.getServerError().getErrors().get(i);
-                showErrorFromServer(error);
-            }
-        }
-    }
-
-    private void showErrorFromServer(Error error) {
-
-        if (error != null && error.getSubject() != null) {
-            if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
-                mLlCountry.setValidator(inputValidatorCountry);
-                mLlCountry.setErrorMessage(R.string.iap_country_error);
-                mLlCountry.showError();
-            } else if (error.getSubject().equalsIgnoreCase(ModelConstants.POSTAL_CODE)) {
-                mLlPostalCode.setValidator(inputValidatorPostalCode);
-                mLlPostalCode.setErrorMessage(R.string.iap_postal_code_error);
-                mLlPostalCode.showError();
-            } else if (error.getSubject().equalsIgnoreCase(ModelConstants.PHONE_1)) {
-                mLlPhone1.setValidator(inputValidatorPhone);
-                mLlPhone1.setErrorMessage(R.string.iap_phone_error);
-                mLlPhone1.showError();
-            } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_1)) {
-                mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
-                mLlAddressLineOne.setErrorMessage(R.string.iap_address_error);
-                mLlAddressLineOne.showError();
-            } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
-                mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
-                mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
-                mLlAddressLineTwo.showError();
-            }
-            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
-                    getString(R.string.iap_ok), getString(R.string.iap_server_error),
-                    error.getMessage());
-            mParentFragment.mBtnContinue.setEnabled(false);
         }
     }
 }

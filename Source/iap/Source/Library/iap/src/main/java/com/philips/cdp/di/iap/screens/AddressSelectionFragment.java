@@ -219,8 +219,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             bundle.putBoolean(IAPConstant.ADD_BILLING_ADDRESS, true);
             bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
 
-            addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
-                    DLSAddressFragment.TAG,true);
+            addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
+                    AddressFragment.TAG,true);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {
@@ -255,8 +255,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
             if (mDeliveryMode != null)
                 args.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
-            addFragment(DLSAddressFragment.createInstance(args, AnimationType.NONE),
-                    DLSAddressFragment.TAG,true);
+            addFragment(AddressFragment.createInstance(args, AnimationType.NONE),
+                    AddressFragment.TAG,true);
         } else if (event.equalsIgnoreCase(IAPConstant.DELIVER_TO_THIS_ADDRESS)) {
 
             createCustomProgressBar(mLinearLayout, BIG);
@@ -317,8 +317,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
         if (mDeliveryMode != null)
             extras.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
-        addFragment(DLSAddressFragment.createInstance(extras, AnimationType.NONE),
-                DLSAddressFragment.TAG,true);
+        addFragment(AddressFragment.createInstance(extras, AnimationType.NONE),
+                AddressFragment.TAG,true);
     }
 
     private Addresses retrieveSelectedAddress() {
