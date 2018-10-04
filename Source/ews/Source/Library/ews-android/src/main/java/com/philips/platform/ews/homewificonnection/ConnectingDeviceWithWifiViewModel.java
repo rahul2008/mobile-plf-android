@@ -92,8 +92,10 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         @Override
         public void run() {
             if (wiFiUtil.getCurrentWifiState() == WiFiUtil.HOME_WIFI) {
+                ewsLogger.d("****************** KUNAL **********", "timeoutRunnable if");
                 showConnectionUnsuccessful();
             } else {
+                ewsLogger.d("****************** KUNAL **********", "timeoutRunnable else");
                 handleFailureWrongWifiNetwork();
             }
             clear();
@@ -105,15 +107,18 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         @Override
         public void onPropertiesSet(@NonNull WifiPortProperties wifiPortProperties) {
             if (startConnectionModel != null) {
+                ewsLogger.d("****************** KUNAL **********", "ApplianceAccessManager.SetPropertiesCallback sendingNetworkInfoCallback onPropertiesSet if");
                 applianceSessionDetailsInfo.setCppId(wifiPortProperties.getCppid());
                 connectToHomeWifiInternal(startConnectionModel.getHomeWiFiSSID());
             } else {
+                ewsLogger.d("****************** KUNAL **********", "ApplianceAccessManager.SetPropertiesCallback sendingNetworkInfoCallback onPropertiesSet else");
                 ewsLogger.e(TAG, "startConnectionModel cannot be null");
             }
         }
 
         @Override
         public void onFailedToSetProperties() {
+            ewsLogger.d("****************** KUNAL **********", "ApplianceAccessManager.SetPropertiesCallback sendingNetworkInfoCallback onFailedToSetProperties");
             showConnectionUnsuccessful();
         }
     };
@@ -122,7 +127,9 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         @Override
         public void onApplianceFound(Appliance appliance) {
             //TODO remove cppID from networkNode and replace it with wifiPortProperties.cppID once the api will be finalized within commlib
+            ewsLogger.d("****************** KUNAL **********", "DiscoveryHelper.DiscoveryCallback discoveryCallback onApplianceFound");
             if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(applianceSessionDetailsInfo.getCppId())) {
+                ewsLogger.d("****************** KUNAL **********", "DiscoveryHelper.DiscoveryCallback discoveryCallback onApplianceFound if");
                 String appliancePin = applianceSessionDetailsInfo.getAppliancePin();
                 removeTimeoutRunnable();
                 discoveryHelper.stopDiscovery();
@@ -136,14 +143,23 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive");
             if (!isInitialStickyBroadcast()) {
+                ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive 1st if");
                 final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
                 if (netInfo.getState() == NetworkInfo.State.CONNECTED) {
+                    ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive 2nd if");
                     int currentWifiState = wiFiUtil.getCurrentWifiState();
                     if (currentWifiState == WiFiUtil.HOME_WIFI) {
+                        ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive 3rd if");
                         unregisterBroadcastReceiver();
                         discoveryHelper.startDiscovery(discoveryCallback, ewsLogger);
+                    } else if (currentWifiState == WiFiUtil.DEVICE_HOTSPOT_WIFI) {
+                        ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive 4th if");
+                        unregisterBroadcastReceiver();
+                        showConnectionUnsuccessful();
                     } else if (currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
+                        ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive else if");
                         unregisterBroadcastReceiver();
                         handleFailureWrongWifiNetwork();
                     }
@@ -186,19 +202,24 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     }
 
     void startConnecting(@NonNull final StartConnectionModel startConnectionModel, boolean fromWrongWifiScreen) {
+        ewsLogger.d("****************** KUNAL **********", "startConnecting");
         this.startConnectionModel = startConnectionModel;
         this.title = new ObservableField<>(getTitle(baseContentConfiguration));
         tagConnectionStart();
         if (!fromWrongWifiScreen) {
+            ewsLogger.d("****************** KUNAL **********", "startConnecting if");
             deviceFriendlyNameChanger.setNameChangerCallback(this);
             deviceFriendlyNameChanger.changeFriendlyName(startConnectionModel.getDeviceFriendlyName());
             handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
         } else {
+            ewsLogger.d("****************** KUNAL **********", "startConnecting else");
+            wiFiUtil.forgetHotSpotNetwork(wiFiUtil.DEVICE_SSID);
             connectToHomeWifi(startConnectionModel.getHomeWiFiSSID());
         }
     }
 
     void connectToHomeWifi(@NonNull String homeWiFiSSID) {
+        ewsLogger.d("****************** KUNAL **********", "connectToHomeWifi");
         connectToHomeWifiInternal(homeWiFiSSID);
         handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
     }
@@ -262,6 +283,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     }
 
     private void sendNetworkInfoToDevice(@NonNull final StartConnectionModel startConnectionModel) {
+        ewsLogger.d("****************** KUNAL **********", "sendNetworkInfoToDevice");
         applianceAccessManager.connectApplianceToHomeWiFiEvent(
                 startConnectionModel.getHomeWiFiSSID(),
                 startConnectionModel.getHomeWiFiPassword(),
@@ -270,6 +292,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
 
     @Override
     public void onFriendlyNameChangingSuccess() {
+        ewsLogger.d("****************** KUNAL **********", "onFriendlyNameChangingSuccess");
         if (startConnectionModel != null) {
             sendNetworkInfoToDevice(startConnectionModel);
         } else {
@@ -279,6 +302,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
 
     @Override
     public void onFriendlyNameChangingFailed() {
+        ewsLogger.d("****************** KUNAL **********", "onFriendlyNameChangingFailed");
         showConnectionUnsuccessful();
     }
 

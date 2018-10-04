@@ -59,7 +59,7 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
 
     @Nullable
     public String getHomeWiFiSSID() {
-        return wiFiUtil.getSelectedHomeWiFiSSID();
+        return wiFiUtil.getHomeWiFiSSD();
     }
 
     @SuppressWarnings("UnusedParameters")

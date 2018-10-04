@@ -49,13 +49,17 @@ public class WiFiUtil {
         return lastWifiSSid;
     }
 
-    public String getSelectedHomeWiFiSSID() {
+    public void setHomeWiFiSSID(@NonNull final String selectedHomeWiFiSSID) {
+        lastWifiSSid = selectedHomeWiFiSSID;
+    }
+
+    /*public String getSelectedHomeWiFiSSID() {
         return selectedHomeWiFiSSID;
     }
 
     public void setSelectedHomeWiFiSSID(@NonNull final String selectedHomeWiFiSSID) {
         this.selectedHomeWiFiSSID = selectedHomeWiFiSSID;
-    }
+    }*/
 
     public String getConnectedWiFiSSID() {
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();

@@ -62,7 +62,7 @@ public class ConnectionSuccessfulViewModel {
 
     @Nullable
     public String getHomeWiFiSSID() {
-        return wiFiUtil.getSelectedHomeWiFiSSID();
+        return wiFiUtil.getHomeWiFiSSD();
     }
 
     public void trackPageName() {

@@ -114,7 +114,7 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
     }*/
 
     public void onNextButtonClicked() {
-        wiFiUtil.setSelectedHomeWiFiSSID(selectedSSID);
+        wiFiUtil.setHomeWiFiSSID(selectedSSID);
         navigator.navigateToConnectToDeviceWithPasswordScreen("");
         //showNextScreen(new EWSWiFiConnectFragment());
     }
