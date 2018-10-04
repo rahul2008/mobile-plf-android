@@ -38,13 +38,14 @@
       "fileName":"AppInfraLog",
       "numberOfFiles":5,
       "fileSizeInBytes":50000,
-      "logLevel":"Off",
-      "fileLogEnabled":false,
-      "consoleLogEnabled":false,
-      "cloudLogEnabled":false,
+      "logLevel":"All",
+      "fileLogEnabled":true,
+      "consoleLogEnabled":true,
+      "cloudLogEnabled":true,
       "cloudBatchLimit":5,
       "componentLevelLogEnabled":false,
       "componentIds": [
+        "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"
       ]
     },
     "logging.debugConfig":{
