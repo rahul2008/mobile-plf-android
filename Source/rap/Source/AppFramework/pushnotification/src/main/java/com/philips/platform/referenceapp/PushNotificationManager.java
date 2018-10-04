@@ -147,10 +147,10 @@ public class PushNotificationManager {
      *
      * @return
      */
-    public boolean isTokenRegistered(SecureStorageInterface.SecureStorageError secureStorageError) {
+    private boolean isTokenRegistered(SecureStorageInterface.SecureStorageError secureStorageError) {
         SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
         String value = secureStorageInterface.fetchValueForKey(PushNotificationConstants.IS_TOKEN_REGISTERED, secureStorageError);
-        return Boolean.parseBoolean(value);
+        return !TextUtils.isEmpty(value) && secureStorageError.getErrorCode() == null && Boolean.parseBoolean(value);
     }
 
     /**
@@ -257,6 +257,9 @@ public class PushNotificationManager {
         SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
         String value = secureStorageInterface.fetchValueForKey(PushNotificationConstants.GCM_TOKEN, secureStorageError);
         PNLog.d(TAG, "GCM token:" + value);
+        if (TextUtils.isEmpty(value) || secureStorageError.getErrorCode() != null)
+            return null;
+
         return value;
     }
 
