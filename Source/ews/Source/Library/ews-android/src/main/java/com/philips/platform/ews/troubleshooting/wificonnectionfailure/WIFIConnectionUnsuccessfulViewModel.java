@@ -59,7 +59,7 @@ public class WIFIConnectionUnsuccessfulViewModel {
     }
 
     public void onTryAgainClicked() {
-        //navigator.navigateToHomeNetworkConfirmationScreen();
+        navigator.navigateToConnectingPhoneToHotspotWifiScreen();
     }
 
     void trackPageName() {
