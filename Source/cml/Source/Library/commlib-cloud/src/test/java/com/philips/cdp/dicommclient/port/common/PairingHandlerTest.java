@@ -23,6 +23,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import static com.philips.cdp.dicommclient.port.common.PairingHandler.PAIRING_DATA_ACCESS_RELATIONSHIP;
 import static com.philips.cdp.dicommclient.port.common.PairingHandler.RELATION_STATUS_COMPLETED;
 import static com.philips.cdp.dicommclient.port.common.PairingHandler.RELATION_STATUS_FAILED;
 import static java.lang.Long.parseLong;
@@ -409,10 +410,31 @@ public class PairingHandlerTest {
         verify(pairingListenerMock).onPairingFailed(applianceMock);
     }
 
+    @Test
+    public void whenDataAccessRelationshipRemovalRequestReturnsFailureDueToNetworkNotBeingAvailableThenFailureIsNotifiedOnPairingCallback() {
+        pairingHandler.initializeRelationshipRemoval();
+
+        pairingHandler.currentRelationshipType = PAIRING_DATA_ACCESS_RELATIONSHIP;
+        pairingHandler.mPairingCallback.onRelationshipRemove(Errors.NETWORK_NOT_AVAILABLE);
+
+        verify(pairingListenerMock).onPairingFailed(applianceMock);
+    }
+
+    @Test
+    public void whenDataAccessRelationshipRemovalRequestReturnsSuccessThenSuccessIsNotifiedOnPairingCallback() {
+        pairingHandler.initializeRelationshipRemoval();
+
+        pairingHandler.currentRelationshipType = PAIRING_DATA_ACCESS_RELATIONSHIP;
+        pairingHandler.mPairingCallback.onRelationshipRemove(Errors.SUCCESS);
+
+        verify(pairingListenerMock).onPairingSuccess(applianceMock);
+    }
+
     class PairingHandlerForTest extends PairingHandler<Appliance> {
 
         PairingHandlerForTest(Appliance appliance, PairingListener<Appliance> pairingListener) {
             super(appliance, pairingListener, cloudControllerMock);
         }
+
     }
 }

@@ -45,7 +45,8 @@ public class PairingHandler<T extends Appliance> {
 
     private CloudController cloudController;
 
-    private String currentRelationshipType;
+    @VisibleForTesting
+    String currentRelationshipType;
     private PairingListener<T> pairingListener;
     private String secretKey;
 
