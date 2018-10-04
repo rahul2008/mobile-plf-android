@@ -79,13 +79,7 @@ public class ResendVerificationEmailTest {
         resendVerificationEmail.onFailure(captureApiError);
         //verify(mResendVerificationEmail).onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
     }
-
-    @Test
-    public void testResendVerificationMail_WhenJanrainNotIntialized() {
-        UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
-        resendVerificationEmail.resendVerificationMail("xyz@gmail.com");
-        verify(jumpFlowDownloadStatusListener).onFlowDownloadFailure();
-    }
+    
 
     @Test(expected = NullPointerException.class)
     public void testResendVerificationMail_WhenJanrainIntialized() {
