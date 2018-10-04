@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.cloudcontroller.api.CloudController;
+import com.philips.cdp.cloudcontroller.api.Errors;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingEntity;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingRelation;
@@ -18,7 +19,6 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.icpinterface.data.Errors;
 
 import java.security.SecureRandom;
 import java.util.Collection;
