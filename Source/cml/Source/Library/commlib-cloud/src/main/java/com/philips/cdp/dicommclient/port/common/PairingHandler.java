@@ -200,6 +200,10 @@ public class PairingHandler<T extends Appliance> {
 
     private void handleRelationshipRemove(int status) {
         DICommLog.i(DICommLog.PAIRING, "Handle RemoveRelation");
+        if (status != Errors.SUCCESS) {
+            notifyFailure();
+            return;
+        }
 
         if (PAIRING_DI_COMM_RELATIONSHIP.equalsIgnoreCase(currentRelationshipType)) {
             switch (entityState) {
@@ -250,12 +254,9 @@ public class PairingHandler<T extends Appliance> {
         else if (PAIRING_DATA_ACCESS_RELATIONSHIP.equalsIgnoreCase(currentRelationshipType)) {
             switch (entityState) {
                 case PURIFIER:
-                    DICommLog.i(DICommLog.PAIRING, String.format("DATA_ACCESS Relationship was removed with status [%d]", status));
-                    if (status == Errors.SUCCESS) {
-                        notifyListenerSuccess();
-                    } else {
-                        notifyFailure();
-                    }
+                    DICommLog.i(DICommLog.PAIRING, "DATA_ACCESS Relationship removed successfully - Pairing removed successfully");
+                    notifyListenerSuccess();
+
                     break;
                 case APP:
                 case DATA_ACCESS:
