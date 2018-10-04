@@ -324,12 +324,12 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
     public void updateErrorNotification(String errorMessage, int errorCode) {
         RLog.d(TAG, "errorMessage = " + errorMessage + "errorCode" + errorCode);
-        getNotification().showNotification(new NotificationMessage(errorMessage, errorCode));
+        getNotification().showNotification(new NotificationMessage(errorMessage, errorCode), false);
     }
 
     public void updateErrorNotification(String errorMessage) {
         RLog.d(TAG, "errorMessage = " + errorMessage);
-        getNotification().showNotification(new NotificationMessage(errorMessage));
+        getNotification().showNotification(new NotificationMessage(errorMessage),false);
 
 
     }
@@ -338,7 +338,7 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
 
         new Handler().postDelayed(() -> {
             getNotification().showNotification(
-                    new NotificationMessage(mContext.getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.USR_Network_ErrorMsg)));
+                    new NotificationMessage(mContext.getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.USR_Network_ErrorMsg)), true);
         }, 100);
     }
 

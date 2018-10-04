@@ -4,12 +4,14 @@ import android.app.Activity;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.errors.NotificationMessage;
+import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class URNotification {
+public class URNotification implements EventListener {
 
     private static final String TAG = "URNotification";
 
@@ -17,6 +19,12 @@ public class URNotification {
     private NotificationType mNotificationType = NotificationType.NOTIFICATION_BAR;
     private NotificationBarView notificationBarView;
     private URNotificationInterface notificationInterface;
+
+    @Override
+    public void onEventReceived(String event) {
+        hideNotification();
+    }
+
 
     public interface URNotificationInterface {
         void notificationInlineMsg(String msg);
@@ -49,9 +57,10 @@ public class URNotification {
         RLog.d(TAG, "URNotification");
         this.mActivity = mActivity;
         this.notificationInterface = notificationInterface;
+        //EventHelper.getInstance().registerEventNotification("A", this);
     }
 
-    public void showNotification(NotificationMessage notificationMessage) {
+    public void showNotification(NotificationMessage notificationMessage, boolean isNetworkError) {
 
         if (INLINE_ERROR_CODE.contains(notificationMessage.getErrorCode()))
             mNotificationType = NotificationType.INLINE;
@@ -70,8 +79,11 @@ public class URNotification {
 
             case NOTIFICATION_BAR:
                 RLog.d(TAG, "URNotification : NOTIFICATION_BAR : showError");
-                if (!notificationBarView.isNotificationBarViewShowing())
+                if (!notificationBarView.isNotificationBarViewShowing()) {
+                    if (!isNetworkError)
+                        EventHelper.getInstance().registerEventNotification("A", this);
                     notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));
+                }
                 break;
         }
     }
@@ -79,10 +91,11 @@ public class URNotification {
     public void hideNotification() {
         switch (mNotificationType) {
             case NOTIFICATION_BAR:
-                if (notificationBarView != null && notificationBarView.isNotificationBarViewShowing()) {
+                if (notificationBarView != null) {
                     notificationBarView.hidePopup();
                     RLog.d(TAG, "URNotification : hideNotification");
                     notificationBarView = null;
+                    EventHelper.getInstance().unregisterEventNotification("A", this);
 
                 }
         }

@@ -476,7 +476,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                 }
             });
             notification.showNotification(
-                    new NotificationMessage(mContext.getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.USR_Network_ErrorMsg)));
+                    new NotificationMessage(mContext.getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.USR_Network_ErrorMsg)),true);
         }, 100);
     }
 
