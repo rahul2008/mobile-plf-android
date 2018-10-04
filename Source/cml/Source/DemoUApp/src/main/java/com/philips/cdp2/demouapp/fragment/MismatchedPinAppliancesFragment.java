@@ -62,6 +62,6 @@ public class MismatchedPinAppliancesFragment extends Fragment {
 
     public void refresh() {
         applianceAdapter.clear();
-        applianceAdapter.addAll(findAppliancesWithMismatchedPinIn(commCentral.getApplianceManager().getAvailableAppliances()));
+        applianceAdapter.addAll(findAppliancesWithMismatchedPinIn(commCentral.getApplianceManager().getAppliances()));
     }
 }

@@ -22,7 +22,9 @@ public class PRLaunchInput extends UappLaunchInput {
     @IdRes
     int backgroundImageResourceId;
 
-    boolean showExtendWarrntyNothanksButton;
+    boolean showExtendWarrantyNothanksButton;
+
+    String mandatoryRegisterButtonText;
 
     /**
      *
@@ -90,10 +92,20 @@ public class PRLaunchInput extends UappLaunchInput {
     }
 
     public boolean getMandatoryProductRegistration() {
-        return showExtendWarrntyNothanksButton;
+        return showExtendWarrantyNothanksButton;
     }
 
     public void setMandatoryProductRegistration(boolean showExtendWarrntyNothanksButton) {
-        this.showExtendWarrntyNothanksButton = showExtendWarrntyNothanksButton;
+        this.showExtendWarrantyNothanksButton = showExtendWarrntyNothanksButton;
     }
+
+    public String getMandatoryRegisterButtonText() {
+        return mandatoryRegisterButtonText;
+    }
+
+    public void setMandatoryRegisterButtonText(String mandatoryRegisterButtonText) {
+        this.mandatoryRegisterButtonText = mandatoryRegisterButtonText;
+    }
+
+
 }

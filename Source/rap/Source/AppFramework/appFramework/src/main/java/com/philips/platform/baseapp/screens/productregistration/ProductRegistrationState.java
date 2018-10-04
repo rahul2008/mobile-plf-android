@@ -136,9 +136,11 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
         RALog.d(TAG,"isCountryIndia "+isCountryIndia);
 
         if (isCountryIndia) {
-            prodRegLaunchInput.setMandatoryProductRegistration(false);
-        } else{
             prodRegLaunchInput.setMandatoryProductRegistration(true);
+        } else{
+            prodRegLaunchInput.setMandatoryProductRegistration(false);
+            prodRegLaunchInput.setMandatoryRegisterButtonText("sample text");
+
 
         }
         new PRInterface().launch(fragmentLauncher,prodRegLaunchInput);
