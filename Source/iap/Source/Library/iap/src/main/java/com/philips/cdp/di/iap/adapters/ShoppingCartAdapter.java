@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -332,11 +333,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (visibility) {
             shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.VISIBLE);
+            shoppingCartFooter.summary_delivery_container.setVisibility(View.VISIBLE);
         }
         else
         {
             shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
+            shoppingCartFooter.summary_delivery_container.setVisibility(View.GONE);
         }
     }
 
@@ -391,6 +394,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mDeliveryTitle;
         LinearLayout mPriceContainer;
         RelativeLayout mDeliveryUPSParcelContainer;
+        GridLayout summary_delivery_container;
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -406,6 +410,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mDeliveryTitle = itemView.findViewById(R.id.delivery_ups_title);
             mPriceContainer = itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = itemView.findViewById(R.id.delivery_ups_parcel_container);
+            summary_delivery_container= itemView.findViewById(R.id.summary_delivery_container);
         }
     }
 
