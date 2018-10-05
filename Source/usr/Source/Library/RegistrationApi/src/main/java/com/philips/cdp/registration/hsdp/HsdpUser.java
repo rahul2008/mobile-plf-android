@@ -303,7 +303,7 @@ public class HsdpUser {
         try {
             mContext.deleteFile(HSDP_RECORD_FILE);
             Jump.getSecureStorageInterface().storeValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD,
-                    new String(parcelString), new SecureStorageInterface.SecureStorageError());
+                    parcelString, new SecureStorageInterface.SecureStorageError());
             userFileWriteListener.onFileWriteSuccess();
         } catch (Exception e) {
             userFileWriteListener.onFileWriteFailure();
@@ -395,9 +395,10 @@ public class HsdpUser {
 
 
     public void login(final String email, final String accessToken,
-                      final String refreshSecret, final LoginHandler loginHandler) {
+                      final LoginHandler loginHandler) {
 
-        RLog.d(TAG, "HSDP login");
+        RLog.d(TAG,
+                "HSDP login");
         if (networkUtility.isNetworkAvailable()) {
             final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
@@ -406,7 +407,7 @@ public class HsdpUser {
                             new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
                     final DhpAuthenticationResponse dhpAuthenticationResponse1 =
                             authenticationManagementClient.loginSocialProviders(email,
-                                    accessToken, refreshSecret);
+                                    accessToken, Jump.getRefreshSecret());
 
                     if (dhpAuthenticationResponse1 == null) {
                         handler.post(() -> handleSocialNetworkFailure(loginHandler));
@@ -419,12 +420,12 @@ public class HsdpUser {
 
                         final HsdpUserRecordV2 hsdpUserRecordV2 = new HsdpUserRecordV2();
                         hsdpUserRecordV2.parseHsdpUserInfo(rawResponse);
-                        hsdpUserRecordV2.setRefreshSecret(refreshSecret);
+                        hsdpUserRecordV2.setRefreshSecret(Jump.getRefreshSecret());
                         HsdpUserInstance.getInstance().setHsdpUserRecordV2(hsdpUserRecordV2);
                         saveToDisk(new UserFileWriteListener() {
                             @Override
                             public void onFileWriteSuccess() {
-                                if (loggingInterface != null && hsdpUserRecordV2 != null) {
+                                if (loggingInterface != null) {
                                     loggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
                                 }
                                 handler.post(() -> {

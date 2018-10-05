@@ -19,13 +19,14 @@ public class HSDPLoginService {
     private static final String TAG = "HSDPLoginService";
     private Context mContext;
     private User mUser;
-
+    HsdpUser hsdpUser;
     public HSDPLoginService(Context mContext) {
         this.mContext = mContext;
         this.mUser = new User(mContext);
+         hsdpUser = new HsdpUser(mContext);
     }
 
-    public String getUserEmailOrMobile(User user) {
+    String getUserEmailOrMobile(User user) {
         String emailorMobile;
         if (FieldsValidator.isValidEmail(user.getEmail())) {
             emailorMobile = user.getEmail();
@@ -36,9 +37,8 @@ public class HSDPLoginService {
     }
 
     public void hsdpLogin(String accessToken, String emailOrMobile, HSDPAuthenticationListener hsdpAuthenticationListener) {
-        HsdpUser hsdpUser = new HsdpUser(mContext);
-        hsdpUser.login(emailOrMobile, accessToken, Jump.getRefreshSecret(), new LoginHandler() {
 
+        hsdpUser.login(emailOrMobile, accessToken,  new LoginHandler() {
 
             @Override
             public void onLoginSuccess() {
@@ -62,7 +62,7 @@ public class HSDPLoginService {
     void hsdpLogin(String accessToken, String emailOrMobile, LoginHandler loginHandler) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         RLog.d(TAG, "hsdpLogin : with SocialLoginProviderHandler");
-        hsdpUser.login(emailOrMobile, accessToken, Jump.getRefreshSecret(), new LoginHandler() {
+        hsdpUser.login(emailOrMobile, accessToken,  new LoginHandler() {
 
 
             @Override

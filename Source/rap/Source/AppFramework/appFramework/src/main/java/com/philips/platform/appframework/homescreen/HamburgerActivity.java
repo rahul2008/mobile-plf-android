@@ -23,6 +23,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -84,14 +85,14 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private String[] hamburgerMenuTitles;
     private LinearLayout navigationView;
     private Toolbar toolbar;
-    private int selectedIndex=0;
+    private int selectedIndex = 0;
 
     private SharedPreferenceUtility sharedPreferenceUtility;
     private boolean isBackButtonVisible = false;
     Handler handler = new Handler();
     private SideBar sideBar;
     private ActionBarDrawerToggle drawerToggle;
-    private int START_THEME_SELECTOR=101;
+    private int START_THEME_SELECTOR = 101;
 
     private URLogoutInterface urLogoutInterface;
 
@@ -122,6 +123,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
+     *
      * @param savedInstanceState
      */
     @Override
@@ -131,17 +133,17 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
-        RALog.d(TAG,"App initialization status:"+AppFrameworkApplication.isAppDataInitialized());
-        if(!(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized())){
+        RALog.d(TAG, "App initialization status:" + AppFrameworkApplication.isAppDataInitialized());
+        if (!(savedInstanceState != null && !AppFrameworkApplication.isAppDataInitialized())) {
             presenter = getActivityPresenter();
             sharedPreferenceUtility = new SharedPreferenceUtility(this);
             setContentView(R.layout.af_uikit_hamburger_menu);
             ButterKnife.bind(this);
             initializeActivityContents();
-            SharedPreferenceUtility sharedPreferenceUtility =  new SharedPreferenceUtility(getFragmentActivity().getApplicationContext());
+            SharedPreferenceUtility sharedPreferenceUtility = new SharedPreferenceUtility(getFragmentActivity().getApplicationContext());
             boolean isTHSDeeplinkingFlow = sharedPreferenceUtility.getPreferenceBoolean(Constants.THS_DEEP_LINK_FLOW);
-            if(isTHSDeeplinkingFlow) {
-                sharedPreferenceUtility.writePreferenceBoolean(Constants.THS_DEEP_LINK_FLOW,false);
+            if (isTHSDeeplinkingFlow) {
+                sharedPreferenceUtility.writePreferenceBoolean(Constants.THS_DEEP_LINK_FLOW, false);
                 presenter.onEvent(Constants.THS_DEEP_LINKING_EVENT_ID); // THS deep linking flow
             }
             registerClickStreamStatusChanges();
@@ -172,7 +174,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.catalog_view_menu, menu);
 
-        RelativeLayout badgeLayout = (RelativeLayout)    menu.findItem(R.id.badge).getActionView();
+        RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.badge).getActionView();
         cartCount = badgeLayout.findViewById(R.id.item_count);
         shoppingCartLayout = badgeLayout.findViewById(R.id.cart_container);
         cartIcon = badgeLayout.findViewById(R.id.cart_icon);
@@ -194,6 +196,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     protected AbstractUIBasePresenter getActivityPresenter() {
         return new HamburgerActivityPresenter(this);
     }
+
     protected void initializeActivityContents() {
         initViews();
 
@@ -233,16 +236,18 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     @Override
     public void onMenuItemClicked(int position) {
-        if(position==selectedIndex){
+        if (position == selectedIndex) {
             sideBar.closeDrawer(navigationView);
             return;
         }
-        selectedIndex=position;
-        sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
+        selectedIndex = position;
+        sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED, position);
         showNavigationDrawerItem(position);
     }
+
     /**
      * To show navigation Drawer
+     *
      * @param position : Pass the position of hamburger item to be shown
      */
     private void showNavigationDrawerItem(int position) {
@@ -279,14 +284,15 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         } else {
             AppIdentityInterface.AppState appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
             avatarName.setText(user.getGivenName());
-            if(!appState.name().equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.name()))
-            envInfo.setText(appState.name());
+            if (!appState.name().equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.name()))
+                envInfo.setText(appState.name());
 
         }
     }
 
-    private void initSidebarComponents(){
+    private void initSidebarComponents() {
         sideBar = (SideBar) findViewById(R.id.sidebar_layout);
+        RALog.d(TAG, "initSidebarComponents : drawer");
         drawerToggle = configureDrawer();
         drawerToggle.setDrawerIndicatorEnabled(false);
     }
@@ -300,14 +306,13 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     protected ActionBarDrawerToggle configureDrawer() {
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, sideBar,
                 R.string.af_app_name, R.string.af_app_name) {
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                super.onDrawerStateChanged(newState);
+                setUserNameAndLogoutText();
             }
         };
+        sideBar.addDrawerListener(drawerToggle);
         return drawerToggle;
     }
 
@@ -315,11 +320,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     public void onBackPressed() {
         RALog.d(TAG, " on Back Pressed  ");
-        if(sideBar.isDrawerOpen(navigationView))
-        {
+        if (sideBar.isDrawerOpen(navigationView)) {
             sideBar.closeDrawer(navigationView);
-        }
-        else {
+        } else {
             FragmentManager fragmentManager = getSupportFragmentManager();
             Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
             boolean backState = false;
@@ -370,20 +373,18 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     }
 
     protected void removeListeners() {
-        if(hamburgerMenuAdapter!=null) {
+        if (hamburgerMenuAdapter != null) {
             hamburgerMenuAdapter.removeMenuItemClickListener();
         }
-        if(urLogoutInterface!=null) {
+        if (urLogoutInterface != null) {
             urLogoutInterface.removeListener();
         }
     }
 
 
-
-
-
     /**
      * For Updating the actionbar title as coming from other components
+     *
      * @param i String res ID
      * @param b Whether handleBack is handled by them or not
      */
@@ -395,6 +396,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     /**
      * For Updating the actionbar title as coming from other components
+     *
      * @param s String to be updated on actionbar title
      * @param b Whether handleBack is handled by them or not
      */
@@ -420,16 +422,15 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         cartIconVisibility(0);
     }
 
-    public boolean isIAPInstance(){
-        if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+    public boolean isIAPInstance() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
             String str = backEntry.getName();
-            if(null != str){
+            if (null != str) {
                 Fragment fragment = getSupportFragmentManager().findFragmentByTag(str);
-                if(fragment instanceof InAppBaseFragment){
+                if (fragment instanceof InAppBaseFragment) {
                     return true;
-                }
-                else {
+                } else {
                     return false;
                 }
             }
@@ -463,7 +464,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 cartCount.setVisibility(View.GONE);
                 shoppingCartLayout.setVisibility(View.GONE);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -520,14 +521,14 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     public void updateSelectionIndex(final int position) {
         RALog.d(TAG, " setting selection index to 0  hamburger menu ");
 
-        if(handler!=null)
+        if (handler != null)
             handler.post(new Runnable() {
-            @Override
-            public void run() {
-                hamburgerMenuAdapter.setSelectedPosition(position);
-                selectedIndex=position;
-            }
-        });
+                @Override
+                public void run() {
+                    hamburgerMenuAdapter.setSelectedPosition(position);
+                    selectedIndex = position;
+                }
+            });
     }
 
     @Override
@@ -542,7 +543,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 break;
 
             case R.id.menu_theme_settings:
-                Intent intent=new Intent(this,ThemeSelectionActivity.class);
+                Intent intent = new Intent(this, ThemeSelectionActivity.class);
                 startActivityForResult(intent, START_THEME_SELECTOR);
                 break;
         }
@@ -552,16 +553,16 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == Activity.RESULT_OK && requestCode ==START_THEME_SELECTOR) {
+        if (resultCode == Activity.RESULT_OK && requestCode == START_THEME_SELECTOR) {
             Bundle extras = data.getExtras();
             if (extras != null) {
                 colorRange = (ColorRange) data.getSerializableExtra("CLR");
-                navigationColor=(NavigationColor) data.getSerializableExtra("NR");
-                contentColor=(ContentColor) data.getSerializableExtra("CR");
-                accentColorRange=(AccentRange) data.getSerializableExtra("AR");
+                navigationColor = (NavigationColor) data.getSerializableExtra("NR");
+                contentColor = (ContentColor) data.getSerializableExtra("CR");
+                accentColorRange = (AccentRange) data.getSerializableExtra("AR");
             }
             restartActivity();
-            }
+        }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -572,11 +573,11 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         switch (view.getId()) {
             case R.id.hamburger_menu_header_container:
                 if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
-                    selectedIndex=Constants.HAMBURGER_MY_ACCOUNT_CLICK;
+                    selectedIndex = Constants.HAMBURGER_MY_ACCOUNT_CLICK;
                     hamburgerMenuAdapter.setSelectedPosition(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                     presenter.onEvent(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
-                }else {
-                    selectedIndex=Constants.LOGIN_BUTTON_CLICK_CONSTANT;
+                } else {
+                    selectedIndex = Constants.LOGIN_BUTTON_CLICK_CONSTANT;
                     hamburgerMenuAdapter.setSelectedPosition(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
                     presenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
                 }
@@ -609,10 +610,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         hideProgressBar();
     }
 
-    private void restartActivity()
-    {
-        Intent intent = new Intent(this,HamburgerActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(THEMESETTINGS_ACTIVITY_RESTART,true);
+    private void restartActivity() {
+        Intent intent = new Intent(this, HamburgerActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(THEMESETTINGS_ACTIVITY_RESTART, true);
         startActivity(intent);
     }
 }

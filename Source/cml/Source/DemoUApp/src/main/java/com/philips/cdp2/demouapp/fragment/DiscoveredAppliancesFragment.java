@@ -143,7 +143,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
     private void onAppliancesChanged() {
         applianceAdapter.clear();
 
-        final Set<Appliance> appliances = commCentral.getApplianceManager().getAvailableAppliances();
+        final Set<Appliance> appliances = commCentral.getApplianceManager().getAppliances();
         Collections.sort(new ArrayList<>(appliances), new Comparator<Appliance>() {
             @Override
             public int compare(Appliance o1, Appliance o2) {
@@ -282,7 +282,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
         commCentral.getApplianceManager().addApplianceListener(applianceListener);
 
         applianceAdapter.clear();
-        applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
+        applianceAdapter.addAll(commCentral.getApplianceManager().getAppliances());
 
         appIdProvider.addAppIdListener(appIdListener);
         updateAppId();
