@@ -23,6 +23,7 @@ import com.philips.cdp2.demouapp.CommlibUapp;
 import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_success;
+import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_success;
 import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
@@ -116,7 +117,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showIndefiniteMessage(rootview, getString(cml_pair_failed));
+                    showIndefiniteMessage(rootview, getString(cml_unpair_failed));
                 }
             }
         }, getCloudController());
