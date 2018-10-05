@@ -14,7 +14,6 @@ import android.util.Base64OutputStream;
 
 import com.janrain.android.Jump;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.securekey.SKey;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
