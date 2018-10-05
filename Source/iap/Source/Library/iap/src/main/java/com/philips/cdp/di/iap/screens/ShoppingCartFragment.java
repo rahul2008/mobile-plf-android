@@ -107,6 +107,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
+        mAddressController.getDeliveryModes();
+        hideProgressBar();
         return rootView;
     }
 
@@ -121,6 +123,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (isNetworkConnected()) {
             updateCartDetails(mShoppingCartAPI);
         }
+        hideProgressBar();
     }
 
     @Override
@@ -133,7 +136,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     private void updateCartDetails(ShoppingCartAPI presenter) {
-        createCustomProgressBar(mParentLayout,BIG);
+        //createCustomProgressBar(mParentLayout,BIG);
         presenter.getCurrentCartDetails();
     }
 
@@ -190,7 +193,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onEventReceived(final String event) {
         hideProgressBar();
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG,true);
+            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG, true);
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.valueOf(event));
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
@@ -206,16 +209,15 @@ public class ShoppingCartFragment extends InAppBaseFragment
             mShoppingCartAPI.updateProductQuantity(mData.get(mAdapter.getSelectedItemPosition()),
                     mAdapter.getNewCount(), mAdapter.getQuantityStatusInfo());
 
-        } /*else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
+        }/* else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
 
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    AddressSelectionFragment.TAG,true);
+                    AddressSelectionFragment.TAG, true);
         } else*/ if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
             Utility.showActionDialog(mContext, getString(R.string.iap_remove_product), getString(R.string.iap_cancel)
                     , getString(R.string.iap_delete_item_alert_title), getString(R.string.iap_product_remove_description), getFragmentManager(), this);
         }
     }
-
     void startProductDetailFragment(ShoppingCartAdapter mAdapter) {
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
@@ -332,11 +334,13 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onGetDeliveryModes(Message msg) {
+        hideProgressBar();
         if ((msg.obj instanceof IAPNetworkError)) {
             updateCartDetails(mShoppingCartAPI);
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+            mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             handleDeliveryMode(msg,mAddressController);
         }

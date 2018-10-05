@@ -224,6 +224,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
 
+                    shoppingCartFooter.mDeliveryVia.setText("Delivery via Standard Ground");
+                    shoppingCartFooter.mDeliveryTitle.setText("Delivery via Standard Ground");
+                    shoppingCartFooter.mDeliveryPrice.setText("$0.00");
+                    shoppingCartFooter.mDeliveryUpsVal.setText("$0.00");
+
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 

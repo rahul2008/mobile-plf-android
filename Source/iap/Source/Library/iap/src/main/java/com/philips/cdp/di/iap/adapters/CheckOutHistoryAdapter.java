@@ -186,6 +186,10 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                         shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
+                    shoppingCartFooter.mDeliveryVia.setText("Delivery via Standard Ground");
+                    shoppingCartFooter.mDeliveryTitle.setText("Delivery via Standard Ground");
+                    shoppingCartFooter.mDeliveryPrice.setText("$0.00");
+                    shoppingCartFooter.mDeliveryUpsVal.setText("$0.00");
 
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
