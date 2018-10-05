@@ -55,6 +55,7 @@
     <string name="label_ews_connecting_device_title">Establishing connection between %1$s and %2$s</string>
     <string name="label_ews_connecting_device_body">This might take a few seconds.</string>
     <string name="button_ews_connecting_device_cancel">Cancel</string>
+    <string name="menu_ews_refresh">Refresh</string>
     <!--EWS_04_01 Connection successful-->
     <string name="label_ews_succesful_title">Connection successful</string>
     <string name="label_ews_succesful_body">Your %1$s is now successfully connected to %2$s and paired with your phone.</string>

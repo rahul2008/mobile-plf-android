@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -58,8 +61,30 @@ public class SelectWiFiFragment extends BaseFragment implements SelectWiFiViewMo
         } catch (ClassCastException e) {}
 
         if (actionBarListener != null) {
-            actionBarListener.closeButton(false);
+            actionBarListener.closeButton(true);
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.select_wifi_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_refresh) {
+            viewModel.fetchWifiNodes();
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 
     @Nullable
@@ -111,7 +136,6 @@ public class SelectWiFiFragment extends BaseFragment implements SelectWiFiViewMo
     public boolean handleBackEvent() {
         return true;
     }
-
 
     @Override
     public void onStart() {
