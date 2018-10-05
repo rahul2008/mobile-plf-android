@@ -22,7 +22,7 @@ public class DemoNeuraState extends DemoBaseState {
         NeuraDemoUAppInterface uAppInterface = getNeuraDemoUAppInterface();
         AppFrameworkApplication applicationContext = (AppFrameworkApplication) context.getApplicationContext();
         uAppInterface.init(new NeuraDemouAppDependencies(applicationContext.getAppInfra()),new NeuraDemouAppSettings(applicationContext));
-        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+        uAppInterface.launch(new ActivityLauncher(context, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                 getDLSThemeConfiguration(applicationContext), 0, null), null);
     }
 

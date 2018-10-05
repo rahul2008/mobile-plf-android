@@ -121,7 +121,7 @@ public class RestManager implements RestInterface {
     }
 
     public static HashMap<String, String> setTokenProvider(TokenProviderInterface provider) {
-        final HashMap<String, String> header = new HashMap<String, String>();
+        final HashMap<String, String> header = new HashMap<>();
         final TokenProviderInterface.Token token = provider.getToken();
         String scheme = "";
         if (token.getTokenType() == TokenProviderInterface.TokenType.OAUTH2)
@@ -207,7 +207,7 @@ public class RestManager implements RestInterface {
             }
             return resultURL.toString();
         }
-
+/**/
     }
 
     class NetworkChangeReceiver extends BroadcastReceiver {

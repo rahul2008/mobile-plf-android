@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @PrepareForTest(Intent.class)
@@ -27,7 +28,7 @@ public class EWSFragmentStateTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-
+        when(context.getApplicationContext()).thenReturn(context);
         ContextProvider.setTestingContext(context);
         ewsState = new EWSFragmentMock();
         ewsState.init(context);

@@ -60,7 +60,7 @@ public class DemoUapp implements UappInterface {
     private void launchAsActivity(@NonNull final UappLaunchInput uappLaunchInput) {
         Intent intent = new Intent(context, EWSDemoUActivity.class);
         intent.putExtra(SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         context.startActivity(intent);
     }
 

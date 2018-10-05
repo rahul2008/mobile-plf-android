@@ -68,7 +68,6 @@ public class CommlibUapp implements UappInterface {
             }
 
             Intent intent = new Intent(context, CommlibUappActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
             throw new IllegalArgumentException("Unsupported UiLauncher provided");
