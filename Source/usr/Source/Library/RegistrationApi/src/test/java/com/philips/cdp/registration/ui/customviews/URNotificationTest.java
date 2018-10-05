@@ -8,6 +8,7 @@ import com.philips.cdp.registration.errors.NotificationMessage;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -33,14 +34,15 @@ public class URNotificationTest {
 
     }
 
-    @Test
-    public void test_showNotification() {
-        urNotification.showNotification(notificationMessage);
-    }
+//    @Test
+//    public void test_showNotification() {
+//        Mockito.when(notificationMessage.getErrorCode()).thenReturn(310);
+//        urNotification.showNotification(notificationMessage, false);
+//    }
 
     @Test
     public void test_hideNotification() {
-        urNotification.showNotification(notificationMessage);
+        urNotification.showNotification(notificationMessage, true);
         urNotification.hideNotification();
 
     }

@@ -12,6 +12,8 @@ import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.uid.utils.UIDUtils;
 
+import static com.philips.cdp.registration.ui.utils.RegConstants.NOTIFICATION;
+
 public class NotificationBarView {
 
     private static final String TAG = "NotificationBarView";
@@ -65,7 +67,7 @@ public class NotificationBarView {
         view.findViewById(R.id.uid_notification_icon).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_icon).setOnClickListener(v -> {
             //hidePopup();
-            EventHelper.getInstance().notifyEventOccurred("A");
+            EventHelper.getInstance().notifyEventOccurred(NOTIFICATION);
         });
         return view;
     }

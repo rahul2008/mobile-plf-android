@@ -7,9 +7,12 @@ import com.philips.cdp.registration.errors.NotificationMessage;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.philips.cdp.registration.ui.utils.RegConstants.NOTIFICATION;
 
 public class URNotification implements EventListener {
 
@@ -57,7 +60,6 @@ public class URNotification implements EventListener {
         RLog.d(TAG, "URNotification");
         this.mActivity = mActivity;
         this.notificationInterface = notificationInterface;
-        //EventHelper.getInstance().registerEventNotification("A", this);
     }
 
     public void showNotification(NotificationMessage notificationMessage, boolean isNetworkError) {
@@ -81,7 +83,7 @@ public class URNotification implements EventListener {
                 RLog.d(TAG, "URNotification : NOTIFICATION_BAR : showError");
                 if (!notificationBarView.isNotificationBarViewShowing()) {
                     if (!isNetworkError)
-                        EventHelper.getInstance().registerEventNotification("A", this);
+                        EventHelper.getInstance().registerEventNotification(NOTIFICATION, this);
                     notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));
                 }
                 break;
@@ -95,7 +97,7 @@ public class URNotification implements EventListener {
                     notificationBarView.hidePopup();
                     RLog.d(TAG, "URNotification : hideNotification");
                     notificationBarView = null;
-                    EventHelper.getInstance().unregisterEventNotification("A", this);
+                    EventHelper.getInstance().unregisterEventNotification(NOTIFICATION, this);
 
                 }
         }
