@@ -2,7 +2,7 @@
     <string name="app_name">EWSMicroApp</string>
     <string name="ews_title">WiFi setup</string>
     <string name="ews_app_name_default">name</string>
-    <string name="ews_device_name_default">device name</string>
+    <string name="ews_device_name_default">[device name]</string>
     <!--EWS_01_00 start -->
     <string name="label_ews_get_started_title">Connect to Wi-Fi</string>
     <string name="label_ews_get_started_body">Connect your %1$s to the Wi-Fi to enjoy this app and all its features.</string>
