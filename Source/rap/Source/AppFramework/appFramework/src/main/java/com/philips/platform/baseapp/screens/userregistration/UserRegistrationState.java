@@ -8,7 +8,6 @@ package com.philips.platform.baseapp.screens.userregistration;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -38,6 +37,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -243,7 +243,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 RALog.d(PushNotificationManager.TAG, "Push notification is enabled");
                 ((AppFrameworkApplication) activity.getApplicationContext()).getDataServiceState().registerForReceivingPayload();
                 ((AppFrameworkApplication) activity.getApplicationContext()).getDataServiceState().registerDSForRegisteringToken();
-                PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
+                PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext(), new SecureStorageInterface.SecureStorageError());
             }
         }
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();

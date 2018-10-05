@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -23,7 +23,7 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
         RALog.d(TAG,"Network changed occur");
         if(BaseAppUtil.isNetworkAvailable(context)){
             RALog.d(TAG,"Network available");
-            PushNotificationManager.getInstance().startPushNotificationRegistration(context);
+            PushNotificationManager.getInstance().startPushNotificationRegistration(context, new SecureStorageInterface.SecureStorageError());
             //Synchronize database when internet is available
             DataServicesManager.getInstance().synchronize();
         }

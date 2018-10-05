@@ -11,6 +11,7 @@ import android.content.Context;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -47,7 +48,7 @@ public class URLogout implements URLogoutInterface {
         }
 
         if (!BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext()) && BaseAppUtil.isAutoLogoutEnabled(activityContext.getApplicationContext())) {
-            getPushNotificationInstance().deregisterTokenWithBackend(activityContext.getApplicationContext(), new PushNotificationManager.DeregisterTokenListener() {
+            getPushNotificationInstance().deregisterTokenWithBackend(new PushNotificationManager.DeregisterTokenListener() {
                 @Override
                 public void onSuccess() {
                     RALog.d(TAG, " performLogout: BaseAppUtil.isDSPollingEnabled: False: deregisterTokenWithBackend: onSuccess");
@@ -59,7 +60,7 @@ public class URLogout implements URLogoutInterface {
                     RALog.d(TAG, " performLogout: BaseAppUtil.isDSPollingEnabled: False: deregisterTokenWithBackend: onError");
                     doLogout(activityContext, user);
                 }
-            });
+            }, new SecureStorageInterface.SecureStorageError());
         } else {
             RALog.d(TAG, "performLogout: doLogout Being called in BaseAppUtil polling enabled true");
             doLogout(activityContext, user);
@@ -114,7 +115,7 @@ public class URLogout implements URLogoutInterface {
             });
         } else {
             RALog.d(TAG, "stopDataSync: savingTokenRegState");
-            getPushNotificationInstance().saveTokenRegistrationState(activityContext.getApplicationContext(), false);
+            getPushNotificationInstance().saveTokenRegistrationState(new SecureStorageInterface.SecureStorageError(), false);
             RALog.d(TAG, "stopDataSync: deregisterDSForRegisteringToken");
             ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();
             RALog.d(TAG, "stopDataSync: deregisterForReceivingPayload");
