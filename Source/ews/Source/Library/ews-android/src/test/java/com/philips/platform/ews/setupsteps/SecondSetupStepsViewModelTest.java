@@ -112,7 +112,7 @@ public class SecondSetupStepsViewModelTest {
 
     @Test
     public void itShouldVerifyNoButtonText() throws Exception {
-        when(mockHappyFlowConfiguration.getSetUpVerifyScreenNoButton()).thenReturn(R.string.button_ews_verify_ready_no_default);
+        when(mockHappyFlowConfiguration.getSetUpVerifyScreenNoButton()).thenReturn(R.string.button_ews_select_wifi_having_issues);
         subject.getNoButton(mockHappyFlowConfiguration);
         verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpVerifyScreenNoButton());
     }
