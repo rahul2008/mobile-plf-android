@@ -75,8 +75,9 @@ public class HSDPLoginService {
             @Override
             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                 AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+
                 if (RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable())
-                    loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                    loginHandler.onLoginFailedWithError(userRegistrationFailureInfo); //this line is not called due to if condition fails. (so the progress bar is not stopped)
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 RLog.d(TAG, "onLoginFailedWithError : if : SocialLoginProviderHandler : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());
             }
