@@ -42,7 +42,7 @@ public class URNotificationTest {
 
     @Test
     public void test_hideNotification() {
-        urNotification.showNotification(notificationMessage, true);
+        urNotification.showNotification(notificationMessage);
         urNotification.hideNotification();
 
     }
