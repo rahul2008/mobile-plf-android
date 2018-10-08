@@ -6,6 +6,7 @@
 apply plugin: 'com.android.application'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -133,11 +134,11 @@ configurations.all {
 }
 
 dependencies {
-    implementation project(':productselection')
-    implementation project(':uid')
-    implementation project(':AppInfra')
-    implementation project(':prx')
-    implementation project(':uAppFwLib')
+    implementation project(strings.pse.projectName)
+    implementation project(strings.uid.projectName)
+    implementation project(strings.ail.projectName)
+    implementation project(strings.prx.projectName)
+    implementation project(strings.ufw.projectName)
 
     implementation deps.shamanland_fonticon
     implementation deps.support.appcompatv7

@@ -7,10 +7,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "commlib-ble"
+archivesBaseName = strings.cmlble.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -43,9 +44,9 @@ dependencies {
     compileOnly deps.support.annotations
 
     if (directdependencies) {
-        implementation project(':bluelib')
-        implementation project(':commlib-api')
-        implementation project(':AppInfra')
+        implementation project(strings.bll.projectName)
+        implementation project(strings.cmlapi.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.bluelib
         implementation philipsdeps.commlib_api

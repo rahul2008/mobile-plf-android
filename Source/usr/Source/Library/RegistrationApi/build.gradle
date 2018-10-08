@@ -7,12 +7,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
-archivesBaseName = "registrationApi"
+archivesBaseName = strings.usr.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -115,17 +116,17 @@ dependencies {
     implementation deps.volley
     implementation deps.wechat
     if (directdependencies) {
-        implementation project(':uid')
-        implementation project(':uAppFwLib')
-        implementation project(':jump')
-        implementation project(':hsdp')
-        implementation project(':pif')
-        implementation project(':AppInfra')
+        implementation project(strings.uid.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.jmp.projectName)
+        implementation project(strings.hsdp.projectName)
+        implementation project(strings.pif.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.uid
         implementation philipsdeps.uAppFwLib
-        implementation project(':jump')
-        implementation project(':hsdp')
+        implementation project(strings.jmp.projectName)
+        implementation project(strings.hsdp.projectName)
     }
     testImplementation deps.junit
     testImplementation deps.mockito

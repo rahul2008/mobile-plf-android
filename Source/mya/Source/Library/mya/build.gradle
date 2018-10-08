@@ -6,6 +6,7 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -19,7 +20,7 @@ buildscript {
     }
 }
 
-archivesBaseName = "mya"
+archivesBaseName = strings.mya.artifactName
 group = 'com.philips.cdp'
 
 android {
@@ -114,14 +115,14 @@ dependencies {
 
     // Philips components
     if (directdependencies) {
-        implementation project(':uikitLib')
-        implementation project(':uid')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
-        implementation project(':registrationApi')
-        implementation project(':csw')
-        implementation project(':catk')
-        implementation project(':pif')
+        implementation project(strings.uit.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.usr.projectName)
+        implementation project(strings.csw.projectName)
+        implementation project(strings.catk.projectName)
+        implementation project(strings.pif.projectName)
 
     } else {
         implementation philipsdeps.uikitLib

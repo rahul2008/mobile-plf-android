@@ -7,6 +7,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
@@ -20,7 +21,7 @@ buildscript {
     }
 }
 
-archivesBaseName = "catk"
+archivesBaseName = strings.catk.artifactName
 group = 'com.philips.cdp'
 
 android {
@@ -116,9 +117,9 @@ dependencies {
 
     // Philips Components
     if (directdependencies) {
-        implementation project(':registrationApi')
-        implementation project(':pif')
-        implementation project(':AppInfra')
+        implementation project(strings.usr.projectName)
+        implementation project(strings.pif.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation(philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'

@@ -6,109 +6,114 @@
 // //rootProject.setName 'opa-android'
 
 //Project definitions
-include ':AppInfra'
-include ':AppInfraUApp'
-include ':prx'
-include ':uikitLib'
-include ':uid'
-include ':IconFont'
-include ':registrationApi'
-include ':UserRegistrationUApp'
-include ':jump'
-include ':hsdp'
-include ':iap'
-include ':iapUApp'
+apply from: buildscript.sourceFile.parent + '/build-support/gradle/projectnames.gradle'
 
-include ':digitalCare'
-include ':digitalCareUApp'
-include ':productselection'
-include ':uAppFwLib'
-include ':uAppFwLibUApp'
-include ':product-registration-lib'
-include ':product-registration-libUApp'
-include ':dataServices'
-include ':dataServicesUApp'
-include ':devicepairingUApp'
-include ':referenceApp'
-include ':pushnotification'
-include ':themesettings'
-include ':cloudcontroller-api'
-include ':cloudcontroller'
-include ':commlib'
-include ':commlib-demouapp'
-include ':bluelib'
-include ':commlib-ble'
-include ':commlib-testutils'
-include ':commlib-api'
-include ':commlib-lan'
-include ':commlib-cloud'
-include ':commlib-integration-tests'
-include ':bluelib-demouapp'
-include ':pluginreferenceboard'
-include ':securedblibrary'
-include ':telehealth'
-include ':thsUapp'
-include ':mya'
-include ':csw'
-include ':catk'
-include ':pif'
-include ':ews-android'
-include ':ewsUApp'
-include ':NeuraUApp'
+include ext.strings.cca.projectName
+include ext.strings.clc.projectName
+include ext.strings.pnf.projectName
+include ext.strings.rap.projectName
+include ext.strings.tse.projectName
+include ext.strings.uid.projectName
+include ext.strings.ews.projectName
+include ext.strings.csw.projectName
+include ext.strings.pif.projectName
+include ext.strings.ths.projectName
+include ext.strings.sdb.projectName
+include ext.strings.bll.projectName
+include ext.strings.mya.projectName
+include ext.strings.ail.projectName
+include ext.strings.prx.projectName
+include ext.strings.uit.projectName
+include ext.strings.iap.projectName
+include ext.strings.icf.projectName
+include ext.strings.usr.projectName
+include ext.strings.pse.projectName
+include ext.strings.jmp.projectName
+include ext.strings.dsc.projectName
+include ext.strings.dcc.projectName
+include ext.strings.ufw.projectName
+include ext.strings.prg.projectName
+include ext.strings.cml.projectName
+include ext.strings.cit.projectName
+include ext.strings.prf.projectName
+include ext.strings.ccl.projectName
+
+
+include ext.strings.ailuapp.projectName
+include ext.strings.iapuapp.projectName
+include ext.strings.usruapp.projectName
+include ext.strings.dccuapp.projectName
+include ext.strings.ufwuapp.projectName
+include ext.strings.prguapp.projectName
+include ext.strings.dscuapp.projectName
+include ext.strings.dpruapp.projectName
+include ext.strings.cmluapp.projectName
+include ext.strings.blluapp.projectName
+include ext.strings.thsuapp.projectName
+include ext.strings.ewsuapp.projectName
+include ext.strings.neurauapp.projectName
+
+include ext.strings.hsdp.projectName
+include ext.strings.catk.projectName
+include ext.strings.cmlble.projectName
+include ext.strings.cmltu.projectName
+include ext.strings.cmlapi.projectName
+include ext.strings.cmllan.projectName
+
 
 //opa archive references:
-project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra')
-project(':AppInfraUApp').projectDir = new File('./Source/ail/Source/DemoUApp/')
-project(':prx').projectDir = new File('./Source/prx/Source/Library/PrxSample/prx')
-project(':uikitLib').projectDir = new File('./Source/uit/Source/UiKit/uikitLib')
-project(':uid').projectDir = new File('./Source/uid/Source/UIKit/uid')
-project(':IconFont').projectDir = new File('./Source/icf/Source/Library/IconFont/icf')
-project(':registrationApi').projectDir = new File('./Source/usr/Source/Library/RegistrationApi')
-project(':UserRegistrationUApp').projectDir = new File('./Source/usr/Source/DemoUApp/DemoUApp')
-project(':jump').projectDir = new File('./Source/usr/Source/Library/jump')
-project(':hsdp').projectDir = new File('./Source/usr/Source/Library/hsdp')
-project(':iap').projectDir = new File('./Source/iap/Source/Library/iap')
-project(':iapUApp').projectDir = new File('./Source/iap/Source/DemoUApp')
-project(':digitalCare').projectDir = new File('./Source/dcc/Source/Library/digitalCare')
-project(':digitalCareUApp').projectDir = new File('./Source/dcc/Source/DemoUApp/DemoUApp')
-project(':productselection').projectDir = new File('./Source/pse/Source/Library/productselection')
-project(':uAppFwLib').projectDir = new File('./Source/ufw/Source/Library/uAppFwLib')
-project(':uAppFwLibUApp').projectDir = new File('./Source/ufw/Source/DemoUApp')
-project(':product-registration-lib').projectDir = new File('./Source/prg/Source/Library/product-registration-lib')
-project(':product-registration-libUApp').projectDir = new File('./Source/prg/Source/DemoUApp')
-project(':dataServices').projectDir = new File('./Source/dsc/Source/Library/dataServices')
-project(':dataServicesUApp').projectDir = new File('./Source/dsc/Source/DemoUApp')
-project(':devicepairingUApp').projectDir = new File('./Source/dpr/Source/DemoUApp')
-project(':referenceApp').projectDir = new File('./Source/rap/Source/AppFramework/appFramework')
-project(':pushnotification').projectDir = new File('./Source/rap/Source/AppFramework/pushnotification')
-project(':themesettings').projectDir = new File('./Source/rap/Source/AppFramework/themesettings')
-project(':cloudcontroller-api').projectDir = new File('./Source/cml/Source/Library/cloudcontroller-api')
-project(':cloudcontroller').projectDir = new File('./Source/cml/Source/Library/cloudcontroller')
-project(':commlib').projectDir = new File('./Source/cml/Source/Library/commlib')
-project(':commlib-demouapp').projectDir = new File('./Source/cml/Source/DemoUApp')
-project(':bluelib').projectDir = new File('./Source/bll/Source/ShineLib/shinelib')
-project(':commlib-ble').projectDir = new File('./Source/cml/Source/Library/commlib-ble')
-project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
-project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
-project(':commlib-api').projectDir = new File('./Source/cml/Source/Library/commlib-api')
-project(':commlib-lan').projectDir = new File('./Source/cml/Source/Library/commlib-lan')
-project(':commlib-cloud').projectDir = new File('./Source/cml/Source/Library/commlib-cloud')
-project(':commlib-integration-tests').projectDir = new File('./Source/cml/Source/Library/commlib-integration-tests')
-project(':bluelib-demouapp').projectDir = new File('./Source/bll/Source/DemoUApp')
-project(':pluginreferenceboard').projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
-project(':securedblibrary').projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
-project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuapp')
-project(':thsUapp').projectDir = new File('./Source/ths/Source/DemoUApp/thsUapp')
-project(':mya').projectDir = new File('./Source/mya/Source/Library/mya')
-project(':csw').projectDir = new File('./Source/csw/Source/Library/csw')
-project(':catk').projectDir = new File('./Source/csw/Source/Library/catk')
-project(':pif').projectDir = new File('./Source/pif/Source/Library/pif')
-project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
-project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
-project(':NeuraUApp').projectDir = new File('./Source/neu/Source/DemoUApp/DemoUApp')
+project(ext.strings.ail.projectName).projectDir = new File('./Source/ail/Source/Library/AppInfra')
+project(ext.strings.ailuapp.projectName).projectDir = new File('./Source/ail/Source/DemoUApp/')
+project(ext.strings.prx.projectName).projectDir = new File('./Source/prx/Source/Library/PrxSample/prx')
+project(ext.strings.uit.projectName).projectDir = new File('./Source/uit/Source/UiKit/uikitLib')
+project(ext.strings.uid.projectName).projectDir = new File('./Source/uid/Source/UIKit/uid')
+project(ext.strings.icf.projectName).projectDir = new File('./Source/icf/Source/Library/IconFont/icf')
+project(ext.strings.usr.projectName).projectDir = new File('./Source/usr/Source/Library/RegistrationApi')
+project(ext.strings.usruapp.projectName).projectDir = new File('./Source/usr/Source/DemoUApp/DemoUApp')
+project(ext.strings.jmp.projectName).projectDir = new File('./Source/usr/Source/Library/jump')
+project(ext.strings.hsdp.projectName).projectDir = new File('./Source/usr/Source/Library/hsdp')
+project(ext.strings.iap.projectName).projectDir = new File('./Source/iap/Source/Library/iap')
+project(ext.strings.iapuapp.projectName).projectDir = new File('./Source/iap/Source/DemoUApp')
+project(ext.strings.dcc.projectName).projectDir = new File('./Source/dcc/Source/Library/digitalCare')
+project(ext.strings.dccuapp.projectName).projectDir = new File('./Source/dcc/Source/DemoUApp/DemoUApp')
+project(ext.strings.pse.projectName).projectDir = new File('./Source/pse/Source/Library/productselection')
+project(ext.strings.ufw.projectName).projectDir = new File('./Source/ufw/Source/Library/uAppFwLib')
+project(ext.strings.ufwuapp.projectName).projectDir = new File('./Source/ufw/Source/DemoUApp')
+project(ext.strings.prg.projectName).projectDir = new File('./Source/prg/Source/Library/product-registration-lib')
+project(ext.strings.prguapp.projectName).projectDir = new File('./Source/prg/Source/DemoUApp')
+project(ext.strings.dsc.projectName).projectDir = new File('./Source/dsc/Source/Library/dataServices')
+project(ext.strings.dscuapp.projectName).projectDir = new File('./Source/dsc/Source/DemoUApp')
+project(ext.strings.dpruapp.projectName).projectDir = new File('./Source/dpr/Source/DemoUApp')
+project(ext.strings.rap.projectName).projectDir = new File('./Source/rap/Source/AppFramework/appFramework')
+project(ext.strings.pnf.projectName).projectDir = new File('./Source/rap/Source/AppFramework/pushnotification')
+project(ext.strings.tse.projectName).projectDir = new File('./Source/rap/Source/AppFramework/themesettings')
+project(ext.strings.cca.projectName).projectDir = new File('./Source/cml/Source/Library/cloudcontroller-api')
+project(ext.strings.clc.projectName).projectDir = new File('./Source/cml/Source/Library/cloudcontroller')
+project(ext.strings.cml.projectName).projectDir = new File('./Source/cml/Source/Library/commlib')
+project(ext.strings.cmluapp.projectName).projectDir = new File('./Source/cml/Source/DemoUApp')
+project(ext.strings.bll.projectName).projectDir = new File('./Source/bll/Source/ShineLib/shinelib')
+project(ext.strings.cmlble.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-ble')
+project(ext.strings.cmltu.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
+//project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
+project(ext.strings.cmlapi.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-api')
+project(ext.strings.cmllan.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-lan')
+project(ext.strings.ccl.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-cloud')
+project(ext.strings.cit.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-integration-tests')
+project(ext.strings.blluapp.projectName).projectDir = new File('./Source/bll/Source/DemoUApp')
+project(ext.strings.prf.projectName).projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
+project(ext.strings.sdb.projectName).projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
+project(ext.strings.ths.projectName).projectDir = new File('./Source/ths/Source/Library/thsuapp')
+project(ext.strings.thsuapp.projectName).projectDir = new File('./Source/ths/Source/DemoUApp/thsUapp')
+project(ext.strings.mya.projectName).projectDir = new File('./Source/mya/Source/Library/mya')
+project(ext.strings.csw.projectName).projectDir = new File('./Source/csw/Source/Library/csw')
+project(ext.strings.catk.projectName).projectDir = new File('./Source/csw/Source/Library/catk')
+project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/Library/pif')
+project(ext.strings.ews.projectName).projectDir = new File('./Source/ews/Source/Library/ews-android')
+project(ext.strings.ewsuapp.projectName).projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
+project(ext.strings.neurauapp.projectName).projectDir = new File('./Source/neu/Source/DemoUApp/DemoUApp')
 //demoapps to be published to artifactory
-include ':UserRegistrationApp'
-project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+//include ':UserRegistrationApp'
+//project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 //include ':telehealthApp'
 //project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
 //include ':uidApp'
