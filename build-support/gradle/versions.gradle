@@ -15,11 +15,11 @@ ext.platformversion = baseplatformversion + "." + epochTime()
 ext.platformversionsuffix = baseplatformversion + ".+"
 
 ext.versions = [
-        sdk                                 : 27,
-        target                              : 27,
+        sdk                                 : 28,
+        target                              : 28,
         minsdk                              : 23,
-        buildtools                          : '27.0.3',
-        support                             : '27.1.1',
+        buildtools                          : '28.0.2',
+        support                             : '28.0.2',
         jacoco                              : '0.8.0',
         dagger                              : '2.16',
         renderscriptTargetApi               : 27,

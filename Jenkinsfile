@@ -4,7 +4,7 @@ BranchName = env.BRANCH_NAME
 String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %buildType=TICS" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
-def nodes = '27.0.2 && device'
+def nodes = '28.0.2 && device'
 if (BranchName == "develop") {
     nodes = nodes + " && TICS"
 }
