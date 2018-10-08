@@ -66,7 +66,7 @@ public class NotificationBarView {
         view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_icon).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_icon).setOnClickListener(v -> {
-            //hidePopup();
+            hidePopup();
             EventHelper.getInstance().notifyEventOccurred(NOTIFICATION);
         });
         return view;

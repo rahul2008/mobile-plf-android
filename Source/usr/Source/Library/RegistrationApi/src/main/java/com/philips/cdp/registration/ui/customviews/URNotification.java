@@ -14,7 +14,7 @@ import java.util.List;
 
 import static com.philips.cdp.registration.ui.utils.RegConstants.NOTIFICATION;
 
-public class URNotification implements EventListener {
+public class URNotification {
 
     private static final String TAG = "URNotification";
 
@@ -22,11 +22,6 @@ public class URNotification implements EventListener {
     private NotificationType mNotificationType = NotificationType.NOTIFICATION_BAR;
     private NotificationBarView notificationBarView;
     private URNotificationInterface notificationInterface;
-
-    @Override
-    public void onEventReceived(String event) {
-        hideNotification();
-    }
 
 
     public interface URNotificationInterface {
@@ -62,7 +57,7 @@ public class URNotification implements EventListener {
         this.notificationInterface = notificationInterface;
     }
 
-    public void showNotification(NotificationMessage notificationMessage, boolean isNetworkError) {
+    public void showNotification(NotificationMessage notificationMessage) {
 
         if (INLINE_ERROR_CODE.contains(notificationMessage.getErrorCode()))
             mNotificationType = NotificationType.INLINE;
@@ -82,8 +77,8 @@ public class URNotification implements EventListener {
             case NOTIFICATION_BAR:
                 RLog.d(TAG, "URNotification : NOTIFICATION_BAR : showError");
                 if (!notificationBarView.isNotificationBarViewShowing()) {
-                    if (!isNetworkError)
-                        EventHelper.getInstance().registerEventNotification(NOTIFICATION, this);
+//                    if (!isNetworkError)
+
                     notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));
                 }
                 break;
@@ -97,7 +92,7 @@ public class URNotification implements EventListener {
                     notificationBarView.hidePopup();
                     RLog.d(TAG, "URNotification : hideNotification");
                     notificationBarView = null;
-                    EventHelper.getInstance().unregisterEventNotification(NOTIFICATION, this);
+
 
                 }
         }
