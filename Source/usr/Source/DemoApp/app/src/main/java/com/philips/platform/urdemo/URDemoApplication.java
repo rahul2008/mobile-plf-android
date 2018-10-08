@@ -13,7 +13,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uid.thememanager.*;
 import com.philips.themesettings.ThemeHelper;
-import com.squareup.leakcanary.LeakCanary;
+
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
