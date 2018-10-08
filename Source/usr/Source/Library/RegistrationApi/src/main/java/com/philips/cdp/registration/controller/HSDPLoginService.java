@@ -20,10 +20,11 @@ public class HSDPLoginService {
     private Context mContext;
     private User mUser;
     HsdpUser hsdpUser;
+
     public HSDPLoginService(Context mContext) {
         this.mContext = mContext;
         this.mUser = new User(mContext);
-         hsdpUser = new HsdpUser(mContext);
+        hsdpUser = new HsdpUser(mContext);
     }
 
     String getUserEmailOrMobile(User user) {
@@ -38,7 +39,7 @@ public class HSDPLoginService {
 
     public void hsdpLogin(String accessToken, String emailOrMobile, HSDPAuthenticationListener hsdpAuthenticationListener) {
 
-        hsdpUser.login(emailOrMobile, accessToken,  new LoginHandler() {
+        hsdpUser.login(emailOrMobile, accessToken, new LoginHandler() {
 
             @Override
             public void onLoginSuccess() {
@@ -62,7 +63,7 @@ public class HSDPLoginService {
     void hsdpLogin(String accessToken, String emailOrMobile, LoginHandler loginHandler) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         RLog.d(TAG, "hsdpLogin : with SocialLoginProviderHandler");
-        hsdpUser.login(emailOrMobile, accessToken,  new LoginHandler() {
+        hsdpUser.login(emailOrMobile, accessToken, new LoginHandler() {
 
 
             @Override
@@ -75,9 +76,7 @@ public class HSDPLoginService {
             @Override
             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                 AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-
-                if (RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable())
-                    loginHandler.onLoginFailedWithError(userRegistrationFailureInfo); //this line is not called due to if condition fails. (so the progress bar is not stopped)
+                loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 RLog.d(TAG, "onLoginFailedWithError : if : SocialLoginProviderHandler : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());
             }
