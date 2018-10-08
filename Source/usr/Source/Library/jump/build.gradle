@@ -7,12 +7,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
-archivesBaseName = "jump"
+archivesBaseName = strings.jmp.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -74,7 +75,7 @@ configurations.all {
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
     if (directdependencies) {
-        implementation project(':AppInfra')
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.AppInfra
     }

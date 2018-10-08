@@ -7,11 +7,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
-archivesBaseName = "productselection"
+archivesBaseName = strings.pse.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -81,10 +82,10 @@ dependencies {
     testImplementation deps.mockito
 
     if (directdependencies) {
-        implementation project(':uAppFwLib')
-        implementation project(':prx')
-        implementation project(':uid')
-        implementation project(':AppInfra')
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.prx.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.prx

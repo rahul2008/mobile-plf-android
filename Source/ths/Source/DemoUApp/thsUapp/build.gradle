@@ -6,8 +6,9 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
-archivesBaseName = "thsUapp"
+archivesBaseName = strings.thsuapp.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -82,11 +83,11 @@ dependencies {
     })
 
     if (directdependencies) {
-        implementation project(':AppInfra')
-        implementation project(':uAppFwLib')
-        implementation project(':uid')
-        implementation project(':registrationApi')
-        implementation project(':telehealth')
+        implementation project(strings.ail.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.usr.projectName)
+        implementation project(strings.ths.projectName)
     } else {
         implementation(philipsdeps.AppInfra) {
             exclude group: 'com.android.support'

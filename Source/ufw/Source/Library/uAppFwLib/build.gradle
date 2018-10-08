@@ -6,11 +6,12 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 def buildOutputDir
 
-archivesBaseName = "uAppFwLib"
+archivesBaseName = strings.ufw.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -90,8 +91,8 @@ dependencies {
     testImplementation deps.robolectric
 
     if (directdependencies) {
-        implementation project(':AppInfra')
-        implementation project(':uid')
+        implementation project(strings.ail.projectName)
+        implementation project(strings.uid.projectName)
     } else {
         implementation(philipsdeps.AppInfra) {
             exclude group: 'com.android.support'

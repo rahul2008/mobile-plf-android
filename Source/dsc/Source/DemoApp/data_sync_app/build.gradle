@@ -6,6 +6,7 @@
 apply plugin: 'com.android.application'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -172,7 +173,7 @@ configurations.all {
 
 dependencies {
     if (directdependencies) {
-        implementation project(':UserRegistrationUApp')
+        implementation project(strings.usruapp.projectName)
     } else {
         implementation philipsdeps.UserRegistrationUApp
     }
@@ -186,7 +187,7 @@ dependencies {
     implementation deps.support.design
     implementation deps.support.multidex
 
-    implementation project(':dataServicesUApp')
+    implementation project(strings.dscuapp.projectName)
 
     testImplementation deps.mockito
     testImplementation deps.robolectric

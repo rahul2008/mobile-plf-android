@@ -6,6 +6,7 @@
 apply plugin: 'com.android.application'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -153,12 +154,12 @@ if (propFile.canRead()) {
 dependencies {
     annotationProcessor deps.butterknife_compiler
 
-    implementation project(':AppInfra')
-    implementation project(':uAppFwLib')
-    implementation project(':uid')
-    implementation project(':registrationApi')
+    implementation project(strings.ail.projectName)
+    implementation project(strings.ufw.projectName)
+    implementation project(strings.uid.projectName)
+    implementation project(strings.usr.projectName)
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':UserRegistrationUApp')
+    implementation project(strings.usruapp.projectName)
     implementation deps.support.appcompatv7
     implementation deps.constraintlayout
     implementation deps.support.design

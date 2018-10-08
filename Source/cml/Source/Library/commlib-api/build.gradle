@@ -7,10 +7,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "commlib-api"
+archivesBaseName = strings.cmlapi.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -44,14 +45,14 @@ dependencies {
     implementation deps.gson
 
     if (directdependencies) {
-        implementation project(':AppInfra')
-        implementation project(':securedblibrary')
+        implementation project(strings.ail.projectName)
+        implementation project(strings.sdb.projectName)
     } else {
         implementation philipsdeps.AppInfra
         implementation philipsdeps.securedblibrary
     }
 
-    testImplementation project(':commlib-testutils')
+    testImplementation project(strings.cmltu.projectName)
 
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows

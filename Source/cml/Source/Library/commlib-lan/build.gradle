@@ -7,10 +7,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "commlib-lan"
+archivesBaseName = strings.cmllan.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -44,12 +45,12 @@ dependencies {
     implementation deps.gson
 
     if (directdependencies) {
-        implementation project(':commlib-api')
+        implementation project(strings.cmlapi.projectName)
     } else {
         implementation philipsdeps.commlib_api
     }
 
-    testImplementation project(':commlib-testutils')
+    testImplementation project(strings.cmltu.projectName)
 
     testImplementation deps.junit
     testImplementation deps.assertj

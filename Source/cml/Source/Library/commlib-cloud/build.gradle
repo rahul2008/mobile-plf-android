@@ -7,10 +7,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "commlib-cloud"
+archivesBaseName = strings.ccl.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -42,18 +43,20 @@ dependencies {
     compileOnly deps.support.annotations
     implementation deps.gson
     if (directdependencies) {
-        implementation project(':commlib-api')
-        implementation project(':cloudcontroller-api')
+        implementation project(strings.cmlapi.projectName)
+        implementation project(strings.cca.projectName)
     } else {
         implementation philipsdeps.commlib_api
         implementation philipsdeps.cloudcontroller_api
     }
     if (directdependencies) {
-        testImplementation project(':cloudcontroller')
+        testImplementation project(strings.clc.projectName)
     } else {
         testImplementation philipsdeps.cloudcontroller
     }
-    testImplementation project(':commlib-testutils')
+
+    testImplementation project(strings.cmltu.projectName)
+
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.assertj
