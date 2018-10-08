@@ -15,6 +15,7 @@ import com.philips.platform.ews.setupsteps.FirstSetupStepsViewModel;
 import com.philips.platform.ews.setupsteps.SecondSetupStepsViewModel;
 import com.philips.platform.ews.startconnectwithdevice.StartConnectWithDeviceViewModel;
 import com.philips.platform.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel;
+import com.philips.platform.ews.troubleshooting.networknotlisted.NetworkNotListedViewModel;
 import com.philips.platform.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingViewModel;
 import com.philips.platform.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingViewModel;
 import com.philips.platform.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingViewModel;
@@ -41,6 +42,8 @@ public interface EWSComponent {
     ConnectingWithDeviceViewModel connectingWithDeviceViewModel();
 
     SelectWiFiViewModel selectWiFiViewModel();
+
+    NetworkNotListedViewModel networkNotListedViewModel();
 
     ConnectingDeviceWithWifiViewModel connectingDeviceWithWifiViewModel();
 

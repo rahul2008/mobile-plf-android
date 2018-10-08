@@ -113,11 +113,15 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
         showNextScreen(new ConfirmYourWiFiConnectionFragment());
     }*/
 
-    public void onNextButtonClicked() {
+    public void onContinueButtonClicked() {
         wiFiUtil.setHomeWiFiSSID(selectedSSID);
         navigator.navigateToConnectToDeviceWithPasswordScreen("");
         //showNextScreen(new EWSWiFiConnectFragment());
     }
+
+    public void onNetworkNotListedButtonClicked() {
+        navigator.navigateToNetworkNotListedTroubleShootingScreen();
+        }
 
     public void cleanUp() {
         //eventBus.unregister(this);

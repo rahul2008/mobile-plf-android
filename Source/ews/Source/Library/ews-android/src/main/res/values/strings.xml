@@ -24,6 +24,13 @@
     <string name="label_ews_select_wakeup_wifi_steps_2">2. Turn on Wi-Fi</string>
     <string name="label_ews_select_wakeup_wifi_steps_3">3. Select your home network</string>
     <string name="label_ews_select_wakeup_wifi_steps_4">4. Return to %1$s</string>
+    <!--EWS_01_01 Network not listed -->
+    <string name="label_ews_network_not_listed_title">Is your network not listed?</string>
+    <string name="label_ews_network_not_listed_step_1">1) Your %1$s can only be connected to a 2.4GHz network</string>
+    <string name="label_ews_network_not_listed_step_2">2) Make sure your %1$s is within reach of your Wi-Fi network</string>
+    <string name="button_ews_network_not_listed_ok">Ok</string>
+    <string name="button_ews_network_not_listed_continue">Continue</string>
+    <string name="button_ews_network_not_listed">Network not listed?</string>
     <!--EWS_02_01_setup-steps01 -->
     <string name="label_ews_plug_in_title_default">Is your device powered on?</string>
     <string name="label_ews_plug_in_body_default">Proposition-specific instructions to power the device.</string>

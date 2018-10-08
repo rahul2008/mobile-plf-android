@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (c) Koninklijke Philips N.V., 2018.
   ~ All rights reserved.
   -->
@@ -142,20 +143,20 @@
             android:id="@+id/wifiSelected"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_above="@id/networkNotListed"
             android:layout_marginBottom="@dimen/default_screen_top_margin"
             android:layout_marginTop="@dimen/default_screen_top_margin"
             android:enabled="@{viewModel.enableNextButton.get()}"
-            android:onClick="@{() -> viewModel.onNextButtonClicked()}"
-            android:text="Continue"/>
+            android:onClick="@{() -> viewModel.onContinueButtonClicked()}"
+            android:text="@string/button_ews_network_not_listed_continue"/>
 
-        <!--<Button
+        <Button
             android:id="@+id/networkNotListed"
-            style="@style/Btn.Quiet"
+            style="@style/UIDExtraWideIconQuietButton.Center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:onClick="@{()->viewModel.onHavingIssuesButtonClicked()}"
-            android:text="@string/ews_5a_network_error_btn_msg"/>-->
+            android:onClick="@{()->viewModel.onNetworkNotListedButtonClicked()}"
+            android:text="@string/button_ews_network_not_listed"/>
     </RelativeLayout>
 </layout>

@@ -9,6 +9,7 @@ public final class Page {
     //should use below Tag
     public static final String GET_STARTED = "getStarted";      //EWS_01_00
     public static final String CONFIRM_WIFI_NETWORK = "confirmWifiNetwork";     //EWS_01_01
+    public static final String NETWORK_NOT_LISTED = "networkNotListed";      //EWS_01_01a
     public static final String SELECT_HOME_WIFI = "selectHomeWifi";     //EWS_01_01b
     public static final String SETUP_STEP1 = "setupStep1";      //EWS_02_01
     public static final String SETUP_STEP2 = "setupStep2";      //EWS_02_02

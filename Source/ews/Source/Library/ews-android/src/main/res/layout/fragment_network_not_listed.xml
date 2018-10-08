@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.philips.platform.ews.troubleshooting.networknotlisted.NetworkNotListedViewModel" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/default_screen_top_margin"
+            android:paddingBottom="@dimen/default_screen_bottom_margin"
+            android:paddingEnd="@dimen/default_screen_side_margin"
+            android:paddingStart="@dimen/default_screen_side_margin">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ews_01_01_network_not_listed_title"
+                style="@style/Txt.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_ews_network_not_listed_title" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/network_not_listed_step_1"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@{viewModel.stepOneText}" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/network_not_listed_step_2"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@{viewModel.stepTwoText}" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/ews_01_01_network_not_listed__button_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
+                android:onClick="@{()->viewModel.onOkClicked()}"
+                android:text="@string/button_ews_network_not_listed_ok"
+                app:uidComponentType="Primary" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</layout>

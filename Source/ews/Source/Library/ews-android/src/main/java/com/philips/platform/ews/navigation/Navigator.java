@@ -14,6 +14,7 @@ import com.philips.platform.ews.setupsteps.FirstSetupStepsFragment;
 import com.philips.platform.ews.setupsteps.SecondSetupStepsFragment;
 import com.philips.platform.ews.startconnectwithdevice.StartConnectWithDeviceFragment;
 import com.philips.platform.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingFragment;
+import com.philips.platform.ews.troubleshooting.networknotlisted.NetworkNotListedFragment;
 import com.philips.platform.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingFragment;
 import com.philips.platform.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingFragment;
 import com.philips.platform.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
@@ -48,6 +49,10 @@ public class Navigator {
 
     public void navigateToSelectWiFiScreen() {
         pushFragment(new SelectWiFiFragment());
+    }
+
+    public void navigateToNetworkNotListedTroubleShootingScreen() {
+        pushFragment(new NetworkNotListedFragment());
     }
 
     public void navigateToConnectToDeviceWithPasswordScreen(String friendlyName) {
