@@ -152,9 +152,9 @@ if (propFile.canRead()) {
 
 dependencies {
     annotationProcessor deps.butterknife_compiler
-    debugImplementation deps.leakcanary
-    releaseImplementation deps.leakcanary_no_op
-    testImplementation deps.leakcanary_no_op
+//    debugImplementation deps.leakcanary
+//    releaseImplementation deps.leakcanary_no_op
+//    testImplementation deps.leakcanary_no_op
     implementation project(':AppInfra')
     implementation project(':uAppFwLib')
     implementation project(':uid')

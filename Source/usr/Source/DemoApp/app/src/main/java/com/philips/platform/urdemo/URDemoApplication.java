@@ -60,7 +60,7 @@ public class URDemoApplication extends Application {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         themeConfiguration = getThemeConfig();//new ThemeConfiguration(this, colorRange, contentColor, navigationColor, accentRange);
         UIDHelper.init(themeConfiguration);
-        LeakCanary.install(this);
+    //    LeakCanary.install(this);
         mRegistrationSampleApplication = this;
         mAppInfraInterface = new AppInfra.Builder().build(this);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
