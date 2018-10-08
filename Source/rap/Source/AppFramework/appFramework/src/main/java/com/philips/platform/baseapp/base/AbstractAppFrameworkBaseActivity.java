@@ -22,6 +22,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -231,7 +232,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
             if (baseFlowManager != null) {
                 BaseState currentState = baseFlowManager.getCurrentState();
                 if (currentState instanceof DemoDataServicesState) {
-                    PushNotificationManager.getInstance().startPushNotificationRegistration(this);
+                    PushNotificationManager.getInstance().startPushNotificationRegistration(this,new SecureStorageInterface.SecureStorageError());
                 }
             }
         }

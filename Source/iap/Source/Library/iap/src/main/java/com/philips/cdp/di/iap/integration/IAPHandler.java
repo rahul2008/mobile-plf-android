@@ -121,7 +121,6 @@ class IAPHandler {
     protected void launchAsActivity(Context pContext, IAPLaunchInput pLaunchInput,
                                     ActivityLauncher activityLauncher) {
         Intent intent = new Intent(pContext, IAPActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, pLaunchInput.mLandingView);
 
         if (pLaunchInput.mIAPFlowInput != null) {

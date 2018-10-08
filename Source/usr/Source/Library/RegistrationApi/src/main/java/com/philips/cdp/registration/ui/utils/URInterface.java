@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.janrain.android.Jump;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.consents.MarketingConsentHandler;
@@ -178,8 +179,7 @@ public class URInterface implements UappInterface {
                     getOrientationValue());
 
             registrationIntent.putExtras(bundle);
-            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                    Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             RegistrationHelper.getInstance().
                     getUrSettings().getContext().startActivity(registrationIntent);
         }
@@ -197,6 +197,8 @@ public class URInterface implements UappInterface {
         component = initDaggerComponents(uappDependencies, uappSettings);
         context = uappSettings.getContext();
         RegistrationConfiguration.getInstance().setComponent(component);
+        RLog.init();
+        AppTagging.init();
         Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
         RegistrationHelper.getInstance().setUrSettings(uappSettings);
         RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());

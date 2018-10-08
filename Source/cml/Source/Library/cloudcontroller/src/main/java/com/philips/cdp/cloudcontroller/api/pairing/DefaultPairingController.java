@@ -54,7 +54,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
 
                 break;
             case Commands.PAIRING_REMOVE_RELATIONSHIP:
-                mPairingCallback.onRelationshipRemove();
+                mPairingCallback.onRelationshipRemove(status);
 
                 break;
             case Commands.PAIRING_GET_RELATIONSHIPS:

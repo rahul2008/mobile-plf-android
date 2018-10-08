@@ -40,9 +40,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle
 
 dependencies {
     compileOnly deps.support.annotations
-
     implementation deps.gson
-
     if (directdependencies) {
         implementation project(':commlib-api')
         implementation project(':cloudcontroller-api')
@@ -50,15 +48,12 @@ dependencies {
         implementation philipsdeps.commlib_api
         implementation philipsdeps.cloudcontroller_api
     }
-
     if (directdependencies) {
         testImplementation project(':cloudcontroller')
     } else {
         testImplementation philipsdeps.cloudcontroller
     }
-
     testImplementation project(':commlib-testutils')
-
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.assertj

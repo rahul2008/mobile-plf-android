@@ -49,7 +49,7 @@ public class DemoCMLState extends DemoBaseState {
             } catch (UnsatisfiedLinkError error) {
                 RALog.d(TAG, "Not able to find native implementation");
             }
-            uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+            uAppInterface.launch(new ActivityLauncher(context, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                     getDLSThemeConfiguration(context.getApplicationContext()), 0, null), null);
         }
     }

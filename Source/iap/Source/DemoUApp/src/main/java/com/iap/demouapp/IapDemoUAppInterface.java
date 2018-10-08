@@ -30,7 +30,6 @@ public class IapDemoUAppInterface implements UappInterface {
 
         if(uiLauncher instanceof ActivityLauncher){
             Intent intent=new Intent(mContext,DemoAppActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         }
     }

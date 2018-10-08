@@ -6,6 +6,7 @@
 package com.philips.platform.uappframework.launcher;
 
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -66,39 +67,11 @@ public class ActivityLauncher extends UiLauncher {
     protected Bundle mBundle;
 
     private ThemeConfiguration mDLSThemeConfiguration;
-
-    @Deprecated
-    /**
-     Constructor
-     @deprecated deprecated since 3.0.0
-     @param screenOrientation takes screen Orientation
-     @param uikitTheme takes UIKit Theme
-     @since 1.0.0
-
-     */
-    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation ,int uikitTheme) {
-        mScreenOrientation = screenOrientation;
-        mUiKitTheme=uikitTheme;
-    }
-
-    @Deprecated
-    /**
-     Constructor
-     @deprecated deprecated since 3.0.0
-     @param screenOrientation : takes screen Orientation
-     @param uikitTheme takes Uikit Theme
-     @param bundle bundle object
-     @since 1.0.0
-     */
-    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation,int uikitTheme, Bundle bundle) {
-        mScreenOrientation = screenOrientation;
-        mBundle = bundle;
-        mUiKitTheme=uikitTheme;
-
-    }
+    private Context activityContext;
 
     /**
      Constructor
+     @deprecated 1805
      @param screenOrientation takes screen Orientation
      @param dlsThemeConfiguration takes DLS configuration
      @param dlsUiKitTheme takes UiKit Theme
@@ -107,6 +80,24 @@ public class ActivityLauncher extends UiLauncher {
      */
     public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation, ThemeConfiguration dlsThemeConfiguration,
                             int dlsUiKitTheme, Bundle bundle) {
+        mScreenOrientation = screenOrientation;
+        mBundle = bundle;
+        mDLSThemeConfiguration =dlsThemeConfiguration;
+        mUiKitTheme = dlsUiKitTheme;
+    }
+
+    /**
+     Constructor
+     @param activityContext takes activity context instance
+     @param screenOrientation takes screen Orientation
+     @param dlsThemeConfiguration takes DLS configuration
+     @param dlsUiKitTheme takes UiKit Theme
+     @param bundle bundle object
+     @since 1805
+     */
+    public ActivityLauncher(Context activityContext, ActivityLauncher.ActivityOrientation screenOrientation, ThemeConfiguration dlsThemeConfiguration,
+                            int dlsUiKitTheme, Bundle bundle) {
+        this.activityContext = activityContext;
         mScreenOrientation = screenOrientation;
         mBundle = bundle;
         mDLSThemeConfiguration =dlsThemeConfiguration;
@@ -146,6 +137,15 @@ public class ActivityLauncher extends UiLauncher {
      */
     public ThemeConfiguration getDlsThemeConfiguration() {
         return mDLSThemeConfiguration;
+    }
+
+    /**
+     * Api used to return activity instance
+     * @return instance of activity passed in constructor
+     * @since 1805
+     */
+    public Context getActivityContext() {
+        return activityContext;
     }
 }
 

@@ -34,7 +34,6 @@ public class CCDemoUAppuAppInterface implements UappInterface {
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, CCDemoUAppActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
     }
