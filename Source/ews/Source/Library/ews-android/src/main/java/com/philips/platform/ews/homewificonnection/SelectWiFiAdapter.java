@@ -91,11 +91,9 @@ public class SelectWiFiAdapter extends RecyclerView.Adapter<SelectWiFiAdapter.Ba
             final WiFiNode wiFiNode = wifiList.get(position);
             viewBinder.setWifiNode(wiFiNode);
             if (selectedPosition == position) {
-                //viewBinder.getRoot().setBackgroundResource(R.color.color_panel);
                 viewBinder.wifiSelectedView.setVisibility(View.VISIBLE);
             } else {
                 viewBinder.wifiSelectedView.setVisibility(View.INVISIBLE);
-                //viewBinder.getRoot().setBackgroundResource(R.color.white);
             }
 
             viewBinder.getRoot().setOnClickListener(v -> {

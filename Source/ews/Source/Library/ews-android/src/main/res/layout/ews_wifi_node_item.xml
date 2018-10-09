@@ -25,7 +25,7 @@
             android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
             android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
             android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
-            android:drawablePadding="12dp"
+            android:drawablePadding="@dimen/default_between_list_item_drawable_label_margin"
             android:drawableStart="@drawable/ic_dls_wificonnection"
             android:gravity="start|center_vertical"
             android:text="@{wifiNode.SSID}"/>

@@ -19,6 +19,7 @@
     <dimen name="default_main_helper_padding">16dp</dimen>
     <dimen name="default_main_helper_bottom_padding">14dp</dimen>
     <dimen name="default_between_button_margin">8dp</dimen>
+    <dimen name="default_between_list_item_drawable_label_margin">12dp</dimen>
 
     <dimen name="ews_hotspot_blink_icon_width">524dp</dimen>
     <dimen name="ews_hotspot_blink_icon_height">294dp</dimen>
