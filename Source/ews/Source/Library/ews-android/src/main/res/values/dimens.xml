@@ -22,7 +22,7 @@
 
     <dimen name="ews_hotspot_blink_icon_width">524dp</dimen>
     <dimen name="ews_hotspot_blink_icon_height">294dp</dimen>
-    <dimen name="ews_select_wifi_elevation">-50dp</dimen>
+    <dimen name="ews_select_wifi_elevation">-500dp</dimen>
 
     <!-- ProgressBar -->
     <dimen name="uid_progress_bar_circular_big">88dp</dimen>

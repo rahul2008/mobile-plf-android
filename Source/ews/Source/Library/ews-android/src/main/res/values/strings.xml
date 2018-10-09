@@ -13,6 +13,7 @@
     <string name="label_ews_select_wifi_newtork_to_connect_to_title">Select your Wi-Fi Connection</string>
     <string name="label_ews_select_wifi_network_to_connect_to_description">Please select the Wi-Fi Network to which your device will be connected.</string>
     <string name="label_ews_choose_a_network_list_header">Choose a network</string>
+    <string name="label_ews_fetching_wifi_networks">Fetching Wi-Fi Networks</string>
     <string name="label_ews_confirm_connection_title">Confirm your Wi-Fi</string>
     <string name="label_ews_confirm_connection_currently_connected">You are currently connected to:</string>
     <string name="label_ews_confirm_connection_tip_upper">We recommend that you use your home Wi-Fi network nearest to the %1$s.</string>
