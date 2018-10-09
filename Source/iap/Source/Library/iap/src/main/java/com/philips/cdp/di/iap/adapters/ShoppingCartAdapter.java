@@ -34,6 +34,7 @@ import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
@@ -206,6 +207,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String deliveryMethod = data.getDeliveryMode().getName();
+                    String deliveryModeDescription=data.getDeliveryMode().getDescription();
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
@@ -228,7 +230,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mDeliveryTitle.setText("Delivery via Standard Ground");
                     shoppingCartFooter.mDeliveryPrice.setText("$0.00");
                     shoppingCartFooter.mDeliveryUpsVal.setText("$0.00");
-
+                    shoppingCartFooter.mDeliveryDescriprion.setText(deliveryModeDescription);
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 
@@ -394,6 +396,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTotalCost;
         TextView mDeliveryVia;
         TextView mDeliveryUpsVal;
+        Label mDeliveryDescriprion;
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
@@ -410,6 +413,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTotalCost = itemView.findViewById(R.id.total_cost_val);
             mDeliveryVia = itemView.findViewById(R.id.delivery_via_ups);
             mDeliveryUpsVal = itemView.findViewById(R.id.delivery_ups_val);
+            mDeliveryDescriprion = itemView.findViewById(R.id.iap_delivery_mode_description);
             mExtraOption = itemView.findViewById(R.id.extra_option);
             mEditIcon = itemView.findViewById(R.id.edit_icon);
             mDeliveryTitle = itemView.findViewById(R.id.delivery_ups_title);

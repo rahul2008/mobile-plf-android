@@ -32,6 +32,7 @@ import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
@@ -168,7 +169,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String deliveryMethod = data.getDeliveryMode().getName();
-
+                    String deliveryModeDescription=data.getDeliveryMode().getDescription();
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
@@ -190,7 +191,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     shoppingCartFooter.mDeliveryTitle.setText("Delivery via Standard Ground");
                     shoppingCartFooter.mDeliveryPrice.setText("$0.00");
                     shoppingCartFooter.mDeliveryUpsVal.setText("$0.00");
-
+                    shoppingCartFooter.mDeliveryDescriprion.setText(deliveryModeDescription);
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 
@@ -330,6 +331,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         TextView mTotalCost;
         TextView mDeliveryVia;
         TextView mDeliveryUpsVal;
+        Label mDeliveryDescriprion;
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
@@ -349,6 +351,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mTotalCost = (TextView) itemView.findViewById(R.id.total_cost_val);
             mDeliveryVia = (TextView) itemView.findViewById(delivery_via_ups);
             mDeliveryUpsVal = (TextView) itemView.findViewById(R.id.delivery_ups_val);
+            mDeliveryDescriprion = itemView.findViewById(R.id.iap_delivery_mode_description);
             mExtraOption = (TextView) itemView.findViewById(R.id.extra_option);
             mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
             mDeliveryTitle = (TextView) itemView.findViewById(R.id.delivery_ups_title);
