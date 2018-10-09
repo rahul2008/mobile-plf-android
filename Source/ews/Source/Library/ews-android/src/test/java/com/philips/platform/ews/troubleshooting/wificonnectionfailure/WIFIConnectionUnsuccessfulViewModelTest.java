@@ -6,6 +6,7 @@ package com.philips.platform.ews.troubleshooting.wificonnectionfailure;
 
 import com.philips.platform.ews.navigation.Navigator;
 import com.philips.platform.ews.tagging.EWSTagger;
+import com.philips.platform.ews.wifi.WiFiUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +26,7 @@ public class WIFIConnectionUnsuccessfulViewModelTest {
 
     private WIFIConnectionUnsuccessfulViewModel subject;
 
+    @Mock private WiFiUtil mockWiFiUtil;
     @Mock private Navigator mockNavigator;
     @Mock private EWSTagger ewsTagger;
 
@@ -32,7 +34,7 @@ public class WIFIConnectionUnsuccessfulViewModelTest {
     public void setUp() throws Exception {
         mockStatic(EWSTagger.class);
         initMocks(this);
-        subject = new WIFIConnectionUnsuccessfulViewModel(mockNavigator, ewsTagger);
+        subject = new WIFIConnectionUnsuccessfulViewModel(mockWiFiUtil, mockNavigator, ewsTagger);
     }
 
     @Test
