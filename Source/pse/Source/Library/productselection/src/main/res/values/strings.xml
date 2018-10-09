@@ -43,5 +43,6 @@
 
 
     <string name="search"> Search </string>
+    <string name="view_holder">viewholder</string>
 
 </resources>
