@@ -11,6 +11,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/androidtest.gradle'
 
 
 buildscript {
@@ -73,6 +74,7 @@ android {
             testCoverageEnabled = true
         }
     }
+
 }
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
@@ -106,6 +108,7 @@ dependencies {
     testImplementation deps.robolectric
     testImplementation deps.assertj
     testImplementation deps.junit
+    implementation deps.junit
     testImplementation deps.powermock_core
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit

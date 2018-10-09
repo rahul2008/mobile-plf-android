@@ -19,6 +19,7 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
     <application
         android:name="com.philips.platform.baseapp.base.AppFrameworkApplication"
         android:allowBackup="false"
@@ -160,7 +161,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
 
     </application>
 

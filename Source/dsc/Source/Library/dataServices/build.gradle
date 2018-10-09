@@ -9,6 +9,7 @@ apply plugin: 'pl.droidsonroids.pitest'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/androidtest.gradle'
 
 archivesBaseName = strings.dsc.artifactName
 

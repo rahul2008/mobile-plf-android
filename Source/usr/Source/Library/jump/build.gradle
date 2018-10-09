@@ -12,6 +12,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/androidtest.gradle'
 
 archivesBaseName = strings.jmp.artifactName
 
@@ -29,7 +30,7 @@ buildscript {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
