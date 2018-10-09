@@ -135,14 +135,14 @@ public class ProductDetailFragmentTest {
         productDetailFragment.initializeViews(viewMock);
     }
 
-    @Test
-    public void shouldInitializeViewsWithBundleArgument() throws Exception {
-        initializaViews();
-        Bundle bundle=new Bundle();
-        bundle.putString(IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,"X234");
-        productDetailFragment.setArguments(bundle);
-        productDetailFragment.initializeViews(viewMock);
-    }
+//    @Test
+//    public void shouldInitializeViewsWithBundleArgument() throws Exception {
+//        initializaViews();
+//        Bundle bundle=new Bundle();
+//        bundle.putString(IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,"X234");
+//        productDetailFragment.setArguments(bundle);
+//        productDetailFragment.initializeViews(viewMock);
+//    }
 
     void initializaViews(){
         Mockito.when(viewMock.findViewById(R.id.scrollView)).thenReturn(scrollViewMock);
