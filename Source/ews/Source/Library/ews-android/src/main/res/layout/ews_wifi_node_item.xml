@@ -28,8 +28,7 @@
             android:drawablePadding="12dp"
             android:drawableStart="@drawable/ic_dls_wificonnection"
             android:gravity="start|center_vertical"
-            android:text="@{wifiNode.SSID}"
-            android:background="@drawable/uid_list_item_selector"/>
+            android:text="@{wifiNode.SSID}"/>
 
         <ImageView
             android:id="@+id/wifi_selected_view"

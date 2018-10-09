@@ -93,10 +93,8 @@ public class SelectWiFiAdapter extends RecyclerView.Adapter<SelectWiFiAdapter.Ba
             if (selectedPosition == position) {
                 //viewBinder.getRoot().setBackgroundResource(R.color.color_panel);
                 viewBinder.wifiSelectedView.setVisibility(View.VISIBLE);
-                viewBinder.ssidLabelView.setSelected(true);
             } else {
                 viewBinder.wifiSelectedView.setVisibility(View.INVISIBLE);
-                viewBinder.ssidLabelView.setSelected(false);
                 //viewBinder.getRoot().setBackgroundResource(R.color.white);
             }
 
