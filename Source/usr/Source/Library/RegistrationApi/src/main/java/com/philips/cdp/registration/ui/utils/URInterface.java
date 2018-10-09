@@ -179,8 +179,7 @@ public class URInterface implements UappInterface {
                     getOrientationValue());
 
             registrationIntent.putExtras(bundle);
-            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                    Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             RegistrationHelper.getInstance().
                     getUrSettings().getContext().startActivity(registrationIntent);
         }

@@ -6,9 +6,10 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 
-archivesBaseName = "prx"
+archivesBaseName = strings.prx.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -68,7 +69,7 @@ dependencies {
     implementation deps.volley
 
     if (directdependencies) {
-        implementation project(':AppInfra')
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.AppInfra
     }

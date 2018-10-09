@@ -34,8 +34,6 @@ public class DigitalCareActivityRTest {
     public void setUp() {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(DigitalCareConstants.START_ANIMATION_ID, DigitalCareConstants.START_ANIMATION_ID);
         intent.putExtra(DigitalCareConstants.STOP_ANIMATION_ID, 0);
         intent.putExtra(DigitalCareConstants.SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);

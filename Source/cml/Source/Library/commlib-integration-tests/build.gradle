@@ -6,6 +6,7 @@
 apply plugin: 'com.android.application'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
@@ -28,14 +29,14 @@ artifactoryPublish.skip = true
 dependencies {
     compileOnly deps.support.annotations
 
-    implementation project(':commlib')
-    implementation project(':AppInfra')
-    implementation project(':commlib-api')
-    implementation project(':commlib-ble')
-    implementation project(':commlib-lan')
-    implementation project(':commlib-cloud')
-    implementation project(':cloudcontroller')
-    implementation project(':cloudcontroller-api')
+    implementation project(strings.cml.projectName)
+    implementation project(strings.ail.projectName)
+    implementation project(strings.cmlapi.projectName)
+    implementation project(strings.cmlble.projectName)
+    implementation project(strings.cmllan.projectName)
+    implementation project(strings.ccl.projectName)
+    implementation project(strings.clc.projectName)
+    implementation project(strings.cca.projectName)
 
     implementation deps.gson
     implementation deps.commons_io
@@ -46,6 +47,6 @@ dependencies {
     testImplementation deps.powermock_junit
     testImplementation deps.cucumber_java
     testImplementation deps.cucumber_junit
-    testImplementation project(':commlib-testutils')
-    testImplementation project(':bluelib')
+    testImplementation project(strings.cmltu.projectName)
+    testImplementation project(strings.bll.projectName)
 }

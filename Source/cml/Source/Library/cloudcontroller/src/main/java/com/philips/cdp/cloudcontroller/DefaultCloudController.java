@@ -652,7 +652,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         }
 
         @Override
-        public void onRelationshipRemove() {
+        public void onRelationshipRemove(int status) {
             // NOP
         }
 

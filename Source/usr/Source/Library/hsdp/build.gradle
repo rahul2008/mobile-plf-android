@@ -6,12 +6,13 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
-archivesBaseName = "hsdp"
+archivesBaseName = strings.hsdp.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -79,8 +80,8 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle
 dependencies {
     compileOnly deps.javax_annotation
 
-    implementation project(':jump')
-    implementation project(':AppInfra')
+    implementation project(strings.jmp.projectName)
+    implementation project(strings.ail.projectName)
     implementation deps.butterknife
 
     annotationProcessor deps.butterknife

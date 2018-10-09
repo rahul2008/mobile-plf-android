@@ -183,7 +183,11 @@ pipeline {
 
         stage('Upload Cucumber results to TFS') {
             when {
-                anyOf { branch 'develop' }
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                    anyOf { branch 'develop'; }
+                }
             }
             steps {
                 script {

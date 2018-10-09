@@ -25,6 +25,7 @@ import  com.philips.cdp.di.iap.response.orders.Address;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.text.ParseException;
@@ -232,6 +233,8 @@ public class Utility {
     public static void showActionDialog(final Context context, String positiveBtnText, String negativeBtnText,
                                         String pErrorString, String descriptionText, final FragmentManager pFragmentManager, final AlertListener alertListener) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context);
+        builder.setDialogType(DialogConstants.TYPE_ALERT);
+        
         if (!TextUtils.isEmpty(descriptionText)) {
             builder.setMessage(descriptionText);
         }

@@ -6,9 +6,10 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
-archivesBaseName = "IconFont"
+archivesBaseName = strings.icf.artifactName
 
 buildscript {
     dependencies {

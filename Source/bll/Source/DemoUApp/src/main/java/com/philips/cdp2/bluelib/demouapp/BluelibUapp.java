@@ -71,7 +71,6 @@ public class BluelibUapp implements UappInterface {
             }
 
             Intent intent = new Intent(context, BluelibUappActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
             throw new IllegalArgumentException("Unsupported UiLauncher provided");

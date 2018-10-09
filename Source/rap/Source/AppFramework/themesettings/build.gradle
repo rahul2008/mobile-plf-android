@@ -6,13 +6,14 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     dependencies {
         classpath builddeps.buildinfoextractor
     }
 }
-
+archivesBaseName = strings.tse.artifactName
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -48,7 +49,7 @@ dependencies {
     implementation deps.support.recyclerview
 
     if (directdependencies) {
-        implementation project(':uid')
+        implementation project(strings.uid.projectName)
     } else {
         implementation philipsdeps.uid
     }

@@ -6,8 +6,9 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
-archivesBaseName = "product-registration-libUApp"
+archivesBaseName = strings.prguapp.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -74,12 +75,12 @@ dependencies {
     implementation deps.support.design
 
     if (directdependencies) {
-        implementation project(':uid')
-        implementation project(':product-registration-lib')
-        implementation project(':registrationApi')
-        implementation project(':prx')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
+        implementation project(strings.uid.projectName)
+        implementation project(strings.prg.projectName)
+        implementation project(strings.usr.projectName)
+        implementation project(strings.prx.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation(philipsdeps.uid) {
             exclude group: 'com.android.support'

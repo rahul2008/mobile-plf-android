@@ -7,11 +7,12 @@ apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
-archivesBaseName = "digitalCare"
+archivesBaseName = strings.dcc.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -108,14 +109,14 @@ dependencies {
     testImplementation deps.junit
 
     if (directdependencies) {
-        implementation project(':productselection')
-        implementation project(':uid')
-        implementation project(':csw')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
-        implementation project(':prx')
-        implementation project(':catk')
-        implementation project(':pif')
+        implementation project(strings.pse.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.csw.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.prx.projectName)
+        implementation project(strings.catk.projectName)
+        implementation project(strings.pif.projectName)
     } else {
         implementation philipsdeps.productselection
         implementation philipsdeps.uid

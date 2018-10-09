@@ -6,6 +6,7 @@
 apply plugin: 'com.android.application'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -206,8 +207,8 @@ dependencies {
     implementation deps.support.appcompatv7
 
     if (directdependencies) {
-        implementation project(':AppInfra')
-        implementation project(':thsUapp')
+        implementation project(strings.ail.projectName)
+        implementation project(strings.thsuapp.projectName)
     } else {
         implementation(philipsdeps.AppInfra) {
             exclude group: 'com.android.support'

@@ -141,7 +141,7 @@ public class IAPHandlerTest {
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         IAPListener iapListener = iapLaunchInput.getIapListener();
         mMockIAPHandler.initIAP(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null,1,null), iapLaunchInput);
         iapListener.onFailure(IAPConstant.IAP_ERROR_UNKNOWN);
     }
 
@@ -180,7 +180,7 @@ public class IAPHandlerTest {
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, null,blackListedRetailer);
         IAPSettings iapSettings = new IAPSettings(new Application());
         MockIAPHandler mockIAPHandler = new MockIAPHandler(mIAPDependencies, iapSettings);
-        mockIAPHandler.onSuccessOfInitialization(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_BEHIND, 1),
+        mockIAPHandler.onSuccessOfInitialization(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_BEHIND, null,1,null),
                 iapLaunchInput, mIapListener);
         mIapListener.onSuccess();
     }
@@ -228,7 +228,7 @@ public class IAPHandlerTest {
         IAPSettings iapSettings = new IAPSettings(new Application());
         MockIAPHandler mockIAPHandler = new MockIAPHandler(mIAPDependencies, iapSettings);
         mockIAPHandler.launchIAP(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null,1,null), iapLaunchInput);
     }
 
     @Test(expected = RuntimeException.class)
@@ -239,7 +239,7 @@ public class IAPHandlerTest {
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, null,blackListedRetailer);
         mMockIAPHandler.launchIAP(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null,1,null), iapLaunchInput);
     }
 
     @Test(expected = RuntimeException.class)
@@ -247,7 +247,7 @@ public class IAPHandlerTest {
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
         mMockIAPHandler.launchIAP(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null,1,null), iapLaunchInput);
     }
 
     @Test(expected = RuntimeException.class)
@@ -258,7 +258,7 @@ public class IAPHandlerTest {
         IAPSettings iapSettings = new IAPSettings(new Application());
         MockIAPHandler mockIAPHandler = new MockIAPHandler(mIAPDependencies, iapSettings);
         mockIAPHandler.launchIAP(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null,1,null), iapLaunchInput);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -277,7 +277,7 @@ public class IAPHandlerTest {
         //Robolectric.setupActivity(TestActivity.class);
 
         mockIAPHandler.launchIAP(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null,1,null), iapLaunchInput);
     }
 
     //Launch As Fragment
