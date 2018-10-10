@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib.dicommsupport.ports;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.dicommsupport.DiCommPort;
@@ -20,12 +21,13 @@ public class DiCommFirmwarePort extends DiCommPort {
     public static final String FIRMWARE = "firmware";
 
     public static class Key {
+
         public static final String STATE = "state";
         public static final String MAX_CHUNK_SIZE = "maxchunksize";
         public static final String UPGRADE = "upgrade";
         public static final String CAN_UPGRADE = "canupgrade";
-
         public static final String STATUS_MESSAGE = "statusmsg";
+
         public static final String DATA = "data";
         public static final String PROGRESS = "progress";
         public static final String SIZE = "size";
@@ -59,6 +61,7 @@ public class DiCommFirmwarePort extends DiCommPort {
 
             return Unknown;
         }
+
     }
 
     public enum Command {
@@ -76,10 +79,17 @@ public class DiCommFirmwarePort extends DiCommPort {
         public final String getName() {
             return commandName;
         }
+
     }
 
     public DiCommFirmwarePort(Handler internalHandler) {
         super(FIRMWARE, internalHandler);
+    }
+
+    public static State getStateFromProps(@NonNull final Map<String, Object> properties) {
+        Object stateValue = properties.get(Key.STATE);
+
+        return (stateValue instanceof String) ? State.fromString((String) stateValue) : State.Unknown;
     }
 
     public int getMaxChunkSize() {
@@ -98,9 +108,7 @@ public class DiCommFirmwarePort extends DiCommPort {
     }
 
     public State getState() {
-        String stringState = getString(Key.STATE);
-
-        return State.fromString(stringState);
+        return getStateFromProps(getProperties());
     }
 
     public String getStatusMessage() {

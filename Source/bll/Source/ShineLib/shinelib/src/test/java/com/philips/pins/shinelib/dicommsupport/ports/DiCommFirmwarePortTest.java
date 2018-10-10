@@ -19,6 +19,10 @@ import org.mockito.Mock;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.State.Downloading;
+import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.State.Unknown;
+import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.getStateFromProps;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -176,5 +180,41 @@ public class DiCommFirmwarePortTest {
         reloadProperties("canupgrade", data);
 
         assertFalse(diCommFirmwarePort.getCanUpgrade());
+    }
+
+    @Test
+    public void itReturnsCorrectStateFromPropertiesThatContainAValidStateString() {
+        properties.put(DiCommFirmwarePort.Key.STATE, "downloading");
+
+        DiCommFirmwarePort.State state = getStateFromProps(properties);
+
+        assertThat(state).isEqualTo(Downloading);
+    }
+
+    @Test
+    public void itReturnsStateUnknownFromPropertiesThatContainAnInvalidStateValueType() {
+        properties.put(DiCommFirmwarePort.Key.STATE, new String[]{"downloading"});
+
+        DiCommFirmwarePort.State state = getStateFromProps(properties);
+
+        assertThat(state).isEqualTo(Unknown);
+    }
+
+    @Test
+    public void itReturnsStateUnknownFromPropertiesThatContainANullStateValue() {
+        properties.clear();
+
+        DiCommFirmwarePort.State state = getStateFromProps(properties);
+
+        assertThat(state).isEqualTo(Unknown);
+    }
+
+    @Test
+    public void itReturnsStateUnknownFromPropertiesThatContainAnInvalidStateValue() {
+        properties.put(DiCommFirmwarePort.Key.STATE, "downloadingz");
+
+        DiCommFirmwarePort.State state = getStateFromProps(properties);
+
+        assertThat(state).isEqualTo(Unknown);
     }
 }

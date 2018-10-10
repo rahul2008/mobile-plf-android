@@ -147,7 +147,7 @@ public class FirmwareUpdateFragment extends Fragment {
                 }
 
                 shnCapabilityFirmwareUpdate.setSHNCapabilityFirmwareUpdateListener(firmwareUpdateListener);
-                shnCapabilityFirmwareUpdate.uploadFirmware(buffer);
+                shnCapabilityFirmwareUpdate.uploadFirmware(buffer, true);
             } catch (FileNotFoundException e) {
                 Log.e(TAG, "FileNotFoundException", e);
             }

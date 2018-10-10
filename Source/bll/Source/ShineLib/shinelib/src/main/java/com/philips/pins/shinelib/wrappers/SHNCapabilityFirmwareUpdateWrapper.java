@@ -31,11 +31,11 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
     }
 
     @Override
-    public void uploadFirmware(final byte[] firmwareData) {
+    public void uploadFirmware(final byte[] firmwareData, final boolean shouldResume) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedCapability.uploadFirmware(firmwareData);
+                wrappedCapability.uploadFirmware(firmwareData, shouldResume);
             }
         });
     }
