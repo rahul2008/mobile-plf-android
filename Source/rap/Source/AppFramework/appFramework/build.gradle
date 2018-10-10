@@ -202,7 +202,6 @@ dependencies {
     releaseImplementation deps.leakcanary_no_op
     psraReleaseImplementation deps.leakcanary_no_op
 
-    implementation deps.stetho
     implementation deps.ormlite.core
     implementation deps.ormlite.android
     implementation deps.multidex

@@ -10,6 +10,7 @@ package com.philips.cdp.di.iap.screens;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
@@ -278,5 +279,12 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
             IAPLog.d("ShippingAddressFragment", "NumberParseException");
         }
         return false;
+    }
+
+    String addressWithNewLineIfNull( String code) {
+        if (!TextUtils.isEmpty(code)) {
+            return code.replaceAll("null", " ");
+        }
+        return null;
     }
 }
