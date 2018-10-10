@@ -32,6 +32,6 @@ public class LuncherActivity extends Activity {
         AppInfra appInfra = demoApplication.getAppInfra();
         iapDemoUAppInterface = new IapDemoUAppInterface();
         iapDemoUAppInterface.init(new IapDemoUAppDependencies(appInfra), new IapDemoAppSettings(this));
-        iapDemoUAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,null, 0,null), new IapLaunchInput());
+        iapDemoUAppInterface.launch(new ActivityLauncher(this,ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,null, 0,null), new IapLaunchInput());
     }
 }
