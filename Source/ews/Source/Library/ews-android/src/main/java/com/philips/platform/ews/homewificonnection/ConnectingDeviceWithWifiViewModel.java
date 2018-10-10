@@ -145,21 +145,21 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         public void onReceive(Context context, Intent intent) {
             ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive");
             if (!isInitialStickyBroadcast()) {
-                ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive 1st if");
+                ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive inside");
                 final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
                 if (netInfo.getState() == NetworkInfo.State.CONNECTED) {
-                    ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive 2nd if");
+                    ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive NetworkInfo.State.CONNECTED");
                     int currentWifiState = wiFiUtil.getCurrentWifiState();
                     if (currentWifiState == WiFiUtil.HOME_WIFI) {
-                        ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive 3rd if");
+                        ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive HOME_WIFI");
                         unregisterBroadcastReceiver();
                         discoveryHelper.startDiscovery(discoveryCallback, ewsLogger);
                     } else if (currentWifiState == WiFiUtil.DEVICE_HOTSPOT_WIFI) {
-                        ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive 4th if");
+                        ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive DEVICE_HOTSPOT_WIFI");
                         unregisterBroadcastReceiver();
                         showConnectionUnsuccessful();
-                    } else if (currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
-                        ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive else if");
+                    } else if (currentWifiState == WiFiUtil.WRONG_WIFI || currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
+                        ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive WRONG_WIFI || UNKNOWN_WIFI" + currentWifiState);
                         unregisterBroadcastReceiver();
                         handleFailureWrongWifiNetwork();
                     }
