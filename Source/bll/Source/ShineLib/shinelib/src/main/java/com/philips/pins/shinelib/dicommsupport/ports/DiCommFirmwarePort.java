@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -58,7 +58,6 @@ public class DiCommFirmwarePort extends DiCommPort {
                     }
                 }
             }
-
             return Unknown;
         }
 
@@ -86,25 +85,33 @@ public class DiCommFirmwarePort extends DiCommPort {
         super(FIRMWARE, internalHandler);
     }
 
+    public int getMaxChunkSize() {
+        return getMaxChunkSize(getProperties());
+    }
+
+    public static int getMaxChunkSize(@NonNull Map<String, Object> properties) {
+        Object maxChunkSize = properties.get(Key.MAX_CHUNK_SIZE);
+
+        if (maxChunkSize instanceof Integer) {
+            Integer maxChunkSizeInBase64 = (Integer) maxChunkSize;
+            return (int) Math.floor(maxChunkSizeInBase64 * 0.75);
+        } else if (maxChunkSize instanceof Double) {
+            int maxChunkSizeInBase64 = ((Double) maxChunkSize).intValue();
+            return (int) Math.floor(maxChunkSizeInBase64 * 0.75);
+        }
+        return Integer.MAX_VALUE;
+    }
+
+    public static int getProgressFromProps(@NonNull final Map<String, Object> properties) {
+        Object progressValue = properties.get(Key.PROGRESS);
+
+        return (progressValue instanceof Integer) ? (int) progressValue : -1;
+    }
+
     public static State getStateFromProps(@NonNull final Map<String, Object> properties) {
         Object stateValue = properties.get(Key.STATE);
 
         return (stateValue instanceof String) ? State.fromString((String) stateValue) : State.Unknown;
-    }
-
-    public int getMaxChunkSize() {
-        Map<String, Object> properties = getProperties();
-
-        Object size = properties.get(Key.MAX_CHUNK_SIZE);
-        if (size instanceof Integer) {
-            Integer maxChunkSizeInBase64 = (Integer) size;
-            return (int) Math.floor(maxChunkSizeInBase64 * 0.75);
-        } else if (size instanceof Double) {
-            int maxChunkSizeInBase64 = ((Double) size).intValue();
-            return (int) Math.floor(maxChunkSizeInBase64 * 0.75);
-        }
-
-        return Integer.MAX_VALUE;
     }
 
     public State getState() {

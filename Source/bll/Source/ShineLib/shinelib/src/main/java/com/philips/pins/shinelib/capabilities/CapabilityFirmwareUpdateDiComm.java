@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -24,7 +24,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.Key;
+import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.Key.PROGRESS;
 import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.State;
+import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.getMaxChunkSize;
+import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.getProgressFromProps;
 import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.getStateFromProps;
 
 /**
@@ -91,7 +94,7 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
                         if (getStateFromProps(properties) == State.Idle) {
                             prepareForUpload();
                         } else if (getStateFromProps(properties) == State.Downloading) {
-                            startUpload();
+                            startUploadAt(getProgressFromProps(properties));
                         } else {
                             resetFirmwarePortToIdle(getStateFromProps(properties));
                         }
@@ -296,8 +299,6 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
             @Override
             public void onActionCompleted(SHNResult result) {
                 if (result == SHNResult.SHNOk) {
-                    sendDownloadingCommand();
-
                     diCommFirmwarePortStateWaiter.waitUntilStateIsReached(State.Downloading, new DiCommFirmwarePortStateWaiter.Listener() {
                         @Override
                         public void onStateUpdated(State state, SHNResult shnResult) {
@@ -308,6 +309,8 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
                             }
                         }
                     });
+
+                    sendDownloadingCommand();
                 } else {
                     failWithResult(result);
                 }
@@ -316,30 +319,36 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
     }
 
     private void startUpload() {
-        int maxChunkSize = firmwareDiCommPort.getMaxChunkSize();
-        if (maxChunkSize != Integer.MAX_VALUE) {
+        startUploadAt(0);
+    }
 
-            diCommFirmwarePortStateWaiter.waitUntilStateIsReached(State.Ready, new DiCommFirmwarePortStateWaiter.Listener() {
-                @Override
-                public void onStateUpdated(State state, SHNResult shnResult) {
-                    if (shnResult == SHNResult.SHNOk) {
-                        setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle);
-                        if (shnCapabilityFirmwareUpdateListener != null) {
-                            updateProgress(firmwareData.length);
-                            shnCapabilityFirmwareUpdateListener.onUploadFinished(CapabilityFirmwareUpdateDiComm.this);
-                        }
-                        firmwareDiCommPort.unsubscribe(updateListener, null);
-                    } else {
-                        failWithResult(shnResult);
-                    }
-                }
-            });
+    private void startUploadAt(int offset) {
+        int maxChunkSize = getMaxChunkSize(firmwareDiCommPort.getProperties());
 
-            uploadNextChunk(0, maxChunkSize);
-        } else {
+        if (maxChunkSize == Integer.MAX_VALUE) {
             SHNLogger.e(TAG, "The firmware-port did not expose a valid chunk size");
             failWithResult(SHNResult.SHNErrorInvalidParameter);
+
+            return;
         }
+
+        diCommFirmwarePortStateWaiter.waitUntilStateIsReached(State.Ready, new DiCommFirmwarePortStateWaiter.Listener() {
+            @Override
+            public void onStateUpdated(State state, SHNResult shnResult) {
+                if (shnResult == SHNResult.SHNOk) {
+                    setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle);
+                    if (shnCapabilityFirmwareUpdateListener != null) {
+                        updateProgress(firmwareData.length);
+                        shnCapabilityFirmwareUpdateListener.onUploadFinished(CapabilityFirmwareUpdateDiComm.this);
+                    }
+                    firmwareDiCommPort.unsubscribe(updateListener, null);
+                } else {
+                    failWithResult(shnResult);
+                }
+            }
+        });
+
+        uploadNextChunk(offset, maxChunkSize);
     }
 
     private void sendDownloadingCommand() {
@@ -368,8 +377,8 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
             public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
                 if (result == SHNResult.SHNOk) {
                     if (firmwareDiCommPort.getState() == State.Downloading) {
-                        if (properties.containsKey(Key.PROGRESS)) {
-                            Object progress = properties.get(Key.PROGRESS);
+                        if (properties.containsKey(PROGRESS)) {
+                            Object progress = properties.get(PROGRESS);
                             if (progress instanceof Double) {
                                 uploadNextChunk(((Double) progress).intValue(), maxChunkSize);
                             } else if (progress instanceof Integer) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -26,11 +26,14 @@ import org.mockito.Mock;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.*;
+import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.State;
+import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.getMaxChunkSize;
+import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.getStateFromProps;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
@@ -93,8 +96,9 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void setUp() {
         initMocks(this);
 
-        when(diCommPortMock.getState()).thenReturn(getStateFromProps(latestReceivedProperties));
         when(diCommPortMock.getProperties()).thenReturn(latestReceivedProperties);
+        when(diCommPortMock.getState()).thenReturn(getStateFromProps(latestReceivedProperties));
+        when(diCommPortMock.getMaxChunkSize()).thenReturn(getMaxChunkSize(latestReceivedProperties));
 
         capabilityFirmwareUpdateDiComm = new CapabilityFirmwareUpdateDiCommForTest(diCommPortMock, null);
 
@@ -237,7 +241,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void whenUploadIsCalledAndPortIsProgrammingThenFailureIsReported() {
         whenUploadIsCalledThenCurrentValuesAreFetchedFromDevice();
 
-        respondWithPortState(State.Programming);
+        respondWith(State.Programming);
 
         verifyUploadFailed(SHNResult.SHNErrorProcedureAlreadyInProgress, capabilityFirmwareUpdateDiComm.getState());
     }
@@ -246,7 +250,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void whenUploadIsCalledAndPortIsErrorThenIdleIsSent() {
         whenUploadIsCalledThenCurrentValuesAreFetchedFromDevice();
 
-        respondWithPortState(State.Error);
+        respondWith(State.Error);
 
         verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
@@ -267,7 +271,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         whenUploadIsCalledAndPortIsErrorThenIdleIsSent();
         reset(diCommPortMock);
 
-        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNOk);
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(latestReceivedProperties, SHNResult.SHNOk);
 
         verify(diCommPortMock).subscribe(any(DiCommPort.UpdateListener.class), any(SHNResultListener.class));
     }
@@ -276,7 +280,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void whenUploadIsCalledAndPortIsDownloadingThenCancelIsSent() {
         whenUploadIsCalledThenCurrentValuesAreFetchedFromDevice();
 
-        respondWithPortState(State.Downloading);
+        respondWith(State.Downloading);
 
         verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
@@ -287,7 +291,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void whenUploadIsCalledAndPortIsReadyThenCancelIsSent() {
         whenUploadIsCalledThenCurrentValuesAreFetchedFromDevice();
 
-        respondWithPortState(State.Ready);
+        respondWith(State.Ready);
 
         verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
@@ -307,7 +311,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void whenUploadIsCalledAndPortIsReadyThenStartsWaitingForErrorState() {
         whenUploadIsCalledThenCurrentValuesAreFetchedFromDevice();
 
-        respondWithPortState(State.Ready);
+        respondWith(State.Ready);
 
         verify(diCommFirmwarePortStateWaiterMock).waitUntilStateIsReached(eq(State.Error), waiterListenerArgumentCaptor.capture());
     }
@@ -347,8 +351,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void whenUploadIsCalledAndPortIsIdleThenCapabilityIsSubscribedToThePort() {
         whenUploadIsCalledThenCurrentValuesAreFetchedFromDevice();
 
-        when(diCommPortMock.getState()).thenReturn(State.Idle);
-        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNOk);
+        respondWith(State.Idle);
 
         verify(diCommPortMock).subscribe(updateListenerCaptor.capture(), shnResultListenerCaptor.capture());
     }
@@ -504,18 +507,18 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void whenAChunkIsWrittenWithNotDownloadingStateThenNextChunkIsNotWritten() {
         whenStateSwitchesToDownloadingThenFirstChunkIsWritten();
 
-        sendResponseWithState(State.Error, 0);
+        respondWith(State.Error, 0);
 
-        verify(diCommPortMock, never()).putProperties(ArgumentMatchers.<String, Object>anyMap(), any(SHNMapResultListener.class));
+        verify(diCommPortMock, never()).putProperties(anyMap(), any());
     }
 
     @Test
     public void whenStateSwitchesToCheckingThenNextChunkIsNotWritten() {
         whenThirdChunkIsWrittenSuccessfullyThenLastChunkIsWritten();
 
-        sendResponseWithState(State.Checking, firmwareData.length);
+        respondWith(State.Checking, firmwareData.length);
 
-        verify(diCommPortMock, never()).putProperties(ArgumentMatchers.<String, Object>anyMap(), any(SHNMapResultListener.class));
+        verify(diCommPortMock, never()).putProperties(anyMap(), any());
     }
 
     @Test
@@ -821,9 +824,8 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void givenDeviceInDownloadingState_whenResumingUpload_thenUploadStartsFromExistingProgress() {
         capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, true);
         verify(diCommPortMock).reloadProperties(mapResultListenerArgumentCaptor.capture());
-        reset(diCommPortMock);
 
-        sendResponseWithState(State.Downloading, 1);
+        respondWith(State.Downloading, 1);
 
         verifyChunkWritten(1);
     }
@@ -851,20 +853,15 @@ public class CapabilityFirmwareUpdateDiCommTest {
         }
     }
 
-    private void respondWithPortState(State state) {
-        reset(shnCapabilityFirmwareUpdateListenerMock);
-        latestReceivedProperties.clear();
-        latestReceivedProperties.put(Key.STATE, state);
-        mapResultListenerArgumentCaptor.getValue().onActionCompleted(latestReceivedProperties, SHNResult.SHNOk);
+    private void respondWith(State state) {
+        respondWith(state, -1);
     }
 
-    private void sendResponseWithState(State state, int progress) {
+    private void respondWith(State state, int progress) {
         latestReceivedProperties.clear();
         latestReceivedProperties.put(PROGRESS, progress);
         latestReceivedProperties.put(STATE, state.toString());
-        latestReceivedProperties.put(MAX_CHUNK_SIZE, TEST_MAX_CHUNK_SIZE);
-
-        //reset(shnCapabilityFirmwareUpdateListenerMock, diCommPortMock);
+        latestReceivedProperties.put(MAX_CHUNK_SIZE, TEST_MAX_CHUNK_SIZE * 4 / 3);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(latestReceivedProperties, SHNResult.SHNOk);
     }
@@ -880,12 +877,12 @@ public class CapabilityFirmwareUpdateDiCommTest {
         verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
         assertThat(mapArgumentCaptor.getValue().containsKey(DATA)).isTrue();
-        byte[] data = (byte[]) mapArgumentCaptor.getValue().get(DATA);
-        assertEquals(TEST_MAX_CHUNK_SIZE, data.length);
+        byte[] chunk = (byte[]) mapArgumentCaptor.getValue().get(DATA);
+        assertEquals(TEST_MAX_CHUNK_SIZE, chunk.length);
 
-        assertEquals(firmwareData[progress], data[0]);
-        assertEquals(firmwareData[progress + 1], data[1]);
-        assertEquals(firmwareData[progress + 2], data[2]);
+        assertEquals(firmwareData[progress], chunk[0]);
+        assertEquals(firmwareData[progress + 1], chunk[1]);
+        assertEquals(firmwareData[progress + 2], chunk[2]);
         float progressIndicator = (float) progress / firmwareData.length;
         verify(shnCapabilityFirmwareUpdateListenerMock).onProgressUpdate(capabilityFirmwareUpdateDiComm, progressIndicator);
     }
