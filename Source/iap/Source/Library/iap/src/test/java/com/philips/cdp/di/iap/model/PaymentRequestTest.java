@@ -145,7 +145,6 @@ public class PaymentRequestTest {
                 addressHashMap.put(ModelConstants.REGION_ISOCODE, "");
             }
             addressHashMap.put(ModelConstants.LINE_1, "dfs");
-            addressHashMap.put(ModelConstants.LINE_2, "dfs");
             addressHashMap.put(ModelConstants.POSTAL_CODE, "");
             addressHashMap.put(ModelConstants.TOWN, "Delhi?");
             addressHashMap.put(ModelConstants.PHONE_1, "5417543010");
