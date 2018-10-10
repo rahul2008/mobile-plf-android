@@ -76,7 +76,6 @@ public class PaymentRequestTest {
         Mockito.when(mockBillingAddress.getCountryIsocode()).thenReturn("US");
         Mockito.when(mockBillingAddress.getRegionIsoCode()).thenReturn("US_NY");
         Mockito.when(mockBillingAddress.getLine1()).thenReturn("dfs");
-        Mockito.when(mockBillingAddress.getLine2()).thenReturn("dfs");
         Mockito.when(mockBillingAddress.getPostalCode()).thenReturn("");
         Mockito.when(mockBillingAddress.getTown()).thenReturn("Delhi?");
         Mockito.when(mockBillingAddress.getPhone1()).thenReturn("5417543010");
@@ -116,7 +115,6 @@ public class PaymentRequestTest {
         Mockito.when(mockBillingAddress.getCountryIsocode()).thenReturn("US");
         Mockito.when(mockBillingAddress.getRegionIsoCode()).thenReturn(null);
         Mockito.when(mockBillingAddress.getLine1()).thenReturn("dfs");
-        Mockito.when(mockBillingAddress.getLine2()).thenReturn("dfs");
         Mockito.when(mockBillingAddress.getPostalCode()).thenReturn("");
         Mockito.when(mockBillingAddress.getTown()).thenReturn("Delhi?");
         Mockito.when(mockBillingAddress.getPhone1()).thenReturn("5417543010");
