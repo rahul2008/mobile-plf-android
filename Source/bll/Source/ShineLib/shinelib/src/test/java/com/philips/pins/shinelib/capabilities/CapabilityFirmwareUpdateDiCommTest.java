@@ -36,6 +36,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -238,8 +239,9 @@ public class CapabilityFirmwareUpdateDiCommTest {
     }
 
     @Test
-    public void whenUploadIsCalledAndPortIsProgrammingThenFailureIsReported() {
+    public void givenUploadIsCalled_whenDeviceRespondsItIsProgramming_thenFailureIsReported() {
         whenUploadIsCalledThenCurrentValuesAreFetchedFromDevice();
+        reset(shnCapabilityFirmwareUpdateListenerMock);
 
         respondWith(State.Programming);
 
@@ -269,7 +271,6 @@ public class CapabilityFirmwareUpdateDiCommTest {
     @Test
     public void whenIdleHasSucceededThenUploadStarts() {
         whenUploadIsCalledAndPortIsErrorThenIdleIsSent();
-        reset(diCommPortMock);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(latestReceivedProperties, SHNResult.SHNOk);
 
@@ -301,6 +302,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     @Test
     public void whenCancelHasFailedThenUploadHasFailed() {
         whenUploadIsCalledAndPortIsReadyThenCancelIsSent();
+        reset(shnCapabilityFirmwareUpdateListenerMock);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNErrorInvalidState);
 
@@ -319,11 +321,10 @@ public class CapabilityFirmwareUpdateDiCommTest {
     @Test
     public void whenTheExpectedStateIsReachedThenIdleIsSent() {
         whenUploadIsCalledAndPortIsReadyThenStartsWaitingForErrorState();
-        reset(diCommPortMock);
 
         waiterListenerArgumentCaptor.getValue().onStateUpdated(State.Error, SHNResult.SHNOk);
 
-        verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
+        verify(diCommPortMock, atLeastOnce()).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
         assertEquals(IDLE, mapArgumentCaptor.getValue().get(STATE));
     }
@@ -340,7 +341,6 @@ public class CapabilityFirmwareUpdateDiCommTest {
     @Test
     public void whenTheUnexpectedStateIsReachedThenIdleIsSent() {
         whenUploadIsCalledAndPortIsReadyThenStartsWaitingForErrorState();
-        reset(diCommPortMock);
 
         waiterListenerArgumentCaptor.getValue().onStateUpdated(State.Downloading, SHNResult.SHNErrorInvalidParameter);
 
@@ -399,9 +399,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     @Test
     public void whenStateSwitchesToDownloadingThenFirstChunkIsWritten() {
         whenSubscriptionIsSuccessfulThenStartsWaitingForDownloading();
-        reset(diCommPortMock);
 
-        when(diCommPortMock.getMaxChunkSize()).thenReturn(TEST_MAX_CHUNK_SIZE);
         waiterListenerArgumentCaptor.getValue().onStateUpdated(State.Downloading, SHNResult.SHNOk);
 
         verifyChunkWritten(0);
@@ -874,7 +872,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     }
 
     private void verifyChunkWritten(int progress) {
-        verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
+        verify(diCommPortMock, atLeastOnce()).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
         assertThat(mapArgumentCaptor.getValue().containsKey(DATA)).isTrue();
         byte[] chunk = (byte[]) mapArgumentCaptor.getValue().get(DATA);
