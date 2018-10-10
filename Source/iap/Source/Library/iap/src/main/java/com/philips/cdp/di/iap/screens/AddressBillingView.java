@@ -238,8 +238,8 @@ public class AddressBillingView
         mEtFirstNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
         mEtLastNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutationBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
-        mEtAddressLineOneBilling.setText(addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
-        mEtAddressLineTwoBilling.setText(addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_2)));
+        mEtAddressLineOneBilling.setText(addressPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
+        mEtAddressLineTwoBilling.setText(addressPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_2)));
         mEtTownBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCodeBilling.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountryBilling.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
@@ -587,8 +587,8 @@ public class AddressBillingView
             mEtFirstNameBilling.setText(billingAddressFields.getFirstName());
             mEtLastNameBilling.setText(billingAddressFields.getLastName());
             mEtSalutationBilling.setText(billingAddressFields.getTitleCode());
-            mEtAddressLineOneBilling.setText(addressWithNewLineIfNull(billingAddressFields.getLine1()));
-            mEtAddressLineTwoBilling.setText(addressWithNewLineIfNull(billingAddressFields.getLine2()));
+            mEtAddressLineOneBilling.setText(addressPresenter.addressWithNewLineIfNull(billingAddressFields.getLine1()));
+            mEtAddressLineTwoBilling.setText(addressPresenter.addressWithNewLineIfNull(billingAddressFields.getLine2()));
             mEtTownBilling.setText(billingAddressFields.getTown());
             mEtPostalCodeBilling.setText(billingAddressFields.getPostalCode());
             mEtCountryBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
@@ -605,12 +605,4 @@ public class AddressBillingView
             mEtPhone1Billing.setText(billingAddressFields.getPhone1());
         }
     }
-
-    private String addressWithNewLineIfNull( String code) {
-        if (!TextUtils.isEmpty(code)) {
-                return code.replaceAll("[,null]", " ");
-        }
-        return null;
-    }
-
 }
