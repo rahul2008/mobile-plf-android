@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -31,6 +32,6 @@ public class LuncherActivity extends Activity {
         AppInfra appInfra = demoApplication.getAppInfra();
         iapDemoUAppInterface = new IapDemoUAppInterface();
         iapDemoUAppInterface.init(new IapDemoUAppDependencies(appInfra), new IapDemoAppSettings(this));
-        iapDemoUAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), new IapLaunchInput());
+        iapDemoUAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,null, 0,null), new IapLaunchInput());
     }
 }
