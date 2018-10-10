@@ -2,6 +2,7 @@ package com.philips.cdp.registration.update;
 
 import android.content.Context;
 
+import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.handlers.UpdateConsumerInterestHandler;
@@ -14,23 +15,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-/**
- * Created by philips on 11/30/17.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class ConsumerInterestUpdateTest {
 
+    @Mock
+    private ConsumerInterest consumerInterestMock;
 
     @Mock
     private RegistrationComponent mockRegistrationComponent;
     @Mock
     private LoggingInterface mockLoggingInterface;
 
-    ConsumerInterestUpdate consumerInterestUpdate;
+    private ConsumerInterestUpdate consumerInterestUpdate;
     @Mock
     private Context contextMock;
 
@@ -47,16 +49,73 @@ public class ConsumerInterestUpdateTest {
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
         RLog.setMockLogger(mockLoggingInterface);
 
-        consumerInterestUpdate=new ConsumerInterestUpdate();
+        consumerInterestUpdate = new ConsumerInterestUpdate();
     }
 
-    @Mock
-    ConsumerInterest consumerInterestMock;
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = NoClassDefFoundError.class)
     public void updateConsumerInterest() throws Exception {
         consumerInterests.add(consumerInterestMock);
-        consumerInterestUpdate.updateConsumerInterest(contextMock,updateConsumerInterestHandlerMock,consumerInterests);
+        consumerInterestUpdate.updateConsumerInterest(contextMock, updateConsumerInterestHandlerMock, consumerInterests);
     }
+
+    @Test
+    public void testConvertConsumerArrayToJOSNString() {
+        ArrayList<ConsumerInterest> consumerInterestList = new ArrayList<ConsumerInterest>();
+        ConsumerInterest consumerInterest = new ConsumerInterest();
+        consumerInterest.setCampaignName("campaignName");
+        consumerInterest.setSubjectArea("subjectArea");
+        consumerInterest.setTopicCommunicationKey("topicCommunicationKey");
+        consumerInterest.setTopicValue("topicValue");
+        consumerInterestList.add(consumerInterest);
+
+        Method method = null;
+        try {
+            method = ConsumerInterestUpdate.class.getDeclaredMethod("convertConsumerArrayToJOSNString", ArrayList.class);
+            method.setAccessible(true);
+            method.invoke(consumerInterestUpdate, consumerInterestList);
+
+            consumerInterestList = null;
+            method = ConsumerInterestUpdate.class.getDeclaredMethod("convertConsumerArrayToJOSNString", ArrayList.class);
+            method.setAccessible(true);
+            method.invoke(consumerInterestUpdate, consumerInterestList);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //startUpdateTask(UpdateConsumerInterestHandler updateConsumerInterestHandler, String attributes)
+    @Test
+    public void testStartUpdateTask() {
+        Method method = null;
+        UpdateConsumerInterestHandler updateConsumerInterestHandler = new UpdateConsumerInterestHandler() {
+            @Override
+            public void onUpdateConsumerInterestSuccess() {
+
+            }
+
+            @Override
+            public void onUpdateConsumerInterestFailedWithError(CaptureApiError error) {
+
+            }
+        };
+        String attributes = "sample";
+        try {
+            method = ConsumerInterestUpdate.class.getDeclaredMethod("startUpdateTask", new Class[]{UpdateConsumerInterestHandler.class, String.class});
+            method.setAccessible(true);
+            method.invoke(consumerInterestUpdate, new Object[]{updateConsumerInterestHandler, attributes});
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
