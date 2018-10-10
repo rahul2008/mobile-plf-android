@@ -63,8 +63,13 @@ public class WIFIConnectionUnsuccessfulViewModel {
     }
 
     public void onTryAgainClicked() {
-        wiFiUtil.forgetHotSpotNetwork(wiFiUtil.DEVICE_SSID);
-        navigator.navigateToConnectingPhoneToHotspotWifiScreen();
+        if(wiFiUtil.isHomeWiFiEnabled()) {
+            navigator.navigateToConnectingPhoneToHotspotWifiScreen();
+        } else {
+            navigator.navigateToSelectWiFiScreen();
+        }
+        //wiFiUtil.forgetHotSpotNetwork(wiFiUtil.DEVICE_SSID);
+
     }
 
     void trackPageName() {

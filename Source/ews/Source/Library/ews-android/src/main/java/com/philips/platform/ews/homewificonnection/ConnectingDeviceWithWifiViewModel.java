@@ -161,7 +161,8 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                     } else if (currentWifiState == WiFiUtil.WRONG_WIFI || currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
                         ewsLogger.d("****************** KUNAL **********", "BroadcastReceiver broadcastReceiver onReceive WRONG_WIFI || UNKNOWN_WIFI" + currentWifiState);
                         unregisterBroadcastReceiver();
-                        handleFailureWrongWifiNetwork();
+                        connectMobileToHomeWiFi();
+                        //handleFailureWrongWifiNetwork();
                     }
                 }
             }
@@ -213,7 +214,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
             handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
         } else {
             ewsLogger.d("****************** KUNAL **********", "startConnecting else");
-            wiFiUtil.forgetHotSpotNetwork(wiFiUtil.DEVICE_SSID);
+            //wiFiUtil.forgetHotSpotNetwork(wiFiUtil.DEVICE_SSID);
             connectToHomeWifi(startConnectionModel.getHomeWiFiSSID());
         }
     }
@@ -280,6 +281,13 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
             fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
         }
         wiFiConnectivityManager.connectToHomeWiFiNetwork(homeWiFiSSID);
+    }
+
+    private void connectMobileToHomeWiFi(){
+        if (fragmentCallback != null) {
+            fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
+        }
+        wiFiConnectivityManager.connectMobileToHomeWiFiNetwork(startConnectionModel.getHomeWiFiSSID(), startConnectionModel.getHomeWiFiPassword());
     }
 
     private void sendNetworkInfoToDevice(@NonNull final StartConnectionModel startConnectionModel) {
