@@ -66,8 +66,8 @@ public class DSLaunchActivity extends AppCompatActivity implements ActionBarList
 
     private void showNotLoggedInAlert() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setTitle("WARNING");
-        alertBuilder.setMessage("You are not Logged In. Please go to Settings and Log In");
+        alertBuilder.setTitle(R.string.warning);
+        alertBuilder.setMessage(R.string.you_are_not_logged_in);
         alertBuilder.setPositiveButton(R.string.ok, (dialog, which) -> finish());
         alertBuilder.show();
     }
