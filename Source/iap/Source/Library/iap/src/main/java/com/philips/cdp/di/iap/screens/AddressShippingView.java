@@ -60,7 +60,6 @@ public class AddressShippingView
     private ValidationEditText mEtLastName;
     private ValidationEditText mEtSalutation;
     private ValidationEditText mEtAddressLineOne;
-    private ValidationEditText mEtAddressLineTwo;
     private ValidationEditText mEtTown;
     private ValidationEditText mEtPostalCode;
     private ValidationEditText mEtCountry;
@@ -154,7 +153,6 @@ public class AddressShippingView
         mEtLastName = rootView.findViewById(R.id.et_last_name);
         mEtSalutation = rootView.findViewById(R.id.et_salutation);
         mEtAddressLineOne = rootView.findViewById(R.id.et_address_line_one);
-        mEtAddressLineTwo = rootView.findViewById(R.id.et_address_line_two);
         mEtTown = rootView.findViewById(R.id.et_town);
         mEtPostalCode = rootView.findViewById(R.id.et_postal_code);
         mEtCountry = rootView.findViewById(R.id.et_country);
@@ -185,7 +183,6 @@ public class AddressShippingView
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
         mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
-        mEtAddressLineTwo.addTextChangedListener(new IAPTextWatcherAddress(mEtAddressLineTwo));
         mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
         mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
@@ -264,38 +261,6 @@ public class AddressShippingView
         }
 
     }
-
-    private class IAPTextWatcherAddress implements TextWatcher {
-        private EditText mEditText;
-
-        public IAPTextWatcherAddress(EditText editText) {
-            mEditText = editText;
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            // Do Nothing
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (mEditText .getText().toString().trim().length() !=0) {
-                mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
-                validateShippingAddress(mEditText, false);
-            }
-            else {
-                mLlAddressLineTwo.hideError();
-            }
-
-        }
-
-        public synchronized void afterTextChanged(Editable text) {
-            if (mEditText .getText().toString().trim().length() ==0) {
-                mLlAddressLineTwo.setValidator(null);
-            }
-        }
-
-    }
-
-
 
     private class IAPTextWatcherPhone implements TextWatcher {
         private EditText mEditText;
@@ -397,13 +362,7 @@ public class AddressShippingView
                 mLlAddressLineOne.showError();
             }
         }
-        if (editText.getId() == R.id.et_address_line_two && !hasFocus) {
-            result = inputValidatorAddressLineTwo.isValidAddress(mEtAddressLineTwo.getText().toString());
-            if (!result) {
-                mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
-                mLlAddressLineTwo.showError();
-            }
-        }
+
         if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus) {
             checkFields();
         }
@@ -420,7 +379,6 @@ public class AddressShippingView
         String firstName = mEtFirstName.getText().toString();
         String lastName = mEtLastName.getText().toString();
         String addressLineOne = mEtAddressLineOne.getText().toString();
-        String addressLineTwo = mEtAddressLineTwo.getText().toString();
         String postalCode = mEtPostalCode.getText().toString().replaceAll(" ", "");
         String phone1 = mEtPhone1.getText().toString().replaceAll(" ", "");
         String town = mEtTown.getText().toString();
@@ -476,7 +434,6 @@ public class AddressShippingView
         shippingAddressFields.setTitleCode(mEtSalutation.getText().toString().trim());
         shippingAddressFields.setCountryIsocode(mEtCountry.getText().toString().trim());
         shippingAddressFields.setLine1(mEtAddressLineOne.getText().toString().trim());
-        shippingAddressFields.setLine2(mEtAddressLineTwo.getText().toString().trim());
         shippingAddressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
         shippingAddressFields.setTown(mEtTown.getText().toString().trim());
         shippingAddressFields.setPhone1(mEtPhone1.getText().toString().replaceAll(" ", ""));
@@ -495,7 +452,6 @@ public class AddressShippingView
         mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutation.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
         mEtAddressLineOne.setText(addressShippingPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
-        mEtAddressLineTwo.setText(addressShippingPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_2)));
         mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
