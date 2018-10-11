@@ -122,7 +122,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 billingAddressFields.setTitleCode(billingAddress.getTitleCode());
                 billingAddressFields.setCountryIsocode(billingAddress.getCountry().getIsocode());
                 billingAddressFields.setLine1(billingAddress.getLine1());
-                billingAddressFields.setLine2(billingAddress.getLine2());
                 billingAddressFields.setPostalCode(billingAddress.getPostalCode());
                 billingAddressFields.setTown(billingAddress.getTown());
                 if(billingAddress.getRegion()!=null) {

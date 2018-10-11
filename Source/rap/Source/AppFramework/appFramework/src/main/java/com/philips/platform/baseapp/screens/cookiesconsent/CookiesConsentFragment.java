@@ -96,7 +96,7 @@ public class CookiesConsentFragment extends AbstractOnboardingBaseFragment imple
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(R.string.RA_Consent, true);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(R.string.RA_cookie_nav_title, true);
     }
 
     protected void startAppTagging() {
