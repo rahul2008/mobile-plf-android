@@ -212,6 +212,9 @@ pipeline {
             steps {
                 script {
                     APK_NAME = readFile("apkname.txt").trim()
+                    if (params.buildType == 'PSRA') {
+                        APK_NAME=sh(returnStdout: true, script: ${apkname/.apk/_PSRA.apk})
+                    }
                     echo "APK_NAME = ${APK_NAME}"
 
                     def jobBranchName = "release_platform_1802.0.0"
