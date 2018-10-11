@@ -36,9 +36,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
@@ -225,25 +223,28 @@ public class SHNDeviceImplTest {
 
     @Test
     public void whenSHNDeviceIsBuiltThenItsConnectionPriorityIsInitialisedAsBalanced() {
-        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).build();
-        assertNotNull(shnDevice);
+
         connectTillGATTConnected();
+
         verify(mockedBTDevice).connectGatt(mockedSHNCentral.getApplicationContext(), false, mockedSHNCentral, btGattCallback, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
     }
 
     @Test
     public void whenSHNDeviceIsBuiltAndAnInvalidConnectionPriorityIsSetTheTheConnectionPriorityIsInitialisedAsBalanced() {
         int veryInvalidConnectionPriority = 1000;
-        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).connectionPriority(veryInvalidConnectionPriority).build();
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, veryInvalidConnectionPriority);
+
         connectTillGATTConnected();
+
         verify(mockedBTDevice).connectGatt(mockedSHNCentral.getApplicationContext(), false, mockedSHNCentral, btGattCallback, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
     }
 
     @Test
     public void whenSHNDeviceIsBuiltAndAValidConnectionPriorityIsSetTheTheConnectionPriorityIsInitialisedAsProvided() {
-        int veryValidConnectionPriority = BluetoothGatt.CONNECTION_PRIORITY_HIGH;
-        shnDevice = new SHNDeviceImpl.Builder(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE).connectionPriority(veryValidConnectionPriority).build();
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, BluetoothGatt.CONNECTION_PRIORITY_HIGH);
+
         connectTillGATTConnected();
+
         verify(mockedBTDevice).connectGatt(mockedSHNCentral.getApplicationContext(), false, mockedSHNCentral, btGattCallback, BluetoothGatt.CONNECTION_PRIORITY_HIGH);
     }
 

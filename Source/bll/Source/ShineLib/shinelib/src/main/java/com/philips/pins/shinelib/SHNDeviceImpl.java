@@ -56,16 +56,20 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, int connectionPriority) {
         this(btDevice, shnCentral, deviceTypeName, SHNBondInitiator.NONE, connectionPriority);
-        }
+    }
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
-        this(btDevice, shnCentral, deviceTypeName, SHNBondInitiator.NONE, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
-        }
+        this(btDevice, shnCentral, deviceTypeName, SHNBondInitiator.NONE);
+    }
 
     @Deprecated
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, boolean deviceBondsDuringConnect) {
-        this(btDevice, shnCentral, deviceTypeName, deviceBondsDuringConnect ? SHNBondInitiator.PERIPHERAL : SHNBondInitiator.NONE, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
-        }
+        this(btDevice, shnCentral, deviceTypeName, deviceBondsDuringConnect ? SHNBondInitiator.PERIPHERAL : SHNBondInitiator.NONE);
+    }
+
+    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator) {
+        this(btDevice, shnCentral, deviceTypeName, shnBondInitiator, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+    }
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator, int connectionPriority) {
         sharedResources = new SHNDeviceResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback, connectionPriority);
