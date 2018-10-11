@@ -82,7 +82,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             return this;
         }
 
-        public Builder withBondInitiator(@NonNull SHNBondInitiator initiator) {
+        public Builder withBondInitiator(SHNBondInitiator initiator) {
             this.shnBondInitiator = initiator;
             return this;
         }
