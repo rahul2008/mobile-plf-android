@@ -49,7 +49,6 @@ public class CartModelContainerTest extends TestCase {
         addressFields.setCountryIsocode("US");
         addressFields.setRegionIsoCode("US-CA");
         addressFields.setLine1("Line1");
-        addressFields.setLine2("Line2");
         addressFields.setPostalCode("92821");
         addressFields.setTown("California");
         addressFields.setPhone1("+1877-682-8207");
