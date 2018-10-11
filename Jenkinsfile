@@ -206,6 +206,7 @@ pipeline {
             when {
                 allOf {
                     not { expression { return params.buildType == 'LeakCanary' } }
+                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
                 }
             }
             steps {
@@ -222,6 +223,9 @@ pipeline {
                     }
                     echo "BranchName changed to ${jobBranchName}"
 
+                    sh """#!/bin/bash -le
+                        curl -X POST http://platform-ubuntu-ehv-002.ddns.htc.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/E2E_Android_${jobBranchName}/buildWithParameters?APKPATH=$APK_NAME
+                    """
                 }
             }
         }
