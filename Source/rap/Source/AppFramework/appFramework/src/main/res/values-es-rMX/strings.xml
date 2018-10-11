@@ -13,7 +13,6 @@
   <string name="RA_AboutScreen_Title">Acerca de</string>
   <string name="RA_About_App_Version">Versión</string>
   <string name="RA_About_Description_New">[es-MX]This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.</string>
-  <string name="RA_HomeTab_Menu_Title">Inicio</string>
   <string name="RA_About_Menu_Title">Acerca de</string>
   <string name="RA_COCO_AppInfra">[es-MX]ail : App Infrastructure Library</string>
   <string name="RA_COCO_AppInfra_desc">[es-MX]AppInfra is the components top level module. It gathers all the modules delivered by the AppInfra Common Component into one single structure. AppInfra facilitates dependency injection into common components and other software pieces that make use of the AppInfra functionalities.</string>
@@ -22,8 +21,7 @@
   <string name="RA_COCO_Connectivity">[es-MX]cml : CommLib</string>
   <string name="RA_COCO_Connectivity_desc">[es-MX]Connectivity feature in Reference App, provides the ability to pair the mobile application with a reference device using Bluetooth capability for capturing the data from the device to the mobile application.</string>
   <string name="RA_COCO_DS">[es-MX]dsc : Data Services</string>
-  <string name="RA_COCO_DS_desc">[es-MX]Data Services is a common component that acts as a gateway to data core. It will provide synchronization with application data base for the below support the following types of data -
-Moments, Consents, Insights, Push notification and user characteristics.</string>
+  <string name="RA_COCO_DS_desc">[es-MX]Data Services is a common component that acts as a gateway to data core. It will provide synchronization with application data base for the below support the following types of data -\nMoments, Consents, Insights, Push notification and user characteristics.</string>
   <string name="RA_COCO_IAP">[es-MX]iap : In-app Purchase</string>
   <string name="RA_COCO_IAP_desc">[es-MX]In App Purchase feature in Reference App, provides the ability to buy products from the app for the users, which would give users the convenience of shopping anytime-anywhere. This approach also will boost marketing and sales.</string>
   <string name="RA_COCO_PR">[es-MX]prg : Product Registration</string>
@@ -32,10 +30,7 @@ Moments, Consents, Insights, Push notification and user characteristics.</string
   <string name="RA_COCO_UIKIT_desc">[es-MX]UI Toolkit is a component that provides UI controls that are present in the designs provided by the design team on all the screens of the mobile application.</string>
   <string name="RA_COCO_UR">[es-MX]usr : User Registration</string>
   <string name="RA_COCO_UR_desc">[es-MX]User registration feature in Reference App provides the ability of registering a new user accessing the mobile application, for logging into the application using valid organization social media specific credentials.</string>
-  <string name="RA_CSW_JustInTime_UserBenefitsDescription">[es-MX]\"Special offers, promotions and first hand information about new product releases.
-Tailored for you!
-
-Join 140.000 of your peers now!\"</string>
+  <string name="RA_CSW_JustInTime_UserBenefitsDescription">[es-MX]\"Special offers, promotions and first hand information about new product releases.\nTailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="RA_CSW_JustInTime_UserBenefitsTitle">[es-MX]What do we have to offer?</string>
   <string name="RA_Cancel">Cancelar</string>
   <string name="RA_CoCo_Description_AppInfra">[es-MX]AppInfra is the component\'s top level module. It gathers all the modules delivered by the AppInfra Common Component into one single structure. AppInfra facilitates dependency injection into common components and other software pieces that make use of the AppInfra functionalities.</string>
@@ -49,12 +44,11 @@ Join 140.000 of your peers now!\"</string>
   <string name="RA_Coco_Version">[es-MX]App Info</string>
   <string name="RA_ConnectivityScreen_Menu_Title">Conectividad</string>
   <string name="RA_ConnectivityScreen_Title">Conectividad</string>
-  <string name="RA_DLSS_avatar_default_text">[es-MX]Hello User,
-Please sign in.</string>
+  <string name="RA_DLSS_avatar_default_text">[es-MX]Hello User,\nPlease sign in.</string>
   <string name="RA_DLS_Help_Philips_Shop">[es-MX]You can make Philips purchases or via 3rd party retailers here.</string>
   <string name="RA_DLS_Help_Support_screen_sub">[es-MX]You can contact Philips consumer care here. Consumer Care is the destination for all Philips questions, product information and reviews.</string>
   <string name="RA_DLS_HomeScreen_Title">[es-MX]Reference App Home</string>
-  <string name="RA_DLS_about_copyright">[es-MX]Copyright \\u00A9 2017 Philips</string>
+  <string name="RA_DLS_about_copyright">[es-MX]Copyright © 2017 Philips</string>
   <string name="RA_DLS_about_description">[es-MX]This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.</string>
   <string name="RA_DLS_about_privacy">[es-MX]Privacy policy</string>
   <string name="RA_DLS_about_terms">[es-MX]Terms &amp; conditions</string>
@@ -113,31 +107,17 @@ Please sign in.</string>
   <string name="RA_MYA_Consent_Binary_Help_Text">[es-MX]The actual content of the binary consent help text here</string>
   <string name="RA_MYA_Consent_Binary_Revoke_Warning_Text">[es-MX]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Click_Stream">Doy mi autorización para que Philips recopile mis datos de aplicación con el fin de que la aplicación funcione de mejor manera, se personalice, se integre con las redes sociales y muestre contenido y publicidad pertinentes.</string>
-  <string name="RA_MYA_Consent_Click_Stream_Help_Text">Aviso de cookies
-
-Esta aplicación utiliza Adobe Analytics, un servicio de análisis (“Adobe Analytics”) proporcionado por Adobe Systems Software Ireland Limited (“Adobe”). Este servicio utiliza “cookies” u otras técnicas similares, que corresponden a archivos de texto integrados en la aplicación, con el fin de que la aplicación analice patrones de tráfico generales mediante nuestra aplicación. A través de la transmisión de información generada por la cookie con respecto al uso de la aplicación a Adobe, la configuración garantiza que la dirección IP se anonimice antes de la geolocalización y se reemplazará por una dirección IP genérica antes del almacenamiento. Adobe, en nombre de Philips, utilizará esta información para evaluar tu uso de la aplicación y generará informes sobre la actividad de la aplicación para Philips con el fin de proporcionar otros servicios relacionados con la actividad y el uso de la aplicación a Philips. Adobe no asociará tu dirección IP con ningún otro dato administrado por Adobe. Puedes evitar que Adobe y Philips recopilen y usen datos (cookies y dirección IP) si dejas de participar después de cerrar esta pantalla.
-</string>
+  <string name="RA_MYA_Consent_Click_Stream_Help_Text">Aviso de cookies\n\nEsta aplicación utiliza Adobe Analytics, un servicio de análisis (“Adobe Analytics”) proporcionado por Adobe Systems Software Ireland Limited (“Adobe”). Este servicio utiliza “cookies” u otras técnicas similares, que corresponden a archivos de texto integrados en la aplicación, con el fin de que la aplicación analice patrones de tráfico generales mediante nuestra aplicación. A través de la transmisión de información generada por la cookie con respecto al uso de la aplicación a Adobe, la configuración garantiza que la dirección IP se anonimice antes de la geolocalización y se reemplazará por una dirección IP genérica antes del almacenamiento. Adobe, en nombre de Philips, utilizará esta información para evaluar tu uso de la aplicación y generará informes sobre la actividad de la aplicación para Philips con el fin de proporcionar otros servicios relacionados con la actividad y el uso de la aplicación a Philips. Adobe no asociará tu dirección IP con ningún otro dato administrado por Adobe. Puedes evitar que Adobe y Philips recopilen y usen datos (cookies y dirección IP) si dejas de participar después de cerrar esta pantalla.\n</string>
   <string name="RA_MYA_Consent_Clickstream_Revoke_Warning_Text">[es-MX]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Coaching_Help_Text">[es-MX]The actual content of the coaching consent help text here</string>
   <string name="RA_MYA_Consent_Coaching_Revoke_Warning_Text">[es-MX]By revoking consent your data will be deleted from our servers.</string>
-  <string name="RA_MYA_Consent_Marketing_Help_Text">Tras otorgar tu autorización, es posible que las empresas del grupo Philips se comuniquen contigo para enviarte comunicaciones promocionales a través de correo electrónico, SMS y otros medios digitales, tales como aplicaciones móviles y redes sociales. Para personalizar las comunicaciones según tus preferencias y comportamiento, y ofrecerte la mejor experiencia personalizada, es posible que analicemos y combinemos tus datos personales. Entre estos datos se pueden incluir los siguientes: 
-
-Los datos que nos entregaste
-Los datos que desees compartir activamente con nosotros, como tu nombre, fecha de nacimiento o edad, dirección de correo electrónico, dirección postal, país, sexo, número de teléfono o perfil en medios sociales.
-
-Los datos que obtenemos de tus interacciones con Philips
-Los datos acerca de tus interacciones y el uso de los canales digitales de Philips, tales como redes sociales, sitios web, correos electrónicos, aplicaciones y productos conectados. Entre estos datos se pueden incluir los siguientes: dirección IP, cookies, información de dispositivos, comunicaciones en las que debe hacer clic, detalles de ubicaciones y sitios web que visites
-
-Philips te da la oportunidad de retirar tu consentimiento en cualquier momento.
-Para obtener más información, consulta el aviso de privacidad y el aviso de cookies de Philips.</string>
+  <string name="RA_MYA_Consent_Marketing_Help_Text">Tras otorgar tu autorización, es posible que las empresas del grupo Philips se comuniquen contigo para enviarte comunicaciones promocionales a través de correo electrónico, SMS y otros medios digitales, tales como aplicaciones móviles y redes sociales. Para personalizar las comunicaciones según tus preferencias y comportamiento, y ofrecerte la mejor experiencia personalizada, es posible que analicemos y combinemos tus datos personales. Entre estos datos se pueden incluir los siguientes: \n\nLos datos que nos entregaste\nLos datos que desees compartir activamente con nosotros, como tu nombre, fecha de nacimiento o edad, dirección de correo electrónico, dirección postal, país, sexo, número de teléfono o perfil en medios sociales.\n\nLos datos que obtenemos de tus interacciones con Philips\nLos datos acerca de tus interacciones y el uso de los canales digitales de Philips, tales como redes sociales, sitios web, correos electrónicos, aplicaciones y productos conectados. Entre estos datos se pueden incluir los siguientes: dirección IP, cookies, información de dispositivos, comunicaciones en las que debe hacer clic, detalles de ubicaciones y sitios web que visites\n\nPhilips te da la oportunidad de retirar tu consentimiento en cualquier momento.\nPara obtener más información, consulta el aviso de privacidad y el aviso de cookies de Philips.</string>
   <string name="RA_MYA_Consent_Moment_Help_Text">[es-MX]The actual content of the moment consent help text here</string>
   <string name="RA_MYA_Consent_Moments_Revoke_Warning_Text">[es-MX]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Research_Analytics_Help_Text">[es-MX]The actual content of the research and analytics consent help text here</string>
   <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[es-MX]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[es-MX]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[es-MX]I allow Philips to use my data for Research and Analytics purposes</string>
-  <string name="RA_MYA_Device_Tagging_Clickstream">[es-MX]I allow Philips to use my data for device tagging clickstream</string>
-  <string name="RA_MYA_Device_Tagging_Clickstream_Help_Text">[es-MX]The actual content of the device tagging clickstream consent help text here</string>
   <string name="RA_Menu_title_Demo">[es-MX]Test Demo Apps</string>
   <string name="RA_NO_Order_History">El historial de pedidos no está disponible</string>
   <string name="RA_Neura_Allow_Button">[es-MX]Allow</string>
@@ -154,9 +134,7 @@ Para obtener más información, consulta el aviso de privacidad y el aviso de co
   <string name="RA_Overlay_Dismiss">[es-MX]Got it</string>
   <string name="RA_Overlay_Shop_Text">[es-MX]You can make Philips purchases or via 3rd party retailers here.</string>
   <string name="RA_Overlay_Support_Text">[es-MX]You can contact Philips consumer care here. Consumer Care is the destination for all Philips questions product informations and reviews.</string>
-  <string name="RA_PR_Benefit_Text">Aumente su garantía en 24 meses.
-Recibirá un 10% de descuento en la tienda de Philips.
-Recibirá accesorios del producto gratuitamente</string>
+  <string name="RA_PR_Benefit_Text">Aumente su garantía en 24 meses.\nRecibirá un 10% de descuento en la tienda de Philips.\nRecibirá accesorios del producto gratuitamente</string>
   <string name="RA_PR_Email_Text">Se envió un correo electrónico con el contrato de la garantía extendida a su dirección de correo electrónico</string>
   <string name="RA_PR_Extentende_Warranty">Se ha extendido el período de garantía hasta el próximo año</string>
   <string name="RA_Philips_Shop_Menu_Title">Tienda Philips</string>
@@ -212,6 +190,12 @@ Recibirá accesorios del producto gratuitamente</string>
   <string name="RA_WelcomeScreen_Intro_Title">[es-MX]What is Reference App?</string>
   <string name="RA_You_are_not_LoggedIn">No ha iniciado sesión. Vaya a Ajustes e iníciela</string>
   <string name="RA_change_config_desc">[es-MX]Configuration can only be changed at launch time. You need to relaunch the app to change it.</string>
+  <string name="RA_cookie_accept">[es-MX]Accept</string>
+  <string name="RA_cookie_description">[es-MX]I want to share my app data to help improve the app and provide me with personalized services</string>
+  <string name="RA_cookie_nav_title">[es-MX]Consent</string>
+  <string name="RA_cookie_reject">[es-MX]Reject</string>
+  <string name="RA_cookie_title">[es-MX]Cookies</string>
+  <string name="RA_cookie_what_text_description">[es-MX]Adobe Analytics\n\nThis App uses Adobe Analytics, an analytics service (\"Adobe Analytics”) provided by Adobe Systems Software Ireland Limited (\"Adobe\") Adobe Analytics uses \"cookies\" or similar techniques, which are text files placed in your App, in order to help the App to analyze overall traffic patterns through our App. By transmitting the information generated by the cookie about the use of the App to Adobe, setting ensures that IP address is anonymized before geo-localization und will be replaced by a generic IP address before storage. On behalf of Philips, Adobe will use this information for the evaluation of your use of the App, compiling reports on App activity for Philips, and in order to provide other services relating to App activity and use of the App to IP address with any other data held Philips Adobe will not associate your by Adobe. You can prevent Adobe\'s and Philips collection and use of data out after you close this screen (cookies and IP address) if you opt-out after you close this screen.\n\nGoogle Firebase\n\nThis App uses Google Firebase, an app development service (Firebase) provided by Google Ireland Ltd (\"Google\"). Firebase uses cookies or similar techniques- SDK, which are text files placed in your App and web browser.\n\nOn behalf of Philips, Firebase will use information from your device such as your Device ID. IP address, your IDFA or Google Play Services ID and your MAC address and replace them with unique code. When you use the App we will measure the numbers of visits to the App, which pages you visit your network connection, load times and when the app crashes. We use this information to evaluate and understand your use of the App, to test and analyze performance and ultimately optimize our products and services.</string>
   <string name="RA_loading_articles">[es-MX]Loading Article</string>
   <string name="RA_neura_consent_help">[es-MX]Reference app asks for the location permissions so it can better understand your unique lifestyle.</string>
   <string name="RA_neura_consent_title">[es-MX]I allow Neura Sdk to track my moments</string>
@@ -219,7 +203,7 @@ Recibirá accesorios del producto gratuitamente</string>
   <string name="RA_neura_error_dialog_title">[es-MX]Enable Permission</string>
   <string name="RA_neura_header_title">[es-MX]Reference app, Made for You</string>
   <string name="RA_nuera_location_info_title">[es-MX]To adapt to your preferences and needs, allow sharing location with Philips and Neura.</string>
-  <string name="RA_nuera_philips_tailor_text">[es-MX]Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling <b>location</b>.</string>
+  <string name="RA_nuera_philips_tailor_text">[es-MX]Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling &lt;b&gt;location&lt;/b&gt;.</string>
   <string name="RA_nuera_what_text_descp">[es-MX]Reference app asks for the location permissions so it can better understand your unique lifestyle. Reference app will adapt and anticipate your needs based on your daily routine to provide the recipes you need at the time you need them.</string>
   <string name="RA_privacy_policy">[es-MX]Privacy policy</string>
   <string name="RA_reference_device_scan">Análisis del dispositivo de referencia</string>
