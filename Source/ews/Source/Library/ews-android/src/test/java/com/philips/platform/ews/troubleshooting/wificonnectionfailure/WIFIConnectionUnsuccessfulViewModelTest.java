@@ -17,6 +17,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -65,10 +66,18 @@ public class WIFIConnectionUnsuccessfulViewModelTest {
         assertEquals(note, subject.lowerHelperText.get());
     }
 
-    @Test
-    public void itShouldNavigateToSelectWifiScreenWhenTryAgainButtonIsClicked() throws Exception {
+    /*@Test
+    public void itShouldNavigateToConnectingPhoneToHotspotWifiScreenIfHomeWiFiIsEnabledWhenTryAgainButtonIsClicked() throws Exception {
         subject.onTryAgainClicked();
+        when(mockWiFiUtil.isHomeWiFiEnabled()).thenReturn(true);
         verify(mockNavigator).navigateToConnectingPhoneToHotspotWifiScreen();
+    }
+*/
+    @Test
+    public void itShouldNavigateToSelectWifiScreenIfHomeWiFiIsNotEnabledWhenTryAgainButtonIsClicked() throws Exception {
+        subject.onTryAgainClicked();
+        when(mockWiFiUtil.isHomeWiFiEnabled()).thenReturn(false);
+        verify(mockNavigator).navigateToSelectWiFiScreen();
     }
 
     @Test
