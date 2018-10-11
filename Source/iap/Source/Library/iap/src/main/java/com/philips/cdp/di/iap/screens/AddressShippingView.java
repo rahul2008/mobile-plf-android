@@ -43,8 +43,6 @@ public class AddressShippingView
     private InputValidator inputValidatorLastName;
     private InputValidationLayout mLlAddressLineOne;
     private InputValidator inputValidatorAddressLineOne;
-    private InputValidationLayout mLlAddressLineTwo;
-    private InputValidator inputValidatorAddressLineTwo;
     private InputValidationLayout mLlTown;
     private InputValidator inputValidatorTown;
     private InputValidationLayout mLlPostalCode;
@@ -107,13 +105,6 @@ public class AddressShippingView
         mLlAddressLineOne = rootView.findViewById(R.id.ll_address_line_one);
         inputValidatorAddressLineOne = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
-
-
-        mLlAddressLineTwo = rootView.findViewById(R.id.ll_address_line_two);
-        inputValidatorAddressLineTwo = new InputValidator(Validator.ADDRESS_PATTERN);
-       // mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
-
-
 
         mLlTown = rootView.findViewById(R.id.ll_town);
         inputValidatorTown = new InputValidator(Validator.TOWN_PATTERN);

@@ -46,8 +46,6 @@ public class AddressBillingView
     private InputValidator inputValidatorLastNameBilling;
     private InputValidationLayout mLlAddressLineOneBilling;
     private InputValidator inputValidatorAddressLineOneBilling;
-    private InputValidationLayout mLlAddressLineTwoBilling;
-    private InputValidator inputValidatorAddressLineTwoBilling;
     private InputValidationLayout mLlTownBilling;
 
     private AddressBillingPresenter addressBillingPresenter;
@@ -110,10 +108,6 @@ public class AddressBillingView
         mLlAddressLineOneBilling = rootView.findViewById(R.id.ll_billing_address_line_one);
         inputValidatorAddressLineOneBilling = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineOneBilling.setValidator(inputValidatorAddressLineOneBilling);
-
-        mLlAddressLineTwoBilling = rootView.findViewById(R.id.ll_billing_address_line_two);
-        inputValidatorAddressLineTwoBilling = new InputValidator(Validator.ADDRESS_PATTERN);
-       // mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
 
         mLlTownBilling = rootView.findViewById(R.id.ll_billing_town);
         inputValidatorTownBilling = new InputValidator(Validator.TOWN_PATTERN);
@@ -235,7 +229,7 @@ public class AddressBillingView
         mEtFirstNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
         mEtLastNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutationBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
-        mEtAddressLineOneBilling.setText(addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
+        mEtAddressLineOneBilling.setText(addressPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
         mEtAddressLineOneBilling.setText(addressPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
         mEtTownBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCodeBilling.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
