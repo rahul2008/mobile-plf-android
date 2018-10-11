@@ -211,11 +211,9 @@ pipeline {
             }
             steps {
                 script {
+                    APK_NAME = readFile("apkname.txt").trim()
                     if (params.buildType == 'PSRA') {
-                        apkname=`xargs < apkname.txt`
                         APK_NAME=${apkname/.apk/_PSRA.apk}
-                    } else {
-                        APK_NAME = readFile("apkname.txt").trim()
                     }
                     echo "APK_NAME = ${APK_NAME}"
 
