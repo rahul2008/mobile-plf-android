@@ -229,9 +229,6 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
         if (pAddressFields.getLine1() != null) {
             mShippingAddressHashMap.put(ModelConstants.LINE_1, pAddressFields.getLine1());
         }
-        if (pAddressFields.getLine2() != null) {
-            mShippingAddressHashMap.put(ModelConstants.LINE_2, pAddressFields.getLine2());
-        }
         if (pAddressFields.getTitleCode() != null) {
             mShippingAddressHashMap.put(ModelConstants.TITLE_CODE, pAddressFields.getTitleCode().toLowerCase(Locale.getDefault()));
         }
