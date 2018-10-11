@@ -213,7 +213,7 @@ pipeline {
                 script {
                     APK_NAME = readFile("apkname.txt").trim()
                     if (params.buildType == 'PSRA') {
-                        APK_NAME=sh(returnStdout: true, script: ${apkname/.apk/_PSRA.apk})
+                        APK_NAME=sh(returnStdout: true, script: ${APK_NAME/.apk/_PSRA.apk})
                     }
                     echo "APK_NAME = ${APK_NAME}"
 
