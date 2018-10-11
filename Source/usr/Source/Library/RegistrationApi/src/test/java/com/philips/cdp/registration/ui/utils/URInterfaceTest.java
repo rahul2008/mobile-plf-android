@@ -28,7 +28,7 @@ public class URInterfaceTest {
     @Mock
     private LoggingInterface mockLoggingInterface;
 
-    URInterface urInterface;
+    private URInterface urInterface;
     @Mock
     private UiLauncher uiLauncherMock;
 
@@ -59,14 +59,12 @@ public class URInterfaceTest {
     }
 
     @Test
-    public void launch() throws Exception {
+    public void launch() {
         urInterface.launch(uiLauncherMock,uappLaunchInputMock);
     }
 
     @Test(expected = NullPointerException.class)
-    public void init() throws Exception {
-
-        //uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage()
+    public void init() {
         Mockito.when(uAppSettingsMock.getContext()).thenReturn(contextMock);
         Mockito.when(appInfraMock.getSecureStorage()).thenReturn(storageMock);
         Mockito.when(uappDependenciesMock.getAppInfra()).thenReturn(appInfraMock);
@@ -75,12 +73,12 @@ public class URInterfaceTest {
     }
 
     @Test
-    public void getComponent() throws Exception {
+    public void getComponent() {
         RegistrationConfiguration.getInstance().getComponent();
     }
 
     @Test
-    public void setComponent() throws Exception {
+    public void setComponent() {
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
     }
 
