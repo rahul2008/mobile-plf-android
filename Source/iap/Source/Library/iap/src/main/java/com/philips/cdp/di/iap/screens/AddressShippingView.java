@@ -75,16 +75,12 @@ public class AddressShippingView
 
     AddressContractor addressContractor;
 
-    AddressShippingPresenter addressShippingPresenter;
 
     public AddressShippingView(AddressPresenter addressPresenter) {
         this.addressPresenter = addressPresenter;
         addressContractor = addressPresenter.getAddressContractor();
         this.mContext = addressContractor.getActivityContext();
         this.view = addressContractor.getShippingAddressView();
-
-        addressShippingPresenter = new AddressShippingPresenter();
-
         initializeViews(view);
     }
 
@@ -451,7 +447,7 @@ public class AddressShippingView
         mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
         mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutation.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
-        mEtAddressLineOne.setText(addressShippingPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
+        mEtAddressLineOne.setText(addressPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
         mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));

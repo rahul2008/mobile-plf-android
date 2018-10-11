@@ -325,7 +325,6 @@ public class User {
                                                final TraditionalRegistrationHandler traditionalRegisterHandler) {
         new Thread(() -> {
             RegisterTraditional registerTraditional = new RegisterTraditional(traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
-            ABCD.getInstance().setmP(password);
             RLog.d(TAG, "registerUserInfoForTraditional with = " + registerTraditional.toString());
             registerTraditional.registerUserInfoForTraditional(firstName, givenName, userEmail,
                     password, olderThanAgeLimit, isReceiveMarketingEmail);
@@ -902,7 +901,7 @@ public class User {
     public void refreshUser(final RefreshUserHandler handler) {
         if (networkUtility.isNetworkAvailable()) {
             RLog.d(TAG, "refreshUser called");
-            new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
+            new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this);
         } else {
             RLog.e(TAG, "refreshUser failed because of network offline");
             ThreadUtils.postInMainThread(mContext, () ->

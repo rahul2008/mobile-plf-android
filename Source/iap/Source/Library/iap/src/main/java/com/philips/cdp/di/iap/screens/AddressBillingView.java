@@ -236,6 +236,7 @@ public class AddressBillingView
         mEtLastNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutationBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
         mEtAddressLineOneBilling.setText(addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
+        mEtAddressLineOneBilling.setText(addressPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
         mEtTownBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCodeBilling.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountryBilling.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
@@ -540,7 +541,7 @@ public class AddressBillingView
             mEtFirstNameBilling.setText(billingAddressFields.getFirstName());
             mEtLastNameBilling.setText(billingAddressFields.getLastName());
             mEtSalutationBilling.setText(billingAddressFields.getTitleCode());
-            mEtAddressLineOneBilling.setText(addressWithNewLineIfNull(billingAddressFields.getLine1()));
+            mEtAddressLineOneBilling.setText(addressPresenter.addressWithNewLineIfNull(billingAddressFields.getLine1()));
             mEtTownBilling.setText(billingAddressFields.getTown());
             mEtPostalCodeBilling.setText(billingAddressFields.getPostalCode());
             mEtCountryBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
@@ -557,12 +558,4 @@ public class AddressBillingView
             mEtPhone1Billing.setText(billingAddressFields.getPhone1());
         }
     }
-
-    private String addressWithNewLineIfNull( String code) {
-        if (!TextUtils.isEmpty(code)) {
-                return code.replaceAll("[,null]", " ");
-        }
-        return null;
-    }
-
 }
