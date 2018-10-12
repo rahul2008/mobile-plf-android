@@ -441,11 +441,11 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.d(TAG, "onNetWorkStateReceived : is called" + isOnline);
-        if (isOnline) {
-            hideNotificationBarView();
-        } else {
-            showNotificationBarOnNetworkNotAvailable();
-        }
+//        if (isOnline) {
+//            hideNotificationBarView();
+//        } else {
+//            showNotificationBarOnNetworkNotAvailable();
+//        }
         if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             UserRegistrationInitializer.getInstance().resetInitializationState();
         }
@@ -469,11 +469,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     public void showNotificationBarOnNetworkNotAvailable() {
 
         new Handler().postDelayed(() -> {
-            notification = new URNotification(this.getParentActivity(), new URNotification.URNotificationInterface() {
-                @Override
-                public void notificationInlineMsg(String msg) {
-                    // NOP
-                }
+            notification = new URNotification(this.getParentActivity(), msg -> {
+                // NOP
             });
             notification.showNotification(
                     new NotificationMessage(mContext.getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.USR_Network_ErrorMsg)));
