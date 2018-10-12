@@ -53,6 +53,7 @@ public class FirmwareUpdateFragment extends Fragment {
     private File selectedFile;
     private ProgressBar progressBar;
     private TextView textViewUploadState;
+    private TextView textViewUploadProgress;
     private TextView textViewResult;
 
     @Override
@@ -95,6 +96,7 @@ public class FirmwareUpdateFragment extends Fragment {
         textViewFirmwareVersion = fragmentView.findViewById(R.id.tvFirmwareVersion);
         textViewFirmwareState = fragmentView.findViewById(R.id.tvFirmwareState);
         textViewUploadState = fragmentView.findViewById(R.id.tvUploadState);
+        textViewUploadProgress = fragmentView.findViewById(R.id.tvUploadProgress);
         textViewResult = fragmentView.findViewById(R.id.tvUploadResult);
         listViewFiles = fragmentView.findViewById(R.id.lvFiles);
         progressBar = fragmentView.findViewById(R.id.uploadProgress);
@@ -195,8 +197,10 @@ public class FirmwareUpdateFragment extends Fragment {
         @Override
         public void onProgressUpdate(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, float v) {
             SHNLogger.w(TAG, "onProgressUpdate " + v);
+            int progress = (int) (v * 100);
+            textViewUploadProgress.setText(String.format("Progress: %s%%", progress));
             if (progressBar != null) {
-                progressBar.setProgress((int) (v * 100));
+                progressBar.setProgress(progress);
             }
         }
 

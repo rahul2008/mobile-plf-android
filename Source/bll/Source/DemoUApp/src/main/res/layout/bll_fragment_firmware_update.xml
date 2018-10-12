@@ -22,12 +22,6 @@
             android:padding="@dimen/bll_card_padding">
 
             <TextView
-                android:id="@+id/tvFirmwarePath"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/bll_firmware_option"
@@ -100,6 +94,13 @@
                 android:paddingBottom="16dp"
                 android:text="@string/bll_unknown"/>
 
+            <TextView
+                android:id="@+id/tvUploadProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                />
+
         </LinearLayout>
 
         <LinearLayout
@@ -140,6 +141,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:max="100" />
+
+        <TextView
+            android:id="@+id/tvFirmwarePath"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <com.philips.cdp2.bluelib.demouapp.adapter.FullHeightListView
             android:id="@+id/lvFiles"
