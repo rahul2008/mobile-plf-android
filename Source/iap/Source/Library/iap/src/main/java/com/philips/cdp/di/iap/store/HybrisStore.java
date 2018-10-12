@@ -94,6 +94,7 @@ public class HybrisStore extends AbstractStore {
     private String mPlaceOrderUrl;
 
     private String mApplyVoucherUrl;
+    private String mAppliedVoucher;
 
     public HybrisStore(Context context, IAPSettings iapSettings) {
         mIAPUser = createUser(context);

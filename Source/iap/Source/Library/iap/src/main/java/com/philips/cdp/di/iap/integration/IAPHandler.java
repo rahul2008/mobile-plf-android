@@ -149,10 +149,12 @@ class IAPHandler {
         InAppBaseFragment fragment;
         Bundle bundle = new Bundle();
         final ArrayList<String> ignoreRetailers = iapLaunchInput.getIgnoreRetailers();
+        final String voucherCode=iapLaunchInput.getVoucher();
         switch (screen) {
             case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
                 fragment = new ShoppingCartFragment();
                 bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
+                bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW:
                 fragment = new PurchaseHistoryFragment();

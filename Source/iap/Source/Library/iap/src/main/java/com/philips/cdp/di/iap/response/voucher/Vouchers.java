@@ -13,5 +13,31 @@ public class Vouchers implements Serializable {
     private AppliedValue appliedValue;
 
 
+    public String getCode() {
+        return code;
+    }
 
+    public boolean isFreeShipping() {
+        return freeShipping;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getValueFormatted() {
+        return valueFormatted;
+    }
+
+    public String getValueString() {
+        return valueString;
+    }
+
+    public String getVoucherCode() {
+        return voucherCode;
+    }
+
+    public AppliedValue getAppliedValue() {
+        return appliedValue;
+    }
 }

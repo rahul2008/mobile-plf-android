@@ -120,7 +120,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
         mLlAddressLineTwo = rootView.findViewById(R.id.ll_address_line_two);
         inputValidatorAddressLineTwo = new InputValidator(Validator.ADDRESS_PATTERN);
-       // mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
+        // mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
 
 
 
@@ -172,7 +172,11 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         mEtState.setKeyListener(null);
 
         mEtFirstName.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
-        mEtLastName.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        if(HybrisDelegate.getInstance(mContext).getStore().getFamilyName()!=null) {
+            mEtLastName.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
+        }else{
+            mEtLastName.setText("");
+        }
 
         mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);
@@ -469,13 +473,13 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
                 mParentFragment.mBtnContinue.setEnabled(true);
                 Utility.isShippingAddressFilled=true;
             }else{
-             //  mParentFragment.mBtnContinue.setEnabled(false);
+                //  mParentFragment.mBtnContinue.setEnabled(false);
                 Utility.isShippingAddressFilled=false;
             }
 
             return true;
         } else {
-           // mParentFragment.mBtnContinue.setEnabled(false);
+            // mParentFragment.mBtnContinue.setEnabled(false);
             Utility.isShippingAddressFilled=false;
         }
         return false;
@@ -536,7 +540,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
     private String addressWithNewLineIfNull( String code) {
         if (!TextUtils.isEmpty(code)) {
-                return code.replaceAll(",null", " ");
+            return code.replaceAll("null", "");
         }
         return null;
     }

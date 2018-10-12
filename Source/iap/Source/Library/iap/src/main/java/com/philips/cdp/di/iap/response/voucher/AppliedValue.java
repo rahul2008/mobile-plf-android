@@ -9,4 +9,19 @@ public class AppliedValue implements Serializable {
     private String priceType;
     private String value;
 
+    public String getCurrencyIso() {
+        return currencyIso;
+    }
+
+    public String getFormattedValue() {
+        return formattedValue;
+    }
+
+    public String getPriceType() {
+        return priceType;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }

@@ -61,7 +61,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private LinearLayout mAddCTNLl;
 
     private FrameLayout mShoppingCart;
-    private EditText mEtCTN;
+    private EditText mEtCTN,mEtVoucherCode;
 
     private Button mRegister;
     private Button mShopNow;
@@ -69,7 +69,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private Button mBuyDirect;
     private Button mPurchaseHistory;
     private Button mLaunchProductDetail;
-    private Button mAddCtn;
+    private Button mAddCtn,btn_add_voucher;
     private Button mShopNowCategorizedWithRetailer;
     private ProgressDialog mProgressDialog = null;
     private ArrayList<String> mCategorizedProductList;
@@ -98,6 +98,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
         showAppVersion();
         mEtCTN = findViewById(R.id.et_add_ctn);
+        mEtVoucherCode= findViewById(R.id.et_add_voucher);
         mAddCTNLl = findViewById(R.id.ll_ctn);
 
         mRegister = findViewById(R.id.btn_register);
@@ -123,6 +124,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
         mAddCtn = findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
+
+        btn_add_voucher= findViewById(R.id.btn_add_voucher);
+        btn_add_voucher.setOnClickListener(this);
 
         mShopNowCategorizedWithRetailer = findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
         mShopNowCategorizedWithRetailer.setOnClickListener(this);
@@ -167,6 +171,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mIapInterface.init(mIapDependencies, mIAPSettings);
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
+
         //ignorelistedRetailer.add("John Lewis ");
         displayUIOnCartVisible();
     }
@@ -423,6 +428,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             }
             mEtCTN.setText("");
             hideKeypad(this);
+        }
+        else if(view==btn_add_voucher){
+   String voucherCode=mEtVoucherCode.getText().toString().toUpperCase().replaceAll("\\s+", "");
         }
     }
 

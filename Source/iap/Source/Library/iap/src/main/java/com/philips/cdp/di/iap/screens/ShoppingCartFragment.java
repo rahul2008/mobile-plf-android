@@ -29,6 +29,7 @@ import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.ControllerFactory;
+import com.philips.cdp.di.iap.controller.VoucherController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.State.RegionsList;
@@ -52,7 +53,7 @@ import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_VOUCHER_CODE;
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
         ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
-        OnSetDeliveryModeListener,AlertListener {
+        OnSetDeliveryModeListener,AlertListener,VoucherController.VoucherListener {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
     private Context mContext;
@@ -68,6 +69,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
     private List<Addresses> mAddresses = new ArrayList<>();
     private DeliveryModes mSelectedDeliveryMode;
     private TextView mNumberOfProducts;
+    private String voucherCode;
+    VoucherController mVoucherController;
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -98,6 +101,14 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
 
+        mVoucherController = new VoucherController(mContext, this);
+
+        Bundle bundle = new Bundle();
+        if (bundle.getString(IAPConstant.IAP_VOUCHER_CODE) != null) {
+            voucherCode = bundle.getString(IAPConstant.IAP_VOUCHER_CODE);
+
+        }
+
         View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
 
         mRecyclerView = rootView.findViewById(R.id.shopping_cart_recycler_view);
@@ -113,6 +124,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
+        mAddressController.getDeliveryModes();
+        hideProgressBar();
         return rootView;
     }
 
@@ -127,6 +140,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (isNetworkConnected()) {
             updateCartDetails(mShoppingCartAPI);
         }
+        hideProgressBar();
     }
 
     @Override
@@ -139,7 +153,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     private void updateCartDetails(ShoppingCartAPI presenter) {
-        createCustomProgressBar(mParentLayout,BIG);
+        //createCustomProgressBar(mParentLayout,BIG);
         presenter.getCurrentCartDetails();
     }
 
@@ -225,15 +239,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
             bundle.putString(IAP_VOUCHER_CODE, mData.get(0).getAppliedVoucherCode());
             voucherFragment.setArguments(bundle);
             addFragment(voucherFragment, VoucherFragment.TAG, true);
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_VOUCHER)) {
-            String appliedVoucherCode = mData.get(0).getAppliedVoucherCode();
-            if (null == appliedVoucherCode || appliedVoucherCode.isEmpty()) {
-                Toast.makeText(getActivity(), "Invalid Vouchers",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                createCustomProgressBar(mParentLayout, BIG);
-                mShoppingCartAPI.deleteAppliedVoucher(appliedVoucherCode);
-            }
         }
     }
     void startProductDetailFragment(ShoppingCartAdapter mAdapter) {
@@ -304,6 +309,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }
         if (getActivity() == null) return;
 
+
+
         if(mData!=null && mData.get(0)!=null && mData.get(0).getDeliveryMode()!=null) {
 
             onOutOfStock(false);
@@ -324,6 +331,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
             mNumberOfProducts.setVisibility(View.VISIBLE);
         }else {
             mAddressController.getDeliveryModes();
+        }
+        if(voucherCode!=null) {
+            mVoucherController.applyCoupon(voucherCode);
         }
     }
 
@@ -352,11 +362,13 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onGetDeliveryModes(Message msg) {
+        hideProgressBar();
         if ((msg.obj instanceof IAPNetworkError)) {
             updateCartDetails(mShoppingCartAPI);
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+            mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             handleDeliveryMode(msg,mAddressController);
         }
@@ -393,6 +405,21 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onNegativeBtnClick() {
+
+    }
+
+    @Override
+    public void onApplyVoucherResponse(Message msg) {
+
+    }
+
+    @Override
+    public void onGetAppliedVoucherResponse(Message msg) {
+
+    }
+
+    @Override
+    public void onDeleteAppliedVoucherResponse(Message msg) {
 
     }
 }

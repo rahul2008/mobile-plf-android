@@ -28,6 +28,8 @@ public class IAPConstant {
     public static final String IAP_APPLY_VOUCHER = "IAP_APPLY_VOUCHER";
     public static final String IAP_DELETE_VOUCHER = "IAP_DELETE_VOUCHER";
     public static final String IAP_VOUCHER_CODE = "IAP_VOUCHER_CODE";
+    public static final String IAP_DELETE_VOUCHER_CONFIRM = "IAP_DELETE_VOUCHER_CONFIRM";
+    public static final String IAP_VOUCHER_FROM_APP="IAP_VOUCHER_FROM_APP";
 
     //Product
     public static final String PRODUCT_TITLE = "PRODUCT_TITLE";
