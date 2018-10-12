@@ -41,10 +41,10 @@ public class AlmostDonePresenterTest {
     private AlmostDoneContract mockContract;
 
     @Mock
-    User mockUser;
+    private User mockUser;
 
     @Mock
-    FieldsValidator mockFieldsValidator;
+    private FieldsValidator mockFieldsValidator;
 
     private UserRegistrationFailureInfo userRegistrationFailureInfo;
 
@@ -62,7 +62,7 @@ public class AlmostDonePresenterTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         mockRegistrationComponent = null;
         mockContract = null;
         presenter = null;
@@ -84,7 +84,7 @@ public class AlmostDonePresenterTest {
     }
 
     @Test
-    public void testUpdateTermsAndReceiveMarketingOpt_true(){
+    public void testUpdateTermsAndReceiveMarketingOpt_true() {
         when(mockUser.isTermsAndConditionAccepted()).thenReturn(true);
         when(mockUser.getReceiveMarketingEmail()).thenReturn(true);
         presenter.updateTermsAndReceiveMarketingOpt(true);
@@ -93,14 +93,14 @@ public class AlmostDonePresenterTest {
     }
 
     @Test
-    public void testUpdateTermsAndReceiveMarketingOpt_false(){
+    public void testUpdateTermsAndReceiveMarketingOpt_false() {
         when(mockUser.getReceiveMarketingEmail()).thenReturn(true);
         presenter.updateTermsAndReceiveMarketingOpt(false);
         verify(mockContract).hideMarketingOptCheck();
     }
 
     @Test
-    public void testReceiveMarketingOpt_false(){
+    public void testReceiveMarketingOpt_false() {
         when(mockUser.isTermsAndConditionAccepted()).thenReturn(true);
         when(mockUser.getReceiveMarketingEmail()).thenReturn(false);
         presenter.updateTermsAndReceiveMarketingOpt(true);
@@ -108,7 +108,7 @@ public class AlmostDonePresenterTest {
     }
 
     @Test
-    public void testParseRegistrationInfo(){
+    public void testParseRegistrationInfo() {
         Bundle bundle = new Bundle();
         JSONObject resultJsonObject = new JSONObject();
         try {
@@ -120,41 +120,41 @@ public class AlmostDonePresenterTest {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        bundle.putString(RegConstants.SOCIAL_TWO_STEP_ERROR,resultJsonObject.toString());
+        bundle.putString(RegConstants.SOCIAL_TWO_STEP_ERROR, resultJsonObject.toString());
         presenter.parseRegistrationInfo(bundle);
-        assertEquals("Health care",presenter.getGivenName());
-        assertEquals("Philips",presenter.getDisplayName());
-        assertEquals("HSDP",presenter.getFamilyName());
-        assertEquals("maqsoodkhan@gmail.com",presenter.getEmail());
-        assertEquals(true,presenter.isEmailExist());
+        assertEquals("Health care", presenter.getGivenName());
+        assertEquals("Philips", presenter.getDisplayName());
+        assertEquals("HSDP", presenter.getFamilyName());
+        assertEquals("maqsoodkhan@gmail.com", presenter.getEmail());
+        assertEquals(true, presenter.isEmailExist());
     }
 
     @Test
-    public void testParseRegistrationInfo_isEmailExist(){
+    public void testParseRegistrationInfo_isEmailExist() {
         Bundle bundle = new Bundle();
         JSONObject resultJsonObject = new JSONObject();
-        bundle.putString(RegConstants.SOCIAL_TWO_STEP_ERROR,resultJsonObject.toString());
+        bundle.putString(RegConstants.SOCIAL_TWO_STEP_ERROR, resultJsonObject.toString());
         presenter.parseRegistrationInfo(bundle);
-        assertEquals(false,presenter.isEmailExist());
+        assertEquals(false, presenter.isEmailExist());
     }
 
-   @Test
-    public void testUpdateReceivingMarketingEmail_success(){
+    @Test
+    public void testUpdateReceivingMarketingEmail_success() {
         presenter.updateUser(true);
         presenter.onUpdateSuccess();
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).trackMarketingOpt();
     }
 
-   @Test
-    public void testUpdateReceivingMarketingEmail_failure_invalid_refresh_token(){
+    @Test
+    public void testUpdateReceivingMarketingEmail_failure_invalid_refresh_token() {
         presenter.onUpdateFailedWithError(Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE));
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).replaceWithHomeFragment();
     }
 
     @Test
-    public void testUpdateReceivingMarketingEmail_failure_to_connect(){
+    public void testUpdateReceivingMarketingEmail_failure_to_connect() {
         presenter.onUpdateFailedWithError(RegConstants.FAILURE_TO_CONNECT);
         verify(mockContract).failedToConnectToServer();
     }
@@ -166,24 +166,24 @@ public class AlmostDonePresenterTest {
     }
 
     @Test
-    public void testRegisterSocialAccount(){
+    public void testRegisterSocialAccount() {
         presenter.setOnline(true);
         presenter.setDisplayName("Maqsood");
         presenter.setEmail("maqsoodkhan89@gmail.com");
         presenter.setFamilyName("Khan");
         presenter.setGivenName("MaqsoodKhan");
         presenter.setEmailExist(true);
-        presenter.register(true,presenter.getEmail());
+        presenter.register(true, presenter.getEmail());
         verify(mockContract).hideErrorMessage();
         verify(mockContract).showMarketingOptSpinner();
         verify(mockUser).registerUserInfoForSocial(presenter.getGivenName(),
-               presenter.getDisplayName(),presenter.getFamilyName(),presenter.getEmail(),true,true,presenter,null);
+                presenter.getDisplayName(), presenter.getFamilyName(), presenter.getEmail(), true, true, presenter, null);
     }
 
     @Test
     public void testLoginFailedWithError_is_china_flow() {
         userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
-        registrationSettingsURL.setMobileFlow(true);
+        RegistrationSettingsURL.setMobileFlow(true);
         presenter.onLoginFailedWithError(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).phoneNumberAlreadyInuseError();
@@ -192,7 +192,7 @@ public class AlmostDonePresenterTest {
     @Test
     public void testLoginFailedWithError_email_flow() {
         userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
-        registrationSettingsURL.setMobileFlow(false);
+        RegistrationSettingsURL.setMobileFlow(false);
         presenter.onLoginFailedWithError(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).emailAlreadyInuseError();
@@ -202,14 +202,14 @@ public class AlmostDonePresenterTest {
     public void testLoginFailedWithTwoStepError() {
         JSONObject jsonObject = new JSONObject();
         String socialRegistrationToken = null;
-        presenter.onLoginFailedWithTwoStepError(jsonObject,socialRegistrationToken);
+        presenter.onLoginFailedWithTwoStepError(jsonObject, socialRegistrationToken);
         verify(mockContract).hideMarketingOptSpinner();
     }
 
     @Test
     public void testLoginFailedWithMergeFlowError() {
-        presenter.onLoginFailedWithMergeFlowError("scmksdwsdwo","existingProvider","conflictingIdentityProvider",
-                "conflictingIdpNameLocalized","existingIdpNameLocalized","emailId");
+        presenter.onLoginFailedWithMergeFlowError("scmksdwsdwo", "existingProvider", "conflictingIdentityProvider",
+                "conflictingIdpNameLocalized", "existingIdpNameLocalized", "emailId");
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).addMergeAccountFragment();
     }
@@ -233,7 +233,7 @@ public class AlmostDonePresenterTest {
     public void testContinueSocialProviderLoginFailure_emailAlreadyInUse_mobile() {
         userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
         userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
-        registrationSettingsURL.setMobileFlow(true);
+        RegistrationSettingsURL.setMobileFlow(true);
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
         verify(mockContract).phoneNumberAlreadyInuseError();
     }
@@ -242,7 +242,7 @@ public class AlmostDonePresenterTest {
     public void testContinueSocialProviderLoginFailure_emailAlreadyInUse_email() {
         userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
         userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
-        registrationSettingsURL.setMobileFlow(false);
+        RegistrationSettingsURL.setMobileFlow(false);
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
         verify(mockContract).emailAlreadyInuseError();
     }
@@ -256,14 +256,8 @@ public class AlmostDonePresenterTest {
     @Test
     public void testIsValidEmail() {
         presenter.isValidEmail();
-        assertTrue(mockFieldsValidator.isValidEmail("maqsoodkhan@gmail.com"));
+        assertTrue(FieldsValidator.isValidEmail("maqsoodkhan@gmail.com"));
     }
-
-//    @Test
-//    public void testIsEmailVerificationStatus() {
-//        presenter.isEmailVerificationStatus();
-//        verify(mockUser).getEmailOrMobileVerificationStatus();
-//    }
 
     @Test
     public void testHandleClearUserData() {
