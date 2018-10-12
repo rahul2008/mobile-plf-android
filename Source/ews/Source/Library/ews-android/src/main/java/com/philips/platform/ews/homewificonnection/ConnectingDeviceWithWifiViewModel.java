@@ -214,7 +214,6 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
             handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
         } else {
             ewsLogger.d("****************** KUNAL **********", "startConnecting else");
-            //wiFiUtil.forgetHotSpotNetwork(wiFiUtil.DEVICE_SSID);
             connectToHomeWifi(startConnectionModel.getHomeWiFiSSID());
         }
     }

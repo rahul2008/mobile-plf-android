@@ -109,7 +109,6 @@ public class ApplianceAccessManager {
 
     };
 
-
     private DICommPortListener<WiFiNetworksPort> wiFiNetworksPortDICommPortListener =
             new DICommPortListener<WiFiNetworksPort>() {
                 @Override
@@ -132,7 +131,6 @@ public class ApplianceAccessManager {
                     if (fetchWiFiNetworksCallBack != null) {
                         fetchWiFiNetworksCallBack.onWiFiNetworksReceived(wiFiNodeList);
                     }
-                    //eventBus.post(new FetchWiFiNetworksResponseEvent(wiFiNodeList));
                     requestType = ApplianceRequestType.UNKNOWN;
                 }
             };

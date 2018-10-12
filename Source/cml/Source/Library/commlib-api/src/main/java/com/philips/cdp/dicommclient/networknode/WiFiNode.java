@@ -1,4 +1,3 @@
-
 /*
  * (C) Koninklijke Philips N.V., 2018.
  * All rights reserved.
@@ -22,4 +21,3 @@ public class WiFiNode {
         return "WiFiNode{" + "SSID='" + SSID + '\'' + ", RSSI=" + RSSI + '}';
     }
 }
-

@@ -28,7 +28,6 @@ public class WiFiNetworkPortResponseDeserializer implements JsonDeserializer<Lis
     @NonNull
     private final Gson gson;
 
-    //@Inject
     WiFiNetworkPortResponseDeserializer() {
         this.gson = new Gson();
     }
@@ -53,4 +52,3 @@ public class WiFiNetworkPortResponseDeserializer implements JsonDeserializer<Lis
         return list;
     }
 }
-

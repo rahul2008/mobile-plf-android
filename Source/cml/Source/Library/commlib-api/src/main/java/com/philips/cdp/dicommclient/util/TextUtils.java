@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2018.
+ * All rights reserved.
+ */
 package com.philips.cdp.dicommclient.util;
 
 import android.os.Build;
@@ -20,4 +24,3 @@ public class TextUtils {
         return result;
     }
 }
-
