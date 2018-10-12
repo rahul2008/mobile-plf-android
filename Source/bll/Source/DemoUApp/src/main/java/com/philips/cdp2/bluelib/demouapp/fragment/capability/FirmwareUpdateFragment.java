@@ -46,6 +46,7 @@ public class FirmwareUpdateFragment extends Fragment {
     private SHNDevice mDevice;
     private SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate;
     private TextView textViewFirmwareVersion;
+    private TextView textViewFirmwarePath;
     private TextView textViewFirmwareState;
     private ListView listViewFiles;
     private File[] files;
@@ -90,6 +91,7 @@ public class FirmwareUpdateFragment extends Fragment {
             }
         });
 
+        textViewFirmwarePath = fragmentView.findViewById(R.id.tvFirmwarePath);
         textViewFirmwareVersion = fragmentView.findViewById(R.id.tvFirmwareVersion);
         textViewFirmwareState = fragmentView.findViewById(R.id.tvFirmwareState);
         textViewUploadState = fragmentView.findViewById(R.id.tvUploadState);
@@ -125,7 +127,9 @@ public class FirmwareUpdateFragment extends Fragment {
             }
         });
 
-        updateFilesList();
+        final File firmwareDirectory = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        textViewFirmwarePath.setText(firmwareDirectory.getAbsolutePath());
+        updateFilesList(firmwareDirectory);
     }
 
     private void getFileAndStartUpload() {
@@ -154,18 +158,17 @@ public class FirmwareUpdateFragment extends Fragment {
         }
     }
 
-    private void updateFilesList() {
-        File dir = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-        if (dir != null) {
-            Log.d(TAG, dir.getAbsolutePath());
+    private void updateFilesList(final File firmwareDirectory) {
+        if (firmwareDirectory != null) {
+            Log.d(TAG, firmwareDirectory.getAbsolutePath());
 
             files = null;
-            if (dir.exists()) {
-                if (dir.isDirectory()) {
-                    files = dir.listFiles();
+            if (firmwareDirectory.exists()) {
+                if (firmwareDirectory.isDirectory()) {
+                    files = firmwareDirectory.listFiles();
                 }
             } else {
-                dir.mkdirs();
+                firmwareDirectory.mkdirs();
             }
 
             List<String> list = new ArrayList<>();
