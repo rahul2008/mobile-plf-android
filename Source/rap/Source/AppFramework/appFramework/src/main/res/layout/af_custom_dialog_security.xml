@@ -58,6 +58,6 @@
             android:background="#ffffff"
             android:text="@string/RA_SECURITY_NO_THANKS"
             android:textColor="#000000"
-            android:textSize="20dp" android:paddingBottom="8dp"/>
+            android:textSize="20dp" android:paddingBottom="24dp"/>
     </LinearLayout>
 </ScrollView>
