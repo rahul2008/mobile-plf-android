@@ -117,19 +117,9 @@ public class SecondSetupStepsViewModelTest {
         verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpVerifyScreenNoButton());
     }
 
-    /*@Test
-    public void itShouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
-        sendEventToShowPasswordEntryScreen();
-        verify(navigatorMock).navigateToConnectToDeviceWithPasswordScreen(anyString());
-    }*/
-
     @Test
     public void itShouldCallPostDelayedOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
         subject.connectPhoneToDeviceHotspotWifi();
         verify(navigatorMock).navigateToConnectingPhoneToHotspotWifiScreen();
-    }
-
-    private void sendEventToShowPasswordEntryScreen() {
-        subject.showPasswordEntryScreenEvent();
     }
 }

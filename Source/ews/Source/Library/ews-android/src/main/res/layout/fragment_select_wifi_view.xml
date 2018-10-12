@@ -114,8 +114,7 @@
             android:orientation="vertical"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="@dimen/default_body_labels_margin"
-            android:layout_marginEnd="@dimen/default_body_labels_margin"
-            android:elevation="@dimen/ews_select_wifi_elevation">
+            android:layout_marginEnd="@dimen/default_body_labels_margin">
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/btn_continue"

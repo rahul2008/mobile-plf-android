@@ -98,7 +98,7 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
     };
 
     public void trackPageName() {
-        ewsTagger.trackPage(Page.FETCHING_WIFI_NETWORKS);
+        ewsTagger.trackPage(Page.SELECT_WIFI_NETWORK);
     }
 
     @NonNull

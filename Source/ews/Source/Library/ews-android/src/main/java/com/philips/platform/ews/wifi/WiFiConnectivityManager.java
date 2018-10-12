@@ -64,7 +64,6 @@ public class WiFiConnectivityManager {
         connectToNetwork(homeWiFiSSID);
     }
 
-
     public void connectToApplianceHotspotNetwork(final String deviceHotspotSSID) {
         wiFiUtil.forgetHotSpotNetwork(deviceHotspotSSID);
         configureOpenNetwork(DEVICE_SSID);
@@ -118,7 +117,6 @@ public class WiFiConnectivityManager {
         wifiManager.saveConfiguration();
     }
 
-
     private void connectToNetwork(@NonNull final String ssid) {
         ewsLogger.d(EWS_STEPS, "Trying to connect to network " + ssid);
         attempt = 0;
@@ -129,7 +127,7 @@ public class WiFiConnectivityManager {
     private Runnable runnable;
 
     private void tryToConnectToNetwork(@NonNull final String ssid) {
-       runnable = new Runnable() {
+        runnable = new Runnable() {
             @Override
             public void run() {
                 ScanResult accessPoint;

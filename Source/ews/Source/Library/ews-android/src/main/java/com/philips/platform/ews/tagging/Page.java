@@ -8,7 +8,7 @@ public final class Page {
 
     //should use below Tag
     public static final String GET_STARTED = "getStarted";      //EWS_01_00
-    public static final String CONFIRM_WIFI_NETWORK = "confirmWifiNetwork";     //EWS_01_01
+    public static final String SELECT_WIFI_NETWORK = "selectWifiNetwork";     //EWS_01_01
     public static final String NETWORK_NOT_LISTED = "networkNotListed";      //EWS_01_01a
     public static final String SELECT_HOME_WIFI = "selectHomeWifi";     //EWS_01_01b
     public static final String SETUP_STEP1 = "setupStep1";      //EWS_02_01
@@ -20,7 +20,6 @@ public final class Page {
     public static final String RESET_CONNECTION = "resetConnection";        //EWS_H_03.02
     public static final String RESET_DEVICE = "resetDevice";        //EWS_H_03.03
     public static final String SETUP_ACCESS_POINT_MODE = "setupAccessPointMode";        //EWS_H_03.04
-    public static final String FETCHING_WIFI_NETWORKS = "fetchingWifiNetworks";        //EWS_04_00
     public static final String CONNECTING_DEVICE_WITH_WIFI = "connectingDeviceWithWifi";        //EWS_05_00
     public static final String WRONG_WIFI_NETWORK = "wrongWifiNetwork";     //EWS_05_00.a
     public static final String CONNECTION_UNSUCCESSFUL = "connectionUnsuccessful";      //EWS_05_00.b

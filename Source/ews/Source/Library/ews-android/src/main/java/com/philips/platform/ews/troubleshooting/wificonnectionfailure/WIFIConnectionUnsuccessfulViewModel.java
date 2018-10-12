@@ -68,8 +68,6 @@ public class WIFIConnectionUnsuccessfulViewModel {
         } else {
             navigator.navigateToSelectWiFiScreen();
         }
-        //wiFiUtil.forgetHotSpotNetwork(wiFiUtil.DEVICE_SSID);
-
     }
 
     void trackPageName() {

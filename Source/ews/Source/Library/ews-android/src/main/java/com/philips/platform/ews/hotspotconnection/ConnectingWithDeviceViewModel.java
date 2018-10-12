@@ -180,7 +180,6 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     @Override
     public void onFriendlyNameFetchingSuccess(@NonNull String friendlyName) {
         navigator.navigateToSelectWiFiScreen();
-        //navigator.navigateToConnectToDeviceWithPasswordScreen(friendlyName);
     }
 
     @Override

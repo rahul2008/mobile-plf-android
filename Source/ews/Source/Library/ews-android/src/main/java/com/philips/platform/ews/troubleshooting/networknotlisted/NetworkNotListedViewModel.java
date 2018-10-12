@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2018.
+ * All rights reserved.
+ */
 package com.philips.platform.ews.troubleshooting.networknotlisted;
 
 import android.databinding.ObservableField;

@@ -106,7 +106,6 @@ public class StartConnectWithDeviceViewModelTest {
         setPermissionGranted(true);
         when(wiFiUtil.isHomeWiFiEnabled()).thenReturn(true);
         stubHomeWiFiStatus();
-       // verify(mockEWSTagger).trackActionSendData("specialEvents", "getStartedToConnectWiFi");
         verify(navigatorMock).navigateToDevicePoweredOnConfirmationScreen();
     }
 

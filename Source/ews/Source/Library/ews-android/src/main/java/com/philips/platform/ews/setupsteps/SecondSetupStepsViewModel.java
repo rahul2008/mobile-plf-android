@@ -125,6 +125,5 @@ public class SecondSetupStepsViewModel {
 
     public void showPasswordEntryScreenEvent() {
         navigator.navigateToSelectWiFiScreen();
-        //navigator.navigateToConnectToDeviceWithPasswordScreen("");
     }
 }

@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.platform.ews.R;
-import com.philips.platform.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
 import com.philips.platform.ews.navigation.Navigator;
 import com.philips.platform.ews.tagging.EWSTagger;

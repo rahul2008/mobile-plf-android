@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2018.
+ * All rights reserved.
+ */
 package com.philips.platform.ews.util;
 
 import android.databinding.BindingAdapter;
