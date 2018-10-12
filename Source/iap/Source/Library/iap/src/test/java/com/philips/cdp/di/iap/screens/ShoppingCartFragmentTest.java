@@ -60,7 +60,7 @@ public class ShoppingCartFragmentTest {
     }
 
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldDisplayAddressSelectionFragment() {
         startFragment(shoppingCartFragment);
         assertNotNull( shoppingCartFragment );
