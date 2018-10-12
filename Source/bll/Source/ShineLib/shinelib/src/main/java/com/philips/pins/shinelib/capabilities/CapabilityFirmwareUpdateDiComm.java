@@ -93,7 +93,7 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
                     if (result == SHNResult.SHNOk) {
                         if (getStateFromProps(properties) == State.Idle) {
                             prepareForUpload();
-                        } else if (getStateFromProps(properties) == State.Downloading) {
+                        } else if (getStateFromProps(properties) == State.Downloading && shouldResume) {
                             startUploadAt(getProgressFromProps(properties));
                         } else {
                             resetFirmwarePortToIdle(getStateFromProps(properties));
