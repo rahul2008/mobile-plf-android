@@ -21,6 +21,7 @@ import java.util.Map;
 
 import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.State.Downloading;
 import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.State.Unknown;
+import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.getProgressFromProps;
 import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.getStateFromProps;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -216,5 +217,14 @@ public class DiCommFirmwarePortTest {
         DiCommFirmwarePort.State state = getStateFromProps(properties);
 
         assertThat(state).isEqualTo(Unknown);
+    }
+
+    @Test
+    public void itReturnsCorrectProgressValueFromPropertiesThatContainAValidProgressValue() {
+        properties.put(DiCommFirmwarePort.Key.PROGRESS, 22.0);
+
+        int state = getProgressFromProps(properties);
+
+        assertThat(state).isEqualTo(22);
     }
 }

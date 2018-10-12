@@ -249,6 +249,18 @@ public class CapabilityFirmwareUpdateDiCommTest {
     }
 
     @Test
+    public void givenUploadIsCalledWithResumeAsTrue_whenStateIsUploading_thenUploadIsResumed() {
+        capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, true);
+        assertEquals(SHNFirmwareUpdateStateUploading, capabilityFirmwareUpdateDiComm.getState());
+
+        capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, true);
+        verify(diCommPortMock, atLeastOnce()).reloadProperties(mapResultListenerArgumentCaptor.capture());
+        respondWith(State.Downloading, 3);
+
+        verify(shnCapabilityFirmwareUpdateListenerMock).onProgressUpdate(capabilityFirmwareUpdateDiComm, 0.3f);
+    }
+
+    @Test
     public void whenUploadIsCalledAndPortIsErrorThenIdleIsSent() {
         whenUploadIsCalledWithoutResumeThenCurrentValuesAreFetchedFromDevice();
 

@@ -105,7 +105,7 @@ public class DiCommFirmwarePort extends DiCommPort {
     public static int getProgressFromProps(@NonNull final Map<String, Object> properties) {
         Object progressValue = properties.get(Key.PROGRESS);
 
-        return (progressValue instanceof Integer) ? (int) progressValue : -1;
+        return (progressValue instanceof Double) ? ((Double)progressValue).intValue() : -1;
     }
 
     public static State getStateFromProps(@NonNull final Map<String, Object> properties) {

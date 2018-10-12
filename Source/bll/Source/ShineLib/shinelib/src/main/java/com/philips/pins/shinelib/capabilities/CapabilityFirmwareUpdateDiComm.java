@@ -82,7 +82,7 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
 
     @Override
     public void uploadFirmware(final byte[] firmwareData, final boolean shouldResume) {
-        if (state == SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle) {
+        if (state == SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle || state == SHNFirmwareUpdateState.SHNFirmwareUpdateStateUploading) {
             if (firmwareData == null || firmwareData.length == 0) {
                 notifyUploadFailed(SHNResult.SHNErrorInvalidParameter);
             } else {
