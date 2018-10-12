@@ -66,13 +66,6 @@ public class WIFIConnectionUnsuccessfulViewModelTest {
         assertEquals(note, subject.lowerHelperText.get());
     }
 
-    /*@Test
-    public void itShouldNavigateToConnectingPhoneToHotspotWifiScreenIfHomeWiFiIsEnabledWhenTryAgainButtonIsClicked() throws Exception {
-        subject.onTryAgainClicked();
-        when(mockWiFiUtil.isHomeWiFiEnabled()).thenReturn(true);
-        verify(mockNavigator).navigateToConnectingPhoneToHotspotWifiScreen();
-    }
-*/
     @Test
     public void itShouldNavigateToSelectWifiScreenIfHomeWiFiIsNotEnabledWhenTryAgainButtonIsClicked() throws Exception {
         subject.onTryAgainClicked();
