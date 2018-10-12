@@ -3,23 +3,12 @@ package com.philips.cdp.registration;
 import android.app.Activity;
 import android.content.Context;
 
-import com.philips.cdp.registration.app.infra.AppInfraWrapper;
-import com.philips.cdp.registration.configuration.AppConfiguration;
-import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.ConsumerArray;
-import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
-import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
-import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
