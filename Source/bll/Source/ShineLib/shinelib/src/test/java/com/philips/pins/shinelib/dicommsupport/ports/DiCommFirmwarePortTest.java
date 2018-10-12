@@ -223,8 +223,8 @@ public class DiCommFirmwarePortTest {
     public void itReturnsCorrectProgressValueFromPropertiesThatContainAValidProgressValue() {
         properties.put(DiCommFirmwarePort.Key.PROGRESS, 22.0);
 
-        int state = getProgressFromProps(properties);
+        int progress = getProgressFromProps(properties);
 
-        assertThat(state).isEqualTo(22);
+        assertThat(progress).isEqualTo(22);
     }
 }
