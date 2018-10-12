@@ -79,6 +79,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap.put(22, getString(R.string.page_title_splash_screen));
         itemsMap.put(23, getString(R.string.page_title_slider));
         itemsMap.put(24, getString(R.string.page_title_bottom_tab_bar));
+        itemsMap.put(25, "Expander");
         return sortMap(itemsMap);
     }
 
@@ -178,6 +179,9 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 break;
             case 24:
                 navigationController.switchFragment(new BottomTabSettingsFragment());
+                break;
+            case 25:
+                navigationController.switchFragment(new ExpanderFragmentOne());
                 break;
         }
     }

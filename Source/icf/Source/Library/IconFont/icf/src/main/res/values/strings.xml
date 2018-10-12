@@ -59,4 +59,6 @@
   <string name="dls_threedotsvertical" translatable="false">\uF039</string>
   <string name="dls_password_hide" translatable="false">\uF03A</string>
   <string name="dls_password_show" translatable="false">\uF03B</string>
+  <string name="dls_navigationdown" translatable="false">\uF03C</string>
+  <string name="dls_navigationup" translatable="false">\uF03D</string>
 </resources>
