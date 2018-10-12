@@ -121,7 +121,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(user.isUserSignIn()) {
+        if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
             connectivityPresenter.fetchLatestSessionInfo();
         }
     }

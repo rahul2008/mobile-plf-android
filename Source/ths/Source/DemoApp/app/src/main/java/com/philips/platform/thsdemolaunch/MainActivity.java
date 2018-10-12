@@ -73,7 +73,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         fragmentLauncher = new FragmentLauncher(this, R.id.uappFragmentLayout, this);
 
         User user = new User(this);
-        if (user != null && !user.isUserSignIn()) {
+        if (user != null && !user.getUserLoginState() == UserLoginState.USER_LOGGED_IN ) {
             startRegistrationFragment();
         } else {
             launchAmwell();
