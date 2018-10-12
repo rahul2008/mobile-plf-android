@@ -9,7 +9,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -111,10 +110,9 @@ public class UserDataProvider extends User implements UserDataInterface {
 
     @Override
     public boolean isUserLoggedIn(Context context) {
-        if (getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
-            RLog.d(TAG, "isUserLoggedIn :  true");
-            return true;
-        } else return false;
+        boolean isLoggedIn = isUserSignIn();
+        RLog.d(TAG, "isUserLoggedIn :  " + isLoggedIn);
+        return isLoggedIn;
     }
 
     @Override
