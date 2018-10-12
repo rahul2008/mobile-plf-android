@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+    android:id="@+id/uid_expander_title_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/uid_expander_title_image"
+        fontPath="fonts/iconfont.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="12dp"
+        android:textColor="?attr/uidContentItemSecondaryNormalIconColor"
+        android:textSize="24dp"
+        android:visibility="gone" />
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/uid_expander_title_chevron"
+        fontPath="fonts/iconfont.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/dls_navigationdown"
+        android:textColor="?attr/uidContentItemSecondaryNormalIconColor"
+        android:textSize="24dp" />
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/uid_expander_title_text"
+        fontPath="fonts/centralesansmedium.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/uid_expander_title_image"
+        android:layout_toStartOf="@+id/uid_expander_title_chevron"
+        android:layout_marginEnd="12dp"
+        android:gravity="center_vertical"
+        android:maxLines="3"
+
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+        android:textSize="16dp" />
+
+</RelativeLayout>

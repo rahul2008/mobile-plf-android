@@ -20,16 +20,20 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     private Label ExpanderViewTitleDefaultLabel;
 
 
-    private ImageView ExpanderViewTitleDefaultImageView;
+    private Label ExpanderViewTitleDefaultIcon;
     private RelativeLayout ExpanderViewContent;
-    private Label ExpanderViewContentDefaultLabel;
+    private Label chevronLabel;
     private Context mContext;
     private View titleBottomDivider;
     private View contentBottomDivider;
 
 
+
+
+
     public Expander(Context context, @Nullable AttributeSet attrs) {
         super(context);
+        mContext=context;
         initializeViews(context, attrs);
     }
 
@@ -43,39 +47,52 @@ public class Expander extends LinearLayout implements View.OnClickListener {
         ExpanderViewTitle = (RelativeLayout) expanderLayout.findViewById(R.id.uid_expander_view_title);
         ExpanderViewTitle.setOnClickListener(this);
         ExpanderViewContent =(RelativeLayout)expanderLayout.findViewById(R.id.uid_expander_view_content);
-        ExpanderViewTitleDefaultLabel = (Label) expanderLayout.findViewById(R.id.uid_expander_title_text);
-        ExpanderViewTitleDefaultImageView = (ImageView) expanderLayout.findViewById(R.id.uid_expander_title_image);
+
         titleBottomDivider = (View) expanderLayout.findViewById(R.id.uid_expander_title_bottom_divider);
         contentBottomDivider = (View) expanderLayout.findViewById(R.id.uid_expander_content_bottom_divider);
 
+        setTitleLayout(R.layout.uid_expander_title_layout_default);  // set default title
+        ExpanderViewTitleDefaultLabel = (Label) expanderLayout.findViewById(R.id.uid_expander_title_text);
+        ExpanderViewTitleDefaultIcon = (Label) expanderLayout.findViewById(R.id.uid_expander_title_image);
+        chevronLabel = (Label)  expanderLayout.findViewById(R.id.uid_expander_title_chevron);
+
+    }
+
+
+
+     // title layout
+    public void setTitleLayout(int resource){
+        setLayout(resource,ExpanderViewTitle);
+
+    }
+
+    // content layout
+     public void setContentLayout(int resource){
+         setLayout(resource,ExpanderViewContent);
+
+    }
+
+    private void setLayout(int resource, RelativeLayout layout){
+        LayoutInflater layoutInflater = (LayoutInflater)
+                mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = layoutInflater.inflate(resource, layout, false);
+        layout.addView(contentView);
+
+    }
+
+    public void setTitleText(String title) {
+        if(null!=ExpanderViewTitleDefaultLabel) {
+            ExpanderViewTitleDefaultLabel.setText(title);
+        }
+    }
+
+    public void setTitleIcon(String fontIcon) {
+        ExpanderViewTitleDefaultIcon.setText(fontIcon);
+        ExpanderViewTitleDefaultIcon.setVisibility(VISIBLE);
     }
 
 
 
-     public void setContentLayout(int resource, Context context){
-         LayoutInflater layoutInflater = (LayoutInflater)
-                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-         View contentView = layoutInflater.inflate(resource, ExpanderViewContent, false);
-
-         ExpanderViewContent.addView(contentView);
-        // ExpanderViewContent.setVisibility(GONE);
-
-    }
-
-    public void setTitle(String title) {
-        ExpanderViewTitleDefaultLabel.setText(title);
-    }
-
-    public void setTitleImage(Drawable drawable) {
-        ExpanderViewTitleDefaultImageView.setImageDrawable(drawable);
-
-    }
-
-    public void setContent(String content) {
-        ExpanderViewContentDefaultLabel.setText(content);
-
-    }
 
     boolean isExpanded(){
         return true;
@@ -92,13 +109,25 @@ public class Expander extends LinearLayout implements View.OnClickListener {
 
     private void expandOrCollapse(){
         if(ExpanderViewContent.isShown()){
-            ExpanderViewContent.setVisibility(View.GONE);
-            contentBottomDivider.setVisibility(View.GONE);
-            titleBottomDivider.setVisibility(VISIBLE);
+           hideContentView();
         }else{
-            titleBottomDivider.setVisibility(GONE);
-            ExpanderViewContent.setVisibility(View.VISIBLE);
-            contentBottomDivider.setVisibility(View.VISIBLE);
+            if(null!=ExpanderViewContent && null!=ExpanderViewContent.getChildAt(0)) {
+                showContentView();
+            }
         }
+    }
+
+    private void showContentView(){
+        titleBottomDivider.setVisibility(GONE);
+        ExpanderViewContent.setVisibility(View.VISIBLE);
+        contentBottomDivider.setVisibility(View.VISIBLE);
+        chevronLabel.setText(mContext.getResources().getString(R.string.dls_navigationup));
+    }
+
+    private void hideContentView(){
+        ExpanderViewContent.setVisibility(View.GONE);
+        contentBottomDivider.setVisibility(View.GONE);
+        titleBottomDivider.setVisibility(VISIBLE);
+        chevronLabel.setText(mContext.getResources().getString(R.string.dls_navigationdown));
     }
 }

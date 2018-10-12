@@ -5,8 +5,9 @@
 <com.philips.platform.uid.view.widget.Label
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:text="Expander content"
-    android:gravity="center"
+    android:text="Expander content Line one"
+
+    style="@style/Base.AlertDialog.AppCompat.Light"
     />
 
 </RelativeLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@id/uid_expander"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,39 +8,13 @@
     <RelativeLayout
         android:id="@id/uid_expander_view_title"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:paddingBottom="12dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="12dp">
-
-
-        <ImageView
-            android:id="@+id/uid_expander_title_image"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true" />
-
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/uid_expander_title_chevron"
-            fontPath="fonts/iconfont.ttf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/dls_navigationdown" />
-
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/uid_expander_title_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/uid_expander_title_image"
-            android:layout_toStartOf="@+id/uid_expander_title_chevron"
-            android:maxLines="3"
-            android:minHeight="24dp" />
+        android:layout_height="wrap_content"
+        android:minHeight="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        >
 
     </RelativeLayout>
 
@@ -51,14 +24,15 @@
         android:layout_height="@dimen/uid_divider_Height"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
+
     <RelativeLayout
         android:id="@id/uid_expander_view_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        >
-
-
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone">
     </RelativeLayout>
 
     <View
@@ -66,6 +40,5 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/uid_divider_Height"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor"
-        android:visibility="gone"
-         />
+        android:visibility="gone" />
 </LinearLayout>

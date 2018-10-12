@@ -54,7 +54,7 @@ public class ExpanderFragment extends BaseFragment {
        /* if(expanderBinding.catalogExpanderOne!=null)
         {
             expanderBinding.catalogExpanderOne.setDefaultExpander(getContext());
-            expanderBinding.catalogExpanderOne.setTitle("Expander 1");
+            expanderBinding.catalogExpanderOne.setTitleText("Expander 1");
         }
 */
 
