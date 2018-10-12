@@ -27,9 +27,11 @@ import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
+import com.philips.cdp.di.iap.response.carts.AppliedOrderPromotionEntity;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.CartsEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.response.carts.PromotionEntity;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -412,6 +414,14 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
             //required for Tagging
             cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
+            cartItem.setAppliedOrderPromotionEntityList(cartsEntity.getAppliedOrderPromotions());
+
+            for(AppliedOrderPromotionEntity appliedOrderPromotionEntity:cartsEntity.getAppliedOrderPromotions()){
+                Log.d("pabbitrabapi",appliedOrderPromotionEntity.getDescription());
+                PromotionEntity promotionEntity = appliedOrderPromotionEntity.getPromotion();
+                Log.d("pabbitrabapi",promotionEntity.getDescription());
+                Log.d("pabbitrabapi",promotionEntity.getCode());
+            }
             products.add(cartItem);
         }
         return products;

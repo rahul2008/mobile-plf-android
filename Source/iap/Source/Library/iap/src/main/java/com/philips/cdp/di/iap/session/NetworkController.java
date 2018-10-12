@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -86,6 +87,8 @@ public class NetworkController {
 
             @Override
             public void onResponse(final JSONObject response) {
+                if(response!=null)
+                Log.d("Pabitra",response.toString());
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;

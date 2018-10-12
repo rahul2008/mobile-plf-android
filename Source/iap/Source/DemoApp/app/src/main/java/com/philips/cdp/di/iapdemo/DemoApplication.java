@@ -33,7 +33,7 @@ public class DemoApplication extends Application{
         LeakCanary.install(this);
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         // HSDPConfiguration();
-        initRegistration(Configuration.STAGING);
+        initRegistration(Configuration.PRODUCTION);
         RLog.enableLogging();
     }
 

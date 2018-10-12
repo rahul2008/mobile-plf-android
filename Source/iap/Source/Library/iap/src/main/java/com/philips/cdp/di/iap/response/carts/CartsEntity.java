@@ -40,6 +40,17 @@ public class CartsEntity {
 
     private List<DeliveryOrderGroupsEntity> deliveryOrderGroups;
 
+    public List<AppliedOrderPromotionEntity> getAppliedOrderPromotions() {
+        return appliedOrderPromotions;
+    }
+
+    public void setAppliedOrderPromotions(List<AppliedOrderPromotionEntity> appliedOrderPromotions) {
+        this.appliedOrderPromotions = appliedOrderPromotions;
+    }
+
+    private List<AppliedOrderPromotionEntity> appliedOrderPromotions;
+
+
     private List<EntriesEntity> entries;
 
     public boolean isCalculated() {
