@@ -2352,7 +2352,7 @@
     <item name="uidSpringBoardQuietDisabledIconColor">#40FFFFFF</item><!-- springboard-icon-disabled -->
     <item name="uidSpringBoardQuietDisabledTextColor">#59FFFFFF</item><!-- primary-text-disabled -->
     <item name="uidStatusBarAndroid6BackgroundColor">@color/uid_group_blue_level_40</item><!-- status-bar-android6 -->
-    <item name="uidStatusBarAndroid6BackgroundTopColor">#332B86B2</item><!-- status-bar-android6-top -->
+    <item name="uidStatusBarAndroid6BackgroundTopColor">@android:color/transparent</item><!-- status-bar-android6-top -->
     <item name="uidStatusBarAndroid6IconColor">@color/uid_level_white</item><!-- status-bar-android6-text -->
     <item name="uidStatusBarAndroid6TextColor">@color/uid_level_white</item><!-- status-bar-android6-text -->
     <item name="uidStatusBarIosBackgroundColor">@color/uid_group_blue_level_40</item><!-- status-bar-ios -->

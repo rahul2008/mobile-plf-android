@@ -10,7 +10,7 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.g
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
-    
+
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
@@ -33,7 +33,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('apk')
+                publications('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -43,7 +43,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -99,7 +100,7 @@ android {
     }
 
     def Properties props = new Properties()
-	def propFile = new File("${project.projectDir}/../signing.properties")
+    def propFile = new File("${project.projectDir}/../signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
 
@@ -120,13 +121,19 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.support.appcompatv7
+    implementation deps.support.supportv4
+    implementation 'com.android.support:support-v4:27.1.1'
     androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     testImplementation deps.junit
     implementation project(strings.ufwuapp.projectName)
+    implementation project(strings.ufw.projectName)
+    implementation project(strings.uid.projectName)
+    implementation project(strings.ail.projectName)
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

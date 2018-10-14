@@ -27,7 +27,7 @@ public class UappActivity extends AppCompatActivity {
         UappDemoApplication uappDemoApplication = (UappDemoApplication) getApplicationContext();
         UappDemoDependencies uappDependencies = new UappDemoDependencies(uappDemoApplication.getAppInfra());
         uAppInterface.init(uappDependencies, new UappDemoSettings(this));// pass App-infra instance instead of null
-        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(),R.style.Theme_DLS_Aqua_VeryDark, null);
+        ActivityLauncher uiLauncher = new ActivityLauncher(this,ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(),R.style.Theme_DLS_Aqua_VeryDark, null);
         uAppInterface.launch(uiLauncher, null);// pass launch input if required
         finish();
     }

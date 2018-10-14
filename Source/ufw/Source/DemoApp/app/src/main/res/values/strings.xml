@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">UappDemo</string>
     <string name="action_settings">Settings</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+
+    <string name="enable_low_profile_mode">Enable Low Profile Mode</string>
+    <string name="hide_navigation_bar">Hide Navigation bar</string>
+    <string name="hide_status_bar">Hide Status Bar</string>
+    <string name="enable_immersive_mode">Enable Immersive Mode</string>
+    <string name="enable_immersive_mode_sticky">Enable Immersive Mode (Sticky)</string>
+    <string name="do_things">Do things!</string>
+    <string name="common_flag_presets">Common flag presets</string>
+    <string name="immersive_mode">Immersive Mode</string>
+    <string name="leanback_mode">Leanback Mode</string>
 </resources>
