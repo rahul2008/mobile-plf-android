@@ -3,7 +3,7 @@
     android:id="@+id/splash_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/uikit_enricher_red">
+    android:background="?attr/uikit_splashGradient">
 
     <ImageView
         android:id="@+id/splash_logo"
@@ -13,6 +13,7 @@
 
     <TextView
         android:id="@+id/splash_title"
+        style="?attr/uikit_splashTitleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
