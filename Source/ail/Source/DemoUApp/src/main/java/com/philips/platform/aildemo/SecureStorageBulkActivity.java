@@ -16,6 +16,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.securestoragev1.SecureStorageV1;
+import com.philips.platform.appinfra.securestoragev2.SecureStorageV2;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -139,13 +140,13 @@ public class SecureStorageBulkActivity extends Activity {
     }
 
     public void setProgressVisibility(boolean visibility){
-            if(visibility){
-                progressBar.setVisibility(View.VISIBLE);
-                scrollView.setVisibility(View.GONE);
-            }else{
-                progressBar.setVisibility(View.GONE);
-                scrollView.setVisibility(View.VISIBLE);
-            }
+        if(visibility){
+            progressBar.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+        }else{
+            progressBar.setVisibility(View.GONE);
+            scrollView.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -159,7 +160,7 @@ public class SecureStorageBulkActivity extends Activity {
         }
         ;
 //     InputStream inputStream = getResources().openRawResource(R.raw.internals);
-        //System.out.println(inputStream);
+        System.out.println(inputStream);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         int i;
