@@ -17,7 +17,6 @@ import android.support.v7.app.ActionBar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,17 +24,12 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.flowmanager.utility.UappConstants;
+import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemo.screens.base.UappBaseActivity;
 import com.philips.platform.uappdemo.screens.splash.SplashFragment;
-import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
-import com.philips.platform.uid.thememanager.UIDHelper;
 
 
 /**
@@ -49,7 +43,8 @@ public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initDLS();
+//        initDLS();
+        setTheme(R.style.Theme_DLS_GroupBlue_Bright);
         super.onCreate(savedInstanceState);
         presenter = new LaunchActivityPresenter(this);
         initCustomActionBar();
@@ -98,7 +93,6 @@ public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
 
     @Override
     public void hideActionBar() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
     }
@@ -153,11 +147,6 @@ public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
         }
     }
 
-    public void initDLS() {
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-        getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
-    }
-
     @Override
     public void onBackPressed() {
         boolean isConsumed = false;
@@ -169,7 +158,8 @@ public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
         }
         if (!isConsumed) {
             presenter.onEvent(UappConstants.BACK_BUTTON_CLICK_CONSTANT);
-        }
+        } else
+            super.onBackPressed();
     }
     @Override
     public FragmentActivity getFragmentActivity() {

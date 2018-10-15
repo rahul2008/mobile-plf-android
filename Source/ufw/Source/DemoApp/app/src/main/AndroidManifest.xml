@@ -7,11 +7,12 @@
         android:name="com.philips.platform.UappDemoApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name="com.philips.platform.UappActivity"
             android:label="@string/app_name"
-            android:theme="@style/FullscreenActionBarStyle">
+            android:theme="@style/Theme.DLS.Blue.Bright">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,22 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.philips.platform.FullscreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_fullscreen"
-            android:theme="@style/Theme.DLS.GroupBlue.Bright">
-
-
-
-          <!-- <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
-
-
     </application>
 
 </manifest>

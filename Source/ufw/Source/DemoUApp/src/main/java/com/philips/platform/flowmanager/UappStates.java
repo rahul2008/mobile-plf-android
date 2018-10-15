@@ -18,4 +18,5 @@ public class UappStates {
 
 
     public static String SAMPLE = "sample";
+    public static String NAVIGATION_IMPL = "navigation_impl";
 }
