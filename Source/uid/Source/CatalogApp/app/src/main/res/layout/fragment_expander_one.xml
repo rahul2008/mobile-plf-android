@@ -21,6 +21,7 @@
 
 
     </com.philips.platform.uid.view.widget.Expander>
+
     <com.philips.platform.uid.view.widget.Expander
         android:id="@+id/catalog_expander_three"
         android:layout_width="match_parent"
@@ -29,4 +30,18 @@
 
     </com.philips.platform.uid.view.widget.Expander>
 
+    <com.philips.platform.uid.view.widget.Expander
+        android:id="@+id/catalog_expander_four"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </com.philips.platform.uid.view.widget.Expander>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/sampleTextID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.philips.platform.uid.view.widget.Label>
 </LinearLayout>

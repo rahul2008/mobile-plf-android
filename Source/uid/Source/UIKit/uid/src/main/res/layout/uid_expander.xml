@@ -9,15 +9,12 @@
         android:id="@id/uid_expander_view_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="24dp"
-        android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        >
-
+        android:layout_marginTop="12dp"
+        android:minHeight="24dp">
     </RelativeLayout>
-
     <View
         android:id="@+id/uid_expander_title_bottom_divider"
         android:layout_width="match_parent"
@@ -25,16 +22,15 @@
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
 
+
     <RelativeLayout
         android:id="@id/uid_expander_view_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:visibility="gone">
-    </RelativeLayout>
-
+        android:visibility="gone"></RelativeLayout>
     <View
         android:id="@+id/uid_expander_content_bottom_divider"
         android:layout_width="match_parent"
