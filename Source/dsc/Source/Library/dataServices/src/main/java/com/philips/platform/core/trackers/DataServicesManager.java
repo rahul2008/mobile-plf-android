@@ -120,7 +120,7 @@ public class DataServicesManager {
     private DBSavingInterface mSavingInterface;
     private DBUpdatingInterface mUpdatingInterface;
 
-    ServiceDiscoveryInterface mServiceDiscoveryInterface;
+    private ServiceDiscoveryInterface mServiceDiscoveryInterface;
     private AppInfraInterface mAppInfra;
 
     private ArrayList<DataFetcher> mCustomFetchers;
@@ -457,7 +457,7 @@ public class DataServicesManager {
         mEventing.post(new UnRegisterDeviceToken(appToken, appVariant, registerDeviceTokenListener));
     }
 
-    public void handlePushNotificationPayload(JSONObject jsonObject) throws JSONException {
+    public void handlePushNotificationPayload(JSONObject jsonObject) {
         synchronize();
     }
 
@@ -560,7 +560,7 @@ public class DataServicesManager {
      * Used for setting a Mock ServiceDiscoveryInterface for writing test cases
      * Should not be used by Propositions
      *
-     * @param serviceDiscoveryInterface
+     * @param serviceDiscoveryInterface - ServiceDiscoveryInterface
      */
     public void setServiceDiscoveryInterface(final ServiceDiscoveryInterface serviceDiscoveryInterface) {
         this.mServiceDiscoveryInterface = serviceDiscoveryInterface;
@@ -723,5 +723,11 @@ public class DataServicesManager {
             }
         }
         return true;
+    }
+
+    public Insight createInsight(final String type) {
+        final Insight insight = dataCreator.createInsight();
+        insight.setType(type);
+        return insight;
     }
 }
