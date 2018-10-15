@@ -101,6 +101,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -727,7 +728,9 @@ public class DataServicesManager {
 
     public Insight createInsight(final String type) {
         final Insight insight = dataCreator.createInsight();
+        insight.setGUId(UUID.randomUUID().toString());
         insight.setType(type);
+
         return insight;
     }
 }
