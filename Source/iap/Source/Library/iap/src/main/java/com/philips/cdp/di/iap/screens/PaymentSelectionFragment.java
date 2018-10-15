@@ -122,8 +122,8 @@ public class PaymentSelectionFragment extends InAppBaseFragment
             final HashMap<String,String> value = (HashMap<String, String>)getArguments().getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
             bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, value);
             //Load shipping address from SetDelivery Address with check boxed
-            addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
-                    DLSAddressFragment.TAG,true);
+            addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
+                    AddressFragment.TAG,true);
 //            addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE),
 //                    BillingAddressFragment.TAG);
         }

@@ -36,7 +36,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setValueForRegistrationDescription(String valueForRegistrationDescription) {
-        RLog.i(TAG, "valueForRegistrationDescription :" + valueForRegistrationDescription);
+        RLog.d(TAG, "valueForRegistrationDescription :" + valueForRegistrationDescription);
         this.valueForRegistrationDescription = valueForRegistrationDescription;
     }
 
@@ -45,7 +45,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setOptInActionBarText(String optInActionBarText) {
-        RLog.i(TAG, "optInActionBarText :" + optInActionBarText);
+        RLog.d(TAG, "optInActionBarText :" + optInActionBarText);
         this.optInActionBarText = optInActionBarText;
     }
 
@@ -55,7 +55,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setValueForRegistrationTitle(String valueForRegistrationTitle) {
-        RLog.i(TAG, "valueForRegistrationTitle :" + valueForRegistrationTitle);
+        RLog.d(TAG, "valueForRegistrationTitle :" + valueForRegistrationTitle);
         this.valueForRegistrationTitle = valueForRegistrationTitle;
     }
 
@@ -64,7 +64,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setValueForEmailVerification(String valueForEmailVerification) {
-        RLog.i(TAG, "valueForEmailVerification :" + valueForEmailVerification);
+        RLog.d(TAG, "valueForEmailVerification :" + valueForEmailVerification);
         this.valueForEmailVerification = valueForEmailVerification;
     }
 
@@ -73,7 +73,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setOptInTitleText(String optInTitleText) {
-        RLog.i(TAG, "optInTitleText :" + optInTitleText);
+        RLog.d(TAG, "optInTitleText :" + optInTitleText);
         this.optInTitleText = optInTitleText;
     }
 
@@ -82,7 +82,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setOptInQuessionaryText(String optInQuessionaryText) {
-        RLog.i(TAG, "optInQuessionaryText :" + optInQuessionaryText);
+        RLog.d(TAG, "optInQuessionaryText :" + optInQuessionaryText);
         this.optInQuessionaryText = optInQuessionaryText;
     }
 
@@ -91,7 +91,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setOptInDetailDescription(String optInDetailDescription) {
-        RLog.i(TAG, "optInDetailDescription :" + optInDetailDescription);
+        RLog.d(TAG, "optInDetailDescription :" + optInDetailDescription);
         this.optInDetailDescription = optInDetailDescription;
     }
 
@@ -100,7 +100,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void setOptInBannerText(String optInBannerText) {
-        RLog.i(TAG, "optInBannerText :" + optInBannerText);
+        RLog.d(TAG, "optInBannerText :" + optInBannerText);
         this.optInBannerText = optInBannerText;
     }
 
@@ -110,7 +110,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void enableLastName(boolean hideCreateAccountLastName) {
-        RLog.i(TAG, "enableLastName :" + hideCreateAccountLastName);
+        RLog.d(TAG, "enableLastName :" + hideCreateAccountLastName);
         this.enableLastName = hideCreateAccountLastName;
     }
 
@@ -119,7 +119,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void enableContinueWithouAccount(boolean hideHomeScreenContinueWithouAccount) {
-        RLog.i(TAG, "enableContinueWithouAccount :" + hideHomeScreenContinueWithouAccount);
+        RLog.d(TAG, "enableContinueWithouAccount :" + hideHomeScreenContinueWithouAccount);
         this.enableContinueWithouAccount = hideHomeScreenContinueWithouAccount;
     }
 
@@ -128,7 +128,7 @@ public class RegistrationContentConfiguration implements Serializable {
     }
 
     public void enableMarketImage(int imageId) {
-        RLog.i(TAG, "enableImageId :" + imageId);
+        RLog.d(TAG, "enableImageId :" + imageId);
         this.showMarketImage = imageId;
     }
 

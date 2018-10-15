@@ -235,30 +235,6 @@
                     app:uidInputTextWithClearButton="true" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
             <!--End Address 1 Name-->
-            <!--Start Address 2 Name-->
-            <com.philips.platform.uid.view.widget.Label
-                style="@style/AddressItemLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/iap_address_line_two" />
-
-            <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/ll_address_line_two"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                app:uidTextBoxValidationErrorText="@string/iap_address_error">
-
-                <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/et_address_line_two"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/iap_address_line_two_hint"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"
-                    app:uidInputTextWithClearButton="true" />
-            </com.philips.platform.uid.view.widget.InputValidationLayout>
-            <!--End Address 2 Name-->
             <!--Start Town / City Name-->
             <com.philips.platform.uid.view.widget.Label
                 style="@style/AddressItemLabel"

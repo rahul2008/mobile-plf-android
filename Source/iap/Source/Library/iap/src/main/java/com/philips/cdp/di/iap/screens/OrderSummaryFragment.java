@@ -122,7 +122,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 billingAddressFields.setTitleCode(billingAddress.getTitleCode());
                 billingAddressFields.setCountryIsocode(billingAddress.getCountry().getIsocode());
                 billingAddressFields.setLine1(billingAddress.getLine1());
-                billingAddressFields.setLine2(billingAddress.getLine2());
                 billingAddressFields.setPostalCode(billingAddress.getPostalCode());
                 billingAddressFields.setTown(billingAddress.getTown());
                 if(billingAddress.getRegion()!=null) {
@@ -283,8 +282,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
-                        DLSAddressFragment.TAG,true);
+                addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
+                        AddressFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                 mAddresses = shippingAddresses.getAddresses();

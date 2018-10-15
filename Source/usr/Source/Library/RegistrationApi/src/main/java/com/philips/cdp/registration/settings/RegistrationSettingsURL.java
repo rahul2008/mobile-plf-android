@@ -189,13 +189,13 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 serviceDiscoveyService = resultMap.get("userreg.landing.emailverif");
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
                     jumpConfig.captureRedirectUri = serviceDiscoveyService.getConfigUrls();
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :"
+                    RLog.d(TAG, " onSuccess  : userreg.landing.emailverif :"
                             + serviceDiscoveyService.getConfigUrls());
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :"
+                    RLog.d(TAG, " onSuccess  : userreg.landing.emailverif :"
                             + jumpConfig.captureRedirectUri);
 
                 } else {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.landing.emailverif :");
+                    RLog.d(TAG, " onError  : userreg.landing.emailverif :");
                     ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                     return;
                 }
@@ -206,23 +206,23 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                             replaceAll("c-w", "myphilips");
                     //https://philips-cn.capture.cn.janrain.com/
                     jumpConfig.captureRecoverUri = modifiedUrl;
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :"
+                    RLog.d(TAG, " onSuccess  : userreg.landing.resetpass :"
                             + modifiedUrl);
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :"
+                    RLog.d(TAG, " onSuccess  : userreg.landing.resetpass :"
                             + jumpConfig.captureRecoverUri);
                 } else {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.landing.resetpass : ");
+                    RLog.d(TAG, " onError  : userreg.landing.resetpass : ");
                     ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                     return;
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.janrain.cdn");
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.cdn :" +
+                    RLog.d(TAG, " onSuccess  : userreg.janrain.cdn :" +
                             serviceDiscoveyService.getConfigUrls());
                     jumpConfig.downloadFlowUrl = serviceDiscoveyService.getConfigUrls();
                 } else {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.cdn : ");
+                    RLog.d(TAG, " onError  : userreg.janrain.cdn : ");
                     ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                     return;
                 }
@@ -231,13 +231,13 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
                     String smsSupport = serviceDiscoveyService.getConfigUrls();
                     setMobileFlow(true);
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" +
+                    RLog.d(TAG, " onSuccess  : userreg.smssupported :" +
                             smsSupport);
                     jumpConfig.captureLocale = locale;
                     //Must for mobile create account
                     jumpConfig.captureTraditionalSignInFormName = "userInformationMobileForm";
                 } else {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" +
+                    RLog.d(TAG, " onError  : userreg.smssupported :" +
                             "Service Deiscover inis at non China local");
                     setMobileFlow(false);
                     jumpConfig.captureLocale = locale;
@@ -249,15 +249,15 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
                 serviceDiscoveyService = resultMap.get("userreg.janrain.engage");
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.engage :" + serviceDiscoveyService.getConfigUrls());
+                    RLog.d(TAG, " onSuccess  : userreg.janrain.engage :" + serviceDiscoveyService.getConfigUrls());
                     jumpConfig.engageAppUrl = serviceDiscoveyService.getConfigUrls().substring(8);
 
                     mPreferredCountryCode = countryCode;
                     mPreferredLangCode = langCode;
                     initialize();
-                    RLog.d(RLog.SERVICE_DISCOVERY, " MobileFlow : " + isMobileFlow());
+                    RLog.d(TAG, " MobileFlow : " + isMobileFlow());
                 } else {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.engage : ");
+                    RLog.d(TAG, " onError  : userreg.janrain.engage : ");
                     initialize();
                     return;
                 }
@@ -265,7 +265,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
             private void initialize() {
                 try {
-                    RLog.d(RLog.SERVICE_DISCOVERY, "jumpConfig : " + jumpConfig);
+                    RLog.d(TAG, "jumpConfig : " + jumpConfig);
                     Jump.reinitialize(mContext, jumpConfig);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -278,7 +278,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : RegistrationConfigurationFailed:ServiceDiscovery " + s);
+                RLog.d(TAG, " onError  : RegistrationConfigurationFailed:ServiceDiscovery " + s);
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.FAILURE_SERVICEDISCOVERY + s);
 
@@ -293,7 +293,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         ServiceDiscoveryService serviceDiscoveyService;
         serviceDiscoveyService = resultMap.get(HSDP_BASE_URL_SERVICE_ID);
         if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls() != null) {
-            RLog.d("HSDP_NEW", "serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
+            RLog.d(TAG, "setHSDPBaseUrl: serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
             hsdpConfiguration.setBaseUrlServiceDiscovery(serviceDiscoveyService.getConfigUrls());
         }
     }

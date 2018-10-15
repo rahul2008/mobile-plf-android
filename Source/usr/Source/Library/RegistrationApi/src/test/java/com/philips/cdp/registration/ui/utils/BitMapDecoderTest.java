@@ -19,7 +19,6 @@ import static junit.framework.Assert.assertNotNull;
 
 public class BitMapDecoderTest {
 
-
     @Test
     public void testDecodeSampledBitmapFromResourceBelow100() {
         Bitmap bitmap = BitMapDecoder.decodeSampledBitmapFromResource(RuntimeEnvironment.application.getResources(), R.drawable.jr_icon_amazon, 100, 100);

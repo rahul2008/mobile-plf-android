@@ -13,6 +13,11 @@ public class DeliveryModes implements Parcelable {
     private String description;
     private String name;
 
+    //Added to write test cases
+    public DeliveryModes(){
+
+    }
+
     protected DeliveryModes(Parcel in) {
         code = in.readString();
         description = in.readString();

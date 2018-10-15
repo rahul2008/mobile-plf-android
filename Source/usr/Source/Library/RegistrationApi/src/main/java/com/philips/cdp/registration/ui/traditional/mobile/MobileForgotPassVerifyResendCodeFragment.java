@@ -73,6 +73,8 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNI
 public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFragment implements
         MobileForgotPassVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener {
 
+    private String TAG ="MobileForgotPassVerifyResendCodeFragment";
+
     @BindView(R2.id.btn_reg_resend_update)
     ProgressBarButton resendSMSButton;
 
@@ -113,6 +115,8 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        RLog.i(TAG,"Screen name is "+ TAG);
+
         registerInlineNotificationListener(this);
         mobileVerifyResendCodePresenter = new MobileForgotPassVerifyResendCodePresenter(this);
 
@@ -173,7 +177,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void onConfigurationChanged(Configuration config) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onConfigurationChanged");
+        RLog.d(TAG, " onConfigurationChanged");
         super.onConfigurationChanged(config);
         setCustomParams(config);
     }
@@ -264,13 +268,13 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.d("MobileActivationFragment", " onRefreshUserSuccess");
+        RLog.d(TAG, " onRefreshUserSuccess");
     }
 
     @Override
     public void onRefreshUserFailed(int error) {
         hideProgressSpinner();
-        RLog.d("MobileActivationFragment", " onRefreshUserFailed");
+        RLog.d(TAG, " onRefreshUserFailed");
     }
 
     @Override
@@ -296,6 +300,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @OnClick(R2.id.btn_reg_resend_update)
     public void verifyClicked() {
+        RLog.i(TAG,TAG + ".verify Clicked" );
         showProgressDialog();
         getRegistrationFragment().hideKeyBoard();
         hidePopup();
@@ -307,6 +312,8 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
+        RLog.i(TAG,TAG + ".thanksBtn Clicked" );
+
         hidePopup();
         getRegistrationFragment().onBackPressed();
     }

@@ -37,7 +37,6 @@ public class AIATDemoPage extends AppCompatActivity  {
 	EditText key;
 	EditText value;
 	EditText page_event_name;
-
 	AppTaggingInterface.SocialMedium sSocialMedium;
 
 	byte[] plainByte;
@@ -169,14 +168,14 @@ public class AIATDemoPage extends AppCompatActivity  {
 		TaggActionStartBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
-				startActivity(intent);
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackTimedActionStart("track_action");
 			}
 		});
 
 		TaggActionEndBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackTimedActionEnd("track_action");
 				Toast.makeText(AIATDemoPage.this, "Tracked after Action start completion", Toast.LENGTH_SHORT).show();
 			}
 		});

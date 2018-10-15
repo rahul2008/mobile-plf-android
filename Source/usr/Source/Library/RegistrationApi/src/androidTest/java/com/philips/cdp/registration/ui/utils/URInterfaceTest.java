@@ -35,7 +35,7 @@ public class URInterfaceTest extends RegistrationApiInstrumentationBase {
     public void testLaunchAsActivity() {
         Method method = null;
         ActivityLauncher.ActivityOrientation mScreenOrientation = null;
-        ActivityLauncher uiLauncher = new ActivityLauncher(mScreenOrientation, 0);
+        ActivityLauncher uiLauncher = new ActivityLauncher(mScreenOrientation, null,0,null);
         UappLaunchInput uappLaunchInput = new UappLaunchInput();
         try {
             method = URInterface.class.getDeclaredMethod("launchAsActivity", ActivityLauncher.class, UappLaunchInput.class);
@@ -55,7 +55,7 @@ public class URInterfaceTest extends RegistrationApiInstrumentationBase {
     public void testLaunchAsFragment() {
         Method method = null;
         ActivityLauncher.ActivityOrientation mScreenOrientation = null;
-        ActivityLauncher uiLauncher = new ActivityLauncher(mScreenOrientation, 0);
+        ActivityLauncher uiLauncher = new ActivityLauncher(mScreenOrientation, null,0,null);
         UappLaunchInput uappLaunchInput = new UappLaunchInput();
         try {
             method = URInterface.class.getDeclaredMethod("launchAsFragment", ActivityLauncher.class, UappLaunchInput.class);

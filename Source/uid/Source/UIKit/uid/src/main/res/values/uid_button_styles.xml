@@ -89,4 +89,28 @@
     <style name="UIDExtraWideIconQuietButton.Center">
         <item name="uidButtonCenter">true</item>
     </style>
+
+    <style name="UIDQuietDefaultButton" parent="UIDQuietButton">
+        <item name="uidButtonTextColorList">@color/uid_quiet_default_button_text_selector</item>
+        <item name="uidButtonDrawableColorList">@color/uid_quiet_default_button_icon_selector</item>
+        <item name="uidImageButtonDrawableColorList">@color/uid_quiet_default_button_icon_selector</item>
+        <item name="uidImageButtonColorList">@color/uid_quiet_default_button_text_selector</item>
+    </style>
+
+    <style name="UIDQuietDefaultIconButton" parent="UIDQuietIconButton">
+        <item name="uidImageButtonDrawableColorList">@color/uid_quiet_default_button_icon_selector</item>
+        <item name="uidImageButtonColorList">@color/uid_quiet_default_button_text_selector</item>
+    </style>
+
+    <style name="UIDExtraWideQuietDefaultButton" parent="UIDQuietDefaultButton">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="UIDExtraWideIconQuietDefaultButton" parent="UIDQuietDefaultButton">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="UIDExtraWideIconQuietDefaultButton.Center">
+        <item name="uidButtonCenter">true</item>
+    </style>
 </resources>

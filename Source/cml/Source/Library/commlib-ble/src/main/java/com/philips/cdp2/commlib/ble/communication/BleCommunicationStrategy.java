@@ -69,7 +69,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
     private final SHNCentral.SHNCentralListener centralListener = new SHNCentral.SHNCentralListener() {
         @Override
-        public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+        public void onStateUpdated(@NonNull SHNCentral shnCentral, @NonNull SHNCentral.State state) {
             updateAvailabilityAndNotify();
         }
     };

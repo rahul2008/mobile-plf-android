@@ -45,6 +45,10 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
+    private Activity mActivity;
+
+    private String mProviderName;
+
     public LoginSocialProvider(SocialLoginProviderHandler socialLoginProviderHandler, Context context,
                                UpdateUserRecordHandler updateUserRecordHandler) {
         super(context);
@@ -65,41 +69,11 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
             String emailorMobile = getUserEmailOrMobile(user);
             RLog.d(TAG, "onSuccess : from LoginSocialProvider is called");
             hsdpLogin(user.getAccessToken(), emailorMobile, mSocialLoginProviderHandler);
-//            HsdpUser hsdpUser = new HsdpUser(mContext);
-//
-//            String emailorMobile;
-//            if (FieldsValidator.isValidEmail(user.getEmail())) {
-//                emailorMobile = user.getEmail();
-//            } else {
-//                emailorMobile = user.getMobile();
-//            }
-//            hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
-//                    new SocialLoginHandler() {
-//
-//                        @Override
-//                        public void onLoginSuccess() {
-//                            ThreadUtils.postInMainThread(mContext, () ->
-//                                    mSocialLoginHandler.onLoginSuccess());
-//                        }
-//
-//                        @Override
-//                        public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-//                            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-//                            ThreadUtils.postInMainThread(mContext, () ->
-//                                    mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-//                        }
-//                    });
-
         } else {
             ThreadUtils.postInMainThread(mContext, mSocialLoginProviderHandler::onLoginSuccess);
         }
 
     }
-
-//    @Override
-//    public void onCode(String code) {
-//        RLog.d(TAG, "onCode : is called");
-//    }
 
     @Override
     public void onFailure(SignInError error) {
@@ -169,9 +143,6 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
                     mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
     }
-
-    private Activity mActivity;
-    private String mProviderName;
 
     public void loginSocial(final Activity activity, final String providerName, final String mergeToken) {
         RLog.d(TAG, "loginSocial : is called");

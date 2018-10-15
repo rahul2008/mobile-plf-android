@@ -1,59 +1,22 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-archivesBaseName = "ewsUApp"
+apply plugin: 'com.android.library'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+
+archivesBaseName = strings.ewsuapp.artifactName
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-    }
-}
-
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
+        classpath builddeps.cdpSCM
     }
 }
 
@@ -69,6 +32,7 @@ android {
         versionName "1.0"
         consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
     }
+    
     dataBinding {
         enabled = true
     }
@@ -81,6 +45,7 @@ android {
             keyPassword "philips"
         }
     }
+    
     buildTypes {
         debug {
 
@@ -89,11 +54,6 @@ android {
 
         }
     }
-    lintOptions {
-        abortOnError false
-    }
-
-
 }
 
 def getMyVersionCode() {
@@ -104,11 +64,11 @@ def getMyVersionCode() {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Philips Dependencies
-    implementation project(':ews-android')
-    implementation project(':uid')
-    implementation project(':uAppFwLib')
-    implementation project(':AppInfra')
-    implementation project(':commlib-api')
+    implementation project(strings.ews.projectName)
+    implementation project(strings.uid.projectName)
+    implementation project(strings.ufw.projectName)
+    implementation project(strings.ail.projectName)
+    implementation project(strings.cmlapi.projectName)
     annotationProcessor deps.dagger.compiler
 
     implementation deps.constraintlayout

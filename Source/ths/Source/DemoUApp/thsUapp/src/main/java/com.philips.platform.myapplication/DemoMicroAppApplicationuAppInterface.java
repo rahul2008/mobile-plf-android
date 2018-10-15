@@ -39,7 +39,6 @@ public class DemoMicroAppApplicationuAppInterface implements UappInterface {
 
        if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } 
     }

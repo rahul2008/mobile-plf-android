@@ -1,8 +1,12 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import android.bluetooth.BluetoothProfile;
 
-import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.statemachine.SHNDeviceResources;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.tagging.SHNTagger;
@@ -18,7 +22,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateNotReady;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -48,21 +51,17 @@ public class SHNConnectingStateTest {
 
     @Test
     public void givenCentralNoticesBluetoothIsOff_whenThisIsReported_thenStateBecomesDisconnected() throws Exception {
-        SHNCentral centralMock = mock(SHNCentral.class);
-        when(centralMock.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
 
-        state.onStateUpdated(centralMock);
+        state.onStateUpdated(SHNCentralStateNotReady);
 
         verify(stateMachineMock).setState(isA(SHNDisconnectingState.class));
     }
 
     @Test
     public void givenCentralNoticesBluetoothIsOff_whenThisIsReported_thenTagIsSentWithProperData() throws Exception {
-        SHNCentral centralMock = mock(SHNCentral.class);
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        when(centralMock.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
 
-        state.onStateUpdated(centralMock);
+        state.onStateUpdated(SHNCentralStateNotReady);
 
         verifyStatic(SHNTagger.class, times(1));
         SHNTagger.sendTechnicalError(captor.capture());

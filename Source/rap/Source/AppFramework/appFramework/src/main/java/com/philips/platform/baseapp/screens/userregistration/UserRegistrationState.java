@@ -8,7 +8,6 @@ package com.philips.platform.baseapp.screens.userregistration;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -38,6 +37,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -97,8 +97,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected static final String DEFAULT = "default";
     private URInterface urInterface;
     private FirebaseAnalytics firebaseAnalytics;
-    private String MARKETING_OPTIN = "MarketingOptin";
-    private String MARKETING_OPTIN_STATUS = "MarketingOptinStatus";
     /**
      * AppFlowState constructor
      */
@@ -245,7 +243,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 RALog.d(PushNotificationManager.TAG, "Push notification is enabled");
                 ((AppFrameworkApplication) activity.getApplicationContext()).getDataServiceState().registerForReceivingPayload();
                 ((AppFrameworkApplication) activity.getApplicationContext()).getDataServiceState().registerDSForRegisteringToken();
-                PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
+                PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext(), new SecureStorageInterface.SecureStorageError());
             }
         }
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
@@ -292,14 +290,17 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         RegistrationContentConfiguration contentConfiguration = new RegistrationContentConfiguration();
         contentConfiguration.enableContinueWithouAccount(true);
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
-        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
+        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, applicationContext.getString(R.string.Ra_default_value), ABTestClientInterface.UPDATETYPE.APP_UPDATE);
         firebaseAnalytics.logEvent("LaunchingRegistration", null);
-        if (testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Value))) {
+        if (testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Sonicare))) {
             contentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
-            contentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");
-            contentConfiguration.setOptInQuessionaryText("Custom Reward Coupons, Holiday Surprises, VIP Shopping Days");
-        } else {
+            contentConfiguration.setOptInTitleText(applicationContext.getString(R.string.RA_mkt_optin_title_text));
+            contentConfiguration.setOptInQuessionaryText(applicationContext.getString(R.string.RA_quessionary_text));
+        } else if(testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Kitchen))){
             contentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
+        }
+        else {
+            contentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
         }
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);
@@ -353,6 +354,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void onUserLogoutSuccess() {
         RALog.d(TAG, " User Logout success  ");
         DemoAppManager.getInstance().getUserRegistrationHandler().clearAccessToken();
+        getAppInfra().getRestClient().clearCacheResponse();
+
     }
 
     @Override

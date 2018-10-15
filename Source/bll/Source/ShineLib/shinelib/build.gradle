@@ -7,12 +7,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-
-archivesBaseName = "bluelib"
+archivesBaseName = strings.bll.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -36,11 +36,6 @@ android {
             buildConfigField "String", "LIBRARY_VERSION", "\"${version}\""
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
@@ -57,20 +52,11 @@ dependencies {
 
     testImplementation deps.junit
     testImplementation deps.junit_runners
-
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
-
     testImplementation deps.assertj
-
-    testImplementation(deps.robolectric) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-    testImplementation(deps.robolectric_shadows) {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_shadows
 }
 
 task generateJavadocPluginApi(type: Javadoc) {
@@ -144,6 +130,7 @@ pitest {
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
 }
+
 tasks.withType(Test) {
     ignoreFailures = true
 }

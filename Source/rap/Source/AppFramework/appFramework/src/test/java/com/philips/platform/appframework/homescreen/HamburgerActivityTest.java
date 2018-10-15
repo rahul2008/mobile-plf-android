@@ -195,29 +195,7 @@ public class HamburgerActivityTest {
         assertNotNull(presenter);
     }
 
-    @Test
-    public void onBackPressFragmentCount() {
-        FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
-        int fragmentCount = fragmentManager.getBackStackEntryCount();
 
-        if(sideBar.isDrawerOpen(navigationView))
-        {
-            sideBar.closeDrawer(navigationView);
-        }
-
-        hamburgerActivity.onBackPressed();
-
-        HamburgerMenuAdapter adapter = hamburgerActivity.getHamburgerAdapter();
-        HamburgerMenuItem hamburgerItem = adapter.getMenuItem(fragmentCount);
-
-        String menuItem = hamburgerActivity.getResources().getString(R.string.RA_HomeTab_Menu_Title);
-
-        if (fragmentCount == 0) {
-            assertEquals(hamburgerItem.getTitle(), menuItem);
-        } else {
-            assertNotEquals(hamburgerItem.getTitle(), menuItem);
-        }
-    }
 
 
 

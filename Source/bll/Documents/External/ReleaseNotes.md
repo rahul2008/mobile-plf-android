@@ -37,6 +37,8 @@ N/A
 N/A
 
 ### Breaking Changes
+* `SHNCentralListener.onStateUpdated()` now includes a state parameter, to allow pass-by-value.
+It is recommended to take this new parameter's value instead of calling `getState()` method on `SHNCentral`.
 * `SHNDeviceListener.onStateUpdate()` now includes a state parameter, to allow pass-by-value. When fixing
  your code, we recommend you take this new parameter's value instead of calling `getState()` method on
  the `SHNDevice`.

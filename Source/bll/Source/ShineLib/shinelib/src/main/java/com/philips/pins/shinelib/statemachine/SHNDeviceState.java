@@ -48,7 +48,7 @@ public abstract class SHNDeviceState extends State<SHNDeviceStateMachine> {
         showLogOfEmptyMethodCall("onBondStatusChanged");
     }
 
-    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+    public void onStateUpdated(@NonNull SHNCentral.State state) {
         showLogOfEmptyMethodCall("onStateUpdated");
     }
 

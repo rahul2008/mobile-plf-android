@@ -20,7 +20,9 @@ import android.widget.TextView;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
@@ -40,12 +42,10 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
     private Activity mActivity = null;
     private CustomFilter mCustomFilter;
     private List<SummaryModel> mOriginalSet;
-    private TextView productNameView;
-    private TextView ctnView;
-    //private ImageView imageView;
     private Activity activity;
 
     SummaryModel mData = null;
+    ImageLoader imageLoader;
 
     public ListViewWithOptions(Activity activity, List<SummaryModel> data) {
         this.activity = activity;
@@ -54,6 +54,7 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
         this.mActivity = activity;
         this.mProductsList = data;
         this.mOriginalSet = data;
+        imageLoader = VolleyWrapper.getInstance(activity).getImageLoader();
     }
 
     @Override
@@ -62,66 +63,48 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public Object getItem(int position) {
+    public SummaryModel getItem(int position) {
         return mProductsList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return mProductsList.indexOf(getItem(position));
+        return position;
     }
 
+
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
-        View vi = convertView;
+    public View getView(final int position, View convertView, final ViewGroup parent) {
+
+        ListViewOptionViewHolder listViewOptionViewHolder;
         if ( convertView == null) {
-            vi = inflater.inflate(R.layout.fragment_listscreen_adaper_view, null);
+            convertView = inflater.inflate(R.layout.fragment_listscreen_adaper_view, null);
+            listViewOptionViewHolder = new ListViewOptionViewHolder(convertView);
+            convertView.setTag(R.string.view_holder,listViewOptionViewHolder);
 
-            SummaryModel summaryModel = mProductsList.get(position);
-
-            Data data = summaryModel.getData();
-            final ImageView image = (ImageView) vi.findViewById(R.id.image);
-            productNameView = (TextView) vi.findViewById(R.id.product_name_view);
-            //imageView = (ImageView) vi.findViewById(R.id.image);
-            ctnView = (TextView) vi.findViewById(R.id.ctn_view);
-
-            String imagepath = data.getImageURL();
-            int imageWidth = (int) (85 * Resources.getSystem().getDisplayMetrics().density);
-            imagepath = /*imagepath + "?wid=" + imageWidth + "&;";*/
-                    imagepath + "?wid=" + imageWidth +
-                            "&hei=" + imageWidth +
-                            "&fit=fit,1";
-
-            ProductSelectionLogger.d(TAG, "Image URL's of the listed Products : " + imagepath);
-
-            final  ImageRequest request = new ImageRequest(imagepath,
-                    new Response.Listener<Bitmap>() {
-                        @Override
-                        public void onResponse(Bitmap bitmap) {
-                            image.setImageBitmap(bitmap);
-                        }
-                    }, 0, 0, null,
-                    new Response.ErrorListener() {
-                        public void onErrorResponse(VolleyError error) {
-                        }
-                    });
-
-            request.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-            mActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    VolleyWrapper.getInstance(mActivity).addToRequestQueue(request);
-                }
-            });
-            productNameView.setText(data.getProductTitle());
-            ctnView.setText(data.getCtn());
-            vi.setTag(position);
-            setData(summaryModel);
         }
+        listViewOptionViewHolder = (ListViewOptionViewHolder)convertView.getTag(R.string.view_holder);
+        SummaryModel summaryModel = getItem(position);
 
-        return vi;
+        Data data = summaryModel.getData();
+
+        String imagepath = data.getImageURL();
+        int imageWidth = (int) (85 * Resources.getSystem().getDisplayMetrics().density);
+        imagepath = /*imagepath + "?wid=" + imageWidth + "&;";*/
+                imagepath + "?wid=" + imageWidth +
+                        "&hei=" + imageWidth +
+                        "&fit=fit,1";
+
+        ProductSelectionLogger.d(TAG, "Image URL's of the listed Products : " + imagepath);
+
+
+        listViewOptionViewHolder.networkImageView.setImageUrl(imagepath,imageLoader);
+        listViewOptionViewHolder.tvProductName.setText(data.getProductTitle());
+        listViewOptionViewHolder.tvCtn.setText(data.getCtn());
+        convertView.setTag(position);
+        setData(summaryModel);
+
+        return convertView;
     }
 
 
@@ -183,5 +166,18 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
             mCustomFilter = new CustomFilter();
         }
         return mCustomFilter;
+    }
+
+    private static class ListViewOptionViewHolder{
+
+        View view;
+        NetworkImageView networkImageView;
+        TextView tvProductName,tvCtn;
+        public ListViewOptionViewHolder(View view) {
+            this.view = view;
+            networkImageView = (NetworkImageView) view.findViewById(R.id.image);
+            tvProductName = (TextView) view.findViewById(R.id.product_name_view);
+            tvCtn = (TextView) view.findViewById(R.id.ctn_view);
+        }
     }
 }

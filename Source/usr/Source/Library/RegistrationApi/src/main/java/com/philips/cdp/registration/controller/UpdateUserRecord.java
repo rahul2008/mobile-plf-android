@@ -125,7 +125,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 }
                 @Override
                 public void onError(ERRORVALUES errorvalues, String s) {
-                    RLog.e(TAG, " Country Error :" + s);
+                    RLog.e(TAG, "updateUserRecordRegister Country Error :" + s);
                 }
             });
 

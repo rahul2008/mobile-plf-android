@@ -1,8 +1,14 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+    
     defaultConfig {
         applicationId "com.philips.platform.demomicroapp"
         minSdkVersion versions.minsdk
@@ -71,5 +77,5 @@ dependencies {
     implementation deps.constraintlayout
     implementation deps.support.design
     testImplementation deps.junit
-    implementation project(':thsUapp')
+    implementation project(strings.thsuapp.projectName)
 }

@@ -52,12 +52,11 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
     public void registerFaceBookCallBack() {
         //The below line may through exception when the proposition do not mention facebook activities in it's manifest
         //The exception comes as a RuntimeException ,so catching it as Exception and providing log
-        RLog.i(TAG, "registerFaceBookCallBack");
+        RLog.d(TAG, "registerFaceBookCallBack");
         try {
             LoginManager.getInstance().registerCallback(faceBookContractor.getCallBackManager(), this);
         }catch (Exception e){
-            RLog.i(TAG,e.getMessage());
-            RLog.i(TAG,"Facebook Activities are not present in proposition Manifest file");
+            RLog.e(TAG,"Facebook Activities are not present in proposition Manifest file"+e.getMessage());
         }
     }
 
@@ -68,19 +67,18 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
 
     @Override
     public void onCancel() {
-        RLog.i(TAG, "onCancel()");
+        RLog.i(TAG, "Facebook authentication onCancel()");
         faceBookContractor.onFaceBookCancel();
         faceBookContractor.doHideProgressDialog();
     }
 
     @Override
     public void onError(FacebookException error) {
-        if (error instanceof FacebookAuthorizationException) {
-            if (AccessToken.getCurrentAccessToken() != null) {
-                LoginManager.getInstance().logOut();
-            }
+        if (error instanceof FacebookAuthorizationException && (AccessToken.getCurrentAccessToken() != null))
+        {
+            LoginManager.getInstance().logOut();
         }
-        RLog.i(TAG, error.getMessage());
+        RLog.e(TAG, "onError: FacebookException" + error.getMessage());
         faceBookContractor.doHideProgressDialog();
     }
 
@@ -89,7 +87,7 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
 
         if (response.getError() != null) {
             faceBookContractor.doHideProgressDialog();
-            RLog.i(TAG, response.getError().getErrorMessage());
+            RLog.d(TAG, response.getError().getErrorMessage());
         } else {
             try {
                 if (response.getJSONObject() != null && response.getJSONObject().has(EMAIL)) {
@@ -99,7 +97,7 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
                     faceBookContractor.onFaceBookEmailReceived(null);
                 }
             } catch (JSONException e) {
-                RLog.i(TAG, e.getMessage());
+                RLog.e(TAG,"onCompleted: FacebookException "+ e.getMessage());
                 faceBookContractor.doHideProgressDialog();
             }
         }
@@ -119,7 +117,7 @@ public class URFaceBookUtility implements FacebookCallback<LoginResult>, GraphRe
     }
 
     public void startFaceBookLogIn() {
-        RLog.i(TAG,"startFaceBookLogIn");
+        RLog.d(TAG,"start Facebook LogIn");
         //Making sure to logout Facebook Instance before logging in
         if (AccessToken.getCurrentAccessToken() != null) {
             LoginManager.getInstance().logOut();

@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +103,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
             }
         });
-        activityLauncher = new ActivityLauncher(ActivityLauncher.
+        activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.
         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, ((MainActivity) getActivity()).getThemeConfig(),
                 ((MainActivity) getActivity()).getThemeResourceId(), null);
 

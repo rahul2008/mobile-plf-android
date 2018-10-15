@@ -116,7 +116,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
         IAPInterface iapInterface = getApplicationContext().getIap().getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput);
+        iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput,null);
         iapLaunchInput.setIapListener(this);
         try {
             ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();

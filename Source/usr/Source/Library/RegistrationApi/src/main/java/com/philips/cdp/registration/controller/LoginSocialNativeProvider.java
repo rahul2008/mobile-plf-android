@@ -72,25 +72,25 @@ public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.
                     && error.captureApiError.isMergeFlowError()) {
                 RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
 
-                RLog.d(TAG, "onFailure : isMergeFlowError");
-                String emailId = null;
-                if (null != error.auth_info) {
-                    JRDictionary profile = error.auth_info.getAsDictionary("profile");
-                    emailId = profile.getAsString("email");
-                }
-                mMergeToken = error.captureApiError.getMergeToken();
-                final String existingProvider = error.captureApiError
-                        .getExistingAccountIdentityProvider();
-                String conflictingIdentityProvider = error.captureApiError
-                        .getConflictingIdentityProvider();
-                String conflictingIdpNameLocalized = JRProvider
-                        .getLocalizedName(conflictingIdentityProvider);
-                String existingIdpNameLocalized = JRProvider
-                        .getLocalizedName(conflictingIdentityProvider);
-                String finalEmailId = emailId;
-                ThreadUtils.postInMainThread(mContext, () -> mSocialLoginProviderHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
-                        conflictingIdentityProvider, conflictingIdpNameLocalized,
-                        existingIdpNameLocalized, finalEmailId));
+            RLog.d(TAG, "onFailure : isMergeFlowError");
+            String emailId = null;
+            if (null != error.auth_info) {
+                JRDictionary profile = error.auth_info.getAsDictionary("profile");
+                emailId = profile.getAsString("email");
+            }
+            mMergeToken = error.captureApiError.getMergeToken();
+            final String existingProvider = error.captureApiError
+                    .getExistingAccountIdentityProvider();
+            String conflictingIdentityProvider = error.captureApiError
+                    .getConflictingIdentityProvider();
+            String conflictingIdpNameLocalized = JRProvider
+                    .getLocalizedName(conflictingIdentityProvider);
+            String existingIdpNameLocalized = JRProvider
+                    .getLocalizedName(conflictingIdentityProvider);
+            String finalEmailId = emailId;
+            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginProviderHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
+                    conflictingIdentityProvider, conflictingIdpNameLocalized,
+                    existingIdpNameLocalized, finalEmailId));
 
             } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                     && error.captureApiError.isTwoStepRegFlowError()) {

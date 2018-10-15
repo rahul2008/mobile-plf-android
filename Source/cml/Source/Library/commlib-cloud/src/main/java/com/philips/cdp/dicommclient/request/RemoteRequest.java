@@ -114,7 +114,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     @Override
     public void onDCSResponseReceived(final @NonNull String dcsResponse, final @NonNull String conversationId) {
         mResponseConversationId = conversationId;
-        if(mConversationId == null) {
+        if (mConversationId == null) {
             DICommLog.i(DICommLog.REMOTEREQUEST, "onDCSResponseReceived before setting conv. ID");
         }
         DICommLog.i(DICommLog.REMOTEREQUEST, "DCSEvent received from the right request");

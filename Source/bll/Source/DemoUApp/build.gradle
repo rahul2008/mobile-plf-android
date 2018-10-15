@@ -2,11 +2,13 @@
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 apply plugin: 'com.android.library'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-archivesBaseName = "bluelib-demouapp"
+archivesBaseName = strings.blluapp.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -26,19 +28,14 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
 dependencies {
     if (directdependencies) {
-        implementation project(':AppInfra')
-        implementation project(':pluginreferenceboard')
-        implementation project(':uAppFwLib')
-        implementation project(':bluelib')
+        implementation project(strings.ail.projectName)
+        implementation project(strings.prf.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.bll.projectName)
     } else {
         implementation philipsdeps.pluginreferenceboard
         implementation philipsdeps.uAppFwLib

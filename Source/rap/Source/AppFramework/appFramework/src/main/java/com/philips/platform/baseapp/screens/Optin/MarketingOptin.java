@@ -54,13 +54,15 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
-        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
-        if (testValue.equalsIgnoreCase(context.getString(R.string.RA_abTesting_Value))) {
+        String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, context.getString(R.string.Ra_default_value), ABTestClientInterface.UPDATETYPE.APP_UPDATE);
+        if (testValue.equalsIgnoreCase(context.getString(R.string.RA_abTesting_Sonicare))) {
             registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
-            registrationContentConfiguration.setOptInTitleText("Here's what You Have To Look Forward To:");
-            registrationContentConfiguration.setOptInQuessionaryText("Custom Reward Coupons, Holiday Surprises, VIP Shopping Days");
-        } else {
+            registrationContentConfiguration.setOptInTitleText(context.getString(R.string.RA_mkt_optin_title_text));
+            registrationContentConfiguration.setOptInQuessionaryText(context.getString(R.string.RA_quessionary_text));
+        } else if(testValue.equalsIgnoreCase(context.getString(R.string.RA_abTesting_Kitchen))){
             registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
+        } else {
+            registrationContentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
         }
         return registrationContentConfiguration;
     }

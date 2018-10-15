@@ -46,6 +46,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_VOUCHER_CODE;
+
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
         ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
@@ -90,6 +92,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_UPDATE_PRODUCT_COUNT), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_APPLY_VOUCHER), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_VOUCHER), this);
+
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
 
         View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
@@ -107,8 +112,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
-        mAddressController.getDeliveryModes();
-        hideProgressBar();
         return rootView;
     }
 
@@ -123,7 +126,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (isNetworkConnected()) {
             updateCartDetails(mShoppingCartAPI);
         }
-        hideProgressBar();
     }
 
     @Override
@@ -136,7 +138,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     private void updateCartDetails(ShoppingCartAPI presenter) {
-        //createCustomProgressBar(mParentLayout,BIG);
+        createCustomProgressBar(mParentLayout,BIG);
         presenter.getCurrentCartDetails();
     }
 
@@ -209,15 +211,22 @@ public class ShoppingCartFragment extends InAppBaseFragment
             mShoppingCartAPI.updateProductQuantity(mData.get(mAdapter.getSelectedItemPosition()),
                     mAdapter.getNewCount(), mAdapter.getQuantityStatusInfo());
 
-        }/* else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
+        } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
 
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
                     AddressSelectionFragment.TAG, true);
-        } else*/ if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
+        } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
             Utility.showActionDialog(mContext, getString(R.string.iap_remove_product), getString(R.string.iap_cancel)
                     , getString(R.string.iap_delete_item_alert_title), getString(R.string.iap_product_remove_description), getFragmentManager(), this);
+        } else if (event.equalsIgnoreCase(IAPConstant.IAP_APPLY_VOUCHER)) {
+            VoucherFragment voucherFragment = new VoucherFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(IAP_VOUCHER_CODE, mData.get(0).getAppliedVoucherCode());
+            voucherFragment.setArguments(bundle);
+            addFragment(voucherFragment, VoucherFragment.TAG, true);
         }
     }
+
     void startProductDetailFragment(ShoppingCartAdapter mAdapter) {
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
@@ -247,7 +256,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
                 bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
+                addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
                         AddressSelectionFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
@@ -334,13 +343,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onGetDeliveryModes(Message msg) {
-        hideProgressBar();
         if ((msg.obj instanceof IAPNetworkError)) {
             updateCartDetails(mShoppingCartAPI);
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
-            mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             handleDeliveryMode(msg,mAddressController);
         }

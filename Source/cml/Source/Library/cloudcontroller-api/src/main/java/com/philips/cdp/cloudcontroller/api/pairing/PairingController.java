@@ -33,7 +33,14 @@ public interface PairingController {
         /**
          * On relationship remove.
          */
-        void onRelationshipRemove();
+        void onRelationshipRemove(int status);
+
+        /**
+         * On relationship get
+         *
+         * @param relationships the relationshipssettin
+         */
+        void onRelationshipGet(@NonNull Collection<PairingRelation> relationships);
 
         /**
          * On relationship get

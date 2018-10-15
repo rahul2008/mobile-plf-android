@@ -25,6 +25,7 @@ public class ResetPasswordWebView extends Fragment {
     public static final String TEST_RESET_PASS = "https://tst.philips.com.cn/c-w/user-registration/apps/login.html";
     public static final String STAGE_RESET_PASS = "https://acc.philips.com.cn/c-w/user-registration/apps/login.html";
     public static final String PROD_RESET_PASS = "https://www.philips.com.cn/c-w/user-registration/apps/login.html";
+    private static final String TAG = "ResetPasswordWebView";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class ResetPasswordWebView extends Fragment {
 
     private String getURL(String redirectUriKey) {
         Bundle bundle = getArguments();
-        RLog.d("MobileVerifyCodeFragment", "bundle size " + bundle.size());
+        RLog.d(TAG, "getURL: bundle size " + bundle.size());
         String redirectUri = bundle.getString(redirectUriKey);
 
         String url;

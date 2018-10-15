@@ -39,6 +39,8 @@ import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
 
+import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_APPLY_VOUCHER;
+
 public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_ITEM = 1;
@@ -226,26 +228,30 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
 
-                    shoppingCartFooter.mDeliveryVia.setText("Delivery via Standard Ground");
-                    shoppingCartFooter.mDeliveryTitle.setText("Delivery via Standard Ground");
-                    shoppingCartFooter.mDeliveryPrice.setText("$0.00");
-                    shoppingCartFooter.mDeliveryUpsVal.setText("$0.00");
+
                     shoppingCartFooter.mDeliveryDescriprion.setText(deliveryModeDescription);
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 
-                   /* shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
+                    shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
                         }
-                    });*/
+                    });
 
                 } else {
                     shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
                     shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
                     mIsFreeDelivery = true;
                 }
+
+                shoppingCartFooter.mVoucherContainer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EventHelper.getInstance().notifyEventOccurred(IAP_APPLY_VOUCHER);
+                    }
+                });
 
                 for (int i = 0; i < mData.size(); i++) {
                     View priceInfo = View.inflate(mContext, R.layout.iap_price_item, null);
@@ -256,10 +262,23 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
                 }
             }
-            if(Utility.isDelvieryFirstTimeUser){
+
+            if(Utility.isDelvieryFirstTimeUser ){
                 setDelvieryVisibility(true);
             }else {
                 setDelvieryVisibility(false);
+            }
+            if(Utility.isVoucherEnable()){
+                shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
+            }else{
+                shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
+            }
+            if(Utility.isVoucherEnable()) {
+                shoppingCartFooter.mAppliedVoucherCode.setVisibility(View.VISIBLE);
+                shoppingCartFooter.mAppliedVoucherCode.setText(R.string.iap_promotion_gift_code);
+
+                } else {
+                shoppingCartFooter.mAppliedVoucherCode.setVisibility(View.GONE);
             }
         }
 
@@ -402,6 +421,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mDeliveryTitle;
         LinearLayout mPriceContainer;
         RelativeLayout mDeliveryUPSParcelContainer;
+        RelativeLayout mVoucherContainer;
+        Label mAppliedVoucherCode;
+
         GridLayout summary_delivery_container;
 
         FooterShoppingCartViewHolder(View itemView) {
@@ -419,6 +441,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mDeliveryTitle = itemView.findViewById(R.id.delivery_ups_title);
             mPriceContainer = itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = itemView.findViewById(R.id.delivery_ups_parcel_container);
+            mAppliedVoucherCode = itemView.findViewById(R.id.voucherLabel);
+            mVoucherContainer = itemView.findViewById(R.id.voucher_container);
             summary_delivery_container= itemView.findViewById(R.id.summary_delivery_container);
         }
     }

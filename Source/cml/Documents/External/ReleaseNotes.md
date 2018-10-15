@@ -15,6 +15,7 @@ Version {next}
 
 ### Breaking Changes
 * Removed BufferedWriter out from DiCommLog
+* Calling `getPortProperties` on a Port will no longer implicitly call `reloadProperties` on the port.
 
 ### Defects solved
 * \#145509 - Fix for the bug where the remote getProps requests for the Floorcare vaccum cleaner were failing. The json for the requests needed to be edited.

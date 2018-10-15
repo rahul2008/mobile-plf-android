@@ -8,8 +8,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.uid.utils.UIDUtils;
+
+import static com.philips.cdp.registration.ui.utils.RegConstants.NOTIFICATION;
 
 public class NotificationBarView {
 
@@ -51,7 +54,7 @@ public class NotificationBarView {
     }
 
     private View getNotificationContentView(String title, String message, boolean isError) {
-        RLog.i(TAG, "getNotificationContentView : isCalled");
+        RLog.i(TAG, "getNotificationContentView : is called ");
         final View view;
         if (isError)
             view = View.inflate(mActivity, R.layout.reg_notification_error_bg, null);
@@ -62,7 +65,10 @@ public class NotificationBarView {
         view.findViewById(R.id.uid_notification_title).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_icon).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.uid_notification_icon).setOnClickListener(v -> hidePopup());
+        view.findViewById(R.id.uid_notification_icon).setOnClickListener(v -> {
+            hidePopup();
+            EventHelper.getInstance().notifyEventOccurred(NOTIFICATION);
+        });
         return view;
     }
 }

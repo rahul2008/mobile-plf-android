@@ -1,71 +1,24 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
+        classpath builddeps.cdpSCM
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "dataServicesApp"
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -135,10 +88,6 @@ android {
         ]
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     signingConfigs {
         release
     }
@@ -201,6 +150,7 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/INDEX.LIST'
 
         pickFirst 'lib/mips/librsjni.so'
         pickFirst 'lib/mips/libblasV8.so'
@@ -213,13 +163,6 @@ android {
         pickFirst 'lib/armeabi-v7a/libRSSupport.so'
         pickFirst 'lib/arm64-v8a/libRSSupport.so'
         pickFirst 'lib/arm64-v8a/librsjni.so'
-        exclude 'META-INF/INDEX.LIST'
-    }
-}
-
-repositories {
-    flatDir {
-        dirs 'libs'
     }
 }
 
@@ -229,30 +172,26 @@ configurations.all {
 }
 
 dependencies {
-    //Coco
-
-
     if (directdependencies) {
-        implementation project(':UserRegistrationUApp')
+        implementation project(strings.usruapp.projectName)
     } else {
         implementation philipsdeps.UserRegistrationUApp
     }
 
-    implementation deps.support.design
+    implementation deps.ormlite.android
+    implementation deps.ormlite.core
+    implementation deps.stetho
     implementation deps.support.annotations
     implementation deps.support.appcompatv7
     implementation deps.support.customtabs
+    implementation deps.support.design
     implementation deps.support.multidex
 
-    implementation deps.ormlite.core
-    implementation deps.ormlite.android
-
-    implementation deps.stetho
+    implementation project(strings.dscuapp.projectName)
 
     testImplementation deps.mockito
     testImplementation deps.robolectric
     testImplementation deps.junit
-    implementation project(':dataServicesUApp')
 }
 
 task copyToLib(type: Copy) {

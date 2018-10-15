@@ -86,7 +86,7 @@ public class RemoteRequestTest {
     }
 
     @Test
-    public void givenRequestCreated_whenExecuted_andPublishCallbackReceived_thenShouldReturnErrorResponse() throws Exception{
+    public void givenRequestCreated_whenExecuted_andPublishCallbackReceived_thenShouldReturnErrorResponse() throws Exception {
         final int messageId = 1337;
         final String conversationId = testUUID();
         when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
@@ -122,7 +122,7 @@ public class RemoteRequestTest {
     }
 
     @Test
-    public void givenRequestCreated_whenExecuted_andNonSuccessPublishCallbackReceived_thenShouldReturnErrorResponse() throws Exception{
+    public void givenRequestCreated_whenExecuted_andNonSuccessPublishCallbackReceived_thenShouldReturnErrorResponse() throws Exception {
         final int messageId = 1337;
         final String conversationId = testUUID();
         when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
@@ -141,7 +141,7 @@ public class RemoteRequestTest {
     }
 
     @Test
-    public void givenRequestCreated_whenExecuted_andBothCallbacksReceived_thenShouldReturnResponse() throws Exception{
+    public void givenRequestCreated_whenExecuted_andBothCallbacksReceived_thenShouldReturnResponse() throws Exception {
         final int messageId = 1337;
         final String conversationId = testUUID();
         when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
@@ -234,7 +234,7 @@ public class RemoteRequestTest {
     }
 
     @Test
-    public void givenRequestCreated_whenExecuted_andEventCallbackReceived_thenShouldReturnErrorResponse() throws Exception{
+    public void givenRequestCreated_whenExecuted_andEventCallbackReceived_thenShouldReturnErrorResponse() throws Exception {
         final int messageId = 1337;
         final String conversationId = testUUID();
         when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);

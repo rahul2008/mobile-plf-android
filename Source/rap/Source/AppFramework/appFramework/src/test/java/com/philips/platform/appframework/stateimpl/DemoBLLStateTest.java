@@ -7,6 +7,7 @@ package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+
 import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
 import com.philips.cdp2.bluelib.demouapp.BluelibUappAppDependencies;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
@@ -16,6 +17,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

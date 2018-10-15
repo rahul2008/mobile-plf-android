@@ -1,15 +1,11 @@
 package com.philips.cdp.registration.ui.utils;
 
-import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 
-import java.util.regex.*;
-
-import static com.philips.platform.uid.view.widget.InputValidationLayout.*;
+import static com.philips.platform.uid.view.widget.InputValidationLayout.Validator;
 
 
 public class LoginIdValidator implements Validator {
-     private final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     ValidLoginId validLoginId;
 
@@ -19,13 +15,13 @@ public class LoginIdValidator implements Validator {
 
     @Override
     public boolean validate(CharSequence msg) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(msg);
-        boolean validMail = matcher.find();
+        boolean validMail = FieldsValidator.isValidEmail(msg.toString());
 
         if (!validMail && RegistrationHelper.getInstance().isMobileFlow()) {
            validMail = FieldsValidator.isValidMobileNumber(msg.toString());
-        }else
+        }else{
             validMail = FieldsValidator.isValidEmail(msg.toString());
+        }
 
         if (msg.length() == 0) {
             validLoginId.isEmpty(true);

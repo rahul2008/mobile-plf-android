@@ -107,7 +107,7 @@ public class DefaultCloudControllerTest {
         initMocks(this);
 
         mockStatic(SignOn.class);
-        when(SignOn.getInstance((CallbackHandler)any(), (Params) any(), (Context) any(), (byte[]) any())).thenReturn(signOnMock);
+        when(SignOn.getInstance((CallbackHandler) any(), (Params) any(), (Context) any(), (byte[]) any())).thenReturn(signOnMock);
 
         mockStatic(EventSubscription.class);
         when(EventSubscription.getInstance((CallbackHandler) any(), anyInt())).thenReturn(eventSubscriptionMock);

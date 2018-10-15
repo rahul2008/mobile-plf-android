@@ -13,10 +13,13 @@ public class AnalyticsConstants {
 
     public static final String SEND_DATA = "sendData";
     public static final String SPECIAL_EVENTS = "specialEvents";
+    public static final String REGISTRATION_EVENT = "RegistrationEvent";
+    public static final String EXTEND_WARRANTY_OPTION = "extendWarrantyOption";
     public static final String PRODUCT_REGISTRATION_OFFER_SCREEN = "ProductRegistrationOfferScreen";
     public static final String REGISTRATION_SCREEN = "RegistrationScreen";
     public static final String PRODUCT_REGISTRATION_SUCCESS_SCREEN = "ProductRegistrationSuccessScreen";
     public static final String PURCHASE_DATE_REQUIRED = "purchaseDateRequired";
     public static final String PRODUCT_MODEL = "productModel";
     public static final String START_PRODUCT_REGISTRATION = "startProductRegistration";
+    public static final String PROD_REG_SUCCESS_EVENT = "ProdRegSuccessEvent";
 }

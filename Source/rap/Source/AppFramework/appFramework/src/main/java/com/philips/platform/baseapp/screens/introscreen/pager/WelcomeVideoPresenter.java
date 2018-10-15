@@ -35,7 +35,7 @@ public class WelcomeVideoPresenter implements WelcomeVideoFragmentContract.Prese
                 new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onSuccess(URL url) {
-                        view.setVideoDataSource(url.toString()+ COMPRESSED_VIDEO_EXTENSION);
+                        view.setVideoDataSource(url.toString() + COMPRESSED_VIDEO_EXTENSION);
                     }
 
                     @Override

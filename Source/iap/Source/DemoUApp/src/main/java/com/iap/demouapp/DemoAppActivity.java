@@ -338,13 +338,13 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
         if (pIgnoreRetailerList == null)
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput,null);
         else
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, pIgnoreRetailerList);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, null,pIgnoreRetailerList);
 
         try {
             mIapInterface.launch(new ActivityLauncher
-                            (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME),
+                            (this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, DEFAULT_THEME, null),
                     mIapLaunchInput);
 
         } catch (RuntimeException exception) {
@@ -439,8 +439,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         URInterface urInterface = new URInterface();
 
-        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+        ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null,  0, null);
         urInterface.launch(activityLauncher, urLaunchInput);
 
 

@@ -1,14 +1,15 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-archivesBaseName = "cloudcontroller-api"
+archivesBaseName = strings.cca.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -28,11 +29,6 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
 configurations {
@@ -71,7 +67,7 @@ task generateJavadocPublicApi(type: Javadoc) {
 
 task generateJavadoc(type: Javadoc, dependsOn: sourceJar) {
     source = android.sourceSets.main.java.srcDirs
-    
+
     doFirst {
         classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
         classpath += configurations.javadocDeps

@@ -30,7 +30,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class DSDemoAppuAppInterface implements UappInterface {
 
-    private Context context;
     private AppInfraInterface appInfra;
 
     /**
@@ -39,7 +38,6 @@ public class DSDemoAppuAppInterface implements UappInterface {
      */
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        context = uappSettings.getContext();
         DSDemoAppuAppDependencies dsDependencies = (DSDemoAppuAppDependencies) uappDependencies;
         appInfra = dsDependencies.getAppInfra();
         JustInTimeConsentDependencies.appInfra = appInfra;
@@ -69,7 +67,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
 
     private void launchUApp(UiLauncher uiLauncher) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchActivity(DSLaunchActivity.class);
+            launchActivity(((ActivityLauncher) uiLauncher).getActivityContext(),DSLaunchActivity.class);
         } else {
             launchAsFragment(uiLauncher);
         }
@@ -87,13 +85,12 @@ public class DSDemoAppuAppInterface implements UappInterface {
                 launchUApp(uiLauncher);
             }
         };
-        launchActivity(JustInTimeActivity.class);
+        launchActivity(((ActivityLauncher) uiLauncher).getActivityContext(), JustInTimeActivity.class);
     }
 
-    private void launchActivity(final Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(context, activityClass);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+    private void launchActivity(Context activityContext, final Class<? extends Activity> activityClass) {
+        Intent intent = new Intent(activityContext, activityClass);
+        activityContext.startActivity(intent);
     }
 
     private void launchAsFragment(UiLauncher uiLauncher) {

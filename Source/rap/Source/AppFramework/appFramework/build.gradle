@@ -1,86 +1,31 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply plugin: 'de.felixschulze.gradle.hockeyapp'
-
-apply from: "../scripts/task_verification.gradle"
-apply from: "../scripts/task_reporting_logging.gradle"
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
-apply plugin: 'com.jakewharton.butterknife'
-
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url sonatype }
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        google()
-    }
-
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-        classpath builddeps.bintrayplugin
-        classpath builddeps.hockeyapp
-        classpath deps.butterknife_gradle
-    }
-}
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-import com.philips.cdp.cdpSCM
+apply plugin: 'com.android.application'
+apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "referenceApp"
+apply from: "../scripts/task_verification.gradle"
+apply from: "../scripts/task_reporting_logging.gradle"
 
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven { url sonatype }
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
+        classpath builddeps.bintrayplugin
+        classpath builddeps.hockeyapp
     }
 }
+
+archivesBaseName = strings.rap.artifactName
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -111,6 +56,7 @@ artifactory {
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz')
+
 artifacts {
     archives zipDoc
     archives zipSrc
@@ -180,14 +126,7 @@ hockeyapp {
 def buildType
 
 android {
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
-    }
     testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
         unitTests.all {
             jvmArgs '-noverify'
             jacoco {
@@ -195,9 +134,10 @@ android {
             }
         }
     }
+
     applicationVariants.all { variant ->
         buildType = variant.buildType.name // sets the current build type
-        println "*****BuildType****"+ buildType
+        println "*****BuildType****" + buildType
     }
 
     compileSdkVersion versions.sdk
@@ -225,12 +165,7 @@ android {
         tasks["compile${productFlavor}${buildtype}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildtype}Assets"])
     }
 }
-
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 configurations.all {
     // check for updates every build
@@ -245,6 +180,7 @@ dependencies {
     implementation(deps.support.annotations) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.gson
@@ -260,61 +196,60 @@ dependencies {
     }
     implementation deps.firebase_config
     implementation deps.firebase_iid
+
     debugImplementation deps.leakcanary_no_op
     leakCanaryImplementation deps.leakcanary
     releaseImplementation deps.leakcanary_no_op
     psraReleaseImplementation deps.leakcanary_no_op
 
-    implementation deps.stetho
     implementation deps.ormlite.core
     implementation deps.ormlite.android
     implementation deps.multidex
+    implementation deps.butterknife
     annotationProcessor deps.butterknife_compiler
 
-
-
     if (directdependencies) {
-        implementation project(':product-registration-lib')
-        implementation project(':uid')
-        implementation project(':pif')
-        implementation project(':jump')
-        implementation project(':uAppFwLib')
-        implementation project(':commlib-api')
-        implementation project(':commlib-ble')
-        implementation project(':AppInfra')
-        implementation project(':catk')
-        implementation project(':csw')
-        implementation project(':cloudcontroller')
-        implementation project(':cloudcontroller-api')
-        implementation project(':productselection')
-        implementation project(':commlib-cloud')
-        implementation project(':commlib-lan')
-        implementation project(':prx')
-        implementation project(':ews-android')
-        implementation project(':uikitLib')
-        implementation project(':registrationApi')
-        implementation project(':digitalCare')
-        implementation project(':iap')
-        implementation project(':dataServices')
-        implementation project(':mya')
-        implementation project(':commlib')
-        implementation project(':commlib-demouapp')
-        implementation project(':digitalCareUApp')
-        implementation project(':uAppFwLibUApp')
-        implementation project(':iapUApp')
-        implementation project(':dataServicesUApp')
-        implementation project(':product-registration-libUApp')
-        implementation project(':UserRegistrationUApp')
-        implementation project(':devicepairingUApp')
-        implementation project(':telehealth')
-        implementation project(':thsUapp')
-        implementation project(':ewsUApp')
-        implementation project(':bluelib-demouapp')
-        implementation project(':bluelib')
-        implementation project(':pushnotification')
-        implementation project(':themesettings')
-        implementation project(':NeuraUApp')
-        implementation project(':AppInfraUApp')
+        implementation project(strings.prg.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.pif.projectName)
+        implementation project(strings.jmp.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.cmlapi.projectName)
+        implementation project(strings.cmlble.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.catk.projectName)
+        implementation project(strings.csw.projectName)
+        implementation project(strings.clc.projectName)
+        implementation project(strings.cca.projectName)
+        implementation project(strings.pse.projectName)
+        implementation project(strings.ccl.projectName)
+        implementation project(strings.cmllan.projectName)
+        implementation project(strings.prx.projectName)
+        implementation project(strings.ews.projectName)
+        implementation project(strings.uit.projectName)
+        implementation project(strings.usr.projectName)
+        implementation project(strings.dcc.projectName)
+        implementation project(strings.iap.projectName)
+        implementation project(strings.dsc.projectName)
+        implementation project(strings.mya.projectName)
+        implementation project(strings.cml.projectName)
+        implementation project(strings.cmluapp.projectName)
+        implementation project(strings.dccuapp.projectName)
+        implementation project(strings.ufwuapp.projectName)
+        implementation project(strings.iapuapp.projectName)
+        implementation project(strings.dscuapp.projectName)
+        implementation project(strings.prguapp.projectName)
+        implementation project(strings.usruapp.projectName)
+        implementation project(strings.dpruapp.projectName)
+        implementation project(strings.ths.projectName)
+        implementation project(strings.thsuapp.projectName)
+        implementation project(strings.ewsuapp.projectName)
+        implementation project(strings.blluapp.projectName)
+        implementation project(strings.bll.projectName)
+        implementation project(strings.pnf.projectName)
+        implementation project(strings.tse.projectName)
+        implementation project(strings.neurauapp.projectName)
+        implementation project(strings.ailuapp.projectName)
     } else {
         implementation philipsdeps.product_registration_lib
         implementation philipsdeps.uid
@@ -337,38 +272,38 @@ dependencies {
         implementation philipsdeps.registrationApi
         implementation philipsdeps.digitalCare
         implementation philipsdeps.iap
-        implementation (philipsdeps.dataServices) {
+        implementation(philipsdeps.dataServices) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.mya) {
+        implementation(philipsdeps.mya) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.commlib) {
+        implementation(philipsdeps.commlib) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.commlib_demouapp) {
+        implementation(philipsdeps.commlib_demouapp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.digitalCareUApp) {
+        implementation(philipsdeps.digitalCareUApp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.uAppFwLibUApp) {
+        implementation(philipsdeps.uAppFwLibUApp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.iapUApp) {
+        implementation(philipsdeps.iapUApp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.dataServicesUApp) {
+        implementation(philipsdeps.dataServicesUApp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.product_registration_libUApp) {
+        implementation(philipsdeps.product_registration_libUApp) {
             exclude group: 'com.android.support'
         }
-        implementation (philipsdeps.UserRegistrationUApp) {
+        implementation(philipsdeps.UserRegistrationUApp) {
             exclude group: 'com.android.support'
             exclude group: 'com.philips.cdp', module: 'RegistrationApi'
         }
-        implementation (philipsdeps.devicepairingUApp) {
+        implementation(philipsdeps.devicepairingUApp) {
             exclude group: 'com.android.support'
         }
         implementation philipsdeps.telehealth
@@ -377,15 +312,12 @@ dependencies {
         implementation philipsdeps.bluelib_demouapp
         implementation philipsdeps.bluelib
         implementation philipsdeps.NeuraUApp
-        implementation project(':pushnotification')
-        implementation project(':themesettings')       
+        implementation project(strings.pnf.projectName)
+        implementation project(strings.tse.projectName)
         implementation philipsdeps.AppInfraUApp
     }
-    implementation deps.butterknife
-    annotationProcessor deps.butterknife_compiler
     testImplementation deps.json
     testImplementation deps.junit
-    testImplementation deps.mockito
     testImplementation deps.opengl
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
@@ -393,7 +325,7 @@ dependencies {
     testImplementation deps.powermock_junit
     testImplementation deps.powermock_junit_rule
     testImplementation deps.powermock_junit_rule_agent
-    testImplementation deps.robolectric_3_8
+    testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
     testImplementation deps.robolectric_shadows_multidex
 }
@@ -415,11 +347,11 @@ task('printArtifactoryApkPath') {
             new File('apkname.txt').delete()
         }
         File apkname = new File('apkname.txt')
-        apkname.append(objcdp.getArtifactoryContextUrl() +   \
-          "/" + objcdp.getArtifactoryPublishRepoKey() +   \
-          "/" + project.group.replace('.', '/') + "/" +   \
-          archivesBaseName + "/" + version +   \
-          "/" + archivesBaseName + "-" + version + ".apk")
+        apkname.append(objcdp.getArtifactoryContextUrl() +      \
+             "/" + objcdp.getArtifactoryPublishRepoKey() +      \
+             "/" + project.group.replace('.', '/') + "/" +      \
+             archivesBaseName + "/" + version +      \
+             "/" + archivesBaseName + "-" + version + ".apk")
         println "Artifactory path of apk stored in apkname.txt"
     }
 }

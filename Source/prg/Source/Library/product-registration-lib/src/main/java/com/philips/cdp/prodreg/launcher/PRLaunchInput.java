@@ -22,6 +22,10 @@ public class PRLaunchInput extends UappLaunchInput {
     @IdRes
     int backgroundImageResourceId;
 
+    boolean showExtendWarrantyNothanksButton;
+
+    String mandatoryRegisterButtonText;
+
     /**
      *
      * @param products - pass list of products
@@ -86,4 +90,22 @@ public class PRLaunchInput extends UappLaunchInput {
     public void setBackgroundImageResourceId(final int backgroundImageResourceId) {
         this.backgroundImageResourceId = backgroundImageResourceId;
     }
+
+    public boolean getMandatoryProductRegistration() {
+        return showExtendWarrantyNothanksButton;
+    }
+
+    public void setMandatoryProductRegistration(boolean showExtendWarrntyNothanksButton) {
+        this.showExtendWarrantyNothanksButton = showExtendWarrntyNothanksButton;
+    }
+
+    public String getMandatoryRegisterButtonText() {
+        return mandatoryRegisterButtonText;
+    }
+
+    public void setMandatoryRegisterButtonText(String mandatoryRegisterButtonText) {
+        this.mandatoryRegisterButtonText = mandatoryRegisterButtonText;
+    }
+
+
 }

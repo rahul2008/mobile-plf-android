@@ -5,60 +5,11 @@
 
 apply plugin: 'com.android.application'
 
-buildscript { bs ->
-    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-}
-
-repositories {
-    maven {
-        url repos.jcenter
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
-    maven {
-        url repos.release
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
-    maven {
-        url repos.stage
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
-    maven {
-        url repos.snapshot
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 }
 
 android {
@@ -83,17 +34,8 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     packagingOptions {
         pickFirst '**/*.so'
-    }
-
-    compileOptions {
-        sourceCompatibility versions.sourceCompatibility
-        targetCompatibility versions.targetCompatibility
     }
 }
 
@@ -101,9 +43,10 @@ dependencies {
     implementation deps.stetho
     implementation deps.support.design
 
-    implementation project(':commlib-demouapp')
-    implementation project(':AppInfra')
-    implementation project(':uAppFwLib')
+    implementation project(strings.cmluapp.projectName)
+    implementation project(strings.ail.projectName)
+    implementation project(strings.ufw.projectName)
+
     testImplementation deps.junit
 }
 

@@ -121,6 +121,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        RLog.i(TAG,"Screen name is "+ TAG);
+
 
         mobileVerifyCodePresenter = new MobileVerifyCodePresenter(this);
         mSMSBroadCastReceiver = new SMSBroadCastReceiver(this);
@@ -205,7 +207,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onRefreshUserSuccess() {
         if (this.isVisible()) {
-            RLog.i(TAG, "onRefreshUserSuccess");
+            RLog.d(TAG, "onRefreshUserSuccess");
             storePreference(user.getMobile());
             setDescription();
             hideProgressSpinner();
@@ -219,7 +221,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         hideProgressSpinner();
         final String localizedError = new URError(context).getLocalizedError(ErrorType.HSDP, error);
         updateErrorNotification(localizedError);
-        RLog.i(TAG, "onRefreshUserFailed : Error =" + localizedError);
+        RLog.d(TAG, "onRefreshUserFailed : Error =" + localizedError);
     }
 
     @Override
@@ -236,6 +238,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @OnClick(R2.id.btn_reg_Verify)
     public void verifyClicked() {
+        RLog.i(TAG,TAG + ".verifyClicked");
         verifyButton.showProgressIndicator();
         smsNotReceived.setEnabled(false);
         verificationCodeValidationEditText.setEnabled(false);
@@ -248,7 +251,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         registerSMSReceiver();
-        RLog.i(TAG, "onViewCreated : getParentFragment().requestPermissions(");
+        RLog.d(TAG, "onViewCreated : getParentFragment().requestPermissions(");
     }
 
     @Override
@@ -277,6 +280,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @OnClick(R2.id.btn_reg_resend_code)
     public void resendButtonClicked() {
+        RLog.i(TAG,TAG + ".resendButtonClicked");
         disableVerifyButton();
         verifyButton.hideProgressIndicator();
         getRegistrationFragment().addFragment(new MobileVerifyResendCodeFragment());
@@ -359,7 +363,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void registerSMSReceiver() {
-        RLog.i(TAG, "registerSMSReceiver : " + mSMSBroadCastReceiver.isSmsPermissionGranted());
+        RLog.d(TAG, "registerSMSReceiver : " + mSMSBroadCastReceiver.isSmsPermissionGranted());
         mobileVerifyCodePresenter.registerSMSReceiver();
         if (!mSMSBroadCastReceiver.isSmsPermissionGranted()) {
             RLog.i(TAG, "registerSMSReceiver : isSmsPermissionGranted");
@@ -375,7 +379,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onOTPReceived(String otp) {
-        RLog.i(TAG, "onOTPReceived : got otp");
+        RLog.d(TAG, "onOTPReceived : got otp");
         if (!isUserTyping) {
             verificationCodeValidationEditText.setText(otp);
             verifyClicked();

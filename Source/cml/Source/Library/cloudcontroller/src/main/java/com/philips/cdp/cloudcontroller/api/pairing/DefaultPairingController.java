@@ -21,8 +21,8 @@ import com.philips.icpinterface.data.PairingReceivedRelationships;
 import com.philips.icpinterface.data.PairingRelationship;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class DefaultPairingController implements PairingController, ICPEventListener {
@@ -54,7 +54,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
 
                 break;
             case Commands.PAIRING_REMOVE_RELATIONSHIP:
-                mPairingCallback.onRelationshipRemove();
+                mPairingCallback.onRelationshipRemove(status);
 
                 break;
             case Commands.PAIRING_GET_RELATIONSHIPS:
