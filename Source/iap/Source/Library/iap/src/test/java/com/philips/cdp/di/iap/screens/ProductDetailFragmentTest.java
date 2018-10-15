@@ -15,7 +15,6 @@ import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -29,7 +28,6 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -134,15 +132,6 @@ public class ProductDetailFragmentTest {
         initializaViews();
         productDetailFragment.initializeViews(viewMock);
     }
-
-//    @Test
-//    public void shouldInitializeViewsWithBundleArgument() throws Exception {
-//        initializaViews();
-//        Bundle bundle=new Bundle();
-//        bundle.putString(IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,"X234");
-//        productDetailFragment.setArguments(bundle);
-//        productDetailFragment.initializeViews(viewMock);
-//    }
 
     void initializaViews(){
         Mockito.when(viewMock.findViewById(R.id.scrollView)).thenReturn(scrollViewMock);
