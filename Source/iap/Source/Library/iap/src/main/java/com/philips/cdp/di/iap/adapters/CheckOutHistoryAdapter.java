@@ -361,8 +361,6 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mBillingName = (TextView) itemView.findViewById(R.id.tv_billing_name);
             mBillingAddress = (TextView) itemView.findViewById(R.id.tv_billing_address);
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
-            mDeliveryUPSParcelContainer = (RelativeLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
-            mVoucherContainer  = (RelativeLayout) itemView.findViewById(R.id.voucher_container);
 
         }
     }
