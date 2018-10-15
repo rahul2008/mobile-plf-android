@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.platform.appframework.R;
@@ -96,9 +97,13 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
 
     @Override
     public void hideActionBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            hideStatusBar();
+        } else
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
-        hideStatusBar();
     }
 
     private void hideStatusBar() {
