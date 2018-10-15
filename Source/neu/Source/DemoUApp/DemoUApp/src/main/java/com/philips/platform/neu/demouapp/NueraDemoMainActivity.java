@@ -223,7 +223,6 @@ public class NueraDemoMainActivity extends AppCompatActivity {
     private void displayList() {
         adapter = new CheckBoxAdapter(this, R.layout.checkbox_info, momentsList);
         listView.setAdapter(adapter);
-        listView.setEnabled(true);
 
     }
     public void simulateEvents() {
