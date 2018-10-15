@@ -388,6 +388,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         String ctn;
         for (EntriesEntity entry : entries) {
             ctn = entry.getProduct().getCode();
+            applyPromotion(cartsEntity);
             ShoppingCartData cartItem = new ShoppingCartData(entry, cartsEntity.getDeliveryMode());
             cartItem.setVatInclusive(cartsEntity.isNet());
             Data data;
@@ -414,17 +415,23 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
             //required for Tagging
             cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
-            cartItem.setAppliedOrderPromotionEntityList(cartsEntity.getAppliedOrderPromotions());
-
-            for(AppliedOrderPromotionEntity appliedOrderPromotionEntity:cartsEntity.getAppliedOrderPromotions()){
-                Log.d("pabbitrabapi",appliedOrderPromotionEntity.getDescription());
-                PromotionEntity promotionEntity = appliedOrderPromotionEntity.getPromotion();
-                Log.d("pabbitrabapi",promotionEntity.getDescription());
-                Log.d("pabbitrabapi",promotionEntity.getCode());
-            }
             products.add(cartItem);
         }
         return products;
+    }
+    public void applyPromotion(CartsEntity cartsEntity) {
+        List<AppliedOrderPromotionEntity> appliedOrderPromotions = cartsEntity.getAppliedOrderPromotions();
+        if(appliedOrderPromotions!=null && appliedOrderPromotions.size()!=0){
+            for(int i=0;i< appliedOrderPromotions.size() ;i++ ) {
+                PromotionEntity promotion = appliedOrderPromotions.get(i).getPromotion();
+                if(promotion !=null && promotion.getCode().equalsIgnoreCase("US-freeshipping")) {
+                    String currentDeliveryCost = cartsEntity.getDeliveryMode().getDeliveryCost().getFormattedValue();
+                    String newDeliveryCost = currentDeliveryCost.replace(currentDeliveryCost.substring(1, (currentDeliveryCost.length())), " 0.0");
+                    cartsEntity.getDeliveryMode().getDeliveryCost().setFormattedValue(newDeliveryCost);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
