@@ -2,18 +2,18 @@ package com.philips.cdp.registration.events;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
+
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static junit.framework.Assert.assertNotNull;
-
-
-public class UserRegistrationHelperTest extends RegistrationApiInstrumentationBase {
+@RunWith(MockitoJUnitRunner.class)
+public class UserRegistrationHelperTest extends TestCase {
 
     @Mock
     UserRegistrationHelper mUserRegistrationHelper;
@@ -23,14 +23,13 @@ public class UserRegistrationHelperTest extends RegistrationApiInstrumentationBa
 
     @Before
     public void setUp() throws Exception {
-           super.setUp();
+        super.setUp();
 
         assertNotNull(mUserRegistrationHelper.getInstance());
 
         mUserRegistrationHelper = mUserRegistrationHelper.getInstance();
-        context = getInstrumentation().getTargetContext();
-
     }
+
     @Test
     public void testGetInstance() throws Exception {
         assertNotNull(mUserRegistrationHelper);

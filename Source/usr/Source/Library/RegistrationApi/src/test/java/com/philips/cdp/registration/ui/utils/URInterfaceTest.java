@@ -50,11 +50,9 @@ public class URInterfaceTest {
 
     @Before
     public void setUp() throws Exception {
-
         MockitoAnnotations.initMocks(this);
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
         RLog.setMockLogger(mockLoggingInterface);
-
         urInterface=new URInterface();
     }
 
@@ -68,7 +66,6 @@ public class URInterfaceTest {
         Mockito.when(uAppSettingsMock.getContext()).thenReturn(contextMock);
         Mockito.when(appInfraMock.getSecureStorage()).thenReturn(storageMock);
         Mockito.when(uappDependenciesMock.getAppInfra()).thenReturn(appInfraMock);
-
         urInterface.init(uappDependenciesMock,uAppSettingsMock);
     }
 

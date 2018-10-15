@@ -2,7 +2,7 @@ package com.philips.cdp.registration.events;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,11 +11,8 @@ import org.mockito.Mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static junit.framework.Assert.assertNotNull;
 
-
-public class EventHelperTest extends RegistrationApiInstrumentationBase {
+public class EventHelperTest extends TestCase {
     @Mock
     EventHelper mEventHelper;
 
@@ -30,8 +27,6 @@ public class EventHelperTest extends RegistrationApiInstrumentationBase {
         assertNotNull(mEventHelper.getInstance());
 
         mEventHelper = mEventHelper.getInstance();
-        context = getInstrumentation().getTargetContext();
-
     }
     @Test
     public void testGetInstance() throws Exception {
