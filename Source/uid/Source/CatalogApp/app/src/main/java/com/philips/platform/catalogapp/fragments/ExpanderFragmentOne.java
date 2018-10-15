@@ -1,6 +1,5 @@
 package com.philips.platform.catalogapp.fragments;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,17 +9,43 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.uid.view.widget.Expander;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.UIDExpanderDelegate;
 
 public class ExpanderFragmentOne extends  BaseFragment{
+    UIDExpanderDelegate mUidExpanderDelegate = new UIDExpanderDelegate() {
+        @Override
+        public void expanderPanelWillExpand() {
+            Log.v("Expand","expanderPanelWillExpand");
+        }
+
+        @Override
+        public void expanderPanelDidExpand() {
+            Log.v("Expand","expanderPanelDidExpand");
+        }
+
+        @Override
+        public void expanderPanelWillCollapse() {
+            Log.v("Expand","expanderPanelWillCollapse");
+        }
+
+        @Override
+        public void expanderPanelDidCollapse() {
+            Log.v("Expand","expanderPanelDidCollapse");
+        }
+    };
+
+
     Expander expanderOne;
     Expander expanderTwo;
     Expander expanderThree;
     Expander expanderFour;
+
+
+
     @Override
     public int getPageTitle() {
         return R.string.page_title_expander;
@@ -57,6 +82,7 @@ public class ExpanderFragmentOne extends  BaseFragment{
         expanderOne.setExpanderTitle("Short title");
         expanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_calendar));
         expanderOne.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
+        expanderOne.setExpanderDelegate(mUidExpanderDelegate);
        ;
       //  expanderOne.setTitleImage(getActivity().getResources().getDrawable(R.drawable.alert_dialog_icon));
        // RelativeLayout relativeLayout = inflater.inflate(R.layout.fragment_expander_content_default_layout, null, false);

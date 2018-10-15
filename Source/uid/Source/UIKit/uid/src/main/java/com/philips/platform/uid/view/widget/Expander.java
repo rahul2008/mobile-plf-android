@@ -26,6 +26,9 @@ import com.philips.platform.uid.thememanager.UIDHelper;
  */
 
 public class Expander extends LinearLayout implements View.OnClickListener {
+
+
+    private UIDExpanderDelegate uidExpanderDelegate;
     private RelativeLayout ExpanderViewTitle;
     private Label ExpanderViewTitleDefaultLabel;
 
@@ -70,13 +73,14 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
-
     public void setExpanderCustomPanelView(int resourceLayoutId) {
+        uidExpanderDelegate = null; // callback delegate is removed when custom panel is set
         setLayout(resourceLayoutId, ExpanderViewTitle);
 
     }
 
     public void setExpanderCustomPanelView(View resourceView) {
+        uidExpanderDelegate = null; // callback delegate is removed when custom panel is set
         setLayout(resourceView, ExpanderViewTitle);
     }
 
@@ -92,13 +96,13 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
     public void setExpanderTitle(String title) {
-        if ( isDefaultPanel() && null != ExpanderViewTitleDefaultLabel ) {
+        if (isDefaultPanel() && null != ExpanderViewTitleDefaultLabel) {
             ExpanderViewTitleDefaultLabel.setText(title);
         }
     }
 
     public void setExpanderPanelIcon(String fontIcon) {
-        if ( isDefaultPanel() && null != ExpanderViewTitleDefaultIcon ) {
+        if (isDefaultPanel() && null != ExpanderViewTitleDefaultIcon) {
             ExpanderViewTitleDefaultIcon.setText(fontIcon);
             ExpanderViewTitleDefaultIcon.setVisibility(VISIBLE);
         }
@@ -126,13 +130,13 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     public void setSeparatorVisible(boolean aBoolean) {
         seperatorVisibility = aBoolean;
         // update separator visibility instantly
-        if(aBoolean){
-            if (null!=ExpanderViewContent && ExpanderViewContent.isShown()) {
+        if (aBoolean) {
+            if (null != ExpanderViewContent && ExpanderViewContent.isShown()) {
                 contentBottomSeperator.setVisibility(VISIBLE);
-            } else{
+            } else {
                 titleBottomSeperator.setVisibility(VISIBLE);
             }
-        }else {
+        } else {
             titleBottomSeperator.setVisibility(GONE);
             contentBottomSeperator.setVisibility(GONE);
         }
@@ -147,7 +151,13 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
+    public void setExpanderDelegate(UIDExpanderDelegate uidExpanderDelegate) {
+        this.uidExpanderDelegate = uidExpanderDelegate;
+    }
+
     // Helper methods
+
+
 
     private void setLayout(int resource, RelativeLayout expanderParentlayout) {
         expanderParentlayout.removeAllViews(); // remove old view if any
@@ -167,28 +177,40 @@ public class Expander extends LinearLayout implements View.OnClickListener {
         if (ExpanderViewContent.isShown()) {
             hideContentView();
         } else {
-            if (null != ExpanderViewContent && null != ExpanderViewContent.getChildAt(0)) {
+            if (null != ExpanderViewContent && null != ExpanderViewContent.getChildAt(0)) { // expand only if content view is present
                 showContentView();
             }
         }
     }
 
     private void showContentView() {
+        if (null != uidExpanderDelegate) { // call delegate should be called only for default expander panel
+            uidExpanderDelegate.expanderPanelWillExpand(); // expand start callback
+        }
         titleBottomSeperator.setVisibility(GONE);
         ExpanderViewContent.setVisibility(View.VISIBLE);
         if (isSeperatorVisibile()) {
             contentBottomSeperator.setVisibility(View.VISIBLE);
         }
         chevronLabel.setText(mContext.getResources().getString(R.string.dls_navigationup));
+        if (null != uidExpanderDelegate) { // call delegate should be called only for default expander panel
+            uidExpanderDelegate.expanderPanelDidExpand(); // expand end callback
+        }
     }
 
     private void hideContentView() {
+        if (null != uidExpanderDelegate) { // call delegate should be called only for default expander panel
+            uidExpanderDelegate.expanderPanelWillCollapse(); // collapse start callback
+        }
         ExpanderViewContent.setVisibility(View.GONE);
         contentBottomSeperator.setVisibility(GONE);
         if (isSeperatorVisibile()) {
             titleBottomSeperator.setVisibility(VISIBLE);
         }
         chevronLabel.setText(mContext.getResources().getString(R.string.dls_navigationdown));
+        if (null != uidExpanderDelegate) { // call delegate should be called only for default expander panel
+            uidExpanderDelegate.expanderPanelDidCollapse(); // collapse start callback
+        }
     }
 
     // is Expander panel is having the default title panel
