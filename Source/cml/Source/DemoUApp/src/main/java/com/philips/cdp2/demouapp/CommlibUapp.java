@@ -67,8 +67,8 @@ public class CommlibUapp implements UappInterface {
                 throw new IllegalStateException("No context set during init. Call init before launching!");
             }
 
-            Intent intent = new Intent(context, CommlibUappActivity.class);
-            context.startActivity(intent);
+            Intent intent = new Intent(((ActivityLauncher) uiLauncher).getActivityContext(), CommlibUappActivity.class);
+            ((ActivityLauncher) uiLauncher).getActivityContext().startActivity(intent);
         } else {
             throw new IllegalArgumentException("Unsupported UiLauncher provided");
         }

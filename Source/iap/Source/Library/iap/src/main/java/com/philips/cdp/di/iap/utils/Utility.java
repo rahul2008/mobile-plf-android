@@ -100,10 +100,7 @@ public class Utility {
         StringBuilder sb = new StringBuilder();
 
         final String line1 = address.getLine1();
-        final String line2 = address.getLine2();
-
         appendAddressWithNewLineIfNotNull(sb, line1);
-        appendAddressWithNewLineIfNotNull(sb, line2);
         appendAddressWithNewLineIfNotNull(sb, address.getTown());
         appendAddressWithNewLineIfNotNull(sb, address.getRegionName()+" "+address.getPostalCode());
         appendAddressWithNewLineIfNotNull(sb, address.getCountry());
@@ -135,11 +132,6 @@ public class Utility {
         if (isNotNullNorEmpty(addresses.getLine1())) {
             fields.setLine1(addresses.getLine1());
         }
-
-        if (isNotNullNorEmpty(addresses.getLine2())) {
-            fields.setLine2(addresses.getLine2());
-        }
-
         if (isNotNullNorEmpty(addresses.getTown())) {
             fields.setTown(addresses.getTown());
         }
@@ -196,11 +188,6 @@ public class Utility {
         if (isNotNullNorEmpty(address.getLine1())) {
             fields.setLine1(address.getLine1());
         }
-
-        if (isNotNullNorEmpty(address.getLine2())) {
-            fields.setLine2(address.getLine2());
-        }
-
         if (isNotNullNorEmpty(address.getTown())) {
             fields.setTown(address.getTown());
         }

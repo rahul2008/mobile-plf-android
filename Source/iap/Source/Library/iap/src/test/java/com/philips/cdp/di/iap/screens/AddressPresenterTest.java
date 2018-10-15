@@ -302,4 +302,10 @@ public class AddressPresenterTest {
       //  Assert.assertEquals(true,addressPresenter.validatePhoneNumber(editText,"IN","8904291902"));
     }
 
+    @Test
+    public void shouldRomoveNullIfPresent() throws Exception {
+        String originalString = "Hi philips null is here please remove";
+        String expectedString = "Hi philips   is here please remove";
+        Assert.assertEquals(expectedString,addressPresenter.addressWithNewLineIfNull(originalString));
+    }
 }

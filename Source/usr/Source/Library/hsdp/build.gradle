@@ -91,7 +91,6 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation deps.apache
     implementation deps.dagger.dagger
     implementation deps.jackson_annotations
     implementation deps.jackson_core

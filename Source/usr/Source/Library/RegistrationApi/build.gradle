@@ -98,7 +98,6 @@ dependencies {
     annotationProcessor deps.butterknife_compiler
     annotationProcessor deps.dagger.compiler
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation deps.apache
     implementation deps.butterknife
     implementation deps.calligraphy
     implementation deps.constraintlayout
