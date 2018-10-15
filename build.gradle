@@ -11,8 +11,7 @@ buildscript {
         }
         maven { url repos.jcenter }
         maven { url repos.pluginsgradle }
-        maven {
-            url repos.plugin
+        maven { url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
