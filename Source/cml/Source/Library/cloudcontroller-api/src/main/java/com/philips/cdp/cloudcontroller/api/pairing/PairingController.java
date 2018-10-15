@@ -43,13 +43,6 @@ public interface PairingController {
         void onRelationshipGet(@NonNull Collection<PairingRelation> relationships);
 
         /**
-         * On relationship get
-         *
-         * @param relationships the relationshipssettin
-         */
-        void onRelationshipGet(@NonNull Collection<PairingRelation> relationships);
-
-        /**
          * On permissions add.
          */
         void onPermissionsAdd();
