@@ -7,6 +7,7 @@
 package com.philips.platform.uappdemo.screens.introscreen;
 
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -17,6 +18,7 @@ import android.support.v7.app.ActionBar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +32,8 @@ import com.philips.platform.uappdemo.screens.splash.SplashFragment;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+
+import static android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
 
 
 /**
@@ -89,12 +93,42 @@ public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
     public void showActionBar() {
         if (getSupportActionBar() != null)
             getSupportActionBar().show();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            showStatusBar();
+        }
+    }
+
+    private void showStatusBar() {
+        View decorView = getWindow().getDecorView();
+        // Show Status Bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE | LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER ;
+        decorView.setSystemUiVisibility(uiOptions);
     }
 
     @Override
     public void hideActionBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            hideStatusBar();
+        } else
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
+    }
+
+    private void hideStatusBar() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        );
     }
 
     @Override

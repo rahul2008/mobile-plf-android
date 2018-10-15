@@ -41,7 +41,7 @@ public class LaunchActivityPresenter extends UappBasePresenter implements UIStat
      */
     @Override
     public void onEvent(int componentID) {
-//        showActionBar();
+        showActionBar();
         String event = getEvent(componentID);
         fragmentLauncher = getFragmentLauncher();
         BaseFlowManager targetFlowManager = launchView.getTargetFlowManager();
