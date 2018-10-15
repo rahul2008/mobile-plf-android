@@ -58,6 +58,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     private CartsEntity mCurrentCartData = null;
     private AddressController mAddressController;
+    private final String  PROMOTION = "US-freeshipping";
 
     public ShoppingCartPresenter() {
     }
@@ -424,7 +425,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         if(appliedOrderPromotions!=null && appliedOrderPromotions.size()!=0){
             for(int i=0;i< appliedOrderPromotions.size() ;i++ ) {
                 PromotionEntity promotion = appliedOrderPromotions.get(i).getPromotion();
-                if(promotion !=null && promotion.getCode().equalsIgnoreCase("US-freeshipping")) {
+                if(promotion !=null && promotion.getCode().equalsIgnoreCase(PROMOTION)) {
                     String currentDeliveryCost = cartsEntity.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String newDeliveryCost = currentDeliveryCost.replace(currentDeliveryCost.substring(1, (currentDeliveryCost.length())), " 0.0");
                     cartsEntity.getDeliveryMode().getDeliveryCost().setFormattedValue(newDeliveryCost);
