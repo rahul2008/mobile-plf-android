@@ -12,14 +12,6 @@ import static org.junit.Assert.assertTrue;
 
 public class DataServicesManagerInsightsTest {
 
-    private DataServicesManager manager;
-
-    @Before
-    public void setUp() throws Exception {
-        manager = DataServicesManager.getInstance();
-        manager.dataCreator = new VerticalCreater();
-    }
-
     @Test
     public void createInsightWithType() {
         Insight insight = manager.createInsight("INSIGHT_TYPE");
@@ -36,5 +28,13 @@ public class DataServicesManagerInsightsTest {
         boolean isValidGUID = guid.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
         assertTrue("Not a valid GUID", isValidGUID);
     }
+
+    @Before
+    public void setUp() throws Exception {
+        manager = DataServicesManager.getInstance();
+        manager.dataCreator = new VerticalCreater();
+    }
+
+    private DataServicesManager manager;
 
 }
