@@ -230,7 +230,7 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
             String version = firmwareDiCommPort.getUploadedUpgradeVersion();
             SHNFirmwareInfo.SHNFirmwareState shnFirmwareState = toFirmwareState(firmwareDiCommPort.getState());
 
-            SHNFirmwareInfo shnFirmwareInfo = new SHNFirmwareInfo(version, "n/a", "n/a", shnFirmwareState);
+            SHNFirmwareInfo shnFirmwareInfo = new SHNFirmwareInfo(version, shnFirmwareState);
             shnFirmwareInfoResultListener.onActionCompleted(shnFirmwareInfo, SHNResult.SHNOk);
         } else {
             shnFirmwareInfoResultListener.onActionCompleted(null, SHNResult.SHNErrorServiceUnavailable);
