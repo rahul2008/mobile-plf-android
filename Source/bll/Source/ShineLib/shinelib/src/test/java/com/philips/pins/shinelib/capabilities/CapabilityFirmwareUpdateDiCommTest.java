@@ -849,6 +849,16 @@ public class CapabilityFirmwareUpdateDiCommTest {
         capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, false);
     }
 
+    @Test
+    public void givenDeviceInDownloadingState_whenUploadOfZeroLengthChunkIsDetected_thenUploadFailedIsReported() throws Exception {
+        capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, true);
+        verify(diCommPortMock).reloadProperties(mapResultListenerArgumentCaptor.capture());
+
+        respondWith(State.Downloading, firmwareData.length);
+
+        verifyChunkWritten(firmwareData.length - 1);
+    }
+
     private class CapabilityFirmwareUpdateDiCommForTest extends CapabilityFirmwareUpdateDiComm {
 
         CapabilityFirmwareUpdateDiCommForTest(@NonNull DiCommFirmwarePort diCommPort, Handler internalHandler) {
@@ -869,7 +879,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         respondWith(state, -1);
     }
 
-    private void respondWith(State state, int progress) {
+    private void respondWith(State state, double progress) {
         latestReceivedProperties.clear();
         latestReceivedProperties.put(PROGRESS, progress);
         latestReceivedProperties.put(STATE, state.toString());
@@ -892,6 +902,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         byte[] chunk = (byte[]) mapArgumentCaptor.getValue().get(DATA);
         assertEquals(TEST_MAX_CHUNK_SIZE, chunk.length);
 
+        //todo improve
         assertEquals(firmwareData[progress], chunk[0]);
         assertEquals(firmwareData[progress + 1], chunk[1]);
         assertEquals(firmwareData[progress + 2], chunk[2]);
