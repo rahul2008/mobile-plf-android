@@ -44,8 +44,8 @@ public class AILDemouAppInterface implements UappInterface {
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            Intent intent = new Intent(mContext, AppInfraMainActivity.class);
-            mContext.startActivity(intent);
+            Intent intent = new Intent(((ActivityLauncher) uiLauncher).getActivityContext(), AppInfraMainActivity.class);
+            ((ActivityLauncher) uiLauncher).getActivityContext().startActivity(intent);
         }
     }
 
