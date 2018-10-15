@@ -7,6 +7,7 @@ package com.philips.cdp2.bluelib.demouapp.fragment.capability;
 
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
 import com.philips.cdp2.bluelib.demouapp.R;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SHNFirmwareInfo;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate;
 import com.philips.pins.shinelib.utility.SHNLogger;
@@ -64,17 +66,23 @@ public class FirmwareUpdateFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.bll_fragment_firmware_update, container, false);
 
         Button start = fragmentView.findViewById(R.id.btnStartUpload);
-        start.setOnClickListener(view -> getFileAndStartUpload());
+        start.setOnClickListener(view -> {
+            textViewResult.setText(null);
+            getFileAndStartUpload();
+        });
 
         Button deploy = fragmentView.findViewById(R.id.btnDeploy);
         deploy.setOnClickListener(view -> shnCapabilityFirmwareUpdate.deployFirmware());
 
         Button abort = fragmentView.findViewById(R.id.btnAbortUpload);
         abort.setOnClickListener(view -> shnCapabilityFirmwareUpdate.abortFirmwareUpload());
+
+        Button get = fragmentView.findViewById(R.id.bll_btnGetFwInfo);
+        get.setOnClickListener(view -> shnCapabilityFirmwareUpdate.getUploadedFirmwareInfo(this::updateFwViews));
 
         textViewFirmwarePath = fragmentView.findViewById(R.id.tvFirmwarePath);
         textViewFirmwareVersion = fragmentView.findViewById(R.id.tvFirmwareVersion);
@@ -86,12 +94,9 @@ public class FirmwareUpdateFragment extends Fragment {
         progressBar = fragmentView.findViewById(R.id.uploadProgress);
         cbShouldResume = fragmentView.findViewById(R.id.bll_cb_should_resume);
 
-        listViewFiles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedFile = files[position];
-            }
-        });
+        listViewFiles.setOnItemClickListener(
+                (AdapterView<?> parent, View view, int position, long id) -> selectedFile = files[position]
+        );
 
         return fragmentView;
     }
@@ -101,19 +106,20 @@ public class FirmwareUpdateFragment extends Fragment {
         super.onResume();
 
         textViewFirmwareVersion.setText(R.string.bll_retrieving);
-        shnCapabilityFirmwareUpdate.getUploadedFirmwareInfo((value, result) -> {
-            if (result == SHNResult.SHNOk) {
-                textViewFirmwareVersion.setText(value.getVersion());
-                textViewFirmwareState.setText(value.getState().name());
-            } else {
-                textViewFirmwareVersion.setText(R.string.bll_error);
-                textViewFirmwareState.setText(R.string.bll_error);
-            }
-        });
 
         final File firmwareDirectory = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         textViewFirmwarePath.setText(firmwareDirectory.getAbsolutePath());
         updateFilesList(firmwareDirectory);
+    }
+
+    void updateFwViews(final SHNFirmwareInfo value, final SHNResult result) {
+        if (result == SHNResult.SHNOk) {
+            textViewFirmwareVersion.setText(value.getVersion());
+            textViewFirmwareState.setText(value.getState().name());
+        } else {
+            textViewFirmwareVersion.setText(R.string.bll_error);
+            textViewFirmwareState.setText(R.string.bll_error);
+        }
     }
 
     private void getFileAndStartUpload() {

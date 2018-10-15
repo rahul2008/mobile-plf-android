@@ -58,4 +58,5 @@
     <string name="bll_retrieving">Retrieving</string>
     <string name="bll_error">ERROR</string>
     <string name="bll_resume_if_possible">Resume if possible</string>
+    <string name="bll_fw_get">Get</string>
 </resources>
