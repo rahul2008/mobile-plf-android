@@ -167,9 +167,9 @@ pipeline {
         }
 
         stage('TICS') {
-           when {
-               expression { return params.buildType == 'TICS' }
-          }
+            when {
+                expression { return params.buildType == 'TICS' }
+            }
             steps {
                 script {
                     echo "Running TICS..."
@@ -191,13 +191,13 @@ pipeline {
             }
             steps {
                 script {
-                    build(job: 'Platform-Infrastructure/CucumberToTfs/master', 
-                        parameters: [
-                            string(name: 'JenkinsProjectName', value: env.JOB_NAME),
-                            string(name: 'JenkinsProjectBuild', value: env.BUILD_ID),
-                            string(name: 'TestPlan', value: 'In sprint_cml_bll_ews'),
-                            string(name: 'TestSuitePath', value: 'Android/Automated Tests')
-                        ], wait: false)
+                    build(job: 'Platform-Infrastructure/CucumberToTfs/master',
+                            parameters: [
+                                    string(name: 'JenkinsProjectName', value: env.JOB_NAME),
+                                    string(name: 'JenkinsProjectBuild', value: env.BUILD_ID),
+                                    string(name: 'TestPlan', value: 'In sprint_cml_bll_ews'),
+                                    string(name: 'TestSuitePath', value: 'Android/Automated Tests')
+                            ], wait: false)
                 }
             }
         }
@@ -219,7 +219,7 @@ pipeline {
 
                     def jobBranchName = "release_platform_1802.0.0"
                     if (BranchName =~ /develop.*/) {
-                       jobBranchName = "develop"
+                        jobBranchName = "develop"
                     }
                     echo "BranchName changed to ${jobBranchName}"
 
