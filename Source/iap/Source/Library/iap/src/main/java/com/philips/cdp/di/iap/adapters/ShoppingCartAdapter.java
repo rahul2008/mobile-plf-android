@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -208,6 +209,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String deliveryMethod = data.getDeliveryMode().getName();
+                    String deliveryModeDescription=data.getDeliveryMode().getDescription();
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
@@ -227,6 +229,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
 
 
+                    shoppingCartFooter.mDeliveryDescriprion.setText(deliveryModeDescription);
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 
@@ -238,7 +241,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     });
 
                 } else {
-                  //  shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
+                    shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
                     shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
                     mIsFreeDelivery = true;
                 }
@@ -356,11 +359,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (visibility) {
             shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.VISIBLE);
+            shoppingCartFooter.summary_delivery_container.setVisibility(View.VISIBLE);
         }
         else
         {
             shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
+            shoppingCartFooter.summary_delivery_container.setVisibility(View.GONE);
         }
     }
 
@@ -410,6 +415,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTotalCost;
         TextView mDeliveryVia;
         TextView mDeliveryUpsVal;
+        Label mDeliveryDescriprion;
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
@@ -418,6 +424,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RelativeLayout mVoucherContainer;
         Label mAppliedVoucherCode;
 
+        GridLayout summary_delivery_container;
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -428,6 +435,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTotalCost = itemView.findViewById(R.id.total_cost_val);
             mDeliveryVia = itemView.findViewById(R.id.delivery_via_ups);
             mDeliveryUpsVal = itemView.findViewById(R.id.delivery_ups_val);
+            mDeliveryDescriprion = itemView.findViewById(R.id.iap_delivery_mode_description);
             mExtraOption = itemView.findViewById(R.id.extra_option);
             mEditIcon = itemView.findViewById(R.id.edit_icon);
             mDeliveryTitle = itemView.findViewById(R.id.delivery_ups_title);
@@ -435,6 +443,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mDeliveryUPSParcelContainer = itemView.findViewById(R.id.delivery_ups_parcel_container);
             mAppliedVoucherCode = itemView.findViewById(R.id.voucherLabel);
             mVoucherContainer = itemView.findViewById(R.id.voucher_container);
+            summary_delivery_container= itemView.findViewById(R.id.summary_delivery_container);
         }
     }
 

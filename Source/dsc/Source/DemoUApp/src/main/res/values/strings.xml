@@ -140,4 +140,6 @@
     <string name="DSC_CSW_JustInTime_Accept">OK, count me in</string>
     <string name="DSC_CSW_JustInTime_Reject">Maybe later</string>
     <string name="DSC_CSW_JustInTime_Title">Be the first to know</string>
+    <string name="RA_Warning">WARNING</string>
+    <string name="RA_You_are_not_LoggedIn">You are not Logged In. Please go to Settings and Log In</string>
 </resources>

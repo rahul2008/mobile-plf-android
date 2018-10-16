@@ -33,8 +33,8 @@ public class CCDemoUAppuAppInterface implements UappInterface {
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            Intent intent = new Intent(context, CCDemoUAppActivity.class);
-            context.startActivity(intent);
+            Intent intent = new Intent(((ActivityLauncher) uiLauncher).getActivityContext(), CCDemoUAppActivity.class);
+            ((ActivityLauncher) uiLauncher).getActivityContext().startActivity(intent);
         }
     }
 }

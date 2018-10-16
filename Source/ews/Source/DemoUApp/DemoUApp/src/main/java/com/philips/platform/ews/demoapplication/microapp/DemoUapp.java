@@ -54,14 +54,14 @@ public class DemoUapp implements UappInterface {
     @Override
     public void launch(@NonNull final UiLauncher uiLauncher, @NonNull final UappLaunchInput uappLaunchInput) {
         uAppDependencyHelper.setThemeConfiguration(((ActivityLauncher) uiLauncher).getDlsThemeConfiguration());
-        launchAsActivity(uappLaunchInput);
+        launchAsActivity(uiLauncher,uappLaunchInput);
     }
 
-    private void launchAsActivity(@NonNull final UappLaunchInput uappLaunchInput) {
-        Intent intent = new Intent(context, EWSDemoUActivity.class);
+    private void launchAsActivity(UiLauncher uiLauncher, @NonNull final UappLaunchInput uappLaunchInput) {
+        Intent intent = new Intent(((ActivityLauncher) uiLauncher).getActivityContext(), EWSDemoUActivity.class);
         intent.putExtra(SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        context.startActivity(intent);
+        ((ActivityLauncher) uiLauncher).getActivityContext().startActivity(intent);
     }
 
 }
