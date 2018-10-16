@@ -31,7 +31,13 @@ public class DataServicesManagerInsightsTest {
     @Test
     public void saveInsightsPostsEventOnBus() {
         manager.saveInsights(Collections.emptyList());
+
         assertEquals(InsightsSaveRequest.class, eventing.postedEvent.getClass());
+        assertEquals(Collections.emptyList(), getPostInsightsSaveRequest().insights);
+    }
+
+    private InsightsSaveRequest getPostInsightsSaveRequest() {
+        return (InsightsSaveRequest) eventing.postedEvent;
     }
 
     private void assertIsGUID(String guid) {
