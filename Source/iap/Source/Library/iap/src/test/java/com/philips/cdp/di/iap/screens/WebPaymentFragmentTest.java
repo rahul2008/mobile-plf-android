@@ -62,7 +62,7 @@ public class WebPaymentFragmentTest {
     public void shouldOverrideURL_PAYMENT_SUCCESS_CALLBACK_URL() {
         webPaymentFragment.shouldOverrideUrlLoading(PAYMENT_SUCCESS_CALLBACK_URL + "http://google.com");
         SupportFragmentTestUtil.startFragment(webPaymentFragment);
-    }*/
+    }
 
     @Test(expected = NullPointerException.class)
     public void shouldOverrideURL_PAYMENT_PENDING_CALLBACK_URL() {
@@ -80,7 +80,7 @@ public class WebPaymentFragmentTest {
     public void shouldOverrideURL_PAYMENT_CANCEL_CALLBACK_URL() {
         webPaymentFragment.shouldOverrideUrlLoading(PAYMENT_CANCEL_CALLBACK_URL + "http://google.com");
         SupportFragmentTestUtil.startFragment(webPaymentFragment);
-    }
+    }*/
 
     @Test(expected = NullPointerException.class)
     public void shouldCalled_OnAttach() throws Exception {
