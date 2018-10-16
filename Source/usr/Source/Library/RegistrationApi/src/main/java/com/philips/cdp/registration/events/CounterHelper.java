@@ -48,22 +48,6 @@ public class CounterHelper {
     private ConcurrentHashMap<String, List<CounterListener>> eventMap;
 
     /**
-     * {@code registerEventNotification} method to register event notification
-     *
-     * @param list     list
-     * @param observer observer
-     */
-    public void registerCounterEventNotification(List<String> list, CounterListener observer) {
-        RLog.d(TAG, "registerCounterEventNotification : " + list.toString());
-        if (eventMap != null && observer != null) {
-            for (String event : list) {
-                registerCounterEventNotification(event, observer);
-            }
-        }
-
-    }
-
-    /**
      * {@code registerEventNotification}method to register event notification
      *
      * @param evenName even name

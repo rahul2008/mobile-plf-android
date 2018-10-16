@@ -72,7 +72,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     RegistrationContentConfiguration registrationContentConfiguration;
     private static long RESEND_DISABLED_DURATION = 60 * 1000;
     private static final long INTERVAL = 1 * 1000;
-    static public MyCountDownTimer myCountDownTimer;
+    public MyCountDownTimer myCountDownTimer;
 
     private int titleResourceID = -99;
 
