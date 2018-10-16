@@ -76,12 +76,6 @@ public class SavingMonitorTest {
         verify(savingMock).saveMoment(moment, dbRequestListener);
     }
 
-    private <T extends Event> T captureEvent(Class<T> clazz, final Eventing eventingMock, final int wantedNumberOfInvocations) throws SQLException {
-        final ArgumentCaptor<T> captor = ArgumentCaptor.forClass(clazz);
-        verify(eventingMock, times(wantedNumberOfInvocations)).post(captor.capture());
-        return captor.getAllValues().get(wantedNumberOfInvocations - 1);
-    }
-
     @Test
     public void Test_MomentsSaveRequest() throws Exception {
         List list = new ArrayList();
