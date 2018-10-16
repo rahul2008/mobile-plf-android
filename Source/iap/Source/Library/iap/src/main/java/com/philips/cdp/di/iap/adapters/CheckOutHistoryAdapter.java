@@ -188,10 +188,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                         shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
-                    shoppingCartFooter.mDeliveryVia.setText("Delivery via Standard Ground");
-                    shoppingCartFooter.mDeliveryTitle.setText("Delivery via Standard Ground");
-                    shoppingCartFooter.mDeliveryPrice.setText("$0.00");
-                    shoppingCartFooter.mDeliveryUpsVal.setText("$0.00");
+
                     shoppingCartFooter.mDeliveryDescriprion.setText(deliveryModeDescription);
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
@@ -361,6 +358,8 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mBillingName = (TextView) itemView.findViewById(R.id.tv_billing_name);
             mBillingAddress = (TextView) itemView.findViewById(R.id.tv_billing_address);
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
+            mDeliveryUPSParcelContainer = (RelativeLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
+
 
         }
     }
