@@ -59,6 +59,16 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
+    /**
+     * Instantiates a new Expander.
+     *
+     * @param context the context
+     */
+    public Expander(@NonNull final Context context) {
+        this(context, null);
+
+    }
+
 
     private void initializeViews(Context context, AttributeSet attrs) {
         LayoutInflater inflater = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context));
@@ -72,21 +82,12 @@ public class Expander extends LinearLayout implements View.OnClickListener {
 
         setLayout(R.layout.uid_expander_title_layout_default, ExpanderViewTitle); // set default expander panel title
         ExpanderViewTitleDefaultLabel = (Label) expanderLayout.findViewById(R.id.uid_expander_title_text);
-        ExpanderViewTitleDefaultIcon = (Label) expanderLayout.findViewById(R.id.uid_expander_title_image);
+        ExpanderViewTitleDefaultIcon = (Label) expanderLayout.findViewById(R.id.uid_expander_title_icon);
         chevronLabel = (Label) expanderLayout.findViewById(R.id.uid_expander_title_chevron);
 
     }
 
 
-    /**
-     * Instantiates a new Expander.
-     *
-     * @param context the context
-     */
-    public Expander(@NonNull final Context context) {
-        this(context, null);
-
-    }
 
 
 
