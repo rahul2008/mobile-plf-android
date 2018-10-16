@@ -1,6 +1,8 @@
 package com.philips.platform.core.trackers;
 
 
+import android.support.annotation.NonNull;
+
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.events.InsightsSaveRequest;
 import com.philips.platform.verticals.VerticalCreater;
@@ -10,7 +12,9 @@ import com.philips.spy.InsightDBRequestListenerMock;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -32,16 +36,15 @@ public class DataServicesManagerInsightsTest {
     @Test
     public void saveEmptyListOfInsightsPostsEventOnBus() {
         manager.saveInsights(Collections.emptyList(), dbListener);
-
         assertEquals(InsightsSaveRequest.class, eventing.postedEvent.getClass());
         assertEquals(Collections.emptyList(), getPostInsightsSaveRequest().getInsights());
     }
 
     @Test
     public void saveListOfInsightsPostsEventOnBus() {
-        Insight insight = manager.createInsight("INSIGHT_TYPE");
-        manager.saveInsights(Collections.singletonList(insight), dbListener);
-        assertEquals(Collections.singletonList(insight), getPostInsightsSaveRequest().getInsights());
+        final List<Insight> insightsToSave = createListOfInsights();
+        manager.saveInsights(insightsToSave, dbListener);
+        assertEquals(insightsToSave, getPostInsightsSaveRequest().getInsights());
     }
 
     @Test
@@ -49,6 +52,13 @@ public class DataServicesManagerInsightsTest {
         Insight insight = manager.createInsight("INSIGHT_TYPE");
         manager.saveInsights(Collections.singletonList(insight), dbListener);
         assertEquals(dbListener, getPostInsightsSaveRequest().getDbListener());
+    }
+
+    @NonNull
+    private List<Insight> createListOfInsights() {
+        Insight insight = manager.createInsight("INSIGHT_TYPE");
+        Insight anotherInsight = manager.createInsight("INSIGHT_TYPE");
+        return Arrays.asList(insight, anotherInsight);
     }
 
     private InsightsSaveRequest getPostInsightsSaveRequest() {
