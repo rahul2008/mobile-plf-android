@@ -18,7 +18,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -75,10 +74,9 @@ public class SavingMonitorTest {
 
     @Test
     public void Test_MomentsSaveRequest() throws Exception {
-        List list = new ArrayList();
-        list.add(moment);
-        savingMonitor.onEventBackGround(new MomentsSaveRequest(list, dbRequestListener));
-        verify(savingMock).saveMoments(list, dbRequestListener);
+        List<Moment> moments = Collections.singletonList(moment);
+        savingMonitor.onEventBackGround(new MomentsSaveRequest(moments, dbRequestListener));
+        verify(savingMock).saveMoments(moments, dbRequestListener);
     }
 
     @Test
@@ -102,9 +100,8 @@ public class SavingMonitorTest {
 
     @Test
     public void Test_UserCharacteristicsSaveRequest() throws Exception {
-        List list = new ArrayList();
-        list.add(characteristicsMock);
-        savingMonitor.onEventBackGround(new UserCharacteristicsSaveRequest(list, dbRequestListener));
-        verify(savingMock).saveUserCharacteristics(list, dbRequestListener);
+        List<Characteristics> characteristics = Collections.singletonList(characteristicsMock);
+        savingMonitor.onEventBackGround(new UserCharacteristicsSaveRequest(characteristics, dbRequestListener));
+        verify(savingMock).saveUserCharacteristics(characteristics, dbRequestListener);
     }
 }
