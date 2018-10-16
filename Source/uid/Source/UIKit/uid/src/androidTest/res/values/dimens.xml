@@ -183,4 +183,7 @@
     <!--Bottom Tab Bar-->
     <dimen name="tablayout_height">56dp</dimen>
 
+    <dimen name="uid_searchbox_layout_margin">8dp</dimen>
+
+
 </resources>

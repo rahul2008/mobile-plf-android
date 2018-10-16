@@ -22,6 +22,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.BackgroundOutlineProvider;
 import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
@@ -33,6 +34,7 @@ public class Button extends AppCompatButton {
     private int drawableHeight;
     private boolean isCenterLayoutRequested, isLeftLayoutRequested;
     private Rect compoundRect = new Rect();
+    boolean isAccent;
 
     public Button(@NonNull Context context) {
         this(context, null);
@@ -50,6 +52,12 @@ public class Button extends AppCompatButton {
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDButton, defStyleAttr, R.style.UIDDefaultButton);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+
+        final TypedArray accentArray = context.obtainStyledAttributes(attrs, R.styleable.UIDAccentType);
+        if(accentArray != null) {
+            isAccent = accentArray.getBoolean(0, false);
+            accentArray.recycle();
+        }
 
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
@@ -124,6 +132,10 @@ public class Button extends AppCompatButton {
         final Drawable[] compoundDrawables = getCompoundDrawables();
         setCompoundDrawablesRelative(wrappedDrawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
         invalidate();
+    }
+
+    public boolean isAccentButton(){
+        return isAccent;
     }
 
     @Override

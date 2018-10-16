@@ -442,47 +442,50 @@
                     app:uidProgressIndicatorButtonProgressText="@string/buttons_loading"
                     app:uidProgressIndicatorButtonText="@string/buttons_press_me"/>
 
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel"
-                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+
+
+            </LinearLayout>
+
+            <!--Circular buttons-->
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/buttons_circular"/>
+
+            <LinearLayout
+                android:id="@+id/groupCircularButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin_left_right"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/circularImageButtonLarge"
+                    style="@style/UIDCircularButtonLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/button_label_margin_bottom"
-                    android:layout_marginTop="@dimen/layout_margin_top"
-                    android:text="buttons_circular_small"/>
-
+                    app:uidAccent="true"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/dls_message"
+                    app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"
+                    />
 
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/circularImageButtonSmall"
-                    style="@style/UIDCircularButtonSmall"
+                    style="@style/UIDCircularButtonRegular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:uidAccent="true"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
                     android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/dls_message"
                     app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
 
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel"
-                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/button_label_margin_bottom"
-                    android:layout_marginTop="@dimen/layout_margin_top"
-                    android:text="buttons_circular_big"/>
-
-
-                <com.philips.platform.uid.view.widget.Button
-                    android:id="@+id/circularImageButtonBig"
-                    style="@style/UIDCircularButtonBig"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/layout_margin_left_right"
-                    android:layout_marginStart="@dimen/layout_margin_left_right"
-                    android:enabled="@{frag.isButtonsEnabled}"
-
-                    app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"
-                    />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

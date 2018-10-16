@@ -25,6 +25,7 @@
     <string name="data_validation">Data Validation</string>
     <string name="buttons">Buttons</string>
     <string name="buttons_icon_only">Icon only buttons</string>
+    <string name="buttons_circular">Circular buttons</string>
     <string name="buttons_text_left_aligned_category">Text left-aligned button</string>
     <string name="buttons_text_left_aligned">Text left aligned</string>
     <string name="buttons_text_primary">Primary button</string>

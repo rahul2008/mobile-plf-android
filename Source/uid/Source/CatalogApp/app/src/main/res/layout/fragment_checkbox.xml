@@ -105,13 +105,14 @@
 
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/circularImageButtonSmall"
-                    style="@style/UIDCircularButtonSmall"
+                    style="@style/UIDCircularButtonRegular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
+                    app:uidAccent="true"
+                    android:text="@string/dls_message"/>
 
-                    app:uidImageButtonDrawableSrc="@drawable/uid_ic_cross_icon"/>
 
                 <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabel"
@@ -125,15 +126,16 @@
 
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/circularButtonBig"
-                    style="@style/UIDCircularButtonBig"
+                    style="@style/UIDCircularButtonLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
+                    app:uidAccent="true"
                     android:text="@string/dls_message"
-
-
                     />
+
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
