@@ -97,14 +97,14 @@
                     android:textSize="@dimen/iap_text_size_16sp" />
             </LinearLayout>
 
-            <!-- <com.philips.platform.uid.view.widget.Label
+             <com.philips.platform.uid.view.widget.Label
                  android:id="@+id/right_arrow"
                  style="@style/iap_right_arrow_product_catalog"
                  android:layout_width="15dip"
                  android:layout_height="15dip"
                  android:layout_alignParentRight="true"
                  android:layout_centerInParent="true"
-                 android:gravity="center_vertical"/>-->
+                 android:gravity="center_vertical"/>
         </RelativeLayout>
 
         <com.philips.platform.uid.view.widget.Label
