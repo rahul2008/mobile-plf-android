@@ -102,7 +102,7 @@ public class ExpanderFragmentOne extends  BaseFragment{
         Log.v("isExpand",""+expanderTwo.isExpanded());
         expanderTwo.expand(true);
         Log.v("isExpand",""+expanderTwo.isExpanded());
-        expanderTwo.getTitleLabel().setText("customise Expander content new");
+        //expanderTwo.getTitleLabel().setText("customise Expander content new");
 
 
 
@@ -110,7 +110,7 @@ public class ExpanderFragmentOne extends  BaseFragment{
                 getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         rl.addView(1, layoutInflater.inflate(R.layout.fragment_expander_content_default_layout, this, false) );*/
         expanderThree.setExpanderTitle("title with empty content");
-        expanderThree.getTitleLabel().setText("itle with empty content (new)");
+        expanderThree.getTitleLabel().setText("title with empty content (new)");
 
 
 
@@ -136,7 +136,7 @@ public class ExpanderFragmentOne extends  BaseFragment{
         expanderFour.setExpanderContentView(label1);
         expanderFour.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
         expanderFour.setExpanderContentView(label1);
-        expanderFour.getTitleLabel().setText("customise Expander title new");
+//        expanderFour.getTitleLabel().setText("customise Expander title new");
 
     }
 }

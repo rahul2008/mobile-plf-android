@@ -197,7 +197,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     public Label getTitleLabel() {
         Label label = null;
         if (isDefaultPanel() && null != ExpanderViewTitleDefaultLabel) {
-            return ExpanderViewTitleDefaultLabel;
+            label = ExpanderViewTitleDefaultLabel;
         }
         return label;
     }
