@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InsightFragment extends DSBaseFragment
-        implements DBRequestListener<Insight>, DBFetchRequestListner<Insight>, DBChangeListener {
+        implements View.OnClickListener, DBRequestListener<Insight>, DBFetchRequestListner<Insight>, DBChangeListener {
 
     private ArrayList<? extends Insight> mInsightList = new ArrayList<>();
 
@@ -79,12 +79,25 @@ public class InsightFragment extends DSBaseFragment
                 }
             }
         });
+
+        final View addButton = view.findViewById(R.id.add_button);
+        addButton.setOnClickListener(this);
+
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onClick(final View v) {
+        int clickedView = v.getId();
+        if (clickedView == R.id.floatingAddButton) {
+            System.out.println("whoohoo it got clicked!");
+        }
+
     }
 
     @Override
