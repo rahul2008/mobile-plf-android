@@ -13,13 +13,11 @@ buildscript {
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url repos.snapshot
+        maven { url repos.snapshot
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
-//            maven {url "https://clojars.org/repo/"}
         }
     }
     dependencies {
@@ -36,20 +34,17 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url repos.plugin
+        maven { url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url repos.snapshot
+        maven { url repos.snapshot
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
-//            maven {url "https://clojars.org/repo/"}
         }
     }
 }

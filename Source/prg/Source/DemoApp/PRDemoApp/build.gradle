@@ -24,18 +24,10 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url repos.release
-        }
-        maven {
-            url repos.stage
-        }
-        maven {
-            url repos.snapshot
-        }
-        maven {
-            url repos.sonatype
-        }
+        maven { url repos.release }
+        maven { url repos.stage }
+        maven { url repos.snapshot }
+        maven { url repos.sonatype }
     }
 }
 
