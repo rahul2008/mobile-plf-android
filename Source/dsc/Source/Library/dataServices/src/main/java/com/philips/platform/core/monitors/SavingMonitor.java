@@ -31,13 +31,15 @@ public class SavingMonitor extends EventMonitor {
     @NonNull
     private final DBDeletingInterface dbDeletingInterface;
 
-    @NonNull
-    private final DBUpdatingInterface dbUpdatingInterface;
-
+    @Deprecated
     public SavingMonitor(@NonNull DBSavingInterface dbInterface, @NonNull DBDeletingInterface dbDeletingInterface, @NonNull DBUpdatingInterface dbUpdatingInterface) {
         this.dbInterface = dbInterface;
         this.dbDeletingInterface = dbDeletingInterface;
-        this.dbUpdatingInterface = dbUpdatingInterface;
+    }
+
+    public SavingMonitor(@NonNull DBSavingInterface dbInterface, @NonNull DBDeletingInterface dbDeletingInterface) {
+        this.dbInterface = dbInterface;
+        this.dbDeletingInterface = dbDeletingInterface;
     }
 
     //Moments

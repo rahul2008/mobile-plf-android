@@ -6,7 +6,6 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
-import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.InsightsSaveRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
@@ -38,9 +37,6 @@ public class SavingMonitorTest {
     private DBSavingInterface savingMock;
 
     @Mock
-    private DBUpdatingInterface updatingMock;
-
-    @Mock
     private DBDeletingInterface deletingMock;
 
     @Mock
@@ -60,7 +56,7 @@ public class SavingMonitorTest {
     @Before
     public void setUp() {
         initMocks(this);
-        savingMonitor = new SavingMonitor(savingMock, deletingMock, updatingMock);
+        savingMonitor = new SavingMonitor(savingMock, deletingMock);
         savingMonitor.start(eventingMock);
     }
 
