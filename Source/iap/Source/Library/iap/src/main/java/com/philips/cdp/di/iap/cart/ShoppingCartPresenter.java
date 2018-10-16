@@ -58,7 +58,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     private CartsEntity mCurrentCartData = null;
     private AddressController mAddressController;
-    private final String  PROMOTION = "US-freeshipping";
+    private final static String  PROMOTION = "US-freeshipping";
 
     public ShoppingCartPresenter() {
     }
