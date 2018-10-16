@@ -8,7 +8,7 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
-import com.philips.platform.core.events.Event;
+import com.philips.platform.core.events.InsightsSaveRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentsSaveRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
@@ -16,15 +16,16 @@ import com.philips.platform.core.listeners.DBRequestListener;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -73,7 +74,7 @@ public class SavingMonitorTest {
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails() throws Exception {
         savingMonitor.onEventBackGround(new MomentSaveRequest(moment, dbRequestListener));
         doThrow(SQLException.class).when(savingMock).saveMoment(moment, dbRequestListener);
-        verify(savingMock).saveMoment(moment, dbRequestListener);
+        verify(savingMock).postError(any(Exception.class), eq(dbRequestListener));
     }
 
     @Test
@@ -83,6 +84,20 @@ public class SavingMonitorTest {
         savingMonitor.onEventBackGround(new MomentsSaveRequest(list, dbRequestListener));
         verify(savingMock).saveMoments(list, dbRequestListener);
     }
+
+    @Test
+    public void InsightsSaveRequestForwardedToSavingInterface() throws SQLException {
+        savingMonitor.onEventBackGround(new InsightsSaveRequest(Collections.emptyList(), dbRequestListener));
+        verify(savingMock).saveInsights(Collections.emptyList(), dbRequestListener);
+    }
+
+    @Test
+    public void InsightsSaveRequest_WhenSqlInsertionFails_ThenErrorIsPosted() throws SQLException {
+        savingMonitor.onEventBackGround(new InsightsSaveRequest(Collections.emptyList(), dbRequestListener));
+        doThrow(SQLException.class).when(savingMock).saveInsights(Collections.emptyList(), dbRequestListener);
+        verify(savingMock).postError(any(Exception.class), eq(dbRequestListener));
+    }
+
     @Test
     public void Test_DatabaseSettingsSaveRequest() throws Exception {
         savingMonitor.onEventBackGround(new DatabaseSettingsSaveRequest(settingsMock, dbRequestListener));

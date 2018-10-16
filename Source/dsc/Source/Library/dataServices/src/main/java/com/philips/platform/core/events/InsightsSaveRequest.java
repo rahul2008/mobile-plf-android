@@ -18,7 +18,7 @@ public class InsightsSaveRequest extends Event {
         return insights;
     }
 
-    public DBRequestListener<Insight> getDbListener() {
+    public DBRequestListener<Insight> getDbRequestListener() {
         return dbListener;
     }
 }

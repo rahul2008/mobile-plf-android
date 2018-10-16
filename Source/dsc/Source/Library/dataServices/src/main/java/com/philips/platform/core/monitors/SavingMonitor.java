@@ -13,6 +13,7 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
+import com.philips.platform.core.events.InsightsSaveRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentsSaveRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
@@ -59,6 +60,15 @@ public class SavingMonitor extends EventMonitor {
             dbInterface.postError(new Exception("Failed to insert"), momentSaveRequest.getDbRequestListener());
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(final InsightsSaveRequest insightsSaveRequest) throws SQLException {
+        final boolean savedSuccesfully = dbInterface.saveInsights(insightsSaveRequest.getInsights(), insightsSaveRequest.getDbRequestListener());
+        if (!savedSuccesfully) {
+            dbInterface.postError(new Exception("Failed to insert"), insightsSaveRequest.getDbRequestListener());
+        }
+    }
+
     //Settings
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final DatabaseSettingsSaveRequest databaseSettingsSaveRequest) throws SQLException {
@@ -66,8 +76,8 @@ public class SavingMonitor extends EventMonitor {
         dbInterface.saveSyncBit(SyncType.SETTINGS, true);
         dbInterface.saveSettings(databaseSettingsSaveRequest.getSettings(), databaseSettingsSaveRequest.getDbRequestListener());
     }
-
     //Characteristics
+
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final UserCharacteristicsSaveRequest userCharacteristicsSaveRequest) throws SQLException {
         if (userCharacteristicsSaveRequest.getUserCharacteristicsList() == null)
@@ -84,6 +94,4 @@ public class SavingMonitor extends EventMonitor {
         eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE,
                 userCharacteristicsSaveRequest.getUserCharacteristicsList()));
     }
-
-
 }

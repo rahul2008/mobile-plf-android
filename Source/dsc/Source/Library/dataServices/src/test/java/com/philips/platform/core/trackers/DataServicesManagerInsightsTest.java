@@ -51,7 +51,7 @@ public class DataServicesManagerInsightsTest {
     public void saveListOfInsightsPostsEventContainingDbListener() {
         Insight insight = manager.createInsight("INSIGHT_TYPE");
         manager.saveInsights(Collections.singletonList(insight), dbListener);
-        assertEquals(dbListener, getPostInsightsSaveRequest().getDbListener());
+        assertEquals(dbListener, getPostInsightsSaveRequest().getDbRequestListener());
     }
 
     @NonNull
