@@ -25,6 +25,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -135,16 +136,6 @@ public class CapabilityFirmwareUpdateDiCommTest {
     @Test
     public void whenCreatedThenPortListenerIsRegistered() {
         verify(diCommPortMock).setListener(listenerArgumentCaptor.capture());
-    }
-
-    @Test
-    public void whenCreatedAndPortIsAvailableThenStateIsUpdated() {
-        when(diCommPortMock.isAvailable()).thenReturn(true);
-        when(diCommPortMock.getState()).thenReturn(State.Downloading);
-
-        CapabilityFirmwareUpdateDiComm capabilityFirmwareUpdateDiComm = new CapabilityFirmwareUpdateDiCommForTest(diCommPortMock, null);
-
-        assertEquals(SHNFirmwareUpdateStateUploading, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
@@ -560,27 +551,6 @@ public class CapabilityFirmwareUpdateDiCommTest {
     }
 
     @Test
-    public void whenPortBecomesAvailableWithPreparingStateThenStateIsUpdated() {
-        whenCreatedThenPortListenerIsRegistered();
-        when(diCommPortMock.getState()).thenReturn(State.Preparing);
-
-        listenerArgumentCaptor.getValue().onPortAvailable(diCommPortMock);
-
-        verify(shnCapabilityFirmwareUpdateListenerMock).onStateChanged(capabilityFirmwareUpdateDiComm);
-    }
-
-    @Test
-    public void whenPortBecomesAvailableAgainThenStateIsNotUpdated() {
-        whenCreatedThenPortListenerIsRegistered();
-        when(diCommPortMock.getState()).thenReturn(State.Preparing);
-
-        listenerArgumentCaptor.getValue().onPortAvailable(diCommPortMock);
-        listenerArgumentCaptor.getValue().onPortAvailable(diCommPortMock);
-
-        verify(shnCapabilityFirmwareUpdateListenerMock).onStateChanged(capabilityFirmwareUpdateDiComm);
-    }
-
-    @Test
     public void givenCapabilityInNonIdleState_whenPortBecomesUnavailable_thenStateBecomesIdle() {
         whenCreatedThenPortListenerIsRegistered();
         capabilityFirmwareUpdateDiComm.overrideState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateUploading);
@@ -802,11 +772,14 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
     @Test
     public void whenInStateDeployingStateSwitchesToErrorThenDeployIsFailed() {
+        whenUploadIsCalledAndPortIsIdleThenCapabilityIsSubscribedToThePort();
+        reset(shnCapabilityFirmwareUpdateListenerMock);
         whenPortIsReadyAndDeployFirmwareIsCalledThenStateIsDeploying();
 
         listenerArgumentCaptor.getValue().onPortUnavailable(diCommPortMock);
         when(diCommPortMock.getState()).thenReturn(State.Error);
         listenerArgumentCaptor.getValue().onPortAvailable(diCommPortMock);
+        updateListenerCaptor.getValue().onPropertiesChanged(Collections.emptyMap());
 
         verify(shnCapabilityFirmwareUpdateListenerMock).onDeployFailed(capabilityFirmwareUpdateDiComm, SHNErrorInvalidState);
         verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), any());

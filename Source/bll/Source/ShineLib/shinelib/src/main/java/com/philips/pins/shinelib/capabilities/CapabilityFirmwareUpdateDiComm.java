@@ -44,19 +44,13 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
     private SHNCapabilityFirmwareUpdateListener shnCapabilityFirmwareUpdateListener;
     private byte[] firmwareData;
 
-    private DiCommPort.UpdateListener propertiesListener = new DiCommPort.UpdateListener() {
-
-        @Override
-        public void onPropertiesChanged(@NonNull Map<String, Object> properties) {
-            updateState();
-        }
-    };
+    private DiCommPort.UpdateListener propertiesListener = properties -> updateState();
 
     private DiCommPort.Listener portAvailabilityListener = new DiCommPort.Listener() {
 
         @Override
         public void onPortAvailable(DiCommPort diCommPort) {
-            updateState();
+
         }
 
         @Override
@@ -72,10 +66,6 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         this.diCommFirmwarePortStateWaiter = createDiCommFirmwarePortStateWaiter(diCommPort, internalHandler);
 
         this.firmwareDiCommPort.setListener(portAvailabilityListener);
-
-        if (this.firmwareDiCommPort.isAvailable()) {
-            portAvailabilityListener.onPortAvailable(firmwareDiCommPort);
-        }
     }
 
     @Override
@@ -95,10 +85,13 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
                 firmwareDiCommPort.reloadProperties((properties, result) -> {
                     if (result == SHNResult.SHNOk) {
                         if (getStateFromProps(properties) == State.Idle) {
+                            // Pristine start
                             prepareForUpload();
                         } else if (getStateFromProps(properties) == State.Downloading && shouldResume) {
+                            // Resume
                             startUploadAt(getProgressFromProps(properties));
                         } else {
+                            // Remote state invalid
                             resetFirmwarePortToIdle(getStateFromProps(properties));
                         }
                     } else {
