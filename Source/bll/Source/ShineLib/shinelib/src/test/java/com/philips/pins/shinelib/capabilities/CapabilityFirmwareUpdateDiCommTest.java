@@ -17,6 +17,7 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate.SHNFir
 import com.philips.pins.shinelib.dicommsupport.DiCommPort;
 import com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -27,7 +28,10 @@ import org.mockito.Mock;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.*;
+import static com.philips.pins.shinelib.SHNResult.SHNErrorInvalidState;
+import static com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateDeploying;
+import static com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle;
+import static com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateUploading;
 import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.State;
 import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.getMaxChunkSize;
 import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.getStateFromProps;
@@ -106,6 +110,11 @@ public class CapabilityFirmwareUpdateDiCommTest {
         capabilityFirmwareUpdateDiComm = new CapabilityFirmwareUpdateDiCommForTest(diCommPortMock, null);
 
         capabilityFirmwareUpdateDiComm.setSHNCapabilityFirmwareUpdateListener(shnCapabilityFirmwareUpdateListenerMock);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        latestReceivedProperties.clear();
     }
 
     @Test
@@ -236,7 +245,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
 
-        verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorConnectionLost, capabilityFirmwareUpdateDiComm.getState());
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorConnectionLost, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
@@ -245,19 +254,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         respondWith(State.Programming);
 
-        verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorProcedureAlreadyInProgress, capabilityFirmwareUpdateDiComm.getState());
-    }
-
-    @Test
-    public void givenUploadIsCalledWithResumeAsTrue_whenStateIsUploading_thenUploadIsResumed() {
-        capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, true);
-        assertEquals(SHNFirmwareUpdateStateUploading, capabilityFirmwareUpdateDiComm.getState());
-
-        capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, true);
-        verify(diCommPortMock, atLeastOnce()).reloadProperties(mapResultListenerArgumentCaptor.capture());
-        respondWith(State.Downloading, 3);
-
-        verify(shnCapabilityFirmwareUpdateListenerMock).onProgressUpdate(capabilityFirmwareUpdateDiComm, 0.3f);
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorProcedureAlreadyInProgress, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
@@ -275,9 +272,9 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void givenPortIsInErrorStateWhileUploadIsStarted_whenSettingItToIdleFails_thenUploadFails() {
         whenUploadIsCalledAndPortIsErrorThenIdleIsSent();
 
-        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNErrorInvalidState);
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNErrorInvalidState);
 
-        verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorInvalidState, SHNFirmwareUpdateStateIdle);
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNErrorInvalidState, SHNFirmwareUpdateStateIdle);
     }
 
     @Test
@@ -316,9 +313,9 @@ public class CapabilityFirmwareUpdateDiCommTest {
         whenUploadIsCalledAndPortIsReadyThenCancelIsSent();
         reset(shnCapabilityFirmwareUpdateListenerMock);
 
-        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNErrorInvalidState);
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNErrorInvalidState);
 
-        verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorInvalidState, SHNFirmwareUpdateStateIdle);
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNErrorInvalidState, SHNFirmwareUpdateStateIdle);
     }
 
     @Test
@@ -347,7 +344,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
 
-        verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorConnectionLost, SHNFirmwareUpdateStateIdle);
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorConnectionLost, SHNFirmwareUpdateStateIdle);
     }
 
     @Test
@@ -376,7 +373,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         reset(shnCapabilityFirmwareUpdateListenerMock);
         shnResultListenerCaptor.getValue().onActionCompleted(SHNResult.SHNErrorConnectionLost);
 
-        verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorConnectionLost, capabilityFirmwareUpdateDiComm.getState());
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorConnectionLost, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
@@ -423,9 +420,9 @@ public class CapabilityFirmwareUpdateDiCommTest {
         whenSubscriptionIsSuccessfulThenStartsWaitingForDownloading();
         reset(shnCapabilityFirmwareUpdateListenerMock);
 
-        waiterListenerArgumentCaptor.getValue().onStateUpdated(State.Error, SHNResult.SHNErrorInvalidState);
+        waiterListenerArgumentCaptor.getValue().onStateUpdated(State.Error, SHNErrorInvalidState);
 
-        verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorInvalidState, capabilityFirmwareUpdateDiComm.getState());
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNErrorInvalidState, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
@@ -436,7 +433,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         when(diCommPortMock.getMaxChunkSize()).thenReturn(Integer.MAX_VALUE);
         waiterListenerArgumentCaptor.getValue().onStateUpdated(State.Downloading, SHNResult.SHNOk);
 
-        verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorInvalidParameter, capabilityFirmwareUpdateDiComm.getState());
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorInvalidParameter, capabilityFirmwareUpdateDiComm.getState());
     }
 
     private void sendChunk(Object progress, SHNResult result) {
@@ -473,7 +470,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         sendChunk(TEST_MAX_CHUNK_SIZE, SHNResult.SHNErrorConnectionLost);
 
-        verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorConnectionLost, capabilityFirmwareUpdateDiComm.getState());
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorConnectionLost, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
@@ -511,7 +508,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         properties.put(STATE, DOWNLOADING);
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
 
-        verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorInvalidParameter, capabilityFirmwareUpdateDiComm.getState());
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorInvalidParameter, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
@@ -565,7 +562,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         waiterListenerArgumentCaptor.getValue().onStateUpdated(State.Error, SHNResult.SHNErrorConnectionLost);
 
-        verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorConnectionLost, capabilityFirmwareUpdateDiComm.getState());
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult.SHNErrorConnectionLost, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
@@ -814,7 +811,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         when(diCommPortMock.getState()).thenReturn(State.Error);
         updateListenerCaptor.getValue().onPropertiesChanged(new HashMap<String, Object>());
 
-        verify(shnCapabilityFirmwareUpdateListenerMock).onUploadFailed(capabilityFirmwareUpdateDiComm, SHNResult.SHNErrorInvalidState);
+        verify(shnCapabilityFirmwareUpdateListenerMock).onUploadFailed(capabilityFirmwareUpdateDiComm, SHNErrorInvalidState);
         verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), (SHNResultListener) any());
         verify(diCommFirmwarePortStateWaiterMock).cancel();
     }
@@ -827,7 +824,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         when(diCommPortMock.getState()).thenReturn(State.Error);
         listenerArgumentCaptor.getValue().onPortUnavailable(diCommPortMock);
 
-        verify(shnCapabilityFirmwareUpdateListenerMock).onDeployFailed(capabilityFirmwareUpdateDiComm, SHNResult.SHNErrorInvalidState);
+        verify(shnCapabilityFirmwareUpdateListenerMock).onDeployFailed(capabilityFirmwareUpdateDiComm, SHNErrorInvalidState);
         verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), (SHNResultListener) any());
         verify(diCommFirmwarePortStateWaiterMock).cancel();
     }
@@ -843,20 +840,23 @@ public class CapabilityFirmwareUpdateDiCommTest {
     }
 
     @Test
-    public void givenDeviceInIdleState_whenNotResumingUpload_thenUploadStartsFromZero() {
-        when(diCommPortMock.getState()).thenReturn(State.Idle);
-
-        capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, false);
-    }
-
-    @Test
-    public void givenDeviceInDownloadingState_whenUploadOfZeroLengthChunkIsDetected_thenUploadFailedIsReported() throws Exception {
+    public void givenDeviceInDownloadingState_whenItReportsProgressWhichIsTooLarge_thenUploadFailedIsReported() throws Exception {
         capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, true);
         verify(diCommPortMock).reloadProperties(mapResultListenerArgumentCaptor.capture());
 
-        respondWith(State.Downloading, firmwareData.length);
+        respondWith(State.Downloading, firmwareData.length + 1);
 
-        verifyChunkWritten(firmwareData.length - 1);
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNErrorInvalidState, capabilityFirmwareUpdateDiComm.getState());
+    }
+
+    @Test
+    public void givenDeviceInDownloadingState_whenItReportsProgressWhichIsNegative_thenUploadFailedIsReported() throws Exception {
+        capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, true);
+        verify(diCommPortMock).reloadProperties(mapResultListenerArgumentCaptor.capture());
+
+        respondWith(State.Downloading, -1);
+
+        verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNErrorInvalidState, capabilityFirmwareUpdateDiComm.getState());
     }
 
     private class CapabilityFirmwareUpdateDiCommForTest extends CapabilityFirmwareUpdateDiComm {
@@ -888,8 +888,8 @@ public class CapabilityFirmwareUpdateDiCommTest {
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(latestReceivedProperties, SHNResult.SHNOk);
     }
 
-    private void verifyUploadFailedGotReportedAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult shnErrorInvalidParameter, SHNFirmwareUpdateState state) {
-        verify(shnCapabilityFirmwareUpdateListenerMock).onUploadFailed(capabilityFirmwareUpdateDiComm, shnErrorInvalidParameter);
+    private void verifyUploadFailedGotReportedWithCorrectErrorAndStateBecameIdleAndStateChangeGotReportedAndUnsubscribeWasCalled(SHNResult error, SHNFirmwareUpdateState state) {
+        verify(shnCapabilityFirmwareUpdateListenerMock).onUploadFailed(capabilityFirmwareUpdateDiComm, error);
         verify(shnCapabilityFirmwareUpdateListenerMock, atLeastOnce()).onStateChanged(capabilityFirmwareUpdateDiComm);
         assertThat(state).isEqualTo(SHNFirmwareUpdateStateIdle);
         verify(diCommPortMock).unsubscribe(any(), any());
@@ -902,7 +902,6 @@ public class CapabilityFirmwareUpdateDiCommTest {
         byte[] chunk = (byte[]) mapArgumentCaptor.getValue().get(DATA);
         assertEquals(TEST_MAX_CHUNK_SIZE, chunk.length);
 
-        //todo improve
         assertEquals(firmwareData[progress], chunk[0]);
         assertEquals(firmwareData[progress + 1], chunk[1]);
         assertEquals(firmwareData[progress + 2], chunk[2]);

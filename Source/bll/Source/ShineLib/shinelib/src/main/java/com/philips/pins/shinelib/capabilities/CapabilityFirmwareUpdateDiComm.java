@@ -82,7 +82,7 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
 
     @Override
     public void uploadFirmware(final byte[] firmwareData, final boolean shouldResume) {
-        if (state == SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle || state == SHNFirmwareUpdateState.SHNFirmwareUpdateStateUploading) {
+        if (state == SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle) {
             if (firmwareData == null || firmwareData.length == 0) {
                 notifyUploadFailed(SHNResult.SHNErrorInvalidParameter);
             } else {
@@ -366,8 +366,12 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
     }
 
     private void uploadNextChunk(int offset, final int maxChunkSize) {
-        updateProgress(offset);
+        if (offset >= firmwareData.length || offset < 0) {
+            failWithResult(SHNResult.SHNErrorInvalidState);
+            return;
+        }
 
+        updateProgress(offset);
         Map<String, Object> properties = new HashMap<>();
         int nextChunkSize = Math.min(maxChunkSize, firmwareData.length - offset);
         properties.put(Key.DATA, Arrays.copyOfRange(firmwareData, offset, offset + nextChunkSize));
