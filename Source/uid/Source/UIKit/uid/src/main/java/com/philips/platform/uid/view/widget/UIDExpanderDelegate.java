@@ -1,8 +1,18 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
+
 package com.philips.platform.uid.view.widget;
 
 /**
- * The interface Uid expander delegate.
+ *  UIDExpanderDelegate is a protocol for DLS Expander.
+ *  This protocol is responsible for giving the callbacks in DLS Expander.
+ *
+ *  - Since: 1805.0.0
  */
+
 public interface UIDExpanderDelegate {
 
     /**

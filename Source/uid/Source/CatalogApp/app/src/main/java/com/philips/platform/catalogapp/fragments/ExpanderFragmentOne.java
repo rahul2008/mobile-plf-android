@@ -79,7 +79,7 @@ public class ExpanderFragmentOne extends  BaseFragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        expanderOne.setExpanderTitle("Short title");
+        //expanderOne.setExpanderTitle("Short title");
         expanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_calendar));
         expanderOne.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
         expanderOne.setExpanderDelegate(mUidExpanderDelegate);
@@ -102,6 +102,7 @@ public class ExpanderFragmentOne extends  BaseFragment{
         Log.v("isExpand",""+expanderTwo.isExpanded());
         expanderTwo.expand(true);
         Log.v("isExpand",""+expanderTwo.isExpanded());
+        expanderTwo.getTitleLabel().setText("customise Expander content new");
 
 
 
@@ -109,12 +110,14 @@ public class ExpanderFragmentOne extends  BaseFragment{
                 getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         rl.addView(1, layoutInflater.inflate(R.layout.fragment_expander_content_default_layout, this, false) );*/
         expanderThree.setExpanderTitle("title with empty content");
+        expanderThree.getTitleLabel().setText("itle with empty content (new)");
+
 
 
 
 
         // expander 4
-        expanderFour.setExpanderTitle("Expander dynamic layout");
+        expanderFour.setExpanderTitle("Expander dynamic layout title");
         RelativeLayout rl = new RelativeLayout(getActivity());
         ViewGroup.LayoutParams lp =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
 
@@ -133,5 +136,7 @@ public class ExpanderFragmentOne extends  BaseFragment{
         expanderFour.setExpanderContentView(label1);
         expanderFour.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
         expanderFour.setExpanderContentView(label1);
+        expanderFour.getTitleLabel().setText("customise Expander title new");
+
     }
 }
