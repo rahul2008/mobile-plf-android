@@ -43,20 +43,16 @@ public class SavingMonitor extends EventMonitor {
     //Moments
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final MomentSaveRequest momentSaveRequest) throws SQLException {
-        boolean saved = dbInterface.saveMoment(momentSaveRequest.getMoment(), momentSaveRequest.getDbRequestListener());
-        if (saved) {
-            //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoments()));
-        } else {
+        boolean savedSuccessfully = dbInterface.saveMoment(momentSaveRequest.getMoment(), momentSaveRequest.getDbRequestListener());
+        if (!savedSuccessfully) {
             dbInterface.postError(new Exception("Failed to insert"), momentSaveRequest.getDbRequestListener());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final MomentsSaveRequest momentSaveRequest) throws SQLException {
-        boolean saved = dbInterface.saveMoments(momentSaveRequest.getMoments(), momentSaveRequest.getDbRequestListener());
-        if (saved) {
-            //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoments()));
-        } else {
+        boolean savedSuccessfully = dbInterface.saveMoments(momentSaveRequest.getMoments(), momentSaveRequest.getDbRequestListener());
+        if (!savedSuccessfully) {
             dbInterface.postError(new Exception("Failed to insert"), momentSaveRequest.getDbRequestListener());
         }
     }
