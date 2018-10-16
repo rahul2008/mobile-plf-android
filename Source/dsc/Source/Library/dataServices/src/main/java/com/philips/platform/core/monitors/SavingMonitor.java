@@ -63,8 +63,8 @@ public class SavingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final InsightsSaveRequest insightsSaveRequest) throws SQLException {
-        final boolean savedSuccesfully = dbInterface.saveInsights(insightsSaveRequest.getInsights(), insightsSaveRequest.getDbRequestListener());
-        if (!savedSuccesfully) {
+        final boolean savedSuccessfully = dbInterface.saveInsights(insightsSaveRequest.getInsights(), insightsSaveRequest.getDbRequestListener());
+        if (!savedSuccessfully) {
             dbInterface.postError(new Exception("Failed to insert"), insightsSaveRequest.getDbRequestListener());
         }
     }
