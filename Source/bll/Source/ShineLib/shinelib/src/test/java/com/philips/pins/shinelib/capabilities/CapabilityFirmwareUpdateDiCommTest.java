@@ -298,7 +298,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     }
 
     @Test
-    public void whenUploadIsCalledAndPortIsReadyThenCancelIsSent() {
+    public void whenUploadIsCalledAndPortIsReadyThenCancelIsSentAndStateWaiterWaitsForError() {
         whenUploadIsCalledWithoutResumeThenCurrentValuesAreFetchedFromDevice();
 
         respondWith(State.Ready);
@@ -306,11 +306,13 @@ public class CapabilityFirmwareUpdateDiCommTest {
         verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
         assertEquals(CANCEL, mapArgumentCaptor.getValue().get(STATE));
+
+        verify(diCommFirmwarePortStateWaiterMock).waitUntilStateIsReached(eq(State.Error), waiterListenerArgumentCaptor.capture());
     }
 
     @Test
     public void whenCancelHasFailedThenUploadHasFailed() {
-        whenUploadIsCalledAndPortIsReadyThenCancelIsSent();
+        whenUploadIsCalledAndPortIsReadyThenCancelIsSentAndStateWaiterWaitsForError();
         reset(shnCapabilityFirmwareUpdateListenerMock);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNErrorInvalidState);
@@ -319,17 +321,8 @@ public class CapabilityFirmwareUpdateDiCommTest {
     }
 
     @Test
-    public void givenUploadIsCalled_whenDeviceIsInReadyState_thenCancelIsSentAndErrorStateIsExpected() {
-        whenUploadIsCalledWithoutResumeThenCurrentValuesAreFetchedFromDevice();
-
-        respondWith(State.Ready);
-
-        verify(diCommFirmwarePortStateWaiterMock).waitUntilStateIsReached(eq(State.Error), waiterListenerArgumentCaptor.capture());
-    }
-
-    @Test
     public void givenErrorStateIsExpectedToBeReached_whenItIsReached_thenIdleIsSent() {
-        givenUploadIsCalled_whenDeviceIsInReadyState_thenCancelIsSentAndErrorStateIsExpected();
+        whenUploadIsCalledAndPortIsReadyThenCancelIsSentAndStateWaiterWaitsForError();
 
         waiterListenerArgumentCaptor.getValue().onStateUpdated(State.Error, SHNResult.SHNOk);
 
@@ -349,7 +342,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
     @Test
     public void givenStateIsReadyAndCancelIsSent_whenAnUnexpectedStateIsReached_thenIdleIsSent() {
-        givenUploadIsCalled_whenDeviceIsInReadyState_thenCancelIsSentAndErrorStateIsExpected();
+        whenUploadIsCalledAndPortIsReadyThenCancelIsSentAndStateWaiterWaitsForError();
 
         waiterListenerArgumentCaptor.getValue().onStateUpdated(State.Downloading, SHNResult.SHNOk);
 
