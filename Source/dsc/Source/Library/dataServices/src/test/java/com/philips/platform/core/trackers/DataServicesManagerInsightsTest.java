@@ -2,10 +2,14 @@ package com.philips.platform.core.trackers;
 
 
 import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.events.InsightsSaveRequest;
 import com.philips.platform.verticals.VerticalCreater;
+import com.philips.spy.EventingMock;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -24,6 +28,12 @@ public class DataServicesManagerInsightsTest {
         assertIsGUID(insight.getGUId());
     }
 
+    @Test
+    public void saveInsightsPostsEventOnBus() {
+        manager.saveInsights(Collections.emptyList());
+        assertEquals(InsightsSaveRequest.class, eventing.postedEvent.getClass());
+    }
+
     private void assertIsGUID(String guid) {
         boolean isValidGUID = guid.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
         assertTrue("Not a valid GUID", isValidGUID);
@@ -33,8 +43,10 @@ public class DataServicesManagerInsightsTest {
     public void setUp() throws Exception {
         manager = DataServicesManager.getInstance();
         manager.dataCreator = new VerticalCreater();
+        eventing = new EventingMock();
+        manager.mEventing = eventing;
     }
 
     private DataServicesManager manager;
-
+    private EventingMock eventing;
 }

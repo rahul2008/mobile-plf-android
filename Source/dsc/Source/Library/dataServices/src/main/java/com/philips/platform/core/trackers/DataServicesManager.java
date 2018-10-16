@@ -49,6 +49,7 @@ import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
+import com.philips.platform.core.events.InsightsSaveRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
 import com.philips.platform.core.events.LoadMomentsByDate;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -89,13 +90,11 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
 import org.joda.time.DateTime;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -444,6 +443,10 @@ public class DataServicesManager {
 
     public void deleteAllInsights(DBRequestListener<Insight> dbRequestListener) {
         mEventing.post(new DeleteAllInsights(dbRequestListener));
+    }
+
+    public void saveInsights(@NonNull final List<Insight> insights) {
+        mEventing.post(new InsightsSaveRequest());
     }
 
     public void deleteAll(DBRequestListener dbRequestListener) {
