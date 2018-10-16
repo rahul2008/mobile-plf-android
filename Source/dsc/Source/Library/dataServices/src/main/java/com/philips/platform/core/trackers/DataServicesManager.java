@@ -446,7 +446,7 @@ public class DataServicesManager {
     }
 
     public void saveInsights(List<Insight> insights) {
-        mEventing.post(new InsightsSaveRequest());
+        mEventing.post(new InsightsSaveRequest(insights));
     }
 
     public void deleteAll(DBRequestListener dbRequestListener) {

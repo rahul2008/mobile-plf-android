@@ -2,13 +2,16 @@ package com.philips.platform.core.events;
 
 import com.philips.platform.core.datatypes.Insight;
 
-import java.util.Collections;
 import java.util.List;
 
 public class InsightsSaveRequest extends Event {
-    public List<Insight> insights;
+    private List<Insight> insights;
 
-    public InsightsSaveRequest() {
-        this.insights = Collections.emptyList();
+    public InsightsSaveRequest(final List<Insight> insights) {
+        this.insights = insights;
+    }
+
+    public List<Insight> getInsights() {
+        return insights;
     }
 }

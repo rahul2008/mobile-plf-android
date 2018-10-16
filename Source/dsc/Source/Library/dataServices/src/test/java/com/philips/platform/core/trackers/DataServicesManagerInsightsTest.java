@@ -29,11 +29,18 @@ public class DataServicesManagerInsightsTest {
     }
 
     @Test
-    public void saveInsightsPostsEventOnBus() {
+    public void saveEmptyListOfInsightsPostsEventOnBus() {
         manager.saveInsights(Collections.emptyList());
 
         assertEquals(InsightsSaveRequest.class, eventing.postedEvent.getClass());
-        assertEquals(Collections.emptyList(), getPostInsightsSaveRequest().insights);
+        assertEquals(Collections.emptyList(), getPostInsightsSaveRequest().getInsights());
+    }
+
+    @Test
+    public void saveListOfInsightsPostsEventOnBus() {
+        Insight insight = manager.createInsight("INSIGHT_TYPE");
+        manager.saveInsights(Collections.singletonList(insight));
+        assertEquals(Collections.singletonList(insight), getPostInsightsSaveRequest().getInsights());
     }
 
     private InsightsSaveRequest getPostInsightsSaveRequest() {
