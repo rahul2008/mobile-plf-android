@@ -94,7 +94,7 @@ public class InsightFragment extends DSBaseFragment
     @Override
     public void onClick(final View v) {
         int clickedView = v.getId();
-        if (clickedView == R.id.floatingAddButton) {
+        if (clickedView == R.id.add_button) {
             System.out.println("whoohoo it got clicked!");
         }
 
