@@ -58,11 +58,11 @@ public class WebPaymentFragmentTest {
         SupportFragmentTestUtil.startFragment(webPaymentFragment);
     }
 
-    @Test(expected = NullPointerException.class)
+   /* @Test(expected = NullPointerException.class)
     public void shouldOverrideURL_PAYMENT_SUCCESS_CALLBACK_URL() {
         webPaymentFragment.shouldOverrideUrlLoading(PAYMENT_SUCCESS_CALLBACK_URL + "http://google.com");
         SupportFragmentTestUtil.startFragment(webPaymentFragment);
-    }
+    }*/
 
     @Test(expected = NullPointerException.class)
     public void shouldOverrideURL_PAYMENT_PENDING_CALLBACK_URL() {
