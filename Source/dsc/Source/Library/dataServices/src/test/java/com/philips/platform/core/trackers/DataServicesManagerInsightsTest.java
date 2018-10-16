@@ -5,6 +5,7 @@ import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.events.InsightsSaveRequest;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.spy.EventingMock;
+import com.philips.spy.InsightDBRequestListenerMock;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +31,7 @@ public class DataServicesManagerInsightsTest {
 
     @Test
     public void saveEmptyListOfInsightsPostsEventOnBus() {
-        manager.saveInsights(Collections.emptyList());
+        manager.saveInsights(Collections.emptyList(), dbListener);
 
         assertEquals(InsightsSaveRequest.class, eventing.postedEvent.getClass());
         assertEquals(Collections.emptyList(), getPostInsightsSaveRequest().getInsights());
@@ -39,8 +40,15 @@ public class DataServicesManagerInsightsTest {
     @Test
     public void saveListOfInsightsPostsEventOnBus() {
         Insight insight = manager.createInsight("INSIGHT_TYPE");
-        manager.saveInsights(Collections.singletonList(insight));
+        manager.saveInsights(Collections.singletonList(insight), dbListener);
         assertEquals(Collections.singletonList(insight), getPostInsightsSaveRequest().getInsights());
+    }
+
+    @Test
+    public void saveListOfInsightsPostsEventContainingDbListener() {
+        Insight insight = manager.createInsight("INSIGHT_TYPE");
+        manager.saveInsights(Collections.singletonList(insight), dbListener);
+        assertEquals(dbListener, getPostInsightsSaveRequest().getDbListener());
     }
 
     private InsightsSaveRequest getPostInsightsSaveRequest() {
@@ -58,8 +66,10 @@ public class DataServicesManagerInsightsTest {
         manager.dataCreator = new VerticalCreater();
         eventing = new EventingMock();
         manager.mEventing = eventing;
+        dbListener = new InsightDBRequestListenerMock();
     }
 
     private DataServicesManager manager;
     private EventingMock eventing;
+    private InsightDBRequestListenerMock dbListener;
 }
