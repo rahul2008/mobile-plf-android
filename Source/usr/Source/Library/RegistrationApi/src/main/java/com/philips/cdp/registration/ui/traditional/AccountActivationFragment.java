@@ -33,6 +33,7 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
+import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -55,9 +56,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements
-        AccountActivationContract, RefreshUserHandler {
+        AccountActivationContract, RefreshUserHandler, CounterListener {
 
-    private String TAG ="AccountActivationFragment";
+    private String TAG = "AccountActivationFragment";
 
     @Inject
     NetworkUtility networkUtility;
@@ -80,7 +81,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @BindView(R2.id.usr_reg_root_layout)
     LinearLayout usr_activation_root_layout;
 
-    AccountActivationPresenter accountActivationPresenter;
+    private AccountActivationPresenter accountActivationPresenter;
 
     private User mUser;
 
@@ -92,10 +93,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private boolean isSocialProvider;
 
-    private boolean isEmailVerifiedError;
-
-    private boolean proceedResend;
-
     private boolean wasAppInBackground;
 
     @Inject
@@ -104,7 +101,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        RLog.i(TAG,"Screen name is "+ TAG);
+        RLog.i(TAG, "Screen name is " + TAG);
 
         Bundle bundle = getArguments();
         if (null != bundle) {
@@ -117,11 +114,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         accountActivationPresenter.registerListener();
 
         ButterKnife.bind(this, view);
-//        CounterHelper.getInstance()
-//                .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
-//        CounterHelper.getInstance()
-//                .registerCounterEventNotification(RegConstants.COUNTER_FINISH, this);
-//        getRegistrationFragment().startCountDownTimer();
+        getRegistrationFragment().startCountDownTimer();
         initUI(view);
         handleOrientation(view);
         return view;
@@ -136,14 +129,10 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onStop() {
         super.onStop();
-        RLog.d(TAG , "onStop");
+        RLog.d(TAG, "onStop");
         wasAppInBackground = true;
         accountActivationPresenter.unRegisterListener();
-//        getRegistrationFragment().stopCountDownTimer();
-//        CounterHelper.getInstance()
-//                .unregisterCounterEventNotification(RegConstants.COUNTER_TICK, this);
-//        CounterHelper.getInstance()
-//                .unregisterCounterEventNotification(RegConstants.COUNTER_FINISH, this);
+        getRegistrationFragment().stopCountDownTimer();
     }
 
     @Override
@@ -156,7 +145,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
         if (mEMailVerifiedError.getVisibility() == View.VISIBLE) {
-            isEmailVerifiedError = true;
+            boolean isEmailVerifiedError = true;
             mBundle.putBoolean("isEmailVerifiedError", isEmailVerifiedError);
             mBundle.putString("saveEmailVerifiedErrorText",
                     mContext.getResources().getString(R.string.USR_Janrain_Error_Need_Email_Verification));
@@ -184,7 +173,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @OnClick(R2.id.usr_activation_emailVerified_button)
     void emailVerified() {
-        RLog.i(TAG, TAG+".emailVerified clicked");
+        RLog.i(TAG, TAG + ".emailVerified clicked");
 
         showActivateSpinner();
         activateButtonEnable(false);
@@ -194,10 +183,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @OnClick(R2.id.usr_activation_emailNotReceived_button)
     void emailResend() {
-        RLog.i(TAG, TAG+".emailResend clicked");
-
-        //  if (proceedResend) {
-
+        RLog.i(TAG, TAG + ".emailResend clicked");
         getRegistrationFragment().addFragment(new AccountActivationResendMailFragment());
     }
 
@@ -250,48 +236,48 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void handleUiState(boolean isNetworkAvailable) {
         if (isInstanceofCurrentFragment()) {
-        if (isNetworkAvailable) {
-            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                mEMailVerifiedError.hideError();
-                activateButtonEnable(true);
-                mBtnResend.setEnabled(true);
-                mBtnActivate.setEnabled(true);
+            if (isNetworkAvailable) {
+                if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+                    mEMailVerifiedError.hideError();
+                    activateButtonEnable(true);
+                    mBtnResend.setEnabled(true);
+                    mBtnActivate.setEnabled(true);
+                } else {
+                    activateButtonEnable(false);
+                    mBtnResend.setEnabled(false);
+                    mBtnActivate.setEnabled(false);
+                    showNotificationBarOnNetworkNotAvailable();
+                }
             } else {
+                showNotificationBarOnNetworkNotAvailable();
                 activateButtonEnable(false);
                 mBtnResend.setEnabled(false);
-                mBtnActivate.setEnabled(false);
-                showNotificationBarOnNetworkNotAvailable();
+                scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);
             }
-        } else {
-            showNotificationBarOnNetworkNotAvailable();
-            activateButtonEnable(false);
-            mBtnResend.setEnabled(false);
-            scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);
-        }
         }
     }
 
     @Override
     public void updateActivationUIState() {
         if (isInstanceofCurrentFragment()) {
-        hideActivateSpinner();
-        if (mUser.isEmailVerified()) {
-            mBtnResend.setVisibility(View.GONE);
-            mEMailVerifiedError.hideError();
-            trackActionStatus(AppTagingConstants.SEND_DATA,
-                    AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_USER_REGISTRATION);
-            getRegistrationFragment().userRegistrationComplete();
-        } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-            userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.EMAIL_VERIFICATION);
-            userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.EMAIL_VERIFICATION);
-            showVerifyAlertDialog();
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR,
-                    AppTagingConstants.EMAIL_NOT_VERIFIED);
+            hideActivateSpinner();
+            if (mUser.isEmailVerified()) {
+                mBtnResend.setVisibility(View.GONE);
+                mEMailVerifiedError.hideError();
+                trackActionStatus(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_USER_REGISTRATION);
+                getRegistrationFragment().userRegistrationComplete();
+            } else {
+                UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+                userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.EMAIL_VERIFICATION);
+                userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.EMAIL_VERIFICATION);
+                showVerifyAlertDialog();
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR,
+                        AppTagingConstants.EMAIL_NOT_VERIFIED);
+            }
+            activateButtonEnable(true);
+            mBtnResend.setEnabled(true);
         }
-        activateButtonEnable(true);
-        mBtnResend.setEnabled(true);
-    }
     }
 
     private void showVerifyAlertDialog() {
@@ -358,10 +344,10 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private View.OnClickListener mContinueBtnClick = view -> RegAlertDialog.dismissDialog();
 
-//    @Override
-//    public void onCounterEventReceived(String event, long timeLeft) {
-//        proceedResend = event.equals(RegConstants.COUNTER_FINISH);
-//    }
+    @Override
+    public void onCounterEventReceived(String event, long timeLeft) {
+        boolean proceedResend = event.equals(RegConstants.COUNTER_FINISH);
+    }
 
     @Subscribe
     public void onEvent(UpdateEmail event) {
@@ -388,7 +374,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     }
 
     private boolean isInstanceofCurrentFragment() {
-        if(getFragmentManager() == null) return false;
+        if (getFragmentManager() == null) return false;
         Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fl_reg_fragment_container);
         return (currentFragment != null && currentFragment instanceof AccountActivationFragment);
     }

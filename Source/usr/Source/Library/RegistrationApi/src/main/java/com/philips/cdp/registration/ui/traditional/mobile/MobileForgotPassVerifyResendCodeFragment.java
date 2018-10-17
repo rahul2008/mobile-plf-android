@@ -31,7 +31,6 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
-import com.philips.cdp.registration.events.CounterHelper;
 import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
@@ -73,7 +72,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNI
 public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFragment implements
         MobileForgotPassVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener {
 
-    private String TAG ="MobileForgotPassVerifyResendCodeFragment";
+    private String TAG = "MobileForgotPassVerifyResendCodeFragment";
 
     @BindView(R2.id.btn_reg_resend_update)
     ProgressBarButton resendSMSButton;
@@ -115,7 +114,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        RLog.i(TAG,"Screen name is "+ TAG);
+        RLog.i(TAG, "Screen name is " + TAG);
 
         registerInlineNotificationListener(this);
         mobileVerifyResendCodePresenter = new MobileForgotPassVerifyResendCodePresenter(this);
@@ -143,10 +142,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
             enableResendButton();
         }
         phoneNumberChange();
-        CounterHelper.getInstance()
-                .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
-        CounterHelper.getInstance()
-                .registerCounterEventNotification(RegConstants.COUNTER_FINISH, this);
         return view;
     }
 
@@ -186,8 +181,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     public void onDestroy() {
         super.onDestroy();
         mobileVerifyResendCodePresenter.cleanUp();
-        CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_TICK, this);
-        CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_FINISH, this);
     }
 
     @Override
@@ -290,17 +283,14 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     @Override
     public void showSMSSpecifedError(int errorCode) {
         trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-        // errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
         updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
         enableResendButton();
-        // String errorMsg = RegChinaUtil.getErrorMsgDescription(id, context);
-//        showSmsResendTechincalError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
     }
 
 
     @OnClick(R2.id.btn_reg_resend_update)
     public void verifyClicked() {
-        RLog.i(TAG,TAG + ".verify Clicked" );
+        RLog.i(TAG, TAG + ".verify Clicked");
         showProgressDialog();
         getRegistrationFragment().hideKeyBoard();
         hidePopup();
@@ -312,7 +302,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
-        RLog.i(TAG,TAG + ".thanksBtn Clicked" );
+        RLog.i(TAG, TAG + ".thanksBtn Clicked");
 
         hidePopup();
         getRegistrationFragment().onBackPressed();
@@ -371,13 +361,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         trackMultipleActionsOnMobileSuccess();
         handleResendVerificationEmailSuccess();
     }
-
-//    @Override
-//    public void showSmsResendTechincalError(String errorCodeString) {
-//        trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-//        errorMessage.setError(errorCodeString);
-//        enableResendButton();
-//    }
 
     @Override
     public void trackMultipleActionsOnMobileSuccess() {

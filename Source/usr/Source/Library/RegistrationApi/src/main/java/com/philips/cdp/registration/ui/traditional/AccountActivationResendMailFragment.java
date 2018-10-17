@@ -34,12 +34,11 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
-import com.philips.cdp.registration.events.CounterHelper;
-import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.utils.CountDownEvent;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.NotificationBarHandler;
@@ -73,9 +72,9 @@ import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class AccountActivationResendMailFragment extends RegistrationBaseFragment implements
-        RefreshUserHandler, AccountActivationResendMailContract, CounterListener {
+        RefreshUserHandler, AccountActivationResendMailContract {
 
-    private String TAG = "AccountActivationResendMailFragment";
+    private String TAG = AccountActivationResendMailFragment.class.getSimpleName();
 
     @Inject
     UpdateUserProfile updateUserProfile;
@@ -117,11 +116,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     private Bundle mBundle;
 
-    View view;
+    private String emailUser;
 
-    String emailUser;
-
-    AccountActivationResendMailPresenter accountActivationResendMailPresenter;
+    private AccountActivationResendMailPresenter accountActivationResendMailPresenter;
 
     private PopupWindow popupWindow;
 
@@ -155,11 +152,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         }
         mUser = new User(mContext);
         emailUser = mUser.getEmail();
-        CounterHelper.getInstance()
-                .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
-        CounterHelper.getInstance()
-                .registerCounterEventNotification(RegConstants.COUNTER_FINISH, this);
-        view = inflater.inflate(R.layout.reg_fragment_account_activation_resend, null);
+        View view = inflater.inflate(R.layout.reg_fragment_account_activation_resend, null);
         ButterKnife.bind(this, view);
         initUI(view);
         emailChange();
@@ -169,19 +162,15 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         RLog.d(TAG, "onDestroy");
         accountActivationResendMailPresenter.unRegisterListener();
-        super.onDestroy();
-        CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_TICK,
-                this);
-        CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_FINISH,
-                this);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        mBundle = outState;
         super.onSaveInstanceState(mBundle);
+        mBundle = outState;
         if (mRegError.getVisibility() == View.VISIBLE) {
             boolean isEmailVerifiedError = true;
             mBundle.putBoolean("isEmailVerifiedError", isEmailVerifiedError);
@@ -253,11 +242,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             } else {
                 mResendEmail.setEnabled(false);
                 mReturnButton.setEnabled(false);
-//                mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
                 showNotificationBarOnNetworkNotAvailable();
             }
         } else {
-//            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             showNotificationBarOnNetworkNotAvailable();
             mResendEmail.setEnabled(false);
             mReturnButton.setEnabled(false);
@@ -368,7 +355,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
                     @Override
                     public void onError(Throwable e) {
                         hideProgressDialog();
-//                        mRegError.setError(e.getMessage());
                         updateErrorNotification(e.getMessage());
                     }
                 }));
@@ -435,10 +421,11 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         }
     }
 
-    @Override
-    public void onCounterEventReceived(String event, long timeLeft) {
+    @Subscribe
+    public void onCountDownEvent(CountDownEvent event) {
+        /* Do what you need to */
         int progress = 100;
-        if (event.equals(RegConstants.COUNTER_FINISH)) {
+        if (event.getEvent().equals(RegConstants.COUNTER_FINISH)) {
             emailResendTimerProgress.setSecondaryProgress(progress);
             //Temp: Actual text is not available in localization hence kept empty for time being.
             emailResendTimerProgress.setText("");
@@ -446,7 +433,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             proceedResend = true;
         } else {
             proceedResend = false;
-            updateResendTime(timeLeft);
+            updateResendTime(event.getTimeleft());
         }
     }
 
