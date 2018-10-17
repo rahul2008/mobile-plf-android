@@ -52,7 +52,16 @@ public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
     boolean supportsUploadWithoutDeploy();
 
     /**
-     * Start firmware upload.
+     * Start firmware upload from scratch.
+     * <p/>
+     * Firmware upload can only be started in {@code SHNFirmwareUpdateStateIdle} state. The callback is provided via registered {@code SHNCapabilityFirmwareUpdateListener}.
+     *
+     * @param firmwareData the firmware image that needs to be transferred
+     */
+    void uploadFirmware(byte[] firmwareData);
+
+    /**
+     * Start firmware upload and allow for resume of ongoing upload.
      * <p/>
      * Firmware upload can only be started in {@code SHNFirmwareUpdateStateIdle} state. The callback is provided via registered {@code SHNCapabilityFirmwareUpdateListener}.
      *

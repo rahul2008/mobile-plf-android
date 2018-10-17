@@ -74,6 +74,11 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
     }
 
     @Override
+    public void uploadFirmware(final byte[] firmwareData) {
+        uploadFirmware(firmwareData, false);
+    }
+
+    @Override
     public void uploadFirmware(final byte[] firmwareData, final boolean shouldResume) {
         if (state == SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle) {
             if (firmwareData == null || firmwareData.length == 0) {

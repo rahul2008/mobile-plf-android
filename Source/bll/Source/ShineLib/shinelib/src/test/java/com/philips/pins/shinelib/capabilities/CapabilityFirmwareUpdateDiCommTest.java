@@ -816,7 +816,17 @@ public class CapabilityFirmwareUpdateDiCommTest {
         verifyUploadFailedGotReportedWithCorrectError_andStateBecameIdle_andStateChangeGotReported_andUnsubscribeWasCalled(SHNErrorInvalidState, capabilityFirmwareUpdateDiComm.getState());
     }
 
+    @Test
+    public void whenStartingUploadOfFirmwareWithoutProvidingResumeFlag_thenFirmwareUploadShouldNotResume() throws Exception {
+
+        capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData);
+
+        assertThat(capabilityFirmwareUpdateDiComm.uploadFirmwareWithResumeCalled).isTrue();
+    }
+
     private class CapabilityFirmwareUpdateDiCommForTest extends CapabilityFirmwareUpdateDiComm {
+
+        boolean uploadFirmwareWithResumeCalled = false;
 
         CapabilityFirmwareUpdateDiCommForTest(@NonNull DiCommFirmwarePort diCommPort, Handler internalHandler) {
             super(diCommPort, internalHandler);
@@ -833,6 +843,12 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         void overrideState(SHNFirmwareUpdateState state) {
             this.state = state;
+        }
+
+        @Override
+        public void uploadFirmware(final byte[] firmwareData, final boolean shouldResume) {
+            uploadFirmwareWithResumeCalled = true;
+            super.uploadFirmware(firmwareData, shouldResume);
         }
     }
 
