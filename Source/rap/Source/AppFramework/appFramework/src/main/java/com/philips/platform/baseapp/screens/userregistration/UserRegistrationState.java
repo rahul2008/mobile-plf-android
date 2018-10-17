@@ -97,6 +97,9 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected static final String DEFAULT = "default";
     private URInterface urInterface;
     private FirebaseAnalytics firebaseAnalytics;
+
+    public static String AB_TEST_UR_PRIORITY_KEY = "ur_priority";
+
     /**
      * AppFlowState constructor
      */
@@ -302,9 +305,22 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         else {
             contentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
         }
-        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+
+        String testValue2 = abTesting.getTestValue(AB_TEST_UR_PRIORITY_KEY, applicationContext.getString(R.string.Ra_registration_value), ABTestClientInterface.UPDATETYPE.APP_UPDATE);
+        RALog.d(TAG, "Ra_registration_value testValue2 " + testValue2 + "  val "+applicationContext.getString(R.string.Ra_registration_value));
+
+        if (testValue2.equalsIgnoreCase(applicationContext.getString(R.string.Ra_registration_value))) {
+            RALog.d(TAG, "Ra_registration_value Registration " );
+            RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+            urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+
+        }else{
+            RALog.d(TAG, " Ra_registration_value SignIn ");
+            RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.SignIn);
+            urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
+
+        }
         urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);
-        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUIFlow(UIFlow.FLOW_B);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
