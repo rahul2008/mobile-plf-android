@@ -145,7 +145,7 @@
                     style="@style/iapCentralesansBookFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/iap_margin_4dp"
+                    android:layout_marginTop="@dimen/iap_margin_10dp"
                     android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:textSize="@dimen/iap_text_size_12"
                     />
@@ -153,7 +153,7 @@
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/delivery_price"
                     style="@style/UIDLabel"
-                    android:layout_marginTop="10dip"
+                    android:layout_marginTop="@dimen/iap_margin_10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="$0.00"

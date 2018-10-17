@@ -82,7 +82,9 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     @Override
     public void onItemClick(int position) {
         createCustomProgressBar(mParentContainer, BIG);
+
         mAddressController.setDeliveryMode(mDeliveryModes.get(position).getCode());
+
     }
 
     @Override

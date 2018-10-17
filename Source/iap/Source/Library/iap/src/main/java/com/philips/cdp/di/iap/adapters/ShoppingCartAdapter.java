@@ -320,9 +320,18 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         setCountArrow(mContext, isStockAvailable);
         mOutOfStock.onOutOfStock(isStockAvailable);
         if(!isStockAvailable){
-            shoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
-            shoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + stocklevel + " left");
+            //shoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
+            //shoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + stocklevel + " left");
+            shoppingCartProductHolder.out_of_stock.setVisibility(View.VISIBLE);
+            mOutOfStock.onOutOfStock(false);
+            shoppingCartProductHolder.out_of_stock.setText(mContext.getString(R.string.iap_out_of_stock));
+            shoppingCartProductHolder.out_of_stock.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
+
         }
+        else{
+            shoppingCartProductHolder.out_of_stock.setVisibility(View.GONE);
+        }
+
     }
 
     private void getNetworkImage(final ShoppingCartProductHolder shoppingCartProductHolder, final String imageURL) {
@@ -389,6 +398,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Button deleteBtn;
         View shoppingCartView;
         View viewBottomSpace;
+        Label out_of_stock;
 
         ShoppingCartProductHolder(final View shoppingCartView) {
             super(shoppingCartView);
@@ -398,6 +408,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTvActualPrice = shoppingCartView.findViewById(R.id.actual_price);
             mQuantityLayout = shoppingCartView.findViewById(R.id.quantity_count_layout);
             mTvAfterDiscountPrice = shoppingCartView.findViewById(R.id.after_discount_price);
+            out_of_stock = shoppingCartView.findViewById(R.id.out_of_stock);
             mTvQuantity = shoppingCartView.findViewById(R.id.quantity_val);
             mIvOptions = shoppingCartView.findViewById(R.id.right_arrow);
             deleteBtn = shoppingCartView.findViewById(R.id.delete_btn);
