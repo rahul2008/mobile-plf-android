@@ -33,7 +33,6 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
-import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -56,7 +55,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements
-        AccountActivationContract, RefreshUserHandler, CounterListener {
+        AccountActivationContract, RefreshUserHandler {
 
     private String TAG = "AccountActivationFragment";
 
@@ -133,11 +132,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         wasAppInBackground = true;
         accountActivationPresenter.unRegisterListener();
         getRegistrationFragment().stopCountDownTimer();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
@@ -344,10 +338,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private View.OnClickListener mContinueBtnClick = view -> RegAlertDialog.dismissDialog();
 
-    @Override
-    public void onCounterEventReceived(String event, long timeLeft) {
-        boolean proceedResend = event.equals(RegConstants.COUNTER_FINISH);
-    }
 
     @Subscribe
     public void onEvent(UpdateEmail event) {

@@ -28,7 +28,6 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -54,7 +53,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 
 
-public class RegistrationFragment extends Fragment implements NetworkStateListener, BackEventListener, CounterListener {
+public class RegistrationFragment extends Fragment implements NetworkStateListener, BackEventListener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -94,7 +93,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
             registrationContentConfiguration = (RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG);
         }
-        myCountDownTimer = new MyCountDownTimer(60 * 1000, 1000, this);
+        myCountDownTimer = new MyCountDownTimer(60 * 1000, 1000);
     }
 
     public RegistrationContentConfiguration getContentConfiguration() {
@@ -501,36 +500,28 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         myCountDownTimer.cancel();
     }
 
-
-    @Override
-    public void onCounterEventReceived(String event, long timeLeft) {
-        if (event.equals(RegConstants.COUNTER_TICK)) {
-            EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_TICK, timeLeft));
-            setCounterState(true);
-        } else {
-            EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_FINISH, 0));
-            setCounterState(false);
-        }
-    }
-
-
     public class MyCountDownTimer extends CountDownTimer {
-        private CounterListener counterListener;
-
-        MyCountDownTimer(long startTime, long interval, CounterListener counterListener) {
+        MyCountDownTimer(long startTime, long interval) {
             super(startTime, interval);
-            this.counterListener = counterListener;
         }
 
         @Override
         public void onTick(long timeLeft) {
-            counterListener.onCounterEventReceived(RegConstants.COUNTER_TICK, timeLeft);
+            if (timeLeft > 0) {
+                RLog.d(TAG, "onTick COUNTER_TICK : timeLeft : " + timeLeft);
+                EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_TICK, timeLeft));
+                setCounterState(true);
+            } else {
+                RLog.d(TAG, "onTick  COUNTER_FINISH: timeLeft : " + timeLeft);
+                EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_FINISH, 0));
+                setCounterState(false);
+            }
         }
 
         @Override
         public void onFinish() {
-            counterListener.onCounterEventReceived(RegConstants.COUNTER_FINISH, 0);
-            setCounterState(false);
+//            EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_FINISH, 0));
+//            setCounterState(false);
         }
     }
 

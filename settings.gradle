@@ -112,8 +112,8 @@ project(ext.strings.ews.projectName).projectDir = new File('./Source/ews/Source/
 project(ext.strings.ewsuapp.projectName).projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
 project(ext.strings.neurauapp.projectName).projectDir = new File('./Source/neu/Source/DemoUApp/DemoUApp')
 //demoapps to be published to artifactory
-//include ':UserRegistrationApp'
-//project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+include ':UserRegistrationApp'
+project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 //include ':telehealthApp'
 //project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
 //include ':uidApp'

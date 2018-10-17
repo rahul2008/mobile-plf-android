@@ -56,6 +56,7 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -167,6 +168,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         accountActivationResendMailPresenter.unRegisterListener();
     }
 
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(mBundle);
@@ -187,7 +189,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             return;
         } else if (savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY) != null
                 && savedInstanceState.getBoolean("isEmailVerifiedError")) {
-            //mRegError.setError(savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY));
             updateErrorNotification(savedInstanceState.getString(BUNDLE_SAVE_EMAIL_VERIFIED_ERROR_TEXT_KEY));
         }
     }
@@ -404,7 +405,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Override
     public void onRefreshUserFailed(int error) {
-//        mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
         updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, error));
     }
 
@@ -423,7 +423,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Subscribe
     public void onCountDownEvent(CountDownEvent event) {
-        /* Do what you need to */
         int progress = 100;
         if (event.getEvent().equals(RegConstants.COUNTER_FINISH)) {
             emailResendTimerProgress.setSecondaryProgress(progress);
@@ -460,6 +459,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     public void onEvent(NotificationBarHandler event) {
         viewOrHideNotificationBar();
     }
+
 
     @Override
     public void onPause() {

@@ -227,8 +227,13 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     @Override
     public void onPause() {
         super.onPause();
-        EventBus.getDefault().unregister(this);
         hidePopup();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
