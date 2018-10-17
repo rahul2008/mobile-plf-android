@@ -20,6 +20,7 @@ import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.tagging.Tag;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -114,9 +115,9 @@ public class ApplianceAccessManager {
                 @Override
                 public void onPortUpdate(final WiFiNetworksPort wiFiNetworksPort) {
                     wiFiNetworksPort.removePortListener(this);
-                    sendResult(wiFiNetworksPort.getPortProperties() != null
-                            ? wiFiNetworksPort.getPortProperties().getWifiNetworkList()
-                            : new ArrayList<>());
+                    sendResult(wiFiNetworksPort.getPortProperties() == null
+                            ? Collections.emptyList()
+                            : wiFiNetworksPort.getPortProperties().getWifiNetworkList());
                 }
 
                 @Override
@@ -124,7 +125,7 @@ public class ApplianceAccessManager {
                                         @Nullable final String s) {
                     ewsLogger.e(TAG, "unable to fetch wifi networks" + error);
                     wiFiNetworksPort.removePortListener(this);
-                    sendResult(new ArrayList<>());
+                    sendResult(Collections.emptyList());
                 }
 
                 void sendResult(@NonNull List<WiFiNode> wiFiNodeList) {
