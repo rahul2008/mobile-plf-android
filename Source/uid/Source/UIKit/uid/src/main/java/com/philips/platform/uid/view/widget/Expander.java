@@ -32,7 +32,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 public class Expander extends LinearLayout implements View.OnClickListener {
 
 
-    private UIDExpanderDelegate uidExpanderDelegate;
+    private UIDExpanderListener uidExpanderListener;
     private RelativeLayout ExpanderViewTitle;
     private Label ExpanderViewTitleDefaultLabel;
 
@@ -99,7 +99,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
      * @Since: 1805.0.0
      */
     public void setExpanderCustomPanelView(int resourceLayoutId) {
-        uidExpanderDelegate = null; // callback delegate is removed when custom panel is set
+        uidExpanderListener = null; // callback delegate is removed when custom panel is set
         setLayout(resourceLayoutId, ExpanderViewTitle);
     }
 
@@ -113,7 +113,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
      * @Since: 1805.0.0
      */
     public void setExpanderCustomPanelView(View resourceView) {
-        uidExpanderDelegate = null; // callback delegate is removed when custom panel is set
+        uidExpanderListener = null; // callback delegate is removed when custom panel is set
         setLayout(resourceView, ExpanderViewTitle);
     }
 
@@ -272,13 +272,13 @@ public class Expander extends LinearLayout implements View.OnClickListener {
      * Sets expander delegate to get expand/collapse callbacks for ONLY default title view.
      * If this method is not called, expander will not get callbacks
      * Also if setExpanderCustomPanelView method is called, expander will not get callbacks
-     * @param uidExpanderDelegate the uid expander delegate
+     * @param uidExpanderListener the uid expander delegate
      * Default: null
      * @Since: 1805.0.0
      */
-    public void setExpanderDelegate(UIDExpanderDelegate uidExpanderDelegate) {
+    public void setExpanderDelegate(UIDExpanderListener uidExpanderListener) {
         if(isDefaultPanel()) { // only default expander title view gets expand/collapse callback
-            this.uidExpanderDelegate = uidExpanderDelegate;
+            this.uidExpanderListener = uidExpanderListener;
         }
     }
 
@@ -309,8 +309,8 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
     private void showContentView() {
-        if (null != uidExpanderDelegate) { // call delegate should be called only for default expander panel
-            uidExpanderDelegate.expanderPanelWillExpand(); // expand start callback
+        if (null != uidExpanderListener) { // call delegate should be called only for default expander panel
+            uidExpanderListener.expanderPanelBeginExpanding(); // expand start callback
         }
         titleBottomSeparator.setVisibility(GONE);
         ExpanderViewContent.setVisibility(View.VISIBLE);
@@ -318,14 +318,14 @@ public class Expander extends LinearLayout implements View.OnClickListener {
             contentBottomSeparator.setVisibility(View.VISIBLE);
         }
         chevronLabel.setText(mContext.getResources().getString(R.string.dls_navigationup));
-        if (null != uidExpanderDelegate) { // call delegate should be called only for default expander panel
-            uidExpanderDelegate.expanderPanelDidExpand(); // expand end callback
+        if (null != uidExpanderListener) { // call delegate should be called only for default expander panel
+            uidExpanderListener.expanderPanelExpanded(); // expand end callback
         }
     }
 
     private void hideContentView() {
-        if (null != uidExpanderDelegate) { // call delegate should be called only for default expander panel
-            uidExpanderDelegate.expanderPanelWillCollapse(); // collapse start callback
+        if (null != uidExpanderListener) { // call delegate should be called only for default expander panel
+            uidExpanderListener.expanderPanelBeginCollapsing(); // collapse start callback
         }
         ExpanderViewContent.setVisibility(View.GONE);
         contentBottomSeparator.setVisibility(GONE);
@@ -333,8 +333,8 @@ public class Expander extends LinearLayout implements View.OnClickListener {
             titleBottomSeparator.setVisibility(VISIBLE);
         }
         chevronLabel.setText(mContext.getResources().getString(R.string.dls_navigationdown));
-        if (null != uidExpanderDelegate) { // call delegate should be called only for default expander panel
-            uidExpanderDelegate.expanderPanelDidCollapse(); // collapse start callback
+        if (null != uidExpanderListener) { // call delegate should be called only for default expander panel
+            uidExpanderListener.expanderPanelCollapsed(); // collapse start callback
         }
     }
 

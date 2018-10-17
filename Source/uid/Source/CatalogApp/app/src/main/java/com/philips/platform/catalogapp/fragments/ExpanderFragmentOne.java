@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,28 +12,28 @@ import android.widget.RelativeLayout;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.uid.view.widget.Expander;
 import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.UIDExpanderDelegate;
+import com.philips.platform.uid.view.widget.UIDExpanderListener;
 
 public class ExpanderFragmentOne extends  BaseFragment{
-    UIDExpanderDelegate mUidExpanderDelegate = new UIDExpanderDelegate() {
+    UIDExpanderListener mUidExpanderListener = new UIDExpanderListener() {
         @Override
-        public void expanderPanelWillExpand() {
-            Log.v("Expand","expanderPanelWillExpand");
+        public void expanderPanelBeginExpanding() {
+            Log.v("Expand","expanderPanelBeginExpanding");
         }
 
         @Override
-        public void expanderPanelDidExpand() {
-            Log.v("Expand","expanderPanelDidExpand");
+        public void expanderPanelExpanded() {
+            Log.v("Expand","expanderPanelExpanded");
         }
 
         @Override
-        public void expanderPanelWillCollapse() {
-            Log.v("Expand","expanderPanelWillCollapse");
+        public void expanderPanelBeginCollapsing() {
+            Log.v("Expand","expanderPanelBeginCollapsing");
         }
 
         @Override
-        public void expanderPanelDidCollapse() {
-            Log.v("Expand","expanderPanelDidCollapse");
+        public void expanderPanelCollapsed() {
+            Log.v("Expand","expanderPanelCollapsed");
         }
     };
 
@@ -82,7 +81,7 @@ public class ExpanderFragmentOne extends  BaseFragment{
         //expanderOne.setExpanderTitle("Short title");
         expanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_calendar));
         expanderOne.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
-        expanderOne.setExpanderDelegate(mUidExpanderDelegate);
+        expanderOne.setExpanderDelegate(mUidExpanderListener);
        ;
       //  expanderOne.setTitleImage(getActivity().getResources().getDrawable(R.drawable.alert_dialog_icon));
        // RelativeLayout relativeLayout = inflater.inflate(R.layout.fragment_expander_content_default_layout, null, false);
@@ -126,7 +125,7 @@ public class ExpanderFragmentOne extends  BaseFragment{
         RelativeLayout.LayoutParams paramsLabel = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         paramsLabel.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        label.setGravity(Gravity.CENTER);
+        //label.setGravity(Gravity.CENTER);
         label.setLayoutParams(paramsLabel);
         rl.addView(label);
         expanderFour.setExpanderCustomPanelView(rl);
