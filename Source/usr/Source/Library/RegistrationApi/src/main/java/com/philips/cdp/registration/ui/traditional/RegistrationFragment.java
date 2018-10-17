@@ -507,21 +507,15 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
         @Override
         public void onTick(long timeLeft) {
-            if (timeLeft > 0) {
-                RLog.d(TAG, "onTick COUNTER_TICK : timeLeft : " + timeLeft);
-                EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_TICK, timeLeft));
-                setCounterState(true);
-            } else {
-                RLog.d(TAG, "onTick  COUNTER_FINISH: timeLeft : " + timeLeft);
-                EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_FINISH, 0));
-                setCounterState(false);
-            }
+            RLog.d(TAG, "onTick COUNTER_TICK : timeLeft : " + timeLeft);
+            EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_TICK, timeLeft));
+            setCounterState(true);
         }
 
         @Override
         public void onFinish() {
-//            EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_FINISH, 0));
-//            setCounterState(false);
+            EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_FINISH, 0));
+            setCounterState(false);
         }
     }
 
