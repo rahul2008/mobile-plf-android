@@ -79,8 +79,7 @@ public class IAPServiceDiscoveryWrapper {
 
                 pIAPHandler.initIAPRequisite();
                 String locale = serviceDiscoveryService.getLocale();
-                String configUrls = "https://www.pil.occ.shop.philips.com";//;"https://www.occ.shop.philips.com/en_US";
-                // String configUrls = serviceDiscoveryService.getConfigUrls();
+                String configUrls = serviceDiscoveryService.getConfigUrls();
                 if (locale != null) {
                     setLangAndCountry(locale);
                 }
@@ -103,9 +102,7 @@ public class IAPServiceDiscoveryWrapper {
                     } else {
                         // TODO Retailer view hence making the userLocalData to true
                         mIAPSettings.setUseLocalData(false);
-                        //www.pil.occ.shop.philips.com
                         //String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
-                        configUrls = "https://www.pil.occ.shop.philips.com";//;"https://www.occ.shop.philips.com/en_US";
                         mIAPSettings.setHostPort(configUrls + "/");
                         mIAPSettings.setProposition(loadConfigParams());
                         pIAPHandler.initControllerFactory();
@@ -176,8 +173,7 @@ public class IAPServiceDiscoveryWrapper {
                 List<ServiceDiscoveryService> list = new ArrayList<>();
                 list.addAll(collection);
                 ServiceDiscoveryService serviceDiscoveryService = list.get(0);
-                String configUrls = "https://www.pil.occ.shop.philips.com";//;"https://www.occ.shop.philips.com/en_US";
-                //  String configUrls = serviceDiscoveryService.getConfigUrls();
+                String configUrls = serviceDiscoveryService.getConfigUrls();
                 if (configUrls == null) {
                     mIAPSettings.setUseLocalData(true);
                     isCartVisible = false;
