@@ -149,7 +149,7 @@ pipeline {
                 sh '''#!/bin/bash -le
                     ./gradlew :referenceApp:printArtifactoryApkPath
                     apkname=`xargs < apkname.txt`
-                    PSRA_APK_NAME=${apkname/.apk/._PSRA.apk}
+                    PSRA_APK_NAME=${apkname/.apk/_PSRA.apk}
                     curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT ${PSRA_APK_NAME} -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
                 '''
             }
@@ -167,9 +167,9 @@ pipeline {
         }
 
         stage('TICS') {
-           when {
-               expression { return params.buildType == 'TICS' }
-          }
+            when {
+                expression { return params.buildType == 'TICS' }
+            }
             steps {
                 script {
                     echo "Running TICS..."
@@ -191,13 +191,13 @@ pipeline {
             }
             steps {
                 script {
-                    build(job: 'Platform-Infrastructure/CucumberToTfs/master', 
-                        parameters: [
-                            string(name: 'JenkinsProjectName', value: env.JOB_NAME),
-                            string(name: 'JenkinsProjectBuild', value: env.BUILD_ID),
-                            string(name: 'TestPlan', value: 'In sprint_cml_bll_ews'),
-                            string(name: 'TestSuitePath', value: 'Android/Automated Tests')
-                        ], wait: false)
+                    build(job: 'Platform-Infrastructure/CucumberToTfs/master',
+                            parameters: [
+                                    string(name: 'JenkinsProjectName', value: env.JOB_NAME),
+                                    string(name: 'JenkinsProjectBuild', value: env.BUILD_ID),
+                                    string(name: 'TestPlan', value: 'In sprint_cml_bll_ews'),
+                                    string(name: 'TestSuitePath', value: 'Android/Automated Tests')
+                            ], wait: false)
                 }
             }
         }
@@ -212,11 +212,14 @@ pipeline {
             steps {
                 script {
                     APK_NAME = readFile("apkname.txt").trim()
+                    if (params.buildType == 'PSRA') {
+                        APK_NAME=APK_NAME.replace('.apk', '_PSRA.apk')
+                    }
                     echo "APK_NAME = ${APK_NAME}"
 
                     def jobBranchName = "release_platform_1802.0.0"
                     if (BranchName =~ /develop.*/) {
-                       jobBranchName = "develop"
+                        jobBranchName = "develop"
                     }
                     echo "BranchName changed to ${jobBranchName}"
 

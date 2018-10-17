@@ -38,8 +38,8 @@ public class NeuraDemoUAppInterface implements UappInterface {
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            Intent intent = new Intent(mContext, NueraDemoMainActivity.class);
-            mContext.startActivity(intent);
+            Intent intent = new Intent(((ActivityLauncher) uiLauncher).getActivityContext(), NueraDemoMainActivity.class);
+            ((ActivityLauncher) uiLauncher).getActivityContext().startActivity(intent);
         }
 
     }

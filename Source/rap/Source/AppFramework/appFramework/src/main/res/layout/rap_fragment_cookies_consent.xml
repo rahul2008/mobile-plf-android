@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
-                android:text="Cookies"
+                android:text="@string/RA_cookie_title"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_text_size_20" />
 
@@ -51,7 +51,7 @@
                     android:layout_marginBottom="@dimen/reg_dimen_16dp"
                     android:layout_marginStart="@dimen/reg_dimen_16dp"
                     android:layout_marginTop="@dimen/reg_dimen_16dp"
-                    android:text="@string/RA_cookies_consent_description"
+                    android:text="@string/RA_cookie_description"
                     android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
                     android:textSize="@dimen/reg_text_size_12" />
                 <com.philips.platform.uid.view.widget.Label
@@ -74,7 +74,7 @@
                 android:enabled="false"
                 android:textStyle="normal"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonText="Accept" />
+                app:uidProgressIndicatorButtonText="@string/RA_cookie_accept" />
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_cookiesConsentScreen_Reject_button"
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="Reject"
+                android:text="@string/RA_cookie_reject"
                 android:textStyle="normal"
                 app:uidComponentType="Secondary" />
 

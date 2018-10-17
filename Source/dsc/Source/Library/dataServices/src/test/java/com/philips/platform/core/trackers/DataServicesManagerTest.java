@@ -121,7 +121,6 @@ public class DataServicesManagerTest {
 
     private static final int TEST_REFERENCE_ID = 111;
     public static final String TEST_USER_ID = "TEST_USER_ID";
-    private static final String TEST_CONSENT_DETAIL_TYPE = "TEMPERATURE";
     private static final String TEST_MEASUREMENT_DETAIL_TYPE = "BOTTLE_CONTENTS";
     private final String GDPR_MIGRATION_FLAG = "gdpr_migration_flag";
 

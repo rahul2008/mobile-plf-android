@@ -48,8 +48,8 @@ public class URDemouAppInterface implements UappInterface {
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            Intent intent = new Intent(context, URStandardDemoActivity.class);
-            context.startActivity(intent);
+            Intent intent = new Intent(((ActivityLauncher) uiLauncher).getActivityContext(), URStandardDemoActivity.class);
+            ((ActivityLauncher) uiLauncher).getActivityContext().startActivity(intent);
         }
     }
 

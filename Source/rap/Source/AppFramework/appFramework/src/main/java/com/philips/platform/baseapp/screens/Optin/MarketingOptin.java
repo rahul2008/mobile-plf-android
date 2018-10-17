@@ -37,7 +37,7 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        
+
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
